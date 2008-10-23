@@ -20,7 +20,7 @@ public class StatementListDomain extends AccessibilityDomain {
   
   public boolean geRecursive(AccessibilityDomain other) throws MetamodelException {
     return (other instanceof StatementListDomain) && 
-           ((StatementListDomain)other).getStatement().getAllParents().contains(getContainer()) &&
+           ((StatementListDomain)other).getStatement().getAncestors().contains(getContainer()) &&
            (getStatement().before(((StatementListDomain)other).getStatement()));
   }
   

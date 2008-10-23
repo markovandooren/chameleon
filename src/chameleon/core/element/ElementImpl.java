@@ -225,9 +225,9 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     }
 
 
-    public final List<Element> getAllParents() {
+    public final List<Element> getAncestors() {
         if (getParent()!=null) {
-            List<Element> result = getParent().getAllParents();
+            List<Element> result = getParent().getAncestors();
             result.add(0, getParent());
             return result;
         } else {

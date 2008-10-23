@@ -74,7 +74,7 @@ public interface Element<E extends Element, P extends Element> {
      @ post getParent() != null ==> \result.get(0) == getParent();
      @ post getParent() != null ==> \result.subList(1,\result.size()).equals(getParent().getAllParents());
      @*/
-    public List<Element> getAllParents();
+    public List<Element> getAncestors();
 
     /**
      * Return the direct children of this element.

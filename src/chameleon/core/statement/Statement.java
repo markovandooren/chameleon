@@ -137,8 +137,8 @@ public abstract class Statement<E extends Statement> extends NamespacePartElemen
 
   public boolean before(Statement other) {
     StatementListContainer container = getNearestCommonStatementListContainer(other);
-    List myParents = getAllParents();
-    List otherParents = other.getAllParents();
+    List myParents = getAncestors();
+    List otherParents = other.getAncestors();
     myParents.add(0, this);
     otherParents.add(0, other);
     Statement myAncestor = (Statement)myParents.get(myParents.indexOf(container) - 1);
@@ -147,8 +147,8 @@ public abstract class Statement<E extends Statement> extends NamespacePartElemen
   }
 
   public StatementListContainer getNearestCommonStatementListContainer(Statement other) {
-    List myParents = getAllParents();
-    List otherParents = other.getAllParents();
+    List myParents = getAncestors();
+    List otherParents = other.getAncestors();
     ListIterator myIter = myParents.listIterator(myParents.size());
     ListIterator otherIter = otherParents.listIterator(myParents.size());
     Object common = null;
