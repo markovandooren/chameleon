@@ -31,7 +31,7 @@ public class VariableSignature extends Signature<VariableSignature, Variable>{
     return new ArrayList<Element>();
   }
   
-  public boolean sameAs(Object other) {
+  public boolean sameAs(Signature other) {
   	boolean result = false;
   	if(other instanceof VariableSignature) {
   		VariableSignature sig = (VariableSignature) other;
@@ -41,5 +41,12 @@ public class VariableSignature extends Signature<VariableSignature, Variable>{
   	}
   	return result;
   }
+
+	@Override
+	public List<String> identifiers() {
+		List<String> result = new ArrayList<String>();
+		result.add(getName());
+		return result;
+	}
 
 }

@@ -29,11 +29,7 @@ import java.util.List;
 import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.java.collections.Visitor;
 
-import chameleon.core.MetamodelException;
-import chameleon.core.accessibility.AccessibilityDomain;
-import chameleon.core.context.LexicalContext;
 import chameleon.core.element.Element;
-import chameleon.support.property.accessibility.EmptyDomain;
 
 /**
  * @author Marko van Dooren
@@ -81,10 +77,10 @@ public class Block extends Statement<Block> implements StatementContainer<Block,
     return getStatements().indexOf(statement) + 1;
   }
   
-	/*@
-	  @ post \result instanceof EmptyDomain;
-	  @*/
-	 public AccessibilityDomain getAccessibilityDomain() throws MetamodelException {
-		  return new EmptyDomain();
-	 }
+//	/*@
+//	  @ post \result instanceof EmptyDomain;
+//	  @*/
+//	 public AccessibilityDomain getAccessibilityDomain() throws MetamodelException {
+//		  return new EmptyDomain();
+//	 }
 }

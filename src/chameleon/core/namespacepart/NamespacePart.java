@@ -12,7 +12,6 @@ import org.rejuse.predicate.PrimitiveTotalPredicate;
 
 import chameleon.core.Config;
 import chameleon.core.MetamodelException;
-import chameleon.core.accessibility.AccessibilityDomain;
 import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.context.ContextFactory;
 import chameleon.core.declaration.Declaration;
@@ -22,7 +21,6 @@ import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeContainer;
-import chameleon.support.property.accessibility.All;
 /**
  * @author Tim Laeremans
  * @author Marko van Dooren
@@ -331,13 +329,13 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 	 * ACCESSIBILITY
 	 */
 
-	public AccessibilityDomain getTypeAccessibilityDomain() {
-		return new All();
-	}
+//	public AccessibilityDomain getTypeAccessibilityDomain() {
+//		return new All();
+//	}
 
-	public Type getTopLevelType() {
-		return null;
-	}
+//	public Type getTopLevelType() {
+//		return null;
+//	}
 
 	public Language language(){
 		if(getDeclaredNamespace() != null) {

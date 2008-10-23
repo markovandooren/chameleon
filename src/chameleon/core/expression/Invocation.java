@@ -25,7 +25,6 @@
 package chameleon.core.expression;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -34,14 +33,11 @@ import org.rejuse.association.Reference;
 import org.rejuse.java.collections.Visitor;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.accessibility.AccessibilityDomain;
-import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationSelector;
 import chameleon.core.element.Element;
 import chameleon.core.method.Method;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.type.Type;
-import chameleon.support.expression.ActualParameter;
 import chameleon.util.Util;
 
 /**

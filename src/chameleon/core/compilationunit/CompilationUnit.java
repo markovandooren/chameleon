@@ -29,14 +29,12 @@ import java.util.List;
 import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.accessibility.AccessibilityDomain;
 import chameleon.core.context.LexicalContext;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.language.Language;
 import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.namespacepart.NamespacePartContainer;
-import chameleon.support.property.accessibility.All;
 import chameleon.util.Util;
 
 
@@ -186,9 +184,9 @@ public class CompilationUnit extends ElementImpl<CompilationUnit,Element> implem
 //		}
 //	}
 
-	public AccessibilityDomain getTypeAccessibilityDomain() {
-		return new All();
-	}
+//	public AccessibilityDomain getTypeAccessibilityDomain() {
+//		return new All();
+//	}
 
 	private Reference<CompilationUnit,NamespacePart> _defaultNamespacePart = new Reference(this);
 

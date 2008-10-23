@@ -24,20 +24,13 @@
  */
 package chameleon.core.method;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.rejuse.association.Reference;
-import org.rejuse.java.collections.Visitor;
-import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.method.exception.ExceptionClause;
-import chameleon.core.method.exception.ExceptionDeclaration;
-import chameleon.core.method.exception.StubExceptionClauseContainer;
 import chameleon.core.statement.Block;
 import chameleon.core.statement.StatementContainer;
-import chameleon.support.statement.TryStatement;
 import chameleon.util.Util;
 
 /**
@@ -89,21 +82,22 @@ public class RegularImplementation extends Implementation<RegularImplementation>
    @                    ts.hasValidCatchClauses()); 
    @*/
   public boolean hasValidCatchClauses() throws MetamodelException {
-    try {
-      Collection<TryStatement> statements = getBody().getDescendants(TryStatement.class);
-      return new PrimitivePredicate<TryStatement>() {
-        public boolean eval(TryStatement tryStatement) throws MetamodelException {
-          return tryStatement.hasValidCatchClauses();
-        }
-      }.forAll(statements);
-    }
-    catch (MetamodelException e) {
-      throw e;
-    }
-    catch (Exception e) {
-      e.printStackTrace();
+  	//@FIXME reimplement this
+//    try {
+//      Collection<TryStatement> statements = getBody().getDescendants(TryStatement.class);
+//      return new PrimitivePredicate<TryStatement>() {
+//        public boolean eval(TryStatement tryStatement) throws MetamodelException {
+//          return tryStatement.hasValidCatchClauses();
+//        }
+//      }.forAll(statements);
+//    }
+//    catch (MetamodelException e) {
+//      throw e;
+//    }
+//    catch (Exception e) {
+//      e.printStackTrace();
       throw new Error();
-    }
+//    }
   }
 
  /*@

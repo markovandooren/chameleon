@@ -32,12 +32,19 @@ public class TypeSignature extends Signature<TypeSignature, Type>{
 	  return new ArrayList();
 	}
 
-	public boolean sameAs(Object other) {
+	public boolean sameAs(Signature other) {
 		boolean result = false;
 		if(other instanceof TypeSignature) {
 			TypeSignature sig = (TypeSignature)other;
 			result = sig.getName().equals(getName());
 		}
+		return result;
+	}
+
+	@Override
+	public List<String> identifiers() {
+		List<String> result = new ArrayList<String>();
+		result.add(getName());
 		return result;
 	}
 }

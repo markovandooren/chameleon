@@ -42,7 +42,6 @@ import chameleon.core.type.Type;
 import chameleon.core.variable.FormalParameter;
 import chameleon.core.variable.MemberVariable;
 import chameleon.core.variable.Variable;
-import chameleon.support.member.simplename.SimpleNameSignature;
 import chameleon.util.Util;
 public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> implements ExpressionContainer<NamedTarget,InvocationTargetContainer> {
 
@@ -82,11 +81,8 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
 				Signature sig = declaration.signature();
 				TargetDeclaration result = null;
 				if((declaration instanceof TargetDeclaration) && 
-					 (sig instanceof SimpleNameSignature)) {
-					SimpleNameSignature nameSig = (SimpleNameSignature)sig;
-					if(nameSig.getName().equals(getName())) {
+					 (sig.nbIdentifiers() == 1) && (sig.identifierAt(1).equals(getName()))) {
 					  result = (TargetDeclaration) declaration;
-					}
 				}
 				return result;
 			}

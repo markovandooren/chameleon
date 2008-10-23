@@ -35,7 +35,6 @@ import org.rejuse.predicate.PrimitiveTotalPredicate;
 
 import chameleon.core.IMetaModel;
 import chameleon.core.MetamodelException;
-import chameleon.core.accessibility.AccessibilityDomain;
 import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
@@ -47,9 +46,6 @@ import chameleon.core.element.ElementImpl;
 import chameleon.core.expression.Expression;
 import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.type.Type;
-import chameleon.support.modifier.Private;
-import chameleon.support.modifier.Protected;
-import chameleon.support.property.accessibility.All;
 import chameleon.util.Util;
 
 /**
@@ -340,6 +336,7 @@ public class Namespace extends ElementImpl<Namespace,Namespace> implements Names
 	 @ post \result != null;
 	 @*/
 	  public Set getTypes() {
+	  	//@FIXME: filter out non-exported types such as private types.
 	    final Set result = new HashSet();
 	    new Visitor() {
 	      public void visit(Object o) {
@@ -348,11 +345,11 @@ public class Namespace extends ElementImpl<Namespace,Namespace> implements Names
 	        result.addAll(l);
 	      }
 	    }.applyTo(getNamespaceParts());
-	    new PrimitiveTotalPredicate() {
-	      public boolean eval(Object o) {
-	        return !((Type)o).hasModifier(new Private()) && !((Type)o).hasModifier(new Protected());
-	      }
-	    }.filter(result);
+//	    new PrimitiveTotalPredicate() {
+//	      public boolean eval(Object o) {
+//	        return !((Type)o).hasModifier(new Private()) && !((Type)o).hasModifier(new Protected());
+//	      }
+//	    }.filter(result);
 	    return result;
 	  }
 
@@ -430,9 +427,9 @@ public class Namespace extends ElementImpl<Namespace,Namespace> implements Names
 		 * CONTEXT *
 		 ***********/
 		
-	public AccessibilityDomain getAccessibilityDomain() {
-		return new All();
-	}
+//	public AccessibilityDomain getAccessibilityDomain() {
+//		return new All();
+//	}
 
 	 /*@
 	   @ also public behavior

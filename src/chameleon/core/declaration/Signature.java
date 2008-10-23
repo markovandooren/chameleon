@@ -1,5 +1,8 @@
 package chameleon.core.declaration;
 
+import java.util.Iterator;
+import java.util.List;
+
 import chameleon.core.MetamodelException;
 import chameleon.core.namespacepart.NamespacePartElementImpl;
 
@@ -20,5 +23,35 @@ public abstract class Signature<E extends Signature, P extends Declaration> exte
    * @return
    * @throws MetamodelException
    */
-  public abstract boolean sameAs(Object other) throws MetamodelException;
+  public abstract boolean sameAs(Signature other) throws MetamodelException;
+  
+  public abstract List<String> identifiers();
+  
+  public int nbIdentifiers() {
+  	return identifiers().size();
+  }
+  
+  /**
+   * The first valid index is 1.
+   * @param index
+   * @return
+   */
+  public String identifierAt(int index) {
+  	return identifiers().get(index - 1);
+  }
+  
+  public boolean sameIdentifiersAs(Signature other) {
+  	boolean result = false;
+  	if(other != null) {
+  		List<String> first = identifiers();
+  		List<String> second = other.identifiers();
+  	  Iterator<String> iter1 = first.iterator();
+  	  Iterator<String> iter2 = second.iterator();
+  	  result = (first.size() == second.size());
+  	  while(result && iter1.hasNext()) {
+  	  	result = iter1.next().equals(iter2.next());
+  	  }
+  	}
+  	return result;
+  }
 }

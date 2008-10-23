@@ -33,12 +33,19 @@ public class NamespaceSignature extends Signature<NamespaceSignature, Namespace>
 	}
 
 	@Override
-	public boolean sameAs(Object other) throws MetamodelException {
+	public boolean sameAs(Signature other) throws MetamodelException {
 		boolean result = false;
 		if(other instanceof NamespaceSignature) {
 			NamespaceSignature sig = (NamespaceSignature)other;
 			result = getName().equals(sig.getName());
 		}
+		return result;
+	}
+
+	@Override
+	public List<String> identifiers() {
+		List<String> result = new ArrayList<String>();
+		result.add(getName());
 		return result;
 	}
 

@@ -32,15 +32,11 @@ import java.util.Set;
 import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.accessibility.AccessibilityDomain;
-import chameleon.core.context.LexicalContext;
-import chameleon.core.element.Element;
 import chameleon.core.member.Member;
 import chameleon.core.statement.Block;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
 import chameleon.core.statement.StatementContainer;
-import chameleon.support.property.accessibility.EmptyDomain;
 import chameleon.util.Util;
 
 /**
@@ -138,12 +134,12 @@ public class StaticInitializer extends TypeElementImpl<StaticInitializer,Type> i
 	return new ArrayList();
 }
 
- /*@
-   @ post \result instanceof EmptyDomain;
-   @*/
-  public AccessibilityDomain getAccessibilityDomain() throws MetamodelException {
-	  return new EmptyDomain();
-  }
+// /*@
+//   @ post \result instanceof EmptyDomain;
+//   @*/
+//  public AccessibilityDomain getAccessibilityDomain() throws MetamodelException {
+//	  return new EmptyDomain();
+//  }
 
   /**
    * A static initializer does not add members to a type.
