@@ -1,0 +1,53 @@
+\documentclass{article}
+
+\begin{document}
+\newcommand{\cham}{Chameleon}
+\newcommand{\code}[1]{\texttt{#1}}
+
+\title{\cham\ Todo List}
+\author{Marko van Dooren \and Koen Vanderkimpen \and Sven De Labey}
+\maketitle
+
+\section{Removed Functionality}
+\begin{enumerate}
+\item Anchored exception declarations
+\item Editor functionality
+\end{enumerate}
+
+\section{Version Control}
+\begin{enumerate}
+\item Create separate repositories for Chameleon, Jnome, Cnome, Editor
+\end{enumerate}
+
+\section{Code Quality}
+\begin{enumerate}
+\item \textbf{Write documentation!}
+\item Remove \code{context} argument from aquirers
+\item Remove \code{getDescription}, \code{getShortDescription}, \code{removeElementChild}, and \code{getFileName}
+\item Remove dependency between Chameleon and ANTLR
+\item Add more abstractions to searching of type members
+\end{enumerate}
+
+\section{Distribution}
+\begin{enumerate}
+\item Create ant targets for creation of
+\begin{enumerate}
+\item Binaries in \code{.jar} format
+\item Sources in \code{.zip} and {.tar.gz} format
+\end{enumerate}
+\end{enumerate}
+
+\section{Testing}
+\begin{enumerate}
+\item Add test sources to CVS
+\item Make test files path independent
+\item Create ant target for running tests
+\end{enumerate}
+
+\section{Generics}
+\begin{enumerate}
+\item Separate classes into interface and regular implementation.
+\item Make proxies for generics
+\end{enumerate}
+
+\end{document}
