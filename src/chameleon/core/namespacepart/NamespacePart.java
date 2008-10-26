@@ -98,13 +98,6 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
       return result;
 	}
 
-	//@FIXME: no multiple inheritance => copied from chameleon.core.type.Type
-    public <T extends Declaration> Set<T> declarations(DeclarationSelector<T> selector) throws MetamodelException {
-      Set<Declaration> tmp = declarations();
-      Set<T> result = selector.selection(tmp);
-      return result;
-    }
-
 	/**
 	 * PACKAGE
 	 */

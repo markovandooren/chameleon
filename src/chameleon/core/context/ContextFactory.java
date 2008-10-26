@@ -10,11 +10,11 @@ import chameleon.core.element.Element;
  */
 public class ContextFactory {
 
-	public LexicalContext createLexicalContext(DeclarationContainer element) {
+	public LexicalContext createLexicalContext(DeclarationCollector element) {
 		return new LexicalContext(element);
 	}
 	
-  public TargetContext createTargetContext(DeclarationContainer element) {
+  public TargetContext createTargetContext(DeclarationCollector element) {
   	return new TargetContext(element);
   }
 	

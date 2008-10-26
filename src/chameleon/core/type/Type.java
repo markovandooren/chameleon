@@ -40,12 +40,11 @@ import org.rejuse.predicate.PrimitivePredicate;
 import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.accessibility.AccessibilityDomain;
+import chameleon.core.context.DeclarationCollector;
 import chameleon.core.context.LexicalContext;
 import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
-import chameleon.core.declaration.DeclarationSelector;
 import chameleon.core.declaration.Definition;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
@@ -149,11 +148,11 @@ public class Type extends MemberImpl<Type,TypeContainer,TypeSignature>
     
     
     public TargetContext targetContext() {
-    	return language().contextFactory().createTargetContext(this);
+    	return language().contextFactory().createTargetContext(new DeclarationCollector<Type>(this));
     }
     
     public LexicalContext lexicalContext(Element element) {
-    	return language().contextFactory().createLexicalContext(this);
+    	return language().contextFactory().createLexicalContext(new DeclarationCollector<Type>(this));
     }
 
     /************************
@@ -167,7 +166,7 @@ public class Type extends MemberImpl<Type,TypeContainer,TypeSignature>
     }
     
     public boolean complete() {
-    	Set<Member> members = declaredElements(Member.class);
+    	Set<Member> members = directlyDeclaredElements(Member.class);
     	// Only check for actual definitions
     	new TypePredicate<Element,Definition>(Definition.class).filter(members);
     	Iterator<Member> iter = members.iterator();
@@ -655,15 +654,15 @@ public class Type extends MemberImpl<Type,TypeContainer,TypeSignature>
      * Return the members of the given kind directly declared by this type.
      * @return
      */
-    public <T extends TypeElement> Set<T> declaredElements(final Class<T> kind) {
-      return (Set<T>) new TypeFilter(kind).retain(declaredElements());
+    public <T extends TypeElement> Set<T> directlyDeclaredElements(final Class<T> kind) {
+      return (Set<T>) new TypeFilter(kind).retain(directlyDeclaredElements());
     }
     
     /**
      * Return the members directly declared by this type.
      * @return
      */
-    public Set<TypeElement> declaredElements() {
+    public Set<TypeElement> directlyDeclaredElements() {
        Set<TypeElement> result = new HashSet<TypeElement>();
        for(TypeElement m: _elements.getOtherEnds()) {
          result.addAll(m.getIntroducedMembers());
@@ -685,7 +684,7 @@ public class Type extends MemberImpl<Type,TypeContainer,TypeSignature>
     public <M extends Member> Set<M> members(final Class<M> kind) throws MetamodelException {
       
         // 1) All defined members of the requested kind are added.
-    final HashSet<M> result = new HashSet(declaredElements(kind));
+    final HashSet<M> result = new HashSet(directlyDeclaredElements(kind));
 
     // 2) Fetch all INHERITABLE methods from supertypes of the requested kind
     final List supers = new ArrayList();
@@ -1116,7 +1115,7 @@ public class Type extends MemberImpl<Type,TypeContainer,TypeSignature>
             public void visit(TypeElement element) {
                 result.add(element.clone());
             }
-        }.applyTo(declaredElements()); // what the heck? does not compile without the cast
+        }.applyTo(directlyDeclaredElements()); // what the heck? does not compile without the cast
 
         return result;
     }
@@ -1140,7 +1139,7 @@ public class Type extends MemberImpl<Type,TypeContainer,TypeSignature>
         List<Element> result = new ArrayList<Element>();
         result.addAll(getSuperTypeReferences());
         result.addAll(modifiers());
-        result.addAll(declaredElements());
+        result.addAll(directlyDeclaredElements());
         return result;
     }
 
@@ -1151,7 +1150,7 @@ public class Type extends MemberImpl<Type,TypeContainer,TypeSignature>
 
     public CheckedExceptionList getCEL() throws MetamodelException {
         CheckedExceptionList cel = new CheckedExceptionList(getNamespace().language());
-        Iterator<StaticInitializer> iter = declaredElements(StaticInitializer.class).iterator();
+        Iterator<StaticInitializer> iter = directlyDeclaredElements(StaticInitializer.class).iterator();
         while (iter.hasNext()) {
             cel.absorb(iter.next().getCEL());
         }
@@ -1160,7 +1159,7 @@ public class Type extends MemberImpl<Type,TypeContainer,TypeSignature>
 
     public CheckedExceptionList getAbsCEL() throws MetamodelException {
         CheckedExceptionList cel = new CheckedExceptionList(getNamespace().language());
-        Iterator<StaticInitializer> iter = declaredElements(StaticInitializer.class).iterator();
+        Iterator<StaticInitializer> iter = directlyDeclaredElements(StaticInitializer.class).iterator();
         while (iter.hasNext()) {
             cel.absorb(iter.next().getAbsCEL());
         }
@@ -1190,12 +1189,6 @@ public class Type extends MemberImpl<Type,TypeContainer,TypeSignature>
 //  		}
 //  	}
     
-    public <T extends Declaration> Set<T> declarations(DeclarationSelector<T> selector) throws MetamodelException {
-      Set<Declaration> tmp = declarations();
-      Set<T> result = selector.selection(tmp);
-      return result;
-    }
-
     public Set<Declaration> declarations() throws MetamodelException {
     	Set<Declaration> result = new HashSet<Declaration>();
     	result.addAll(members());

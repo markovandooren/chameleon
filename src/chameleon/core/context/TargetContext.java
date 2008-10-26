@@ -13,20 +13,20 @@ import chameleon.core.declaration.DeclarationSelector;
  */
 public class TargetContext extends Context {
 
-	public TargetContext(DeclarationContainer element) {
-		super(element);
+	public TargetContext(DeclarationCollector collector) {
+		super(collector);
 	}
 
 	@Override
 	public <T extends Declaration> T lookUp(DeclarationSelector<T> selector) throws MetamodelException {
-	  Set<T> tmp = element().declarations(selector);
+	  Set<T> tmp = collector().declarations(selector);
 	  int size = tmp.size();
 	  if(size == 1) {
 	    return tmp.iterator().next();
 	  } else if (size == 0) {
 	    return null;
 	  } else {
-	    throw new MetamodelException("Multiple matches found in "+element().toString() + " using selector "+selector.toString());
+	    throw new MetamodelException("Multiple matches found in "+collector().element().toString() + " using selector "+selector.toString());
 	  }
 
 	}

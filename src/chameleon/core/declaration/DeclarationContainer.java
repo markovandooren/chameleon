@@ -1,5 +1,6 @@
 package chameleon.core.declaration;
 
+import java.util.List;
 import java.util.Set;
 
 import chameleon.core.MetamodelException;
@@ -17,16 +18,6 @@ public interface DeclarationContainer<E extends DeclarationContainer, P extends 
    */
   public Set<Declaration> declarations() throws MetamodelException;
   
-  /**
-   * Return those declarations of this declaration container that are selected
-   * by the given signature selector.
-   * 
-   * @param <T> The type of the arguments selected by the given signature selector. This type
-   *            shoud be inferred automatically.
-   * @param selector
-   * @return
-   * @throws MetamodelException
-   */
-  public <T extends Declaration> Set<T> declarations(DeclarationSelector<T> selector) throws MetamodelException;
+//  public <T extends Declaration> List<T> declarations(DeclarationSelector<T> selector) throws MetamodelException;
 
 }

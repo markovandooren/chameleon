@@ -35,10 +35,10 @@ import org.rejuse.predicate.PrimitiveTotalPredicate;
 
 import chameleon.core.IMetaModel;
 import chameleon.core.MetamodelException;
+import chameleon.core.context.DeclarationCollector;
 import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
-import chameleon.core.declaration.DeclarationSelector;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
@@ -460,7 +460,7 @@ public class Namespace extends ElementImpl<Namespace,Namespace> implements Names
     }
 
 	public TargetContext targetContext() throws MetamodelException {
-		return language().contextFactory().createTargetContext(this);
+		return language().contextFactory().createTargetContext(new DeclarationCollector<Namespace>(this));
 	}
 
 	public Set<Declaration> declarations() {
@@ -469,11 +469,5 @@ public class Namespace extends ElementImpl<Namespace,Namespace> implements Names
 		result.addAll(getTypes());
 		return result;
 	}
-
-    public <T extends Declaration> Set<T> declarations(DeclarationSelector<T> selector) throws MetamodelException {
-      Set<Declaration> tmp = declarations();
-      Set<T> result = selector.selection(tmp);
-      return result;
-    }
 
 }

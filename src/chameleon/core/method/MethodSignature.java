@@ -97,13 +97,6 @@ public abstract class MethodSignature<E extends MethodSignature, P extends Metho
     return result;
   }
   
-  //COPIED FROM chameleon.core.type.Type
-  public <T extends Declaration> Set<T> declarations(DeclarationSelector<T> selector) throws MetamodelException {
-    Set<Declaration> tmp = declarations();
-    Set<T> result = selector.selection(tmp);
-    return result;
-  }
-
   public boolean sameParameterTypesAs(MethodSignature other) throws MetamodelException {
   	boolean result = false;
   	if (other != null) {
