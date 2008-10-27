@@ -13,9 +13,13 @@ import org.rejuse.predicate.PrimitiveTotalPredicate;
 import chameleon.core.Config;
 import chameleon.core.MetamodelException;
 import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.context.Context;
 import chameleon.core.context.ContextFactory;
+import chameleon.core.context.DeclarationCollector;
+import chameleon.core.context.LexicalContext;
+import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.DeclarationSelector;
+import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.NamespaceOrType;
@@ -30,6 +34,48 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 	public NamespacePart(Namespace pack) {
     setNamespace(pack);
 	}
+	
+	public Context lexicalContext(Element child) {
+		if(imports().contains(child)) {
+			return _importContext;
+		} else {
+			return _lexicalContext;
+		}
+	}
+	
+	private Context _importLocalContext = new TargetContext(new DeclarationCollector(this) {
+
+		@Override
+		public Set<Declaration> demandDeclarations() throws MetamodelException {
+		  Set<Declaration> result = new HashSet<Declaration>();
+		  for(Import imporT: imports()) {
+			  result.addAll(imporT.demandImports());
+		  }
+		  return result;
+		}
+
+		@Override
+		public Set<Declaration> directDeclarations() throws MetamodelException {
+		  Set<Declaration> result = new HashSet<Declaration>();
+		  for(Import imporT: imports()) {
+			  result.addAll(imporT.directImports());
+		  }
+		  return result;
+		}
+		
+	}
+	);
+	
+	private Context _importContext = new LexicalContext(_importLocalContext, this);
+	
+	private Context _typeLocalContext = new TargetContext(new DeclarationCollector(this));
+	
+	private Context _lexicalContext = new LexicalContext(_typeLocalContext,this) {
+		@Override
+		public Context parentContext() {
+			return _importContext;
+		}
+	};
 	
 	public String getName(){
 		return getDeclaredNamespace().getName();
@@ -83,24 +129,21 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 	private OrderedReferenceSet<NamespacePart, NamespacePart> _subNamespaceParts = new OrderedReferenceSet<NamespacePart, NamespacePart>(
 			this);
 
-	public List getChildren() {
-		List result = getTypes();
+	public List<? extends Element> getChildren() {
+		List result = types(); // can't specify type parameter without having to clone types(). don't like it.
 		result.addAll(getNamespaceParts());
-		result.addAll(getDemandImports());
-		result.addAll(getTypeImports());
+		result.addAll(imports());
 		return result;
 	}
 	
 	public Set<Declaration> declarations() {
-	  Set<Declaration> result = new HashSet<Declaration>(getTypes());
-//	  result.addAll(getDeclaredNamespace());
-//    namespaces ?
+	  Set<Declaration> result = new HashSet<Declaration>(types());
       return result;
 	}
 
-	/**
-	 * PACKAGE
-	 */
+	/*************
+	 * NAMESPACE *
+	 *************/
 	private Reference<NamespacePart, Namespace> _namespaceLink = new Reference<NamespacePart, Namespace>(this);
 
 	public Reference<NamespacePart, Namespace> getNamespaceLink() {
@@ -124,132 +167,132 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 	 * DEMAND IMPORTS *
 	 ******************/
 
-	private OrderedReferenceSet<NamespacePart,DemandImport> _demandImports = new OrderedReferenceSet<NamespacePart,DemandImport>(this);
+	private OrderedReferenceSet<NamespacePart,Import> _imports = new OrderedReferenceSet<NamespacePart,Import>(this);
 
-	public List<DemandImport> getDemandImports() {
-		return _demandImports.getOtherEnds();
+	public List<Import> imports() {
+		return _imports.getOtherEnds();
 	}
 
-	public void addDemandImport(DemandImport pack) {
-		_demandImports.add(pack.getParentLink());
+	public void addImport(Import newImport) {
+		_imports.add(newImport.getParentLink());
 	}
 
-	public void removeDemandImport(DemandImport pack) {
-		_demandImports.remove(pack.getParentLink());
+	public void removeImport(Import removedImport) {
+		_imports.remove(removedImport.getParentLink());
 	}
 
-	public List getDemandImportElements() throws MetamodelException {
-		final ArrayList result = new ArrayList();
-		for(DemandImport element: getDemandImports()) {
-				NamespaceOrType pot = ((DemandImport)element).getElement();
-				if(pot != null) {
-					result.add(pot);
-				} else {
-					throw new MetamodelException();
-				}
-			}
-		return result;
-  }
+//	public List getDemandImportElements() throws MetamodelException {
+//		final ArrayList result = new ArrayList();
+//		for(DemandImport element: getDemandImports()) {
+//				NamespaceOrType pot = ((DemandImport)element).getElement();
+//				if(pot != null) {
+//					result.add(pot);
+//				} else {
+//					throw new MetamodelException();
+//				}
+//			}
+//		return result;
+//  }
  
-	public List getAliasImports() {
-		List imports = getDemandImports();
-		ArrayList result = new ArrayList();
-		for(int i=0; i < imports.size(); i++){
-			Object o = imports.get(i);
-			if (o instanceof UsingAlias){
-				result.add(o);
-			}
-		}
-		return result;
-	}
+//	public List getAliasImports() {
+//		List imports = getDemandImports();
+//		ArrayList result = new ArrayList();
+//		for(int i=0; i < imports.size(); i++){
+//			Object o = imports.get(i);
+//			if (o instanceof UsingAlias){
+//				result.add(o);
+//			}
+//		}
+//		return result;
+//	}
 
-	/******************
-	 * IMPORTED TYPES *
-	 ******************/
+//	/******************
+//	 * IMPORTED TYPES *
+//	 ******************/
+//
+//	/**
+//	 * The result is a list with as elements Types
+//	 */
+//	public List getImportedTypes() throws MetamodelException {
+//		ArrayList result = new ArrayList();
+//		for(TypeImport typeImport: getTypeImports()) {
+//			result.add(typeImport.getType());
+//		}
+//		return result;
+//	}
+//
+//	/**
+//	 * DIRECT IMPORTS
+//	 */
+//	
+//	public List<TypeImport> getTypeImports() {
+//		return _importedTypes.getOtherEnds();
+//	}
+//
+//	private OrderedReferenceSet<NamespacePart,TypeImport> _importedTypes = new OrderedReferenceSet<NamespacePart,TypeImport>(this);
+//
+//
+//	public void addImportedType(TypeImport type) {
+//		_importedTypes.add(type.getParentLink());
+//	}
+//	
+//	public void removeImportedType(TypeImport type) {
+//		_importedTypes.remove(type.getParentLink());
+//	}
+//
+//	/**
+//	 * Get the Imported type with the given name.
+//	 * If this type is not imported as an ImportedType null is returned
+//	 */
+//	public Type getImportedType(final String name) throws MetamodelException {
+//	    List allTypes = getImportedTypes();
+//	    new PrimitiveTotalPredicate() {
+//	      public boolean eval(Object o) {
+//	      	try{
+//	          return ((Type)o).getName().equals(name);
+//	      	}
+//	      	catch(NullPointerException exc) {
+//	      		throw exc;
+//	      	}
+//	      }
+//	    }.filter(allTypes);
+//	    if(allTypes.isEmpty()) {
+//	      return null;
+//	    }
+//	    else {
+//	      return (Type)allTypes.iterator().next();
+//	    }
+//	  }
 
-	/**
-	 * The result is a list with as elements Types
-	 */
-	public List getImportedTypes() throws MetamodelException {
-		ArrayList result = new ArrayList();
-		for(TypeImport typeImport: getTypeImports()) {
-			result.add(typeImport.getType());
-		}
-		return result;
-	}
+//	/*****************
+//	 * USING ALIASES *
+//	 *****************/
+//
+//	private OrderedReferenceSet<NamespacePart,UsingAlias> _usingAliases = new OrderedReferenceSet<NamespacePart,UsingAlias>(this);
+//
+//	public List<UsingAlias> getAliases() {
+//		return _usingAliases.getOtherEnds();
+//	}
+//
+//	public void addAlias(UsingAlias alias) {
+//		_usingAliases.add(alias.getParentLink());
+//	}
+//
+//	public void removeAlias(UsingAlias alias) {
+//		_usingAliases.remove(alias.getParentLink());
+//	}
 
-	/**
-	 * DIRECT IMPORTS
-	 */
 	
-	public List<TypeImport> getTypeImports() {
-		return _importedTypes.getOtherEnds();
-	}
-
-	private OrderedReferenceSet<NamespacePart,TypeImport> _importedTypes = new OrderedReferenceSet<NamespacePart,TypeImport>(this);
-
-
-	public void addImportedType(TypeImport type) {
-		_importedTypes.add(type.getParentLink());
-	}
-	
-	public void removeImportedType(TypeImport type) {
-		_importedTypes.remove(type.getParentLink());
-	}
-
-	/**
-	 * Get the Imported type with the given name.
-	 * If this type is not imported as an ImportedType null is returned
-	 */
-	public Type getImportedType(final String name) throws MetamodelException {
-	    List allTypes = getImportedTypes();
-	    new PrimitiveTotalPredicate() {
-	      public boolean eval(Object o) {
-	      	try{
-	          return ((Type)o).getName().equals(name);
-	      	}
-	      	catch(NullPointerException exc) {
-	      		throw exc;
-	      	}
-	      }
-	    }.filter(allTypes);
-	    if(allTypes.isEmpty()) {
-	      return null;
-	    }
-	    else {
-	      return (Type)allTypes.iterator().next();
-	    }
-	  }
-
-	/*****************
-	 * USING ALIASES *
-	 *****************/
-
-	private OrderedReferenceSet<NamespacePart,UsingAlias> _usingAliases = new OrderedReferenceSet<NamespacePart,UsingAlias>(this);
-
-	public List<UsingAlias> getAliases() {
-		return _usingAliases.getOtherEnds();
-	}
-
-	public void addAlias(UsingAlias alias) {
-		_usingAliases.add(alias.getParentLink());
-	}
-
-	public void removeAlias(UsingAlias alias) {
-		_usingAliases.remove(alias.getParentLink());
-	}
-
-	
-	/**
-	 * TYPES
-	 */
+	/*********
+	 * TYPES *
+	 *********/
 	protected OrderedReferenceSet<NamespacePart, Type> _types = new OrderedReferenceSet<NamespacePart, Type>(this);
 
 	public Relation<NamespacePart, Type> getTypesLink() {
 		return _types;
 	}
 
-	public List getTypes() {
+	public List<Type> types() {
 		return _types.getOtherEnds();
 	}
 
@@ -261,21 +304,21 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 		_types.remove(type.getParentLink());
 	}
 
-	public Type getType(final String name) throws MetamodelException {
-		List types = getTypes();
-		new PrimitiveTotalPredicate() {
-			public boolean eval(Object o) {
-				return ((Type)o).getName().equals(name);
-			}
-		}.filter(types);
-		if(types.isEmpty()) {
-			return null;
-		} else if(types.size() == 1) {
-			return (Type)types.get(0);
-		} else {
-			throw new MetamodelException("Multiple types with same name in this package");
-		}
-	}
+//	public Type getType(final String name) throws MetamodelException {
+//		List types = types();
+//		new PrimitiveTotalPredicate() {
+//			public boolean eval(Object o) {
+//				return ((Type)o).getName().equals(name);
+//			}
+//		}.filter(types);
+//		if(types.isEmpty()) {
+//			return null;
+//		} else if(types.size() == 1) {
+//			return (Type)types.get(0);
+//		} else {
+//			throw new MetamodelException("Multiple types with same name in this package");
+//		}
+//	}
 
 //	/**
 //	 * Get all the visisble types.

@@ -43,6 +43,7 @@ public class GenericParameter extends MemberImpl<GenericParameter, Type, TypeSig
 	}
 
 	public Type bound() {
+		need_union_types();
 	}
 
 }

@@ -10,6 +10,7 @@ import org.rejuse.association.Reference;
 import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.Context;
 import chameleon.core.context.LexicalContext;
 import chameleon.core.language.Language;
 import chameleon.core.tag.Tag;
@@ -257,7 +258,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
      * Default implementation just delegates to the parent.
      * @throws MetamodelException 
      */
-    public LexicalContext lexicalContext(Element child) throws MetamodelException {
+    public Context lexicalContext(Element child) throws MetamodelException {
       return getParent().lexicalContext(this);
     }
 
@@ -265,7 +266,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
      * Default implementation just delegates to the parent.
      * @throws MetamodelException 
      */
-    public final LexicalContext lexicalContext() throws MetamodelException {
+    public final Context lexicalContext() throws MetamodelException {
       return getParent().lexicalContext(this);
     }
 }

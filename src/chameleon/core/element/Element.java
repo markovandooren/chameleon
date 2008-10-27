@@ -28,6 +28,7 @@ import java.util.List;
 import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.Context;
 import chameleon.core.context.LexicalContext;
 import chameleon.core.language.Language;
 import chameleon.core.tag.Tag;
@@ -213,7 +214,7 @@ public interface Element<E extends Element, P extends Element> {
      @
      @ pre children().contains(child); 
      @*/
-    public LexicalContext lexicalContext(Element child) throws MetamodelException;
+    public Context lexicalContext(Element child) throws MetamodelException;
     
-    public LexicalContext lexicalContext() throws MetamodelException;
+    public Context lexicalContext() throws MetamodelException;
 }

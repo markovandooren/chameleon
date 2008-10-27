@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Set;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.Context;
 import chameleon.core.context.Target;
-import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationSelector;
 import chameleon.core.declaration.Signature;
@@ -300,7 +300,7 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
   	return Util.createNonNullList(getTarget());
   }
 
-  public TargetContext targetContext() throws MetamodelException {
+  public Context targetContext() throws MetamodelException {
     return getElement().targetContext();
   }
 }

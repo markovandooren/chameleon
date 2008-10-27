@@ -35,7 +35,7 @@ import chameleon.core.type.Type;
  * @author Marko van Dooren
  */
 
-public interface NamespaceOrType<E extends NamespaceOrType, P extends DeclarationContainer> extends Target<E,P>, Element<E,P>, Declaration<E,P> {
+public interface NamespaceOrType<E extends NamespaceOrType, P extends DeclarationContainer> extends Target<E,P>, Element<E,P>, Declaration<E,P>, DeclarationContainer<E,P> {
 
 	public String getFullyQualifiedName();
   

@@ -14,8 +14,14 @@ import chameleon.core.declaration.DeclarationSelector;
 public class TargetContext extends Context {
 
 	public TargetContext(DeclarationCollector collector) {
-		super(collector);
+		_collector = collector;
 	}
+
+	public DeclarationCollector collector() {
+		return _collector;
+	}
+
+	private DeclarationCollector _collector;
 
 	@Override
 	public <T extends Declaration> T lookUp(DeclarationSelector<T> selector) throws MetamodelException {

@@ -27,6 +27,6 @@ public interface Target<E extends Element, P extends Element> {
      *   2) in "typename.f", "f" must be looked up in the type represented by "typename"
      *   3) in "packagename.f", "f" must be looked up in the package represented by "package"
      */
-	public TargetContext targetContext() throws MetamodelException;
+	public Context targetContext() throws MetamodelException;
 
 }

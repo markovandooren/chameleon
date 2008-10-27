@@ -1,14 +1,16 @@
 package chameleon.core.namespacepart;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.namespace.NamespaceOrTypeReference;
-import chameleon.core.type.Type;
 import chameleon.util.Util;
 
 /**
@@ -85,5 +87,15 @@ public class UsingAlias extends Import<UsingAlias> {
   public UsingAlias clone() {
     return new UsingAlias(getIdentifier(),getNamespaceOrTypeReference().clone());
   }
+
+	@Override
+	public Set<Declaration> demandImports() throws MetamodelException {
+		return new HashSet<Declaration>();
+	}
+
+	@Override
+	public Set<Declaration> directImports() throws MetamodelException {
+		need_type_alias();
+	}
 
 }

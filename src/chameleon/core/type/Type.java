@@ -40,8 +40,8 @@ import org.rejuse.predicate.PrimitivePredicate;
 import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.Context;
 import chameleon.core.context.DeclarationCollector;
-import chameleon.core.context.LexicalContext;
 import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
@@ -151,8 +151,8 @@ public class Type extends MemberImpl<Type,TypeContainer,TypeSignature>
     	return language().contextFactory().createTargetContext(new DeclarationCollector<Type>(this));
     }
     
-    public LexicalContext lexicalContext(Element element) {
-    	return language().contextFactory().createLexicalContext(new DeclarationCollector<Type>(this));
+    public Context lexicalContext(Element element) {
+    	return language().contextFactory().createLexicalContext(this,new TargetContext(new DeclarationCollector<Type>(this)));
     }
 
     /************************

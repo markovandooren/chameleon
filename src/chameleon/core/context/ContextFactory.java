@@ -1,6 +1,5 @@
 package chameleon.core.context;
 
-import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.element.Element;
 
 /**
@@ -10,8 +9,8 @@ import chameleon.core.element.Element;
  */
 public class ContextFactory {
 
-	public LexicalContext createLexicalContext(DeclarationCollector element) {
-		return new LexicalContext(element);
+	public LexicalContext createLexicalContext(Element element, Context local) {
+		return new LexicalContext(local, element);
 	}
 	
   public TargetContext createTargetContext(DeclarationCollector element) {

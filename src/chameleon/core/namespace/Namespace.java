@@ -340,7 +340,7 @@ public class Namespace extends ElementImpl<Namespace,Namespace> implements Names
 	    final Set result = new HashSet();
 	    new Visitor() {
 	      public void visit(Object o) {
-	        List l = ((NamespacePart)o).getTypes();
+	        List l = ((NamespacePart)o).types();
 	        //if(l != null) TODO Who wrote this and why?
 	        result.addAll(l);
 	      }

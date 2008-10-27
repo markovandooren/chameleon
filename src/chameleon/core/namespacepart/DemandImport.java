@@ -1,13 +1,15 @@
 package chameleon.core.namespacepart;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.declaration.Declaration;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.namespace.NamespaceOrTypeReference;
-import chameleon.core.type.Type;
 import chameleon.util.Util;
 
 /**
@@ -41,26 +43,26 @@ public class DemandImport extends Import<DemandImport> {
   	}
   }
   
-  public NamespaceOrType getElement() throws MetamodelException {
+  public NamespaceOrType declarationContainer() throws MetamodelException {
     return getNamespaceOrTypeReference().getNamespaceOrType();
   }
   
-//  public Type getType(String name) throws MetamodelException {
-//    NamespaceOrType self = getElement();
-//    if(self != null) {
-//      return self.getType(name);
-//    }
-//    else {
-//      getElement();
-//      throw new MetamodelException();
-//    }
-//  }
-
-
   @Override
   public DemandImport clone() {
     return new DemandImport(getNamespaceOrTypeReference().clone());
   }
+
+
+	@Override
+	public Set<Declaration> demandImports() throws MetamodelException {
+		return declarationContainer().declarations();
+	}
+
+
+	@Override
+	public Set<Declaration> directImports() throws MetamodelException {
+		return new HashSet<Declaration>();
+	}
   
 
 

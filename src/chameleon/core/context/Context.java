@@ -9,15 +9,9 @@ import chameleon.core.declaration.DeclarationSelector;
 
 public abstract class Context {
 
-	public Context(DeclarationCollector collector) {
-		_collector = collector;
+	public Context() {
 	}
 	
-	public DeclarationCollector collector() {
-		return _collector;
-	}
-
-	private DeclarationCollector _collector;
 
 	public abstract <T extends Declaration> T lookUp(DeclarationSelector<T> selector) throws MetamodelException;
 

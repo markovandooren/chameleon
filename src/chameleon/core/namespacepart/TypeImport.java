@@ -1,10 +1,13 @@
 package chameleon.core.namespacepart;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
@@ -39,12 +42,11 @@ public class TypeImport extends Import<TypeImport> {
   	}
   }
   
-  public Type getType() throws MetamodelException {
+  public Type type() throws MetamodelException {
   	Type result = getTypeReference().getType();
   	if(result != null) {
       return result;
   	} else {
-  		getTypeReference().getType();
   		throw new MetamodelException();
   	}
   }
@@ -53,6 +55,18 @@ public class TypeImport extends Import<TypeImport> {
   public TypeImport clone() {
     return new TypeImport(getTypeReference().clone());
   }
+
+	@Override
+	public Set<Declaration> demandImports() throws MetamodelException {
+		return new HashSet<Declaration>();
+	}
+
+	@Override
+	public Set<Declaration> directImports() throws MetamodelException {
+		Set<Declaration> result = new HashSet<Declaration>();
+		result.add(type());
+		return result;
+	}
   
 	
 	
