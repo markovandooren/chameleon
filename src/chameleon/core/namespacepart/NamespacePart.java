@@ -43,6 +43,10 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 		}
 	}
 	
+	private Context namespaceContext() throws MetamodelException {
+		return new LexicalContext(getDeclaredNamespace().targetContext(),this);
+	}
+	
 	private Context _importLocalContext = new TargetContext(new DeclarationCollector(this) {
 
 		@Override
@@ -66,7 +70,13 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 	}
 	);
 	
-	private Context _importContext = new LexicalContext(_importLocalContext, this);
+	private Context _importContext = new LexicalContext(_importLocalContext, this){
+		@Override
+		public Context parentContext() throws MetamodelException {
+			return namespaceContext();
+		}
+
+	};
 	
 	private Context _typeLocalContext = new TargetContext(new DeclarationCollector(this));
 	
