@@ -15,7 +15,7 @@ import chameleon.core.member.MemberImpl;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeSignature;
 
-public class GenericParameter extends MemberImpl<GenericParameter, Type, TypeSignature> implements DeclarationContainer<GenericParameter, Type>{
+public class GenericParameter extends MemberImpl<GenericParameter, Type, TypeSignature> {
 
 	public GenericParameter(TypeSignature signature) {
 		setSignature(signature);
@@ -42,8 +42,7 @@ public class GenericParameter extends MemberImpl<GenericParameter, Type, TypeSig
 		return result;
 	}
 
-	public Set<Declaration> declarations() throws MetamodelException {
-		
+	public Type bound() {
 	}
 
 }

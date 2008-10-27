@@ -46,4 +46,10 @@ public abstract class TypeConstraint<E extends TypeConstraint, P extends Generic
 		return result;
 	}
 
+	/**
+	 * Return the lower bound on the type that this type constraint imposes.
+	 * 
+	 * @return
+	 */
+	public abstract Type lowerBound();
 }
