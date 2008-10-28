@@ -1,6 +1,5 @@
 package chameleon.core.namespacepart;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,21 +7,18 @@ import java.util.Set;
 import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.association.Reference;
 import org.rejuse.association.Relation;
-import org.rejuse.predicate.PrimitiveTotalPredicate;
 
 import chameleon.core.Config;
 import chameleon.core.MetamodelException;
 import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.context.Context;
 import chameleon.core.context.ContextFactory;
-import chameleon.core.context.DeclarationCollector;
 import chameleon.core.context.LexicalContext;
 import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeContainer;
 /**
@@ -47,7 +43,7 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 		return new LexicalContext(getDeclaredNamespace().targetContext(),this);
 	}
 	
-	private Context _importLocalContext = new TargetContext(new DeclarationCollector(this) {
+	private Context _importLocalContext = new TargetContext<NamespacePart>(this) {
 
 		@Override
 		public Set<Declaration> demandDeclarations() throws MetamodelException {
@@ -67,8 +63,7 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 		  return result;
 		}
 		
-	}
-	);
+	};
 	
 	private Context _importContext = new LexicalContext(_importLocalContext, this){
 		@Override
@@ -78,7 +73,7 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 
 	};
 	
-	private Context _typeLocalContext = new TargetContext(new DeclarationCollector(this));
+	private Context _typeLocalContext = new TargetContext(this);
 	
 	private Context _lexicalContext = new LexicalContext(_typeLocalContext,this) {
 		@Override

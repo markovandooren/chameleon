@@ -35,7 +35,6 @@ import org.rejuse.predicate.PrimitiveTotalPredicate;
 
 import chameleon.core.IMetaModel;
 import chameleon.core.MetamodelException;
-import chameleon.core.context.DeclarationCollector;
 import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
@@ -460,7 +459,7 @@ public class Namespace extends ElementImpl<Namespace,Namespace> implements Names
     }
 
 	public TargetContext targetContext() throws MetamodelException {
-		return language().contextFactory().createTargetContext(new DeclarationCollector<Namespace>(this));
+		return language().contextFactory().createTargetContext(this);
 	}
 
 	public Set<Declaration> declarations() {
