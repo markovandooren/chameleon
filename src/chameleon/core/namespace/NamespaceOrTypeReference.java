@@ -140,7 +140,7 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
         NamespaceOrType result;
         //@FIXME ugly hack with type enumeration
         if(((declaration instanceof Namespace) && (((Namespace)declaration).signature().getName().equals(getName())))
-            || ((declaration instanceof Type) && (((Type)declaration).signature().getName().equals(getName())))){
+            || ((declaration instanceof Type) && (((Type<Type>)declaration).signature().getName().equals(getName())))){
         result = (NamespaceOrType) declaration;
         } else {
         result = null;

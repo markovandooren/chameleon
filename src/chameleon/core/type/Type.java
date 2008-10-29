@@ -1,27 +1,3 @@
-/*
- * Copyright 2000-2004 the Jnome development team.
- *
- * @author Marko van Dooren
- * @author Nele Smeets
- * @author Kristof Mertens
- * @author Jan Dockx
- *
- * This file is part of Jnome.
- *
- * Jnome is free software; you can redistribute it and/or modify it under the
- * terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * Jnome is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * Jnome; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
- * Suite 330, Boston, MA 02111-1307 USA
- */
 package chameleon.core.type;
 
 import java.util.ArrayList;
@@ -46,6 +22,7 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Definition;
 import chameleon.core.declaration.TargetDeclaration;
+import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.member.Member;
 import chameleon.core.member.MemberImpl;
@@ -65,7 +42,7 @@ import chameleon.core.variable.VariableContainer;
  *
  * @author Marko van Dooren
  */
-public class Type extends MemberImpl<Type,TypeContainer,TypeSignature> 
+public abstract class Type<E extends Type> extends MemberImpl<Type,TypeContainer,TypeSignature> 
                 implements TargetDeclaration<Type,TypeContainer>, NamespaceOrType<Type,TypeContainer>, 
                            TypeContainer<Type,TypeContainer>, VariableContainer<Type,TypeContainer>, 
                            VariableOrType<Type,TypeContainer>, Definition<Type,TypeContainer>,
@@ -93,7 +70,6 @@ public class Type extends MemberImpl<Type,TypeContainer,TypeSignature>
      @ post getParent() == null;
      @*/
     public Type(TypeSignature sig) {
-        //  TODO getMemberContext() spec not complete
         setSignature(sig);
     }
     
@@ -124,22 +100,6 @@ public class Type extends MemberImpl<Type,TypeContainer,TypeSignature>
         String pack = getNamespace().getFullyQualifiedName();
         return (pack.equals("") ? "" : pack+".")+getName();
     }
-
-//    public void addTypeListener(TypeListener typeListener) {
-//        typeListeners.add(typeListener);
-//    }
-
-//    private void publishNameChangedEvent() {
-//        final Type type = this;
-//
-//        new Visitor() {
-//            public void visit(Object object) {
-//                ((TypeListener)object).onTypeNameChangedEvent(type);
-//            }
-//        }.applyTo(typeListeners);
-//    }
-
-//    ArrayList typeListeners = new ArrayList();
 
     /*******************
      * LEXICAL CONTEXT *
@@ -180,10 +140,6 @@ public class Type extends MemberImpl<Type,TypeContainer,TypeSignature>
      * ACCESS *
      **********/
 
-//    public AccessibilityDomain getTypeAccessibilityDomain() throws MetamodelException {
-//        return getParent().getTypeAccessibilityDomain().intersect(getAccessModifier().getAccessibilityDomain(this));
-//    }
-
     public Type getTopLevelType() {
         // FIXME: BAD design !!!
         if (getParent() instanceof Type) {
@@ -194,250 +150,27 @@ public class Type extends MemberImpl<Type,TypeContainer,TypeSignature>
     }
 
 
-  	/**
-  	 * NESTED TYPES
-  	 */
-
-  	public Relation getTypesLink() {
-  		return _elements;
-  	}
-
-//  	public void addType(Type type) {
-//  		_members.add(type.getParentLink());
-//  	}
-//
-//  	public void removeType(Type type) {
-//  		_members.remove(type.getParentLink());
-//  	}
-
-//  	public List getNestedTypes() {
-//  		List result = _members.getOtherEnds();
-//  		new TypePredicate(Type.class).filter(result);
-//  		return result;
-//  	}
-  	
-//  	protected void addAllNestedTypes(Set<Type> acc) throws MetamodelException {
-//  		List<Type> superTypes = getDirectSuperTypes();
-//  		for(Type type: superTypes) {
-//  			type.addAllNestedTypes(acc);
-//  		}
-//  		final List<Type> nested = getNestedTypes();
-//      new PrimitiveTotalPredicate() {
-//        public boolean eval(Object o) {
-//            final String name = ((Type)o).getName();
-//            return ! new PrimitiveTotalPredicate() {
-//                public boolean eval(Object o2) {
-//                    return ((Type)o2).getName().equals(name);
-//                }
-//            }.exists(nested);
-//        }
-//    }.filter(acc);
-//    acc.addAll(nested);
-//  		
-//  	}
-
-//    public Set<Type> getAllNestedTypes() throws MetamodelException {
-//    	Set<Type> result = new HashSet<Type>();
-//    	addAllNestedTypes(result);
-//    	return result;
-////        final List result = getNestedTypes();
-////        //Add nested types from supertypes, ...
-////        final List supers = new ArrayList();
-////        try {
-////            new RobustVisitor() {
-////                public Object visit(Object element) throws MetamodelException {
-////                    supers.addAll(((Type)element).getAllNestedTypes());
-////                    return null;
-////                }
-////
-////                public void unvisit(Object element, Object undo) {
-////                }
-////            }.applyTo(getDirectSuperTypes());
-////        } catch (MetamodelException e) {
-////            throw e;
-////        } catch (Exception e) {
-////            throw new ChameleonProgrammerException(e);
-////        }
-////        // ... but remove the ones that are overwritten.
-////
-//////    try {
-//////      new PrimitivePredicate() {
-//////        public boolean eval(final Object o1) throws Exception {
-//////          return ! new PrimitivePredicate() {
-//////            public boolean eval(Object o2) throws Exception {
-//////              Type t1 = (Type)o1;
-//////              Type t2 = (Type)o2;
-//////              return (o1 != o2) && t1.getName().equals(t2.getName()) && ((Type)t2.getParent()).subTypeOf((Type)t1.getParent());
-//////            }
-//////          }.exists(result);
-//////        }
-//////      }.filter(result);
-//////    }
-//////    catch (MetamodelException e) {
-//////      throw e;
-//////    }
-//////    catch (Exception e) {
-//////      throw new Error();
-//////    }
-////        new PrimitiveTotalPredicate() {
-////            public boolean eval(Object o) {
-////                final String name = ((Type)o).getName();
-////                return ! new PrimitiveTotalPredicate() {
-////                    public boolean eval(Object o2) {
-////                        return ((Type)o2).getName().equals(name);
-////                    }
-////                }.exists(result);
-////            }
-////        }.filter(supers);
-////
-////        result.addAll(supers);
-////        return result;
-//    }
-
     public Type getType() {
         return this;
     }
-
-//    public Type getType(final String name) throws MetamodelException {
-//        return getTypeLocalContext().getType(name);
-//    }
-//
-//    public Type findTypeLocally(String name) throws MetamodelException {
-//        if ((name==null) || name.equals("")) {
-//            return this;
-//        }
-//        Type result = getType(Util.getFirstPart(name));
-//        if ((result!=null) && (Util.getSecondPart(name)!=null)) {
-//            result = result.findTypeLocally(Util.getSecondPart(name));
-//        }
-//        return result;
-//    }
 
   	/***********
   	 * MEMBERS *
   	 ***********/
 
-  	public OrderedReferenceSet<Type, TypeElement> getMembersLink() {
-  		return _elements;
-  	}
-
-  	private OrderedReferenceSet<Type, TypeElement> _elements = new OrderedReferenceSet<Type, TypeElement>(this);
-
-  	public void add(TypeElement element) {
-  	  if(element != null) {
-  	    _elements.add(element.getParentLink());
-  	  }
-  	}
-//    /**
-//     * Search for a member with the given name
-//     * A member can be a Variable or an IntroducingMember
-//     * Methods are not handled here.
-//     */
-//    public Member getMember(String name) throws MetamodelException {
-//        return getTypeLocalContext().getMember(name);
-//    }
-
-//    /**
-//     * ******************
-//     * IntroducingMember *
-//     * *******************
-//     */
-//
-//    public List getAllIntroducingMembers() throws MetamodelException {
-//        final List result = getIntroducedIntroducingMembers();
-//
-//        //Add nested types from supertypes, ...
-//        final Set supers = new HashSet();
-//        try {
-//            new RobustVisitor() {
-//                public Object visit(Object element) throws MetamodelException {
-//
-//                    supers.addAll(((Type)element).getAllIntroducingMembers());
-//                    return null;
-//                }
-//
-//                public void unvisit(Object element, Object undo) {
-//                }
-//            }.applyTo(getDirectSuperTypes());
-//        } catch (MetamodelException e) {
-//            throw e;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            throw new Error();
-//        }
-//        // ... but remove the ones that are overwritten.
-//        new PrimitiveTotalPredicate() {
-//            public boolean eval(Object o) {
-//                final String name = ((IntroducingMember)o).getName();
-//                return ! new PrimitiveTotalPredicate() {
-//                    public boolean eval(Object o2) {
-//                        return ((IntroducingMember)o2).getName().equals(name);
-//                    }
-//                }.exists(result);
-//            }
-//        }.filter(supers);
-//
-//        result.addAll(supers);
-//        return result;
-//    }
-
-
-//  	/**
-//  	 * VARIABLES
-//  	 */
-//  	public void addVariable(MemberVariable v) {
-//  		_members.add(v.getParentLink());
+//  	public OrderedReferenceSet<Type, TypeElement> getMembersLink() {
+//  		return _elements;
 //  	}
-//
-//  	public OrderedReferenceSet getVariablesLink() {
-//  		return _members;
-//  	}
-//
-//    public List getAllVariables() throws MetamodelException {
-//        final List result = getVariables();
-//
-//        //Add nested types from supertypes, ...
-//        final Set supers = new HashSet();
-//        try {
-//            new RobustVisitor() {
-//                public Object visit(Object element) throws MetamodelException {
-//
-//                    supers.addAll(((Type)element).getAllVariables());
-//                    return null;
-//                }
-//
-//                public void unvisit(Object element, Object undo) {
-//                }
-//            }.applyTo(getDirectSuperTypes());
-//        } catch (MetamodelException e) {
-//            throw e;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            throw new Error();
-//        }
-//        // ... but remove the ones that are overwritten.
-//        new PrimitiveTotalPredicate() {
-//            public boolean eval(Object o) {
-//                final String name = ((MemberVariable)o).getName();
-//                return ! new PrimitiveTotalPredicate() {
-//                    public boolean eval(Object o2) {
-//                        return ((MemberVariable)o2).getName().equals(name);
-//                    }
-//                }.exists(result);
-//            }
-//        }.filter(supers);
-//
-//        result.addAll(supers);
-//        return result;
-//    }
-//
-//    public MemberVariable getVariable(final String name) throws MetamodelException {
-//        return this.getTypeLocalContext().getVariable(name);
-//    }
 
-    /*********************
-     * IntroducingMember *
-     *********************/
+
+    /**
+     * Add the given element to this type.
+     * 
+     * @throws ChameleonProgrammerException
+     *         The given element could not be added. E.g when you try to add
+     *         an element to a computed type.
+     */
+  	public abstract void add(TypeElement element) throws ChameleonProgrammerException;
 
     /**************
      * SUPERTYPES *
@@ -477,29 +210,91 @@ public class Type extends MemberImpl<Type,TypeContainer,TypeSignature>
     	  Collection superTypes = getAllSuperTypes(); 
         return superTypes.contains(other);
     }
+    
+    /**
+     * Check if this type equals the given other type. This is
+     * a unidirectional check to keep things extensible. It is fine
+     * if equals(other) is false, but other.equals(this) is true.
+     *  
+     * @param other
+     * @return
+     */
+    public boolean uniEqualTo(Type other) {
+    	return other == this;
+    }
+    
+   /*@
+     @ public behavior
+     @
+     @ post ! other instanceof Type ==> \result == false
+     @ post other instanceof Type ==> \result == equalTo(other) || other.equalTo(this); 
+     @*/
+    public boolean equals(Object other) {
+    	boolean result = false;
+    	if(other instanceof Type) {
+    		result = uniEqualTo((Type)other) || ((Type)other).uniEqualTo(this);
+    	}
+    	return result;
+    }
 
+    /**
+     * Check if this type is assignable to another type.
+     * 
+     * @param other
+     * @return
+     * @throws MetamodelException
+     */
+   /*@
+     @ public behavior
+     @
+     @ post \result == equals(other) || subTypeOf(other);
+     @*/
     public boolean assignableTo(Type other) throws MetamodelException {
-    	boolean equal = other.equals(this);
+    	boolean equal = equals(other);
     	boolean subtype = subTypeOf(other);
     	return (equal || subtype);
     }
 
   	/**
-  	 * SUPERTYPES
+  	 * Return the super type reference of this type.
   	 */
-  	public List<TypeReference> getSuperTypeReferences() {
-  		return _superTypes.getOtherEnds();
-  	}
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @*/
+  	public abstract List<TypeReference> getSuperTypeReferences();
 
-  	public void addSuperType(TypeReference type) {
-  		_superTypes.add(type.getParentLink());
-  	}
+  	/**
+  	 * Add the give type reference as a super type.
+  	 * @param type
+  	 * @throws ChameleonProgrammerException
+  	 *         It is not possible to add the given type. E.g. you cannot
+  	 *         add a super type reference to a computed type.
+  	 */
+   /*@
+     @ public behavior
+     @
+     @ pre type != null;
+     @ post getSuperTypeReferences().contains(type)
+     @*/
+  	public abstract void addSuperType(TypeReference type) throws ChameleonProgrammerException;
 
-  	public void removeSuperType(TypeReference type) {
-  		_superTypes.remove(type.getParentLink());
-  	}
+  	/**
+  	 * Add the give type reference as a super type.
+  	 * @param type
+  	 * @throws ChameleonProgrammerException
+  	 *         It is not possible to add the given type. E.g. you cannot
+  	 *         add a super type reference to a computed type.
+  	 */
+   /*@
+     @ public behavior
+     @
+     @ pre type != null;
+     @ post ! getSuperTypeReferences().contains(type)
+     @*/
+  	public abstract void removeSuperType(TypeReference type);
 
-  	private OrderedReferenceSet<Type, TypeReference> _superTypes = new OrderedReferenceSet<Type, TypeReference>(this);
 
 //    /***********
 //     * METHODS *
@@ -661,13 +456,7 @@ public class Type extends MemberImpl<Type,TypeContainer,TypeSignature>
      * Return the members directly declared by this type.
      * @return
      */
-    public Set<TypeElement> directlyDeclaredElements() {
-       Set<TypeElement> result = new HashSet<TypeElement>();
-       for(TypeElement m: _elements.getOtherEnds()) {
-         result.addAll(m.getIntroducedMembers());
-       }
-       return result;
-    }
+    public abstract Set<TypeElement> directlyDeclaredElements();
 
     public Set<Member> members() throws MetamodelException {
       return members(Member.class);
@@ -1091,49 +880,17 @@ public class Type extends MemberImpl<Type,TypeContainer,TypeSignature>
 //        }
 //    }
 
-    public Type clone() {
-//  TODO: simply clone all the members. JDK15 (returntype of clone cannot be restricted for now).
-        final Type result = cloneThis();
-        // SUPERTYPES
-        new Visitor() {
-            public void visit(Object element) {
-                result.addSuperType((TypeReference)((TypeReference)element).clone());
-            }
-        }.applyTo(getSuperTypeReferences());
-        //MODIFIERS
+    public abstract E clone();
 
-        new Visitor<Modifier>() {
-            public void visit(Modifier element) {
-                result.addModifier(element.clone());
-            }
-        }.applyTo(modifiers());
+//    protected abstract Type cloneThis();
 
-        //MEMBERS
-
-        new Visitor<TypeElement>() {
-            public void visit(TypeElement element) {
-                result.add(element.clone());
-            }
-        }.applyTo(directlyDeclaredElements()); // what the heck? does not compile without the cast
-
-        return result;
-    }
-
-    protected Type cloneThis() {
-      return this;
-    }
-
-//    public AccessibilityDomain getAccessibilityDomain() throws MetamodelException {
-//        return getTypeAccessibilityDomain();
-//    }
-
-    /*@
-    @ also public behavior
-    @
-    @ post \result.containsAll(getSuperTypeReferences());
-    @ post \result.containsAll(getMembers());
-    @ post \result.containsAll(getModifiers());
-    @*/
+   /*@
+     @ also public behavior
+     @
+     @ post \result.containsAll(getSuperTypeReferences());
+     @ post \result.containsAll(getMembers());
+     @ post \result.containsAll(getModifiers());
+     @*/
     public List<? extends Element> getChildren() {
         List<Element> result = new ArrayList<Element>();
         result.addAll(getSuperTypeReferences());
@@ -1165,34 +922,24 @@ public class Type extends MemberImpl<Type,TypeContainer,TypeSignature>
         return cel;
     }
 
-//   	/*****************
-//  	 * LOCAL CONTEXT *
-//  	 *****************/
-//
-//  	//FIXME: why create separate objects when they can be shared
-//  	//       use a factory if necessary so that each language can decide
-//  	//       whether to share them or not.
-//  	private Reference _typeLocalContext = new Reference(this);
-//
-//  	public Reference getTypeLocalContextLink() {
-//  		return _typeLocalContext;
-//  	}
-//
-//  	public TypeLocalContext getTypeLocalContext() {
-//  		return (TypeLocalContext) _typeLocalContext.getOtherEnd();
-//  	}
-//
-//  	public void setTypeLocalContext(TypeLocalContext typeLocalContext) {
-//  		if (typeLocalContext != null) {
-//  			_typeLocalContext.connectTo(typeLocalContext.getTypeLink());
-//  		}
-//  	}
-    
     public Set<Declaration> declarations() throws MetamodelException {
     	Set<Declaration> result = new HashSet<Declaration>();
     	result.addAll(members());
     	return result;
     }
+
+  	protected void copyContents(Type<? extends Type> from) {
+  		for(TypeReference tref : from.getSuperTypeReferences()) {
+        addSuperType(tref.clone());
+  		}
+      for(Modifier mod : from.modifiers()) {
+      	addModifier(mod.clone());
+      }
+      for(TypeElement el : from.directlyDeclaredElements()) {
+        add(el.clone());
+      }
+  	}
+  	
 
 }
 

@@ -84,7 +84,7 @@ public class MemberVariable extends InitializableVariable<MemberVariable,Type> i
       if(((Type)type).assignableTo(getParent())) {
         found = true; 
       }
-      type = ((Type)type).getParent(); 
+      type = ((Type<Type>)type).getParent(); 
     }
     return found;
   }
