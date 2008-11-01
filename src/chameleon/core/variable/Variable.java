@@ -25,18 +25,15 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public abstract class Variable<E extends Variable, P extends VariableContainer> 
+public abstract class Variable<E extends Variable<E,P>, P extends VariableContainer> 
                 extends TypeDescendantImpl<E,P> 
-                implements VariableOrType<E,P>,ModifierContainer<E,P>, TargetDeclaration<E,P>{
+                implements VariableOrType<E,P>,ModifierContainer<E,P>, TargetDeclaration<E,P,VariableSignature>{
 
-  public Variable(VariableSignature sig, TypeReference type) {
+  public Variable(VariableSignature sig) {
     setSignature(sig);
-    setTypeReference(type);
   }
   
-  
-
-  public void setSignature(Signature signature) {
+  public void setSignature(VariableSignature signature) {
     if(signature != null) {
       _signature.connectTo(signature.getParentLink());
     } else {
@@ -59,21 +56,8 @@ public abstract class Variable<E extends Variable, P extends VariableContainer>
   public String getName() {
     return signature().getName();
   }
-  
 
-	/**
-	 * TYPE
-	 */
-	private Reference<Variable,TypeReference> _typeReference = new Reference<Variable,TypeReference>(this);
-
-
-  public TypeReference getTypeReference() {
-    return _typeReference.getOtherEnd();
-  }
-
-  public void setTypeReference(TypeReference type) {
-    _typeReference.connectTo(type.getParentLink());
-  }
+  public abstract TypeReference getTypeReference();
 
   public Type getType() throws MetamodelException {
     Type result = getTypeReference().getType();
@@ -166,4 +150,7 @@ public abstract class Variable<E extends Variable, P extends VariableContainer>
   }
 
 
+  public Variable alias(VariableSignature sig) {
+  	return new VariableAlias(sig,this);
+  }
 }

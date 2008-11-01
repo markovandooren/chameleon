@@ -27,9 +27,9 @@ import chameleon.core.variable.FormalParameter;
 import chameleon.util.Util;
 
 
-public abstract class Method<E extends Method, S extends MethodSignature> extends MemberImpl<E,Type,S> implements Definition<E,Type>, ModifierContainer<E,Type> {
+public abstract class Method<E extends Method<E,S>, S extends MethodSignature> extends MemberImpl<E,Type,S> implements Definition<E,Type,S>, ModifierContainer<E,Type> {
 
-	public Method(MethodSignature signature, TypeReference returnType) {
+	public Method(S signature, TypeReference returnType) {
 		setSignature(signature);
 		setExceptionClause(new ExceptionClause());
 		setReturnTypeReference(returnType);
@@ -227,7 +227,7 @@ public abstract class Method<E extends Method, S extends MethodSignature> extend
 		}.applyTo(modifiers());
 		// EXCEPTION CLAUSE
 		result.setExceptionClause(getExceptionClause().clone());
-		result.setSignature(signature().clone());
+		result.setSignature((S)signature().clone());
 		// IMPLEMENTATION
 		if(getImplementation() != null) {
 			result.setImplementation(getImplementation().clone());

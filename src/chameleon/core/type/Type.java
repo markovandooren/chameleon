@@ -42,13 +42,13 @@ import chameleon.core.variable.VariableContainer;
  *
  * @author Marko van Dooren
  */
-public abstract class Type<E extends Type> extends MemberImpl<Type,TypeContainer,TypeSignature> 
-                implements TargetDeclaration<Type,TypeContainer>, NamespaceOrType<Type,TypeContainer>, 
-                           TypeContainer<Type,TypeContainer>, VariableContainer<Type,TypeContainer>, 
-                           VariableOrType<Type,TypeContainer>, Definition<Type,TypeContainer>,
-                           StatementContainer<Type,TypeContainer>, 
-                           Cloneable, ExceptionSource<Type,TypeContainer>, ModifierContainer<Type,TypeContainer>, 
-                           Member<Type,TypeContainer>, DeclarationContainer<Type,TypeContainer> {
+public abstract class Type<E extends Type<E>> extends MemberImpl<E,TypeContainer,TypeSignature> 
+                implements TargetDeclaration<E,TypeContainer,TypeSignature>, NamespaceOrType<E,TypeContainer,TypeSignature>, 
+                           TypeContainer<E,TypeContainer>, VariableContainer<E,TypeContainer>, 
+                           VariableOrType<E,TypeContainer>, Definition<E,TypeContainer,TypeSignature>,
+                           StatementContainer<E,TypeContainer>, 
+                           Cloneable, ExceptionSource<E,TypeContainer>, ModifierContainer<E,TypeContainer>, 
+                           DeclarationContainer<E,TypeContainer> {
  
     /**
      * Initialize a new Type.
@@ -939,7 +939,11 @@ public abstract class Type<E extends Type> extends MemberImpl<Type,TypeContainer
         add(el.clone());
       }
   	}
-  	
+  
+  	public TypeAlias alias(TypeSignature sig) {
+      return new TypeAlias(sig,this);
+  	}
+
 
 }
 

@@ -18,7 +18,7 @@ import chameleon.core.modifier.ModifierContainer;
  * @param <E> The type of the element itself
  * @param <P> The type of the parent of the element
  */
-public interface TypeElement<E extends TypeElement, P extends Element> extends TypeDescendant<E, P>, ModifierContainer<E, P> {
+public interface TypeElement<E extends TypeElement<E,P>, P extends Element> extends TypeDescendant<E, P>, ModifierContainer<E, P> {
 
   public abstract E clone();
   

@@ -10,7 +10,7 @@ import chameleon.core.type.TypeReference;
 /**
  * @author Marko van Dooren
  */
-public class FormalParameter extends Variable<FormalParameter,VariableContainer> {
+public class FormalParameter extends RegularVariable<FormalParameter,VariableContainer> {
 
   public FormalParameter(VariableSignature sig, TypeReference type) {
     super(sig, type);

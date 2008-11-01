@@ -5,7 +5,7 @@ import java.util.Set;
 
 import chameleon.core.element.ChameleonProgrammerException;
 
-public class TypeAlias extends Type<TypeAlias>{
+public class TypeAlias extends Type<TypeAlias> {
 
 	public TypeAlias(TypeSignature sig, Type<? extends Type> aliasedType) {
 		super(sig);
@@ -21,7 +21,6 @@ public class TypeAlias extends Type<TypeAlias>{
 	
 	private final Type _aliasedType;
 
-	@Override
 	public TypeAlias clone() {
 		return new TypeAlias(signature().clone(), aliasedType());
 	}

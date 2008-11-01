@@ -1,27 +1,3 @@
-/*
- * Copyright 2000-2004 the Jnome development team.
- *
- * @author Marko van Dooren
- * @author Nele Smeets
- * @author Kristof Mertens
- * @author Jan Dockx
- *
- * This file is part of Jnome.
- *
- * Jnome is free software; you can redistribute it and/or modify it under the
- * terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * Jnome is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * Jnome; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
- * Suite 330, Boston, MA 02111-1307 USA
- */
 package chameleon.core.variable;
 
 
@@ -33,6 +9,7 @@ import java.util.Set;
 import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.declaration.Declaration;
 import chameleon.core.expression.Expression;
 import chameleon.core.member.Member;
 import chameleon.core.relation.StrictPartialOrder;
@@ -45,7 +22,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class MemberVariable extends InitializableVariable<MemberVariable,Type> implements Member<MemberVariable,Type>{
+public class MemberVariable extends InitializableVariable<MemberVariable,Type> implements Member<MemberVariable,Type,VariableSignature>{
   
   
   /**
@@ -84,7 +61,7 @@ public class MemberVariable extends InitializableVariable<MemberVariable,Type> i
       if(((Type)type).assignableTo(getParent())) {
         found = true; 
       }
-      type = ((Type<Type>)type).getParent(); 
+      type = ((Type<? extends Type>) type).getParent(); //stupid generics 
     }
     return found;
   }

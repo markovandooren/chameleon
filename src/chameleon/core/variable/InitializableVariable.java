@@ -15,8 +15,8 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public abstract class InitializableVariable<E extends InitializableVariable, P extends VariableContainer>
-                extends Variable<E,P> implements ExpressionContainer<E,P>, ExceptionSource<E,P> {
+public abstract class InitializableVariable<E extends InitializableVariable<E,P>, P extends VariableContainer>
+                extends RegularVariable<E,P> implements ExpressionContainer<E,P>, ExceptionSource<E,P> {
 
   public InitializableVariable(VariableSignature sig, TypeReference type, Expression initCode) {
     super(sig, type);

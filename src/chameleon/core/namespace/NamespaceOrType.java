@@ -24,18 +24,17 @@
  */
 package chameleon.core.namespace;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.context.Target;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
+import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
-import chameleon.core.type.Type;
 
 /**
  * @author Marko van Dooren
  */
 
-public interface NamespaceOrType<E extends NamespaceOrType, P extends DeclarationContainer> extends Target<E,P>, Element<E,P>, Declaration<E,P>, DeclarationContainer<E,P> {
+public interface NamespaceOrType<E extends NamespaceOrType<E,P,S>, P extends DeclarationContainer, S extends Signature> extends Target<E,P>, Element<E,P>, Declaration<E,P,S>, DeclarationContainer<E,P> {
 
 	public String getFullyQualifiedName();
   

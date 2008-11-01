@@ -41,14 +41,14 @@ import chameleon.core.type.TypeElement;
  * <E> The type of the element
  * <P> The type of the parent
  */
-public interface Member<E extends Member, P extends DeclarationContainer> extends TypeElement<E,P>, Declaration<E,P> {
+public interface Member<E extends Member<E,P,S>, P extends DeclarationContainer, S extends Signature> extends TypeElement<E,P>, Declaration<E,P,S> {
   
   
   /**
    * Set the signature of this member.
    * @param signature
    */
-  public void setSignature(Signature signature);
+  public void setSignature(S signature);
 
   
   /**

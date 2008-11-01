@@ -19,7 +19,7 @@ import chameleon.core.namespacepart.NamespacePartElementImpl;
  * @param <E> The type of the element
  * @param <P> The type of the parent
  */
-public abstract class TypeElementImpl<E extends TypeElementImpl, P extends Element> extends NamespacePartElementImpl<E, P> implements TypeElement<E,P> {
+public abstract class TypeElementImpl<E extends TypeElementImpl<E,P>, P extends Element> extends NamespacePartElementImpl<E, P> implements TypeElement<E,P> {
   
   /*************
    * MODIFIERS *

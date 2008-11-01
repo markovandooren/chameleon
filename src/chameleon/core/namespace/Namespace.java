@@ -51,7 +51,7 @@ import chameleon.util.Util;
  * @author Marko van Dooren
  */
 
-public class Namespace extends ElementImpl<Namespace,Namespace> implements NamespaceOrType<Namespace,Namespace>, IMetaModel, DeclarationContainer<Namespace, Namespace>, TargetDeclaration<Namespace, Namespace> {
+public class Namespace extends ElementImpl<Namespace,Namespace> implements NamespaceOrType<Namespace,Namespace,NamespaceSignature>, IMetaModel, DeclarationContainer<Namespace, Namespace>, TargetDeclaration<Namespace, Namespace,NamespaceSignature> {
   //FIXME
 	//SPEED : use hashmap to store the subnamespaces and forbid
 	//        adding multiple namespaces with the same name. That is
