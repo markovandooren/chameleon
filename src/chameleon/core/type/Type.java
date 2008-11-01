@@ -7,10 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.OrderedReferenceSet;
-import org.rejuse.association.Relation;
 import org.rejuse.java.collections.TypeFilter;
-import org.rejuse.java.collections.Visitor;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.PrimitivePredicate;
 import org.rejuse.predicate.TypePredicate;
@@ -21,6 +18,7 @@ import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Definition;
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
@@ -42,10 +40,10 @@ import chameleon.core.variable.VariableContainer;
  *
  * @author Marko van Dooren
  */
-public abstract class Type<E extends Type<E>> extends MemberImpl<E,TypeContainer,TypeSignature> 
-                implements TargetDeclaration<E,TypeContainer,TypeSignature>, NamespaceOrType<E,TypeContainer,TypeSignature>, 
+public abstract class Type<E extends Type<E>> extends MemberImpl<E,TypeContainer,SimpleNameSignature> 
+                implements TargetDeclaration<E,TypeContainer,SimpleNameSignature>, NamespaceOrType<E,TypeContainer,SimpleNameSignature>, 
                            TypeContainer<E,TypeContainer>, VariableContainer<E,TypeContainer>, 
-                           VariableOrType<E,TypeContainer>, Definition<E,TypeContainer,TypeSignature>,
+                           VariableOrType<E,TypeContainer>, Definition<E,TypeContainer,SimpleNameSignature>,
                            StatementContainer<E,TypeContainer>, 
                            Cloneable, ExceptionSource<E,TypeContainer>, ModifierContainer<E,TypeContainer>, 
                            DeclarationContainer<E,TypeContainer> {
@@ -69,7 +67,7 @@ public abstract class Type<E extends Type<E>> extends MemberImpl<E,TypeContainer
      @ post getMemberContext() == context;
      @ post getParent() == null;
      @*/
-    public Type(TypeSignature sig) {
+    public Type(SimpleNameSignature sig) {
         setSignature(sig);
     }
     
@@ -940,7 +938,7 @@ public abstract class Type<E extends Type<E>> extends MemberImpl<E,TypeContainer
       }
   	}
   
-  	public TypeAlias alias(TypeSignature sig) {
+  	public TypeAlias alias(SimpleNameSignature sig) {
       return new TypeAlias(sig,this);
   	}
 

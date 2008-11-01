@@ -8,6 +8,7 @@ import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.namespace.NamespaceOrTypeReference;
@@ -95,7 +96,11 @@ public class UsingAlias extends Import<UsingAlias> {
 
 	@Override
 	public Set<Declaration> directImports() throws MetamodelException {
-		need_type_alias();
+		//NEED simple name signature in chameleon
+		NamespaceOrType nst = getNamespaceOrTypeReference().getNamespaceOrType(); 
+    Set<Declaration> result = new HashSet<Declaration>();
+    result.add(nst.alias(new SimpleNameSignature(getIdentifier())));
+    return result;
 	}
 
 }

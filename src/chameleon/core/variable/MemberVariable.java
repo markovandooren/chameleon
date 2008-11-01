@@ -9,7 +9,7 @@ import java.util.Set;
 import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.expression.Expression;
 import chameleon.core.member.Member;
 import chameleon.core.relation.StrictPartialOrder;
@@ -22,20 +22,20 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class MemberVariable extends InitializableVariable<MemberVariable,Type> implements Member<MemberVariable,Type,VariableSignature>{
+public class MemberVariable extends InitializableVariable<MemberVariable,Type> implements Member<MemberVariable,Type,SimpleNameSignature>{
   
   
   /**
    * @param name
    */
-  public MemberVariable(VariableSignature sig, TypeReference type) {
+  public MemberVariable(SimpleNameSignature sig, TypeReference type) {
     super(sig, type, null);
   }
   
   /**
    * @param name
    */
-  public MemberVariable(VariableSignature sig, TypeReference type, Expression initCode) {
+  public MemberVariable(SimpleNameSignature sig, TypeReference type, Expression initCode) {
     super(sig, type, initCode);
   }
 

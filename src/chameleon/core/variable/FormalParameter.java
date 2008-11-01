@@ -3,7 +3,7 @@ package chameleon.core.variable;
 
 
 import chameleon.core.MetamodelException;
-import chameleon.core.accessibility.AccessibilityDomain;
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.method.Method;
 import chameleon.core.type.TypeReference;
 
@@ -12,7 +12,7 @@ import chameleon.core.type.TypeReference;
  */
 public class FormalParameter extends RegularVariable<FormalParameter,VariableContainer> {
 
-  public FormalParameter(VariableSignature sig, TypeReference type) {
+  public FormalParameter(SimpleNameSignature sig, TypeReference type) {
     super(sig, type);
   }
 

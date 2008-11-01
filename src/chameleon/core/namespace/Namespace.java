@@ -24,6 +24,7 @@
  */
 package chameleon.core.namespace;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,6 +40,7 @@ import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
@@ -51,7 +53,7 @@ import chameleon.util.Util;
  * @author Marko van Dooren
  */
 
-public class Namespace extends ElementImpl<Namespace,Namespace> implements NamespaceOrType<Namespace,Namespace,NamespaceSignature>, IMetaModel, DeclarationContainer<Namespace, Namespace>, TargetDeclaration<Namespace, Namespace,NamespaceSignature> {
+public abstract class Namespace extends ElementImpl<Namespace,Namespace> implements NamespaceOrType<Namespace,Namespace,SimpleNameSignature>, IMetaModel, DeclarationContainer<Namespace, Namespace>, TargetDeclaration<Namespace, Namespace,SimpleNameSignature> {
   //FIXME
 	//SPEED : use hashmap to store the subnamespaces and forbid
 	//        adding multiple namespaces with the same name. That is
@@ -70,7 +72,7 @@ public class Namespace extends ElementImpl<Namespace,Namespace> implements Names
 	 @
 	 @ post \result.getName().equals(name);
 	 @*/
-	public Namespace(NamespaceSignature sig) {
+	public Namespace(SimpleNameSignature sig) {
       setSignature(sig);
 	}
 
@@ -86,11 +88,11 @@ public class Namespace extends ElementImpl<Namespace,Namespace> implements Names
 	  /**
 	   * Return the signature of this member.
 	   */
-	  public NamespaceSignature signature() {
+	  public SimpleNameSignature signature() {
 	    return _signature.getOtherEnd();
 	  }
 		  
-	  private Reference<Namespace, NamespaceSignature> _signature = new Reference<Namespace, NamespaceSignature>(this);
+	  private Reference<Namespace, SimpleNameSignature> _signature = new Reference<Namespace, SimpleNameSignature>(this);
 
 	  public String getName() {
 		  return signature().getName();
@@ -129,19 +131,13 @@ public class Namespace extends ElementImpl<Namespace,Namespace> implements Names
 	 * PACKAGEPART
 	 **************/
 
-	private ReferenceSet<Namespace,NamespacePart> _namespaceParts = new ReferenceSet<Namespace,NamespacePart>(this);
+//	public ReferenceSet getNamespacePartsLink(){
+//		return _namespaceParts;
+//	}
 
-	public ReferenceSet getNamespacePartsLink(){
-		return _namespaceParts;
-	}
+	public abstract void addNamespacePart(NamespacePart namespacePart);
 
-	public void addNamespacePart(NamespacePart namespacePart){
-		namespacePart.getNamespaceLink().connectTo(_namespaceParts);
-	}
-
-	public List getNamespaceParts(){
-		return _namespaceParts.getOtherEnds();
-	}
+	public abstract List<NamespacePart> getNamespaceParts();
 
 	/**
 	 * Return the default package of this metamodel instance.
@@ -218,8 +214,9 @@ public class Namespace extends ElementImpl<Namespace,Namespace> implements Names
 	 @ post \result != null;
 	 @*/
 	protected Namespace createNamespace(String name){
-	  	return new Namespace(new NamespaceSignature(name));
-	  }
+	  return new RegularNamespace(new SimpleNameSignature(name));
+	}
+	
 	/**
 	 * Return the direct subpackage with the given short name.
 	 *
@@ -437,8 +434,9 @@ public class Namespace extends ElementImpl<Namespace,Namespace> implements Names
 	   @ post \result.containsAll(getCompilationUnits());
 	   @*/
 	  public List<? extends Element> getChildren() {
-	    List<? extends Element> result = getSubNamespaces();
-	    result.addAll(getNamespaceParts());
+	    List<Element> result = new ArrayList<Element>();
+      result.addAll(getSubNamespaces());
+	    result.addAll( getNamespaceParts());
 	    return result;
 	  }
 
@@ -453,10 +451,10 @@ public class Namespace extends ElementImpl<Namespace,Namespace> implements Names
 			getParentLink().connectTo(ns.getSubNamespacesLink());
 		}
 
-    @Override
-    public Namespace clone() {
-      return new Namespace(signature().clone());
-    }
+//    @Override
+//    public Namespace clone() {
+//      return new Namespace(signature().clone());
+//    }
 
 	public TargetContext targetContext() throws MetamodelException {
 		return language().contextFactory().createTargetContext(this);
@@ -467,6 +465,10 @@ public class Namespace extends ElementImpl<Namespace,Namespace> implements Names
 		result.addAll(getSubNamespaces());
 		result.addAll(getTypes());
 		return result;
+	}
+
+	public Declaration alias(SimpleNameSignature sig) {
+		return new NamespaceAlias(sig,this);
 	}
 
 }

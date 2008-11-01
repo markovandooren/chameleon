@@ -161,7 +161,7 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 
 	public void setNamespace(Namespace pack) {
 		if (pack != null) {
-			_namespaceLink.connectTo(pack.getNamespacePartsLink());
+			pack.addNamespacePart(this);
 		} else {
 			_namespaceLink.connectTo(null);
 		}

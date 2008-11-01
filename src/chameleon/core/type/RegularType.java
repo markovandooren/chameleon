@@ -5,14 +5,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.rejuse.association.OrderedReferenceSet;
-import org.rejuse.java.collections.Visitor;
 
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
-import chameleon.core.modifier.Modifier;
 
 public class RegularType extends Type<RegularType> {
 
-	public RegularType(TypeSignature sig) {
+	public RegularType(SimpleNameSignature sig) {
 		super(sig);
 	}
 

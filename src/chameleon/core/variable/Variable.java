@@ -11,7 +11,7 @@ import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.context.TargetContext;
-import chameleon.core.declaration.Signature;
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
 import chameleon.core.modifier.Modifier;
@@ -27,13 +27,13 @@ import chameleon.util.Util;
  */
 public abstract class Variable<E extends Variable<E,P>, P extends VariableContainer> 
                 extends TypeDescendantImpl<E,P> 
-                implements VariableOrType<E,P>,ModifierContainer<E,P>, TargetDeclaration<E,P,VariableSignature>{
+                implements VariableOrType<E,P>,ModifierContainer<E,P>, TargetDeclaration<E,P,SimpleNameSignature>{
 
-  public Variable(VariableSignature sig) {
+  public Variable(SimpleNameSignature sig) {
     setSignature(sig);
   }
   
-  public void setSignature(VariableSignature signature) {
+  public void setSignature(SimpleNameSignature signature) {
     if(signature != null) {
       _signature.connectTo(signature.getParentLink());
     } else {
@@ -44,11 +44,11 @@ public abstract class Variable<E extends Variable<E,P>, P extends VariableContai
   /**
    * Return the signature of this member.
    */
-  public VariableSignature signature() {
+  public SimpleNameSignature signature() {
     return _signature.getOtherEnd();
   }
   
-  private Reference<Variable, VariableSignature> _signature = new Reference<Variable, VariableSignature>(this);
+  private Reference<Variable, SimpleNameSignature> _signature = new Reference<Variable, SimpleNameSignature>(this);
 
   /**
    * Return the name of this variable.
@@ -150,7 +150,7 @@ public abstract class Variable<E extends Variable<E,P>, P extends VariableContai
   }
 
 
-  public Variable alias(VariableSignature sig) {
+  public Variable alias(SimpleNameSignature sig) {
   	return new VariableAlias(sig,this);
   }
 }

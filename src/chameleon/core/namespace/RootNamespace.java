@@ -29,16 +29,19 @@ package chameleon.core.namespace;
 import org.rejuse.association.Reference;
 
 import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.language.Language;
 import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.type.Type;
 
-public class RootNamespace extends Namespace {
-
+public class RootNamespace extends RegularNamespace {
+// @FIXME
+// Create Model, and introduce NamespaceContainer
+	
   /**
    * @param name
    */
-  public RootNamespace(NamespaceSignature sig, Language language) {
+  public RootNamespace(SimpleNameSignature sig, Language language) {
     super(sig);
    // NamespacePart pp = new NamespacePart(this, nspLocalContext);
     //_nullType = new NullType(pp);

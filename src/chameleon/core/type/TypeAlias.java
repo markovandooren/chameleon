@@ -3,11 +3,12 @@ package chameleon.core.type;
 import java.util.List;
 import java.util.Set;
 
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 
 public class TypeAlias extends Type<TypeAlias> {
 
-	public TypeAlias(TypeSignature sig, Type<? extends Type> aliasedType) {
+	public TypeAlias(SimpleNameSignature sig, Type<? extends Type> aliasedType) {
 		super(sig);
 		_aliasedType = aliasedType;
 		setUniParent(aliasedType.getParent());

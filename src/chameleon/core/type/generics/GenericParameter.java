@@ -5,19 +5,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import chameleon.core.MetamodelException;
-import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.DeclarationContainer;
-import chameleon.core.declaration.DeclarationSelector;
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.member.Member;
 import chameleon.core.member.MemberImpl;
 import chameleon.core.type.Type;
-import chameleon.core.type.TypeSignature;
 
-public class GenericParameter extends MemberImpl<GenericParameter, Type, TypeSignature> {
+public class GenericParameter extends MemberImpl<GenericParameter, Type, SimpleNameSignature> {
 
-	public GenericParameter(TypeSignature signature) {
+	public GenericParameter(SimpleNameSignature signature) {
 		setSignature(signature);
 	}
 	

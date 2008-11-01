@@ -11,6 +11,7 @@ import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.accessibility.AccessibilityDomain;
+import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Definition;
 import chameleon.core.element.Element;
 import chameleon.core.member.Member;
@@ -29,10 +30,8 @@ import chameleon.util.Util;
 
 public abstract class Method<E extends Method<E,S>, S extends MethodSignature> extends MemberImpl<E,Type,S> implements Definition<E,Type,S>, ModifierContainer<E,Type> {
 
-	public Method(S signature, TypeReference returnType) {
+	public Method(S signature) {
 		setSignature(signature);
-		setExceptionClause(new ExceptionClause());
-		setReturnTypeReference(returnType);
 	}
 	
 	public boolean complete() {
@@ -49,27 +48,15 @@ public abstract class Method<E extends Method<E,S>, S extends MethodSignature> e
 	 * IMPLEMENTATION *
 	 ******************/
 	
-	public Implementation getImplementation() {
-		return _implementationLink.getOtherEnd();
-	}
+	public abstract Implementation getImplementation();
 
-	public Reference<Method,Implementation> getImplementationlink() {
-		return _implementationLink;
-	}
-
-	private Reference<Method,Implementation> _implementationLink = new Reference<Method,Implementation>(this);
+//	public Reference<Method,Implementation> getImplementationlink() {
+//		return _implementationLink;
+//	}
 
 
-	public void setImplementation(Implementation implementation) {
-		if (implementation != null) {
-			_implementationLink.connectTo(implementation.getParentLink());
-		}
-		else {
-			_implementationLink.connectTo(null);
-		}
-	}
 
-
+	public abstract void setImplementation(Implementation implementation);
 
 
 
@@ -189,20 +176,7 @@ public abstract class Method<E extends Method<E,S>, S extends MethodSignature> e
 	 * RETURN TYPE *
 	 ***************/
 
-	private Reference<Method,TypeReference> _typeReference = new Reference<Method,TypeReference>(this);
-
-	public TypeReference getReturnTypeReference() {
-		return _typeReference.getOtherEnd();
-	}
-
-	public void setReturnTypeReference(TypeReference type) {
-		if(type != null) {
-			_typeReference.connectTo(type.getParentLink());
-		}
-		else {
-			_typeReference.connectTo(null);
-		}
-	}
+	public abstract TypeReference getReturnTypeReference();
 
 	/**
 	 * Return the type of this method.
@@ -263,24 +237,9 @@ public abstract class Method<E extends Method<E,S>, S extends MethodSignature> e
 		return (getImplementation() == null) || getImplementation().hasValidCatchClauses();
 	}
 
-  /**
-   * EXCEPTION CLAUSE
-   */
-  private Reference<Method<? extends Method,? extends MethodSignature>,ExceptionClause> _exceptionClause = new Reference<Method<? extends Method,? extends MethodSignature>,ExceptionClause>(this);
+  public abstract ExceptionClause getExceptionClause();
 
-
-  public ExceptionClause getExceptionClause() {
-    return _exceptionClause.getOtherEnd();
-  }
-
-  public void setExceptionClause(ExceptionClause clause) {
-    if(clause != null) {
-      _exceptionClause.connectTo(clause.getParentLink());
-    }
-    else {
-      _exceptionClause.connectTo(null);
-    }
-  }
+  public abstract void setExceptionClause(ExceptionClause clause);
 
 	/**
 	 * Check whether or not all elements of the exception are at least as visible as this method.
@@ -471,5 +430,9 @@ public abstract class Method<E extends Method<E,S>, S extends MethodSignature> e
 //		}
 //
 //	}
+
+	public Declaration alias(MethodSignature sig) {
+		return new MethodAlias(sig,this);
+	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.expression.Expression;
 import chameleon.core.expression.ExpressionContainer;
 import chameleon.core.statement.CheckedExceptionList;
@@ -18,7 +19,7 @@ import chameleon.util.Util;
 public abstract class InitializableVariable<E extends InitializableVariable<E,P>, P extends VariableContainer>
                 extends RegularVariable<E,P> implements ExpressionContainer<E,P>, ExceptionSource<E,P> {
 
-  public InitializableVariable(VariableSignature sig, TypeReference type, Expression initCode) {
+  public InitializableVariable(SimpleNameSignature sig, TypeReference type, Expression initCode) {
     super(sig, type);
     setInitialization(initCode);
   }
