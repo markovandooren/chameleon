@@ -6,7 +6,7 @@ import java.util.Set;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 
-public class TypeAlias extends Type<TypeAlias> {
+public class TypeAlias<E extends TypeAlias<E>> extends Type<E> {
 
 	public TypeAlias(SimpleNameSignature sig, Type<? extends Type> aliasedType) {
 		super(sig);
@@ -22,8 +22,11 @@ public class TypeAlias extends Type<TypeAlias> {
 	
 	private final Type _aliasedType;
 
-	public TypeAlias clone() {
-		return new TypeAlias(signature().clone(), aliasedType());
+	/**
+	 * OVERRIDE IN SUBCLASSES !!!!
+	 */
+	public E clone() {
+		return (E) new TypeAlias(signature().clone(), aliasedType());
 	}
 
 	@Override
