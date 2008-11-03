@@ -454,7 +454,7 @@ public abstract class Type<E extends Type<E>> extends MemberImpl<E,TypeContainer
      * Return the members directly declared by this type.
      * @return
      */
-    public abstract Set<TypeElement> directlyDeclaredElements();
+    public abstract Set<? extends TypeElement> directlyDeclaredElements();
 
     public Set<Member> members() throws MetamodelException {
       return members(Member.class);
@@ -938,10 +938,23 @@ public abstract class Type<E extends Type<E>> extends MemberImpl<E,TypeContainer
       }
   	}
   
-  	public TypeAlias alias(SimpleNameSignature sig) {
+  	public Type alias(SimpleNameSignature sig) {
       return new TypeAlias(sig,this);
   	}
 
+  	public Type union(Type type) {
+  		return type.unionDoubleDispatch(type);
+  	}
+  	
+  	protected Type unionDoubleDispatch(Type type) {
+  		return new UnionType(this,type);
+  	}
+
+  	protected Type unionDoubleDispatch(UnionType type) {
+  		UnionType result = type.clone();
+  		result.addType(type);
+  		return result;
+  	}
 
 }
 

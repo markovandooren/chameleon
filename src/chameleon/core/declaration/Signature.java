@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.element.Element;
 import chameleon.core.namespacepart.NamespacePartElementImpl;
 
 /**
@@ -13,7 +14,7 @@ import chameleon.core.namespacepart.NamespacePartElementImpl;
  * 
  * @author Marko van Dooren
  */
-public abstract class Signature<E extends Signature, P extends Declaration> extends NamespacePartElementImpl<E,P> {
+public abstract class Signature<E extends Signature, P extends Element> extends NamespacePartElementImpl<E,P> {
   
   public abstract E clone();
   
