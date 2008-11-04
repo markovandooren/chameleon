@@ -153,4 +153,8 @@ public abstract class Variable<E extends Variable<E,P>, P extends VariableContai
   public Variable alias(SimpleNameSignature sig) {
   	return new VariableAlias(sig,this);
   }
+  
+  public Variable resolve() {
+  	return this;
+  }
 }

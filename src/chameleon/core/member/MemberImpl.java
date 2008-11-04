@@ -71,5 +71,9 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S>,P extends Declarati
     }
     return result;
   }
+  
+  public Declaration resolve() throws MetamodelException {
+  	return this;
+  }
 
 }

@@ -2,10 +2,10 @@ package chameleon.core.type;
 
 import chameleon.core.declaration.SimpleNameSignature;
 
-public class TypeAlias extends TypeIndirection<TypeAlias>{
+public class TypeAlias extends TypeIndirection {
 
 	
-	public TypeAlias(SimpleNameSignature sig, Type<? extends Type> aliasedType) {
+	public TypeAlias(SimpleNameSignature sig, Type aliasedType) {
 		super(sig, aliasedType);
 	}
 

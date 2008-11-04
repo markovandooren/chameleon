@@ -471,4 +471,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 		return new NamespaceAlias(sig,this);
 	}
 
+	public Namespace resolve() {
+		return this;
+	}
 }

@@ -6,6 +6,7 @@ import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
+import chameleon.core.MetamodelException;
 import chameleon.core.element.Element;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.ModifierContainer;
@@ -24,6 +25,7 @@ public interface TypeElement<E extends TypeElement<E,P>, P extends Element> exte
   
   /**
    * Return the set of members introduced into the parent type (if any) of this type element.
+   * @throws MetamodelException 
    */
  /*@
    @ public behavior

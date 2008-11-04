@@ -8,36 +8,36 @@ import java.util.Set;
 import org.rejuse.association.Reference;
 import org.rejuse.association.ReferenceSet;
 
-import chameleon.core.declaration.Declaration;
+import chameleon.core.MetamodelException;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.member.Member;
+import chameleon.core.member.MemberImpl;
 import chameleon.core.type.ConstructedType;
 import chameleon.core.type.Type;
-import chameleon.core.type.TypeElementImpl;
 
-public class GenericParameter extends TypeElementImpl<GenericParameter, Type> {
+public class GenericParameter extends MemberImpl<GenericParameter, Type, SimpleNameSignature> {
 
 	public GenericParameter(SimpleNameSignature signature) {
 		setSignature(signature);
 	}
 	
-  public void setSignature(SimpleNameSignature signature) {
-    if(signature != null) {
-      _signature.connectTo(signature.getParentLink());
-    } else {
-      _signature.connectTo(null);
-    }
-  }
+//  public void setSignature(SimpleNameSignature signature) {
+//    if(signature != null) {
+//      _signature.connectTo(signature.getParentLink());
+//    } else {
+//      _signature.connectTo(null);
+//    }
+//  }
   
-  /**
-   * Return the signature of this member.
-   */
-  public SimpleNameSignature signature() {
-    return _signature.getOtherEnd();
-  }
-  
-  private Reference<GenericParameter, SimpleNameSignature> _signature = new Reference<GenericParameter, SimpleNameSignature>(this);
+//  /**
+//   * Return the signature of this member.
+//   */
+//  public SimpleNameSignature signature() {
+//    return _signature.getOtherEnd();
+//  }
+//  
+//  private Reference<GenericParameter, SimpleNameSignature> _signature = new Reference<GenericParameter, SimpleNameSignature>(this);
 
 	@Override
 	public GenericParameter clone() {
@@ -47,11 +47,17 @@ public class GenericParameter extends TypeElementImpl<GenericParameter, Type> {
 	
 	/**
 	 * A generic parameter introduces a special type alias for the bound.
+	 * @throws MetamodelException 
 	 */
 	public Set<Member> getIntroducedMembers() {
 		Set<Member> result = new HashSet<Member>();
-		result.add(new ConstructedType(signature().clone(),lowerBound(),this));
+//		result.add(new ConstructedType(signature().clone(),lowerBound(),this));
+		result.add(this);
 		return result;
+	}
+	
+	public Type resolve() throws MetamodelException {
+		return new ConstructedType(signature().clone(),lowerBound(),this);
 	}
 
 	public Type getNearestType() {
@@ -75,7 +81,7 @@ public class GenericParameter extends TypeElementImpl<GenericParameter, Type> {
 		}
 	}
 
-	public Type lowerBound() {
+	public Type lowerBound() throws MetamodelException {
 		Type result = language().getDefaultSuperClass();
 		for(TypeConstraint constraint: constraints()) {
 			result = result.union(constraint.lowerBound());

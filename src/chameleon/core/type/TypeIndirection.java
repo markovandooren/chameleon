@@ -6,9 +6,9 @@ import java.util.Set;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 
-public abstract class TypeIndirection<E extends TypeIndirection<E>> extends Type<E> {
+public abstract class TypeIndirection extends Type {
 
-	public TypeIndirection(SimpleNameSignature sig, Type<? extends Type> aliasedType) {
+	public TypeIndirection(SimpleNameSignature sig, Type aliasedType) {
 		super(sig);
 		_aliasedType = aliasedType;
 		setUniParent(aliasedType.getParent());
@@ -29,7 +29,7 @@ public abstract class TypeIndirection<E extends TypeIndirection<E>> extends Type
 
 	@Override
 	public Set<TypeElement> directlyDeclaredElements() {
-		return aliasedType().directlyDeclaredElements();
+		return (Set<TypeElement>) aliasedType().directlyDeclaredElements();
 	}
 
 	@Override

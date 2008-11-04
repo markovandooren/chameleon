@@ -6,10 +6,11 @@ import java.util.Set;
 
 import org.rejuse.association.OrderedReferenceSet;
 
+import chameleon.core.MetamodelException;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 
-public class RegularType extends Type<RegularType> {
+public class RegularType extends Type {
 
 	public RegularType(SimpleNameSignature sig) {
 		super(sig);
@@ -37,6 +38,7 @@ public class RegularType extends Type<RegularType> {
   /**
    * Return the members directly declared by this type.
    * @return
+   * @throws MetamodelException 
    */
   public Set<TypeElement> directlyDeclaredElements() {
      Set<TypeElement> result = new HashSet<TypeElement>();

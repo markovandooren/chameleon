@@ -61,7 +61,7 @@ public class MemberVariable extends InitializableVariable<MemberVariable,Type> i
       if(((Type)type).assignableTo(getParent())) {
         found = true; 
       }
-      type = ((Type<? extends Type>) type).getParent(); //stupid generics 
+      type = ((Type) type).getParent(); //stupid generics 
     }
     return found;
   }

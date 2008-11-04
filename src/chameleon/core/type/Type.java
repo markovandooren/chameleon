@@ -40,13 +40,13 @@ import chameleon.core.variable.VariableContainer;
  *
  * @author Marko van Dooren
  */
-public abstract class Type<E extends Type<E>> extends MemberImpl<E,TypeContainer,SimpleNameSignature> 
-                implements TargetDeclaration<E,TypeContainer,SimpleNameSignature>, NamespaceOrType<E,TypeContainer,SimpleNameSignature>, 
-                           TypeContainer<E,TypeContainer>, VariableContainer<E,TypeContainer>, 
-                           VariableOrType<E,TypeContainer>, Definition<E,TypeContainer,SimpleNameSignature>,
-                           StatementContainer<E,TypeContainer>, 
-                           Cloneable, ExceptionSource<E,TypeContainer>, ModifierContainer<E,TypeContainer>, 
-                           DeclarationContainer<E,TypeContainer> {
+public abstract class Type extends MemberImpl<Type,TypeContainer,SimpleNameSignature> 
+                implements TargetDeclaration<Type,TypeContainer,SimpleNameSignature>, NamespaceOrType<Type,TypeContainer,SimpleNameSignature>, 
+                           TypeContainer<Type,TypeContainer>, VariableContainer<Type,TypeContainer>, 
+                           VariableOrType<Type,TypeContainer>, Definition<Type,TypeContainer,SimpleNameSignature>,
+                           StatementContainer<Type,TypeContainer>, 
+                           Cloneable, ExceptionSource<Type,TypeContainer>, ModifierContainer<Type,TypeContainer>, 
+                           DeclarationContainer<Type,TypeContainer> {
  
     /**
      * Initialize a new Type.
@@ -293,155 +293,6 @@ public abstract class Type<E extends Type<E>> extends MemberImpl<E,TypeContainer
      @*/
   	public abstract void removeSuperType(TypeReference type);
 
-
-//    /***********
-//     * METHODS *
-//     ***********/
-//
-//    /**
-//     * Return the methods defined and declared directly in this type.
-//     */
-//    public List getMethods() {
-//        return getMemberMethods();
-//    }
-
-//    /**
-//     * Return the list of all methods introduced in this type by its members.
-//     */
-//    /*@
-//        @ public behavior
-//        @
-//        @ post \result != null;
-//        @ // All introduced methods are present in the result.
-//        @ post (\forall Member member; getMembers().contains(member);
-//        @         \result.containsAll(member.getIntroducedMethods()));
-//        @ // All methods in the result are introduced by a member.
-//        @ post (\forall Method method; \result.contains(method);
-//        @        (\exists Member member; getMembers().contains(member);
-//        @          member.getIntroducedMethods().contains(method)));
-//        @*/
-//    public List getMemberMethods() {
-//        List members = getMembers();
-//        final List result = new ArrayList();
-//        new Visitor() {
-//            public void visit(Object element) {
-//                try {
-//                    result.addAll(((Member)element).getIntroducedMethods());
-//                } catch (ClassCastException exc) {
-//                    exc.printStackTrace();
-//                }
-//            }
-//        }.applyTo(members);
-//        return result;
-//    }
-
-//     /**
-//      * Return the list of all variables introduced in this type by its members.
-//      */
-//    /*@
-//      @ public behavior
-//      @
-//      @ post \result != null;
-//      @ // All introduced variables are present in the result.
-//      @ post (\forall Member member; getMembers().contains(member);
-//      @         \result.containsAll(member.getIntroducedVariables()));
-//      @ // All variables in the result are introduced by a member.
-//      @ post (\forall Variable variable; \result.contains(variable);
-//      @        (\exists Member member; getMembers().contains(member);
-//      @          member.getIntroducedVariables().contains(variable)));
-//      @*/
-//    public List getVariables() {
-//        List members = getMembers();
-//        final List result = new ArrayList();
-//        new Visitor() {
-//            public void visit(Object element) {
-//              result.addAll(((Member)element).getIntroducedVariables());
-//            }
-//        }.applyTo(members);
-//        return result;
-//    }
-
-//    public List getIntroducingMembers() {
-//        List members = getMembers();
-//        final List result = new ArrayList();
-//        new Visitor() {
-//            public void visit(Object element) {
-//                    result.addAll(((Member)element).getIntroducedIntroducingMembers());
-//            }
-//        }.applyTo(members);
-//        return result;
-//    }
-
-//  	/***********
-//  	 * METHODS *
-//  	 ***********/
-//  	public void addMethod(Method m) {
-//  		_members.add(m.getParentLink());
-//  	}
-//
-//  	// remove method in model
-//  	public void removeMethod(Method m) {
-//  		_members.remove(m.getParentLink());
-//  	}
-//
-//  	public void replaceMethod(Method oldMethod, Method newMethod) {
-//  		_members.replace(oldMethod.getParentLink(), newMethod.getParentLink());
-//  	}
-//
-//
-//    public void addIntroducingMember(IntroducingMember im) {
-//      getMembersLink().add(im.getParentLink());
-//    }
-
-//  // remove mehtod in model
-//  public void removeMethod(NonConstructor m) {
-//  	_members.remove(m.getTypeLink());
-//  }
-//
-//  // replace method in model
-//  public void replaceMethod(NonConstructor oldMethod, NonConstructor newMethod){
-//  	_members.replace(oldMethod.getTypeLink(), newMethod.getTypeLink());
-//  }
-//
-//    public OrderedReferenceSet getMethodsLink() {
-//        return getMembersLink();
-//    }
-//
-//    //private ReferenceSet _methods = new ReferenceSet(this);
-//
-//    protected List getMethods(Class type) {
-//        List result = getMethods();
-//        new TypePredicate(type).filter(result);
-//        return result;
-//    }
-//
-//    public Set getAllMethods() throws MetamodelException {
-//        return getAllMethods(Method.class);
-//    }
-
-//    private List getAllMethodsSimple(final Class type) throws MetamodelException {
-//        final List result = getMethods(type);
-//
-//        //Add methods from supertypes, ...
-//        try {
-//            new RobustVisitor() {
-//                public Object visit(Object element) throws MetamodelException {
-//                    result.addAll(((Type)element).getAllMethodsSimple(type));
-//                    return null;
-//                }
-//
-//                public void unvisit(Object element, Object undo) {
-//                }
-//            }.applyTo(getDirectSuperTypes());
-//        } catch (MetamodelException e) {
-//            throw e;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            throw new Error();
-//        }
-//        return result;
-//    }
-    
     /**
      * Return the members of the given kind directly declared by this type.
      * @return
@@ -878,7 +729,7 @@ public abstract class Type<E extends Type<E>> extends MemberImpl<E,TypeContainer
 //        }
 //    }
 
-    public abstract E clone();
+    public abstract Type clone();
 
 //    protected abstract Type cloneThis();
 
@@ -926,7 +777,7 @@ public abstract class Type<E extends Type<E>> extends MemberImpl<E,TypeContainer
     	return result;
     }
 
-  	protected void copyContents(Type<? extends Type> from) {
+  	protected void copyContents(Type from) {
   		for(TypeReference tref : from.getSuperTypeReferences()) {
         addSuperType(tref.clone());
   		}

@@ -3,7 +3,7 @@ package chameleon.core.type;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.type.generics.GenericParameter;
 
-public class ConstructedType extends TypeIndirection<ConstructedType>{
+public class ConstructedType extends TypeIndirection {
 
 	public ConstructedType(SimpleNameSignature sig, Type aliasedType, GenericParameter param) {
 		super(sig, aliasedType);

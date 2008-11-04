@@ -10,8 +10,10 @@ import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
+import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.namespace.NamespaceOrTypeReference;
+import chameleon.core.type.Type;
 import chameleon.util.Util;
 
 /**
@@ -96,10 +98,14 @@ public class UsingAlias extends Import<UsingAlias> {
 
 	@Override
 	public Set<Declaration> directImports() throws MetamodelException {
-		//NEED simple name signature in chameleon
+		//@FIXME bad design: 
 		NamespaceOrType nst = getNamespaceOrTypeReference().getNamespaceOrType(); 
     Set<Declaration> result = new HashSet<Declaration>();
-    result.add(nst.alias(new SimpleNameSignature(getIdentifier())));
+    if(nst instanceof Type) {
+      result.add(((Type) nst).alias(new SimpleNameSignature(getIdentifier())));
+    } else if (nst instanceof Namespace) {
+    	result.add(((Namespace) nst).alias(new SimpleNameSignature(getIdentifier())));    	
+    }
     return result;
 	}
 

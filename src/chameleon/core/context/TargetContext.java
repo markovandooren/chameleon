@@ -43,7 +43,12 @@ public class TargetContext<E extends DeclarationContainer> extends Context {
 	 * @throws MetamodelException 
 	 */
   public Set<Declaration> directDeclarations() throws MetamodelException {
-  	return element().declarations(); 
+  	Set<Declaration> result = new HashSet<Declaration>();
+  	Set<Declaration> tmp = element().declarations();
+  	for(Declaration decl: tmp) { // does not compile when inlined, stupid Java
+  		result.add(decl.resolve());
+  	}
+  	return result;
   }
 
 

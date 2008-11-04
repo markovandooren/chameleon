@@ -47,7 +47,7 @@ public class TypeReference extends NamespaceOrTypeReference<TypeReference,Type> 
 		@Override
 		public Type filter(Declaration declaration) throws MetamodelException {
 		  Type result;
-		  if((declaration instanceof Type) && (((Type<? extends Type>)declaration).signature().getName().equals(getName()))) {
+		  if((declaration instanceof Type) && (((Type)declaration).signature().getName().equals(getName()))) {
 			result = (Type) declaration;
 		  } else {
 			result = null;

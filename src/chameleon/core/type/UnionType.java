@@ -14,7 +14,7 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.member.Member;
 
-public class UnionType extends Type<UnionType> {
+public class UnionType extends Type {
 
 	UnionType(Type first, Type second) {
 		super(createSignature(Arrays.asList(new Type[]{first,second})));

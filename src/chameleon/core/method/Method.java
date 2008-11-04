@@ -434,5 +434,5 @@ public abstract class Method<E extends Method<E,S>, S extends MethodSignature> e
 	public Declaration alias(MethodSignature sig) {
 		return new MethodAlias(sig,this);
 	}
-
+	
 }
