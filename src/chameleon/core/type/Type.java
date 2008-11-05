@@ -323,8 +323,8 @@ public abstract class Type extends MemberImpl<Type,TypeContainer,SimpleNameSigna
         // 1) All defined members of the requested kind are added.
     final HashSet<M> result = new HashSet(directlyDeclaredElements(kind));
 
-    // 2) Fetch all INHERITABLE methods from supertypes of the requested kind
-    final List supers = new ArrayList();
+    // 2) Fetch all INHERITABLE members from supertypes of the requested kind
+    final List<M> supers = new ArrayList<M>();
     try {
 
       for (Type t : getDirectSuperTypes()) {
@@ -338,7 +338,7 @@ public abstract class Type extends MemberImpl<Type,TypeContainer,SimpleNameSigna
             } else if (temp == Ternary.FALSE) {
               result = false;
             } else {
-              assert (temp == Ternary.UNKNOWN);
+              //assert (temp == Ternary.UNKNOWN);
               throw new MetamodelException(
                   "For one of the members of a super type of "
                       + getFullyQualifiedName()
