@@ -9,6 +9,7 @@ import org.rejuse.association.OrderedReferenceSet;
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
+import chameleon.core.type.inheritance.InheritanceRelation;
 
 public class RegularType extends Type {
 
@@ -48,20 +49,20 @@ public class RegularType extends Type {
      return result;
   }
 
-	private OrderedReferenceSet<Type, TypeReference> _superTypes = new OrderedReferenceSet<Type, TypeReference>(this);
+	private OrderedReferenceSet<Type, InheritanceRelation> _inheritanceRelations = new OrderedReferenceSet<Type, InheritanceRelation>(this);
 
-	public void removeSuperType(TypeReference type) {
-		_superTypes.remove(type.getParentLink());
+	public void removeInheritanceRelation(InheritanceRelation relation) {
+		_inheritanceRelations.remove(relation.getParentLink());
 	}
 
 	@Override
-	public List<TypeReference> getSuperTypeReferences() {
-		return _superTypes.getOtherEnds();
+	public List<InheritanceRelation> inheritanceRelations() {
+		return _inheritanceRelations.getOtherEnds();
 	}
 	
 	@Override
-	public void addSuperType(TypeReference type) throws ChameleonProgrammerException {
-		_superTypes.add(type.getParentLink());
+	public void addInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException {
+		_inheritanceRelations.add(relation.getParentLink());
 	}
 
 }

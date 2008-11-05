@@ -31,6 +31,7 @@ import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
 import chameleon.core.statement.StatementContainer;
+import chameleon.core.type.inheritance.InheritanceRelation;
 import chameleon.core.variable.VariableContainer;
 
 /**
@@ -176,19 +177,22 @@ public abstract class Type extends MemberImpl<Type,TypeContainer,SimpleNameSigna
 
     public List<Type> getDirectSuperTypes() throws MetamodelException {
             final ArrayList<Type> result = new ArrayList<Type>();
-            for(TypeReference element:getSuperTypeReferences()) {
-                    String nnn = ((TypeReference)element).getName();
-                    Type type = ((TypeReference)element).getType();
-                    if (type!=null) {
-                        result.add(type);
-                    } else {
-                        ((TypeReference)element).getType();
-                        throw new MetamodelException();
-                    }
-                    return null;
-                }
+            for(InheritanceRelation element:inheritanceRelations()) {
+              Type type = element.superType();
+              if (type!=null) {
+                result.add(type);
+              }
+            }
             return result;
     }
+
+    public List<Type> getDirectSuperClasses() throws MetamodelException {
+      final ArrayList<Type> result = new ArrayList<Type>();
+      for(InheritanceRelation element:inheritanceRelations()) {
+        result.add(element.superClass());
+      }
+      return result;
+}
 
     protected void accumulateAllSuperTypes(Set<Type> acc) throws MetamodelException {
     	List<Type> temp =getDirectSuperTypes();
@@ -253,46 +257,47 @@ public abstract class Type extends MemberImpl<Type,TypeContainer,SimpleNameSigna
     	return (equal || subtype);
     }
 
+    
   	/**
-  	 * Return the super type reference of this type.
+  	 * Return the inheritance relations of this type.
   	 */
    /*@
      @ public behavior
      @
      @ post \result != null;
      @*/
-  	public abstract List<TypeReference> getSuperTypeReferences();
+  	public abstract List<InheritanceRelation> inheritanceRelations();
 
   	/**
-  	 * Add the give type reference as a super type.
+  	 * Add the give given inheritance relation to this type.
   	 * @param type
   	 * @throws ChameleonProgrammerException
   	 *         It is not possible to add the given type. E.g. you cannot
-  	 *         add a super type reference to a computed type.
+  	 *         add an inheritance relation to a computed type.
   	 */
    /*@
      @ public behavior
      @
-     @ pre type != null;
-     @ post getSuperTypeReferences().contains(type)
+     @ pre relation != null;
+     @ post inheritanceRelations().contains(relation);
      @*/
-  	public abstract void addSuperType(TypeReference type) throws ChameleonProgrammerException;
-
+  	public abstract void addInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException;
+    
   	/**
-  	 * Add the give type reference as a super type.
+  	 * Remove the give given inheritance relation from this type.
   	 * @param type
   	 * @throws ChameleonProgrammerException
-  	 *         It is not possible to add the given type. E.g. you cannot
-  	 *         add a super type reference to a computed type.
+  	 *         It is not possible to remove the given type. E.g. you cannot
+  	 *         remove an inheritance relation to a computed type.
   	 */
    /*@
      @ public behavior
      @
-     @ pre type != null;
-     @ post ! getSuperTypeReferences().contains(type)
+     @ pre relation != null;
+     @ post ! inheritanceRelations().contains(relation);
      @*/
-  	public abstract void removeSuperType(TypeReference type);
-
+  	public abstract void removeInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException;
+  	
     /**
      * Return the members of the given kind directly declared by this type.
      * @return
@@ -323,32 +328,12 @@ public abstract class Type extends MemberImpl<Type,TypeContainer,SimpleNameSigna
         // 1) All defined members of the requested kind are added.
     final HashSet<M> result = new HashSet(directlyDeclaredElements(kind));
 
-    // 2) Fetch all INHERITABLE members from supertypes of the requested kind
+    // 2) Fetch all potentially inherited members from all inheritance relations
     final List<M> supers = new ArrayList<M>();
     try {
 
-      for (Type t : getDirectSuperTypes()) {
-        Collection<M> allFromSuper = t.members(kind);
-        new PrimitivePredicate<M>() {
-          public boolean eval(M method) throws MetamodelException {
-            Ternary temp = method.is(language().INHERITABLE);
-            boolean result;
-            if (temp == Ternary.TRUE) {
-              result = true;
-            } else if (temp == Ternary.FALSE) {
-              result = false;
-            } else {
-              //assert (temp == Ternary.UNKNOWN);
-              throw new MetamodelException(
-                  "For one of the members of a super type of "
-                      + getFullyQualifiedName()
-                      + " it is unknown whether it is inheritable or not.");
-            }
-            return result;
-          }
-        }.filter(allFromSuper);
-        supers.addAll(allFromSuper);
-
+      for (InheritanceRelation rel : inheritanceRelations()) {
+        supers.addAll(rel.potentiallyInheritedMembers(kind));
       }
       // ... but remove the ones that are overridden or hidden.
       new PrimitivePredicate<M>() {
@@ -360,6 +345,8 @@ public abstract class Type extends MemberImpl<Type,TypeContainer,SimpleNameSigna
           }.exists(result);
         }
       }.filter(supers);
+    } catch(RuntimeException e) {
+    	throw e;
     } catch (MetamodelException e) {
       throw e;
     } catch (Exception e1) {
@@ -742,7 +729,7 @@ public abstract class Type extends MemberImpl<Type,TypeContainer,SimpleNameSigna
      @*/
     public List<? extends Element> getChildren() {
         List<Element> result = new ArrayList<Element>();
-        result.addAll(getSuperTypeReferences());
+        result.addAll(inheritanceRelations());
         result.addAll(modifiers());
         result.addAll(directlyDeclaredElements());
         return result;
@@ -778,8 +765,8 @@ public abstract class Type extends MemberImpl<Type,TypeContainer,SimpleNameSigna
     }
 
   	protected void copyContents(Type from) {
-  		for(TypeReference tref : from.getSuperTypeReferences()) {
-        addSuperType(tref.clone());
+  		for(InheritanceRelation relation : from.inheritanceRelations()) {
+        addInheritanceRelation(relation.clone());
   		}
       for(Modifier mod : from.modifiers()) {
       	addModifier(mod.clone());

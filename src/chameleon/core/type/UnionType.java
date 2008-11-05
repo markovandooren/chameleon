@@ -13,6 +13,7 @@ import org.rejuse.logic.ternary.Ternary;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.member.Member;
+import chameleon.core.type.inheritance.InheritanceRelation;
 
 public class UnionType extends Type {
 
@@ -58,7 +59,7 @@ public class UnionType extends Type {
 	}
 
 	@Override
-	public void addSuperType(TypeReference type) throws ChameleonProgrammerException {
+	public void addInheritanceRelation(InheritanceRelation type) throws ChameleonProgrammerException {
 		throw new ChameleonProgrammerException("Trying to add a super type to a union type.");
 	}
 
@@ -98,16 +99,16 @@ public class UnionType extends Type {
 	}
 
 	@Override
-	public List<TypeReference> getSuperTypeReferences() {
-		List<TypeReference> result = new ArrayList<TypeReference>();
+	public List<InheritanceRelation> inheritanceRelations() {
+		List<InheritanceRelation> result = new ArrayList<InheritanceRelation>();
 		for(Type type: types()) {
-		  result.addAll(type.getSuperTypeReferences());
+		  result.addAll(type.inheritanceRelations());
 		}
 		return result;
 	}
 
 	@Override
-	public void removeSuperType(TypeReference type) {
+	public void removeInheritanceRelation(InheritanceRelation type) {
 		throw new ChameleonProgrammerException("Trying to remove a super type from a union type.");
 	}
 	

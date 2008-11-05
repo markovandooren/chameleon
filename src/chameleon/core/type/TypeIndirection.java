@@ -5,6 +5,7 @@ import java.util.Set;
 
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
+import chameleon.core.type.inheritance.InheritanceRelation;
 
 public abstract class TypeIndirection extends Type {
 
@@ -33,22 +34,22 @@ public abstract class TypeIndirection extends Type {
 	}
 
 	@Override
-	public void removeSuperType(TypeReference type) {
+	public void removeInheritanceRelation(InheritanceRelation relation) {
 		throw new ChameleonProgrammerException("Trying to remove a super type from a type alias.");
 	}
 
 
 
 	@Override
-	public void addSuperType(TypeReference type) throws ChameleonProgrammerException {
+	public void addInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException {
 		throw new ChameleonProgrammerException("Trying to add a super type to a type alias.");
 	}
 
 
 
 	@Override
-	public List<TypeReference> getSuperTypeReferences() {
-		return aliasedType().getSuperTypeReferences();
+	public List<InheritanceRelation> inheritanceRelations() {
+		return aliasedType().inheritanceRelations();
 	}
 
 }
