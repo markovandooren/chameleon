@@ -1,16 +1,16 @@
 package chameleon.core.type.inheritance;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.ConcurrentModificationException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.rejuse.association.Reference;
 import org.rejuse.logic.ternary.Ternary;
-import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.declaration.DeclarationContainer;
+import chameleon.core.declaration.Signature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
@@ -83,35 +83,23 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 		}
 	}
 	
-	public <M extends Member> Set<M> potentiallyInheritedMembers(final Class<M> kind) throws MetamodelException {
+	public <M extends Member<M,P,S,F>,P extends DeclarationContainer, S extends Signature<S,M>, F extends Member<? extends Member,P,S,F>> Set<F> potentiallyInheritedMembers(final Class<M> kind) throws MetamodelException {
 		Set<M> superMembers = superClass().members(kind);
-    try {
-			new PrimitivePredicate<M>() {
-			  public boolean eval(M method) throws MetamodelException {
-			    Ternary temp = method.is(language().INHERITABLE);
-			    boolean result;
-			    if (temp == Ternary.TRUE) {
-			      result = true;
-			    } else if (temp == Ternary.FALSE) {
-			      result = false;
-			    } else {
-			      //assert (temp == Ternary.UNKNOWN);
-			      throw new MetamodelException(
-			          "For one of the members of a super type of "
-			              + superClass().getFullyQualifiedName()
-			              + " it is unknown whether it is inheritable or not.");
-			    }
-			    return result;
-			  }
-			}.filter(superMembers);
-		} catch(RuntimeException e) {
-    	throw e;
-    } catch (MetamodelException e) {
-      throw e;
-    } catch (Exception e) {
-      throw new Error();
-    }
-    return superMembers;
+		Set<F> result = new HashSet<F>();
+		for(M member:superMembers) {
+	    Ternary temp = member.is(language().INHERITABLE);
+	    if (temp == Ternary.TRUE) {
+	      result.add(member.alias(member.signature().clone()));
+	    } else if (temp == Ternary.FALSE) {
+	    } else {
+	      //assert (temp == Ternary.UNKNOWN);
+	      throw new MetamodelException(
+	          "For one of the members of a super type of "
+	              + superClass().getFullyQualifiedName()
+	              + " it is unknown whether it is inheritable or not.");
+	    }
+		}
+    return result;
 	}
 	
 	private Reference<InheritanceRelation,TypeReference> _superClass = new Reference<InheritanceRelation, TypeReference>(this);

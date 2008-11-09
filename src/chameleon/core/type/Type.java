@@ -41,7 +41,7 @@ import chameleon.core.variable.VariableContainer;
  *
  * @author Marko van Dooren
  */
-public abstract class Type extends MemberImpl<Type,TypeContainer,SimpleNameSignature> 
+public abstract class Type extends MemberImpl<Type,TypeContainer,SimpleNameSignature,Type> 
                 implements TargetDeclaration<Type,TypeContainer,SimpleNameSignature>, NamespaceOrType<Type,TypeContainer,SimpleNameSignature>, 
                            TypeContainer<Type,TypeContainer>, VariableContainer<Type,TypeContainer>, 
                            VariableOrType<Type,TypeContainer>, Definition<Type,TypeContainer,SimpleNameSignature>,

@@ -41,7 +41,7 @@ import chameleon.core.type.TypeElement;
  * <E> The type of the element
  * <P> The type of the parent
  */
-public interface Member<E extends Member<E,P,S>, P extends DeclarationContainer, S extends Signature> extends TypeElement<E,P>, Declaration<E,P,S> {
+public interface Member<E extends Member<E,P,S,F>, P extends DeclarationContainer, S extends Signature, F extends Member> extends TypeElement<E,P>, Declaration<E,P,S> {
   
   
   /**
@@ -72,5 +72,7 @@ public interface Member<E extends Member<E,P,S>, P extends DeclarationContainer,
    @ (\forall Member m; \result.contains(m); overrides(m));
    @*/
   public Set<Member> directlyOverriddenMembers() throws MetamodelException;
-  
+
+  // Return type Member for now, may have to introduce F(amily) type which is cut off at the level of e.g. Type,Method,MemberVariable,Property,....
+  public abstract F alias(S signature);
 }

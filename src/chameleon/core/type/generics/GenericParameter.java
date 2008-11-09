@@ -5,18 +5,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.Reference;
 import org.rejuse.association.ReferenceSet;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.member.Member;
 import chameleon.core.member.MemberImpl;
 import chameleon.core.type.ConstructedType;
 import chameleon.core.type.Type;
 
-public class GenericParameter extends MemberImpl<GenericParameter, Type, SimpleNameSignature> {
+public class GenericParameter extends MemberImpl<GenericParameter, Type, SimpleNameSignature,GenericParameter> {
 
 	public GenericParameter(SimpleNameSignature signature) {
 		setSignature(signature);
@@ -87,6 +87,10 @@ public class GenericParameter extends MemberImpl<GenericParameter, Type, SimpleN
 			result = result.union(constraint.lowerBound());
 		}
 		return result;
+	}
+
+	public GenericParameter alias(SimpleNameSignature signature) {
+		throw new ChameleonProgrammerException();
 	}
 
 }

@@ -28,7 +28,7 @@ import chameleon.core.variable.FormalParameter;
 import chameleon.util.Util;
 
 
-public abstract class Method<E extends Method<E,S>, S extends MethodSignature> extends MemberImpl<E,Type,S> implements Definition<E,Type,S>, ModifierContainer<E,Type> {
+public abstract class Method<E extends Method<E,S>, S extends MethodSignature> extends MemberImpl<E,Type,S,Method> implements Definition<E,Type,S>, ModifierContainer<E,Type> {
 
 	public Method(S signature) {
 		setSignature(signature);
@@ -431,7 +431,7 @@ public abstract class Method<E extends Method<E,S>, S extends MethodSignature> e
 //
 //	}
 
-	public Declaration alias(MethodSignature sig) {
+	public Method alias(MethodSignature sig) {
 		return new MethodAlias(sig,this);
 	}
 	

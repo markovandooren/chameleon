@@ -22,7 +22,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class MemberVariable extends InitializableVariable<MemberVariable,Type> implements Member<MemberVariable,Type,SimpleNameSignature>{
+public class MemberVariable extends InitializableVariable<MemberVariable,Type> implements Member<MemberVariable,Type,SimpleNameSignature,MemberVariable>{
   
   
   /**
@@ -45,15 +45,7 @@ public class MemberVariable extends InitializableVariable<MemberVariable,Type> i
    * ACCESS *
    **********/
 
-//  public AccessModifier getAccessModifier() {
-//    List mods = modifiers();
-//    new TypePredicate(AccessModifier.class).filter(mods);
-//    if(mods.size() != 1) {
-//      throw new Error("Multiple access modifiers for a member variable");
-//    }
-//    return (AccessModifier)mods.iterator().next();
-//  }
-
+  //@FIXME: bad design
   protected boolean surroundingTypeAncestorOfOneOfTheSurroundingTypesOf(TypeDescendant other) throws MetamodelException {
     TypeContainer type = other.getNearestType();
     boolean found = true;
@@ -119,5 +111,9 @@ public class MemberVariable extends InitializableVariable<MemberVariable,Type> i
     StrictPartialOrder<Member> hidesRelation = language().hidesRelation();
     return hidesRelation.contains(this, other);
   }
+
+	public MemberVariable alias(SimpleNameSignature signature) {
+		compile error
+	}
 
 }

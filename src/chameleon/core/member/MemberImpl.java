@@ -16,7 +16,7 @@ import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeElementImpl;
 
-public abstract class MemberImpl<E extends MemberImpl<E,P,S>,P extends DeclarationContainer, S extends Signature> extends TypeElementImpl<E, P> implements Member<E,P,S>{
+public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends DeclarationContainer, S extends Signature, F extends Member> extends TypeElementImpl<E, P> implements Member<E,P,S,F>{
 
   public void setSignature(S signature) {
     if(signature != null) {
