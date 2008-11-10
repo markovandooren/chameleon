@@ -83,13 +83,13 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 		}
 	}
 	
-	public <M extends Member<M,P,S,F>,P extends DeclarationContainer, S extends Signature<S,M>, F extends Member<? extends Member,P,S,F>> Set<F> potentiallyInheritedMembers(final Class<M> kind) throws MetamodelException {
+	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> Set<M> potentiallyInheritedMembers(final Class<M> kind) throws MetamodelException {
 		Set<M> superMembers = superClass().members(kind);
-		Set<F> result = new HashSet<F>();
+		Set<M> result = new HashSet<M>();
 		for(M member:superMembers) {
 	    Ternary temp = member.is(language().INHERITABLE);
 	    if (temp == Ternary.TRUE) {
-	      result.add(member.alias(member.signature().clone()));
+	      result.add(transform(member));
 	    } else if (temp == Ternary.FALSE) {
 	    } else {
 	      //assert (temp == Ternary.UNKNOWN);
@@ -100,6 +100,13 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 	    }
 		}
     return result;
+	}
+	
+	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> M transform(M member) throws MetamodelException {
+		M result = member.clone();
+		//SUBSTITUTE GENERIC PARAMETERS, OR USE TRICK CONTEXT?
+		result.setUniParent(getParent());
+		return result;
 	}
 	
 	private Reference<InheritanceRelation,TypeReference> _superClass = new Reference<InheritanceRelation, TypeReference>(this);

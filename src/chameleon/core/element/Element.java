@@ -217,4 +217,6 @@ public interface Element<E extends Element, P extends Element> {
     public Context lexicalContext(Element child) throws MetamodelException;
     
     public Context lexicalContext() throws MetamodelException;
+    
+    public void setUniParent(P parent);
 }

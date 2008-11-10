@@ -199,7 +199,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  	}
 	  }
 	  
-	  protected final void setUniParent(P parent) {
+	  public final void setUniParent(P parent) {
 	  	if(_parentLink != null) {
 	  		_parentLink.connectTo(null);
 	  	}
