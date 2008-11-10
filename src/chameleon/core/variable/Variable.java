@@ -13,6 +13,7 @@ import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
+import chameleon.core.expression.Expression;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.modifier.ModifierContainer;
 import chameleon.core.type.Type;
@@ -29,6 +30,10 @@ public interface Variable<E extends Variable<E,P>, P extends VariableContainer>
                 VariableOrType<E,P>,ModifierContainer<E,P>, TargetDeclaration<E,P,SimpleNameSignature> {
 
   public void setSignature(SimpleNameSignature signature);
+  
+	public Expression getInitialization();
+
+	public void setInitialization(Expression expr);
   
   /**
    * Return the signature of this member.

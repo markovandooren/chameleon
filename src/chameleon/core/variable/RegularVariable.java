@@ -25,12 +25,12 @@ import chameleon.core.type.TypeReference;
 import chameleon.util.Util;
 
 public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends VariableContainer> 
-       extends TypeDescendantImpl<E, P>
-       implements Variable<E,P>, ExpressionContainer<E,P>, ExceptionSource<E,P> {
+       extends VariableImpl<E,P> implements ExpressionContainer<E,P>, ExceptionSource<E,P> {
 
-	public RegularVariable(SimpleNameSignature sig, TypeReference typeRef) {
-		setSignature(sig);
+	public RegularVariable(SimpleNameSignature sig, TypeReference typeRef, Expression init) {
+		super(sig);
     setTypeReference(typeRef);
+    setInitialization(init);
 	}
 
 	/**
@@ -124,22 +124,6 @@ public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends 
 		return _modifiers.getOtherEnds().contains(modifier);
 	}
 
-  public void setSignature(SimpleNameSignature signature) {
-    if(signature != null) {
-      _signature.connectTo(signature.getParentLink());
-    } else {
-      _signature.connectTo(null);
-    }
-  }
-  
-  /**
-   * Return the signature of this member.
-   */
-  public SimpleNameSignature signature() {
-    return _signature.getOtherEnd();
-  }
-  
-  private Reference<RegularVariable, SimpleNameSignature> _signature = new Reference<RegularVariable, SimpleNameSignature>(this);
 
   /**
    * Return the name of this variable.

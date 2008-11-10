@@ -13,7 +13,7 @@ import chameleon.core.type.TypeReference;
 public class FormalParameter extends RegularVariable<FormalParameter,VariableContainer> {
 
   public FormalParameter(SimpleNameSignature sig, TypeReference type) {
-    super(sig, type);
+    super(sig, type,null);
   }
 
   /**
