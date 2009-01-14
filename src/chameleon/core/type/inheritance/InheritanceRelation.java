@@ -1,12 +1,16 @@
 package chameleon.core.type.inheritance;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.rejuse.association.Reference;
+import org.rejuse.java.collections.Exists;
 import org.rejuse.logic.ternary.Ternary;
+import org.rejuse.predicate.PrimitivePredicate;
+import org.rejuse.predicate.PrimitiveTotalPredicate;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.DeclarationContainer;
@@ -83,7 +87,37 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 		}
 	}
 	
-	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> Set<M> potentiallyInheritedMembers(final Class<M> kind) throws MetamodelException {
+	
+	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
+  Set<M> inheritedMembers(final Class<M> kind) throws MetamodelException {
+		final Set<M> result = potentiallyInheritedMembers(kind);
+		result.addAll(getParent().directlyDeclaredElements(kind));
+		for (M m: result) {
+			try {
+				new PrimitivePredicate<M>() {
+					public boolean eval(final M superMember) throws Exception {
+						return !new PrimitivePredicate<M>() {
+							public boolean eval(M nc) throws MetamodelException {
+								return nc.overrides(superMember) || nc.hides(superMember);
+							}
+						}.exists(result);
+					}
+				}.filter(result);
+			} catch (RuntimeException e) {
+				throw e;
+			} catch (Error e) {
+				throw e;
+			} catch (MetamodelException e) {
+				throw e;
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new Error(e);
+			}
+		}
+		return result;
+	}	
+	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
+	        Set<M> potentiallyInheritedMembers(final Class<M> kind) throws MetamodelException {
 		Set<M> superMembers = superClass().members(kind);
 		Set<M> result = new HashSet<M>();
 		for(M member:superMembers) {
@@ -102,9 +136,13 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
     return result;
 	}
 	
-	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> M transform(M member) throws MetamodelException {
+	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
+	        M transform(M member) throws MetamodelException {
 		M result = member.clone();
-		//SUBSTITUTE GENERIC PARAMETERS, OR USE TRICK CONTEXT?
+		// 1) SUBSTITUTE GENERIC PARAMETERS, OR USE TRICK CONTAINER?
+		//   1.a) WE NEED A TRICK CONTAINER FOR BINDING REFERENCES TO PRIVATE MEMBERS?
+		//   1.a.1) BUT WE MUST HAVE A COPY OF ALL NON-INHERITABLE MEMBERS OF THE
+		//          SUPERCLASS IN THAT CONTAINER AS WELL
 		result.setUniParent(getParent());
 		return result;
 	}

@@ -18,6 +18,8 @@ public interface Declaration<E extends Declaration<E,P,S>,
    @*/
   public S signature();
   
+  public E clone();
+  
   /**
    * Return an alias 
    * @return

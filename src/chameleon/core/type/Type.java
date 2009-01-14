@@ -315,6 +315,14 @@ public abstract class Type extends MemberImpl<Type,TypeContainer,SimpleNameSigna
     public Set<Member> members() throws MetamodelException {
       return members(Member.class);
     }
+    
+    public <M extends Member> Set<M> potentiallyInheritedMembers(final Class<M> kind) throws MetamodelException {
+  		final Set<M> result = new HashSet<M>();
+			for (InheritanceRelation rel : inheritanceRelations()) {
+				result.addAll(rel.potentiallyInheritedMembers(kind));
+			}
+  		return result;
+    }
 
     /**
      * Return the members of this class.
@@ -324,39 +332,16 @@ public abstract class Type extends MemberImpl<Type,TypeContainer,SimpleNameSigna
      * @throws MetamodelException
      */
     public <M extends Member> Set<M> members(final Class<M> kind) throws MetamodelException {
-      
-        // 1) All defined members of the requested kind are added.
-    final HashSet<M> result = new HashSet(directlyDeclaredElements(kind));
 
-    // 2) Fetch all potentially inherited members from all inheritance relations
-    final List<M> supers = new ArrayList<M>();
-    try {
+		// 1) All defined members of the requested kind are added.
+		final HashSet<M> result = new HashSet(directlyDeclaredElements(kind));
 
-      for (InheritanceRelation rel : inheritanceRelations()) {
-        supers.addAll(rel.potentiallyInheritedMembers(kind));
-      }
-      // ... but remove the ones that are overridden or hidden.
-      new PrimitivePredicate<M>() {
-        public boolean eval(final M superMember) throws Exception {
-          return !new PrimitivePredicate<M>() {
-            public boolean eval(M nc) throws MetamodelException {
-              return nc.overrides(superMember) || nc.hides(superMember);
-            }
-          }.exists(result);
-        }
-      }.filter(supers);
-    } catch(RuntimeException e) {
-    	throw e;
-    } catch (MetamodelException e) {
-      throw e;
-    } catch (Exception e1) {
-      throw new Error();
-    }
-
-    result.addAll(supers);
-    return result;
-
-    }
+		// 2) Fetch all potentially inherited members from all inheritance relations
+		for (InheritanceRelation rel : inheritanceRelations()) {
+				result.addAll(rel.inheritedMembers(kind));
+		}
+		return result;
+	}
 
 //    public RegularMethod getApplicableRegularMethod(final String name, final List paramTypes) throws MetamodelException {
 //        return (RegularMethod)getApplicableMethod(name, paramTypes, RegularMethod.class);
