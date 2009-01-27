@@ -87,7 +87,15 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 		}
 	}
 	
-	
+	/**
+	 * Return the set of members inherited through this inheritance relation.
+	 * @param <M>
+	 * @param <S>
+	 * @param <F>
+	 * @param kind
+	 * @return
+	 * @throws MetamodelException
+	 */
 	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
   Set<M> inheritedMembers(final Class<M> kind) throws MetamodelException {
 		final Set<M> result = potentiallyInheritedMembers(kind);
@@ -98,7 +106,7 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 					public boolean eval(final M superMember) throws Exception {
 						return !new PrimitivePredicate<M>() {
 							public boolean eval(M nc) throws MetamodelException {
-								return nc.overrides(superMember) || nc.hides(superMember);
+								return nc.overrides(superMember) || nc.hides(superMember) || ((superMember != nc)&&(superMember.equivalentTo(nc)));
 							}
 						}.exists(result);
 					}

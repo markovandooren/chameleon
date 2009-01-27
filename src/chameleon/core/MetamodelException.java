@@ -42,5 +42,13 @@ public class MetamodelException extends Exception {
     count++;
   }
   
-  public static int count;
+  private static int count;
+  
+  /**
+   * Return how many times a MetamodelException has been created.
+   * @return
+   */
+  public static int count() {
+  	return count;
+  }
 }

@@ -111,7 +111,7 @@ public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends 
 	}
 
 	public void addModifier(Modifier modifier) {
-		if ((!_modifiers.contains(modifier.getParentLink())) && (modifier != null)) {
+		if ((modifier != null) && (!_modifiers.contains(modifier.getParentLink()))) {
 			_modifiers.add(modifier.getParentLink());
 		}
 	}

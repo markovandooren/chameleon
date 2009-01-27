@@ -14,12 +14,12 @@ public abstract class WeakPartialOrder<E> extends org.rejuse.logic.relation.Weak
 
       @Override
       public boolean contains(E first, E second) throws MetamodelException {
-        return contains(first,second) && (! contains(second,first));
+        return WeakPartialOrder.this.contains(first,second) && (! contains(second,first));
       }
 
       @Override
       public boolean equal(E first, E second) throws MetamodelException {
-        return equal(first,second);
+        return WeakPartialOrder.this.equal(first,second);
       }
     };
   }

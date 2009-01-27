@@ -20,6 +20,7 @@ import chameleon.core.element.Element;
 import chameleon.core.member.Member;
 import chameleon.core.namespace.RootNamespace;
 import chameleon.core.property.Defined;
+import chameleon.core.relation.EquivalenceRelation;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
@@ -65,7 +66,7 @@ public abstract class Language implements PropertyUniverse<Element> {
      * TOOLEXTENSIONS *
      ******************/
 
-    private class MapWrapper<T> {  //todo iets voor rejuse?
+    private static class MapWrapper<T> {  //todo iets voor rejuse?
         private Map<Class<? extends T>,T> myMap = new HashMap<Class<? extends T>,T>();
 
         public <S extends T> S get(Class<S> key) {
@@ -315,6 +316,8 @@ public abstract class Language implements PropertyUniverse<Element> {
     public abstract Type booleanType() throws MetamodelException;
     
     public abstract Type classCastException() throws MetamodelException;
+
+		public abstract EquivalenceRelation<Member> equivalenceRelation();
 
 }
 

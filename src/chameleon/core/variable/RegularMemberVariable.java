@@ -40,6 +40,10 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
   }
 
   
+  public final boolean equivalentTo(Member other) throws MetamodelException {
+  	return language().equivalenceRelation().contains(this,other);
+  }
+
   
   /**********
    * ACCESS *

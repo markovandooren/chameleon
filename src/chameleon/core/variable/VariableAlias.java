@@ -48,6 +48,10 @@ public class VariableAlias extends VariableImpl<VariableAlias,Type> implements M
 	public PropertySet<Element> declaredProperties() {
 		return aliasedVariable().declaredProperties();
 	}
+	
+  public final boolean equivalentTo(Member other) throws MetamodelException {
+  	return language().equivalenceRelation().contains(this,other);
+  }
 
 	public String getName() {
 		return signature().getName();

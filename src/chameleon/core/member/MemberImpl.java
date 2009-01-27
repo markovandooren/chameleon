@@ -45,6 +45,10 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Declara
     return hidesRelation.contains(this, other);
     
   }
+  
+  public final boolean equivalentTo(Member other) throws MetamodelException {
+  	return language().equivalenceRelation().contains(this,other);
+  }
 
   public Set<Member> directlyOverriddenMembers() throws MetamodelException {
     List<Type> superTypes = getNearestType().getDirectSuperTypes();

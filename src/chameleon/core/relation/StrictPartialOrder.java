@@ -22,12 +22,12 @@ public abstract class StrictPartialOrder<E> extends org.rejuse.logic.relation.St
 
       @Override
       public boolean contains(E first, E second) throws MetamodelException {
-        return contains(first,second) || equal(first,second);
+        return StrictPartialOrder.this.contains(first,second) || equal(first,second);
       }
 
       @Override
       public boolean equal(E first, E second) throws MetamodelException {
-        return equal(first,second);
+        return StrictPartialOrder.this.equal(first,second);
       }
     };
   }

@@ -71,7 +71,7 @@ public class ActualParameter extends NamespacePartElementImpl<ActualParameter,In
 	}
 
 	public void addModifier(Modifier modifier) {
-		if ((!_modifiers.contains(modifier.getParentLink())) && (modifier != null)) {
+		if ((modifier != null) && (!_modifiers.contains(modifier.getParentLink()))) {
 			_modifiers.add(modifier.getParentLink());
 		}
 	}

@@ -60,6 +60,8 @@ public interface Member<E extends Member<E,P,S,F>, P extends DeclarationContaine
   
   public boolean hides(Member other) throws MetamodelException;
   
+  public boolean equivalentTo(Member other) throws MetamodelException;
+  
   
   /**
    * Return the set of members that are overridden by this member.

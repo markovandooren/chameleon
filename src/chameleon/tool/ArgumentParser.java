@@ -116,7 +116,7 @@ public class ArgumentParser {
     }
   }
   
-  class OutputParserFactory implements ILinkageFactory{
+  static class OutputParserFactory implements ILinkageFactory{
 
 	public ILinkage createLinkage(File file) {
 		return new ILinkage(){
