@@ -255,18 +255,24 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     }
     
     /**
-     * Default implementation just delegates to the parent.
-     * @throws MetamodelException 
+     * @see Element#lexicalContext(Element) 
      */
     public Context lexicalContext(Element child) throws MetamodelException {
       return getParent().lexicalContext(this);
     }
 
     /**
-     * Default implementation just delegates to the parent.
-     * @throws MetamodelException 
+     * @see Element#lexicalContext() 
      */
     public final Context lexicalContext() throws MetamodelException {
-      return getParent().lexicalContext(this);
+    	try {
+        return getParent().lexicalContext(this);
+    	} catch(NullPointerException exc) {
+    		if(getParent() == null) {
+    			throw new MetamodelException("Requesting the lexical context of an element without a parent.");
+    		} else {
+    			throw exc;
+    		}
+    	}
     }
 }

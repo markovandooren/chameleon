@@ -203,7 +203,13 @@ public interface Element<E extends Element, P extends Element> {
     public E clone();
     
     /**
-     * Return the lexical context for the given child element.
+     * Return the lexical context for the given child element. The
+     * default behavior is to delegate the search to the parent.
+     * 
+     * If this element declares elements itself, it searches those
+     * elements first, and only delegates to the parent if nothing
+     * is found.
+     * 
      * @param element
      *        The child element of this element for which the
      *        context is requested
@@ -216,7 +222,25 @@ public interface Element<E extends Element, P extends Element> {
      @*/
     public Context lexicalContext(Element child) throws MetamodelException;
     
+    /**
+     * Return the lexical context for this element.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post \result == getParent().lexicalContext(this);
+     @
+     @ signals (MetamodelException) getParent() == null; 
+     @*/
     public Context lexicalContext() throws MetamodelException;
     
+    /**
+     * DO NOT USE THIS METHOD UNLESS YOU REALLY KNOW WHAT YOU ARE DOING!!!
+     * 
+     * This method is used internally for generated elements. They are not part
+     * of the model, but need a parent in order to have a context.
+     * 
+     * @param parent
+     */
     public void setUniParent(P parent);
 }

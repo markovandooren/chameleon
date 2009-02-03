@@ -15,6 +15,7 @@ import org.rejuse.predicate.PrimitiveTotalPredicate;
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
+import chameleon.core.declaration.StubDeclarationContainer;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
@@ -123,37 +124,44 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 			}
 		}
 		return result;
-	}	
+	}
 	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
 	        Set<M> potentiallyInheritedMembers(final Class<M> kind) throws MetamodelException {
 		Set<M> superMembers = superClass().members(kind);
 		Set<M> result = new HashSet<M>();
+		// The stub container will contain all elements to enable binding to 
+		// members that are not inherited.
+		StubDeclarationContainer stub = new StubDeclarationContainer();
+		stub.setUniParent(getParent());
 		for(M member:superMembers) {
 	    Ternary temp = member.is(language().INHERITABLE);
-	    if (temp == Ternary.TRUE) {
-	      result.add(transform(member));
-	    } else if (temp == Ternary.FALSE) {
-	    } else {
+	    if (temp == Ternary.UNKNOWN) {
 	      //assert (temp == Ternary.UNKNOWN);
 	      throw new MetamodelException(
 	          "For one of the members of a super type of "
 	              + superClass().getFullyQualifiedName()
 	              + " it is unknown whether it is inheritable or not.");
+	    } else {
+	    	// Even if the member is not inheritable, we must still add it
+	    	// to the stub declaration container because the implementation
+	    	// of inherited members may reference them.
+//	    	M transformed = transform(member);
+//	    	stub.add(transformed);
+	    	if (temp == Ternary.TRUE) {
+//		      result.add(transformed);
+	    		result.add(member);
+		    }
 	    }
 		}
     return result;
 	}
 	
-	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
-	        M transform(M member) throws MetamodelException {
-		M result = member.clone();
-		// 1) SUBSTITUTE GENERIC PARAMETERS, OR USE TRICK CONTAINER?
-		//   1.a) WE NEED A TRICK CONTAINER FOR BINDING REFERENCES TO PRIVATE MEMBERS?
-		//   1.a.1) BUT WE MUST HAVE A COPY OF ALL NON-INHERITABLE MEMBERS OF THE
-		//          SUPERCLASS IN THAT CONTAINER AS WELL
-		result.setUniParent(getParent());
-		return result;
-	}
+//	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
+//	        M transform(M member) throws MetamodelException {
+//		M result = member.clone();
+//		// 1) SUBSTITUTE GENERIC PARAMETERS, OR USE TRICK CONTAINER?
+//		//   1.a) WE NEED A TRICK CONTAINER (The superclass) IN WHICH THE PARAMETERS ARE SUBSTITUTED
+//	}
 	
 	private Reference<InheritanceRelation,TypeReference> _superClass = new Reference<InheritanceRelation, TypeReference>(this);
 

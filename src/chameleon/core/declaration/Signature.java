@@ -15,32 +15,56 @@ import chameleon.core.namespacepart.NamespacePartElementImpl;
  * @author Marko van Dooren
  */
 public abstract class Signature<E extends Signature, P extends Element> extends NamespacePartElementImpl<E,P> {
-  
+
   public abstract E clone();
   
   /**
    * Equals cannot throw a checked exception, so we introduce sameAs.
-   * @param other
-   * @return
-   * @throws MetamodelException
    */
   public abstract boolean sameAs(Signature other) throws MetamodelException;
   
+  /**
+   * Return the list of identifiers of this signature.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
   public abstract List<String> identifiers();
-  
+
+  /**
+   * Return the number of identifiers in this signature.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post \result == identifiers().size();
+   @*/
   public int nbIdentifiers() {
   	return identifiers().size();
   }
   
   /**
-   * The first valid index is 1.
-   * @param index
-   * @return
+   * Return the indentifier with the given index. The first valid index is 1.
    */
+ /*@
+   @ public behavior
+   @
+   @ post \result == identifiers().get(index - 1);
+   @*/
   public String identifierAt(int index) {
   	return identifiers().get(index - 1);
   }
   
+  /**
+   * Check whether this signature has the same list of identifiers as another signature.
+   */
+ /*@
+   @ post \result == (other != null) &&
+   @                 (other.nbIdentifiers() == nbIdentifiers()) &&
+   @                 (\forall i; i >= 1 && i <= nbIdentifiers; identifierAt(i).equals(other.identifierAt(i)));
+   @*/
   public boolean sameIdentifiersAs(Signature other) {
   	boolean result = false;
   	if(other != null) {
