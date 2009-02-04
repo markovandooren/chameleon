@@ -24,16 +24,36 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * @param signature
    * @return
    */
+ /*@
+   @ public behavior
+   @
+   @ post \result == (filter(declaration) != null);
+   @*/
   public boolean selects(Declaration declaration) throws MetamodelException {
     return filter(declaration) != null;
   }
   
+  /**
+   * This method decides which declarations are candidates for selection. The
+   * method returns the given declaration if it is a candidate. The method returns
+   * null if the given declaration is not a candidate.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post \result == declaration | \result == null;
+   @*/
   public abstract D filter(Declaration declaration) throws MetamodelException;
   
   /**
    * Required because 'instanceof D' cannot be used due to type erasure.
    * @return
    */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
   public abstract Class<D> selectedClass();
   
   /**
@@ -44,6 +64,15 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * @return
    * @throws MetamodelException
    */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @ post (\forall D d;; \result.contains(d) == 
+   @           (set.contains(d) && 
+   @            selects(d) && 
+   @            ! (\exists D other; set.contains(other); order().strictOrder().contains(other,d))));
+   @*/
   public Set<D> selection(Set<Declaration> set) throws MetamodelException {
     Set<Declaration> tmp = new HashSet<Declaration>();
     try {
@@ -67,6 +96,14 @@ public abstract class DeclarationSelector<D extends Declaration> {
     return (Set<D>) tmp;
   }
   
+  /**
+   * Return the order used to sort the possible candidates. More specific elements should be smaller than less specific elements.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
   public abstract WeakPartialOrder<D> order();
 
 }
