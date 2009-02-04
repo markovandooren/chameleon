@@ -46,7 +46,7 @@ public class NativeImplementation extends Implementation<NativeImplementation> {
     return true;
   }
   
-  public List<Element> getChildren() {
+  public List<Element> children() {
     return new ArrayList<Element>();
   }
 

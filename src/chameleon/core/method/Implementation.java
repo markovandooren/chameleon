@@ -39,7 +39,7 @@ public abstract class Implementation<E extends Implementation> extends TypeDesce
     }
 
   public final Type getNearestType() {
-    return getParent().getParent();
+    return parent().parent();
   }
 
 

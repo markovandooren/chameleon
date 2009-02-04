@@ -92,7 +92,7 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 	}
 	
 	public CompilationUnit getCompilationUnit() {
-		return getParent().getCompilationUnit();
+		return parent().getCompilationUnit();
 	}
 
 	/**
@@ -104,11 +104,11 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 	}
 
 	public void addNamespacePart(NamespacePart pp) {
-		_subNamespaceParts.add(pp.getParentLink());
+		_subNamespaceParts.add(pp.parentLink());
 	}
 
 	public void removeNamespacePart(NamespacePart pp) {
-		_subNamespaceParts.remove(pp.getParentLink());
+		_subNamespaceParts.remove(pp.parentLink());
 	}
 
 	public OrderedReferenceSet<NamespacePart, NamespacePart> getNamespacePartsLink() {
@@ -134,7 +134,7 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 	private OrderedReferenceSet<NamespacePart, NamespacePart> _subNamespaceParts = new OrderedReferenceSet<NamespacePart, NamespacePart>(
 			this);
 
-	public List<? extends Element> getChildren() {
+	public List<? extends Element> children() {
 		List result = types(); // can't specify type parameter without having to clone types(). don't like it.
 		result.addAll(getNamespaceParts());
 		result.addAll(imports());
@@ -179,11 +179,11 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 	}
 
 	public void addImport(Import newImport) {
-		_imports.add(newImport.getParentLink());
+		_imports.add(newImport.parentLink());
 	}
 
 	public void removeImport(Import removedImport) {
-		_imports.remove(removedImport.getParentLink());
+		_imports.remove(removedImport.parentLink());
 	}
 
 //	public List getDemandImportElements() throws MetamodelException {
@@ -302,11 +302,11 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 	}
 
 	public void addType(Type type) {
-		_types.add(type.getParentLink());
+		_types.add(type.parentLink());
 	}
 
 	public void removeType(Type type) {
-		_types.remove(type.getParentLink());
+		_types.remove(type.parentLink());
 	}
 
 //	public Type getType(final String name) throws MetamodelException {

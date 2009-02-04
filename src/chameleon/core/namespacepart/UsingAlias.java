@@ -31,7 +31,7 @@ public class UsingAlias extends Import<UsingAlias> {
 		setIdentifier(identifier);
 	}
 
-	public List<Element> getChildren() {
+	public List<Element> children() {
 		return Util.createNonNullList(getNamespaceOrTypeReference());
 	}
 
@@ -62,7 +62,7 @@ public class UsingAlias extends Import<UsingAlias> {
   
   public void setNamespaceOrTypeReference(NamespaceOrTypeReference ref) {
   	if(ref != null) {
-  		_packageOrType.connectTo(ref.getParentLink());
+  		_packageOrType.connectTo(ref.parentLink());
   	}
   	else {
   		_packageOrType.connectTo(null);

@@ -15,7 +15,7 @@ public abstract class VariableImpl<E extends VariableImpl<E,P>, P extends Variab
 
   public void setSignature(SimpleNameSignature signature) {
     if(signature != null) {
-      _signature.connectTo(signature.getParentLink());
+      _signature.connectTo(signature.parentLink());
     } else {
       _signature.connectTo(null);
     }

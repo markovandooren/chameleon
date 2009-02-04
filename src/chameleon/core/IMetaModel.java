@@ -6,8 +6,8 @@ import java.util.List;
  * @author jef-g
  */
 public interface IMetaModel {
-	public List getDescendants();
+	public List descendants();
 	
-	public List getChildren();
+	public List children();
 	
 }

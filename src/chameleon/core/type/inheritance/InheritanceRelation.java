@@ -31,7 +31,7 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 		setSuperClassReference(ref);
 	}
 	
-	public List<? extends Element> getChildren() {
+	public List<? extends Element> children() {
 		List<Element> result = new ArrayList<Element>();
 		result.add(superClassReference());
 		return result;
@@ -82,7 +82,7 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
    @*/
 	public void setSuperClassReference(TypeReference ref) {
 		if(ref != null) {
-			_superClass.connectTo(ref.getParentLink());
+			_superClass.connectTo(ref.parentLink());
 		} else {
 			_superClass.connectTo(null);
 		}
@@ -100,7 +100,7 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
   Set<M> inheritedMembers(final Class<M> kind) throws MetamodelException {
 		final Set<M> result = potentiallyInheritedMembers(kind);
-		result.addAll(getParent().directlyDeclaredElements(kind));
+		result.addAll(parent().directlyDeclaredElements(kind));
 		for (M m: result) {
 			try {
 				new PrimitivePredicate<M>() {
@@ -132,7 +132,7 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 		// The stub container will contain all elements to enable binding to 
 		// members that are not inherited.
 		StubDeclarationContainer stub = new StubDeclarationContainer();
-		stub.setUniParent(getParent());
+		stub.setUniParent(parent());
 		for(M member:superMembers) {
 	    Ternary temp = member.is(language().INHERITABLE);
 	    if (temp == Ternary.UNKNOWN) {

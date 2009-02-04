@@ -48,7 +48,7 @@ public class RegularImplementation extends Implementation<RegularImplementation>
 	private Reference<RegularImplementation,Block> _body = new Reference<RegularImplementation,Block>(this);
 
   public void setBody(Block block) {
-    _body.connectTo(block.getParentLink());
+    _body.connectTo(block.parentLink());
   }
 
   public Block getBody() {
@@ -106,7 +106,7 @@ public class RegularImplementation extends Implementation<RegularImplementation>
    @ post \result.contains(getBody());
    @ post \result.size() == 1;
    @*/
-  public List getChildren() {
+  public List children() {
     return Util.createNonNullList(getBody());
   }
   

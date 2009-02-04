@@ -46,7 +46,7 @@ public class LexicalContext extends Context {
 	 * @throws MetamodelException 
 	 */
 	public Context parentContext() throws MetamodelException {
-	  return element().getParent().lexicalContext(element());
+	  return element().parent().lexicalContext(element());
 	}
 
 	public <T extends Declaration> T lookUp(DeclarationSelector<T> selector) throws MetamodelException {

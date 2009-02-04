@@ -68,7 +68,7 @@ public abstract class Literal<E extends Literal> extends Expression<E> {
    @
    @ post \result.isEmpty(); 
    @*/
-  public List getChildren() {
+  public List children() {
     return new ArrayList();
   }
 }

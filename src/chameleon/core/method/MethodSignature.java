@@ -30,7 +30,7 @@ public abstract class MethodSignature<E extends MethodSignature, P extends Metho
 
   public abstract E cloneThis();
   
-  public List<? extends Element> getChildren() {
+  public List<? extends Element> children() {
     return getParameters();
   }
   
@@ -44,7 +44,7 @@ public abstract class MethodSignature<E extends MethodSignature, P extends Metho
 
 
   public void addParameter(FormalParameter arg) {
-    _parameters.add(arg.getParentLink());
+    _parameters.add(arg.parentLink());
   }
 
   public int getNbParameters() {
@@ -88,7 +88,7 @@ public abstract class MethodSignature<E extends MethodSignature, P extends Metho
   }
 
   public Type getNearestType() {
-  	return getParent().getNearestType();
+  	return parent().getNearestType();
   }
   
   public Set<Declaration> declarations() {

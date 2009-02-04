@@ -244,7 +244,7 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
       Target vt = getElement();
       if ((vt instanceof FormalParameter) && (((FormalParameter)vt).getName().equals(name))) {
         // replace self by the given expression
-        ((InvocationTarget)getParent()).setTarget(expr);
+        ((InvocationTarget)parent()).setTarget(expr);
       }
     }
   }
@@ -296,7 +296,7 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
 //    return result;
 //  }
 
-  public List<Element> getChildren() {
+  public List<Element> children() {
   	return Util.createNonNullList(getTarget());
   }
 

@@ -48,11 +48,11 @@ public class Block extends Statement<Block> implements StatementContainer<Block,
   }
 
   public void addStatement(Statement statement) {
-    _statements.add(statement.getParentLink());
+    _statements.add(statement.parentLink());
   }
 
   public void removeStatement(Statement statement) {
-    _statements.add(statement.getParentLink());
+    _statements.add(statement.parentLink());
   }
 
   public List<Statement> getStatements() {
@@ -69,7 +69,7 @@ public class Block extends Statement<Block> implements StatementContainer<Block,
     return result;
   }
 
-  public List<? extends Element> getChildren() {
+  public List<? extends Element> children() {
     return getStatements();
   }
 

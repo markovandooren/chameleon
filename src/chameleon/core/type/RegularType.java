@@ -32,7 +32,7 @@ public class RegularType extends Type {
 
 	public void add(TypeElement element) {
 	  if(element != null) {
-	    _elements.add(element.getParentLink());
+	    _elements.add(element.parentLink());
 	  }
 	}
 
@@ -52,7 +52,7 @@ public class RegularType extends Type {
 	private OrderedReferenceSet<Type, InheritanceRelation> _inheritanceRelations = new OrderedReferenceSet<Type, InheritanceRelation>(this);
 
 	public void removeInheritanceRelation(InheritanceRelation relation) {
-		_inheritanceRelations.remove(relation.getParentLink());
+		_inheritanceRelations.remove(relation.parentLink());
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class RegularType extends Type {
 	
 	@Override
 	public void addInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException {
-		_inheritanceRelations.add(relation.getParentLink());
+		_inheritanceRelations.add(relation.parentLink());
 	}
 
 }

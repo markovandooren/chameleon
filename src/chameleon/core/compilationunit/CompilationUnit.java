@@ -58,7 +58,7 @@ public class CompilationUnit extends ElementImpl<CompilationUnit,Element> implem
 	 * Children *
 	 ************/
 
-	public List<? extends Element> getChildren() {
+	public List<? extends Element> children() {
 		return getNamespaceParts();
 	}
 
@@ -207,7 +207,7 @@ public class CompilationUnit extends ElementImpl<CompilationUnit,Element> implem
 			_defaultNamespacePart.connectTo(null);
 		}
 		else {
-			_defaultNamespacePart.connectTo(nsp.getParentLink());
+			_defaultNamespacePart.connectTo(nsp.parentLink());
 		}
 	}
 

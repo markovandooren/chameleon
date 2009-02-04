@@ -22,10 +22,10 @@ public class FormalParameter extends RegularVariable<FormalParameter,VariableCon
    */
   public boolean compatibleWith(FormalParameter parameter) throws MetamodelException {
     return (parameter != null) &&
-           (getParent() instanceof Method) &&
-           (parameter.getParent() instanceof Method) &&
-           ((Method)getParent()).overrides((Method)parameter.getParent()) &&
-           ((Method)getParent()).getParameters().indexOf(this) == ((Method)parameter.getParent()).getParameters().indexOf(parameter);
+           (parent() instanceof Method) &&
+           (parameter.parent() instanceof Method) &&
+           ((Method)parent()).overrides((Method)parameter.parent()) &&
+           ((Method)parent()).getParameters().indexOf(this) == ((Method)parameter.parent()).getParameters().indexOf(parameter);
   }
 
   public FormalParameter cloneThis() {

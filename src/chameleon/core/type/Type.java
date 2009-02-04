@@ -141,8 +141,8 @@ public abstract class Type extends MemberImpl<Type,TypeContainer,SimpleNameSigna
 
     public Type getTopLevelType() {
         // FIXME: BAD design !!!
-        if (getParent() instanceof Type) {
-            return ((Type)getParent()).getTopLevelType();
+        if (parent() instanceof Type) {
+            return ((Type)parent()).getTopLevelType();
         } else {
             return this;
         }
@@ -684,7 +684,7 @@ public abstract class Type extends MemberImpl<Type,TypeContainer,SimpleNameSigna
 
 
     public NamespacePart getNearestNamespacePart() {
-        return getParent().getNearestNamespacePart();
+        return parent().getNearestNamespacePart();
     }
 
 //    /**
@@ -712,7 +712,7 @@ public abstract class Type extends MemberImpl<Type,TypeContainer,SimpleNameSigna
      @ post \result.containsAll(getMembers());
      @ post \result.containsAll(getModifiers());
      @*/
-    public List<? extends Element> getChildren() {
+    public List<? extends Element> children() {
         List<Element> result = new ArrayList<Element>();
         result.addAll(inheritanceRelations());
         result.addAll(modifiers());

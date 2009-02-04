@@ -67,7 +67,7 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
    @ post \result == getParent().getNearestType();
    @*/
   public Type getNearestType() {
-    return getParent().getNearestType();
+    return parent().getNearestType();
   }
 
 
@@ -112,7 +112,7 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
         public void unvisit(Object element, Object undo) {
           //NOP
         }
-      }.applyTo(getChildren());
+      }.applyTo(children());
       return result;
     }
     catch (MetamodelException e) {
@@ -145,7 +145,7 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
         public void unvisit(Object element, Object undo) {
           //NOP
         }
-      }.applyTo(getChildren());
+      }.applyTo(children());
       return cel;
     }
     catch (MetamodelException e) {
@@ -173,7 +173,7 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
         public void unvisit(Object element, Object undo) {
           //NOP
         }
-      }.applyTo(getChildren());
+      }.applyTo(children());
       return cel;
     }
     catch (MetamodelException e) {

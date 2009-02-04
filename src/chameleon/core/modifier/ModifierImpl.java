@@ -56,7 +56,7 @@ public abstract class ModifierImpl<E extends Modifier,P extends ModifierContaine
     @
     @ post \result.isEmpty();
     @*/
-  public List<? extends Element> getChildren() {
+  public List<? extends Element> children() {
     return new ArrayList<Element>();
   }
   

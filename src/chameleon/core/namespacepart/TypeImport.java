@@ -22,7 +22,7 @@ public class TypeImport extends Import<TypeImport> {
     setTypeReference(ref);
   }
   
-  public List<Element> getChildren() {
+  public List<Element> children() {
     return Util.createNonNullList(getTypeReference());
   }
 
@@ -35,7 +35,7 @@ public class TypeImport extends Import<TypeImport> {
 
   public void setTypeReference(TypeReference reference) {
   	if(reference != null) {
-  		_typeReference.connectTo(reference.getParentLink());
+  		_typeReference.connectTo(reference.parentLink());
   	}
   	else {
   		_typeReference.connectTo(null);

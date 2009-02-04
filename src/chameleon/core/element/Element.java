@@ -55,27 +55,43 @@ public interface Element<E extends Element, P extends Element> {
 	  /**
 	   * Return the parent element of this element. Null if there is no parent.
 	   */
-    public P getParent();
+    public P parent();
     
-    public Reference<E,P> getParentLink();
+    /**
+     * Return the object representing the <b>bidirectional</b>link to the parent of this element.
+     * 
+     * This link is <b>NOT</b> used for elements that are generated! Always use parent() to obtain
+     * the parent.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @*/
+    public Reference<E,P> parentLink();
 
     /**
      * Completely disconnect this element and all children from the parent.
      */
+   /*@
+     @ public behavior
+     @
+     @ post parent() == null;
+     @*/
     public void disconnect();
     
     /**
-     * Return a list of all parents. The direct parent is in front of the list, the
+     * Return a list of all ancestors. The direct parent is in front of the list, the
      * furthest ancestor is last.
      */
    /*@
      @ public behavior
      @
-     @ post getParent() == null ==> \result.isEmpty();
-     @ post getParent() != null ==> \result.get(0) == getParent();
-     @ post getParent() != null ==> \result.subList(1,\result.size()).equals(getParent().getAllParents());
+     @ post parent() == null ==> \result.isEmpty();
+     @ post parent() != null ==> \result.get(0) == parent();
+     @ post parent() != null ==> \result.subList(1,\result.size()).equals(parent().ancestors());
      @*/
-    public List<Element> getAncestors();
+    public List<Element> ancestors();
 
     /**
      * Return the direct children of this element.
@@ -93,9 +109,9 @@ public interface Element<E extends Element, P extends Element> {
      @ public behavior
      @
      @ post \result != null;
-     @ post \forall(Element e; \result.contains(e); e.getParent() == this);
+     @ post \forall(Element e; \result.contains(e); e.parent() == this);
      @*/
-    public List<? extends Element> getChildren();
+    public List<? extends Element> children();
 
     
     /**
@@ -104,9 +120,9 @@ public interface Element<E extends Element, P extends Element> {
    /*@
      @ public behavior
      @
-     @ post \result == getDescendants(Element.class);
+     @ post \result == descendants(Element.class);
      @*/ 
-    public List<Element> getDescendants();
+    public List<Element> descendants();
 
     /**
      * Recursively return all descendants of this element.
@@ -115,22 +131,29 @@ public interface Element<E extends Element, P extends Element> {
    /*@
      @ public behavior
      @
-     @ post \forall(Element e; getChildren().contains(c) && c.isInstance(e); \result.contains(e));
-     @ post \forall(Element e; getChildren().contains(c); \result.containsAll(e.getDescendants()));
+     @ post \forall(Element e; children().contains(c) && c.isInstance(e); \result.contains(e));
+     @ post \forall(Element e; children().contains(c); \result.containsAll(e.descendants()));
      @*/
-    public <T extends Element> List<T> getDescendants(Class<T> c);
+    public <T extends Element> List<T> descendants(Class<T> c);
 
     /**
      * Return the tag with the given name.
      * @param name
      *        The name under which the tag is registered.
      */
-    public Tag getDecorator(String name);
+    public Tag tag(String name);
 
     /**
-     * Return all decorators associated with this elements.
+     * Return all tags associated with this element.
      */
-    public Collection<Tag> getDecorators();
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @ post (\forall Tag tag;; 
+     @        \result.contains(tag) == (\exists String s;; tag(s) == tag));
+     @*/
+    public Collection<Tag> tags();
 
     /**
      * Check whether or not a tag is registered under the given name
@@ -138,7 +161,14 @@ public interface Element<E extends Element, P extends Element> {
      *        The name to be checked
      * @return
      */
-    public boolean hasDecorator(String name);
+   /*@
+     @ public behavior
+     @
+     @ pre name != null;
+     @
+     @ post \result == (tag(name) != null);
+     @*/
+    public boolean hasTag(String name);
 
     /**
      * Register the given tag under the given name. 
@@ -152,28 +182,38 @@ public interface Element<E extends Element, P extends Element> {
      * @param name
      *        The name under which the given tag must be registered,
      */
-    public void setDecorator(Tag tag, String name);
+   /*@
+     @ public behavior
+     @
+     @ pre name != null;
+     @ pre tag != null;
+     @
+     @ post tag(name) == tag;
+     @*/
+    public void setTag(Tag tag, String name);
 
     /**
      * Remove the tag registered under the given name.
      * @param name
      *        The name of the tag to be removed.
      */
+   /*@
+     @ public behavior
+     @
+     @ post tag(name) == null;
+     @*/
     public void removeTag(String name);
     
     /**
      * Check whether or not this element has tags.
-     * @return
      */
-    public boolean hasDecorators();
+   /*@
+     @ public behavior
+     @
+     @ post \result == ! tags().isEmpty();
+     @*/
+    public boolean hasTags();
     
-    /**
-     * @return The parent compilation unit for this element, null if no parent
-     *         is available
-     * @deprecated        
-     */
-    public void reParse(ILinkage linkage, IMetaModelFactory factory);
-
     /**
      * Return the nearest ancestor of type T. Null if no such ancestor can be found.
      * @param <T>
@@ -182,12 +222,17 @@ public interface Element<E extends Element, P extends Element> {
      *        The class object of type T (T.class)
      * @return
      */
-    public <T extends Element> T getNearestAncestor(Class<T> c);
+    public <T extends Element> T nearestAncestor(Class<T> c);
     
     /**
      * Return the language of this element. Return null if this element is not
      * connected to a complete model.
      */
+   /*@
+     @ public behavior
+     @
+     @ post (parent() == null) ==> (\result == null);
+     @*/
     public Language language();
     
     /**
@@ -228,9 +273,9 @@ public interface Element<E extends Element, P extends Element> {
    /*@
      @ public behavior
      @
-     @ post \result == getParent().lexicalContext(this);
+     @ post \result == parent().lexicalContext(this);
      @
-     @ signals (MetamodelException) getParent() == null; 
+     @ signals (MetamodelException) parent() == null; 
      @*/
     public Context lexicalContext() throws MetamodelException;
     

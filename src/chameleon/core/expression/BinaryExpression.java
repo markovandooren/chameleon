@@ -59,7 +59,7 @@ public abstract class BinaryExpression extends Expression<BinaryExpression> impl
    @ post getFirst().equals(first); 
    @*/
   public void setFirst(Expression expression) {
-    _first.connectTo(expression.getParentLink());
+    _first.connectTo(expression.parentLink());
   }
 
 	/**
@@ -84,7 +84,7 @@ public abstract class BinaryExpression extends Expression<BinaryExpression> impl
    @ post getSecond().equals(second); 
    @*/
   public void setSecond(Expression expression) {
-    _second.connectTo(expression.getParentLink());
+    _second.connectTo(expression.parentLink());
   }
   
 }

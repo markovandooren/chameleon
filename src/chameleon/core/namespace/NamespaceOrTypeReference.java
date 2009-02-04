@@ -79,7 +79,7 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
 
   public void setTarget(NamespaceOrTypeReference target) {
     if(target != null) {
-      _target.connectTo(target.getParentLink());
+      _target.connectTo(target.parentLink());
     } else {
       _target.connectTo(null); 
     }
@@ -90,7 +90,7 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
    @
    @ post \result == Util.createNonNullList(getTarget());
    @*/
-  public List getChildren() {
+  public List children() {
     return Util.createNonNullList(getTarget());
   }
 

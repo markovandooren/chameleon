@@ -87,7 +87,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
 
   public void setTarget(InvocationTarget target) {
     if (target != null) {
-      _target.connectTo(target.getParentLink());
+      _target.connectTo(target.parentLink());
     }
     else {
       _target.connectTo(null);
@@ -105,11 +105,11 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   }
 
   public void addParameter(ActualParameter expr) {
-    _parametersLink.add(expr.getParentLink());
+    _parametersLink.add(expr.parentLink());
   }
 
   public void removeParameter(Expression expr) {
-    _parametersLink.remove(expr.getParentLink());
+    _parametersLink.remove(expr.parentLink());
   }
 
   public List<ActualParameter> getActualParameters() {
@@ -169,7 +169,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
    @ post \result.containsAll(getActualParameters());
    @ post getTarget() != null ==> \result.contains(getTarget());
    @*/  
-  public List<? extends Element> getChildren() {
+  public List<? extends Element> children() {
     List<? extends Element> result = getActualParameters();
     Util.addNonNull(getTarget(), result);
     return result;

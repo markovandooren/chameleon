@@ -41,7 +41,7 @@ public abstract class InvocationTargetWithTarget<E extends InvocationTargetWithT
   }
   
   public Type getNearestType() {
-    return getParent().getNearestType();
+    return parent().getNearestType();
   }
 
   
@@ -57,14 +57,14 @@ public abstract class InvocationTargetWithTarget<E extends InvocationTargetWithT
 
   public void setTarget(InvocationTarget target) {
     if (target != null) {
-      _target.connectTo(target.getParentLink());
+      _target.connectTo(target.parentLink());
     }
     else {
       _target.connectTo(null);
     }
   }
 
-  public List<Element> getChildren() {
+  public List<Element> children() {
   	return Util.createNonNullList(getTarget());
   }
 }

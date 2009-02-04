@@ -9,8 +9,8 @@ import chameleon.core.namespace.Namespace;
 public abstract class NamespacePartElementImpl<E extends Element, P extends Element> extends ElementImpl<E,P> implements NamespacePartElement<E,P> {
 
 	public NamespacePart getNearestNamespacePart() {
-		if(getParent() instanceof NamespacePartElement) {
-		  return ((NamespacePartElement)getParent()).getNearestNamespacePart();
+		if(parent() instanceof NamespacePartElement) {
+		  return ((NamespacePartElement)parent()).getNearestNamespacePart();
 		} else {
 			throw new RuntimeException("Searching nearest NamespacePart while the parent is not a NamespacePartElement");
 		}

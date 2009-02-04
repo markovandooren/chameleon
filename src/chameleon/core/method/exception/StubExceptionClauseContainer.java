@@ -42,7 +42,7 @@ public class StubExceptionClauseContainer extends StubTypeElement {
   
     public StubExceptionClauseContainer(TypeDescendant parent, ExceptionClause exc) {
       super(parent); //FIXME this entire class should be removed, and replaced by a more flexible lookup mechanism so we won't have to duplicate items.
-      _exceptionClause.connectTo(exc.getParentLink());
+      _exceptionClause.connectTo(exc.parentLink());
     }
 
 	/**
@@ -64,7 +64,7 @@ public class StubExceptionClauseContainer extends StubTypeElement {
      @ post \result.contains(getExceptionClause());
      @ post \result.size() == 1;
      @*/
-    public List getChildren() {
+    public List children() {
       return Util.createNonNullList(getExceptionClause());
     }
 

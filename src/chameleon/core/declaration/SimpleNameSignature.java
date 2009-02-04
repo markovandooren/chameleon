@@ -46,7 +46,7 @@ public class SimpleNameSignature extends Signature<SimpleNameSignature, Element>
     return new SimpleNameSignature(getName());
 	}
 
-	public List<? extends Element> getChildren() {
+	public List<? extends Element> children() {
 		return new ArrayList<Element>();
 	}
 

@@ -91,7 +91,7 @@ public class TypeReference extends NamespaceOrTypeReference<TypeReference,Type> 
       }
     }
     else {
-      result = getParent().lexicalContext(this).lookUp(selector()); //(getName());
+      result = parent().lexicalContext(this).lookUp(selector()); //(getName());
     }
     
     if(result != null) {

@@ -20,7 +20,7 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Declara
 
   public void setSignature(S signature) {
     if(signature != null) {
-      _signature.connectTo(signature.getParentLink());
+      _signature.connectTo(signature.parentLink());
     } else {
       _signature.connectTo(null);
     }

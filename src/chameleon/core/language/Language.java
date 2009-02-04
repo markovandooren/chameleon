@@ -209,7 +209,7 @@ public abstract class Language implements PropertyUniverse<Element> {
      **************************************************************************/
     
     public void setDefaultNamespace(RootNamespace defaultNamespace) {
-        _default.connectTo(defaultNamespace.getParentLink());
+        _default.connectTo(defaultNamespace.parentLink());
     }
 
     private Reference _default = new Reference(this); //todo wegens setDefaultNamespace kan dit niet generisch worden gemaakt?

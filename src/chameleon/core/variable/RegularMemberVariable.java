@@ -54,10 +54,10 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
     TypeContainer type = other.getNearestType();
     boolean found = true;
     while(type instanceof Type && (!found)) {
-      if(((Type)type).assignableTo(getParent())) {
+      if(((Type)type).assignableTo(parent())) {
         found = true; 
       }
-      type = ((Type) type).getParent(); //stupid generics 
+      type = ((Type) type).parent(); //stupid generics 
     }
     return found;
   }

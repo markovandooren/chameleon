@@ -63,7 +63,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  // initialization of this Map is done lazy.
 	  private Map<String, Tag> _decorators;
 	  
-	  public Tag getDecorator(String name) {
+	  public Tag tag(String name) {
 	  	if(_decorators != null) {
 	      return _decorators.get(name);
 	  	} else {
@@ -82,7 +82,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  	}
 	  }
 
-	  public void setDecorator(Tag decorator, String name) {
+	  public void setTag(Tag decorator, String name) {
 	  	//Lazy init of hashmap
 		  if (_decorators==null) {
 	      _decorators = new HashMap<String, Tag>();
@@ -99,7 +99,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	    }
 	  }
 
-	  public Collection<Tag> getDecorators() {
+	  public Collection<Tag> tags() {
 	  	if(_decorators == null) {
 	  		return new ArrayList();
 	  	} else {
@@ -107,7 +107,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  	}
 	  }
 
-	  public boolean hasDecorator(String name) {
+	  public boolean hasTag(String name) {
 	  	if(_decorators == null) {
 	  		return false;
 	  	} else {
@@ -115,7 +115,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  	}
 	  }
 
-	  public boolean hasDecorators() {
+	  public boolean hasTags() {
 	  	if(_decorators == null) {
 	  		return false;
 	  	} else {
@@ -163,7 +163,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	   * @throws ChameleonProgrammerException
 	   *    The method is invoked on a derived element. 
 	   */
-	  public final Reference<E,P> getParentLink() {
+	  public final Reference<E,P> parentLink() {
 	  	if(_parentLink != null) {
 	      return _parentLink;
 	  	} else {
@@ -174,7 +174,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  /**
 	   * Return the parent of this element
 	   */
-	  public final P getParent() {
+	  public final P parent() {
 	  	if(_parentLink != null) {
 	      return _parentLink.getOtherEnd();
 	  	} else {
@@ -207,39 +207,34 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  	_parent = parent;
 	  }
 	  
-    public final List<Element> getDescendants() {
-        return getDescendants(Element.class);
+    public final List<Element> descendants() {
+        return descendants(Element.class);
     }
 
-    public final <T extends Element> List<T> getDescendants(Class<T> c) {
-    	List<Element> tmp = (List<Element>) getChildren();
+    public final <T extends Element> List<T> descendants(Class<T> c) {
+    	List<Element> tmp = (List<Element>) children();
     	new TypePredicate<Element,T>(c).filter(tmp);
       List<T> result = (List<T>)tmp;
-      for (Element e : getChildren()) {
-        result.addAll(e.getDescendants(c));
+      for (Element e : children()) {
+        result.addAll(e.descendants(c));
       }
       return result;
     }
 
-    public final void reParse(ILinkage linkage, IMetaModelFactory factory) {
-      getParent().reParse(linkage, factory);
-    }
-
-
-    public final List<Element> getAncestors() {
-        if (getParent()!=null) {
-            List<Element> result = getParent().getAncestors();
-            result.add(0, getParent());
+    public final List<Element> ancestors() {
+        if (parent()!=null) {
+            List<Element> result = parent().ancestors();
+            result.add(0, parent());
             return result;
         } else {
             return new ArrayList<Element>();
         }
     }
 
-    public <T extends Element> T getNearestAncestor(Class<T> c) {
-    	Element el = getParent();
+    public <T extends Element> T nearestAncestor(Class<T> c) {
+    	Element el = parent();
     	while ((el != null) && (! c.isInstance(el))){
-    		el = el.getParent();
+    		el = el.parent();
     	}
     	return (T) el;
     }
@@ -247,8 +242,8 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     public abstract E clone();
     
     public Language language() {
-      if(getParent() != null) {
-        return getParent().language();
+      if(parent() != null) {
+        return parent().language();
       } else {
         return null;
       }
@@ -258,7 +253,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
      * @see Element#lexicalContext(Element) 
      */
     public Context lexicalContext(Element child) throws MetamodelException {
-      return getParent().lexicalContext(this);
+      return parent().lexicalContext(this);
     }
 
     /**
@@ -266,9 +261,9 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
      */
     public final Context lexicalContext() throws MetamodelException {
     	try {
-        return getParent().lexicalContext(this);
+        return parent().lexicalContext(this);
     	} catch(NullPointerException exc) {
-    		if(getParent() == null) {
+    		if(parent() == null) {
     			throw new MetamodelException("Requesting the lexical context of an element without a parent.");
     		} else {
     			throw exc;

@@ -53,7 +53,7 @@ public class ActualParameter extends NamespacePartElementImpl<ActualParameter,In
 
 	public void setExpression(Expression expression) {
 		if(expression != null) {
-			_expression.connectTo(expression.getParentLink());
+			_expression.connectTo(expression.parentLink());
 		} else {
 			_expression.connectTo(null);
 			throw new Error("Debugging Exception");
@@ -71,13 +71,13 @@ public class ActualParameter extends NamespacePartElementImpl<ActualParameter,In
 	}
 
 	public void addModifier(Modifier modifier) {
-		if ((modifier != null) && (!_modifiers.contains(modifier.getParentLink()))) {
-			_modifiers.add(modifier.getParentLink());
+		if ((modifier != null) && (!_modifiers.contains(modifier.parentLink()))) {
+			_modifiers.add(modifier.parentLink());
 		}
 	}
 
 	public void removeModifier(Modifier modifier) {
-		_modifiers.remove(modifier.getParentLink());
+		_modifiers.remove(modifier.parentLink());
 	}
 
 	public boolean is(Modifier modifier) {
@@ -97,7 +97,7 @@ public class ActualParameter extends NamespacePartElementImpl<ActualParameter,In
 		return result;
 	}
 
-	public List<Element> getChildren() {
+	public List<Element> children() {
 		List<Element> result = Util.createNonNullList(getExpression());
 		result.addAll(getModifiers());
 		return result;
@@ -108,11 +108,11 @@ public class ActualParameter extends NamespacePartElementImpl<ActualParameter,In
 	}
 
 	public Type getNearestType() {
-		return this.getParent().getNearestType();
+		return this.parent().getNearestType();
 	}
 
 	public Namespace getNamespace() {
-		return this.getParent().getNamespace();
+		return this.parent().getNamespace();
 	}
 
 }

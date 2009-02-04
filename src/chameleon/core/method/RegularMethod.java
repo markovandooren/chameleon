@@ -21,7 +21,7 @@ public abstract class RegularMethod<E extends RegularMethod<E,S>, S extends Meth
 
 	public void setReturnTypeReference(TypeReference type) {
 		if(type != null) {
-			_typeReference.connectTo(type.getParentLink());
+			_typeReference.connectTo(type.parentLink());
 		}
 		else {
 			_typeReference.connectTo(null);
@@ -36,7 +36,7 @@ public abstract class RegularMethod<E extends RegularMethod<E,S>, S extends Meth
 
 	public void setImplementation(Implementation implementation) {
 		if (implementation != null) {
-			_implementationLink.connectTo(implementation.getParentLink());
+			_implementationLink.connectTo(implementation.parentLink());
 		}
 		else {
 			_implementationLink.connectTo(null);
@@ -55,7 +55,7 @@ public abstract class RegularMethod<E extends RegularMethod<E,S>, S extends Meth
 
   public void setExceptionClause(ExceptionClause clause) {
     if(clause != null) {
-      _exceptionClause.connectTo(clause.getParentLink());
+      _exceptionClause.connectTo(clause.parentLink());
     }
     else {
       _exceptionClause.connectTo(null);

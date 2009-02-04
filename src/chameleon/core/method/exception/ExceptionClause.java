@@ -104,11 +104,11 @@ public boolean compatibleWith(final ExceptionClause other) throws MetamodelExcep
   private OrderedReferenceSet<ExceptionClause,ExceptionDeclaration> _exceptionDeclarations = new OrderedReferenceSet<ExceptionClause,ExceptionDeclaration>(this);
 
   public void add(ExceptionDeclaration decl) {
-    _exceptionDeclarations.add(decl.getParentLink());
+    _exceptionDeclarations.add(decl.parentLink());
   }
 
   public void remove(ExceptionDeclaration decl) {
-    _exceptionDeclarations.remove(decl.getParentLink());
+    _exceptionDeclarations.remove(decl.parentLink());
   }
 
   public List<ExceptionDeclaration> getDeclarations() {
@@ -117,7 +117,7 @@ public boolean compatibleWith(final ExceptionClause other) throws MetamodelExcep
 
 
   public Type getNearestType() {
-    return getParent().getNearestType();
+    return parent().getNearestType();
   }
 
   /**
@@ -155,7 +155,7 @@ public boolean compatibleWith(final ExceptionClause other) throws MetamodelExcep
    @
    @ post \result.equals(getDeclarations());
    @*/
-  public List<? extends Element> getChildren() {
+  public List<? extends Element> children() {
     return getDeclarations();
   }
 

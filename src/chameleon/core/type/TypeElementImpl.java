@@ -39,13 +39,13 @@ public abstract class TypeElementImpl<E extends TypeElementImpl<E,P>, P extends 
   }
 
   public void addModifier(Modifier modifier) {
-    if ((modifier != null) && (!_modifiers.contains(modifier.getParentLink()))) {
-      _modifiers.add(modifier.getParentLink());
+    if ((modifier != null) && (!_modifiers.contains(modifier.parentLink()))) {
+      _modifiers.add(modifier.parentLink());
     }
   }
 
   public void removeModifier(Modifier modifier) {
-    _modifiers.remove(modifier.getParentLink());
+    _modifiers.remove(modifier.parentLink());
   }
 
   public boolean hasModifier(Modifier modifier) {

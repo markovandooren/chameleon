@@ -22,7 +22,7 @@ public class DemandImport extends Import<DemandImport> {
   }
 
   
-  public List getChildren() {
+  public List children() {
     return Util.createNonNullList(getNamespaceOrTypeReference());
   }
 
@@ -36,7 +36,7 @@ public class DemandImport extends Import<DemandImport> {
   
   public void setNamespaceOrTypeReference(NamespaceOrTypeReference ref) {
   	if(ref != null) {
-  		_packageOrType.connectTo(ref.getParentLink());
+  		_packageOrType.connectTo(ref.parentLink());
   	}
   	else {
   		_packageOrType.connectTo(null);

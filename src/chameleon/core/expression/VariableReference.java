@@ -31,7 +31,7 @@ public class VariableReference extends Expression<VariableReference> implements 
   }
 
   public void setTarget(NamedTarget target) {
-    _target.connectTo(target.getParentLink());
+    _target.connectTo(target.parentLink());
   }
 
   public Variable getVariable() throws MetamodelException {
@@ -74,7 +74,7 @@ public class VariableReference extends Expression<VariableReference> implements 
     return result;
   }
   
-  public List<? extends Element> getChildren() {
+  public List<? extends Element> children() {
     return Util.createNonNullList(getTarget());
   }
 

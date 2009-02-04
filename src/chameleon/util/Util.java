@@ -150,7 +150,7 @@ public class Util {
 	public static void addExpression(Expression expression, Set set) {
     if(expression != null) {
       set.add(expression);
-        set.addAll(expression.getDescendants(Expression.class));
+        set.addAll(expression.descendants(Expression.class));
       //set.addAll(expression.getAllExpressions());
     }
 	}

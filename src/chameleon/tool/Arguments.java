@@ -81,7 +81,7 @@ public Set getCompilationUnits() {
     	//we must make shure that the default types like int, long, ...
     	//that are also in the default namespace, are not printed
     	//(because they are not linked to a compilation unit).
-    	if(np.getParent() != null && np.getNearestNamespacePart() != null)
+    	if(np.parent() != null && np.getNearestNamespacePart() != null)
     		result.add(np.getNearestNamespacePart());
     }
   }.applyTo(getTypes());
@@ -92,7 +92,7 @@ public Set getMethods() {
   final Set result = new HashSet();
   new Visitor() {
     public void visit(Object element) {
-    	result.addAll(((CompilationUnit)element).getDescendants(Method.class));
+    	result.addAll(((CompilationUnit)element).descendants(Method.class));
     }
   }.applyTo(getCompilationUnits());
   return result;

@@ -64,7 +64,7 @@ public abstract class ExceptionDeclaration<E extends ExceptionDeclaration> exten
   public abstract boolean isAcyclic(Set done) throws MetamodelException;
 
   public Type getNearestType() {
-	return getParent().getNearestType();
+	return parent().getNearestType();
   }
 
 

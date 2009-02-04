@@ -19,7 +19,7 @@ public abstract class TypeConstraint<E extends TypeConstraint, P extends Generic
 	
 	public void setTypeReference(TypeReference typeRef) {
 		if(typeRef != null) {
-			_typeRef.connectTo(typeRef.getParentLink());
+			_typeRef.connectTo(typeRef.parentLink());
 		} else {
 			_typeRef.connectTo(null);
 		}
@@ -40,7 +40,7 @@ public abstract class TypeConstraint<E extends TypeConstraint, P extends Generic
 	@Override
 	public abstract E clone();
 
-	public List<? extends Element> getChildren() {
+	public List<? extends Element> children() {
 		List<Element> result = new ArrayList<Element>();
 		result.add(typeReference());
 		return result;

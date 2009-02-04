@@ -61,10 +61,10 @@ public class GenericParameter extends MemberImpl<GenericParameter, Type, SimpleN
 	}
 
 	public Type getNearestType() {
-		return getParent().getNearestType();
+		return parent().getNearestType();
 	}
 
-	public List<? extends Element> getChildren() {
+	public List<? extends Element> children() {
 		List<? extends Element> result = new ArrayList<Element>();
 		return result;
 	}
@@ -77,7 +77,7 @@ public class GenericParameter extends MemberImpl<GenericParameter, Type, SimpleN
 	
 	public void addConstraint(TypeConstraint constraint) {
 		if(constraint != null) {
-			_typeConstraints.add(constraint.getParentLink());
+			_typeConstraints.add(constraint.parentLink());
 		}
 	}
 

@@ -12,12 +12,12 @@ public abstract class TagImpl implements Tag {
   
   public void setElement(Element element, String name) {
   	if(element != _element) {
-  		if((_element != null) && (_element.getDecorator(name) == this)){
+  		if((_element != null) && (_element.tag(name) == this)){
   			_element.removeTag(name);
   		}
   		_element = element;
-  		if((_element != null) && (_element.getDecorator(name) != this)) {
-  		  _element.setDecorator(this, name);
+  		if((_element != null) && (_element.tag(name) != this)) {
+  		  _element.setTag(this, name);
   		}
   	}
   }

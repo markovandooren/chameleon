@@ -79,7 +79,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 
 	public void setSignature(Signature signature) {
 	  if(signature != null) {
-	    _signature.connectTo(signature.getParentLink());
+	    _signature.connectTo(signature.parentLink());
 	  } else {
 	    _signature.connectTo(null);
 	  }
@@ -110,7 +110,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 @        \result == getParent().getFullyQualifiedName() + "." + getName();
 	 @*/
 	public String getFullyQualifiedName() {
-		return (getParent() == null || getParent().getName().equals("") ? "" : getParent().getFullyQualifiedName() + ".") + getName();
+		return (parent() == null || parent().getName().equals("") ? "" : parent().getFullyQualifiedName() + ".") + getName();
 	}
 
 	private final class DummyNamespaceOrTypeReference extends NamespaceOrTypeReference {
@@ -149,11 +149,11 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 @ post getParent() == null ==> \result == this;
 	 @*/
 	public Namespace getDefaultNamespace() {
-		if (getParent() == null) {
+		if (parent() == null) {
 			return this;
 		}
 		else {
-			return getParent().getDefaultNamespace();
+			return parent().getDefaultNamespace();
 		}
 	}
 
@@ -350,7 +350,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	  }
 
 	  public Type getNullType() {
-	    return ((Namespace)getParent()).getNullType();
+	    return ((Namespace)parent()).getNullType();
 	  }
 
 	/**
@@ -413,7 +413,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
         Set<Expression> result = new HashSet<Expression>(); 
         //final Set result = new HashSet();
         for (Object t : getTypes()) {
-            result.addAll(((Type)t).getDescendants(Expression.class));
+            result.addAll(((Type)t).descendants(Expression.class));
         }
 		return result;
 	}
@@ -433,7 +433,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	   @ post \result.containsAll(getSubNamespaces());
 	   @ post \result.containsAll(getCompilationUnits());
 	   @*/
-	  public List<? extends Element> getChildren() {
+	  public List<? extends Element> children() {
 	    List<Element> result = new ArrayList<Element>();
       result.addAll(getSubNamespaces());
 	    result.addAll( getNamespaceParts());
@@ -448,7 +448,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 		 *        The new parent.
 		 */
 		public void setParent(Namespace ns) {
-			getParentLink().connectTo(ns.getSubNamespacesLink());
+			parentLink().connectTo(ns.getSubNamespacesLink());
 		}
 
 //    @Override

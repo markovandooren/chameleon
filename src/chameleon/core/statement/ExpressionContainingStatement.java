@@ -56,7 +56,7 @@ public abstract class ExpressionContainingStatement<E extends ExpressionContaini
   
   public void setExpression(Expression expression) {
     if(expression != null) {
-    	_expression.connectTo(expression.getParentLink());
+    	_expression.connectTo(expression.parentLink());
     }
     else {
       _expression.connectTo(null); 

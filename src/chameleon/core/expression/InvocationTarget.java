@@ -174,7 +174,7 @@ public abstract class InvocationTarget<E extends InvocationTarget,P extends Invo
 	 @ post ! \result.contains(null);
 	 @ post (\forall Object o; \result.contains(o); o instanceof InvocationTarget);
 	 @*/
-	public abstract List getChildren();
+	public abstract List children();
 
 //	/**
 //	 * Return the accessibility domain for all elements of this expression. In short, it means

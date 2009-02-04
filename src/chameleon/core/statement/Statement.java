@@ -48,7 +48,7 @@ public abstract class Statement<E extends Statement> extends NamespacePartElemen
 
 
   public Type getNearestType() {
-    return getParent().getNearestType();
+    return parent().getNearestType();
   }
 
   public Namespace getNamespace() {
@@ -97,7 +97,7 @@ public abstract class Statement<E extends Statement> extends NamespacePartElemen
         public void unvisit(Object element, Object undo) {
           //NOP
         }
-      }.applyTo(getChildren());
+      }.applyTo(children());
       return cel;
     }
     catch (MetamodelException e) {
@@ -116,17 +116,17 @@ public abstract class Statement<E extends Statement> extends NamespacePartElemen
 	/**
 	 * All children are of type ExceptionSource.
 	 */
-	public abstract List getChildren();
+	public abstract List children();
 
 
   public List getExceptionSources() {
-    List result = getChildren();
+    List result = children();
     new TypePredicate(ExceptionSource.class).filter(result);
     return result;
   }
 
   public final List getSubStatements() {
-    List result = getChildren();
+    List result = children();
     new TypePredicate(Statement.class).filter(result);
     return result;
   }
@@ -137,8 +137,8 @@ public abstract class Statement<E extends Statement> extends NamespacePartElemen
 
   public boolean before(Statement other) {
     StatementListContainer container = getNearestCommonStatementListContainer(other);
-    List myParents = getAncestors();
-    List otherParents = other.getAncestors();
+    List myParents = ancestors();
+    List otherParents = other.ancestors();
     myParents.add(0, this);
     otherParents.add(0, other);
     Statement myAncestor = (Statement)myParents.get(myParents.indexOf(container) - 1);
@@ -147,8 +147,8 @@ public abstract class Statement<E extends Statement> extends NamespacePartElemen
   }
 
   public StatementListContainer getNearestCommonStatementListContainer(Statement other) {
-    List myParents = getAncestors();
-    List otherParents = other.getAncestors();
+    List myParents = ancestors();
+    List otherParents = other.ancestors();
     ListIterator myIter = myParents.listIterator(myParents.size());
     ListIterator otherIter = otherParents.listIterator(myParents.size());
     Object common = null;

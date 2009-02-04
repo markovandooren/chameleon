@@ -17,7 +17,7 @@ public class StubExpressionContainer extends StubTypeElement<StubExpressionConta
   
   public StubExpressionContainer(ExpressionContainer parent, Expression expr) {
     super(parent); //FIXME this entire class should be removed I think, and use a adaptable context graph for anchored exception declarations
-    _expr.connectTo(expr.getParentLink());
+    _expr.connectTo(expr.parentLink());
   }
 
  	private Reference _expr = new Reference(this);
@@ -33,7 +33,7 @@ public class StubExpressionContainer extends StubTypeElement<StubExpressionConta
    @ post getExpression() != null ==> \result.contains(getExpression());
    @ post \result.size() == 1;
    @*/
-  public List getChildren() {
+  public List children() {
     return Util.createNonNullList(getExpression());
   }
 

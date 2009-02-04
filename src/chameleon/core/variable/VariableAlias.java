@@ -58,7 +58,7 @@ public class VariableAlias extends VariableImpl<VariableAlias,Type> implements M
 	}
 
 	public Type getNearestType() {
-		return getParent().getNearestType();
+		return parent().getNearestType();
 	}
 
 	public Type getType() throws MetamodelException {
@@ -85,8 +85,8 @@ public class VariableAlias extends VariableImpl<VariableAlias,Type> implements M
 		return aliasedVariable().targetContext();
 	}
 
-	public List<? extends Element> getChildren() {
-    return aliasedVariable().getChildren();
+	public List<? extends Element> children() {
+    return aliasedVariable().children();
 	}
 
 	public MemberVariable alias(SimpleNameSignature signature) {

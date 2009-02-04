@@ -53,7 +53,7 @@ public class StaticInitializer extends TypeElementImpl<StaticInitializer,Type> i
   }
 
   public Type getType() {
-  	return getParent();
+  	return parent();
   }
 
   /*********
@@ -72,7 +72,7 @@ public class StaticInitializer extends TypeElementImpl<StaticInitializer,Type> i
   private Reference<StaticInitializer,Block> _blockLink = new Reference<StaticInitializer,Block>(this);
 
   public void setBlock(Block block) {
-    _blockLink.connectTo(block.getParentLink());
+    _blockLink.connectTo(block.parentLink());
   }
 
   /**
@@ -88,7 +88,7 @@ public class StaticInitializer extends TypeElementImpl<StaticInitializer,Type> i
    @ post getBlock() != null ==> \result.contains(getBlock());
    @ post \result.size() == 1;
    @*/
-  public List getChildren() {
+  public List children() {
     return Util.createNonNullList(getBlock());
   }
 

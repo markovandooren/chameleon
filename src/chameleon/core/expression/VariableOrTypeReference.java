@@ -40,7 +40,7 @@ public class VariableOrTypeReference extends Expression<VariableOrTypeReference>
   }
 
   public void setTarget(InvocationTarget target) {
-    _target.connectTo(target.getParentLink());
+    _target.connectTo(target.parentLink());
   }
 
   public boolean superOf(InvocationTarget target) throws MetamodelException {
@@ -86,7 +86,7 @@ public class VariableOrTypeReference extends Expression<VariableOrTypeReference>
     return result;
   }
   
-  public List getChildren() {
+  public List children() {
     return Util.createNonNullList(getTarget());
   }
 

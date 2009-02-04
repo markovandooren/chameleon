@@ -75,7 +75,7 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration<TypeException
   }
   
   public void setTypeReference(TypeReference ref) {
-    _typeReference.connectTo(ref.getParentLink());
+    _typeReference.connectTo(ref.parentLink());
   }
 
   /**
@@ -122,7 +122,7 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration<TypeException
     return true; 
   }
 
-  public List getChildren() {
+  public List children() {
     return Util.createNonNullList(getTypeReference());
   }
 

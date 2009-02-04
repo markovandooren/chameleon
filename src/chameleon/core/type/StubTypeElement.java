@@ -37,7 +37,7 @@ public abstract class StubTypeElement<E extends StubTypeElement> extends TypeDes
   }
   
   public Type getNearestType() {
-    return getParent().getNearestType();
+    return parent().getNearestType();
   }
 
 

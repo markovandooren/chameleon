@@ -44,7 +44,7 @@ public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends 
   }
 
   public void setTypeReference(TypeReference type) {
-    _typeReference.connectTo(type.getParentLink());
+    _typeReference.connectTo(type.parentLink());
   }
 
 	/**
@@ -59,7 +59,7 @@ public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends 
   
   public void setInitialization(Expression expr) {
     if(expr != null) {
-      _init.connectTo(expr.getParentLink());
+      _init.connectTo(expr.parentLink());
     }
     else {
       _init.connectTo(null);
@@ -92,7 +92,7 @@ public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends 
    @ post getInitialization() != null ==> \result.contains(getInitialization());
    @ post signature() != null ==> \result.contains(signature());
    @*/
-  public List<Element> getChildren() {
+  public List<Element> children() {
     List result = new ArrayList<Element>();
     Util.addNonNull(getInitialization(), result);
     result.addAll(modifiers());
@@ -111,13 +111,13 @@ public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends 
 	}
 
 	public void addModifier(Modifier modifier) {
-		if ((modifier != null) && (!_modifiers.contains(modifier.getParentLink()))) {
-			_modifiers.add(modifier.getParentLink());
+		if ((modifier != null) && (!_modifiers.contains(modifier.parentLink()))) {
+			_modifiers.add(modifier.parentLink());
 		}
 	}
 
 	public void removeModifier(Modifier modifier) {
-		_modifiers.remove(modifier.getParentLink());
+		_modifiers.remove(modifier.parentLink());
 	}
 
 	public boolean hasModifier(Modifier modifier) {
@@ -149,7 +149,7 @@ public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends 
   @ post \result == getParent().getNearestType();
   @*/
  public Type getNearestType() {
-   return getParent().getNearestType();
+   return parent().getNearestType();
  }
 
  public E clone() {

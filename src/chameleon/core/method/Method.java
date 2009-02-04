@@ -130,7 +130,7 @@ public abstract class Method<E extends Method<E,S>, S extends MethodSignature> e
 	  @ post \result == getType();
 	  @*/
 	public Type getNearestType() {
-		return getParent();
+		return parent();
 	}
 
 	/**********
@@ -320,7 +320,7 @@ public abstract class Method<E extends Method<E,S>, S extends MethodSignature> e
 	 @ post \result.contains(getExceptionClause());
 	 @ post getImplementation() != null ==> \result.contains(getImplementation());
 	 @*/
-	public List<? extends Element> getChildren() {
+	public List<? extends Element> children() {
 		List<Element> result = Util.createNonNullList(getImplementation());
 		result.add(signature());
 		result.add(getExceptionClause());
