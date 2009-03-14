@@ -24,6 +24,8 @@
  */
 package chameleon.core;
 
+import chameleon.core.element.Element;
+
 /**
  * @author marko
  */
@@ -50,5 +52,9 @@ public class MetamodelException extends Exception {
    */
   public static int count() {
   	return count;
+  }
+  
+  public Element parent() {
+  	return null;
   }
 }

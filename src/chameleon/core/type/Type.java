@@ -770,11 +770,11 @@ public abstract class Type extends MemberImpl<Type,TypeContainer,SimpleNameSigna
   	}
   	
   	protected Type unionDoubleDispatch(Type type) {
-  		return new UnionType(this,type);
+  		return new IntersectionType(this,type);
   	}
 
-  	protected Type unionDoubleDispatch(UnionType type) {
-  		UnionType result = type.clone();
+  	protected Type unionDoubleDispatch(IntersectionType type) {
+  		IntersectionType result = type.clone();
   		result.addType(type);
   		return result;
   	}

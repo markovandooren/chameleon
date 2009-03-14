@@ -15,15 +15,15 @@ import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.member.Member;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
-public class UnionType extends Type {
+public class IntersectionType extends Type {
 
-	UnionType(Type first, Type second) {
+	IntersectionType(Type first, Type second) {
 		super(createSignature(Arrays.asList(new Type[]{first,second})));
 		add(first);
 		add(second);
 	}
 	
-	private UnionType(Set<Type> types) {
+	private IntersectionType(Set<Type> types) {
 		super(createSignature(types));
 		_types = types;
 	}
@@ -32,13 +32,13 @@ public class UnionType extends Type {
 		return type.unionDoubleDispatch(this);
 	}
 
-	protected Type unionDoubleDispatch(UnionType type) {
-		UnionType result = clone();
+	protected Type unionDoubleDispatch(IntersectionType type) {
+		IntersectionType result = clone();
 		result.addAll(type);
 		return type;
 	}
 
-	public void addAll(UnionType type) {
+	public void addAll(IntersectionType type) {
 		_types.addAll(type.types());
 	}
 	
@@ -55,17 +55,17 @@ public class UnionType extends Type {
 	
 	@Override
 	public void add(TypeElement element) throws ChameleonProgrammerException {
-		throw new ChameleonProgrammerException("Trying to add an element to a union type.");
+		throw new ChameleonProgrammerException("Trying to add an element to a intersection type.");
 	}
 
 	@Override
 	public void addInheritanceRelation(InheritanceRelation type) throws ChameleonProgrammerException {
-		throw new ChameleonProgrammerException("Trying to add a super type to a union type.");
+		throw new ChameleonProgrammerException("Trying to add a super type to a intersection type.");
 	}
 
 	
 	public static SimpleNameSignature createSignature(Collection<Type> types) {
-		StringBuffer name = new StringBuffer("union of ");
+		StringBuffer name = new StringBuffer("intersection of ");
 		for(Type type:types) {
 			name.append(type.getFullyQualifiedName()+", ");
 		}
@@ -74,8 +74,8 @@ public class UnionType extends Type {
 	}
 	
 	@Override
-	public UnionType clone() {
-		return new UnionType(types());
+	public IntersectionType clone() {
+		return new IntersectionType(types());
 	}
 
 	@Override
@@ -109,7 +109,7 @@ public class UnionType extends Type {
 
 	@Override
 	public void removeInheritanceRelation(InheritanceRelation type) {
-		throw new ChameleonProgrammerException("Trying to remove a super type from a union type.");
+		throw new ChameleonProgrammerException("Trying to remove a super type from a intersection type.");
 	}
 	
 	

@@ -11,7 +11,7 @@ import chameleon.core.element.ElementImpl;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 
-public abstract class TypeConstraint<E extends TypeConstraint, P extends GenericParameter> extends ElementImpl<E,P> {
+public abstract class TypeConstraint<E extends TypeConstraint, P extends Element> extends ElementImpl<E,P> {
 
 	public TypeConstraint(TypeReference typeRef) {
 		setTypeReference(typeRef);
