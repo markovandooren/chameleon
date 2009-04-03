@@ -57,7 +57,7 @@ public class GenericParameter extends MemberImpl<GenericParameter, Type, SimpleN
 	}
 	
 	public Type resolve() throws MetamodelException {
-		return new ConstructedType(signature().clone(),lowerBound(),this);
+		return new ConstructedType(signature().clone(),upperBound(),this);
 	}
 
 	public Type getNearestType() {
@@ -82,10 +82,10 @@ public class GenericParameter extends MemberImpl<GenericParameter, Type, SimpleN
 		}
 	}
 
-	public Type lowerBound() throws MetamodelException {
+	public Type upperBound() throws MetamodelException {
 		Type result = language().getDefaultSuperClass();
 		for(TypeConstraint constraint: constraints()) {
-			result = result.union(constraint.lowerBound());
+			result = result.intersection(constraint.lowerBound());
 		}
 		return result;
 	}

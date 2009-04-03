@@ -28,11 +28,11 @@ public class IntersectionType extends Type {
 		_types = types;
 	}
 
-	protected Type unionDoubleDispatch(Type type) {
-		return type.unionDoubleDispatch(this);
+	protected Type intersectionDoubleDispatch(Type type) {
+		return type.intersectionDoubleDispatch(this);
 	}
 
-	protected Type unionDoubleDispatch(IntersectionType type) {
+	protected Type intersectionDoubleDispatch(IntersectionType type) {
 		IntersectionType result = clone();
 		result.addAll(type);
 		return type;

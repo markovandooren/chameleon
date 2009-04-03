@@ -765,15 +765,23 @@ public abstract class Type extends MemberImpl<Type,TypeContainer,SimpleNameSigna
       return new TypeAlias(sig,this);
   	}
 
-  	public Type union(Type type) {
-  		return type.unionDoubleDispatch(type);
+  	public Type intersection(Type type) throws MetamodelException {
+  		return type.intersectionDoubleDispatch(type);
   	}
   	
-  	protected Type unionDoubleDispatch(Type type) {
-  		return new IntersectionType(this,type);
+  	protected Type intersectionDoubleDispatch(Type type) throws MetamodelException {
+  		Type result;
+  		if(type.subTypeOf(this)) {
+  			result = type;
+  		} else if (subTypeOf(type)) {
+  			result = this;
+  		} else {
+  		  result = new IntersectionType(this,type);
+  		}
+  		return result;
   	}
 
-  	protected Type unionDoubleDispatch(IntersectionType type) {
+  	protected Type intersectionDoubleDispatch(IntersectionType type) {
   		IntersectionType result = type.clone();
   		result.addType(type);
   		return result;
