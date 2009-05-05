@@ -53,13 +53,32 @@ public interface Member<E extends Member<E,P,S,F>, P extends DeclarationContaine
   
   /**
    * Check whether this member overrides the given member.
-   * @param other
-   * @return
    */
+ /*@
+   @ public behavior
+   @
+   @ post other == null ==> \result == null;
+   @*/
   public boolean overrides(Member other) throws MetamodelException;
   
+  /**
+   * Check whether this member overrides the given member.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post other == null ==> \result == null;
+   @*/
   public boolean hides(Member other) throws MetamodelException;
   
+  /**
+   * Check whether this is equivalent to given member.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post other == null ==> \result == null;
+   @*/
   public boolean equivalentTo(Member other) throws MetamodelException;
   
   

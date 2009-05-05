@@ -85,7 +85,7 @@ public class GenericParameter extends MemberImpl<GenericParameter, Type, SimpleN
 	public Type upperBound() throws MetamodelException {
 		Type result = language().getDefaultSuperClass();
 		for(TypeConstraint constraint: constraints()) {
-			result = result.intersection(constraint.lowerBound());
+			result = result.intersection(constraint.upperBound());
 		}
 		return result;
 	}

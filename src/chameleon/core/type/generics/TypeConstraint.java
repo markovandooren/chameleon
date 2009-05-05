@@ -50,6 +50,8 @@ public abstract class TypeConstraint<E extends TypeConstraint, P extends Element
 	 * Return the lower bound on the type that this type constraint imposes.
 	 * 
 	 * @return
+	 * @throws MetamodelException 
 	 */
-	public abstract Type lowerBound();
+	public abstract Type upperBound() throws MetamodelException;
+	
 }

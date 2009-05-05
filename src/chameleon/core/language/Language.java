@@ -307,16 +307,46 @@ public abstract class Language implements PropertyUniverse<Element> {
     
     private ContextFactory _contextFactory;
     
+    /**
+     * Return the relation that determines when a member overrides another
+     */
+   /*@
+     @ post \result != null;
+     @ // A member cannot override null
+     @ post (\forall Member m; m != null ; ! \result.contains(m,null));
+     @*/
     public abstract StrictPartialOrder<Member> overridesRelation();
     
+    /**
+     * Return the relation that determines when a member hides another
+     */
+   /*@
+     @ post \result != null;
+     @ // A member cannot hide null
+     @ post (\forall Member m; m != null ; ! \result.contains(m,null));
+     @*/
     public abstract StrictPartialOrder<Member> hidesRelation();
 
     public abstract Type voidType() throws MetamodelException;
     
+    /**
+     * Return the type that represents the boolean type in this language.
+     */
     public abstract Type booleanType() throws MetamodelException;
-    
+
+    /**
+     * Return the type that represents class cast exceptions in this language.
+     */
     public abstract Type classCastException() throws MetamodelException;
 
+    /**
+     * Return the relation that determines when a member is equivalent to another.
+     */
+   /*@
+     @ post \result != null;
+     @ // A member cannot be equivalent to null
+     @ post (\forall Member m; m != null ; ! \result.contains(m,null));
+     @*/
 		public abstract EquivalenceRelation<Member> equivalenceRelation();
 
 }
