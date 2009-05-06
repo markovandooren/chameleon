@@ -13,25 +13,25 @@ import chameleon.core.type.TypeReference;
 
 public abstract class TypeConstraint<E extends TypeConstraint, P extends Element> extends ElementImpl<E,P> {
 
-	public TypeConstraint(TypeReference typeRef) {
-		setTypeReference(typeRef);
+	public TypeConstraint() {
+//		setTypeReference(typeRef);
 	}
 	
-	public void setTypeReference(TypeReference typeRef) {
-		if(typeRef != null) {
-			_typeRef.connectTo(typeRef.parentLink());
-		} else {
-			_typeRef.connectTo(null);
-		}
-	}
-	
-	public TypeReference typeReference() {
-		return _typeRef.getOtherEnd();
-	}
-	
-	public Type type() throws MetamodelException {
-		return typeReference().getType();
-	}
+//	public void setTypeReference(TypeReference typeRef) {
+//		if(typeRef != null) {
+//			_typeRef.connectTo(typeRef.parentLink());
+//		} else {
+//			_typeRef.connectTo(null);
+//		}
+//	}
+//	
+//	public TypeReference typeReference() {
+//		return _typeRef.getOtherEnd();
+//	}
+//	
+//	public Type type() throws MetamodelException {
+//		return typeReference().getType();
+//	}
 	
 	public abstract boolean matches(Type type) throws MetamodelException;
 	
@@ -40,11 +40,11 @@ public abstract class TypeConstraint<E extends TypeConstraint, P extends Element
 	@Override
 	public abstract E clone();
 
-	public List<? extends Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		result.add(typeReference());
-		return result;
-	}
+//	public List<? extends Element> children() {
+//		List<Element> result = new ArrayList<Element>();
+//		result.add(typeReference());
+//		return result;
+//	}
 
 	/**
 	 * Return the lower bound on the type that this type constraint imposes.
