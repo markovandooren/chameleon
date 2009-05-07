@@ -261,9 +261,15 @@ public interface Element<E extends Element, P extends Element> {
      * DO NOT USE THIS METHOD UNLESS YOU REALLY KNOW WHAT YOU ARE DOING!!!
      * 
      * This method is used internally for generated elements. They are not part
-     * of the model, but need a parent in order to have a context.
+     * of the model, but need a parent in order to have a context. Unfortunately,
+     * Java does not allow me to hide the method.
      * 
      * @param parent
      */
+   /*@
+     @ public behavior
+     @
+     @ post parent() == parent;
+     @*/
     public void setUniParent(P parent);
 }
