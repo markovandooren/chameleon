@@ -7,7 +7,7 @@ import chameleon.core.element.Element;
 /**
  * This interface represents the concept of a cross references in the model. For proper
  * functioning, every cross reference (method call, variable reference, type reference,...) must
- * implement this interface.
+ * implement this interface. 
  * 
  * @author Marko van Dooren
  * @author Tim Vermeiren
