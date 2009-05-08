@@ -184,4 +184,8 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
     return (E) new NamespaceOrTypeReference(getTarget().clone(), getName());
   }
 
+	public Declaration getElement() throws MetamodelException {
+		return getNamespaceOrType();
+	}
+
 }

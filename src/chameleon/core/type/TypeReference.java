@@ -3,6 +3,7 @@ package chameleon.core.type;
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationSelector;
+import chameleon.core.element.Element;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.namespace.NamespaceOrTypeReference;
 import chameleon.core.reference.CrossReference;
@@ -12,7 +13,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class TypeReference extends NamespaceOrTypeReference<TypeReference,Type> implements CrossReference {
+public class TypeReference extends NamespaceOrTypeReference<TypeReference,Type> implements CrossReference<TypeReference,Element> {
 
   public TypeReference(String qn) {
 

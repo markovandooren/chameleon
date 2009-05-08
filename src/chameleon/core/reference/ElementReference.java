@@ -10,7 +10,7 @@ import chameleon.core.namespacepart.NamespacePartElementImpl;
  * 
  * @author Marko van Dooren
  */
-public abstract class ElementReference<E extends ElementReference,R extends Element> extends NamespacePartElementImpl<E,Element> {
+public abstract class ElementReference<E extends ElementReference,R extends Element> extends NamespacePartElementImpl<E,Element>  implements CrossReference<E,Element>  {
 
   //@FIXME: merge with CrossReference 
   
