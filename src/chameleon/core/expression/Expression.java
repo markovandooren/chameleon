@@ -130,7 +130,7 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
    @ post \result == getPackage().getDefaultPackage(); 
    @*/
   public Namespace getDefaultNamespace() {
-    return getNamespace().getDefaultNamespace();
+    return getNamespace().rootNamespace();
   }
   
   public CheckedExceptionList getCEL() throws MetamodelException {

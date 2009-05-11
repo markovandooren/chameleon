@@ -8,7 +8,7 @@ import chameleon.core.element.Element;
 import chameleon.core.namespacepart.NamespacePartElementImpl;
 
 /**
- * A signature is a means of identifying an element that can be crossreferenced. It contains
+ * A signature is a means of identifying a declaration that can be cross-referenced. It contains
  * only the information required for identification.
  * 
  * 

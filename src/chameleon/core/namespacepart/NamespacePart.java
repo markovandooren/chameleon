@@ -395,7 +395,7 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
    @ post \result = getDeclaredNamespace().getDefaultNamespace(); 
    @*/
 	public Namespace getDefaultNamespace() {
-		return getDeclaredNamespace().getDefaultNamespace();
+		return getDeclaredNamespace().rootNamespace();
 	}
 
   @Override

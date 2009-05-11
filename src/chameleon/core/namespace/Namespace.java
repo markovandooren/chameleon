@@ -116,7 +116,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	private final class DummyNamespaceOrTypeReference extends NamespaceOrTypeReference {
 		private DummyNamespaceOrTypeReference(String name) {
 			super(name);
-			setUniParent(getDefaultNamespace());
+			setUniParent(rootNamespace());
 		}
 	}
 
@@ -140,7 +140,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	public abstract List<NamespacePart> getNamespaceParts();
 
 	/**
-	 * Return the default package of this metamodel instance.
+	 * Return the root namespace of this metamodel instance.
 	 */
 	/*@
 	 @ public behavior
@@ -148,12 +148,12 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 @ post getParent() != null ==> \result == getParent().getDefaultPackage();
 	 @ post getParent() == null ==> \result == this;
 	 @*/
-	public Namespace getDefaultNamespace() {
+	public Namespace rootNamespace() {
 		if (parent() == null) {
 			return this;
 		}
 		else {
-			return parent().getDefaultNamespace();
+			return parent().rootNamespace();
 		}
 	}
 
@@ -284,7 +284,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 @
 	 @ signals (MetamodelException) (* The type could not be found*);
 	 @*/
-	public Type findType(String fqn) throws MetamodelException {
+	public Type findByFQN(String fqn) throws MetamodelException {
 		try {
 			return (Type)findNamespaceOrType(fqn);
 		}
