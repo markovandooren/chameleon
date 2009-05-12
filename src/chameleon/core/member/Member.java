@@ -95,5 +95,5 @@ public interface Member<E extends Member<E,P,S,F>, P extends DeclarationContaine
   public Set<Member> directlyOverriddenMembers() throws MetamodelException;
 
   // Return object of F(amily) type which is cut off at the level of e.g. Type,Method,MemberVariable,Property,....
-  public abstract F alias(S signature);
+//  public abstract F alias(S signature);
 }

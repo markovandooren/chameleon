@@ -451,7 +451,7 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 //
 //	}
 
-	public Method alias(MethodHeader sig) {
+	public Method alias(S sig) {
 		return new MethodAlias(sig,this);
 	}
 	
