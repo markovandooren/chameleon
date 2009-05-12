@@ -15,13 +15,14 @@ import chameleon.core.expression.ExpressionContainer;
 import chameleon.core.expression.Invocation;
 import chameleon.core.method.Method;
 import chameleon.core.method.MethodSignature;
+import chameleon.core.method.MethodHeader;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeDescendantImpl;
 
 /**
  * @author Marko van Dooren
  */
-public class ExceptionClause extends TypeDescendantImpl<ExceptionClause,Method<? extends Method,? extends MethodSignature>> implements ExpressionContainer<ExceptionClause,Method<? extends Method,? extends MethodSignature>>{
+public class ExceptionClause extends TypeDescendantImpl<ExceptionClause,Method<? extends Method,? extends MethodHeader,? extends MethodSignature>> implements ExpressionContainer<ExceptionClause,Method<? extends Method,? extends MethodHeader,? extends MethodSignature>>{
 
   public ExceptionClause() {
 	}

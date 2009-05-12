@@ -36,7 +36,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class RegularImplementation extends Implementation<RegularImplementation> implements StatementContainer<RegularImplementation,Method<? extends Method, ? extends MethodSignature>> {
+public class RegularImplementation extends Implementation<RegularImplementation> implements StatementContainer<RegularImplementation,Method<? extends Method, ? extends MethodHeader,? extends MethodSignature>> {
 
   public RegularImplementation(Block body) {
 	  setBody(body);

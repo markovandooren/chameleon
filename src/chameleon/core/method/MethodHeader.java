@@ -18,7 +18,7 @@ import chameleon.core.type.Type;
 import chameleon.core.variable.FormalParameter;
 import chameleon.core.variable.VariableContainer;
 
-public abstract class MethodSignature<E extends MethodSignature, P extends Method> extends Signature<E, P> implements VariableContainer<E, P> {
+public abstract class MethodHeader<E extends MethodHeader, P extends Method, S extends MethodSignature> implements VariableContainer<E, P> { //extends Signature<E, P> 
   
   public E clone() {
     E result = cloneThis();
@@ -28,6 +28,8 @@ public abstract class MethodSignature<E extends MethodSignature, P extends Metho
     return result;
   }
 
+  public abstract S signature();
+  
   public abstract E cloneThis();
   
   public List<? extends Element> children() {
@@ -51,7 +53,7 @@ public abstract class MethodSignature<E extends MethodSignature, P extends Metho
     return _parameters.size();
   }
 
-  private OrderedReferenceSet<MethodSignature,FormalParameter> _parameters = new OrderedReferenceSet<MethodSignature,FormalParameter>(this);
+  private OrderedReferenceSet<MethodHeader,FormalParameter> _parameters = new OrderedReferenceSet<MethodHeader,FormalParameter>(this);
   
   /**
    * Return the type of the formal parameters of this signature.
@@ -97,7 +99,7 @@ public abstract class MethodSignature<E extends MethodSignature, P extends Metho
     return result;
   }
   
-  public boolean sameParameterTypesAs(MethodSignature other) throws MetamodelException {
+  public boolean sameParameterTypesAs(MethodHeader other) throws MetamodelException {
   	boolean result = false;
   	if (other != null) {
 			List<FormalParameter> mine = getParameters();

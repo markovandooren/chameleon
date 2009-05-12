@@ -11,12 +11,12 @@ import chameleon.core.MetamodelException;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
+import chameleon.core.member.FixedSignatureMember;
 import chameleon.core.member.Member;
-import chameleon.core.member.MemberImpl;
 import chameleon.core.type.ConstructedType;
 import chameleon.core.type.Type;
 
-public class GenericParameter extends MemberImpl<GenericParameter, Type, SimpleNameSignature,GenericParameter> {
+public class GenericParameter extends FixedSignatureMember<GenericParameter, Type, SimpleNameSignature,GenericParameter> {
 
 	public GenericParameter(SimpleNameSignature signature) {
 		setSignature(signature);

@@ -33,7 +33,7 @@ import chameleon.core.type.TypeDescendantImpl;
  * @author Marko van Dooren
  */
 
-public abstract class Implementation<E extends Implementation> extends TypeDescendantImpl<E,Method<? extends Method, ? extends MethodSignature>> {
+public abstract class Implementation<E extends Implementation> extends TypeDescendantImpl<E,Method<? extends Method, ? extends MethodHeader,? extends MethodSignature>> {
 
   public Implementation() {
     }

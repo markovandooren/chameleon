@@ -44,11 +44,11 @@ import chameleon.core.type.TypeElement;
 public interface Member<E extends Member<E,P,S,F>, P extends DeclarationContainer, S extends Signature, F extends Member> extends TypeElement<E,P>, Declaration<E,P,S> {
   
   
-  /**
-   * Set the signature of this member.
-   * @param signature
-   */
-  public void setSignature(S signature);
+//  /**
+//   * Set the signature of this member.
+//   * @param signature
+//   */
+//  public void setSignature(S signature);
 
   
   /**
@@ -94,6 +94,6 @@ public interface Member<E extends Member<E,P,S,F>, P extends DeclarationContaine
    @*/
   public Set<Member> directlyOverriddenMembers() throws MetamodelException;
 
-  // Return type Member for now, may have to introduce F(amily) type which is cut off at the level of e.g. Type,Method,MemberVariable,Property,....
+  // Return object of F(amily) type which is cut off at the level of e.g. Type,Method,MemberVariable,Property,....
   public abstract F alias(S signature);
 }

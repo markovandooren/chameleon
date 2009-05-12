@@ -18,22 +18,10 @@ import chameleon.core.type.TypeElementImpl;
 
 public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends DeclarationContainer, S extends Signature, F extends Member> extends TypeElementImpl<E, P> implements Member<E,P,S,F>{
 
-  public void setSignature(S signature) {
-    if(signature != null) {
-      _signature.connectTo(signature.parentLink());
-    } else {
-      _signature.connectTo(null);
-    }
-  }
-  
   /**
    * Return the signature of this member.
    */
-  public S signature() {
-    return _signature.getOtherEnd();
-  }
-  
-  private Reference<Member, S> _signature = new Reference<Member, S>(this);
+  public abstract S signature();
   
   public final boolean overrides(Member other) throws MetamodelException {
     StrictPartialOrder<Member> overridesRelation = language().overridesRelation();
@@ -43,7 +31,6 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Declara
   public final boolean hides(Member other) throws MetamodelException {
     StrictPartialOrder<Member> hidesRelation = language().hidesRelation();
     return hidesRelation.contains(this, other);
-    
   }
   
   public final boolean equivalentTo(Member other) throws MetamodelException {

@@ -9,7 +9,6 @@ import java.util.Set;
 
 import org.rejuse.java.collections.TypeFilter;
 import org.rejuse.logic.ternary.Ternary;
-import org.rejuse.predicate.PrimitivePredicate;
 import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.MetamodelException;
@@ -22,8 +21,8 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
+import chameleon.core.member.FixedSignatureMember;
 import chameleon.core.member.Member;
-import chameleon.core.member.MemberImpl;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.modifier.ModifierContainer;
 import chameleon.core.namespace.NamespaceOrType;
@@ -41,7 +40,7 @@ import chameleon.core.variable.VariableContainer;
  *
  * @author Marko van Dooren
  */
-public abstract class Type extends MemberImpl<Type,TypeContainer,SimpleNameSignature,Type> 
+public abstract class Type extends FixedSignatureMember<Type,TypeContainer,SimpleNameSignature,Type> 
                 implements TargetDeclaration<Type,TypeContainer,SimpleNameSignature>, NamespaceOrType<Type,TypeContainer,SimpleNameSignature>, 
                            TypeContainer<Type,TypeContainer>, VariableContainer<Type,TypeContainer>, 
                            VariableOrType<Type,TypeContainer>, Definition<Type,TypeContainer,SimpleNameSignature>,

@@ -1,14 +1,13 @@
 package chameleon.core.method;
 
-import chameleon.core.declaration.Declaration;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.method.exception.ExceptionClause;
 import chameleon.core.type.TypeReference;
 
-public class MethodAlias extends Method<MethodAlias,MethodSignature> {
+public class MethodAlias<E extends MethodAlias<E,H,S>, H extends MethodHeader<H, E, S>, S extends MethodSignature> extends Method<E,H,S> {
 
-	public MethodAlias(MethodSignature signature, Method aliasedMethod) {
-		super(signature);
+	public MethodAlias(H header, Method aliasedMethod) {
+		super(header);
 		_aliasedMethod = aliasedMethod;
 	}
 	
@@ -19,8 +18,8 @@ public class MethodAlias extends Method<MethodAlias,MethodSignature> {
 	}
 
 	@Override
-	protected MethodAlias cloneThis() {
-		return new MethodAlias(signature().clone(),aliasedMethod());
+	protected E cloneThis() {
+		return (E) new MethodAlias(header().clone(),aliasedMethod());
 	}
 
 	@Override

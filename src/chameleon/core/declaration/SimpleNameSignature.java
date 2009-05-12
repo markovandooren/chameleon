@@ -7,7 +7,7 @@ import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.method.Method;
-import chameleon.core.method.MethodSignature;
+import chameleon.core.method.MethodHeader;
 
 public class SimpleNameSignature extends Signature<SimpleNameSignature, Element>{
 

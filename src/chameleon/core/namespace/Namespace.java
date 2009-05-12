@@ -284,7 +284,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 @
 	 @ signals (MetamodelException) (* The type could not be found*);
 	 @*/
-	public Type findByFQN(String fqn) throws MetamodelException {
+	public Type findType(String fqn) throws MetamodelException {
 		try {
 			return (Type)findNamespaceOrType(fqn);
 		}

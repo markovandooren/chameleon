@@ -5,10 +5,10 @@ import org.rejuse.association.Reference;
 import chameleon.core.method.exception.ExceptionClause;
 import chameleon.core.type.TypeReference;
 
-public abstract class RegularMethod<E extends RegularMethod<E,S>, S extends MethodSignature> extends Method<E,S> {
+public abstract class RegularMethod<E extends RegularMethod<E,H,S>, H extends MethodHeader<H, E, S>, S extends MethodSignature> extends Method<E,H,S> {
 
-	public RegularMethod(S signature, TypeReference returnType) {
-		super(signature);
+	public RegularMethod(H header, TypeReference returnType) {
+		super(header);
 		setReturnTypeReference(returnType);
 		setExceptionClause(new ExceptionClause());
 	}
@@ -46,7 +46,7 @@ public abstract class RegularMethod<E extends RegularMethod<E,S>, S extends Meth
   /**
    * EXCEPTION CLAUSE
    */
-  private Reference<Method<? extends Method,? extends MethodSignature>,ExceptionClause> _exceptionClause = new Reference<Method<? extends Method,? extends MethodSignature>,ExceptionClause>(this);
+  private Reference<RegularMethod<E,H,S>,ExceptionClause> _exceptionClause = new Reference<RegularMethod<E,H,S>,ExceptionClause>(this);
 
 
   public ExceptionClause getExceptionClause() {

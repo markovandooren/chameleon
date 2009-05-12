@@ -28,10 +28,10 @@ import chameleon.core.variable.FormalParameter;
 import chameleon.util.Util;
 
 
-public abstract class Method<E extends Method<E,S>, S extends MethodSignature> extends MemberImpl<E,Type,S,Method> implements Definition<E,Type,S>, ModifierContainer<E,Type> {
+public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, E, S>, S extends MethodSignature> extends MemberImpl<E,Type,S,Method> implements Definition<E,Type,S>, ModifierContainer<E,Type> {
 
-	public Method(S signature) {
-		setSignature(signature);
+	public Method(H header) {
+		setHeader(header);
 	}
 	
 	public boolean complete() {
@@ -39,10 +39,29 @@ public abstract class Method<E extends Method<E,S>, S extends MethodSignature> e
 	}
 
 	public List<FormalParameter> getParameters() {
-	  return signature().getParameters();
+	  return header().getParameters();
 	}
 	
-
+	public S signature() {
+		return header().signature();
+	}
+	
+	 public void setHeader(H header) {
+	    if(header != null) {
+	      _header.connectTo(header.parentLink());
+	    } else {
+	      _header.connectTo(null);
+	    }
+	  }
+	  
+	  /**
+	   * Return the signature of this member.
+	   */
+	  public H header() {
+	    return _header.getOtherEnd();
+	  }
+	  
+	  private Reference<E, H> _header = new Reference<E, H>((E) this);
 	
 	/******************
 	 * IMPLEMENTATION *
@@ -201,7 +220,8 @@ public abstract class Method<E extends Method<E,S>, S extends MethodSignature> e
 		}.applyTo(modifiers());
 		// EXCEPTION CLAUSE
 		result.setExceptionClause(getExceptionClause().clone());
-		result.setSignature((S)signature().clone());
+		// HEADER
+		result.setHeader((H)header().clone());
 		// IMPLEMENTATION
 		if(getImplementation() != null) {
 			result.setImplementation(getImplementation().clone());
@@ -431,7 +451,7 @@ public abstract class Method<E extends Method<E,S>, S extends MethodSignature> e
 //
 //	}
 
-	public Method alias(MethodSignature sig) {
+	public Method alias(MethodHeader sig) {
 		return new MethodAlias(sig,this);
 	}
 	
