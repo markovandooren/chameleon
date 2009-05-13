@@ -3,10 +3,8 @@ package chameleon.tool;
 import chameleon.core.language.Language;
 
 /**
- * Created for experimentation
- * User: koenvdk
- * Date: 16-okt-2006
- * Time: 11:50:21
+ * @author Marko van Dooren
+ * @author Koen Vanderkimpen
  */
 public abstract class ToolExtensionImpl implements ToolExtension {
 

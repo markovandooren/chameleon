@@ -131,10 +131,6 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 * PACKAGEPART
 	 **************/
 
-//	public ReferenceSet getNamespacePartsLink(){
-//		return _namespaceParts;
-//	}
-
 	public abstract void addNamespacePart(NamespacePart namespacePart);
 
 	public abstract List<NamespacePart> getNamespaceParts();
@@ -251,77 +247,48 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 
 	}
 
-	/**
-	 * Find the package or type with the given qualified name.
-	 *
-	 * @param name
-	 * 		The qualified name relative to this package.
-	 */
-	/*@
-	 @ public behavior
-	 @
-	 @ post \result != null;
-	 @ post name == null ==> \result == this;
-	 @ post name != null ==> \result.getFullyQualifiedName().equals(getFullyQualifiedName() + "." + name);
-	 @
-	 @ signals (MetamodelException) (* The type/package could not be found*);
-	 @*/
-	public NamespaceOrType findNamespaceOrType(String qualifiedName) throws MetamodelException {
-		NamespaceOrTypeReference ref = new DummyNamespaceOrTypeReference(qualifiedName);
-		return ref.getNamespaceOrType();
-	}
-
-	/**
-	 * Return the type with the given fully qualified name.
-	 *
-	 * @param fqn
-	 *        The fully qualified name of the requested type.
-	 */
-	/*@
-	 @ public behavior
-	 @
-	 @ post \result == getDefaultPackage().findPackageOrType(fqn);
-	 @
-	 @ signals (MetamodelException) (* The type could not be found*);
-	 @*/
-	public Type findType(String fqn) throws MetamodelException {
-		try {
-			return (Type)findNamespaceOrType(fqn);
-		}
-		catch (ClassCastException exc) {
-			throw new MetamodelException("Can not find type " + fqn);
-		}
-	}
-
 //	/**
-//	 * Find the type with the given name, expressed relative to this package.
-//	 * The type will be sought <b>only in this package</b>. Typically it is a atomic name, but
-//	 * for inner types it can be a composed name.
+//	 * Find the package or type with the given qualified name.
 //	 *
 //	 * @param name
-//	 *        The name of the type to be looked for.
+//	 * 		The qualified name relative to this package.
 //	 */
 //	/*@
 //	 @ public behavior
 //	 @
-//	 @ pre name != null;
-//	 @
 //	 @ post \result != null;
-//	 @ post \result.getFullyQualifiedName().equals(getFullyQualifiedName() + name);
-//	 @ post \result.getPackage() == this;
+//	 @ post name == null ==> \result == this;
+//	 @ post name != null ==> \result.getFullyQualifiedName().equals(getFullyQualifiedName() + "." + name);
+//	 @
+//	 @ signals (MetamodelException) (* The type/package could not be found*);
+//	 @*/
+//	public NamespaceOrType findNamespaceOrType(String qualifiedName) throws MetamodelException {
+//		NamespaceOrTypeReference ref = new DummyNamespaceOrTypeReference(qualifiedName);
+//		return ref.getNamespaceOrType();
+//	}
+
+//	/**
+//	 * Return the type with the given fully qualified name.
+//	 *
+//	 * @param fqn
+//	 *        The fully qualified name of the requested type.
+//	 */
+//	/*@
+//	 @ public behavior
+//	 @
+//	 @ post \result == getDefaultPackage().findPackageOrType(fqn);
 //	 @
 //	 @ signals (MetamodelException) (* The type could not be found*);
 //	 @*/
-//	public Type findTypeLocally(String name) throws MetamodelException {
-//		Type result = getType(Util.getFirstPart(name));
-//		if (result != null) {
-//			String secondPart = Util.getSecondPart(name);
-//			if (secondPart != null) {
-//				result = result.findTypeLocally(secondPart);
-//			}
+//	public Type findType(String fqn) throws MetamodelException {
+//		try {
+//			return (Type)findNamespaceOrType(fqn);
 //		}
-//		return result;
+//		catch (ClassCastException exc) {
+//			throw new MetamodelException("Can not find type " + fqn);
+//		}
 //	}
+
 
 	/**
 	 * Return the types directly contained in this package.
@@ -341,11 +308,6 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	        result.addAll(l);
 	      }
 	    }.applyTo(getNamespaceParts());
-//	    new PrimitiveTotalPredicate() {
-//	      public boolean eval(Object o) {
-//	        return !((Type)o).hasModifier(new Private()) && !((Type)o).hasModifier(new Protected());
-//	      }
-//	    }.filter(result);
 	    return result;
 	  }
 
