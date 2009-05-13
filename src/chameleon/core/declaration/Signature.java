@@ -31,7 +31,7 @@ public abstract class Signature<E extends Signature, P extends Element> extends 
    @
    @ post \result != null;
    @*/
-  public abstract List<String> identifiers();
+  public final List<String> identifiers() {return null;}
 
   /**
    * Return the number of identifiers in this signature.
@@ -41,7 +41,7 @@ public abstract class Signature<E extends Signature, P extends Element> extends 
    @
    @ post \result == identifiers().size();
    @*/
-  public int nbIdentifiers() {
+  public final int nbIdentifiers() {
   	return identifiers().size();
   }
   
@@ -53,7 +53,7 @@ public abstract class Signature<E extends Signature, P extends Element> extends 
    @
    @ post \result == identifiers().get(index - 1);
    @*/
-  public String identifierAt(int index) {
+  public final String identifierAt(int index) {
   	return identifiers().get(index - 1);
   }
   
@@ -65,7 +65,7 @@ public abstract class Signature<E extends Signature, P extends Element> extends 
    @                 (other.nbIdentifiers() == nbIdentifiers()) &&
    @                 (\forall i; i >= 1 && i <= nbIdentifiers; identifierAt(i).equals(other.identifierAt(i)));
    @*/
-  public boolean sameIdentifiersAs(Signature other) {
+  public final boolean sameIdentifiersAs(Signature other) {
   	boolean result = false;
   	if(other != null) {
   		List<String> first = identifiers();

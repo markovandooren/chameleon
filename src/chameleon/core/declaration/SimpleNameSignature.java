@@ -35,13 +35,6 @@ public class SimpleNameSignature extends Signature<SimpleNameSignature, Element>
 	}
 
 	@Override
-	public List<String> identifiers() {
-		List<String> result = new ArrayList<String>();
-		result.add(getName());
-		return result;
-	}
-
-	@Override
 	public SimpleNameSignature clone() {
     return new SimpleNameSignature(getName());
 	}
