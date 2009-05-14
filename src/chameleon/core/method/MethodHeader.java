@@ -11,14 +11,13 @@ import org.rejuse.predicate.PrimitiveTotalPredicate;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.DeclarationSelector;
-import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.type.Type;
 import chameleon.core.variable.FormalParameter;
 import chameleon.core.variable.VariableContainer;
 
-public abstract class MethodHeader<E extends MethodHeader, P extends Method, S extends MethodSignature> implements VariableContainer<E, P> { //extends Signature<E, P> 
+public abstract class MethodHeader<E extends MethodHeader, P extends Method, S extends MethodSignature> extends ElementImpl <E,P> implements VariableContainer<E, P> { //extends Signature<E, P> 
   
   public E clone() {
     E result = cloneThis();
