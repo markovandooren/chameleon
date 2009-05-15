@@ -2,6 +2,7 @@ package chameleon.core.declaration;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.element.Element;
+import chameleon.core.scope.Scope;
 
 public interface Declaration<E extends Declaration<E,P,S>, 
                              P extends DeclarationContainer, 
@@ -38,5 +39,17 @@ public interface Declaration<E extends Declaration<E,P,S>,
    @ post \result != null;
    @*/
   public Declaration resolve() throws MetamodelException;
-
+  
+  /**
+   * Return the scope of this declaration.
+   * @return
+   * @throws MetamodelException
+   */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
+  public Scope scope() throws MetamodelException; 
+ 
 }

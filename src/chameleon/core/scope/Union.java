@@ -1,4 +1,4 @@
-package chameleon.core.accessibility;
+package chameleon.core.scope;
 
 import java.util.Collection;
 
@@ -9,7 +9,7 @@ import chameleon.core.MetamodelException;
 /**
  * @author marko
  */
-public class Union extends ComposedAccessibilityDomain {
+public class Union extends CompositeScope {
 
  /*@
    @ public behavior
@@ -26,17 +26,17 @@ public class Union extends ComposedAccessibilityDomain {
    @
    @ getDomains().containsAll(domains);
    @*/
-  public Union(Collection<AccessibilityDomain> domains) {
+  public Union(Collection<Scope> domains) {
     super(domains);
   }
 
-  public boolean geRecursive(final AccessibilityDomain other) throws MetamodelException {
+  public boolean geRecursive(final Scope other) throws MetamodelException {
     try {
       return new PrimitivePredicate() {
         public boolean eval(Object o) throws MetamodelException {
-          return ((AccessibilityDomain)o).atLeastAsAccessibleAs(other);
+          return ((Scope)o).greaterThanOrEqualTo(other);
         }
-      }.exists(getDomains());
+      }.exists(scope());
     }
     catch (MetamodelException e) {
       throw e;
@@ -47,13 +47,13 @@ public class Union extends ComposedAccessibilityDomain {
     }
   }
 
-  public boolean leRecursive(final AccessibilityDomain other) throws MetamodelException {
+  public boolean leRecursive(final Scope other) throws MetamodelException {
     try {
       return new PrimitivePredicate() {
         public boolean eval(Object o) throws MetamodelException {
-          return other.atLeastAsAccessibleAs(((AccessibilityDomain)o));
+          return other.greaterThanOrEqualTo(((Scope)o));
         }
-      }.forAll(getDomains());
+      }.forAll(scope());
     }
     catch (MetamodelException e) {
       throw e;
@@ -64,8 +64,8 @@ public class Union extends ComposedAccessibilityDomain {
     }
   }
 
-  public AccessibilityDomain union(AccessibilityDomain other) throws MetamodelException {
-    Union result = new Union(getDomains());
+  public Scope union(Scope other) throws MetamodelException {
+    Union result = new Union(scope());
     result.add(other);
     return result;
   }
@@ -74,15 +74,15 @@ public class Union extends ComposedAccessibilityDomain {
     try {
       new PrimitivePredicate() {
         public boolean eval(Object o) throws Exception {
-          final AccessibilityDomain acc = (AccessibilityDomain)o;
+          final Scope acc = (Scope)o;
           return ! new PrimitivePredicate() {
             public boolean eval(Object o2) throws MetamodelException {
-              AccessibilityDomain other = (AccessibilityDomain)o2;
-              return (acc != other) && (other.atLeastAsAccessibleAs(acc));
+              Scope other = (Scope)o2;
+              return (acc != other) && (other.greaterThanOrEqualTo(acc));
             }
-          }.exists(_domains);
+          }.exists(_scopes);
         }
-      }.filter(_domains);
+      }.filter(_scopes);
     }
     catch (MetamodelException e) {
       throw e;

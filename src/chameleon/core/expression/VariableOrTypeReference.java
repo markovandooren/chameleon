@@ -7,7 +7,7 @@ import java.util.Set;
 import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.accessibility.AccessibilityDomain;
+import chameleon.core.scope.Scope;
 import chameleon.core.type.Type;
 import chameleon.core.type.VariableOrType;
 import chameleon.util.Util;

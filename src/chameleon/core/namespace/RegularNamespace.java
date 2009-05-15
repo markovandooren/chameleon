@@ -6,6 +6,8 @@ import org.rejuse.association.ReferenceSet;
 
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.namespacepart.NamespacePart;
+import chameleon.core.scope.Scope;
+import chameleon.core.scope.UniversalScope;
 
 public class RegularNamespace extends Namespace {
 	
@@ -36,6 +38,10 @@ public class RegularNamespace extends Namespace {
 	@Override
 	public Namespace clone() {
 		return new RegularNamespace(signature().clone());
+	}
+	
+	public Scope scope() {
+		return new UniversalScope();
 	}
 
 }

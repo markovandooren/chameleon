@@ -1,4 +1,4 @@
-package chameleon.core.accessibility;
+package chameleon.core.scope;
 
 import java.util.Collection;
 
@@ -9,7 +9,7 @@ import chameleon.core.MetamodelException;
 /**
  * @author marko
  */
-public class Intersection extends ComposedAccessibilityDomain {
+public class Intersection extends CompositeScope {
   
  /*@
    @ public behavior
@@ -26,17 +26,17 @@ public class Intersection extends ComposedAccessibilityDomain {
    @
    @ getDomains().containsAll(domains);
    @*/
-  public Intersection(Collection<AccessibilityDomain> domains) {
+  public Intersection(Collection<Scope> domains) {
     super(domains);
   }
 
-  public boolean geRecursive(final AccessibilityDomain other) throws MetamodelException {
+  public boolean geRecursive(final Scope other) throws MetamodelException {
     try {
       return new PrimitivePredicate() {
         public boolean eval(Object o) throws MetamodelException {
-          return ((AccessibilityDomain)o).atLeastAsAccessibleAs(other);
+          return ((Scope)o).greaterThanOrEqualTo(other);
         }
-      }.forAll(getDomains());
+      }.forAll(scope());
     }
     catch (MetamodelException e) {
       throw e;
@@ -47,13 +47,13 @@ public class Intersection extends ComposedAccessibilityDomain {
     }
   }
 
-  protected boolean leRecursive(final AccessibilityDomain other) throws MetamodelException {
+  protected boolean leRecursive(final Scope other) throws MetamodelException {
     try {
       return new PrimitivePredicate() {
         public boolean eval(Object o) throws MetamodelException {
-          return other.atLeastAsAccessibleAs(((AccessibilityDomain)o));
+          return other.greaterThanOrEqualTo(((Scope)o));
         }
-      }.exists(getDomains());
+      }.exists(scope());
     }
     catch (MetamodelException e) {
       throw e;
@@ -64,8 +64,8 @@ public class Intersection extends ComposedAccessibilityDomain {
     }
   }
 
-  public AccessibilityDomain intersect(final AccessibilityDomain other) throws MetamodelException {
-    Intersection result = new Intersection(getDomains());
+  public Scope intersect(final Scope other) throws MetamodelException {
+    Intersection result = new Intersection(scope());
     result.add(other);
     return result;
   }
@@ -74,15 +74,15 @@ public class Intersection extends ComposedAccessibilityDomain {
     try {
       new PrimitivePredicate() {
         public boolean eval(Object o) throws Exception {
-          final AccessibilityDomain acc = (AccessibilityDomain)o;
+          final Scope acc = (Scope)o;
           return ! new PrimitivePredicate() {
             public boolean eval(Object o2) throws MetamodelException {
-              AccessibilityDomain other = (AccessibilityDomain)o2;
-              return (acc != other) && (acc.atLeastAsAccessibleAs(other));
+              Scope other = (Scope)o2;
+              return (acc != other) && (acc.greaterThanOrEqualTo(other));
             }
-          }.exists(_domains);
+          }.exists(_scopes);
         }
-      }.filter(_domains);
+      }.filter(_scopes);
     }
     catch (MetamodelException e) {
       throw e;

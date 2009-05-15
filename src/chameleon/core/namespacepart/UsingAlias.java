@@ -98,7 +98,8 @@ public class UsingAlias extends Import<UsingAlias> {
 
 	@Override
 	public Set<Declaration> directImports() throws MetamodelException {
-		//@FIXME bad design: 
+		//@FIXME bad design: instanceof 
+		//@FIXME why are these aliased?
 		NamespaceOrType nst = getNamespaceOrTypeReference().getNamespaceOrType(); 
     Set<Declaration> result = new HashSet<Declaration>();
     if(nst instanceof Type) {

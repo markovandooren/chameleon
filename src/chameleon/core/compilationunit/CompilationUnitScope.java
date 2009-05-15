@@ -1,13 +1,13 @@
 package chameleon.core.compilationunit;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.accessibility.AccessibilityDomain;
+import chameleon.core.scope.Scope;
 import chameleon.core.type.Type;
 
 /**
- * @author marko
+ * @author Marko van Dooren
  */
-public class CompilationUnitDomain extends AccessibilityDomain {
+public class CompilationUnitScope extends Scope {
 
  /*@
    @ public behavior
@@ -16,7 +16,7 @@ public class CompilationUnitDomain extends AccessibilityDomain {
    @
    @ post getOuterType() == outerType;
    @*/
-  public CompilationUnitDomain(Type outerType) {
+  public CompilationUnitScope(Type outerType) {
     _outerType = outerType;
   }
   
@@ -26,8 +26,8 @@ public class CompilationUnitDomain extends AccessibilityDomain {
    @ post \result == (other instanceof CompilationUnitDomain) && 
    @                 ((CompilationUnitDomain)other).getOuterType().equals(getOuterType())
    @*/
-  public boolean geRecursive(AccessibilityDomain other) throws MetamodelException {
-    return (other instanceof CompilationUnitDomain) && ((CompilationUnitDomain)other).getOuterType().equals(getOuterType());
+  protected boolean geRecursive(Scope other) throws MetamodelException {
+    return (other instanceof CompilationUnitScope) && ((CompilationUnitScope)other).getOuterType().equals(getOuterType());
   }
   
  /*@

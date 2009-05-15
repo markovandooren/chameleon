@@ -10,7 +10,6 @@ import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.accessibility.AccessibilityDomain;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Definition;
 import chameleon.core.element.Element;
@@ -20,6 +19,7 @@ import chameleon.core.method.exception.ExceptionClause;
 import chameleon.core.method.exception.TypeExceptionDeclaration;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.modifier.ModifierContainer;
+import chameleon.core.scope.Scope;
 import chameleon.core.statement.Block;
 import chameleon.core.statement.ExceptionPair;
 import chameleon.core.type.Type;

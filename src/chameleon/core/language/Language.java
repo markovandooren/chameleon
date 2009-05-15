@@ -41,10 +41,30 @@ public abstract class Language implements PropertyUniverse<Element> {
 		setContextFactory(factory);
 	}
 	
+	/**
+	 * Return the name of this language.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
 	public String getName() {
 		return _name;
 	}
 	
+	/**
+	 * Set the name of this language.
+	 * @param name
+	 *        The new name of this language
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre name != null;
+   @
+   @ post getName() == name;
+   @*/
 	public void setName(String name) {
 		_name = name;
 	}
@@ -126,9 +146,19 @@ public abstract class Language implements PropertyUniverse<Element> {
         }
     }
 
+    /**
+     * Return the tool extensions attached to this language object.
+     * @return
+     */
+   /*@
+     @ public behavior
+     @
+     @ post \result != null; 
+     @*/
     public Collection<ToolExtension> getToolExtensions() {
         return toolExtensions.values();
     }
+    
 
     public <T extends ToolExtension> boolean hasToolExtension(Class<? extends T> toolExtensionClass) {
         return toolExtensions.containsKey(toolExtensionClass);

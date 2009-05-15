@@ -25,10 +25,10 @@
 package chameleon.core.type;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.accessibility.AccessibilityDomain;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.element.Element;
 import chameleon.core.namespacepart.NamespacePart;
+import chameleon.core.scope.Scope;
 
 /**
  * @author Marko van Dooren

@@ -28,9 +28,9 @@ import java.util.List;
 import java.util.Set;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.accessibility.AccessibilityDomain;
 import chameleon.core.context.Target;
 import chameleon.core.language.Language;
+import chameleon.core.scope.Scope;
 import chameleon.core.statement.ExceptionSource;
 import chameleon.core.type.TypeDescendantImpl;
 
