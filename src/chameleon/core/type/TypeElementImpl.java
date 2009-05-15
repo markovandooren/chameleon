@@ -12,7 +12,7 @@ import chameleon.core.modifier.Modifier;
 import chameleon.core.namespacepart.NamespacePartElementImpl;
 
 /**
- * Support class for type elements.
+ * Support class for member-like elements that can be the direct children of a type.
  * 
  * @author Marko van Dooren
  *
@@ -52,31 +52,6 @@ public abstract class TypeElementImpl<E extends TypeElementImpl<E,P>, P extends 
     return _modifiers.getOtherEnds().contains(modifier);
   }
 
-//  public AccessModifier getAccessModifier() {
-//    return _accessModifier;
-//  }
-//
-//  public void setAccessModifier(AccessModifier access) {
-//    if ((!_modifiers.contains(access.getParentLink())) && (access != null)) {
-//      if(_accessModifier != null) {
-//        _modifiers.remove(_accessModifier.getParentLink());
-//      }
-//      _modifiers.add(access.getParentLink());
-//      _accessModifier = access;
-//    }
-//  }
-
-  //@FIXME remove this and replace by modifier category or something similar
-//  private AccessModifier _accessModifier;
-
-  public Ternary is(Property<Element> property) {
-    PropertySet<Element> declared = declaredProperties();
-    if((property).appliesTo(this)) {
-      declared.add(property);
-    }
-    return declared.implies(property);
-  }
- 
   public PropertySet<Element> declaredProperties() {
     PropertySet<Element> result = new PropertySet<Element>();
     for(Modifier modifier:modifiers()) {

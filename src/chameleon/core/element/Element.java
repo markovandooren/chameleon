@@ -4,14 +4,14 @@ import java.util.Collection;
 import java.util.List;
 
 import org.rejuse.association.Reference;
+import org.rejuse.logic.ternary.Ternary;
+import org.rejuse.property.Property;
+import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.context.Context;
-import chameleon.core.context.LexicalContext;
 import chameleon.core.language.Language;
 import chameleon.core.tag.Tag;
-import chameleon.linkage.ILinkage;
-import chameleon.linkage.IMetaModelFactory;
 
 /**
  * Element is the top interface for an element of a model.
@@ -272,4 +272,60 @@ public interface Element<E extends Element, P extends Element> {
      @ post parent() == parent;
      @*/
     public void setUniParent(P parent);
+    
+    /**************
+     * PROPERTIES *
+     **************/
+    
+    /**
+     * Return the set of properties of this element. The set consists of the
+     * explicitly declared properties, and the default properties for which
+     * no corresponding explicitly declared property exists.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @ post \result.containsAll(declaredProperties());
+     @ post \result.containsAll(language().properties(this));
+     @ post (\forall Property<Element> p; \result.contains(p);
+     @         declaredProperties().contains(p) |
+     @         language().defaultProperties(this).contains(p));
+     @*/
+    public abstract PropertySet<Element> properties();
+        
+    /**
+     * Return a property set representing the properties of this type element
+     * as declared by its modifiers.
+     */
+   /*@
+     @ behavior
+     @
+     @ post \result != null;
+     @ post (\forall Modifier mod; modifiers().contains(mod);
+     @        \result.properties.containsAll(mod.impliedProperties()));
+     @*/
+    public PropertySet<Element> declaredProperties();
+
+
+    /**
+     * Check if this type element has the given property. 
+     * 
+     * If the given property does not apply directly to this type element, we check if it
+     * is implied by the declared properties of this element. If the given property does apply
+     * to this type element, we still need to check for conflicts with the declared properties.
+     * 
+     * @param property
+     *        The property to be verified.
+     */
+   /*@
+     @ behavior
+     @
+     @ pre property != null;
+     @
+     @ post ! property.appliesTo(this) ==> \result == declaredProperties().implies(property);
+     @ post property.appliesTo(this) ==> \result == declaredProperties().with(property).implies(property);
+     @*/
+    public Ternary is(Property<Element> property);
+
 }

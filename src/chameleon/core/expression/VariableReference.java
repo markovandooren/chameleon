@@ -31,7 +31,11 @@ public class VariableReference extends Expression<VariableReference> implements 
   }
 
   public void setTarget(NamedTarget target) {
-    _target.connectTo(target.parentLink());
+  	if(target != null) {
+      _target.connectTo(target.parentLink());
+  	} else {
+  		_target.connectTo(null);
+  	}
   }
 
   public Variable getVariable() throws MetamodelException {

@@ -1,8 +1,6 @@
 package chameleon.core.property;
 
-import java.util.Set;
-
-import org.rejuse.property.Property;
+import org.rejuse.property.PropertySet;
 
 import chameleon.core.element.Element;
 
@@ -10,13 +8,12 @@ import chameleon.core.element.Element;
  * A class for assigning default properties to model elements. Default properties are
  * properties that an element has if no property of the same PropertyMutex has been defined explicitly.
  * 
- * 
  * @author Marko van Dooren
  */
-public abstract class PropertyFactory {
+public abstract class PropertyRule {
 
 	/**
-	 * Return the default properties of the given element
+	 * Return the default properties of the given element by this assigner
 	 * @param element
 	 * @return
 	 */
@@ -27,6 +24,6 @@ public abstract class PropertyFactory {
    @
    @ post \result != null;
    @*/
-	public abstract Set<Property> defaultProperties(Element element);
+	public abstract PropertySet<Element> properties(Element element);
 	
 }

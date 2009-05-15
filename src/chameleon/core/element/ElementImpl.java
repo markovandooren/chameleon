@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.rejuse.association.Reference;
+import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.TypePredicate;
+import org.rejuse.property.Property;
+import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.context.Context;
@@ -270,4 +273,25 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     		}
     	}
     }
+    
+    public PropertySet<Element> properties() {
+    	PropertySet<Element> result = declaredProperties();
+    	result.addAll(language().defaultProperties(this));
+    	return result;
+    }
+    
+    public PropertySet<Element> declaredProperties() {
+    	return new PropertySet<Element>();
+    }
+    
+
+    public Ternary is(Property<Element> property) {
+      PropertySet<Element> properties = properties();
+      if((property).appliesTo(this)) {
+        properties.add(property);
+      }
+      return properties.implies(property);
+    }
+   
+
 }

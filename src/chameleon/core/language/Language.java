@@ -1,8 +1,10 @@
 package chameleon.core.language;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -10,6 +12,7 @@ import org.rejuse.association.Reference;
 import org.rejuse.association.ReferenceSet;
 import org.rejuse.association.Relation;
 import org.rejuse.property.Property;
+import org.rejuse.property.PropertySet;
 import org.rejuse.property.PropertyUniverse;
 import org.rejuse.property.StaticProperty;
 
@@ -20,6 +23,7 @@ import chameleon.core.element.Element;
 import chameleon.core.member.Member;
 import chameleon.core.namespace.RootNamespace;
 import chameleon.core.property.Defined;
+import chameleon.core.property.PropertyRule;
 import chameleon.core.relation.EquivalenceRelation;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.type.Type;
@@ -52,6 +56,79 @@ public abstract class Language implements PropertyUniverse<Element> {
 	public String getName() {
 		return _name;
 	}
+	
+	/**
+	 * Return the default properties of the given element.
+	 * @return
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre element != null;
+   @
+   @ (* The properties of all rules are added to the result.*)
+   @ post (\forall PropertyRule rule; propertyRules().contains(rule);
+   @         \result.containsAll(rule.properties(element)));
+   @ (* Only the properties given by the property rules are in the result *);
+   @ post (\forall Property<Element> p; \result.contains(p);
+   @        \exists(PropertyRule rule; propertyRules().contains(rule);
+   @           rule.properties(element).contains(p)));
+   @*/
+	public PropertySet<Element> defaultProperties(Element element) {
+		PropertySet<Element> result = new PropertySet<Element>();
+		for(PropertyRule rule:propertyRules()) {
+			result.addAll(rule.properties(element));
+		}
+		return result;
+	}
+	
+	/**
+	 * Return the list of rule that determine the default properties of an element.
+	 * @return
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
+	public List<PropertyRule> propertyRules() {
+		return new ArrayList<PropertyRule>(_propertyRules);
+	}
+	
+	/**
+	 * Add a property rule to this language object.
+	 * @param rule
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre rule != null;
+   @
+   @ post propertyRules().contains(rule);
+   @*/
+	public void addPropertyRule(PropertyRule rule) {
+		if(rule == null) {
+			throw new ChameleonProgrammerException("adding a null property rule to a language");
+		}
+		_propertyRules.add(rule);
+	}
+	
+	/**
+	 * Remove a property rule from this language object.
+	 * @param rule
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre rule != null;
+   @
+   @ post ! propertyRules().contains(rule);
+   @*/
+	public void removePropertyRule(PropertyRule rule) {
+		_propertyRules.remove(rule);
+	} 
+	
+	private List<PropertyRule> _propertyRules = new ArrayList<PropertyRule>();
 	
 	/**
 	 * Set the name of this language.

@@ -18,7 +18,6 @@ import chameleon.util.Util;
 public class VariableOrTypeReference extends Expression<VariableOrTypeReference> implements InvocationTargetContainer<VariableOrTypeReference,ExpressionContainer>, Assignable<VariableOrTypeReference,ExpressionContainer> {
     
   public VariableOrTypeReference(InvocationTarget target) {
-	  
       setTarget(target);
   }
 
@@ -40,7 +39,11 @@ public class VariableOrTypeReference extends Expression<VariableOrTypeReference>
   }
 
   public void setTarget(InvocationTarget target) {
-    _target.connectTo(target.parentLink());
+  	if(_target != null) {
+      _target.connectTo(target.parentLink());
+  	} else {
+  		_target.connectTo(null);
+  	}
   }
 
   public boolean superOf(InvocationTarget target) throws MetamodelException {
