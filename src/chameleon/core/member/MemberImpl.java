@@ -5,14 +5,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.Reference;
 import org.rejuse.predicate.PrimitivePredicate;
+import org.rejuse.property.Property;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
+import chameleon.core.element.ChameleonProgrammerException;
+import chameleon.core.element.Element;
 import chameleon.core.relation.StrictPartialOrder;
+import chameleon.core.scope.Scope;
+import chameleon.core.scope.ScopeProperty;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeElementImpl;
 
@@ -65,6 +69,17 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Declara
   
   public Declaration resolve() throws MetamodelException {
   	return this;
+  }
+  
+  public Scope scope() throws MetamodelException {
+  	Scope result = null;
+  	Property<Element> scopeProperty = property(language().SCOPE_MUTEX);
+  	if(scopeProperty instanceof ScopeProperty) {
+  		result = ((ScopeProperty)scopeProperty).scope(this);
+  	} else if(scopeProperty != null){
+  		throw new ChameleonProgrammerException("Scope property is not a ScopeProperty");
+  	}
+  	return result;
   }
 
 }

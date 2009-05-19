@@ -6,6 +6,7 @@ import java.util.List;
 import org.rejuse.association.Reference;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.property.Property;
+import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
@@ -295,15 +296,13 @@ public interface Element<E extends Element, P extends Element> {
     public abstract PropertySet<Element> properties();
         
     /**
-     * Return a property set representing the properties of this type element
-     * as declared by its modifiers.
+     * Return a property set representing the properties of this element
+     * that are explicitly declared.
      */
    /*@
-     @ behavior
+     @ public behavior
      @
      @ post \result != null;
-     @ post (\forall Modifier mod; modifiers().contains(mod);
-     @        \result.properties.containsAll(mod.impliedProperties()));
      @*/
     public PropertySet<Element> declaredProperties();
 
@@ -327,5 +326,29 @@ public interface Element<E extends Element, P extends Element> {
      @ post property.appliesTo(this) ==> \result == declaredProperties().with(property).implies(property);
      @*/
     public Ternary is(Property<Element> property);
+    
+    /**
+     * Return the property of this element for the given property mutex. The property mutex
+     * can be seen as the family of properties that a property belongs to. An example of a
+     * property mutex is accessibility.
+     * 
+     * @param mutex
+     * @return
+     * @throws MetamodelException 
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre mutex != null;
+     @
+     @ post \result != null ==> properties().contains(\result);
+     @ post \result != null ==> \result.mutex() == mutex;
+     @ post (\num_of Property p; properties().contains(p);
+     @       p.mutex() == mutex) == 1 ==> \result != null;
+     @
+     @ signals MetamodelException (\num_of Property p; properties().contains(p);
+     @       p.mutex() == mutex) > 1; 
+     @*/
+    public Property<Element> property(PropertyMutex<Element> mutex) throws MetamodelException;
 
 }

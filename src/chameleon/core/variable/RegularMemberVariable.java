@@ -7,12 +7,17 @@ import java.util.List;
 import java.util.Set;
 
 import org.rejuse.predicate.PrimitivePredicate;
+import org.rejuse.property.Property;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.element.ChameleonProgrammerException;
+import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
 import chameleon.core.member.Member;
 import chameleon.core.relation.StrictPartialOrder;
+import chameleon.core.scope.Scope;
+import chameleon.core.scope.ScopeProperty;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeContainer;
 import chameleon.core.type.TypeDescendant;
@@ -69,12 +74,6 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
     }
     return new RegularMemberVariable(signature().clone(), (TypeReference)getTypeReference().clone(), expr);
   }
-
-//  public AccessibilityDomain getAccessibilityDomain() throws MetamodelException {
-//    return getAccessModifier().getAccessibilityDomain(getParent());
-//  }
-  
-	
 	  
   public Set<Member> getIntroducedMembers() {
     return Util.createSingletonSet(this);
@@ -117,7 +116,18 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
   }
 
 	public MemberVariable alias(SimpleNameSignature signature) {
-		return null;
+		return new VariableAlias(signature,this);
 	}
+
+  public Scope scope() throws MetamodelException {
+  	Scope result = null;
+  	Property<Element> scopeProperty = property(language().SCOPE_MUTEX);
+  	if(scopeProperty instanceof ScopeProperty) {
+  		result = ((ScopeProperty)scopeProperty).scope(this);
+  	} else if(scopeProperty != null){
+  		throw new ChameleonProgrammerException("Scope property is not a ScopeProperty");
+  	}
+  	return result;
+  }
 
 }

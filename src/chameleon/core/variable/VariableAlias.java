@@ -4,7 +4,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.logic.ternary.Ternary;
+import org.rejuse.predicate.PrimitiveTotalPredicate;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
@@ -16,6 +18,8 @@ import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
+import chameleon.core.scope.Scope;
+import chameleon.core.scope.ScopeProperty;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 
@@ -41,14 +45,6 @@ public class VariableAlias extends VariableImpl<VariableAlias,Type> implements M
 		return aliasedVariable().getTypeReference();
 	}
 
-	public void addModifier(Modifier modifier) {
-		throw new ChameleonProgrammerException("Trying to add a modifier to a variable alias.");
-	}
-
-	public PropertySet<Element> declaredProperties() {
-		return aliasedVariable().declaredProperties();
-	}
-	
   public final boolean equivalentTo(Member other) throws MetamodelException {
   	return language().equivalenceRelation().contains(this,other);
   }
@@ -69,13 +65,73 @@ public class VariableAlias extends VariableImpl<VariableAlias,Type> implements M
 		return aliasedVariable().is(property);
 	}
 
-	public List<Modifier> modifiers() {
-		return aliasedVariable().modifiers();
+	private OrderedReferenceSet<Variable, Modifier> _modifiers = new OrderedReferenceSet<Variable, Modifier>(this);
+
+	public void addModifier(Modifier modifier) {
+		if ((modifier != null) && (!_modifiers.contains(modifier.parentLink()))) {
+			_modifiers.add(modifier.parentLink());
+		}
 	}
 
 	public void removeModifier(Modifier modifier) {
-		throw new ChameleonProgrammerException("Trying to remove a modifier from a variable alias.");
+		_modifiers.remove(modifier.parentLink());
 	}
+
+	public boolean hasModifier(Modifier modifier) {
+		return _modifiers.getOtherEnds().contains(modifier);
+	}
+	public List<Modifier> modifiers() {
+		final List<Modifier> mine = _modifiers.getOtherEnds();
+		List<Modifier> result = aliasedVariable().modifiers();
+		new PrimitiveTotalPredicate<Modifier>() {
+			public boolean eval(final Modifier aliasedModifier) {
+				return new PrimitiveTotalPredicate<Modifier>() {
+					public boolean eval(Modifier object) {
+						PropertySet aliasedProperties = aliasedModifier.impliedProperties();
+						aliasedProperties.addAll(object.impliedProperties());
+						return aliasedProperties.consistent();
+					}
+				}.forall(mine);
+			}
+		}.filter(result);
+		result.addAll(mine);
+		return result;
+	}
+
+	private Set<Property<Element>> myDeclaredProperties() {
+		Set<Property<Element>> result = new HashSet<Property<Element>>();
+    for(Modifier modifier:modifiers()) {
+      result.addAll(modifier.impliedProperties().properties());
+    }
+    return result;
+	}
+	
+  public PropertySet<Element> declaredProperties() {
+    Set<Property<Element>> result = aliasedVariable().properties().properties();
+    final Set<Property<Element>> mine = myDeclaredProperties();
+    new PrimitiveTotalPredicate<Property<Element>>() {
+			@Override
+			public boolean eval(final Property<Element> aliasedProperty) {
+				return new PrimitiveTotalPredicate<Property<Element>>() {
+					@Override
+					public boolean eval(Property<Element> myProperty) {
+						return !aliasedProperty.contradicts(myProperty);
+					}
+				}.forAll(mine);
+			}
+    	
+    }.filter(result);
+    result.addAll(mine);
+    return new PropertySet<Element>(result);
+  }
+	
+//	public void addModifier(Modifier modifier) {
+//		throw new ChameleonProgrammerException("Trying to add a modifier to a variable alias.");
+//	}
+//
+//	public void removeModifier(Modifier modifier) {
+//		throw new ChameleonProgrammerException("Trying to remove a modifier from a variable alias.");
+//	}
 
 	public Variable resolve() {
 		return this;
@@ -118,4 +174,16 @@ public class VariableAlias extends VariableImpl<VariableAlias,Type> implements M
 	public void setInitialization(Expression expr) {
 		throw new ChameleonProgrammerException("Trying to set the initialization of a variable alias.");
 	}
+	
+  public Scope scope() throws MetamodelException {
+  	Scope result = null;
+  	Property<Element> scopeProperty = property(language().SCOPE_MUTEX);
+  	if(scopeProperty instanceof ScopeProperty) {
+  		result = ((ScopeProperty)scopeProperty).scope(this);
+  	} else if(scopeProperty != null){
+  		throw new ChameleonProgrammerException("Scope property is not a ScopeProperty");
+  	}
+  	return result;
+  }
+
 }

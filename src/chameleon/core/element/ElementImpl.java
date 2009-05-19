@@ -10,6 +10,7 @@ import org.rejuse.association.Reference;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.TypePredicate;
 import org.rejuse.property.Property;
+import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
@@ -293,5 +294,18 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
       return properties.implies(property);
     }
    
+    public Property<Element> property(PropertyMutex<Element> mutex) throws MetamodelException {
+    	List<Property<Element>> properties = new ArrayList<Property<Element>>();
+    	for(Property<Element> p : properties().properties()) {
+    		if(p.mutex() == mutex) {
+    			properties.add(p);
+    		}
+    	}
+    	if(properties.size() == 1) {
+    		return properties.get(0);
+    	} else {
+    		throw new MetamodelException("Element has "+properties.size()+" properties for the mutex "+mutex);
+    	}
+    }
 
 }

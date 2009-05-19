@@ -12,6 +12,7 @@ import org.rejuse.association.Reference;
 import org.rejuse.association.ReferenceSet;
 import org.rejuse.association.Relation;
 import org.rejuse.property.Property;
+import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 import org.rejuse.property.PropertyUniverse;
 import org.rejuse.property.StaticProperty;
@@ -304,6 +305,8 @@ public abstract class Language implements PropertyUniverse<Element> {
     public final Property<Element> DESTRUCTOR = new StaticProperty<Element>("destructor", this);
     public final Property<Element> REFERENCE_TYPE = new StaticProperty<Element>("reference type", this);
     public final Property<Element> VALUE_TYPE = REFERENCE_TYPE.inverse();
+
+  	public final PropertyMutex<Element> SCOPE_MUTEX = new PropertyMutex<Element>();
 
     private void initProperties() {
       OVERRIDABLE.addImplication(INHERITABLE);
