@@ -53,12 +53,19 @@ public abstract class TypeElementImpl<E extends TypeElementImpl<E,P>, P extends 
   }
 
   public PropertySet<Element> declaredProperties() {
-    PropertySet<Element> result = new PropertySet<Element>();
-    for(Modifier modifier:modifiers()) {
-      result.addAll(modifier.impliedProperties());
-    }
-    return result;
+    return myDeclaredProperties();
   }
 
+	protected PropertySet<Element> myDeclaredProperties() {
+		PropertySet<Element> result = new PropertySet<Element>();
+    for(Modifier modifier:modifiers()) {
+      result.addAll(modifier.impliedProperties().properties());
+    }
+    return result;
+	}
+
+	protected PropertySet<Element> myDefaultProperties() {
+		return language().defaultProperties(this);
+	}
 
 }

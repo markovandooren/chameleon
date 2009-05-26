@@ -5,9 +5,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.rejuse.association.Reference;
 import org.rejuse.logic.ternary.Ternary;
+import org.rejuse.predicate.PrimitiveTotalPredicate;
 import org.rejuse.predicate.TypePredicate;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertyMutex;
@@ -277,8 +279,12 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     
     public PropertySet<Element> properties() {
     	PropertySet<Element> result = declaredProperties();
-    	result.addAll(language().defaultProperties(this));
+    	result.addAll(defaultProperties());
     	return result;
+    }
+    
+    public PropertySet<Element> defaultProperties() {
+    	return language().defaultProperties(this);
     }
     
     public PropertySet<Element> declaredProperties() {
@@ -307,5 +313,24 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     		throw new MetamodelException("Element has "+properties.size()+" properties for the mutex "+mutex);
     	}
     }
+
+		protected PropertySet<Element> filterProperties(PropertySet<Element> overriding, PropertySet<Element> base) {
+			Set<Property<Element>> baseProperties = base.properties();
+			final Set<Property<Element>> overridingProperties = overriding.properties();
+		  new PrimitiveTotalPredicate<Property<Element>>() {
+				@Override
+				public boolean eval(final Property<Element> aliasedProperty) {
+					return new PrimitiveTotalPredicate<Property<Element>>() {
+						@Override
+						public boolean eval(Property<Element> myProperty) {
+							return !aliasedProperty.contradicts(myProperty);
+						}
+					}.forAll(overridingProperties);
+				}
+		  	
+		  }.filter(baseProperties);
+		  baseProperties.addAll(overridingProperties);
+		  return new PropertySet<Element>(baseProperties);
+		}
 
 }

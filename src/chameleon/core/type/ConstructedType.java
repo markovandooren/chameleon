@@ -3,6 +3,12 @@ package chameleon.core.type;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.type.generics.GenericParameter;
 
+/**
+ * This class represents types created as a result of resolving a generic parameter, which itself is
+ * not a type.
+ * 
+ * @author Marko van Dooren
+ */
 public class ConstructedType extends TypeIndirection {
 
 	public ConstructedType(SimpleNameSignature sig, Type aliasedType, GenericParameter param) {

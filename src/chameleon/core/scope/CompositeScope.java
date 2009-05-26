@@ -28,8 +28,9 @@ public abstract class CompositeScope extends Scope {
    @
    @ getDomains().containsAll(scopes);
    @*/
-  public CompositeScope(Collection<Scope> scopes) {
+  public CompositeScope(Collection<Scope> scopes) throws MetamodelException {
     _scopes.addAll(scopes);
+    filter();
   }
 
  /*@
@@ -48,11 +49,20 @@ public abstract class CompositeScope extends Scope {
    @ pre scope != this;
    @ pre ! containsRecursive(scope);
    @
-   @ post scope().contains(scope);
+   @ post scopes().contains(scope);
    @*/
   public void add(Scope scope) throws MetamodelException {
     _scopes.add(scope);
     filter();
+  }
+  
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
+  public List<Scope> scopes() {
+  	return new ArrayList<Scope>(_scopes);
   }
   
   protected abstract void filter() throws MetamodelException;

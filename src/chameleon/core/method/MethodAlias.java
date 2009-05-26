@@ -1,7 +1,11 @@
 package chameleon.core.method;
 
+import org.rejuse.property.PropertySet;
+
 import chameleon.core.element.ChameleonProgrammerException;
+import chameleon.core.element.Element;
 import chameleon.core.method.exception.ExceptionClause;
+import chameleon.core.modifier.Modifier;
 import chameleon.core.type.TypeReference;
 
 public class MethodAlias<E extends MethodAlias<E,H,S>, H extends MethodHeader<H, E, S>, S extends MethodSignature> extends Method<E,H,S> {
@@ -51,5 +55,14 @@ public class MethodAlias<E extends MethodAlias<E,H,S>, H extends MethodHeader<H,
 	public void setImplementation(Implementation implementation) {
 		throw new ChameleonProgrammerException("Trying to set the implementation of a method alias.");
 	}
+
+  public PropertySet<Element> defaultProperties() {
+    return filterProperties(myDefaultProperties(), aliasedMethod().defaultProperties());
+  }
+	
+  public PropertySet<Element> declaredProperties() {
+    return filterProperties(myDeclaredProperties(), aliasedMethod().declaredProperties());
+  }
+
 
 }

@@ -296,6 +296,16 @@ public interface Element<E extends Element, P extends Element> {
     public abstract PropertySet<Element> properties();
         
     /**
+     * Return the default properties of this element.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @*/
+    public PropertySet<Element> defaultProperties();
+    
+    /**
      * Return a property set representing the properties of this element
      * that are explicitly declared.
      */

@@ -1,6 +1,7 @@
 package chameleon.core.scope;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.element.Element;
 
 /**
  * A class of scopes. They represent the region of code where a declaration can be referenced provided that it
@@ -10,13 +11,24 @@ import chameleon.core.MetamodelException;
  */
 public abstract class Scope {
 
+	/**
+	 * Check if the given element is in this scope.
+	 * @throws MetamodelException 
+	 */
  /*@
-   @ // The atLeastAsAccessibleAs relation is transitive.
+   @ public behavior
+   @
+   @ pre element != null;
+   @*/
+  public abstract boolean contains(Element element) throws MetamodelException;
+	
+ /*@
+   @ // The greaterThanOrEqualTo relation is transitive.
    @ public invariant (\forall Scope first; first != null;
    @                    (\forall Scope second; second != null;
    @                      (\forall Scope third; third != null;
-   @                        first.atLeastAsAccessibleAs(second) && second.atLeastAsAccessibleAs(third) ==>
-   @                        first.atLeastAsAccessibleAs(third))));
+   @                        first.greaterThanOrEqualTo(second) && second.greaterThanOrEqualTo(third) ==>
+   @                        first.greaterThanOrEqualTo(third))));
    @*/
   
   /**
@@ -71,8 +83,8 @@ public abstract class Scope {
    @ post \fresh(\result);
    @ // The accessibility domain cannot increase in size.
    @ post (\forall Scope ad; ad != null;
-   @         \result.atLeastAsAccessibileAs(ad) ==>
-   @            atLeastAsAccessibileAs(ad) && other.atLeastAsAccessibileAs(ad));
+   @         \result.greaterThanOrEqualTo(ad) ==>
+   @            greaterThanOrEqualTo(ad) && other.greaterThanOrEqualTo(ad));
    @*/
   public Scope intersect(Scope other) throws MetamodelException {
     Intersection result = new Intersection();
@@ -98,20 +110,11 @@ public abstract class Scope {
    @ post \fresh(\result);
    @ // The scope cannot decrease in size.
    @ post (\forall Scope ad; ad != null;
-   @         atLeastAsAccessibileAs(ad) || other.atLeastAsAccessibileAs(ad) ==>
-   @           \result.atLeastAsAccessibileAs(ad));
+   @         greaterThanOrEqualTo(ad) || other.greaterThanOrEqualTo(ad) ==>
+   @           \result.greaterThanOrEqualTo(ad));
    @*/
-  public Scope union(Scope other)  throws MetamodelException {
-    Union result = new Union();
-    result.add(this);
-    result.add(other);
-    return result;
+  public Scope union(Scope other) throws MetamodelException {
+    return new Union(this,other);
   }
-  
-//  public boolean containsRecursive(Scope domain) {
-//    return false;
-//  }
-  
-  //public abstract boolean equals(Object o);
-
+    
 }

@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.element.Element;
 
 /**
  * @author marko
@@ -26,10 +27,27 @@ public class Intersection extends CompositeScope {
    @
    @ getDomains().containsAll(domains);
    @*/
-  public Intersection(Collection<Scope> domains) {
+  public Intersection(Collection<Scope> domains) throws MetamodelException {
     super(domains);
   }
 
+	public boolean contains(final Element element) throws MetamodelException {
+		try {
+			return new PrimitivePredicate<Scope>() {
+
+				public boolean eval(Scope object) throws Exception {
+					return object.contains(element);
+				}
+			}.forAll(scopes());
+		} catch (MetamodelException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Error();
+		}
+	}
+
+  
   public boolean geRecursive(final Scope other) throws MetamodelException {
     try {
       return new PrimitivePredicate() {

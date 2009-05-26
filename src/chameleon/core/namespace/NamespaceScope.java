@@ -1,14 +1,15 @@
 package chameleon.core.namespace;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.compilationunit.CompilationUnitScope;
+import chameleon.core.element.Element;
+import chameleon.core.scope.LexicalScope;
 import chameleon.core.scope.Scope;
 
 /**
  * @author Marko van Dooren
  */
 public class NamespaceScope extends Scope {
-  
+  	
  /*@
    @ public behavior
    @
@@ -19,6 +20,10 @@ public class NamespaceScope extends Scope {
   public NamespaceScope(Namespace ns) {
     _namespace = ns;
   }
+  
+	public boolean contains(Element element) {
+		return (element instanceof NamespaceElement) && (((NamespaceElement)element).getNamespace().equals(getNamespace()));
+	}
   
  /*@
    @ also public behavior
@@ -33,8 +38,8 @@ public class NamespaceScope extends Scope {
            )
            ||
            (
-             (other instanceof CompilationUnitScope) &&
-             ((CompilationUnitScope)other).getOuterType().getNamespace().equals(getNamespace())
+             (other instanceof LexicalScope) &&
+             ((LexicalScope)other).element().getNamespace().equals(getNamespace())
            );
   }
   

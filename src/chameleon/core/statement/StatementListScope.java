@@ -1,6 +1,9 @@
 package chameleon.core.statement;
 
+import java.util.Iterator;
+
 import chameleon.core.MetamodelException;
+import chameleon.core.element.Element;
 import chameleon.core.scope.Scope;
 
 /**
@@ -35,5 +38,16 @@ public class StatementListScope extends Scope {
 	private StatementListContainer _container;
 
 	private Statement _statement;
+
+	@Override
+	public boolean contains(Element element) throws MetamodelException {
+		Statement statement = getStatement();
+		boolean result = element.ancestors().contains(statement);
+		Iterator<Statement> iter = getContainer().statementsAfter(getStatement()).iterator();
+		while(! result && iter.hasNext()) {
+			result = iter.next().ancestors().contains(statement);
+		}
+		return result;
+	}
 
 }

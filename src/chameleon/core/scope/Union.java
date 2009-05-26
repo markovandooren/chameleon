@@ -5,11 +5,28 @@ import java.util.Collection;
 import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.element.Element;
 
 /**
- * @author marko
+ * @author Marko van Dooren
  */
 public class Union extends CompositeScope {
+	
+	public boolean contains(final Element element) throws MetamodelException {
+		try {
+			return new PrimitivePredicate<Scope>() {
+
+				public boolean eval(Scope object) throws Exception {
+					return object.contains(element);
+				}
+			}.exists(scopes());
+		} catch (MetamodelException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Error();
+		}
+	}
 
  /*@
    @ public behavior
@@ -26,8 +43,22 @@ public class Union extends CompositeScope {
    @
    @ getDomains().containsAll(domains);
    @*/
-  public Union(Collection<Scope> domains) {
+  public Union(Collection<Scope> domains) throws MetamodelException {
     super(domains);
+  }
+  
+ /*@
+   @ public behavior
+   @
+   @ pre first != null;
+   @ pre second != null;
+   @
+   @ getDomains().contains(first);
+   @ getDomains().contains(second);
+   @*/
+  public Union(Scope first, Scope second) throws MetamodelException {
+  	add(first);
+  	add(second);
   }
 
   public boolean geRecursive(final Scope other) throws MetamodelException {

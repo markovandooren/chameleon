@@ -25,15 +25,14 @@
 package chameleon.core.modifier;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.rejuse.property.Property;
+import org.rejuse.property.PropertySet;
 
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
-import chameleon.core.language.Language;
 
 
 /**
@@ -60,24 +59,24 @@ public abstract class ModifierImpl<E extends Modifier,P extends ModifierContaine
     return new ArrayList<Element>();
   }
   
-  protected Set<Property<Element>> createSet() {
-    return new HashSet<Property<Element>>(); 
+  protected PropertySet<Element> createSet() {
+    return new PropertySet<Element>(); 
   }
   
-  protected Set<Property<Element>> createSet(Property p) {
-    Set<Property<Element>> result = createSet();
+  protected PropertySet<Element> createSet(Property p) {
+    PropertySet<Element> result = createSet();
     result.add(p);
     return result;
   }
 
-  protected Set<Property<Element>> createSet(Property p1, Property p2) {
-    Set<Property<Element>> result = createSet(p1);
+  protected PropertySet<Element> createSet(Property p1, Property p2) {
+  	PropertySet<Element> result = createSet(p1);
     result.add(p2);
     return result;
   }
   
-  protected Set<Property<Element>> createSet(Property p1, Property p2, Property p3) {
-    Set<Property<Element>> result = createSet(p1, p2);
+  protected PropertySet<Element> createSet(Property p1, Property p2, Property p3) {
+  	PropertySet<Element> result = createSet(p1, p2);
     result.add(p3);
     return result;
   }

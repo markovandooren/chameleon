@@ -1,5 +1,7 @@
 package chameleon.core.statement;
 
+import java.util.List;
+
 import chameleon.core.element.Element;
 
 /**
@@ -12,4 +14,8 @@ import chameleon.core.element.Element;
 public interface StatementListContainer<E extends Element, P extends Element> {
 
     public int getIndexOf(Statement statement);
+    
+    public List<Statement> getStatements();
+    
+    public List<Statement> statementsAfter(Statement statement);
 }

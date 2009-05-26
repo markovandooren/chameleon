@@ -76,6 +76,15 @@ public class Block extends Statement<Block> implements StatementContainer<Block,
   public int getIndexOf(Statement statement) {
     return getStatements().indexOf(statement) + 1;
   }
+
+	public List<Statement> statementsAfter(Statement statement) {
+		List<Statement> statements = getStatements(); 
+		int index = statements.indexOf(statement);
+		// returns a view on a clone of _statements (getStatements() clones the list).
+		// the view depends on the local variable, but since no other references exist
+		// this is not a problem.
+		return statements.subList(index, statements.size());
+	}
   
 //	/*@
 //	  @ post \result instanceof EmptyDomain;

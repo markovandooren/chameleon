@@ -3,8 +3,11 @@ package chameleon.core.type;
 import java.util.List;
 import java.util.Set;
 
+import org.rejuse.property.PropertySet;
+
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
+import chameleon.core.element.Element;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
 public abstract class TypeIndirection extends Type {
@@ -51,5 +54,16 @@ public abstract class TypeIndirection extends Type {
 	public List<InheritanceRelation> inheritanceRelations() {
 		return aliasedType().inheritanceRelations();
 	}
+	
+	//TODO I am not sure if these definitions are appropriate for a constructed type.
+  public PropertySet<Element> defaultProperties() {
+    return filterProperties(myDefaultProperties(), aliasedType().defaultProperties());
+  }
+	
+  public PropertySet<Element> declaredProperties() {
+    return filterProperties(myDeclaredProperties(), aliasedType().declaredProperties());
+  }
+
+
 
 }

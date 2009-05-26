@@ -207,6 +207,9 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
     	return result;
     }
 
+    
+    //TODO: rename to properSubTypeOf
+    
     public boolean subTypeOf(Type other) throws MetamodelException {
     	  Collection superTypes = getAllSuperTypes(); 
         return superTypes.contains(other);

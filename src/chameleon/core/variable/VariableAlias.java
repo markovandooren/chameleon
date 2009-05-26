@@ -98,42 +98,27 @@ public class VariableAlias extends VariableImpl<VariableAlias,Type> implements M
 		return result;
 	}
 
-	private Set<Property<Element>> myDeclaredProperties() {
-		Set<Property<Element>> result = new HashSet<Property<Element>>();
+	private PropertySet<Element> myDeclaredProperties() {
+		PropertySet<Element> result = new PropertySet<Element>();
     for(Modifier modifier:modifiers()) {
       result.addAll(modifier.impliedProperties().properties());
     }
     return result;
 	}
-	
-  public PropertySet<Element> declaredProperties() {
-    Set<Property<Element>> result = aliasedVariable().properties().properties();
-    final Set<Property<Element>> mine = myDeclaredProperties();
-    new PrimitiveTotalPredicate<Property<Element>>() {
-			@Override
-			public boolean eval(final Property<Element> aliasedProperty) {
-				return new PrimitiveTotalPredicate<Property<Element>>() {
-					@Override
-					public boolean eval(Property<Element> myProperty) {
-						return !aliasedProperty.contradicts(myProperty);
-					}
-				}.forAll(mine);
-			}
-    	
-    }.filter(result);
-    result.addAll(mine);
-    return new PropertySet<Element>(result);
+
+	private PropertySet<Element> myDefaultProperties() {
+		return language().defaultProperties(this);
+	}
+
+  public PropertySet<Element> defaultProperties() {
+    return filterProperties(myDefaultProperties(), aliasedVariable().defaultProperties());
   }
 	
-//	public void addModifier(Modifier modifier) {
-//		throw new ChameleonProgrammerException("Trying to add a modifier to a variable alias.");
-//	}
-//
-//	public void removeModifier(Modifier modifier) {
-//		throw new ChameleonProgrammerException("Trying to remove a modifier from a variable alias.");
-//	}
+  public PropertySet<Element> declaredProperties() {
+    return filterProperties(myDeclaredProperties(), aliasedVariable().declaredProperties());
+  }
 
-	public Variable resolve() {
+  public Variable resolve() {
 		return this;
 	}
 
