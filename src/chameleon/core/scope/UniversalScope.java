@@ -25,7 +25,21 @@ public class UniversalScope extends Scope {
   public boolean geRecursive(Scope other) {
     return true;
   }
+  
+ /*@
+   @ public behavior
+   @
+   @ post \result == other instanceof UniversalScope;
+   @*/
+  public boolean leRecursive(Scope other) {
+  	return other instanceof UniversalScope;
+  }
 
+ /*@
+   @ public behavior
+   @
+   @ post \result == other instanceof UniversalScope;
+   @*/
   public boolean equals(Object o) {
     return (o instanceof UniversalScope);
   }

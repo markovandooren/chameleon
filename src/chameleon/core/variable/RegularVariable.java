@@ -12,6 +12,7 @@ import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.context.TargetContext;
+import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
@@ -20,11 +21,11 @@ import chameleon.core.modifier.Modifier;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
 import chameleon.core.type.Type;
-import chameleon.core.type.TypeDescendantImpl;
+import chameleon.core.type.TypeDescendant;
 import chameleon.core.type.TypeReference;
 import chameleon.util.Util;
 
-public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends VariableContainer> 
+public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends DeclarationContainer & TypeDescendant> 
        extends VariableImpl<E,P> implements ExpressionContainer<E,P>, ExceptionSource<E,P> {
 
 	public RegularVariable(SimpleNameSignature sig, TypeReference typeRef, Expression init) {

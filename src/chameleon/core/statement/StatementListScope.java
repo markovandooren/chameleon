@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.element.Element;
+import chameleon.core.scope.LexicalScope;
 import chameleon.core.scope.Scope;
 
 /**
@@ -22,9 +23,12 @@ public class StatementListScope extends Scope {
   }
   
   public boolean geRecursive(Scope other) throws MetamodelException {
-    return (other instanceof StatementListScope) && 
-           ((StatementListScope)other).getStatement().ancestors().contains(getContainer()) &&
-           (getStatement().before(((StatementListScope)other).getStatement()));
+  	return (
+		    (other instanceof StatementListScope) && 
+        ((StatementListScope)other).getStatement().ancestors().contains(getContainer()) &&
+        (getStatement().before(((StatementListScope)other).getStatement()))
+       ) || 
+       ((other instanceof LexicalScope) && contains(((LexicalScope)other).element()));
   }
   
   public Statement getStatement() {

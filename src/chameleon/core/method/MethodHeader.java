@@ -113,4 +113,7 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
   	return result;
   }
 
+  public Method variableScopeElement() {
+  	return parent();
+  }
 }

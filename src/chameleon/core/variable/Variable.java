@@ -2,14 +2,13 @@ package chameleon.core.variable;
 
 import java.util.List;
 
-import org.rejuse.association.Reference;
-import org.rejuse.java.collections.Visitor;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.context.TargetContext;
+import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
@@ -20,12 +19,11 @@ import chameleon.core.type.Type;
 import chameleon.core.type.TypeDescendant;
 import chameleon.core.type.TypeReference;
 import chameleon.core.type.VariableOrType;
-import chameleon.util.Util;
 
 /**
  * @author Marko van Dooren
  */
-public interface Variable<E extends Variable<E,P>, P extends VariableContainer> 
+public interface Variable<E extends Variable<E,P>, P extends DeclarationContainer> 
                 extends TypeDescendant<E,P>, 
                 VariableOrType<E,P>,ModifierContainer<E,P>, TargetDeclaration<E,P,SimpleNameSignature> {
 

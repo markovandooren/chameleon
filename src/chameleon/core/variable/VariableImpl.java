@@ -2,10 +2,12 @@ package chameleon.core.variable;
 
 import org.rejuse.association.Reference;
 
+import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.element.Element;
 import chameleon.core.type.TypeDescendantImpl;
 
-public abstract class VariableImpl<E extends VariableImpl<E,P>, P extends VariableContainer> 
+public abstract class VariableImpl<E extends VariableImpl<E,P>, P extends DeclarationContainer> 
        extends TypeDescendantImpl<E, P>
        implements Variable<E,P> {
 	

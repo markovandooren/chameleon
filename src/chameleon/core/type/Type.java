@@ -42,7 +42,7 @@ import chameleon.core.variable.VariableContainer;
  */
 public abstract class Type extends FixedSignatureMember<Type,TypeContainer,SimpleNameSignature,Type> 
                 implements TargetDeclaration<Type,TypeContainer,SimpleNameSignature>, NamespaceOrType<Type,TypeContainer,SimpleNameSignature>, 
-                           TypeContainer<Type,TypeContainer>, VariableContainer<Type,TypeContainer>, 
+                           TypeContainer<Type,TypeContainer>,  
                            VariableOrType<Type,TypeContainer>, Definition<Type,TypeContainer,SimpleNameSignature>,
                            StatementContainer<Type,TypeContainer>, 
                            Cloneable, ExceptionSource<Type,TypeContainer>, ModifierContainer<Type,TypeContainer>, 
