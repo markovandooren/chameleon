@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.association.Reference;
 import org.rejuse.java.collections.Visitor;
 
@@ -50,6 +49,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
 
   public Invocation(InvocationTarget target) {
 	  setTarget(target);
+	  _parameters.connectTo(new ActualArgumentList().parentLink());
   }
   
   public abstract DeclarationSelector<D> selector();
@@ -97,23 +97,22 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
 	/**
 	 * ACTUAL PARAMETERS
 	 */
-	private OrderedReferenceSet<Invocation,ActualParameter> _parametersLink = new OrderedReferenceSet<Invocation,ActualParameter>(this);
+ private Reference<Invocation,ActualArgumentList> _parameters = new Reference<Invocation,ActualArgumentList>(this);
+ 
+ public ActualArgumentList actualArgumentList() {
+	 return _parameters.getOtherEnd();
+ }
 
-
-  public OrderedReferenceSet<Invocation,ActualParameter> getParametersLink() {
-    return _parametersLink;
+  public void addParameter(ActualParameter parameter) {
+  	actualArgumentList().addParameter(parameter);
   }
 
-  public void addParameter(ActualParameter expr) {
-    _parametersLink.add(expr.parentLink());
-  }
-
-  public void removeParameter(Expression expr) {
-    _parametersLink.remove(expr.parentLink());
+  public void removeParameter(ActualParameter parameter) {
+  	actualArgumentList().removeParameter(parameter);
   }
 
   public List<ActualParameter> getActualParameters() {
-    return _parametersLink.getOtherEnds();
+    return actualArgumentList().getActualParameters();
   }
 
   public List<Type> getActualParameterTypes() throws MetamodelException {
@@ -166,11 +165,12 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
  /*@
    @ also public behavior
    @
-   @ post \result.containsAll(getActualParameters());
+   @ post \result.contains(actualArgumentList());
    @ post getTarget() != null ==> \result.contains(getTarget());
    @*/  
   public List<? extends Element> children() {
-    List<? extends Element> result = getActualParameters();
+    List<Element> result = new ArrayList<Element>();
+    result.add(actualArgumentList());
     Util.addNonNull(getTarget(), result);
     return result;
   }

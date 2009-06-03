@@ -5,7 +5,16 @@ import org.rejuse.association.Reference;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
 
-public abstract class FixedSignatureMember<E extends MemberImpl<E,P,S,F>,P extends DeclarationContainer, S extends Signature, F extends Member> extends MemberImpl<E,P,S,F> {
+public abstract class FixedSignatureMember<E extends FixedSignatureMember<E,P,S,F>,P extends DeclarationContainer, S extends Signature, F extends Member> extends MemberImpl<E,P,S,F> {
+	
+	public FixedSignatureMember() {
+		
+	}
+	
+	public FixedSignatureMember(S signature) {
+	  setSignature(signature);
+	}
+	
   public void setSignature(S signature) {
     if(signature != null) {
       _signature.connectTo(signature.parentLink());

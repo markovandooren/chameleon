@@ -24,7 +24,7 @@ import chameleon.util.Util;
  * @author Marko van Dooren
  * @author Tim Laeremans
  */
-public class ActualParameter extends NamespacePartElementImpl<ActualParameter,Invocation> implements ExpressionContainer<ActualParameter,Invocation> {
+public class ActualParameter extends NamespacePartElementImpl<ActualParameter,ActualArgumentList> implements ExpressionContainer<ActualParameter,ActualArgumentList> {
 
 
 
@@ -41,7 +41,7 @@ public class ActualParameter extends NamespacePartElementImpl<ActualParameter,In
 	/**
 	 * EXPRESSION
 	 */
-	private Reference<ActualParameter,Invocation> _expression = new Reference<ActualParameter,Invocation>(this);
+	private Reference<ActualParameter,Expression> _expression = new Reference<ActualParameter,Expression>(this);
 
 	public Reference getExpressionLink(){
 		return _expression;
