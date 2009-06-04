@@ -1,20 +1,22 @@
 package chameleon.core.type;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.rejuse.association.OrderedReferenceSet;
+import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
+import chameleon.core.member.Member;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
 public class RegularType extends Type {
 
 	public RegularType(SimpleNameSignature sig) {
 		super(sig);
+		_body.connectTo(new ClassBody().parentLink());
 	}
 
 	@Override
@@ -28,12 +30,14 @@ public class RegularType extends Type {
 		return new RegularType(signature().clone());
 	}
 
-	private OrderedReferenceSet<Type, TypeElement> _elements = new OrderedReferenceSet<Type, TypeElement>(this);
+	private Reference<Type, ClassBody> _body = new Reference<Type, ClassBody>(this);
 
+	public ClassBody body() {
+		return _body.getOtherEnd();
+	}
+	
 	public void add(TypeElement element) {
-	  if(element != null) {
-	    _elements.add(element.parentLink());
-	  }
+	  body().add(element);
 	}
 
   /**
@@ -41,12 +45,8 @@ public class RegularType extends Type {
    * @return
    * @throws MetamodelException 
    */
-  public Set<TypeElement> directlyDeclaredElements() {
-     Set<TypeElement> result = new HashSet<TypeElement>();
-     for(TypeElement m: _elements.getOtherEnds()) {
-       result.addAll(m.getIntroducedMembers());
-     }
-     return result;
+  public Set<Member> directlyDeclaredElements() {
+     return body().elements();
   }
 
 	private OrderedReferenceSet<Type, InheritanceRelation> _inheritanceRelations = new OrderedReferenceSet<Type, InheritanceRelation>(this);

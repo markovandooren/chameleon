@@ -10,7 +10,7 @@ import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Definition;
 import chameleon.core.element.Element;
 import chameleon.core.member.Member;
@@ -19,7 +19,6 @@ import chameleon.core.method.exception.ExceptionClause;
 import chameleon.core.method.exception.TypeExceptionDeclaration;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.modifier.ModifierContainer;
-import chameleon.core.scope.Scope;
 import chameleon.core.statement.Block;
 import chameleon.core.statement.ExceptionPair;
 import chameleon.core.type.Type;
@@ -28,7 +27,7 @@ import chameleon.core.variable.FormalParameter;
 import chameleon.util.Util;
 
 
-public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, E, S>, S extends MethodSignature> extends MemberImpl<E,Type,S,Method> implements Definition<E,Type,S>, ModifierContainer<E,Type> {
+public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, E, S>, S extends MethodSignature> extends MemberImpl<E,DeclarationContainer,S,Method> implements Definition<E,DeclarationContainer,S>, ModifierContainer<E,DeclarationContainer> {
 
 	public Method(H header) {
 		setHeader(header);
@@ -149,7 +148,7 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 	  @ post \result == getType();
 	  @*/
 	public Type getNearestType() {
-		return parent();
+		return nearestAncestor(Type.class);
 	}
 
 	/**********

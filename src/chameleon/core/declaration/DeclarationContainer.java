@@ -16,7 +16,7 @@ public interface DeclarationContainer<E extends DeclarationContainer, P extends 
    * @return
  * @throws MetamodelException 
    */
-  public Set<Declaration> declarations() throws MetamodelException;
+  public Set<? extends Declaration> declarations() throws MetamodelException;
   
 //  public <T extends Declaration> List<T> declarations(DeclarationSelector<T> selector) throws MetamodelException;
 

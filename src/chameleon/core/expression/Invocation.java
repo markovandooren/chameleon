@@ -168,7 +168,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
    @ post \result.contains(actualArgumentList());
    @ post getTarget() != null ==> \result.contains(getTarget());
    @*/  
-  public List<? extends Element> children() {
+  public List<Element> children() {
     List<Element> result = new ArrayList<Element>();
     result.add(actualArgumentList());
     Util.addNonNull(getTarget(), result);
