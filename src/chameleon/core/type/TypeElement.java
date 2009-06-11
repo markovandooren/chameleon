@@ -10,6 +10,7 @@ import chameleon.core.MetamodelException;
 import chameleon.core.element.Element;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.ModifierContainer;
+import chameleon.core.statement.CheckedExceptionList;
 
 /**
  * A class of elements that can be direct children of a type.
@@ -33,5 +34,9 @@ public interface TypeElement<E extends TypeElement<E,P>, P extends Element> exte
    @ post \result != null; 
    @*/
   public Set<Member> getIntroducedMembers();
+
+	public abstract CheckedExceptionList getCEL() throws MetamodelException;
+	
+	public abstract CheckedExceptionList getAbsCEL() throws MetamodelException;
     
 }

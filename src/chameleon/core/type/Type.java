@@ -729,20 +729,18 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
 
     public CheckedExceptionList getCEL() throws MetamodelException {
         CheckedExceptionList cel = new CheckedExceptionList(getNamespace().language());
-        Iterator<StaticInitializer> iter = directlyDeclaredElements(StaticInitializer.class).iterator();
-        while (iter.hasNext()) {
-            cel.absorb(iter.next().getCEL());
+        for(TypeElement el : directlyDeclaredElements()) {
+        	cel.absorb(el.getCEL());
         }
         return cel;
     }
 
     public CheckedExceptionList getAbsCEL() throws MetamodelException {
-        CheckedExceptionList cel = new CheckedExceptionList(getNamespace().language());
-        Iterator<StaticInitializer> iter = directlyDeclaredElements(StaticInitializer.class).iterator();
-        while (iter.hasNext()) {
-            cel.absorb(iter.next().getAbsCEL());
-        }
-        return cel;
+      CheckedExceptionList cel = new CheckedExceptionList(getNamespace().language());
+      for(TypeElement el : directlyDeclaredElements()) {
+      	cel.absorb(el.getAbsCEL());
+      }
+      return cel;
     }
 
     public Set<Declaration> declarations() throws MetamodelException {

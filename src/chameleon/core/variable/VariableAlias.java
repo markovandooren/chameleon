@@ -20,6 +20,7 @@ import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
+import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 
@@ -170,5 +171,14 @@ public class VariableAlias extends VariableImpl<VariableAlias,Type> implements M
   	}
   	return result;
   }
+
+	public CheckedExceptionList getCEL() throws MetamodelException {
+	  return new CheckedExceptionList(getNamespace().language());	
+	}
+	
+	public CheckedExceptionList getAbsCEL() throws MetamodelException {
+		return new CheckedExceptionList(getNamespace().language());
+	}
+
 
 }

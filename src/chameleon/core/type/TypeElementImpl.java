@@ -7,9 +7,11 @@ import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
+import chameleon.core.MetamodelException;
 import chameleon.core.element.Element;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.namespacepart.NamespacePartElementImpl;
+import chameleon.core.statement.CheckedExceptionList;
 
 /**
  * Support class for member-like elements that can be the direct children of a type.
@@ -68,4 +70,14 @@ public abstract class TypeElementImpl<E extends TypeElementImpl<E,P>, P extends 
 		return language().defaultProperties(this);
 	}
 
+	public CheckedExceptionList getCEL() throws MetamodelException {
+	  return new CheckedExceptionList(getNamespace().language());	
+	}
+	
+	public CheckedExceptionList getAbsCEL() throws MetamodelException {
+		return new CheckedExceptionList(getNamespace().language());
+	}
+
+	
+	
 }
