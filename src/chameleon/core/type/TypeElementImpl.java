@@ -3,11 +3,10 @@ package chameleon.core.type;
 import java.util.List;
 
 import org.rejuse.association.OrderedReferenceSet;
-import org.rejuse.logic.ternary.Ternary;
-import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.namespacepart.NamespacePartElementImpl;
@@ -41,13 +40,31 @@ public abstract class TypeElementImpl<E extends TypeElementImpl<E,P>, P extends 
   }
 
   public void addModifier(Modifier modifier) {
-    if ((modifier != null) && (!_modifiers.contains(modifier.parentLink()))) {
-      _modifiers.add(modifier.parentLink());
+    if (modifier != null) {
+    	if (!_modifiers.contains(modifier.parentLink())) {
+    		_modifiers.add(modifier.parentLink());	
+      }
+    } else {
+    	throw new ChameleonProgrammerException("Modifier passed to addModifier is null");
     }
+  }
+  
+  public void addModifiers(List<Modifier> modifiers) {
+  	if(modifiers == null) {
+  		throw new ChameleonProgrammerException("List passed to addModifiers is null");
+  	} else {
+  		for(Modifier modifier: modifiers) {
+  			addModifier(modifier);
+  		}
+  	}
   }
 
   public void removeModifier(Modifier modifier) {
-    _modifiers.remove(modifier.parentLink());
+  	if(modifier != null) {
+      _modifiers.remove(modifier.parentLink());
+  	} else {
+  		throw new ChameleonProgrammerException("Modifier passed to removeModifier was null");
+  	}
   }
 
   public boolean hasModifier(Modifier modifier) {

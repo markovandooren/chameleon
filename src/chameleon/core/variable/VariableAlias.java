@@ -180,5 +180,15 @@ public class VariableAlias extends VariableImpl<VariableAlias,Type> implements M
 		return new CheckedExceptionList(getNamespace().language());
 	}
 
+	// copied from TypeElementImpl
+  public void addModifiers(List<Modifier> modifiers) {
+  	if(modifiers == null) {
+  		throw new ChameleonProgrammerException("List passed to addModifiers is null");
+  	} else {
+  		for(Modifier modifier: modifiers) {
+  			addModifier(modifier);
+  		}
+  	}
+  }
 
 }
