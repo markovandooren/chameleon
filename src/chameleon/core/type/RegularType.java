@@ -36,6 +36,14 @@ public class RegularType extends Type {
 		return _body.getOtherEnd();
 	}
 	
+	public void setBody(ClassBody body) {
+		if(body == null) {
+			throw new ChameleonProgrammerException("Body passed to setBody is null.");
+		} else {
+			_body.connectTo(body.parentLink());
+		}
+	}
+	
 	public void add(TypeElement element) {
 	  body().add(element);
 	}
