@@ -161,6 +161,10 @@ public class VariableAlias extends VariableImpl<VariableAlias,Type> implements M
 		throw new ChameleonProgrammerException("Trying to set the initialization of a variable alias.");
 	}
 	
+	public void setTypeReference(TypeReference ref) {
+		throw new ChameleonProgrammerException("Trying to set the type reference of a variable alias.");
+	}
+	
   public Scope scope() throws MetamodelException {
   	Scope result = null;
   	Property<Element> scopeProperty = property(language().SCOPE_MUTEX);

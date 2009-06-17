@@ -44,6 +44,8 @@ public interface Variable<E extends Variable<E,P>, P extends DeclarationContaine
   public String getName();
 
   public abstract TypeReference getTypeReference();
+  
+  public abstract void setTypeReference(TypeReference ref);
 
   public Type getType() throws MetamodelException;
 
