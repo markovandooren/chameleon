@@ -16,29 +16,18 @@ import chameleon.core.member.Member;
 import chameleon.core.type.ConstructedType;
 import chameleon.core.type.Type;
 
+/**
+ * This class represents generic parameters as used in Java and C#.
+ * 
+ * @author Marko van Dooren
+ */
 public class GenericParameter extends FixedSignatureMember<GenericParameter, Type, SimpleNameSignature,GenericParameter> {
 
 	public GenericParameter(SimpleNameSignature signature) {
 		setSignature(signature);
 	}
 	
-//  public void setSignature(SimpleNameSignature signature) {
-//    if(signature != null) {
-//      _signature.connectTo(signature.getParentLink());
-//    } else {
-//      _signature.connectTo(null);
-//    }
-//  }
   
-//  /**
-//   * Return the signature of this member.
-//   */
-//  public SimpleNameSignature signature() {
-//    return _signature.getOtherEnd();
-//  }
-//  
-//  private Reference<GenericParameter, SimpleNameSignature> _signature = new Reference<GenericParameter, SimpleNameSignature>(this);
-
 	@Override
 	public GenericParameter clone() {
 		GenericParameter result = new GenericParameter(signature().clone());
@@ -46,16 +35,20 @@ public class GenericParameter extends FixedSignatureMember<GenericParameter, Typ
 	}
 	
 	/**
-	 * A generic parameter introduces a special type alias for the bound.
+	 * A generic parameter introduces itself. During lookup, the resolve() method will
+	 * introduce an alias.
 	 * @throws MetamodelException 
 	 */
 	public Set<Member> getIntroducedMembers() {
 		Set<Member> result = new HashSet<Member>();
-//		result.add(new ConstructedType(signature().clone(),lowerBound(),this));
 		result.add(this);
 		return result;
 	}
 	
+	/**
+	 * Resolving a generic parameter results in a constructed type whose bound
+	 * is the upper bound of this generic parameter as defined by the upperBound method.
+	 */
 	public Type resolve() throws MetamodelException {
 		return new ConstructedType(signature().clone(),upperBound(),this);
 	}
@@ -66,6 +59,7 @@ public class GenericParameter extends FixedSignatureMember<GenericParameter, Typ
 
 	public List<Element> children() {
 		List<Element> result = new ArrayList<Element>();
+		result.add(signature());
 		result.addAll(constraints());
 		return result;
 	}

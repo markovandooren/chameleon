@@ -335,13 +335,13 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 	/*@
 	 @ public behavior
 	 @
-	 @ post \result.containsAll(getParameters());
+	 @ post \result.contains(header());
 	 @ post \result.contains(getExceptionClause());
 	 @ post getImplementation() != null ==> \result.contains(getImplementation());
 	 @*/
 	public List<? extends Element> children() {
 		List<Element> result = Util.createNonNullList(getImplementation());
-		result.add(signature());
+		result.add(header());
 		result.add(getExceptionClause());
 		return result;
 	}

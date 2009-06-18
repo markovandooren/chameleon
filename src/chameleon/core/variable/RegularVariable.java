@@ -116,6 +116,12 @@ public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends 
 			_modifiers.add(modifier.parentLink());
 		}
 	}
+	
+	public void addAllModifiers(List<Modifier> modifiers) {
+		for(Modifier modifier: modifiers) {
+			addModifier(modifier);
+		}
+	}
 
 	public void removeModifier(Modifier modifier) {
 		_modifiers.remove(modifier.parentLink());
