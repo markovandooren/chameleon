@@ -103,22 +103,28 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
 	 return _parameters.getOtherEnd();
  }
 
-  public void addParameter(ActualParameter parameter) {
+  public void addArgument(ActualArgument parameter) {
   	actualArgumentList().addParameter(parameter);
   }
+  
+  public void addAllArguments(List<ActualArgument> parameters) {
+  	for(ActualArgument parameter: parameters) {
+  		addArgument(parameter);
+  	}
+  }
 
-  public void removeParameter(ActualParameter parameter) {
+  public void removeParameter(ActualArgument parameter) {
   	actualArgumentList().removeParameter(parameter);
   }
 
-  public List<ActualParameter> getActualParameters() {
+  public List<ActualArgument> getActualParameters() {
     return actualArgumentList().getActualParameters();
   }
 
   public List<Type> getActualParameterTypes() throws MetamodelException {
-	    List<ActualParameter> params = getActualParameters();
+	    List<ActualArgument> params = getActualParameters();
 	    final List<Type> result = new ArrayList();
-	    for(ActualParameter param:params) {
+	    for(ActualArgument param:params) {
         Type type = param.getType();
         if (type != null) {
       	  result.add(type);
@@ -237,7 +243,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
     final E result = cloneInvocation(target);
     new Visitor() {
       public void visit(Object element) {
-        result.addParameter(((ActualParameter)element).clone());
+        result.addArgument(((ActualArgument)element).clone());
       }
     }.applyTo(getActualParameters());
     return result;

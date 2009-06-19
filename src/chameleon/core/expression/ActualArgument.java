@@ -24,7 +24,7 @@ import chameleon.util.Util;
  * @author Marko van Dooren
  * @author Tim Laeremans
  */
-public class ActualParameter extends NamespacePartElementImpl<ActualParameter,ActualArgumentList> implements ExpressionContainer<ActualParameter,ActualArgumentList> {
+public class ActualArgument extends NamespacePartElementImpl<ActualArgument,ActualArgumentList> implements ExpressionContainer<ActualArgument,ActualArgumentList> {
 
 
 
@@ -32,7 +32,7 @@ public class ActualParameter extends NamespacePartElementImpl<ActualParameter,Ac
 	 * @param parent
 	 * @param target
 	 */
-	public ActualParameter(Expression expression ) {
+	public ActualArgument(Expression expression ) {
         setExpression(expression);
         //DEBUG
         getExpressionLink().lock();
@@ -41,7 +41,7 @@ public class ActualParameter extends NamespacePartElementImpl<ActualParameter,Ac
 	/**
 	 * EXPRESSION
 	 */
-	private Reference<ActualParameter,Expression> _expression = new Reference<ActualParameter,Expression>(this);
+	private Reference<ActualArgument,Expression> _expression = new Reference<ActualArgument,Expression>(this);
 
 	public Reference getExpressionLink(){
 		return _expression;
@@ -64,7 +64,7 @@ public class ActualParameter extends NamespacePartElementImpl<ActualParameter,Ac
 	 * MODIFIERS *
 	 *************/
 	
-	private OrderedReferenceSet<ActualParameter, Modifier> _modifiers = new OrderedReferenceSet<ActualParameter, Modifier>(this);
+	private OrderedReferenceSet<ActualArgument, Modifier> _modifiers = new OrderedReferenceSet<ActualArgument, Modifier>(this);
 
 	public List<Modifier> getModifiers() {
 		return _modifiers.getOtherEnds();
@@ -84,9 +84,9 @@ public class ActualParameter extends NamespacePartElementImpl<ActualParameter,Ac
 		return _modifiers.getOtherEnds().contains(modifier);
 	}
 
-	public ActualParameter clone(){
+	public ActualArgument clone(){
 		Expression expr = getExpression().clone();
-		final ActualParameter result = new ActualParameter(expr);
+		final ActualArgument result = new ActualArgument(expr);
 
 		new Visitor<Modifier>() {
 			public void visit(Modifier element) {

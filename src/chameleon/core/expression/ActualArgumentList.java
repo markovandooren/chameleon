@@ -18,29 +18,29 @@ public class ActualArgumentList extends ElementImpl<ActualArgumentList, TypeDesc
 	/**
 	 * ACTUAL PARAMETERS
 	 */
-	private OrderedReferenceSet<ActualArgumentList,ActualParameter> _parametersLink = new OrderedReferenceSet<ActualArgumentList,ActualParameter>(this);
+	private OrderedReferenceSet<ActualArgumentList,ActualArgument> _parametersLink = new OrderedReferenceSet<ActualArgumentList,ActualArgument>(this);
 
 
-  public OrderedReferenceSet<ActualArgumentList,ActualParameter> getParametersLink() {
+  public OrderedReferenceSet<ActualArgumentList,ActualArgument> getParametersLink() {
     return _parametersLink;
   }
 
-  public void addParameter(ActualParameter parameter) {
+  public void addParameter(ActualArgument parameter) {
     _parametersLink.add(parameter.parentLink());
   }
 
-  public void removeParameter(ActualParameter parameter) {
+  public void removeParameter(ActualArgument parameter) {
     _parametersLink.remove(parameter.parentLink());
   }
 
-  public List<ActualParameter> getActualParameters() {
+  public List<ActualArgument> getActualParameters() {
     return _parametersLink.getOtherEnds();
   }
 
 	@Override
 	public ActualArgumentList clone() {
 		ActualArgumentList result = new ActualArgumentList();
-		for(ActualParameter param: getActualParameters()) {
+		for(ActualArgument param: getActualParameters()) {
 			result.addParameter(param.clone());
 		}
 		return result;
