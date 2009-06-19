@@ -188,9 +188,9 @@ public class Util {
    * @param target
    * @param result
    */
-  public static void addNonNull(Object target, Collection result) {
-    if(target != null) {
-      result.add(target);
+  public static void addNonNull(Object element, Collection result) {
+    if(element != null) {
+      result.add(element);
     }
   }
 
