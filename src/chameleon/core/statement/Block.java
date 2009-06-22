@@ -1,27 +1,3 @@
-/*
- * Copyright 2000-2004 the Jnome development team.
- *
- * @author Marko van Dooren
- * @author Nele Smeets
- * @author Kristof Mertens
- * @author Jan Dockx
- *
- * This file is part of Jnome.
- *
- * Jnome is free software; you can redistribute it and/or modify it under the
- * terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * Jnome is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * Jnome; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
- * Suite 330, Boston, MA 02111-1307 USA
- */
 package chameleon.core.statement;
 
 import java.util.List;
@@ -29,6 +5,9 @@ import java.util.List;
 import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.java.collections.Visitor;
 
+import chameleon.core.MetamodelException;
+import chameleon.core.context.Context;
+import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 
 /**
@@ -85,11 +64,25 @@ public class Block extends Statement<Block> implements StatementContainer<Block,
 		// this is not a problem.
 		return statements.subList(index, statements.size());
 	}
-  
-//	/*@
-//	  @ post \result instanceof EmptyDomain;
-//	  @*/
-//	 public AccessibilityDomain getAccessibilityDomain() throws MetamodelException {
-//		  return new EmptyDomain();
-//	 }
+
+ /*@
+   @ public behavior
+   @
+   @ post getStatements().indexOf(element) == 0) ==> \result == parent().lexicalContext(this);
+   @ post getStatements().indexOf(Element) > 0) ==> 
+   @      \result == getStatements().elementAt(getStatements().indexOf(element) - 1).lexicalContext();
+   @*/
+	public Context lexicalContext(Element element) throws MetamodelException {
+		List<Statement> declarations = getStatements();
+		int index = declarations.indexOf(element);
+		if(index == 0) {
+			return parent().lexicalContext(this);
+		} else if (index > 0) {
+			return declarations.get(index-1).lexicalContext();
+		} else {
+		  throw new ChameleonProgrammerException("Invoking lexicalContext(element) with an element that is not a child.");
+		}
+	}
+
+	
 }
