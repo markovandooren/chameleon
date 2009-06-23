@@ -46,7 +46,13 @@ public class LexicalContext extends Context {
 	 * @throws MetamodelException 
 	 */
 	public Context parentContext() throws MetamodelException {
-	  return element().parent().lexicalContext(element());
+		Element parent = element().parent();
+		if(parent != null) {
+	    return parent.lexicalContext(element());
+		} else {
+			throw new MetamodelException("Lookup wants to go to the parent element of a "+element().getClass() +" but it is null.");
+		}
+		
 	}
 
 	public <T extends Declaration> T lookUp(DeclarationSelector<T> selector) throws MetamodelException {
