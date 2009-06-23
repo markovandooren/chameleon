@@ -31,6 +31,7 @@ import org.rejuse.association.Reference;
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationSelector;
+import chameleon.core.element.Element;
 import chameleon.core.reference.ElementReference;
 import chameleon.core.relation.WeakPartialOrder;
 import chameleon.core.type.Type;
@@ -40,7 +41,7 @@ import chameleon.util.Util;
  * Generic Parameter R is the type of the referenced element.
  * @author marko
  */
-public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R extends NamespaceOrType> extends ElementReference<E,R> {
+public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R extends NamespaceOrType> extends ElementReference<E,R,Element> {
   
  /*@
    @ public behavior
