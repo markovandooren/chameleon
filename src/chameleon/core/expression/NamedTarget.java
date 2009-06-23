@@ -7,13 +7,10 @@ import java.util.Set;
 import chameleon.core.MetamodelException;
 import chameleon.core.context.Context;
 import chameleon.core.context.Target;
-import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationSelector;
-import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
-import chameleon.core.relation.WeakPartialOrder;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.type.Type;
 import chameleon.core.variable.FormalParameter;
@@ -51,38 +48,7 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
   }
   
   public DeclarationSelector<TargetDeclaration> selector() {
-  	return new DeclarationSelector<TargetDeclaration>() {
-
-			@Override
-			public TargetDeclaration filter(Declaration declaration) throws MetamodelException {
-				Signature sig = declaration.signature();
-				TargetDeclaration result = null;
-				Signature mySig = new SimpleNameSignature(getName());
-				if((declaration instanceof TargetDeclaration) && 
-					 (sig.sameAs(mySig))) {
-					  result = (TargetDeclaration) declaration;
-				}
-				return result;
-			}
-
-			@Override
-			public WeakPartialOrder<TargetDeclaration> order() {
-				return new WeakPartialOrder<TargetDeclaration>() {
-
-					@Override
-					public boolean contains(TargetDeclaration first, TargetDeclaration second) throws MetamodelException {
-						return first.equals(second);
-					}
-					
-				};
-			}
-
-			@Override
-			public Class<TargetDeclaration> selectedClass() {
-				return TargetDeclaration.class;
-			}
-  		
-  	};
+  	return new SelectorWithoutOrder(new SimpleNameSignature(getName()), TargetDeclaration.class);
   }
 
   /********
