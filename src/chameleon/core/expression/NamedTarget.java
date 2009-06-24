@@ -19,19 +19,37 @@ import chameleon.core.variable.Variable;
 import chameleon.util.Util;
 public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> implements ExpressionContainer<NamedTarget,InvocationTargetContainer> {
 
+	/**
+	 * Initialize a new named target with the given fully qualified name. The
+	 * constructor will split up the name at the dots if there are any.
+	 * @param fqn
+	 */
  /*@
    @ public behavior
    @
-   @ pre name != null;
+   @ pre fqn != null;
    @
    @*/
-  public NamedTarget(String name) {
-	  setName(Util.getLastPart(name));
-    name = Util.getAllButLastPart(name);
-    if(name != null) {
-      setTarget(new NamedTarget(name)); 
+  public NamedTarget(String fqn) {
+	  setName(Util.getLastPart(fqn));
+    fqn = Util.getAllButLastPart(fqn);
+    if(fqn != null) {
+      setTarget(new NamedTarget(fqn)); 
     }
     //setTargetContext(new NamedTargetContext());
+  }
+  
+  /**
+   * Initialize a new named target with the given identifier as name,
+   * and the given target as its target. The name should be an identifier
+   * and thus not contain dots.
+   * 
+   * @param identifier
+   * @param target
+   */
+  public NamedTarget(String identifier, InvocationTarget target) {
+  	setName(identifier);
+  	setTarget(target);
   }
   
   /***********

@@ -36,7 +36,6 @@ import java.util.Set;
 public abstract class Literal<E extends Literal> extends Expression<E> {
   
   public Literal(String value) {
-	  super();
     setValue(value);
   }
   
