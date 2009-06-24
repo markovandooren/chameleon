@@ -10,6 +10,10 @@ import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.Context;
+import chameleon.core.context.LexicalContext;
+import chameleon.core.context.TargetContext;
+import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Definition;
 import chameleon.core.element.Element;
@@ -27,7 +31,7 @@ import chameleon.core.variable.FormalParameter;
 import chameleon.util.Util;
 
 
-public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, E, S>, S extends MethodSignature> extends MemberImpl<E,DeclarationContainer,S,Method> implements Definition<E,DeclarationContainer,S>, ModifierContainer<E,DeclarationContainer> {
+public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, E, S>, S extends MethodSignature> extends MemberImpl<E,DeclarationContainer,S,Method> implements Definition<E,DeclarationContainer,S>, ModifierContainer<E,DeclarationContainer>, DeclarationContainer<E,DeclarationContainer> {
 
 	public Method(H header) {
 		setHeader(header);
@@ -374,6 +378,13 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 		return result;
 	}
 
+  public Context lexicalContext(Element element) {
+  	return new LexicalContext(new TargetContext<Method>(this),this);
+  }
+
+  public Set<Declaration> declarations() {
+  	return header().declarations();
+  }
 
 // /*@
 //	 @ public behavior

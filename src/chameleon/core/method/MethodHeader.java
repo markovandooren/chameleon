@@ -10,6 +10,9 @@ import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.predicate.PrimitiveTotalPredicate;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.Context;
+import chameleon.core.context.LexicalContext;
+import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
@@ -118,5 +121,9 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
 
   public Method variableScopeElement() {
   	return parent();
+  }
+  
+  public Context lexicalContext(Element element) {
+  	return new LexicalContext(new TargetContext<MethodHeader>(this),this);
   }
 }
