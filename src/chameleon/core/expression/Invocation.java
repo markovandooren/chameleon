@@ -249,11 +249,11 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
     return result;
   }
 
-  public void substituteParameter(String name, Expression expr) throws MetamodelException {
-    if(getTarget()!= null) {
-      getTarget().substituteParameter(name, expr);
-    }
-  }
+//  public void substituteParameter(String name, Expression expr) throws MetamodelException {
+//    if(getTarget()!= null) {
+//      getTarget().substituteParameter(name, expr);
+//    }
+//  }
   
   public CheckedExceptionList getDirectCEL() throws MetamodelException {
     throw new Error();

@@ -15,6 +15,11 @@ public class RegularNamespace extends Namespace {
 		super(sig);
 	}
 
+	public RegularNamespace(SimpleNameSignature sig, Namespace parent) {
+		super(sig);
+		parent.addNamespace(this);
+	}
+	
 	/*******************
 	 * NAMESPACE PARTS *
 	 *******************/

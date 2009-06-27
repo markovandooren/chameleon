@@ -66,9 +66,9 @@ public class VariableReference extends Expression<VariableReference> implements 
     getTarget().prefixRecursive(target);
   }
   
-  public void substituteParameter(String name, Expression expr) throws MetamodelException {
-    getTarget().substituteParameter(name, expr);
-  }
+//  public void substituteParameter(String name, Expression expr) throws MetamodelException {
+//    getTarget().substituteParameter(name, expr);
+//  }
 
   public Set<Type> getDirectExceptions() throws MetamodelException {
     Set<Type> result = new HashSet<Type>();

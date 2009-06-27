@@ -164,8 +164,14 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	private ReferenceSet<Namespace,Namespace> _namespaces = new ReferenceSet<Namespace,Namespace>(this);
 
 
-	public ReferenceSet<Namespace,Namespace> getSubNamespacesLink() {
-		return _namespaces;
+//	public ReferenceSet<Namespace,Namespace> getSubNamespacesLink() {
+//		return _namespaces;
+//	}
+	
+	protected void addNamespace(Namespace namespace) {
+		if(namespace != null) {
+			_namespaces.add(namespace.parentLink());
+		}
 	}
 
 	/**
@@ -189,13 +195,15 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 		if ((name == null) || name.equals("")) {
 			return this;
 		}
+//		System.out.println("Before getting or creating namespace: "+name +" I have "+getSubNamespaces().size()+" sub namespaces.");
 		final String current = Util.getFirstPart(name);
 		final String next = Util.getSecondPart(name); //rest
 		Namespace currentPackage = getSubNamespace(current);
 		if(currentPackage == null) {
+//			System.out.println("Namespace "+getFullyQualifiedName() + " is creating sub namespace "+current);
 			currentPackage = createNamespace(current);
-			currentPackage.setParent(this);
 		}
+//		System.out.println("After getting or creating namespace: "+name +" I have "+getSubNamespaces().size()+" sub namespaces.");
 		return currentPackage.getOrCreateNamespace(next);
 	}
 
@@ -210,7 +218,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 @ post \result != null;
 	 @*/
 	protected Namespace createNamespace(String name){
-	  return new RegularNamespace(new SimpleNameSignature(name));
+	  return new RegularNamespace(new SimpleNameSignature(name), this);
 	}
 	
 	/**
@@ -228,11 +236,11 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 @ signals (MetamodelException) (* The subpackage could not be found*);
 	 @*/
 	public Namespace getSubNamespace(final String name) throws MetamodelException {
-		List packages = getSubNamespaces();
+		List<Namespace> packages = getSubNamespaces();
 
-		new PrimitiveTotalPredicate() {
-			public boolean eval(Object o) {
-				return ((Namespace)o).getName().equals(name);
+		new PrimitiveTotalPredicate<Namespace>() {
+			public boolean eval(Namespace o) {
+				return o.getName().equals(name);
 			}
 		}.filter(packages);
 		if (packages.isEmpty()) {
@@ -402,16 +410,6 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	    return result;
 	  }
 
-
-		/**
-		 * Set the parent of this package. <b>Bidi association is kept consistent.</b>
-		 *
-		 * @param pack
-		 *        The new parent.
-		 */
-		public void setParent(Namespace ns) {
-			parentLink().connectTo(ns.getSubNamespacesLink());
-		}
 
 //    @Override
 //    public Namespace clone() {

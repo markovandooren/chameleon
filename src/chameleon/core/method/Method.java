@@ -418,6 +418,7 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 	public abstract boolean sameKind(Method other);
 
 	//TODO dees mag teruggezet worden als de metamodelfactory dat correct doet
+	//     NO IT CANNOT BE RESTORED! MOVE TO TOOL EXTENSION FOR EDITOR.
 //	@Override
 //	public void reParse(ChameleonDocument doc, IMetaModelFactory factory) {
 //		//Via codewriter doen.!!

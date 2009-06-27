@@ -219,9 +219,15 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 
     public final <T extends Element> List<T> descendants(Class<T> c) {
     	List<Element> tmp = (List<Element>) children();
+    	if(tmp == null) {
+    		throw new ChameleonProgrammerException("children() returns null for " + getClass().getName());
+    	}
     	new TypePredicate<Element,T>(c).filter(tmp);
       List<T> result = (List<T>)tmp;
       for (Element e : children()) {
+      	if(e == null) {
+      		throw new ChameleonProgrammerException("children of " + getClass().getName() +" contains null.");
+      	}
         result.addAll(e.descendants(c));
       }
       return result;
@@ -259,7 +265,12 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
      * @see Element#lexicalContext(Element) 
      */
     public Context lexicalContext(Element child) throws MetamodelException {
-      return parent().lexicalContext(this);
+    	P parent = parent();
+    	if(parent != null) {
+        return parent.lexicalContext(this);
+    	} else {
+    		throw new MetamodelException("Going to the parent context when there is no parent.");
+    	}
     }
 
     /**

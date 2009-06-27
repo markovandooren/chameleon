@@ -117,11 +117,11 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
     	NamespaceOrType target = getTarget().getNamespaceOrType();
       
       if(target != null) {
-        result = target.targetContext().lookUp(selector());//findNamespaceOrType(getName());
+        result = target.targetContext().lookUp(selector());
       }
     }
     else {
-      result = lexicalContext().lookUp(selector());//findNamespaceOrType(getName());
+      result = lexicalContext().lookUp(selector());
     }
     if(result != null) {
     	//OPTIMISATION

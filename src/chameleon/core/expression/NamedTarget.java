@@ -201,15 +201,16 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
       getTarget().prefixRecursive(target);
     }
   }
-  public void substituteParameter(String name, Expression expr) throws MetamodelException {
-    if(getTarget() == null) {
-      Target vt = getElement();
-      if ((vt instanceof FormalParameter) && (((FormalParameter)vt).getName().equals(name))) {
-        // replace self by the given expression
-        ((InvocationTarget)parent()).setTarget(expr);
-      }
-    }
-  }
+//  @SuppressWarnings("unchecked")
+//  public void substituteParameter(String name, Expression expr) throws MetamodelException {
+//    if(getTarget() == null) {
+//      Target vt = getElement();
+//      if ((vt instanceof FormalParameter) && (((FormalParameter)vt).getName().equals(name))) {
+//        // replace self by the given expression
+//        ((InvocationTarget)parent()).setTarget(expr);
+//      }
+//    }
+//  }
 
   public void prefixRecursive(InvocationTarget target) throws MetamodelException {
     prefix(target);

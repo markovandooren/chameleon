@@ -34,8 +34,6 @@ public class ActualArgument extends NamespacePartElementImpl<ActualArgument,Actu
 	 */
 	public ActualArgument(Expression expression ) {
         setExpression(expression);
-        //DEBUG
-        getExpressionLink().lock();
 	}
 
 	/**
