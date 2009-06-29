@@ -5,6 +5,7 @@ import java.util.Set;
 import org.rejuse.java.collections.RobustVisitor;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.context.Target;
 import chameleon.core.context.TargetContext;
 import chameleon.core.namespace.Namespace;
@@ -21,12 +22,13 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
 	/**
 	 * Return the type of this expression.
 	 */
-	public abstract Type getType() throws MetamodelException;
+	public abstract Type getType() throws LookupException;
 
 	/**
 	 * @see {@link Target#targetContext()}
 	 */
-  public TargetContext targetContext() throws MetamodelException {
+	@SuppressWarnings("unchecked")
+  public TargetContext targetContext() throws LookupException {
     return getType().targetContext();
   }
 
@@ -47,23 +49,23 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
   }
 
 
-  public boolean subOf(InvocationTarget target) throws MetamodelException {
+  public boolean subOf(InvocationTarget target) throws LookupException {
     return false;
   }
   
-  public boolean compatibleWith(InvocationTarget target) throws MetamodelException {
+  public boolean compatibleWith(InvocationTarget target) throws LookupException {
     return superOf(target) || target.subOf(this);
   }
   
-  public void prefix(InvocationTarget target) throws MetamodelException {
+  public void prefix(InvocationTarget target) throws LookupException {
     // Do nothing by default.
   }
   
-  public void prefixRecursive(InvocationTarget target) throws MetamodelException {
+  public void prefixRecursive(InvocationTarget target) throws LookupException {
     // Do nothing by default.
   }
   
-  public void substituteParameter(String name, Expression expr) throws MetamodelException {
+  public void substituteParameter(String name, Expression expr) throws LookupException {
     // Do nothing by default.
   }
 
@@ -76,11 +78,11 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
   /**
    * See superclass.
    */
-  public final Set getExceptions() throws MetamodelException {
+  public final Set getExceptions() throws LookupException {
     final Set result = getDirectExceptions();
     try {
       new RobustVisitor() {
-        public Object visit(Object element) throws MetamodelException {
+        public Object visit(Object element) throws LookupException {
           result.addAll(((InvocationTarget)element).getExceptions());
           return null;
         }
@@ -91,7 +93,7 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
       }.applyTo(children());
       return result;
     }
-    catch (MetamodelException e) {
+    catch (LookupException e) {
       throw e;
     }
     catch (Exception e) {
@@ -109,11 +111,11 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
     return getNamespace().rootNamespace();
   }
   
-  public CheckedExceptionList getCEL() throws MetamodelException {
+  public CheckedExceptionList getCEL() throws LookupException {
     final CheckedExceptionList cel = getDirectCEL();
     try {
       new RobustVisitor() {
-        public Object visit(Object element) throws MetamodelException {
+        public Object visit(Object element) throws LookupException {
           cel.absorb(((ExceptionSource)element).getCEL());
           return null;
         }
@@ -124,7 +126,7 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
       }.applyTo(children());
       return cel;
     }
-    catch (MetamodelException e) {
+    catch (LookupException e) {
       throw e;
     }
     catch (Exception e) {
@@ -133,15 +135,15 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
     }
   }
   
-  public CheckedExceptionList getDirectCEL() throws MetamodelException {
+  public CheckedExceptionList getDirectCEL() throws LookupException {
     return new CheckedExceptionList(language());
   }
   
-  public CheckedExceptionList getAbsCEL() throws MetamodelException {
+  public CheckedExceptionList getAbsCEL() throws LookupException {
     final CheckedExceptionList cel = getDirectAbsCEL();
     try {
       new RobustVisitor() {
-        public Object visit(Object element) throws MetamodelException {
+        public Object visit(Object element) throws LookupException {
           cel.absorb(((ExceptionSource)element).getAbsCEL());
           return null;
         }
@@ -152,7 +154,7 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
       }.applyTo(children());
       return cel;
     }
-    catch (MetamodelException e) {
+    catch (LookupException e) {
       throw e;
     }
     catch (Exception e) {
@@ -161,7 +163,7 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
     }
   }
   
-  public CheckedExceptionList getDirectAbsCEL() throws MetamodelException {
+  public CheckedExceptionList getDirectAbsCEL() throws LookupException {
     return getDirectCEL();
   }
   

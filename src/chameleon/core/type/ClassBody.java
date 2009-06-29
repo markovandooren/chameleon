@@ -8,9 +8,9 @@ import java.util.Set;
 
 import org.rejuse.association.OrderedReferenceSet;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.compilationunit.CompilationUnit;
-import chameleon.core.declaration.Declaration;
+import chameleon.core.context.Context;
+import chameleon.core.context.LookupException;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
@@ -69,8 +69,16 @@ public class ClassBody extends ElementImpl<ClassBody,TypeDescendant> implements 
 	public Namespace getNamespace() {
 		return parent().getNamespace();
 	}
+	
+	public Context lexicalContext(Element element) {
+		return language().contextFactory().createLexicalContext(this, localContext());
+	}
+	
+	public Context localContext() {
+		return language().contextFactory().createTargetContext(this);
+	}
 
-	public Set<Member> declarations() throws MetamodelException {
+	public Set<Member> declarations() throws LookupException {
 		return elements();
 	}
 

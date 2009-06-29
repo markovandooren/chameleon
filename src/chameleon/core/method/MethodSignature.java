@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.type.Type;
@@ -37,9 +38,9 @@ public abstract class MethodSignature<E extends MethodSignature,P extends Method
 //
 //  private OrderedReferenceSet<E,TypeReference> _parameters = new OrderedReferenceSet<E,TypeReference>((E) this);
 
-	public abstract List<Type> parameterTypes() throws MetamodelException;
+	public abstract List<Type> parameterTypes() throws LookupException;
 	
-  public boolean sameParameterTypesAs(MethodSignature other) throws MetamodelException {
+  public boolean sameParameterTypesAs(MethodSignature other) throws LookupException {
   	boolean result = false;
   	if (other != null) {
 			List<Type> mine = parameterTypes();

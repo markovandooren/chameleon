@@ -11,6 +11,7 @@ import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
@@ -67,7 +68,7 @@ public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends 
     }
   }
   
-  public CheckedExceptionList getCEL() throws MetamodelException {
+  public CheckedExceptionList getCEL() throws LookupException {
     if(getInitialization() != null) {
       return getInitialization().getCEL();
     }
@@ -76,7 +77,7 @@ public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends 
     }
   }
 
-  public CheckedExceptionList getAbsCEL() throws MetamodelException {
+  public CheckedExceptionList getAbsCEL() throws LookupException {
     if(getInitialization() != null) {
       return getInitialization().getAbsCEL();
     }
@@ -139,14 +140,14 @@ public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends 
     return signature().getName();
   }
 
-  public Type getType() throws MetamodelException {
+  public Type getType() throws LookupException {
     Type result = getTypeReference().getType();
     if(result != null) {
       return result;
     }
     else {
       getTypeReference().getType();
-      throw new MetamodelException();
+      throw new LookupException("getType on regular variable returned null.");
     }
   }
 
@@ -187,7 +188,7 @@ public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends 
    return result;
  }
  
- public TargetContext targetContext() throws MetamodelException {
+ public TargetContext targetContext() throws LookupException {
    return getType().targetContext();
  }
 

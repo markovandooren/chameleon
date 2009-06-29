@@ -34,6 +34,7 @@ import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.language.Language;
 import chameleon.core.type.Type;
 
@@ -60,7 +61,7 @@ public class CheckedExceptionList {
     return _language;
   }
   
-  public void add(ExceptionPair pair) throws MetamodelException {
+  public void add(ExceptionPair pair) throws LookupException {
     if(getLanguage().isCheckedException(pair.getException())) {
       _pairs.add(pair);
     }
@@ -74,16 +75,16 @@ public class CheckedExceptionList {
     _pairs.addAll(other.getPairs());
   }
   
-  public void handleType(final Type type) throws MetamodelException {
+  public void handleType(final Type type) throws LookupException {
     try {
       new PrimitivePredicate() {
-        public boolean eval(Object o) throws MetamodelException {
+        public boolean eval(Object o) throws LookupException {
           ExceptionPair ep = (ExceptionPair)o;
           return ! ep.getException().assignableTo(type);
         }
       }.filter(_pairs);
     }
-    catch (MetamodelException e) {
+    catch (LookupException e) {
       throw e;
     }
     catch (Exception e) {
@@ -116,7 +117,7 @@ public class CheckedExceptionList {
   /**
    * @return
    */
-  public Set getExceptions() throws MetamodelException {
+  public Set getExceptions() throws LookupException {
     final Set result = new HashSet();
     new Visitor() {
       public void visit(Object element) {

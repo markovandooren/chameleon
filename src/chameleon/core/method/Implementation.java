@@ -25,6 +25,7 @@
 package chameleon.core.method;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.statement.Block;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeDescendantImpl;
@@ -55,14 +56,14 @@ public abstract class Implementation<E extends Implementation> extends TypeDesce
    * conforms to the exception clause of the parent method.
    * @return
    */
-  public abstract boolean compatible() throws MetamodelException;
+  public abstract boolean compatible() throws LookupException;
 
   /**
    * Check whether or not all catch blocks in the implementation are useful. If a catch block
    * catches a checked exception that can never be thrown in the try statement, that catch block
    * is useless and should be removed.
    */
-  public boolean hasValidCatchClauses() throws MetamodelException {
+  public boolean hasValidCatchClauses() throws LookupException {
     return true;
   }
 

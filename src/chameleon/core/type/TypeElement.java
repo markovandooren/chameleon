@@ -3,11 +3,8 @@ package chameleon.core.type;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.logic.ternary.Ternary;
-import org.rejuse.property.Property;
-import org.rejuse.property.PropertySet;
-
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
@@ -28,7 +25,6 @@ public interface TypeElement<E extends TypeElement<E,P>, P extends Element> exte
   
   /**
    * Return the set of members introduced into the parent type (if any) of this type element.
-   * @throws MetamodelException 
    */
  /*@
    @ public behavior
@@ -80,8 +76,8 @@ public interface TypeElement<E extends TypeElement<E,P>, P extends Element> exte
    @*/
   public void addModifiers(List<Modifier> modifiers);
 
-	public abstract CheckedExceptionList getCEL() throws MetamodelException;
+	public abstract CheckedExceptionList getCEL() throws LookupException;
 	
-	public abstract CheckedExceptionList getAbsCEL() throws MetamodelException;
+	public abstract CheckedExceptionList getAbsCEL() throws LookupException;
     
 }

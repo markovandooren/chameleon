@@ -5,7 +5,7 @@ import java.util.List;
 import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.property.PropertySet;
 
-import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.modifier.Modifier;
@@ -87,11 +87,11 @@ public abstract class TypeElementImpl<E extends TypeElementImpl<E,P>, P extends 
 		return language().defaultProperties(this);
 	}
 
-	public CheckedExceptionList getCEL() throws MetamodelException {
+	public CheckedExceptionList getCEL() throws LookupException {
 	  return new CheckedExceptionList(getNamespace().language());	
 	}
 	
-	public CheckedExceptionList getAbsCEL() throws MetamodelException {
+	public CheckedExceptionList getAbsCEL() throws LookupException {
 		return new CheckedExceptionList(getNamespace().language());
 	}
 

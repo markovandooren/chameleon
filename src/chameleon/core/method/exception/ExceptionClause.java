@@ -10,12 +10,13 @@ import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 import chameleon.core.expression.ExpressionContainer;
 import chameleon.core.expression.Invocation;
 import chameleon.core.method.Method;
-import chameleon.core.method.MethodSignature;
 import chameleon.core.method.MethodHeader;
+import chameleon.core.method.MethodSignature;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeDescendantImpl;
 
@@ -28,18 +29,18 @@ public class ExceptionClause extends TypeDescendantImpl<ExceptionClause,Method<?
 	}
 
   
-public boolean compatibleWith(final ExceptionClause other) throws MetamodelException {
+public boolean compatibleWith(final ExceptionClause other) throws LookupException {
     if (other == null) {
       return false;
     }
     try {
       return new PrimitivePredicate() {
-        public boolean eval(Object o) throws MetamodelException {
+        public boolean eval(Object o) throws LookupException {
           return ((ExceptionDeclaration)o).compatibleWith(other);
         }
       }.forAll(getDeclarations());
     }
-    catch (MetamodelException e) {
+    catch (LookupException e) {
       throw e;
     }
     catch (Exception e) {
@@ -48,11 +49,11 @@ public boolean compatibleWith(final ExceptionClause other) throws MetamodelExcep
     }
   }
 
-  public Set getExceptionTypes(final Invocation invocation) throws MetamodelException {
+  public Set getExceptionTypes(final Invocation invocation) throws LookupException {
     final Set result = new HashSet();
     try {
       new RobustVisitor() {
-        public Object visit(Object element) throws MetamodelException {
+        public Object visit(Object element) throws LookupException {
           result.addAll(((ExceptionDeclaration)element).getExceptionTypes(invocation));
           return null;
         }
@@ -62,7 +63,7 @@ public boolean compatibleWith(final ExceptionClause other) throws MetamodelExcep
         }
       }.applyTo(getDeclarations());
     }
-    catch (MetamodelException e) {
+    catch (LookupException e) {
       throw e;
     }
     catch (Exception e) {
@@ -73,11 +74,11 @@ public boolean compatibleWith(final ExceptionClause other) throws MetamodelExcep
     return result;
   }
 
-  public Set getWorstCaseExceptions() throws MetamodelException {
+  public Set getWorstCaseExceptions() throws LookupException {
     final Set result = new HashSet();
     try {
       new RobustVisitor() {
-        public Object visit(Object element) throws MetamodelException {
+        public Object visit(Object element) throws LookupException {
           result.addAll(((ExceptionDeclaration)element).getWorstCaseExceptionTypes());
           return null;
         }
@@ -87,7 +88,7 @@ public boolean compatibleWith(final ExceptionClause other) throws MetamodelExcep
         }
       }.applyTo(getDeclarations());
     }
-    catch (MetamodelException e) {
+    catch (LookupException e) {
       throw e;
     }
     catch (Exception e) {
@@ -134,15 +135,15 @@ public boolean compatibleWith(final ExceptionClause other) throws MetamodelExcep
     return result;
   }
 
-  public boolean hasValidAccessibility() throws MetamodelException {
+  public boolean hasValidAccessibility() throws LookupException {
     try {
       return new PrimitivePredicate() {
-        public boolean eval(Object o) throws MetamodelException {
+        public boolean eval(Object o) throws LookupException {
           return ((ExceptionDeclaration)o).hasValidAccessibility();
         }
       }.forAll(getDeclarations());
     }
-    catch (MetamodelException e) {
+    catch (LookupException e) {
       throw e;
     }
     catch (Exception e) {
@@ -164,16 +165,16 @@ public boolean compatibleWith(final ExceptionClause other) throws MetamodelExcep
    * @param done
    * @return
    */
-  public boolean isAcyclic(final Set done) throws MetamodelException {
+  public boolean isAcyclic(final Set done) throws LookupException {
     try {
       return new PrimitivePredicate() {
-        public boolean eval(Object o) throws MetamodelException {
+        public boolean eval(Object o) throws LookupException {
           ExceptionDeclaration decl = (ExceptionDeclaration)o;
           return decl.isAcyclic(done);
         }
       }.forAll(getDeclarations());
     }
-    catch (MetamodelException e) {
+    catch (LookupException e) {
       throw e;
     }
     catch (Exception e) {

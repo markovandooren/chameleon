@@ -29,8 +29,9 @@ import java.util.List;
 import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.DeclarationSelector;
+import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.DeclarationSelector;
 import chameleon.core.element.Element;
 import chameleon.core.reference.ElementReference;
 import chameleon.core.relation.WeakPartialOrder;
@@ -104,7 +105,7 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
    @     (getTarget().getPackageOrType() == null ==> \result == 
    @         getTarget().getPackageOrType().getTargetContext().findPackageOrType(getName()));
    @*/
-  public NamespaceOrType getNamespaceOrType() throws MetamodelException {
+  public NamespaceOrType getNamespaceOrType() throws LookupException {
     NamespaceOrType result = null;
     
     //OPTIMISATION
@@ -129,7 +130,7 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
       return result;
     } else {
       lexicalContext().lookUp(selector());//findNamespaceOrType(getName());
-      throw new MetamodelException("Cannot find namespace or type with name: "+getName());
+      throw new LookupException("Cannot find namespace or type with name: "+getName(),this);
     }
   }
   
@@ -137,7 +138,7 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
     return new DeclarationSelector<NamespaceOrType>() {
 
       @Override
-      public NamespaceOrType filter(Declaration declaration) throws MetamodelException {
+      public NamespaceOrType filter(Declaration declaration) throws LookupException {
         NamespaceOrType result;
         //@FIXME ugly hack with type enumeration
         if(((declaration instanceof Namespace) && (((Namespace)declaration).signature().getName().equals(getName())))
@@ -155,7 +156,7 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
 
           @Override
           public boolean contains(NamespaceOrType first, NamespaceOrType second)
-              throws MetamodelException {
+              throws LookupException {
             return first.equals(second);
           }
           
@@ -185,7 +186,7 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
     return (E) new NamespaceOrTypeReference(getTarget().clone(), getName());
   }
 
-	public Declaration getElement() throws MetamodelException {
+	public Declaration getElement() throws LookupException {
 		return getNamespaceOrType();
 	}
 

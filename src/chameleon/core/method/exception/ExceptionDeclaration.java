@@ -27,6 +27,7 @@ package chameleon.core.method.exception;
 import java.util.Set;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.expression.Invocation;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeDescendantImpl;
@@ -41,27 +42,27 @@ public abstract class ExceptionDeclaration<E extends ExceptionDeclaration> exten
 	}
 
 
-  public abstract boolean compatibleWith(ExceptionClause clause) throws MetamodelException;
+  public abstract boolean compatibleWith(ExceptionClause clause) throws LookupException;
 
   public abstract E clone();
 
-  public abstract Set getExceptionTypes(Invocation invocation) throws MetamodelException;
+  public abstract Set getExceptionTypes(Invocation invocation) throws LookupException;
 
 	/**
 	 *
 	 * @uml.property name="worstCaseExceptionTypes"
 	 */
 	public abstract Set getWorstCaseExceptionTypes()
-		throws MetamodelException;
+		throws LookupException;
 
 
-  public abstract boolean hasValidAccessibility() throws MetamodelException;
+  public abstract boolean hasValidAccessibility() throws LookupException;
 
   /**
    * @param done
    * @return
    */
-  public abstract boolean isAcyclic(Set done) throws MetamodelException;
+  public abstract boolean isAcyclic(Set done) throws LookupException;
 
   public Type getNearestType() {
 	return parent().getNearestType();

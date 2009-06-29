@@ -31,10 +31,11 @@ import java.util.Set;
 import org.rejuse.association.Reference;
 import org.rejuse.java.collections.Visitor;
 
-import chameleon.core.MetamodelException;
-import chameleon.core.declaration.DeclarationSelector;
+import chameleon.core.context.DeclarationSelector;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 import chameleon.core.method.Method;
+import chameleon.core.reference.CrossReference;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.type.Type;
 import chameleon.util.Util;
@@ -45,7 +46,7 @@ import chameleon.util.Util;
  * @param <D> The type of declaration invoked by this invocation.
  */
 
-public abstract class Invocation<E extends Invocation,D extends Method> extends Expression<E> implements ExpressionContainer<E,ExpressionContainer> {
+public abstract class Invocation<E extends Invocation,D extends Method> extends Expression<E> implements ExpressionContainer<E,ExpressionContainer>, CrossReference<E,ExpressionContainer> {
 
   public Invocation(InvocationTarget target) {
 	  setTarget(target);
@@ -121,7 +122,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
     return actualArgumentList().getActualParameters();
   }
 
-  public List<Type> getActualParameterTypes() throws MetamodelException {
+  public List<Type> getActualParameterTypes() throws LookupException {
 	    List<ActualArgument> params = getActualParameters();
 	    final List<Type> result = new ArrayList();
 	    for(ActualArgument param:params) {
@@ -131,7 +132,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
         }
         else {
           //Type ttt = ((ActualParameter)param).getType(); //DEBUG
-          throw new MetamodelException("Cannot determine type of expression");
+          throw new LookupException("Cannot determine type of expression");
         }
 	    }
 	    return result;
@@ -144,7 +145,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
    @ post (getLanguage().getUncheckedException(getPackage().getDefaultPackage()) != null) ==>
    @      result.contains(getLanguage().getUncheckedException(getPackage().getDefaultPackage());
    @*/  
-  public Set getMethodExceptions() throws MetamodelException {
+  public Set getMethodExceptions() throws LookupException {
     Set result = getMethod().getExceptionClause().getExceptionTypes(this);
     Type rte = language().getUncheckedException();
     if (rte != null) {
@@ -160,7 +161,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
    @ post (getLanguage().getNullInvocationException(getPackage().getDefaultPackage()) != null) ==>
    @      result.contains(getLanguage().getNullInvocationException(getPackage().getDefaultPackage());
    @*/  
-  public Set getDirectExceptions() throws MetamodelException {
+  public Set getDirectExceptions() throws LookupException {
     Set result = getMethodExceptions();
     if(getTarget() != null) {
       Util.addNonNull(language().getNullInvocationException(), result);
@@ -210,7 +211,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
 	 @ signals (NotResolvedException) (* The method could not be found *);
 	 @*/
 //	public abstract D getMethod() throws MetamodelException;
-  public D getMethod() throws MetamodelException {
+  public D getMethod() throws LookupException {
   	InvocationTarget target = getTarget();
   	D result;
   	if(target == null) {
@@ -219,11 +220,14 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   		result = getTarget().targetContext().lookUp(selector());
   	}
 		if (result == null) {
-			throw new MetamodelException();
+			throw new LookupException("Method returned by invocation is null", this);
 		}
     return result;
 }
 
+  public D getElement() throws LookupException {
+  	return getMethod();
+  }
   
   /**
    * Return a clone of this invocation without target or parameters.
@@ -255,11 +259,11 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
 //    }
 //  }
   
-  public CheckedExceptionList getDirectCEL() throws MetamodelException {
+  public CheckedExceptionList getDirectCEL() throws LookupException {
     throw new Error();
   }
   
-  public CheckedExceptionList getDirectAbsCEL() throws MetamodelException {
+  public CheckedExceptionList getDirectAbsCEL() throws LookupException {
     throw new Error();
   }
 }

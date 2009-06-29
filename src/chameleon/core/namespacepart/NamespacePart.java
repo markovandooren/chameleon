@@ -14,6 +14,7 @@ import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.context.Context;
 import chameleon.core.context.ContextFactory;
 import chameleon.core.context.LexicalContext;
+import chameleon.core.context.LookupException;
 import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
@@ -39,14 +40,14 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 		}
 	}
 	
-	private Context namespaceContext() throws MetamodelException {
+	private Context namespaceContext() throws LookupException {
 		return new LexicalContext(getDeclaredNamespace().targetContext(),this);
 	}
 	
 	private Context _importLocalContext = new TargetContext<NamespacePart>(this) {
 
 		@Override
-		public Set<Declaration> demandDeclarations() throws MetamodelException {
+		public Set<Declaration> demandDeclarations() throws LookupException {
 		  Set<Declaration> result = new HashSet<Declaration>();
 		  for(Import imporT: imports()) {
 			  result.addAll(imporT.demandImports());
@@ -55,7 +56,7 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 		}
 
 		@Override
-		public Set<Declaration> directDeclarations() throws MetamodelException {
+		public Set<Declaration> directDeclarations() throws LookupException {
 		  Set<Declaration> result = new HashSet<Declaration>();
 		  for(Import imporT: imports()) {
 			  result.addAll(imporT.directImports());
@@ -67,15 +68,19 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 	
 	private Context _importContext = new LexicalContext(_importLocalContext, this){
 		@Override
-		public Context parentContext() throws MetamodelException {
+		public Context parentContext() throws LookupException {
 			return namespaceContext();
 		}
 
 	};
 	
+	public Context localContext() {
+		return _typeLocalContext;
+	}
+	
 	private Context _typeLocalContext = new TargetContext(this);
 	
-	private Context _lexicalContext = new LexicalContext(_typeLocalContext,this) {
+	private Context _lexicalContext = new LexicalContext(localContext(),this) {
 		@Override
 		public Context parentContext() {
 			return _importContext;

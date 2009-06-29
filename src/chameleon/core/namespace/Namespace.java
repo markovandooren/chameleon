@@ -30,24 +30,25 @@ import java.util.List;
 import java.util.Set;
 
 import org.rejuse.association.Reference;
-import org.rejuse.association.ReferenceSet;
 import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.PrimitiveTotalPredicate;
+import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.IMetaModel;
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
+import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.expression.Expression;
 import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.type.Type;
-import chameleon.util.Util;
 
 /**
  * @author Marko van Dooren
@@ -158,28 +159,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 */
 
 
-	/**
-	 * SUBNAMESPACES
-	 */
-	private ReferenceSet<Namespace,Namespace> _namespaces = new ReferenceSet<Namespace,Namespace>(this);
-
-
-//	public ReferenceSet<Namespace,Namespace> getSubNamespacesLink() {
-//		return _namespaces;
-//	}
-	
-	protected void addNamespace(Namespace namespace) {
-		if(namespace != null) {
-			_namespaces.add(namespace.parentLink());
-		}
-	}
-
-	/**
-	 * Return all subpackages of this package.
-	 */
-	public List<Namespace> getSubNamespaces() {
-		return _namespaces.getOtherEnds();
-	}
+	public abstract List<Namespace> getSubNamespaces();
 
 	/**
 	 * <p>Return the package with the fullyqualified name that
@@ -191,36 +171,8 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 * @param name
 	 *        The qualified name relative to this package
 	 */
-	public Namespace getOrCreateNamespace(final String name) throws MetamodelException {
-		if ((name == null) || name.equals("")) {
-			return this;
-		}
-//		System.out.println("Before getting or creating namespace: "+name +" I have "+getSubNamespaces().size()+" sub namespaces.");
-		final String current = Util.getFirstPart(name);
-		final String next = Util.getSecondPart(name); //rest
-		Namespace currentPackage = getSubNamespace(current);
-		if(currentPackage == null) {
-//			System.out.println("Namespace "+getFullyQualifiedName() + " is creating sub namespace "+current);
-			currentPackage = createNamespace(current);
-		}
-//		System.out.println("After getting or creating namespace: "+name +" I have "+getSubNamespaces().size()+" sub namespaces.");
-		return currentPackage.getOrCreateNamespace(next);
-	}
+	public abstract Namespace getOrCreateNamespace(final String name) throws LookupException;
 
-	/**
-	 * Create a new package with the given name
-	 * @param name
-	 *        The name of the new package.
-	 */
-	/*@
-	 @ protected behavior
-	 @
-	 @ post \result != null;
-	 @*/
-	protected Namespace createNamespace(String name){
-	  return new RegularNamespace(new SimpleNameSignature(name), this);
-	}
-	
 	/**
 	 * Return the direct subpackage with the given short name.
 	 *
@@ -235,7 +187,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 @
 	 @ signals (MetamodelException) (* The subpackage could not be found*);
 	 @*/
-	public Namespace getSubNamespace(final String name) throws MetamodelException {
+	public Namespace getSubNamespace(final String name) throws LookupException {
 		List<Namespace> packages = getSubNamespaces();
 
 		new PrimitiveTotalPredicate<Namespace>() {
@@ -250,7 +202,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 			return (Namespace)packages.iterator().next();
 		}
 		else {
-			throw new MetamodelException("Namespace "+getFullyQualifiedName()+ " contains "+packages.size()+" subpackages with name "+name);
+			throw new LookupException("Namespace "+getFullyQualifiedName()+ " contains "+packages.size()+" sub namespaces with name "+name);
 		}
 
 	}
@@ -307,7 +259,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 @ post \result != null;
 	 @*/
 	  public Set getTypes() {
-	  	//@FIXME: filter out non-exported types such as private types.
+	  	//FIXME: filter out non-exported types such as private types.
 	    final Set result = new HashSet();
 	    new Visitor() {
 	      public void visit(Object o) {
@@ -319,14 +271,10 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	    return result;
 	  }
 
-	  public Type getNullType() {
-	    return ((Namespace)parent()).getNullType();
-	  }
-
 	/**
 	 * Get the type with the specified names
 	 */
-	public Type getType(final String name) throws MetamodelException {
+	public Type getType(final String name) throws LookupException {
 		Set types = getTypes();
 		new PrimitiveTotalPredicate() {
 			public boolean eval(Object o) {
@@ -338,22 +286,10 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 		} else if(types.size() == 1) {
 			return (Type)types.iterator().next();
 		} else {
-			throw new MetamodelException("Namespace "+getFullyQualifiedName()+" contains "+types.size() +" classes named "+name);
+			throw new LookupException("Namespace "+getFullyQualifiedName()+" contains "+types.size() +" classes named "+name);
 		}
 	}
 
-
-//	  public List getVisibleTypes() {
-//	    final List result = new ArrayList();
-//	    new Visitor() {
-//	      public void visit(Object o) {
-//	      	List l = ((NamespacePart)o).getVisibleTypes();
-//			if(!l.isEmpty())
-//				result.addAll(l);
-//	      }
-//	    }.applyTo(getNamespaceParts());
-//	    return result;
-//	  }
 
 	/**
 	 * Return the set of all types in this package and all of its subpackages.
@@ -416,7 +352,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 //      return new Namespace(signature().clone());
 //    }
 
-	public TargetContext targetContext() throws MetamodelException {
+	public TargetContext targetContext() {
 		return language().contextFactory().createTargetContext(this);
 	}
 
@@ -425,6 +361,15 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 		result.addAll(getSubNamespaces());
 		result.addAll(getTypes());
 		return result;
+	}
+	
+	public <T extends Declaration> Set<T> declarations(Class<T> cls) {
+  	List<Element> tmp = (List<Element>) children();
+  	if(tmp == null) {
+  		throw new ChameleonProgrammerException("children() returns null for " + getClass().getName());
+  	}
+  	new TypePredicate<Element,T>(cls).filter(tmp);
+  	return (Set<T>) tmp;
 	}
 
 	public Declaration alias(SimpleNameSignature sig) {

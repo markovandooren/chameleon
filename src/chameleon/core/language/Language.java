@@ -19,6 +19,7 @@ import org.rejuse.property.StaticProperty;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.context.ContextFactory;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.member.Member;
@@ -331,11 +332,11 @@ public abstract class Language implements PropertyUniverse<Element> {
         return _default;
     }
 
-    public Type getDefaultSuperClass() throws MetamodelException {
+    public Type getDefaultSuperClass() throws LookupException {
     	  TypeReference typeRef = new DummyTypeReference(getDefaultSuperClassFQN());
         Type result = typeRef.getType();
         if (result==null) {
-            throw new MetamodelException("Default super class "+getDefaultSuperClassFQN()+" not found.");
+            throw new LookupException("Default super class "+getDefaultSuperClassFQN()+" not found.");
         }
         return result;
     }
@@ -367,7 +368,7 @@ public abstract class Language implements PropertyUniverse<Element> {
      @
      @ signals (NotResolvedException) (* The type could not be found in the package *);
      @*/
-    public abstract Type getNullInvocationException() throws MetamodelException;
+    public abstract Type getNullInvocationException() throws LookupException;
 
     /**
      * Return the exception representing the top class of non-fatal runtime exceptions. This doesn't include
@@ -382,7 +383,7 @@ public abstract class Language implements PropertyUniverse<Element> {
      @
      @ signals (NotResolvedException) (* The type could not be found in the package *);
      @*/
-    public abstract Type getUncheckedException() throws MetamodelException;
+    public abstract Type getUncheckedException() throws LookupException;
 
 
     /**
@@ -393,7 +394,7 @@ public abstract class Language implements PropertyUniverse<Element> {
      @
      @ pre type != null;
      @*/
-    public abstract boolean isException(Type type) throws MetamodelException;
+    public abstract boolean isException(Type type) throws LookupException;
 
     /**
      * Check whether the given type is a checked exception.
@@ -403,7 +404,7 @@ public abstract class Language implements PropertyUniverse<Element> {
      @
      @ pre type != null;
      @*/
-    public abstract boolean isCheckedException(Type type) throws MetamodelException;
+    public abstract boolean isCheckedException(Type type) throws LookupException;
 
     public abstract Type getNullType();
 
@@ -437,17 +438,17 @@ public abstract class Language implements PropertyUniverse<Element> {
      @*/
     public abstract StrictPartialOrder<Member> hidesRelation();
 
-    public abstract Type voidType() throws MetamodelException;
+    public abstract Type voidType() throws LookupException;
     
     /**
      * Return the type that represents the boolean type in this language.
      */
-    public abstract Type booleanType() throws MetamodelException;
+    public abstract Type booleanType() throws LookupException;
 
     /**
      * Return the type that represents class cast exceptions in this language.
      */
-    public abstract Type classCastException() throws MetamodelException;
+    public abstract Type classCastException() throws LookupException;
 
     /**
      * Return the relation that determines when a member is equivalent to another.

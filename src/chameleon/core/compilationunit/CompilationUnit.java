@@ -28,8 +28,8 @@ import java.util.List;
 
 import org.rejuse.association.Reference;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.context.Context;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.language.Language;
@@ -218,7 +218,7 @@ public class CompilationUnit extends ElementImpl<CompilationUnit,Element> implem
 		return Util.createNonNullList(getDefaultNamespacePart());
 	}
 
-	public Context lexicalContext(Element child) throws MetamodelException {
+	public Context lexicalContext(Element child) throws LookupException {
 		return getDefaultNamespacePart().getDeclaredNamespace().lexicalContext();
 	}
 

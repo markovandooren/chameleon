@@ -32,6 +32,7 @@ import org.rejuse.association.Reference;
 import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.expression.Invocation;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
@@ -50,15 +51,15 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration<TypeException
     setTypeReference(new TypeReference(type));
   }
 
-  public Set getExceptionTypes(Invocation invocation) throws MetamodelException {
+  public Set getExceptionTypes(Invocation invocation) throws LookupException {
     return getExceptionTypeSet();
   }
   
-  public Set getWorstCaseExceptionTypes() throws MetamodelException {
+  public Set getWorstCaseExceptionTypes() throws LookupException {
     return getExceptionTypeSet();
   }
   
-  private Set getExceptionTypeSet() throws MetamodelException {
+  private Set getExceptionTypeSet() throws LookupException {
     Set result = new HashSet();
     result.add(getType());
     return result;
@@ -86,24 +87,24 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration<TypeException
    @
    @ post \result == getTypeReference().getType();
    @*/
-  public Type getType() throws MetamodelException {
+  public Type getType() throws LookupException {
     return getTypeReference().getType();
   }
 
 
 
-  public boolean compatibleWith(final ExceptionClause other) throws MetamodelException {
+  public boolean compatibleWith(final ExceptionClause other) throws LookupException {
     if(! getNamespace().language().isCheckedException(getType())) {
       return true;
     }
     try {
       return new PrimitivePredicate() {
-        public boolean eval(Object o2) throws MetamodelException {
+        public boolean eval(Object o2) throws LookupException {
           return (o2 instanceof TypeExceptionDeclaration) && (getType().assignableTo(((TypeExceptionDeclaration)o2).getType()));
         }
       }.exists(other.getDeclarations());
     }
-    catch (MetamodelException e) {
+    catch (LookupException e) {
       throw e;
     }
     catch (Exception e) {
@@ -118,7 +119,7 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration<TypeException
 
   
 
-  public boolean hasValidAccessibility() throws MetamodelException {
+  public boolean hasValidAccessibility() throws LookupException {
     return true; 
   }
 

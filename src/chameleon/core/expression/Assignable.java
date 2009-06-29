@@ -1,6 +1,6 @@
 package chameleon.core.expression;
 
-import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 import chameleon.core.type.Type;
 
@@ -12,7 +12,7 @@ import chameleon.core.type.Type;
 
 public interface Assignable<E extends Assignable, P extends Element> extends Element<E,P> {
 
-	public Type getType() throws MetamodelException;
+	public Type getType() throws LookupException;
 
   public E clone();
 }

@@ -31,6 +31,7 @@ import org.rejuse.java.collections.RobustVisitor;
 import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.language.Language;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespacepart.NamespacePartElementImpl;
@@ -57,11 +58,11 @@ public abstract class Statement<E extends Statement> extends NamespacePartElemen
   
   public abstract E clone();
 
-  public CheckedExceptionList getCEL() throws MetamodelException {
+  public CheckedExceptionList getCEL() throws LookupException {
     final CheckedExceptionList cel = getDirectCEL();
     try {
       new RobustVisitor() {
-        public Object visit(Object element) throws MetamodelException {
+        public Object visit(Object element) throws LookupException {
           cel.absorb(((ExceptionSource)element).getCEL());
           return null;
         }
@@ -72,7 +73,7 @@ public abstract class Statement<E extends Statement> extends NamespacePartElemen
       }.applyTo(getExceptionSources());
       return cel;
     }
-    catch (MetamodelException e) {
+    catch (LookupException e) {
       throw e;
     }
     catch (Exception e) {
@@ -81,15 +82,15 @@ public abstract class Statement<E extends Statement> extends NamespacePartElemen
     }
   }
 
-  public CheckedExceptionList getDirectCEL() throws MetamodelException {
+  public CheckedExceptionList getDirectCEL() throws LookupException {
     return new CheckedExceptionList(language());
   }
 
-  public CheckedExceptionList getAbsCEL() throws MetamodelException {
+  public CheckedExceptionList getAbsCEL() throws LookupException {
     final CheckedExceptionList cel = getDirectAbsCEL();
     try {
       new RobustVisitor() {
-        public Object visit(Object element) throws MetamodelException {
+        public Object visit(Object element) throws LookupException {
           cel.absorb(((ExceptionSource)element).getAbsCEL());
           return null;
         }
@@ -100,7 +101,7 @@ public abstract class Statement<E extends Statement> extends NamespacePartElemen
       }.applyTo(children());
       return cel;
     }
-    catch (MetamodelException e) {
+    catch (LookupException e) {
       throw e;
     }
     catch (Exception e) {
@@ -109,7 +110,7 @@ public abstract class Statement<E extends Statement> extends NamespacePartElemen
     }
   }
 
-  public CheckedExceptionList getDirectAbsCEL() throws MetamodelException {
+  public CheckedExceptionList getDirectAbsCEL() throws LookupException {
     return getDirectCEL();
   }
 

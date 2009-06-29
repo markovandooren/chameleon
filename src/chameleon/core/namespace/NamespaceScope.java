@@ -1,6 +1,6 @@
 package chameleon.core.namespace;
 
-import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 import chameleon.core.scope.LexicalScope;
 import chameleon.core.scope.Scope;
@@ -31,7 +31,7 @@ public class NamespaceScope extends Scope {
    @ post \result == (other instanceof NamespaceScope) && 
    @                 ((NamespaceScope)other).getPackage().equals(getPackage());
    @*/
-  public boolean geRecursive(Scope other) throws MetamodelException {
+  public boolean geRecursive(Scope other) throws LookupException {
     return (
              (other instanceof NamespaceScope) && 
              ((NamespaceScope)other).getNamespace().equals(getNamespace())

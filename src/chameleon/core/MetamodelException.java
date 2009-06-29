@@ -36,25 +36,24 @@ public class MetamodelException extends Exception {
 	private static final long serialVersionUID = -2841949559634528013L;
 
 	public MetamodelException() {
-    count++;
   }
   
   public MetamodelException(String message) {
     super(message);
-    count++;
   }
   
-  private static int count;
-  
-  /**
-   * Return how many times a MetamodelException has been created.
-   * @return
-   */
-  public static int count() {
-  	return count;
+  public MetamodelException(String message, Exception exc) {
+  	super(message, exc);
   }
   
-  public Element parent() {
-  	return null;
-  }
+//  private static int count;
+//  
+//  /**
+//   * Return how many times a MetamodelException has been created.
+//   * @return
+//   */
+//  public static int count() {
+//  	return count;
+//  }
+  
 }

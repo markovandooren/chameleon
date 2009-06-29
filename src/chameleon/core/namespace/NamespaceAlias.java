@@ -1,23 +1,19 @@
 package chameleon.core.namespace;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import org.rejuse.association.OrderedReferenceSet;
-import org.rejuse.predicate.PrimitiveTotalPredicate;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.Context;
+import chameleon.core.context.LookupException;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
-import chameleon.core.modifier.Modifier;
 import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
-import chameleon.core.variable.Variable;
 
 public class NamespaceAlias extends Namespace {
 
@@ -69,5 +65,19 @@ public class NamespaceAlias extends Namespace {
   	}
   	return result;
   }
+  
+  public Context lexicalContext(Element element) throws LookupException {
+  	return aliasedNamespace().lexicalContext();
+  }
+
+	@Override
+	public List<Namespace> getSubNamespaces() {
+		return aliasedNamespace().getSubNamespaces();
+	}
+
+	@Override
+	public Namespace getOrCreateNamespace(String name) throws LookupException {
+		return aliasedNamespace().getOrCreateNamespace(name);
+	}
 
 }

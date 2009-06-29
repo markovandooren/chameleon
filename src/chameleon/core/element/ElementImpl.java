@@ -17,11 +17,9 @@ import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.context.Context;
-import chameleon.core.context.LexicalContext;
+import chameleon.core.context.LookupException;
 import chameleon.core.language.Language;
 import chameleon.core.tag.Tag;
-import chameleon.linkage.ILinkage;
-import chameleon.linkage.IMetaModelFactory;
 
 /**
  * @author Marko van Dooren
@@ -264,24 +262,24 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     /**
      * @see Element#lexicalContext(Element) 
      */
-    public Context lexicalContext(Element child) throws MetamodelException {
+    public Context lexicalContext(Element child) throws LookupException {
     	P parent = parent();
     	if(parent != null) {
         return parent.lexicalContext(this);
     	} else {
-    		throw new MetamodelException("Going to the parent context when there is no parent.");
+    		throw new LookupException("Going to the parent context when there is no parent.");
     	}
     }
 
     /**
      * @see Element#lexicalContext() 
      */
-    public final Context lexicalContext() throws MetamodelException {
+    public final Context lexicalContext() throws LookupException {
     	try {
         return parent().lexicalContext(this);
     	} catch(NullPointerException exc) {
     		if(parent() == null) {
-    			throw new MetamodelException("Requesting the lexical context of an element without a parent.");
+    			throw new LookupException("Requesting the lexical context of an element without a parent.");
     		} else {
     			throw exc;
     		}

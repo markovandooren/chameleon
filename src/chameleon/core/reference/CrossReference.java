@@ -1,6 +1,6 @@
 package chameleon.core.reference;
 
-import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 
@@ -14,6 +14,6 @@ import chameleon.core.element.Element;
  */
 public interface CrossReference<E extends CrossReference, P extends Element> extends Element<E,P> {
 	
-	public Declaration getElement() throws MetamodelException ;
+	public Declaration getElement() throws LookupException ;
 	
 }

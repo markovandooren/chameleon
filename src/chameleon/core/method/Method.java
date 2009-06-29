@@ -11,8 +11,8 @@ import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.context.Context;
-import chameleon.core.context.LexicalContext;
-import chameleon.core.context.TargetContext;
+import chameleon.core.context.LookupException;
+import chameleon.core.context.Target;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Definition;
@@ -31,7 +31,7 @@ import chameleon.core.variable.FormalParameter;
 import chameleon.util.Util;
 
 
-public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, E, S>, S extends MethodSignature> extends MemberImpl<E,DeclarationContainer,S,Method> implements Definition<E,DeclarationContainer,S>, ModifierContainer<E,DeclarationContainer>, DeclarationContainer<E,DeclarationContainer> {
+public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, E, S>, S extends MethodSignature> extends MemberImpl<E,DeclarationContainer,S,Method> implements Definition<E,DeclarationContainer,S>, ModifierContainer<E,DeclarationContainer>, DeclarationContainer<E,DeclarationContainer>, Target<E,DeclarationContainer> {
 
 	public Method(H header) {
 		setHeader(header);
@@ -112,7 +112,7 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 	 @
 	 @ post \result.equals(getExceptionClause().getWorstCaseExceptions());
 	 @*/
-	public Set getWorstCaseExceptions() throws MetamodelException {
+	public Set getWorstCaseExceptions() throws LookupException {
 		return getExceptionClause().getWorstCaseExceptions();
 	}
 
@@ -127,24 +127,24 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 	 @ post \result != null;
 	 @ post getBody() == null ==> \result.isEmpty();
 	 @*/
-	public Set getAbsoluteThrownCheckedExceptions() throws MetamodelException {
-		throw new Error("Implements exception anchors again");
-//		Set excs = new HashSet();
-//		Block body = getBody();
-//		if(body != null) {
-//			Collection declarations = body.getAbsCEL().getDeclarations();
-//			final ExceptionClause exceptionClause = new ExceptionClause();
-//			new Visitor() {
-//				public void visit(Object element) {
-//					exceptionClause.add((ExceptionDeclaration)element);
-//				}
-//			}.applyTo(declarations);
-//
-//			StubExceptionClauseContainer stub = new StubExceptionClauseContainer(this, exceptionClause, lexicalContext());
-//			excs = exceptionClause.getWorstCaseExceptions();
-//		}
-//		return excs;
-	}
+//	public Set getAbsoluteThrownCheckedExceptions() throws MetamodelException {
+//		throw new Error("Implements exception anchors again");
+////		Set excs = new HashSet();
+////		Block body = getBody();
+////		if(body != null) {
+////			Collection declarations = body.getAbsCEL().getDeclarations();
+////			final ExceptionClause exceptionClause = new ExceptionClause();
+////			new Visitor() {
+////				public void visit(Object element) {
+////					exceptionClause.add((ExceptionDeclaration)element);
+////				}
+////			}.applyTo(declarations);
+////
+////			StubExceptionClauseContainer stub = new StubExceptionClauseContainer(this, exceptionClause, lexicalContext());
+////			excs = exceptionClause.getWorstCaseExceptions();
+////		}
+////		return excs;
+//	}
 
 	/*@
 	  @ also public behavior
@@ -208,8 +208,12 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 	 @
 	 @ post \result == getReturnTypeReference().getType();
 	 @*/
-	public Type getType() throws MetamodelException {
-		return getReturnTypeReference().getType();
+	public Type getType() throws LookupException {
+		if(getReturnTypeReference() != null) {
+		  return getReturnTypeReference().getType();
+		} else {
+			throw new LookupException("Return type reference of method is null");
+		}
 	}
 
 
@@ -244,7 +248,7 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 	 @
 	 @ post \result == (getImplementation() == null) || getImplementation().compatible();
 	 @*/
-	public boolean hasCompatibleImplementation() throws MetamodelException {
+	public boolean hasCompatibleImplementation() throws LookupException {
 		return (getImplementation() == null) || getImplementation().compatible();
 	}
 
@@ -256,7 +260,7 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 	 @
 	 @ post \result == (getImplementation() == null) || getImplementation().hasValidCatchClauses();
 	 @*/
-	public boolean hasValidCatchClauses() throws MetamodelException {
+	public boolean hasValidCatchClauses() throws LookupException {
 		return (getImplementation() == null) || getImplementation().hasValidCatchClauses();
 	}
 
@@ -272,7 +276,7 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 	 @
 	 @ post \result == getExceptionClause().hasValidAccessibility();
 	 @*/
-	public boolean hasValidExceptionClauseAccessibility() throws MetamodelException {
+	public boolean hasValidExceptionClauseAccessibility() throws LookupException {
 		return getExceptionClause().hasValidAccessibility();
 	}
 
@@ -284,7 +288,7 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 	 @
 	 @ post \result == hasAcyclicExceptionGraph(new HashSet());
 	 @*/
-	public boolean hasAcyclicExceptionGraph() throws MetamodelException {
+	public boolean hasAcyclicExceptionGraph() throws LookupException {
 		return hasAcyclicExceptionGraph(new HashSet());
 	}
 
@@ -292,7 +296,7 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 	 * @param done
 	 * @return
 	 */
-	public boolean hasAcyclicExceptionGraph(Set done) throws MetamodelException {
+	public boolean hasAcyclicExceptionGraph(Set done) throws LookupException {
 		if(done.contains(this)) {
 			return false;
 		}
@@ -307,19 +311,19 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 	 * Check whether or not the exception clause of this method is compatible with the
 	 * exception clauses of all super methods.
 	 * @return
-	 * @throws MetamodelException
+	 * @throws LookupException
 	 */
-	public boolean hasValidOverridingExceptionClause() throws MetamodelException {
+	public boolean hasValidOverridingExceptionClause() throws LookupException {
 		try {
 			Set methods = directlyOverriddenMembers();
 			return new PrimitivePredicate() {
-				public boolean eval(Object o) throws MetamodelException {
+				public boolean eval(Object o) throws LookupException {
 					Method method = (Method)o;
 					return getExceptionClause().compatibleWith(method.getExceptionClause());
 				}
 			}.forAll(methods);
 		}
-		catch (MetamodelException e) {
+		catch (LookupException e) {
 			throw e;
 		}
 		catch (Exception e) {
@@ -362,7 +366,7 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 		}
 	}
 
-	public Set getDirectlyThrownExceptions() throws MetamodelException {
+	public Set getDirectlyThrownExceptions() throws LookupException {
 		Block block = getBody();
 		Set result = new HashSet();
 		if (block != null) {
@@ -379,9 +383,18 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 	}
 
   public Context lexicalContext(Element element) {
-  	return new LexicalContext(new TargetContext<Method>(this),this);
+  	return language().contextFactory().createLexicalContext(this, localContext()); 
+  	//new LexicalContext(new TargetContext<Method>(this),this);
   }
-
+  
+  public Context localContext() {
+  	return language().contextFactory().createTargetContext(this);
+  }
+  
+  public Context targetContext() throws LookupException {
+  	return getType().lexicalContext();
+  }
+  
   public Set<Declaration> declarations() {
   	return header().declarations();
   }

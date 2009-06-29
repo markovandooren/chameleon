@@ -51,7 +51,6 @@ public class RegularType extends Type {
   /**
    * Return the members directly declared by this type.
    * @return
-   * @throws MetamodelException 
    */
   public Set<Member> directlyDeclaredElements() {
      return body().elements();

@@ -7,6 +7,7 @@ import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
@@ -25,7 +26,7 @@ import chameleon.core.type.VariableOrType;
  */
 public interface Variable<E extends Variable<E,P>, P extends DeclarationContainer> 
                 extends TypeDescendant<E,P>, 
-                VariableOrType<E,P>,ModifierContainer<E,P>, TargetDeclaration<E,P,SimpleNameSignature> {
+                VariableOrType<E,P,SimpleNameSignature>,ModifierContainer<E,P>, TargetDeclaration<E,P,SimpleNameSignature> {
 
   public void setSignature(SimpleNameSignature signature);
   
@@ -47,7 +48,7 @@ public interface Variable<E extends Variable<E,P>, P extends DeclarationContaine
   
   public abstract void setTypeReference(TypeReference ref);
 
-  public Type getType() throws MetamodelException;
+  public Type getType() throws LookupException;
 
 
 
@@ -74,7 +75,7 @@ public interface Variable<E extends Variable<E,P>, P extends DeclarationContaine
  
   public PropertySet<Element> declaredProperties();
   
-  public TargetContext targetContext() throws MetamodelException;
+  public TargetContext targetContext() throws LookupException;
 
 
   public Variable resolve();

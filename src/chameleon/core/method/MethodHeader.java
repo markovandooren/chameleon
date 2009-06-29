@@ -12,6 +12,7 @@ import org.rejuse.predicate.PrimitiveTotalPredicate;
 import chameleon.core.MetamodelException;
 import chameleon.core.context.Context;
 import chameleon.core.context.LexicalContext;
+import chameleon.core.context.LookupException;
 import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
@@ -66,7 +67,7 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
    * @return
    * @throws MetamodelException
    */
-  public List<Type> getParameterTypes() throws MetamodelException {
+  public List<Type> getParameterTypes() throws LookupException {
     List<Type> result = new ArrayList<Type>();
     for(FormalParameter param:getParameters()) {
       result.add(param.getType());

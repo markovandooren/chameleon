@@ -6,7 +6,7 @@ import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.association.Reference;
 import org.rejuse.java.collections.Visitor;
 
-import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.namespace.Namespace;
@@ -101,7 +101,7 @@ public class ActualArgument extends NamespacePartElementImpl<ActualArgument,Actu
 		return result;
 	}
 
-	public Type getType() throws MetamodelException{
+	public Type getType() throws LookupException{
 		return getExpression().getType();
 	}
 

@@ -1,6 +1,6 @@
 package chameleon.core.scope;
 
-import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 import chameleon.core.namespace.NamespaceElement;
 
@@ -33,12 +33,12 @@ public class LexicalScope extends Scope {
 	}
 
 	@Override
-	public boolean contains(Element element) throws MetamodelException {
+	public boolean contains(Element element) throws LookupException {
 		return element.equals(element()) || element.ancestors().contains(element());
 	}
 
 	@Override
-	protected boolean geRecursive(Scope other) throws MetamodelException {
+	protected boolean geRecursive(Scope other) throws LookupException {
 		return (other instanceof LexicalScope) && (contains(((LexicalScope)other).element()));
 	}
 }

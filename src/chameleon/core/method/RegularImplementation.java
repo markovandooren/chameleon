@@ -28,7 +28,7 @@ import java.util.List;
 
 import org.rejuse.association.Reference;
 
-import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.statement.Block;
 import chameleon.core.statement.StatementContainer;
 import chameleon.util.Util;
@@ -59,7 +59,7 @@ public class RegularImplementation extends Implementation<RegularImplementation>
     return new RegularImplementation(getBody().clone());
   }
 
-  public boolean compatible() throws MetamodelException {
+  public boolean compatible() throws LookupException {
   	throw new Error("Implement exception anchors again.");
 //    if(getBody() == null) {
 //      return true;
@@ -81,7 +81,7 @@ public class RegularImplementation extends Implementation<RegularImplementation>
    @ post \result == (\forall TryStatement ts; getAllStatements().contains(ts);
    @                    ts.hasValidCatchClauses()); 
    @*/
-  public boolean hasValidCatchClauses() throws MetamodelException {
+  public boolean hasValidCatchClauses() throws LookupException {
   	//@FIXME reimplement this
 //    try {
 //      Collection<TryStatement> statements = getBody().getDescendants(TryStatement.class);

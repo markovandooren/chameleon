@@ -1,6 +1,7 @@
 package chameleon.core.variable;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.method.Method;
 import chameleon.core.method.MethodHeader;
@@ -21,7 +22,7 @@ public class FormalParameter extends RegularVariable<FormalParameter,VariableCon
    * @param parameter
    * @return
    */
-  public boolean compatibleWith(FormalParameter parameter) throws MetamodelException {
+  public boolean compatibleWith(FormalParameter parameter) throws LookupException {
   	boolean result = false;
   	if((parent() instanceof MethodHeader) && (parameter != null) && (parameter.parent() instanceof MethodHeader)) {
     	MethodHeader<?,?,?> header = (MethodHeader<?, ?, ?>) parent();

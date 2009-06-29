@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 
 /**
@@ -12,15 +13,15 @@ import chameleon.core.element.Element;
  */
 public class Union extends CompositeScope {
 	
-	public boolean contains(final Element element) throws MetamodelException {
+	public boolean contains(final Element element) throws LookupException {
 		try {
 			return new PrimitivePredicate<Scope>() {
 
-				public boolean eval(Scope object) throws Exception {
+				public boolean eval(Scope object) throws LookupException {
 					return object.contains(element);
 				}
 			}.exists(scopes());
-		} catch (MetamodelException e) {
+		} catch (LookupException e) {
 			throw e;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -43,7 +44,7 @@ public class Union extends CompositeScope {
    @
    @ getDomains().containsAll(domains);
    @*/
-  public Union(Collection<Scope> domains) throws MetamodelException {
+  public Union(Collection<Scope> domains) throws LookupException {
     super(domains);
   }
   
@@ -56,20 +57,20 @@ public class Union extends CompositeScope {
    @ getDomains().contains(first);
    @ getDomains().contains(second);
    @*/
-  public Union(Scope first, Scope second) throws MetamodelException {
+  public Union(Scope first, Scope second) throws LookupException {
   	add(first);
   	add(second);
   }
 
-  public boolean geRecursive(final Scope other) throws MetamodelException {
+  public boolean geRecursive(final Scope other) throws LookupException {
     try {
       return new PrimitivePredicate() {
-        public boolean eval(Object o) throws MetamodelException {
+        public boolean eval(Object o) throws LookupException {
           return ((Scope)o).greaterThanOrEqualTo(other);
         }
       }.exists(scope());
     }
-    catch (MetamodelException e) {
+    catch (LookupException e) {
       throw e;
     }
     catch (Exception e) {
@@ -78,15 +79,15 @@ public class Union extends CompositeScope {
     }
   }
 
-  public boolean leRecursive(final Scope other) throws MetamodelException {
+  public boolean leRecursive(final Scope other) throws LookupException {
     try {
       return new PrimitivePredicate() {
-        public boolean eval(Object o) throws MetamodelException {
+        public boolean eval(Object o) throws LookupException {
           return other.greaterThanOrEqualTo(((Scope)o));
         }
       }.forAll(scope());
     }
-    catch (MetamodelException e) {
+    catch (LookupException e) {
       throw e;
     }
     catch (Exception e) {
@@ -95,19 +96,19 @@ public class Union extends CompositeScope {
     }
   }
 
-  public Scope union(Scope other) throws MetamodelException {
+  public Scope union(Scope other) throws LookupException {
     Union result = new Union(scope());
     result.add(other);
     return result;
   }
   
-  protected void filter() throws MetamodelException {
+  protected void filter() throws LookupException {
     try {
       new PrimitivePredicate() {
         public boolean eval(Object o) throws Exception {
           final Scope acc = (Scope)o;
           return ! new PrimitivePredicate() {
-            public boolean eval(Object o2) throws MetamodelException {
+            public boolean eval(Object o2) throws LookupException {
               Scope other = (Scope)o2;
               return (acc != other) && (other.greaterThanOrEqualTo(acc));
             }
@@ -115,7 +116,7 @@ public class Union extends CompositeScope {
         }
       }.filter(_scopes);
     }
-    catch (MetamodelException e) {
+    catch (LookupException e) {
       throw e;
     }
     catch (Exception e) {

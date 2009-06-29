@@ -24,9 +24,11 @@
  */
 package chameleon.core.type;
 
-import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.context.Target;
-import chameleon.core.element.Element;
+import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.DeclarationContainer;
+import chameleon.core.declaration.Signature;
 import chameleon.core.namespacepart.NamespacePartElement;
 
 
@@ -34,14 +36,8 @@ import chameleon.core.namespacepart.NamespacePartElement;
  * @author marko
  */
 
-public interface VariableOrType<E extends Element, P extends Element> extends NamespacePartElement<E,P>, Target<E,P> {
+public interface VariableOrType<E extends VariableOrType<E,P,S>, P extends DeclarationContainer, S extends Signature> extends NamespacePartElement<E,P>, Target<E,P>, Declaration<E,P,S> {
 
-	/**
-	 * 
-	 * @uml.property name="type"
-	 * @uml.associationEnd 
-	 * @uml.property name="type" multiplicity="(0 1)"
-	 */
-	public Type getType() throws MetamodelException;
+	public Type getType() throws LookupException;
 
 }

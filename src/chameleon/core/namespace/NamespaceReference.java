@@ -24,8 +24,7 @@
  */
 package chameleon.core.namespace;
 
-import chameleon.core.MetamodelException;
-import chameleon.core.namespacepart.NamespacePartElement;
+import chameleon.core.context.LookupException;
 import chameleon.util.Util;
 
 /**
@@ -57,7 +56,7 @@ public class NamespaceReference extends NamespaceOrTypeReference<NamespaceRefere
   }
   
   
-  public Namespace findNamespace() throws MetamodelException {
+  public Namespace findNamespace() throws LookupException {
     return (Namespace)getNamespaceOrType();
   }
 

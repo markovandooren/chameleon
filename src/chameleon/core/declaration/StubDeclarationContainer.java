@@ -6,9 +6,9 @@ import java.util.Set;
 
 import org.rejuse.association.OrderedReferenceSet;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.context.Context;
 import chameleon.core.context.ContextFactory;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 
@@ -23,7 +23,7 @@ public class StubDeclarationContainer extends ElementImpl<StubDeclarationContain
 		return result;
 	}
 
-	public Set<Declaration> declarations() throws MetamodelException {
+	public Set<Declaration> declarations() throws LookupException {
 		return new HashSet<Declaration>(_elements.getOtherEnds());
 	}
 

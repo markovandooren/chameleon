@@ -6,7 +6,6 @@ import java.util.Set;
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
-import chameleon.core.declaration.DeclarationSelector;
 
 /**
  * 
@@ -32,17 +31,17 @@ public class TargetContext<E extends DeclarationContainer> extends Context {
 	 * Return the declarations declared on-demand by the referenced element.
 	 * 
 	 * The default implementation returns an empty set.
-	 * @throws MetamodelException 
+	 * @throws LookupException 
 	 */
-  public Set<Declaration> demandDeclarations() throws MetamodelException {
+  public Set<Declaration> demandDeclarations() throws LookupException {
   	return new HashSet<Declaration>();
   }
   
 	/**
 	 * Return the declarations directly declared by the referenced element.
-	 * @throws MetamodelException 
+	 * @throws LookupException 
 	 */
-  public Set<Declaration> directDeclarations() throws MetamodelException {
+  public Set<Declaration> directDeclarations() throws LookupException {
   	Set<Declaration> result = new HashSet<Declaration>();
   	Set<Declaration> tmp = element().declarations();
   	for(Declaration decl: tmp) { // does not compile when inlined, stupid Java
@@ -61,9 +60,9 @@ public class TargetContext<E extends DeclarationContainer> extends Context {
    *            shoud be inferred automatically.
    * @param selector
    * @return
-   * @throws MetamodelException
+   * @throws LookupException
    */
-  public <T extends Declaration> Set<T> declarations(DeclarationSelector<T> selector) throws MetamodelException {
+  public <T extends Declaration> Set<T> declarations(DeclarationSelector<T> selector) throws LookupException {
     Set<T> result = selector.selection(directDeclarations());
     // Only use on-demand declarations when no direct declarations are found.
     if(result.isEmpty()) {
@@ -73,7 +72,7 @@ public class TargetContext<E extends DeclarationContainer> extends Context {
   }
 
 	@Override
-	public <T extends Declaration> T lookUp(DeclarationSelector<T> selector) throws MetamodelException {
+	public <T extends Declaration> T lookUp(DeclarationSelector<T> selector) throws LookupException {
 	  Set<T> tmp = declarations(selector);
 	  int size = tmp.size();
 	  if(size == 1) {
@@ -81,7 +80,7 @@ public class TargetContext<E extends DeclarationContainer> extends Context {
 	  } else if (size == 0) {
 	    return null;
 	  } else {
-	    throw new MetamodelException("Multiple matches found in "+element().toString() + " using selector "+selector.toString());
+	    throw new LookupException("Multiple matches found in "+element().toString() + " using selector "+selector.toString(),selector);
 	  }
 
 	}

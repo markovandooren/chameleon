@@ -10,6 +10,7 @@ import org.rejuse.predicate.PrimitivePredicate;
 import org.rejuse.property.Property;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
@@ -46,7 +47,7 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
   }
 
   
-  public final boolean equivalentTo(Member other) throws MetamodelException {
+  public final boolean equivalentTo(Member other) throws LookupException {
   	return language().equivalenceRelation().contains(this,other);
   }
 
@@ -55,18 +56,18 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
    * ACCESS *
    **********/
 
-  //@FIXME: bad design
-  protected boolean surroundingTypeAncestorOfOneOfTheSurroundingTypesOf(TypeDescendant other) throws MetamodelException {
-    TypeContainer type = other.getNearestType();
-    boolean found = true;
-    while(type instanceof Type && (!found)) {
-      if(((Type)type).assignableTo(parent())) {
-        found = true; 
-      }
-      type = ((Type) type).parent(); //stupid generics 
-    }
-    return found;
-  }
+//  //@FIXME: bad design
+//  protected boolean surroundingTypeAncestorOfOneOfTheSurroundingTypesOf(TypeDescendant other) throws MetamodelException {
+//    TypeContainer type = other.getNearestType();
+//    boolean found = true;
+//    while(type instanceof Type && (!found)) {
+//      if(((Type)type).assignableTo(parent())) {
+//        found = true; 
+//      }
+//      type = ((Type) type).parent(); //stupid generics 
+//    }
+//    return found;
+//  }
 
   protected RegularMemberVariable cloneThis() {
     Expression expr = null;
@@ -80,7 +81,7 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
     return Util.createSingletonSet(this);
   }
 
-  public Set<Member> directlyOverriddenMembers() throws MetamodelException {
+  public Set<Member> directlyOverriddenMembers() throws LookupException {
     List<Type> superTypes = getNearestType().getDirectSuperTypes();
     // Collect the overridden members in the following set.
     final Set<Member> result = new HashSet<Member>();
@@ -91,11 +92,11 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
       // Retain only those members that are overridden by this member. 
       try {
         new PrimitivePredicate<Member>() {
-          public boolean eval(Member o) throws MetamodelException {
+          public boolean eval(Member o) throws LookupException {
             return overrides(o);
           }
         }.filter(superMembers);
-      } catch(MetamodelException e) {
+      } catch(LookupException e) {
         throw e; 
       } catch (Exception e) {
         e.printStackTrace();
@@ -106,12 +107,12 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
     return result;
   }
 
-  public boolean overrides(Member other) throws MetamodelException {
+  public boolean overrides(Member other) throws LookupException {
     StrictPartialOrder<Member> overridesRelation = language().overridesRelation();
     return overridesRelation.contains(this, other);
   }
 
-  public boolean hides(Member other) throws MetamodelException {
+  public boolean hides(Member other) throws LookupException {
     StrictPartialOrder<Member> hidesRelation = language().hidesRelation();
     return hidesRelation.contains(this, other);
   }

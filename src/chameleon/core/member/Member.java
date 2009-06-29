@@ -26,7 +26,7 @@ package chameleon.core.member;
 
 import java.util.Set;
 
-import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
@@ -59,7 +59,7 @@ public interface Member<E extends Member<E,P,S,F>, P extends DeclarationContaine
    @
    @ post other == null ==> \result == null;
    @*/
-  public boolean overrides(Member other) throws MetamodelException;
+  public boolean overrides(Member other) throws LookupException;
   
   /**
    * Check whether this member overrides the given member.
@@ -69,7 +69,7 @@ public interface Member<E extends Member<E,P,S,F>, P extends DeclarationContaine
    @
    @ post other == null ==> \result == null;
    @*/
-  public boolean hides(Member other) throws MetamodelException;
+  public boolean hides(Member other) throws LookupException;
   
   /**
    * Check whether this is equivalent to given member.
@@ -79,7 +79,7 @@ public interface Member<E extends Member<E,P,S,F>, P extends DeclarationContaine
    @
    @ post other == null ==> \result == null;
    @*/
-  public boolean equivalentTo(Member other) throws MetamodelException;
+  public boolean equivalentTo(Member other) throws LookupException;
   
   
   /**
@@ -92,7 +92,7 @@ public interface Member<E extends Member<E,P,S,F>, P extends DeclarationContaine
    @ post \result != null;
    @ (\forall Member m; \result.contains(m); overrides(m));
    @*/
-  public Set<Member> directlyOverriddenMembers() throws MetamodelException;
+  public Set<Member> directlyOverriddenMembers() throws LookupException;
 
   // Return object of F(amily) type which is cut off at the level of e.g. Type,Method,MemberVariable,Property,....
 //  public abstract F alias(S signature);

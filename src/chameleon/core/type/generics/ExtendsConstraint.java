@@ -7,6 +7,7 @@ import java.util.List;
 import org.rejuse.association.ReferenceSet;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
@@ -26,7 +27,7 @@ public class ExtendsConstraint extends TypeConstraint {
 	}
 
 	@Override
-	public Type upperBound() throws MetamodelException {
+	public Type upperBound() throws LookupException {
 		Iterator<TypeReference> iter = typeReferences().iterator();
 		Type result = null;
 		if(iter.hasNext()) {
@@ -35,13 +36,13 @@ public class ExtendsConstraint extends TypeConstraint {
 				result = result.intersection(iter.next().getType());
 			}
 		} else {
-			throw new MetamodelException("No type in the extends constraint");
+			throw new LookupException("No type in the extends constraint");
 		}
 		return result;
 	}
 
 	@Override
-	public boolean matches(Type type) throws MetamodelException {
+	public boolean matches(Type type) throws LookupException {
 		return type.subTypeOf(upperBound());
 	}
 

@@ -1,11 +1,10 @@
 /**
  * 
  */
-package chameleon.core.expression;
+package chameleon.core.context;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.DeclarationSelector;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
@@ -24,8 +23,8 @@ public class SelectorWithoutOrder<D extends Declaration> extends DeclarationSele
 		return _signature;
 	}
 	
-	@Override
-	public D filter(Declaration declaration) throws MetamodelException {
+	@Override @SuppressWarnings("unchecked")
+	public D filter(Declaration declaration) throws LookupException {
 		Signature sig = declaration.signature();
 		D result = null;
 		if((selectedClass().isInstance(declaration)) && 
@@ -40,7 +39,7 @@ public class SelectorWithoutOrder<D extends Declaration> extends DeclarationSele
 		return new WeakPartialOrder<D>() {
 
 			@Override
-			public boolean contains(D first, D second) throws MetamodelException {
+			public boolean contains(D first, D second) throws LookupException {
 				return first.equals(second);
 			}
 			

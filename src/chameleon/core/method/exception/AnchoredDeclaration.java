@@ -10,7 +10,7 @@ import java.util.Set;
 
 import org.rejuse.association.Reference;
 
-import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 import chameleon.core.type.TypeDescendant;
 
@@ -21,7 +21,7 @@ import chameleon.core.type.TypeDescendant;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public interface AnchoredDeclaration<E extends Element, P extends Element> extends TypeDescendant<E,P> {
-	public Set getRawExceptionTypes() throws MetamodelException;
+	public Set getRawExceptionTypes() throws LookupException;
 
 	/**
 	 * @return

@@ -2,7 +2,7 @@ package chameleon.core.namespacepart;
 
 import java.util.Set;
 
-import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 
@@ -35,7 +35,7 @@ public abstract class Import<E extends Element> extends NamespacePartElementImpl
 //    return getParent().getDeclaredNamespace();
 //  }
 
-  public abstract Set<Declaration> directImports() throws MetamodelException;
+  public abstract Set<Declaration> directImports() throws LookupException;
   
-  public abstract Set<Declaration> demandImports() throws MetamodelException;
+  public abstract Set<Declaration> demandImports() throws LookupException;
 }

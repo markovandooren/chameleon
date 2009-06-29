@@ -13,6 +13,7 @@ import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.context.Context;
+import chameleon.core.context.LookupException;
 import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
@@ -31,7 +32,6 @@ import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
 import chameleon.core.statement.StatementContainer;
 import chameleon.core.type.inheritance.InheritanceRelation;
-import chameleon.core.variable.VariableContainer;
 
 /**
  * <p>A class representing types in object-oriented programs.</p>
@@ -43,7 +43,7 @@ import chameleon.core.variable.VariableContainer;
 public abstract class Type extends FixedSignatureMember<Type,TypeContainer,SimpleNameSignature,Type> 
                 implements TargetDeclaration<Type,TypeContainer,SimpleNameSignature>, NamespaceOrType<Type,TypeContainer,SimpleNameSignature>, 
                            TypeContainer<Type,TypeContainer>,  
-                           VariableOrType<Type,TypeContainer>, Definition<Type,TypeContainer,SimpleNameSignature>,
+                           VariableOrType<Type,TypeContainer,SimpleNameSignature>, Definition<Type,TypeContainer,SimpleNameSignature>,
                            StatementContainer<Type,TypeContainer>, 
                            Cloneable, ExceptionSource<Type,TypeContainer>, ModifierContainer<Type,TypeContainer>, 
                            DeclarationContainer<Type,TypeContainer> {
@@ -174,7 +174,7 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
      * SUPERTYPES *
      **************/
 
-    public List<Type> getDirectSuperTypes() throws MetamodelException {
+    public List<Type> getDirectSuperTypes() throws LookupException {
             final ArrayList<Type> result = new ArrayList<Type>();
             for(InheritanceRelation element:inheritanceRelations()) {
               Type type = element.superType();
@@ -185,7 +185,7 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
             return result;
     }
 
-    public List<Type> getDirectSuperClasses() throws MetamodelException {
+    public List<Type> getDirectSuperClasses() throws LookupException {
       final ArrayList<Type> result = new ArrayList<Type>();
       for(InheritanceRelation element:inheritanceRelations()) {
         result.add(element.superClass());
@@ -193,7 +193,7 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
       return result;
 }
 
-    protected void accumulateAllSuperTypes(Set<Type> acc) throws MetamodelException {
+    protected void accumulateAllSuperTypes(Set<Type> acc) throws LookupException {
     	List<Type> temp =getDirectSuperTypes();
     	acc.addAll(temp);
     	for(Type type:temp) {
@@ -201,7 +201,7 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
     	}
     }
     
-    public Set<Type> getAllSuperTypes() throws MetamodelException {
+    public Set<Type> getAllSuperTypes() throws LookupException {
     	Set result = new HashSet();
     	accumulateAllSuperTypes(result);
     	return result;
@@ -210,7 +210,7 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
     
     //TODO: rename to properSubTypeOf
     
-    public boolean subTypeOf(Type other) throws MetamodelException {
+    public boolean subTypeOf(Type other) throws LookupException {
     	  Collection superTypes = getAllSuperTypes(); 
         return superTypes.contains(other);
     }
@@ -246,14 +246,14 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
      * 
      * @param other
      * @return
-     * @throws MetamodelException
+     * @throws LookupException
      */
    /*@
      @ public behavior
      @
      @ post \result == equals(other) || subTypeOf(other);
      @*/
-    public boolean assignableTo(Type other) throws MetamodelException {
+    public boolean assignableTo(Type other) throws LookupException {
     	boolean equal = equals(other);
     	boolean subtype = subTypeOf(other);
     	return (equal || subtype);
@@ -314,26 +314,26 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
      */
     public abstract Set<? extends TypeElement> directlyDeclaredElements();
 
-    public Set<Member> members() throws MetamodelException {
+    public Set<Member> members() throws LookupException {
       return members(Member.class);
     }
     
-    public <M extends Member> Set<M> potentiallyInheritedMembers(final Class<M> kind) throws MetamodelException {
-  		final Set<M> result = new HashSet<M>();
-			for (InheritanceRelation rel : inheritanceRelations()) {
-				result.addAll(rel.potentiallyInheritedMembers(kind));
-			}
-  		return result;
-    }
-
+//    public <M extends Member> Set<M> potentiallyInheritedMembers(final Class<M> kind) throws MetamodelException {
+//  		final Set<M> result = new HashSet<M>();
+//			for (InheritanceRelation rel : inheritanceRelations()) {
+//				result.addAll(rel.potentiallyInheritedMembers(kind));
+//			}
+//  		return result;
+//    }
+//
     /**
      * Return the members of this class.
      * @param <M>
      * @param kind
      * @return
-     * @throws MetamodelException
+     * @throws LookupException
      */
-    public <M extends Member> Set<M> members(final Class<M> kind) throws MetamodelException {
+    public <M extends Member> Set<M> members(final Class<M> kind) throws LookupException {
 
 		// 1) All defined members of the requested kind are added.
 		final HashSet<M> result = new HashSet(directlyDeclaredElements(kind));
@@ -727,7 +727,7 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
      * EXCEPTION SOURCE *
      ********************/
 
-    public CheckedExceptionList getCEL() throws MetamodelException {
+    public CheckedExceptionList getCEL() throws LookupException {
         CheckedExceptionList cel = new CheckedExceptionList(getNamespace().language());
         for(TypeElement el : directlyDeclaredElements()) {
         	cel.absorb(el.getCEL());
@@ -735,7 +735,7 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
         return cel;
     }
 
-    public CheckedExceptionList getAbsCEL() throws MetamodelException {
+    public CheckedExceptionList getAbsCEL() throws LookupException {
       CheckedExceptionList cel = new CheckedExceptionList(getNamespace().language());
       for(TypeElement el : directlyDeclaredElements()) {
       	cel.absorb(el.getAbsCEL());
@@ -743,7 +743,7 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
       return cel;
     }
 
-    public Set<Declaration> declarations() throws MetamodelException {
+    public Set<Declaration> declarations() throws LookupException {
     	Set<Declaration> result = new HashSet<Declaration>();
     	result.addAll(members());
     	return result;
@@ -765,11 +765,11 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
       return new TypeAlias(sig,this);
   	}
 
-  	public Type intersection(Type type) throws MetamodelException {
+  	public Type intersection(Type type) throws LookupException {
   		return type.intersectionDoubleDispatch(type);
   	}
   	
-  	protected Type intersectionDoubleDispatch(Type type) throws MetamodelException {
+  	protected Type intersectionDoubleDispatch(Type type) throws LookupException {
   		Type result;
   		if(type.subTypeOf(this)) {
   			result = type;

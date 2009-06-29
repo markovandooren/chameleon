@@ -3,7 +3,6 @@ package chameleon.core.context;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.DeclarationSelector;
 import chameleon.core.element.Element;
 
 /**
@@ -43,25 +42,25 @@ public class LexicalContext extends Context {
   
 	/**
 	 * Return the parent context of this context.
-	 * @throws MetamodelException 
+	 * @throws LookupException 
 	 */
-	public Context parentContext() throws MetamodelException {
+	public Context parentContext() throws LookupException {
 		Element parent = element().parent();
 		if(parent != null) {
 	    return parent.lexicalContext(element());
 		} else {
-			throw new MetamodelException("Lookup wants to go to the parent element of a "+element().getClass() +" but it is null.");
+			throw new LookupException("Lookup wants to go to the parent element of a "+element().getClass() +" but it is null.");
 		}
 		
 	}
 
-	public <T extends Declaration> T lookUp(DeclarationSelector<T> selector) throws MetamodelException {
-	  T tmp = localContext().lookUp(selector);
-	  if(tmp != null) {
-	    return tmp;
-	  } else {
-	    return parentContext().lookUp(selector);
-	  }
+	public <T extends Declaration> T lookUp(DeclarationSelector<T> selector) throws LookupException {
+			T tmp = localContext().lookUp(selector);
+			if(tmp != null) {
+			  return tmp;
+			} else {
+			  return parentContext().lookUp(selector);
+			}
 	}
 
 }

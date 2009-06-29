@@ -6,18 +6,21 @@ import java.util.Set;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.context.Context;
+import chameleon.core.context.DeclarationSelector;
+import chameleon.core.context.LookupException;
+import chameleon.core.context.SelectorWithoutOrder;
 import chameleon.core.context.Target;
-import chameleon.core.declaration.DeclarationSelector;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
+import chameleon.core.reference.CrossReference;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.type.Type;
 import chameleon.core.variable.FormalParameter;
 import chameleon.core.variable.MemberVariable;
 import chameleon.core.variable.Variable;
 import chameleon.util.Util;
-public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> implements ExpressionContainer<NamedTarget,InvocationTargetContainer> {
+public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> implements ExpressionContainer<NamedTarget,InvocationTargetContainer>, CrossReference<NamedTarget,InvocationTargetContainer> {
 
 	/**
 	 * Initialize a new named target with the given fully qualified name. The
@@ -56,7 +59,8 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
    * CONTEXT *
    ***********/
    
-  public Target getElement() throws MetamodelException {
+  @SuppressWarnings("unchecked")
+  public TargetDeclaration getElement() throws LookupException {
     InvocationTarget target = getTarget();
     if(target != null) {
       return target.targetContext().lookUp(selector());//findElement(getName());
@@ -84,7 +88,7 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
   private String _name;
 
 
-  public boolean superOf(InvocationTarget target) throws MetamodelException {
+  public boolean superOf(InvocationTarget target) throws LookupException {
     Target self = getElement();
     if(target instanceof Expression) {
       // If this is a type, an expression assignable to this type will be compatible
@@ -157,7 +161,7 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
 //    return compatVar(vt1, vt2) && supportVar(vt1, Util.getSecondPart(n1), vt2, Util.getSecondPart(n2));
 //  }
 
-  private boolean compatVar(Variable variable, Variable variable2) throws MetamodelException {
+  private boolean compatVar(Variable variable, Variable variable2) throws LookupException {
     return ((variable == null) && (variable2 == null)) || 
            (variable != null) && (
                variable.equals(variable2) ||
@@ -170,15 +174,11 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
   
   
 
-  public boolean compatType(Type first, Type second) throws MetamodelException {
-    return second.assignableTo(first);
-  }
-
-  public boolean compatibleWith(InvocationTarget target) throws MetamodelException {
+  public boolean compatibleWith(InvocationTarget target) throws LookupException {
     return superOf(target) || target.subOf(this);
   }
 
-  public boolean subOf(InvocationTarget target) throws MetamodelException {
+  public boolean subOf(InvocationTarget target) throws LookupException {
     return false;
   }
 
@@ -190,7 +190,7 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
     return result;
   }
   
-  public void prefix(InvocationTarget target) throws MetamodelException {
+  public void prefix(InvocationTarget target) throws LookupException {
     if (getTarget() == null) {
       Target vt = getElement();
       if (vt instanceof MemberVariable) {
@@ -212,11 +212,12 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
 //    }
 //  }
 
-  public void prefixRecursive(InvocationTarget target) throws MetamodelException {
+  public void prefixRecursive(InvocationTarget target) throws LookupException {
     prefix(target);
   }
 
-  public Set getDirectExceptions() throws MetamodelException {
+  @SuppressWarnings("unchecked")
+  public Set getDirectExceptions() throws LookupException {
     Set result = new HashSet();
     if(getTarget() != null || Util.getSecondPart(getName()) != null) {
       Util.addNonNull(language().getNullInvocationException(), result);
@@ -224,7 +225,7 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
     return result;
   }
 
-  public Set getExceptions() throws MetamodelException {
+  public Set getExceptions() throws LookupException {
     Set result = getDirectExceptions();
     if(getTarget() != null) {
       result.addAll(getTarget().getExceptions());
@@ -232,7 +233,7 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
     return result;
   }
 
-  public CheckedExceptionList getCEL() throws MetamodelException {
+  public CheckedExceptionList getCEL() throws LookupException {
     if(getTarget() != null) {
       return getTarget().getCEL();
     }
@@ -241,7 +242,7 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
     }
   }
 
-  public CheckedExceptionList getAbsCEL() throws MetamodelException {
+  public CheckedExceptionList getAbsCEL() throws LookupException {
     if(getTarget() != null) {
       return getTarget().getAbsCEL();
     }
@@ -263,7 +264,7 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
   	return Util.createNonNullList(getTarget());
   }
 
-  public Context targetContext() throws MetamodelException {
+  public Context targetContext() throws LookupException {
     return getElement().targetContext();
   }
 }

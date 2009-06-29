@@ -22,7 +22,7 @@ public class StatementListScope extends Scope {
     _statement = statement;
   }
   
-  public boolean geRecursive(Scope other) throws MetamodelException {
+  public boolean geRecursive(Scope other)  {
   	return (
 		    (other instanceof StatementListScope) && 
         ((StatementListScope)other).getStatement().ancestors().contains(getContainer()) &&
@@ -44,7 +44,7 @@ public class StatementListScope extends Scope {
 	private Statement _statement;
 
 	@Override
-	public boolean contains(Element element) throws MetamodelException {
+	public boolean contains(Element element) {
 		Statement statement = getStatement();
 		boolean result = element.ancestors().contains(statement);
 		Iterator<Statement> iter = getContainer().statementsAfter(getStatement()).iterator();

@@ -1,6 +1,7 @@
 package chameleon.core.scope;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 
 /**
@@ -13,14 +14,14 @@ public abstract class Scope {
 
 	/**
 	 * Check if the given element is in this scope.
-	 * @throws MetamodelException 
+	 * @throws LookupException 
 	 */
  /*@
    @ public behavior
    @
    @ pre element != null;
    @*/
-  public abstract boolean contains(Element element) throws MetamodelException;
+  public abstract boolean contains(Element element) throws LookupException;
 	
  /*@
    @ // The greaterThanOrEqualTo relation is transitive.
@@ -42,7 +43,7 @@ public abstract class Scope {
    @
    @ pre other != null;
    @*/
-  public final boolean greaterThanOrEqualTo(Scope other) throws MetamodelException {
+  public final boolean greaterThanOrEqualTo(Scope other) throws LookupException {
     return geRecursive(other) || other.leRecursive(this);
   }
   
@@ -56,13 +57,13 @@ public abstract class Scope {
    @
    @ post \result == greaterThanOrEqualTo(other);
    @*/
-  public final boolean ge(Scope other) throws MetamodelException {
+  public final boolean ge(Scope other) throws LookupException {
     return greaterThanOrEqualTo(other);
   }
   
-  protected abstract boolean geRecursive(Scope other) throws MetamodelException;
+  protected abstract boolean geRecursive(Scope other) throws LookupException;
   
-  protected boolean leRecursive(Scope other) throws MetamodelException {
+  protected boolean leRecursive(Scope other) throws LookupException {
     return other.geRecursive(this);
   }
   
@@ -86,7 +87,7 @@ public abstract class Scope {
    @         \result.greaterThanOrEqualTo(ad) ==>
    @            greaterThanOrEqualTo(ad) && other.greaterThanOrEqualTo(ad));
    @*/
-  public Scope intersect(Scope other) throws MetamodelException {
+  public Scope intersect(Scope other) throws LookupException {
     Intersection result = new Intersection();
     result.add(this);
     result.add(other);
@@ -113,7 +114,7 @@ public abstract class Scope {
    @         greaterThanOrEqualTo(ad) || other.greaterThanOrEqualTo(ad) ==>
    @           \result.greaterThanOrEqualTo(ad));
    @*/
-  public Scope union(Scope other) throws MetamodelException {
+  public Scope union(Scope other) throws LookupException {
     return new Union(this,other);
   }
     

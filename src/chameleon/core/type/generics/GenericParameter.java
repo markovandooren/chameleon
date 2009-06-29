@@ -8,6 +8,7 @@ import java.util.Set;
 import org.rejuse.association.ReferenceSet;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
@@ -37,7 +38,6 @@ public class GenericParameter extends FixedSignatureMember<GenericParameter, Typ
 	/**
 	 * A generic parameter introduces itself. During lookup, the resolve() method will
 	 * introduce an alias.
-	 * @throws MetamodelException 
 	 */
 	public Set<Member> getIntroducedMembers() {
 		Set<Member> result = new HashSet<Member>();
@@ -49,7 +49,7 @@ public class GenericParameter extends FixedSignatureMember<GenericParameter, Typ
 	 * Resolving a generic parameter results in a constructed type whose bound
 	 * is the upper bound of this generic parameter as defined by the upperBound method.
 	 */
-	public Type resolve() throws MetamodelException {
+	public Type resolve() throws LookupException {
 		return new ConstructedType(signature().clone(),upperBound(),this);
 	}
 
@@ -76,7 +76,7 @@ public class GenericParameter extends FixedSignatureMember<GenericParameter, Typ
 		}
 	}
 
-	public Type upperBound() throws MetamodelException {
+	public Type upperBound() throws LookupException {
 		Type result = language().getDefaultSuperClass();
 		for(TypeConstraint constraint: constraints()) {
 			result = result.intersection(constraint.upperBound());

@@ -24,7 +24,7 @@
  */
 package chameleon.core.statement;
 
-import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 
 /**
@@ -39,7 +39,7 @@ public interface ExceptionSource<E extends ExceptionSource, P extends Element> e
 	 * @uml.associationEnd 
 	 * @uml.property name="cEL" multiplicity="(0 1)"
 	 */
-	public CheckedExceptionList getCEL() throws MetamodelException;
+	public CheckedExceptionList getCEL() throws LookupException;
 
 	/**
 	 * 
@@ -47,6 +47,6 @@ public interface ExceptionSource<E extends ExceptionSource, P extends Element> e
 	 * @uml.associationEnd 
 	 * @uml.property name="absCEL" multiplicity="(0 1)"
 	 */
-	public CheckedExceptionList getAbsCEL() throws MetamodelException;
+	public CheckedExceptionList getAbsCEL() throws LookupException;
 
 }

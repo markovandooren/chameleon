@@ -7,6 +7,9 @@ import java.util.Set;
 import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
+import chameleon.core.declaration.Declaration;
+import chameleon.core.reference.CrossReference;
 import chameleon.core.scope.Scope;
 import chameleon.core.type.Type;
 import chameleon.core.type.VariableOrType;
@@ -15,17 +18,17 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class VariableOrTypeReference extends Expression<VariableOrTypeReference> implements InvocationTargetContainer<VariableOrTypeReference,ExpressionContainer>, Assignable<VariableOrTypeReference,ExpressionContainer> {
+public class VariableOrTypeReference extends Expression<VariableOrTypeReference> implements InvocationTargetContainer<VariableOrTypeReference,ExpressionContainer>, Assignable<VariableOrTypeReference,ExpressionContainer>, CrossReference<VariableOrTypeReference,ExpressionContainer> {
     
   public VariableOrTypeReference(InvocationTarget target) {
       setTarget(target);
   }
 
-  public Type getType() throws MetamodelException {
+  public Type getType() throws LookupException {
     return getVariableOrType().getType();
   }
 
-  public VariableOrType getVariableOrType() throws MetamodelException {
+  public VariableOrType getVariableOrType() throws LookupException {
     return (VariableOrType)((NamedTarget)getTarget()).getElement();
   }
 
@@ -46,7 +49,7 @@ public class VariableOrTypeReference extends Expression<VariableOrTypeReference>
   	}
   }
 
-  public boolean superOf(InvocationTarget target) throws MetamodelException {
+  public boolean superOf(InvocationTarget target) throws LookupException {
     return (
              (target instanceof VariableOrTypeReference) && 
              getTarget().compatibleWith(((VariableOrTypeReference)target).getTarget())
@@ -61,7 +64,7 @@ public class VariableOrTypeReference extends Expression<VariableOrTypeReference>
            );
   }
   
-  public boolean subOf(InvocationTarget target) throws MetamodelException {
+  public boolean subOf(InvocationTarget target) throws LookupException {
     return (target instanceof VariableReference) && ((VariableReference)target).getTarget().compatibleWith(getTarget());
   }
 
@@ -73,7 +76,7 @@ public class VariableOrTypeReference extends Expression<VariableOrTypeReference>
     return new VariableOrTypeReference(target);
   }
 
-  public void prefix(InvocationTarget target) throws MetamodelException {
+  public void prefix(InvocationTarget target) throws LookupException {
     getTarget().prefixRecursive(target);
   }
   
@@ -81,7 +84,7 @@ public class VariableOrTypeReference extends Expression<VariableOrTypeReference>
 //    getTarget().substituteParameter(name, expr);
 //  }
   
-  public Set getDirectExceptions() throws MetamodelException {
+  public Set getDirectExceptions() throws LookupException {
     Set result = new HashSet();
     if(getTarget() != null) {
       Util.addNonNull(language().getNullInvocationException(), result);
@@ -93,8 +96,9 @@ public class VariableOrTypeReference extends Expression<VariableOrTypeReference>
     return Util.createNonNullList(getTarget());
   }
 
-//  public AccessibilityDomain getAccessibilityDomain() throws MetamodelException {
-//    return getTarget().getAccessibilityDomain();
-//  }
-	
+  @SuppressWarnings("unchecked")
+	public Declaration getElement() throws LookupException {
+		return getVariableOrType();
+	}
+
 }

@@ -7,6 +7,7 @@ import java.util.Set;
 import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.namespace.NamespaceOrTypeReference;
@@ -43,7 +44,7 @@ public class DemandImport extends Import<DemandImport> {
   	}
   }
   
-  public NamespaceOrType declarationContainer() throws MetamodelException {
+  public NamespaceOrType declarationContainer() throws LookupException {
     return getNamespaceOrTypeReference().getNamespaceOrType();
   }
   
@@ -54,13 +55,13 @@ public class DemandImport extends Import<DemandImport> {
 
 
 	@Override
-	public Set<Declaration> demandImports() throws MetamodelException {
+	public Set<Declaration> demandImports() throws LookupException {
 		return declarationContainer().declarations();
 	}
 
 
 	@Override
-	public Set<Declaration> directImports() throws MetamodelException {
+	public Set<Declaration> directImports() throws LookupException {
 		return new HashSet<Declaration>();
 	}
   

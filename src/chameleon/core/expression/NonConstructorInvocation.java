@@ -25,10 +25,8 @@
 package chameleon.core.expression;
 
 
-import java.util.List;
-
 import chameleon.core.MetamodelException;
-import chameleon.core.declaration.Declaration;
+import chameleon.core.context.LookupException;
 import chameleon.core.method.Method;
 import chameleon.core.type.Type;
 
@@ -47,7 +45,7 @@ public abstract class NonConstructorInvocation<E extends NonConstructorInvocatio
   }
 
 
-  public Type getType() throws MetamodelException {
+  public Type getType() throws LookupException {
 	    try {
 				Method method = getMethod();
 				if (method != null) {
@@ -55,9 +53,9 @@ public abstract class NonConstructorInvocation<E extends NonConstructorInvocatio
 				}
 				else {
 				  getMethod();
-				  throw new MetamodelException("Could not find method ");
+				  throw new LookupException("Could not find method of constructor invocation", this);
 				}
-			} catch (MetamodelException e) {
+			} catch (LookupException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				getMethod();
@@ -71,7 +69,7 @@ public abstract class NonConstructorInvocation<E extends NonConstructorInvocatio
    * @param map
    * @return
    */
-  public boolean superOf(InvocationTarget inv) throws MetamodelException {
+  public boolean superOf(InvocationTarget inv) throws LookupException {
   	throw new Error("Implement exception anchors again");
 //    if(! (inv instanceof NonConstructorInvocation)) {
 //      return false;
@@ -91,7 +89,7 @@ public abstract class NonConstructorInvocation<E extends NonConstructorInvocatio
 //    return result;
   }
   
-  public void prefix(InvocationTarget target) throws MetamodelException {
+  public void prefix(InvocationTarget target) throws LookupException {
     if(getTarget() == null) {
       setTarget(target);
     }

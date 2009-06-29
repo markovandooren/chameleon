@@ -3,11 +3,8 @@ package chameleon.core.declaration;
 import java.util.ArrayList;
 import java.util.List;
 
-import chameleon.core.MetamodelException;
-import chameleon.core.declaration.Signature;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
-import chameleon.core.method.Method;
-import chameleon.core.method.MethodHeader;
 
 public class SimpleNameSignature extends Signature<SimpleNameSignature, Element>{
 
@@ -25,7 +22,7 @@ public class SimpleNameSignature extends Signature<SimpleNameSignature, Element>
   
   private String _name;
 
-	public boolean sameAs(Signature other) throws MetamodelException {
+	public boolean sameAs(Signature other) throws LookupException {
 		boolean result = false;
 		if(other instanceof SimpleNameSignature) {
 			SimpleNameSignature sig = (SimpleNameSignature) other;

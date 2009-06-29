@@ -7,6 +7,7 @@ import java.util.Set;
 import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.type.Type;
@@ -42,12 +43,12 @@ public class TypeImport extends Import<TypeImport> {
   	}
   }
   
-  public Type type() throws MetamodelException {
+  public Type type() throws LookupException {
   	Type result = getTypeReference().getType();
   	if(result != null) {
       return result;
   	} else {
-  		throw new MetamodelException();
+  		throw new LookupException("Lookup of type import reference returns null",getTypeReference());
   	}
   }
 
@@ -57,12 +58,12 @@ public class TypeImport extends Import<TypeImport> {
   }
 
 	@Override
-	public Set<Declaration> demandImports() throws MetamodelException {
+	public Set<Declaration> demandImports() {
 		return new HashSet<Declaration>();
 	}
 
 	@Override
-	public Set<Declaration> directImports() throws MetamodelException {
+	public Set<Declaration> directImports() throws LookupException {
 		Set<Declaration> result = new HashSet<Declaration>();
 		result.add(type());
 		return result;

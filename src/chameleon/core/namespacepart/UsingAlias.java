@@ -7,6 +7,7 @@ import java.util.Set;
 import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
@@ -82,7 +83,7 @@ public class UsingAlias extends Import<UsingAlias> {
 //
 //	}
 
-	public NamespaceOrType getElement() throws MetamodelException {
+	public NamespaceOrType getElement() throws LookupException {
 		return getNamespaceOrTypeReference().getNamespaceOrType();
 	}
 
@@ -92,12 +93,12 @@ public class UsingAlias extends Import<UsingAlias> {
   }
 
 	@Override
-	public Set<Declaration> demandImports() throws MetamodelException {
+	public Set<Declaration> demandImports() throws LookupException {
 		return new HashSet<Declaration>();
 	}
 
 	@Override
-	public Set<Declaration> directImports() throws MetamodelException {
+	public Set<Declaration> directImports() throws LookupException {
 		//@FIXME bad design: instanceof 
 		//@FIXME why are these aliased?
 		NamespaceOrType nst = getNamespaceOrTypeReference().getNamespaceOrType(); 

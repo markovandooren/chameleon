@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 
 /**
@@ -27,19 +28,19 @@ public class Intersection extends CompositeScope {
    @
    @ getDomains().containsAll(domains);
    @*/
-  public Intersection(Collection<Scope> domains) throws MetamodelException {
+  public Intersection(Collection<Scope> domains) throws LookupException {
     super(domains);
   }
 
-	public boolean contains(final Element element) throws MetamodelException {
+	public boolean contains(final Element element) throws LookupException {
 		try {
 			return new PrimitivePredicate<Scope>() {
 
-				public boolean eval(Scope object) throws Exception {
+				public boolean eval(Scope object) throws LookupException {
 					return object.contains(element);
 				}
 			}.forAll(scopes());
-		} catch (MetamodelException e) {
+		} catch (LookupException e) {
 			throw e;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -48,15 +49,15 @@ public class Intersection extends CompositeScope {
 	}
 
   
-  public boolean geRecursive(final Scope other) throws MetamodelException {
+  public boolean geRecursive(final Scope other) throws LookupException {
     try {
       return new PrimitivePredicate() {
-        public boolean eval(Object o) throws MetamodelException {
+        public boolean eval(Object o) throws LookupException {
           return ((Scope)o).greaterThanOrEqualTo(other);
         }
       }.forAll(scope());
     }
-    catch (MetamodelException e) {
+    catch (LookupException e) {
       throw e;
     }
     catch (Exception e) {
@@ -65,15 +66,15 @@ public class Intersection extends CompositeScope {
     }
   }
 
-  protected boolean leRecursive(final Scope other) throws MetamodelException {
+  protected boolean leRecursive(final Scope other) throws LookupException {
     try {
       return new PrimitivePredicate() {
-        public boolean eval(Object o) throws MetamodelException {
+        public boolean eval(Object o) throws LookupException {
           return other.greaterThanOrEqualTo(((Scope)o));
         }
       }.exists(scope());
     }
-    catch (MetamodelException e) {
+    catch (LookupException e) {
       throw e;
     }
     catch (Exception e) {
@@ -82,19 +83,19 @@ public class Intersection extends CompositeScope {
     }
   }
 
-  public Scope intersect(final Scope other) throws MetamodelException {
+  public Scope intersect(final Scope other) throws LookupException {
     Intersection result = new Intersection(scope());
     result.add(other);
     return result;
   }
   
-  protected void filter() throws MetamodelException {
+  protected void filter() throws LookupException {
     try {
       new PrimitivePredicate() {
         public boolean eval(Object o) throws Exception {
           final Scope acc = (Scope)o;
           return ! new PrimitivePredicate() {
-            public boolean eval(Object o2) throws MetamodelException {
+            public boolean eval(Object o2) throws LookupException {
               Scope other = (Scope)o2;
               return (acc != other) && (acc.greaterThanOrEqualTo(other));
             }
@@ -102,7 +103,7 @@ public class Intersection extends CompositeScope {
         }
       }.filter(_scopes);
     }
-    catch (MetamodelException e) {
+    catch (LookupException e) {
       throw e;
     }
     catch (Exception e) {

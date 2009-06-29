@@ -1,8 +1,9 @@
 package chameleon.core.type;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.DeclarationSelector;
+import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.DeclarationSelector;
 import chameleon.core.element.Element;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.namespace.NamespaceOrTypeReference;
@@ -46,7 +47,7 @@ public class TypeReference extends NamespaceOrTypeReference<TypeReference,Type> 
 	  return new DeclarationSelector<Type>() {
 
 		@Override
-		public Type filter(Declaration declaration) throws MetamodelException {
+		public Type filter(Declaration declaration) throws LookupException {
 		  Type result;
 		  if((declaration instanceof Type) && (((Type)declaration).signature().getName().equals(getName()))) {
 			result = (Type) declaration;
@@ -62,7 +63,7 @@ public class TypeReference extends NamespaceOrTypeReference<TypeReference,Type> 
 
 				@Override
 				public boolean contains(Type first, Type second)
-						throws MetamodelException {
+						throws LookupException {
 					return first.equals(second);
 				}
 				
@@ -77,7 +78,7 @@ public class TypeReference extends NamespaceOrTypeReference<TypeReference,Type> 
 	  };
   }
 
-  public Type getType() throws MetamodelException {
+  public Type getType() throws LookupException {
     Type result = null;
 
     result = getCache();
@@ -99,11 +100,11 @@ public class TypeReference extends NamespaceOrTypeReference<TypeReference,Type> 
     	setCache(result);
       return result;
     } else {
-      throw new MetamodelException();
+      throw new LookupException(selector());
     }
   }
   
-  public Type getElement() throws MetamodelException {
+  public Type getElement() throws LookupException {
   	return getType();
   }
 

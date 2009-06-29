@@ -3,7 +3,7 @@ package chameleon.core.declaration;
 import java.util.Set;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.Context;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 
 /**
@@ -25,12 +25,12 @@ public interface DeclarationContainer<E extends DeclarationContainer, P extends 
   /**
    * Return the declarations the are defined in this declaration container.
    * @return
-   * @throws MetamodelException 
+   * @throws LookupException 
    */
-  public Set<? extends Declaration> declarations() throws MetamodelException;
+  public Set<? extends Declaration> declarations() throws LookupException;
   
 //  public <T extends Declaration> List<T> declarations(DeclarationSelector<T> selector) throws MetamodelException;
   
-//  public Context targetContext() throws MetamodelException;
+//  public Context localContext();
 
 }

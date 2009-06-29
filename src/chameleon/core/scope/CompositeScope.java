@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.rejuse.predicate.PrimitiveTotalPredicate;
-
-import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 
 /**
  * @author marko
@@ -28,7 +26,7 @@ public abstract class CompositeScope extends Scope {
    @
    @ getDomains().containsAll(scopes);
    @*/
-  public CompositeScope(Collection<Scope> scopes) throws MetamodelException {
+  public CompositeScope(Collection<Scope> scopes) throws LookupException {
     _scopes.addAll(scopes);
     filter();
   }
@@ -51,7 +49,7 @@ public abstract class CompositeScope extends Scope {
    @
    @ post scopes().contains(scope);
    @*/
-  public void add(Scope scope) throws MetamodelException {
+  public void add(Scope scope) throws LookupException {
     _scopes.add(scope);
     filter();
   }
@@ -65,7 +63,7 @@ public abstract class CompositeScope extends Scope {
   	return new ArrayList<Scope>(_scopes);
   }
   
-  protected abstract void filter() throws MetamodelException;
+  protected abstract void filter() throws LookupException;
 
 	protected List<Scope> _scopes = new ArrayList<Scope>();
 

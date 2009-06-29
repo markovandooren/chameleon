@@ -1,9 +1,6 @@
 package chameleon.core.declaration;
 
-import java.util.Iterator;
-import java.util.List;
-
-import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 import chameleon.core.namespacepart.NamespacePartElementImpl;
 
@@ -21,7 +18,7 @@ public abstract class Signature<E extends Signature, P extends Element> extends 
   /**
    * Equals cannot throw a checked exception, so we introduce sameAs.
    */
-  public abstract boolean sameAs(Signature other) throws MetamodelException;
+  public abstract boolean sameAs(Signature other) throws LookupException;
   
 //  /**
 //   * Return the list of identifiers of this signature.

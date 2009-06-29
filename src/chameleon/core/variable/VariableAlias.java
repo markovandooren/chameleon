@@ -11,6 +11,7 @@ import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
@@ -46,7 +47,8 @@ public class VariableAlias extends VariableImpl<VariableAlias,Type> implements M
 		return aliasedVariable().getTypeReference();
 	}
 
-  public final boolean equivalentTo(Member other) throws MetamodelException {
+	@SuppressWarnings("unchecked")
+  public final boolean equivalentTo(Member other) throws LookupException {
   	return language().equivalenceRelation().contains(this,other);
   }
 
@@ -58,7 +60,7 @@ public class VariableAlias extends VariableImpl<VariableAlias,Type> implements M
 		return parent().getNearestType();
 	}
 
-	public Type getType() throws MetamodelException {
+	public Type getType() throws LookupException {
 		return aliasedVariable().getType();
 	}
 
@@ -123,7 +125,7 @@ public class VariableAlias extends VariableImpl<VariableAlias,Type> implements M
 		return this;
 	}
 
-	public TargetContext targetContext() throws MetamodelException {
+	public TargetContext targetContext() throws LookupException {
 		return aliasedVariable().targetContext();
 	}
 
@@ -135,15 +137,15 @@ public class VariableAlias extends VariableImpl<VariableAlias,Type> implements M
 		return new VariableAlias(signature,this);
 	}
 
-	public Set<Member> directlyOverriddenMembers() throws MetamodelException {
+	public Set<Member> directlyOverriddenMembers() throws LookupException {
 		return aliasedVariable().directlyOverriddenMembers();
 	}
 
-	public boolean hides(Member other) throws MetamodelException {
+	public boolean hides(Member other) throws LookupException {
 		return aliasedVariable().hides(other);
 	}
 
-	public boolean overrides(Member other) throws MetamodelException {
+	public boolean overrides(Member other) throws LookupException {
 		return aliasedVariable().overrides(other);
 	}
 
@@ -176,11 +178,11 @@ public class VariableAlias extends VariableImpl<VariableAlias,Type> implements M
   	return result;
   }
 
-	public CheckedExceptionList getCEL() throws MetamodelException {
+	public CheckedExceptionList getCEL() throws LookupException {
 	  return new CheckedExceptionList(getNamespace().language());	
 	}
 	
-	public CheckedExceptionList getAbsCEL() throws MetamodelException {
+	public CheckedExceptionList getAbsCEL() throws LookupException {
 		return new CheckedExceptionList(getNamespace().language());
 	}
 

@@ -1,11 +1,12 @@
-package chameleon.core.declaration;
+package chameleon.core.context;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.Signature;
 import chameleon.core.relation.WeakPartialOrder;
 
 /**
@@ -19,6 +20,10 @@ import chameleon.core.relation.WeakPartialOrder;
  */
 public abstract class DeclarationSelector<D extends Declaration> {
    
+	public DeclarationSelector() {
+		// Only here to be able to query call hierarchy
+	}
+	
   /**
    * Check if this selector selects the given declaration 
    * @param signature
@@ -29,7 +34,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @
    @ post \result == (filter(declaration) != null);
    @*/
-  public boolean selects(Declaration declaration) throws MetamodelException {
+  public boolean selects(Declaration declaration) throws LookupException {
     return filter(declaration) != null;
   }
   
@@ -43,7 +48,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @
    @ post \result == declaration | \result == null;
    @*/
-  public abstract D filter(Declaration declaration) throws MetamodelException;
+  public abstract D filter(Declaration declaration) throws LookupException;
   
   /**
    * Required because 'instanceof D' cannot be used due to type erasure.
@@ -62,7 +67,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * @param set
    *        The list containing the declarations that are checked for a match with {@link #selects(Signature)}}.
    * @return
-   * @throws MetamodelException
+   * @throws LookupException
    */
  /*@
    @ public behavior
@@ -73,7 +78,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @            selects(d) && 
    @            ! (\exists D other; set.contains(other); order().strictOrder().contains(other,d))));
    @*/
-  public Set<D> selection(Set<Declaration> set) throws MetamodelException {
+  public Set<D> selection(Set<Declaration> set) throws LookupException {
     Set<Declaration> tmp = new HashSet<Declaration>();
     try {
       for(Declaration decl: set) {
@@ -87,7 +92,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
       throw exc;
     } catch(Error err) {
       throw err;
-    } catch(MetamodelException exc) {
+    } catch(LookupException exc) {
       throw exc;
     } catch (Exception e) {
       e.printStackTrace();

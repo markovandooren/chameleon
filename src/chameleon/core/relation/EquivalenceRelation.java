@@ -1,10 +1,10 @@
 package chameleon.core.relation;
 
-import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 
 public abstract class EquivalenceRelation<E> extends org.rejuse.logic.relation.EquivalenceRelation<E> {
 
 	@Override
-	public abstract boolean contains(E first, E second) throws MetamodelException;
+	public abstract boolean contains(E first, E second) throws LookupException;
 
 }

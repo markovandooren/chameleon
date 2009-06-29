@@ -9,6 +9,7 @@ import org.rejuse.predicate.PrimitivePredicate;
 import org.rejuse.property.Property;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
@@ -27,21 +28,21 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Declara
    */
   public abstract S signature();
   
-  public final boolean overrides(Member other) throws MetamodelException {
+  public final boolean overrides(Member other) throws LookupException {
     StrictPartialOrder<Member> overridesRelation = language().overridesRelation();
     return overridesRelation.contains(this, other);
   }
   
-  public final boolean hides(Member other) throws MetamodelException {
+  public final boolean hides(Member other) throws LookupException {
     StrictPartialOrder<Member> hidesRelation = language().hidesRelation();
     return hidesRelation.contains(this, other);
   }
   
-  public final boolean equivalentTo(Member other) throws MetamodelException {
+  public final boolean equivalentTo(Member other) throws LookupException {
   	return language().equivalenceRelation().contains(this,other);
   }
 
-  public Set<Member> directlyOverriddenMembers() throws MetamodelException {
+  public Set<Member> directlyOverriddenMembers() throws LookupException {
     List<Type> superTypes = getNearestType().getDirectSuperTypes();
     // Collect the overridden members in the following set.
     final Set<Member> result = new HashSet<Member>();
@@ -52,11 +53,11 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Declara
       // Retain only those members that are overridden by this member. 
       try {
         new PrimitivePredicate<Member>() {
-          public boolean eval(Member o) throws MetamodelException {
+          public boolean eval(Member o) throws LookupException {
             return overrides(o);
           }
         }.filter(superMembers);
-      } catch(MetamodelException e) {
+      } catch(LookupException e) {
         throw e; 
       } catch (Exception e) {
         e.printStackTrace();
@@ -67,7 +68,7 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Declara
     return result;
   }
   
-  public Declaration resolve() throws MetamodelException {
+  public Declaration resolve() throws LookupException {
   	return this;
   }
   

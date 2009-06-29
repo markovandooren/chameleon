@@ -7,7 +7,10 @@ import java.util.Set;
 import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.context.LookupException;
+import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
+import chameleon.core.reference.CrossReference;
 import chameleon.core.type.Type;
 import chameleon.core.variable.Variable;
 import chameleon.util.Util;
@@ -15,7 +18,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class VariableReference extends Expression<VariableReference> implements Assignable<VariableReference,ExpressionContainer>, InvocationTargetContainer<VariableReference,ExpressionContainer> {
+public class VariableReference extends Expression<VariableReference> implements Assignable<VariableReference,ExpressionContainer>, InvocationTargetContainer<VariableReference,ExpressionContainer>, CrossReference<VariableReference,ExpressionContainer> {
 
   public VariableReference(NamedTarget target) {
 	  setTarget(target);
@@ -38,19 +41,19 @@ public class VariableReference extends Expression<VariableReference> implements 
   	}
   }
 
-  public Variable getVariable() throws MetamodelException {
+  public Variable getVariable() throws LookupException {
     Variable result = (Variable)getTarget().getElement();
     if(result == null) {
-      throw new MetamodelException();
+      throw new LookupException("Lookup of variable reference returned null", this);
     }
     return result;
   }
 
-  public Type getType() throws MetamodelException {
+  public Type getType() throws LookupException {
     return getVariable().getType();
   }
 
-  public boolean superOf(InvocationTarget target) throws MetamodelException {
+  public boolean superOf(InvocationTarget target) throws LookupException {
     return (target instanceof VariableReference) && getTarget().compatibleWith(((VariableReference)target).getTarget());
   }
 
@@ -62,7 +65,7 @@ public class VariableReference extends Expression<VariableReference> implements 
     return new VariableReference((NamedTarget)target);
   }
 
-  public void prefix(InvocationTarget target) throws MetamodelException {
+  public void prefix(InvocationTarget target) throws LookupException {
     getTarget().prefixRecursive(target);
   }
   
@@ -70,7 +73,7 @@ public class VariableReference extends Expression<VariableReference> implements 
 //    getTarget().substituteParameter(name, expr);
 //  }
 
-  public Set<Type> getDirectExceptions() throws MetamodelException {
+  public Set<Type> getDirectExceptions() throws LookupException {
     Set<Type> result = new HashSet<Type>();
     if(getTarget() != null) {
       Util.addNonNull(language().getNullInvocationException(), result);
@@ -81,6 +84,10 @@ public class VariableReference extends Expression<VariableReference> implements 
   public List<? extends Element> children() {
     return Util.createNonNullList(getTarget());
   }
+
+	public Declaration getElement() throws LookupException {
+		return getVariable();
+	}
 
 //  public AccessibilityDomain getAccessibilityDomain() throws MetamodelException {
 //    return getTarget().getAccessibilityDomain();
