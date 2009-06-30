@@ -32,9 +32,9 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
     setNamespace(pack);
 	}
 	
-	public Context lexicalContext(Element child) {
+	public Context lexicalContext(Element child) throws LookupException {
 		if(imports().contains(child)) {
-			return _importContext;
+			return namespaceContext();
 		} else {
 			return _lexicalContext;
 		}

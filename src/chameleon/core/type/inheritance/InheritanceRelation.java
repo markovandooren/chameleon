@@ -46,6 +46,7 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
    @*/
 	public Type superClass() throws LookupException {
 		try {
+			System.out.println("Class "+parent().getFullyQualifiedName()+" is going to look up " + superClassReference().fqn());
 		  Type result = superClassReference().getType();
 		  if(result != null) {
 		  	return result;
@@ -133,11 +134,11 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 		for(M member:superMembers) {
 	    Ternary temp = member.is(language().INHERITABLE);
 	    if (temp == Ternary.UNKNOWN) {
-	      //assert (temp == Ternary.UNKNOWN);
+	    	temp = member.is(language().INHERITABLE);
 	      throw new LookupException(
 	          "For one of the members of a super type of "
 	              + superClass().getFullyQualifiedName()
-	              + " it is unknown whether it is inheritable or not.");
+	              + " it is unknown whether it is inheritable or not. Member type: "+member.getClass().getName());
 	    } else {
 	    	// Even if the member is not inheritable, we must still add it
 	    	// to the stub declaration container because the implementation

@@ -279,7 +279,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
         return parent().lexicalContext(this);
     	} catch(NullPointerException exc) {
     		if(parent() == null) {
-    			throw new LookupException("Requesting the lexical context of an element without a parent.");
+    			throw new LookupException("Requesting the lexical context of an element without a parent: " +getClass().getName());
     		} else {
     			throw exc;
     		}
@@ -302,10 +302,13 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     
 
     public Ternary is(Property<Element> property) {
+    	// First get the declared properties.
       PropertySet<Element> properties = properties();
+      // Add the given property if it dynamically applies to this element.
       if((property).appliesTo(this)) {
         properties.add(property);
       }
+      // Check if the resulting property set implies the given property.
       return properties.implies(property);
     }
    

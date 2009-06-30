@@ -108,8 +108,22 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
     	return language().contextFactory().createTargetContext(this);
     }
     
-    public Context lexicalContext(Element element) {
-    	return language().contextFactory().createLexicalContext(this,targetContext());
+    /**
+     * If the given element is an inheritance relation, the lookup must proceed to the parent. For other elements,
+     * the context is a lexical context connected to the target context to perform a local search.
+     * @throws LookupException 
+     */
+    public Context lexicalContext(Element element) throws LookupException {
+    	if(inheritanceRelations().contains(element)) {
+    		TypeContainer parent = parent();
+    		if(parent != null) {
+    		  return parent().lexicalContext(this);
+    		} else {
+    			throw new LookupException("Parent of type is null when looking for the parent context.");
+    		}
+    	} else {
+    	  return language().contextFactory().createLexicalContext(this,targetContext());
+    	}
     }
 
     /************************

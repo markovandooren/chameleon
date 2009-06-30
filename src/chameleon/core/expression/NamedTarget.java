@@ -62,10 +62,16 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
   @SuppressWarnings("unchecked")
   public TargetDeclaration getElement() throws LookupException {
     InvocationTarget target = getTarget();
+    TargetDeclaration result;
     if(target != null) {
-      return target.targetContext().lookUp(selector());//findElement(getName());
+      result = target.targetContext().lookUp(selector());//findElement(getName());
     } else {
-      return lexicalContext().lookUp(selector());//findElement(getName());
+      result = lexicalContext().lookUp(selector());//findElement(getName());
+    }
+    if(result != null) {
+      return result;
+    } else {
+    	throw new LookupException("Lookup of named target with name: "+getName()+" returned null.");
     }
   }
   

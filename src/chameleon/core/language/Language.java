@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.association.Reference;
 import org.rejuse.association.ReferenceSet;
 import org.rejuse.association.Relation;
@@ -17,7 +18,6 @@ import org.rejuse.property.PropertySet;
 import org.rejuse.property.PropertyUniverse;
 import org.rejuse.property.StaticProperty;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.context.ContextFactory;
 import chameleon.core.context.LookupException;
 import chameleon.core.element.ChameleonProgrammerException;
@@ -45,6 +45,7 @@ public abstract class Language implements PropertyUniverse<Element> {
 	public Language(String name, ContextFactory factory) {
 		setName(name);
 		setContextFactory(factory);
+		initializePropertyRules();
 	}
 	
 	/**
@@ -94,8 +95,13 @@ public abstract class Language implements PropertyUniverse<Element> {
    @ post \result != null;
    @*/
 	public List<PropertyRule> propertyRules() {
-		return new ArrayList<PropertyRule>(_propertyRules);
+		return _propertyRules.getOtherEnds();
 	}
+	
+  /**
+   * Add all property rules in this method.
+   */
+	protected abstract void initializePropertyRules();
 	
 	/**
 	 * Add a property rule to this language object.
@@ -112,7 +118,7 @@ public abstract class Language implements PropertyUniverse<Element> {
 		if(rule == null) {
 			throw new ChameleonProgrammerException("adding a null property rule to a language");
 		}
-		_propertyRules.add(rule);
+		_propertyRules.add(rule.languageLink());
 	}
 	
 	/**
@@ -127,10 +133,13 @@ public abstract class Language implements PropertyUniverse<Element> {
    @ post ! propertyRules().contains(rule);
    @*/
 	public void removePropertyRule(PropertyRule rule) {
-		_propertyRules.remove(rule);
+		if(rule == null) {
+			throw new ChameleonProgrammerException("removing a null property rule to a language");
+		}
+		_propertyRules.remove(rule.languageLink());
 	} 
 	
-	private List<PropertyRule> _propertyRules = new ArrayList<PropertyRule>();
+	private OrderedReferenceSet<Language,PropertyRule> _propertyRules = new OrderedReferenceSet<Language,PropertyRule>(this);
 	
 	/**
 	 * Set the name of this language.

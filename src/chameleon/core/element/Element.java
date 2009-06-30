@@ -121,6 +121,9 @@ public interface Element<E extends Element, P extends Element> {
      * @param name
      *        The name under which the tag is registered.
      */
+   /*@
+     @
+     @*/
     public Tag tag(String name);
 
     /**
@@ -134,7 +137,7 @@ public interface Element<E extends Element, P extends Element> {
      @        \result.contains(tag) == (\exists String s;; tag(s) == tag));
      @*/
     public Collection<Tag> tags();
-
+    
     /**
      * Check whether or not a tag is registered under the given name
      * @param name

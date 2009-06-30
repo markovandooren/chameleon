@@ -1,34 +1,10 @@
-/*
- * Copyright 2000-2004 the Jnome development team.
- *
- * @author Marko van Dooren
- * @author Nele Smeets
- * @author Kristof Mertens
- * @author Jan Dockx
- *
- * This file is part of Jnome.
- *
- * Jnome is free software; you can redistribute it and/or modify it under the
- * terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * Jnome is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * Jnome; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
- * Suite 330, Boston, MA 02111-1307 USA
- */
 package chameleon.core.namespace;
 
 import java.util.List;
 
 import org.rejuse.association.Reference;
 
-import chameleon.core.MetamodelException;
+import chameleon.core.context.Context;
 import chameleon.core.context.DeclarationSelector;
 import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Declaration;
@@ -69,6 +45,23 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
 	  setTarget(target); 
   }
   
+  /**
+   * Return the fully qualified name of this namespace or type reference.
+   * @return
+   */
+ /*@
+   @ public behavior
+   @
+   @ post getTarget() == null ==> \result.equals(getName());
+   @ post getTarget() != null ==> \result.equals(getTarget().fqn()+"."+getName());
+   @*/
+  public String fqn() {
+  	if(getTarget() == null) {
+  		return getName();
+  	} else {
+  		return getTarget().fqn()+"."+getName();
+  	}
+  }
   
 	/**
 	 * TARGET
@@ -106,30 +99,32 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
    @         getTarget().getPackageOrType().getTargetContext().findPackageOrType(getName()));
    @*/
   public NamespaceOrType getNamespaceOrType() throws LookupException {
-    NamespaceOrType result = null;
+    NamespaceOrType result;
     
-    //OPTIMISATION
-    result = getCache();
-    if(result != null) {
-    	return result;
-    }
+//    //OPTIMISATION
+//    result = getCache();
+//    if(result != null) {
+//    	return result;
+//    }
     
     if(getTarget() != null) {
     	NamespaceOrType target = getTarget().getNamespaceOrType();
       
       if(target != null) {
         result = target.targetContext().lookUp(selector());
+      } else {
+      	throw new LookupException("Lookup of target of NamespaceOrVariableReference returned null",getTarget());
       }
     }
     else {
       result = lexicalContext().lookUp(selector());
     }
     if(result != null) {
-    	//OPTIMISATION
-    	setCache((R) result);
+//    	//OPTIMISATION
+//    	setCache((R) result);
       return result;
     } else {
-      lexicalContext().lookUp(selector());//findNamespaceOrType(getName());
+    	getTarget().getNamespaceOrType().targetContext().lookUp(selector());
       throw new LookupException("Cannot find namespace or type with name: "+getName(),this);
     }
   }

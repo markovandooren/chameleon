@@ -44,7 +44,7 @@ public class VariableReference extends Expression<VariableReference> implements 
   public Variable getVariable() throws LookupException {
     Variable result = (Variable)getTarget().getElement();
     if(result == null) {
-      throw new LookupException("Lookup of variable reference returned null", this);
+      throw new LookupException("Lookup of variable reference returned null: "+getTarget().getName(), this);
     }
     return result;
   }
