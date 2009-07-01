@@ -5,10 +5,10 @@ import java.util.List;
 import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.java.collections.Visitor;
 
-import chameleon.core.context.Context;
-import chameleon.core.context.LookupException;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 
 /**
  * @author Marko van Dooren
@@ -72,7 +72,7 @@ public class Block extends Statement<Block> implements StatementContainer<Block,
    @ post getStatements().indexOf(Element) > 0) ==> 
    @      \result == getStatements().elementAt(getStatements().indexOf(element) - 1).lexicalContext();
    @*/
-	public Context lexicalContext(Element element) throws LookupException {
+	public LookupStrategy lexicalContext(Element element) throws LookupException {
 		List<Statement> declarations = getStatements();
 		int index = declarations.indexOf(element);
 		if(index == 0) {

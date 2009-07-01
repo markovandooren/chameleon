@@ -26,10 +26,10 @@ package chameleon.core.member;
 
 import java.util.Set;
 
-import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.type.TypeElement;
 
 /**

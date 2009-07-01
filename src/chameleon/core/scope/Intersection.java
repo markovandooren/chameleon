@@ -5,8 +5,8 @@ import java.util.Collection;
 import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 
 /**
  * @author marko

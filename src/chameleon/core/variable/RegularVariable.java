@@ -11,13 +11,13 @@ import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
-import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
 import chameleon.core.expression.ExpressionContainer;
+import chameleon.core.lookup.LocalLookupStrategy;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
@@ -172,13 +172,13 @@ public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends 
 
  protected abstract E cloneThis();
 
- public Ternary is(Property<Element> property) {
-   PropertySet<Element> declared = declaredProperties();
-   if((property).appliesTo(this)) {
-     declared.add(property);
-   }
-   return declared.implies(property);
- }
+// public Ternary is(Property<Element> property) {
+//   PropertySet<Element> declared = declaredProperties();
+//   if((property).appliesTo(this)) {
+//     declared.add(property);
+//   }
+//   return declared.implies(property);
+// }
 
  public PropertySet<Element> declaredProperties() {
    PropertySet<Element> result = new PropertySet<Element>();
@@ -188,7 +188,7 @@ public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends 
    return result;
  }
  
- public TargetContext targetContext() throws LookupException {
+ public LocalLookupStrategy targetContext() throws LookupException {
    return getType().targetContext();
  }
 

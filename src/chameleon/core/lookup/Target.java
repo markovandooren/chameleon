@@ -1,4 +1,4 @@
-package chameleon.core.context;
+package chameleon.core.lookup;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.element.Element;
@@ -27,6 +27,6 @@ public interface Target<E extends Element, P extends Element> {
      *   2) in "typename.f", "f" must be looked up in the type represented by "typename"
      *   3) in "packagename.f", "f" must be looked up in the package represented by "package"
      */
-	public Context targetContext() throws LookupException;
+	public LookupStrategy targetContext() throws LookupException;
 
 }

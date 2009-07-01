@@ -10,10 +10,10 @@ import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 import chameleon.core.expression.ExpressionContainer;
 import chameleon.core.expression.Invocation;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.method.Method;
 import chameleon.core.method.MethodHeader;
 import chameleon.core.method.MethodSignature;

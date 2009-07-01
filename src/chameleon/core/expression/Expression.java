@@ -5,9 +5,9 @@ import java.util.Set;
 import org.rejuse.java.collections.RobustVisitor;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
-import chameleon.core.context.Target;
-import chameleon.core.context.TargetContext;
+import chameleon.core.lookup.LocalLookupStrategy;
+import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.Target;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
@@ -28,7 +28,7 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
 	 * @see {@link Target#targetContext()}
 	 */
 	@SuppressWarnings("unchecked")
-  public TargetContext targetContext() throws LookupException {
+  public LocalLookupStrategy targetContext() throws LookupException {
     return getType().targetContext();
   }
 

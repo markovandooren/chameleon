@@ -3,8 +3,8 @@ package chameleon.core.declaration;
 import java.util.ArrayList;
 import java.util.List;
 
-import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 
 public class SimpleNameSignature extends Signature<SimpleNameSignature, Element>{
 

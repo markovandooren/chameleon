@@ -8,10 +8,10 @@ import java.util.Set;
 import org.rejuse.association.ReferenceSet;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.member.FixedSignatureMember;
 import chameleon.core.member.Member;
 import chameleon.core.type.ConstructedType;

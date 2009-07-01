@@ -24,11 +24,11 @@
  */
 package chameleon.core.namespace;
 
-import chameleon.core.context.Target;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.Target;
 
 /**
  * @author Marko van Dooren

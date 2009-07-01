@@ -9,12 +9,12 @@ import org.rejuse.predicate.PrimitivePredicate;
 import org.rejuse.property.Property;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;

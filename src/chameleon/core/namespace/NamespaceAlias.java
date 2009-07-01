@@ -6,11 +6,11 @@ import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.Context;
-import chameleon.core.context.LookupException;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
@@ -66,7 +66,7 @@ public class NamespaceAlias extends Namespace {
   	return result;
   }
   
-  public Context lexicalContext(Element element) throws LookupException {
+  public LookupStrategy lexicalContext(Element element) throws LookupException {
   	return aliasedNamespace().lexicalContext();
   }
 

@@ -10,9 +10,9 @@ import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.Context;
-import chameleon.core.context.LookupException;
 import chameleon.core.language.Language;
+import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.tag.Tag;
 
 /**
@@ -248,7 +248,7 @@ public interface Element<E extends Element, P extends Element> {
      @
      @ pre children().contains(child); 
      @*/
-    public Context lexicalContext(Element child) throws LookupException;
+    public LookupStrategy lexicalContext(Element child) throws LookupException;
     
     /**
      * Return the lexical context for this element.
@@ -260,7 +260,7 @@ public interface Element<E extends Element, P extends Element> {
      @
      @ signals (MetamodelException) parent() == null; 
      @*/
-    public Context lexicalContext() throws LookupException;
+    public LookupStrategy lexicalContext() throws LookupException;
     
     /**
      * DO NOT USE THIS METHOD UNLESS YOU REALLY KNOW WHAT YOU ARE DOING!!!

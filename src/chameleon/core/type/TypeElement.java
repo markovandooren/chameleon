@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Set;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.modifier.ModifierContainer;

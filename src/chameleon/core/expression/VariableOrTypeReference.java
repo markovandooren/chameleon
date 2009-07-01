@@ -7,8 +7,8 @@ import java.util.Set;
 import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Declaration;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReference;
 import chameleon.core.scope.Scope;
 import chameleon.core.type.Type;

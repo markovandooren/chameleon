@@ -5,9 +5,9 @@ import java.util.List;
 import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.property.PropertySet;
 
-import chameleon.core.context.LookupException;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.namespacepart.NamespacePartElementImpl;
 import chameleon.core.statement.CheckedExceptionList;

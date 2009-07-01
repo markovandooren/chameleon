@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Set;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.Context;
-import chameleon.core.context.LookupException;
 import chameleon.core.language.Language;
+import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.statement.ExceptionSource;
 import chameleon.core.type.TypeDescendantImpl;
 
@@ -38,7 +38,7 @@ public abstract class InvocationTarget<E extends InvocationTarget,P extends Invo
    *   2) in "typename.f", "f" must be looked up in the type represented by "typename"
    *   3) in "packagename.f", "f" must be looked up in the package represented by "package"
    */
-public abstract Context targetContext() throws LookupException;
+public abstract LookupStrategy targetContext() throws LookupException;
 
 	
   public abstract E clone();

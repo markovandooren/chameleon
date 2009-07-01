@@ -1,8 +1,8 @@
 package chameleon.core.scope;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 
 /**
  * A class of scopes. They represent the region of code where a declaration can be referenced provided that it

@@ -7,9 +7,9 @@ import java.util.Set;
 import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 import chameleon.util.Util;
@@ -64,6 +64,10 @@ public class TypeImport extends Import<TypeImport> {
 
 	@Override
 	public Set<Declaration> directImports() throws LookupException {
+		lookupLogger().debug("NamespacePart of " + nearestAncestor(NamespacePart.class).getFullyQualifiedName()+"Looking up direct import: "+getTypeReference().getFullyQualifiedName());
+//		if(nearestAncestor(NamespacePart.class).getFullyQualifiedName().equals("")) {
+//			lookupLogger().warn("somehow ended up in the root namespace part");
+//		}
 		Set<Declaration> result = new HashSet<Declaration>();
 		result.add(type());
 		return result;

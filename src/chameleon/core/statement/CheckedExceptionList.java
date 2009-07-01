@@ -34,8 +34,8 @@ import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
 import chameleon.core.language.Language;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 
 /**

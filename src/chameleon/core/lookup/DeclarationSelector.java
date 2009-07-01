@@ -1,4 +1,4 @@
-package chameleon.core.context;
+package chameleon.core.lookup;
 
 import java.util.Collection;
 import java.util.HashSet;

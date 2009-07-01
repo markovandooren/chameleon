@@ -24,11 +24,11 @@
  */
 package chameleon.core.type;
 
-import chameleon.core.context.LookupException;
-import chameleon.core.context.Target;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
+import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.Target;
 import chameleon.core.namespacepart.NamespacePartElement;
 
 

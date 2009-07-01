@@ -36,8 +36,6 @@ import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.IMetaModel;
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
-import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
@@ -47,6 +45,8 @@ import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.expression.Expression;
+import chameleon.core.lookup.LocalLookupStrategy;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.type.Type;
 
@@ -352,7 +352,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 //      return new Namespace(signature().clone());
 //    }
 
-	public TargetContext targetContext() {
+	public LocalLookupStrategy targetContext() {
 		return language().contextFactory().createTargetContext(this);
 	}
 

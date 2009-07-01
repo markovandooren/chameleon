@@ -3,7 +3,7 @@ package chameleon.core.relation;
 import java.util.Collection;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
+import chameleon.core.lookup.LookupException;
 
 public abstract class WeakPartialOrder<E> extends org.rejuse.logic.relation.WeakPartialOrder<E> {
   

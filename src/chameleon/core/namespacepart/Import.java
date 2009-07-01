@@ -2,9 +2,11 @@ package chameleon.core.namespacepart;
 
 import java.util.Set;
 
-import chameleon.core.context.LookupException;
+import org.apache.log4j.Logger;
+
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 
 /**
  * @author Marko van Dooren
@@ -13,7 +15,12 @@ public abstract class Import<E extends Element> extends NamespacePartElementImpl
 
   public Import() {
 	}
+  
+  private static Logger logger = Logger.getLogger("lookup.import");
 
+  protected Logger lookupLogger() {
+  	return logger;
+  }
   
 // THIS IS COVERED IN NAMESPACEPART
   

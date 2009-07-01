@@ -24,7 +24,7 @@
  */
 package chameleon.core.namespace;
 
-import chameleon.core.context.LookupException;
+import chameleon.core.lookup.LookupException;
 import chameleon.util.Util;
 
 /**

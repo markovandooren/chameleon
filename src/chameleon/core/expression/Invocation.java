@@ -31,9 +31,9 @@ import java.util.Set;
 import org.rejuse.association.Reference;
 import org.rejuse.java.collections.Visitor;
 
-import chameleon.core.context.DeclarationSelector;
-import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.DeclarationSelector;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.method.Method;
 import chameleon.core.reference.CrossReference;
 import chameleon.core.statement.CheckedExceptionList;

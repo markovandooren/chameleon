@@ -24,8 +24,8 @@
  */
 package chameleon.core.type;
 
-import chameleon.core.context.LexicalContext;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LexicalLookupStrategy;
 
 /**
  * @author marko

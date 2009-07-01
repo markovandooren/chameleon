@@ -7,13 +7,13 @@ import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
-import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
+import chameleon.core.lookup.LocalLookupStrategy;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.modifier.ModifierContainer;
 import chameleon.core.type.Type;
@@ -75,7 +75,7 @@ public interface Variable<E extends Variable<E,P>, P extends DeclarationContaine
  
   public PropertySet<Element> declaredProperties();
   
-  public TargetContext targetContext() throws LookupException;
+  public LocalLookupStrategy targetContext() throws LookupException;
 
 
   public Variable resolve();

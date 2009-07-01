@@ -3,9 +3,9 @@ package chameleon.core.type.generics;
 import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 

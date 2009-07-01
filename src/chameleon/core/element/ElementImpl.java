@@ -16,9 +16,9 @@ import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.Context;
-import chameleon.core.context.LookupException;
 import chameleon.core.language.Language;
+import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.tag.Tag;
 
 /**
@@ -252,17 +252,28 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     public abstract E clone();
     
     public Language language() {
-      if(parent() != null) {
-        return parent().language();
-      } else {
-        return null;
-      }
+    	Language result = _languageCache;
+    	if(result == null) {
+    		P parent = parent();
+    		if(parent != null) {
+    			result = parent().language();
+    			_languageCache = result;
+    		} 
+    	}
+//      if(parent() != null) {
+//        result = parent().language();
+//      } else {
+//        result = null;
+//      }
+      return result;
     }
+    
+    private Language _languageCache;
     
     /**
      * @see Element#lexicalContext(Element) 
      */
-    public Context lexicalContext(Element child) throws LookupException {
+    public LookupStrategy lexicalContext(Element child) throws LookupException {
     	P parent = parent();
     	if(parent != null) {
         return parent.lexicalContext(this);
@@ -274,7 +285,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     /**
      * @see Element#lexicalContext() 
      */
-    public final Context lexicalContext() throws LookupException {
+    public final LookupStrategy lexicalContext() throws LookupException {
     	try {
         return parent().lexicalContext(this);
     	} catch(NullPointerException exc) {

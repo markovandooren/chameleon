@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import chameleon.core.context.LookupException;
+import chameleon.core.lookup.LookupException;
 
 /**
  * @author marko

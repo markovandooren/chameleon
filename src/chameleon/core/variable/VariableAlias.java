@@ -11,12 +11,12 @@ import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
-import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
+import chameleon.core.lookup.LocalLookupStrategy;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.scope.Scope;
@@ -125,7 +125,7 @@ public class VariableAlias extends VariableImpl<VariableAlias,Type> implements M
 		return this;
 	}
 
-	public TargetContext targetContext() throws LookupException {
+	public LocalLookupStrategy targetContext() throws LookupException {
 		return aliasedVariable().targetContext();
 	}
 

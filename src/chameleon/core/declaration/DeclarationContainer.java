@@ -3,8 +3,8 @@ package chameleon.core.declaration;
 import java.util.Set;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 
 /**
  * A general interface for elements that contain declarations. This interface allows the

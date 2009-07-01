@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.rejuse.association.Reference;
 
-import chameleon.core.context.Context;
-import chameleon.core.context.DeclarationSelector;
-import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.DeclarationSelector;
+import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.reference.ElementReference;
 import chameleon.core.relation.WeakPartialOrder;
 import chameleon.core.type.Type;
@@ -23,13 +23,13 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
  /*@
    @ public behavior
    @
-   @ pre name != null;
+   @ pre qn != null;
    @
-   @ post getTarget() == null;
-   @ post getName() == name;
+   @ post getTarget() == getTarget(Util.getAllButLastPart(qn));
+   @ post getName() == Util.getLastPart(qn);
    @*/
-  public NamespaceOrTypeReference(String name) {
-    this(null,  name);
+  public NamespaceOrTypeReference(String qn) {
+    this(getTarget(Util.getAllButLastPart(qn)), Util.getLastPart(qn));
   }
   
  /*@
@@ -55,13 +55,30 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
    @ post getTarget() == null ==> \result.equals(getName());
    @ post getTarget() != null ==> \result.equals(getTarget().fqn()+"."+getName());
    @*/
-  public String fqn() {
+  public String getFullyQualifiedName() {
   	if(getTarget() == null) {
   		return getName();
   	} else {
-  		return getTarget().fqn()+"."+getName();
+  		return getTarget().getFullyQualifiedName()+"."+getName();
   	}
   }
+  
+  protected static NamespaceOrTypeReference getTarget(String qn) {
+    if(qn == null) {
+      return null;
+    }
+    NamespaceOrTypeReference target = new NamespaceOrTypeReference(null, Util.getFirstPart(qn));
+    qn = Util.getSecondPart(qn);
+    while(qn != null) {
+    	NamespaceOrTypeReference newTarget = new NamespaceOrTypeReference(null, Util.getFirstPart(qn));
+      newTarget.setTarget(target);
+      target = newTarget;
+      qn = Util.getSecondPart(qn);
+    }
+    return target;
+  }
+  
+
   
 	/**
 	 * TARGET
@@ -101,11 +118,12 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
   public NamespaceOrType getNamespaceOrType() throws LookupException {
     NamespaceOrType result;
     
-//    //OPTIMISATION
-//    result = getCache();
-//    if(result != null) {
-//    	return result;
-//    }
+    //OPTIMISATION
+    result = getCache();
+    if(result != null) {
+    	lookupLogger().debug("Hit cache for" + getFullyQualifiedName());
+    	return result;
+    }
     
     if(getTarget() != null) {
     	NamespaceOrType target = getTarget().getNamespaceOrType();
@@ -120,8 +138,8 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
       result = lexicalContext().lookUp(selector());
     }
     if(result != null) {
-//    	//OPTIMISATION
-//    	setCache((R) result);
+    	//OPTIMISATION
+    	setCache((R) result);
       return result;
     } else {
     	getTarget().getNamespaceOrType().targetContext().lookUp(selector());

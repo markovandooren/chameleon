@@ -6,8 +6,8 @@ import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.association.Reference;
 import org.rejuse.java.collections.Visitor;
 
-import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespacepart.NamespacePartElementImpl;

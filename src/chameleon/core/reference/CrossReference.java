@@ -1,8 +1,8 @@
 package chameleon.core.reference;
 
-import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 
 /**
  * This interface represents the concept of a cross references in the model. For proper

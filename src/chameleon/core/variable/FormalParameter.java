@@ -1,8 +1,8 @@
 package chameleon.core.variable;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.method.Method;
 import chameleon.core.method.MethodHeader;
 import chameleon.core.scope.LexicalScope;

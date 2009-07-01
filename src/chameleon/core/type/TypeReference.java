@@ -1,10 +1,10 @@
 package chameleon.core.type;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.DeclarationSelector;
-import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.DeclarationSelector;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.namespace.NamespaceOrTypeReference;
 import chameleon.core.reference.CrossReference;
@@ -17,30 +17,11 @@ import chameleon.util.Util;
 public class TypeReference extends NamespaceOrTypeReference<TypeReference,Type> implements CrossReference<TypeReference,Element> {
 
   public TypeReference(String qn) {
-
     super(getTarget(Util.getAllButLastPart(qn)), Util.getLastPart(qn));
-//	String s1 = Util.getAllButLastPart(qn);
-//    String s2 = Util.getLastPart(qn);
-//    NamespaceOrTypeReference notr = getTarget(Util.getAllButLastPart(qn)); 
   }
   
   public TypeReference(NamespaceOrTypeReference target, String name) {
     super(target, name);
-  }
-  
-  protected static NamespaceOrTypeReference getTarget(String qn) {
-    if(qn == null) {
-      return null;
-    }
-    NamespaceOrTypeReference target = new NamespaceOrTypeReference(null, Util.getFirstPart(qn));
-    qn = Util.getSecondPart(qn);
-    while(qn != null) {
-    	NamespaceOrTypeReference newTarget = new NamespaceOrTypeReference(null, Util.getFirstPart(qn));
-      newTarget.setTarget(target);
-      target = newTarget;
-      qn = Util.getSecondPart(qn);
-    }
-    return target;
   }
   
   public DeclarationSelector<Type> selector() {
@@ -83,6 +64,7 @@ public class TypeReference extends NamespaceOrTypeReference<TypeReference,Type> 
 
     result = getCache();
     if(result != null) {
+    	lookupLogger().debug("Hit cache for" + getFullyQualifiedName());
     	return result;
     }
     

@@ -7,10 +7,10 @@ import java.util.Set;
 import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.namespace.NamespaceOrTypeReference;

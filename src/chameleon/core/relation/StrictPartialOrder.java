@@ -3,7 +3,7 @@ package chameleon.core.relation;
 import java.util.Collection;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
+import chameleon.core.lookup.LookupException;
 
 /**
  * A class of strict partial orders for Chameleon. It duplicates quite a bit of

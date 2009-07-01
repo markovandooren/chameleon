@@ -10,13 +10,13 @@ import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.Context;
-import chameleon.core.context.LookupException;
-import chameleon.core.context.Target;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Definition;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
+import chameleon.core.lookup.Target;
 import chameleon.core.member.Member;
 import chameleon.core.member.MemberImpl;
 import chameleon.core.method.exception.ExceptionClause;
@@ -382,16 +382,16 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 		return result;
 	}
 
-  public Context lexicalContext(Element element) {
+  public LookupStrategy lexicalContext(Element element) {
   	return language().contextFactory().createLexicalContext(this, localContext()); 
   	//new LexicalContext(new TargetContext<Method>(this),this);
   }
   
-  public Context localContext() {
+  public LookupStrategy localContext() {
   	return language().contextFactory().createTargetContext(this);
   }
   
-  public Context targetContext() throws LookupException {
+  public LookupStrategy targetContext() throws LookupException {
   	return getType().lexicalContext();
   }
   

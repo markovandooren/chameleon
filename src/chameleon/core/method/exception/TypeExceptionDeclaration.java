@@ -32,8 +32,8 @@ import org.rejuse.association.Reference;
 import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
 import chameleon.core.expression.Invocation;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 import chameleon.util.Util;

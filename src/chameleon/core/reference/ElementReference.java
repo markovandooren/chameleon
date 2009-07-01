@@ -1,5 +1,7 @@
 package chameleon.core.reference;
 
+import org.apache.log4j.Logger;
+
 import chameleon.core.Config;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
@@ -12,6 +14,12 @@ import chameleon.core.namespacepart.NamespacePartElementImpl;
  */
 public abstract class ElementReference<E extends ElementReference,R extends Element, P extends Element> extends NamespacePartElementImpl<E,P>  implements CrossReference<E,P>  {
 
+	private static Logger logger = Logger.getLogger("lookup.elementreference");
+	
+	public Logger lookupLogger() {
+		return logger;
+	}
+	
   //@FIXME: merge with CrossReference 
   
 	public ElementReference() {

@@ -31,8 +31,8 @@ import org.rejuse.java.collections.RobustVisitor;
 import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
 import chameleon.core.language.Language;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespacepart.NamespacePartElementImpl;
 import chameleon.core.type.Type;

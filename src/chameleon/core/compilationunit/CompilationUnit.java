@@ -28,11 +28,12 @@ import java.util.List;
 
 import org.rejuse.association.Reference;
 
-import chameleon.core.context.Context;
-import chameleon.core.context.LookupException;
+import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.language.Language;
+import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.namespacepart.NamespacePartContainer;
 import chameleon.util.Util;
@@ -218,8 +219,9 @@ public class CompilationUnit extends ElementImpl<CompilationUnit,Element> implem
 		return Util.createNonNullList(getDefaultNamespacePart());
 	}
 
-	public Context lexicalContext(Element child) throws LookupException {
-		return getDefaultNamespacePart().getDeclaredNamespace().lexicalContext();
+	public LookupStrategy lexicalContext(Element child) throws LookupException {
+		throw new ChameleonProgrammerException("A compilation unit should not be involved in the lookup");
+//		return getDefaultNamespacePart().getDeclaredNamespace().lexicalContext();// add this as argument, but actually, this code should never even be executed.
 	}
 
 

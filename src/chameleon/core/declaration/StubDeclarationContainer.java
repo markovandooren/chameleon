@@ -6,11 +6,11 @@ import java.util.Set;
 
 import org.rejuse.association.OrderedReferenceSet;
 
-import chameleon.core.context.Context;
-import chameleon.core.context.ContextFactory;
-import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
+import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
+import chameleon.core.lookup.LookupStrategyFactory;
 
 public class StubDeclarationContainer extends ElementImpl<StubDeclarationContainer,DeclarationContainer> implements DeclarationContainer<StubDeclarationContainer,DeclarationContainer>{
 
@@ -39,8 +39,8 @@ public class StubDeclarationContainer extends ElementImpl<StubDeclarationContain
 	  }
 	}
 
-  public Context lexicalContext(Element element) {
-  	ContextFactory factory = language().contextFactory();
+  public LookupStrategy lexicalContext(Element element) {
+  	LookupStrategyFactory factory = language().contextFactory();
   	return factory.createLexicalContext(this,factory.createTargetContext(this));
   }
 

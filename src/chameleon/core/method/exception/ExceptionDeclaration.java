@@ -27,8 +27,8 @@ package chameleon.core.method.exception;
 import java.util.Set;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
 import chameleon.core.expression.Invocation;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeDescendantImpl;
 

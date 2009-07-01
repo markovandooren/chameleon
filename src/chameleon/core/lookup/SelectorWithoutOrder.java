@@ -1,7 +1,7 @@
 /**
  * 
  */
-package chameleon.core.context;
+package chameleon.core.lookup;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;

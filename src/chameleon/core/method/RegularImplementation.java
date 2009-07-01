@@ -28,7 +28,7 @@ import java.util.List;
 
 import org.rejuse.association.Reference;
 
-import chameleon.core.context.LookupException;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.statement.Block;
 import chameleon.core.statement.StatementContainer;
 import chameleon.util.Util;

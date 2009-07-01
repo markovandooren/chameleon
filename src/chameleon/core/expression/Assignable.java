@@ -1,7 +1,7 @@
 package chameleon.core.expression;
 
-import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 
 /**

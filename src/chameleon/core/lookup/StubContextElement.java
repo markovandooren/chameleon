@@ -4,7 +4,7 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package chameleon.core.context;
+package chameleon.core.lookup;
 
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
@@ -14,18 +14,18 @@ import chameleon.core.element.ElementImpl;
  */
 public abstract class StubContextElement extends ElementImpl {
 
-	public StubContextElement(LexicalContext context) {
+	public StubContextElement(LexicalLookupStrategy context) {
         setContext(context);
 	}
 
-  public LexicalContext getContext(Element element) {
+  public LexicalLookupStrategy getContext(Element element) {
     return _context;
   }
 
-  public void setContext(LexicalContext context) {
+  public void setContext(LexicalLookupStrategy context) {
     _context = context;
   }
 
-  private LexicalContext _context;
+  private LexicalLookupStrategy _context;
 
 }

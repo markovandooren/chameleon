@@ -1,8 +1,8 @@
 package chameleon.core.declaration;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.scope.Scope;
 
 public interface Declaration<E extends Declaration<E,P,S>, 

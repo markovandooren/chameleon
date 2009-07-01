@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.Set;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.Context;
-import chameleon.core.context.DeclarationSelector;
-import chameleon.core.context.LookupException;
-import chameleon.core.context.SelectorWithoutOrder;
-import chameleon.core.context.Target;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.DeclarationSelector;
+import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
+import chameleon.core.lookup.SelectorWithoutOrder;
+import chameleon.core.lookup.Target;
 import chameleon.core.reference.CrossReference;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.type.Type;
@@ -270,7 +270,7 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
   	return Util.createNonNullList(getTarget());
   }
 
-  public Context targetContext() throws LookupException {
+  public LookupStrategy targetContext() throws LookupException {
     return getElement().targetContext();
   }
 }

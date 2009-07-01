@@ -12,9 +12,6 @@ import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.Context;
-import chameleon.core.context.LookupException;
-import chameleon.core.context.TargetContext;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Definition;
@@ -22,6 +19,9 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LocalLookupStrategy;
+import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.FixedSignatureMember;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
@@ -104,7 +104,7 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
      *******************/
     
     
-    public TargetContext targetContext() {
+    public LocalLookupStrategy targetContext() {
     	return language().contextFactory().createTargetContext(this);
     }
     
@@ -113,7 +113,7 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
      * the context is a lexical context connected to the target context to perform a local search.
      * @throws LookupException 
      */
-    public Context lexicalContext(Element element) throws LookupException {
+    public LookupStrategy lexicalContext(Element element) throws LookupException {
     	if(inheritanceRelations().contains(element)) {
     		TypeContainer parent = parent();
     		if(parent != null) {

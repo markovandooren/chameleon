@@ -25,7 +25,7 @@
 package chameleon.core.method;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.statement.Block;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeDescendantImpl;

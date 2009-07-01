@@ -24,8 +24,8 @@
  */
 package chameleon.core.statement;
 
-import chameleon.core.context.LookupException;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 
 /**
  * @author marko

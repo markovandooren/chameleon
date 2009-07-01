@@ -5,22 +5,28 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.rejuse.association.Reference;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.PrimitivePredicate;
 
-import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.StubDeclarationContainer;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 
 public abstract class InheritanceRelation<E extends InheritanceRelation> extends ElementImpl<E,Type> {
+	
+	private static Logger logger = Logger.getLogger("lookup.inheritance");
+	
+	public Logger lookupLogger() {
+		return logger;
+	}
 	
 	public abstract E clone();
 
@@ -46,7 +52,7 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
    @*/
 	public Type superClass() throws LookupException {
 		try {
-			System.out.println("Class "+parent().getFullyQualifiedName()+" is going to look up " + superClassReference().fqn());
+			lookupLogger().debug("Inheritance relation of class "+parent().getFullyQualifiedName()+" is going to look up super class " + superClassReference().getFullyQualifiedName());
 		  Type result = superClassReference().getType();
 		  if(result != null) {
 		  	return result;
@@ -99,27 +105,25 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
   Set<M> inheritedMembers(final Class<M> kind) throws LookupException {
 		final Set<M> result = potentiallyInheritedMembers(kind);
 		result.addAll(parent().directlyDeclaredElements(kind));
-		for (M m: result) {
-			try {
-				new PrimitivePredicate<M>() {
-					public boolean eval(final M superMember) throws Exception {
-						return !new PrimitivePredicate<M>() {
-							public boolean eval(M nc) throws LookupException {
-								return nc.overrides(superMember) || nc.hides(superMember) || ((superMember != nc)&&(superMember.equivalentTo(nc)));
-							}
-						}.exists(result);
-					}
-				}.filter(result);
-			} catch (RuntimeException e) {
-				throw e;
-			} catch (Error e) {
-				throw e;
-			} catch (LookupException e) {
-				throw e;
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new Error(e);
-			}
+		try {
+			new PrimitivePredicate<M>() {
+				public boolean eval(final M superMember) throws Exception {
+					return !new PrimitivePredicate<M>() {
+						public boolean eval(M nc) throws LookupException {
+							return nc.overrides(superMember) || nc.hides(superMember) || ((superMember != nc)&&(superMember.equivalentTo(nc)));
+						}
+					}.exists(result);
+				}
+			}.filter(result);
+		} catch (RuntimeException e) {
+			throw e;
+		} catch (Error e) {
+			throw e;
+		} catch (LookupException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Error(e);
 		}
 		return result;
 	}

@@ -9,11 +9,11 @@ import java.util.Set;
 import org.rejuse.association.OrderedReferenceSet;
 
 import chameleon.core.compilationunit.CompilationUnit;
-import chameleon.core.context.Context;
-import chameleon.core.context.LookupException;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
+import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.Member;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespacepart.NamespacePart;
@@ -70,11 +70,11 @@ public class ClassBody extends ElementImpl<ClassBody,TypeDescendant> implements 
 		return parent().getNamespace();
 	}
 	
-	public Context lexicalContext(Element element) {
+	public LookupStrategy lexicalContext(Element element) {
 		return language().contextFactory().createLexicalContext(this, localContext());
 	}
 	
-	public Context localContext() {
+	public LookupStrategy localContext() {
 		return language().contextFactory().createTargetContext(this);
 	}
 

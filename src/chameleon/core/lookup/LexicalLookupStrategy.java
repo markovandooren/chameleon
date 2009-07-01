@@ -1,4 +1,4 @@
-package chameleon.core.context;
+package chameleon.core.lookup;
 
 
 import chameleon.core.MetamodelException;
@@ -9,11 +9,11 @@ import chameleon.core.element.Element;
  * @author Marko van Dooren
  */
 
-public class LexicalContext extends Context {
+public class LexicalLookupStrategy extends LookupStrategy {
 
 	//public abstract Context getParentContext() throws MetamodelException;
 
-  public LexicalContext(Context local, Element element) {
+  public LexicalLookupStrategy(LookupStrategy local, Element element) {
   	setLocalContext(local);
   	setElement(element);
   }
@@ -28,15 +28,15 @@ public class LexicalContext extends Context {
   
   private Element _element;
   
-  public void setLocalContext(Context local) {
+  public void setLocalContext(LookupStrategy local) {
   	_localContext = local;
   }
   
-  public Context localContext() {
+  public LookupStrategy localContext() {
   	return _localContext;
   }
   
-  private Context _localContext;
+  private LookupStrategy _localContext;
   
   
   
@@ -44,7 +44,7 @@ public class LexicalContext extends Context {
 	 * Return the parent context of this context.
 	 * @throws LookupException 
 	 */
-	public Context parentContext() throws LookupException {
+	public LookupStrategy parentContext() throws LookupException {
 		Element parent = element().parent();
 		if(parent != null) {
 	    return parent.lexicalContext(element());

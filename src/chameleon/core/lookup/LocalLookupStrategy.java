@@ -1,4 +1,4 @@
-package chameleon.core.context;
+package chameleon.core.lookup;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,9 +11,9 @@ import chameleon.core.declaration.DeclarationContainer;
  * 
  * @author Marko van Dooren
  */
-public class TargetContext<E extends DeclarationContainer> extends Context {
+public class LocalLookupStrategy<E extends DeclarationContainer> extends LookupStrategy {
 
-	public TargetContext(E element) {
+	public LocalLookupStrategy(E element) {
 		_element = element;
 	}
 	

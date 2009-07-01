@@ -1,7 +1,7 @@
 package chameleon.core.type.inheritance;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LookupException;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 

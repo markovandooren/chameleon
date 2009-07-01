@@ -18,10 +18,10 @@ import org.rejuse.property.PropertySet;
 import org.rejuse.property.PropertyUniverse;
 import org.rejuse.property.StaticProperty;
 
-import chameleon.core.context.ContextFactory;
-import chameleon.core.context.LookupException;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.member.Member;
 import chameleon.core.namespace.RootNamespace;
 import chameleon.core.property.Defined;
@@ -39,12 +39,13 @@ import chameleon.tool.ToolExtension;
 public abstract class Language implements PropertyUniverse<Element> {
 	
 	public Language(String name) {
-		this(name, new ContextFactory());
+		this(name, new LookupStrategyFactory());
 	}
 	
-	public Language(String name, ContextFactory factory) {
+	public Language(String name, LookupStrategyFactory factory) {
 		setName(name);
 		setContextFactory(factory);
+		initProperties();
 		initializePropertyRules();
 	}
 	
@@ -417,15 +418,15 @@ public abstract class Language implements PropertyUniverse<Element> {
 
     public abstract Type getNullType();
 
-    public ContextFactory contextFactory() {
+    public LookupStrategyFactory contextFactory() {
     	return _contextFactory;
     }
     
-    protected void setContextFactory(ContextFactory factory) {
+    protected void setContextFactory(LookupStrategyFactory factory) {
     	_contextFactory = factory;
     }
     
-    private ContextFactory _contextFactory;
+    private LookupStrategyFactory _contextFactory;
     
     /**
      * Return the relation that determines when a member overrides another

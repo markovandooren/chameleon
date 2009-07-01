@@ -5,7 +5,7 @@ import java.util.List;
 import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.context.LexicalContext;
+import chameleon.core.lookup.LexicalLookupStrategy;
 import chameleon.core.type.StubTypeElement;
 import chameleon.core.type.TypeDescendant;
 import chameleon.util.Util;
