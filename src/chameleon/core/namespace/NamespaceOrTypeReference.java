@@ -85,6 +85,10 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
 	 */
 	private Reference<NamespaceOrTypeReference,NamespaceOrTypeReference> _target = new Reference<NamespaceOrTypeReference,NamespaceOrTypeReference>(this);
 
+	protected Reference<NamespaceOrTypeReference,NamespaceOrTypeReference> targetLink() {
+		return _target;
+	}
+	
   public NamespaceOrTypeReference getTarget() {
     return (NamespaceOrTypeReference)_target.getOtherEnd();
   }
@@ -142,7 +146,7 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
     	setCache((R) result);
       return result;
     } else {
-    	getTarget().getNamespaceOrType().targetContext().lookUp(selector());
+    	lexicalContext().lookUp(selector());
       throw new LookupException("Cannot find namespace or type with name: "+getName(),this);
     }
   }
@@ -196,7 +200,7 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
    @ post (* \result.getTarget() is a clone of getTarget() *);
    @*/
   public E clone() {
-    return (E) new NamespaceOrTypeReference(getTarget().clone(), getName());
+    return (E) new NamespaceOrTypeReference((getTarget() == null ? null : getTarget().clone()), getName());
   }
 
 	public Declaration getElement() throws LookupException {

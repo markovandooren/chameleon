@@ -220,6 +220,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   		result = getTarget().targetContext().lookUp(selector());
   	}
 		if (result == null) {
+			getTarget().targetContext().lookUp(selector());
 			throw new LookupException("Method returned by invocation is null", this);
 		}
     return result;

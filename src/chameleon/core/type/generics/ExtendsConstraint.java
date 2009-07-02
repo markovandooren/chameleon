@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.rejuse.association.ReferenceSet;
+import org.rejuse.association.OrderedReferenceSet;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
@@ -62,7 +61,7 @@ public class ExtendsConstraint extends TypeConstraint {
 		return _types.getOtherEnds();
 	}
 	
-	private ReferenceSet<ExtendsConstraint,TypeReference> _types = new ReferenceSet<ExtendsConstraint, TypeReference>(this);
+	private OrderedReferenceSet<ExtendsConstraint,TypeReference> _types = new OrderedReferenceSet<ExtendsConstraint, TypeReference>(this);
 
 	public List<Element> children() {
 		return new ArrayList<Element>(typeReferences());

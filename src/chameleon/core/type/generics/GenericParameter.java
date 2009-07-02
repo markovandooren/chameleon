@@ -5,9 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.ReferenceSet;
+import org.rejuse.association.OrderedReferenceSet;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
@@ -64,7 +63,7 @@ public class GenericParameter extends FixedSignatureMember<GenericParameter, Typ
 		return result;
 	}
 	
-	private ReferenceSet<GenericParameter,TypeConstraint> _typeConstraints = new ReferenceSet<GenericParameter,TypeConstraint>(this);
+	private OrderedReferenceSet<GenericParameter,TypeConstraint> _typeConstraints = new OrderedReferenceSet<GenericParameter,TypeConstraint>(this);
 	
 	public List<TypeConstraint> constraints() {
 		return _typeConstraints.getOtherEnds();

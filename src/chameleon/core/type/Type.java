@@ -48,6 +48,10 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
                            Cloneable, ExceptionSource<Type,TypeContainer>, ModifierContainer<Type,TypeContainer>, 
                            DeclarationContainer<Type,TypeContainer> {
  
+	
+	private Set<Declaration> _declarationCache = null;
+	
+	
     /**
      * Initialize a new Type.
      *
@@ -758,8 +762,14 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
     }
 
     public Set<Declaration> declarations() throws LookupException {
-    	Set<Declaration> result = new HashSet<Declaration>();
-    	result.addAll(members());
+    	Set<Declaration> result = _declarationCache;
+    	if(result == null) {
+    		result = new HashSet<Declaration>();
+    	  result.addAll(members());
+    	  _declarationCache = result;
+    	} else {
+    		result = new HashSet<Declaration>(result);
+    	}
     	return result;
     }
 

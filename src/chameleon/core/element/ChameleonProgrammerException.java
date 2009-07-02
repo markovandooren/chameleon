@@ -20,4 +20,9 @@ public class ChameleonProgrammerException extends RuntimeException {
 	public ChameleonProgrammerException(Exception e) {
 		super(e);
 	}
+
+	public ChameleonProgrammerException(String msg, Exception e) {
+		super(msg,e);
+	}
+	
 }

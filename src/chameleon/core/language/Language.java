@@ -319,7 +319,7 @@ public abstract class Language implements PropertyUniverse<Element> {
 
   	public final PropertyMutex<Element> SCOPE_MUTEX = new PropertyMutex<Element>();
 
-    private void initProperties() {
+    protected void initProperties() {
       OVERRIDABLE.addImplication(INHERITABLE);
       OVERRIDABLE.addImplication(REFINABLE);
       EXTENSIBLE.addImplication(REFINABLE);

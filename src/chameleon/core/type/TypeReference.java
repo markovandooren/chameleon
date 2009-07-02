@@ -91,7 +91,7 @@ public class TypeReference extends NamespaceOrTypeReference<TypeReference,Type> 
   }
 
   public TypeReference clone() {
-    return new TypeReference(getTarget().clone(),getName());
+    return new TypeReference((getTarget() == null ? null : getTarget().clone()),getName());
   }
   
 }

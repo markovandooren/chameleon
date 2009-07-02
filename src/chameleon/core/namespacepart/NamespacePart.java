@@ -28,20 +28,10 @@ import chameleon.core.type.TypeContainer;
  */
 public class NamespacePart extends NamespacePartElementImpl<NamespacePart,NamespacePartContainer> implements TypeContainer<NamespacePart,NamespacePartContainer>, NamespacePartContainer<NamespacePart,NamespacePartContainer> {
 
-	public NamespacePart(Namespace pack) {
-    setNamespace(pack);
-	}
-	
-	public LookupStrategy lexicalContext(Element child) throws LookupException {
-		if(imports().contains(child)) {
-			return getDefaultNamespace().targetContext();
-		} else {
-			return _lexicalContext;
+	protected class ImportLocalContext extends LocalLookupStrategy<NamespacePart> {
+		private ImportLocalContext(NamespacePart element) {
+			super(element);
 		}
-	}
-	
-	
-	private LookupStrategy _importLocalContext = new LocalLookupStrategy<NamespacePart>(this) {
 
 		@Override
 		public Set<Declaration> demandDeclarations() throws LookupException {
@@ -60,10 +50,13 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 		  }
 		  return result;
 		}
-		
-	};
-	
-	private LookupStrategy _importContext = new LexicalLookupStrategy(_importLocalContext, this){
+	}
+
+	protected class ImportContext extends LexicalLookupStrategy {
+		private ImportContext(LookupStrategy local, Element element) {
+			super(local, element);
+		}
+
 		@Override
 		public LookupStrategy parentContext() throws LookupException {
 			return new LexicalLookupStrategy(getDeclaredNamespace().targetContext(), NamespacePart.this) {
@@ -73,8 +66,36 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 				}
 			};
 		}
+	}
 
-	};
+	protected class NamespacePartLookupStrategy extends LexicalLookupStrategy {
+
+		private NamespacePartLookupStrategy(LookupStrategy local, Element element) {
+			super(local, element);
+		}
+
+		@Override
+		public LookupStrategy parentContext() {
+			return _importContext;
+		}
+	}
+
+	public NamespacePart(Namespace pack) {
+    setNamespace(pack);
+	}
+	
+	public LookupStrategy lexicalContext(Element child) throws LookupException {
+		if(imports().contains(child)) {
+			return getDefaultNamespace().targetContext();
+		} else {
+			return _lexicalContext;
+		}
+	}
+	
+	
+	private LookupStrategy _importLocalContext = new ImportLocalContext(this);
+	
+	private LookupStrategy _importContext = new ImportContext(_importLocalContext, this);
 	
 	public LookupStrategy localContext() {
 		return _typeLocalContext;
@@ -82,12 +103,7 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 	
 	private LookupStrategy _typeLocalContext = new LocalLookupStrategy(this);
 	
-	private LookupStrategy _lexicalContext = new LexicalLookupStrategy(localContext(),this) {
-		@Override
-		public LookupStrategy parentContext() {
-			return _importContext;
-		}
-	};
+	private LookupStrategy _lexicalContext = new NamespacePartLookupStrategy(localContext(), this);
 	
 	public String getName(){
 		return getDeclaredNamespace().getName();

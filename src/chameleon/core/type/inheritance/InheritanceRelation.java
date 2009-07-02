@@ -51,17 +51,23 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
    @ post \result == superClassReference().getType();
    @*/
 	public Type superClass() throws LookupException {
-		try {
 			lookupLogger().debug("Inheritance relation of class "+parent().getFullyQualifiedName()+" is going to look up super class " + superClassReference().getFullyQualifiedName());
-		  Type result = superClassReference().getType();
+			Type result = null;
+			try {
+		    result = superClassReference().getType();
+			} 
+			catch(NullPointerException exc) {
+				if(superClassReference() == null) {
+				  throw new ChameleonProgrammerException("trying to get the super class of an inheritance relation that points to null in class" + parent().getFullyQualifiedName(),exc);
+				} else {
+					throw exc;
+				}
+			}
 		  if(result != null) {
 		  	return result;
 		  } else {
 		  	throw new LookupException("Superclass is null",superClassReference());
 		  }
-		} catch(NullPointerException exc) {
-			throw new ChameleonProgrammerException("trying to get the super class of an inheritance relation that points to null");
-		}
 	}
 	
 	/**
