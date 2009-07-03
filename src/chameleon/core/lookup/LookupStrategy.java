@@ -16,7 +16,6 @@ public abstract class LookupStrategy {
 
 	public LookupStrategy() {
 	}
-	
 
 	public abstract <T extends Declaration> T lookUp(DeclarationSelector<T> selector) throws LookupException;
 

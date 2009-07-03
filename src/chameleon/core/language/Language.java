@@ -418,7 +418,7 @@ public abstract class Language implements PropertyUniverse<Element> {
 
     public abstract Type getNullType();
 
-    public LookupStrategyFactory contextFactory() {
+    public LookupStrategyFactory lookupFactory() {
     	return _contextFactory;
     }
     

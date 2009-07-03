@@ -71,11 +71,11 @@ public class ClassBody extends ElementImpl<ClassBody,TypeDescendant> implements 
 	}
 	
 	public LookupStrategy lexicalContext(Element element) {
-		return language().contextFactory().createLexicalContext(this, localContext());
+		return language().lookupFactory().createLexicalContext(this, localContext());
 	}
 	
 	public LookupStrategy localContext() {
-		return language().contextFactory().createTargetContext(this);
+		return language().lookupFactory().createTargetContext(this);
 	}
 
 	public Set<Member> declarations() throws LookupException {

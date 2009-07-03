@@ -146,7 +146,16 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
     	setCache((R) result);
       return result;
     } else {
-    	lexicalContext().lookUp(selector());
+    	// repeat lookups for debugging purposes
+    	if(getTarget() != null) {
+      	NamespaceOrType target = getTarget().getNamespaceOrType();
+        
+        if(target != null) {
+          result = target.targetContext().lookUp(selector());
+        }
+    	} else {
+    		result = lexicalContext().lookUp(selector());
+    	}
       throw new LookupException("Cannot find namespace or type with name: "+getName(),this);
     }
   }

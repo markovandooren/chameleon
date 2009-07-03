@@ -78,7 +78,7 @@ public class Block extends Statement<Block> implements StatementContainer<Block,
 		if(index == 0) {
 			return parent().lexicalContext(this);
 		} else if (index > 0) {
-			return declarations.get(index-1).lexicalContext();
+			return declarations.get(index-1).linearContext();
 		} else {
 		  throw new ChameleonProgrammerException("Invoking lexicalContext(element) with an element that is not a child.");
 		}

@@ -40,7 +40,7 @@ public class StubDeclarationContainer extends ElementImpl<StubDeclarationContain
 	}
 
   public LookupStrategy lexicalContext(Element element) {
-  	LookupStrategyFactory factory = language().contextFactory();
+  	LookupStrategyFactory factory = language().lookupFactory();
   	return factory.createLexicalContext(this,factory.createTargetContext(this));
   }
 

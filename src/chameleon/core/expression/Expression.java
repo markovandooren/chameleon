@@ -4,9 +4,8 @@ import java.util.Set;
 
 import org.rejuse.java.collections.RobustVisitor;
 
-import chameleon.core.MetamodelException;
-import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.Target;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.statement.CheckedExceptionList;
@@ -28,7 +27,7 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
 	 * @see {@link Target#targetContext()}
 	 */
 	@SuppressWarnings("unchecked")
-  public LocalLookupStrategy targetContext() throws LookupException {
+  public LookupStrategy targetContext() throws LookupException {
     return getType().targetContext();
   }
 
@@ -108,7 +107,7 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
    @ post \result == getPackage().getDefaultPackage(); 
    @*/
   public Namespace getDefaultNamespace() {
-    return getNamespace().rootNamespace();
+    return getNamespace().defaultNamespace();
   }
   
   public CheckedExceptionList getCEL() throws LookupException {

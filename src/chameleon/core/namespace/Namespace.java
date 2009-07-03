@@ -35,7 +35,6 @@ import org.rejuse.predicate.PrimitiveTotalPredicate;
 import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.IMetaModel;
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
@@ -45,8 +44,8 @@ import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.expression.Expression;
-import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.type.Type;
 
@@ -117,7 +116,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	private final class DummyNamespaceOrTypeReference extends NamespaceOrTypeReference {
 		private DummyNamespaceOrTypeReference(String name) {
 			super(name);
-			setUniParent(rootNamespace());
+			setUniParent(defaultNamespace());
 		}
 	}
 
@@ -145,12 +144,12 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 @ post getParent() != null ==> \result == getParent().getDefaultPackage();
 	 @ post getParent() == null ==> \result == this;
 	 @*/
-	public Namespace rootNamespace() {
+	public Namespace defaultNamespace() {
 		if (parent() == null) {
 			return this;
 		}
 		else {
-			return parent().rootNamespace();
+			return parent().defaultNamespace();
 		}
 	}
 
@@ -352,8 +351,8 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 //      return new Namespace(signature().clone());
 //    }
 
-	public LocalLookupStrategy targetContext() {
-		return language().contextFactory().createTargetContext(this);
+	public LookupStrategy targetContext() {
+		return language().lookupFactory().createTargetContext(this);
 	}
 
 	public Set<Declaration> declarations() {

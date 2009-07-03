@@ -412,7 +412,7 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 		}
 	}
 	public LookupStrategyFactory getContextFactory() {
-		return language().contextFactory();
+		return language().lookupFactory();
 	}
 
  /*@
@@ -421,7 +421,7 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
    @ post \result = getDeclaredNamespace().getDefaultNamespace(); 
    @*/
 	public Namespace getDefaultNamespace() {
-		return getDeclaredNamespace().rootNamespace();
+		return getDeclaredNamespace().defaultNamespace();
 	}
 
   @Override

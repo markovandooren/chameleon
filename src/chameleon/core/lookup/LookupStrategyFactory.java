@@ -10,12 +10,12 @@ import chameleon.core.element.Element;
  */
 public class LookupStrategyFactory {
 
-	public LexicalLookupStrategy createLexicalContext(Element element, LookupStrategy local) {
+	public LookupStrategy createLexicalContext(Element element, LookupStrategy local) {
 		return new LexicalLookupStrategy(local, element);
 	}
 	
-  public <E extends DeclarationContainer> LocalLookupStrategy<E> createTargetContext(E element) {
+  public  LookupStrategy createTargetContext(DeclarationContainer element) {
   	return new LocalLookupStrategy(element);
   }
-	
+  
 }

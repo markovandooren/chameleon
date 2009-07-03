@@ -15,7 +15,9 @@ import chameleon.core.declaration.StubDeclarationContainer;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
+import chameleon.core.lookup.DummyLookupStrategy;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.Member;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
@@ -26,6 +28,17 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 	
 	public Logger lookupLogger() {
 		return logger;
+	}
+	
+	/**
+	 * Asks the context factory to create a context. The local lookup strategy by default is a
+	 * dummy lookup strategy because an inheritance relation typically does not contain declarations.
+	 * 
+	 * The lookup is intercepted at this point because for example Java has funny lookup rules with
+	 * respect to inheritance.
+	 */
+	public LookupStrategy lexicalContext(Element element) {
+		return language().lookupFactory().createLexicalContext(this, new DummyLookupStrategy());
 	}
 	
 	public abstract E clone();
@@ -146,7 +159,7 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 	    if (temp == Ternary.UNKNOWN) {
 	    	temp = member.is(language().INHERITABLE);
 	      throw new LookupException(
-	          "For one of the members of a super type of "
+	          "For one of the members of super type "
 	              + superClass().getFullyQualifiedName()
 	              + " it is unknown whether it is inheritable or not. Member type: "+member.getClass().getName());
 	    } else {

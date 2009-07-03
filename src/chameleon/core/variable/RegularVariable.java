@@ -6,18 +6,15 @@ import java.util.List;
 import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.association.Reference;
 import org.rejuse.java.collections.Visitor;
-import org.rejuse.logic.ternary.Ternary;
-import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
 import chameleon.core.expression.ExpressionContainer;
-import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
@@ -188,7 +185,7 @@ public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends 
    return result;
  }
  
- public LocalLookupStrategy targetContext() throws LookupException {
+ public LookupStrategy targetContext() throws LookupException {
    return getType().targetContext();
  }
 

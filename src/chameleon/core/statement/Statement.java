@@ -30,9 +30,9 @@ import java.util.ListIterator;
 import org.rejuse.java.collections.RobustVisitor;
 import org.rejuse.predicate.TypePredicate;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespacepart.NamespacePartElementImpl;
 import chameleon.core.type.Type;
@@ -166,5 +166,9 @@ public abstract class Statement<E extends Statement> extends NamespacePartElemen
     else {
       return null;
     }
+  }
+  
+  public LookupStrategy linearContext() throws LookupException {
+  	return lexicalContext();
   }
 }

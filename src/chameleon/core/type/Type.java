@@ -108,8 +108,8 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
      *******************/
     
     
-    public LocalLookupStrategy targetContext() {
-    	return language().contextFactory().createTargetContext(this);
+    public LookupStrategy targetContext() {
+    	return language().lookupFactory().createTargetContext(this);
     }
     
     /**
@@ -126,7 +126,7 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
     			throw new LookupException("Parent of type is null when looking for the parent context.");
     		}
     	} else {
-    	  return language().contextFactory().createLexicalContext(this,targetContext());
+    	  return language().lookupFactory().createLexicalContext(this,targetContext());
     	}
     }
 
