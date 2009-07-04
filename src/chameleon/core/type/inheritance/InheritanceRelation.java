@@ -152,8 +152,8 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 		Set<M> result = new HashSet<M>();
 		// The stub container will contain all elements to enable binding to 
 		// members that are not inherited.
-		StubDeclarationContainer stub = new StubDeclarationContainer();
-		stub.setUniParent(parent());
+//		StubDeclarationContainer stub = new StubDeclarationContainer();
+//		stub.setUniParent(parent());
 		for(M member:superMembers) {
 	    Ternary temp = member.is(language().INHERITABLE);
 	    if (temp == Ternary.UNKNOWN) {

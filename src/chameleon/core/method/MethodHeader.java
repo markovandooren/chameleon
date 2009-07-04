@@ -52,6 +52,9 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
 
 
   public void addParameter(FormalParameter arg) {
+  	if(arg.signature().getName().equals("documentationAST")) {
+  		System.out.println("jups");
+  	}
     _parameters.add(arg.parentLink());
   }
 
