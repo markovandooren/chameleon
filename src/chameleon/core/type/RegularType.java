@@ -1,14 +1,14 @@
 package chameleon.core.type;
 
 import java.util.List;
-import java.util.Set;
 
 import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.association.Reference;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
+import chameleon.core.lookup.DeclarationSelector;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
@@ -52,8 +52,8 @@ public class RegularType extends Type {
    * Return the members directly declared by this type.
    * @return
    */
-  public Set<Member> directlyDeclaredElements() {
-     return body().elements();
+  public List<Member> directlyDeclaredElements() {
+     return body().members();
   }
 
 	private OrderedReferenceSet<Type, InheritanceRelation> _inheritanceRelations = new OrderedReferenceSet<Type, InheritanceRelation>(this);
@@ -70,6 +70,11 @@ public class RegularType extends Type {
 	@Override
 	public void addInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException {
 		_inheritanceRelations.add(relation.parentLink());
+	}
+
+	@Override
+	public <D extends Member> List<D> directlyDeclaredElements(DeclarationSelector<D> selector) throws LookupException {
+		return selector.selection(directlyDeclaredElements());
 	}
 
 }

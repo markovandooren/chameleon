@@ -38,6 +38,8 @@ public abstract class MethodSignature<E extends MethodSignature,P extends Method
 //
 //  private OrderedReferenceSet<E,TypeReference> _parameters = new OrderedReferenceSet<E,TypeReference>((E) this);
 
+	public abstract String name();
+	
 	public abstract List<Type> parameterTypes() throws LookupException;
 	
   public boolean sameParameterTypesAs(MethodSignature other) throws LookupException {

@@ -1,13 +1,15 @@
 package chameleon.core.type;
 
 import java.util.List;
-import java.util.Set;
 
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.DeclarationSelector;
+import chameleon.core.lookup.LookupException;
+import chameleon.core.member.Member;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
 public abstract class TypeIndirection extends Type {
@@ -32,9 +34,15 @@ public abstract class TypeIndirection extends Type {
 	}
 
 	@Override
-	public Set<TypeElement> directlyDeclaredElements() {
-		return (Set<TypeElement>) aliasedType().directlyDeclaredElements();
+	public List<Member> directlyDeclaredElements() {
+		return aliasedType().directlyDeclaredElements();
 	}
+	
+	@Override
+	public <D extends Member> List<D> directlyDeclaredElements(DeclarationSelector<D> selector) throws LookupException {
+		return aliasedType().directlyDeclaredElements(selector);
+	}
+
 
 	@Override
 	public void removeInheritanceRelation(InheritanceRelation relation) {

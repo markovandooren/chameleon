@@ -38,8 +38,8 @@ public class GenericParameter extends FixedSignatureMember<GenericParameter, Typ
 	 * A generic parameter introduces itself. During lookup, the resolve() method will
 	 * introduce an alias.
 	 */
-	public Set<Member> getIntroducedMembers() {
-		Set<Member> result = new HashSet<Member>();
+	public List<Member> getIntroducedMembers() {
+		List<Member> result = new ArrayList<Member>();
 		result.add(this);
 		return result;
 	}

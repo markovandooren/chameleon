@@ -1,13 +1,12 @@
 package chameleon.core.namespacepart;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.rejuse.association.Reference;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
+import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.namespace.NamespaceOrTypeReference;
@@ -56,14 +55,26 @@ public class DemandImport extends Import<DemandImport> {
 
 
 	@Override
-	public Set<Declaration> demandImports() throws LookupException {
+	public List<Declaration> demandImports() throws LookupException {
 		return declarationContainer().declarations();
 	}
 
 
 	@Override
-	public Set<Declaration> directImports() throws LookupException {
-		return new HashSet<Declaration>();
+	public List<Declaration> directImports() throws LookupException {
+		return new ArrayList<Declaration>();
+	}
+
+
+	@Override
+	public <D extends Declaration> List<D> demandImports(DeclarationSelector<D> selector) throws LookupException {
+		return declarationContainer().declarations(selector);
+	}
+
+
+	@Override
+	public <D extends Declaration> List<D> directImports(DeclarationSelector<D> selector) throws LookupException {
+		return new ArrayList<D>();
 	}
   
 

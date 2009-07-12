@@ -1,10 +1,10 @@
 package chameleon.core.lookup;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.relation.WeakPartialOrder;
@@ -32,24 +32,40 @@ public abstract class DeclarationSelector<D extends Declaration> {
  /*@
    @ public behavior
    @
-   @ post \result == (filter(declaration) != null);
+   @ post \result == (selection(declaration) != null);
    @*/
   public boolean selects(Declaration declaration) throws LookupException {
-    return filter(declaration) != null;
+    return selection(declaration) != null;
   }
   
   /**
-   * This method decides which declarations are candidates for selection. The
-   * method returns the given declaration if it is a candidate. The method returns
+   * This method decides which declarations are candidates for selection PROVIDED THAT IT IS OF THE CORRECT
+   * CLASS. The method returns the given declaration if it is a candidate. The method returns
    * null if the given declaration is not a candidate.
    */
  /*@
    @ public behavior
    @
+   @ pre selectedClass().isInstance(declaration);
    @ post \result == declaration | \result == null;
    @*/
   public abstract D filter(Declaration declaration) throws LookupException;
-  
+
+ /*@
+   @ public behavior
+   @
+   @ post \result == declaration | \result == null;
+   @ post ! selectedClass().isInstance(declaration) ==> \result == null;
+   @*/
+  public D selection(Declaration declaration) throws LookupException {
+  	Declaration resolved = declaration.resolve();
+  	if(selectedClass().isInstance(resolved)) {
+  	  return filter(declaration.resolve());
+  	} else {
+  		return null;
+  	}
+  }
+
   /**
    * Required because 'instanceof D' cannot be used due to type erasure.
    * @return
@@ -64,7 +80,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
   /**
    * Return the list of declarations in the given set that are selected.
    * 
-   * @param set
+   * @param selectionCandidates
    *        The list containing the declarations that are checked for a match with {@link #selects(Signature)}}.
    * @return
    * @throws LookupException
@@ -78,11 +94,11 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @            selects(d) && 
    @            ! (\exists D other; set.contains(other); order().strictOrder().contains(other,d))));
    @*/
-  public Set<D> selection(Set<Declaration> set) throws LookupException {
-    Set<Declaration> tmp = new HashSet<Declaration>();
+  public List<D> selection(List<? extends Declaration> selectionCandidates) throws LookupException {
+    List<Declaration> tmp = new ArrayList<Declaration>();
     try {
-      for(Declaration decl: set) {
-        D e = filter(decl);
+      for(Declaration decl: selectionCandidates) {
+        D e = selection(decl);
         if(e != null) {
           tmp.add(e);
         }
@@ -90,15 +106,10 @@ public abstract class DeclarationSelector<D extends Declaration> {
       order().removeBiggerElements((Collection<D>) tmp);
     } catch(RuntimeException exc) {
       throw exc;
-    } catch(Error err) {
-      throw err;
     } catch(LookupException exc) {
       throw exc;
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw new Error("signature selection throws checked exception other than MetamodelException. This should not happen!");
     }
-    return (Set<D>) tmp;
+    return (List<D>) tmp;
   }
   
   /**

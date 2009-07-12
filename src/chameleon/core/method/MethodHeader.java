@@ -1,10 +1,8 @@
 package chameleon.core.method;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.predicate.PrimitiveTotalPredicate;
@@ -13,6 +11,7 @@ import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
+import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LexicalLookupStrategy;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
@@ -42,6 +41,10 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
   	return result;
   }
   
+  public String name() {
+  	return signature().name();
+  }
+  
   /*********************
    * FORMAL PARAMETERS *
    *********************/
@@ -52,9 +55,6 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
 
 
   public void addParameter(FormalParameter arg) {
-  	if(arg.signature().getName().equals("documentationAST")) {
-  		System.out.println("jups");
-  	}
     _parameters.add(arg.parentLink());
   }
 
@@ -102,12 +102,15 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
   	return parent().getNearestType();
   }
   
-  public Set<Declaration> declarations() {
-    Set<Declaration> result = new HashSet<Declaration>();
-    result.addAll(getParameters());
-    return result;
+  public List<FormalParameter> declarations() {
+    return getParameters();
   }
   
+	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
+		return selector.selection(getParameters());
+	}
+
+
   public boolean sameParameterTypesAs(MethodHeader other) throws MetamodelException {
   	boolean result = false;
   	if (other != null) {

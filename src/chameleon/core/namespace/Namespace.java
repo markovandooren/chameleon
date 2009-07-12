@@ -44,6 +44,7 @@ import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.expression.Expression;
+import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacepart.NamespacePart;
@@ -355,20 +356,24 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 		return language().lookupFactory().createTargetContext(this);
 	}
 
-	public Set<Declaration> declarations() {
-		Set<Declaration> result = new HashSet<Declaration>();
+	public List<Declaration> declarations() {
+		List<Declaration> result = new ArrayList<Declaration>();
 		result.addAll(getSubNamespaces());
 		result.addAll(getTypes());
 		return result;
 	}
 	
-	public <T extends Declaration> Set<T> declarations(Class<T> cls) {
+	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
+		return selector.selection(declarations());
+	}
+	
+	public <T extends Declaration> List<T> declarations(Class<T> cls) {
   	List<Element> tmp = (List<Element>) children();
   	if(tmp == null) {
   		throw new ChameleonProgrammerException("children() returns null for " + getClass().getName());
   	}
   	new TypePredicate<Element,T>(cls).filter(tmp);
-  	return (Set<T>) tmp;
+  	return (List<T>) tmp;
 	}
 
 	public Declaration alias(SimpleNameSignature sig) {

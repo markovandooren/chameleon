@@ -1,11 +1,12 @@
 package chameleon.core.namespacepart;
 
-import java.util.Set;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 
 /**
@@ -24,25 +25,11 @@ public abstract class Import<E extends Element> extends NamespacePartElementImpl
   
 // THIS IS COVERED IN NAMESPACEPART
   
-//  /**
-//   * Get the context of this import statement.
-//   * This import statement is in a package, the context of the defaultpackage
-//   * of that package is returned
-// * @throws MetamodelException 
-//   */
-//  public Context lexicalContext(Element element) throws MetamodelException {
-//    return getParent().getDeclaredNamespace().getDefaultNamespace().lexicalContext(this);
-//  }
-
-//  /**
-//   * An import statement is an element of a NamespacePart.
-//   * The Namespace to which that NamespacePart belongs is returned.
-//   */
-//  public Namespace getNamespace() {
-//    return getParent().getDeclaredNamespace();
-//  }
-
-  public abstract Set<Declaration> directImports() throws LookupException;
+  public abstract List<Declaration> directImports() throws LookupException;
   
-  public abstract Set<Declaration> demandImports() throws LookupException;
+  public abstract List<Declaration> demandImports() throws LookupException;
+
+  public abstract <D extends Declaration> List<D> directImports(DeclarationSelector<D> selector) throws LookupException;
+  
+  public abstract <D extends Declaration> List<D> demandImports(DeclarationSelector<D> selector) throws LookupException;
 }

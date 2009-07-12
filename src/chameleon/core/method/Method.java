@@ -1,5 +1,6 @@
 package chameleon.core.method;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -9,11 +10,11 @@ import org.rejuse.association.Reference;
 import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.PrimitivePredicate;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Definition;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.Target;
@@ -43,6 +44,15 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 
 	public List<FormalParameter> getParameters() {
 	  return header().getParameters();
+	}
+	
+	/**
+	 * Return a string representation for the name of the method. This is just a convenience method.
+	 * DO NOT USE IT TO IDENTIFY METHODS! The signature identifies a method. Not just its name.
+	 * @return
+	 */
+	public String name() {
+		return header().name();
 	}
 	
 	public S signature() {
@@ -91,8 +101,8 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 	 @ post \result.contains(this);
 	 @ post \result.size() == 1;
 	 @*/
-	public Set<Member> getIntroducedMembers() {
-		Set result = new HashSet<Member>();
+	public List<Member> getIntroducedMembers() {
+		List<Member> result = new ArrayList<Member>();
 		result.add(this);
 		return result;
 	}
@@ -395,8 +405,12 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
   	return getType().lexicalContext();
   }
   
-  public Set<Declaration> declarations() {
+  public List<? extends Declaration> declarations() {
   	return header().declarations();
+  }
+  
+  public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
+  	return header().declarations(selector);
   }
 
 // /*@

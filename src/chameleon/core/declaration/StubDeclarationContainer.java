@@ -8,6 +8,7 @@ import org.rejuse.association.OrderedReferenceSet;
 
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
+import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.LookupStrategyFactory;
@@ -23,8 +24,12 @@ public class StubDeclarationContainer extends ElementImpl<StubDeclarationContain
 		return result;
 	}
 
-	public Set<Declaration> declarations() throws LookupException {
-		return new HashSet<Declaration>(_elements.getOtherEnds());
+	public List<Declaration> declarations() throws LookupException {
+		return _elements.getOtherEnds();
+	}
+	
+	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
+		return selector.selection(declarations());
 	}
 
 	public List<? extends Declaration> children() {

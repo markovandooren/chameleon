@@ -64,7 +64,6 @@ public class TypeReference extends NamespaceOrTypeReference<TypeReference,Type> 
 
     result = getCache();
     if(result != null) {
-    	lookupLogger().debug("Hit cache for" + getFullyQualifiedName());
     	return result;
     }
     

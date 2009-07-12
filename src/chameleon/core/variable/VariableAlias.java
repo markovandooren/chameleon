@@ -1,6 +1,6 @@
 package chameleon.core.variable;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -149,8 +149,8 @@ public class VariableAlias extends VariableImpl<VariableAlias,Type> implements M
 		return aliasedVariable().overrides(other);
 	}
 
-	public Set<Member> getIntroducedMembers() {
-		Set<Member> result = new HashSet<Member>();
+	public List<Member> getIntroducedMembers() {
+		List<Member> result = new ArrayList<Member>();
 		result.add(this);
 		return result;
 	}

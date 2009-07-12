@@ -1,14 +1,15 @@
 package chameleon.core.namespacepart;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.rejuse.association.Reference;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
@@ -58,18 +59,31 @@ public class TypeImport extends Import<TypeImport> {
   }
 
 	@Override
-	public Set<Declaration> demandImports() {
-		return new HashSet<Declaration>();
+	public List<Declaration> demandImports() {
+		return new ArrayList<Declaration>();
 	}
 
 	@Override
-	public Set<Declaration> directImports() throws LookupException {
+	public List<Declaration> directImports() throws LookupException {
 		lookupLogger().debug("NamespacePart of " + nearestAncestor(NamespacePart.class).getFullyQualifiedName()+"Looking up direct import: "+getTypeReference().getFullyQualifiedName());
-//		if(nearestAncestor(NamespacePart.class).getFullyQualifiedName().equals("")) {
-//			lookupLogger().warn("somehow ended up in the root namespace part");
-//		}
-		Set<Declaration> result = new HashSet<Declaration>();
+		List<Declaration> result = new ArrayList<Declaration>();
 		result.add(type());
+		return result;
+	}
+
+	@Override
+	public <D extends Declaration> List<D> demandImports(DeclarationSelector<D> selector) throws LookupException {
+		return new ArrayList<D>();
+	}
+
+	@Override
+	public <D extends Declaration> List<D> directImports(DeclarationSelector<D> selector) throws LookupException {
+		lookupLogger().debug("NamespacePart of " + nearestAncestor(NamespacePart.class).getFullyQualifiedName()+"Looking up direct import: "+getTypeReference().getFullyQualifiedName());
+		List<D> result = new ArrayList<D>();
+		D element = selector.selection(type());
+		if(element != null) {
+		  result.add(element);
+		}
 		return result;
 	}
   

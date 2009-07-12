@@ -1,20 +1,18 @@
 package chameleon.core.type.inheritance;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.rejuse.association.Reference;
 import org.rejuse.logic.ternary.Ternary;
-import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.declaration.Signature;
-import chameleon.core.declaration.StubDeclarationContainer;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
+import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.DummyLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
@@ -121,40 +119,60 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 	 * @throws LookupException
 	 */
 	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
-  Set<M> inheritedMembers(final Class<M> kind) throws LookupException {
-		final Set<M> result = potentiallyInheritedMembers(kind);
-		result.addAll(parent().directlyDeclaredElements(kind));
-		try {
-			new PrimitivePredicate<M>() {
-				public boolean eval(final M superMember) throws Exception {
-					return !new PrimitivePredicate<M>() {
-						public boolean eval(M nc) throws LookupException {
-							return nc.overrides(superMember) || nc.hides(superMember) || ((superMember != nc)&&(superMember.equivalentTo(nc)));
-						}
-					}.exists(result);
+  void accumulateInheritedMembers(final Class<M> kind, List<M> current) throws LookupException {
+		final List<M> toAdd = new ArrayList<M>();
+		final List<M> toRemove = new ArrayList<M>();
+		final List<M> potential = potentiallyInheritedMembers(kind);
+		for(M m: potential) {
+			boolean add = true;
+			for(M alreadyInherited: current) {
+				// Remove the already inherited member if potentially inherited member m overrides or hides it.
+				if((alreadyInherited != m) && (m.overrides(alreadyInherited) || m.hides(alreadyInherited))) {
+					toRemove.add(alreadyInherited);
 				}
-			}.filter(result);
-		} catch (RuntimeException e) {
-			throw e;
-		} catch (Error e) {
-			throw e;
-		} catch (LookupException e) {
-			throw e;
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Error(e);
+				if(add == true && ((alreadyInherited == m) || alreadyInherited.overrides(m) || alreadyInherited.hides(m) || alreadyInherited.equivalentTo(m))) {
+					add = false;
+				}
+			}
+			if(add == true) {
+				toAdd.add(m);
+			}
 		}
-		return result;
+		current.removeAll(toRemove);
+		current.addAll(toAdd);
 	}
+
 	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
-	        Set<M> potentiallyInheritedMembers(final Class<M> kind) throws LookupException {
-		Set<M> superMembers = superClass().members(kind);
-		Set<M> result = new HashSet<M>();
-		// The stub container will contain all elements to enable binding to 
-		// members that are not inherited.
-//		StubDeclarationContainer stub = new StubDeclarationContainer();
-//		stub.setUniParent(parent());
-		for(M member:superMembers) {
+  void accumulateInheritedMembers(DeclarationSelector<M> selector, List<M> current) throws LookupException {
+		final List<M> toAdd = new ArrayList<M>();
+		final List<M> potential = potentiallyInheritedMembers(selector);
+		for(M m: potential) {
+			boolean add = true;
+			Iterator<M> iterCurrent = current.iterator();
+			while(iterCurrent.hasNext()) {
+				M alreadyInherited = iterCurrent.next();
+				// Remove the already inherited member if potentially inherited member m overrides or hides it.
+				if((alreadyInherited != m) && (m.overrides(alreadyInherited) || m.hides(alreadyInherited))) {
+					iterCurrent.remove();
+				}
+				if(add == true && ((alreadyInherited == m) || alreadyInherited.overrides(m) || alreadyInherited.hides(m) || alreadyInherited.equivalentTo(m))) {
+					add = false;
+				}
+			}
+			if(add == true) {
+				toAdd.add(m);
+			}
+		}
+		current.addAll(toAdd);
+	}
+
+	
+	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
+	        List<M> potentiallyInheritedMembers(final Class<M> kind) throws LookupException {
+		List<M> superMembers = superClass().members(kind);
+		Iterator<M> superIter = superMembers.iterator();
+		while(superIter.hasNext()) {
+			M member = superIter.next();
 	    Ternary temp = member.is(language().INHERITABLE);
 	    if (temp == Ternary.UNKNOWN) {
 	    	temp = member.is(language().INHERITABLE);
@@ -163,18 +181,32 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 	              + superClass().getFullyQualifiedName()
 	              + " it is unknown whether it is inheritable or not. Member type: "+member.getClass().getName());
 	    } else {
-	    	// Even if the member is not inheritable, we must still add it
-	    	// to the stub declaration container because the implementation
-	    	// of inherited members may reference them.
-//	    	M transformed = transform(member);
-//	    	stub.add(transformed);
-	    	if (temp == Ternary.TRUE) {
-//		      result.add(transformed);
-	    		result.add(member);
-		    }
+				if (temp == Ternary.FALSE) {
+					superIter.remove();
+				}
 	    }
 		}
-    return result;
+    return superMembers;
+	}
+
+	public <M extends Member<M, ? super Type, S, F>, S extends Signature<S, M>, F extends Member<? extends Member, ? super Type, S, F>> List<M> potentiallyInheritedMembers(
+			final DeclarationSelector<M> selector) throws LookupException {
+		List<M> superMembers = superClass().members(selector);
+		Iterator<M> superIter = superMembers.iterator();
+		while(superIter.hasNext()) {
+			M member = superIter.next();
+			Ternary temp = member.is(language().INHERITABLE);
+			if (temp == Ternary.UNKNOWN) {
+				temp = member.is(language().INHERITABLE);
+				throw new LookupException("For one of the members of super type " + superClass().getFullyQualifiedName()
+						+ " it is unknown whether it is inheritable or not. Member type: " + member.getClass().getName());
+			} else {
+				if (temp == Ternary.FALSE) {
+					superIter.remove();
+				}
+			}
+		}
+		return superMembers;
 	}
 	
 //	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 

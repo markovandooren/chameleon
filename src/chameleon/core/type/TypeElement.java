@@ -31,7 +31,7 @@ public interface TypeElement<E extends TypeElement<E,P>, P extends Element> exte
    @
    @ post \result != null; 
    @*/
-  public Set<Member> getIntroducedMembers();
+  public List<? extends Member> getIntroducedMembers();
   
   /**
    * Return the modifiers of this type element.

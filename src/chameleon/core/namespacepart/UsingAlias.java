@@ -1,15 +1,16 @@
 package chameleon.core.namespacepart;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.rejuse.association.Reference;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.NamespaceOrType;
@@ -93,22 +94,32 @@ public class UsingAlias extends Import<UsingAlias> {
   }
 
 	@Override
-	public Set<Declaration> demandImports() throws LookupException {
-		return new HashSet<Declaration>();
+	public List<Declaration> demandImports() throws LookupException {
+		return new ArrayList<Declaration>();
 	}
 
 	@Override
-	public Set<Declaration> directImports() throws LookupException {
+	public List<Declaration> directImports() throws LookupException {
 		//@FIXME bad design: instanceof 
 		//@FIXME why are these aliased?
 		NamespaceOrType nst = getNamespaceOrTypeReference().getNamespaceOrType(); 
-    Set<Declaration> result = new HashSet<Declaration>();
+		List<Declaration> result = new ArrayList<Declaration>();
     if(nst instanceof Type) {
       result.add(((Type) nst).alias(new SimpleNameSignature(getIdentifier())));
     } else if (nst instanceof Namespace) {
     	result.add(((Namespace) nst).alias(new SimpleNameSignature(getIdentifier())));    	
     }
     return result;
+	}
+
+	@Override
+	public <D extends Declaration> List<D> demandImports(DeclarationSelector<D> selector) throws LookupException {
+		return new ArrayList<D>();
+	}
+
+	@Override
+	public <D extends Declaration> List<D> directImports(DeclarationSelector<D> selector) throws LookupException {
+		return selector.selection(directImports());
 	}
 
 }

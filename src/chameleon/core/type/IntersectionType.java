@@ -12,6 +12,8 @@ import org.rejuse.logic.ternary.Ternary;
 
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
+import chameleon.core.lookup.DeclarationSelector;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
@@ -79,15 +81,33 @@ public class IntersectionType extends Type {
 	}
 
 	@Override
-	public Set<Member> directlyDeclaredElements() {
+	public List<Member> directlyDeclaredElements() {
 		//FIXME: renaming and so on. Extend both types and perform automatic renaming?
 		//       what about conflicting member definitions?
-		Set<Member> result = new HashSet<Member>();
+		List<Member> result = new ArrayList<Member>();
 		for(Type type: types()) {
 		  result.addAll(type.directlyDeclaredElements(Member.class));
 		}
-		
-		Iterator<Member> iter = result.iterator();
+		removeConstructors(result);
+		return result;
+	}
+	
+	@Override
+	public <D extends Member> List<D> directlyDeclaredElements(DeclarationSelector<D> selector) throws LookupException {
+		//FIXME: renaming and so on. Extend both types and perform automatic renaming?
+		//       what about conflicting member definitions?
+		List<D> result = new ArrayList<D>();
+		for(Type type: types()) {
+		  result.addAll(type.directlyDeclaredElements(selector));
+		}
+		removeConstructors(result);
+		return result;
+	}
+	
+
+	
+	public void removeConstructors(List<? extends Member> members) {
+		Iterator<? extends Member> iter = members.iterator();
 		// Remove constructors. We really do need metaclasses so it seems.
 		while(iter.hasNext()) {
 			Member member = iter.next();
@@ -95,7 +115,6 @@ public class IntersectionType extends Type {
 				iter.remove();
 			}
 		}
-		return result;
 	}
 
 	@Override
@@ -111,7 +130,7 @@ public class IntersectionType extends Type {
 	public void removeInheritanceRelation(InheritanceRelation type) {
 		throw new ChameleonProgrammerException("Trying to remove a super type from a intersection type.");
 	}
-	
+
 	
 
 }

@@ -77,8 +77,8 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
     return new RegularMemberVariable(signature().clone(), (TypeReference)getTypeReference().clone(), expr);
   }
 	  
-  public Set<Member> getIntroducedMembers() {
-    return Util.createSingletonSet(this);
+  public List<Member> getIntroducedMembers() {
+    return Util.<Member>createSingletonList(this);
   }
 
   public Set<Member> directlyOverriddenMembers() throws LookupException {

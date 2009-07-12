@@ -125,7 +125,6 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
     //OPTIMISATION
     result = getCache();
     if(result != null) {
-    	lookupLogger().debug("Hit cache for" + getFullyQualifiedName());
     	return result;
     }
     

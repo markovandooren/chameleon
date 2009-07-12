@@ -11,7 +11,7 @@ import org.rejuse.java.collections.TypeFilter;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.TypePredicate;
 
-import chameleon.core.MetamodelException;
+import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Definition;
@@ -19,7 +19,7 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
-import chameleon.core.lookup.LocalLookupStrategy;
+import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.FixedSignatureMember;
@@ -49,7 +49,21 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
                            DeclarationContainer<Type,TypeContainer> {
  
 	
-	private Set<Declaration> _declarationCache = null;
+	private List<? extends Declaration> _declarationCache = null;
+	
+	private List<? extends Declaration> declarationCache() {
+		if(_declarationCache != null && Config.CACHE_DECLARATIONS) {
+		  return new ArrayList<Declaration>(_declarationCache);
+		} else {
+			return null;
+		}
+	}
+	
+	private void setDeclarationCache(List<? extends Declaration> cache) {
+		if(Config.CACHE_DECLARATIONS) {
+		  _declarationCache = new ArrayList<Declaration>(cache);
+		}
+	}
 	
 	
     /**
@@ -134,14 +148,14 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
      * BEING A TYPE ELEMENT *
      ************************/
     
-    public Set<Member> getIntroducedMembers() {
-      Set<Member> result = new HashSet<Member>();
+    public List<Member> getIntroducedMembers() {
+      List<Member> result = new ArrayList<Member>();
       result.add(this);
       return result;
     }
     
     public boolean complete() {
-    	Set<Member> members = directlyDeclaredElements(Member.class);
+    	List<Member> members = directlyDeclaredElements(Member.class);
     	// Only check for actual definitions
     	new TypePredicate<Element,Definition>(Definition.class).filter(members);
     	Iterator<Member> iter = members.iterator();
@@ -322,17 +336,31 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
      * Return the members of the given kind directly declared by this type.
      * @return
      */
-    public <T extends TypeElement> Set<T> directlyDeclaredElements(final Class<T> kind) {
-      return (Set<T>) new TypeFilter(kind).retain(directlyDeclaredElements());
+    public <T extends Member> List<T> directlyDeclaredElements(final Class<T> kind) {
+      return (List<T>) new TypeFilter(kind).retain(directlyDeclaredElements());
     }
     
     /**
      * Return the members directly declared by this type.
      * @return
      */
-    public abstract Set<? extends TypeElement> directlyDeclaredElements();
+    public abstract List<Member> directlyDeclaredElements();
+    
+    public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
 
-    public Set<Member> members() throws LookupException {
+  		// 1) All defined members of the requested kind are added.
+  		final List<D> result = new ArrayList(directlyDeclaredElements(selector));
+
+  		// 2) Fetch all potentially inherited members from all inheritance relations
+  		for (InheritanceRelation rel : inheritanceRelations()) {
+  				rel.accumulateInheritedMembers(selector, result);
+  		}
+  		return result;
+    }
+    
+    public abstract <D extends Member> List<D> directlyDeclaredElements(DeclarationSelector<D> selector) throws LookupException;
+
+    public List<Member> members() throws LookupException {
       return members(Member.class);
     }
     
@@ -351,14 +379,14 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
      * @return
      * @throws LookupException
      */
-    public <M extends Member> Set<M> members(final Class<M> kind) throws LookupException {
+    public <M extends Member> List<M> members(final Class<M> kind) throws LookupException {
 
 		// 1) All defined members of the requested kind are added.
-		final HashSet<M> result = new HashSet(directlyDeclaredElements(kind));
+		final List<M> result = new ArrayList(directlyDeclaredElements(kind));
 
 		// 2) Fetch all potentially inherited members from all inheritance relations
 		for (InheritanceRelation rel : inheritanceRelations()) {
-				result.addAll(rel.inheritedMembers(kind));
+				rel.accumulateInheritedMembers(kind, result);
 		}
 		return result;
 	}
@@ -761,16 +789,16 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
       return cel;
     }
 
-    public Set<Declaration> declarations() throws LookupException {
-    	Set<Declaration> result = _declarationCache;
+    public List<? extends Declaration> declarations() throws LookupException {
+    	List<? extends Declaration> result = declarationCache();
     	if(result == null) {
-    		result = new HashSet<Declaration>();
-    	  result.addAll(members());
-    	  _declarationCache = result;
-    	} else {
-    		result = new HashSet<Declaration>(result);
+    		result = members();
+    		setDeclarationCache(result);
     	}
     	return result;
+    }
+    public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
+    	return (List<D>) members((DeclarationSelector<? extends Member>)selector);
     }
 
   	protected void copyContents(Type from) {

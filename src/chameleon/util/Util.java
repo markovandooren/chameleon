@@ -129,6 +129,12 @@ public class Util {
     return result;
   }
 
+  public static <T> List<T> createSingletonList(T element) {
+    List<T> result = new ArrayList<T>();
+    result.add(element);
+    return result;
+  }
+
   public static Set createExpressionSet(Expression element) {
     Set result = new HashSet();
     addExpression(element, result);

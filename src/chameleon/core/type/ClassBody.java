@@ -9,9 +9,11 @@ import java.util.Set;
 import org.rejuse.association.OrderedReferenceSet;
 
 import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
+import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.Member;
@@ -23,7 +25,7 @@ public class ClassBody extends ElementImpl<ClassBody,TypeDescendant> implements 
 	@Override
 	public ClassBody clone() {
 		ClassBody result = new ClassBody();
-		addAll(elements());
+		addAll(members());
 		return result;
 	}
 
@@ -40,14 +42,23 @@ public class ClassBody extends ElementImpl<ClassBody,TypeDescendant> implements 
 	    _elements.add(element.parentLink());
 	  }
 	}
+	
+	public void remove(TypeElement element) {
+	  if(element != null) {
+	    _elements.remove(element.parentLink());
+	  }
+	}
+	
+	public List<TypeElement> elements() {
+		return _elements.getOtherEnds();
+	}
 
-	public Set<Member> elements() {
-    Set<Member> result = new HashSet<Member>();
+	public List<Member> members() {
+		List<Member> result = new ArrayList<Member>();
     for(TypeElement m: _elements.getOtherEnds()) {
       result.addAll(m.getIntroducedMembers());
     }
     return result;
-
 	}
 
 	public Type getNearestType() {
@@ -63,7 +74,7 @@ public class ClassBody extends ElementImpl<ClassBody,TypeDescendant> implements 
 	}
 
 	public List<? extends Element> children() {
-		return new ArrayList<Element>(elements());
+		return new ArrayList<Element>(members());
 	}
 
 	public Namespace getNamespace() {
@@ -78,8 +89,11 @@ public class ClassBody extends ElementImpl<ClassBody,TypeDescendant> implements 
 		return language().lookupFactory().createTargetContext(this);
 	}
 
-	public Set<Member> declarations() throws LookupException {
-		return elements();
+	public List<Member> declarations() throws LookupException {
+		return members();
 	}
 
+	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
+		return selector.selection(declarations());
+	}
 }

@@ -1,19 +1,18 @@
 package chameleon.core.namespacepart;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.association.Reference;
 import org.rejuse.association.Relation;
 
 import chameleon.core.Config;
-import chameleon.core.MetamodelException;
 import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
+import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LexicalLookupStrategy;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
@@ -23,8 +22,8 @@ import chameleon.core.namespace.Namespace;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeContainer;
 /**
- * @author Tim Laeremans
  * @author Marko van Dooren
+ * @author Tim Laeremans
  */
 public class NamespacePart extends NamespacePartElementImpl<NamespacePart,NamespacePartContainer> implements TypeContainer<NamespacePart,NamespacePartContainer>, NamespacePartContainer<NamespacePart,NamespacePartContainer> {
 
@@ -34,19 +33,19 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 		}
 
 		@Override
-		public Set<Declaration> demandDeclarations() throws LookupException {
-		  Set<Declaration> result = new HashSet<Declaration>();
+		public <D extends Declaration> List<D> demandDeclarations(DeclarationSelector<D> selector) throws LookupException {
+		  List<D> result = new ArrayList<D>();
 		  for(Import imporT: imports()) {
-			  result.addAll(imporT.demandImports());
+			  result.addAll(imporT.demandImports(selector));
 		  }
 		  return result;
 		}
 
 		@Override
-		public Set<Declaration> directDeclarations() throws LookupException {
-		  Set<Declaration> result = new HashSet<Declaration>();
+		public <D extends Declaration> List<D> directDeclarations(DeclarationSelector<D> selector) throws LookupException {
+			List<D> result = new ArrayList<D>();
 		  for(Import imporT: imports()) {
-			  result.addAll(imporT.directImports());
+			  result.addAll(imporT.directImports(selector));
 		  }
 		  return result;
 		}
@@ -167,10 +166,14 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 		return result;
 	}
 	
-	public Set<Declaration> declarations() {
-	  Set<Declaration> result = new HashSet<Declaration>(types());
-      return result;
+	public List<? extends Declaration> declarations() {
+      return types();
 	}
+	
+	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
+		return selector.selection(declarations());
+	}
+
 
 	/*************
 	 * NAMESPACE *
@@ -428,4 +431,5 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
   public NamespacePart clone() {
     return new NamespacePart(null);
   }
+
 }
