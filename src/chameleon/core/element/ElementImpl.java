@@ -316,8 +316,11 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	// First get the declared properties.
       PropertySet<Element> properties = properties();
       // Add the given property if it dynamically applies to this element.
-      if((property).appliesTo(this)) {
+      Ternary applies = property.appliesTo(this);
+      if(applies == Ternary.TRUE) {
         properties.add(property);
+      } else if(applies == Ternary.FALSE) {
+      	properties.add(property.inverse());
       }
       // Check if the resulting property set implies the given property.
       return properties.implies(property);

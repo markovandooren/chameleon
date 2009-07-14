@@ -36,6 +36,15 @@ public class ActualArgumentList extends ElementImpl<ActualArgumentList, TypeDesc
   public List<ActualArgument> getActualParameters() {
     return _parametersLink.getOtherEnds();
   }
+  
+ /*@
+   @ public behavior
+   @
+   @ post \result == getActualParameters().size;
+   @*/
+  public int nbActualParameters() {
+  	return _parametersLink.size();
+  }
 
 	@Override
 	public ActualArgumentList clone() {

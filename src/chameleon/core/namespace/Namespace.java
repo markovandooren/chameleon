@@ -1,27 +1,3 @@
-/*
- * Copyright 2000-2004 the Jnome development team.
- *
- * @author Marko van Dooren
- * @author Nele Smeets
- * @author Kristof Mertens
- * @author Jan Dockx
- *
- * This file is part of Jnome.
- *
- * Jnome is free software; you can redistribute it and/or modify it under the
- * terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * Jnome is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * Jnome; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
- * Suite 330, Boston, MA 02111-1307 USA
- */
 package chameleon.core.namespace;
 
 import java.util.ArrayList;
@@ -258,37 +234,33 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 @
 	 @ post \result != null;
 	 @*/
-	  public Set getTypes() {
+	  public List<Type> getTypes() {
 	  	//FIXME: filter out non-exported types such as private types.
-	    final Set result = new HashSet();
-	    new Visitor() {
-	      public void visit(Object o) {
-	        List l = ((NamespacePart)o).types();
-	        //if(l != null) TODO Who wrote this and why?
-	        result.addAll(l);
-	      }
-	    }.applyTo(getNamespaceParts());
+	    final List<Type> result = new ArrayList<Type>();
+	    for(NamespacePart part: getNamespaceParts()) {
+	    	result.addAll(part.types());
+	    }
 	    return result;
 	  }
 
-	/**
-	 * Get the type with the specified names
-	 */
-	public Type getType(final String name) throws LookupException {
-		Set types = getTypes();
-		new PrimitiveTotalPredicate() {
-			public boolean eval(Object o) {
-				return ((Type)o).getName().equals(name);
-			}
-		}.filter(types);
-		if(types.isEmpty()) {
-			return null;
-		} else if(types.size() == 1) {
-			return (Type)types.iterator().next();
-		} else {
-			throw new LookupException("Namespace "+getFullyQualifiedName()+" contains "+types.size() +" classes named "+name);
-		}
-	}
+//	/**
+//	 * Get the type with the specified names
+//	 */
+//	public Type getType(final String name) throws LookupException {
+//		List<Type> types = getTypes();
+//		new PrimitiveTotalPredicate() {
+//			public boolean eval(Object o) {
+//				return ((Type)o).getName().equals(name);
+//			}
+//		}.filter(types);
+//		if(types.isEmpty()) {
+//			return null;
+//		} else if(types.size() == 1) {
+//			return (Type)types.iterator().next();
+//		} else {
+//			throw new LookupException("Namespace "+getFullyQualifiedName()+" contains "+types.size() +" classes named "+name);
+//		}
+//	}
 
 
 	/**
@@ -302,25 +274,13 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 @ post (\forall Namespace sub; getSubNamespaces().contains(sub);
 	 @         \result.containsAll(sub.getAllTypes()));
 	 @*/
-	public Set getAllTypes() {
-		final Set result = getTypes();
+	public List<Type> getAllTypes() {
+		final List<Type> result = getTypes();
 		new Visitor() {
 			public void visit(Object element) {
 				result.addAll(((Namespace)element).getAllTypes());
 			}
 		}.applyTo(getSubNamespaces());
-		return result;
-	}
-
-	/**
-	 * Return the set of all expressions in all types of this package.
-	 */
-	public Set<Expression> getDirectlyContainedExpressions() {
-        Set<Expression> result = new HashSet<Expression>(); 
-        //final Set result = new HashSet();
-        for (Object t : getTypes()) {
-            result.addAll(((Type)t).descendants(Expression.class));
-        }
 		return result;
 	}
 

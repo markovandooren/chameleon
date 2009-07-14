@@ -39,7 +39,7 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 	}
 	
 	public boolean complete() {
-	  return getImplementation() != null;
+	  return getBody() != null;
 	}
 
 	public List<FormalParameter> getParameters() {

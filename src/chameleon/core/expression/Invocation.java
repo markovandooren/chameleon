@@ -122,6 +122,15 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
     return actualArgumentList().getActualParameters();
   }
 
+ /*@
+   @ public behavior
+   @
+   @ post \result == getActualParameters().size;
+   @*/
+  public int nbActualParameters() {
+  	return actualArgumentList().nbActualParameters();
+  }
+  
   public List<Type> getActualParameterTypes() throws LookupException {
 	    List<ActualArgument> params = getActualParameters();
 	    final List<Type> result = new ArrayList();

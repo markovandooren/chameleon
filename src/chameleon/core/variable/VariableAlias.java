@@ -19,6 +19,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
+import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
 import chameleon.core.statement.CheckedExceptionList;
@@ -148,6 +149,10 @@ public class VariableAlias extends VariableImpl<VariableAlias,Type> implements M
 	public boolean overrides(Member other) throws LookupException {
 		return aliasedVariable().overrides(other);
 	}
+
+  public boolean canImplement(Member other) throws LookupException {
+		return aliasedVariable().canImplement(other);
+  }
 
 	public List<Member> getIntroducedMembers() {
 		List<Member> result = new ArrayList<Member>();

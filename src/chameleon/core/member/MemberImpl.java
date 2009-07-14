@@ -42,6 +42,10 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Declara
   	return language().equivalenceRelation().contains(this,other);
   }
 
+  public final boolean canImplement(Member other) throws LookupException {
+  	return language().implementsRelation().contains(this,other);
+  }
+
   public Set<Member> directlyOverriddenMembers() throws LookupException {
     List<Type> superTypes = getNearestType().getDirectSuperTypes();
     // Collect the overridden members in the following set.

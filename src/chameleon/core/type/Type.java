@@ -201,6 +201,12 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
      *         an element to a computed type.
      */
   	public abstract void add(TypeElement element) throws ChameleonProgrammerException;
+  	
+  	public void addAll(Collection<? extends TypeElement> elements) throws ChameleonProgrammerException {
+  		for(TypeElement element: elements) {
+  			add(element);
+  		}
+  	}
 
     /**************
      * SUPERTYPES *
@@ -355,7 +361,7 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
   		for (InheritanceRelation rel : inheritanceRelations()) {
   				rel.accumulateInheritedMembers(selector, result);
   		}
-  		return result;
+  		return selector.selection(result);
     }
     
     public abstract <D extends Member> List<D> directlyDeclaredElements(DeclarationSelector<D> selector) throws LookupException;

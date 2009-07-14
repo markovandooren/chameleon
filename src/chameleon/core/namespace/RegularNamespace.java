@@ -2,9 +2,9 @@ package chameleon.core.namespace;
 
 import java.util.List;
 
+import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.association.ReferenceSet;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
@@ -28,7 +28,7 @@ public class RegularNamespace extends Namespace {
 	/**
 	 * SUBNAMESPACES
 	 */
-	private ReferenceSet<Namespace,Namespace> _namespaces = new ReferenceSet<Namespace,Namespace>(this);
+	private OrderedReferenceSet<Namespace,Namespace> _namespaces = new OrderedReferenceSet<Namespace,Namespace>(this);
 
 
 	protected void addNamespace(Namespace namespace) {
@@ -50,9 +50,9 @@ public class RegularNamespace extends Namespace {
 	 * NAMESPACE PARTS *
 	 *******************/
 
-	private ReferenceSet<Namespace,NamespacePart> _namespaceParts = new ReferenceSet<Namespace,NamespacePart>(this);
+	private OrderedReferenceSet<Namespace,NamespacePart> _namespaceParts = new OrderedReferenceSet<Namespace,NamespacePart>(this);
 
-	public ReferenceSet getNamespacePartsLink(){
+	public OrderedReferenceSet getNamespacePartsLink(){
 		return _namespaceParts;
 	}
 

@@ -71,7 +71,7 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
     if(result != null) {
       return result;
     } else {
-    	lexicalContext().lookUp(selector());
+    	target.targetContext().lookUp(selector());
     	throw new LookupException("Lookup of named target with name: "+getName()+" returned null.");
     }
   }

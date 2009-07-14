@@ -33,7 +33,7 @@ public class LocalLookupStrategy<E extends DeclarationContainer> extends LookupS
 	 * The default implementation returns an empty set.
 	 * @throws LookupException 
 	 */
-  public <D extends Declaration> List<D> demandDeclarations(DeclarationSelector<D> selector) throws LookupException {
+  protected <D extends Declaration> List<D> demandDeclarations(DeclarationSelector<D> selector) throws LookupException {
   	return new ArrayList<D>();
   }
   
@@ -41,14 +41,14 @@ public class LocalLookupStrategy<E extends DeclarationContainer> extends LookupS
 	 * Return the declarations directly declared by the referenced element.
 	 * @throws LookupException 
 	 */
-  public <D extends Declaration> List<D> directDeclarations(DeclarationSelector<D> selector) throws LookupException {
+  protected <D extends Declaration> List<D> directDeclarations(DeclarationSelector<D> selector) throws LookupException {
   	return element().declarations(selector);
   }
 
 
   /**
    * Return those declarations of this declaration container that are selected
-   * by the given signature selector. First the direct declarations are searched.
+   * by the given declaration selector. First the direct declarations are searched.
    * If that yields no results, the on-demand declarations are searched.
    * 
    * @param <D> The type of the arguments selected by the given signature selector. This type
@@ -57,7 +57,7 @@ public class LocalLookupStrategy<E extends DeclarationContainer> extends LookupS
    * @return
    * @throws LookupException
    */
-  public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
+  protected <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
     List<D> result = directDeclarations(selector);
     // Only use on-demand declarations when no direct declarations are found.
     if(result.isEmpty()) {

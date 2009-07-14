@@ -1,8 +1,8 @@
 package chameleon.core.lookup;
 
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
+import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 
 /**
@@ -14,6 +14,9 @@ public class LexicalLookupStrategy extends LookupStrategy {
 	//public abstract Context getParentContext() throws MetamodelException;
 
   public LexicalLookupStrategy(LookupStrategy local, Element element) {
+  	if(local == null) {
+  		throw new ChameleonProgrammerException("Local context given to lexical context is null");
+  	}
   	setLocalContext(local);
   	setElement(element);
   }
@@ -28,7 +31,7 @@ public class LexicalLookupStrategy extends LookupStrategy {
   
   private Element _element;
   
-  public void setLocalContext(LookupStrategy local) {
+  private void setLocalContext(LookupStrategy local) {
   	_localContext = local;
   }
   

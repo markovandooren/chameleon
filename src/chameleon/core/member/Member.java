@@ -57,7 +57,7 @@ public interface Member<E extends Member<E,P,S,F>, P extends DeclarationContaine
  /*@
    @ public behavior
    @
-   @ post other == null ==> \result == null;
+   @ post other == null ==> \result == false;
    @*/
   public boolean overrides(Member other) throws LookupException;
   
@@ -67,7 +67,7 @@ public interface Member<E extends Member<E,P,S,F>, P extends DeclarationContaine
  /*@
    @ public behavior
    @
-   @ post other == null ==> \result == null;
+   @ post other == null ==> \result == false;
    @*/
   public boolean hides(Member other) throws LookupException;
   
@@ -77,9 +77,20 @@ public interface Member<E extends Member<E,P,S,F>, P extends DeclarationContaine
  /*@
    @ public behavior
    @
-   @ post other == null ==> \result == null;
+   @ post other == null ==> \result == false;
    @*/
   public boolean equivalentTo(Member other) throws LookupException;
+  
+  /**
+   * Check whether this member can implement the given member.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post other == null ==> \result == false;
+   @ post other != null && other.is(language().DEFINED)==> \result == false;
+   @*/
+  public boolean canImplement(Member other) throws LookupException;
   
   
   /**

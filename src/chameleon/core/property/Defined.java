@@ -1,8 +1,10 @@
 package chameleon.core.property;
 
+import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.property.DynamicProperty;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertyMutex;
+import org.rejuse.property.PropertySet;
 
 import chameleon.core.declaration.Definition;
 import chameleon.core.element.Element;
@@ -31,8 +33,25 @@ public class Defined extends DynamicProperty<Element> {
    @
    @ post \result == (element instanceof Definition) && ((Definition)element).complete();
    @*/
-  @Override public boolean appliesTo(Element element) {
-    return (element instanceof Definition) && ((Definition)element).complete();
+  @Override public Ternary appliesTo(Element element) {
+  	Ternary result;
+  	if((element instanceof Definition)) {
+      if(((Definition)element).complete()) {
+      	// Definitely defined
+    	  result = Ternary.TRUE;
+      } else {
+      	// Unless explicitly declared as defined, it is undefined.
+      	PropertySet<Element> declared =element.declaredProperties();
+      	result = declared.implies(this);
+      	if(result == Ternary.UNKNOWN) {
+          result = Ternary.FALSE;
+      	}
+      }
+  	} else {
+  		// Can't say
+  		result = Ternary.UNKNOWN;
+  	}
+    return result;
   }
 
 //  protected Property<Element> createInverse(String name, Language lang) {

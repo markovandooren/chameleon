@@ -112,6 +112,11 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
     return overridesRelation.contains(this, other);
   }
 
+  public boolean canImplement(Member other) throws LookupException {
+    StrictPartialOrder<Member> implementsRelation = language().implementsRelation();
+    return implementsRelation.contains(this, other);
+  }
+
   public boolean hides(Member other) throws LookupException {
     StrictPartialOrder<Member> hidesRelation = language().hidesRelation();
     return hidesRelation.contains(this, other);

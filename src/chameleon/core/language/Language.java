@@ -1,6 +1,5 @@
 package chameleon.core.language;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -447,6 +446,18 @@ public abstract class Language implements PropertyUniverse<Element> {
      @ post (\forall Member m; m != null ; ! \result.contains(m,null));
      @*/
     public abstract StrictPartialOrder<Member> hidesRelation();
+
+    /**
+     * Return the relation that determines when a member implements another.
+     */
+   /*@
+     @ post \result != null;
+     @ // A member cannot hide null
+     @ post (\forall Member m; m != null ; ! \result.contains(m,null));
+     @ // If the second member is DEFINED, then the first one cannot implement it.
+     @ post (\forall Member m1,m2; m2 != null && m2.is(DEFINED) ; ! \result.contains(m1,m2));
+     @*/
+    public abstract StrictPartialOrder<Member> implementsRelation();
 
     public abstract Type voidType() throws LookupException;
     
