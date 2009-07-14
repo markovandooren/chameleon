@@ -28,18 +28,29 @@ import chameleon.core.type.TypeContainer;
  */
 public class NamespacePart extends NamespacePartElementImpl<NamespacePart,NamespacePartContainer> implements TypeContainer<NamespacePart,NamespacePartContainer>, NamespacePartContainer<NamespacePart,NamespacePartContainer> {
 
-	protected class ImportLocalContext extends LocalLookupStrategy<NamespacePart> {
-		private ImportLocalContext(NamespacePart element) {
+	protected class ImportLocalDemandContext extends LocalLookupStrategy<NamespacePart> {
+	  public ImportLocalDemandContext(NamespacePart element) {
 			super(element);
 		}
 
-		@Override
-		public <D extends Declaration> List<D> demandDeclarations(DeclarationSelector<D> selector) throws LookupException {
-		  List<D> result = new ArrayList<D>();
-		  for(Import imporT: imports()) {
-			  result.addAll(imporT.demandImports(selector));
-		  }
-		  return result;
+	  @Override
+	  public <D extends Declaration> List<D> demandDeclarations(DeclarationSelector<D> selector) throws LookupException {
+	    List<D> result = new ArrayList<D>();
+			List<Import> imports = imports();
+			ListIterator<Import> iter = imports.listIterator(imports.size());
+			// If the selector found a match, we stop.
+			// We must iterate in reverse.
+			while(result.isEmpty() && iter.hasPrevious()) {
+				Import imporT = iter.previous();
+		    result.addAll(imporT.demandImports(selector));
+	    }
+	    return result;
+	  }
+	}
+	
+	protected class ImportLocalDirectContext extends LocalLookupStrategy<NamespacePart> {
+		private ImportLocalDirectContext(NamespacePart element) {
+			super(element);
 		}
 
 		@Override
@@ -57,17 +68,32 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 		}
 	}
 
-	protected class ImportContext extends LexicalLookupStrategy {
-		private ImportContext(LookupStrategy local, Element element) {
+	protected class ImportDemandContext extends LexicalLookupStrategy {
+		private ImportDemandContext(LookupStrategy local, Element element) {
 			super(local, element);
 		}
 
 		@Override
 		public LookupStrategy parentContext() throws LookupException {
+			    // 5 SEARCH IN DEFAULT NAMESPACE
+					return NamespacePart.this.getDefaultNamespace().targetContext();
+		}
+	}
+
+
+	protected class ImportDirectContext extends LexicalLookupStrategy {
+		private ImportDirectContext(LookupStrategy local, Element element) {
+			super(local, element);
+		}
+
+		@Override
+		public LookupStrategy parentContext() throws LookupException {
+			// 3 SEARCH IN CURRENT NAMESPACE
 			return new LexicalLookupStrategy(language().lookupFactory().wrapLocalStrategy(getDeclaredNamespace().targetContext(),NamespacePart.this), NamespacePart.this) {
 				@Override
 				public LookupStrategy parentContext() {
-					return NamespacePart.this.getDefaultNamespace().targetContext();
+					// 4 SEARCH DEMAND IMPORTS
+					return _importDemandContext;
 				}
 			};
 		}
@@ -81,7 +107,8 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 
 		@Override
 		public LookupStrategy parentContext() {
-			return _importContext;
+			// 2 SEARCH IN DIRECT IMPORTS
+			return _importDirectContext;
 		}
 	}
 
@@ -89,8 +116,11 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
     setNamespace(pack);
     // This must be executed after the namespace is set, so it cannot be in the initialization.
     _typeLocalContext = language().lookupFactory().createTargetContext(this);
-    _importLocalContext = new ImportLocalContext(this);
-    _importContext = new ImportContext(_importLocalContext, this);
+    _importLocalDirectContext = new ImportLocalDirectContext(this);
+    _importLocalDemandContext = new ImportLocalDemandContext(this);
+    _importDirectContext = new ImportDirectContext(_importLocalDirectContext, this);
+    _importDemandContext = new ImportDemandContext(_importLocalDemandContext, this);
+    // 1 SEARCH IN NAMESPACEPART
     _lexicalContext = new NamespacePartLookupStrategy(localContext(), this);
 	}
 	
@@ -102,9 +132,13 @@ public class NamespacePart extends NamespacePartElementImpl<NamespacePart,Namesp
 		}
 	}
 	
-	private LookupStrategy _importLocalContext;
+	private ImportLocalDirectContext _importLocalDirectContext;
 	
-	private LookupStrategy _importContext;
+	private ImportDirectContext _importDirectContext;
+	
+	private ImportLocalDemandContext _importLocalDemandContext;
+	
+	private ImportDemandContext _importDemandContext;
 	
 	public LookupStrategy localContext() {
 		return _typeLocalContext;
