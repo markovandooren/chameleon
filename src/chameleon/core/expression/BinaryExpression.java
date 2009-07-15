@@ -30,7 +30,7 @@ import org.rejuse.association.Reference;
 /**
  * @author Marko van Dooren
  */
-public abstract class BinaryExpression extends Expression<BinaryExpression> implements ExpressionContainer<BinaryExpression,ExpressionContainer> {
+public abstract class BinaryExpression extends Expression<BinaryExpression> {
   
   public BinaryExpression(Expression first, Expression second) {
     setFirst(first);

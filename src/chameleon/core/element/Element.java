@@ -364,5 +364,5 @@ public interface Element<E extends Element, P extends Element> {
      @       p.mutex() == mutex) > 1; 
      @*/
     public Property<Element> property(PropertyMutex<Element> mutex) throws MetamodelException;
-
+    
 }

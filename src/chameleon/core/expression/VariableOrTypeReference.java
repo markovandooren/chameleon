@@ -6,11 +6,10 @@ import java.util.Set;
 
 import org.rejuse.association.Reference;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
+import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReference;
-import chameleon.core.scope.Scope;
 import chameleon.core.type.Type;
 import chameleon.core.type.VariableOrType;
 import chameleon.util.Util;
@@ -18,7 +17,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class VariableOrTypeReference extends Expression<VariableOrTypeReference> implements InvocationTargetContainer<VariableOrTypeReference,ExpressionContainer>, Assignable<VariableOrTypeReference,ExpressionContainer>, CrossReference<VariableOrTypeReference,ExpressionContainer> {
+public class VariableOrTypeReference extends Expression<VariableOrTypeReference> implements Assignable<VariableOrTypeReference,Element>, CrossReference<VariableOrTypeReference,Element> {
     
   public VariableOrTypeReference(InvocationTarget target) {
       setTarget(target);

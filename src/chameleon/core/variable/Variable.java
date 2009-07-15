@@ -16,7 +16,6 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.modifier.ModifierContainer;
 import chameleon.core.type.Type;
-import chameleon.core.type.TypeDescendant;
 import chameleon.core.type.TypeReference;
 import chameleon.core.type.VariableOrType;
 
@@ -24,7 +23,7 @@ import chameleon.core.type.VariableOrType;
  * @author Marko van Dooren
  */
 public interface Variable<E extends Variable<E,P>, P extends DeclarationContainer> 
-                extends TypeDescendant<E,P>, 
+                extends Element<E,P>, 
                 VariableOrType<E,P,SimpleNameSignature>,ModifierContainer<E,P>, TargetDeclaration<E,P,SimpleNameSignature> {
 
   public void setSignature(SimpleNameSignature signature);
@@ -60,13 +59,6 @@ public interface Variable<E extends Variable<E,P>, P extends DeclarationContaine
 	public void addModifier(Modifier modifier);
 
 	public void removeModifier(Modifier modifier);
-
- /*@
-   @ also public behavior
-   @
-   @ post \result == getParent().getNearestType();
-   @*/
-  public Type getNearestType();
 
   public E clone();
 

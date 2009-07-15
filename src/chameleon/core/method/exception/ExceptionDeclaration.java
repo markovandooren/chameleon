@@ -26,17 +26,16 @@ package chameleon.core.method.exception;
 
 import java.util.Set;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.expression.Invocation;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.namespacepart.NamespaceElementImpl;
 import chameleon.core.type.Type;
-import chameleon.core.type.TypeDescendantImpl;
 
 /**
  * @author marko
  */
 
-public abstract class ExceptionDeclaration<E extends ExceptionDeclaration> extends TypeDescendantImpl<E,ExceptionClause> {
+public abstract class ExceptionDeclaration<E extends ExceptionDeclaration> extends NamespaceElementImpl<E,ExceptionClause> {
 
   public ExceptionDeclaration() {
 	}

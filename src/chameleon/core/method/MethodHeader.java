@@ -10,17 +10,17 @@ import org.rejuse.predicate.PrimitiveTotalPredicate;
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
-import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LexicalLookupStrategy;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
+import chameleon.core.namespacepart.NamespaceElementImpl;
 import chameleon.core.type.Type;
 import chameleon.core.variable.FormalParameter;
 import chameleon.core.variable.VariableContainer;
 
-public abstract class MethodHeader<E extends MethodHeader, P extends Method, S extends MethodSignature> extends ElementImpl <E,P> implements VariableContainer<E, P> { //extends Signature<E, P> 
+public abstract class MethodHeader<E extends MethodHeader, P extends Method, S extends MethodSignature> extends NamespaceElementImpl <E,P> implements VariableContainer<E, P> { //extends Signature<E, P> 
   
   public E clone() {
     E result = cloneThis();

@@ -2,9 +2,7 @@ package chameleon.core.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.rejuse.association.OrderedReferenceSet;
 
@@ -12,15 +10,16 @@ import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.element.Element;
-import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.Member;
 import chameleon.core.namespace.Namespace;
+import chameleon.core.namespace.NamespaceElement;
+import chameleon.core.namespacepart.NamespaceElementImpl;
 import chameleon.core.namespacepart.NamespacePart;
 
-public class ClassBody extends ElementImpl<ClassBody,TypeDescendant> implements TypeDescendant<ClassBody, TypeDescendant>, DeclarationContainer<ClassBody,TypeDescendant> {
+public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> implements NamespaceElement<ClassBody, NamespaceElement>, DeclarationContainer<ClassBody,NamespaceElement> {
 
 	@Override
 	public ClassBody clone() {
@@ -59,18 +58,6 @@ public class ClassBody extends ElementImpl<ClassBody,TypeDescendant> implements 
       result.addAll(m.getIntroducedMembers());
     }
     return result;
-	}
-
-	public Type getNearestType() {
-		return parent().getNearestType();
-	}
-
-	public CompilationUnit getCompilationUnit() {
-		return parent().getCompilationUnit();
-	}
-
-	public NamespacePart getNearestNamespacePart() {
-		return parent().getNearestNamespacePart();
 	}
 
 	public List<? extends Element> children() {

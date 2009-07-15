@@ -3,19 +3,19 @@ package chameleon.core.expression;
 import java.util.List;
 import java.util.Set;
 
-import chameleon.core.MetamodelException;
+import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
+import chameleon.core.namespacepart.NamespaceElementImpl;
 import chameleon.core.statement.ExceptionSource;
-import chameleon.core.type.TypeDescendantImpl;
 
 /**
  * @author Marko van Dooren
  */
 
-public abstract class InvocationTarget<E extends InvocationTarget,P extends InvocationTargetContainer> 
-                extends TypeDescendantImpl<E,P> 
+public abstract class InvocationTarget<E extends InvocationTarget,P extends Element> 
+                extends NamespaceElementImpl<E,P> 
                 implements 
 //                Target<E,P>, 
                 Cloneable, ExceptionSource<E,P> {

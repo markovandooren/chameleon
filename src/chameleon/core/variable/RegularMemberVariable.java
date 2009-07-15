@@ -10,6 +10,7 @@ import org.rejuse.predicate.PrimitivePredicate;
 import org.rejuse.property.Property;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
@@ -27,7 +28,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class RegularMemberVariable extends RegularVariable<RegularMemberVariable,Type> implements MemberVariable<RegularMemberVariable>{
+public class RegularMemberVariable extends RegularVariable<RegularMemberVariable,DeclarationContainer> implements MemberVariable<RegularMemberVariable>{
   
   
   /**
@@ -80,7 +81,7 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
   }
 
   public Set<Member> directlyOverriddenMembers() throws LookupException {
-    List<Type> superTypes = getNearestType().getDirectSuperTypes();
+    List<Type> superTypes = nearestAncestor(Type.class).getDirectSuperTypes();
     // Collect the overridden members in the following set.
     final Set<Member> result = new HashSet<Member>();
     // Iterate over all super types.

@@ -12,19 +12,17 @@ import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
-import chameleon.core.expression.ExpressionContainer;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
 import chameleon.core.type.Type;
-import chameleon.core.type.TypeDescendant;
 import chameleon.core.type.TypeReference;
 import chameleon.util.Util;
 
-public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends DeclarationContainer & TypeDescendant> 
-       extends VariableImpl<E,P> implements ExpressionContainer<E,P>, ExceptionSource<E,P> {
+public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends DeclarationContainer> 
+       extends VariableImpl<E,P> implements ExceptionSource<E,P> {
 
 	public RegularVariable(SimpleNameSignature sig, TypeReference typeRef, Expression init) {
 		super(sig);
@@ -147,15 +145,6 @@ public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends 
       throw new LookupException("getType on regular variable returned null.");
     }
   }
-
-  /*@
-  @ also public behavior
-  @
-  @ post \result == getParent().getNearestType();
-  @*/
- public Type getNearestType() {
-   return parent().getNearestType();
- }
 
  public E clone() {
    final E result = cloneThis();

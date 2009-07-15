@@ -10,7 +10,7 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.namespacepart.NamespacePartElementImpl;
+import chameleon.core.namespacepart.NamespaceElementImpl;
 import chameleon.core.type.Type;
 import chameleon.util.Util;
 
@@ -24,7 +24,7 @@ import chameleon.util.Util;
  * @author Marko van Dooren
  * @author Tim Laeremans
  */
-public class ActualArgument extends NamespacePartElementImpl<ActualArgument,ActualArgumentList> implements ExpressionContainer<ActualArgument,ActualArgumentList> {
+public class ActualArgument extends NamespaceElementImpl<ActualArgument,ActualArgumentList> {
 
 
 
@@ -103,14 +103,6 @@ public class ActualArgument extends NamespacePartElementImpl<ActualArgument,Actu
 
 	public Type getType() throws LookupException{
 		return getExpression().getType();
-	}
-
-	public Type getNearestType() {
-		return this.parent().getNearestType();
-	}
-
-	public Namespace getNamespace() {
-		return this.parent().getNamespace();
 	}
 
 }

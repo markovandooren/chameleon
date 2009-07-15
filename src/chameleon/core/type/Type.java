@@ -29,7 +29,6 @@ import chameleon.core.modifier.ModifierContainer;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
-import chameleon.core.statement.StatementContainer;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
 /**
@@ -44,7 +43,6 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
                            NamespaceOrType<Type,DeclarationContainer,SimpleNameSignature>, 
                            VariableOrType<Type,DeclarationContainer,SimpleNameSignature>, 
                            Definition<Type,DeclarationContainer,SimpleNameSignature>,
-                           StatementContainer<Type,DeclarationContainer>, 
                            Cloneable, ExceptionSource<Type,DeclarationContainer>, 
                            ModifierContainer<Type,DeclarationContainer>, 
                            DeclarationContainer<Type,DeclarationContainer> {

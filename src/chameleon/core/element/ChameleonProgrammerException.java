@@ -5,22 +5,46 @@ package chameleon.core.element;
  * a concrete metamodel. If the bug can result from user input, like e.g. an incomplete model, 
  * a {@link MetamodelException} MetamodelException should be used instead.
  * 
- * @author marko
+ * @author Marko van Dooren
  */
 public class ChameleonProgrammerException extends RuntimeException {
 
 	
+ /*@
+   @ public behavior
+   @
+   @ post getMessage().equals(msg);
+   @ post getCause() == null;
+   @*/
 	public ChameleonProgrammerException() {
 	}
 	
+ /*@
+   @ public behavior
+   @
+   @ post getMessage().equals(msg);
+   @ post getCause() == null;
+   @*/
 	public ChameleonProgrammerException(String msg) {
 		super(msg);
 	}
 	
+ /*@
+   @ public behavior
+   @
+   @ post getMessage() == null;
+   @ post getCause().equals(e);
+   @*/
 	public ChameleonProgrammerException(Exception e) {
 		super(e);
 	}
 
+ /*@
+   @ public behavior
+   @
+   @ post getMessage().equals(msg);
+   @ post getCause().equals(e);
+   @*/
 	public ChameleonProgrammerException(String msg, Exception e) {
 		super(msg,e);
 	}

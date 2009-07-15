@@ -20,7 +20,7 @@ import chameleon.core.variable.FormalParameter;
 import chameleon.core.variable.MemberVariable;
 import chameleon.core.variable.Variable;
 import chameleon.util.Util;
-public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> implements ExpressionContainer<NamedTarget,InvocationTargetContainer>, CrossReference<NamedTarget,InvocationTargetContainer> {
+public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> implements CrossReference<NamedTarget,Element> {
 
 	/**
 	 * Initialize a new named target with the given fully qualified name. The

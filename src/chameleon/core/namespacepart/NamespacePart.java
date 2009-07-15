@@ -26,7 +26,7 @@ import chameleon.core.type.Type;
  * @author Marko van Dooren
  * @author Tim Laeremans
  */
-public class NamespacePart extends NamespacePartElementImpl<NamespacePart,NamespacePartContainer> implements DeclarationContainer<NamespacePart,NamespacePartContainer>, NamespacePartContainer<NamespacePart,NamespacePartContainer> {
+public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespacePartContainer> implements DeclarationContainer<NamespacePart,NamespacePartContainer>, NamespacePartContainer<NamespacePart,NamespacePartContainer> {
 
 	protected class ImportLocalDemandContext extends LocalLookupStrategy<NamespacePart> {
 	  public ImportLocalDemandContext(NamespacePart element) {

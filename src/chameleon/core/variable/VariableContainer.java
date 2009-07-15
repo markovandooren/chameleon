@@ -3,12 +3,11 @@ package chameleon.core.variable;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.element.Element;
 import chameleon.core.namespace.NamespaceElement;
-import chameleon.core.type.TypeDescendant;
 
 /**
  * @author Marko van Dooren
  */
-public interface VariableContainer<E extends VariableContainer, P extends Element> extends TypeDescendant<E,P>, DeclarationContainer<E,P>
+public interface VariableContainer<E extends VariableContainer, P extends Element> extends Element<E,P>, DeclarationContainer<E,P>
 {
 	
 	/**

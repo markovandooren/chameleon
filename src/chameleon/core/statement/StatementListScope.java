@@ -44,6 +44,7 @@ public class StatementListScope extends Scope {
 	private Statement _statement;
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public boolean contains(Element element) {
 		Statement statement = getStatement();
 		boolean result = element.ancestors().contains(statement);

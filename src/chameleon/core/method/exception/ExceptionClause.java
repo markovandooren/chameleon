@@ -9,21 +9,19 @@ import org.rejuse.java.collections.RobustVisitor;
 import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.PrimitivePredicate;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.element.Element;
-import chameleon.core.expression.ExpressionContainer;
 import chameleon.core.expression.Invocation;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.method.Method;
 import chameleon.core.method.MethodHeader;
 import chameleon.core.method.MethodSignature;
+import chameleon.core.namespacepart.NamespaceElementImpl;
 import chameleon.core.type.Type;
-import chameleon.core.type.TypeDescendantImpl;
 
 /**
  * @author Marko van Dooren
  */
-public class ExceptionClause extends TypeDescendantImpl<ExceptionClause,Method<? extends Method,? extends MethodHeader,? extends MethodSignature>> implements ExpressionContainer<ExceptionClause,Method<? extends Method,? extends MethodHeader,? extends MethodSignature>>{
+public class ExceptionClause extends NamespaceElementImpl<ExceptionClause,Method<? extends Method,? extends MethodHeader,? extends MethodSignature>> {
 
   public ExceptionClause() {
 	}

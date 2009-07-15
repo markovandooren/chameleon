@@ -1,14 +1,13 @@
 package chameleon.core.type;
 
 import java.util.List;
-import java.util.Set;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.modifier.ModifierContainer;
+import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.statement.CheckedExceptionList;
 
 /**
@@ -19,7 +18,7 @@ import chameleon.core.statement.CheckedExceptionList;
  * @param <E> The type of the element itself
  * @param <P> The type of the parent of the element
  */
-public interface TypeElement<E extends TypeElement<E,P>, P extends Element> extends TypeDescendant<E, P>, ModifierContainer<E, P> {
+public interface TypeElement<E extends TypeElement<E,P>, P extends Element> extends NamespaceElement<E, P>, ModifierContainer<E, P> {
 
   public abstract E clone();
   

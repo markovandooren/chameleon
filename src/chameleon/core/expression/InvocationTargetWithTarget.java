@@ -11,23 +11,17 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public abstract class InvocationTargetWithTarget<E extends InvocationTargetWithTarget> extends InvocationTarget<E,InvocationTargetContainer> {
+public abstract class InvocationTargetWithTarget<E extends InvocationTargetWithTarget> extends InvocationTarget<E,Element> {
   
   public InvocationTargetWithTarget() {
   }
   
-  public Type getNearestType() {
-    return parent().getNearestType();
-  }
-
-  
-
 	/**
 	 * TARGET
 	 */
 	private Reference<InvocationTarget,InvocationTarget> _target = new Reference<InvocationTarget,InvocationTarget>(this);
 
-  public InvocationTarget<? extends InvocationTarget, ? extends InvocationTargetContainer> getTarget() {
+  public InvocationTarget<?,?> getTarget() {
     return _target.getOtherEnd();
   }
 

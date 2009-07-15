@@ -1,9 +1,3 @@
-/*
- * Created on Mar 7, 2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
- */
 package chameleon.core.method.exception;
 
 import java.util.Set;
@@ -12,7 +6,6 @@ import org.rejuse.association.Reference;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.type.TypeDescendant;
 
 /**
  * @author marko
@@ -20,7 +13,7 @@ import chameleon.core.type.TypeDescendant;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public interface AnchoredDeclaration<E extends Element, P extends Element> extends TypeDescendant<E,P> {
+public interface AnchoredDeclaration<E extends Element, P extends Element> extends Element<E,P> {
 	public Set getRawExceptionTypes() throws LookupException;
 
 	/**

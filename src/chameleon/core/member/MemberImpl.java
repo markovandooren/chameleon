@@ -47,7 +47,7 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Declara
   }
 
   public Set<Member> directlyOverriddenMembers() throws LookupException {
-    List<Type> superTypes = getNearestType().getDirectSuperTypes();
+    List<Type> superTypes = nearestAncestor(Type.class).getDirectSuperTypes();
     // Collect the overridden members in the following set.
     final Set<Member> result = new HashSet<Member>();
     // Iterate over all super types.

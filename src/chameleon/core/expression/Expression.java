@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.rejuse.java.collections.RobustVisitor;
 
+import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.Target;
@@ -16,7 +17,7 @@ import chameleon.core.type.Type;
  * @author Marko van Dooren
  */
 
-public abstract class Expression<E extends Expression> extends InvocationTarget<E,ExpressionContainer> {
+public abstract class Expression<E extends Expression> extends InvocationTarget<E,Element> {
 
 	/**
 	 * Return the type of this expression.
@@ -32,20 +33,15 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
   }
 
 
-//  public void setTarget(InvocationTarget prec) {
-//    throw new IllegalArgumentException();
+
+// /*@
+//   @ public behavior
+//   @
+//   @ post \result == getParent().getNearestType();
+//   @*/
+//  public Type getNearestType() {
+//    return parent().getNearestType();
 //  }
-
-  
-
- /*@
-   @ public behavior
-   @
-   @ post \result == getParent().getNearestType();
-   @*/
-  public Type getNearestType() {
-    return parent().getNearestType();
-  }
 
 
   public boolean subOf(InvocationTarget target) throws LookupException {

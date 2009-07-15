@@ -9,7 +9,7 @@ import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.modifier.Modifier;
-import chameleon.core.namespacepart.NamespacePartElementImpl;
+import chameleon.core.namespacepart.NamespaceElementImpl;
 import chameleon.core.statement.CheckedExceptionList;
 
 /**
@@ -20,7 +20,7 @@ import chameleon.core.statement.CheckedExceptionList;
  * @param <E> The type of the element
  * @param <P> The type of the parent
  */
-public abstract class TypeElementImpl<E extends TypeElementImpl<E,P>, P extends Element> extends NamespacePartElementImpl<E, P> implements TypeElement<E,P> {
+public abstract class TypeElementImpl<E extends TypeElementImpl<E,P>, P extends Element> extends NamespaceElementImpl<E, P> implements TypeElement<E,P> {
   
   /*************
    * MODIFIERS *

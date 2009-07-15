@@ -12,7 +12,7 @@ import chameleon.core.lookup.LookupException;
 /**
  * @author Marko van Dooren
  */
-public abstract class Import<E extends Element> extends NamespacePartElementImpl<E,NamespacePart> {
+public abstract class Import<E extends Element> extends NamespaceElementImpl<E,NamespacePart> {
 
   public Import() {
 	}

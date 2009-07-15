@@ -18,7 +18,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class VariableReference extends Expression<VariableReference> implements Assignable<VariableReference,ExpressionContainer>, InvocationTargetContainer<VariableReference,ExpressionContainer>, CrossReference<VariableReference,ExpressionContainer> {
+public class VariableReference extends Expression<VariableReference> implements Assignable<VariableReference,Element>, CrossReference<VariableReference,Element> {
 
   public VariableReference(NamedTarget target) {
 	  setTarget(target);

@@ -1,16 +1,13 @@
 package chameleon.core.namespace;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.rejuse.association.Reference;
 import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.PrimitiveTotalPredicate;
 import org.rejuse.predicate.TypePredicate;
 
-import chameleon.core.IMetaModel;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
@@ -19,7 +16,6 @@ import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
-import chameleon.core.expression.Expression;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
@@ -30,7 +26,7 @@ import chameleon.core.type.Type;
  * @author Marko van Dooren
  */
 
-public abstract class Namespace extends ElementImpl<Namespace,Namespace> implements NamespaceOrType<Namespace,Namespace,SimpleNameSignature>, IMetaModel, DeclarationContainer<Namespace, Namespace>, TargetDeclaration<Namespace, Namespace,SimpleNameSignature> {
+public abstract class Namespace extends ElementImpl<Namespace,Namespace> implements NamespaceOrType<Namespace,Namespace,SimpleNameSignature>, DeclarationContainer<Namespace, Namespace>, TargetDeclaration<Namespace, Namespace,SimpleNameSignature> {
   //FIXME
 	//SPEED : use hashmap to store the subnamespaces and forbid
 	//        adding multiple namespaces with the same name. That is
@@ -42,12 +38,12 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 * @param name
 	 *        The name of the new package.
 	 */
-	/*@
+ /*@
 	 @ public behavior
 	 @
-	 @ pre name != null;
+	 @ pre sig != null;
 	 @
-	 @ post \result.getName().equals(name);
+	 @ post signature()==sig;
 	 @*/
 	public Namespace(SimpleNameSignature sig) {
       setSignature(sig);
@@ -58,7 +54,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	  if(signature != null) {
 	    _signature.connectTo(signature.parentLink());
 	  } else {
-	    _signature.connectTo(null);
+	    throw new IllegalArgumentException("The signature of a namespace cannot be set to null");
 	  }
 	}
 		  
@@ -71,6 +67,14 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 		  
 	  private Reference<Namespace, SimpleNameSignature> _signature = new Reference<Namespace, SimpleNameSignature>(this);
 
+	  /**
+	   * The name of a namespace is the name of its signature.
+	   */
+	 /*@
+	   @ public behavior
+	   @
+	   @ post \result == signature().getName();
+	   @*/
 	  public String getName() {
 		  return signature().getName();
 	  }
@@ -78,7 +82,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	/**
 	 * Return the fully qualified name of this package/
 	 */
-	/*@
+ /*@
 	 @ public behavior
 	 @
 	 @ post (getParent() == null) || getParent().getName().equals("") ==>
@@ -97,28 +101,39 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 		}
 	}
 
-	public class NamePredicate extends PrimitiveTotalPredicate {
-		public boolean eval(Object pack) {
-			return (pack instanceof Namespace) && ((Namespace)pack).getFullyQualifiedName().equals(getFullyQualifiedName());
-		}
-
-	}
-
 	/**************
 	 * PACKAGEPART
 	 **************/
 
+	/**
+	 * Add a namespace part to this namespace. A namespace part adds elements to its namespace.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre namespacepart != null;
+   @
+   @ post getNamespaceParts().contains(namespacepart);
+   @*/
 	public abstract void addNamespacePart(NamespacePart namespacePart);
 
+	/**
+	 * Return all namespace parts attached to this namespace.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
 	public abstract List<NamespacePart> getNamespaceParts();
 
 	/**
 	 * Return the root namespace of this metamodel instance.
 	 */
-	/*@
+ /*@
 	 @ public behavior
 	 @
-	 @ post getParent() != null ==> \result == getParent().getDefaultPackage();
+	 @ post getParent() != null ==> \result == getParent().defaultNamespace();
 	 @ post getParent() == null ==> \result == this;
 	 @*/
 	public Namespace defaultNamespace() {
@@ -131,22 +146,35 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	}
 
 	/**
-	 * See superclass
+	 * Return the subnamespaces of this namespace.
 	 */
-
-
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
 	public abstract List<Namespace> getSubNamespaces();
 
 	/**
-	 * <p>Return the package with the fullyqualified name that
-	 * equals the fqn of this package concatenated with the
+	 * <p>Return the namespace with the fullyqualified name that
+	 * equals the fqn of this namespace concatenated with the
 	 * given name.</p>
 	 *
-	 * <p>If the package does not exist yet, it will be created.</p>
+	 * <p>If the namespace does not exist yet, it will be created.</p>
 	 *
 	 * @param name
-	 *        The qualified name relative to this package
+	 *        The qualified name relative to this namespace
 	 */
+ /*@
+   @ public behavior
+   @
+   @ pre name != null;
+   @
+   @ post (! this == defaultNamespace()) ==> \result.getFullyQualifiedName().equals(getFullyQualifiedName() + "." + name);
+   @ post (this == defaultNamespace()) ==> \result.getFullyQualifiedName().equals(name);
+   @
+   @ signals (LookupException) (* There are multiple subnamespaces with the given name. *) 
+   @*/
 	public abstract Namespace getOrCreateNamespace(final String name) throws LookupException;
 
 	/**
@@ -155,13 +183,13 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 * @param name
 	 *        The short name of the package to be returned.
 	 */
-	/*@
+ /*@
 	 @ public behavior
 	 @
 	 @ post getSubNamespaces().contains(\result);
 	 @ post \result.getName().equals(name);
 	 @
-	 @ signals (MetamodelException) (* The subpackage could not be found*);
+	 @ signals (LookupException) (* There are multiple namespaces with the given name. *);
 	 @*/
 	public Namespace getSubNamespace(final String name) throws LookupException {
 		List<Namespace> packages = getSubNamespaces();
@@ -183,47 +211,6 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 
 	}
 
-//	/**
-//	 * Find the package or type with the given qualified name.
-//	 *
-//	 * @param name
-//	 * 		The qualified name relative to this package.
-//	 */
-//	/*@
-//	 @ public behavior
-//	 @
-//	 @ post \result != null;
-//	 @ post name == null ==> \result == this;
-//	 @ post name != null ==> \result.getFullyQualifiedName().equals(getFullyQualifiedName() + "." + name);
-//	 @
-//	 @ signals (MetamodelException) (* The type/package could not be found*);
-//	 @*/
-//	public NamespaceOrType findNamespaceOrType(String qualifiedName) throws MetamodelException {
-//		NamespaceOrTypeReference ref = new DummyNamespaceOrTypeReference(qualifiedName);
-//		return ref.getNamespaceOrType();
-//	}
-
-//	/**
-//	 * Return the type with the given fully qualified name.
-//	 *
-//	 * @param fqn
-//	 *        The fully qualified name of the requested type.
-//	 */
-//	/*@
-//	 @ public behavior
-//	 @
-//	 @ post \result == getDefaultPackage().findPackageOrType(fqn);
-//	 @
-//	 @ signals (MetamodelException) (* The type could not be found*);
-//	 @*/
-//	public Type findType(String fqn) throws MetamodelException {
-//		try {
-//			return (Type)findNamespaceOrType(fqn);
-//		}
-//		catch (ClassCastException exc) {
-//			throw new MetamodelException("Can not find type " + fqn);
-//		}
-//	}
 
 
 	/**
@@ -242,26 +229,6 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	    }
 	    return result;
 	  }
-
-//	/**
-//	 * Get the type with the specified names
-//	 */
-//	public Type getType(final String name) throws LookupException {
-//		List<Type> types = getTypes();
-//		new PrimitiveTotalPredicate() {
-//			public boolean eval(Object o) {
-//				return ((Type)o).getName().equals(name);
-//			}
-//		}.filter(types);
-//		if(types.isEmpty()) {
-//			return null;
-//		} else if(types.size() == 1) {
-//			return (Type)types.iterator().next();
-//		} else {
-//			throw new LookupException("Namespace "+getFullyQualifiedName()+" contains "+types.size() +" classes named "+name);
-//		}
-//	}
-
 
 	/**
 	 * Return the set of all types in this package and all of its subpackages.
@@ -299,7 +266,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	   @ post \result.containsAll(getSubNamespaces());
 	   @ post \result.containsAll(getCompilationUnits());
 	   @*/
-	  public List<? extends Element> children() {
+	  public List<Element> children() {
 	    List<Element> result = new ArrayList<Element>();
       result.addAll(getSubNamespaces());
 	    result.addAll( getNamespaceParts());

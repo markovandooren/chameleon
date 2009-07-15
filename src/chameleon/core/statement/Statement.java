@@ -30,32 +30,25 @@ import java.util.ListIterator;
 import org.rejuse.java.collections.RobustVisitor;
 import org.rejuse.predicate.TypePredicate;
 
+import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.namespacepart.NamespacePartElementImpl;
+import chameleon.core.namespacepart.NamespaceElementImpl;
 import chameleon.core.type.Type;
 
 /**
  * @author Marko van Dooren
  */
 
-public abstract class Statement<E extends Statement> extends NamespacePartElementImpl<E,StatementContainer> implements ExceptionSource<E,StatementContainer> {
+public abstract class Statement<E extends Statement> extends NamespaceElementImpl<E,Element> implements ExceptionSource<E,Element> {
 
 
-    protected Statement() {
-    }
-
-
-  public Type getNearestType() {
-    return parent().getNearestType();
+  protected Statement() {
   }
 
-  public Namespace getNamespace() {
-    return getNearestType().getNamespace();
-  }
-  
+
   public abstract E clone();
 
   public CheckedExceptionList getCEL() throws LookupException {

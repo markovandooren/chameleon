@@ -4,15 +4,11 @@ import java.util.List;
 
 import org.rejuse.association.OrderedReferenceSet;
 
-import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.element.Element;
-import chameleon.core.element.ElementImpl;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.namespacepart.NamespacePart;
-import chameleon.core.type.Type;
-import chameleon.core.type.TypeDescendant;
+import chameleon.core.namespacepart.NamespaceElementImpl;
 
-public class ActualArgumentList extends ElementImpl<ActualArgumentList, TypeDescendant> implements TypeDescendant<ActualArgumentList, TypeDescendant>{
+public class ActualArgumentList extends NamespaceElementImpl<ActualArgumentList, Element> {
 
 	
 	/**
@@ -55,24 +51,8 @@ public class ActualArgumentList extends ElementImpl<ActualArgumentList, TypeDesc
 		return result;
 	}
 
-	public Type getNearestType() {
-		return parent().getNearestType();
-	}
-
-	public CompilationUnit getCompilationUnit() {
-		return parent().getCompilationUnit();
-	}
-
-	public NamespacePart getNearestNamespacePart() {
-		return parent().getNearestNamespacePart();
-	}
-
 	public List<? extends Element> children() {
 		return getActualParameters();
-	}
-
-	public Namespace getNamespace() {
-		return parent().getNamespace();
 	}
 
 }

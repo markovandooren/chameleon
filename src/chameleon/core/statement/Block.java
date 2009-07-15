@@ -13,7 +13,7 @@ import chameleon.core.lookup.LookupStrategy;
 /**
  * @author Marko van Dooren
  */
-public class Block extends Statement<Block> implements StatementContainer<Block,StatementContainer>, StatementListContainer<Block,StatementContainer> {
+public class Block extends Statement<Block> implements StatementListContainer<Block,Element> {
 	//TODO: should this be a member, or should there be a separate ObjectInitializer that contains a block ?
 	//TODO: can any statement be a member ? In this case the methods of Member have to move up.
 

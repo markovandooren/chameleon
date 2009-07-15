@@ -4,18 +4,16 @@ import java.util.List;
 
 import org.rejuse.association.Reference;
 
-import chameleon.core.MetamodelException;
-import chameleon.core.lookup.LexicalLookupStrategy;
+import chameleon.core.element.Element;
 import chameleon.core.type.StubTypeElement;
-import chameleon.core.type.TypeDescendant;
 import chameleon.util.Util;
 
 /**
  * @author Marko van Dooren
  */
-public class StubExpressionContainer extends StubTypeElement<StubExpressionContainer> implements ExpressionContainer<StubExpressionContainer,TypeDescendant> {
+public class StubExpressionContainer extends StubTypeElement<StubExpressionContainer> {
   
-  public StubExpressionContainer(ExpressionContainer parent, Expression expr) {
+  public StubExpressionContainer(Element parent, Expression expr) {
     super(parent); //FIXME this entire class should be removed I think, and use a adaptable context graph for anchored exception declarations
     _expr.connectTo(expr.parentLink());
   }

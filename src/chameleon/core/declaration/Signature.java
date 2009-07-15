@@ -2,7 +2,7 @@ package chameleon.core.declaration;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespacepart.NamespacePartElementImpl;
+import chameleon.core.namespacepart.NamespaceElementImpl;
 
 /**
  * A signature is a means of identifying a declaration that can be cross-referenced. It contains
@@ -11,7 +11,7 @@ import chameleon.core.namespacepart.NamespacePartElementImpl;
  * 
  * @author Marko van Dooren
  */
-public abstract class Signature<E extends Signature, P extends Element> extends NamespacePartElementImpl<E,P> {
+public abstract class Signature<E extends Signature, P extends Element> extends NamespaceElementImpl<E,P> {
 
   public abstract E clone();
   

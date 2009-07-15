@@ -7,14 +7,13 @@ import org.rejuse.association.Reference;
 
 import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
-import chameleon.core.expression.ExpressionContainer;
 import chameleon.util.Util;
 
 /**
  * @author Marko van Dooren
  */
 public abstract class ExpressionContainingStatement<E extends ExpressionContainingStatement> 
-                extends Statement<E> implements ExpressionContainer<E,StatementContainer> {
+                extends Statement<E> {
 	
   public ExpressionContainingStatement(Expression expression) {
     setExpression(expression);

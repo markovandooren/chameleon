@@ -11,6 +11,7 @@ import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
+import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
@@ -19,14 +20,13 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
-import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 
-public class VariableAlias extends VariableImpl<VariableAlias,Type> implements MemberVariable<VariableAlias> {
+public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContainer> implements MemberVariable<VariableAlias> {
 	
 	public VariableAlias(SimpleNameSignature sig, MemberVariable aliasedVariable) {
 		super(sig);
@@ -55,10 +55,6 @@ public class VariableAlias extends VariableImpl<VariableAlias,Type> implements M
 
 	public String getName() {
 		return signature().getName();
-	}
-
-	public Type getNearestType() {
-		return parent().getNearestType();
 	}
 
 	public Type getType() throws LookupException {
