@@ -11,6 +11,7 @@ import org.rejuse.association.Relation;
 import chameleon.core.Config;
 import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.lookup.DeclarationSelector;
@@ -21,12 +22,11 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.type.Type;
-import chameleon.core.type.TypeContainer;
 /**
  * @author Marko van Dooren
  * @author Tim Laeremans
  */
-public class NamespacePart extends NamespacePartElementImpl<NamespacePart,NamespacePartContainer> implements TypeContainer<NamespacePart,NamespacePartContainer>, NamespacePartContainer<NamespacePart,NamespacePartContainer> {
+public class NamespacePart extends NamespacePartElementImpl<NamespacePart,NamespacePartContainer> implements DeclarationContainer<NamespacePart,NamespacePartContainer>, NamespacePartContainer<NamespacePart,NamespacePartContainer> {
 
 	protected class ImportLocalDemandContext extends LocalLookupStrategy<NamespacePart> {
 	  public ImportLocalDemandContext(NamespacePart element) {

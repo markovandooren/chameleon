@@ -21,8 +21,6 @@ import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
 import chameleon.core.type.Type;
-import chameleon.core.type.TypeContainer;
-import chameleon.core.type.TypeDescendant;
 import chameleon.core.type.TypeReference;
 import chameleon.util.Util;
 

@@ -27,7 +27,6 @@ import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.modifier.ModifierContainer;
 import chameleon.core.namespace.NamespaceOrType;
-import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
 import chameleon.core.statement.StatementContainer;
@@ -40,13 +39,15 @@ import chameleon.core.type.inheritance.InheritanceRelation;
  *
  * @author Marko van Dooren
  */
-public abstract class Type extends FixedSignatureMember<Type,TypeContainer,SimpleNameSignature,Type> 
-                implements TargetDeclaration<Type,TypeContainer,SimpleNameSignature>, NamespaceOrType<Type,TypeContainer,SimpleNameSignature>, 
-                           TypeContainer<Type,TypeContainer>,  
-                           VariableOrType<Type,TypeContainer,SimpleNameSignature>, Definition<Type,TypeContainer,SimpleNameSignature>,
-                           StatementContainer<Type,TypeContainer>, 
-                           Cloneable, ExceptionSource<Type,TypeContainer>, ModifierContainer<Type,TypeContainer>, 
-                           DeclarationContainer<Type,TypeContainer> {
+public abstract class Type extends FixedSignatureMember<Type,DeclarationContainer,SimpleNameSignature,Type> 
+                implements TargetDeclaration<Type,DeclarationContainer,SimpleNameSignature>, 
+                           NamespaceOrType<Type,DeclarationContainer,SimpleNameSignature>, 
+                           VariableOrType<Type,DeclarationContainer,SimpleNameSignature>, 
+                           Definition<Type,DeclarationContainer,SimpleNameSignature>,
+                           StatementContainer<Type,DeclarationContainer>, 
+                           Cloneable, ExceptionSource<Type,DeclarationContainer>, 
+                           ModifierContainer<Type,DeclarationContainer>, 
+                           DeclarationContainer<Type,DeclarationContainer> {
  
 	
 	private List<? extends Declaration> _declarationCache = null;
@@ -133,7 +134,7 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
      */
     public LookupStrategy lexicalContext(Element element) throws LookupException {
     	if(inheritanceRelations().contains(element)) {
-    		TypeContainer parent = parent();
+    		DeclarationContainer parent = parent();
     		if(parent != null) {
     		  return parent().lexicalContext(this);
     		} else {
@@ -737,9 +738,9 @@ public abstract class Type extends FixedSignatureMember<Type,TypeContainer,Simpl
     }
 
 
-    public NamespacePart getNearestNamespacePart() {
-        return parent().getNearestNamespacePart();
-    }
+//    public NamespacePart getNearestNamespacePart() {
+//        return parent().getNearestNamespacePart();
+//    }
 
 //    /**
 //     * @param string
