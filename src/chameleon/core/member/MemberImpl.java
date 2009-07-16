@@ -72,8 +72,12 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Declara
     return result;
   }
   
-  public Declaration resolve() throws LookupException {
+  public Declaration resolveForMatch() throws LookupException {
   	return this;
+  }
+  
+  public F resolveForResult() throws LookupException {
+  	return (F) this;
   }
   
   public Scope scope() throws MetamodelException {

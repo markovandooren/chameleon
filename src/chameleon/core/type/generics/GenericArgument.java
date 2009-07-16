@@ -7,6 +7,8 @@ import org.rejuse.association.Reference;
 
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
+import chameleon.core.lookup.LookupException;
+import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 
 public class GenericArgument extends ElementImpl<GenericArgument, Element> {
@@ -28,6 +30,20 @@ public class GenericArgument extends ElementImpl<GenericArgument, Element> {
 	
 	public TypeReference typeReference() {
 		return _type.getOtherEnd();
+	}
+	
+	public Type type() throws LookupException {
+		TypeReference tref = typeReference();
+		if(tref != null) {
+			Type type = tref.getType();
+			if(type != null) {
+			  return type;
+			} else {
+				throw new LookupException("Lookup of type of generic argument return null."); 
+			}
+		} else {
+			throw new LookupException("Generic argument has no type reference.");
+		}
 	}
 	
 	public void setTypeReference(TypeReference ref) {

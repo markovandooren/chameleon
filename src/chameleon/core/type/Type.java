@@ -29,6 +29,8 @@ import chameleon.core.modifier.ModifierContainer;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
+import chameleon.core.type.generics.GenericParameter;
+import chameleon.core.type.generics.InstantiatedGenericParameter;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
 /**
@@ -39,10 +41,10 @@ import chameleon.core.type.inheritance.InheritanceRelation;
  * @author Marko van Dooren
  */
 public abstract class Type extends FixedSignatureMember<Type,DeclarationContainer,SimpleNameSignature,Type> 
-                implements TargetDeclaration<Type,DeclarationContainer,SimpleNameSignature>, 
-                           NamespaceOrType<Type,DeclarationContainer,SimpleNameSignature>, 
-                           VariableOrType<Type,DeclarationContainer,SimpleNameSignature>, 
-                           Definition<Type,DeclarationContainer,SimpleNameSignature>,
+                implements TargetDeclaration<Type,DeclarationContainer,SimpleNameSignature,Type>, 
+                           NamespaceOrType<Type,DeclarationContainer,SimpleNameSignature,Type>, 
+                           VariableOrType<Type,DeclarationContainer,SimpleNameSignature,Type>, 
+                           Definition<Type,DeclarationContainer,SimpleNameSignature,Type>,
                            Cloneable, ExceptionSource<Type,DeclarationContainer>, 
                            ModifierContainer<Type,DeclarationContainer>, 
                            DeclarationContainer<Type,DeclarationContainer> {
@@ -346,7 +348,8 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     }
     
     /**
-     * Return the members directly declared by this type.
+     * Return the members directly declared by this type. The order of the elements in the list is the order in which they
+     * are written in the type.
      * @return
      */
     public abstract List<Member> directlyDeclaredElements();
@@ -843,6 +846,8 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
   		result.addType(type);
   		return result;
   	}
+
+		public abstract void replace(TypeElement oldElement, TypeElement newElement);
 
 }
 

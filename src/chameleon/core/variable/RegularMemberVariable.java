@@ -28,7 +28,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class RegularMemberVariable extends RegularVariable<RegularMemberVariable,DeclarationContainer> implements MemberVariable<RegularMemberVariable>{
+public class RegularMemberVariable extends RegularVariable<RegularMemberVariable,DeclarationContainer,MemberVariable> implements MemberVariable<RegularMemberVariable>{
   
   
   /**
@@ -146,5 +146,9 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
   		}
   	}
   }
+
+	public MemberVariable resolveForResult() throws LookupException {
+		return this;
+	}
 
 }

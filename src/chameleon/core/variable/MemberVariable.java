@@ -5,6 +5,6 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.member.Member;
 
 public interface MemberVariable<E extends MemberVariable<E>> 
-       extends Variable<E,DeclarationContainer>, Member<E,DeclarationContainer,SimpleNameSignature,MemberVariable> {
+       extends Variable<E,DeclarationContainer,MemberVariable>, Member<E,DeclarationContainer,SimpleNameSignature,MemberVariable> {
 
 }

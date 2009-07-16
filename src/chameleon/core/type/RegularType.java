@@ -76,5 +76,10 @@ public class RegularType extends Type {
 	public <D extends Member> List<D> directlyDeclaredElements(DeclarationSelector<D> selector) throws LookupException {
 		return selector.selection(directlyDeclaredElements());
 	}
+	
+  public void replace(TypeElement oldElement, TypeElement newElement) {
+		body().replace(oldElement, newElement);
+  }
+
 
 }

@@ -4,7 +4,7 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.type.generics.GenericParameter;
 
 /**
- * This class represents types created as a result of resolving a generic parameter, which itself is
+ * This class represents types created as a result of looking up (resolving) a generic parameter, which itself is
  * not a type.
  * 
  * @author Marko van Dooren

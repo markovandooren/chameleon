@@ -31,6 +31,9 @@ public class GenericParameter extends FixedSignatureMember<GenericParameter, Typ
 	@Override
 	public GenericParameter clone() {
 		GenericParameter result = new GenericParameter(signature().clone());
+		for(TypeConstraint constraint: constraints()) {
+			result.addConstraint(constraint.clone());
+		}
 		return result;
 	}
 	
@@ -48,7 +51,7 @@ public class GenericParameter extends FixedSignatureMember<GenericParameter, Typ
 	 * Resolving a generic parameter results in a constructed type whose bound
 	 * is the upper bound of this generic parameter as defined by the upperBound method.
 	 */
-	public Type resolve() throws LookupException {
+	public Type resolveForMatch() throws LookupException {
 		return new ConstructedType(signature().clone(),upperBound(),this);
 	}
 

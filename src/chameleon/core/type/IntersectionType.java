@@ -65,6 +65,9 @@ public class IntersectionType extends Type {
 		throw new ChameleonProgrammerException("Trying to add a super type to a intersection type.");
 	}
 
+  public void replace(TypeElement oldElement, TypeElement newElement) {
+		throw new ChameleonProgrammerException("Trying to replace an element in an intersection type.");
+  }
 	
 	public static SimpleNameSignature createSignature(Collection<Type> types) {
 		StringBuffer name = new StringBuffer("intersection of ");

@@ -40,8 +40,11 @@ import chameleon.core.type.TypeElement;
  * 
  * <E> The type of the element
  * <P> The type of the parent
+ * <S> The type of the signature
+ * <F> The type of the family to which this member belongs. E should always be a subtype of F but
+ * we cannot enforce this because Java is so primitive.
  */
-public interface Member<E extends Member<E,P,S,F>, P extends DeclarationContainer, S extends Signature, F extends Member> extends TypeElement<E,P>, Declaration<E,P,S> {
+public interface Member<E extends Member<E,P,S,F>, P extends DeclarationContainer, S extends Signature, F extends Member> extends TypeElement<E,P>, Declaration<E,P,S,F> {
   
   
 //  /**

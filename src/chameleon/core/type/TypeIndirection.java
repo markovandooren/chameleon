@@ -72,6 +72,8 @@ public abstract class TypeIndirection extends Type {
     return filterProperties(myDeclaredProperties(), aliasedType().declaredProperties());
   }
 
-
+  public void replace(TypeElement oldElement, TypeElement newElement) {
+		throw new ChameleonProgrammerException("Trying to replace an element in a type alias.");
+  }
 
 }

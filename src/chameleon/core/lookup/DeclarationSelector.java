@@ -49,7 +49,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @ pre selectedClass().isInstance(declaration);
    @ post \result == declaration | \result == null;
    @*/
-  public abstract D filter(Declaration declaration) throws LookupException;
+  public abstract Declaration<?,?,?,D> filter(Declaration declaration) throws LookupException;
 
  /*@
    @ public behavior
@@ -58,9 +58,14 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @ post ! selectedClass().isInstance(declaration) ==> \result == null;
    @*/
   public D selection(Declaration declaration) throws LookupException {
-  	Declaration resolved = declaration.resolve();
+  	Declaration resolved = declaration.resolveForMatch();
   	if(selectedClass().isInstance(resolved)) {
-  	  return filter(declaration.resolve());
+  	  Declaration<?, ?, ?, D> filtered = filter(resolved);
+  	  if(filtered != null) {
+			  return filtered.resolveForResult();
+  	  } else {
+  	  	return null;
+  	  }
   	} else {
   		return null;
   	}

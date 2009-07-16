@@ -1,9 +1,6 @@
 package chameleon.core.type;
 
-import org.rejuse.property.PropertySet;
-
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.element.Element;
 
 public class TypeAlias extends TypeIndirection {
 

@@ -5,9 +5,10 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.scope.Scope;
 
-public interface Declaration<E extends Declaration<E,P,S>, 
+public interface Declaration<E extends Declaration<E,P,S,F>, 
                              P extends DeclarationContainer, 
-                             S extends Signature> extends Element<E,P>{
+                             S extends Signature,
+                             F extends Declaration> extends Element<E,P>{
 
 	/**
 	 * Return the signature of this declaration
@@ -39,7 +40,9 @@ public interface Declaration<E extends Declaration<E,P,S>,
    @
    @ post \result != null;
    @*/
-  public Declaration resolve() throws LookupException;
+  public Declaration resolveForMatch() throws LookupException;
+  
+  public F resolveForResult() throws LookupException;
   
   /**
    * Return the scope of this declaration.

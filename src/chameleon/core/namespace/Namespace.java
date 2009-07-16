@@ -26,7 +26,7 @@ import chameleon.core.type.Type;
  * @author Marko van Dooren
  */
 
-public abstract class Namespace extends ElementImpl<Namespace,Namespace> implements NamespaceOrType<Namespace,Namespace,SimpleNameSignature>, DeclarationContainer<Namespace, Namespace>, TargetDeclaration<Namespace, Namespace,SimpleNameSignature> {
+public abstract class Namespace extends ElementImpl<Namespace,Namespace> implements NamespaceOrType<Namespace,Namespace,SimpleNameSignature,Namespace>, DeclarationContainer<Namespace, Namespace>, TargetDeclaration<Namespace, Namespace,SimpleNameSignature,Namespace> {
   //FIXME
 	//SPEED : use hashmap to store the subnamespaces and forbid
 	//        adding multiple namespaces with the same name. That is
@@ -307,7 +307,11 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 		return new NamespaceAlias(sig,this);
 	}
 
-	public Namespace resolve() {
+	public Namespace resolveForMatch() {
+		return this;
+	}
+	
+	public Namespace resolveForResult() {
 		return this;
 	}
 }

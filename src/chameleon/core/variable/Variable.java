@@ -22,9 +22,9 @@ import chameleon.core.type.VariableOrType;
 /**
  * @author Marko van Dooren
  */
-public interface Variable<E extends Variable<E,P>, P extends DeclarationContainer> 
+public interface Variable<E extends Variable<E,P,F>, P extends DeclarationContainer, F extends Variable> 
                 extends Element<E,P>, 
-                VariableOrType<E,P,SimpleNameSignature>,ModifierContainer<E,P>, TargetDeclaration<E,P,SimpleNameSignature> {
+                VariableOrType<E,P,SimpleNameSignature,F>,ModifierContainer<E,P>, TargetDeclaration<E,P,SimpleNameSignature,F> {
 
   public void setSignature(SimpleNameSignature signature);
   
@@ -69,5 +69,5 @@ public interface Variable<E extends Variable<E,P>, P extends DeclarationContaine
   public LookupStrategy targetContext() throws LookupException;
 
 
-  public Variable resolve();
+  public Variable resolveForMatch();
 }

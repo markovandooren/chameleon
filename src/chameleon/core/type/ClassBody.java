@@ -24,7 +24,9 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 	@Override
 	public ClassBody clone() {
 		ClassBody result = new ClassBody();
-		addAll(members());
+		for(TypeElement element: elements()) {
+			result.add(element.clone());
+		}
 		return result;
 	}
 
@@ -82,5 +84,9 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 
 	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
 		return selector.selection(declarations());
+	}
+
+	public void replace(TypeElement oldElement, TypeElement newElement) {
+		_elements.replace(oldElement.parentLink(), newElement.parentLink());
 	}
 }

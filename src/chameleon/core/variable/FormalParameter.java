@@ -12,7 +12,7 @@ import chameleon.core.type.TypeReference;
 /**
  * @author Marko van Dooren
  */
-public class FormalParameter extends RegularVariable<FormalParameter,VariableContainer> {
+public class FormalParameter extends RegularVariable<FormalParameter,VariableContainer,FormalParameter> {
 
   public FormalParameter(SimpleNameSignature sig, TypeReference type) {
     super(sig, type,null);
@@ -41,6 +41,10 @@ public class FormalParameter extends RegularVariable<FormalParameter,VariableCon
   
 	public Scope scope() throws MetamodelException {
 		return new LexicalScope(parent().variableScopeElement());
+	}
+
+	public FormalParameter resolveForResult() throws LookupException {
+		return this;
 	}
 
 }

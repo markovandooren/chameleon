@@ -26,7 +26,7 @@ import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 
-public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContainer> implements MemberVariable<VariableAlias> {
+public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContainer,MemberVariable> implements MemberVariable<VariableAlias> {
 	
 	public VariableAlias(SimpleNameSignature sig, MemberVariable aliasedVariable) {
 		super(sig);
@@ -118,7 +118,7 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
     return filterProperties(myDeclaredProperties(), aliasedVariable().declaredProperties());
   }
 
-  public Variable resolve() {
+  public Variable resolveForMatch() {
 		return this;
 	}
 
@@ -197,5 +197,9 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
   		}
   	}
   }
+
+	public MemberVariable resolveForResult() throws LookupException {
+		return this;
+	}
 
 }

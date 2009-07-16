@@ -21,8 +21,8 @@ import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 import chameleon.util.Util;
 
-public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends DeclarationContainer> 
-       extends VariableImpl<E,P> implements ExceptionSource<E,P> {
+public abstract class RegularVariable<E extends RegularVariable<E,P,F>, P extends DeclarationContainer, F extends Variable> 
+       extends VariableImpl<E,P,F> implements ExceptionSource<E,P> {
 
 	public RegularVariable(SimpleNameSignature sig, TypeReference typeRef, Expression init) {
 		super(sig);
@@ -179,7 +179,7 @@ public abstract class RegularVariable<E extends RegularVariable<E,P>, P extends 
  }
 
 
- public Variable resolve() {
+ public Variable resolveForMatch() {
  	return this;
  }
 
