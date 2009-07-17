@@ -45,7 +45,7 @@ public abstract class NonConstructorInvocation<E extends NonConstructorInvocatio
   }
 
 
-  public Type getType() throws LookupException {
+  public Type actualType() throws LookupException {
 	    try {
 				Method method = getMethod();
 				if (method != null) {

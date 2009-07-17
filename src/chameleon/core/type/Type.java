@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 
 import org.rejuse.java.collections.TypeFilter;
@@ -20,6 +21,7 @@ import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
+import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.FixedSignatureMember;
@@ -27,9 +29,11 @@ import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.modifier.ModifierContainer;
 import chameleon.core.namespace.NamespaceOrType;
+import chameleon.core.namespacepart.Import;
+import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
-import chameleon.core.type.generics.GenericParameter;
+import chameleon.core.type.generics.FormalGenericParameter;
 import chameleon.core.type.generics.InstantiatedGenericParameter;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
@@ -144,6 +148,19 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     	  return language().lookupFactory().createLexicalContext(this,targetContext());
     	}
     }
+    
+  	protected class LocalInheritanceLookupStrategy extends LocalLookupStrategy<Type> {
+  	  public LocalInheritanceLookupStrategy(Type element) {
+  			super(element);
+  		}
+
+  	  @Override
+  	  @SuppressWarnings("unchecked")
+  	  public <D extends Declaration> List<D> directDeclarations(DeclarationSelector<D> selector) throws LookupException {
+  	    return directlyDeclaredElements(kind);
+  	  }
+  	}
+
 
     /************************
      * BEING A TYPE ELEMENT *

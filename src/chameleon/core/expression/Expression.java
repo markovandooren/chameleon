@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.rejuse.java.collections.RobustVisitor;
 
+import chameleon.core.Config;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
@@ -22,7 +23,23 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
 	/**
 	 * Return the type of this expression.
 	 */
-	public abstract Type getType() throws LookupException;
+	public final Type getType() throws LookupException {
+		Type result = null;
+		if(Config.CACHE_EXPRESSION_TYPES) {
+			result = _typeCache;
+		}
+		if(result == null) {
+		  result = actualType();
+			if(Config.CACHE_EXPRESSION_TYPES) {
+				_typeCache = result;
+			}
+		}
+		return result;
+	}
+	
+	private Type _typeCache;
+	
+	protected abstract Type actualType() throws LookupException;
 
 	/**
 	 * @see {@link Target#targetContext()}

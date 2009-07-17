@@ -12,5 +12,13 @@ public class Config {
 	
 	public static boolean CACHE_DECLARATIONS = true;
 
-	public final static boolean CACHE_ELEMENT_REFERENCES = true;
+	/**
+	 * Turn cache of element references on and off. Default is on.
+	 */
+	public static boolean CACHE_ELEMENT_REFERENCES = true;
+	
+	/**
+	 * Turn cache of expression types on and off. Default is on.
+	 */
+	public static boolean CACHE_EXPRESSION_TYPES = true;
 }

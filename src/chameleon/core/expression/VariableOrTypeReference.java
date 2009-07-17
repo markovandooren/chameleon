@@ -23,7 +23,7 @@ public class VariableOrTypeReference extends Expression<VariableOrTypeReference>
       setTarget(target);
   }
 
-  public Type getType() throws LookupException {
+  protected Type actualType() throws LookupException {
     return getVariableOrType().getType();
   }
 

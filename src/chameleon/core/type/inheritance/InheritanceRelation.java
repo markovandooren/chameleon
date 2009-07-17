@@ -28,16 +28,16 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 		return logger;
 	}
 	
-	/**
-	 * Asks the context factory to create a context. The local lookup strategy by default is a
-	 * dummy lookup strategy because an inheritance relation typically does not contain declarations.
-	 * 
-	 * The lookup is intercepted at this point because for example Java has funny lookup rules with
-	 * respect to inheritance.
-	 */
-	public LookupStrategy lexicalContext(Element element) {
-		return language().lookupFactory().createLexicalContext(this, new DummyLookupStrategy());
-	}
+//	/**
+//	 * Asks the context factory to create a context. The local lookup strategy by default is a
+//	 * dummy lookup strategy because an inheritance relation typically does not contain declarations.
+//	 * 
+//	 * The lookup is intercepted at this point because for example Java has funny lookup rules with
+//	 * respect to inheritance.
+//	 */
+//	public LookupStrategy lexicalContext(Element element) {
+//		return language().lookupFactory().createLexicalContext(this, new DummyLookupStrategy());
+//	}
 	
 	public abstract E clone();
 

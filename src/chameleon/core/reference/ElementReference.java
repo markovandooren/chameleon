@@ -65,7 +65,11 @@ public abstract class ElementReference<E extends ElementReference,R extends Elem
   private R _cache;
   
   protected R getCache() {
-  	return _cache;
+  	if(Config.CACHE_ELEMENT_REFERENCES == true) {
+  	  return _cache;
+  	} else {
+  		return null;
+  	}
   }
   
   protected void setCache(R value) {

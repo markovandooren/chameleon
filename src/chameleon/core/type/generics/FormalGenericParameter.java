@@ -21,16 +21,16 @@ import chameleon.core.type.Type;
  * 
  * @author Marko van Dooren
  */
-public class GenericParameter extends FixedSignatureMember<GenericParameter, Type, SimpleNameSignature,GenericParameter> {
+public class FormalGenericParameter extends FixedSignatureMember<FormalGenericParameter, Type, SimpleNameSignature,FormalGenericParameter> {
 
-	public GenericParameter(SimpleNameSignature signature) {
+	public FormalGenericParameter(SimpleNameSignature signature) {
 		setSignature(signature);
 	}
 	
   
 	@Override
-	public GenericParameter clone() {
-		GenericParameter result = new GenericParameter(signature().clone());
+	public FormalGenericParameter clone() {
+		FormalGenericParameter result = new FormalGenericParameter(signature().clone());
 		for(TypeConstraint constraint: constraints()) {
 			result.addConstraint(constraint.clone());
 		}
@@ -66,7 +66,7 @@ public class GenericParameter extends FixedSignatureMember<GenericParameter, Typ
 		return result;
 	}
 	
-	private OrderedReferenceSet<GenericParameter,TypeConstraint> _typeConstraints = new OrderedReferenceSet<GenericParameter,TypeConstraint>(this);
+	private OrderedReferenceSet<FormalGenericParameter,TypeConstraint> _typeConstraints = new OrderedReferenceSet<FormalGenericParameter,TypeConstraint>(this);
 	
 	public List<TypeConstraint> constraints() {
 		return _typeConstraints.getOtherEnds();
@@ -86,7 +86,7 @@ public class GenericParameter extends FixedSignatureMember<GenericParameter, Typ
 		return result;
 	}
 
-	public GenericParameter alias(SimpleNameSignature signature) {
+	public FormalGenericParameter alias(SimpleNameSignature signature) {
 		throw new ChameleonProgrammerException();
 	}
 

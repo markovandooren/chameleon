@@ -49,7 +49,7 @@ public class VariableReference extends Expression<VariableReference> implements 
     return result;
   }
 
-  public Type getType() throws LookupException {
+  protected Type actualType() throws LookupException {
     return getVariable().getType();
   }
 

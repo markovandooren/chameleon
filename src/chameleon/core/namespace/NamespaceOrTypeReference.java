@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.rejuse.association.Reference;
 
+import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
@@ -146,6 +147,7 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
       return result;
     } else {
     	// repeat lookups for debugging purposes
+    	Config.CACHE_ELEMENT_REFERENCES = false;
     	if(getTarget() != null) {
       	NamespaceOrType target = getTarget().getNamespaceOrType();
         

@@ -117,7 +117,7 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespaceP
     // This must be executed after the namespace is set, so it cannot be in the initialization.
     _typeLocalContext = language().lookupFactory().createTargetContext(this);
     _importLocalDirectContext = new ImportLocalDirectContext(this);
-    _importLocalDemandContext = new ImportLocalDemandContext(this);
+    _importLocalDemandContext = language().lookupFactory().wrapLocalStrategy(new ImportLocalDemandContext(this),this);
     _importDirectContext = new ImportDirectContext(_importLocalDirectContext, this);
     _importDemandContext = new ImportDemandContext(_importLocalDemandContext, this);
     // 1 SEARCH IN NAMESPACEPART
@@ -136,7 +136,7 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespaceP
 	
 	private ImportDirectContext _importDirectContext;
 	
-	private ImportLocalDemandContext _importLocalDemandContext;
+	private LookupStrategy _importLocalDemandContext;
 	
 	private ImportDemandContext _importDemandContext;
 	
