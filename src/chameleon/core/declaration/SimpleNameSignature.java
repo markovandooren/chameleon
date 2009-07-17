@@ -6,6 +6,11 @@ import java.util.List;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 
+/**
+ * A class of signatures that consist of a simple name.
+ * 
+ * @author Marko van Dooren
+ */
 public class SimpleNameSignature extends Signature<SimpleNameSignature, Element>{
 
   public SimpleNameSignature(String name) {
