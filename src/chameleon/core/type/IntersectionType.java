@@ -134,6 +134,9 @@ public class IntersectionType extends Type {
 		throw new ChameleonProgrammerException("Trying to remove a super type from a intersection type.");
 	}
 
-	
+	@Override
+	public Type baseType() {
+		return this;
+	}
 
 }

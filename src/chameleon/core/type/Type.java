@@ -271,8 +271,9 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     //TODO: rename to properSubTypeOf
     
     public boolean subTypeOf(Type other) throws LookupException {
-    	  Collection superTypes = getAllSuperTypes(); 
-        return superTypes.contains(other);
+    	return language().subtypeRelation().contains(this, other);
+//    	  Collection superTypes = getAllSuperTypes(); 
+//        return superTypes.contains(other);
     }
     
     /**
@@ -869,6 +870,8 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
   	}
 
 		public abstract void replace(TypeElement oldElement, TypeElement newElement);
+
+		public abstract Type baseType();
 
 }
 

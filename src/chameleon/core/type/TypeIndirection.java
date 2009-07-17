@@ -75,5 +75,12 @@ public abstract class TypeIndirection extends Type {
   public void replace(TypeElement oldElement, TypeElement newElement) {
 		throw new ChameleonProgrammerException("Trying to replace an element in a type alias.");
   }
+  
+	@Override
+	public Type baseType() {
+		return aliasedType().baseType();
+	}
 
+
+  
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.member.FixedSignatureMember;
 import chameleon.core.member.Member;
 import chameleon.core.type.Type;
@@ -67,5 +68,9 @@ public class InstantiatedGenericParameter extends GenericParameter<InstantiatedG
 			return aliasedType();
 		}
 		
+	}
+
+	public boolean compatibleWith(InstantiatedGenericParameter other) throws LookupException {
+		return  other.type().equals(type());
 	}
 }

@@ -81,5 +81,10 @@ public class RegularType extends Type {
 		body().replace(oldElement, newElement);
   }
 
+	@Override
+	public Type baseType() {
+		return this;
+	}
+
 
 }

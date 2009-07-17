@@ -27,6 +27,7 @@ import chameleon.core.property.Defined;
 import chameleon.core.property.PropertyRule;
 import chameleon.core.relation.EquivalenceRelation;
 import chameleon.core.relation.StrictPartialOrder;
+import chameleon.core.relation.WeakPartialOrder;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 import chameleon.tool.ToolExtension;
@@ -426,6 +427,17 @@ public abstract class Language implements PropertyUniverse<Element> {
     }
     
     private LookupStrategyFactory _contextFactory;
+    
+    /**
+     * Return the relation that determines when a member overrides another
+     */
+   /*@
+     @ post \result != null;
+     @ // A member cannot override null
+     @ post (\forall Member m; m != null ; ! \result.contains(m,null));
+     @*/
+    public abstract WeakPartialOrder<Type> subtypeRelation();
+
     
     /**
      * Return the relation that determines when a member overrides another
