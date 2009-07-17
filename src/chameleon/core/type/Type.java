@@ -34,6 +34,7 @@ import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
 import chameleon.core.type.generics.FormalGenericParameter;
+import chameleon.core.type.generics.GenericParameter;
 import chameleon.core.type.generics.InstantiatedGenericParameter;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
@@ -140,7 +141,8 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     	if(inheritanceRelations().contains(element)) {
     		DeclarationContainer parent = parent();
     		if(parent != null) {
-    		  return parent().lexicalContext(this);
+    			return language().lookupFactory().createLexicalContext(this, _localInheritanceLookupStrategy);
+//    		  return parent().lexicalContext(this);
     		} else {
     			throw new LookupException("Parent of type is null when looking for the parent context.");
     		}
@@ -148,6 +150,8 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     	  return language().lookupFactory().createLexicalContext(this,targetContext());
     	}
     }
+    
+    private LocalInheritanceLookupStrategy _localInheritanceLookupStrategy = new LocalInheritanceLookupStrategy(this);
     
   	protected class LocalInheritanceLookupStrategy extends LocalLookupStrategy<Type> {
   	  public LocalInheritanceLookupStrategy(Type element) {
@@ -157,7 +161,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
   	  @Override
   	  @SuppressWarnings("unchecked")
   	  public <D extends Declaration> List<D> directDeclarations(DeclarationSelector<D> selector) throws LookupException {
-  	    return directlyDeclaredElements(kind);
+  	    return selector.selection(directlyDeclaredElements(GenericParameter.class));
   	  }
   	}
 

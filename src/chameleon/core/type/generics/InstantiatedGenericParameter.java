@@ -10,7 +10,7 @@ import chameleon.core.member.Member;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeIndirection;
 
-public class InstantiatedGenericParameter extends FixedSignatureMember<InstantiatedGenericParameter, Type, SimpleNameSignature,InstantiatedGenericParameter> {
+public class InstantiatedGenericParameter extends GenericParameter<InstantiatedGenericParameter> {
 
 	private Type _type;
 	

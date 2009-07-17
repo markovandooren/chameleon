@@ -21,10 +21,10 @@ import chameleon.core.type.Type;
  * 
  * @author Marko van Dooren
  */
-public class FormalGenericParameter extends FixedSignatureMember<FormalGenericParameter, Type, SimpleNameSignature,FormalGenericParameter> {
+public class FormalGenericParameter extends GenericParameter<FormalGenericParameter> {
 
 	public FormalGenericParameter(SimpleNameSignature signature) {
-		setSignature(signature);
+		super(signature);
 	}
 	
   
