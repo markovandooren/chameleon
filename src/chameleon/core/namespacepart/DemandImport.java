@@ -68,7 +68,11 @@ public class DemandImport extends Import<DemandImport> {
 
 	@Override
 	public <D extends Declaration> List<D> demandImports(DeclarationSelector<D> selector) throws LookupException {
-		return declarationContainer().declarations(selector);
+		D selected = declarationContainer().localStrategy().lookUp(selector);
+		List<D> result = new ArrayList<D>();
+		Util.addNonNull(selected, result);
+		return result;
+		//return declarationContainer().declarations(selector);
 	}
 
 

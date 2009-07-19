@@ -86,7 +86,7 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespaceP
 	protected class CurrentNamespaceStrategySelector implements LookupStrategySelector {
 		public LookupStrategy strategy() {
 			// 3 SEARCH IN CURRENT NAMESPACE
-			LookupStrategy currentNamespaceStrategy = language().lookupFactory().wrapLocalStrategy(getDeclaredNamespace().targetContext(), NamespacePart.this);
+			LookupStrategy currentNamespaceStrategy = getDeclaredNamespace().localStrategy();
 			return language().lookupFactory().createLexicalLookupStrategy(
 					 currentNamespaceStrategy, NamespacePart.this, _demandImportStrategySelector)
 			;
@@ -116,7 +116,8 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespaceP
     // This must be executed after the namespace is set, so it cannot be in the initialization.
     _typeLocalContext = language().lookupFactory().createTargetLookupStrategy(this);
     _importLocalDirectContext = new ImportLocalDirectContext(this);
-    _importLocalDemandContext = language().lookupFactory().wrapLocalStrategy(new ImportLocalDemandContext(this),this);
+//    _importLocalDemandContext = language().lookupFactory().wrapLocalStrategy(new ImportLocalDemandContext(this),this);
+    _importLocalDemandContext = new ImportLocalDemandContext(this);
 		_importDirectContext = language().lookupFactory().createLexicalLookupStrategy(_importLocalDirectContext, this, _currentNamespaceStrategySelector);
 		_importDemandContext = language().lookupFactory().createLexicalLookupStrategy(_importLocalDemandContext, this, _defaultNamespaceSelector);
     // 1 SEARCH IN NAMESPACEPART

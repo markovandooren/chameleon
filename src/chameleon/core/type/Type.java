@@ -128,6 +128,10 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     	return language().lookupFactory().createTargetLookupStrategy(this);
     }
     
+    public LookupStrategy localStrategy() {
+    	return targetContext();
+    }
+    
     /**
      * If the given element is an inheritance relation, the lookup must proceed to the parent. For other elements,
      * the context is a lexical context connected to the target context to perform a local search.

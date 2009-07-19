@@ -282,6 +282,10 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	public LookupStrategy targetContext() {
 		return language().lookupFactory().createTargetLookupStrategy(this);
 	}
+	
+	public LookupStrategy localStrategy() {
+		return language().lookupFactory().createLocalLookupStrategy(this);
+	}
 
 	public List<Declaration> declarations() {
 		List<Declaration> result = new ArrayList<Declaration>();
