@@ -7,12 +7,15 @@ import java.util.Set;
 
 import org.rejuse.association.OrderedReferenceSet;
 
+import chameleon.core.MetamodelException;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.FixedSignatureMember;
 import chameleon.core.member.Member;
+import chameleon.core.scope.LexicalScope;
+import chameleon.core.scope.Scope;
 import chameleon.core.type.ConstructedType;
 import chameleon.core.type.Type;
 
@@ -37,15 +40,15 @@ public class FormalGenericParameter extends GenericParameter<FormalGenericParame
 		return result;
 	}
 	
-	/**
-	 * A generic parameter introduces itself. During lookup, the resolve() method will
-	 * introduce an alias.
-	 */
-	public List<Member> getIntroducedMembers() {
-		List<Member> result = new ArrayList<Member>();
-		result.add(this);
-		return result;
-	}
+//	/**
+//	 * A generic parameter introduces itself. During lookup, the resolve() method will
+//	 * introduce an alias.
+//	 */
+//	public List<Member> getIntroducedMembers() {
+//		List<Member> result = new ArrayList<Member>();
+//		result.add(this);
+//		return result;
+//	}
 	
 	/**
 	 * Resolving a generic parameter results in a constructed type whose bound
@@ -53,10 +56,6 @@ public class FormalGenericParameter extends GenericParameter<FormalGenericParame
 	 */
 	public Type resolveForMatch() throws LookupException {
 		return new ConstructedType(signature().clone(),upperBound(),this);
-	}
-
-	public Type getNearestType() {
-		return parent().getNearestType();
 	}
 
 	public List<Element> children() {
@@ -88,6 +87,12 @@ public class FormalGenericParameter extends GenericParameter<FormalGenericParame
 
 	public FormalGenericParameter alias(SimpleNameSignature signature) {
 		throw new ChameleonProgrammerException();
+	}
+
+
+	@Override
+	public boolean compatibleWith(GenericParameter other) throws LookupException {
+		throw new ChameleonProgrammerException("DON'T KNOW WHAT TO DO HERE YET.");
 	}
 
 }

@@ -30,10 +30,16 @@ public interface DeclarationContainer<E extends DeclarationContainer, P extends 
   public List<? extends Declaration> declarations() throws LookupException;
   
   /**
-   * Return the declarations the are defined in this declaration container.
+   * Return the declarations the are defined in this declaration container and selected
+   * by the given declaration selector.
    * @return
    * @throws LookupException 
    */
+ /*@
+   @ public behavior
+   @
+   @ post \result.equals(selector.selection(declarations()));
+   @*/
   public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException;
   
 }

@@ -71,11 +71,11 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 	}
 	
 	public LookupStrategy lexicalContext(Element element) {
-		return language().lookupFactory().createLexicalContext(this, localContext());
+		return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
 	}
 	
 	public LookupStrategy localContext() {
-		return language().lookupFactory().createTargetContext(this);
+		return language().lookupFactory().createTargetLookupStrategy(this);
 	}
 
 	public List<Member> declarations() throws LookupException {

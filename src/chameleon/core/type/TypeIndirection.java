@@ -10,6 +10,7 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
+import chameleon.core.type.generics.GenericParameter;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
 public abstract class TypeIndirection extends Type {
@@ -81,6 +82,19 @@ public abstract class TypeIndirection extends Type {
 		return aliasedType().baseType();
 	}
 
+	@Override
+	public List<GenericParameter> parameters() {
+		return aliasedType().parameters();
+	}
 
+	@Override
+	public void replaceParameter(GenericParameter oldParameter, GenericParameter newParameter) {
+		throw new ChameleonProgrammerException("Trying to replace a type parameter in a type alias.");
+	}
+
+	@Override
+	public void addParameter(GenericParameter parameter) {
+		throw new ChameleonProgrammerException("Trying to add a type parameter to a type alias.");
+	}
   
 }

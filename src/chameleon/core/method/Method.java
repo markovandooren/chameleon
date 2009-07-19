@@ -393,12 +393,12 @@ public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, 
 	}
 
   public LookupStrategy lexicalContext(Element element) {
-  	return language().lookupFactory().createLexicalContext(this, localContext()); 
+  	return language().lookupFactory().createLexicalLookupStrategy(localContext(), this); 
   	//new LexicalContext(new TargetContext<Method>(this),this);
   }
   
   public LookupStrategy localContext() {
-  	return language().lookupFactory().createTargetContext(this);
+  	return language().lookupFactory().createTargetLookupStrategy(this);
   }
   
   public LookupStrategy targetContext() throws LookupException {

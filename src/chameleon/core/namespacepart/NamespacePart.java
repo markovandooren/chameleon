@@ -20,6 +20,7 @@ import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.LookupStrategyFactory;
+import chameleon.core.lookup.LookupStrategySelector;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.type.Type;
 /**
@@ -27,6 +28,13 @@ import chameleon.core.type.Type;
  * @author Tim Laeremans
  */
 public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespacePartContainer> implements DeclarationContainer<NamespacePart,NamespacePartContainer>, NamespacePartContainer<NamespacePart,NamespacePartContainer> {
+
+	private final class DefaultNamespaceSelector implements LookupStrategySelector {
+		public LookupStrategy strategy() throws LookupException {
+			// 5 SEARCH IN DEFAULT NAMESPACE
+			return NamespacePart.this.getDefaultNamespace().targetContext();
+		}
+	}
 
 	protected class ImportLocalDemandContext extends LocalLookupStrategy<NamespacePart> {
 	  public ImportLocalDemandContext(NamespacePart element) {
@@ -68,60 +76,51 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespaceP
 		}
 	}
 
-	protected class ImportDemandContext extends LexicalLookupStrategy {
-		private ImportDemandContext(LookupStrategy local, Element element) {
-			super(local, element);
-		}
-
-		@Override
-		public LookupStrategy parentContext() throws LookupException {
-			    // 5 SEARCH IN DEFAULT NAMESPACE
-					return NamespacePart.this.getDefaultNamespace().targetContext();
+	protected class DemandImportStrategySelector implements LookupStrategySelector {
+		public LookupStrategy strategy() {
+			// 4 SEARCH DEMAND IMPORTS
+			return _importDemandContext;
 		}
 	}
 
-
-	protected class ImportDirectContext extends LexicalLookupStrategy {
-		private ImportDirectContext(LookupStrategy local, Element element) {
-			super(local, element);
-		}
-
-		@Override
-		public LookupStrategy parentContext() throws LookupException {
+	protected class CurrentNamespaceStrategySelector implements LookupStrategySelector {
+		public LookupStrategy strategy() {
 			// 3 SEARCH IN CURRENT NAMESPACE
-			return new LexicalLookupStrategy(language().lookupFactory().wrapLocalStrategy(getDeclaredNamespace().targetContext(),NamespacePart.this), NamespacePart.this) {
-				@Override
-				public LookupStrategy parentContext() {
-					// 4 SEARCH DEMAND IMPORTS
-					return _importDemandContext;
-				}
-			};
+			LookupStrategy currentNamespaceStrategy = language().lookupFactory().wrapLocalStrategy(getDeclaredNamespace().targetContext(), NamespacePart.this);
+			return language().lookupFactory().createLexicalLookupStrategy(
+					 currentNamespaceStrategy, NamespacePart.this, _demandImportStrategySelector)
+			;
 		}
 	}
 
-	protected class NamespacePartLookupStrategy extends LexicalLookupStrategy {
-
-		private NamespacePartLookupStrategy(LookupStrategy local, Element element) {
-			super(local, element);
-		}
-
-		@Override
-		public LookupStrategy parentContext() {
+	protected class DirectImportStrategySelector implements LookupStrategySelector {
+		public LookupStrategy strategy() {
 			// 2 SEARCH IN DIRECT IMPORTS
 			return _importDirectContext;
 		}
 	}
 
-	public NamespacePart(Namespace pack) {
-    setNamespace(pack);
+	/**
+	 * Create a new namespace part the adds elements to the given namespace.
+	 * @param namespace
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre namespace != null;
+   @
+   @ post getDeclaredNamespace() == namespace
+   @*/ 
+	public NamespacePart(Namespace namespace) {
+    setNamespace(namespace);
     // This must be executed after the namespace is set, so it cannot be in the initialization.
-    _typeLocalContext = language().lookupFactory().createTargetContext(this);
+    _typeLocalContext = language().lookupFactory().createTargetLookupStrategy(this);
     _importLocalDirectContext = new ImportLocalDirectContext(this);
     _importLocalDemandContext = language().lookupFactory().wrapLocalStrategy(new ImportLocalDemandContext(this),this);
-    _importDirectContext = new ImportDirectContext(_importLocalDirectContext, this);
-    _importDemandContext = new ImportDemandContext(_importLocalDemandContext, this);
+		_importDirectContext = language().lookupFactory().createLexicalLookupStrategy(_importLocalDirectContext, this, _currentNamespaceStrategySelector);
+		_importDemandContext = language().lookupFactory().createLexicalLookupStrategy(_importLocalDemandContext, this, _defaultNamespaceSelector);
     // 1 SEARCH IN NAMESPACEPART
-    _lexicalContext = new NamespacePartLookupStrategy(localContext(), this);
+		_lexicalContext = language().lookupFactory().createLexicalLookupStrategy(localContext(), this, _directImportStrategySelector); 
 	}
 	
 	public LookupStrategy lexicalContext(Element child) throws LookupException {
@@ -131,14 +130,22 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespaceP
 			return _lexicalContext;
 		}
 	}
+
+  private DirectImportStrategySelector _directImportStrategySelector = new DirectImportStrategySelector();
+
+	private CurrentNamespaceStrategySelector _currentNamespaceStrategySelector = new CurrentNamespaceStrategySelector();
+
+	private DemandImportStrategySelector _demandImportStrategySelector = new DemandImportStrategySelector();
+
+	private DefaultNamespaceSelector _defaultNamespaceSelector = new DefaultNamespaceSelector();
 	
-	private ImportLocalDirectContext _importLocalDirectContext;
+	private LookupStrategy _importLocalDirectContext;
 	
-	private ImportDirectContext _importDirectContext;
+	private LookupStrategy _importDirectContext;
 	
 	private LookupStrategy _importLocalDemandContext;
 	
-	private ImportDemandContext _importDemandContext;
+	private LookupStrategy _importDemandContext;
 	
 	public LookupStrategy localContext() {
 		return _typeLocalContext;

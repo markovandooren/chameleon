@@ -10,6 +10,7 @@ import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
+import chameleon.core.type.generics.GenericParameter;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
 public class RegularType extends Type {
@@ -52,6 +53,11 @@ public class RegularType extends Type {
    * Return the members directly declared by this type.
    * @return
    */
+ /*@
+   @ public behavior
+   @
+   @ post \result == body.members();
+   @*/
   public List<Member> directlyDeclaredElements() {
      return body().members();
   }
@@ -84,6 +90,30 @@ public class RegularType extends Type {
 	@Override
 	public Type baseType() {
 		return this;
+	}
+
+	private OrderedReferenceSet<Type, GenericParameter> _parameters = new OrderedReferenceSet<Type, GenericParameter>(this);
+	
+	public List<GenericParameter> parameters() {
+		return _parameters.getOtherEnds();
+	}
+	
+	public void addParameter(GenericParameter parameter) {
+		if(parameter != null) {
+			_parameters.add(parameter.parentLink());
+		}
+	}
+
+	public void removeParameter(GenericParameter parameter) {
+		if(parameter != null) {
+			_parameters.remove(parameter.parentLink());
+		}
+	}
+	
+	public void replaceParameter(GenericParameter oldParameter, GenericParameter newParameter) {
+		if((oldParameter != null) && (newParameter != null)){
+			_parameters.replace(oldParameter.parentLink(), newParameter.parentLink());
+		}
 	}
 
 

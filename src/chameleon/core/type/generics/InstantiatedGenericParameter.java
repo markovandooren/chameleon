@@ -25,15 +25,15 @@ public class InstantiatedGenericParameter extends GenericParameter<InstantiatedG
 		throw new Error();
 	}
 	
-	/**
-	 * A generic parameter introduces itself. During lookup, the resolve() method will
-	 * introduce an alias.
-	 */
-	public List<Member> getIntroducedMembers() {
-		List<Member> result = new ArrayList<Member>();
-		result.add(this);
-		return result;
-	}
+//	/**
+//	 * A generic parameter introduces itself. During lookup, the resolve() method will
+//	 * introduce an alias.
+//	 */
+//	public List<Member> getIntroducedMembers() {
+//		List<Member> result = new ArrayList<Member>();
+//		result.add(this);
+//		return result;
+//	}
 
 
 	public List<Element> children() {
@@ -70,7 +70,7 @@ public class InstantiatedGenericParameter extends GenericParameter<InstantiatedG
 		
 	}
 
-	public boolean compatibleWith(InstantiatedGenericParameter other) throws LookupException {
-		return  other.type().equals(type());
+	public boolean compatibleWith(GenericParameter other) throws LookupException {
+		return  (other instanceof InstantiatedGenericParameter) && ((InstantiatedGenericParameter)other).type().equals(type());
 	}
 }

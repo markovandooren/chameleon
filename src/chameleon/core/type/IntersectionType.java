@@ -15,6 +15,7 @@ import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
+import chameleon.core.type.generics.GenericParameter;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
 public class IntersectionType extends Type {
@@ -137,6 +138,24 @@ public class IntersectionType extends Type {
 	@Override
 	public Type baseType() {
 		return this;
+	}
+
+  /**
+   * An intersection type has not type parameters. 
+   */
+	@Override
+	public List<GenericParameter> parameters() {
+		return new ArrayList<GenericParameter>();
+	}
+
+	@Override
+	public void replaceParameter(GenericParameter oldParameter, GenericParameter newParameter) {
+		throw new ChameleonProgrammerException("Trying to remove a super type from a intersection type.");
+	}
+
+	@Override
+	public void addParameter(GenericParameter parameter) {
+		throw new ChameleonProgrammerException("Trying to remove a super type from a intersection type.");
 	}
 
 }

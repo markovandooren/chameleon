@@ -76,7 +76,7 @@ public class RegularNamespace extends Namespace {
 	}
 	
   public LookupStrategy lexicalContext(Element element) throws LookupException {
-  	return language().lookupFactory().createLexicalContext(this, targetContext());
+  	return language().lookupFactory().createLexicalLookupStrategy(targetContext(), this);
   }
   
 	public Namespace getOrCreateNamespace(final String name) throws LookupException {

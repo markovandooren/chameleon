@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Set;
 
 import org.rejuse.java.collections.TypeFilter;
@@ -24,18 +23,15 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
+import chameleon.core.lookup.LookupStrategySelector;
 import chameleon.core.member.FixedSignatureMember;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.modifier.ModifierContainer;
 import chameleon.core.namespace.NamespaceOrType;
-import chameleon.core.namespacepart.Import;
-import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
-import chameleon.core.type.generics.FormalGenericParameter;
 import chameleon.core.type.generics.GenericParameter;
-import chameleon.core.type.generics.InstantiatedGenericParameter;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
 /**
@@ -129,7 +125,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     
     
     public LookupStrategy targetContext() {
-    	return language().lookupFactory().createTargetContext(this);
+    	return language().lookupFactory().createTargetLookupStrategy(this);
     }
     
     /**
@@ -138,18 +134,59 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
      * @throws LookupException 
      */
     public LookupStrategy lexicalContext(Element element) throws LookupException {
-    	if(inheritanceRelations().contains(element)) {
+    	if(inheritanceRelations().contains(element) || parameters().contains(element)) {
     		DeclarationContainer parent = parent();
     		if(parent != null) {
-    			return language().lookupFactory().createLexicalContext(this, _localInheritanceLookupStrategy);
+    			return lexicalParametersLookupStrategy();
 //    		  return parent().lexicalContext(this);
     		} else {
     			throw new LookupException("Parent of type is null when looking for the parent context.");
     		}
     	} else {
-    	  return language().lookupFactory().createLexicalContext(this,targetContext());
+    	  return lexicalMembersLookupStrategy();
+    	  
+    	  //language().lookupFactory().createLexicalContext(this,targetContext());
     	}
     }
+    
+    private LookupStrategy lexicalMembersLookupStrategy() {
+    	LookupStrategy result = _lexicalMembersLookupStrategy;
+    	if(result == null) {
+    		_lexicalMembersLookupStrategy = language().lookupFactory().createLexicalLookupStrategy(targetContext(), this, 
+    			new LookupStrategySelector(){
+					
+						public LookupStrategy strategy() throws LookupException {
+	    	  		return lexicalParametersLookupStrategy();
+						}
+					}); 
+    		result = _lexicalMembersLookupStrategy;
+    	}
+    	return result;
+//    	LookupStrategy result = _lexicalMembersLookupStrategy;
+//    	if(result == null) {
+//    		_lexicalMembersLookupStrategy = new LexicalLookupStrategy(targetContext(), this) {
+//    	  	@Override
+//    	  	public LookupStrategy nextStrategy() {
+//    	  		return lexicalParametersLookupStrategy();
+//    	  	}
+//    	  };
+//    		result = _lexicalMembersLookupStrategy;
+//    	}
+//    	return result;
+    }
+    
+    private LookupStrategy _lexicalMembersLookupStrategy;
+    
+    private LookupStrategy lexicalParametersLookupStrategy() {
+    	LookupStrategy result = _lexicalParametersLookupStrategy;
+    	if(result == null) {
+    		_lexicalParametersLookupStrategy = language().lookupFactory().createLexicalLookupStrategy(_localInheritanceLookupStrategy, this);
+    		result = _lexicalParametersLookupStrategy;
+    	}
+    	return result;
+    }
+    
+    private LookupStrategy _lexicalParametersLookupStrategy;
     
     private LocalInheritanceLookupStrategy _localInheritanceLookupStrategy = new LocalInheritanceLookupStrategy(this);
     
@@ -161,10 +198,23 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
   	  @Override
   	  @SuppressWarnings("unchecked")
   	  public <D extends Declaration> List<D> directDeclarations(DeclarationSelector<D> selector) throws LookupException {
-  	    return selector.selection(directlyDeclaredElements(GenericParameter.class));
+  	    return selector.selection(parameters());
   	  }
   	}
 
+  	public abstract List<GenericParameter> parameters();
+  	
+  	public List<Type> resolveParametersForMatch() {
+  		List<GenericParameter> parameters = parameters();
+  		for(GenericParameter parameter : parameters()) {
+  			
+  		}
+  		return null;
+  	}
+  	
+  	public abstract void addParameter(GenericParameter parameter);
+  	
+  	public abstract void replaceParameter(GenericParameter oldParameter, GenericParameter newParameter);
 
     /************************
      * BEING A TYPE ELEMENT *
@@ -840,6 +890,9 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
       }
       for(TypeElement el : from.directlyDeclaredElements()) {
         add(el.clone());
+      }
+      for(GenericParameter par : from.parameters()) {
+      	addParameter(par.clone());
       }
   	}
   

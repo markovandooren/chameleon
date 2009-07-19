@@ -6,6 +6,17 @@ import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 
 /**
+ * A lexical lookup strategy is used to lookup elements that are not declared relative to another element 
+ * using a '.' character. It is the first (and sometimes only) element in such a chain.
+ * 
+ * The lexical lookup strategy uses the given local lookup strategy to perform
+ * a local search. If it does not find anything, it then usually travels upward in the 
+ * lexical structure to continue the search. Note that the search does not always continue
+ * at the lexical parent, though that is the default behavior. Sometimes, for example, the
+ * search must continue at a lexical sibling.
+ * 
+ * The selector is used to select the next lookup strategy if no element is found.
+ * 
  * @author Marko van Dooren
  */
 
@@ -13,24 +24,39 @@ public class LexicalLookupStrategy extends LookupStrategy {
 
 	//public abstract Context getParentContext() throws MetamodelException;
 
-  public LexicalLookupStrategy(LookupStrategy local, Element element) {
+	/**
+	 * Initialize a new lexical lookup strategy with the given local strategy and the element
+	 * where the lexical search is done. The selector is set to a ParentLookupStrategySelector.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post localStrategy() == local;
+   @ post nextStrategy() instanceof ParentLookupStrategySelector;
+   @ post ((ParentLookupStrategySelector)nextStrategy).element() == element;
+  */
+	public LexicalLookupStrategy(LookupStrategy local, Element element) {
+  	this(local,new ParentLookupStrategySelector(element));
+  }
+	
+	public LexicalLookupStrategy(LookupStrategy local, LookupStrategySelector selector) {
   	if(local == null) {
   		throw new ChameleonProgrammerException("Local context given to lexical context is null");
   	}
   	setLocalContext(local);
-  	setElement(element);
+  	setSelector(selector);
+	}
+	
+	public void setSelector(LookupStrategySelector selector) {
+		_selector = selector;
+	}
+  
+  public LookupStrategySelector selector() {
+  	return _selector;
   }
   
-  public void setElement(Element element) {
-  	_element=element;
-  }
-  
-  public Element element() {
-  	return _element;
-  }
-  
-  private Element _element;
-  
+  private LookupStrategySelector _selector;
+
   private void setLocalContext(LookupStrategy local) {
   	_localContext = local;
   }
@@ -47,14 +73,8 @@ public class LexicalLookupStrategy extends LookupStrategy {
 	 * Return the parent context of this context.
 	 * @throws LookupException 
 	 */
-	public LookupStrategy parentContext() throws LookupException {
-		Element parent = element().parent();
-		if(parent != null) {
-	    return parent.lexicalContext(element());
-		} else {
-			throw new LookupException("Lookup wants to go to the parent element of a "+element().getClass() +" but it is null.");
-		}
-		
+	public LookupStrategy nextStrategy() throws LookupException {
+		return selector().strategy();
 	}
 
 	public <T extends Declaration> T lookUp(DeclarationSelector<T> selector) throws LookupException {
@@ -62,8 +82,7 @@ public class LexicalLookupStrategy extends LookupStrategy {
 			if(tmp != null) {
 			  return tmp;
 			} else {
-			  return parentContext().lookUp(selector);
+			  return nextStrategy().lookUp(selector);
 			}
 	}
-
 }

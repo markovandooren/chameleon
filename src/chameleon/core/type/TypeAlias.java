@@ -1,6 +1,9 @@
 package chameleon.core.type;
 
+import java.util.List;
+
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.type.generics.GenericParameter;
 
 public class TypeAlias extends TypeIndirection {
 
