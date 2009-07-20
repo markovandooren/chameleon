@@ -8,7 +8,7 @@ import chameleon.core.method.exception.ExceptionClause;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.type.TypeReference;
 
-public class MethodAlias<E extends MethodAlias<E,H,S>, H extends MethodHeader<H, E, S>, S extends MethodSignature> extends Method<E,H,S> {
+public class MethodAlias<E extends MethodAlias<E,H,S>, H extends MethodHeader<H, E, S>, S extends MethodSignature> extends Method<E,H,S,MethodAlias> {
 
 	public MethodAlias(H header, Method aliasedMethod) {
 		super(header);
@@ -63,6 +63,10 @@ public class MethodAlias<E extends MethodAlias<E,H,S>, H extends MethodHeader<H,
   public PropertySet<Element> declaredProperties() {
     return filterProperties(myDeclaredProperties(), aliasedMethod().declaredProperties());
   }
+
+	public Class<MethodAlias> introducedDeclarationType() {
+		return MethodAlias.class;
+	}
 
 
 }

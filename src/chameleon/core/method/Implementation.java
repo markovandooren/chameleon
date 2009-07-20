@@ -9,7 +9,7 @@ import chameleon.core.type.Type;
  * @author Marko van Dooren
  */
 
-public abstract class Implementation<E extends Implementation> extends NamespaceElementImpl<E,Method<? extends Method, ? extends MethodHeader,? extends MethodSignature>> {
+public abstract class Implementation<E extends Implementation> extends NamespaceElementImpl<E,Method<?,?,?,?>> {
 
   public Implementation() {
     }

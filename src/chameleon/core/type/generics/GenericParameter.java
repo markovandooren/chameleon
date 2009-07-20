@@ -6,13 +6,14 @@ import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespacepart.NamespaceElementImpl;
 import chameleon.core.scope.LexicalScope;
 import chameleon.core.scope.Scope;
 import chameleon.core.type.Type;
 
-public abstract class GenericParameter<E extends GenericParameter<E>> extends NamespaceElementImpl<E, DeclarationContainer> implements Declaration<E,DeclarationContainer,SimpleNameSignature,E>{
+public abstract class GenericParameter<E extends GenericParameter<E>> extends NamespaceElementImpl<E, DeclarationContainer> implements Declaration<E,DeclarationContainer,SimpleNameSignature,Type>{
 	
 	public GenericParameter(SimpleNameSignature signature) {
 		setSignature(signature);
@@ -37,12 +38,8 @@ public abstract class GenericParameter<E extends GenericParameter<E>> extends Na
   
   private Reference<GenericParameter, SimpleNameSignature> _signature = new Reference<GenericParameter, SimpleNameSignature>(this);
 
-  public Declaration resolveForMatch() throws LookupException {
-  	return this;
-  }
-  
-  public E resolveForResult() throws LookupException {
-  	return (E) this;
+  public Type introducedDeclaration() throws LookupException {
+  	throw new ChameleonProgrammerException();
   }
 
 
@@ -52,5 +49,10 @@ public abstract class GenericParameter<E extends GenericParameter<E>> extends Na
 		return new LexicalScope(nearestAncestor(Type.class));
 	}
 
+	public Class<Type> introducedDeclarationType() {
+		return Type.class;
+	}
+	
+	public abstract Declaration resolveForRoundTrip() throws LookupException;
 
 }

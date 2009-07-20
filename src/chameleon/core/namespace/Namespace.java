@@ -315,7 +315,12 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 		return this;
 	}
 	
-	public Namespace resolveForResult() {
+	public Namespace introducedDeclaration() {
 		return this;
 	}
+	
+	public Class<Namespace> introducedDeclarationType() {
+		return Namespace.class;
+	}
+
 }

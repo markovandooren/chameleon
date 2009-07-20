@@ -7,10 +7,13 @@ import org.rejuse.association.Reference;
 
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
+import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.Member;
 import chameleon.core.type.generics.GenericParameter;
+import chameleon.core.type.generics.TypeParameterBlock;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
 public class RegularType extends Type {
@@ -18,8 +21,16 @@ public class RegularType extends Type {
 	public RegularType(SimpleNameSignature sig) {
 		super(sig);
 		_body.connectTo(new ClassBody().parentLink());
+		_parameters.connectTo(new TypeParameterBlock().parentLink());
 	}
 
+  public LookupStrategy lexicalContext(Element element) throws LookupException {
+  	if(element == parameterBlock()) {
+  		return parent().lexicalContext(this);
+  	} else {
+  		return super.lexicalContext(element);
+  	}
+  }
 	@Override
 	public RegularType clone() {
 		RegularType result = cloneThis();
@@ -92,28 +103,26 @@ public class RegularType extends Type {
 		return this;
 	}
 
-	private OrderedReferenceSet<Type, GenericParameter> _parameters = new OrderedReferenceSet<Type, GenericParameter>(this);
+	private Reference<Type, TypeParameterBlock> _parameters = new Reference<Type, TypeParameterBlock>(this);
+	
+	public TypeParameterBlock parameterBlock() {
+		return _parameters.getOtherEnd();
+	}
 	
 	public List<GenericParameter> parameters() {
-		return _parameters.getOtherEnds();
+		return parameterBlock().parameters();
 	}
 	
 	public void addParameter(GenericParameter parameter) {
-		if(parameter != null) {
-			_parameters.add(parameter.parentLink());
-		}
+		parameterBlock().add(parameter);
 	}
 
 	public void removeParameter(GenericParameter parameter) {
-		if(parameter != null) {
-			_parameters.remove(parameter.parentLink());
-		}
+		parameterBlock().add(parameter);
 	}
 	
 	public void replaceParameter(GenericParameter oldParameter, GenericParameter newParameter) {
-		if((oldParameter != null) && (newParameter != null)){
-			_parameters.replace(oldParameter.parentLink(), newParameter.parentLink());
-		}
+		parameterBlock().replace(oldParameter, newParameter);
 	}
 
 

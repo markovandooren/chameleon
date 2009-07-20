@@ -14,16 +14,15 @@ import chameleon.core.scope.Scope;
  * that is not used for identification, such as the return type of a method, does not belong in
  * the signature.
  * 
- * <F> Each declaration belongs to a family of declarations. Parameter E must always be a subtype
- * of parameter F. The family type ensures that if a declaration is just a stub, such as a generic 
- * parameter, the transformation performed by the resolveForResult method returns a declaration of
- * the same family. In case of a type parameter, this ensures that the stub type will be transformed
+ * <D> Each declaration results in the lookup of an actual declaration of type D. This type ensures that 
+ * if a declaration is just a stub, such as a generic parameter, the transformation performed by the resolveForResult 
+ * method returns a declaration of the same family. In case of a type parameter, this ensures that the stub type will be transformed
  * into a type.
  */
-public interface Declaration<E extends Declaration<E,P,S,F>, 
+public interface Declaration<E extends Declaration<E,P,S,D>, 
                              P extends DeclarationContainer, 
                              S extends Signature,
-                             F extends Declaration> extends Element<E,P>{
+                             D extends Declaration> extends Element<E,P>{
 
 	/**
 	 * Return the signature of this declaration
@@ -62,7 +61,7 @@ public interface Declaration<E extends Declaration<E,P,S,F>,
    @
    @ post \result != null;
    @*/
-  public Declaration resolveForMatch() throws LookupException;
+  public Declaration<?,?,?,D> resolveForMatch() throws LookupException;
 
   /**
    * As explained in the resolveForMatch method, formal generic parameters create stub types for
@@ -79,7 +78,13 @@ public interface Declaration<E extends Declaration<E,P,S,F>,
    @
    @ post \result != null;
    @*/
-  public F resolveForResult() throws LookupException;
+  public D introducedDeclaration() throws LookupException;
+  
+  /**
+   * Return a class object representing the type of the introduced declaration.
+   * @return
+   */
+  public Class<D> introducedDeclarationType();
   
   /**
    * Return the scope of this declaration. The scope of a declaration denotes the regions of the program

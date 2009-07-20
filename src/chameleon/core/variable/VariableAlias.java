@@ -198,8 +198,12 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
   	}
   }
 
-	public MemberVariable resolveForResult() throws LookupException {
+	public MemberVariable introducedDeclaration() throws LookupException {
 		return this;
+	}
+
+	public Class<MemberVariable> introducedDeclarationType() {
+		return MemberVariable.class;
 	}
 
 }

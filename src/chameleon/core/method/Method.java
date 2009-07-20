@@ -32,7 +32,7 @@ import chameleon.core.variable.FormalParameter;
 import chameleon.util.Util;
 
 
-public abstract class Method<E extends Method<E,H,S>, H extends MethodHeader<H, E, S>, S extends MethodSignature> extends MemberImpl<E,DeclarationContainer,S,Method> implements Definition<E,DeclarationContainer,S,Method>, ModifierContainer<E,DeclarationContainer>, DeclarationContainer<E,DeclarationContainer>, Target<E,DeclarationContainer> {
+public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H, E, S>, S extends MethodSignature, M extends Method> extends MemberImpl<E,DeclarationContainer,S,M> implements Definition<E,DeclarationContainer,S,M>, ModifierContainer<E,DeclarationContainer>, DeclarationContainer<E,DeclarationContainer>, Target<E,DeclarationContainer> {
 
 	public Method(H header) {
 		setHeader(header);

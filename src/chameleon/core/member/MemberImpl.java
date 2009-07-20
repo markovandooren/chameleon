@@ -76,7 +76,7 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Declara
   	return this;
   }
   
-  public F resolveForResult() throws LookupException {
+  public F introducedDeclaration() throws LookupException {
   	return (F) this;
   }
   

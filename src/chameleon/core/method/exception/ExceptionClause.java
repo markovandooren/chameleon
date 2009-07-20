@@ -13,15 +13,13 @@ import chameleon.core.element.Element;
 import chameleon.core.expression.Invocation;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.method.Method;
-import chameleon.core.method.MethodHeader;
-import chameleon.core.method.MethodSignature;
 import chameleon.core.namespacepart.NamespaceElementImpl;
 import chameleon.core.type.Type;
 
 /**
  * @author Marko van Dooren
  */
-public class ExceptionClause extends NamespaceElementImpl<ExceptionClause,Method<? extends Method,? extends MethodHeader,? extends MethodSignature>> {
+public class ExceptionClause extends NamespaceElementImpl<ExceptionClause,Method<?,?,?,?>> {
 
   public ExceptionClause() {
 	}

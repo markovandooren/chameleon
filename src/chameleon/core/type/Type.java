@@ -31,6 +31,7 @@ import chameleon.core.modifier.ModifierContainer;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
+import chameleon.core.type.generics.FormalGenericParameter;
 import chameleon.core.type.generics.GenericParameter;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
@@ -108,15 +109,21 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     /**
      * Return the fully qualified name.
      */
-    /*@
-    @ public behavior
-    @
-    @ getPackage().getFullyQualifiedName().equals("") ==> \result == getName();
-    @ ! getPackage().getFullyQualifiedName().equals("") == > \result.equals(getPackage().getFullyQualifiedName() + getName());
-    @*/
+   /*@
+     @ public behavior
+     @
+     @ getPackage().getFullyQualifiedName().equals("") ==> \result == getName();
+     @ ! getPackage().getFullyQualifiedName().equals("") == > \result.equals(getPackage().getFullyQualifiedName() + getName());
+     @*/
     public String getFullyQualifiedName() {
-        String pack = getNamespace().getFullyQualifiedName();
-        return (pack.equals("") ? "" : pack+".")+getName();
+        String prefix;
+        Type nearest = nearestAncestor(Type.class);
+        if(nearest != null) {
+        	prefix = nearest.getFullyQualifiedName();
+        } else {
+          prefix = getNamespace().getFullyQualifiedName();
+        }
+        return (prefix.equals("") ? "" : prefix+".")+getName();
     }
 
     /*******************
@@ -132,13 +139,17 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     	return targetContext();
     }
     
+		public Class<Type> introducedDeclarationType() {
+			return Type.class;
+		}
+    
     /**
      * If the given element is an inheritance relation, the lookup must proceed to the parent. For other elements,
      * the context is a lexical context connected to the target context to perform a local search.
      * @throws LookupException 
      */
     public LookupStrategy lexicalContext(Element element) throws LookupException {
-    	if(inheritanceRelations().contains(element) || parameters().contains(element)) {
+    	if(inheritanceRelations().contains(element)) {
     		DeclarationContainer parent = parent();
     		if(parent != null) {
     			return lexicalParametersLookupStrategy();
@@ -208,13 +219,13 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
 
   	public abstract List<GenericParameter> parameters();
   	
-  	public List<Type> resolveParametersForMatch() {
-  		List<GenericParameter> parameters = parameters();
-  		for(GenericParameter parameter : parameters()) {
-  			
-  		}
-  		return null;
-  	}
+//  	public List<Type> resolveParametersForMatch() {
+//  		List<GenericParameter> parameters = parameters();
+//  		for(GenericParameter parameter : parameters()) {
+//  			
+//  		}
+//  		return null;
+//  	}
   	
   	public abstract void addParameter(GenericParameter parameter);
   	

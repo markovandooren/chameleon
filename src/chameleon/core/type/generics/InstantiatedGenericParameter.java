@@ -64,13 +64,22 @@ public class InstantiatedGenericParameter extends GenericParameter<InstantiatedG
 		}
 		
 		@Override
-		public Type resolveForResult() {
+		public Type introducedDeclaration() {
 			return aliasedType();
+		}
+		
+		public Class<Type> introducedDeclarationType() {
+			return Type.class;
 		}
 		
 	}
 
 	public boolean compatibleWith(GenericParameter other) throws LookupException {
 		return  (other instanceof InstantiatedGenericParameter) && ((InstantiatedGenericParameter)other).type().equals(type());
+	}
+
+	@Override
+	public InstantiatedGenericParameter resolveForRoundTrip() throws LookupException {
+		return this;
 	}
 }

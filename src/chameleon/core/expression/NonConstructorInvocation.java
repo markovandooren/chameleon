@@ -57,8 +57,8 @@ public abstract class NonConstructorInvocation<E extends NonConstructorInvocatio
 				}
 			} catch (LookupException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-				getMethod();
+//				e.printStackTrace();
+//				getMethod();
 				throw e;
 			}
 	  }

@@ -56,7 +56,33 @@ public class FormalGenericParameter extends GenericParameter<FormalGenericParame
 	 */
 	public Type resolveForMatch() throws LookupException {
 		return new ConstructedType(signature().clone(),upperBound(),this);
+//		Type result = new LazyTypeAlias(signature().clone(), this);
+//		result.setUniParent(parent());
+//		return result;
 	}
+	
+	public Type resolveForRoundTrip() throws LookupException {
+  	Type result = new LazyTypeAlias(signature().clone(), this);
+  	result.setUniParent(parent());
+  	return result;
+	}
+	
+	private static class LazyTypeAlias extends ConstructedType {
+
+		public LazyTypeAlias(SimpleNameSignature sig, FormalGenericParameter param) {
+			super(sig,null,param);
+		}
+		
+		public Type aliasedType() {
+			try {
+				return parameter().upperBound();
+			} catch (LookupException e) {
+				throw new Error("LookupException while looking for aliasedType of a lazy alias",e);
+			}
+		}
+	}
+	
+
 
 	public List<Element> children() {
 		List<Element> result = new ArrayList<Element>();

@@ -147,8 +147,12 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
   	}
   }
 
-	public MemberVariable resolveForResult() throws LookupException {
+	public MemberVariable introducedDeclaration() throws LookupException {
 		return this;
+	}
+
+	public Class<MemberVariable> introducedDeclarationType() {
+		return MemberVariable.class;
 	}
 
 }

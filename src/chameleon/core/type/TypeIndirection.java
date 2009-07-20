@@ -18,7 +18,9 @@ public abstract class TypeIndirection extends Type {
 	public TypeIndirection(SimpleNameSignature sig, Type aliasedType) {
 		super(sig);
 		_aliasedType = aliasedType;
-		setUniParent(aliasedType.parent());
+		if(aliasedType != null) {
+		  setUniParent(aliasedType.parent());
+		}
 	}
 	
 	// @EXTENSIBILITY : change names of constructors?
@@ -27,7 +29,11 @@ public abstract class TypeIndirection extends Type {
 		return _aliasedType;
 	}
 	
-	private final Type _aliasedType;
+	protected void setAliasedType(Type type) {
+		_aliasedType = type;
+	}
+	
+	private Type _aliasedType;
 
 	@Override
 	public void add(TypeElement element) {

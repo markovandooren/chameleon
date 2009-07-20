@@ -62,7 +62,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
   	if(selectedClass().isInstance(resolved)) {
   	  Declaration<?, ?, ?, D> filtered = filter(resolved);
   	  if(filtered != null) {
-			  return filtered.resolveForResult();
+			  return filtered.introducedDeclaration();
   	  } else {
   	  	return null;
   	  }
