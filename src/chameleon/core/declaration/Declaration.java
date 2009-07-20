@@ -61,7 +61,7 @@ public interface Declaration<E extends Declaration<E,P,S,D>,
    @
    @ post \result != null;
    @*/
-  public Declaration<?,?,?,D> resolveForMatch() throws LookupException;
+  public Declaration<?,?,?,D> selectionDeclaration() throws LookupException;
 
   /**
    * As explained in the resolveForMatch method, formal generic parameters create stub types for
@@ -78,13 +78,7 @@ public interface Declaration<E extends Declaration<E,P,S,D>,
    @
    @ post \result != null;
    @*/
-  public D introducedDeclaration() throws LookupException;
-  
-  /**
-   * Return a class object representing the type of the introduced declaration.
-   * @return
-   */
-  public Class<D> introducedDeclarationType();
+  public D actualDeclaration() throws LookupException;
   
   /**
    * Return the scope of this declaration. The scope of a declaration denotes the regions of the program

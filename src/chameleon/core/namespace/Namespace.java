@@ -311,16 +311,12 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 		return new NamespaceAlias(sig,this);
 	}
 
-	public Namespace resolveForMatch() {
+	public Namespace selectionDeclaration() {
 		return this;
 	}
 	
-	public Namespace introducedDeclaration() {
+	public Namespace actualDeclaration() {
 		return this;
 	}
 	
-	public Class<Namespace> introducedDeclarationType() {
-		return Namespace.class;
-	}
-
 }

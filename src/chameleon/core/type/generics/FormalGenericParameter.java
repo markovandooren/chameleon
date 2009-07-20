@@ -54,7 +54,7 @@ public class FormalGenericParameter extends GenericParameter<FormalGenericParame
 	 * Resolving a generic parameter results in a constructed type whose bound
 	 * is the upper bound of this generic parameter as defined by the upperBound method.
 	 */
-	public Type resolveForMatch() throws LookupException {
+	public Type selectionDeclaration() throws LookupException {
 		return new ConstructedType(signature().clone(),upperBound(),this);
 //		Type result = new LazyTypeAlias(signature().clone(), this);
 //		result.setUniParent(parent());

@@ -118,7 +118,7 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
     return filterProperties(myDeclaredProperties(), aliasedVariable().declaredProperties());
   }
 
-  public Variable resolveForMatch() {
+  public Variable selectionDeclaration() {
 		return this;
 	}
 
@@ -198,12 +198,8 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
   	}
   }
 
-	public MemberVariable introducedDeclaration() throws LookupException {
+	public MemberVariable actualDeclaration() throws LookupException {
 		return this;
-	}
-
-	public Class<MemberVariable> introducedDeclarationType() {
-		return MemberVariable.class;
 	}
 
 }

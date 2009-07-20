@@ -72,11 +72,11 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Declara
     return result;
   }
   
-  public Declaration resolveForMatch() throws LookupException {
+  public Declaration selectionDeclaration() throws LookupException {
   	return this;
   }
   
-  public F introducedDeclaration() throws LookupException {
+  public F actualDeclaration() throws LookupException {
   	return (F) this;
   }
   

@@ -17,6 +17,18 @@ import chameleon.core.namespacepart.NamespaceElementImpl;
 import chameleon.core.type.ConstructedType;
 import chameleon.core.type.Type;
 
+/**
+ * WARNING! If you use a parameter block as an subelement of a class X, then you must add
+ * a lookupstrategy to X that directly returns parameters(). Declarations() returns lazy type aliases
+ * to support recursion in generic parameters. If anything is wrong in a type reference of a generic parameter,
+ * then it won't be noticed by the lazy alias until an operation is executed on the alias by the declaration
+ * selector. At that point, there should be no exception. If you use parameters() instead, any problems will be
+ * detected before the declaration selector can do its job. because of this, lazy alias ignores exceptions
+ * during lookup of the aliased type (the upperbound of generic parameter) because they cannot occur anymore
+ * at that stage.
+ *   
+ * @author Marko van Dooren
+ */
 public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock, Type> implements DeclarationContainer<TypeParameterBlock, Type> {
 
 	@Override

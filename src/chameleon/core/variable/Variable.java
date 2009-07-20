@@ -69,5 +69,5 @@ public interface Variable<E extends Variable<E,P,F>, P extends DeclarationContai
   public LookupStrategy targetContext() throws LookupException;
 
 
-  public Variable resolveForMatch();
+  public Variable selectionDeclaration();
 }

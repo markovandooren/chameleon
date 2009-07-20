@@ -58,11 +58,11 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @ post ! selectedClass().isInstance(declaration) ==> \result == null;
    @*/
   public D selection(Declaration declaration) throws LookupException {
-  	Declaration resolved = declaration.resolveForMatch();
+  	Declaration resolved = declaration.selectionDeclaration();
   	if(selectedClass().isInstance(resolved)) {
   	  Declaration<?, ?, ?, D> filtered = filter(resolved);
   	  if(filtered != null) {
-			  return filtered.introducedDeclaration();
+			  return filtered.actualDeclaration();
   	  } else {
   	  	return null;
   	  }

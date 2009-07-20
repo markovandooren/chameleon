@@ -64,9 +64,4 @@ public class MethodAlias<E extends MethodAlias<E,H,S>, H extends MethodHeader<H,
     return filterProperties(myDeclaredProperties(), aliasedMethod().declaredProperties());
   }
 
-	public Class<MethodAlias> introducedDeclarationType() {
-		return MethodAlias.class;
-	}
-
-
 }

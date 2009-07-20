@@ -43,12 +43,8 @@ public class FormalParameter extends RegularVariable<FormalParameter,VariableCon
 		return new LexicalScope(parent().variableScopeElement());
 	}
 
-	public FormalParameter introducedDeclaration() throws LookupException {
+	public FormalParameter actualDeclaration() throws LookupException {
 		return this;
-	}
-
-	public Class<FormalParameter> introducedDeclarationType() {
-		return FormalParameter.class;		
 	}
 
 }

@@ -48,7 +48,7 @@ public class InstantiatedGenericParameter extends GenericParameter<InstantiatedG
 		return _type;
 	}
 	
-	public Type resolveForMatch() {
+	public Type selectionDeclaration() {
 		return new ActualTypeArgument(signature().clone(), type());
 	}
 
@@ -64,12 +64,8 @@ public class InstantiatedGenericParameter extends GenericParameter<InstantiatedG
 		}
 		
 		@Override
-		public Type introducedDeclaration() {
+		public Type actualDeclaration() {
 			return aliasedType();
-		}
-		
-		public Class<Type> introducedDeclarationType() {
-			return Type.class;
 		}
 		
 	}

@@ -179,7 +179,7 @@ public abstract class RegularVariable<E extends RegularVariable<E,P,F>, P extend
  }
 
 
- public Variable resolveForMatch() {
+ public Variable selectionDeclaration() {
  	return this;
  }
 
