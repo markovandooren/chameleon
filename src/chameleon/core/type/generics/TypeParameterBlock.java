@@ -8,6 +8,7 @@ import org.rejuse.association.OrderedReferenceSet;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.declaration.StubDeclarationContainer;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
@@ -84,5 +85,16 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 	public LookupStrategy lexicalContext(Element element) {
 		return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this), this);
 	}
+	
+	private StubDeclarationContainer container = new StubDeclarationContainer() {
+		public List<? extends Declaration> declarations() throws LookupException {
+//		return parameters();
+			List<Declaration> result = new ArrayList<Declaration>();
+			for(GenericParameter parameter:parameters()) {
+				result.add(parameter.resolveForRoundTrip());
+			}
+	    return result;
+		}
+	};
 
 }

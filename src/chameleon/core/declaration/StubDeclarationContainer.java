@@ -13,7 +13,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.LookupStrategyFactory;
 
-public class StubDeclarationContainer extends ElementImpl<StubDeclarationContainer,DeclarationContainer> implements DeclarationContainer<StubDeclarationContainer,DeclarationContainer>{
+public class StubDeclarationContainer<T extends Declaration> extends ElementImpl<StubDeclarationContainer,DeclarationContainer> implements DeclarationContainer<StubDeclarationContainer,DeclarationContainer>{
 
 	@Override
 	public StubDeclarationContainer clone() {
@@ -24,7 +24,7 @@ public class StubDeclarationContainer extends ElementImpl<StubDeclarationContain
 		return result;
 	}
 
-	public List<Declaration> declarations() throws LookupException {
+	public List<T> declarations() throws LookupException {
 		return _elements.getOtherEnds();
 	}
 	
@@ -36,9 +36,9 @@ public class StubDeclarationContainer extends ElementImpl<StubDeclarationContain
     return _elements.getOtherEnds();
 	}
 
-	private OrderedReferenceSet<StubDeclarationContainer, Declaration> _elements = new OrderedReferenceSet<StubDeclarationContainer, Declaration>(this);
+	private OrderedReferenceSet<StubDeclarationContainer, T> _elements = new OrderedReferenceSet<StubDeclarationContainer, T>(this);
 
-	public void add(Declaration element) {
+	public void add(T element) {
 	  if(element != null) {
 	    _elements.add(element.parentLink());
 	  }
