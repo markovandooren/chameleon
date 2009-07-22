@@ -11,6 +11,7 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.StubDeclarationContainer;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
@@ -72,8 +73,12 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 	public List<? extends Declaration> declarations() throws LookupException {
 //	return parameters();
 		List<Declaration> result = new ArrayList<Declaration>();
+		Stub stub = new Stub();
+		stub.setUniParent(parent());
 		for(GenericParameter parameter:parameters()) {
-			result.add(parameter.resolveForRoundTrip());
+			GenericParameter clone = parameter.clone();
+			result.add(clone);
+			stub.add(clone);
 		}
     return result;
 	}
@@ -86,15 +91,64 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 		return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this), this);
 	}
 	
-	private StubDeclarationContainer container = new StubDeclarationContainer() {
-		public List<? extends Declaration> declarations() throws LookupException {
-//		return parameters();
-			List<Declaration> result = new ArrayList<Declaration>();
-			for(GenericParameter parameter:parameters()) {
-				result.add(parameter.resolveForRoundTrip());
-			}
-	    return result;
-		}
-	};
+	public static class Stub extends ElementImpl<Stub, Type> implements DeclarationContainer<Stub, Type>{
 
+		@Override
+		public Stub clone() {
+			Stub result = new Stub();
+			for(GenericParameter parameter: parameters()) {
+				result.add(parameter.clone());
+			}
+			return result;
+		}
+		
+		public LookupStrategy lexicalContext(Element element) {
+			return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this), this);
+		}
+		
+
+		public List<? extends Declaration> declarations() throws LookupException {
+				List<Declaration> result = new ArrayList<Declaration>();
+				for(GenericParameter parameter: parameters()) {
+					result.add(parameter.resolveForRoundTrip());
+				}
+		    return result;
+		}
+
+		public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
+			return selector.selection(declarations());
+		}
+
+		public List<? extends Element> children() {
+			return parameters();
+		}
+		
+		private OrderedReferenceSet<Stub, GenericParameter> _parameters = new OrderedReferenceSet<Stub, GenericParameter>(this);
+		
+		private List<GenericParameter> parameters() {
+			return _parameters.getOtherEnds();
+		}
+		
+		public void add(GenericParameter parameter) {
+			if(parameter != null) {
+				_parameters.add(parameter.parentLink());
+			}
+		}
+
+		public void remove(GenericParameter parameter) {
+			if(parameter != null) {
+				_parameters.remove(parameter.parentLink());
+			}
+		}
+		
+		public void replace(GenericParameter oldParameter, GenericParameter newParameter) {
+			if((oldParameter != null) && (newParameter != null)){
+				_parameters.replace(oldParameter.parentLink(), newParameter.parentLink());
+			}
+		}
+
+
+		
+	}
+	
 }

@@ -192,7 +192,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	   * @return True if this element is derived, false otherwise.
 	   */
 	  public boolean isDerived() {
-	  	return _parent == null;
+	  	return _parent != null;
 	  }
 	  
 	  public void disconnect() {

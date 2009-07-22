@@ -61,6 +61,13 @@ public interface Element<E extends Element, P extends Element> {
     public void disconnect();
     
     /**
+	   * Check if this element is derived or not.
+	   * 
+	   * @return True if this element is derived, false otherwise.
+	   */
+	  public boolean isDerived();
+	  
+    /**
      * Return a list of all ancestors. The direct parent is in front of the list, the
      * furthest ancestor is last.
      */
@@ -364,5 +371,6 @@ public interface Element<E extends Element, P extends Element> {
      @       p.mutex() == mutex) > 1; 
      @*/
     public Property<Element> property(PropertyMutex<Element> mutex) throws MetamodelException;
+    
     
 }

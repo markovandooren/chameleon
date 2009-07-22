@@ -25,7 +25,7 @@ public class RegularType extends Type {
 	}
 
   public LookupStrategy lexicalContext(Element element) throws LookupException {
-  	if(element == parameterBlock()) {
+  	if(element == parameterBlock() || element.isDerived()) {
   		return parent().lexicalContext(this);
   	} else {
   		return super.lexicalContext(element);
