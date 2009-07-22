@@ -384,8 +384,8 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	 @*/
 	public List<? extends Element> children() {
 		List<Element> result = Util.createNonNullList(getImplementation());
-		result.add(header());
-		result.add(getExceptionClause());
+		Util.addNonNull(header(),result);
+		Util.addNonNull(getExceptionClause(), result);
 		return result;
 	}
 

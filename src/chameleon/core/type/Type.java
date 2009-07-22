@@ -238,7 +238,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     }
     
     public boolean complete() {
-    	List<Member> members = directlyDeclaredElements(Member.class);
+    	List<Member> members = directlyDeclaredMembers(Member.class);
     	// Only check for actual definitions
     	new TypePredicate<Element,Definition>(Definition.class).filter(members);
     	Iterator<Member> iter = members.iterator();
@@ -426,8 +426,8 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
      * Return the members of the given kind directly declared by this type.
      * @return
      */
-    public <T extends Member> List<T> directlyDeclaredElements(final Class<T> kind) {
-      return (List<T>) new TypeFilter(kind).retain(directlyDeclaredElements());
+    public <T extends Member> List<T> directlyDeclaredMembers(final Class<T> kind) {
+      return (List<T>) new TypeFilter(kind).retain(directlyDeclaredMembers());
     }
     
     /**
@@ -435,12 +435,12 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
      * are written in the type.
      * @return
      */
-    public abstract List<Member> directlyDeclaredElements();
+    public abstract List<Member> directlyDeclaredMembers();
     
     public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
 
   		// 1) All defined members of the requested kind are added.
-  		final List<D> result = new ArrayList(directlyDeclaredElements(selector));
+  		final List<D> result = new ArrayList(directlyDeclaredMembers(selector));
 
   		// 2) Fetch all potentially inherited members from all inheritance relations
   		for (InheritanceRelation rel : inheritanceRelations()) {
@@ -449,7 +449,8 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
   		return selector.selection(result);
     }
     
-    public abstract <D extends Member> List<D> directlyDeclaredElements(DeclarationSelector<D> selector) throws LookupException;
+    @SuppressWarnings("unchecked")
+    public abstract <D extends Member> List<D> directlyDeclaredMembers(DeclarationSelector<D> selector) throws LookupException;
 
     public List<Member> members() throws LookupException {
       return members(Member.class);
@@ -473,7 +474,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     public <M extends Member> List<M> members(final Class<M> kind) throws LookupException {
 
 		// 1) All defined members of the requested kind are added.
-		final List<M> result = new ArrayList(directlyDeclaredElements(kind));
+		final List<M> result = new ArrayList(directlyDeclaredMembers(kind));
 
 		// 2) Fetch all potentially inherited members from all inheritance relations
 		for (InheritanceRelation rel : inheritanceRelations()) {
@@ -859,6 +860,13 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
         return result;
     }
 
+    /**
+     * DO NOT CONFUSE THIS METHOD WITH directlyDeclaredMembers. This method does not
+     * transform type elements into members.
+     * 
+     * @return
+     */
+    public abstract List<? extends TypeElement> directlyDeclaredElements();
 
     /********************
      * EXCEPTION SOURCE *
@@ -866,7 +874,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
 
     public CheckedExceptionList getCEL() throws LookupException {
         CheckedExceptionList cel = new CheckedExceptionList(getNamespace().language());
-        for(TypeElement el : directlyDeclaredElements()) {
+        for(TypeElement el : directlyDeclaredMembers()) {
         	cel.absorb(el.getCEL());
         }
         return cel;
@@ -874,7 +882,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
 
     public CheckedExceptionList getAbsCEL() throws LookupException {
       CheckedExceptionList cel = new CheckedExceptionList(getNamespace().language());
-      for(TypeElement el : directlyDeclaredElements()) {
+      for(TypeElement el : directlyDeclaredMembers()) {
       	cel.absorb(el.getAbsCEL());
       }
       return cel;
@@ -899,7 +907,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
       for(Modifier mod : from.modifiers()) {
       	addModifier(mod.clone());
       }
-      for(TypeElement el : from.directlyDeclaredElements()) {
+      for(TypeElement el : from.directlyDeclaredMembers()) {
         add(el.clone());
       }
       for(GenericParameter par : from.parameters()) {

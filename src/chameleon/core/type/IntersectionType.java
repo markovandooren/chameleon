@@ -85,24 +85,24 @@ public class IntersectionType extends Type {
 	}
 
 	@Override
-	public List<Member> directlyDeclaredElements() {
+	public List<Member> directlyDeclaredMembers() {
 		//FIXME: renaming and so on. Extend both types and perform automatic renaming?
 		//       what about conflicting member definitions?
 		List<Member> result = new ArrayList<Member>();
 		for(Type type: types()) {
-		  result.addAll(type.directlyDeclaredElements(Member.class));
+		  result.addAll(type.directlyDeclaredMembers(Member.class));
 		}
 		removeConstructors(result);
 		return result;
 	}
 	
 	@Override
-	public <D extends Member> List<D> directlyDeclaredElements(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Member> List<D> directlyDeclaredMembers(DeclarationSelector<D> selector) throws LookupException {
 		//FIXME: renaming and so on. Extend both types and perform automatic renaming?
 		//       what about conflicting member definitions?
 		List<D> result = new ArrayList<D>();
 		for(Type type: types()) {
-		  result.addAll(type.directlyDeclaredElements(selector));
+		  result.addAll(type.directlyDeclaredMembers(selector));
 		}
 		removeConstructors(result);
 		return result;
@@ -110,11 +110,11 @@ public class IntersectionType extends Type {
 	
 
 	
-	public void removeConstructors(List<? extends Member> members) {
-		Iterator<? extends Member> iter = members.iterator();
+	public void removeConstructors(List<? extends TypeElement> members) {
+		Iterator<? extends TypeElement> iter = members.iterator();
 		// Remove constructors. We really do need metaclasses so it seems.
 		while(iter.hasNext()) {
-			Member member = iter.next();
+			TypeElement member = iter.next();
 			if(member.is(language().CONSTRUCTOR) == Ternary.TRUE) {
 				iter.remove();
 			}
@@ -156,6 +156,16 @@ public class IntersectionType extends Type {
 	@Override
 	public void addParameter(GenericParameter parameter) {
 		throw new ChameleonProgrammerException("Trying to remove a super type from a intersection type.");
+	}
+
+	@Override
+	public List<? extends TypeElement> directlyDeclaredElements() {
+		List<TypeElement> result = new ArrayList<TypeElement>();
+		for(Type type: types()) {
+		  result.addAll(type.directlyDeclaredElements());
+		}
+		removeConstructors(result);
+		return result;
 	}
 
 }

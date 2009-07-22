@@ -62,13 +62,20 @@ public class RegularNamespace extends Namespace {
 		}
 	}
 
-	public List getNamespaceParts(){
+	public List<NamespacePart> getNamespaceParts(){
 		return _namespaceParts.getOtherEnds();
 	}
 
 	@Override
 	public Namespace clone() {
-		return new RegularNamespace(signature().clone());
+		RegularNamespace result = new RegularNamespace(signature().clone());
+		for(Namespace sub:getSubNamespaces()) {
+			result.addNamespace(sub.clone());
+		}
+		for(NamespacePart part:getNamespaceParts()) {
+			result.addNamespacePart(part.clone());
+		}
+		return result;
 	}
 	
 	public Scope scope() {

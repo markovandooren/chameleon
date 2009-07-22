@@ -36,7 +36,6 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
   
   public List<Element> children() {
   	List<Element> result = new ArrayList<Element>();
-  	result.add(signature());
   	result.addAll(getParameters());
   	return result;
   }

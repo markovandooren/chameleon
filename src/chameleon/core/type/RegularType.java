@@ -69,7 +69,7 @@ public class RegularType extends Type {
    @
    @ post \result == body.members();
    @*/
-  public List<Member> directlyDeclaredElements() {
+  public List<Member> directlyDeclaredMembers() {
      return body().members();
   }
 
@@ -90,8 +90,8 @@ public class RegularType extends Type {
 	}
 
 	@Override
-	public <D extends Member> List<D> directlyDeclaredElements(DeclarationSelector<D> selector) throws LookupException {
-		return selector.selection(directlyDeclaredElements());
+	public <D extends Member> List<D> directlyDeclaredMembers(DeclarationSelector<D> selector) throws LookupException {
+		return selector.selection(directlyDeclaredMembers());
 	}
 	
   public void replace(TypeElement oldElement, TypeElement newElement) {
@@ -123,6 +123,11 @@ public class RegularType extends Type {
 	
 	public void replaceParameter(GenericParameter oldParameter, GenericParameter newParameter) {
 		parameterBlock().replace(oldParameter, newParameter);
+	}
+
+	@Override
+	public List<? extends TypeElement> directlyDeclaredElements() {
+		return body().elements();
 	}
 
 

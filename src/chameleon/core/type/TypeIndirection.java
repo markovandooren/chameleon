@@ -41,13 +41,13 @@ public abstract class TypeIndirection extends Type {
 	}
 
 	@Override
-	public List<Member> directlyDeclaredElements() {
-		return aliasedType().directlyDeclaredElements();
+	public List<Member> directlyDeclaredMembers() {
+		return aliasedType().directlyDeclaredMembers();
 	}
 	
 	@Override
-	public <D extends Member> List<D> directlyDeclaredElements(DeclarationSelector<D> selector) throws LookupException {
-		return aliasedType().directlyDeclaredElements(selector);
+	public <D extends Member> List<D> directlyDeclaredMembers(DeclarationSelector<D> selector) throws LookupException {
+		return aliasedType().directlyDeclaredMembers(selector);
 	}
 
 
@@ -103,4 +103,9 @@ public abstract class TypeIndirection extends Type {
 		throw new ChameleonProgrammerException("Trying to add a type parameter to a type alias.");
 	}
   
+	@Override
+	public List<? extends TypeElement> directlyDeclaredElements() {
+		return aliasedType().directlyDeclaredElements();
+	}
+
 }

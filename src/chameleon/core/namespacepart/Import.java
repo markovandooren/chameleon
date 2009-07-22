@@ -17,6 +17,8 @@ public abstract class Import<E extends Element> extends NamespaceElementImpl<E,N
   public Import() {
 	}
   
+  public abstract E clone();
+  
   private static Logger logger = Logger.getLogger("lookup.import");
 
   protected Logger lookupLogger() {

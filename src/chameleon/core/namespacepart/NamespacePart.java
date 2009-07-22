@@ -113,6 +113,24 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespaceP
    @*/ 
 	public NamespacePart(Namespace namespace) {
     setNamespace(namespace);
+	}
+	
+	public LookupStrategy lexicalContext(Element child) throws LookupException {
+		if(imports().contains(child)) {
+			return getDefaultNamespace().targetContext();
+		} else {
+			return getLexicalContext();
+		}
+	}
+	
+	private LookupStrategy getLexicalContext() {
+		if(_lexicalContext == null) {
+			initContexts();
+		}
+		return _lexicalContext;
+	}
+	
+	private void initContexts() {
     // This must be executed after the namespace is set, so it cannot be in the initialization.
     _typeLocalContext = language().lookupFactory().createTargetLookupStrategy(this);
     _importLocalDirectContext = new ImportLocalDirectContext(this);
@@ -122,14 +140,6 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespaceP
 		_importDemandContext = language().lookupFactory().createLexicalLookupStrategy(_importLocalDemandContext, this, _defaultNamespaceSelector);
     // 1 SEARCH IN NAMESPACEPART
 		_lexicalContext = language().lookupFactory().createLexicalLookupStrategy(localContext(), this, _directImportStrategySelector); 
-	}
-	
-	public LookupStrategy lexicalContext(Element child) throws LookupException {
-		if(imports().contains(child)) {
-			return getDefaultNamespace().targetContext();
-		} else {
-			return _lexicalContext;
-		}
 	}
 
   private DirectImportStrategySelector _directImportStrategySelector = new DirectImportStrategySelector();
@@ -149,6 +159,9 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespaceP
 	private LookupStrategy _importDemandContext;
 	
 	public LookupStrategy localContext() {
+		if(_typeLocalContext == null) {
+			initContexts();
+		}
 		return _typeLocalContext;
 	}
 	
@@ -479,7 +492,17 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespaceP
 
   @Override
   public NamespacePart clone() {
-    return new NamespacePart(null);
+  	NamespacePart result = new NamespacePart(null);
+  	for(NamespacePart part: getNamespaceParts()) {
+  		result.addNamespacePart(part.clone());
+  	}
+  	for(Type type:types()) {
+  		result.addType(type.clone());
+  	}
+  	for(Import<Import> importt:imports()) {
+  		result.addImport(importt.clone());
+  	}
+  	return result;
   }
 
 	private LookupStrategy _typeLocalContext;
