@@ -31,15 +31,36 @@ import chameleon.core.type.TypeReference;
 import chameleon.core.variable.FormalParameter;
 import chameleon.util.Util;
 
-
+/**
+ * A class of methods.
+ * 
+ * A method has a header, which contains its return type, throws clause, name, arguments, ... 
+ * A method can also have an implementation, which can be a native implementation, or a regular implementation.
+ * 
+ * @author Marko van Dooren
+ *
+ * @param <E>
+ * @param <H>
+ * @param <S>
+ * @param <M>
+ */
 public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H, E, S>, S extends MethodSignature, M extends Method> extends MemberImpl<E,DeclarationContainer,S,M> implements Definition<E,DeclarationContainer,S,M>, ModifierContainer<E,DeclarationContainer>, DeclarationContainer<E,DeclarationContainer>, Target<E,DeclarationContainer> {
 
+	/**
+	 * Initialize a new method with the given header.
+	 * @param header
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post header() == header;
+   @*/ 
 	public Method(H header) {
 		setHeader(header);
 	}
 	
 	public boolean complete() {
-	  return getBody() != null;
+	  return body() != null;
 	}
 
 	public List<FormalParameter> getParameters() {
@@ -48,7 +69,7 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	
 	/**
 	 * Return a string representation for the name of the method. This is just a convenience method.
-	 * DO NOT USE IT TO IDENTIFY METHODS! The signature identifies a method. Not just its name.
+	 * DO NOT USE IT TO IDENTIFY METHODS! The signature identifies a method, not just its name.
 	 * @return
 	 */
 	public String name() {
@@ -59,13 +80,17 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 		return header().signature();
 	}
 	
-	 public void setHeader(H header) {
-	    if(header != null) {
-	      _header.connectTo(header.parentLink());
-	    } else {
-	      _header.connectTo(null);
-	    }
+	/**
+	 * Set the header of this method.
+	 * @param header
+	 */
+	public void setHeader(H header) {
+	  if(header != null) {
+	    _header.connectTo(header.parentLink());
+	  } else {
+	    _header.connectTo(null);
 	  }
+	}
 	  
 	  /**
 	   * Return the signature of this member.
@@ -218,7 +243,7 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	 @
 	 @ post \result == getReturnTypeReference().getType();
 	 @*/
-	public Type getType() throws LookupException {
+	public Type returnType() throws LookupException {
 		if(getReturnTypeReference() != null) {
 		  return getReturnTypeReference().getType();
 		} else {
@@ -367,7 +392,7 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	/**
 	 * Return the body of this method.
 	 */
-	public Block getBody() {
+	public Block body() {
 		if(getImplementation() == null) {
 			return null;
 		}
@@ -377,7 +402,7 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	}
 
 	public Set getDirectlyThrownExceptions() throws LookupException {
-		Block block = getBody();
+		Block block = body();
 		Set result = new HashSet();
 		if (block != null) {
 			List pairs = block.getCEL().getPairs();
@@ -402,7 +427,7 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
   }
   
   public LookupStrategy targetContext() throws LookupException {
-  	return getType().lexicalContext();
+  	return returnType().lexicalContext();
   }
   
   public List<? extends Declaration> declarations() {

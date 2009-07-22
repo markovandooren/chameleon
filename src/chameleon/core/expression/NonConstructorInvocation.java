@@ -49,7 +49,7 @@ public abstract class NonConstructorInvocation<E extends NonConstructorInvocatio
 	    try {
 				Method method = getMethod();
 				if (method != null) {
-				  return method.getType();
+				  return method.returnType();
 				}
 				else {
 				  getMethod();
