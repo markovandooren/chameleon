@@ -9,7 +9,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 
-public abstract class TypeConstraint<E extends TypeConstraint, P extends Element> extends ElementImpl<E,P> {
+public abstract class TypeConstraint<E extends TypeConstraint> extends ElementImpl<E,Element> {
 
 	public TypeConstraint() {
 //		setTypeReference(typeRef);
@@ -45,11 +45,19 @@ public abstract class TypeConstraint<E extends TypeConstraint, P extends Element
 //	}
 
 	/**
-	 * Return the lower bound on the type that this type constraint imposes.
+	 * Return the upper bound on the type that this type constraint imposes.
 	 * 
 	 * @return
 	 * @throws LookupException 
 	 */
 	public abstract Type upperBound() throws LookupException;
+	
+	/**
+	 * Return the lower bound on the type that this type constraint imposes.
+	 * 
+	 * @return
+	 * @throws LookupException 
+	 */
+	public abstract Type lowerBound() throws LookupException;
 	
 }

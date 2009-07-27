@@ -31,8 +31,8 @@ import chameleon.core.modifier.ModifierContainer;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
-import chameleon.core.type.generics.FormalGenericParameter;
-import chameleon.core.type.generics.GenericParameter;
+import chameleon.core.type.generics.FormalTypeParameter;
+import chameleon.core.type.generics.TypeParameter;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
 /**
@@ -213,7 +213,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
   	  }
   	}
 
-  	public abstract List<GenericParameter> parameters();
+  	public abstract List<TypeParameter> parameters();
   	
 //  	public List<Type> resolveParametersForMatch() {
 //  		List<GenericParameter> parameters = parameters();
@@ -223,9 +223,9 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
 //  		return null;
 //  	}
   	
-  	public abstract void addParameter(GenericParameter parameter);
+  	public abstract void addParameter(TypeParameter parameter);
   	
-  	public abstract void replaceParameter(GenericParameter oldParameter, GenericParameter newParameter);
+  	public abstract void replaceParameter(TypeParameter oldParameter, TypeParameter newParameter);
 
     /************************
      * BEING A TYPE ELEMENT *
@@ -910,7 +910,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
       for(TypeElement el : from.directlyDeclaredMembers()) {
         add(el.clone());
       }
-      for(GenericParameter par : from.parameters()) {
+      for(TypeParameter par : from.parameters()) {
       	addParameter(par.clone());
       }
   	}

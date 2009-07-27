@@ -36,7 +36,7 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 	@Override
 	public TypeParameterBlock clone() {
 		TypeParameterBlock result = new TypeParameterBlock();
-		for(GenericParameter parameter: parameters()) {
+		for(TypeParameter parameter: parameters()) {
 			result.add(parameter.clone());
 		}
 		return result;
@@ -46,25 +46,25 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 		return parameters();
 	}
 
-	private OrderedReferenceSet<TypeParameterBlock, GenericParameter> _parameters = new OrderedReferenceSet<TypeParameterBlock, GenericParameter>(this);
+	private OrderedReferenceSet<TypeParameterBlock, TypeParameter> _parameters = new OrderedReferenceSet<TypeParameterBlock, TypeParameter>(this);
 	
-	public List<GenericParameter> parameters() {
+	public List<TypeParameter> parameters() {
 		return _parameters.getOtherEnds();
 	}
 	
-	public void add(GenericParameter parameter) {
+	public void add(TypeParameter parameter) {
 		if(parameter != null) {
 			_parameters.add(parameter.parentLink());
 		}
 	}
 
-	public void remove(GenericParameter parameter) {
+	public void remove(TypeParameter parameter) {
 		if(parameter != null) {
 			_parameters.remove(parameter.parentLink());
 		}
 	}
 	
-	public void replace(GenericParameter oldParameter, GenericParameter newParameter) {
+	public void replace(TypeParameter oldParameter, TypeParameter newParameter) {
 		if((oldParameter != null) && (newParameter != null)){
 			_parameters.replace(oldParameter.parentLink(), newParameter.parentLink());
 		}
@@ -75,8 +75,8 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 		List<Declaration> result = new ArrayList<Declaration>();
 		Stub stub = new Stub();
 		stub.setUniParent(parent());
-		for(GenericParameter parameter:parameters()) {
-			GenericParameter clone = parameter.clone();
+		for(TypeParameter parameter:parameters()) {
+			TypeParameter clone = parameter.clone();
 			result.add(clone);
 			stub.add(clone);
 		}
@@ -96,7 +96,7 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 		@Override
 		public Stub clone() {
 			Stub result = new Stub();
-			for(GenericParameter parameter: parameters()) {
+			for(TypeParameter parameter: parameters()) {
 				result.add(parameter.clone());
 			}
 			return result;
@@ -109,7 +109,7 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 
 		public List<? extends Declaration> declarations() throws LookupException {
 				List<Declaration> result = new ArrayList<Declaration>();
-				for(GenericParameter parameter: parameters()) {
+				for(TypeParameter parameter: parameters()) {
 					result.add(parameter.resolveForRoundTrip());
 				}
 		    return result;
@@ -123,25 +123,25 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 			return parameters();
 		}
 		
-		private OrderedReferenceSet<Stub, GenericParameter> _parameters = new OrderedReferenceSet<Stub, GenericParameter>(this);
+		private OrderedReferenceSet<Stub, TypeParameter> _parameters = new OrderedReferenceSet<Stub, TypeParameter>(this);
 		
-		private List<GenericParameter> parameters() {
+		private List<TypeParameter> parameters() {
 			return _parameters.getOtherEnds();
 		}
 		
-		public void add(GenericParameter parameter) {
+		public void add(TypeParameter parameter) {
 			if(parameter != null) {
 				_parameters.add(parameter.parentLink());
 			}
 		}
 
-		public void remove(GenericParameter parameter) {
+		public void remove(TypeParameter parameter) {
 			if(parameter != null) {
 				_parameters.remove(parameter.parentLink());
 			}
 		}
 		
-		public void replace(GenericParameter oldParameter, GenericParameter newParameter) {
+		public void replace(TypeParameter oldParameter, TypeParameter newParameter) {
 			if((oldParameter != null) && (newParameter != null)){
 				_parameters.replace(oldParameter.parentLink(), newParameter.parentLink());
 			}

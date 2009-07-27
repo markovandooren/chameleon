@@ -4,38 +4,37 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 
-public class ExtendsConstraint extends TypeConstraintWithReferences<ExtendsConstraint> {
+public class SuperConstraint extends TypeConstraintWithReferences<SuperConstraint> {
 
-	public ExtendsConstraint() {
+	public SuperConstraint() {
+		
 	}
 	
-	public ExtendsConstraint(TypeReference ref) {
+	public SuperConstraint(TypeReference ref) {
 		add(ref);
 	}
-
-
+	
 	@Override
 	public boolean matches(Type type) throws LookupException {
-		return type.subTypeOf(upperBound());
+		return upperBound().subTypeOf(type);
 	}
 
 
 	@Override
-	public ExtendsConstraint cloneThis() {
-		return new ExtendsConstraint();
+	public SuperConstraint cloneThis() {
+		return new SuperConstraint();
 	}
 
 
 	@Override
 	public Type lowerBound() throws LookupException {
-		return language().getNullType();
+		return bound();
 	}
 
 
 	@Override
 	public Type upperBound() throws LookupException {
-		return bound();
+		return language().getDefaultSuperClass();
 	}
 
-	
 }

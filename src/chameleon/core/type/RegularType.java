@@ -12,7 +12,7 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.Member;
-import chameleon.core.type.generics.GenericParameter;
+import chameleon.core.type.generics.TypeParameter;
 import chameleon.core.type.generics.TypeParameterBlock;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
@@ -109,19 +109,19 @@ public class RegularType extends Type {
 		return _parameters.getOtherEnd();
 	}
 	
-	public List<GenericParameter> parameters() {
+	public List<TypeParameter> parameters() {
 		return parameterBlock().parameters();
 	}
 	
-	public void addParameter(GenericParameter parameter) {
+	public void addParameter(TypeParameter parameter) {
 		parameterBlock().add(parameter);
 	}
 
-	public void removeParameter(GenericParameter parameter) {
+	public void removeParameter(TypeParameter parameter) {
 		parameterBlock().add(parameter);
 	}
 	
-	public void replaceParameter(GenericParameter oldParameter, GenericParameter newParameter) {
+	public void replaceParameter(TypeParameter oldParameter, TypeParameter newParameter) {
 		parameterBlock().replace(oldParameter, newParameter);
 	}
 

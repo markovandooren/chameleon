@@ -3,7 +3,7 @@ package chameleon.core.type;
 import java.util.List;
 
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.type.generics.GenericParameter;
+import chameleon.core.type.generics.TypeParameter;
 
 public class TypeAlias extends TypeIndirection {
 
