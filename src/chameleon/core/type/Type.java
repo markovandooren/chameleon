@@ -144,7 +144,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
      * the context is a lexical context connected to the target context to perform a local search.
      * @throws LookupException 
      */
-    public LookupStrategy lexicalContext(Element element) throws LookupException {
+    public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
     	if(inheritanceRelations().contains(element)) {
     		DeclarationContainer parent = parent();
     		if(parent != null) {

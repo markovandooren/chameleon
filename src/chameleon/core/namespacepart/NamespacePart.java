@@ -115,7 +115,7 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespaceP
     setNamespace(namespace);
 	}
 	
-	public LookupStrategy lexicalContext(Element child) throws LookupException {
+	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
 		if(imports().contains(child)) {
 			return getDefaultNamespace().targetContext();
 		} else {

@@ -255,7 +255,7 @@ public interface Element<E extends Element, P extends Element> {
      @
      @ pre children().contains(child); 
      @*/
-    public LookupStrategy lexicalContext(Element child) throws LookupException;
+    public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException;
     
     /**
      * Return the lexical context for this element.
@@ -267,7 +267,7 @@ public interface Element<E extends Element, P extends Element> {
      @
      @ signals (MetamodelException) parent() == null; 
      @*/
-    public LookupStrategy lexicalContext() throws LookupException;
+    public LookupStrategy lexicalLookupStrategy() throws LookupException;
     
     /**
      * DO NOT USE THIS METHOD UNLESS YOU REALLY KNOW WHAT YOU ARE DOING!!!

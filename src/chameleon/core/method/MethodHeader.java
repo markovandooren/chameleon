@@ -129,7 +129,7 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
   	return parent();
   }
   
-  public LookupStrategy lexicalContext(Element element) {
+  public LookupStrategy lexicalLookupStrategy(Element element) {
   	return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this),this);
   }
 }

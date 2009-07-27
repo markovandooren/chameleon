@@ -44,7 +44,7 @@ public abstract class Language implements PropertyUniverse<Element> {
 	
 	public Language(String name, LookupStrategyFactory factory) {
 		setName(name);
-		setContextFactory(factory);
+		setLookupStrategyFactory(factory);
 		initProperties();
 		initializePropertyRules();
 	}
@@ -422,7 +422,7 @@ public abstract class Language implements PropertyUniverse<Element> {
     	return _contextFactory;
     }
     
-    protected void setContextFactory(LookupStrategyFactory factory) {
+    protected void setLookupStrategyFactory(LookupStrategyFactory factory) {
     	_contextFactory = factory;
     }
     

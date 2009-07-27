@@ -139,7 +139,7 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
       }
     }
     else {
-      result = lexicalContext().lookUp(selector());
+      result = lexicalLookupStrategy().lookUp(selector());
     }
     if(result != null) {
     	//OPTIMISATION
@@ -155,7 +155,7 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
           result = target.targetContext().lookUp(selector());
         }
     	} else {
-    		result = lexicalContext().lookUp(selector());
+    		result = lexicalLookupStrategy().lookUp(selector());
     	}
       throw new LookupException("Cannot find namespace or type with name: "+getName(),this);
     }

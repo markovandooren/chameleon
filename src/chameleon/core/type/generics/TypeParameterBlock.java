@@ -87,7 +87,7 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 		return selector.selection(declarations());
 	}
 	
-	public LookupStrategy lexicalContext(Element element) {
+	public LookupStrategy lexicalLookupStrategy(Element element) {
 		return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this), this);
 	}
 	
@@ -102,7 +102,7 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 			return result;
 		}
 		
-		public LookupStrategy lexicalContext(Element element) {
+		public LookupStrategy lexicalLookupStrategy(Element element) {
 			return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this), this);
 		}
 		

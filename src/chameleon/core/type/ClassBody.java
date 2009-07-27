@@ -70,7 +70,7 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 		return parent().getNamespace();
 	}
 	
-	public LookupStrategy lexicalContext(Element element) {
+	public LookupStrategy lexicalLookupStrategy(Element element) {
 		return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
 	}
 	

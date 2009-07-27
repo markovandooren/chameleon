@@ -224,14 +224,14 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   	InvocationTarget target = getTarget();
   	D result;
   	if(target == null) {
-      result = lexicalContext().lookUp(selector());
+      result = lexicalLookupStrategy().lookUp(selector());
   	} else {
   		result = getTarget().targetContext().lookUp(selector());
   	}
 		if (result == null) {
 			//repeat lookup for debugging purposes.
 	  	if(target == null) {
-	      result = lexicalContext().lookUp(selector());
+	      result = lexicalLookupStrategy().lookUp(selector());
 	  	} else {
 	  		result = getTarget().targetContext().lookUp(selector());
 	  	}

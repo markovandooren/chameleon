@@ -44,7 +44,7 @@ public class StubDeclarationContainer<T extends Declaration> extends ElementImpl
 	  }
 	}
 
-  public LookupStrategy lexicalContext(Element element) {
+  public LookupStrategy lexicalLookupStrategy(Element element) {
   	LookupStrategyFactory factory = language().lookupFactory();
   	return factory.createLexicalLookupStrategy(factory.createTargetLookupStrategy(this),this);
   }

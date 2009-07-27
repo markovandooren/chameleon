@@ -171,6 +171,6 @@ public abstract class Statement<E extends Statement> extends NamespaceElementImp
    * @throws LookupException
    */
   public LookupStrategy linearContext() throws LookupException {
-  	return lexicalContext();
+  	return lexicalLookupStrategy();
   }
 }

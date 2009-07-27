@@ -82,7 +82,7 @@ public class RegularNamespace extends Namespace {
 		return new UniversalScope();
 	}
 	
-  public LookupStrategy lexicalContext(Element element) throws LookupException {
+  public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
   	return language().lookupFactory().createLexicalLookupStrategy(targetContext(), this);
   }
   

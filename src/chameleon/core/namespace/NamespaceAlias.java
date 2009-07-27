@@ -66,8 +66,8 @@ public class NamespaceAlias extends Namespace {
   	return result;
   }
   
-  public LookupStrategy lexicalContext(Element element) throws LookupException {
-  	return aliasedNamespace().lexicalContext();
+  public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
+  	return aliasedNamespace().lexicalLookupStrategy();
   }
 
 	@Override

@@ -72,11 +72,11 @@ public class Block extends Statement<Block> implements StatementListContainer<Bl
    @ post getStatements().indexOf(Element) > 0) ==> 
    @      \result == getStatements().elementAt(getStatements().indexOf(element) - 1).lexicalContext();
    @*/
-	public LookupStrategy lexicalContext(Element element) throws LookupException {
+	public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
 		List<Statement> declarations = getStatements();
 		int index = declarations.indexOf(element);
 		if(index == 0) {
-			return parent().lexicalContext(this);
+			return parent().lexicalLookupStrategy(this);
 		} else if (index > 0) {
 			return declarations.get(index-1).linearContext();
 		} else {

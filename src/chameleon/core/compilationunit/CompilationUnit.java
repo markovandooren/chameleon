@@ -219,7 +219,7 @@ public class CompilationUnit extends ElementImpl<CompilationUnit,Element> implem
 		return Util.createNonNullList(getDefaultNamespacePart());
 	}
 
-	public LookupStrategy lexicalContext(Element child) throws LookupException {
+	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
 		throw new ChameleonProgrammerException("A compilation unit should not be involved in the lookup");
 //		return getDefaultNamespacePart().getDeclaredNamespace().lexicalContext();// add this as argument, but actually, this code should never even be executed.
 	}

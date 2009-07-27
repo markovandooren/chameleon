@@ -271,23 +271,23 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     private Language _languageCache;
     
     /**
-     * @see Element#lexicalContext(Element) 
+     * @see Element#lexicalLookupStrategy(Element) 
      */
-    public LookupStrategy lexicalContext(Element child) throws LookupException {
+    public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
     	P parent = parent();
     	if(parent != null) {
-        return parent.lexicalContext(this);
+        return parent.lexicalLookupStrategy(this);
     	} else {
     		throw new LookupException("Going to the parent context when there is no parent.");
     	}
     }
 
     /**
-     * @see Element#lexicalContext() 
+     * @see Element#lexicalLookupStrategy() 
      */
-    public final LookupStrategy lexicalContext() throws LookupException {
+    public final LookupStrategy lexicalLookupStrategy() throws LookupException {
     	try {
-        return parent().lexicalContext(this);
+        return parent().lexicalLookupStrategy(this);
     	} catch(NullPointerException exc) {
     		if(parent() == null) {
     			throw new LookupException("Requesting the lexical context of an element without a parent: " +getClass().getName());

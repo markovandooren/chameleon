@@ -417,7 +417,7 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 		return result;
 	}
 
-  public LookupStrategy lexicalContext(Element element) {
+  public LookupStrategy lexicalLookupStrategy(Element element) {
   	return language().lookupFactory().createLexicalLookupStrategy(localContext(), this); 
   	//new LexicalContext(new TargetContext<Method>(this),this);
   }
@@ -427,7 +427,7 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
   }
   
   public LookupStrategy targetContext() throws LookupException {
-  	return returnType().lexicalContext();
+  	return returnType().lexicalLookupStrategy();
   }
   
   public List<? extends Declaration> declarations() {

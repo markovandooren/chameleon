@@ -24,11 +24,11 @@ public class RegularType extends Type {
 		_parameters.connectTo(new TypeParameterBlock().parentLink());
 	}
 
-  public LookupStrategy lexicalContext(Element element) throws LookupException {
+  public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
   	if(element == parameterBlock() || element.isDerived()) {
-  		return parent().lexicalContext(this);
+  		return parent().lexicalLookupStrategy(this);
   	} else {
-  		return super.lexicalContext(element);
+  		return super.lexicalLookupStrategy(element);
   	}
   }
 	@Override
