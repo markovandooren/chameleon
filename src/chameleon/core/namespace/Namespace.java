@@ -213,44 +213,34 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 
 
 
-	/**
-	 * Return the types directly contained in this package.
-	 */
-	/*@
-	 @ public behavior
-	 @
-	 @ post \result != null;
-	 @*/
-	  public List<Type> getTypes() {
-	  	//FIXME: filter out non-exported types such as private types.
-	    final List<Type> result = new ArrayList<Type>();
-	    for(NamespacePart part: getNamespaceParts()) {
-	    	result.addAll(part.types());
-	    }
-	    return result;
-	  }
+//	/**
+//	 * Return the set of all types in this package and all of its subpackages.
+//	 */
+//	/*@
+//	 @ public behavior
+//	 @
+//	 @ post \result != null;
+//	 @ post \result.containsAll(getTypes());
+//	 @ post (\forall Namespace sub; getSubNamespaces().contains(sub);
+//	 @         \result.containsAll(sub.getAllTypes()));
+//	 @*/
+//	public List<Type> getAllTypes() {
+//		final List<Type> result = getTypes();
+//		new Visitor() {
+//			public void visit(Object element) {
+//				result.addAll(((Namespace)element).getAllTypes());
+//			}
+//		}.applyTo(getSubNamespaces());
+//		return result;
+//	}
 
-	/**
-	 * Return the set of all types in this package and all of its subpackages.
-	 */
-	/*@
-	 @ public behavior
-	 @
-	 @ post \result != null;
-	 @ post \result.containsAll(getTypes());
-	 @ post (\forall Namespace sub; getSubNamespaces().contains(sub);
-	 @         \result.containsAll(sub.getAllTypes()));
-	 @*/
-	public List<Type> getAllTypes() {
-		final List<Type> result = getTypes();
-		new Visitor() {
-			public void visit(Object element) {
-				result.addAll(((Namespace)element).getAllTypes());
-			}
-		}.applyTo(getSubNamespaces());
-		return result;
+	public <T extends Declaration> List<T> allDeclarations(Class<T> kind) {
+  	final List<T> result = declarations(kind);
+  	for(Namespace ns:getSubNamespaces()) {
+		  result.addAll(ns.allDeclarations(kind));
+  	}
+ 	  return result;
 	}
-
 
 		/***********
 		 * CONTEXT *
@@ -269,7 +259,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	  public List<Element> children() {
 	    List<Element> result = new ArrayList<Element>();
       result.addAll(getSubNamespaces());
-	    result.addAll( getNamespaceParts());
+	    result.addAll(getNamespaceParts());
 	    return result;
 	  }
 
@@ -290,7 +280,9 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	public List<Declaration> declarations() {
 		List<Declaration> result = new ArrayList<Declaration>();
 		result.addAll(getSubNamespaces());
-		result.addAll(getTypes());
+    for(NamespacePart part: getNamespaceParts()) {
+    	result.addAll(part.declarations());
+    }
 		return result;
 	}
 	
@@ -298,14 +290,10 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 		return selector.selection(declarations());
 	}
 	
-	public <T extends Declaration> List<T> declarations(Class<T> cls) {
-  	List<Element> tmp = (List<Element>) children();
-  	if(tmp == null) {
-  		throw new ChameleonProgrammerException("children() returns null for " + getClass().getName());
-  	}
-  	new TypePredicate<Element,T>(cls).filter(tmp);
-  	return (List<T>) tmp;
-	}
+	public <T extends Declaration> List<T> declarations(Class<T> kind) {
+    return new TypePredicate<Declaration,T>(kind).filterReturn(declarations());
+  }
+	
 
 	public Declaration alias(SimpleNameSignature sig) {
 		return new NamespaceAlias(sig,this);

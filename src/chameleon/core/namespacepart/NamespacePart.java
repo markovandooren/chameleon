@@ -6,7 +6,7 @@ import java.util.ListIterator;
 
 import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.association.Reference;
-import org.rejuse.association.Relation;
+import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.Config;
 import chameleon.core.compilationunit.CompilationUnit;
@@ -15,14 +15,12 @@ import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.lookup.DeclarationSelector;
-import chameleon.core.lookup.LexicalLookupStrategy;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.lookup.LookupStrategySelector;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.type.Type;
 /**
  * @author Marko van Dooren
  * @author Tim Laeremans
@@ -223,15 +221,19 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespaceP
 			this);
 
 	public List<? extends Element> children() {
-		List result = types(); // can't specify type parameter without having to clone types(). don't like it.
+		List result = declarations(); // can't specify type parameter without having to clone types(). don't like it.
 		result.addAll(getNamespaceParts());
 		result.addAll(imports());
 		return result;
 	}
 	
 	public List<? extends Declaration> declarations() {
-      return types();
+      return _types.getOtherEnds();
 	}
+	
+	public <T extends Declaration> List<T> declarations(Class<T> kind) {
+    return new TypePredicate<Declaration,T>(kind).filterReturn(declarations());
+  }
 	
 	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
 		return selector.selection(declarations());
@@ -383,22 +385,14 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespaceP
 	/*********
 	 * TYPES *
 	 *********/
-	protected OrderedReferenceSet<NamespacePart, Type> _types = new OrderedReferenceSet<NamespacePart, Type>(this);
+	protected OrderedReferenceSet<NamespacePart, Declaration> _types = new OrderedReferenceSet<NamespacePart, Declaration>(this);
 
-	public Relation<NamespacePart, Type> getTypesLink() {
-		return _types;
+	public void add(Declaration declaration) {
+		_types.add(declaration.parentLink());
 	}
 
-	public List<Type> types() {
-		return _types.getOtherEnds();
-	}
-
-	public void addType(Type type) {
-		_types.add(type.parentLink());
-	}
-
-	public void removeType(Type type) {
-		_types.remove(type.parentLink());
+	public void remove(Declaration declaration) {
+		_types.remove(declaration.parentLink());
 	}
 
 //	public Type getType(final String name) throws MetamodelException {
@@ -496,8 +490,8 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespaceP
   	for(NamespacePart part: getNamespaceParts()) {
   		result.addNamespacePart(part.clone());
   	}
-  	for(Type type:types()) {
-  		result.addType(type.clone());
+  	for(Declaration declaration:declarations()) {
+  		result.add(declaration.clone());
   	}
   	for(Import<Import> importt:imports()) {
   		result.addImport(importt.clone());

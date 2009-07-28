@@ -32,7 +32,7 @@ public class RootNamespace extends RegularNamespace {
 
   public void setNullType(){
 	  NamespacePart pp = new NamespacePart(this);
-	  pp.addType(language(ObjectOrientedLanguage.class).getNullType());
+	  pp.add(language(ObjectOrientedLanguage.class).getNullType());
 	  new CompilationUnit(pp);
   }
   
