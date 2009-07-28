@@ -37,8 +37,8 @@ public abstract class Language implements PropertyUniverse<Element> {
 	public Language(String name, LookupStrategyFactory factory) {
 		setName(name);
 		setLookupStrategyFactory(factory);
-		initProperties();
 		initializePropertyRules();
+		SCOPE_MUTEX = new PropertyMutex<Element>();
 	}
 	
 	/**
@@ -160,7 +160,7 @@ public abstract class Language implements PropertyUniverse<Element> {
      * TOOLEXTENSIONS *
      ******************/
 
-	public final PropertyMutex<Element> SCOPE_MUTEX = new PropertyMutex<Element>();
+	public final PropertyMutex<Element> SCOPE_MUTEX;
 
 	
     private static class MapWrapper<T> {  //todo iets voor rejuse?
@@ -287,8 +287,6 @@ public abstract class Language implements PropertyUniverse<Element> {
     	}
     	throw new ChameleonProgrammerException("Property with name: "+name+" not found.");
     }
-    
-    protected abstract void initProperties();
     
     /**************************************************************************
      *                           DEFAULT NAMESPACE                            *

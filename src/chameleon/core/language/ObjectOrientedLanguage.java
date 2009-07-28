@@ -16,29 +16,41 @@ import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 
 public abstract class ObjectOrientedLanguage extends Language {
-
-	public final Property<Element> INHERITABLE = new StaticProperty<Element>("inheritable",this);
-	public final Property<Element> OVERRIDABLE = new StaticProperty<Element>("overridable",this);
-	public final Property<Element> EXTENSIBLE = new StaticProperty<Element>("extensible", this);
-	public final Property<Element> REFINABLE = new StaticProperty<Element>("refinable", this);
-	public final Property<Element> DEFINED = new Defined("defined",this);
-	public final Property<Element> INSTANCE = new StaticProperty<Element>("instance",this);
-	public final Property<Element> CLASS = INSTANCE.inverse();
-  {
-    CLASS.setName("class");
-  }
-	public final Property<Element> CONSTRUCTOR = new StaticProperty<Element>("constructor", this);
-	public final Property<Element> DESTRUCTOR = new StaticProperty<Element>("destructor", this);
-	public final Property<Element> REFERENCE_TYPE = new StaticProperty<Element>("reference type", this);
-	public final Property<Element> VALUE_TYPE = REFERENCE_TYPE.inverse();
+	
+	public final Property<Element> INHERITABLE;
+	public final Property<Element> OVERRIDABLE;
+	public final Property<Element> EXTENSIBLE;
+	public final Property<Element> REFINABLE;
+	public final Property<Element> DEFINED;
+	public final Property<Element> INSTANCE;
+	public final Property<Element> CLASS;
+	public final Property<Element> CONSTRUCTOR;
+	public final Property<Element> DESTRUCTOR;
+	public final Property<Element> REFERENCE_TYPE;
+	public final Property<Element> VALUE_TYPE;
 
 	public ObjectOrientedLanguage(String name) {
-		super(name);
+		this(name,null);
 	}
 
 	public ObjectOrientedLanguage(String name, LookupStrategyFactory factory) {
 		super(name, factory);
-	}
+  	INHERITABLE = new StaticProperty<Element>("inheritable",this);
+  	OVERRIDABLE = new StaticProperty<Element>("overridable",this);
+  	EXTENSIBLE = new StaticProperty<Element>("extensible", this);
+  	REFINABLE = new StaticProperty<Element>("refinable", this);
+  	DEFINED = new Defined("defined",this);
+  	INSTANCE = new StaticProperty<Element>("instance",this);
+  	CLASS = INSTANCE.inverse();
+    CLASS.setName("class");
+    CONSTRUCTOR = new StaticProperty<Element>("constructor", this);
+    DESTRUCTOR = new StaticProperty<Element>("destructor", this);
+  	REFERENCE_TYPE = new StaticProperty<Element>("reference type", this);
+  	VALUE_TYPE = REFERENCE_TYPE.inverse();
+    OVERRIDABLE.addImplication(INHERITABLE);
+    OVERRIDABLE.addImplication(REFINABLE);
+    EXTENSIBLE.addImplication(REFINABLE);
+}
 
   protected final class DummyTypeReference extends TypeReference {
 	  public DummyTypeReference(String qn) {
@@ -127,10 +139,22 @@ public abstract class ObjectOrientedLanguage extends Language {
 	public abstract EquivalenceRelation<Member> equivalenceRelation();
 
 
-  protected void initProperties() {
-    OVERRIDABLE.addImplication(INHERITABLE);
-    OVERRIDABLE.addImplication(REFINABLE);
-    EXTENSIBLE.addImplication(REFINABLE);
-  }
+//  protected void initProperties() {
+//  	INHERITABLE = new StaticProperty<Element>("inheritable",this);
+//  	OVERRIDABLE = new StaticProperty<Element>("overridable",this);
+//  	EXTENSIBLE = new StaticProperty<Element>("extensible", this);
+//  	REFINABLE = new StaticProperty<Element>("refinable", this);
+//  	DEFINED = new Defined("defined",this);
+//  	INSTANCE = new StaticProperty<Element>("instance",this);
+//  	CLASS = INSTANCE.inverse();
+//    CLASS.setName("class");
+//    CONSTRUCTOR = new StaticProperty<Element>("constructor", this);
+//    DESTRUCTOR = new StaticProperty<Element>("destructor", this);
+//  	REFERENCE_TYPE = new StaticProperty<Element>("reference type", this);
+//  	VALUE_TYPE = REFERENCE_TYPE.inverse();
+//    OVERRIDABLE.addImplication(INHERITABLE);
+//    OVERRIDABLE.addImplication(REFINABLE);
+//    EXTENSIBLE.addImplication(REFINABLE);
+//  }
 
 }
