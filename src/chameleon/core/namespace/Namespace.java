@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.rejuse.association.Reference;
-import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.PrimitiveTotalPredicate;
 import org.rejuse.predicate.TypePredicate;
 
@@ -13,14 +12,12 @@ import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacepart.NamespacePart;
-import chameleon.core.type.Type;
 
 /**
  * @author Marko van Dooren
