@@ -5,6 +5,7 @@ import java.util.List;
 
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 
@@ -28,17 +29,17 @@ public class PureWildCard extends ActualTypeArgument<PureWildCard> {
 	// verplaatst worden.
 	@Override
 	public Type lowerBound() throws LookupException {
-		return language().getNullType();
+		return language(ObjectOrientedLanguage.class).getNullType();
 	}
 
 	@Override
 	public Type type() throws LookupException {
-		return new PureWildCardType(language());
+		return new PureWildCardType(language(ObjectOrientedLanguage.class));
 	}
 
 	@Override
 	public Type upperBound() throws LookupException {
-		return language().getDefaultSuperClass();
+		return language(ObjectOrientedLanguage.class).getDefaultSuperClass();
 	}
 
 	public List<Element> children() {

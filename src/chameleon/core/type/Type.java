@@ -19,6 +19,7 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
@@ -31,7 +32,6 @@ import chameleon.core.modifier.ModifierContainer;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
-import chameleon.core.type.generics.FormalTypeParameter;
 import chameleon.core.type.generics.TypeParameter;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
@@ -244,7 +244,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     	Iterator<Member> iter = members.iterator();
     	boolean result = true;
     	while(result && iter.hasNext()) {
-    		result = result && iter.next().is(language().DEFINED) == Ternary.TRUE;
+    		result = result && iter.next().is(language(ObjectOrientedLanguage.class).DEFINED) == Ternary.TRUE;
     	}
       return false;
     }
@@ -332,7 +332,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     //TODO: rename to properSubTypeOf
     
     public boolean subTypeOf(Type other) throws LookupException {
-    	return language().subtypeRelation().contains(this, other);
+    	return language(ObjectOrientedLanguage.class).subtypeRelation().contains(this, other);
 //    	  Collection superTypes = getAllSuperTypes(); 
 //        return superTypes.contains(other);
     }
@@ -873,7 +873,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
      ********************/
 
     public CheckedExceptionList getCEL() throws LookupException {
-        CheckedExceptionList cel = new CheckedExceptionList(getNamespace().language());
+        CheckedExceptionList cel = new CheckedExceptionList();
         for(TypeElement el : directlyDeclaredMembers()) {
         	cel.absorb(el.getCEL());
         }
@@ -881,7 +881,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     }
 
     public CheckedExceptionList getAbsCEL() throws LookupException {
-      CheckedExceptionList cel = new CheckedExceptionList(getNamespace().language());
+      CheckedExceptionList cel = new CheckedExceptionList();
       for(TypeElement el : directlyDeclaredMembers()) {
       	cel.absorb(el.getAbsCEL());
       }

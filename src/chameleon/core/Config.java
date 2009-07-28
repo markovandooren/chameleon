@@ -21,4 +21,9 @@ public class Config {
 	 * Turn cache of expression types on and off. Default is on.
 	 */
 	public static boolean CACHE_EXPRESSION_TYPES = true;
+
+	/**
+	 * Turn cache of language on and off. Default is on.
+	 */
+	public static boolean CACHE_LANGUAGE = true;
 }

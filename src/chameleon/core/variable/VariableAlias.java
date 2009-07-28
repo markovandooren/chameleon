@@ -16,6 +16,7 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.Member;
@@ -50,7 +51,7 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
 
 	@SuppressWarnings("unchecked")
   public final boolean equivalentTo(Member other) throws LookupException {
-  	return language().equivalenceRelation().contains(this,other);
+  	return language(ObjectOrientedLanguage.class).equivalenceRelation().contains(this,other);
   }
 
 	public String getName() {
@@ -180,11 +181,11 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
   }
 
 	public CheckedExceptionList getCEL() throws LookupException {
-	  return new CheckedExceptionList(getNamespace().language());	
+	  return new CheckedExceptionList();	
 	}
 	
 	public CheckedExceptionList getAbsCEL() throws LookupException {
-		return new CheckedExceptionList(getNamespace().language());
+		return new CheckedExceptionList();
 	}
 
 	// copied from TypeElementImpl

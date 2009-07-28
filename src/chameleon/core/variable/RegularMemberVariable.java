@@ -15,6 +15,7 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
@@ -47,7 +48,7 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
 
   
   public final boolean equivalentTo(Member other) throws LookupException {
-  	return language().equivalenceRelation().contains(this,other);
+  	return language(ObjectOrientedLanguage.class).equivalenceRelation().contains(this,other);
   }
 
   
@@ -107,17 +108,17 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
   }
 
   public boolean overrides(Member other) throws LookupException {
-    StrictPartialOrder<Member> overridesRelation = language().overridesRelation();
+    StrictPartialOrder<Member> overridesRelation = language(ObjectOrientedLanguage.class).overridesRelation();
     return overridesRelation.contains(this, other);
   }
 
   public boolean canImplement(Member other) throws LookupException {
-    StrictPartialOrder<Member> implementsRelation = language().implementsRelation();
+    StrictPartialOrder<Member> implementsRelation = language(ObjectOrientedLanguage.class).implementsRelation();
     return implementsRelation.contains(this, other);
   }
 
   public boolean hides(Member other) throws LookupException {
-    StrictPartialOrder<Member> hidesRelation = language().hidesRelation();
+    StrictPartialOrder<Member> hidesRelation = language(ObjectOrientedLanguage.class).hidesRelation();
     return hidesRelation.contains(this, other);
   }
 

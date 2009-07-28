@@ -31,8 +31,8 @@ import java.util.Set;
 import org.rejuse.association.Reference;
 import org.rejuse.predicate.PrimitivePredicate;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.expression.Invocation;
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
@@ -94,7 +94,7 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration<TypeException
 
 
   public boolean compatibleWith(final ExceptionClause other) throws LookupException {
-    if(! getNamespace().language().isCheckedException(getType())) {
+    if(! getNamespace().language(ObjectOrientedLanguage.class).isCheckedException(getType())) {
       return true;
     }
     try {

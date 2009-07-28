@@ -11,6 +11,7 @@ import org.rejuse.property.PropertySet;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.language.Language;
+import chameleon.core.language.WrongLanguageException;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.tag.Tag;
@@ -224,6 +225,22 @@ public interface Element<E extends Element, P extends Element> {
      @ post (parent() == null) ==> (\result == null);
      @*/
     public Language language();
+    
+    /**
+     * Return the language of this element if it is of the wrong kind. Return null if this element is not
+     * connected to a complete model. Throws a WrongLanguageException is the
+     * language is not of the correct type.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre kind != null;
+     @
+     @ post \result == language();
+     @
+     @ signals(WrongLanguageException) language() != null && ! kind.isInstance(language());
+     @*/
+    public <T extends Language> T language(Class<T> kind) throws WrongLanguageException;
     
     /**
      * Return a deep clone of this element. The returned element has no parent. 

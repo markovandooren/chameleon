@@ -76,7 +76,7 @@ public abstract class Statement<E extends Statement> extends NamespaceElementImp
   }
 
   public CheckedExceptionList getDirectCEL() throws LookupException {
-    return new CheckedExceptionList(language());
+    return new CheckedExceptionList();
   }
 
   public CheckedExceptionList getAbsCEL() throws LookupException {

@@ -6,9 +6,9 @@ import java.util.Set;
 
 import org.rejuse.association.Reference;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReference;
 import chameleon.core.type.Type;
@@ -76,7 +76,7 @@ public class VariableReference extends Expression<VariableReference> implements 
   public Set<Type> getDirectExceptions() throws LookupException {
     Set<Type> result = new HashSet<Type>();
     if(getTarget() != null) {
-      Util.addNonNull(language().getNullInvocationException(), result);
+      Util.addNonNull(language(ObjectOrientedLanguage.class).getNullInvocationException(), result);
     }
     return result;
   }

@@ -1,27 +1,3 @@
-/*
- * Copyright 2000-2004 the Jnome development team.
- *
- * @author Marko van Dooren
- * @author Nele Smeets
- * @author Kristof Mertens
- * @author Jan Dockx
- *
- * This file is part of Jnome.
- *
- * Jnome is free software; you can redistribute it and/or modify it under the
- * terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * Jnome is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * Jnome; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
- * Suite 330, Boston, MA 02111-1307 USA
- */
 package chameleon.core.statement;
 
 import java.util.ArrayList;
@@ -34,7 +10,7 @@ import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.PrimitivePredicate;
 
 import chameleon.core.MetamodelException;
-import chameleon.core.language.Language;
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 
@@ -43,26 +19,14 @@ import chameleon.core.type.Type;
  */
 public class CheckedExceptionList {
 
-  public CheckedExceptionList(Language language) {
+  public CheckedExceptionList() {
     _pairs = new ArrayList();
-    _language = language;
   }
 
-	/**
-	 * 
-	 * @uml.property name="_language"
-	 * @uml.associationEnd 
-	 * @uml.property name="_language" multiplicity="(1 1)"
-	 */
-	private Language _language;
-
-  
-  public Language getLanguage() {
-    return _language;
-  }
   
   public void add(ExceptionPair pair) throws LookupException {
-    if(getLanguage().isCheckedException(pair.getException())) {
+    Type exception = pair.getException();
+		if(exception.language(ObjectOrientedLanguage.class).isCheckedException(exception)) {
       _pairs.add(pair);
     }
   }

@@ -15,8 +15,10 @@ import org.rejuse.property.Property;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 
+import chameleon.core.Config;
 import chameleon.core.MetamodelException;
 import chameleon.core.language.Language;
+import chameleon.core.language.WrongLanguageException;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.tag.Tag;
@@ -28,48 +30,18 @@ import chameleon.core.tag.Tag;
 public abstract class ElementImpl<E extends Element, P extends Element> implements Element<E,P> {
 
 	  public ElementImpl() {
-//	  	_state = createState();
 	  }
 	  
-	  /*********
-	   * STATE *
-	   *********/
-	  
-//	  protected abstract S createState();
-//	  
-//	  private final S _state;
-//
-//	  protected final S getState() {
-//	  	return _state;
-//	  }
-	  
-//		void setElement(E element) {
-//			_element = element;
-//		}
+		/********
+		 * TAGS *
+		 ********/
 		
-		/***********
-		 * ELEMENT *
-		 ***********/
-		
-//		private E _element;
-//		
-//		public final E getElement() {
-//			return _element;
-//		}
-
-	  
-	  
-		
-		/**************
-		 * DECORATORS *
-		 **************/
-		
-	  // initialization of this Map is done lazy.
-	  private Map<String, Tag> _decorators;
+	  // initialization of this Map is done lazily.
+	  private Map<String, Tag> _tags;
 	  
 	  public Tag tag(String name) {
-	  	if(_decorators != null) {
-	      return _decorators.get(name);
+	  	if(_tags != null) {
+	      return _tags.get(name);
 	  	} else {
 	  		//lazy init has not been performed yet.
 	  		return null;
@@ -77,21 +49,21 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  }
 
 	  public void removeTag(String name) {
-	  	if(_decorators != null) {
-	     Tag old = _decorators.get(name);
+	  	if(_tags != null) {
+	     Tag old = _tags.get(name);
 	     if((old != null) && (old.getElement() != this)){
 	    	 old.setElement(null,name);
 	     }
-	     _decorators.remove(name);
+	     _tags.remove(name);
 	  	}
 	  }
 
 	  public void setTag(Tag decorator, String name) {
 	  	//Lazy init of hashmap
-		  if (_decorators==null) {
-	      _decorators = new HashMap<String, Tag>();
+		  if (_tags==null) {
+	      _tags = new HashMap<String, Tag>();
 	    }
-		  Tag old = _decorators.get(name); 
+		  Tag old = _tags.get(name); 
 		  if(old != decorator) {
 	      if((decorator != null) && (decorator.getElement() != this)) {
 	  	    decorator.setElement(this,name);
@@ -99,31 +71,31 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	      if (old != null) {
 	    	    old.setElement(null,name);
 	      }
-	  	  _decorators.put(name, decorator);
+	  	  _tags.put(name, decorator);
 	    }
 	  }
 
 	  public Collection<Tag> tags() {
-	  	if(_decorators == null) {
+	  	if(_tags == null) {
 	  		return new ArrayList();
 	  	} else {
-	  	  return _decorators.values();
+	  	  return _tags.values();
 	  	}
 	  }
 
 	  public boolean hasTag(String name) {
-	  	if(_decorators == null) {
+	  	if(_tags == null) {
 	  		return false;
 	  	} else {
-	      return _decorators.get(name) != null;
+	      return _tags.get(name) != null;
 	  	}
 	  }
 
 	  public boolean hasTags() {
-	  	if(_decorators == null) {
+	  	if(_tags == null) {
 	  		return false;
 	  	} else {
-	      return _decorators.size() > 0;
+	      return _tags.size() > 0;
 	  	}
 	  }
 
@@ -252,20 +224,32 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     public abstract E clone();
     
     public Language language() {
-    	Language result = _languageCache;
+    	Language result = null;
+    	if(Config.CACHE_LANGUAGE == true) {
+    		result = _languageCache;
+    	}
     	if(result == null) {
     		P parent = parent();
     		if(parent != null) {
     			result = parent().language();
-    			_languageCache = result;
+    			if(Config.CACHE_LANGUAGE == true) {
+    			  _languageCache = result;
+    			}
     		} 
     	}
-//      if(parent() != null) {
-//        result = parent().language();
-//      } else {
-//        result = null;
-//      }
       return result;
+    }
+    
+    public <T extends Language> T language(Class<T> kind) {
+    	if(kind == null) {
+    		throw new ChameleonProgrammerException("The given language class is null.");
+    	}
+    	Language language = language();
+    	if(kind.isInstance(language) || language == null) {
+    		return (T) language;
+    	} else {
+    		throw new WrongLanguageException("The language of this model is of the wrong kind. Expected: "+kind.getName()+" but got: " +language.getClass().getName());
+    	}
     }
     
     private Language _languageCache;

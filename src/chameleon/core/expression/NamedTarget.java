@@ -4,10 +4,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
@@ -232,7 +232,7 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
   public Set getDirectExceptions() throws LookupException {
     Set result = new HashSet();
     if(getTarget() != null || Util.getSecondPart(getName()) != null) {
-      Util.addNonNull(language().getNullInvocationException(), result);
+      Util.addNonNull(language(ObjectOrientedLanguage.class).getNullInvocationException(), result);
     }
     return result;
   }
@@ -250,7 +250,7 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
       return getTarget().getCEL();
     }
     else {
-      return new CheckedExceptionList(language());
+      return new CheckedExceptionList();
     }
   }
 
@@ -259,7 +259,7 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
       return getTarget().getAbsCEL();
     }
     else {
-      return new CheckedExceptionList(language());
+      return new CheckedExceptionList();
     }
   }
 

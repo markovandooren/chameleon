@@ -4,8 +4,10 @@ import org.rejuse.association.Reference;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
+import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
+import chameleon.core.language.WrongLanguageException;
 
 /**
  * A class for assigning default properties to model elements. Default properties are
@@ -24,6 +26,32 @@ public abstract class PropertyRule {
 	public Language language() {
 		return _language.getOtherEnd();
 	}
+
+  /**
+   * Return the language of this element if it is of the wrong kind. Return null if this element is not
+   * connected to a complete model. Throws a WrongLanguageException is the
+   * language is not of the correct type.
+   */
+ /*@
+   @ public behavior
+   @
+   @ pre kind != null;
+   @
+   @ post \result == language();
+   @
+   @ signals(WrongLanguageException) language() != null && ! kind.isInstance(language());
+   @*/
+  public <T extends Language> T language(Class<T> kind) {
+  	if(kind == null) {
+  		throw new ChameleonProgrammerException("The given language class is null.");
+  	}
+  	Language language = language();
+  	if(kind.isInstance(language) || language == null) {
+  		return (T) language;
+  	} else {
+  		throw new WrongLanguageException("The language of this model is of the wrong kind. Expected: "+kind.getName()+" but got: " +language.getClass().getName());
+  	}
+  }
 
 	/**
 	 * Return the default properties of the given element by this assigner. The result

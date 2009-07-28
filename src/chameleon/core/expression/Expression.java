@@ -148,7 +148,7 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
   }
   
   public CheckedExceptionList getDirectCEL() throws LookupException {
-    return new CheckedExceptionList(language());
+    return new CheckedExceptionList();
   }
   
   public CheckedExceptionList getAbsCEL() throws LookupException {

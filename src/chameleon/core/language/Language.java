@@ -15,20 +15,12 @@ import org.rejuse.property.Property;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 import org.rejuse.property.PropertyUniverse;
-import org.rejuse.property.StaticProperty;
 
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
-import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategyFactory;
-import chameleon.core.member.Member;
 import chameleon.core.namespace.RootNamespace;
-import chameleon.core.property.Defined;
 import chameleon.core.property.PropertyRule;
-import chameleon.core.relation.EquivalenceRelation;
-import chameleon.core.relation.StrictPartialOrder;
-import chameleon.core.relation.WeakPartialOrder;
-import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 import chameleon.tool.ToolExtension;
 
@@ -164,17 +156,13 @@ public abstract class Language implements PropertyUniverse<Element> {
         return (RootNamespace)_default.getOtherEnd();
     }
 
-    private final class DummyTypeReference extends TypeReference {
-		  private DummyTypeReference(String qn) {
-			  super(qn);
-			  setUniParent(defaultNamespace());
-		  }
-	}
-
 		/******************
      * TOOLEXTENSIONS *
      ******************/
 
+	public final PropertyMutex<Element> SCOPE_MUTEX = new PropertyMutex<Element>();
+
+	
     private static class MapWrapper<T> {  //todo iets voor rejuse?
         private Map<Class<? extends T>,T> myMap = new HashMap<Class<? extends T>,T>();
 
@@ -300,30 +288,7 @@ public abstract class Language implements PropertyUniverse<Element> {
     	throw new ChameleonProgrammerException("Property with name: "+name+" not found.");
     }
     
-    public final Property<Element> INHERITABLE = new StaticProperty<Element>("inheritable",this);
-    public final Property<Element> OVERRIDABLE = new StaticProperty<Element>("overridable",this);
-    public final Property<Element> EXTENSIBLE = new StaticProperty<Element>("extensible", this);
-    public final Property<Element> REFINABLE = new StaticProperty<Element>("refinable", this);
-    
-    public final Property<Element> DEFINED = new Defined("defined",this);
-    
-    public final Property<Element> INSTANCE = new StaticProperty<Element>("instance",this);
-    public final Property<Element> CLASS = INSTANCE.inverse();
-    {
-      CLASS.setName("class");
-    }
-    public final Property<Element> CONSTRUCTOR = new StaticProperty<Element>("constructor", this);
-    public final Property<Element> DESTRUCTOR = new StaticProperty<Element>("destructor", this);
-    public final Property<Element> REFERENCE_TYPE = new StaticProperty<Element>("reference type", this);
-    public final Property<Element> VALUE_TYPE = REFERENCE_TYPE.inverse();
-
-  	public final PropertyMutex<Element> SCOPE_MUTEX = new PropertyMutex<Element>();
-
-    protected void initProperties() {
-      OVERRIDABLE.addImplication(INHERITABLE);
-      OVERRIDABLE.addImplication(REFINABLE);
-      EXTENSIBLE.addImplication(REFINABLE);
-    }
+    protected abstract void initProperties();
     
     /**************************************************************************
      *                           DEFAULT NAMESPACE                            *
@@ -342,82 +307,6 @@ public abstract class Language implements PropertyUniverse<Element> {
         return _default;
     }
 
-    public Type getDefaultSuperClass() throws LookupException {
-    	  TypeReference typeRef = new DummyTypeReference(getDefaultSuperClassFQN());
-        Type result = typeRef.getType();
-        if (result==null) {
-            throw new LookupException("Default super class "+getDefaultSuperClassFQN()+" not found.");
-        }
-        return result;
-    }
-    
-    /**************************************************************************
-     *                             ABSTRACT METHODS                           *
-     **************************************************************************/
-
-    /**
-     * Return the fully qualified name of the class that acts as the default
-     * super class.
-     */
-   /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @*/
-    public abstract String getDefaultSuperClassFQN();
-
-    /**
-     * Return the exception thrown by the language when an invocation is done on a 'null' or 'void' target.
-     *
-     * @param defaultPackage The root package in which the exception type should be found.
-     */
-   /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @
-     @ signals (NotResolvedException) (* The type could not be found in the package *);
-     @*/
-    public abstract Type getNullInvocationException() throws LookupException;
-
-    /**
-     * Return the exception representing the top class of non-fatal runtime exceptions. This doesn't include
-     * errors.
-     *
-     * @param defaultPackage The root package in which the exception type should be found.
-     */
-   /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @
-     @ signals (NotResolvedException) (* The type could not be found in the package *);
-     @*/
-    public abstract Type getUncheckedException() throws LookupException;
-
-
-    /**
-     * Check whether the given type is an exception.
-     */
-   /*@
-     @ public behavior
-     @
-     @ pre type != null;
-     @*/
-    public abstract boolean isException(Type type) throws LookupException;
-
-    /**
-     * Check whether the given type is a checked exception.
-     */
-   /*@
-     @ public behavior
-     @
-     @ pre type != null;
-     @*/
-    public abstract boolean isCheckedException(Type type) throws LookupException;
-
-    public abstract Type getNullType();
-
     public LookupStrategyFactory lookupFactory() {
     	return _contextFactory;
     }
@@ -427,71 +316,6 @@ public abstract class Language implements PropertyUniverse<Element> {
     }
     
     private LookupStrategyFactory _contextFactory;
-    
-    /**
-     * Return the relation that determines when a member overrides another
-     */
-   /*@
-     @ post \result != null;
-     @ // A member cannot override null
-     @ post (\forall Member m; m != null ; ! \result.contains(m,null));
-     @*/
-    public abstract WeakPartialOrder<Type> subtypeRelation();
-
-    
-    /**
-     * Return the relation that determines when a member overrides another
-     */
-   /*@
-     @ post \result != null;
-     @ // A member cannot override null
-     @ post (\forall Member m; m != null ; ! \result.contains(m,null));
-     @*/
-    public abstract StrictPartialOrder<Member> overridesRelation();
-    
-    /**
-     * Return the relation that determines when a member hides another
-     */
-   /*@
-     @ post \result != null;
-     @ // A member cannot hide null
-     @ post (\forall Member m; m != null ; ! \result.contains(m,null));
-     @*/
-    public abstract StrictPartialOrder<Member> hidesRelation();
-
-    /**
-     * Return the relation that determines when a member implements another.
-     */
-   /*@
-     @ post \result != null;
-     @ // A member cannot hide null
-     @ post (\forall Member m; m != null ; ! \result.contains(m,null));
-     @ // If the second member is DEFINED, then the first one cannot implement it.
-     @ post (\forall Member m1,m2; m2 != null && m2.is(DEFINED) ; ! \result.contains(m1,m2));
-     @*/
-    public abstract StrictPartialOrder<Member> implementsRelation();
-
-    public abstract Type voidType() throws LookupException;
-    
-    /**
-     * Return the type that represents the boolean type in this language.
-     */
-    public abstract Type booleanType() throws LookupException;
-
-    /**
-     * Return the type that represents class cast exceptions in this language.
-     */
-    public abstract Type classCastException() throws LookupException;
-
-    /**
-     * Return the relation that determines when a member is equivalent to another.
-     */
-   /*@
-     @ post \result != null;
-     @ // A member cannot be equivalent to null
-     @ post (\forall Member m; m != null ; ! \result.contains(m,null));
-     @*/
-		public abstract EquivalenceRelation<Member> equivalenceRelation();
 
 }
 

@@ -12,6 +12,7 @@ import chameleon.core.declaration.Signature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.DummyLookupStrategy;
 import chameleon.core.lookup.LookupException;
@@ -173,9 +174,9 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 		Iterator<M> superIter = superMembers.iterator();
 		while(superIter.hasNext()) {
 			M member = superIter.next();
-	    Ternary temp = member.is(language().INHERITABLE);
+	    Ternary temp = member.is(language(ObjectOrientedLanguage.class).INHERITABLE);
 	    if (temp == Ternary.UNKNOWN) {
-	    	temp = member.is(language().INHERITABLE);
+	    	temp = member.is(language(ObjectOrientedLanguage.class).INHERITABLE);
 	      throw new LookupException(
 	          "For one of the members of super type "
 	              + superClass().getFullyQualifiedName()
@@ -195,9 +196,9 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 		Iterator<M> superIter = superMembers.iterator();
 		while(superIter.hasNext()) {
 			M member = superIter.next();
-			Ternary temp = member.is(language().INHERITABLE);
+			Ternary temp = member.is(language(ObjectOrientedLanguage.class).INHERITABLE);
 			if (temp == Ternary.UNKNOWN) {
-				temp = member.is(language().INHERITABLE);
+				temp = member.is(language(ObjectOrientedLanguage.class).INHERITABLE);
 				throw new LookupException("For one of the members of super type " + superClass().getFullyQualifiedName()
 						+ " it is unknown whether it is inheritable or not. Member type: " + member.getClass().getName());
 			} else {

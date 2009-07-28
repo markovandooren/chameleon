@@ -12,6 +12,7 @@ import org.rejuse.logic.ternary.Ternary;
 
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
@@ -115,7 +116,7 @@ public class IntersectionType extends Type {
 		// Remove constructors. We really do need metaclasses so it seems.
 		while(iter.hasNext()) {
 			TypeElement member = iter.next();
-			if(member.is(language().CONSTRUCTOR) == Ternary.TRUE) {
+			if(member.is(language(ObjectOrientedLanguage.class).CONSTRUCTOR) == Ternary.TRUE) {
 				iter.remove();
 			}
 		}

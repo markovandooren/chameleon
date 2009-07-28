@@ -1,5 +1,6 @@
 package chameleon.core.type.generics;
 
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
@@ -34,7 +35,7 @@ public class SuperConstraint extends TypeConstraintWithReferences<SuperConstrain
 
 	@Override
 	public Type upperBound() throws LookupException {
-		return language().getDefaultSuperClass();
+		return language(ObjectOrientedLanguage.class).getDefaultSuperClass();
 	}
 
 }

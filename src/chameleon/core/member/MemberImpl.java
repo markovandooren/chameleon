@@ -14,6 +14,7 @@ import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.scope.Scope;
@@ -29,21 +30,21 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Declara
   public abstract S signature();
   
   public final boolean overrides(Member other) throws LookupException {
-    StrictPartialOrder<Member> overridesRelation = language().overridesRelation();
+    StrictPartialOrder<Member> overridesRelation = language(ObjectOrientedLanguage.class).overridesRelation();
     return overridesRelation.contains(this, other);
   }
   
   public final boolean hides(Member other) throws LookupException {
-    StrictPartialOrder<Member> hidesRelation = language().hidesRelation();
+    StrictPartialOrder<Member> hidesRelation = language(ObjectOrientedLanguage.class).hidesRelation();
     return hidesRelation.contains(this, other);
   }
   
   public final boolean equivalentTo(Member other) throws LookupException {
-  	return language().equivalenceRelation().contains(this,other);
+  	return language(ObjectOrientedLanguage.class).equivalenceRelation().contains(this,other);
   }
 
   public final boolean canImplement(Member other) throws LookupException {
-  	return language().implementsRelation().contains(this,other);
+  	return language(ObjectOrientedLanguage.class).implementsRelation().contains(this,other);
   }
 
   public Set<Member> directlyOverriddenMembers() throws LookupException {

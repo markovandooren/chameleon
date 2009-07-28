@@ -6,6 +6,7 @@ import java.util.List;
 import org.rejuse.association.Reference;
 
 import chameleon.core.element.Element;
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
@@ -47,7 +48,7 @@ public class SuperWildCard extends ActualTypeArgument<SuperWildCard> {
 
 	@Override
 	public Type upperBound() throws LookupException {
-		return baseType().language().getDefaultSuperClass();
+		return baseType().language(ObjectOrientedLanguage.class).getDefaultSuperClass();
 	}
 
 	public List<? extends Element> children() {

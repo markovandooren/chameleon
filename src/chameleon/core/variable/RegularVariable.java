@@ -68,7 +68,7 @@ public abstract class RegularVariable<E extends RegularVariable<E,P,F>, P extend
       return getInitialization().getCEL();
     }
     else {
-      return new CheckedExceptionList(getNamespace().language());
+      return new CheckedExceptionList();
     }
   }
 
@@ -77,7 +77,7 @@ public abstract class RegularVariable<E extends RegularVariable<E,P,F>, P extend
       return getInitialization().getAbsCEL();
     }
     else {
-      return new CheckedExceptionList(getNamespace().language());
+      return new CheckedExceptionList();
     }
   }
 

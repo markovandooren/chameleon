@@ -8,6 +8,7 @@ import org.rejuse.association.Reference;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReference;
 import chameleon.core.type.Type;
@@ -86,7 +87,7 @@ public class VariableOrTypeReference extends Expression<VariableOrTypeReference>
   public Set getDirectExceptions() throws LookupException {
     Set result = new HashSet();
     if(getTarget() != null) {
-      Util.addNonNull(language().getNullInvocationException(), result);
+      Util.addNonNull(language(ObjectOrientedLanguage.class).getNullInvocationException(), result);
     }
     return result;
   }

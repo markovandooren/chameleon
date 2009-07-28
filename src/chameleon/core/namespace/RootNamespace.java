@@ -7,6 +7,7 @@ import org.rejuse.association.Reference;
 import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.language.Language;
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.type.Type;
 
@@ -31,7 +32,7 @@ public class RootNamespace extends RegularNamespace {
 
   public void setNullType(){
 	  NamespacePart pp = new NamespacePart(this);
-	  pp.addType(language().getNullType());
+	  pp.addType(language(ObjectOrientedLanguage.class).getNullType());
 	  new CompilationUnit(pp);
   }
   
@@ -39,7 +40,7 @@ public class RootNamespace extends RegularNamespace {
   private Reference _language = new Reference(this);
 
   public Type getNullType() {
-	  return this.language().getNullType();
+	  return this.language(ObjectOrientedLanguage.class).getNullType();
   }
   
   public Language language() {

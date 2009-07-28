@@ -6,6 +6,7 @@ import java.util.List;
 import org.rejuse.association.Reference;
 
 import chameleon.core.element.Element;
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
@@ -42,7 +43,7 @@ public class ExtendsWildCard extends ActualTypeArgument<ExtendsWildCard> {
 
 	@Override
 	public Type lowerBound() throws LookupException {
-		return baseType().language().getNullType();
+		return baseType().language(ObjectOrientedLanguage.class).getNullType();
 	}
 
 	@Override

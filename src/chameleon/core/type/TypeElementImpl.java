@@ -88,11 +88,11 @@ public abstract class TypeElementImpl<E extends TypeElementImpl<E,P>, P extends 
 	}
 
 	public CheckedExceptionList getCEL() throws LookupException {
-	  return new CheckedExceptionList(getNamespace().language());	
+	  return new CheckedExceptionList();	
 	}
 	
 	public CheckedExceptionList getAbsCEL() throws LookupException {
-		return new CheckedExceptionList(getNamespace().language());
+		return new CheckedExceptionList();
 	}
 
 	

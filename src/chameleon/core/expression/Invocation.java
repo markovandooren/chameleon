@@ -32,6 +32,7 @@ import org.rejuse.association.Reference;
 import org.rejuse.java.collections.Visitor;
 
 import chameleon.core.element.Element;
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.method.Method;
@@ -156,7 +157,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
    @*/  
   public Set getMethodExceptions() throws LookupException {
     Set result = getMethod().getExceptionClause().getExceptionTypes(this);
-    Type rte = language().getUncheckedException();
+    Type rte = language(ObjectOrientedLanguage.class).getUncheckedException();
     if (rte != null) {
       result.add(rte);
     }
@@ -173,7 +174,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   public Set getDirectExceptions() throws LookupException {
     Set result = getMethodExceptions();
     if(getTarget() != null) {
-      Util.addNonNull(language().getNullInvocationException(), result);
+      Util.addNonNull(language(ObjectOrientedLanguage.class).getNullInvocationException(), result);
     }
     return result;
   }

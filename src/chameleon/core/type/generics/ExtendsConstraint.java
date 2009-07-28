@@ -1,5 +1,6 @@
 package chameleon.core.type.generics;
 
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
@@ -28,7 +29,7 @@ public class ExtendsConstraint extends TypeConstraintWithReferences<ExtendsConst
 
 	@Override
 	public Type lowerBound() throws LookupException {
-		return language().getNullType();
+		return language(ObjectOrientedLanguage.class).getNullType();
 	}
 
 

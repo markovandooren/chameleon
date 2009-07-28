@@ -8,6 +8,7 @@ import org.rejuse.association.OrderedReferenceSet;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.ConstructedType;
 import chameleon.core.type.Type;
@@ -84,7 +85,7 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 	}
 
 	public Type upperBound() throws LookupException {
-		Type result = language().getDefaultSuperClass();
+		Type result = language(ObjectOrientedLanguage.class).getDefaultSuperClass();
 		for(TypeConstraint constraint: constraints()) {
 			result = result.intersection(constraint.upperBound());
 		}
@@ -104,7 +105,7 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 
 	@Override
 	public Type lowerBound() throws LookupException {
-		Type result = language().getNullType();
+		Type result = language(ObjectOrientedLanguage.class).getNullType();
 		for(TypeConstraint constraint: constraints()) {
 			result = result.intersection(constraint.lowerBound());
 		}
