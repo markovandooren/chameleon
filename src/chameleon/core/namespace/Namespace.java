@@ -91,13 +91,6 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 		return (parent() == null || parent().getName().equals("") ? "" : parent().getFullyQualifiedName() + ".") + getName();
 	}
 
-	private final class DummyNamespaceOrTypeReference extends NamespaceOrTypeReference {
-		private DummyNamespaceOrTypeReference(String name) {
-			super(name);
-			setUniParent(defaultNamespace());
-		}
-	}
-
 	/**************
 	 * PACKAGEPART
 	 **************/

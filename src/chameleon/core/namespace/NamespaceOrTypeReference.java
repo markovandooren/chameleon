@@ -6,11 +6,11 @@ import org.rejuse.association.Reference;
 
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
-import chameleon.core.element.Element;
+import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.reference.ElementReference;
+import chameleon.core.reference.SpecificReference;
 import chameleon.core.relation.WeakPartialOrder;
 import chameleon.core.type.Type;
 import chameleon.util.Util;
@@ -19,7 +19,7 @@ import chameleon.util.Util;
  * Generic Parameter R is the type of the referenced element.
  * @author marko
  */
-public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R extends NamespaceOrType> extends ElementReference<E,R,Element> {
+public class NamespaceOrTypeReference extends SpecificReference<NamespaceOrTypeReference,NamespaceOrType> {
   
  /*@
    @ public behavior
@@ -30,7 +30,7 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
    @ post getName() == Util.getLastPart(qn);
    @*/
   public NamespaceOrTypeReference(String qn) {
-    this(getTarget(Util.getAllButLastPart(qn)), Util.getLastPart(qn));
+    super(qn,NamespaceOrType.class);
   }
   
  /*@
@@ -41,9 +41,8 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
    @ post getTarget() == target;
    @ post getName() == name;
    @*/
-  public NamespaceOrTypeReference(NamespaceOrTypeReference target, String name) {
-  	super(name);
-	  setTarget(target); 
+  public NamespaceOrTypeReference(ElementReference<? extends ElementReference<?,? extends TargetDeclaration>, ? extends TargetDeclaration> target, String name) {
+  	super(target,name,NamespaceOrType.class);
   }
   
   /**
@@ -56,61 +55,15 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
    @ post getTarget() == null ==> \result.equals(getName());
    @ post getTarget() != null ==> \result.equals(getTarget().fqn()+"."+getName());
    @*/
-  public String getFullyQualifiedName() {
-  	if(getTarget() == null) {
-  		return getName();
-  	} else {
-  		return getTarget().getFullyQualifiedName()+"."+getName();
-  	}
-  }
+//  public String getFullyQualifiedName() {
+//  	if(getTarget() == null) {
+//  		return getName();
+//  	} else {
+//  		return getTarget().getFullyQualifiedName()+"."+getName();
+//  	}
+//  }
   
-  protected static NamespaceOrTypeReference getTarget(String qn) {
-    if(qn == null) {
-      return null;
-    }
-    NamespaceOrTypeReference target = new NamespaceOrTypeReference(null, Util.getFirstPart(qn));
-    qn = Util.getSecondPart(qn);
-    while(qn != null) {
-    	NamespaceOrTypeReference newTarget = new NamespaceOrTypeReference(null, Util.getFirstPart(qn));
-      newTarget.setTarget(target);
-      target = newTarget;
-      qn = Util.getSecondPart(qn);
-    }
-    return target;
-  }
   
-
-  
-	/**
-	 * TARGET
-	 */
-	private Reference<NamespaceOrTypeReference,NamespaceOrTypeReference> _target = new Reference<NamespaceOrTypeReference,NamespaceOrTypeReference>(this);
-
-	protected Reference<NamespaceOrTypeReference,NamespaceOrTypeReference> targetLink() {
-		return _target;
-	}
-	
-  public NamespaceOrTypeReference getTarget() {
-    return (NamespaceOrTypeReference)_target.getOtherEnd();
-  }
-
-  public void setTarget(NamespaceOrTypeReference target) {
-    if(target != null) {
-      _target.connectTo(target.parentLink());
-    } else {
-      _target.connectTo(null); 
-    }
-  }
-
- /*@
-   @ also public behavior
-   @
-   @ post \result == Util.createNonNullList(getTarget());
-   @*/
-  public List children() {
-    return Util.createNonNullList(getTarget());
-  }
-
  /*@
    @ also public behavior
    @
@@ -121,87 +74,10 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
    @         getTarget().getPackageOrType().getTargetContext().findPackageOrType(getName()));
    @*/
   public NamespaceOrType getNamespaceOrType() throws LookupException {
-    NamespaceOrType result;
-    
-    //OPTIMISATION
-    result = getCache();
-    if(result != null) {
-    	return result;
-    }
-    
-    if(getTarget() != null) {
-    	NamespaceOrType target = getTarget().getNamespaceOrType();
-      
-      if(target != null) {
-        result = target.targetContext().lookUp(selector());
-      } else {
-      	throw new LookupException("Lookup of target of NamespaceOrVariableReference returned null",getTarget());
-      }
-    }
-    else {
-      result = lexicalLookupStrategy().lookUp(selector());
-    }
-    if(result != null) {
-    	//OPTIMISATION
-    	setCache((R) result);
-      return result;
-    } else {
-    	// repeat lookups for debugging purposes
-    	Config.CACHE_ELEMENT_REFERENCES = false;
-    	if(getTarget() != null) {
-      	NamespaceOrType target = getTarget().getNamespaceOrType();
-        
-        if(target != null) {
-          result = target.targetContext().lookUp(selector());
-        }
-    	} else {
-    		result = lexicalLookupStrategy().lookUp(selector());
-    	}
-      throw new LookupException("Cannot find namespace or type with name: "+getName(),this);
-    }
+  	return getElement();
   }
   
-  public DeclarationSelector<? extends NamespaceOrType> selector() {
-    return new DeclarationSelector<NamespaceOrType>() {
-
-      @Override
-      public NamespaceOrType filter(Declaration declaration) throws LookupException {
-        NamespaceOrType result;
-        //@FIXME ugly hack with type enumeration
-        if(((declaration instanceof Namespace) && (((Namespace)declaration).signature().getName().equals(getName())))
-            || ((declaration instanceof Type) && (((Type)declaration).signature().getName().equals(getName())))){
-        result = (NamespaceOrType) declaration;
-        } else {
-        result = null;
-        }
-        return result;
-      }
-
-      @Override
-      public WeakPartialOrder<NamespaceOrType> order() {
-        return new WeakPartialOrder<NamespaceOrType>() {
-
-          @Override
-          public boolean contains(NamespaceOrType first, NamespaceOrType second)
-              throws LookupException {
-            return first.equals(second);
-          }
-          
-        };
-      }
-
-      @Override
-      public Class<NamespaceOrType> selectedClass() {
-        return NamespaceOrType.class;
-      }
-        
-      };
-
-  }
   
-  /**
-   * BAD DESIGN: YOU MUST OVERRIDE THIS IN A SUBCLASS
-   */
  /*@
    @ also public behavior
    @
@@ -209,12 +85,8 @@ public class NamespaceOrTypeReference<E extends NamespaceOrTypeReference, R exte
    @ post \result.getName() == getName();
    @ post (* \result.getTarget() is a clone of getTarget() *);
    @*/
-  public E clone() {
-    return (E) new NamespaceOrTypeReference((getTarget() == null ? null : getTarget().clone()), getName());
+  public NamespaceOrTypeReference clone() {
+    return new NamespaceOrTypeReference((getTarget() == null ? null : getTarget().clone()), getName());
   }
-
-	public Declaration getElement() throws LookupException {
-		return getNamespaceOrType();
-	}
 
 }

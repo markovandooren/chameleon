@@ -8,8 +8,9 @@ import org.rejuse.association.Reference;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.NamespaceOrType;
-import chameleon.core.namespace.NamespaceOrTypeReference;
+import chameleon.core.reference.ElementReference;
 import chameleon.util.Util;
 
 /**
@@ -18,8 +19,8 @@ import chameleon.util.Util;
 public class DemandImport extends Import<DemandImport> {
   
 	// TODO: a demand import should only accept a namespace reference.
-  public DemandImport(NamespaceOrTypeReference ref) {
-    setNamespaceOrTypeReference(ref);
+  public DemandImport(ElementReference<?, ? extends Namespace> ref) {
+    setNamespaceOrTypeReference((ElementReference<ElementReference<?, ? extends Namespace>, ? extends Namespace>) ref);
   }
 
   
@@ -28,14 +29,14 @@ public class DemandImport extends Import<DemandImport> {
   }
 
   
-	private Reference<DemandImport,NamespaceOrTypeReference> _packageOrType = new Reference<DemandImport,NamespaceOrTypeReference>(this);
+	private Reference<DemandImport,ElementReference<?, ? extends Namespace>> _packageOrType = new Reference<DemandImport,ElementReference<?, ? extends Namespace>>(this);
 
   
-  public NamespaceOrTypeReference getNamespaceOrTypeReference() {
+  public ElementReference<?, ? extends NamespaceOrType> getNamespaceOrTypeReference() {
     return _packageOrType.getOtherEnd();
   }
   
-  public void setNamespaceOrTypeReference(NamespaceOrTypeReference ref) {
+  public void setNamespaceOrTypeReference(ElementReference<ElementReference<?, ? extends Namespace>, ? extends Namespace> ref) {
   	if(ref != null) {
   		_packageOrType.connectTo(ref.parentLink());
   	}
@@ -45,7 +46,7 @@ public class DemandImport extends Import<DemandImport> {
   }
   
   public NamespaceOrType declarationContainer() throws LookupException {
-    return getNamespaceOrTypeReference().getNamespaceOrType();
+    return getNamespaceOrTypeReference().getElement();
   }
   
   @Override
