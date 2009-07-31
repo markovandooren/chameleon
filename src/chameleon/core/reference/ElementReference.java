@@ -14,7 +14,7 @@ import chameleon.core.namespacepart.NamespaceElementImpl;
  * 
  * @author Marko van Dooren
  */
-public abstract class ElementReference<E extends ElementReference,R extends Declaration> extends NamespaceElementImpl<E,Element>  implements CrossReference<E,Element>  {
+public abstract class ElementReference<E extends ElementReference, P extends Element, R extends Declaration> extends NamespaceElementImpl<E,P>  implements CrossReference<E,P>  {
 
 	private static Logger logger = Logger.getLogger("lookup.elementreference");
 	

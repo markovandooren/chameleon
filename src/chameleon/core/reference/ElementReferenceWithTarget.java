@@ -3,7 +3,6 @@ package chameleon.core.reference;
 import java.util.List;
 
 import org.rejuse.association.Reference;
-import org.rejuse.association.Relation;
 
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
@@ -13,7 +12,7 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.util.Util;
 
-public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithTarget, R extends Declaration> extends ElementReference<E, R> {
+public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithTarget, P extends Element, R extends Declaration> extends ElementReference<E,P,R> {
 
 	/*@
 	  @ public behavior
@@ -27,15 +26,15 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	   this(getTarget(Util.getAllButLastPart(qn)), Util.getLastPart(qn));
 	 }
 	 
-   protected static ElementReference<? extends ElementReference<?,? extends TargetDeclaration>, ? extends TargetDeclaration> getTarget(String qn) {
+   protected static ElementReference<? extends ElementReference<?,?,? extends TargetDeclaration>,?, ? extends TargetDeclaration> getTarget(String qn) {
      if(qn == null) {
        return null;
      }
      //ElementReference<? extends ElementReference<?,? extends TargetDeclaration>, ? extends TargetDeclaration> target = new SpecificReference<SpecificReferece,TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
-     SpecificReference<SpecificReference<SpecificReference,TargetDeclaration>,TargetDeclaration> target = new SpecificReference<SpecificReference<SpecificReference,TargetDeclaration>,TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
+     SpecificReference<SpecificReference<SpecificReference,Element,TargetDeclaration>, Element,TargetDeclaration> target = new SpecificReference<SpecificReference<SpecificReference,Element,TargetDeclaration>,Element,TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
      qn = Util.getSecondPart(qn);
      while(qn != null) {
-       SpecificReference<SpecificReference<SpecificReference,TargetDeclaration>,TargetDeclaration> newTarget = new SpecificReference<SpecificReference<SpecificReference,TargetDeclaration>,TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
+       SpecificReference<SpecificReference<SpecificReference,Element,TargetDeclaration>,Element,TargetDeclaration> newTarget = new SpecificReference<SpecificReference<SpecificReference,Element,TargetDeclaration>,Element,TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
        newTarget.setTarget(target);
        target = newTarget;
        qn = Util.getSecondPart(qn);
@@ -51,9 +50,9 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	  @ post getTarget() == target;
 	  @ post getName() == name;
 	  @*/
-	 public ElementReferenceWithTarget(ElementReference<?, ? extends TargetDeclaration> target, String name) {
+	 public ElementReferenceWithTarget(ElementReference<?,?,? extends TargetDeclaration> target, String name) {
 	 	super(name);
-		  setTarget((ElementReference<? extends ElementReference<?, ? extends TargetDeclaration>, ? extends TargetDeclaration>) target); 
+		  setTarget((ElementReference<? extends ElementReference<?, ? super ElementReferenceWithTarget, ? extends TargetDeclaration>, ? super ElementReferenceWithTarget,? extends TargetDeclaration>) target); 
 	 }
 	 
 	 /**
@@ -77,20 +76,19 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 		/**
 		 * TARGET
 		 */
-		private Reference<ElementReferenceWithTarget,ElementReference<?, ? extends TargetDeclaration>> _target = new Reference<ElementReferenceWithTarget,ElementReference<?, ? extends TargetDeclaration>>(this);
+		private Reference<ElementReferenceWithTarget,ElementReference<?, ?, ? extends TargetDeclaration>> _target = new Reference<ElementReferenceWithTarget,ElementReference<?, ?, ? extends TargetDeclaration>>(this);
 
-		protected Reference<ElementReferenceWithTarget,ElementReference<?, ? extends TargetDeclaration>> targetLink() {
+		protected Reference<ElementReferenceWithTarget,ElementReference<?, ?, ? extends TargetDeclaration>> targetLink() {
 			return _target;
 		}
 		
-	 public ElementReference<?, ? extends TargetDeclaration> getTarget() {
+	 public ElementReference<?, ?, ? extends TargetDeclaration> getTarget() {
 	   return _target.getOtherEnd();
 	 }
 
-	 public void setTarget(ElementReference<? extends ElementReference<?,? extends TargetDeclaration>,? extends TargetDeclaration> target) {
+	 public void setTarget(ElementReference<? extends ElementReference<?,? super ElementReferenceWithTarget,? extends TargetDeclaration>, ? super ElementReferenceWithTarget, ? extends TargetDeclaration> target) {
 	   if(target != null) {
-	  	 Reference<? extends ElementReference<?,? extends TargetDeclaration>, Element> x= target.parentLink();
-	     _target.connectTo(x);
+	     _target.connectTo(target.parentLink());
 	   } else {
 	     _target.connectTo(null); 
 	   }

@@ -1,25 +1,16 @@
 package chameleon.core.namespace;
 
-import java.util.List;
-
-import org.rejuse.association.Reference;
-
-import chameleon.core.Config;
-import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.TargetDeclaration;
-import chameleon.core.lookup.DeclarationSelector;
+import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.ElementReference;
 import chameleon.core.reference.SpecificReference;
-import chameleon.core.relation.WeakPartialOrder;
-import chameleon.core.type.Type;
-import chameleon.util.Util;
 
 /**
  * Generic Parameter R is the type of the referenced element.
  * @author marko
  */
-public class NamespaceOrTypeReference extends SpecificReference<NamespaceOrTypeReference,NamespaceOrType> {
+public class NamespaceOrTypeReference extends SpecificReference<NamespaceOrTypeReference,Element,NamespaceOrType> {
   
  /*@
    @ public behavior
@@ -41,7 +32,7 @@ public class NamespaceOrTypeReference extends SpecificReference<NamespaceOrTypeR
    @ post getTarget() == target;
    @ post getName() == name;
    @*/
-  public NamespaceOrTypeReference(ElementReference<? extends ElementReference<?,? extends TargetDeclaration>, ? extends TargetDeclaration> target, String name) {
+  public NamespaceOrTypeReference(ElementReference<? , ?, ? extends TargetDeclaration> target, String name) {
   	super(target,name,NamespaceOrType.class);
   }
   

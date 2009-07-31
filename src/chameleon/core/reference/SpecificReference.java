@@ -3,10 +3,11 @@ package chameleon.core.reference;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
+import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.SelectorWithoutOrder;
 
-public class SpecificReference<E extends SpecificReference, R extends Declaration> extends ElementReferenceWithTarget<E, R> {
+public class SpecificReference<E extends SpecificReference, P extends Element, R extends Declaration> extends ElementReferenceWithTarget<E,P,R> {
 
 	private Class<R> _specificClass;
 	
@@ -15,7 +16,7 @@ public class SpecificReference<E extends SpecificReference, R extends Declaratio
 		_specificClass = specificClass;
 	}
 	
-	public SpecificReference(ElementReference<?, ? extends TargetDeclaration> target, String name, Class<R> specificClass) {
+	public SpecificReference(ElementReference<?, ?, ? extends TargetDeclaration> target, String name, Class<R> specificClass) {
 		super(target, name);
 		_specificClass = specificClass;
 	}
