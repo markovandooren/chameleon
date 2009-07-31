@@ -14,7 +14,6 @@ import chameleon.core.expression.Expression;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.modifier.Modifier;
-import chameleon.core.modifier.ModifierContainer;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 import chameleon.core.type.VariableOrType;
@@ -24,7 +23,7 @@ import chameleon.core.type.VariableOrType;
  */
 public interface Variable<E extends Variable<E,P,F>, P extends DeclarationContainer, F extends Variable> 
                 extends Element<E,P>, 
-                VariableOrType<E,P,SimpleNameSignature,F>,ModifierContainer<E,P>, TargetDeclaration<E,P,SimpleNameSignature,F> {
+                VariableOrType<E,P,SimpleNameSignature,F>, TargetDeclaration<E,P,SimpleNameSignature,F> {
 
   public void setSignature(SimpleNameSignature signature);
   

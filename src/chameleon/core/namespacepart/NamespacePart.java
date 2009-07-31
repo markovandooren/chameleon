@@ -22,6 +22,9 @@ import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.lookup.LookupStrategySelector;
 import chameleon.core.namespace.Namespace;
 /**
+ * A namespace part adds its declarations to a namespace. Different namespace parts in different compilation units
+ * can contribute to the same namespace.
+ * 
  * @author Marko van Dooren
  * @author Tim Laeremans
  */
@@ -40,7 +43,7 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespaceP
 		}
 
 	  @Override
-	  public <D extends Declaration> List<D> demandDeclarations(DeclarationSelector<D> selector) throws LookupException {
+	  public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
 	    List<D> result = new ArrayList<D>();
 			List<Import> imports = imports();
 			ListIterator<Import> iter = imports.listIterator(imports.size());
@@ -60,7 +63,7 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespaceP
 		}
 
 		@Override
-		public <D extends Declaration> List<D> directDeclarations(DeclarationSelector<D> selector) throws LookupException {
+		public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
 			List<D> result = new ArrayList<D>();
 			List<Import> imports = imports();
 			ListIterator<Import> iter = imports.listIterator(imports.size());

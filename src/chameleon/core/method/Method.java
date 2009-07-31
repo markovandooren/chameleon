@@ -23,7 +23,6 @@ import chameleon.core.member.MemberImpl;
 import chameleon.core.method.exception.ExceptionClause;
 import chameleon.core.method.exception.TypeExceptionDeclaration;
 import chameleon.core.modifier.Modifier;
-import chameleon.core.modifier.ModifierContainer;
 import chameleon.core.statement.Block;
 import chameleon.core.statement.ExceptionPair;
 import chameleon.core.type.Type;
@@ -44,7 +43,7 @@ import chameleon.util.Util;
  * @param <S>
  * @param <M>
  */
-public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H, E, S>, S extends MethodSignature, M extends Method> extends MemberImpl<E,DeclarationContainer,S,M> implements Definition<E,DeclarationContainer,S,M>, ModifierContainer<E,DeclarationContainer>, DeclarationContainer<E,DeclarationContainer>, Target<E,DeclarationContainer> {
+public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H, E, S>, S extends MethodSignature, M extends Method> extends MemberImpl<E,DeclarationContainer,S,M> implements Definition<E,DeclarationContainer,S,M>, DeclarationContainer<E,DeclarationContainer>, Target<E,DeclarationContainer> {
 
 	/**
 	 * Initialize a new method with the given header.

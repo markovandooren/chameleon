@@ -125,10 +125,6 @@ public abstract class Statement<E extends Statement> extends NamespaceElementImp
     return result;
   }
 
-  public Language language() {
-    return getNamespace().language();
-  }
-
   public boolean before(Statement other) {
     StatementListContainer container = getNearestCommonStatementListContainer(other);
     List myParents = ancestors();

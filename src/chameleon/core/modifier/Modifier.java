@@ -8,7 +8,7 @@ import chameleon.core.element.Element;
 /**
  * @author Marko van Dooren
  */
-public interface Modifier<E extends Modifier, P extends ModifierContainer> extends Element<E,P> {
+public interface Modifier<E extends Modifier, P extends Element> extends Element<E,P> {
 
  /*@
    @ behavior

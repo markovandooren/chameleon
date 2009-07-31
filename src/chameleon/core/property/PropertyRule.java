@@ -11,7 +11,9 @@ import chameleon.core.language.WrongLanguageException;
 
 /**
  * A class for assigning default properties to model elements. Default properties are
- * properties that an element has if no property of the same PropertyMutex has been defined explicitly.
+ * properties that an element has if no property of a certain kind has been defined explicitly.
+ * Thus, when the default properties are consulted, those that conflict with explicitly declared
+ * properties are ignored.
  * 
  * @author Marko van Dooren
  */

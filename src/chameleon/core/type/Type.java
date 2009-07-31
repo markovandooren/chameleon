@@ -28,7 +28,6 @@ import chameleon.core.lookup.LookupStrategySelector;
 import chameleon.core.member.FixedSignatureMember;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
-import chameleon.core.modifier.ModifierContainer;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
@@ -48,7 +47,6 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
                            VariableOrType<Type,DeclarationContainer,SimpleNameSignature,Type>, 
                            Definition<Type,DeclarationContainer,SimpleNameSignature,Type>,
                            Cloneable, ExceptionSource<Type,DeclarationContainer>, 
-                           ModifierContainer<Type,DeclarationContainer>, 
                            DeclarationContainer<Type,DeclarationContainer> {
  
 	
@@ -208,7 +206,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
 
   	  @Override
   	  @SuppressWarnings("unchecked")
-  	  public <D extends Declaration> List<D> directDeclarations(DeclarationSelector<D> selector) throws LookupException {
+  	  public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
   	    return selector.selection(parameters());
   	  }
   	}

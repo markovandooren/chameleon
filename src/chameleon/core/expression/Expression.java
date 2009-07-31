@@ -114,15 +114,6 @@ public abstract class Expression<E extends Expression> extends InvocationTarget<
     }
   }
 
- /*@
-   @ public behavior
-   @
-   @ post \result == getPackage().getDefaultPackage(); 
-   @*/
-  public Namespace getDefaultNamespace() {
-    return getNamespace().defaultNamespace();
-  }
-  
   public CheckedExceptionList getCEL() throws LookupException {
     final CheckedExceptionList cel = getDirectCEL();
     try {

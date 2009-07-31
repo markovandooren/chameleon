@@ -153,18 +153,6 @@ public abstract LookupStrategy targetContext() throws LookupException;
 	public abstract Set getExceptions() throws LookupException;
 
 
-  /**
-   * Return the programming language in which this invocation target is written.
-   */
- /*@
-   @ public behavior
-   @
-   @ post \result == getPackage().getLanguage();
-   @*/
-  public Language language() {
-    return getNamespace().language();
-  }
-
 	/**
 	 * Return the direct children of this invocation target.
 	 */

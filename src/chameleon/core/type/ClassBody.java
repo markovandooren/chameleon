@@ -66,10 +66,6 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 		return new ArrayList<Element>(members());
 	}
 
-	public Namespace getNamespace() {
-		return parent().getNamespace();
-	}
-	
 	public LookupStrategy lexicalLookupStrategy(Element element) {
 		return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
 	}
