@@ -18,7 +18,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class VariableReference extends Expression<VariableReference> implements Assignable<VariableReference,Element>, CrossReference<VariableReference,Element> {
+public class VariableReference extends Expression<VariableReference> implements Assignable<VariableReference,Element>, CrossReference<VariableReference,Element,Variable> {
 
   public VariableReference(NamedTarget target) {
 	  setTarget(target);
@@ -85,7 +85,7 @@ public class VariableReference extends Expression<VariableReference> implements 
     return Util.createNonNullList(getTarget());
   }
 
-	public Declaration getElement() throws LookupException {
+	public Variable getElement() throws LookupException {
 		return getVariable();
 	}
 

@@ -12,8 +12,8 @@ import chameleon.core.lookup.LookupException;
  * @author Marko van Dooren
  * @author Tim Vermeiren
  */
-public interface CrossReference<E extends CrossReference, P extends Element> extends Element<E,P> {
+public interface CrossReference<E extends CrossReference, P extends Element, D extends Declaration> extends Element<E,P> {
 	
-	public Declaration getElement() throws LookupException ;
+	public D getElement() throws LookupException ;
 	
 }

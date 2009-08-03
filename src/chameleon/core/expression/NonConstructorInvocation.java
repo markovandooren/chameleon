@@ -35,7 +35,7 @@ import chameleon.core.type.Type;
  * 
  * @author Marko van Dooren
  */
-public abstract class NonConstructorInvocation<E extends NonConstructorInvocation, T extends Method> extends Invocation<E,T> {
+public abstract class NonConstructorInvocation<E extends NonConstructorInvocation, D extends Method> extends Invocation<E,D> {
 
   /**
    * @param target

@@ -18,7 +18,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class VariableOrTypeReference extends Expression<VariableOrTypeReference> implements Assignable<VariableOrTypeReference,Element>, CrossReference<VariableOrTypeReference,Element> {
+public class VariableOrTypeReference extends Expression<VariableOrTypeReference> implements Assignable<VariableOrTypeReference,Element>, CrossReference<VariableOrTypeReference,Element,VariableOrType> {
     
   public VariableOrTypeReference(InvocationTarget target) {
       setTarget(target);
@@ -97,7 +97,7 @@ public class VariableOrTypeReference extends Expression<VariableOrTypeReference>
   }
 
   @SuppressWarnings("unchecked")
-	public Declaration getElement() throws LookupException {
+	public VariableOrType getElement() throws LookupException {
 		return getVariableOrType();
 	}
 

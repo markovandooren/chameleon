@@ -20,7 +20,7 @@ import chameleon.core.variable.FormalParameter;
 import chameleon.core.variable.MemberVariable;
 import chameleon.core.variable.Variable;
 import chameleon.util.Util;
-public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> implements CrossReference<NamedTarget,Element> {
+public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> implements CrossReference<NamedTarget,Element,TargetDeclaration> {
 
 	/**
 	 * Initialize a new named target with the given fully qualified name. The
@@ -137,42 +137,6 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
     }
   }
   
-//  private boolean supportType(Type ct1, String n1, Type ct2, String n2) throws NotResolvedException {
-//    if ((ct1 == null) && (ct2 == null)) {
-//      return true;
-//    } 
-//    if ((ct1 == null) || (ct2 == null)) {
-//      return false;
-//    }
-//    String first = Util.getFirstPart(n1);
-//    String second = Util.getFirstPart(n2);
-//    VariableOrType vt1 = ct1.findVariableOrType(first);
-//    VariableOrType vt2 = ct2.findVariableOrType(second);
-//    if((vt1 instanceof Type) && (vt2 instanceof Type)) {
-//      return compatType((Type)vt1, (Type)vt2) && supportType((Type)vt1, Util.getSecondPart(n1), (Type)vt2, Util.getSecondPart(n2));
-//    }
-//    else if((vt1 instanceof Variable) && (vt2 instanceof Variable)) {
-//      return compatVar((Variable)vt1, (Variable)vt2) && supportVar((Variable)vt1, Util.getSecondPart(n1), (Variable)vt2, Util.getSecondPart(n2));
-//    }
-//    else {
-//      return false;
-//    }
-//  }
-
-//  private boolean supportVar(Variable ct1, String n1, Variable ct2, String n2) throws NotResolvedException {
-//    if ((ct1 == null) && (ct2 == null)) {
-//      return true;
-//    } 
-//    if ((ct1 == null) || (ct2 == null)) {
-//      return false;
-//    }
-//    String first = Util.getFirstPart(n1);
-//    String second = Util.getFirstPart(n2);
-//    Variable vt1 = ct1.getType().findVariable(first);
-//    Variable vt2 = ct2.getType().findVariable(second);
-//    return compatVar(vt1, vt2) && supportVar(vt1, Util.getSecondPart(n1), vt2, Util.getSecondPart(n2));
-//  }
-
   private boolean compatVar(Variable variable, Variable variable2) throws LookupException {
     return ((variable == null) && (variable2 == null)) || 
            (variable != null) && (
@@ -213,16 +177,6 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
       getTarget().prefixRecursive(target);
     }
   }
-//  @SuppressWarnings("unchecked")
-//  public void substituteParameter(String name, Expression expr) throws MetamodelException {
-//    if(getTarget() == null) {
-//      Target vt = getElement();
-//      if ((vt instanceof FormalParameter) && (((FormalParameter)vt).getName().equals(name))) {
-//        // replace self by the given expression
-//        ((InvocationTarget)parent()).setTarget(expr);
-//      }
-//    }
-//  }
 
   public void prefixRecursive(InvocationTarget target) throws LookupException {
     prefix(target);
@@ -262,15 +216,6 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
       return new CheckedExceptionList();
     }
   }
-
-//  public AccessibilityDomain getAccessibilityDomain() throws MetamodelException {
-//    Target vt = getElement();
-//    AccessibilityDomain result = vt.getAccessibilityDomain();
-//    if(getTarget() != null) {
-//      result = result.intersect(getTarget().getAccessibilityDomain());
-//    }
-//    return result;
-//  }
 
   public List<Element> children() {
   	return Util.createNonNullList(getTarget());
