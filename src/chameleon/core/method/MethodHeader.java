@@ -15,7 +15,7 @@ import chameleon.core.lookup.LexicalLookupStrategy;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespacepart.NamespaceElementImpl;
+import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.type.Type;
 import chameleon.core.variable.FormalParameter;
 import chameleon.core.variable.VariableContainer;

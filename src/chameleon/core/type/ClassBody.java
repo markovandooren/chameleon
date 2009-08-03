@@ -16,7 +16,7 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.Member;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.NamespaceElement;
-import chameleon.core.namespacepart.NamespaceElementImpl;
+import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.namespacepart.NamespacePart;
 
 public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> implements NamespaceElement<ClassBody, NamespaceElement>, DeclarationContainer<ClassBody,NamespaceElement> {

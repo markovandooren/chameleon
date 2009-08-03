@@ -8,7 +8,7 @@ import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespacepart.NamespaceElementImpl;
+import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.scope.LexicalScope;
 import chameleon.core.scope.Scope;
 import chameleon.core.type.Type;

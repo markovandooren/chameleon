@@ -6,7 +6,7 @@ import org.rejuse.association.OrderedReferenceSet;
 
 import chameleon.core.element.Element;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.namespacepart.NamespaceElementImpl;
+import chameleon.core.namespace.NamespaceElementImpl;
 
 public class ActualArgumentList extends NamespaceElementImpl<ActualArgumentList, Element> {
 

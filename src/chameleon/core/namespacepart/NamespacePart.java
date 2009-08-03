@@ -21,6 +21,7 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.lookup.LookupStrategySelector;
 import chameleon.core.namespace.Namespace;
+import chameleon.core.namespace.NamespaceElementImpl;
 /**
  * A namespace part adds its declarations to a namespace. Different namespace parts in different compilation units
  * can contribute to the same namespace.

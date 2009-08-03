@@ -4,7 +4,7 @@ import org.rejuse.association.Reference;
 
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.namespacepart.NamespaceElementImpl;
+import chameleon.core.namespace.NamespaceElementImpl;
 
 public abstract class VariableImpl<E extends VariableImpl<E,P,F>, P extends DeclarationContainer, F extends Variable> 
        extends NamespaceElementImpl<E, P>

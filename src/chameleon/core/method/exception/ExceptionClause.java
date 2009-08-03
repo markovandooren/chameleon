@@ -13,7 +13,7 @@ import chameleon.core.element.Element;
 import chameleon.core.expression.Invocation;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.method.Method;
-import chameleon.core.namespacepart.NamespaceElementImpl;
+import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.type.Type;
 
 /**

@@ -2,7 +2,7 @@ package chameleon.core.type;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LexicalLookupStrategy;
-import chameleon.core.namespacepart.NamespaceElementImpl;
+import chameleon.core.namespace.NamespaceElementImpl;
 
 /**
  * @author marko

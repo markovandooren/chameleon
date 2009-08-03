@@ -28,7 +28,7 @@ import java.util.Set;
 
 import chameleon.core.expression.Invocation;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespacepart.NamespaceElementImpl;
+import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.type.Type;
 
 /**

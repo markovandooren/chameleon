@@ -7,7 +7,7 @@ import org.rejuse.property.PropertySet;
 
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
-import chameleon.core.namespacepart.NamespaceElementImpl;
+import chameleon.core.namespace.NamespaceElementImpl;
 
 public abstract class ElementWithModifiersImpl<E extends Element<E, P>, P extends Element> extends NamespaceElementImpl<E,P> {
 

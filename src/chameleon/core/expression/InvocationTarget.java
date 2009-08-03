@@ -7,7 +7,7 @@ import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespacepart.NamespaceElementImpl;
+import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.statement.ExceptionSource;
 
 /**

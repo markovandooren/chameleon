@@ -15,7 +15,7 @@ import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespacepart.NamespaceElementImpl;
+import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.type.ConstructedType;
 import chameleon.core.type.Type;
 

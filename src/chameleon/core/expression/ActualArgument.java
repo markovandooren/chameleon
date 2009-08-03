@@ -10,7 +10,7 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.namespacepart.NamespaceElementImpl;
+import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.type.Type;
 import chameleon.util.Util;
 

@@ -2,7 +2,7 @@ package chameleon.core.declaration;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespacepart.NamespaceElementImpl;
+import chameleon.core.namespace.NamespaceElementImpl;
 
 /**
  * A signature is a means of identifying a declaration that can be cross-referenced. It contains
