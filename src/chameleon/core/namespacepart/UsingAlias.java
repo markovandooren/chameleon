@@ -15,6 +15,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.namespace.NamespaceOrTypeReference;
+import chameleon.core.reference.ElementReference;
 import chameleon.core.type.Type;
 import chameleon.util.Util;
 
@@ -28,6 +29,8 @@ import chameleon.util.Util;
  */
 public class UsingAlias extends Import<UsingAlias> {
 
+	//TODO use ElementReference<?, ?, ? extends Namespace>
+	
 	public UsingAlias(String identifier, NamespaceOrTypeReference ref) {
 		setNamespaceOrTypeReference(ref);
 		setIdentifier(identifier);

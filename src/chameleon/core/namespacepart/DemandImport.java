@@ -18,25 +18,24 @@ import chameleon.util.Util;
  */
 public class DemandImport extends Import<DemandImport> {
   
-	// TODO: a demand import should only accept a namespace reference.
   public DemandImport(ElementReference<?, ?, ? extends Namespace> ref) {
-    setNamespaceOrTypeReference( (ElementReference<ElementReference<?, ? super DemandImport, ? extends Namespace>, ? super DemandImport, ? extends Namespace>) ref);
+    setNamespaceReference( (ElementReference<ElementReference<?, ? super DemandImport, ? extends Namespace>, ? super DemandImport, ? extends Namespace>) ref);
   }
 
   
   public List children() {
-    return Util.createNonNullList(getNamespaceOrTypeReference());
+    return Util.createNonNullList(namespaceReference());
   }
 
   
 	private Reference<DemandImport,ElementReference<?, ?, ? extends Namespace>> _packageOrType = new Reference<DemandImport,ElementReference<?, ?, ? extends Namespace>>(this);
 
   
-  public ElementReference<?, ?, ? extends NamespaceOrType> getNamespaceOrTypeReference() {
+  public ElementReference<?, ?, ? extends Namespace> namespaceReference() {
     return _packageOrType.getOtherEnd();
   }
   
-  public void setNamespaceOrTypeReference(ElementReference<ElementReference<?, ? super DemandImport, ? extends Namespace>, ? super DemandImport, ? extends Namespace> ref) {
+  public void setNamespaceReference(ElementReference<ElementReference<?, ? super DemandImport, ? extends Namespace>, ? super DemandImport, ? extends Namespace> ref) {
   	if(ref != null) {
   		_packageOrType.connectTo(ref.parentLink());
   	}
@@ -46,12 +45,12 @@ public class DemandImport extends Import<DemandImport> {
   }
   
   public NamespaceOrType declarationContainer() throws LookupException {
-    return getNamespaceOrTypeReference().getElement();
+    return namespaceReference().getElement();
   }
   
   @Override
   public DemandImport clone() {
-    return new DemandImport(getNamespaceOrTypeReference().clone());
+    return new DemandImport(namespaceReference().clone());
   }
 
 

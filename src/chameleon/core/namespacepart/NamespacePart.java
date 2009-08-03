@@ -184,7 +184,7 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 	/**
 	 * NAMESPACEPARTS
 	 */
-	public List<NamespacePart> getNamespaceParts() {
+	public List<NamespacePart> namespaceParts() {
 		return _subNamespaceParts.getOtherEnds();
 	}
 
@@ -210,18 +210,17 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 			  System.out.println("Disconnecting from "+getDeclaredNamespace().getFullyQualifiedName());
 			}
 		}
-		for(NamespacePart nsp: getNamespaceParts()) {
+		for(NamespacePart nsp: namespaceParts()) {
 			nsp.disconnect();
 		}
 		setNamespace(null);
 	}
 
-	private OrderedReferenceSet<NamespacePart, NamespacePart> _subNamespaceParts = new OrderedReferenceSet<NamespacePart, NamespacePart>(
-			this);
+	private OrderedReferenceSet<NamespacePart, NamespacePart> _subNamespaceParts = new OrderedReferenceSet<NamespacePart, NamespacePart>(this);
 
 	public List<? extends Element> children() {
 		List result = declarations(); // can't specify type parameter without having to clone types(). don't like it.
-		result.addAll(getNamespaceParts());
+		result.addAll(namespaceParts());
 		result.addAll(imports());
 		return result;
 	}
@@ -486,7 +485,7 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
   @Override
   public NamespacePart clone() {
   	NamespacePart result = new NamespacePart(null);
-  	for(NamespacePart part: getNamespaceParts()) {
+  	for(NamespacePart part: namespaceParts()) {
   		result.addNamespacePart(part.clone());
   	}
   	for(Declaration declaration:declarations()) {
