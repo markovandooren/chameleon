@@ -17,12 +17,4 @@ public abstract class NamespaceElementImpl<E extends Element, P extends Element>
 		}
 	}
 	
-//	public Language language() {
-//	  Namespace ns = getNamespace();
-//	  if(ns != null) {
-//		  return getNamespace().language();
-//	  } else {
-//	    return null;
-//	  }
-//	}
 }
