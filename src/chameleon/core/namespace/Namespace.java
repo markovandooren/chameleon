@@ -20,11 +20,23 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacepart.NamespacePart;
 
 /**
+ * Namespaces are a completely logical structure. You do not explicitly create a namespace, but query it using
+ * the getOrCreateNamespace method. 
+ * 
+ * The declarations in a namespace are not stored directly in that namespace. Instead, they are stored in namespace parts.
+ * A namespace contains a number of namespace parts. The reason for this decision is that some language allow a programmer
+ * to add elements to different namespaces in a single compilation unit (file).
+ * 
+ * We chose to unify this structure for all languages.
+ * 
+ * A language does not have to use all the flexibility. For example, a Java compilation unit will contain a namespace part for the 
+ * root namespace, and if there is a package declaration, it also contains a nested namespace part for that namespace.
+ *  
  * @author Marko van Dooren
  */
 
 public abstract class Namespace extends ElementImpl<Namespace,Namespace> implements NamespaceOrType<Namespace,Namespace,SimpleNameSignature,Namespace>, DeclarationContainer<Namespace, Namespace>, TargetDeclaration<Namespace, Namespace,SimpleNameSignature,Namespace> {
-  //FIXME
+
 	//SPEED : use hashmap to store the subnamespaces and forbid
 	//        adding multiple namespaces with the same name. That is
 	//        never useful anyway.

@@ -28,7 +28,7 @@ import chameleon.core.namespace.Namespace;
  * @author Marko van Dooren
  * @author Tim Laeremans
  */
-public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespacePartContainer> implements DeclarationContainer<NamespacePart,NamespacePartContainer>, NamespacePartContainer<NamespacePart,NamespacePartContainer> {
+public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> implements DeclarationContainer<NamespacePart,Element> {
 
 	private final class DefaultNamespaceSelector implements LookupStrategySelector {
 		public LookupStrategy strategy() throws LookupException {
@@ -180,14 +180,9 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,NamespaceP
 		return this;
 	}
 	
-	public CompilationUnit getCompilationUnit() {
-		return parent().getCompilationUnit();
-	}
-
 	/**
 	 * NAMESPACEPARTS
 	 */
-
 	public List<NamespacePart> getNamespaceParts() {
 		return _subNamespaceParts.getOtherEnds();
 	}

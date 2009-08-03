@@ -1,27 +1,3 @@
-/*
- * Copyright 2000-2004 the Jnome development team.
- *
- * @author Marko van Dooren
- * @author Nele Smeets
- * @author Kristof Mertens
- * @author Jan Dockx
- *
- * This file is part of Jnome.
- *
- * Jnome is free software; you can redistribute it and/or modify it under the
- * terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * Jnome is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * Jnome; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
- * Suite 330, Boston, MA 02111-1307 USA
- */
 package chameleon.core.compilationunit;
 
 import java.util.List;
@@ -35,20 +11,19 @@ import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacepart.NamespacePart;
-import chameleon.core.namespacepart.NamespacePartContainer;
 import chameleon.util.Util;
 
 
 /**
- * A compilation unit basically represents a file, which is usually the smallest element that can be compiled.
+ * A compilation unit basically represents a file in which elements of the program/model are defined.
  * 
- * @author marko
+ * @author Marko van Dooren
  */
-public class CompilationUnit extends ElementImpl<CompilationUnit,Element> implements NamespacePartContainer<CompilationUnit,Element> {
+public class CompilationUnit extends ElementImpl<CompilationUnit,Element> {
 
   /**
-   * Create a new compilation unit with the given namespacepart as default namespace part.
-   * @param defaultNamespacePart
+   * Create a new compilation unit with the given namespace part.
+   * @param namespacePart
    */
 	public CompilationUnit(NamespacePart defaultNamespacePart) {
     setDefaultNamespacePart(defaultNamespacePart);
@@ -63,92 +38,6 @@ public class CompilationUnit extends ElementImpl<CompilationUnit,Element> implem
 		return getNamespaceParts();
 	}
 
-	/***********
-	 * CONTEXT *
-	 ***********/
-
-//	public Context getContext(Element element) throws MetamodelException {
-//		if(getDemandImports().contains(element) || getTypeImports().contains(element)) {
-//			return getNamespace().getDefaultNamespace().getContext();
-//		}
-//		return (Context)_context.getOtherEnd();
-//	}
-	
-
-//	/******************
-//	 * DEMAND IMPORTS *
-//	 ******************/
-//
-//	public List getDemandImportElements() throws MetamodelException {
-//		try {
-//			final ArrayList result = new ArrayList();
-//			new RobustVisitor() {
-//				public Object visit(Object element) throws MetamodelException {
-//					NamespaceOrType pot = ((DemandImport)element).getElement();
-//					if(pot != null) {
-//						result.add(pot);
-//					} else {
-//						throw new MetamodelException();
-//					}
-//					return null;
-//				}
-//				public void unvisit(Object element, Object undo) {
-//					//NOPs
-//				}
-//			}
-//			.applyTo(getDemandImports());
-//			return result;
-//		}
-//		catch (MetamodelException e) {
-//			throw e;
-//		}
-//		catch (Exception e) {
-//			throw new Error();
-//		}
-//	}
-
-//
-//	/******************
-//	 * IMPORTED TYPES *
-//	 ******************/
-//
-//	public List getImportedTypes() throws MetamodelException {
-//		try {
-//			final ArrayList result = new ArrayList();
-//			new RobustVisitor() {
-//				public Object visit(Object element) throws MetamodelException {
-//					try {
-//						result.add(((TypeImport)element).getType());
-//					}
-//					catch(MetamodelException exc) {
-//						((TypeImport)element).getType();
-//						throw exc;
-//					}
-//					return null;
-//				}
-//				public void unvisit(Object element, Object undo) {
-//					//NOP
-//				}
-//			}
-//			.applyTo(getTypeImports());
-//			return result;
-//		}
-//		catch (MetamodelException e) {
-//			throw e;
-//		}
-//		catch (Exception e) {
-//			e.printStackTrace();
-//			throw new Error();
-//		}
-//	}
-
-	/********
-	 * MISC *
-	 ********/
-
-	public CompilationUnit getCompilationUnit() {
-		return this;
-	}
 
 //	public Type getVisibleType() {
 //		List types = getTypes();
@@ -191,7 +80,7 @@ public class CompilationUnit extends ElementImpl<CompilationUnit,Element> implem
 
 	private Reference<CompilationUnit,NamespacePart> _defaultNamespacePart = new Reference(this);
 
-	public NamespacePart getDefaultNamespacePart(){
+	public NamespacePart namespacePart(){
 		return _defaultNamespacePart.getOtherEnd();
 	}
 	
@@ -200,7 +89,7 @@ public class CompilationUnit extends ElementImpl<CompilationUnit,Element> implem
 	 * disconnecting all namespace declarations.
 	 */
 	public void disconnect() {
-		getDefaultNamespacePart().disconnect();
+		namespacePart().disconnect();
 	}
 	
 	public void setDefaultNamespacePart(NamespacePart nsp) {
@@ -216,17 +105,16 @@ public class CompilationUnit extends ElementImpl<CompilationUnit,Element> implem
    * NAMESPACEPARTS
    */
 	public List<NamespacePart> getNamespaceParts() {
-		return Util.createNonNullList(getDefaultNamespacePart());
+		return Util.createNonNullList(namespacePart());
 	}
 
 	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
 		throw new ChameleonProgrammerException("A compilation unit should not be involved in the lookup");
-//		return getDefaultNamespacePart().getDeclaredNamespace().lexicalContext();// add this as argument, but actually, this code should never even be executed.
 	}
 
 
 	public Language language() {
-	  NamespacePart defaultNamespace = getDefaultNamespacePart();
+	  NamespacePart defaultNamespace = namespacePart();
 	  if(defaultNamespace != null) {
 		  return defaultNamespace.language();
 	  } else {
@@ -237,7 +125,7 @@ public class CompilationUnit extends ElementImpl<CompilationUnit,Element> implem
 
   @Override
   public CompilationUnit clone() {
-    CompilationUnit result = new CompilationUnit(getDefaultNamespacePart().clone());
+    CompilationUnit result = new CompilationUnit(namespacePart().clone());
     return result;
   }
 
