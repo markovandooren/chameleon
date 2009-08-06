@@ -11,6 +11,8 @@ import chameleon.core.lookup.LookupException;
  * 
  * @author Marko van Dooren
  * @author Tim Vermeiren
+ * 
+ * <D> The type of the declaration that is referenced by this cross reference.
  */
 public interface CrossReference<E extends CrossReference, P extends Element, D extends Declaration> extends Element<E,P> {
 	

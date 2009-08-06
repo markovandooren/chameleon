@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="javadoc">
+<target name="javadoc">
+<javadoc access="public" author="true" classpath="/Users/marko/git/rejuse/lib/jregex1.2_00.jar:lib/log4j-1.2.15.jar:/Users/marko/git/rejuse/dist/classes:lib/junit.jar:/Users/marko/git/rejuse/lib/junit.jar" destdir="doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="chameleon.core.declaration,chameleon.core.type.generics,chameleon.core.type,chameleon.core.modifier,chameleon.core.lookup,chameleon.tool,chameleon.core.relation,chameleon.core.method,chameleon.core.namespace,chameleon.core.comment,chameleon.core.method.exception,chameleon.core.variable,chameleon.core.compilationunit,chameleon.core.type.inheritance,chameleon.core.tag,chameleon.util,chameleon.core,chameleon.core.statement,chameleon.core.reference,chameleon.linkage,chameleon.core.scope,chameleon.core.expression,chameleon.core.property,chameleon.core.namespacepart,chameleon.core.element,chameleon.input,chameleon.core.member,chameleon.core.language,chameleon.output" source="1.5" sourcepath="src" splitindex="true" use="true" version="true">
+<link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
+</javadoc>
+</target>
+</project>

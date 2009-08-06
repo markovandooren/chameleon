@@ -70,7 +70,6 @@ public interface Declaration<E extends Declaration<E,P,S,D>,
    * performs a final transformation. In case of a stub of an instantiated generic parameter, the
    * actual type that is used as an argument is returned.
    *  
-   * @return
    * @throws LookupException
    */
  /*@
@@ -83,7 +82,7 @@ public interface Declaration<E extends Declaration<E,P,S,D>,
   /**
    * Return the scope of this declaration. The scope of a declaration denotes the regions of the program
    * in which the declaration is visible.
-   * @return
+   * 
    * @throws MetamodelException
    */
  /*@

@@ -20,17 +20,22 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacepart.NamespacePart;
 
 /**
- * Namespaces are a completely logical structure. You do not explicitly create a namespace, but query it using
- * the getOrCreateNamespace method. 
+ * <p>Namespaces are a completely logical structure. You do not explicitly create a namespace, but query it using
+ * the getOrCreateNamespace method.</p> 
  * 
- * The declarations in a namespace are not stored directly in that namespace. Instead, they are stored in namespace parts.
- * A namespace contains a number of namespace parts. The reason for this decision is that some language allow a programmer
- * to add elements to different namespaces in a single compilation unit (file).
+ * <p>The declarations in a namespace are not stored directly in that namespace. Instead, they are stored in namespace parts.
+ * A namespace contains a number of namespace parts. The reason for this decision is that some language, such as C#, allow a programmer
+ * to add elements to different namespaces in a single compilation unit (file). Namespace parts can also contain other namespace parts.</p>
  * 
- * We chose to unify this structure for all languages.
+ * <p>For example, if you write a namespace declaration in C#, that will correspond to a namespace part in the model. Thus,
+ * "namespace a {class{X} namespace b.c{class Y{} }} namespace d {class Z{}} adds class X to namespace a, lass Y to namespace a.b.c,
+ * and class Z to namespace d.</p>
  * 
- * A language does not have to use all the flexibility. For example, a Java compilation unit will contain a namespace part for the 
- * root namespace, and if there is a package declaration, it also contains a nested namespace part for that namespace.
+ * <img src="namespaces.jpg"/>
+ * 
+ * <p>We chose to unify this structure for all languages. For example, a Java compilation unit with a package declaration
+ * will contain a namespace part for the root namespace. A Java compilation with a package declaration contains a namespace 
+ * part for that namespace (package).</p>
  *  
  * @author Marko van Dooren
  */
