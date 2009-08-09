@@ -64,6 +64,13 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	}
 
 
+ /*@
+   @ public behavior
+   @
+   @ pre signature != null;
+   @
+   @ post signature() = signature; 
+   @*/
 	public void setSignature(Signature signature) {
 	  if(signature != null) {
 	    _signature.connectTo(signature.parentLink());
