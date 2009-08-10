@@ -36,30 +36,3 @@ public class SpecificReference<E extends SpecificReference, P extends Element, R
 
 }
 
-//public abstract class SpecificReference<Elem extends SpecificReference,R extends Declaration> extends ElementReferenceWithTarget<Elem, R> {
-//
-//	private Class<R> _specificClass;
-//	
-//	public SpecificReference(String fqn, Class<R> specificClass){
-//		super(fqn);
-//		_specificClass = specificClass;
-//	}
-//	
-//	public SpecificReference(TargetDeclarationReference target, String name, Class<R> specificClass) {
-//		super(target, name);
-//		_specificClass = specificClass;
-//	}
-//	
-//	@Override
-//	public abstract Elem clone();
-//
-//	@Override
-//	public DeclarationSelector<R> selector() {
-//		return new SelectorWithoutOrder<R>(new SimpleNameSignature(getName()),_specificClass);
-//	}
-//	
-//	protected Class<R> getSpecificClass(){
-//		return _specificClass;
-//	}
-//
-//}
