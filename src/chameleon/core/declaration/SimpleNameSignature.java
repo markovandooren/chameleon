@@ -17,7 +17,7 @@ public class SimpleNameSignature extends Signature<SimpleNameSignature, Element>
     setName(name);
   }
   
-  public String getName() {
+  public String name() {
     return _name;
   }
   
@@ -31,14 +31,14 @@ public class SimpleNameSignature extends Signature<SimpleNameSignature, Element>
 		boolean result = false;
 		if(other instanceof SimpleNameSignature) {
 			SimpleNameSignature sig = (SimpleNameSignature) other;
-			result = getName().equals(sig.getName());
+			result = name().equals(sig.name());
 		}
 		return result;
 	}
 
 	@Override
 	public SimpleNameSignature clone() {
-    return new SimpleNameSignature(getName());
+    return new SimpleNameSignature(name());
 	}
 
 	public List<? extends Element> children() {

@@ -11,7 +11,7 @@ public abstract class NamespaceElementImpl<E extends Element, P extends Element>
 	public Namespace getNamespace() {
 		NamespacePart ancestor = nearestAncestor(NamespacePart.class);
 		if(ancestor != null) {
-		  return ancestor.getDeclaredNamespace();
+		  return ancestor.namespace();
 		} else {
 			return null;
 		}

@@ -55,7 +55,7 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
   }
 
 	public String getName() {
-		return signature().getName();
+		return signature().name();
 	}
 
 	public Type getType() throws LookupException {

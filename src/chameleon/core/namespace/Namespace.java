@@ -96,8 +96,8 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	   @
 	   @ post \result == signature().getName();
 	   @*/
-	  public String getName() {
-		  return signature().getName();
+	  public String name() {
+		  return signature().name();
 	  }
 	  
 	/**
@@ -112,7 +112,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 @        \result == getParent().getFullyQualifiedName() + "." + getName();
 	 @*/
 	public String getFullyQualifiedName() {
-		return (parent() == null || parent().getName().equals("") ? "" : parent().getFullyQualifiedName() + ".") + getName();
+		return (parent() == null || parent().name().equals("") ? "" : parent().getFullyQualifiedName() + ".") + name();
 	}
 
 	/**************
@@ -210,7 +210,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 
 		new PrimitiveTotalPredicate<Namespace>() {
 			public boolean eval(Namespace o) {
-				return o.getName().equals(name);
+				return o.name().equals(name);
 			}
 		}.filter(packages);
 		if (packages.isEmpty()) {

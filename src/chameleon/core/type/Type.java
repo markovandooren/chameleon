@@ -101,7 +101,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
   	 @ post \result != null;
   	 @*/
   	public String getName() {
-  		return signature().getName();
+  		return signature().name();
   	}
 
     /**

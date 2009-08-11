@@ -132,7 +132,7 @@ public abstract class RegularVariable<E extends RegularVariable<E,P,F>, P extend
    * Return the name of this variable.
    */
   public String getName() {
-    return signature().getName();
+    return signature().name();
   }
 
   public Type getType() throws LookupException {

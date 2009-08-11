@@ -88,7 +88,7 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 	protected class CurrentNamespaceStrategySelector implements LookupStrategySelector {
 		public LookupStrategy strategy() {
 			// 3 SEARCH IN CURRENT NAMESPACE
-			LookupStrategy currentNamespaceStrategy = getDeclaredNamespace().localStrategy();
+			LookupStrategy currentNamespaceStrategy = namespace().localStrategy();
 			return language().lookupFactory().createLexicalLookupStrategy(
 					 currentNamespaceStrategy, NamespacePart.this, _demandImportStrategySelector)
 			;
@@ -170,11 +170,11 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 	private LookupStrategy _lexicalContext;
 	
 	public String getName(){
-		return getDeclaredNamespace().getName();
+		return namespace().name();
 	}
 
 	public String getFullyQualifiedName() {
-		return getDeclaredNamespace().getFullyQualifiedName();
+		return namespace().getFullyQualifiedName();
 	}
 
 	public NamespacePart getNearestNamespacePart() {
@@ -206,8 +206,8 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 	 */
 	public void disconnect() {
 		if(Config.DEBUG) {
-			if(getDeclaredNamespace() != null) {
-			  System.out.println("Disconnecting from "+getDeclaredNamespace().getFullyQualifiedName());
+			if(namespace() != null) {
+			  System.out.println("Disconnecting from "+namespace().getFullyQualifiedName());
 			}
 		}
 		for(NamespacePart nsp: namespaceParts()) {
@@ -247,8 +247,12 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 		return _namespaceLink;
 	}
 
-	public Namespace getDeclaredNamespace() {
-		return (Namespace) _namespaceLink.getOtherEnd();
+	/**
+	 * Return the namespace to which this namespacepart adds declarations.
+	 * @return
+	 */
+	public Namespace namespace() {
+		return _namespaceLink.getOtherEnd();
 	}
 
 	public void setNamespace(Namespace pack) {
@@ -302,8 +306,8 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 	 */
 
 	public Language language(){
-		if(getDeclaredNamespace() != null) {
-		  return getDeclaredNamespace().language();
+		if(namespace() != null) {
+		  return namespace().language();
 		} else {
 			return null;
 		}
@@ -318,7 +322,7 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
    @ post \result = getDeclaredNamespace().getDefaultNamespace(); 
    @*/
 	public Namespace getDefaultNamespace() {
-		return getDeclaredNamespace().defaultNamespace();
+		return namespace().defaultNamespace();
 	}
 
   @Override
