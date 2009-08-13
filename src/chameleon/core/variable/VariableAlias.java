@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.logic.ternary.Ternary;
-import org.rejuse.predicate.PrimitiveTotalPredicate;
+import org.rejuse.predicate.SafePredicate;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
@@ -84,9 +84,9 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
 	public List<Modifier> modifiers() {
 		final List<Modifier> mine = _modifiers.getOtherEnds();
 		List<Modifier> result = aliasedVariable().modifiers();
-		new PrimitiveTotalPredicate<Modifier>() {
+		new SafePredicate<Modifier>() {
 			public boolean eval(final Modifier aliasedModifier) {
-				return new PrimitiveTotalPredicate<Modifier>() {
+				return new SafePredicate<Modifier>() {
 					public boolean eval(Modifier object) {
 						PropertySet aliasedProperties = aliasedModifier.impliedProperties();
 						aliasedProperties.addAll(object.impliedProperties());

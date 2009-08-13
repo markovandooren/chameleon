@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.rejuse.association.OrderedReferenceSet;
-import org.rejuse.predicate.PrimitiveTotalPredicate;
+import org.rejuse.predicate.SafePredicate;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
@@ -90,7 +90,7 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
    @                   fp.getName().equals(name);
    @*/
   public boolean containsParameterWithName(final String name) {
-    return new PrimitiveTotalPredicate() {
+    return new SafePredicate() {
       public boolean eval(Object o) {
         return ((FormalParameter)o).getName().equals(name);
       }

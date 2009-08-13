@@ -3,13 +3,14 @@ package chameleon.core.element;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.rejuse.association.Reference;
 import org.rejuse.logic.ternary.Ternary;
-import org.rejuse.predicate.PrimitiveTotalPredicate;
+import org.rejuse.predicate.SafePredicate;
 import org.rejuse.predicate.TypePredicate;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertyMutex;
@@ -327,10 +328,10 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 		protected PropertySet<Element> filterProperties(PropertySet<Element> overriding, PropertySet<Element> base) {
 			Set<Property<Element>> baseProperties = base.properties();
 			final Set<Property<Element>> overridingProperties = overriding.properties();
-		  new PrimitiveTotalPredicate<Property<Element>>() {
+		  new SafePredicate<Property<Element>>() {
 				@Override
 				public boolean eval(final Property<Element> aliasedProperty) {
-					return new PrimitiveTotalPredicate<Property<Element>>() {
+					return new SafePredicate<Property<Element>>() {
 						@Override
 						public boolean eval(Property<Element> myProperty) {
 							return !aliasedProperty.contradicts(myProperty);
@@ -342,5 +343,30 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 		  baseProperties.addAll(overridingProperties);
 		  return new PropertySet<Element>(baseProperties);
 		}
+
+		
+//    public Iterator<Element> depthFirstIterator() {
+//    	return new Iterator<Element>() {
+//
+//    		
+//    		
+//    		private Element _current;
+//    		
+//    		private Iterator<Element> _currentIterator;
+//    		
+//    		private Element _last;
+//				public boolean hasNext() {
+//					return _current != _last;
+//				}
+//
+//				public Element next() {
+//					compile error
+//				}
+//
+//				public void remove() {
+//					_current.parentLink().connectTo(null);
+//				}
+//			};
+//    }
 
 }

@@ -7,9 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.rejuse.java.collections.Visitor;
-import org.rejuse.predicate.PrimitivePredicate;
+import org.rejuse.predicate.AbstractPredicate;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
@@ -41,7 +40,7 @@ public class CheckedExceptionList {
   
   public void handleType(final Type type) throws LookupException {
     try {
-      new PrimitivePredicate() {
+      new AbstractPredicate() {
         public boolean eval(Object o) throws LookupException {
           ExceptionPair ep = (ExceptionPair)o;
           return ! ep.getException().assignableTo(type);

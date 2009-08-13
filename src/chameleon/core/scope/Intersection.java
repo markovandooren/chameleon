@@ -2,9 +2,8 @@ package chameleon.core.scope;
 
 import java.util.Collection;
 
-import org.rejuse.predicate.PrimitivePredicate;
+import org.rejuse.predicate.AbstractPredicate;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 
@@ -34,7 +33,7 @@ public class Intersection extends CompositeScope {
 
 	public boolean contains(final Element element) throws LookupException {
 		try {
-			return new PrimitivePredicate<Scope>() {
+			return new AbstractPredicate<Scope>() {
 
 				public boolean eval(Scope object) throws LookupException {
 					return object.contains(element);
@@ -51,9 +50,9 @@ public class Intersection extends CompositeScope {
   
   public boolean geRecursive(final Scope other) throws LookupException {
     try {
-      return new PrimitivePredicate() {
-        public boolean eval(Object o) throws LookupException {
-          return ((Scope)o).greaterThanOrEqualTo(other);
+      return new AbstractPredicate<Scope>() {
+        public boolean eval(Scope o) throws LookupException {
+          return (o).greaterThanOrEqualTo(other);
         }
       }.forAll(scope());
     }
@@ -68,9 +67,9 @@ public class Intersection extends CompositeScope {
 
   protected boolean leRecursive(final Scope other) throws LookupException {
     try {
-      return new PrimitivePredicate() {
-        public boolean eval(Object o) throws LookupException {
-          return other.greaterThanOrEqualTo(((Scope)o));
+      return new AbstractPredicate<Scope>() {
+        public boolean eval(Scope o) throws LookupException {
+          return other.greaterThanOrEqualTo((o));
         }
       }.exists(scope());
     }
@@ -91,12 +90,10 @@ public class Intersection extends CompositeScope {
   
   protected void filter() throws LookupException {
     try {
-      new PrimitivePredicate() {
-        public boolean eval(Object o) throws Exception {
-          final Scope acc = (Scope)o;
-          return ! new PrimitivePredicate() {
-            public boolean eval(Object o2) throws LookupException {
-              Scope other = (Scope)o2;
+      new AbstractPredicate<Scope>() {
+        public boolean eval(final Scope acc) throws Exception {
+          return ! new AbstractPredicate<Scope>() {
+            public boolean eval(Scope other) throws LookupException {
               return (acc != other) && (acc.greaterThanOrEqualTo(other));
             }
           }.exists(_scopes);

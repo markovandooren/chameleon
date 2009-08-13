@@ -7,7 +7,7 @@ import java.util.Set;
 import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.java.collections.RobustVisitor;
 import org.rejuse.java.collections.Visitor;
-import org.rejuse.predicate.PrimitivePredicate;
+import org.rejuse.predicate.AbstractPredicate;
 
 import chameleon.core.element.Element;
 import chameleon.core.expression.Invocation;
@@ -30,7 +30,7 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
       return false;
     }
     try {
-      return new PrimitivePredicate() {
+      return new AbstractPredicate() {
         public boolean eval(Object o) throws LookupException {
           return ((ExceptionDeclaration)o).compatibleWith(other);
         }
@@ -133,7 +133,7 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
 
   public boolean hasValidAccessibility() throws LookupException {
     try {
-      return new PrimitivePredicate() {
+      return new AbstractPredicate() {
         public boolean eval(Object o) throws LookupException {
           return ((ExceptionDeclaration)o).hasValidAccessibility();
         }
@@ -163,7 +163,7 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
    */
   public boolean isAcyclic(final Set done) throws LookupException {
     try {
-      return new PrimitivePredicate() {
+      return new AbstractPredicate() {
         public boolean eval(Object o) throws LookupException {
           ExceptionDeclaration decl = (ExceptionDeclaration)o;
           return decl.isAcyclic(done);

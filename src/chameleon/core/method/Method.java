@@ -8,7 +8,7 @@ import java.util.Set;
 
 import org.rejuse.association.Reference;
 import org.rejuse.java.collections.Visitor;
-import org.rejuse.predicate.PrimitivePredicate;
+import org.rejuse.predicate.AbstractPredicate;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
@@ -350,7 +350,7 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	public boolean hasValidOverridingExceptionClause() throws LookupException {
 		try {
 			Set methods = directlyOverriddenMembers();
-			return new PrimitivePredicate() {
+			return new AbstractPredicate() {
 				public boolean eval(Object o) throws LookupException {
 					Method method = (Method)o;
 					return getExceptionClause().compatibleWith(method.getExceptionClause());

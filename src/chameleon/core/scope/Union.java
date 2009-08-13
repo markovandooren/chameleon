@@ -2,9 +2,8 @@ package chameleon.core.scope;
 
 import java.util.Collection;
 
-import org.rejuse.predicate.PrimitivePredicate;
+import org.rejuse.predicate.AbstractPredicate;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 
@@ -15,7 +14,7 @@ public class Union extends CompositeScope {
 	
 	public boolean contains(final Element element) throws LookupException {
 		try {
-			return new PrimitivePredicate<Scope>() {
+			return new AbstractPredicate<Scope>() {
 
 				public boolean eval(Scope object) throws LookupException {
 					return object.contains(element);
@@ -64,7 +63,7 @@ public class Union extends CompositeScope {
 
   public boolean geRecursive(final Scope other) throws LookupException {
     try {
-      return new PrimitivePredicate() {
+      return new AbstractPredicate() {
         public boolean eval(Object o) throws LookupException {
           return ((Scope)o).greaterThanOrEqualTo(other);
         }
@@ -81,7 +80,7 @@ public class Union extends CompositeScope {
 
   public boolean leRecursive(final Scope other) throws LookupException {
     try {
-      return new PrimitivePredicate() {
+      return new AbstractPredicate() {
         public boolean eval(Object o) throws LookupException {
           return other.greaterThanOrEqualTo(((Scope)o));
         }
@@ -104,10 +103,10 @@ public class Union extends CompositeScope {
   
   protected void filter() throws LookupException {
     try {
-      new PrimitivePredicate() {
+      new AbstractPredicate() {
         public boolean eval(Object o) throws Exception {
           final Scope acc = (Scope)o;
-          return ! new PrimitivePredicate() {
+          return ! new AbstractPredicate() {
             public boolean eval(Object o2) throws LookupException {
               Scope other = (Scope)o2;
               return (acc != other) && (other.greaterThanOrEqualTo(acc));

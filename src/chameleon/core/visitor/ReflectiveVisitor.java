@@ -58,7 +58,6 @@ public abstract class ReflectiveVisitor {
 	 * @param element
 	 * @throws NoVisitorForTypeException When no appropriate visit method for this type of element is defined.
 	 */
-	
 	public void recursiveVisit(Element element) throws NoVisitorForTypeException{
 		nonRecursiveVisit(element);
 		resursiveVisitChildren(element);
@@ -71,7 +70,6 @@ public abstract class ReflectiveVisitor {
 	 * @param element
 	 * @throws NoVisitorForTypeException When no appropriate visit method for this type of element is defined.
 	 */
-	
 	public void nonRecursiveVisit(Element element) throws NoVisitorForTypeException{
 		String typename = element.getClass().getSimpleName();
 		

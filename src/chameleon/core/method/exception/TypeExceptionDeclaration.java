@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.rejuse.association.Reference;
-import org.rejuse.predicate.PrimitivePredicate;
+import org.rejuse.predicate.AbstractPredicate;
 
 import chameleon.core.expression.Invocation;
 import chameleon.core.language.ObjectOrientedLanguage;
@@ -74,7 +74,7 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration<TypeException
       return true;
     }
     try {
-      return new PrimitivePredicate() {
+      return new AbstractPredicate() {
         public boolean eval(Object o2) throws LookupException {
           return (o2 instanceof TypeExceptionDeclaration) && (getType().assignableTo(((TypeExceptionDeclaration)o2).getType()));
         }

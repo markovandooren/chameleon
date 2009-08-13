@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.predicate.PrimitivePredicate;
+import org.rejuse.predicate.AbstractPredicate;
 import org.rejuse.property.Property;
 
 import chameleon.core.MetamodelException;
@@ -91,7 +91,7 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
       Collection superMembers = type.members(Member.class);
       // Retain only those members that are overridden by this member. 
       try {
-        new PrimitivePredicate<Member>() {
+        new AbstractPredicate<Member>() {
           public boolean eval(Member o) throws LookupException {
             return overrides(o);
           }

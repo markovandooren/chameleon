@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.rejuse.association.Reference;
-import org.rejuse.predicate.PrimitiveTotalPredicate;
+import org.rejuse.predicate.SafePredicate;
 import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.declaration.Declaration;
@@ -208,7 +208,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	public Namespace getSubNamespace(final String name) throws LookupException {
 		List<Namespace> packages = getSubNamespaces();
 
-		new PrimitiveTotalPredicate<Namespace>() {
+		new SafePredicate<Namespace>() {
 			public boolean eval(Namespace o) {
 				return o.name().equals(name);
 			}
