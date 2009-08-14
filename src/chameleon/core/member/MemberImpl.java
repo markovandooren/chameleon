@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.predicate.AbstractPredicate;
+import org.rejuse.predicate.UnsafePredicate;
 import org.rejuse.property.Property;
 
 import chameleon.core.MetamodelException;
@@ -54,20 +54,13 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Declara
     // Iterate over all super types.
     for(Type type: superTypes) {
       // Fetch all members from the current super type.
-      Collection superMembers = type.members(Member.class);
+      Collection<Member> superMembers = type.members(Member.class);
       // Retain only those members that are overridden by this member. 
-      try {
-        new AbstractPredicate<Member>() {
-          public boolean eval(Member o) throws LookupException {
-            return overrides(o);
-          }
-        }.filter(superMembers);
-      } catch(LookupException e) {
-        throw e; 
-      } catch (Exception e) {
-        e.printStackTrace();
-        throw new Error();
-      }
+      new UnsafePredicate<Member,LookupException>() {
+        public boolean eval(Member o) throws LookupException {
+          return overrides(o);
+        }
+      }.filter(superMembers);
       result.addAll(superMembers);
     }
     return result;
