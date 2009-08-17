@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.rejuse.association.Reference;
 import org.rejuse.logic.ternary.Ternary;
+import org.rejuse.predicate.Predicate;
+import org.rejuse.predicate.SafePredicate;
+import org.rejuse.predicate.UnsafePredicate;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
@@ -104,25 +107,100 @@ public interface Element<E extends Element, P extends Element> {
     
     /**
      * Recursively return all children of this element.
-     */
-   /*@
-     @ public behavior
-     @
-     @ post \result == descendants(Element.class);
-     @*/ 
-    public List<Element> descendants();
-
-    /**
-     * Recursively return all descendants of this element.
      * (The children, and the children of the children,...).
      */
    /*@
      @ public behavior
      @
-     @ post \forall(Element e; children().contains(c) && c.isInstance(e); \result.contains(e));
-     @ post \forall(Element e; children().contains(c); \result.containsAll(e.descendants()));
+     @ post \forall(Element e; children().contains(c); \result.contains(e) && \result.containsAll(e.descendants()));
+     @*/ 
+    public List<Element> descendants();
+
+    /**
+     * Recursively return all descendants of this element that are of the given type.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post \forall(Element e; descendants().contains(e) && c.isInstance(e); \result.contains(e));
      @*/
     public <T extends Element> List<T> descendants(Class<T> c);
+
+    
+    /**
+     * Recursively return all descendants of this element that satisfy the given predicate.
+     * 
+     * The only checked exceptions that can occur will come from the predicate. Use the safe and unsafe variants
+     * of this method for convenience.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre predicate != null;
+     @
+     @ post \forall(Element e; descendants().contains(e) && predicate.eval(e) == true; \result.contains(e));
+     @*/
+   public List<Element> descendants(Predicate<Element> predicate) throws Exception;
+
+    /**
+     * Recursively return all descendants of this element that satisfy the given predicate.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre predicate != null;
+     @
+     @ post \forall(Element e; descendants().contains(e) && predicate.eval(e) == true; \result.contains(e));
+     @*/
+   public List<Element> descendants(SafePredicate<Element> predicate);
+   
+   /**
+    * Recursively return all descendants of this element that satisfy the given predicate.
+    * 
+    * The only checked exceptions that can occurs are determined by type parameter X.
+    */
+   public <X extends Exception> List<Element> descendants(UnsafePredicate<Element,X> predicate) throws X;
+   
+    /**
+     * Recursively return all descendants of this element that are of the given type, and satisfy the given predicate.
+     * 
+     * The only checked exception that occurs will come from the predicate. Use the safe and unsafe variants
+     * of this method for convenience.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre predicate != null;
+     @
+     @ post \forall(Element e; descendants().contains(e) && c.isInstance(e) && predicate.eval(e) == true; \result.contains(e));
+     @*/
+   public <T extends Element> List<T> descendants(Class<T> c, Predicate<T> predicate) throws Exception;
+
+    /**
+     * Recursively return all descendants of this element that are of the given type, and satisfy the given predicate.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre predicate != null;
+     @
+     @ post \forall(Element e; descendants().contains(e) && c.isInstance(e) && predicate.eval(e) == true; \result.contains(e));
+     @*/
+   public <T extends Element> List<T> descendants(Class<T> c, SafePredicate<T> predicate);
+
+    /**
+     * Recursively return all descendants of this element that are of the given type, and satisfy the given predicate.
+     * 
+     * The only checked exception that occurs are determined by type parameter X.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre predicate != null;
+     @
+     @ post \forall(Element e; descendants().contains(e) && c.isInstance(e) && predicate.eval(e) == true; \result.contains(e));
+     @*/
+   public <T extends Element, X extends Exception> List<T> descendants(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
 
     /**
      * Return the tag with the given name.
@@ -214,6 +292,48 @@ public interface Element<E extends Element, P extends Element> {
      * @return
      */
     public <T extends Element> T nearestAncestor(Class<T> c);
+    
+    /**
+     * Return the nearest ancestor of type T that satifies the given predicate. Null if no such ancestor can be found.
+     * 
+     * The only checked exception that can be thrown comes from the predicate. Use the safe and unsafe variants of this method
+     * for convenience.
+     * 
+     * @param <T>
+     *        The type of the ancestor to be found
+     * @param c
+     *        The class object of type T (T.class)
+     * @return
+     */
+    public <T extends Element> T nearestAncestor(Class<T> c, Predicate<T> predicate) throws Exception;
+
+    /**
+     * Return the nearest ancestor of type T that satifies the given predicate. Null if no such ancestor can be found.
+     * 
+     * The only checked exception that can be thrown comes from the predicate. Use the safe and unsafe variants of this method
+     * for convenience.
+     * 
+     * @param <T>
+     *        The type of the ancestor to be found
+     * @param c
+     *        The class object of type T (T.class)
+     * @return
+     */
+    public <T extends Element> T nearestAncestor(Class<T> c, SafePredicate<T> predicate);
+    
+    /**
+     * Return the nearest ancestor of type T that satifies the given predicate. Null if no such ancestor can be found.
+     * 
+     * The only checked exception that can be thrown comes from the predicate. Use the safe and unsafe variants of this method
+     * for convenience.
+     * 
+     * @param <T>
+     *        The type of the ancestor to be found
+     * @param c
+     *        The class object of type T (T.class)
+     * @return
+     */
+    public <T extends Element, X extends Exception> T nearestAncestor(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
     
     /**
      * Return the language of this element. Return null if this element is not
@@ -389,5 +509,6 @@ public interface Element<E extends Element, P extends Element> {
      @*/
     public Property<Element> property(PropertyMutex<Element> mutex) throws MetamodelException;
     
+    public boolean isValid();
     
 }

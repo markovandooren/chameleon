@@ -3,15 +3,16 @@ package chameleon.core.element;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.rejuse.association.Reference;
 import org.rejuse.logic.ternary.Ternary;
+import org.rejuse.predicate.Predicate;
 import org.rejuse.predicate.SafePredicate;
 import org.rejuse.predicate.TypePredicate;
+import org.rejuse.predicate.UnsafePredicate;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
@@ -190,19 +191,83 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 
     public final <T extends Element> List<T> descendants(Class<T> c) {
     	List<Element> tmp = (List<Element>) children();
-    	if(tmp == null) {
-    		throw new ChameleonProgrammerException("children() returns null for " + getClass().getName());
-    	}
     	new TypePredicate<Element,T>(c).filter(tmp);
       List<T> result = (List<T>)tmp;
       for (Element e : children()) {
-      	if(e == null) {
-      		throw new ChameleonProgrammerException("children of " + getClass().getName() +" contains null.");
-      	}
         result.addAll(e.descendants(c));
       }
       return result;
     }
+    
+    public final List<Element> descendants(Predicate<Element> predicate) throws Exception {
+    	// Do not compute all descendants, and apply predicate afterwards.
+    	// That is way too expensive.
+    	List<? extends Element> tmp = children();
+    	predicate.filter(tmp);
+      List<Element> result = (List<Element>)tmp;
+      for (Element e : children()) {
+        result.addAll(e.descendants(predicate));
+      }
+      return result;
+    }
+
+    public final List<Element> descendants(SafePredicate<Element> predicate) {
+    	// Do not compute all descendants, and apply predicate afterwards.
+    	// That is way too expensive.
+    	List<? extends Element> tmp = children();
+    	predicate.filter(tmp);
+      List<Element> result = (List<Element>)tmp;
+      for (Element e : children()) {
+        result.addAll(e.descendants(predicate));
+      }
+      return result;
+    }
+
+    public final <X extends Exception> List<Element> descendants(UnsafePredicate<Element,X> predicate) throws X {
+    	// Do not compute all descendants, and apply predicate afterwards.
+    	// That is way too expensive.
+    	List<? extends Element> tmp = children();
+    	predicate.filter(tmp);
+      List<Element> result = (List<Element>)tmp;
+      for (Element<?,?> e : children()) {
+        result.addAll(e.descendants(predicate));
+      }
+      return result;
+    }
+
+    public final <T extends Element> List<T> descendants(Class<T> c, Predicate<T> predicate) throws Exception {
+    	List<Element> tmp = (List<Element>) children();
+    	new TypePredicate<Element,T>(c).filter(tmp);
+      List<T> result = (List<T>)tmp;
+      predicate.filter(result);
+      for (Element e : children()) {
+        result.addAll(e.descendants(c, predicate));
+      }
+      return result;
+    }
+
+    public final <T extends Element> List<T> descendants(Class<T> c, SafePredicate<T> predicate) {
+    	List<Element> tmp = (List<Element>) children();
+    	new TypePredicate<Element,T>(c).filter(tmp);
+      List<T> result = (List<T>)tmp;
+      predicate.filter(result);
+      for (Element e : children()) {
+        result.addAll(e.descendants(c, predicate));
+      }
+      return result;
+    }
+    
+    public final <T extends Element, X extends Exception> List<T> descendants(Class<T> c, UnsafePredicate<T,X> predicate) throws X {
+    	List<Element> tmp = (List<Element>) children();
+    	new TypePredicate<Element,T>(c).filter(tmp);
+      List<T> result = (List<T>)tmp;
+      predicate.filter(result);
+      for (Element<?,?> e : children()) {
+        result.addAll(e.descendants(c, predicate));
+      }
+      return result;
+    }
+
 
     public final List<Element> ancestors() {
         if (parent()!=null) {
@@ -222,6 +287,30 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	return (T) el;
     }
     
+    public <T extends Element> T nearestAncestor(Class<T> c, Predicate<T> predicate) throws Exception {
+    	Element el = parent();
+    	while ((el != null) && (! (c.isInstance(el) && predicate.eval((T)el)))) {
+    		el = el.parent();
+    	}
+    	return (T) el;
+    }
+
+    public <T extends Element> T nearestAncestor(Class<T> c, SafePredicate<T> predicate) {
+    	Element el = parent();
+    	while ((el != null) && (! (c.isInstance(el) && predicate.eval((T)el)))) {
+    		el = el.parent();
+    	}
+    	return (T) el;
+    }
+
+    public <T extends Element, X extends Exception> T nearestAncestor(Class<T> c, UnsafePredicate<T,X> predicate) throws X {
+    	Element el = parent();
+    	while ((el != null) && (! (c.isInstance(el) && predicate.eval((T)el)))) {
+    		el = el.parent();
+    	}
+    	return (T) el;
+    }
+
     public abstract E clone();
     
     public Language language() {
@@ -325,6 +414,12 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	}
     }
 
+    /*@
+      @ public behavior
+      @
+      @ post (\forall Property p; \result.contains(p); base.contains(p) && ! overriding.contradicts(p) ||
+      @        overriding.contains(p) && (\exists Property p2; base.contains(p2); overriding.contradicts(p2))); 
+      @*/
 		protected PropertySet<Element> filterProperties(PropertySet<Element> overriding, PropertySet<Element> base) {
 			Set<Property<Element>> baseProperties = base.properties();
 			final Set<Property<Element>> overridingProperties = overriding.properties();
@@ -343,6 +438,10 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 		  baseProperties.addAll(overridingProperties);
 		  return new PropertySet<Element>(baseProperties);
 		}
+
+    public boolean isValid() {
+    	return true;
+    }
 
 		
 //    public Iterator<Element> depthFirstIterator() {
