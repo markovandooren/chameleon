@@ -27,7 +27,11 @@ import chameleon.core.tag.Tag;
 
 /**
  * @author Marko van Dooren
- * @author Koen Vanderkimpen
+ * 
+ * @opt operations
+ * @opt attributes
+ * @opt visibility
+ * @opt types
  */
 public abstract class ElementImpl<E extends Element, P extends Element> implements Element<E,P> {
 

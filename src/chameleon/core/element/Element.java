@@ -31,7 +31,8 @@ import chameleon.core.tag.Tag;
  * <P> The type of the parent of the element.
  * 
  * @author Marko van Dooren
- * @author Koen Vanderkimpen
+ * 
+ * @opt all
  */
 
 public interface Element<E extends Element, P extends Element> {

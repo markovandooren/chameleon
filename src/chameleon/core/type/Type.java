@@ -46,7 +46,8 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
                            NamespaceOrType<Type,DeclarationContainer,SimpleNameSignature,Type>, 
                            VariableOrType<Type,DeclarationContainer,SimpleNameSignature,Type>, 
                            Definition<Type,DeclarationContainer,SimpleNameSignature,Type>,
-                           Cloneable, ExceptionSource<Type,DeclarationContainer>, 
+                           Cloneable, 
+                           ExceptionSource<Type,DeclarationContainer>, 
                            DeclarationContainer<Type,DeclarationContainer> {
  
 	
