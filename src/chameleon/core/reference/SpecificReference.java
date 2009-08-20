@@ -33,6 +33,10 @@ public class SpecificReference<E extends SpecificReference, P extends Element, R
 	public DeclarationSelector<R> selector() {
 		return new SelectorWithoutOrder<R>(new SimpleNameSignature(getName()),_specificClass);
 	}
+	
+	public Class<R> specificType() {
+		return _specificClass;
+	}
 
 }
 

@@ -14,4 +14,12 @@ public class SimpleReference<D extends Declaration> extends SpecificReference<Si
 		super(fqn, specificClass);
 	}
 
+	/**
+	 * YOU MUST OVERRIDE THIS METHOD IF YOU SUBCLASS THIS CLASS!
+	 */
+	@Override
+	public SimpleReference<D> clone() {
+	   return new SimpleReference<D>((getTarget() == null ? null : getTarget().clone()), getName(), specificType());
+	}
+
 }
