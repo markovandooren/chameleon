@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Set;
 
 import chameleon.core.namespace.Namespace;
-import chameleon.linkage.ILinkageFactory;
+import chameleon.editor.toolextension.ILinkageFactory;
 
 public interface MetaModelFactory {
 
