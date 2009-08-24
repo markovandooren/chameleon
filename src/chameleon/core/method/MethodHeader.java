@@ -19,7 +19,15 @@ import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.type.Type;
 import chameleon.core.variable.FormalParameter;
 import chameleon.core.variable.VariableContainer;
-
+/**
+ * A class of objects representing method headers. A method header contains for example the name and parameters of a method.
+ * 
+ * @author Marko van Dooren
+ *
+ * @param <E>
+ * @param <P>
+ * @param <S>
+ */
 public abstract class MethodHeader<E extends MethodHeader, P extends Method, S extends MethodSignature> extends NamespaceElementImpl <E,P> implements VariableContainer<E, P> { //extends Signature<E, P> 
   
   public E clone() {
@@ -30,9 +38,14 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
     return result;
   }
 
+  /**
+   * Return the signature of the method of this method header. The signature is generated based on
+   * the information in the header.
+   * @return
+   */
   public abstract S signature();
   
-  public abstract E cloneThis();
+  protected abstract E cloneThis();
   
   public List<Element> children() {
   	List<Element> result = new ArrayList<Element>();
@@ -77,29 +90,29 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
     return result;
   }
 
-  /**
-   * Check whether or not this method contains a formal parameter with the given name.
-   *
-   * @param name
-   *        The name that has to be checked.
-   */
-  /*@
-   @ public behavior
-   @
-   @ post \result == (\exists FormalParameter fp; getFormalParameters.contains(fp);
-   @                   fp.getName().equals(name);
-   @*/
-  public boolean containsParameterWithName(final String name) {
-    return new SafePredicate() {
-      public boolean eval(Object o) {
-        return ((FormalParameter)o).getName().equals(name);
-      }
-    }.exists(getParameters());
-  }
+//  /**
+//   * Check whether or not this method contains a formal parameter with the given name.
+//   *
+//   * @param name
+//   *        The name that has to be checked.
+//   */
+//  /*@
+//   @ public behavior
+//   @
+//   @ post \result == (\exists FormalParameter fp; getFormalParameters.contains(fp);
+//   @                   fp.getName().equals(name);
+//   @*/
+//  public boolean containsParameterWithName(final String name) {
+//    return new SafePredicate() {
+//      public boolean eval(Object o) {
+//        return ((FormalParameter)o).getName().equals(name);
+//      }
+//    }.exists(getParameters());
+//  }
 
-  public Type getNearestType() {
-  	return parent().getNearestType();
-  }
+//  public Type getNearestType() {
+//  	return parent().getNearestType();
+//  }
   
   public List<FormalParameter> declarations() {
     return getParameters();

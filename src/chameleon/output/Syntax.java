@@ -4,7 +4,7 @@ import chameleon.core.MetamodelException;
 import chameleon.core.element.Element;
 
 /**
- * @author marko
+ * @author Marko van Dooren
  */
 public abstract class Syntax {
 

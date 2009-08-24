@@ -78,7 +78,7 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration<TypeException
         public boolean eval(Object o2) throws LookupException {
           return (o2 instanceof TypeExceptionDeclaration) && (getType().assignableTo(((TypeExceptionDeclaration)o2).getType()));
         }
-      }.exists(other.getDeclarations());
+      }.exists(other.exceptionDeclarations());
     }
     catch (LookupException e) {
       throw e;
@@ -103,7 +103,4 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration<TypeException
     return Util.createNonNullList(getTypeReference());
   }
 
-  public boolean isAcyclic(Set done) {
-    return true;
-  }
 }

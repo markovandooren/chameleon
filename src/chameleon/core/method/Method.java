@@ -180,14 +180,14 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 ////		return excs;
 //	}
 
-	/*@
-	  @ also public behavior
-	  @
-	  @ post \result == getType();
-	  @*/
-	public Type getNearestType() {
-		return nearestAncestor(Type.class);
-	}
+//	/*@
+//	  @ also public behavior
+//	  @
+//	  @ post \result == getType();
+//	  @*/
+//	public Type getNearestType() {
+//		return nearestAncestor(Type.class);
+//	}
 
 	/**********
 	 * ACCESS *
@@ -314,32 +314,32 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 		return getExceptionClause().hasValidAccessibility();
 	}
 
-	/**
-	 * Check whether or not this method has an acyclic exception graph.
-	 */
-	/*@
-	 @ public behavior
-	 @
-	 @ post \result == hasAcyclicExceptionGraph(new HashSet());
-	 @*/
-	public boolean hasAcyclicExceptionGraph() throws LookupException {
-		return hasAcyclicExceptionGraph(new HashSet());
-	}
-
-	/**
-	 * @param done
-	 * @return
-	 */
-	public boolean hasAcyclicExceptionGraph(Set done) throws LookupException {
-		if(done.contains(this)) {
-			return false;
-		}
-		else {
-			Set newDone = new HashSet(done);
-			newDone.add(this);
-			return getExceptionClause().isAcyclic(newDone);
-		}
-	}
+//	/**
+//	 * Check whether or not this method has an acyclic exception graph.
+//	 */
+//	/*@
+//	 @ public behavior
+//	 @
+//	 @ post \result == hasAcyclicExceptionGraph(new HashSet());
+//	 @*/
+//	public boolean hasAcyclicExceptionGraph() throws LookupException {
+//		return hasAcyclicExceptionGraph(new HashSet());
+//	}
+//
+//	/**
+//	 * @param done
+//	 * @return
+//	 */
+//	public boolean hasAcyclicExceptionGraph(Set done) throws LookupException {
+//		if(done.contains(this)) {
+//			return false;
+//		}
+//		else {
+//			Set newDone = new HashSet(done);
+//			newDone.add(this);
+//			return getExceptionClause().isAcyclic(newDone);
+//		}
+//	}
 
 	/**
 	 * Check whether or not the exception clause of this method is compatible with the

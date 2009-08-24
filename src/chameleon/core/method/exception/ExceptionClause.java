@@ -34,7 +34,7 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
         public boolean eval(Object o) throws LookupException {
           return ((ExceptionDeclaration)o).compatibleWith(other);
         }
-      }.forAll(getDeclarations());
+      }.forAll(exceptionDeclarations());
     }
     catch (LookupException e) {
       throw e;
@@ -57,7 +57,7 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
         public void unvisit(Object element, Object undo) {
           //NOP
         }
-      }.applyTo(getDeclarations());
+      }.applyTo(exceptionDeclarations());
     }
     catch (LookupException e) {
       throw e;
@@ -82,7 +82,7 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
         public void unvisit(Object element, Object undo) {
           //NOP
         }
-      }.applyTo(getDeclarations());
+      }.applyTo(exceptionDeclarations());
     }
     catch (LookupException e) {
       throw e;
@@ -109,14 +109,10 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
     _exceptionDeclarations.remove(decl.parentLink());
   }
 
-  public List<ExceptionDeclaration> getDeclarations() {
+  public List<ExceptionDeclaration> exceptionDeclarations() {
     return _exceptionDeclarations.getOtherEnds();
   }
 
-
-  public Type getNearestType() {
-    return parent().getNearestType();
-  }
 
   /**
    * @return
@@ -127,7 +123,7 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
       public void visit(Object element) {
          result.add(((ExceptionDeclaration)element).clone());
       }
-    }.applyTo(getDeclarations());
+    }.applyTo(exceptionDeclarations());
     return result;
   }
 
@@ -137,7 +133,7 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
         public boolean eval(Object o) throws LookupException {
           return ((ExceptionDeclaration)o).hasValidAccessibility();
         }
-      }.forAll(getDeclarations());
+      }.forAll(exceptionDeclarations());
     }
     catch (LookupException e) {
       throw e;
@@ -154,28 +150,28 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
    @ post \result.equals(getDeclarations());
    @*/
   public List<? extends Element> children() {
-    return getDeclarations();
+    return exceptionDeclarations();
   }
 
-  /**
-   * @param done
-   * @return
-   */
-  public boolean isAcyclic(final Set done) throws LookupException {
-    try {
-      return new AbstractPredicate() {
-        public boolean eval(Object o) throws LookupException {
-          ExceptionDeclaration decl = (ExceptionDeclaration)o;
-          return decl.isAcyclic(done);
-        }
-      }.forAll(getDeclarations());
-    }
-    catch (LookupException e) {
-      throw e;
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-      throw new Error();
-    }
-  }
+//  /**
+//   * @param done
+//   * @return
+//   */
+//  public boolean isAcyclic(final Set done) throws LookupException {
+//    try {
+//      return new AbstractPredicate() {
+//        public boolean eval(Object o) throws LookupException {
+//          ExceptionDeclaration decl = (ExceptionDeclaration)o;
+//          return decl.isAcyclic(done);
+//        }
+//      }.forAll(exceptionDeclarations());
+//    }
+//    catch (LookupException e) {
+//      throw e;
+//    }
+//    catch (Exception e) {
+//      e.printStackTrace();
+//      throw new Error();
+//    }
+//  }
 }

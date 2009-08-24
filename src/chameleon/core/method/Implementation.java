@@ -14,13 +14,6 @@ public abstract class Implementation<E extends Implementation> extends Namespace
   public Implementation() {
     }
 
-  public final Type getNearestType() {
-    return parent().getNearestType();
-  }
-
-
-	//  public abstract Set getAllStatements();
-
   /**
    * @return
    */

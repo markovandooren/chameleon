@@ -360,9 +360,6 @@
 //    return result;
 //  }
 //
-//  public boolean isAcyclic(Set done) throws MetamodelException {
-//    return getInvocation().getMethod().hasAcyclicExceptionGraph(done);
-//  }
 //
 //}
 //

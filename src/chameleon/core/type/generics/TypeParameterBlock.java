@@ -31,7 +31,7 @@ import chameleon.core.type.Type;
  *   
  * @author Marko van Dooren
  */
-public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock, Type> implements DeclarationContainer<TypeParameterBlock, Type> {
+public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock, Element> implements DeclarationContainer<TypeParameterBlock, Element> {
 
 	@Override
 	public TypeParameterBlock clone() {
@@ -91,7 +91,7 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 		return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this), this);
 	}
 	
-	public static class Stub extends ElementImpl<Stub, Type> implements DeclarationContainer<Stub, Type>{
+	public static class Stub extends ElementImpl<Stub, Element> implements DeclarationContainer<Stub, Element>{
 
 		@Override
 		public Stub clone() {

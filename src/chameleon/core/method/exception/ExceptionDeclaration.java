@@ -57,15 +57,4 @@ public abstract class ExceptionDeclaration<E extends ExceptionDeclaration> exten
 
   public abstract boolean hasValidAccessibility() throws LookupException;
 
-  /**
-   * @param done
-   * @return
-   */
-  public abstract boolean isAcyclic(Set done) throws LookupException;
-
-  public Type getNearestType() {
-	return parent().getNearestType();
-  }
-
-
 }

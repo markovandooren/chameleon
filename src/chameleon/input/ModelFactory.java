@@ -6,7 +6,7 @@ import java.util.Set;
 import chameleon.core.namespace.Namespace;
 import chameleon.linkage.ILinkageFactory;
 
-public interface MetaModelFactory {
+public interface ModelFactory {
 
 	public Namespace getMetaModel(ILinkageFactory fact, Set<File> files) throws Exception;
 	
