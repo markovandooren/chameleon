@@ -1,22 +1,23 @@
 package chameleon.core.method;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 import org.rejuse.association.OrderedReferenceSet;
-import org.rejuse.predicate.SafePredicate;
+import org.rejuse.association.Reference;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
-import chameleon.core.lookup.LexicalLookupStrategy;
-import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.type.Type;
+import chameleon.core.type.generics.TypeParameter;
+import chameleon.core.type.generics.TypeParameterBlock;
 import chameleon.core.variable.FormalParameter;
 import chameleon.core.variable.VariableContainer;
 /**
@@ -32,7 +33,7 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
   
   public E clone() {
     E result = cloneThis();
-    for(FormalParameter param:getParameters()) {
+    for(FormalParameter param:formalParameters()) {
       result.addParameter(param.clone());
     }
     return result;
@@ -49,7 +50,7 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
   
   public List<Element> children() {
   	List<Element> result = new ArrayList<Element>();
-  	result.addAll(getParameters());
+  	result.addAll(formalParameters());
   	return result;
   }
   
@@ -61,7 +62,7 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
    * FORMAL PARAMETERS *
    *********************/
 
-  public List<FormalParameter> getParameters() {
+  public List<FormalParameter> formalParameters() {
     return _parameters.getOtherEnds();
   }
 
@@ -84,7 +85,7 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
    */
   public List<Type> getParameterTypes() throws LookupException {
     List<Type> result = new ArrayList<Type>();
-    for(FormalParameter param:getParameters()) {
+    for(FormalParameter param:formalParameters()) {
       result.add(param.getType());
     }
     return result;
@@ -114,20 +115,23 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
 //  	return parent().getNearestType();
 //  }
   
-  public List<FormalParameter> declarations() {
-    return getParameters();
+  public List<Declaration> declarations() {
+    List<Declaration>  result = new ArrayList<Declaration>();
+    result.addAll(formalParameters());
+    result.addAll(typeParameters());
+    return result;
   }
   
 	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
-		return selector.selection(getParameters());
+		return selector.selection(formalParameters());
 	}
 
 
   public boolean sameParameterTypesAs(MethodHeader other) throws MetamodelException {
   	boolean result = false;
   	if (other != null) {
-			List<FormalParameter> mine = getParameters();
-			List<FormalParameter> others = other.getParameters();
+			List<FormalParameter> mine = formalParameters();
+			List<FormalParameter> others = other.formalParameters();
 			result = mine.size() == others.size();
 			Iterator<FormalParameter> iter1 = mine.iterator();
 			Iterator<FormalParameter> iter2 = others.iterator();
@@ -145,4 +149,34 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
   public LookupStrategy lexicalLookupStrategy(Element element) {
   	return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this),this);
   }
+  
+	private Reference<MethodHeader, TypeParameterBlock> _typeParameters = new Reference<MethodHeader, TypeParameterBlock>(this);
+	
+	public TypeParameterBlock parameterBlock() {
+		return _typeParameters.getOtherEnd();
+	}
+	
+	public List<TypeParameter> typeParameters() {
+		return parameterBlock().parameters();
+	}
+	
+	public void addAllTypeParameters(Collection<TypeParameter> parameters) {
+		for(TypeParameter param:parameters) {
+			addTypeParameter(param);
+		}
+	}
+
+	public void addTypeParameter(TypeParameter parameter) {
+		parameterBlock().add(parameter);
+	}
+
+	public void removeTypeParameter(TypeParameter parameter) {
+		parameterBlock().add(parameter);
+	}
+	
+	public void replaceTypeParameter(TypeParameter oldParameter, TypeParameter newParameter) {
+		parameterBlock().replace(oldParameter, newParameter);
+	}
+
+
 }

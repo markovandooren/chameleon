@@ -29,17 +29,6 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 		return logger;
 	}
 	
-//	/**
-//	 * Asks the context factory to create a context. The local lookup strategy by default is a
-//	 * dummy lookup strategy because an inheritance relation typically does not contain declarations.
-//	 * 
-//	 * The lookup is intercepted at this point because for example Java has funny lookup rules with
-//	 * respect to inheritance.
-//	 */
-//	public LookupStrategy lexicalContext(Element element) {
-//		return language().lookupFactory().createLexicalContext(this, new DummyLookupStrategy());
-//	}
-	
 	public abstract E clone();
 
 	public InheritanceRelation(TypeReference ref) {
@@ -87,6 +76,11 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 	 * @return
 	 * @throws LookupException
 	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result == null || \result == superClass();
+   @*/
 	public abstract Type superType() throws LookupException;
 	
 	/**
@@ -122,31 +116,19 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
   void accumulateInheritedMembers(final Class<M> kind, List<M> current) throws LookupException {
 		final List<M> toAdd = new ArrayList<M>();
-		final List<M> toRemove = new ArrayList<M>();
 		final List<M> potential = potentiallyInheritedMembers(kind);
-		for(M m: potential) {
-			boolean add = true;
-			for(M alreadyInherited: current) {
-				// Remove the already inherited member if potentially inherited member m overrides or hides it.
-				if((alreadyInherited != m) && (m.overrides(alreadyInherited) || m.hides(alreadyInherited))) {
-					toRemove.add(alreadyInherited);
-				}
-				if(add == true && ((alreadyInherited == m) || alreadyInherited.overrides(m) || alreadyInherited.hides(m) || alreadyInherited.equivalentTo(m))) {
-					add = false;
-				}
-			}
-			if(add == true) {
-				toAdd.add(m);
-			}
-		}
-		current.removeAll(toRemove);
-		current.addAll(toAdd);
+		removeNonMostSpecificMembers(current, toAdd, potential);
 	}
 
 	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
   void accumulateInheritedMembers(DeclarationSelector<M> selector, List<M> current) throws LookupException {
 		final List<M> toAdd = new ArrayList<M>();
 		final List<M> potential = potentiallyInheritedMembers(selector);
+		removeNonMostSpecificMembers(current, toAdd, potential);
+	}
+
+	private <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>>
+	  void removeNonMostSpecificMembers(List<M> current, final List<M> toAdd, final List<M> potential) throws LookupException {
 		for(M m: potential) {
 			boolean add = true;
 			Iterator<M> iterCurrent = current.iterator();
@@ -171,29 +153,27 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
 	        List<M> potentiallyInheritedMembers(final Class<M> kind) throws LookupException {
 		List<M> superMembers = superClass().members(kind);
-		Iterator<M> superIter = superMembers.iterator();
-		while(superIter.hasNext()) {
-			M member = superIter.next();
-	    Ternary temp = member.is(language(ObjectOrientedLanguage.class).INHERITABLE);
-	    if (temp == Ternary.UNKNOWN) {
-	    	temp = member.is(language(ObjectOrientedLanguage.class).INHERITABLE);
-	      throw new LookupException(
-	          "For one of the members of super type "
-	              + superClass().getFullyQualifiedName()
-	              + " it is unknown whether it is inheritable or not. Member type: "+member.getClass().getName());
-	    } else {
-				if (temp == Ternary.FALSE) {
-					superIter.remove();
-				}
-	    }
-		}
+		removeNonInheritableMembers(superMembers);
     return superMembers;
 	}
 
-	public <M extends Member<M, ? super Type, S, F>, S extends Signature<S, M>, F extends Member<? extends Member, ? super Type, S, F>> List<M> potentiallyInheritedMembers(
+	public <M extends Member<M, ? super Type, S, F>, S extends Signature<S, M>, F extends Member<?, ? super Type, S, F>> List<M> potentiallyInheritedMembers(
 			final DeclarationSelector<M> selector) throws LookupException {
 		List<M> superMembers = superClass().members(selector);
-		Iterator<M> superIter = superMembers.iterator();
+		removeNonInheritableMembers(superMembers);
+		return superMembers;
+	}
+
+  /**
+   * Remove members that are not inheritable.
+   */
+ /*@
+   @ public behavior
+   @
+   @ (\forall M m; members.contains(m); \old(members()).contains(m) && m.is(language(ObjectOrientedLanguage.class).INHERITABLE == Ternary.TRUE);
+   @*/
+	private <M extends Member<M, ? super Type, S, F>, S extends Signature<S, M>, F extends Member<?, ? super Type, S, F>> void removeNonInheritableMembers(List<M> members) throws LookupException {
+		Iterator<M> superIter = members.iterator();
 		while(superIter.hasNext()) {
 			M member = superIter.next();
 			Ternary temp = member.is(language(ObjectOrientedLanguage.class).INHERITABLE);
@@ -207,7 +187,6 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 				}
 			}
 		}
-		return superMembers;
 	}
 	
 //	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 

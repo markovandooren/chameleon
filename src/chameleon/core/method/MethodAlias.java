@@ -32,8 +32,8 @@ public class MethodAlias<E extends MethodAlias<E,H,S>, H extends MethodHeader<H,
 	}
 
 	@Override
-	public Implementation getImplementation() {
-		return aliasedMethod().getImplementation();
+	public Implementation implementation() {
+		return aliasedMethod().implementation();
 	}
 
 	@Override

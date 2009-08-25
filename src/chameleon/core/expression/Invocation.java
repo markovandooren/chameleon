@@ -1,33 +1,10 @@
-/*
- * Copyright 2000-2004 the Jnome development team.
- *
- * @author Marko van Dooren
- * @author Nele Smeets
- * @author Kristof Mertens
- * @author Jan Dockx
- *
- * This file is part of Jnome.
- *
- * Jnome is free software; you can redistribute it and/or modify it under the
- * terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * Jnome is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * Jnome; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
- * Suite 330, Boston, MA 02111-1307 USA
- */
 package chameleon.core.expression;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.association.Reference;
 import org.rejuse.java.collections.Visitor;
 
@@ -39,6 +16,7 @@ import chameleon.core.method.Method;
 import chameleon.core.reference.CrossReference;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.type.Type;
+import chameleon.core.type.generics.ActualTypeArgument;
 import chameleon.util.Util;
 
 /**
@@ -56,29 +34,8 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   
   public abstract DeclarationSelector<D> selector();
   
-//  /**
-//   * <p>The accessibility domain is the intersection of the accessibility domains of:</p>
-//   * <ul>
-//   *   <li>The invoked method</li>
-//   *   <li>The target (if it is not null)</li>
-//   *   <li>The actual parameters</li>
-//   * </ul>
-//   */
-//  public AccessibilityDomain getAccessibilityDomain() throws MetamodelException {
-//    AccessibilityDomain result = getMethod().getAccessibilityDomain();
-//    if(getTarget() != null) {
-//      result = result.intersect(getTarget().getAccessibilityDomain());
-//    }
-//    Iterator iter = getActualParameters().iterator();
-//    while(iter.hasNext() ) {
-//      result = result.intersect(((Expression)iter.next()).getAccessibilityDomain());
-//    }
-//    return result;
-//  }
-
 	/**
 	 * TARGET
-	 * 
 	 */
 	private Reference<Invocation,InvocationTarget> _target = new Reference<Invocation,InvocationTarget>(this);
 
@@ -96,9 +53,11 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
     }
   }
 
-	/**
-	 * ACTUAL PARAMETERS
-	 */
+ 
+  
+	/*********************
+	 * ACTUAL PARAMETERS *
+	 *********************/
  private Reference<Invocation,ActualArgumentList> _parameters = new Reference<Invocation,ActualArgumentList>(this);
  
  public ActualArgumentList actualArgumentList() {
@@ -282,4 +241,30 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   public CheckedExceptionList getDirectAbsCEL() throws LookupException {
     throw new Error();
   }
+  
+  public List<ActualTypeArgument> typeArguments() {
+  	return _genericParameters.getOtherEnds();
+  }
+  
+  public void addArgument(ActualTypeArgument arg) {
+  	if(arg != null) {
+  		_genericParameters.add(arg.parentLink());
+  	}
+  }
+  
+  public void addAllTypeArguments(List<ActualTypeArgument> args) {
+  	for(ActualTypeArgument argument : args) {
+  		addArgument(argument);
+  	}
+  }
+  
+  public void removeArgument(ActualTypeArgument arg) {
+  	if(arg != null) {
+  		_genericParameters.remove(arg.parentLink());
+  	}
+  }
+  
+  private OrderedReferenceSet<Invocation,ActualTypeArgument> _genericParameters = new OrderedReferenceSet<Invocation, ActualTypeArgument>(this);
+
+  
 }

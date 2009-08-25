@@ -15,14 +15,22 @@ import chameleon.core.statement.ExceptionSource;
 import chameleon.core.type.Type;
 
 /**
+ * A class of elements representing expressions in a language. Each expression has a type.
+ *  
  * @author Marko van Dooren
  */
 
 public abstract class Expression<E extends Expression> extends InvocationTarget<E,Element> {
 
 	/**
-	 * Return the type of this expression.
+	 * Return the type of this expression. The actual computation of the type is done in actualType. This
+	 * method performs the caching. Enable or disable caching of expression types using Config.CACHE_EXPRESSION_TYPES.
 	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result == actualType();
+   @*/
 	public final Type getType() throws LookupException {
 		Type result = null;
 		if(Config.CACHE_EXPRESSION_TYPES) {

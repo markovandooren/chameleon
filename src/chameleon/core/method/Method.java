@@ -27,6 +27,7 @@ import chameleon.core.statement.Block;
 import chameleon.core.statement.ExceptionPair;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
+import chameleon.core.type.generics.TypeParameter;
 import chameleon.core.variable.FormalParameter;
 import chameleon.util.Util;
 
@@ -62,10 +63,14 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	  return body() != null;
 	}
 
-	public List<FormalParameter> getParameters() {
-	  return header().getParameters();
+	public List<FormalParameter> formalParameters() {
+	  return header().formalParameters();
 	}
 	
+	public List<TypeParameter> typeParameters() {
+	  return header().typeParameters();
+	}
+
 	/**
 	 * Return a string representation for the name of the method. This is just a convenience method.
 	 * DO NOT USE IT TO IDENTIFY METHODS! The signature identifies a method, not just its name.
@@ -104,17 +109,9 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	 * IMPLEMENTATION *
 	 ******************/
 	
-	public abstract Implementation getImplementation();
-
-//	public Reference<Method,Implementation> getImplementationlink() {
-//		return _implementationLink;
-//	}
-
-
+	public abstract Implementation implementation();
 
 	public abstract void setImplementation(Implementation implementation);
-
-
 
 	/****/
 
@@ -264,8 +261,8 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 		// HEADER
 		result.setHeader((H)header().clone());
 		// IMPLEMENTATION
-		if(getImplementation() != null) {
-			result.setImplementation(getImplementation().clone());
+		if(implementation() != null) {
+			result.setImplementation(implementation().clone());
 		}
 
 		return result;
@@ -283,7 +280,7 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	 @ post \result == (getImplementation() == null) || getImplementation().compatible();
 	 @*/
 	public boolean hasCompatibleImplementation() throws LookupException {
-		return (getImplementation() == null) || getImplementation().compatible();
+		return (implementation() == null) || implementation().compatible();
 	}
 
 	/**
@@ -295,7 +292,7 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	 @ post \result == (getImplementation() == null) || getImplementation().hasValidCatchClauses();
 	 @*/
 	public boolean hasValidCatchClauses() throws LookupException {
-		return (getImplementation() == null) || getImplementation().hasValidCatchClauses();
+		return (implementation() == null) || implementation().hasValidCatchClauses();
 	}
 
   public abstract ExceptionClause getExceptionClause();
@@ -382,7 +379,7 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	 @ post getImplementation() != null ==> \result.contains(getImplementation());
 	 @*/
 	public List<? extends Element> children() {
-		List<Element> result = Util.createNonNullList(getImplementation());
+		List<Element> result = Util.createNonNullList(implementation());
 		Util.addNonNull(header(),result);
 		Util.addNonNull(getExceptionClause(), result);
 		return result;
@@ -392,11 +389,11 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	 * Return the body of this method.
 	 */
 	public Block body() {
-		if(getImplementation() == null) {
+		if(implementation() == null) {
 			return null;
 		}
 		else {
-			return getImplementation().getBody();
+			return implementation().getBody();
 		}
 	}
 
@@ -416,9 +413,13 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 		return result;
 	}
 
-  public LookupStrategy lexicalLookupStrategy(Element element) {
-  	return language().lookupFactory().createLexicalLookupStrategy(localContext(), this); 
-  	//new LexicalContext(new TargetContext<Method>(this),this);
+  public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
+	  return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
+//  	if(element == implementation()) {
+//  		return header().lexicalLookupStrategy();
+//  	} else {
+//  		return parent().lexicalLookupStrategy(this);
+//  	}
   }
   
   public LookupStrategy localContext() {

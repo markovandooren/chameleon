@@ -30,7 +30,7 @@ public abstract class RegularMethod<E extends RegularMethod<E,H,S,M>, H extends 
 
 	private Reference<Method,Implementation> _implementationLink = new Reference<Method,Implementation>(this);
 
-	public Implementation getImplementation() {
+	public Implementation implementation() {
 		return _implementationLink.getOtherEnd();
 	}
 

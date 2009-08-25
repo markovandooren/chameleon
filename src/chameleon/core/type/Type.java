@@ -172,17 +172,6 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     		result = _lexicalMembersLookupStrategy;
     	}
     	return result;
-//    	LookupStrategy result = _lexicalMembersLookupStrategy;
-//    	if(result == null) {
-//    		_lexicalMembersLookupStrategy = new LexicalLookupStrategy(targetContext(), this) {
-//    	  	@Override
-//    	  	public LookupStrategy nextStrategy() {
-//    	  		return lexicalParametersLookupStrategy();
-//    	  	}
-//    	  };
-//    		result = _lexicalMembersLookupStrategy;
-//    	}
-//    	return result;
     }
     
     private LookupStrategy _lexicalMembersLookupStrategy;
@@ -213,14 +202,6 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
   	}
 
   	public abstract List<TypeParameter> parameters();
-  	
-//  	public List<Type> resolveParametersForMatch() {
-//  		List<GenericParameter> parameters = parameters();
-//  		for(GenericParameter parameter : parameters()) {
-//  			
-//  		}
-//  		return null;
-//  	}
   	
   	public abstract void addParameter(TypeParameter parameter);
   	

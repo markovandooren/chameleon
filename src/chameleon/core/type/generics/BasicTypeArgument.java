@@ -10,6 +10,11 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 
+/**
+ * A class of type arguments that consist of a type name.
+ * 
+ * @author Marko van Dooren
+ */
 public class BasicTypeArgument extends ActualTypeArgument<BasicTypeArgument> {
 
 	private Reference<ActualTypeArgument,TypeReference> _type = new Reference<ActualTypeArgument,TypeReference>(this);
@@ -23,21 +28,31 @@ public class BasicTypeArgument extends ActualTypeArgument<BasicTypeArgument> {
 		return new BasicTypeArgument(typeReference().clone());
 	}
 
-//	@Override
-//	public boolean contains(ActualTypeArgument other) throws LookupException {
-//		return (other instanceof BasicTypeArgument) && (((BasicTypeArgument)other).type().equals(type()));
-//	}
-
+ /*@
+   @ public behavior
+   @
+   @ post \result == baseType();
+   @*/
 	@Override
 	public Type type() throws LookupException {
 		return baseType();
 	}
 
+ /*@
+   @ public behavior
+   @
+   @ post \result == baseType();
+   @*/
 	@Override
 	public Type lowerBound() throws LookupException {
 		return baseType();
 	}
 
+ /*@
+   @ public behavior
+   @
+   @ post \result == baseType();
+   @*/
 	@Override
 	public Type upperBound() throws LookupException {
 		return baseType();

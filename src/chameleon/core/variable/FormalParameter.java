@@ -30,7 +30,7 @@ public class FormalParameter extends RegularVariable<FormalParameter,VariableCon
     	MethodHeader<?,?,?> otherHeader = (MethodHeader<?, ?, ?>) parent();
     	Method otherMethod = header.parent();
     	result = method.overrides(otherMethod) &&
-      method.getParameters().indexOf(this) == otherMethod.getParameters().indexOf(parameter); 
+      method.formalParameters().indexOf(this) == otherMethod.formalParameters().indexOf(parameter); 
   	}
     return result; 
   }
