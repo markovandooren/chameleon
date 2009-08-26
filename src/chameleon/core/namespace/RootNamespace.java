@@ -1,7 +1,6 @@
 package chameleon.core.namespace;
 
 
-//import org.jnome.mm.type.NullType;
 import org.rejuse.association.Reference;
 
 import chameleon.core.compilationunit.CompilationUnit;
@@ -20,9 +19,6 @@ public class RootNamespace extends RegularNamespace {
    */
   public RootNamespace(SimpleNameSignature sig, Language language) {
     super(sig);
-   // NamespacePart pp = new NamespacePart(this, nspLocalContext);
-    //_nullType = new NullType(pp);
-    //pp.addType(language.getNullType());
     _language.connectTo(language.defaultNamespaceLink());
     
     //FIXME: Marko : is this for primitive types, or what?
@@ -37,14 +33,18 @@ public class RootNamespace extends RegularNamespace {
   }
   
   private Type _nullType;
-  private Reference _language = new Reference(this);
+  private Reference<RootNamespace,Language> _language = new Reference<RootNamespace,Language>(this);
 
   public Type getNullType() {
 	  return this.language(ObjectOrientedLanguage.class).getNullType();
   }
   
   public Language language() {
-    return (Language)_language.getOtherEnd();
+    return _language.getOtherEnd();
+  }
+  
+  public Reference<RootNamespace,Language> languageLink() {
+  	return _language;
   }
 	  
 	  /**
@@ -60,7 +60,7 @@ public class RootNamespace extends RegularNamespace {
 	   * but these usings should be there for every type.
 	   * Therefor the RootNamespace overrides the getType() method.
 	   * 
-	   * !!! This is a logical expantion to fit everything in the metamodel.
+	   * !!! This is a logical expansion to fit everything in the metamodel.
 	   * !!! The _primitiveNamespacePart should never be written down with for
 	   * !!! example the CSharpCodeWriter or an editor.
 	   */
@@ -70,12 +70,4 @@ public class RootNamespace extends RegularNamespace {
 		  return (NamespacePart)_primitiveNamespacePart.getOtherEnd();
 	  }
 	  
-//	  public Type getType(final String name) throws MetamodelException {
-//		  NamespacePartContext npc = (NamespacePartContext)getPrimitiveNamespacePart().lexicalContext(); 
-//		  Type t =  npc.getAliasImport(name);
-//		  if(t == null)
-//			  t = super.getType(name);  
-//		  
-//		  return t;
-//	  }
 }

@@ -1,5 +1,6 @@
 package chameleon.core.language;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,19 +22,58 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.namespace.RootNamespace;
 import chameleon.core.property.PropertyRule;
-import chameleon.core.type.TypeReference;
-import chameleon.tool.ToolExtension;
+import chameleon.tool.Connector;
+import chameleon.tool.Processor;
 
 /**
+ * A class representing a Chameleon language.
+ *
+ * The language object contains the default namespace, which is the entry point into the model.
+ * 
+ * The language object contains the properties that elements in that language can have. In addition, it contains
+ * the property rule which define the default properties of elements. These rules are used if the explicitly declared
+ * properties of an element say nothing about a certain property.
+ * 
+ * The language object contains the connectors and processors for a tool that allow that tool to work with that particular language. 
+ * 
  * @author Marko van Dooren
  */
 
 public abstract class Language implements PropertyUniverse<Element> {
 	
+	/**
+	 * Initialize a new language with the given name.
+	 * 
+	 * @param name
+	 *        The name of the language.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre name != null;
+   @
+   @ post name().equals(name);
+   @ post (* The lookup strategy factory is initialized to the default LookupStrategyFactory *);
+   @*/
 	public Language(String name) {
 		this(name, new LookupStrategyFactory());
 	}
 	
+	/**
+	 * Initialize a new language with the given name and lookup strategy factory.
+	 * 
+	 * @param name
+	 *        The name of the language.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre name != null;
+   @ pre factory != null;
+   @
+   @ post name().equals(name);
+   @ post lookupFactory() == factory;
+   @*/
 	public Language(String name, LookupStrategyFactory factory) {
 		setName(name);
 		setLookupStrategyFactory(factory);
@@ -49,7 +89,7 @@ public abstract class Language implements PropertyUniverse<Element> {
    @
    @ post \result != null;
    @*/
-	public String getName() {
+	public String name() {
 		return _name;
 	}
 	
@@ -150,20 +190,25 @@ public abstract class Language implements PropertyUniverse<Element> {
 		_name = name;
 	}
 	
+	/*
+	 * The name of this language.
+	 */
 	private String _name;
 
 	public RootNamespace defaultNamespace() {
         return (RootNamespace)_default.getOtherEnd();
     }
 
-		/******************
-     * TOOLEXTENSIONS *
-     ******************/
-
+	/**
+	 * A property mutex for the scope property.
+	 */
 	public final PropertyMutex<Element> SCOPE_MUTEX;
 
+	 /**************
+    * CONNECTORS *
+    **************/
 	
-    private static class MapWrapper<T> {  //todo iets voor rejuse?
+    private static class MapWrapper<T> {
         private Map<Class<? extends T>,T> myMap = new HashMap<Class<? extends T>,T>();
 
         public <S extends T> S get(Class<S> key) {
@@ -191,40 +236,99 @@ public abstract class Language implements PropertyUniverse<Element> {
         }
     }
 
-    private MapWrapper<ToolExtension> toolExtensions = new MapWrapper<ToolExtension>();
+    private static class ListMapWrapper<T> {
+      private Map<Class<? extends T>,List<? extends T>> myMap = new HashMap<Class<? extends T>,List<? extends T>>();
+
+      public <S extends T> List<S> get(Class<S> key) {
+          return new ArrayList<S>((List<S>)myMap.get(key));
+      }
+
+      public <S extends T> void add(Class<S> key, S value) {
+      	  List<S> list = (List<S>)myMap.get(key);
+      	  if(list == null) {
+      	  	list = new ArrayList<S>();
+      	  	myMap.put(key, list);
+      	  }
+      	  list.add(value);
+      }
+
+      public <S extends T> void remove(Class<S> key, S value) {
+      	myMap.get(key).remove(key);
+      }
+
+      public Collection<List<? extends T>> values() {
+          return myMap.values();
+      }
+
+      public <S extends T> boolean containsKey(Class<S> key) {
+          return myMap.containsKey(key);
+      }
+
+      public boolean isEmpty() {
+          return myMap.isEmpty();
+      }
+  }
+
+    private MapWrapper<Connector> _toolConnectors = new MapWrapper<Connector>();
 
     //private Map<Class<? extends ToolExtension>,? extends ToolExtension> toolExtensions = new HashMap<Class<? extends ToolExtension>,ToolExtension>();
     /*private <T extends ToolExtension> Map<Class<T>,T> getMap() {
         return (Map<Class<T>,T>)toolExtensions;
     }*/
 
-    public <T extends ToolExtension> T getToolExtension(Class<? extends T> toolExtensionClass) {
-        return toolExtensions.get(toolExtensionClass);//((Map<Class<T>,T>)getMap()).get(toolExtensionClass);
+    /**
+     * Return the connector corresponding to the given connector interface.
+     */
+    public <T extends Connector> T connector(Class<T> connectorInterface) {
+        return _toolConnectors.get(connectorInterface);//((Map<Class<T>,T>)getMap()).get(toolExtensionClass);
     }
 
-    public <T extends ToolExtension> void removeToolExtension(Class<? extends T> toolExtensionClass) {
-        T old = toolExtensions.get(toolExtensionClass);
-        if ((old!=null) && (old.getLanguage()!=this)) {
-            old.setLanguage(null, toolExtensionClass);
+    /**
+     * Remove the connector corresponding to the given connector interface. The
+     * bidirection relation is kept in a consistent state.
+     * 
+     * @param <T>
+     * @param connectorInterface
+     */
+    public <T extends Connector> void removeConnector(Class<T> connectorInterface) {
+        T old = _toolConnectors.get(connectorInterface);
+        if (old!=null && old.language() == this) {
+            old.setLanguage(null, connectorInterface);
         }
-        toolExtensions.remove(toolExtensionClass);
+        _toolConnectors.remove(connectorInterface);
     }
 
-    public <T extends ToolExtension> void setToolExtension(Class<? extends T> toolExtensionClass, T toolExtension) {
-        T old = toolExtensions.get(toolExtensionClass);
-        if (old!=toolExtension) {
-            if ((toolExtension!=null) && (toolExtension.getLanguage()!=this)) {
-                toolExtension.setLanguage(this, toolExtensionClass);
+    /**
+     * Set the connector correponding to the given connector interface. The bidirectional relation is 
+     * kept in a consistent state.
+     * 
+     * @param <T>
+     * @param connectorInterface
+     * @param connector
+     */
+    public <T extends Connector> void setConnector(Class<T> connectorInterface, T connector) {
+        T old = _toolConnectors.get(connectorInterface);
+        if (old!=connector) {
+            if ((connector!=null) && (connector.language()!=this)) {
+                connector.setLanguage(this, connectorInterface);
             }
+            // Clean up old backpointer
             if (old!=null) {
-                old.setLanguage(null, toolExtensionClass);
+                old.setLanguage(null, connectorInterface);
             }
-            toolExtensions.put(toolExtensionClass, toolExtension);
+            // Either
+            if(connector != null) {
+            	// Add connector to map
+              _toolConnectors.put(connectorInterface, connector);
+            } else {
+            	// Remove entry in map
+            	_toolConnectors.remove(connectorInterface);
+            }
         }
     }
 
     /**
-     * Return the tool extensions attached to this language object.
+     * Return all connectors attached to this language object.
      * @return
      */
    /*@
@@ -232,17 +336,74 @@ public abstract class Language implements PropertyUniverse<Element> {
      @
      @ post \result != null; 
      @*/
-    public Collection<ToolExtension> getToolExtensions() {
-        return toolExtensions.values();
+    public Collection<Connector> connectors() {
+        return _toolConnectors.values();
     }
     
 
-    public <T extends ToolExtension> boolean hasToolExtension(Class<? extends T> toolExtensionClass) {
-        return toolExtensions.containsKey(toolExtensionClass);
+    /**
+     * Check if this language has a connector for the given connector type. Typically
+     * the type is an interface or abstract class for a specific tool.
+     * 
+     * @param <T>
+     * @param connectorInterface
+     * @return
+     */
+    public <T extends Connector> boolean hasConnector(Class<T> connectorInterface) {
+        return _toolConnectors.containsKey(connectorInterface);
     }
 
-    public boolean hasToolExtensions() {
-        return ! toolExtensions.isEmpty();
+    /**
+     * Check if this language object has any connectors.
+     * 
+     * @return
+     */
+    public boolean hasConnectors() {
+        return ! _toolConnectors.isEmpty();
+    }
+
+    /**************
+     * PROCESSORS *
+     **************/
+    
+    private ListMapWrapper<Processor> _processors = new ListMapWrapper<Processor>();
+
+    /**
+     * Return the processors corresponding to the given processor interface.
+     */
+    public <T extends Processor> List<T> processors(Class<T> connectorInterface) {
+      return _processors.get(connectorInterface);
+    }
+
+    /**
+     * Remove the given processor. The
+     * bidirection relation is kept in a consistent state.
+     * 
+     * @param <T>
+     * @param connectorInterface
+     */
+    public <T extends Processor> void removeProcessor(Class<T> connectorInterface, T processor) {
+        List<T> list = _processors.get(connectorInterface);
+        if (list!=null && list.contains(processor)) {
+            processor.setLanguage(null, connectorInterface);
+            list.remove(processor);
+        }
+    }
+
+
+    /**
+     * Add the ginve processor to the list of processors correponding to the given connector interface. 
+     * The bidirectional relation is kept in a consistent state.
+     * 
+     * @param <T>
+     * @param connectorInterface
+     * @param connector
+     */
+    public <T extends Processor> void addProcessor(Class<T> connectorInterface, T processor) {
+      _processors.add(connectorInterface, processor);
+      if(processor.language() != this) {
+      	processor.setLanguage(this, connectorInterface);
+      }
     }
 
     /**************************************************************************
@@ -293,10 +454,10 @@ public abstract class Language implements PropertyUniverse<Element> {
      **************************************************************************/
     
     public void setDefaultNamespace(RootNamespace defaultNamespace) {
-        _default.connectTo(defaultNamespace.parentLink());
+        _default.connectTo(defaultNamespace.languageLink());
     }
 
-    private Reference _default = new Reference(this); //todo wegens setDefaultNamespace kan dit niet generisch worden gemaakt?
+    private Reference<Language,RootNamespace> _default = new Reference<Language,RootNamespace>(this); //todo wegens setDefaultNamespace kan dit niet generisch worden gemaakt?
 
     /**
      * @return
