@@ -337,6 +337,57 @@ public interface Element<E extends Element, P extends Element> {
     public <T extends Element, X extends Exception> T nearestAncestor(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
     
     /**
+     * Return the nearest element of type T. Null if no such ancestor can be found.
+     * @param <T>
+     *        The type of the ancestor to be found
+     * @param c
+     *        The class object of type T (T.class)
+     * @return
+     */
+    public <T extends Element> T nearestElement(Class<T> c);
+    
+    /**
+     * Return the nearest element of type T that satifies the given predicate. Null if no such ancestor can be found.
+     * 
+     * The only checked exception that can be thrown comes from the predicate. Use the safe and unsafe variants of this method
+     * for convenience.
+     * 
+     * @param <T>
+     *        The type of the ancestor to be found
+     * @param c
+     *        The class object of type T (T.class)
+     * @return
+     */
+    public <T extends Element> T nearestElement(Class<T> c, Predicate<T> predicate) throws Exception;
+
+    /**
+     * Return the nearest element of type T that satifies the given predicate. Null if no such ancestor can be found.
+     * 
+     * The only checked exception that can be thrown comes from the predicate. Use the safe and unsafe variants of this method
+     * for convenience.
+     * 
+     * @param <T>
+     *        The type of the ancestor to be found
+     * @param c
+     *        The class object of type T (T.class)
+     * @return
+     */
+    public <T extends Element> T nearestElement(Class<T> c, SafePredicate<T> predicate);
+    
+    /**
+     * Return the nearest element of type T that satifies the given predicate. Null if no such ancestor can be found.
+     * 
+     * The only checked exception that can be thrown comes from the predicate. Use the safe and unsafe variants of this method
+     * for convenience.
+     * 
+     * @param <T>
+     *        The type of the ancestor to be found
+     * @param c
+     *        The class object of type T (T.class)
+     * @return
+     */
+    public <T extends Element, X extends Exception> T nearestElement(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
+    /**
      * Return the language of this element. Return null if this element is not
      * connected to a complete model.
      */
