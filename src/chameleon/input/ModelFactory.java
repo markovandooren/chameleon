@@ -15,7 +15,7 @@ public interface ModelFactory extends Connector {
 	
 	public void addToModel(String compilationUnit) throws ParseException;
 
-	public void reParse(Element element);
+	public <P extends Element> void reParse(Element<?,P> element) throws ParseException;
 	
 //	public Set loadFiles(String path, String extension, boolean recursive);
 }
