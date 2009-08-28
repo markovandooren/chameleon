@@ -240,7 +240,12 @@ public abstract class Language implements PropertyUniverse<Element> {
       private Map<Class<? extends T>,List<? extends T>> myMap = new HashMap<Class<? extends T>,List<? extends T>>();
 
       public <S extends T> List<S> get(Class<S> key) {
-          return new ArrayList<S>((List<S>)myMap.get(key));
+      	List<S> processors = (List<S>)myMap.get(key);
+      	if(processors == null) {
+      		return new ArrayList<S>();
+      	} else {
+          return new ArrayList<S>(processors);
+      	}
       }
 
       public <S extends T> void add(Class<S> key, S value) {
