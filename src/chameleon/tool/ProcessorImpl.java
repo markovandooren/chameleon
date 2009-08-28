@@ -27,7 +27,7 @@ public abstract class ProcessorImpl implements Processor {
         // 2) set _language
         _language = lang;
         // 3) set new backpointer
-        if (_language!=null) {
+        if (_language!=null && ! language().processors(connectorInterface).contains(this)) {
             _language.addProcessor(connectorInterface, (T)this);
         }
     }

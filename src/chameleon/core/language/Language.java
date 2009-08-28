@@ -209,38 +209,42 @@ public abstract class Language implements PropertyUniverse<Element> {
     **************/
 	
     private static class MapWrapper<T> {
-        private Map<Class<? extends T>,T> myMap = new HashMap<Class<? extends T>,T>();
+        private Map<Class<? extends T>,T> _map = new HashMap<Class<? extends T>,T>();
 
         public <S extends T> S get(Class<S> key) {
-            return (S)myMap.get(key);
+            return (S)_map.get(key);
         }
 
         public <S extends T> void put(Class<? extends S> key, S value) {
-            myMap.put(key,value);
+            _map.put(key,value);
         }
 
         public <S extends T> void remove(Class<S> key) {
-            myMap.remove(key);
+            _map.remove(key);
         }
 
         public Collection<T> values() {
-            return myMap.values();
+            return _map.values();
         }
 
         public <S extends T> boolean containsKey(Class<S> key) {
-            return myMap.containsKey(key);
+            return _map.containsKey(key);
         }
 
         public boolean isEmpty() {
-            return myMap.isEmpty();
+            return _map.isEmpty();
         }
     }
 
     private static class ListMapWrapper<T> {
-      private Map<Class<? extends T>,List<? extends T>> myMap = new HashMap<Class<? extends T>,List<? extends T>>();
+      private Map<Class<? extends T>,List<? extends T>> _map = new HashMap<Class<? extends T>,List<? extends T>>();
 
+      public int size() {
+      	return _map.size();
+      }
+      
       public <S extends T> List<S> get(Class<S> key) {
-      	List<S> processors = (List<S>)myMap.get(key);
+      	List<S> processors = (List<S>)_map.get(key);
       	if(processors == null) {
       		return new ArrayList<S>();
       	} else {
@@ -249,28 +253,28 @@ public abstract class Language implements PropertyUniverse<Element> {
       }
 
       public <S extends T> void add(Class<S> key, S value) {
-      	  List<S> list = (List<S>)myMap.get(key);
+      	  List<S> list = (List<S>)_map.get(key);
       	  if(list == null) {
       	  	list = new ArrayList<S>();
-      	  	myMap.put(key, list);
+      	  	_map.put(key, list);
       	  }
       	  list.add(value);
       }
 
       public <S extends T> void remove(Class<S> key, S value) {
-      	myMap.get(key).remove(key);
+      	_map.get(key).remove(key);
       }
 
       public Collection<List<? extends T>> values() {
-          return myMap.values();
+          return _map.values();
       }
 
       public <S extends T> boolean containsKey(Class<S> key) {
-          return myMap.containsKey(key);
+          return _map.containsKey(key);
       }
 
       public boolean isEmpty() {
-          return myMap.isEmpty();
+          return _map.isEmpty();
       }
   }
 
@@ -297,10 +301,10 @@ public abstract class Language implements PropertyUniverse<Element> {
      */
     public <T extends Connector> void removeConnector(Class<T> connectorInterface) {
         T old = _toolConnectors.get(connectorInterface);
+        _toolConnectors.remove(connectorInterface);
         if (old!=null && old.language() == this) {
             old.setLanguage(null, connectorInterface);
         }
-        _toolConnectors.remove(connectorInterface);
     }
 
     /**

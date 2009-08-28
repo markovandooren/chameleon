@@ -1,3 +1,5 @@
+package chameleon.core.method.exception;
+public class FilterClause{}
 //package chameleon.core.method.exception;
 //
 //import java.util.Collection;

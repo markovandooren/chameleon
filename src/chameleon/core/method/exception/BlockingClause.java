@@ -1,3 +1,5 @@
+package chameleon.core.method.exception;
+public class BlockingClause{}
 ///*
 // * Copyright 2000-2004 the Jnome development team.
 // *

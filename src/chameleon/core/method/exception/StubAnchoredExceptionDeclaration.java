@@ -1,3 +1,5 @@
+package chameleon.core.method.exception;
+public class StubAnchoredExceptionDeclaration{}
 //package chameleon.core.method.exception;
 //
 //import chameleon.core.expression.Invocation;
