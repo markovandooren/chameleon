@@ -174,6 +174,15 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  }
 	  
 	  public void disconnect() {
+	  	nonRecursiveDisconnect();
+	  	disconnectChildren();
+	  }
+	  
+	  public boolean disconnected() {
+	  	return parent() == null;
+	  }
+	  
+	  public void nonRecursiveDisconnect() {
 	  	if(_parentLink != null) {
 	  		_parentLink.connectTo(null);
 	  	} else {
@@ -477,6 +486,12 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 
     public boolean isValid() {
     	return true;
+    }
+    
+    public void disconnectChildren() {
+    	for(Element child:children()) {
+    		child.disconnect();
+    	}
     }
 
 		

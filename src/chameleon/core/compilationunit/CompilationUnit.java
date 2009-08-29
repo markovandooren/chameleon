@@ -41,15 +41,15 @@ public class CompilationUnit extends ElementImpl<CompilationUnit,Element> {
 		return namespaceParts();
 	}
 
-	/**
-	 * Disconnect this compilation unit from the model by recursively
-	 * disconnecting all namespace declarations.
-	 */
-	public void disconnect() {
-		for(NamespacePart namespacePart: namespaceParts()) {
-			namespacePart.disconnect();
-		}
-	}
+//	/**
+//	 * Disconnect this compilation unit from the model by recursively
+//	 * disconnecting all namespace declarations.
+//	 */
+//	public void disconnect() {
+//		for(NamespacePart namespacePart: namespaceParts()) {
+//			namespacePart.disconnect();
+//		}
+//	}
 	
 	/**
 	 * NAMESPACEPARTS

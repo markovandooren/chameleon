@@ -57,14 +57,56 @@ public interface Element<E extends Element, P extends Element> {
 
     /**
      * Completely disconnect this element and all children from the parent.
+     * This method also removes associations with any logical parents.
      */
    /*@
      @ public behavior
      @
-     @ post parent() == null;
+     @ post disconnected();
+     @ post (\forall Element e; \old(this.contains(e)); e.disconnected());
      @*/
     public void disconnect();
     
+    /**
+     * Check if this element is disconnected. Usually this is true if the
+     * lexical parent is null. If an element has additional logical parents,
+     * this method must be overridden to verify if the element is also attached
+     * from its logical parents.
+     * 
+     * @return
+     */
+   /*@
+     @ public behavior
+     @
+     @ post \result == true ==> parent() == null;
+     @*/
+    public boolean disconnected();
+    
+    /**
+     * Completely disconnect all children from this element.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post (\forall Element e; \old(this.contains(e)); e.disconnected());
+     @*/
+    public void disconnectChildren();
+
+    /**
+     * Completely disconnect this element and all children from the parent.
+     * This method also removes associations with any logical parents.
+     * 
+     * If an element has additional logical parents, this method must be overridden 
+     * to remove its references to its logical parents.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post disconnected();
+     @ post (\forall Element e; \old(this.contains(e)); e.disconnected());
+     @*/
+	  public void nonRecursiveDisconnect();
+
     /**
 	   * Check if this element is derived or not.
 	   * 

@@ -204,18 +204,35 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 	 * Recursively disconnect this namespace declaration and all descendant namespace declarations
 	 * from their namespaces. 
 	 */
-	public void disconnect() {
+	public void nonRecursiveDisconnect() {
+		// 1) Set the lexical parent to null.
+		super.disconnect();
 		if(Config.DEBUG) {
 			if(namespace() != null) {
 			  System.out.println("Disconnecting from "+namespace().getFullyQualifiedName());
 			}
 		}
-		for(NamespacePart nsp: namespaceParts()) {
-			nsp.disconnect();
-		}
+		// 2) Disconnect from the namespace. 
 		setNamespace(null);
+//		// 3) IS NOW DONE BY DEFAULT RECURSION Disconnecting the children.
+//		for(NamespacePart nsp: namespaceParts()) {
+//			nsp.disconnect();
+//		}
 	}
 
+	/**
+	 * A namespace part is disconnected if both its parent and its namespace are null.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result == (parent() == null) && (namespace() == null);
+   @*/
+	@Override
+	public boolean disconnected() {
+		return super.disconnected() && namespace() != null;
+	}
+	
 	private OrderedReferenceSet<NamespacePart, NamespacePart> _subNamespaceParts = new OrderedReferenceSet<NamespacePart, NamespacePart>(this);
 
 	public List<? extends Element> children() {

@@ -14,7 +14,7 @@ public interface ModelFactory extends Connector {
 	
 	public void addToModel(File file) throws ParseException, IOException;
 	
-	public void addToModel(String compilationUnit) throws ParseException;
+//	public void addToModel(String compilationUnit) throws ParseException;
 	
 	public void addToModel(String source, CompilationUnit compilationUnit) throws ParseException;
 
