@@ -493,7 +493,28 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     		child.disconnect();
     	}
     }
+    
+    private static int stackTraceCount = 0;
+    
+    /**
+     * This debugging method throws an exception, catches it, and prints
+     * the stacktrace.
+     */
+    protected void showStackTrace(String message) {
+    	try {
+    		throw new Exception(++stackTraceCount + ":: "+message);
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
 
+    /**
+     * This debugging method throws an exception, catches it, and prints
+     * the stacktrace.
+     */
+    protected void showStackTrace() {
+    	showStackTrace(null);
+    }
 		
 //    public Iterator<Element> depthFirstIterator() {
 //    	return new Iterator<Element>() {

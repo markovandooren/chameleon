@@ -112,7 +112,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 @        \result == getParent().getFullyQualifiedName() + "." + getName();
 	 @*/
 	public String getFullyQualifiedName() {
-		return (parent() == null || parent().name().equals("") ? "" : parent().getFullyQualifiedName() + ".") + name();
+		return ((parent() == null || parent().name().equals("")) ? "" : parent().getFullyQualifiedName() + ".") + name();
 	}
 
 	/**************
