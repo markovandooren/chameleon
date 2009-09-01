@@ -211,6 +211,7 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 			if(namespace() != null) {
 			  System.out.println("Disconnecting from "+namespace().getFullyQualifiedName());
 			}
+			showStackTrace("Disconnecting from "+namespace().getFullyQualifiedName());
 		}
 		// 2) Disconnect from the namespace. 
 		setNamespace(null);
