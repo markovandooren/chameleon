@@ -17,7 +17,10 @@ public interface InputProcessor extends Processor {
 //	public void setLocation(Element element, Position2D start, Position2D end);
 
   public void setLocation(Element element, int offset, int length, CompilationUnit compilationUnit);
-	/**
+
+  public void setLocation(Element element, int offset, int length, CompilationUnit compilationUnit, String tagType);
+
+  /**
 	 * Report a parse error.
 	 * 
 	 * @param exc

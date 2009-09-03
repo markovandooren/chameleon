@@ -75,12 +75,15 @@ public class CompilationUnit extends ElementImpl<CompilationUnit,Element> {
 
 
 	public Language language() {
-	  NamespacePart firstNamespace = namespaceParts().get(0);
-	  if(firstNamespace != null) {
-		  return firstNamespace.language();
-	  } else {
-	    return null;
-	  }
+		List<NamespacePart> parts = namespaceParts();
+		Language result = null;
+		if(parts.size() > 0) {
+	    NamespacePart firstNamespace = parts.get(0);
+	    if(firstNamespace != null) {
+		    result = firstNamespace.language();
+	    }
+		}
+		return result;
 	}
 
 
