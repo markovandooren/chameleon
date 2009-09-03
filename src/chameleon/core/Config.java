@@ -32,5 +32,6 @@ public class Config {
 		CACHE_DECLARATIONS = bool;
 		CACHE_ELEMENT_REFERENCES = bool;
 		CACHE_LANGUAGE = bool;
+		CACHE_EXPRESSION_TYPES = bool;
 	}
 }

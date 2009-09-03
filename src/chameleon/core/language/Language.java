@@ -485,5 +485,10 @@ public abstract class Language implements PropertyUniverse<Element> {
     
     private LookupStrategyFactory _contextFactory;
 
+    /**
+		 * Returns true if the given character is a valid character
+		 * for an identifier.
+		 */
+		public abstract boolean isValidIdentifierCharacter(char character);
 }
 
