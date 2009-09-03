@@ -11,7 +11,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public abstract class InvocationTargetWithTarget<E extends InvocationTargetWithTarget> extends InvocationTarget<E,Element> {
+public abstract class InvocationTargetWithTarget<E extends InvocationTargetWithTarget> extends InvocationTarget<E,Element> implements ExpressionWithTarget<E, Element> {
   
   public InvocationTargetWithTarget() {
   }

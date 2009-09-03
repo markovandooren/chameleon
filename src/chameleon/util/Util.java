@@ -215,5 +215,25 @@ public class Util {
     }
     return result;
   }
+  
+  /**
+   * Checks whether the array contains the given element
+   */
+  public static boolean arrayContains(Object[] array, Object element){
+          for(Object currElement : array){
+                  if(currElement.equals(element)){
+                          return true;
+                  }
+          }
+          return false;
+  }
+
+  public static String repeatString(String string, int nbTimes){
+  	String result = "";
+  	for(int i=0; i<nbTimes; i++){
+  		result += string;
+  	}
+  	return result;
+  }
 
 }

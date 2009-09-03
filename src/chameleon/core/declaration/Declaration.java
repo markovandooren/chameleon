@@ -9,12 +9,11 @@ import chameleon.core.scope.Scope;
  * A declaration introduces an element that can be referenced from other parts of the code.
  * Examples include types, methods, and variables.
  * 
- * <S>
  * Each declaration has a signature, which is used to identify that declaration. Information
  * that is not used for identification, such as the return type of a method, does not belong in
  * the signature.
  * 
- * <D> Each declaration results in the lookup of an actual declaration of type D. This type ensures that 
+ * Each declaration results in the lookup of an actual declaration of type D. This type ensures that 
  * if a declaration is just a stub, such as a generic parameter, the transformation performed by the resolveForResult 
  * method returns a declaration of the same family. In case of a type parameter, this ensures that the stub type will be transformed
  * into a type.
