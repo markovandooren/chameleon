@@ -77,7 +77,12 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	 * @return
 	 */
 	public String name() {
-		return header().name();
+		H header = header();
+		if(header != null) {
+		  return header.name();
+		} else {
+			return null;
+		}
 	}
 	
 	public S signature() {
