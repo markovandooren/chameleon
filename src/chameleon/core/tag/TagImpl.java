@@ -12,10 +12,14 @@ public abstract class TagImpl implements Tag {
   
   public void setElement(Element element, String name) {
   	if(element != _element) {
+  		// Set new pointer, backup old for removal.
+  		Element old = _element;
+  		_element = element;
+  		// Remove from current element.
   		if((_element != null) && (_element.tag(name) == this)){
   			_element.removeTag(name);
   		}
-  		_element = element;
+  		// Add to new element.
   		if((_element != null) && (_element.tag(name) != this)) {
   		  _element.setTag(this, name);
   		}

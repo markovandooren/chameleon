@@ -57,10 +57,10 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  public void removeTag(String name) {
 	  	if(_tags != null) {
 	     Tag old = _tags.get(name);
-	     if((old != null) && (old.getElement() != this)){
+	     _tags.remove(name);
+	     if((old != null) && (old.getElement() == this)){
 	    	 old.setElement(null,name);
 	     }
-	     _tags.remove(name);
 	  	}
 	  }
 
