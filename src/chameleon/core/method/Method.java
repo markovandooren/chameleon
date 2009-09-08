@@ -64,7 +64,12 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	}
 
 	public List<FormalParameter> formalParameters() {
-	  return header().formalParameters();
+	  H header = header();
+	  if(header != null) {
+		  return header.formalParameters();
+	  } else {
+	  	return new ArrayList<FormalParameter>();
+	  }
 	}
 	
 	public List<TypeParameter> typeParameters() {

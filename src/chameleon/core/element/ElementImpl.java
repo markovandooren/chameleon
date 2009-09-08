@@ -490,7 +490,11 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     
     public void disconnectChildren() {
     	for(Element child:children()) {
-    		child.disconnect();
+    		if(child != null) {
+    			child.disconnect();
+    		} else {
+    			showStackTrace("CHILD IS NULL for element of Type "+getClass().getName());    		
+    		}
     	}
     }
     
