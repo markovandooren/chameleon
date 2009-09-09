@@ -16,6 +16,10 @@ public abstract class InvocationTargetWithTarget<E extends InvocationTargetWithT
   public InvocationTargetWithTarget() {
   }
   
+  public InvocationTargetWithTarget(InvocationTarget target) {
+  	setTarget(target);
+  }
+  
 	/**
 	 * TARGET
 	 */
