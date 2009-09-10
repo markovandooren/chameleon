@@ -22,7 +22,7 @@ public class SpecificReference<E extends SpecificReference, P extends Element, R
 		},_specificClass);
 	}
 	
-	public SpecificReference(ElementReference<?, ?, ? extends TargetDeclaration> target, String name, Class<R> specificClass) {
+	public SpecificReference(CrossReference<?, ?, ? extends TargetDeclaration> target, String name, Class<R> specificClass) {
 		super(target, name);
 		_specificClass = specificClass;
 		_selector = new SelectorWithoutOrder<R>(new SelectorWithoutOrder.SignatureSelector() {

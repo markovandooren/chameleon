@@ -26,7 +26,7 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	   this(getTarget(Util.getAllButLastPart(qn)), Util.getLastPart(qn));
 	 }
 	 
-   protected static ElementReference<? extends ElementReference<?,?,? extends TargetDeclaration>,?, ? extends TargetDeclaration> getTarget(String qn) {
+   protected static CrossReference<? extends CrossReference<?,?,? extends TargetDeclaration>,?, ? extends TargetDeclaration> getTarget(String qn) {
      if(qn == null) {
        return null;
      }
@@ -50,9 +50,9 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	  @ post getTarget() == target;
 	  @ post getName() == name;
 	  @*/
-	 public ElementReferenceWithTarget(ElementReference<?,?,? extends TargetDeclaration> target, String name) {
+	 public ElementReferenceWithTarget(CrossReference<?,?,? extends TargetDeclaration> target, String name) {
 	 	super(name);
-		  setTarget((ElementReference<? extends ElementReference<?, ? super ElementReferenceWithTarget, ? extends TargetDeclaration>, ? super ElementReferenceWithTarget,? extends TargetDeclaration>) target); 
+		  setTarget((CrossReference<? extends CrossReference<?, ? super ElementReferenceWithTarget, ? extends TargetDeclaration>, ? super ElementReferenceWithTarget,? extends TargetDeclaration>) target); 
 	 }
 	 
 	 /**
@@ -76,17 +76,17 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 		/**
 		 * TARGET
 		 */
-		private Reference<ElementReferenceWithTarget,ElementReference<?, ?, ? extends TargetDeclaration>> _target = new Reference<ElementReferenceWithTarget,ElementReference<?, ?, ? extends TargetDeclaration>>(this);
+		private Reference<ElementReferenceWithTarget,CrossReference<?, ?, ? extends TargetDeclaration>> _target = new Reference<ElementReferenceWithTarget,CrossReference<?, ?, ? extends TargetDeclaration>>(this);
 
-		protected Reference<ElementReferenceWithTarget,ElementReference<?, ?, ? extends TargetDeclaration>> targetLink() {
+		protected Reference<ElementReferenceWithTarget,CrossReference<?, ?, ? extends TargetDeclaration>> targetLink() {
 			return _target;
 		}
 		
-	 public ElementReference<?, ?, ? extends TargetDeclaration> getTarget() {
+	 public CrossReference<?, ?, ? extends TargetDeclaration> getTarget() {
 	   return _target.getOtherEnd();
 	 }
 
-	 public void setTarget(ElementReference<? extends ElementReference<?,? super ElementReferenceWithTarget,? extends TargetDeclaration>, ? super ElementReferenceWithTarget, ? extends TargetDeclaration> target) {
+	 public void setTarget(CrossReference<? extends CrossReference<?,? super ElementReferenceWithTarget,? extends TargetDeclaration>, ? super ElementReferenceWithTarget, ? extends TargetDeclaration> target) {
 	   if(target != null) {
 	     _target.connectTo(target.parentLink());
 	   } else {

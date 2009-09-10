@@ -3,7 +3,7 @@ package chameleon.core.type;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.reference.ElementReference;
+import chameleon.core.reference.CrossReference;
 import chameleon.core.reference.SpecificReference;
 
 /**
@@ -15,7 +15,7 @@ public class TypeReference extends SpecificReference<TypeReference,Element,Type>
     super(qn, Type.class);
   }
   
-  public TypeReference(ElementReference<?, ?, ? extends TargetDeclaration> target, String name) {
+  public TypeReference(CrossReference<?, ?, ? extends TargetDeclaration> target, String name) {
     super(target, name, Type.class);
   }
   

@@ -3,7 +3,7 @@ package chameleon.core.namespace;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.reference.ElementReference;
+import chameleon.core.reference.CrossReference;
 import chameleon.core.reference.SpecificReference;
 
 /**
@@ -32,7 +32,7 @@ public class NamespaceOrTypeReference extends SpecificReference<NamespaceOrTypeR
    @ post getTarget() == target;
    @ post getName() == name;
    @*/
-  public NamespaceOrTypeReference(ElementReference<? , ?, ? extends TargetDeclaration> target, String name) {
+  public NamespaceOrTypeReference(CrossReference<? , ?, ? extends TargetDeclaration> target, String name) {
   	super(target,name,NamespaceOrType.class);
   }
   

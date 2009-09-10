@@ -2,16 +2,15 @@ package chameleon.core.namespace;
 
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
-import chameleon.core.reference.ElementReference;
+import chameleon.core.reference.CrossReference;
 import chameleon.core.reference.SpecificReference;
-import chameleon.util.Util;
 
 /**
  * @author marko
  */
 public class NamespaceReference extends SpecificReference<NamespaceReference,Element,Namespace> {
 
-  public NamespaceReference(ElementReference<?, ?, ? extends TargetDeclaration> target, String name) {
+  public NamespaceReference(CrossReference<?, ?, ? extends TargetDeclaration> target, String name) {
     super(target, name, Namespace.class);
   }
   
