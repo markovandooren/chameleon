@@ -9,7 +9,8 @@ public class DeclaratorSelector extends DeclarationSelector<Declaration> {
 		_selector = selector;
 	}
 	
-  public Declaration actualDeclaration(Declaration declarator, Declaration<?, ?, ?, Declaration> selectionDeclaration) throws LookupException {
+	@Override
+  public Declaration actualDeclaration(Declaration declarator) throws LookupException {
   	return declarator;
   }
 
