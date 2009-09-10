@@ -7,6 +7,7 @@ import java.util.Set;
 import org.rejuse.association.Reference;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
@@ -36,6 +37,7 @@ public class VariableReference extends Expression<VariableReference> implements 
    @ post getTarget() == target;
    @*/
   public VariableReference(String identifier, InvocationTarget target) {
+  	_signature = new SimpleNameSignature(identifier);
   	setName(identifier);
 	  setTarget(target);
   }
@@ -50,9 +52,12 @@ public class VariableReference extends Expression<VariableReference> implements 
 
   public void setName(String name) {
     _name = name;
+    _signature.setName(name);
   }
 
   private String _name;
+
+	private SimpleNameSignature _signature;
 
 	/**
 	 * TARGET
@@ -147,7 +152,11 @@ public class VariableReference extends Expression<VariableReference> implements 
   }
 
 	public DeclarationSelector<Variable> selector() {
-		return new SelectorWithoutOrder<Variable>(new SimpleNameSignature(getName()), Variable.class);
+		return new SelectorWithoutOrder<Variable>(new SelectorWithoutOrder.SignatureSelector() {
+			public Signature signature() {
+				return _signature;
+			}
+		}, Variable.class);
 	}
 
 }

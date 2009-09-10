@@ -12,15 +12,15 @@ import chameleon.core.relation.WeakPartialOrder;
 
 public class SelectorWithoutOrder<D extends Declaration> extends DeclarationSelector<D> {
 	
-	public SelectorWithoutOrder(Signature sig, Class<D> selectedClass) {
-		_signature = sig;
+	public SelectorWithoutOrder(SignatureSelector selector, Class<D> selectedClass) {
+		_selector = selector;
 		_class = selectedClass;
 	}
 	
-	private Signature _signature;
+	private SignatureSelector _selector;
 	
 	public Signature signature() {
-		return _signature;
+		return _selector.signature();
 	}
 	
 	@Override @SuppressWarnings("unchecked")
@@ -51,5 +51,9 @@ public class SelectorWithoutOrder<D extends Declaration> extends DeclarationSele
 	@Override
 	public Class<D> selectedClass() {
 		return _class;
+	}
+	
+	public static interface SignatureSelector {
+		public Signature signature();
 	}
 }

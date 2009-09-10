@@ -7,6 +7,7 @@ import java.util.Set;
 import org.rejuse.association.Reference;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
@@ -37,6 +38,7 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
    @
    @*/
   public NamedTarget(String fqn) {
+  	_signature=new SimpleNameSignature(""); // name will be set correctly in setName().
 	  setName(Util.getLastPart(fqn));
     fqn = Util.getAllButLastPart(fqn);
     if(fqn != null) {
@@ -54,6 +56,7 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
    * @param target
    */
   public NamedTarget(String identifier, InvocationTarget target) {
+  	_signature=new SimpleNameSignature(""); // name will be set correctly in setName().
   	setName(identifier);
   	setTarget(target);
   }
@@ -108,7 +111,11 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
   }
   
   public DeclarationSelector<TargetDeclaration> selector() {
-  	return new SelectorWithoutOrder<TargetDeclaration>(new SimpleNameSignature(getName()), TargetDeclaration.class);
+  	return new SelectorWithoutOrder<TargetDeclaration>(new SelectorWithoutOrder.SignatureSelector() {
+			public Signature signature() {
+				return _signature;
+			}
+		}, TargetDeclaration.class);
   }
 
   /********
@@ -121,10 +128,12 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
 
   public void setName(String name) {
     _name = name;
+    _signature.setName(name);
   }
 
   private String _name;
 
+	private SimpleNameSignature _signature;
 
   public boolean superOf(InvocationTarget target) throws LookupException {
     Target self = getElement();

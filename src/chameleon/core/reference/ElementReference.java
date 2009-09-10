@@ -1,13 +1,12 @@
 package chameleon.core.reference;
 
 import org.apache.log4j.Logger;
+import org.rejuse.association.Reference;
 
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
-import chameleon.core.element.ChameleonProgrammerException;
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
-import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElementImpl;
 
 /**
  * 
@@ -22,8 +21,6 @@ public abstract class ElementReference<E extends ElementReference, P extends Ele
 		return logger;
 	}
 	
-  //@FIXME: merge with CrossReference 
-  
 	public ElementReference() {
 	}
 	
@@ -32,10 +29,21 @@ public abstract class ElementReference<E extends ElementReference, P extends Ele
    @
    @ pre name != null;
    @
-   @ post getName() == name;
+   @ post getName().equals(name);
    @*/
 	public ElementReference(String name) {
-		setName(name);
+		setSignature(new SimpleNameSignature(name));
+	}
+	
+ /*@
+   @ public behavior
+   @
+   @ pre name != null;
+   @
+   @ post signature().equals(signature);
+   @*/
+	public ElementReference(SimpleNameSignature signature) {
+		setSignature(signature);
 	}
 	
 
@@ -45,7 +53,16 @@ public abstract class ElementReference<E extends ElementReference, P extends Ele
    @ post \result != null;
    @*/
   public String getName() {
-    return _name;
+    return signature().name();
+  }
+  
+  private Reference<ElementReference,SimpleNameSignature> _signature = new Reference<ElementReference,SimpleNameSignature>(this);
+
+  /**
+   * Return the signature of this element reference.
+   */
+  public SimpleNameSignature signature() {
+  	return _signature.getOtherEnd();
   }
   
  /*@
@@ -55,15 +72,14 @@ public abstract class ElementReference<E extends ElementReference, P extends Ele
    @
    @ post getName() == name;
    @*/
-  public void setName(String name) {
-  	if(name == null) {
-  		throw new ChameleonProgrammerException("Name of an element reference is being set to null");
+  public void setSignature(SimpleNameSignature signature) {
+  	if(signature == null) {
+  		_signature.connectTo(null);
+  	} else {
+  	  _signature.connectTo(signature.parentLink());
   	}
-  	_name = name;
   }
  
-  private String _name;
-
   private D _cache;
   
   protected D getCache() {
