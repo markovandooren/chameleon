@@ -72,6 +72,10 @@ public abstract class ElementWithModifiersImpl<E extends Element<E, P>, P extend
     return result;
 	}
 
+	/**
+	 * Return the default properties for this element.
+	 * @return
+	 */
 	protected PropertySet<Element> myDefaultProperties() {
 		return language().defaultProperties(this);
 	}

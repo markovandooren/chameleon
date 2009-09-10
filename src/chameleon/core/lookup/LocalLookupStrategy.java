@@ -52,8 +52,8 @@ public class LocalLookupStrategy<E extends DeclarationContainer> extends LookupS
 	    return null;
 	  } else {
 	  	// Disable declaration cache before we go debugging.
-	  	Config.CACHE_DECLARATIONS = false;
-	  	tmp = declarations(selector);
+//	  	Config.CACHE_DECLARATIONS = false;
+//	  	tmp = declarations(selector);
 	    throw new LookupException("Multiple matches found in "+element().toString() + " using selector "+selector.toString(),selector);
 	  }
 

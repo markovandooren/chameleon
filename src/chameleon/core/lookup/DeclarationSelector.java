@@ -140,7 +140,6 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @*/
   public List<D> selection(List<? extends Declaration> selectionCandidates) throws LookupException {
     List<Declaration> tmp = new ArrayList<Declaration>();
-    try {
       for(Declaration decl: selectionCandidates) {
         D e = selection(decl);
         if(e != null) {
@@ -148,11 +147,6 @@ public abstract class DeclarationSelector<D extends Declaration> {
         }
       }
       order().removeBiggerElements((Collection<D>) tmp);
-    } catch(RuntimeException exc) {
-      throw exc;
-    } catch(LookupException exc) {
-      throw exc;
-    }
     return (List<D>) tmp;
   }
   
