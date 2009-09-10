@@ -1,4 +1,4 @@
-package chameleon.test;
+package chameleon.test.provider;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package chameleon.test;
+package chameleon.test.provider;
 
 import java.io.File;
 import java.io.IOException;
@@ -89,15 +89,15 @@ public class BasicModelProvider implements ModelProvider {
 	/**
 	 * Add the given directory to the list of directories that contain the custom model.
 	 */
-  public void include(String dirName) {
-    _files.add(dirName);
+  public void includeCustom(String dirName) {
+    _customFiles.add(dirName);
   }
   
 	/**
 	 * Add the given directory to the list of directories that contain the base library for the language.
 	 */
   public void includeBase(String dirName) {
-    _files.add(dirName);
+  	_baseFiles.add(dirName);
   }
 
   /**
@@ -111,7 +111,7 @@ public class BasicModelProvider implements ModelProvider {
    @*/
   public Collection<File> customFiles() {
     List<File> files = new ArrayList<File>();
-    for(String path: _baseFiles) {
+    for(String path: _customFiles) {
       files.addAll(new DirectoryScanner().scan(path, fileExtension(), customRecursive()));
     }
     return files;
@@ -134,7 +134,7 @@ public class BasicModelProvider implements ModelProvider {
     return files;
   }
 
-  private ArrayList<String> _files = new ArrayList<String>();
+  private ArrayList<String> _customFiles = new ArrayList<String>();
 
   private ArrayList<String> _baseFiles = new ArrayList<String>();
 
