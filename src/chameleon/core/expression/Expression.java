@@ -9,7 +9,7 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.Target;
-import chameleon.core.namespace.Namespace;
+import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
 import chameleon.core.type.Type;
@@ -20,7 +20,7 @@ import chameleon.core.type.Type;
  * @author Marko van Dooren
  */
 
-public abstract class Expression<E extends Expression> extends InvocationTarget<E,Element> {
+public abstract class Expression<E extends Expression> extends NamespaceElementImpl<E,Element> implements InvocationTarget<E,Element> {
 
 	/**
 	 * Return the type of this expression. The actual computation of the type is done in actualType. This

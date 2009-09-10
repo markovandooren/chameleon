@@ -51,18 +51,40 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @*/
   public abstract Declaration<?,?,?,D> filter(Declaration declaration) throws LookupException;
 
+  /**
+   * Return the declaration of type D that would be selected based on the
+   * given input declaration. 
+   * 
+   * First, selectionDeclaration() is invoked on the
+   * input declaration, resulting in declaration 'd'. 
+   * 
+   * Second, 'd' is then passed to the filter()
+   * method to see if it would be selected. 
+   * 
+   * Finally, if filter selects 'd', actualDeclaration()
+   * is invoked to produce the actual declaration that is selected.
+   * 
+   * In most cases, both selectionDeclaration() and actualDeclaration() of the Declaration
+   * will simply return the declaration on which they were invoked. For formal type parameters, and
+   * actual type parameters, this is not the case.
+   * 
+   * @param declarator
+   * @return
+   * @throws LookupException
+   */
  /*@
    @ public behavior
    @
    @ post \result == declaration | \result == null;
    @ post ! selectedClass().isInstance(declaration) ==> \result == null;
    @*/
-  public D selection(Declaration declaration) throws LookupException {
-  	Declaration resolved = declaration.selectionDeclaration();
+  public D selection(Declaration declarator) throws LookupException {
+  	Declaration resolved = declarator.selectionDeclaration();
   	if(selectedClass().isInstance(resolved)) {
   	  Declaration<?, ?, ?, D> filtered = filter(resolved);
   	  if(filtered != null) {
-			  return filtered.actualDeclaration();
+  	  	// return filtered.actualDeclaration();
+			  return actualDeclaration(declarator);
   	  } else {
   	  	return null;
   	  }
@@ -70,7 +92,24 @@ public abstract class DeclarationSelector<D extends Declaration> {
   		return null;
   	}
   }
-
+  
+  /**
+   * Select the actual declaration selected by this declaration selector.
+   * By default, this method returns declarator.selectionDeclaration()).actualDeclaration().
+   * 
+   * This method was introduced to allow the declarator to be returned instead (in DeclaratorSelector)
+   * without having to add lookup method everywhere that would do the same as the original
+   * lookup methods except for invoking a (currently non-existant) declarator() method instead
+   * of selection().
+   * 
+   * @param declarator
+   * @return
+   * @throws LookupException
+   */
+  public D actualDeclaration(Declaration declarator) throws LookupException {
+  	return ((Declaration<?, ?, ?, D>)declarator.selectionDeclaration()).actualDeclaration();
+  }
+  
   /**
    * Required because 'instanceof D' cannot be used due to type erasure.
    * @return

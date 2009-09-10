@@ -114,6 +114,17 @@ public interface Element<E extends Element, P extends Element> {
 	   */
 	  public boolean isDerived();
 	  
+	  /**
+	   * If this element is derived, return the element from which this element originates.
+	   * If this element is not derived, the method returns the current object.
+	   */
+	 /*@
+	   @ public behavior
+	   @
+	   @ post ! isDerived() ==> \result == this;
+	   @*/
+	  public Element origin();
+	  
     /**
      * Return a list of all ancestors. The direct parent is in front of the list, the
      * furthest ancestor is last.

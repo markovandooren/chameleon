@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.rejuse.association.Reference;
+
+import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
@@ -13,14 +16,14 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.SelectorWithoutOrder;
 import chameleon.core.lookup.Target;
-import chameleon.core.reference.CrossReference;
+import chameleon.core.reference.CrossReferenceImpl;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.type.Type;
 import chameleon.core.variable.FormalParameter;
 import chameleon.core.variable.MemberVariable;
 import chameleon.core.variable.Variable;
 import chameleon.util.Util;
-public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> implements CrossReference<NamedTarget,Element,TargetDeclaration> {
+public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDeclaration> implements InvocationTarget<NamedTarget,Element> {
 
 	/**
 	 * Initialize a new named target with the given fully qualified name. The
@@ -55,34 +58,57 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
   	setTarget(target);
   }
   
+	/**
+	 * TARGET
+	 */
+	private Reference<InvocationTarget,InvocationTarget> _target = new Reference<InvocationTarget,InvocationTarget>(this);
+
+  public InvocationTarget<?,?> getTarget() {
+    return _target.getOtherEnd();
+  }
+
+  public void setTarget(InvocationTarget target) {
+    if (target != null) {
+      _target.connectTo(target.parentLink());
+    }
+    else {
+      _target.connectTo(null);
+    }
+  }
+
+  public List<Element> children() {
+  	return Util.createNonNullList(getTarget());
+  }
+
+  
   /***********
    * CONTEXT *
    ***********/
    
   @SuppressWarnings("unchecked")
-  public TargetDeclaration getElement() throws LookupException {
+  public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
     InvocationTarget target = getTarget();
-    TargetDeclaration result;
+    X result;
     if(target != null) {
-      result = target.targetContext().lookUp(selector());//findElement(getName());
+      result = target.targetContext().lookUp(selector);//findElement(getName());
     } else {
-      result = lexicalLookupStrategy().lookUp(selector());//findElement(getName());
+      result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
     }
     if(result != null) {
       return result;
     } else {
     	// repeat for debugging purposes
       if(target != null) {
-        result = target.targetContext().lookUp(selector());//findElement(getName());
+        result = target.targetContext().lookUp(selector);//findElement(getName());
       } else {
-        result = lexicalLookupStrategy().lookUp(selector());//findElement(getName());
+        result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
       }
     	throw new LookupException("Lookup of named target with name: "+getName()+" returned null.");
     }
   }
   
   public DeclarationSelector<TargetDeclaration> selector() {
-  	return new SelectorWithoutOrder(new SimpleNameSignature(getName()), TargetDeclaration.class);
+  	return new SelectorWithoutOrder<TargetDeclaration>(new SimpleNameSignature(getName()), TargetDeclaration.class);
   }
 
   /********
@@ -215,10 +241,6 @@ public class NamedTarget extends InvocationTargetWithTarget<NamedTarget> impleme
     else {
       return new CheckedExceptionList();
     }
-  }
-
-  public List<Element> children() {
-  	return Util.createNonNullList(getTarget());
   }
 
   public LookupStrategy targetContext() throws LookupException {

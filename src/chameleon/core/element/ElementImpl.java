@@ -173,6 +173,13 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  	return _parent != null;
 	  }
 	  
+	  /**
+	   * By default this method returns the current object.
+	   */
+	  public Element origin() {
+	  	return this;
+	  }
+	  
 	  public void disconnect() {
 	  	nonRecursiveDisconnect();
 	  	disconnectChildren();

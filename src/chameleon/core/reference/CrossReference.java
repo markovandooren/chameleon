@@ -2,6 +2,7 @@ package chameleon.core.reference;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 
 /**
@@ -18,5 +19,7 @@ public interface CrossReference<E extends CrossReference, P extends Element, D e
 	
 	public D getElement() throws LookupException;
 	
-//	public Declaration getDeclaration() throws LookupException;
+	public Declaration getDeclarator() throws LookupException;
+	
+	public DeclarationSelector<D> selector();
 }

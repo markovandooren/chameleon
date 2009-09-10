@@ -7,9 +7,14 @@ import java.util.Set;
 import org.rejuse.association.Reference;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
 import chameleon.core.language.ObjectOrientedLanguage;
+import chameleon.core.lookup.DeclarationSelector;
+import chameleon.core.lookup.DeclaratorSelector;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.SelectorWithoutOrder;
 import chameleon.core.reference.CrossReference;
 import chameleon.core.type.Type;
 import chameleon.core.variable.Variable;
@@ -18,22 +23,47 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class VariableReference extends Expression<VariableReference> implements Assignable<VariableReference,Element>, CrossReference<VariableReference,Element,Variable>, ExpressionWithTarget<VariableReference,Element> {
+public class VariableReference extends Expression<VariableReference> implements Assignable<VariableReference,Element>, CrossReference<VariableReference,Element,Variable> {
 
-  public VariableReference(NamedTarget target) {
+  /**
+   * Create a new variable reference with the given identifier as name, and
+   * the given invocation target as target.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post getName() == identifier;
+   @ post getTarget() == target;
+   @*/
+  public VariableReference(String identifier, InvocationTarget target) {
+  	setName(identifier);
 	  setTarget(target);
   }
-  
+
+  /********
+   * NAME *
+   ********/
+
+  public String getName() {
+    return _name;
+  }
+
+  public void setName(String name) {
+    _name = name;
+  }
+
+  private String _name;
+
 	/**
 	 * TARGET
 	 */
-	private Reference<VariableReference,NamedTarget> _target = new Reference<VariableReference,NamedTarget>(this);
+	private Reference<VariableReference,InvocationTarget> _target = new Reference<VariableReference,InvocationTarget>(this);
 
-  public NamedTarget getTarget() {
+  public InvocationTarget getTarget() {
     return _target.getOtherEnd();
   }
 
-  public void setTarget(NamedTarget target) {
+  public void setTarget(InvocationTarget target) {
   	if(target != null) {
       _target.connectTo(target.parentLink());
   	} else {
@@ -42,11 +72,12 @@ public class VariableReference extends Expression<VariableReference> implements 
   }
 
   public Variable getVariable() throws LookupException {
-    Variable result = (Variable)getTarget().getElement();
-    if(result == null) {
-      throw new LookupException("Lookup of variable reference returned null: "+getTarget().getName(), this);
-    }
-    return result;
+//    Variable result = (Variable)getTarget().getElement();
+//    if(result == null) {
+//      throw new LookupException("Lookup of variable reference returned null: "+getTarget().getName(), this);
+//    }
+//    return result;
+  	return getElement();
   }
 
   protected Type actualType() throws LookupException {
@@ -62,7 +93,7 @@ public class VariableReference extends Expression<VariableReference> implements 
     if(getTarget() != null) {
       target = getTarget().clone();
     }
-    return new VariableReference((NamedTarget)target);
+    return new VariableReference(getName(), target);
   }
 
   public void prefix(InvocationTarget target) throws LookupException {
@@ -85,12 +116,38 @@ public class VariableReference extends Expression<VariableReference> implements 
     return Util.createNonNullList(getTarget());
   }
 
-	public Variable getElement() throws LookupException {
-		return getVariable();
+  public Variable getElement() throws LookupException {
+  	return getElement(selector());
+  }
+  
+	public Declaration getDeclarator() throws LookupException {
+		return getElement(new DeclaratorSelector(selector()));
+	}
+  
+  @SuppressWarnings("unchecked")
+  public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
+    InvocationTarget target = getTarget();
+    X result;
+    if(target != null) {
+      result = target.targetContext().lookUp(selector);//findElement(getName());
+    } else {
+      result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
+    }
+    if(result != null) {
+      return result;
+    } else {
+    	// repeat for debugging purposes
+      if(target != null) {
+        result = target.targetContext().lookUp(selector);//findElement(getName());
+      } else {
+        result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
+      }
+    	throw new LookupException("Lookup of named target with name: "+getName()+" returned null.");
+    }
+  }
+
+	public DeclarationSelector<Variable> selector() {
+		return new SelectorWithoutOrder<Variable>(new SimpleNameSignature(getName()), Variable.class);
 	}
 
-//  public AccessibilityDomain getAccessibilityDomain() throws MetamodelException {
-//    return getTarget().getAccessibilityDomain();
-//  }
-  
 }

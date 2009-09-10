@@ -14,7 +14,7 @@ import chameleon.core.namespace.NamespaceElementImpl;
  * 
  * @author Marko van Dooren
  */
-public abstract class ElementReference<E extends ElementReference, P extends Element, D extends Declaration> extends NamespaceElementImpl<E,P>  implements CrossReference<E,P,D>  {
+public abstract class ElementReference<E extends ElementReference, P extends Element, D extends Declaration> extends CrossReferenceImpl<E,P,D> {
 
 	private static Logger logger = Logger.getLogger("lookup.elementreference");
 	
@@ -80,5 +80,5 @@ public abstract class ElementReference<E extends ElementReference, P extends Ele
   	}
   }
   
-  public abstract D getElement() throws LookupException;
+//  public abstract D getElement() throws LookupException;
 }

@@ -8,9 +8,11 @@ import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.association.Reference;
 import org.rejuse.java.collections.Visitor;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.DeclarationSelector;
+import chameleon.core.lookup.DeclaratorSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.method.Method;
 import chameleon.core.reference.CrossReference;
@@ -25,7 +27,7 @@ import chameleon.util.Util;
  * @param <D> The type of declaration invoked by this invocation.
  */
 
-public abstract class Invocation<E extends Invocation,D extends Method> extends Expression<E> implements CrossReference<E,Element,D> , ExpressionWithTarget<E,Element> {
+public abstract class Invocation<E extends Invocation,D extends Method> extends Expression<E> implements CrossReference<E,Element,D> {
 
   public Invocation(InvocationTarget target) {
 	  setTarget(target);
@@ -165,6 +167,15 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
 	//    return result;
 	//  }
 
+  
+  public D getElement() throws LookupException {
+  	return getElement(selector());
+  }
+  
+	public Declaration getDeclarator() throws LookupException {
+		return getElement(new DeclaratorSelector(selector()));
+	}
+
 	/**
 	 * Return the method invoked by this invocation.
 	 * 
@@ -180,28 +191,28 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
 	 @ signals (NotResolvedException) (* The method could not be found *);
 	 @*/
 //	public abstract D getMethod() throws MetamodelException;
-  public D getMethod() throws LookupException {
+  public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
   	InvocationTarget target = getTarget();
-  	D result;
+  	X result;
   	if(target == null) {
-      result = lexicalLookupStrategy().lookUp(selector());
+      result = lexicalLookupStrategy().lookUp(selector);
   	} else {
-  		result = getTarget().targetContext().lookUp(selector());
+  		result = getTarget().targetContext().lookUp(selector);
   	}
 		if (result == null) {
 			//repeat lookup for debugging purposes.
 	  	if(target == null) {
-	      result = lexicalLookupStrategy().lookUp(selector());
+	      result = lexicalLookupStrategy().lookUp(selector);
 	  	} else {
-	  		result = getTarget().targetContext().lookUp(selector());
+	  		result = getTarget().targetContext().lookUp(selector);
 	  	}
 			throw new LookupException("Method returned by invocation is null", this);
 		}
     return result;
 }
 
-  public D getElement() throws LookupException {
-  	return getMethod();
+  public D getMethod() throws LookupException {
+  	return getElement();
   }
   
   /**

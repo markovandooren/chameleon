@@ -99,7 +99,7 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	  @
 	  @ post \result == Util.createNonNullList(getTarget());
 	  @*/
-	 public List children() {
+	 public List<Element> children() {
 	   return Util.createNonNullList(getTarget());
 	 }
 
@@ -112,11 +112,14 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	  @     (getTarget().getPackageOrType() == null ==> \result == 
 	  @         getTarget().getPackageOrType().getTargetContext().findPackageOrType(getName()));
 	  @*/
-	 public R getElement() throws LookupException {
-	   R result;
+	 public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
+	   X result = null;
 	   
 	   //OPTIMISATION
-	   result = getCache();
+	   boolean cache = selector.equals(selector());
+	   if(cache) {
+	     result = (X) getCache();
+	   }
 	   if(result != null) {
 	   	return result;
 	   }
@@ -125,17 +128,19 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	   	TargetDeclaration target = getTarget().getElement();
 	     
 	     if(target != null) {
-	       result = target.targetContext().lookUp(selector());
+	       result = target.targetContext().lookUp(selector);
 	     } else {
 	     	throw new LookupException("Lookup of target of NamespaceOrVariableReference returned null",getTarget());
 	     }
 	   }
 	   else {
-	     result = lexicalLookupStrategy().lookUp(selector());
+	     result = lexicalLookupStrategy().lookUp(selector);
 	   }
 	   if(result != null) {
 	   	//OPTIMISATION
-	   	setCache((R) result);
+	  	 if(cache) {
+	   	   setCache((R) result);
+	  	 }
 	     return result;
 	   } else {
 	   	// repeat lookups for debugging purposes
@@ -144,58 +149,17 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	     	TargetDeclaration target = getTarget().getElement();
 	       
 	       if(target != null) {
-	         result = target.targetContext().lookUp(selector());
+	         result = target.targetContext().lookUp(selector);
 	       }
 	   	} else {
-	   		result = lexicalLookupStrategy().lookUp(selector());
+	   		result = lexicalLookupStrategy().lookUp(selector);
 	   	}
 	     throw new LookupException("Cannot find namespace or type with name: "+getName(),this);
 	   }
 	 }
 	 
 	 public abstract DeclarationSelector<R> selector();
-//	 {
-//		 return new SelectorWithoutOrder<TargetDeclaration>(new SimpleNameSignature(getName()),TargetDeclaration.class);
-//	   return new DeclarationSelector<TargetDeclaration>() {
-//
-//	     @Override
-//	     public TargetDeclaration filter(Declaration declaration) throws LookupException {
-//	       TargetDeclaration result;
-//	       //@FIXME ugly hack with type enumeration
-//	       if(((declaration instanceof Namespace) && (((Namespace)declaration).signature().getName().equals(getName())))
-//	           || ((declaration instanceof Type) && (((Type)declaration).signature().getName().equals(getName())))){
-//	       result = (TargetDeclaration) declaration;
-//	       } else {
-//	       result = null;
-//	       }
-//	       return result;
-//	     }
-//
-//	     @Override
-//	     public WeakPartialOrder<TargetDeclaration> order() {
-//	       return new WeakPartialOrder<TargetDeclaration>() {
-//
-//	         @Override
-//	         public boolean contains(TargetDeclaration first, TargetDeclaration second)
-//	             throws LookupException {
-//	           return first.equals(second);
-//	         }
-//	         
-//	       };
-//	     }
-//
-//	     @Override
-//	     public Class<TargetDeclaration> selectedClass() {
-//	       return TargetDeclaration.class;
-//	     }
-//	       
-//	     };
-
-//	 }
 	 
-	 /**
-	  * BAD DESIGN: YOU MUST OVERRIDE THIS IN A SUBCLASS
-	  */
 	/*@
 	  @ also public behavior
 	  @
@@ -205,8 +169,4 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	  @*/
 	 public abstract E clone() ;
 	 
-//	public R getElement() throws LookupException {
-//		return getTargetDeclaration();
-//	}
-	
 }
