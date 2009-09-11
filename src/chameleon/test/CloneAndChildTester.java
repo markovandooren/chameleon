@@ -74,7 +74,7 @@ public class CloneAndChildTester extends ModelTest {
    * The test fails if the clone is null.
    * The test fails if the clone has null as one of its children.  
 	 */
-	public void test(Element element) {
+	private void test(Element element) {
 		String msg = "element type:"+element.getClass().getName();
 		assertFalse(element.isDerived());
 		List<Element> children = element.children();

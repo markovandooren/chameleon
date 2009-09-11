@@ -15,7 +15,7 @@ import chameleon.core.language.Language;
  *
  * @param <T> The type of the element provided by this element provider.
  */
-public interface ElementProvider<T extends Element> {
+public interface ElementProvider<T> {
 
 	public Collection<T> elements(Language language);
 }

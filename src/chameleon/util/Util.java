@@ -190,6 +190,23 @@ public class Util {
     }
   }
 
+	/**
+	 * @param string
+	 * @return
+	 */
+	public static String getPartAfterFirstDot(String string) {
+    if(string == null) {
+      return null;
+    }
+    int dot = string.lastIndexOf(".");
+    if(dot > 0) {
+      return string.substring(dot+1,string.length());
+    }
+    else {
+      return null;
+    }
+  }
+
   /**
    * @param target
    * @param result
