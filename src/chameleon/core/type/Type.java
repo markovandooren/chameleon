@@ -887,7 +887,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
       for(Modifier mod : from.modifiers()) {
       	addModifier(mod.clone());
       }
-      for(TypeElement el : from.directlyDeclaredMembers()) {
+      for(TypeElement el : from.directlyDeclaredElements()) {
         add(el.clone());
       }
       for(TypeParameter par : from.parameters()) {
