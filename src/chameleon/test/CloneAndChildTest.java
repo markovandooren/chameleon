@@ -23,7 +23,7 @@ import chameleon.test.provider.ModelProvider;
  * 
  * @author Marko van Dooren
  */
-public class CloneAndChildTester extends ModelTest {
+public class CloneAndChildTest extends ModelTest {
 
 
 
@@ -41,7 +41,7 @@ public class CloneAndChildTester extends ModelTest {
    @ post modelProvider() == provider;
    @ post namespaceProvider() == namespaceProvider;
    @*/
-	public CloneAndChildTester(ModelProvider provider, ElementProvider<Namespace> namespaceProvider) throws ParseException, IOException {
+	public CloneAndChildTest(ModelProvider provider, ElementProvider<Namespace> namespaceProvider) throws ParseException, IOException {
 		super(provider);
 		_namespaceProvider = namespaceProvider;
 	}
