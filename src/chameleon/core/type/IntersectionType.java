@@ -59,12 +59,16 @@ public class IntersectionType extends Type {
 	
 	@Override
 	public void add(TypeElement element) throws ChameleonProgrammerException {
-		throw new ChameleonProgrammerException("Trying to add an element to a intersection type.");
+		throw new ChameleonProgrammerException("Trying to add an element to an intersection type.");
 	}
 
 	@Override
+	public void remove(TypeElement element) throws ChameleonProgrammerException {
+		throw new ChameleonProgrammerException("Trying to remove an element from an intersection type.");
+	}
+	@Override
 	public void addInheritanceRelation(InheritanceRelation type) throws ChameleonProgrammerException {
-		throw new ChameleonProgrammerException("Trying to add a super type to a intersection type.");
+		throw new ChameleonProgrammerException("Trying to add a super type to an intersection type.");
 	}
 
   public void replace(TypeElement oldElement, TypeElement newElement) {

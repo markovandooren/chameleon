@@ -29,6 +29,11 @@ public abstract class WildCardType extends Type {
 	}
 
 	@Override
+	public void remove(TypeElement element) throws ChameleonProgrammerException {
+		throw new ChameleonProgrammerException("Trying to remove an element from a wildcard type.");
+	}
+
+	@Override
 	public void addInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException {
 		throw new ChameleonProgrammerException("Trying to add a super type to a wildcard type.");
 	}

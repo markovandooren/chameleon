@@ -251,11 +251,6 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
   	 * MEMBERS *
   	 ***********/
 
-//  	public OrderedReferenceSet<Type, TypeElement> getMembersLink() {
-//  		return _elements;
-//  	}
-
-
     /**
      * Add the given element to this type.
      * 
@@ -263,8 +258,44 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
      *         The given element could not be added. E.g when you try to add
      *         an element to a computed type.
      */
+   /*@
+     @ public behavior
+     @
+     @ pre element != null;
+     @
+     @ post directlyDeclaredElements().contains(element);
+     @*/
   	public abstract void add(TypeElement element) throws ChameleonProgrammerException;
   	
+    /**
+     * Remove the given element to this type.
+     * 
+     * @throws ChameleonProgrammerException
+     *         The given element could not be added. E.g when you try to add
+     *         an element to a computed type.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre element != null;
+     @
+     @ post ! directlyDeclaredElements().contains(element);
+     @*/
+  	public abstract void remove(TypeElement element) throws ChameleonProgrammerException;
+  	
+    /**
+     * Add all type elements in the given collection to this type.
+     * @param elements
+     * @throws ChameleonProgrammerException
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre elements != null;
+     @ pre !elements.contains(null);
+     @
+     @ post directlyDeclaredElements().containsAll(elements);
+     @*/
   	public void addAll(Collection<? extends TypeElement> elements) throws ChameleonProgrammerException {
   		for(TypeElement element: elements) {
   			add(element);

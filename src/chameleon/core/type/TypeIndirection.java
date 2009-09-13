@@ -41,6 +41,11 @@ public abstract class TypeIndirection extends Type {
 	}
 
 	@Override
+	public void remove(TypeElement element) throws ChameleonProgrammerException {
+		throw new ChameleonProgrammerException("Trying to remove an element from a type alias.");
+	}
+
+	@Override
 	public List<Member> directlyDeclaredMembers() {
 		return aliasedType().directlyDeclaredMembers();
 	}

@@ -59,6 +59,11 @@ public class RegularType extends Type {
 	public void add(TypeElement element) {
 	  body().add(element);
 	}
+	
+	@Override
+	public void remove(TypeElement element) throws ChameleonProgrammerException {
+		body().remove(element);
+	}
 
   /**
    * Return the members directly declared by this type.
@@ -129,6 +134,7 @@ public class RegularType extends Type {
 	public List<? extends TypeElement> directlyDeclaredElements() {
 		return body().elements();
 	}
+
 
 
 }
