@@ -66,13 +66,13 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 		return new ArrayList<Element>(members());
 	}
 
-	public LookupStrategy lexicalLookupStrategy(Element element) {
-		return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
-	}
+//	public LookupStrategy lexicalLookupStrategy(Element element) {
+//		return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
+//	}
 	
-	public LookupStrategy localContext() {
-		return language().lookupFactory().createTargetLookupStrategy(this);
-	}
+//	public LookupStrategy localContext() {
+//		return language().lookupFactory().createTargetLookupStrategy(this);
+//	}
 
 	public List<Member> declarations() throws LookupException {
 		return members();

@@ -2,6 +2,7 @@ package chameleon.core.lookup;
 
 import java.util.List;
 
+import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 
@@ -80,8 +81,8 @@ public class LocalLookupStrategy<E extends DeclarationContainer> extends LookupS
 	    return null;
 	  } else {
 	 // Disable declaration cache before we go debugging.
-   // Config.CACHE_DECLARATIONS = false;
-   // tmp = declarations(selector);
+      //Config.setCaching(false);
+      tmp = declarations(selector);
 	    throw new LookupException("Multiple matches found in "+declarationContainer().toString() + " using selector "+selector.toString(),selector);
 	  }
 	}

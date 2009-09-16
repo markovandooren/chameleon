@@ -620,6 +620,17 @@ public interface Element<E extends Element, P extends Element> {
      @*/
     public Property<Element> property(PropertyMutex<Element> mutex) throws MetamodelException;
     
-    public boolean isValid();
-    
+    /**
+     * Notify this element that the given descendant was modified. This
+     * method first calls reactOnDescendantChange with the given element. After that,
+     * the event is propagated to the lexical parent, if the parent is not null.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre descendant != null;
+     @ pre descendants().contains(descendant);
+     @*/
+    public void notifyDescendantChanged(Element descendant);
+
 }

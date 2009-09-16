@@ -8,6 +8,7 @@ import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.association.Reference;
 import org.rejuse.java.collections.Visitor;
 
+import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.language.ObjectOrientedLanguage;
@@ -95,7 +96,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   
   public List<Type> getActualParameterTypes() throws LookupException {
 	    List<ActualArgument> params = getActualParameters();
-	    final List<Type> result = new ArrayList();
+	    final List<Type> result = new ArrayList<Type>();
 	    for(ActualArgument param:params) {
         Type type = param.getType();
         if (type != null) {
@@ -178,12 +179,8 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
 
 	/**
 	 * Return the method invoked by this invocation.
-	 * 
-	 * @uml.property name="method"
-	 * @uml.associationEnd 
-	 * @uml.property name="method" multiplicity="(0 1)"
 	 */
-	/*@
+ /*@
 	 @ public behavior
 	 @
 	 @ post \result != null;
@@ -201,6 +198,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   	}
 		if (result == null) {
 			//repeat lookup for debugging purposes.
+			Config.setCaching(false);
 	  	if(target == null) {
 	      result = lexicalLookupStrategy().lookUp(selector);
 	  	} else {
@@ -209,7 +207,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
 			throw new LookupException("Method returned by invocation is null", this);
 		}
     return result;
-}
+  }
 
   public D getMethod() throws LookupException {
   	return getElement();

@@ -402,6 +402,17 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
      @ post \result != null;
      @*/
   	public abstract List<InheritanceRelation> inheritanceRelations();
+  	
+  	public List<Type> directSuperTypes() throws LookupException {
+  	  List<Type> result = new ArrayList<Type>();
+  		for(InheritanceRelation relation: inheritanceRelations()) {
+  			Type superType = relation.superType();
+  			if(superType != null) {
+  				result.add(superType);
+  			}
+  		}
+  		return result;
+  	}
 
   	/**
   	 * Add the give given inheritance relation to this type.

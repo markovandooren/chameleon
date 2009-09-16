@@ -11,7 +11,7 @@ import java.util.Set;
 import org.rejuse.association.OrderedReferenceSet;
 import org.rejuse.association.Reference;
 import org.rejuse.association.ReferenceSet;
-import org.rejuse.association.Relation;
+import org.rejuse.association.Association;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
@@ -471,7 +471,7 @@ public abstract class Language implements PropertyUniverse<Element> {
     /**
      * @return
      */
-    public Relation defaultNamespaceLink() {
+    public Association defaultNamespaceLink() {
         return _default;
     }
 

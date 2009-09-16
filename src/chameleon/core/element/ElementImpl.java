@@ -484,10 +484,6 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 		  return new PropertySet<Element>(baseProperties);
 		}
 
-    public boolean isValid() {
-    	return true;
-    }
-    
     public void disconnectChildren() {
     	for(Element child:children()) {
     		if(child != null) {
@@ -522,6 +518,28 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     
     public List<? extends Element> directDependencies() {
     	return children();
+    }
+    
+    /**
+     * Notify this element that the given descendant was modified. This
+     * method first calls reactOnDescendantChange with the given element. After that,
+     * the event is propagated to the lexical parent, if the parent is not null.
+     */
+    public void notifyDescendantChanged(Element descendant) {
+    	reactOnDescendantChange(descendant);
+    	P parent = parent();
+    	if(parent != null) {
+    		parent.notifyDescendantChanged(descendant);
+    	}
+    }
+    
+    /**
+     * Actually react on a change of the given descendant.
+     * 
+     * By default, there is no reaction.
+     */
+    protected void reactOnDescendantChange(Element descendant) {
+    	
     }
 		
 //    public Iterator<Element> depthFirstIterator() {

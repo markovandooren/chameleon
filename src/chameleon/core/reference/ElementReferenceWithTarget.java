@@ -124,18 +124,19 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	   	return result;
 	   }
 	   
-	   if(getTarget() != null) {
-	   	TargetDeclaration target = getTarget().getElement();
-	     
+	  CrossReference<?, ?, ? extends TargetDeclaration> targetReference = getTarget();
+		if(targetReference != null) {
+	   	TargetDeclaration target = targetReference.getElement();
 	     if(target != null) {
 	       result = target.targetContext().lookUp(selector);
 	     } else {
-	     	throw new LookupException("Lookup of target of NamespaceOrVariableReference returned null",getTarget());
+	     	throw new LookupException("Lookup of target of NamespaceOrVariableReference returned null",targetReference);
 	     }
 	   }
 	   else {
 	     result = lexicalLookupStrategy().lookUp(selector);
 	   }
+		
 	   if(result != null) {
 	   	//OPTIMISATION
 	  	 if(cache) {
@@ -144,10 +145,9 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	     return result;
 	   } else {
 	   	// repeat lookups for debugging purposes
-	   	Config.CACHE_ELEMENT_REFERENCES = false;
+	   	//Config.setCaching(false);
 	   	if(getTarget() != null) {
 	     	TargetDeclaration target = getTarget().getElement();
-	       
 	       if(target != null) {
 	         result = target.targetContext().lookUp(selector);
 	       }
