@@ -2,7 +2,7 @@ package chameleon.core.reference;
 
 import java.util.List;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
@@ -76,9 +76,9 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 		/**
 		 * TARGET
 		 */
-		private Reference<ElementReferenceWithTarget,CrossReference<?, ?, ? extends TargetDeclaration>> _target = new Reference<ElementReferenceWithTarget,CrossReference<?, ?, ? extends TargetDeclaration>>(this);
+		private SingleAssociation<ElementReferenceWithTarget,CrossReference<?, ?, ? extends TargetDeclaration>> _target = new SingleAssociation<ElementReferenceWithTarget,CrossReference<?, ?, ? extends TargetDeclaration>>(this);
 
-		protected Reference<ElementReferenceWithTarget,CrossReference<?, ?, ? extends TargetDeclaration>> targetLink() {
+		protected SingleAssociation<ElementReferenceWithTarget,CrossReference<?, ?, ? extends TargetDeclaration>> targetLink() {
 			return _target;
 		}
 		

@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.OrderedReferenceSet;
+import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
@@ -36,7 +36,7 @@ public class StubDeclarationContainer<T extends Declaration> extends ElementImpl
     return _elements.getOtherEnds();
 	}
 
-	private OrderedReferenceSet<StubDeclarationContainer, T> _elements = new OrderedReferenceSet<StubDeclarationContainer, T>(this);
+	private OrderedMultiAssociation<StubDeclarationContainer, T> _elements = new OrderedMultiAssociation<StubDeclarationContainer, T>(this);
 
 	public void add(T element) {
 	  if(element != null) {

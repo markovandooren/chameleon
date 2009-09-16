@@ -3,7 +3,7 @@ package chameleon.core.type.generics;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.OrderedReferenceSet;
+import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
@@ -72,7 +72,7 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 		return result;
 	}
 	
-	private OrderedReferenceSet<FormalTypeParameter,TypeConstraint> _typeConstraints = new OrderedReferenceSet<FormalTypeParameter,TypeConstraint>(this);
+	private OrderedMultiAssociation<FormalTypeParameter,TypeConstraint> _typeConstraints = new OrderedMultiAssociation<FormalTypeParameter,TypeConstraint>(this);
 	
 	public List<TypeConstraint> constraints() {
 		return _typeConstraints.getOtherEnds();

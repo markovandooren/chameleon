@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.rejuse.association.OrderedReferenceSet;
+import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.declaration.Declaration;
@@ -36,7 +36,7 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 		}
 	}
 	
-	private OrderedReferenceSet<ClassBody, TypeElement> _elements = new OrderedReferenceSet<ClassBody, TypeElement>(this);
+	private OrderedMultiAssociation<ClassBody, TypeElement> _elements = new OrderedMultiAssociation<ClassBody, TypeElement>(this);
 
 	public void add(TypeElement element) {
 	  if(element != null) {

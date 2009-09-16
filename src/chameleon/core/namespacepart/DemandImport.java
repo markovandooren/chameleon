@@ -3,7 +3,7 @@ package chameleon.core.namespacepart;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.lookup.DeclarationSelector;
@@ -28,7 +28,7 @@ public class DemandImport extends Import<DemandImport> {
   }
 
   
-	private Reference<DemandImport,ElementReference<?, ?, ? extends Namespace>> _packageOrType = new Reference<DemandImport,ElementReference<?, ?, ? extends Namespace>>(this);
+	private SingleAssociation<DemandImport,ElementReference<?, ?, ? extends Namespace>> _packageOrType = new SingleAssociation<DemandImport,ElementReference<?, ?, ? extends Namespace>>(this);
 
   
   public ElementReference<?, ?, ? extends Namespace> namespaceReference() {

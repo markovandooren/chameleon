@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.AbstractPredicate;
 
@@ -113,7 +113,7 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	    return _header.getOtherEnd();
 	  }
 	  
-	  private Reference<E, H> _header = new Reference<E, H>((E) this);
+	  private SingleAssociation<E, H> _header = new SingleAssociation<E, H>((E) this);
 	
 	/******************
 	 * IMPLEMENTATION *

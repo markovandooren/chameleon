@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
@@ -62,7 +62,7 @@ public class VariableReference extends Expression<VariableReference> implements 
 	/**
 	 * TARGET
 	 */
-	private Reference<VariableReference,InvocationTarget> _target = new Reference<VariableReference,InvocationTarget>(this);
+	private SingleAssociation<VariableReference,InvocationTarget> _target = new SingleAssociation<VariableReference,InvocationTarget>(this);
 
   public InvocationTarget getTarget() {
     return _target.getOtherEnd();

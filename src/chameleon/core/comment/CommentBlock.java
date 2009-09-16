@@ -1,6 +1,6 @@
 package chameleon.core.comment;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 /**
  * @author Marko van Dooren
@@ -19,9 +19,9 @@ public class CommentBlock {
 	 * @uml.associationEnd 
 	 * @uml.property name="_parentLink" multiplicity="(1 1)"
 	 */
-	private Reference _parentLink = new Reference(this);
+	private SingleAssociation _parentLink = new SingleAssociation(this);
 
-  public Reference getParentLink() {
+  public SingleAssociation getParentLink() {
     return _parentLink;
   }
 }

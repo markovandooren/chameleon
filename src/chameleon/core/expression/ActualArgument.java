@@ -2,8 +2,8 @@ package chameleon.core.expression;
 
 import java.util.List;
 
-import org.rejuse.association.OrderedReferenceSet;
-import org.rejuse.association.Reference;
+import org.rejuse.association.OrderedMultiAssociation;
+import org.rejuse.association.SingleAssociation;
 import org.rejuse.java.collections.Visitor;
 
 import chameleon.core.element.Element;
@@ -39,9 +39,9 @@ public class ActualArgument extends NamespaceElementImpl<ActualArgument,ActualAr
 	/**
 	 * EXPRESSION
 	 */
-	private Reference<ActualArgument,Expression> _expression = new Reference<ActualArgument,Expression>(this);
+	private SingleAssociation<ActualArgument,Expression> _expression = new SingleAssociation<ActualArgument,Expression>(this);
 
-	public Reference getExpressionLink(){
+	public SingleAssociation getExpressionLink(){
 		return _expression;
 	}
 
@@ -62,7 +62,7 @@ public class ActualArgument extends NamespaceElementImpl<ActualArgument,ActualAr
 	 * MODIFIERS *
 	 *************/
 	
-	private OrderedReferenceSet<ActualArgument, Modifier> _modifiers = new OrderedReferenceSet<ActualArgument, Modifier>(this);
+	private OrderedMultiAssociation<ActualArgument, Modifier> _modifiers = new OrderedMultiAssociation<ActualArgument, Modifier>(this);
 
 	public List<Modifier> getModifiers() {
 		return _modifiers.getOtherEnds();

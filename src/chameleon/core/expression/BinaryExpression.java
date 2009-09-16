@@ -1,6 +1,6 @@
 package chameleon.core.expression;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 
 /**
@@ -17,7 +17,7 @@ public abstract class BinaryExpression extends Expression<BinaryExpression> {
 	 * FIRST
 	 */
   
-	private Reference<BinaryExpression,Expression> _first = new Reference<BinaryExpression,Expression>(this);
+	private SingleAssociation<BinaryExpression,Expression> _first = new SingleAssociation<BinaryExpression,Expression>(this);
 
   /**
    * Return the first expression
@@ -41,7 +41,7 @@ public abstract class BinaryExpression extends Expression<BinaryExpression> {
 	/**
 	 * SECOND
 	 */
-	private Reference<BinaryExpression,Expression> _second = new Reference<BinaryExpression,Expression>(this);
+	private SingleAssociation<BinaryExpression,Expression> _second = new SingleAssociation<BinaryExpression,Expression>(this);
 
   
   /**

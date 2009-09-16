@@ -2,8 +2,8 @@ package chameleon.core.type;
 
 import java.util.List;
 
-import org.rejuse.association.OrderedReferenceSet;
-import org.rejuse.association.Reference;
+import org.rejuse.association.OrderedMultiAssociation;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
@@ -42,7 +42,7 @@ public class RegularType extends Type {
 		return new RegularType(signature().clone());
 	}
 
-	private Reference<Type, ClassBody> _body = new Reference<Type, ClassBody>(this);
+	private SingleAssociation<Type, ClassBody> _body = new SingleAssociation<Type, ClassBody>(this);
 
 	public ClassBody body() {
 		return _body.getOtherEnd();
@@ -78,7 +78,7 @@ public class RegularType extends Type {
      return body().members();
   }
 
-	private OrderedReferenceSet<Type, InheritanceRelation> _inheritanceRelations = new OrderedReferenceSet<Type, InheritanceRelation>(this);
+	private OrderedMultiAssociation<Type, InheritanceRelation> _inheritanceRelations = new OrderedMultiAssociation<Type, InheritanceRelation>(this);
 
 	public void removeInheritanceRelation(InheritanceRelation relation) {
 		_inheritanceRelations.remove(relation.parentLink());
@@ -108,7 +108,7 @@ public class RegularType extends Type {
 		return this;
 	}
 
-	private Reference<Type, TypeParameterBlock> _parameters = new Reference<Type, TypeParameterBlock>(this);
+	private SingleAssociation<Type, TypeParameterBlock> _parameters = new SingleAssociation<Type, TypeParameterBlock>(this);
 	
 	public TypeParameterBlock parameterBlock() {
 		return _parameters.getOtherEnd();

@@ -1,6 +1,6 @@
 package chameleon.core.property;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
@@ -19,9 +19,9 @@ import chameleon.core.language.WrongLanguageException;
  */
 public abstract class PropertyRule {
 
-	private Reference<PropertyRule,Language> _language = new Reference<PropertyRule, Language>(this);
+	private SingleAssociation<PropertyRule,Language> _language = new SingleAssociation<PropertyRule, Language>(this);
 	
-	public Reference<PropertyRule,Language> languageLink() {
+	public SingleAssociation<PropertyRule,Language> languageLink() {
 		return _language;
 	}
 	

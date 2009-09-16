@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
@@ -28,7 +28,7 @@ public class TypeImport extends Import<TypeImport> {
     return Util.createNonNullList(getTypeReference());
   }
 
-	private Reference<TypeImport, TypeReference> _typeReference = new Reference<TypeImport, TypeReference>(this);
+	private SingleAssociation<TypeImport, TypeReference> _typeReference = new SingleAssociation<TypeImport, TypeReference>(this);
 
   
   public TypeReference getTypeReference() {

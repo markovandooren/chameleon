@@ -1,6 +1,6 @@
 package chameleon.core.comment;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 /**
  * @author Marko van Dooren
@@ -14,6 +14,6 @@ public interface CommentBlockContainer {
 	 * @uml.associationEnd 
 	 * @uml.property name="commentLink" multiplicity="(0 1)"
 	 */
-	public Reference getCommentLink();
+	public SingleAssociation getCommentLink();
 
 }

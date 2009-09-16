@@ -2,7 +2,7 @@ package chameleon.core.method.exception;
 
 import java.util.Set;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
@@ -19,7 +19,7 @@ public interface AnchoredDeclaration<E extends Element, P extends Element> exten
 	/**
 	 * @return
 	 */
-	public Reference getFilterClauseLink();
+	public SingleAssociation getFilterClauseLink();
 
 	/**
 	 * @return

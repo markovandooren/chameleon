@@ -2,7 +2,7 @@ package chameleon.core.expression;
 
 import java.util.List;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.element.Element;
 import chameleon.core.type.StubTypeElement;
@@ -18,7 +18,7 @@ public class StubExpressionContainer extends StubTypeElement<StubExpressionConta
     _expr.connectTo(expr.parentLink());
   }
 
- 	private Reference _expr = new Reference(this);
+ 	private SingleAssociation _expr = new SingleAssociation(this);
 
   
   public Expression getExpression() {

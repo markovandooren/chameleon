@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
@@ -58,7 +58,7 @@ public class UsingAlias extends Import<UsingAlias> {
 		this._identifier = identifier;
 	}
 
-	private Reference<UsingAlias,NamespaceOrTypeReference> _packageOrType = new Reference<UsingAlias,NamespaceOrTypeReference>(this);
+	private SingleAssociation<UsingAlias,NamespaceOrTypeReference> _packageOrType = new SingleAssociation<UsingAlias,NamespaceOrTypeReference>(this);
 
   
   public NamespaceOrTypeReference getNamespaceOrTypeReference() {

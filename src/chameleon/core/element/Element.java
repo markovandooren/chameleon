@@ -3,7 +3,7 @@ package chameleon.core.element;
 import java.util.Collection;
 import java.util.List;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.Predicate;
 import org.rejuse.predicate.SafePredicate;
@@ -58,7 +58,7 @@ public interface Element<E extends Element, P extends Element> {
      @
      @ post \result != null;
      @*/
-    public Reference<E,P> parentLink();
+    public SingleAssociation<E,P> parentLink();
 
     /**
      * Completely disconnect this element and all children from the parent.

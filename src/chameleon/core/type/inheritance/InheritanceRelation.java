@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 import org.rejuse.logic.ternary.Ternary;
 
 import chameleon.core.declaration.Signature;
@@ -194,6 +194,6 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 //		//   1.a) WE NEED A TRICK CONTAINER (The superclass) IN WHICH THE PARAMETERS ARE SUBSTITUTED
 //	}
 	
-	private Reference<InheritanceRelation,TypeReference> _superClass = new Reference<InheritanceRelation, TypeReference>(this);
+	private SingleAssociation<InheritanceRelation,TypeReference> _superClass = new SingleAssociation<InheritanceRelation, TypeReference>(this);
 
 }

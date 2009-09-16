@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.OrderedReferenceSet;
+import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.java.collections.RobustVisitor;
 import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.AbstractPredicate;
@@ -99,7 +99,7 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
 	 * EXCEPTION DECLARATIONS
 	 */
 
-  private OrderedReferenceSet<ExceptionClause,ExceptionDeclaration> _exceptionDeclarations = new OrderedReferenceSet<ExceptionClause,ExceptionDeclaration>(this);
+  private OrderedMultiAssociation<ExceptionClause,ExceptionDeclaration> _exceptionDeclarations = new OrderedMultiAssociation<ExceptionClause,ExceptionDeclaration>(this);
 
   public void add(ExceptionDeclaration decl) {
     _exceptionDeclarations.add(decl.parentLink());

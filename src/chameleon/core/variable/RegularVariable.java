@@ -3,8 +3,8 @@ package chameleon.core.variable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.OrderedReferenceSet;
-import org.rejuse.association.Reference;
+import org.rejuse.association.OrderedMultiAssociation;
+import org.rejuse.association.SingleAssociation;
 import org.rejuse.java.collections.Visitor;
 import org.rejuse.property.PropertySet;
 
@@ -33,7 +33,7 @@ public abstract class RegularVariable<E extends RegularVariable<E,P,F>, P extend
 	/**
 	 * TYPE
 	 */
-	private Reference<Variable,TypeReference> _typeReference = new Reference<Variable,TypeReference>(this);
+	private SingleAssociation<Variable,TypeReference> _typeReference = new SingleAssociation<Variable,TypeReference>(this);
 
 
   public TypeReference getTypeReference() {
@@ -48,7 +48,7 @@ public abstract class RegularVariable<E extends RegularVariable<E,P,F>, P extend
 	 * INITIALIZATION EXPRESSION 
 	 */
   
-	private Reference<RegularVariable,Expression> _init = new Reference<RegularVariable,Expression>(this);
+	private SingleAssociation<RegularVariable,Expression> _init = new SingleAssociation<RegularVariable,Expression>(this);
 
 	public Expression getInitialization() {
     return _init.getOtherEnd();
@@ -101,7 +101,7 @@ public abstract class RegularVariable<E extends RegularVariable<E,P,F>, P extend
 	 * MODIFIERS *
 	 *************/
 	
-	private OrderedReferenceSet<Variable, Modifier> _modifiers = new OrderedReferenceSet<Variable, Modifier>(this);
+	private OrderedMultiAssociation<Variable, Modifier> _modifiers = new OrderedMultiAssociation<Variable, Modifier>(this);
 
 	public List<Modifier> modifiers() {
 		return _modifiers.getOtherEnds();

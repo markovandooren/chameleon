@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.rejuse.association.OrderedReferenceSet;
-import org.rejuse.association.Reference;
+import org.rejuse.association.OrderedMultiAssociation;
+import org.rejuse.association.SingleAssociation;
 import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.Config;
@@ -196,7 +196,7 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 		_subNamespaceParts.remove(pp.parentLink());
 	}
 
-	public OrderedReferenceSet<NamespacePart, NamespacePart> getNamespacePartsLink() {
+	public OrderedMultiAssociation<NamespacePart, NamespacePart> getNamespacePartsLink() {
 		return _subNamespaceParts;
 	}
 	
@@ -234,7 +234,7 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 		return super.disconnected() && namespace() != null;
 	}
 	
-	private OrderedReferenceSet<NamespacePart, NamespacePart> _subNamespaceParts = new OrderedReferenceSet<NamespacePart, NamespacePart>(this);
+	private OrderedMultiAssociation<NamespacePart, NamespacePart> _subNamespaceParts = new OrderedMultiAssociation<NamespacePart, NamespacePart>(this);
 
 	public List<? extends Element> children() {
 		List result = declarations(); // can't specify type parameter without having to clone types(). don't like it.
@@ -259,9 +259,9 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 	/*************
 	 * NAMESPACE *
 	 *************/
-	private Reference<NamespacePart, Namespace> _namespaceLink = new Reference<NamespacePart, Namespace>(this);
+	private SingleAssociation<NamespacePart, Namespace> _namespaceLink = new SingleAssociation<NamespacePart, Namespace>(this);
 
-	public Reference<NamespacePart, Namespace> getNamespaceLink() {
+	public SingleAssociation<NamespacePart, Namespace> getNamespaceLink() {
 		return _namespaceLink;
 	}
 
@@ -287,7 +287,7 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 	 * DEMAND IMPORTS *
 	 ******************/
 
-	private OrderedReferenceSet<NamespacePart,Import> _imports = new OrderedReferenceSet<NamespacePart,Import>(this);
+	private OrderedMultiAssociation<NamespacePart,Import> _imports = new OrderedMultiAssociation<NamespacePart,Import>(this);
 
 	public List<Import> imports() {
 		return _imports.getOtherEnds();
@@ -304,7 +304,7 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 	/****************
 	 * DECLARATIONS *
 	 ****************/
-	protected OrderedReferenceSet<NamespacePart, Declaration> _types = new OrderedReferenceSet<NamespacePart, Declaration>(this);
+	protected OrderedMultiAssociation<NamespacePart, Declaration> _types = new OrderedMultiAssociation<NamespacePart, Declaration>(this);
 
 	public void add(Declaration declaration) {
 		_types.add(declaration.parentLink());

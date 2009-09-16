@@ -1,6 +1,6 @@
 package chameleon.core.variable;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
@@ -29,6 +29,6 @@ public abstract class VariableImpl<E extends VariableImpl<E,P,F>, P extends Decl
     return _signature.getOtherEnd();
   }
   
-  private Reference<VariableImpl, SimpleNameSignature> _signature = new Reference<VariableImpl, SimpleNameSignature>(this);
+  private SingleAssociation<VariableImpl, SimpleNameSignature> _signature = new SingleAssociation<VariableImpl, SimpleNameSignature>(this);
 
 }

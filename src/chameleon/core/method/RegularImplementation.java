@@ -2,7 +2,7 @@ package chameleon.core.method;
 
 import java.util.List;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.lookup.LookupException;
 import chameleon.core.statement.Block;
@@ -20,7 +20,7 @@ public class RegularImplementation extends Implementation<RegularImplementation>
 	/**
 	 * BODY
 	 */
-	private Reference<RegularImplementation,Block> _body = new Reference<RegularImplementation,Block>(this);
+	private SingleAssociation<RegularImplementation,Block> _body = new SingleAssociation<RegularImplementation,Block>(this);
 
   public void setBody(Block block) {
     _body.connectTo(block.parentLink());

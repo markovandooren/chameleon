@@ -1,6 +1,6 @@
 package chameleon.core.member;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
@@ -30,6 +30,6 @@ public abstract class FixedSignatureMember<E extends FixedSignatureMember<E,P,S,
     return _signature.getOtherEnd();
   }
   
-  private Reference<Member, S> _signature = new Reference<Member, S>(this);
+  private SingleAssociation<Member, S> _signature = new SingleAssociation<Member, S>(this);
 
 }

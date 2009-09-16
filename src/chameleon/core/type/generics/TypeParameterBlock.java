@@ -3,7 +3,7 @@ package chameleon.core.type.generics;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.OrderedReferenceSet;
+import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
@@ -46,7 +46,7 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 		return parameters();
 	}
 
-	private OrderedReferenceSet<TypeParameterBlock, TypeParameter> _parameters = new OrderedReferenceSet<TypeParameterBlock, TypeParameter>(this);
+	private OrderedMultiAssociation<TypeParameterBlock, TypeParameter> _parameters = new OrderedMultiAssociation<TypeParameterBlock, TypeParameter>(this);
 	
 	public List<TypeParameter> parameters() {
 		return _parameters.getOtherEnds();
@@ -123,7 +123,7 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 			return parameters();
 		}
 		
-		private OrderedReferenceSet<Stub, TypeParameter> _parameters = new OrderedReferenceSet<Stub, TypeParameter>(this);
+		private OrderedMultiAssociation<Stub, TypeParameter> _parameters = new OrderedMultiAssociation<Stub, TypeParameter>(this);
 		
 		private List<TypeParameter> parameters() {
 			return _parameters.getOtherEnds();

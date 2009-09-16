@@ -2,7 +2,7 @@ package chameleon.core.method.exception;
 
 import java.util.List;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.element.Element;
 import chameleon.core.type.StubTypeElement;
@@ -24,7 +24,7 @@ public class StubExceptionClauseContainer extends StubTypeElement<StubExceptionC
 	 * @uml.associationEnd 
 	 * @uml.property name="_exceptionClause" multiplicity="(0 -1)" elementType="chameleon.core.method.exception.ExceptionClause"
 	 */
-	private Reference _exceptionClause = new Reference(this);
+	private SingleAssociation _exceptionClause = new SingleAssociation(this);
 
     
     public ExceptionClause getExceptionClause() {

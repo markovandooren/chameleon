@@ -2,7 +2,7 @@ package chameleon.core.expression;
 
 import java.util.List;
 
-import org.rejuse.association.OrderedReferenceSet;
+import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.element.Element;
 import chameleon.core.namespace.Namespace;
@@ -14,10 +14,10 @@ public class ActualArgumentList extends NamespaceElementImpl<ActualArgumentList,
 	/**
 	 * ACTUAL PARAMETERS
 	 */
-	private OrderedReferenceSet<ActualArgumentList,ActualArgument> _parametersLink = new OrderedReferenceSet<ActualArgumentList,ActualArgument>(this);
+	private OrderedMultiAssociation<ActualArgumentList,ActualArgument> _parametersLink = new OrderedMultiAssociation<ActualArgumentList,ActualArgument>(this);
 
 
-  public OrderedReferenceSet<ActualArgumentList,ActualArgument> getParametersLink() {
+  public OrderedMultiAssociation<ActualArgumentList,ActualArgument> getParametersLink() {
     return _parametersLink;
   }
 

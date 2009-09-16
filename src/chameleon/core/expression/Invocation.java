@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.OrderedReferenceSet;
-import org.rejuse.association.Reference;
+import org.rejuse.association.OrderedMultiAssociation;
+import org.rejuse.association.SingleAssociation;
 import org.rejuse.java.collections.Visitor;
 
 import chameleon.core.Config;
@@ -40,7 +40,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
 	/**
 	 * TARGET
 	 */
-	private Reference<Invocation,InvocationTarget> _target = new Reference<Invocation,InvocationTarget>(this);
+	private SingleAssociation<Invocation,InvocationTarget> _target = new SingleAssociation<Invocation,InvocationTarget>(this);
 
 
   public InvocationTarget getTarget() {
@@ -61,7 +61,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
 	/*********************
 	 * ACTUAL PARAMETERS *
 	 *********************/
- private Reference<Invocation,ActualArgumentList> _parameters = new Reference<Invocation,ActualArgumentList>(this);
+ private SingleAssociation<Invocation,ActualArgumentList> _parameters = new SingleAssociation<Invocation,ActualArgumentList>(this);
  
  public ActualArgumentList actualArgumentList() {
 	 return _parameters.getOtherEnd();
@@ -273,7 +273,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   	}
   }
   
-  private OrderedReferenceSet<Invocation,ActualTypeArgument> _genericParameters = new OrderedReferenceSet<Invocation, ActualTypeArgument>(this);
+  private OrderedMultiAssociation<Invocation,ActualTypeArgument> _genericParameters = new OrderedMultiAssociation<Invocation, ActualTypeArgument>(this);
 
   
 }

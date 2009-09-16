@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.Predicate;
 import org.rejuse.predicate.SafePredicate;
@@ -131,7 +131,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  // IN WHICH CASE _parent PROVIDES THE UNIDIRECTIONAL ASSOCIATION
 	  // WITH THE PARENT. IN THAT CASE, _original IS SET TO THE ELEMENT
 	  // OF WHICH THIS ELEMENT IS A DERIVED ELEMENT
-	  private Reference<E,P> _parentLink = new Reference<E,P>((E) this);
+	  private SingleAssociation<E,P> _parentLink = new SingleAssociation<E,P>((E) this);
 
 	  /**
 	   * This is the undirectional association with the parent in case this element is derived.
@@ -145,7 +145,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	   * @throws ChameleonProgrammerException
 	   *    The method is invoked on a derived element. 
 	   */
-	  public final Reference<E,P> parentLink() {
+	  public final SingleAssociation<E,P> parentLink() {
 	  	if(_parentLink != null) {
 	      return _parentLink;
 	  	} else {

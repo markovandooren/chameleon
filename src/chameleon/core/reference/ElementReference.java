@@ -1,7 +1,7 @@
 package chameleon.core.reference;
 
 import org.apache.log4j.Logger;
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
@@ -56,7 +56,7 @@ public abstract class ElementReference<E extends ElementReference, P extends Ele
     return signature().name();
   }
   
-  private Reference<ElementReference,SimpleNameSignature> _signature = new Reference<ElementReference,SimpleNameSignature>(this);
+  private SingleAssociation<ElementReference,SimpleNameSignature> _signature = new SingleAssociation<ElementReference,SimpleNameSignature>(this);
 
   /**
    * Return the signature of this element reference.

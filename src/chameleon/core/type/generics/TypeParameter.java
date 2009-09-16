@@ -1,6 +1,6 @@
 package chameleon.core.type.generics;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
@@ -36,7 +36,7 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Namespac
     return _signature.getOtherEnd();
   }
   
-  private Reference<TypeParameter, SimpleNameSignature> _signature = new Reference<TypeParameter, SimpleNameSignature>(this);
+  private SingleAssociation<TypeParameter, SimpleNameSignature> _signature = new SingleAssociation<TypeParameter, SimpleNameSignature>(this);
 
   public Type actualDeclaration() throws LookupException {
   	throw new ChameleonProgrammerException();

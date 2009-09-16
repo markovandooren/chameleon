@@ -3,7 +3,7 @@ package chameleon.core.type.generics;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.element.Element;
 import chameleon.core.language.ObjectOrientedLanguage;
@@ -13,7 +13,7 @@ import chameleon.core.type.TypeReference;
 
 public class SuperWildCard extends ActualTypeArgument<SuperWildCard> {
 
-	private Reference<ActualTypeArgument,TypeReference> _type = new Reference<ActualTypeArgument,TypeReference>(this);
+	private SingleAssociation<ActualTypeArgument,TypeReference> _type = new SingleAssociation<ActualTypeArgument,TypeReference>(this);
 
 	public SuperWildCard(TypeReference ref) {
 		setTypeReference(ref);

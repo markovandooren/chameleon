@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.rejuse.association.OrderedReferenceSet;
-import org.rejuse.association.Reference;
+import org.rejuse.association.OrderedMultiAssociation;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
@@ -75,7 +75,7 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
     return _parameters.size();
   }
 
-  private OrderedReferenceSet<MethodHeader,FormalParameter> _parameters = new OrderedReferenceSet<MethodHeader,FormalParameter>(this);
+  private OrderedMultiAssociation<MethodHeader,FormalParameter> _parameters = new OrderedMultiAssociation<MethodHeader,FormalParameter>(this);
   
   /**
    * Return the type of the formal parameters of this signature.
@@ -150,7 +150,7 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
   	return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this),this);
   }
   
-	private Reference<MethodHeader, TypeParameterBlock> _typeParameters = new Reference<MethodHeader, TypeParameterBlock>(this);
+	private SingleAssociation<MethodHeader, TypeParameterBlock> _typeParameters = new SingleAssociation<MethodHeader, TypeParameterBlock>(this);
 	
 	public TypeParameterBlock parameterBlock() {
 		return _typeParameters.getOtherEnd();

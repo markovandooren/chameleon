@@ -2,7 +2,7 @@ package chameleon.core.statement;
 
 import java.util.List;
 
-import org.rejuse.association.OrderedReferenceSet;
+import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.java.collections.Visitor;
 
 import chameleon.core.element.ChameleonProgrammerException;
@@ -20,9 +20,9 @@ public class Block extends Statement<Block> implements StatementListContainer<Bl
 	/**
 	 * STATEMENTS
 	 */
-	private OrderedReferenceSet<Block,Statement> _statements = new OrderedReferenceSet<Block,Statement>(this);
+	private OrderedMultiAssociation<Block,Statement> _statements = new OrderedMultiAssociation<Block,Statement>(this);
 
-  public OrderedReferenceSet<Block,Statement> getStatementsLink() {
+  public OrderedMultiAssociation<Block,Statement> getStatementsLink() {
     return _statements;
   }
 

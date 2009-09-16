@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 import org.rejuse.predicate.AbstractPredicate;
 
 import chameleon.core.expression.Invocation;
@@ -45,7 +45,7 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration<TypeException
    * TYPE REFERENCE *
    ******************/
 
-	private Reference<TypeExceptionDeclaration,TypeReference> _typeReference = new Reference<TypeExceptionDeclaration,TypeReference>(this);
+	private SingleAssociation<TypeExceptionDeclaration,TypeReference> _typeReference = new SingleAssociation<TypeExceptionDeclaration,TypeReference>(this);
 
 	public TypeReference getTypeReference() {
     return _typeReference.getOtherEnd();

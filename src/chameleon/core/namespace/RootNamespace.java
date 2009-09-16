@@ -1,7 +1,7 @@
 package chameleon.core.namespace;
 
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.declaration.SimpleNameSignature;
@@ -31,7 +31,7 @@ public class RootNamespace extends RegularNamespace {
 	  new CompilationUnit(pp);
   }
   
-  private Reference<RootNamespace,Language> _language = new Reference<RootNamespace,Language>(this);
+  private SingleAssociation<RootNamespace,Language> _language = new SingleAssociation<RootNamespace,Language>(this);
 
   public Type getNullType() {
 	  return this.language(ObjectOrientedLanguage.class).getNullType();
@@ -41,7 +41,7 @@ public class RootNamespace extends RegularNamespace {
     return _language.getOtherEnd();
   }
   
-  public Reference<RootNamespace,Language> languageLink() {
+  public SingleAssociation<RootNamespace,Language> languageLink() {
   	return _language;
   }
 	  

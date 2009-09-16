@@ -1,6 +1,6 @@
 package chameleon.core.method;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.method.exception.ExceptionClause;
 import chameleon.core.type.TypeReference;
@@ -13,7 +13,7 @@ public abstract class RegularMethod<E extends RegularMethod<E,H,S,M>, H extends 
 		setExceptionClause(new ExceptionClause());
 	}
 	
-	private Reference<Method,TypeReference> _typeReference = new Reference<Method,TypeReference>(this);
+	private SingleAssociation<Method,TypeReference> _typeReference = new SingleAssociation<Method,TypeReference>(this);
 
 	public TypeReference getReturnTypeReference() {
 		return _typeReference.getOtherEnd();
@@ -28,7 +28,7 @@ public abstract class RegularMethod<E extends RegularMethod<E,H,S,M>, H extends 
 		}
 	}
 
-	private Reference<Method,Implementation> _implementationLink = new Reference<Method,Implementation>(this);
+	private SingleAssociation<Method,Implementation> _implementationLink = new SingleAssociation<Method,Implementation>(this);
 
 	public Implementation implementation() {
 		return _implementationLink.getOtherEnd();
@@ -46,7 +46,7 @@ public abstract class RegularMethod<E extends RegularMethod<E,H,S,M>, H extends 
   /**
    * EXCEPTION CLAUSE
    */
-  private Reference<RegularMethod<E,H,S,M>,ExceptionClause> _exceptionClause = new Reference<RegularMethod<E,H,S,M>,ExceptionClause>(this);
+  private SingleAssociation<RegularMethod<E,H,S,M>,ExceptionClause> _exceptionClause = new SingleAssociation<RegularMethod<E,H,S,M>,ExceptionClause>(this);
 
 
   public ExceptionClause getExceptionClause() {

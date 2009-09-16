@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.rejuse.association.OrderedReferenceSet;
-import org.rejuse.association.Reference;
-import org.rejuse.association.ReferenceSet;
+import org.rejuse.association.OrderedMultiAssociation;
+import org.rejuse.association.SingleAssociation;
+import org.rejuse.association.MultiAssociation;
 import org.rejuse.association.Association;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertyMutex;
@@ -172,7 +172,7 @@ public abstract class Language implements PropertyUniverse<Element> {
 		_propertyRules.remove(rule.languageLink());
 	} 
 	
-	private OrderedReferenceSet<Language,PropertyRule> _propertyRules = new OrderedReferenceSet<Language,PropertyRule>(this);
+	private OrderedMultiAssociation<Language,PropertyRule> _propertyRules = new OrderedMultiAssociation<Language,PropertyRule>(this);
 	
 	/**
 	 * Set the name of this language.
@@ -436,11 +436,11 @@ public abstract class Language implements PropertyUniverse<Element> {
      * DO NOT MODIFY THE RESULTING OBJECT. IT IS ACCESSIBLE ONLY BECAUSE OF THE 
      * VERY DUMB ACCESS CONTROL IN JAVA.
      */
-    public ReferenceSet<PropertyUniverse<Element>,Property<Element>> propertyLink() {
+    public MultiAssociation<PropertyUniverse<Element>,Property<Element>> propertyLink() {
       return _properties;
     }
     
-    private ReferenceSet<PropertyUniverse<Element>,Property<Element>> _properties = new ReferenceSet<PropertyUniverse<Element>, Property<Element>>(this);
+    private MultiAssociation<PropertyUniverse<Element>,Property<Element>> _properties = new MultiAssociation<PropertyUniverse<Element>, Property<Element>>(this);
     
     /**
      * 
@@ -466,7 +466,7 @@ public abstract class Language implements PropertyUniverse<Element> {
         _default.connectTo(defaultNamespace.languageLink());
     }
 
-    private Reference<Language,RootNamespace> _default = new Reference<Language,RootNamespace>(this); //todo wegens setDefaultNamespace kan dit niet generisch worden gemaakt?
+    private SingleAssociation<Language,RootNamespace> _default = new SingleAssociation<Language,RootNamespace>(this); //todo wegens setDefaultNamespace kan dit niet generisch worden gemaakt?
 
     /**
      * @return

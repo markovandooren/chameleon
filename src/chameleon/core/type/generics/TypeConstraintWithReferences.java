@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.rejuse.association.OrderedReferenceSet;
+import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
@@ -28,7 +28,7 @@ public abstract class TypeConstraintWithReferences<E extends TypeConstraintWithR
 		return _types.getOtherEnds();
 	}
 	
-	private OrderedReferenceSet<TypeConstraintWithReferences,TypeReference> _types = new OrderedReferenceSet<TypeConstraintWithReferences, TypeReference>(this);
+	private OrderedMultiAssociation<TypeConstraintWithReferences,TypeReference> _types = new OrderedMultiAssociation<TypeConstraintWithReferences, TypeReference>(this);
 
 	public List<Element> children() {
 		return new ArrayList<Element>(typeReferences());

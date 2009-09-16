@@ -1,6 +1,6 @@
 package chameleon.core.type.generics;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.element.Element;
@@ -33,7 +33,7 @@ public abstract class TypeConstraint<E extends TypeConstraint> extends ElementIm
 	
 	public abstract boolean matches(Type type) throws LookupException;
 	
-  private Reference<TypeConstraint, TypeReference> _typeRef = new Reference<TypeConstraint, TypeReference>(this);
+  private SingleAssociation<TypeConstraint, TypeReference> _typeRef = new SingleAssociation<TypeConstraint, TypeReference>(this);
 
 	@Override
 	public abstract E clone();

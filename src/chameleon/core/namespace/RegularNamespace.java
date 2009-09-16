@@ -2,8 +2,8 @@ package chameleon.core.namespace;
 
 import java.util.List;
 
-import org.rejuse.association.OrderedReferenceSet;
-import org.rejuse.association.ReferenceSet;
+import org.rejuse.association.OrderedMultiAssociation;
+import org.rejuse.association.MultiAssociation;
 
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
@@ -28,7 +28,7 @@ public class RegularNamespace extends Namespace {
 	/**
 	 * SUBNAMESPACES
 	 */
-	private OrderedReferenceSet<Namespace,Namespace> _namespaces = new OrderedReferenceSet<Namespace,Namespace>(this);
+	private OrderedMultiAssociation<Namespace,Namespace> _namespaces = new OrderedMultiAssociation<Namespace,Namespace>(this);
 
 
 	protected void addNamespace(Namespace namespace) {
@@ -50,9 +50,9 @@ public class RegularNamespace extends Namespace {
 	 * NAMESPACE PARTS *
 	 *******************/
 
-	private OrderedReferenceSet<Namespace,NamespacePart> _namespaceParts = new OrderedReferenceSet<Namespace,NamespacePart>(this);
+	private OrderedMultiAssociation<Namespace,NamespacePart> _namespaceParts = new OrderedMultiAssociation<Namespace,NamespacePart>(this);
 
-	public OrderedReferenceSet getNamespacePartsLink(){
+	public OrderedMultiAssociation getNamespacePartsLink(){
 		return _namespaceParts;
 	}
 

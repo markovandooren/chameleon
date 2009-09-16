@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.OrderedReferenceSet;
+import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.SafePredicate;
 import org.rejuse.property.Property;
@@ -66,7 +66,7 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
 		return aliasedVariable().is(property);
 	}
 
-	private OrderedReferenceSet<Variable, Modifier> _modifiers = new OrderedReferenceSet<Variable, Modifier>(this);
+	private OrderedMultiAssociation<Variable, Modifier> _modifiers = new OrderedMultiAssociation<Variable, Modifier>(this);
 
 	public void addModifier(Modifier modifier) {
 		if ((modifier != null) && (!_modifiers.contains(modifier.parentLink()))) {

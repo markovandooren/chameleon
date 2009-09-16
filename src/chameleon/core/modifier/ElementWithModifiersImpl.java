@@ -2,7 +2,7 @@ package chameleon.core.modifier;
 
 import java.util.List;
 
-import org.rejuse.association.OrderedReferenceSet;
+import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.element.ChameleonProgrammerException;
@@ -14,7 +14,7 @@ public abstract class ElementWithModifiersImpl<E extends Element<E, P>, P extend
   /*************
    * MODIFIERS *
    *************/
-  private OrderedReferenceSet<ElementWithModifiersImpl<E,P>, Modifier> _modifiers = new OrderedReferenceSet<ElementWithModifiersImpl<E,P>, Modifier>(this);
+  private OrderedMultiAssociation<ElementWithModifiersImpl<E,P>, Modifier> _modifiers = new OrderedMultiAssociation<ElementWithModifiersImpl<E,P>, Modifier>(this);
 
   /**
    * Return the list of modifiers of this member.

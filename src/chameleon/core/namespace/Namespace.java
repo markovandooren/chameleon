@@ -3,7 +3,7 @@ package chameleon.core.namespace;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.Reference;
+import org.rejuse.association.SingleAssociation;
 import org.rejuse.predicate.SafePredicate;
 import org.rejuse.predicate.TypePredicate;
 
@@ -86,7 +86,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	    return _signature.getOtherEnd();
 	  }
 		  
-	  private Reference<Namespace, SimpleNameSignature> _signature = new Reference<Namespace, SimpleNameSignature>(this);
+	  private SingleAssociation<Namespace, SimpleNameSignature> _signature = new SingleAssociation<Namespace, SimpleNameSignature>(this);
 
 	  /**
 	   * The name of a namespace is the name of its signature.

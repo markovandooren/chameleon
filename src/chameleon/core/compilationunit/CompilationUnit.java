@@ -2,7 +2,7 @@ package chameleon.core.compilationunit;
 
 import java.util.List;
 
-import org.rejuse.association.OrderedReferenceSet;
+import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
@@ -66,7 +66,7 @@ public class CompilationUnit extends ElementImpl<CompilationUnit,Element> {
 		_subNamespaceParts.remove(pp.parentLink());
 	}
 
-	private OrderedReferenceSet<CompilationUnit, NamespacePart> _subNamespaceParts = new OrderedReferenceSet<CompilationUnit, NamespacePart>(this);
+	private OrderedMultiAssociation<CompilationUnit, NamespacePart> _subNamespaceParts = new OrderedMultiAssociation<CompilationUnit, NamespacePart>(this);
 
 
 	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
