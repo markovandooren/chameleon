@@ -83,7 +83,7 @@ public abstract class ElementReference<E extends ElementReference, P extends Ele
   private D _cache;
   
   protected D getCache() {
-  	if(Config.CACHE_ELEMENT_REFERENCES == true) {
+  	if(Config.cacheElementReferences() == true) {
   	  return _cache;
   	} else {
   		return null;
@@ -91,7 +91,7 @@ public abstract class ElementReference<E extends ElementReference, P extends Ele
   }
   
   protected void setCache(D value) {
-  	if(Config.CACHE_ELEMENT_REFERENCES == true) {
+  	if(Config.cacheElementReferences() == true) {
   		_cache = value;
   	}
   }

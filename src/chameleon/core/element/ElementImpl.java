@@ -360,14 +360,14 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     
     public Language language() {
     	Language result = null;
-    	if(Config.CACHE_LANGUAGE == true) {
+    	if(Config.cacheLanguage() == true) {
     		result = _languageCache;
     	}
     	if(result == null) {
     		P parent = parent();
     		if(parent != null) {
     			result = parent().language();
-    			if(Config.CACHE_LANGUAGE == true) {
+    			if(Config.cacheLanguage() == true) {
     			  _languageCache = result;
     			}
     		} 

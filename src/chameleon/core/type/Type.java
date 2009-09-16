@@ -54,7 +54,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
 	private List<? extends Declaration> _declarationCache = null;
 	
 	private List<? extends Declaration> declarationCache() {
-		if(_declarationCache != null && Config.CACHE_DECLARATIONS) {
+		if(_declarationCache != null && Config.cacheDeclarations()) {
 		  return new ArrayList<Declaration>(_declarationCache);
 		} else {
 			return null;
@@ -62,7 +62,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
 	}
 	
 	private void setDeclarationCache(List<? extends Declaration> cache) {
-		if(Config.CACHE_DECLARATIONS) {
+		if(Config.cacheDeclarations()) {
 		  _declarationCache = new ArrayList<Declaration>(cache);
 		}
 	}

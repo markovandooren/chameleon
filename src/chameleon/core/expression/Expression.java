@@ -33,12 +33,12 @@ public abstract class Expression<E extends Expression> extends NamespaceElementI
    @*/
 	public final Type getType() throws LookupException {
 		Type result = null;
-		if(Config.CACHE_EXPRESSION_TYPES) {
+		if(Config.cacheExpressionTypes()) {
 			result = _typeCache;
 		}
 		if(result == null) {
 		  result = actualType();
-			if(Config.CACHE_EXPRESSION_TYPES) {
+			if(Config.cacheExpressionTypes()) {
 				_typeCache = result;
 			}
 		}

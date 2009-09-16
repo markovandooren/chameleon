@@ -45,7 +45,6 @@ public abstract class ModelTest extends TestSuite {
     @ post customRecursive();
 	  @*/
 	 public ModelTest(ModelProvider provider) throws ParseException, IOException {
-//     Config.setCaching(false);
      _provider = provider;
      setUp();
 	 }
