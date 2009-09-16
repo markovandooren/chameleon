@@ -462,12 +462,13 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
 
   		// 1) All defined members of the requested kind are added.
-  		final List<D> result = new ArrayList(directlyDeclaredMembers(selector));
+  		final List<D> result = directlyDeclaredMembers(selector);
 
   		// 2) Fetch all potentially inherited members from all inheritance relations
   		for (InheritanceRelation rel : inheritanceRelations()) {
   				rel.accumulateInheritedMembers(selector, result);
   		}
+  		// The selector must still apply its order to the candidates.
   		return selector.selection(result);
     }
     

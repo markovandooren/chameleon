@@ -198,7 +198,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   	}
 		if (result == null) {
 			//repeat lookup for debugging purposes.
-			Config.setCaching(false);
+			//Config.setCaching(false);
 	  	if(target == null) {
 	      result = lexicalLookupStrategy().lookUp(selector);
 	  	} else {
