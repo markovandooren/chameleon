@@ -30,6 +30,11 @@ import chameleon.core.tag.Tag;
  * <E> The type of the element (typically the subclass being defined).
  * <P> The type of the parent of the element.
  * 
+ * As the client of a model, you can mostly ignore these parameters. Because Java
+ * supports parametric polymorphism only through functional-style generic parameters,
+ * we cannot hide them. They are almost exclusively there for internal purposes. With
+ * type members, these problems would not occur.
+ * 
  * @author Marko van Dooren
  * 
  * @opt all

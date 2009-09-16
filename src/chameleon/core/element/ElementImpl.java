@@ -519,6 +519,10 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     protected void showStackTrace() {
     	showStackTrace(null);
     }
+    
+    public List<? extends Element> directDependencies() {
+    	return children();
+    }
 		
 //    public Iterator<Element> depthFirstIterator() {
 //    	return new Iterator<Element>() {

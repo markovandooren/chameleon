@@ -1,47 +1,75 @@
 package chameleon.core.lookup;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 
 /**
+ * A lookup strategy for search declarations locally in a declaration container.
+ * A local lookup strategy never delegates the search to other lookup strategies. If no
+ * element is found, it returns null.
  * 
  * @author Marko van Dooren
  */
 public class LocalLookupStrategy<E extends DeclarationContainer> extends LookupStrategy {
 
-	public LocalLookupStrategy(E element) {
-		_element = element;
+	/**
+	 * Create a new local lookup strategy that searches for declarations in the
+	 * given declaration container.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre declarationContainer != null;
+   @
+   @ post declarationContainer() == declarationContainer;
+   @*/
+	public LocalLookupStrategy(E declarationContainer) {
+		_declarationContainer = declarationContainer;
 	}
-	
-	private E _element;
+	/*
+	 * The declaration container in which this local lookup strategy will search for declarations 
+	 */
+ /*@
+	 @ private invariant _declarationContainer != null; 
+	 @*/
+	private E _declarationContainer;
 
 	/**
-	 * Return the element referenced by this collector
+	 * Return the declaration container referenced by this local lookup strategy.
 	 * @return
 	 */
-	public E element() {
-	  return _element; 
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
+	public E declarationContainer() {
+	  return _declarationContainer; 
 	}
 
   /**
    * Return those declarations of this declaration container that are selected
    * by the given declaration selector. The default implementation delegates the work
-   * to element().declarations(selector).
+   * to declarationContainer().declarations(selector).
    * 
    * @param <D> The type of the arguments selected by the given signature selector. This type
-   *            shoud be inferred automatically.
+   *            should be inferred automatically.
    * @param selector
    * @return
    * @throws LookupException
    */
   protected <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
-  	return element().declarations(selector);
+  	return declarationContainer().declarations(selector);
   }
 
+  /**
+   * Perform a local search in the connected declaration container using a declarations(selector) invocation. If
+   * the resulting collection contains a single declaration, that declaration is returned. If the resulting
+   * collection is empty, null is returned. If the resulting collection contains multiple elements, a
+   * LookupException is thrown since the lookup is ambiguous.
+   */
 	@Override
 	public <D extends Declaration> D lookUp(DeclarationSelector<D> selector) throws LookupException {
 	  List<D> tmp = declarations(selector);
@@ -51,12 +79,11 @@ public class LocalLookupStrategy<E extends DeclarationContainer> extends LookupS
 	  } else if (size == 0) {
 	    return null;
 	  } else {
-	  	// Disable declaration cache before we go debugging.
-//	  	Config.CACHE_DECLARATIONS = false;
-//	  	tmp = declarations(selector);
-	    throw new LookupException("Multiple matches found in "+element().toString() + " using selector "+selector.toString(),selector);
+	 // Disable declaration cache before we go debugging.
+   // Config.CACHE_DECLARATIONS = false;
+   // tmp = declarations(selector);
+	    throw new LookupException("Multiple matches found in "+declarationContainer().toString() + " using selector "+selector.toString(),selector);
 	  }
-
 	}
 
 }
