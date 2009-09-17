@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.rejuse.association.AssociationListener;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.Predicate;
@@ -36,6 +37,21 @@ import chameleon.core.tag.Tag;
 public abstract class ElementImpl<E extends Element, P extends Element> implements Element<E,P> {
 
 	  public ElementImpl() {
+//	  	_parentLink.addListener(new AssociationListener<P>() {
+//
+//				public void notifyElementAdded(P element) {
+//					notifyParent(ElementImpl.this);
+//				}
+//
+//				public void notifyElementRemoved(P element) {
+//					notifyParent(ElementImpl.this);
+//				}
+//
+//				public void notifyElementReplaced(P oldElement, P newElement) {
+//					notifyParent(ElementImpl.this);
+//				}
+//	  		
+//	  	});
 	  }
 	  
 		/********
@@ -527,11 +543,15 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
      */
     public void notifyDescendantChanged(Element descendant) {
     	reactOnDescendantChange(descendant);
-    	P parent = parent();
+    	notifyParent(descendant);
+    }
+
+		private void notifyParent(Element descendant) {
+			P parent = parent();
     	if(parent != null) {
     		parent.notifyDescendantChanged(descendant);
     	}
-    }
+		}
     
     /**
      * Actually react on a change of the given descendant.
@@ -539,7 +559,6 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
      * By default, there is no reaction.
      */
     protected void reactOnDescendantChange(Element descendant) {
-    	
     }
 		
 //    public Iterator<Element> depthFirstIterator() {
