@@ -91,8 +91,12 @@ public abstract class ElementReference<E extends ElementReference, P extends Ele
   }
   
   protected void setCache(D value) {
-  	if(Config.cacheElementReferences() == true) {
-  		_cache = value;
+  	if(! value.isDerived()) {
+    	if(Config.cacheElementReferences() == true) {
+    		_cache = value;
+    	}
+  	} else {
+  		_cache = null;
   	}
   }
   

@@ -146,9 +146,9 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
   	return parent();
   }
   
-  public LookupStrategy lexicalLookupStrategy(Element element) {
-  	return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this),this);
-  }
+//  public LookupStrategy lexicalLookupStrategy(Element element) {
+//  	return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this),this);
+//  }
   
 	private SingleAssociation<MethodHeader, TypeParameterBlock> _typeParameters = new SingleAssociation<MethodHeader, TypeParameterBlock>(this);
 	

@@ -229,9 +229,9 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
       target = getTarget().clone();
     }
     final E result = cloneInvocation(target);
-    new Visitor() {
-      public void visit(Object element) {
-        result.addArgument(((ActualArgument)element).clone());
+    new Visitor<ActualArgument>() {
+      public void visit(ActualArgument element) {
+        result.addArgument(element.clone());
       }
     }.applyTo(getActualParameters());
     return result;

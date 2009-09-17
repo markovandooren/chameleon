@@ -150,7 +150,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     			return lexicalParametersLookupStrategy();
 //    		  return parent().lexicalContext(this);
     		} else {
-    			throw new LookupException("Parent of type is null when looking for the parent context.");
+    			throw new LookupException("Parent of type is null when looking for the parent context of a type.");
     		}
     	} else {
     	  return lexicalMembersLookupStrategy();
@@ -161,6 +161,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     
     private LookupStrategy lexicalMembersLookupStrategy() {
     	LookupStrategy result = _lexicalMembersLookupStrategy;
+    	// Lazy initialization
     	if(result == null) {
     		_lexicalMembersLookupStrategy = language().lookupFactory().createLexicalLookupStrategy(targetContext(), this, 
     			new LookupStrategySelector(){
@@ -178,6 +179,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     
     private LookupStrategy lexicalParametersLookupStrategy() {
     	LookupStrategy result = _lexicalParametersLookupStrategy;
+    	// lazy initialization
     	if(result == null) {
     		_lexicalParametersLookupStrategy = language().lookupFactory().createLexicalLookupStrategy(_localInheritanceLookupStrategy, this);
     		result = _lexicalParametersLookupStrategy;

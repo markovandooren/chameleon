@@ -24,5 +24,5 @@ public class TypeAlias extends TypeIndirection {
 	public TypeAlias clone() {
 		return new TypeAlias(signature().clone(), aliasedType());
 	}
-
+	
 }

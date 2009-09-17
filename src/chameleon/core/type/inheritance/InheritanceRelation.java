@@ -125,6 +125,7 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 		removeNonMostSpecificMembers(current, toAdd, potential);
 	}
 
+	//FIXME: remove the toAdd argument.
 	private <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>>
 	  void removeNonMostSpecificMembers(List<M> current, final List<M> toAdd, final List<M> potential) throws LookupException {
 		for(M m: potential) {

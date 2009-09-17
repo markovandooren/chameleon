@@ -17,6 +17,6 @@ public abstract class CrossReferenceImpl<E extends CrossReference, P extends Ele
 		return getElement(new DeclaratorSelector(selector()));
 	}
 
-	public abstract <X extends Declaration > X getElement(DeclarationSelector<X> selector) throws LookupException;
+	protected abstract <X extends Declaration > X getElement(DeclarationSelector<X> selector) throws LookupException;
 
 }

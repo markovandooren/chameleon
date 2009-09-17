@@ -112,7 +112,6 @@ public abstract class DeclarationSelector<D extends Declaration> {
   
   /**
    * Required because 'instanceof D' cannot be used due to type erasure.
-   * @return
    */
  /*@
    @ public behavior

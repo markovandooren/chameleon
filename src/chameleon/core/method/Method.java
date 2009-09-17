@@ -424,12 +424,22 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	}
 
   public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
-	  return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
+  	if(_lexical == null) {
+	    _lexical = language().lookupFactory().createLexicalLookupStrategy(localLookupStrategy(), this);
+  	}
+  	return _lexical;
   }
   
-  public LookupStrategy localContext() {
-  	return language().lookupFactory().createTargetLookupStrategy(this);
+  public LookupStrategy localLookupStrategy() {
+  	if(_local == null) {
+  		_local = language().lookupFactory().createTargetLookupStrategy(this);
+  	}
+  	return _local;
   }
+  
+  private LookupStrategy _local;
+  
+  private LookupStrategy _lexical;
   
   public LookupStrategy targetContext() throws LookupException {
   	return returnType().lexicalLookupStrategy();

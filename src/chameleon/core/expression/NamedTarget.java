@@ -89,7 +89,7 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
    ***********/
    
   @SuppressWarnings("unchecked")
-  public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
+  protected <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
     InvocationTarget target = getTarget();
     X result;
     if(target != null) {
