@@ -39,7 +39,6 @@ import chameleon.core.tag.Tag;
  * 
  * @opt all
  */
-
 public interface Element<E extends Element, P extends Element> {
 
 	  /**

@@ -19,9 +19,6 @@ import chameleon.core.lookup.LookupException;
  */
 public interface DeclarationContainer<E extends DeclarationContainer, P extends Element> extends Element<E,P> {
   
-	//@FIXME: rename this class, and use a different one for the pure container? NamespartParts cannot be referrenced
-	// because it is not a target, so it makes little sense to add a declarations(selector) or targetContext() method there.
-	
   /**
    * Return the declarations the are defined in this declaration container.
    * @return
