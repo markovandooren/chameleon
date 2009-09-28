@@ -12,9 +12,11 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacepart.NamespacePart;
 
-
 /**
- * A compilation unit basically represents a file in which elements of the program/model are defined.
+ * A compilation unit represents a file in which elements of the program/model are defined.
+ * 
+ * A compilation unit does not directly contain the source code elements. It contains the namespace parts that contain
+ * the source code. 
  * 
  * @author Marko van Dooren
  */
@@ -41,16 +43,6 @@ public class CompilationUnit extends ElementImpl<CompilationUnit,Element> {
 		return namespaceParts();
 	}
 
-//	/**
-//	 * Disconnect this compilation unit from the model by recursively
-//	 * disconnecting all namespace declarations.
-//	 */
-//	public void disconnect() {
-//		for(NamespacePart namespacePart: namespaceParts()) {
-//			namespacePart.disconnect();
-//		}
-//	}
-	
 	/**
 	 * NAMESPACEPARTS
 	 */
