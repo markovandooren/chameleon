@@ -25,6 +25,7 @@ import chameleon.core.language.WrongLanguageException;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.tag.Tag;
+import chameleon.core.validation.VerificationResult;
 
 /**
  * @author Marko van Dooren
@@ -561,6 +562,18 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     protected void reactOnDescendantChange(Element descendant) {
     }
 		
+    
+    
+    public VerificationResult verify() {
+    	VerificationResult result = verifyThis();
+    	for(Element element:children()) {
+    		result = result.and(element.verify());
+    	}
+    	return result;
+    }
+    
+    public abstract VerificationResult verifyThis();
+    
 //    public Iterator<Element> depthFirstIterator() {
 //    	return new Iterator<Element>() {
 //

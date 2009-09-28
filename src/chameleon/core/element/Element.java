@@ -18,6 +18,7 @@ import chameleon.core.language.WrongLanguageException;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.tag.Tag;
+import chameleon.core.validation.VerificationResult;
 
 /**
  * Element is the top interface for an element of a model.
@@ -631,5 +632,12 @@ public interface Element<E extends Element, P extends Element> {
      @ pre descendants().contains(descendant);
      @*/
     public void notifyDescendantChanged(Element descendant);
+    
+    /**
+     * Verify whether or not this is valid, and if not, what the problems are. The verification is looks recursively
+     * for all problems.
+     * @return
+     */
+    public VerificationResult verify();
 
 }
