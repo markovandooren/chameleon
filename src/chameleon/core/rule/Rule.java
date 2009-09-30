@@ -1,0 +1,57 @@
+package chameleon.core.rule;
+
+import org.rejuse.association.SingleAssociation;
+
+import chameleon.core.element.ChameleonProgrammerException;
+import chameleon.core.language.Language;
+import chameleon.core.language.WrongLanguageException;
+/**
+ * A class of rules that apply to a language. The semantics of the rules is not determined in this class.
+ * 
+ * @author Marko van Dooren
+ *
+ * @param <R> A self type. R must always be a supertype of the class itself. This allows us to define the association at this level.
+ */
+public abstract class Rule<R extends Rule> {
+
+	private SingleAssociation<R,Language> _language = new SingleAssociation<R, Language>((R) this);
+	
+	public SingleAssociation<R,Language> languageLink() {
+		return _language;
+	}
+	
+	/**
+	 * Return the language to which this rule applies.
+	 */
+	public Language language() {
+		return _language.getOtherEnd();
+	}
+
+  /**
+   * Return the language of this element if it is of the wrong kind. Return null if this element is not
+   * connected to a complete model. Throws a WrongLanguageException is the
+   * language is not of the correct type.
+   */
+ /*@
+   @ public behavior
+   @
+   @ pre kind != null;
+   @
+   @ post \result == language();
+   @
+   @ signals(WrongLanguageException) language() != null && ! kind.isInstance(language());
+   @*/
+  public <T extends Language> T language(Class<T> kind) {
+  	if(kind == null) {
+  		throw new ChameleonProgrammerException("The given language class is null.");
+  	}
+  	Language language = language();
+  	if(kind.isInstance(language) || language == null) {
+  		return (T) language;
+  	} else {
+  		throw new WrongLanguageException("The language of this model is of the wrong kind. Expected: "+kind.getName()+" but got: " +language.getClass().getName());
+  	}
+  }
+
+
+}
