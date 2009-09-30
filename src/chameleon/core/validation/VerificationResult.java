@@ -19,5 +19,7 @@ public abstract class VerificationResult {
    @ post \result != null;
    @*/
 	public abstract VerificationResult and(VerificationResult other);
+
+	protected abstract VerificationResult andInvalid(Invalid compositeProblem);
 	
 }

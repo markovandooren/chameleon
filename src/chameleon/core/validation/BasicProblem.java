@@ -1,5 +1,8 @@
 package chameleon.core.validation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import chameleon.core.element.Element;
 
 /**
@@ -7,7 +10,7 @@ import chameleon.core.element.Element;
  * @author Marko van Dooren
  *
  */
-public class BasicProblem extends VerificationResult {
+public class BasicProblem extends Invalid {
 
 	public BasicProblem(Element element, String message) {
 		_element = element;
@@ -51,6 +54,21 @@ public class BasicProblem extends VerificationResult {
 
 	@Override
 	public VerificationResult and(VerificationResult other) {
-		
+		return other.andInvalid(this);
+	}
+
+	@Override
+	protected VerificationResult andInvalid(Invalid compositeProblem) {
+		CompositeProblem result = new CompositeProblem();
+		result.addAll(compositeProblem.problems());
+		result.add(this);
+		return result;
+	}
+
+	@Override
+	public List<Invalid> problems() {
+		List<Invalid> result = new ArrayList<Invalid>();
+		result.add(this);
+		return result;
 	}
 }

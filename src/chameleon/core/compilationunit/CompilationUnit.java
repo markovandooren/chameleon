@@ -11,6 +11,8 @@ import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacepart.NamespacePart;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 /**
  * A compilation unit represents a file in which elements of the program/model are defined.
@@ -87,5 +89,10 @@ public class CompilationUnit extends ElementImpl<CompilationUnit,Element> {
     }
     return result;
   }
+
+	@Override
+	public VerificationResult verifyThis() {
+		return Valid.create();
+	}
 
  }

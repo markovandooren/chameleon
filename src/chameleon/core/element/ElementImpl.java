@@ -564,11 +564,12 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 		
     
     
-    public VerificationResult verify() {
+    public final VerificationResult verify() {
     	VerificationResult result = verifyThis();
     	for(Element element:children()) {
     		result = result.and(element.verify());
     	}
+    	result = result.and(language().verify(this));
     	return result;
     }
     

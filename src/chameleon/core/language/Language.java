@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.rejuse.association.Association;
+import org.rejuse.association.MultiAssociation;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
-import org.rejuse.association.MultiAssociation;
-import org.rejuse.association.Association;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
@@ -22,6 +22,8 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.namespace.RootNamespace;
 import chameleon.core.property.PropertyRule;
+import chameleon.core.validation.ValidityRule;
+import chameleon.core.validation.VerificationResult;
 import chameleon.tool.Connector;
 import chameleon.tool.Processor;
 
@@ -195,6 +197,11 @@ public abstract class Language implements PropertyUniverse<Element> {
 	 */
 	private String _name;
 
+	/**
+	 * Return the default namespace attached to this language. A language is always attached to a default namespace because a language
+	 * may need access to predefined elements, which are somewhere in the model.
+	 * @return
+	 */
 	public RootNamespace defaultNamespace() {
         return (RootNamespace)_default.getOtherEnd();
     }
@@ -288,17 +295,29 @@ public abstract class Language implements PropertyUniverse<Element> {
     /**
      * Return the connector corresponding to the given connector interface.
      */
+   /*@
+     @ public behavior
+     @
+     @ pre connectorInterface != null;
+     @*/
     public <T extends Connector> T connector(Class<T> connectorInterface) {
         return _toolConnectors.get(connectorInterface);//((Map<Class<T>,T>)getMap()).get(toolExtensionClass);
     }
 
     /**
      * Remove the connector corresponding to the given connector interface. The
-     * bidirection relation is kept in a consistent state.
+     * bidirectional relation is kept in a consistent state.
      * 
      * @param <T>
      * @param connectorInterface
      */
+   /*@
+     @ public behavior
+     @
+     @ pre connectorInterface != null;
+     @
+     @ post connector(connectorInterface) == null;
+     @*/
     public <T extends Connector> void removeConnector(Class<T> connectorInterface) {
         T old = _toolConnectors.get(connectorInterface);
         _toolConnectors.remove(connectorInterface);
@@ -308,13 +327,21 @@ public abstract class Language implements PropertyUniverse<Element> {
     }
 
     /**
-     * Set the connector correponding to the given connector interface. The bidirectional relation is 
+     * Set the connector corresponding to the given connector interface. The bidirectional relation is 
      * kept in a consistent state.
      * 
      * @param <T>
      * @param connectorInterface
      * @param connector
      */
+   /*@
+     @ public behavior
+     @
+     @ pre connectorInterface != null;
+     @ pre connector != null;
+     @
+     @ post connector(connectorInterface) == connector; 
+     @*/
     public <T extends Connector> void setConnector(Class<T> connectorInterface, T connector) {
         T old = _toolConnectors.get(connectorInterface);
         if (old!=connector) {
@@ -343,7 +370,10 @@ public abstract class Language implements PropertyUniverse<Element> {
    /*@
      @ public behavior
      @
-     @ post \result != null; 
+     @ post \result != null;
+     @ post (\forall Connector c; ; \result.contains(c) == 
+     @           (\exists Class<? extends Connector> connectorInterface;; connector(connectorInterface) == c)
+     @      ); 
      @*/
     public Collection<Connector> connectors() {
         return _toolConnectors.values();
@@ -353,20 +383,26 @@ public abstract class Language implements PropertyUniverse<Element> {
     /**
      * Check if this language has a connector for the given connector type. Typically
      * the type is an interface or abstract class for a specific tool.
-     * 
-     * @param <T>
-     * @param connectorInterface
-     * @return
      */
+   /*@
+     @ public behavior
+     @
+     @ pre connectorInterface != null;
+     @
+     @ post \result == connector(connectorInterface) != null;
+     @*/
     public <T extends Connector> boolean hasConnector(Class<T> connectorInterface) {
         return _toolConnectors.containsKey(connectorInterface);
     }
 
     /**
      * Check if this language object has any connectors.
-     * 
-     * @return
      */
+   /*@
+     @ public behavior
+     @
+     @ post \result ==  
+     @*/
     public boolean hasConnectors() {
         return ! _toolConnectors.isEmpty();
     }
@@ -490,5 +526,71 @@ public abstract class Language implements PropertyUniverse<Element> {
 		 * for an identifier.
 		 */
 		public abstract boolean isValidIdentifierCharacter(char character);
+		
+		
+		
+		
+		
+		/**
+		 * Return the list of rule that determine the language specific validity conditions of an element.
+		 * @return
+		 */
+	 /*@
+	   @ public behavior
+	   @
+	   @ post \result != null;
+	   @*/
+		public List<ValidityRule> validityRules() {
+			return _validityRules.getOtherEnds();
+		}
+		
+	  /**
+	   * Add all property rules in this method.
+	   */
+		protected abstract void initializeValidityRules();
+		
+		/**
+		 * Add a property rule to this language object.
+		 * @param rule
+		 */
+	 /*@
+	   @ public behavior
+	   @
+	   @ pre rule != null;
+	   @
+	   @ post propertyRules().contains(rule);
+	   @*/
+		public void addValidityRule(ValidityRule rule) {
+			if(rule == null) {
+				throw new ChameleonProgrammerException("adding a null validity rule to a language");
+			}
+			_validityRules.add(rule.languageLink());
+		}
+		
+		/**
+		 * Remove a property rule from this language object.
+		 * @param rule
+		 */
+	 /*@
+	   @ public behavior
+	   @
+	   @ pre rule != null;
+	   @
+	   @ post ! propertyRules().contains(rule);
+	   @*/
+		public void removeValidityRule(ValidityRule rule) {
+			if(rule == null) {
+				throw new ChameleonProgrammerException("removing a null validity rule to a language");
+			}
+			_validityRules.remove(rule.languageLink());
+		} 
+		
+		public VerificationResult verify(Element element) {
+			
+		}
+		
+		private OrderedMultiAssociation<Language,ValidityRule> _validityRules = new OrderedMultiAssociation<Language,ValidityRule>(this);
+		
+
 }
 

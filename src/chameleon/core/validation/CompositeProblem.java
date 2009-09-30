@@ -7,8 +7,15 @@ public class CompositeProblem extends Invalid {
 
 	@Override
 	public VerificationResult and(VerificationResult other) {
+		return other.andInvalid(this);
+	}
+	
+	@Override
+	protected VerificationResult andInvalid(Invalid problem) {
 		CompositeProblem result = new CompositeProblem();
 		result.addAll(problems());
+		result.addAll(problem.problems());
+		return result;
 	}
 	
 	
