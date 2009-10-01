@@ -4,6 +4,8 @@ import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.method.exception.ExceptionClause;
 import chameleon.core.type.TypeReference;
+import chameleon.core.validation.BasicProblem;
+import chameleon.core.validation.VerificationResult;
 
 public abstract class RegularMethod<E extends RegularMethod<E,H,S,M>, H extends MethodHeader<H, E, S>, S extends MethodSignature,M extends Method> extends Method<E,H,S,M> {
 
@@ -61,5 +63,14 @@ public abstract class RegularMethod<E extends RegularMethod<E,H,S,M>, H extends 
       _exceptionClause.connectTo(null);
     }
   }
+  
+	@Override
+	public VerificationResult verifyThis() {
+		VerificationResult result = super.verifyThis();
+		if(getReturnTypeReference() == null) {
+			result = result.and(new BasicProblem(this, "Method "+name()+" has no return type."));
+		}
+		return result;
+	}
 
 }

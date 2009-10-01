@@ -10,10 +10,13 @@ import org.rejuse.association.SingleAssociation;
 import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.AbstractPredicate;
 
+import sun.rmi.runtime.GetThreadPoolAction;
+
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Definition;
 import chameleon.core.element.Element;
+import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
@@ -28,6 +31,9 @@ import chameleon.core.statement.ExceptionPair;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 import chameleon.core.type.generics.TypeParameter;
+import chameleon.core.validation.BasicProblem;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 import chameleon.core.variable.FormalParameter;
 import chameleon.util.Util;
 
@@ -484,6 +490,15 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 
 	public abstract boolean sameKind(Method other);
 
+	@Override
+	public VerificationResult verifyThis() {
+		VerificationResult result = Valid.create();
+		if(header() == null) {
+			result = result.and(new BasicProblem(this, "This method has no header"));
+		}
+		return result;
+	}
+	
 	//TODO dees mag teruggezet worden als de metamodelfactory dat correct doet
 	//     NO IT CANNOT BE RESTORED! MOVE TO TOOL EXTENSION FOR EDITOR.
 //	@Override

@@ -5,6 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import chameleon.core.element.Element;
+import chameleon.core.type.Type;
+import chameleon.core.validation.BasicProblem;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
+
 
 /**
  * @author Marko van Dooren
@@ -34,8 +40,8 @@ public abstract class Literal<E extends Literal> extends Expression<E> {
     @
     @ post \result.isEmpty(); 
     @*/
-  public Set getDirectExceptions() {
-    return new HashSet();
+  public Set<Type> getDirectExceptions() {
+    return new HashSet<Type>();
   }
   
  /*@
@@ -43,7 +49,17 @@ public abstract class Literal<E extends Literal> extends Expression<E> {
    @
    @ post \result.isEmpty(); 
    @*/
-  public List children() {
+  public List<Element> children() {
     return new ArrayList();
   }
+  
+	@Override
+	public VerificationResult verifyThis() {
+		VerificationResult result = Valid.create();
+		if(getValue() == null) {
+			result = result.and(new BasicProblem(this, "The value of the literal is missing."));
+		}
+		return result;
+	}
+
 }

@@ -2,6 +2,10 @@ package chameleon.core.expression;
 
 import org.rejuse.association.SingleAssociation;
 
+import chameleon.core.validation.BasicProblem;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
+
 
 /**
  * @author Marko van Dooren
@@ -62,5 +66,17 @@ public abstract class BinaryExpression extends Expression<BinaryExpression> {
   public void setSecond(Expression expression) {
     _second.connectTo(expression.parentLink());
   }
-  
+ 
+	@Override
+	public VerificationResult verifyThis() {
+		VerificationResult result = Valid.create();
+    if(getFirst() == null) {
+    	result = result.and(new BasicProblem(this,"The expression has no left-hand side."));
+    }
+    if(getSecond() == null) {
+    	result = result.and(new BasicProblem(this,"The expression has no right-hand side."));
+    }
+    return result;
+	}
+
 }

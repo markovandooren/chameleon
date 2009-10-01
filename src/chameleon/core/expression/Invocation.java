@@ -17,9 +17,12 @@ import chameleon.core.lookup.DeclaratorSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.method.Method;
 import chameleon.core.reference.CrossReference;
+import chameleon.core.reference.UnresolvableCrossReference;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.type.Type;
 import chameleon.core.type.generics.ActualTypeArgument;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 import chameleon.util.Util;
 
 /**
@@ -274,6 +277,19 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   }
   
   private OrderedMultiAssociation<Invocation,ActualTypeArgument> _genericParameters = new OrderedMultiAssociation<Invocation, ActualTypeArgument>(this);
+
+	@Override
+	public VerificationResult verifyThis() {
+		VerificationResult result = Valid.create();
+		try {
+			if(getElement() == null) {
+				result = result.and(new UnresolvableCrossReference(this));
+			}
+		} catch (LookupException e) {
+			result = result.and(new UnresolvableCrossReference(this));
+		}
+		return result;
+	}
 
   
 }
