@@ -8,10 +8,13 @@ import org.rejuse.java.collections.Visitor;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.modifier.ElementWithModifiersImpl;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.type.Type;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 import chameleon.util.Util;
 
 /**
@@ -24,8 +27,7 @@ import chameleon.util.Util;
  * @author Marko van Dooren
  * @author Tim Laeremans
  */
-public class ActualArgument extends NamespaceElementImpl<ActualArgument,ActualArgumentList> {
-
+public class ActualArgument extends ElementWithModifiersImpl<ActualArgument,ActualArgumentList> {
 
 
 	/**
@@ -58,29 +60,6 @@ public class ActualArgument extends NamespaceElementImpl<ActualArgument,ActualAr
 		}
 	}
 
-	/*************
-	 * MODIFIERS *
-	 *************/
-	
-	private OrderedMultiAssociation<ActualArgument, Modifier> _modifiers = new OrderedMultiAssociation<ActualArgument, Modifier>(this);
-
-	public List<Modifier> getModifiers() {
-		return _modifiers.getOtherEnds();
-	}
-
-	public void addModifier(Modifier modifier) {
-		if ((modifier != null) && (!_modifiers.contains(modifier.parentLink()))) {
-			_modifiers.add(modifier.parentLink());
-		}
-	}
-
-	public void removeModifier(Modifier modifier) {
-		_modifiers.remove(modifier.parentLink());
-	}
-
-	public boolean is(Modifier modifier) {
-		return _modifiers.getOtherEnds().contains(modifier);
-	}
 
 	public ActualArgument clone(){
 		Expression expr = getExpression().clone();
@@ -90,19 +69,24 @@ public class ActualArgument extends NamespaceElementImpl<ActualArgument,ActualAr
 			public void visit(Modifier element) {
 				result.addModifier(element.clone());
 			}
-		}.applyTo(getModifiers());
+		}.applyTo(modifiers());
 
 		return result;
 	}
 
 	public List<Element> children() {
 		List<Element> result = Util.createNonNullList(getExpression());
-		result.addAll(getModifiers());
+		result.addAll(modifiers());
 		return result;
 	}
 
 	public Type getType() throws LookupException{
 		return getExpression().getType();
+	}
+
+	@Override
+	public VerificationResult verifyThis() {
+		return Valid.create();
 	}
 
 }

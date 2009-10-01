@@ -7,6 +7,8 @@ import org.rejuse.association.OrderedMultiAssociation;
 import chameleon.core.element.Element;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.NamespaceElementImpl;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 public class ActualArgumentList extends NamespaceElementImpl<ActualArgumentList, Element> {
 
@@ -53,6 +55,11 @@ public class ActualArgumentList extends NamespaceElementImpl<ActualArgumentList,
 
 	public List<? extends Element> children() {
 		return getActualParameters();
+	}
+
+	@Override
+	public VerificationResult verifyThis() {
+		return Valid.create();
 	}
 
 }

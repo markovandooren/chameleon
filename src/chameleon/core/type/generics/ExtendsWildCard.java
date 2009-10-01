@@ -1,22 +1,14 @@
 package chameleon.core.type.generics;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
-
-import chameleon.core.element.Element;
 import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 
-public class ExtendsWildCard extends ActualTypeArgument<ExtendsWildCard> {
-
-	private SingleAssociation<ActualTypeArgument,TypeReference> _type = new SingleAssociation<ActualTypeArgument,TypeReference>(this);
+public class ExtendsWildCard extends ActualTypeArgumentWithTypeReference<ExtendsWildCard> {
 
 	public ExtendsWildCard(TypeReference ref) {
-		setTypeReference(ref);
+		super(ref);
 	}
 
 	@Override
@@ -49,24 +41,6 @@ public class ExtendsWildCard extends ActualTypeArgument<ExtendsWildCard> {
 	@Override
 	public Type upperBound() throws LookupException {
 		return baseType();
-	}
-
-	public List<? extends Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		result.add(typeReference());
-		return result;
-	}
-
-	public TypeReference typeReference() {
-		return _type.getOtherEnd();
-	}
-
-	public void setTypeReference(TypeReference ref) {
-		if(ref == null) {
-			_type.connectTo(null);
-		} else {
-			_type.connectTo(ref.parentLink());
-		}
 	}
 
 	public Type baseType() throws LookupException {

@@ -18,6 +18,8 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
 import chameleon.core.type.generics.TypeParameter;
 import chameleon.core.type.inheritance.InheritanceRelation;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 public class IntersectionType extends Type {
 
@@ -171,6 +173,11 @@ public class IntersectionType extends Type {
 		}
 		removeConstructors(result);
 		return result;
+	}
+
+	@Override
+	public VerificationResult verifyThis() {
+		return Valid.create();
 	}
 
 }

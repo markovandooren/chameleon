@@ -22,6 +22,7 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.namespace.RootNamespace;
 import chameleon.core.property.PropertyRule;
+import chameleon.core.validation.Valid;
 import chameleon.core.validation.ValidityRule;
 import chameleon.core.validation.VerificationResult;
 import chameleon.tool.Connector;
@@ -586,7 +587,11 @@ public abstract class Language implements PropertyUniverse<Element> {
 		} 
 		
 		public VerificationResult verify(Element element) {
-			
+			VerificationResult result = Valid.create();
+			for(ValidityRule rule: validityRules()) {
+				result = result.and(rule.verify(element));
+			}
+			return result;
 		}
 		
 		private OrderedMultiAssociation<Language,ValidityRule> _validityRules = new OrderedMultiAssociation<Language,ValidityRule>(this);

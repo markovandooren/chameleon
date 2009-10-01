@@ -6,11 +6,14 @@ import java.util.List;
 import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.reference.ElementReference;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 import chameleon.util.Util;
 
 /**
@@ -23,7 +26,7 @@ public class DemandImport extends Import<DemandImport> {
   }
 
   
-  public List children() {
+  public List<Element> children() {
     return Util.createNonNullList(namespaceReference());
   }
 
@@ -79,6 +82,12 @@ public class DemandImport extends Import<DemandImport> {
 	@Override
 	public <D extends Declaration> List<D> directImports(DeclarationSelector<D> selector) throws LookupException {
 		return new ArrayList<D>();
+	}
+
+
+	@Override
+	public VerificationResult verifyThis() {
+		return Valid.create();
 	}
   
 

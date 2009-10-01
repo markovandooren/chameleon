@@ -18,6 +18,8 @@ import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.namespacepart.NamespacePart;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> implements NamespaceElement<ClassBody, NamespaceElement>, DeclarationContainer<ClassBody,NamespaceElement> {
 
@@ -84,5 +86,10 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 
 	public void replace(TypeElement oldElement, TypeElement newElement) {
 		_elements.replace(oldElement.parentLink(), newElement.parentLink());
+	}
+
+	@Override
+	public VerificationResult verifyThis() {
+		return Valid.create();
 	}
 }

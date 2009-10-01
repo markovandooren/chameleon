@@ -15,6 +15,8 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.method.Method;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.type.Type;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 /**
  * @author Marko van Dooren
@@ -152,6 +154,12 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
   public List<? extends Element> children() {
     return exceptionDeclarations();
   }
+
+
+	@Override
+	public VerificationResult verifyThis() {
+		return Valid.create();
+	}
 
 //  /**
 //   * @param done

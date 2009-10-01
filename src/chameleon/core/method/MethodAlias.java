@@ -7,6 +7,8 @@ import chameleon.core.element.Element;
 import chameleon.core.method.exception.ExceptionClause;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.type.TypeReference;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 public class MethodAlias<E extends MethodAlias<E,H,S>, H extends MethodHeader<H, E, S>, S extends MethodSignature> extends Method<E,H,S,MethodAlias> {
 
@@ -63,5 +65,10 @@ public class MethodAlias<E extends MethodAlias<E,H,S>, H extends MethodHeader<H,
   public PropertySet<Element> declaredProperties() {
     return filterProperties(myDeclaredProperties(), aliasedMethod().declaredProperties());
   }
+
+	@Override
+	public VerificationResult verifyThis() {
+		return Valid.create();
+	}
 
 }

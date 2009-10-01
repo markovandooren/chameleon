@@ -9,7 +9,6 @@ import org.rejuse.association.SingleAssociation;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
 import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.DeclarationSelector;
@@ -17,7 +16,10 @@ import chameleon.core.lookup.DeclaratorSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.SelectorWithoutOrder;
 import chameleon.core.reference.CrossReference;
+import chameleon.core.reference.UnresolvableCrossReference;
 import chameleon.core.type.Type;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 import chameleon.core.variable.Variable;
 import chameleon.util.Util;
 
@@ -77,11 +79,6 @@ public class VariableReference extends Expression<VariableReference> implements 
   }
 
   public Variable getVariable() throws LookupException {
-//    Variable result = (Variable)getTarget().getElement();
-//    if(result == null) {
-//      throw new LookupException("Lookup of variable reference returned null: "+getTarget().getName(), this);
-//    }
-//    return result;
   	return getElement();
   }
 
@@ -157,6 +154,20 @@ public class VariableReference extends Expression<VariableReference> implements 
 				return _signature;
 			}
 		}, Variable.class);
+	}
+
+	@Override
+	public VerificationResult verifyThis() {
+		try {
+			Variable referencedVariable = getElement();
+			if(referencedVariable != null) {
+				return Valid.create();
+			} else {
+				return new UnresolvableCrossReference(this);
+			}
+		} catch (LookupException e) {
+			return new UnresolvableCrossReference(this);
+		}
 	}
 
 }

@@ -15,6 +15,8 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 public class NamespaceAlias extends Namespace {
 
@@ -79,6 +81,11 @@ public class NamespaceAlias extends Namespace {
 	@Override
 	public Namespace getOrCreateNamespace(String name) throws LookupException {
 		return aliasedNamespace().getOrCreateNamespace(name);
+	}
+
+	@Override
+	public VerificationResult verifyThis() {
+		return Valid.create();
 	}
 
 }

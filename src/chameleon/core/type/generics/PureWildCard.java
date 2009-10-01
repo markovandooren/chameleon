@@ -8,6 +8,8 @@ import chameleon.core.element.Element;
 import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 public class PureWildCard extends ActualTypeArgument<PureWildCard> {
 
@@ -44,6 +46,11 @@ public class PureWildCard extends ActualTypeArgument<PureWildCard> {
 
 	public List<Element> children() {
 		return new ArrayList<Element>();
+	}
+
+	@Override
+	public VerificationResult verifyThis() {
+		return Valid.create();
 	}
 
 }

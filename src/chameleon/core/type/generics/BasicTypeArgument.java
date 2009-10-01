@@ -9,18 +9,20 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
+import chameleon.core.validation.BasicProblem;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 /**
  * A class of type arguments that consist of a type name.
  * 
  * @author Marko van Dooren
  */
-public class BasicTypeArgument extends ActualTypeArgument<BasicTypeArgument> {
+public class BasicTypeArgument extends ActualTypeArgumentWithTypeReference<BasicTypeArgument> {
 
-	private SingleAssociation<ActualTypeArgument,TypeReference> _type = new SingleAssociation<ActualTypeArgument,TypeReference>(this);
 
 	public BasicTypeArgument(TypeReference ref) {
-		setTypeReference(ref);
+		super(ref);
 	}
 
 	@Override
@@ -58,24 +60,6 @@ public class BasicTypeArgument extends ActualTypeArgument<BasicTypeArgument> {
 		return baseType();
 	}
 
-	public List<? extends Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		result.add(typeReference());
-		return result;
-	}
-
-	public TypeReference typeReference() {
-		return _type.getOtherEnd();
-	}
-
-	public void setTypeReference(TypeReference ref) {
-		if(ref == null) {
-			_type.connectTo(null);
-		} else {
-			_type.connectTo(ref.parentLink());
-		}
-	}
-
 	public Type baseType() throws LookupException {
 		TypeReference tref = typeReference();
 		if(tref != null) {
@@ -94,5 +78,4 @@ public class BasicTypeArgument extends ActualTypeArgument<BasicTypeArgument> {
 	public TypeParameter capture(FormalTypeParameter formal) {
 		return parent();
 	}
-
 }

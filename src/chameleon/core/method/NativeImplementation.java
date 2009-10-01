@@ -5,6 +5,8 @@ import java.util.List;
 
 import chameleon.core.element.Element;
 import chameleon.core.statement.Block;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 /**
  * @author Marko van Dooren
@@ -27,5 +29,10 @@ public class NativeImplementation extends Implementation<NativeImplementation> {
   public Block getBody() {
     return null;
   }
+
+	@Override
+	public VerificationResult verifyThis() {
+		return Valid.create();
+	}
 
 }

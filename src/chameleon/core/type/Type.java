@@ -15,6 +15,7 @@ import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Definition;
+import chameleon.core.declaration.MissingSignature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.ChameleonProgrammerException;
@@ -33,6 +34,8 @@ import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
 import chameleon.core.type.generics.TypeParameter;
 import chameleon.core.type.inheritance.InheritanceRelation;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 /**
  * <p>A class representing types in object-oriented programs.</p>
@@ -970,6 +973,14 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
 
 		public abstract Type baseType();
 
+		@Override
+		public VerificationResult verifyThis() {
+			if(signature() != null) {
+			  return Valid.create();
+			} else {
+				return new MissingSignature(this); 
+			}
+		}
 }
 
 

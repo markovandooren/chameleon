@@ -26,6 +26,8 @@ import chameleon.core.scope.ScopeProperty;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContainer,MemberVariable> implements MemberVariable<VariableAlias> {
 	
@@ -201,6 +203,11 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
 
 	public MemberVariable actualDeclaration() throws LookupException {
 		return this;
+	}
+
+	@Override
+	public VerificationResult verifyThis() {
+		return Valid.create();
 	}
 
 }

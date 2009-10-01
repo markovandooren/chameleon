@@ -18,6 +18,9 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
+import chameleon.core.validation.BasicProblem;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 public abstract class InheritanceRelation<E extends InheritanceRelation> extends ElementImpl<E,Type> {
 	
@@ -196,5 +199,6 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 //	}
 	
 	private SingleAssociation<InheritanceRelation,TypeReference> _superClass = new SingleAssociation<InheritanceRelation, TypeReference>(this);
+
 
 }

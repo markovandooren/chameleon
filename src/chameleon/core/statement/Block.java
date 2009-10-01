@@ -9,6 +9,8 @@ import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 /**
  * @author Marko van Dooren
@@ -82,6 +84,11 @@ public class Block extends Statement<Block> implements StatementListContainer<Bl
 		} else {
 		  throw new ChameleonProgrammerException("Invoking lexicalContext(element) with an element that is not a child.");
 		}
+	}
+
+	@Override
+	public VerificationResult verifyThis() {
+		return Valid.create();
 	}
 
 	

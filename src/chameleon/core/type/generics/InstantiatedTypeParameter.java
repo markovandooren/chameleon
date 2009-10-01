@@ -3,11 +3,14 @@ package chameleon.core.type.generics;
 import java.util.ArrayList;
 import java.util.List;
 
+import chameleon.core.declaration.MissingSignature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeIndirection;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 public class InstantiatedTypeParameter extends TypeParameter<InstantiatedTypeParameter> {
 	
@@ -91,4 +94,15 @@ public class InstantiatedTypeParameter extends TypeParameter<InstantiatedTypePar
 	public Type upperBound() throws LookupException {
 		return argument().upperBound();
 	}
+	
+	@Override
+	public VerificationResult verifyThis() {
+		VerificationResult tmp = super.verifyThis();
+		if(argument() != null) {
+		  return tmp;
+		} else {
+			return tmp.and(new MissingSignature(this)); 
+		}
+	}
+
 }

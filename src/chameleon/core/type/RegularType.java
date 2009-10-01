@@ -15,6 +15,9 @@ import chameleon.core.member.Member;
 import chameleon.core.type.generics.TypeParameter;
 import chameleon.core.type.generics.TypeParameterBlock;
 import chameleon.core.type.inheritance.InheritanceRelation;
+import chameleon.core.validation.BasicProblem;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 public class RegularType extends Type {
 
@@ -135,6 +138,21 @@ public class RegularType extends Type {
 		return body().elements();
 	}
 
+	@Override
+	public VerificationResult verifyThis() {
+		VerificationResult tmp = super.verifyThis();
+		if(body() != null) {
+		  return tmp;
+		} else {
+		  return tmp.and(new MissingClassBody(this));	
+		}
+	}
 
+	public static class MissingClassBody extends BasicProblem {
 
+		public MissingClassBody(Element element) {
+			super(element, "Class body is missing.");
+		}
+		
+	}
 }

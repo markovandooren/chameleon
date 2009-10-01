@@ -1,7 +1,10 @@
 package chameleon.core.type;
 
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.type.generics.FormalTypeParameter;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 /**
  * This class represents types created as a result of looking up (resolving) a generic parameter, which itself is
@@ -13,6 +16,9 @@ public class ConstructedType extends TypeIndirection {
 
 	public ConstructedType(SimpleNameSignature sig, Type aliasedType, FormalTypeParameter param) {
 		super(sig, aliasedType);
+		if(param == null) {
+			throw new ChameleonProgrammerException("The formal type parameter corresponding to a constructed type cannot be null.");
+		}
 		_param = param;
 	}
 	
@@ -30,6 +36,11 @@ public class ConstructedType extends TypeIndirection {
 	@Override
 	public ConstructedType clone() {
 		return new ConstructedType(signature().clone(), aliasedType(), parameter());
+	}
+
+	@Override
+	public VerificationResult verifyThis() {
+		return Valid.create();
 	}
 
 }

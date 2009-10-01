@@ -3,8 +3,11 @@ package chameleon.core.variable;
 import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.DeclarationContainer;
+import chameleon.core.declaration.MissingSignature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.namespace.NamespaceElementImpl;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 public abstract class VariableImpl<E extends VariableImpl<E,P,F>, P extends DeclarationContainer, F extends Variable> 
        extends NamespaceElementImpl<E, P>
@@ -30,5 +33,14 @@ public abstract class VariableImpl<E extends VariableImpl<E,P,F>, P extends Decl
   }
   
   private SingleAssociation<VariableImpl, SimpleNameSignature> _signature = new SingleAssociation<VariableImpl, SimpleNameSignature>(this);
+
+	@Override
+	public VerificationResult verifyThis() {
+		if(signature() != null) {
+		  return Valid.create();
+		} else {
+			return new MissingSignature(this); 
+		}
+	}
 
 }

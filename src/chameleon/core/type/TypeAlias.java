@@ -1,9 +1,8 @@
 package chameleon.core.type;
 
-import java.util.List;
-
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.type.generics.TypeParameter;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 public class TypeAlias extends TypeIndirection {
 
@@ -24,5 +23,6 @@ public class TypeAlias extends TypeIndirection {
 	public TypeAlias clone() {
 		return new TypeAlias(signature().clone(), aliasedType());
 	}
+
 	
 }

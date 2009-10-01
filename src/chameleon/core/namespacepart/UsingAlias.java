@@ -17,6 +17,9 @@ import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.namespace.NamespaceOrTypeReference;
 import chameleon.core.reference.ElementReference;
 import chameleon.core.type.Type;
+import chameleon.core.validation.BasicProblem;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 import chameleon.util.Util;
 
 /**
@@ -125,4 +128,20 @@ public class UsingAlias extends Import<UsingAlias> {
 		return selector.selection(directImports());
 	}
 
+	@Override
+	public VerificationResult verifyThis() {
+		if(_identifier != null) {
+			return new MissingAliasName(this);
+		} else {
+			return Valid.create();
+		}
+	}
+
+	public static class MissingAliasName extends BasicProblem {
+
+		public MissingAliasName(Element element) {
+			super(element, "This using alias has no name.");
+		}
+		
+	}
 }

@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.rejuse.association.SingleAssociation;
 
+import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.statement.Block;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 import chameleon.util.Util;
 
 /**
@@ -81,16 +84,13 @@ public class RegularImplementation extends Implementation<RegularImplementation>
    @ post \result.contains(getBody());
    @ post \result.size() == 1;
    @*/
-  public List children() {
+  public List<Element> children() {
     return Util.createNonNullList(getBody());
   }
-  
-	
-	
-	
 
-
-	
-  
+	@Override
+	public VerificationResult verifyThis() {
+		return Valid.create();
+	}
 
 }

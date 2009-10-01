@@ -22,6 +22,8 @@ import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.lookup.LookupStrategySelector;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.NamespaceElementImpl;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 /**
  * A namespace part adds its declarations to a namespace. Different namespace parts in different compilation units
  * can contribute to the same namespace.
@@ -360,5 +362,10 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
   }
 
 	private LookupStrategy _typeLocalContext;
+
+	@Override
+	public VerificationResult verifyThis() {
+		return Valid.create();
+	}
 
 }

@@ -12,6 +12,8 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.UniversalScope;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 import chameleon.util.Util;
 
 public class RegularNamespace extends Namespace {
@@ -115,6 +117,9 @@ public class RegularNamespace extends Namespace {
 	protected Namespace createNamespace(String name){
 	  return new RegularNamespace(new SimpleNameSignature(name), this);
 	}
-	
 
+	@Override
+	public VerificationResult verifyThis() {
+		return Valid.create();
+	}
 }

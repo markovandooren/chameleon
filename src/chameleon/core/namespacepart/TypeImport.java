@@ -1,9 +1,7 @@
 package chameleon.core.namespacepart;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.rejuse.association.SingleAssociation;
 
@@ -13,6 +11,8 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 import chameleon.util.Util;
 
 /**
@@ -85,6 +85,11 @@ public class TypeImport extends Import<TypeImport> {
 		  result.add(element);
 		}
 		return result;
+	}
+
+	@Override
+	public VerificationResult verifyThis() {
+		return Valid.create();
 	}
   
 	

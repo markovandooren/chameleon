@@ -5,10 +5,14 @@ import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.type.Type;
+import chameleon.core.validation.BasicProblem;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 public class RootNamespace extends RegularNamespace {
 // @FIXME
@@ -45,6 +49,24 @@ public class RootNamespace extends RegularNamespace {
   	return _language;
   }
 	  
+  
+	@Override
+	public VerificationResult verifyThis() {
+		if(parent() == null) {
+		  return Valid.create();
+		} else {
+			return new RootNamespaceHasParent(this);
+		}
+	}
+	
+	public static class RootNamespaceHasParent extends BasicProblem {
+
+		public RootNamespaceHasParent(Element element) {
+			super(element, "The root namespace should not have a parent.");
+		}
+		
+	}
+
 //	  /**
 //	   * PRIMITIVE NAMESPACE PART
 //	   * 

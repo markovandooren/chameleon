@@ -7,15 +7,22 @@ import java.util.Set;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.predicate.AbstractPredicate;
 
+import chameleon.core.element.Element;
 import chameleon.core.expression.Invocation;
 import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
+import chameleon.core.validation.BasicProblem;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 import chameleon.util.Util;
 
 /**
- * @author marko
+ * A class for absolute exception declarations. An absolute exception declaration declares that a certain type of exception
+ * can be thrown at run-time.
+ * 
+ * @author Marko van Dooren
  */
 public class TypeExceptionDeclaration extends ExceptionDeclaration<TypeExceptionDeclaration> {
 
@@ -27,16 +34,16 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration<TypeException
     setTypeReference(new TypeReference(type));
   }
 
-  public Set getExceptionTypes(Invocation invocation) throws LookupException {
+  public Set<Type> getExceptionTypes(Invocation invocation) throws LookupException {
     return getExceptionTypeSet();
   }
   
-  public Set getWorstCaseExceptionTypes() throws LookupException {
+  public Set<Type> getWorstCaseExceptionTypes() throws LookupException {
     return getExceptionTypeSet();
   }
   
-  private Set getExceptionTypeSet() throws LookupException {
-    Set result = new HashSet();
+  private Set<Type> getExceptionTypeSet() throws LookupException {
+  	Set<Type> result = new HashSet<Type>();
     result.add(getType());
     return result;
   }
@@ -102,5 +109,27 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration<TypeException
   public List children() {
     return Util.createNonNullList(getTypeReference());
   }
+
+	@Override
+	public VerificationResult verifyThis() {
+		try {
+			boolean isException = language(ObjectOrientedLanguage.class).isException(getType());
+			if(isException) {
+				return Valid.create();
+			} else {
+				return new NonExceptionType(this);
+			}
+		} catch (LookupException e) {
+			return new NonExceptionType(this);
+		}
+	}
+	
+	public static class NonExceptionType extends BasicProblem {
+
+		public NonExceptionType(Element element) {
+			super(element, "The type is not an exception type.");
+		}
+		
+	}
 
 }

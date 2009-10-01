@@ -5,6 +5,9 @@ import java.util.List;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.validation.BasicProblem;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 /**
  * A class of signatures that consist of a simple name.
@@ -43,6 +46,15 @@ public class SimpleNameSignature extends Signature<SimpleNameSignature, Element>
 
 	public List<? extends Element> children() {
 		return new ArrayList<Element>();
+	}
+
+	@Override
+	public VerificationResult verifyThis() {
+		if(_name == null) {
+			return new SignatureWithoutName(this);
+		} else {
+			return Valid.create();
+		}
 	}
 
 }
