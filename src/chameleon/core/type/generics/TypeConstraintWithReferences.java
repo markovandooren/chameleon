@@ -10,6 +10,9 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
+import chameleon.core.validation.BasicProblem;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 public abstract class TypeConstraintWithReferences<E extends TypeConstraintWithReferences> extends TypeConstraint<E> {
 	public void add(TypeReference tref) {
@@ -59,5 +62,22 @@ public abstract class TypeConstraintWithReferences<E extends TypeConstraintWithR
 		return result;
 	}
 
+	@Override
+	public VerificationResult verifyThis() {
+		int nbConstraints = _types.size();
+		if(nbConstraints > 0) {
+			return Valid.create();
+		} else {
+			return new MissingConstraintTypes(this);
+		}
+	}
+	
+	public static class MissingConstraintTypes extends BasicProblem {
+
+		public MissingConstraintTypes(Element element) {
+			super(element, "The type constraint contains no type names");
+		}
+		
+	}
 
 }

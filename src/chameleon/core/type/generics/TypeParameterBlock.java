@@ -7,17 +7,14 @@ import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
-import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.declaration.StubDeclarationContainer;
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.NamespaceElementImpl;
-import chameleon.core.type.ConstructedType;
-import chameleon.core.type.Type;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 /**
  * WARNING! If you use a parameter block as an subelement of a class X, then you must add
@@ -147,8 +144,18 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 			}
 		}
 
+		@Override
+		public VerificationResult verifyThis() {
+			return Valid.create();
+		}
+
 
 		
+	}
+
+	@Override
+	public VerificationResult verifyThis() {
+		return Valid.create();
 	}
 	
 }
