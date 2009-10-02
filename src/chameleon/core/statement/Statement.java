@@ -7,12 +7,9 @@ import org.rejuse.java.collections.RobustVisitor;
 import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.element.Element;
-import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.NamespaceElementImpl;
-import chameleon.core.type.Type;
 
 /**
  * @author Marko van Dooren
@@ -30,16 +27,16 @@ public abstract class Statement<E extends Statement> extends NamespaceElementImp
   public CheckedExceptionList getCEL() throws LookupException {
     final CheckedExceptionList cel = getDirectCEL();
     try {
-      new RobustVisitor() {
-        public Object visit(Object element) throws LookupException {
+      new RobustVisitor<ExceptionSource>() {
+        public Object visit(ExceptionSource element) throws LookupException {
           cel.absorb(((ExceptionSource)element).getCEL());
           return null;
         }
 
-        public void unvisit(Object element, Object undo) {
+        public void unvisit(ExceptionSource element, Object undo) {
           //NOP
         }
-      }.applyTo(getExceptionSources());
+      }.applyTo(children(ExceptionSource.class));
       return cel;
     }
     catch (LookupException e) {
@@ -83,21 +80,9 @@ public abstract class Statement<E extends Statement> extends NamespaceElementImp
     return getDirectCEL();
   }
 
-	/**
-	 * All children are of type ExceptionSource.
-	 */
-	public abstract List children();
-
-
   public List getExceptionSources() {
     List result = children();
     new TypePredicate(ExceptionSource.class).filter(result);
-    return result;
-  }
-
-  public final List getSubStatements() {
-    List result = children();
-    new TypePredicate(Statement.class).filter(result);
     return result;
   }
 

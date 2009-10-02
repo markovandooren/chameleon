@@ -166,6 +166,98 @@ public interface Element<E extends Element, P extends Element> {
 
     
     /**
+     * Return all children of this element that are of the given type.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post \forall(Element e; children().contains(e) && c.isInstance(e); \result.contains(e));
+     @*/
+    public <T extends Element> List<T> children(Class<T> c);
+    
+    /**
+     * Return all children of this element that satisfy the given predicate.
+     * 
+     * The only checked exceptions that can occur will come from the predicate. Use the safe and unsafe variants
+     * of this method for convenience.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre predicate != null;
+     @
+     @ post \forall(Element e; children().contains(e) && predicate.eval(e) == true; \result.contains(e));
+     @*/
+    public List<Element> children(Predicate<Element> predicate) throws Exception;
+    
+    /**
+     * Return all children of this element that satisfy the given predicate.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre predicate != null;
+     @
+     @ post \forall(Element e; children().contains(e) && predicate.eval(e) == true; \result.contains(e));
+     @*/
+    public List<Element> children(SafePredicate<Element> predicate);
+
+    /**
+     * Return all children of this element that satisfy the given predicate.
+     * 
+     * The only checked exceptions that can occurs are determined by type parameter X.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre predicate != null;
+     @
+     @ post \forall(Element e; children().contains(e) && predicate.eval(e) == true; \result.contains(e));
+     @*/
+    public <X extends Exception> List<Element> children(UnsafePredicate<Element,X> predicate) throws X;
+    
+    /**
+     * Return all children of this element that are of the given type, and satisfy the given predicate.
+     * 
+     * The only checked exception that occurs will come from the predicate. Use the safe and unsafe variants
+     * of this method for convenience.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre predicate != null;
+     @
+     @ post \forall(Element e; children().contains(e) && c.isInstance(e) && predicate.eval(e) == true; \result.contains(e));
+     @*/
+    public <T extends Element> List<T> children(Class<T> c, Predicate<T> predicate) throws Exception;
+    
+    /**
+     * Return all children of this element that are of the given type, and satisfy the given predicate.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre predicate != null;
+     @
+     @ post \forall(Element e; children().contains(e) && c.isInstance(e) && predicate.eval(e) == true; \result.contains(e));
+     @*/
+    public <T extends Element> List<T> children(Class<T> c, SafePredicate<T> predicate);
+    
+    /**
+     * Return all children of this element that are of the given type, and satisfy the given predicate.
+     * 
+     * The only checked exception that occurs are determined by type parameter X.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre predicate != null;
+     @
+     @ post \forall(Element e; children().contains(e) && c.isInstance(e) && predicate.eval(e) == true; \result.contains(e));
+     @*/
+    public <T extends Element, X extends Exception> List<T> children(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
+    
+    /**
      * Recursively return all children of this element.
      * (The children, and the children of the children,...).
      */
@@ -219,6 +311,13 @@ public interface Element<E extends Element, P extends Element> {
     * 
     * The only checked exceptions that can occurs are determined by type parameter X.
     */
+  /*@
+    @ public behavior
+    @
+    @ pre predicate != null;
+    @
+    @ post \forall(Element e; descendants().contains(e) && predicate.eval(e) == true; \result.contains(e));
+    @*/
    public <X extends Exception> List<Element> descendants(UnsafePredicate<Element,X> predicate) throws X;
    
     /**

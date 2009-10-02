@@ -219,6 +219,12 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
         return descendants(Element.class);
     }
 
+    public final <T extends Element> List<T> children(Class<T> c) {
+    	List<Element> tmp = (List<Element>) children();
+    	new TypePredicate<Element,T>(c).filter(tmp);
+      return (List<T>)tmp;
+    }
+
     public final <T extends Element> List<T> descendants(Class<T> c) {
     	List<Element> tmp = (List<Element>) children();
     	new TypePredicate<Element,T>(c).filter(tmp);
@@ -229,6 +235,12 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
       return result;
     }
     
+    public final List<Element> children(Predicate<Element> predicate) throws Exception {
+    	List<? extends Element> tmp = children();
+    	predicate.filter(tmp);
+      return (List<Element>)tmp;
+    }
+
     public final List<Element> descendants(Predicate<Element> predicate) throws Exception {
     	// Do not compute all descendants, and apply predicate afterwards.
     	// That is way too expensive.
@@ -239,6 +251,12 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
         result.addAll(e.descendants(predicate));
       }
       return result;
+    }
+
+    public final List<Element> children(SafePredicate<Element> predicate) {
+    	List<? extends Element> tmp = children();
+    	predicate.filter(tmp);
+      return (List<Element>)tmp;
     }
 
     public final List<Element> descendants(SafePredicate<Element> predicate) {
@@ -253,6 +271,12 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
       return result;
     }
 
+    public final <X extends Exception> List<Element> children(UnsafePredicate<Element,X> predicate) throws X {
+    	List<? extends Element> tmp = children();
+    	predicate.filter(tmp);
+      return (List<Element>)tmp;
+    }
+
     public final <X extends Exception> List<Element> descendants(UnsafePredicate<Element,X> predicate) throws X {
     	// Do not compute all descendants, and apply predicate afterwards.
     	// That is way too expensive.
@@ -262,6 +286,30 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
       for (Element<?,?> e : children()) {
         result.addAll(e.descendants(predicate));
       }
+      return result;
+    }
+
+    public final <T extends Element> List<T> children(Class<T> c, Predicate<T> predicate) throws Exception {
+    	List<Element> tmp = (List<Element>) children();
+    	new TypePredicate<Element,T>(c).filter(tmp);
+      List<T> result = (List<T>)tmp;
+      predicate.filter(result);
+      return result;
+    }
+
+    public final <T extends Element> List<T> children(Class<T> c, SafePredicate<T> predicate) {
+    	List<Element> tmp = (List<Element>) children();
+    	new TypePredicate<Element,T>(c).filter(tmp);
+      List<T> result = (List<T>)tmp;
+      predicate.filter(result);
+      return result;
+    }
+    
+    public final <T extends Element, X extends Exception> List<T> children(Class<T> c, UnsafePredicate<T,X> predicate) throws X {
+    	List<Element> tmp = (List<Element>) children();
+    	new TypePredicate<Element,T>(c).filter(tmp);
+      List<T> result = (List<T>)tmp;
+      predicate.filter(result);
       return result;
     }
 
