@@ -51,7 +51,7 @@ public class RootNamespace extends RegularNamespace {
 	  
   
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		if(parent() == null) {
 		  return Valid.create();
 		} else {

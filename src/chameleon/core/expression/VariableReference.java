@@ -157,7 +157,7 @@ public class VariableReference extends Expression<VariableReference> implements 
 	}
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		try {
 			Variable referencedVariable = getElement();
 			if(referencedVariable != null) {

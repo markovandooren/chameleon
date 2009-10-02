@@ -58,7 +58,7 @@ public class ActualArgumentList extends NamespaceElementImpl<ActualArgumentList,
 	}
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
 

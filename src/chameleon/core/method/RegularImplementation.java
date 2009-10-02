@@ -89,7 +89,7 @@ public class RegularImplementation extends Implementation<RegularImplementation>
   }
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
 

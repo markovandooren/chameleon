@@ -974,7 +974,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
 		public abstract Type baseType();
 
 		@Override
-		public VerificationResult verifyThis() {
+		public VerificationResult verifySelf() {
 			if(signature() != null) {
 			  return Valid.create();
 			} else {

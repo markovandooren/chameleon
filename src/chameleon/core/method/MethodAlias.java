@@ -67,7 +67,7 @@ public class MethodAlias<E extends MethodAlias<E,H,S>, H extends MethodHeader<H,
   }
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
 

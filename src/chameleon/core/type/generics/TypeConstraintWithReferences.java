@@ -63,7 +63,7 @@ public abstract class TypeConstraintWithReferences<E extends TypeConstraintWithR
 	}
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		int nbConstraints = _types.size();
 		if(nbConstraints > 0) {
 			return Valid.create();

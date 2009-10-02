@@ -111,7 +111,7 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration<TypeException
   }
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		try {
 			boolean isException = language(ObjectOrientedLanguage.class).isException(getType());
 			if(isException) {

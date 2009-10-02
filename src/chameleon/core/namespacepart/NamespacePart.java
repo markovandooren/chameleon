@@ -364,7 +364,7 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 	private LookupStrategy _typeLocalContext;
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
 

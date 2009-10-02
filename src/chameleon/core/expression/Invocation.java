@@ -279,7 +279,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   private OrderedMultiAssociation<Invocation,ActualTypeArgument> _genericParameters = new OrderedMultiAssociation<Invocation, ActualTypeArgument>(this);
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		VerificationResult result = Valid.create();
 		try {
 			if(getElement() == null) {

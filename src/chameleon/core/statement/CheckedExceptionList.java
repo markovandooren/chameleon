@@ -14,16 +14,21 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 
 /**
- * @author marko
+ * A checked exception list is a list that contains tuples of the form (checked exception type, exception declaration, cause).
+ * 
+ * @author Marko van Dooren
  */
 public class CheckedExceptionList {
 
+	/**
+	 * Initialize a new empty checked exception list.
+	 */
   public CheckedExceptionList() {
     _pairs = new ArrayList();
   }
 
   
-  public void add(ExceptionPair pair) throws LookupException {
+  public void add(ExceptionTuple pair) throws LookupException {
     Type exception = pair.getException();
 		if(exception.language(ObjectOrientedLanguage.class).isCheckedException(exception)) {
       _pairs.add(pair);
@@ -42,7 +47,7 @@ public class CheckedExceptionList {
     try {
       new AbstractPredicate() {
         public boolean eval(Object o) throws LookupException {
-          ExceptionPair ep = (ExceptionPair)o;
+          ExceptionTuple ep = (ExceptionTuple)o;
           return ! ep.getException().assignableTo(type);
         }
       }.filter(_pairs);
@@ -71,7 +76,7 @@ public class CheckedExceptionList {
     final List result = new ArrayList();
     new Visitor() {
       public void visit(Object element) {
-        result.add(((ExceptionPair)element).getDeclaration());
+        result.add(((ExceptionTuple)element).getDeclaration());
       }
     }.applyTo(getPairs());
     return result;
@@ -84,7 +89,7 @@ public class CheckedExceptionList {
     final Set result = new HashSet();
     new Visitor() {
       public void visit(Object element) {
-        result.add(((ExceptionPair)element).getException());
+        result.add(((ExceptionTuple)element).getException());
       }
     }.applyTo(getPairs());
     return result;

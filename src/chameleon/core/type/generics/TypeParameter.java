@@ -61,7 +61,7 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Namespac
 	public abstract Declaration resolveForRoundTrip() throws LookupException;
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		if(signature() != null) {
 		  return Valid.create();
 		} else {

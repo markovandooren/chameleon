@@ -89,7 +89,7 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 	}
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
 }

@@ -145,7 +145,7 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 		}
 
 		@Override
-		public VerificationResult verifyThis() {
+		public VerificationResult verifySelf() {
 			return Valid.create();
 		}
 
@@ -154,7 +154,7 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 	}
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
 	

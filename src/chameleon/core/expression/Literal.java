@@ -54,7 +54,7 @@ public abstract class Literal<E extends Literal> extends Expression<E> {
   }
   
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		VerificationResult result = Valid.create();
 		if(getValue() == null) {
 			result = result.and(new BasicProblem(this, "The value of the literal is missing."));

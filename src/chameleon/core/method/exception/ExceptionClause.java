@@ -157,7 +157,7 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
 
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
 

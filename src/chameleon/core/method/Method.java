@@ -27,7 +27,7 @@ import chameleon.core.method.exception.ExceptionClause;
 import chameleon.core.method.exception.TypeExceptionDeclaration;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.statement.Block;
-import chameleon.core.statement.ExceptionPair;
+import chameleon.core.statement.ExceptionTuple;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 import chameleon.core.type.generics.TypeParameter;
@@ -420,7 +420,7 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 			List pairs = block.getCEL().getPairs();
 			Iterator iter = pairs.iterator();
 			while (iter.hasNext()) {
-				ExceptionPair pair = (ExceptionPair)iter.next();
+				ExceptionTuple pair = (ExceptionTuple)iter.next();
 				if (pair.getDeclaration() instanceof TypeExceptionDeclaration) {
 					result.add(pair.getException());
 				}
@@ -491,7 +491,7 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	public abstract boolean sameKind(Method other);
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		VerificationResult result = Valid.create();
 		if(header() == null) {
 			result = result.and(new BasicProblem(this, "This method has no header"));

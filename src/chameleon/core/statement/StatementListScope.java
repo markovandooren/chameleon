@@ -48,7 +48,7 @@ public class StatementListScope extends Scope {
 	public boolean contains(Element element) {
 		Statement statement = getStatement();
 		boolean result = element.ancestors().contains(statement);
-		Iterator<Statement> iter = getContainer().statementsAfter(getStatement()).iterator();
+		Iterator<StatementImpl> iter = getContainer().statementsAfter(getStatement()).iterator();
 		while(! result && iter.hasNext()) {
 			result = iter.next().ancestors().contains(statement);
 		}

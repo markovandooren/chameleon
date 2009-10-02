@@ -39,7 +39,7 @@ public class ConstructedType extends TypeIndirection {
 	}
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
 

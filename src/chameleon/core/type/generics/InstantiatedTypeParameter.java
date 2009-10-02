@@ -96,8 +96,8 @@ public class InstantiatedTypeParameter extends TypeParameter<InstantiatedTypePar
 	}
 	
 	@Override
-	public VerificationResult verifyThis() {
-		VerificationResult tmp = super.verifyThis();
+	public VerificationResult verifySelf() {
+		VerificationResult tmp = super.verifySelf();
 		if(argument() != null) {
 		  return tmp;
 		} else {

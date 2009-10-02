@@ -206,7 +206,7 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
 	}
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
 

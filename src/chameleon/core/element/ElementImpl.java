@@ -25,6 +25,7 @@ import chameleon.core.language.WrongLanguageException;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.tag.Tag;
+import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.VerificationResult;
 
 /**
@@ -613,7 +614,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     
     
     public final VerificationResult verify() {
-    	VerificationResult result = verifyThis();
+    	VerificationResult result = verifySelf();
     	for(Element element:children()) {
     		result = result.and(element.verify());
     	}
@@ -621,7 +622,15 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	return result;
     }
     
-    public abstract VerificationResult verifyThis();
+    public abstract VerificationResult verifySelf();
+    
+    protected VerificationResult checkNull(Object element, String message, VerificationResult result) {
+    	if(element == null) {
+    		result = result.and(new BasicProblem(this, message));
+    	}
+    	return result;
+    }
+    
     
 //    public Iterator<Element> depthFirstIterator() {
 //    	return new Iterator<Element>() {

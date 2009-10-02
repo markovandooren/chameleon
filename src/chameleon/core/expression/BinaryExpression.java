@@ -68,7 +68,7 @@ public abstract class BinaryExpression extends Expression<BinaryExpression> {
   }
  
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		VerificationResult result = Valid.create();
     if(getFirst() == null) {
     	result = result.and(new BasicProblem(this,"The expression has no left-hand side."));

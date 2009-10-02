@@ -23,7 +23,7 @@ public abstract class CrossReferenceImpl<E extends CrossReference, P extends Ele
 	protected abstract <X extends Declaration > X getElement(DeclarationSelector<X> selector) throws LookupException;
 	
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		D referencedElement;
 		try {
 			referencedElement = getElement();

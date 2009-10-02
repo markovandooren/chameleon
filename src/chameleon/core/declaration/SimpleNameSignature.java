@@ -49,7 +49,7 @@ public class SimpleNameSignature extends Signature<SimpleNameSignature, Element>
 	}
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		if(_name == null) {
 			return new SignatureWithoutName(this);
 		} else {

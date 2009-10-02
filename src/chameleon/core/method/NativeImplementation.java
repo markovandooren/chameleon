@@ -31,7 +31,7 @@ public class NativeImplementation extends Implementation<NativeImplementation> {
   }
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
 

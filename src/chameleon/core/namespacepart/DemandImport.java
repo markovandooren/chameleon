@@ -86,7 +86,7 @@ public class DemandImport extends Import<DemandImport> {
 
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
   

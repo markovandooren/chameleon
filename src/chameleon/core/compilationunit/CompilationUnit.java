@@ -91,7 +91,7 @@ public class CompilationUnit extends ElementImpl<CompilationUnit,Element> {
   }
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
 

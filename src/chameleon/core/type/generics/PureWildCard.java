@@ -49,7 +49,7 @@ public class PureWildCard extends ActualTypeArgument<PureWildCard> {
 	}
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
 

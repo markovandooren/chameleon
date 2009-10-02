@@ -139,8 +139,8 @@ public class RegularType extends Type {
 	}
 
 	@Override
-	public VerificationResult verifyThis() {
-		VerificationResult tmp = super.verifyThis();
+	public VerificationResult verifySelf() {
+		VerificationResult tmp = super.verifySelf();
 		if(body() != null) {
 		  return tmp;
 		} else {

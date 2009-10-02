@@ -119,7 +119,7 @@ public class RegularNamespace extends Namespace {
 	}
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
 }

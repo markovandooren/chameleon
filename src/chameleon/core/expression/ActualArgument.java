@@ -85,7 +85,7 @@ public class ActualArgument extends ElementWithModifiersImpl<ActualArgument,Actu
 	}
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
 

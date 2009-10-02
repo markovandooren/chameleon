@@ -15,7 +15,7 @@ public interface StatementListContainer<E extends Element, P extends Element> {
 
     public int getIndexOf(Statement statement);
     
-    public List<Statement> getStatements();
+    public List<Statement> statements();
     
     public List<Statement> statementsAfter(Statement statement);
 }

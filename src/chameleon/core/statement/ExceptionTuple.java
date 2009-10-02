@@ -9,7 +9,7 @@ import chameleon.core.type.Type;
  * 
  * @author Marko van Dooren
  */
-public class ExceptionPair {
+public class ExceptionTuple {
   
 	 /*@
 	   @ public behavior
@@ -17,7 +17,7 @@ public class ExceptionPair {
 	   @ post getException() == exception;
 	   @ post getDeclaration() == declaration;
 	   @*/
-	  public ExceptionPair(Type exception, ExceptionDeclaration declaration, ExceptionSource cause) {
+	  public ExceptionTuple(Type exception, ExceptionDeclaration declaration, ExceptionSource cause) {
 	    _exception = exception;
 	    _declaration = declaration;
 	    _cause = cause;

@@ -15,7 +15,7 @@ import chameleon.core.validation.VerificationResult;
 /**
  * @author Marko van Dooren
  */
-public class Block extends Statement<Block> implements StatementListContainer<Block,Element> {
+public class Block extends StatementImpl<Block> implements StatementListContainer<Block,Element> {
 	//TODO: should this be a member, or should there be a separate ObjectInitializer that contains a block ?
 	//TODO: can any statement be a member ? In this case the methods of Member have to move up.
 
@@ -36,7 +36,7 @@ public class Block extends Statement<Block> implements StatementListContainer<Bl
     _statements.add(statement.parentLink());
   }
 
-  public List<Statement> getStatements() {
+  public List<Statement> statements() {
     return _statements.getOtherEnds();
   }
 
@@ -46,20 +46,20 @@ public class Block extends Statement<Block> implements StatementListContainer<Bl
       public void visit(Statement element) {
         result.addStatement(element.clone());
       }
-    }.applyTo(getStatements());
+    }.applyTo(statements());
     return result;
   }
 
   public List<? extends Element> children() {
-    return getStatements();
+    return statements();
   }
 
   public int getIndexOf(Statement statement) {
-    return getStatements().indexOf(statement) + 1;
+    return statements().indexOf(statement) + 1;
   }
 
 	public List<Statement> statementsAfter(Statement statement) {
-		List<Statement> statements = getStatements(); 
+		List<Statement> statements = statements(); 
 		int index = statements.indexOf(statement);
 		// returns a view on a clone of _statements (getStatements() clones the list).
 		// the view depends on the local variable, but since no other references exist
@@ -75,7 +75,7 @@ public class Block extends Statement<Block> implements StatementListContainer<Bl
    @      \result == getStatements().elementAt(getStatements().indexOf(element) - 1).lexicalContext();
    @*/
 	public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
-		List<Statement> declarations = getStatements();
+		List<Statement> declarations = statements();
 		int index = declarations.indexOf(element);
 		if(index == 0) {
 			return parent().lexicalLookupStrategy(this);
@@ -87,7 +87,7 @@ public class Block extends Statement<Block> implements StatementListContainer<Bl
 	}
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
 

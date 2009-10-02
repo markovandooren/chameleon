@@ -88,7 +88,7 @@ public class TypeImport extends Import<TypeImport> {
 	}
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
   

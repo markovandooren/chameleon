@@ -35,7 +35,7 @@ public abstract class VariableImpl<E extends VariableImpl<E,P,F>, P extends Decl
   private SingleAssociation<VariableImpl, SimpleNameSignature> _signature = new SingleAssociation<VariableImpl, SimpleNameSignature>(this);
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		if(signature() != null) {
 		  return Valid.create();
 		} else {

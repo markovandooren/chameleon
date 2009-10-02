@@ -65,8 +65,8 @@ public abstract class RegularMethod<E extends RegularMethod<E,H,S,M>, H extends 
   }
   
 	@Override
-	public VerificationResult verifyThis() {
-		VerificationResult result = super.verifyThis();
+	public VerificationResult verifySelf() {
+		VerificationResult result = super.verifySelf();
 		if(getReturnTypeReference() == null) {
 			result = result.and(new BasicProblem(this, "Method "+name()+" has no return type."));
 		}

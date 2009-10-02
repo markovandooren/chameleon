@@ -15,12 +15,11 @@ import chameleon.core.namespace.NamespaceElementImpl;
  * @author Marko van Dooren
  */
 
-public abstract class Statement<E extends Statement> extends NamespaceElementImpl<E,Element> implements ExceptionSource<E,Element> {
+public abstract class StatementImpl<E extends Statement> extends NamespaceElementImpl<E,Element> implements Statement<E,Element> {
 
 
-  protected Statement() {
+  protected StatementImpl() {
   }
-
 
   public abstract E clone();
 
@@ -80,20 +79,14 @@ public abstract class Statement<E extends Statement> extends NamespaceElementImp
     return getDirectCEL();
   }
 
-  public List getExceptionSources() {
-    List result = children();
-    new TypePredicate(ExceptionSource.class).filter(result);
-    return result;
-  }
-
   public boolean before(Statement other) {
     StatementListContainer container = getNearestCommonStatementListContainer(other);
     List myParents = ancestors();
     List otherParents = other.ancestors();
     myParents.add(0, this);
     otherParents.add(0, other);
-    Statement myAncestor = (Statement)myParents.get(myParents.indexOf(container) - 1);
-    Statement otherAncestor = (Statement)otherParents.get(myParents.indexOf(container) - 1);
+    Statement<E, Element> myAncestor = (Statement<E, Element>)myParents.get(myParents.indexOf(container) - 1);
+    Statement<E, Element> otherAncestor = (Statement<E, Element>)otherParents.get(myParents.indexOf(container) - 1);
     return container.getIndexOf(myAncestor) < container.getIndexOf(otherAncestor);
   }
 

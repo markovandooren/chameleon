@@ -84,7 +84,7 @@ public class NamespaceAlias extends Namespace {
 	}
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
 

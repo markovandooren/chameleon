@@ -27,7 +27,7 @@ public class SubtypeRelation extends InheritanceRelation<SubtypeRelation> {
 		return superClass();
 	}
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		try {
 			Type superClass = superClass();
 			if(superClass.is(language(ObjectOrientedLanguage.class).EXTENSIBLE) == Ternary.TRUE) {

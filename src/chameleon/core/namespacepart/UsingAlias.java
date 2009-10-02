@@ -129,7 +129,7 @@ public class UsingAlias extends Import<UsingAlias> {
 	}
 
 	@Override
-	public VerificationResult verifyThis() {
+	public VerificationResult verifySelf() {
 		if(_identifier != null) {
 			return new MissingAliasName(this);
 		} else {
