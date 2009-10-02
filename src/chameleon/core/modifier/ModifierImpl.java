@@ -2,13 +2,14 @@ package chameleon.core.modifier;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
+import chameleon.core.validation.Valid;
+import chameleon.core.validation.VerificationResult;
 
 
 /**
@@ -71,5 +72,12 @@ public abstract class ModifierImpl<E extends Modifier,P extends Element> extends
     result.add(p3);
     return result;
   }
+  
+	@Override
+	public VerificationResult verifySelf() {
+		return Valid.create();
+	}
+	
+
   
 }

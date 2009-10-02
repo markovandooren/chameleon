@@ -11,8 +11,8 @@ import chameleon.core.reference.SpecificReference;
  */
 public class TypeReference extends SpecificReference<TypeReference,Element,Type> {
 
-  public TypeReference(String qn) {
-    super(qn, Type.class);
+  public TypeReference(String fqn) {
+    super(fqn, Type.class);
   }
   
   public TypeReference(CrossReference<?, ?, ? extends TargetDeclaration> target, String name) {

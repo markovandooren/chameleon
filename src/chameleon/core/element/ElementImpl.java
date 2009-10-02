@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.rejuse.association.AssociationListener;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.Predicate;
 import org.rejuse.predicate.SafePredicate;
 import org.rejuse.predicate.TypePredicate;
 import org.rejuse.predicate.UnsafePredicate;
+import org.rejuse.property.Conflict;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
@@ -26,6 +26,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.tag.Tag;
 import chameleon.core.validation.BasicProblem;
+import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
 /**
@@ -615,6 +616,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     
     public final VerificationResult verify() {
     	VerificationResult result = verifySelf();
+    	result = result.and(verifyProperties());
     	for(Element element:children()) {
     		result = result.and(element.verify());
     	}
@@ -623,6 +625,34 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     }
     
     public abstract VerificationResult verifySelf();
+    
+    public final VerificationResult verifyProperties() {
+    	VerificationResult result = Valid.create();
+    	PropertySet<Element> properties = properties();
+    	Collection<Conflict<Element>> conflicts = properties.conflicts();
+    	for(Conflict<Element> conflict: conflicts) {
+    		result = result.and(new ConflictProblem(this,conflict));
+    	}
+    	for(Property<Element> property: properties.properties()) {
+    		result = result.and(property.verify(this));
+    	}
+    	return result;
+    }
+    
+    public static class ConflictProblem extends BasicProblem {
+
+    	private Conflict<Element> _conflict;
+    	
+			public ConflictProblem(Element element, Conflict<Element> conflict) {
+				super(element, "Property "+conflict.first().name()+" conflicts with property "+conflict.second().name());
+				_conflict = conflict;
+			}
+			
+			public Conflict<Element> conflict() {
+				return _conflict;
+			}
+    	
+    }
     
     protected VerificationResult checkNull(Object element, String message, VerificationResult result) {
     	if(element == null) {
