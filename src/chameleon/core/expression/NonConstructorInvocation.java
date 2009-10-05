@@ -40,13 +40,13 @@ public abstract class NonConstructorInvocation<E extends NonConstructorInvocatio
 	  }
 
 
-  /**
-   * @param inv
-   * @param map
-   * @return
-   */
-  public boolean superOf(InvocationTarget inv) throws LookupException {
-  	throw new Error("Implement exception anchors again");
+//  /**
+//   * @param inv
+//   * @param map
+//   * @return
+//   */
+//  public boolean superOf(InvocationTarget inv) throws LookupException {
+//  	throw new Error("Implement exception anchors again");
 //    if(! (inv instanceof NonConstructorInvocation)) {
 //      return false;
 //    }
@@ -63,7 +63,7 @@ public abstract class NonConstructorInvocation<E extends NonConstructorInvocatio
 //      result = result && ((InvocationTarget)params.get(i)).compatibleWith((InvocationTarget)otherParams.get(i));
 //    }
 //    return result;
-  }
+//  }
   
   public void prefix(InvocationTarget target) throws LookupException {
     if(getTarget() == null) {

@@ -38,11 +38,11 @@ public abstract LookupStrategy targetContext() throws LookupException;
 	
   public abstract E clone();
   
-  public abstract boolean superOf(InvocationTarget target) throws LookupException;
-
-  public abstract boolean subOf(InvocationTarget target) throws LookupException;
-
-  public abstract boolean compatibleWith(InvocationTarget target) throws LookupException;
+//  public abstract boolean superOf(InvocationTarget target) throws LookupException;
+//
+//  public abstract boolean subOf(InvocationTarget target) throws LookupException;
+//
+//  public abstract boolean compatibleWith(InvocationTarget target) throws LookupException;
 
   /**
    * @param expr

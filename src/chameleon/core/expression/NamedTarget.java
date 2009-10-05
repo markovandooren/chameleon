@@ -135,63 +135,63 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
 
 	private SimpleNameSignature _signature;
 
-  public boolean superOf(InvocationTarget target) throws LookupException {
-    Target self = getElement();
-    if(target instanceof Expression) {
-      // If this is a type, an expression assignable to this type will be compatible
-      return (self instanceof Type) && ((Expression)target).getType().assignableTo((Type)self);
-    }
-    if(!(target instanceof NamedTarget)) {
-      return false;
-    }
-    NamedTarget nt = (NamedTarget)target;
-    if( (getTarget() != null) && (nt.getTarget() != null)) {
-      if (! getTarget().compatibleWith(nt.getTarget())) {
-        return false;
-      }
-    } else if( ! ((getTarget() == null) && (nt.getTarget() == null))) {
-      return false; 
-    }
-    if(self instanceof Variable) {
-	    Variable vt1 = (Variable)self;
-	    Target vt2 = nt.getElement();
-	    if((vt2 instanceof Variable)) {
-	      return compatVar(vt1, (Variable)vt2) ; // && supportVar(vt1, Util.getSecondPart(getName()), (Variable)vt2, Util.getSecondPart(nt.getName()))
-	    }
-	    else {
-	      return false;
-	    }
-    }
-    else {
-      // self is a type
-      Target other = nt.getElement();
-      if(! (other instanceof Type)) {
-        return false;
-      }
-      return ((Type)other).assignableTo((Type)self);
-    }
-  }
+//  public boolean superOf(InvocationTarget target) throws LookupException {
+//    Target self = getElement();
+//    if(target instanceof Expression) {
+//      // If this is a type, an expression assignable to this type will be compatible
+//      return (self instanceof Type) && ((Expression)target).getType().assignableTo((Type)self);
+//    }
+//    if(!(target instanceof NamedTarget)) {
+//      return false;
+//    }
+//    NamedTarget nt = (NamedTarget)target;
+//    if( (getTarget() != null) && (nt.getTarget() != null)) {
+//      if (! getTarget().compatibleWith(nt.getTarget())) {
+//        return false;
+//      }
+//    } else if( ! ((getTarget() == null) && (nt.getTarget() == null))) {
+//      return false; 
+//    }
+//    if(self instanceof Variable) {
+//	    Variable vt1 = (Variable)self;
+//	    Target vt2 = nt.getElement();
+//	    if((vt2 instanceof Variable)) {
+//	      return compatVar(vt1, (Variable)vt2) ; // && supportVar(vt1, Util.getSecondPart(getName()), (Variable)vt2, Util.getSecondPart(nt.getName()))
+//	    }
+//	    else {
+//	      return false;
+//	    }
+//    }
+//    else {
+//      // self is a type
+//      Target other = nt.getElement();
+//      if(! (other instanceof Type)) {
+//        return false;
+//      }
+//      return ((Type)other).assignableTo((Type)self);
+//    }
+//  }
   
-  private boolean compatVar(Variable variable, Variable variable2) throws LookupException {
-    return ((variable == null) && (variable2 == null)) || 
-           (variable != null) && (
-               variable.equals(variable2) ||
-               (
-                   (variable instanceof FormalParameter) && (variable2 instanceof FormalParameter) &&
-                   ((FormalParameter)variable).compatibleWith((FormalParameter)variable2)
-               )
-           );
-  }
+//  private boolean compatVar(Variable variable, Variable variable2) throws LookupException {
+//    return ((variable == null) && (variable2 == null)) || 
+//           (variable != null) && (
+//               variable.equals(variable2) ||
+//               (
+//                   (variable instanceof FormalParameter) && (variable2 instanceof FormalParameter) &&
+//                   ((FormalParameter)variable).compatibleWith((FormalParameter)variable2)
+//               )
+//           );
+//  }
   
   
 
-  public boolean compatibleWith(InvocationTarget target) throws LookupException {
-    return superOf(target) || target.subOf(this);
-  }
+//  public boolean compatibleWith(InvocationTarget target) throws LookupException {
+//    return superOf(target) || target.subOf(this);
+//  }
 
-  public boolean subOf(InvocationTarget target) throws LookupException {
-    return false;
-  }
+//  public boolean subOf(InvocationTarget target) throws LookupException {
+//    return false;
+//  }
 
   public NamedTarget clone() {
     NamedTarget result = new NamedTarget(getName());

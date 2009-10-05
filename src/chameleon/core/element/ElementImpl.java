@@ -634,7 +634,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     		result = result.and(new ConflictProblem(this,conflict));
     	}
     	for(Property<Element> property: properties.properties()) {
-    		result = result.and(property.verify(this));
+//    		result = result.and(property.verify(this));
     	}
     	return result;
     }

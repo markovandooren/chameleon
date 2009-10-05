@@ -86,10 +86,6 @@ public class VariableReference extends Expression<VariableReference> implements 
     return getVariable().getType();
   }
 
-  public boolean superOf(InvocationTarget target) throws LookupException {
-    return (target instanceof VariableReference) && getTarget().compatibleWith(((VariableReference)target).getTarget());
-  }
-
   public VariableReference clone() {
     InvocationTarget target = null;
     if(getTarget() != null) {

@@ -57,26 +57,6 @@ public abstract class Expression<E extends Expression> extends NamespaceElementI
     return getType().targetContext();
   }
 
-
-
-// /*@
-//   @ public behavior
-//   @
-//   @ post \result == getParent().getNearestType();
-//   @*/
-//  public Type getNearestType() {
-//    return parent().getNearestType();
-//  }
-
-
-  public boolean subOf(InvocationTarget target) throws LookupException {
-    return false;
-  }
-  
-  public boolean compatibleWith(InvocationTarget target) throws LookupException {
-    return superOf(target) || target.subOf(this);
-  }
-  
   public void prefix(InvocationTarget target) throws LookupException {
     // Do nothing by default.
   }
