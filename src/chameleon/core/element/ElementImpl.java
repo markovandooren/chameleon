@@ -15,6 +15,7 @@ import org.rejuse.predicate.TypePredicate;
 import org.rejuse.predicate.UnsafePredicate;
 import org.rejuse.property.Conflict;
 import org.rejuse.property.Property;
+import org.rejuse.property.PropertyImpl;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 
@@ -24,6 +25,7 @@ import chameleon.core.language.Language;
 import chameleon.core.language.WrongLanguageException;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
+import chameleon.core.property.ChameleonProperty;
 import chameleon.core.tag.Tag;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
@@ -483,24 +485,24 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	}
     }
     
-    public PropertySet<Element> properties() {
-    	PropertySet<Element> result = declaredProperties();
+    public PropertySet<Element,ChameleonProperty> properties() {
+    	PropertySet<Element,ChameleonProperty> result = declaredProperties();
     	result.addAll(defaultProperties());
     	return result;
     }
     
-    public PropertySet<Element> defaultProperties() {
+    public PropertySet<Element,ChameleonProperty> defaultProperties() {
     	return language().defaultProperties(this);
     }
     
-    public PropertySet<Element> declaredProperties() {
-    	return new PropertySet<Element>();
+    public PropertySet<Element,ChameleonProperty> declaredProperties() {
+    	return new PropertySet<Element,ChameleonProperty>();
     }
     
 
-    public Ternary is(Property<Element> property) {
+    public Ternary is(ChameleonProperty property) {
     	// First get the declared properties.
-      PropertySet<Element> properties = properties();
+      PropertySet<Element,ChameleonProperty> properties = properties();
       // Add the given property if it dynamically applies to this element.
       Ternary applies = property.appliesTo(this);
       if(applies == Ternary.TRUE) {
@@ -512,9 +514,9 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
       return properties.implies(property);
     }
    
-    public Property<Element> property(PropertyMutex<Element> mutex) throws MetamodelException {
-    	List<Property<Element>> properties = new ArrayList<Property<Element>>();
-    	for(Property<Element> p : properties().properties()) {
+    public ChameleonProperty property(PropertyMutex<ChameleonProperty> mutex) throws MetamodelException {
+    	List<ChameleonProperty> properties = new ArrayList<ChameleonProperty>();
+    	for(ChameleonProperty p : properties().properties()) {
     		if(p.mutex() == mutex) {
     			properties.add(p);
     		}
@@ -532,15 +534,15 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
       @ post (\forall Property p; \result.contains(p); base.contains(p) && ! overriding.contradicts(p) ||
       @        overriding.contains(p) && (\exists Property p2; base.contains(p2); overriding.contradicts(p2))); 
       @*/
-		protected PropertySet<Element> filterProperties(PropertySet<Element> overriding, PropertySet<Element> base) {
-			Set<Property<Element>> baseProperties = base.properties();
-			final Set<Property<Element>> overridingProperties = overriding.properties();
-		  new SafePredicate<Property<Element>>() {
+		protected PropertySet<Element,ChameleonProperty> filterProperties(PropertySet<Element,ChameleonProperty> overriding, PropertySet<Element,ChameleonProperty> base) {
+			Set<ChameleonProperty> baseProperties = base.properties();
+			final Set<ChameleonProperty> overridingProperties = overriding.properties();
+		  new SafePredicate<ChameleonProperty>() {
 				@Override
-				public boolean eval(final Property<Element> aliasedProperty) {
-					return new SafePredicate<Property<Element>>() {
+				public boolean eval(final ChameleonProperty aliasedProperty) {
+					return new SafePredicate<ChameleonProperty>() {
 						@Override
-						public boolean eval(Property<Element> myProperty) {
+						public boolean eval(ChameleonProperty myProperty) {
 							return !aliasedProperty.contradicts(myProperty);
 						}
 					}.forAll(overridingProperties);
@@ -548,7 +550,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 		  	
 		  }.filter(baseProperties);
 		  baseProperties.addAll(overridingProperties);
-		  return new PropertySet<Element>(baseProperties);
+		  return new PropertySet<Element,ChameleonProperty>(baseProperties);
 		}
 
     public void disconnectChildren() {
@@ -628,12 +630,12 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     
     public final VerificationResult verifyProperties() {
     	VerificationResult result = Valid.create();
-    	PropertySet<Element> properties = properties();
-    	Collection<Conflict<Element>> conflicts = properties.conflicts();
-    	for(Conflict<Element> conflict: conflicts) {
+    	PropertySet<Element,ChameleonProperty> properties = properties();
+    	Collection<Conflict<ChameleonProperty>> conflicts = properties.conflicts();
+    	for(Conflict<ChameleonProperty> conflict: conflicts) {
     		result = result.and(new ConflictProblem(this,conflict));
     	}
-    	for(Property<Element> property: properties.properties()) {
+    	for(ChameleonProperty property: properties.properties()) {
 //    		result = result.and(property.verify(this));
     	}
     	return result;
@@ -641,14 +643,14 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     
     public static class ConflictProblem extends BasicProblem {
 
-    	private Conflict<Element> _conflict;
+    	private Conflict<ChameleonProperty> _conflict;
     	
-			public ConflictProblem(Element element, Conflict<Element> conflict) {
+			public ConflictProblem(Element element, Conflict<ChameleonProperty> conflict) {
 				super(element, "Property "+conflict.first().name()+" conflicts with property "+conflict.second().name());
 				_conflict = conflict;
 			}
 			
-			public Conflict<Element> conflict() {
+			public Conflict<ChameleonProperty> conflict() {
 				return _conflict;
 			}
     	

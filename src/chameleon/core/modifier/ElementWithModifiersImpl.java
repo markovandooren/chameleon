@@ -8,6 +8,7 @@ import org.rejuse.property.PropertySet;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.namespace.NamespaceElementImpl;
+import chameleon.core.property.ChameleonProperty;
 
 public abstract class ElementWithModifiersImpl<E extends Element<E, P>, P extends Element> extends NamespaceElementImpl<E,P> {
 
@@ -60,12 +61,12 @@ public abstract class ElementWithModifiersImpl<E extends Element<E, P>, P extend
     return _modifiers.getOtherEnds().contains(modifier);
   }
 
-  public PropertySet<Element> declaredProperties() {
+  public PropertySet<Element,ChameleonProperty> declaredProperties() {
     return myDeclaredProperties();
   }
 
-	protected PropertySet<Element> myDeclaredProperties() {
-		PropertySet<Element> result = new PropertySet<Element>();
+	protected PropertySet<Element,ChameleonProperty> myDeclaredProperties() {
+		PropertySet<Element,ChameleonProperty> result = new PropertySet<Element,ChameleonProperty>();
     for(Modifier modifier:modifiers()) {
       result.addAll(modifier.impliedProperties().properties());
     }
@@ -76,7 +77,7 @@ public abstract class ElementWithModifiersImpl<E extends Element<E, P>, P extend
 	 * Return the default properties for this element.
 	 * @return
 	 */
-	protected PropertySet<Element> myDefaultProperties() {
+	protected PropertySet<Element,ChameleonProperty> myDefaultProperties() {
 		return language().defaultProperties(this);
 	}
 

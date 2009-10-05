@@ -8,6 +8,7 @@ import org.rejuse.property.PropertySet;
 
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
+import chameleon.core.property.ChameleonProperty;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
@@ -42,15 +43,15 @@ public abstract class ModifierImpl<E extends Modifier,P extends Element> extends
   /**
    * Convenience method for creating an empty propertyset
    */
-  protected PropertySet<Element> createSet() {
-    return new PropertySet<Element>(); 
+  protected PropertySet<Element,ChameleonProperty> createSet() {
+    return new PropertySet<Element,ChameleonProperty>(); 
   }
   
   /**
    * Convenience method for creating a propertyset with a single element.
    */
-  protected PropertySet<Element> createSet(Property p) {
-    PropertySet<Element> result = createSet();
+  protected PropertySet<Element,ChameleonProperty> createSet(ChameleonProperty p) {
+    PropertySet<Element,ChameleonProperty> result = createSet();
     result.add(p);
     return result;
   }
@@ -58,8 +59,8 @@ public abstract class ModifierImpl<E extends Modifier,P extends Element> extends
   /**
    * Convenience method for creating a propertyset with two elements.
    */
-  protected PropertySet<Element> createSet(Property p1, Property p2) {
-  	PropertySet<Element> result = createSet(p1);
+  protected PropertySet<Element,ChameleonProperty> createSet(ChameleonProperty p1, ChameleonProperty p2) {
+  	PropertySet<Element,ChameleonProperty> result = createSet(p1);
     result.add(p2);
     return result;
   }
@@ -67,8 +68,8 @@ public abstract class ModifierImpl<E extends Modifier,P extends Element> extends
   /**
    * Convenience method for creating a propertyset with three elements.
    */
-  protected PropertySet<Element> createSet(Property p1, Property p2, Property p3) {
-  	PropertySet<Element> result = createSet(p1, p2);
+  protected PropertySet<Element,ChameleonProperty> createSet(ChameleonProperty p1, ChameleonProperty p2, ChameleonProperty p3) {
+  	PropertySet<Element,ChameleonProperty> result = createSet(p1, p2);
     result.add(p3);
     return result;
   }

@@ -7,18 +7,17 @@ import java.util.List;
 import java.util.Set;
 
 import org.rejuse.predicate.AbstractPredicate;
-import org.rejuse.property.Property;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ChameleonProgrammerException;
-import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
 import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
+import chameleon.core.property.ChameleonProperty;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
@@ -128,24 +127,13 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
 
   public Scope scope() throws MetamodelException {
   	Scope result = null;
-  	Property<Element> scopeProperty = property(language().SCOPE_MUTEX);
+  	ChameleonProperty scopeProperty = property(language().SCOPE_MUTEX);
   	if(scopeProperty instanceof ScopeProperty) {
   		result = ((ScopeProperty)scopeProperty).scope(this);
   	} else if(scopeProperty != null){
   		throw new ChameleonProgrammerException("Scope property is not a ScopeProperty");
   	}
   	return result;
-  }
-
-	// copied from TypeElementImpl
-  public void addModifiers(List<Modifier> modifiers) {
-  	if(modifiers == null) {
-  		throw new ChameleonProgrammerException("List passed to addModifiers is null");
-  	} else {
-  		for(Modifier modifier: modifiers) {
-  			addModifier(modifier);
-  		}
-  	}
   }
 
 	public MemberVariable actualDeclaration() throws LookupException {

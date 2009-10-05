@@ -21,6 +21,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
+import chameleon.core.property.ChameleonProperty;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
 import chameleon.core.statement.CheckedExceptionList;
@@ -64,7 +65,7 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
 		return aliasedVariable().getType();
 	}
 
-	public Ternary is(Property<Element> property) {
+	public Ternary is(ChameleonProperty property) {
 		return aliasedVariable().is(property);
 	}
 
@@ -101,23 +102,23 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
 		return result;
 	}
 
-	private PropertySet<Element> myDeclaredProperties() {
-		PropertySet<Element> result = new PropertySet<Element>();
+	private PropertySet<Element,ChameleonProperty> myDeclaredProperties() {
+		PropertySet<Element,ChameleonProperty> result = new PropertySet<Element,ChameleonProperty>();
     for(Modifier modifier:modifiers()) {
       result.addAll(modifier.impliedProperties().properties());
     }
     return result;
 	}
 
-	private PropertySet<Element> myDefaultProperties() {
+	private PropertySet<Element,ChameleonProperty> myDefaultProperties() {
 		return language().defaultProperties(this);
 	}
 
-  public PropertySet<Element> defaultProperties() {
+  public PropertySet<Element,ChameleonProperty> defaultProperties() {
     return filterProperties(myDefaultProperties(), aliasedVariable().defaultProperties());
   }
 	
-  public PropertySet<Element> declaredProperties() {
+  public PropertySet<Element,ChameleonProperty> declaredProperties() {
     return filterProperties(myDeclaredProperties(), aliasedVariable().declaredProperties());
   }
 
@@ -173,7 +174,7 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
 	
   public Scope scope() throws MetamodelException {
   	Scope result = null;
-  	Property<Element> scopeProperty = property(language().SCOPE_MUTEX);
+  	ChameleonProperty scopeProperty = property(language().SCOPE_MUTEX);
   	if(scopeProperty instanceof ScopeProperty) {
   		result = ((ScopeProperty)scopeProperty).scope(this);
   	} else if(scopeProperty != null){

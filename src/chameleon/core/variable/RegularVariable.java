@@ -10,11 +10,13 @@ import org.rejuse.property.PropertySet;
 
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.modifier.Modifier;
+import chameleon.core.property.ChameleonProperty;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
 import chameleon.core.type.Type;
@@ -127,6 +129,17 @@ public abstract class RegularVariable<E extends RegularVariable<E,P,F>, P extend
 		return _modifiers.getOtherEnds().contains(modifier);
 	}
 
+	// copied from TypeElementImpl
+  public void addModifiers(List<Modifier> modifiers) {
+  	if(modifiers == null) {
+  		throw new ChameleonProgrammerException("List passed to addModifiers is null");
+  	} else {
+  		for(Modifier modifier: modifiers) {
+  			addModifier(modifier);
+  		}
+  	}
+  }
+
 
   /**
    * Return the name of this variable.
@@ -166,8 +179,8 @@ public abstract class RegularVariable<E extends RegularVariable<E,P,F>, P extend
 //   return declared.implies(property);
 // }
 
- public PropertySet<Element> declaredProperties() {
-   PropertySet<Element> result = new PropertySet<Element>();
+ public PropertySet<Element,ChameleonProperty> declaredProperties() {
+   PropertySet<Element,ChameleonProperty> result = new PropertySet<Element,ChameleonProperty>();
    for(Modifier modifier:modifiers()) {
      result.addAll(modifier.impliedProperties());
    }

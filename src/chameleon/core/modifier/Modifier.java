@@ -3,6 +3,7 @@ package chameleon.core.modifier;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.element.Element;
+import chameleon.core.property.ChameleonProperty;
 
 
 /**
@@ -15,7 +16,7 @@ public interface Modifier<E extends Modifier, P extends Element> extends Element
    @
    @ post \result != null; 
    @*/
-  public PropertySet<Element> impliedProperties();
+  public PropertySet<Element,ChameleonProperty> impliedProperties();
   
   /**
    * Return a clone of this modifier.

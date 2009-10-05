@@ -36,10 +36,10 @@ public abstract class PropertyRule extends Rule<PropertyRule> {
    @
    @ post \result == suggested.withoutContradictingProperties(declared);
    @*/
-	public PropertySet<Element> properties(Element element) {
+	public PropertySet<Element,ChameleonProperty> properties(Element element) {
 		if(appliesTo(element)) {
-		  PropertySet<Element> suggested = suggestedProperties(element);
-		  PropertySet<Element> declared = element.declaredProperties();
+		  PropertySet<Element,ChameleonProperty> suggested = suggestedProperties(element);
+		  PropertySet<Element,ChameleonProperty> declared = element.declaredProperties();
 		  return suggested.withoutContradictingProperties(declared);
 		} else {
 			return createSet();
@@ -60,22 +60,22 @@ public abstract class PropertyRule extends Rule<PropertyRule> {
    @
    @ post \result != null; 
    @*/
-	public abstract PropertySet<Element> suggestedProperties(Element element);
+	public abstract PropertySet<Element,ChameleonProperty> suggestedProperties(Element element);
 	
 	// COPIED FROM MODIFIERIMPL
 	
   /**
    * Convenience method for creating an empty propertyset
    */
-  protected PropertySet<Element> createSet() {
-    return new PropertySet<Element>(); 
+  protected PropertySet<Element,ChameleonProperty> createSet() {
+    return new PropertySet<Element,ChameleonProperty>(); 
   }
   
   /**
    * Convenience method for creating a propertyset with a single element.
    */
-  protected PropertySet<Element> createSet(Property p) {
-    PropertySet<Element> result = createSet();
+  protected PropertySet<Element,ChameleonProperty> createSet(ChameleonProperty p) {
+    PropertySet<Element,ChameleonProperty> result = createSet();
     result.add(p);
     return result;
   }
@@ -83,8 +83,8 @@ public abstract class PropertyRule extends Rule<PropertyRule> {
   /**
    * Convenience method for creating a propertyset with two elements.
    */
-  protected PropertySet<Element> createSet(Property p1, Property p2) {
-  	PropertySet<Element> result = createSet(p1);
+  protected PropertySet<Element,ChameleonProperty> createSet(ChameleonProperty p1, ChameleonProperty p2) {
+  	PropertySet<Element,ChameleonProperty> result = createSet(p1);
     result.add(p2);
     return result;
   }
@@ -92,8 +92,8 @@ public abstract class PropertyRule extends Rule<PropertyRule> {
   /**
    * Convenience method for creating a propertyset with three elements.
    */
-  protected PropertySet<Element> createSet(Property p1, Property p2, Property p3) {
-  	PropertySet<Element> result = createSet(p1, p2);
+  protected PropertySet<Element,ChameleonProperty> createSet(ChameleonProperty p1, ChameleonProperty p2, ChameleonProperty p3) {
+  	PropertySet<Element,ChameleonProperty> result = createSet(p1, p2);
     result.add(p3);
     return result;
   }

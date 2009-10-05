@@ -1,13 +1,14 @@
 package chameleon.core.language;
 
 import org.rejuse.property.Property;
-import org.rejuse.property.PropertyMutex;
+import org.rejuse.property.PropertyImpl;
 import org.rejuse.property.StaticProperty;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.member.Member;
+import chameleon.core.property.ChameleonProperty;
 import chameleon.core.property.Defined;
 import chameleon.core.relation.EquivalenceRelation;
 import chameleon.core.relation.StrictPartialOrder;
@@ -17,17 +18,17 @@ import chameleon.core.type.TypeReference;
 
 public abstract class ObjectOrientedLanguage extends Language {
 	
-	public final Property<Element> INHERITABLE;
-	public final Property<Element> OVERRIDABLE;
-	public final Property<Element> EXTENSIBLE;
-	public final Property<Element> REFINABLE;
-	public final Property<Element> DEFINED;
-	public final Property<Element> INSTANCE;
-	public final Property<Element> CLASS;
-	public final Property<Element> CONSTRUCTOR;
-	public final Property<Element> DESTRUCTOR;
-	public final Property<Element> REFERENCE_TYPE;
-	public final Property<Element> VALUE_TYPE;
+	public final ChameleonProperty INHERITABLE;
+	public final ChameleonProperty OVERRIDABLE;
+	public final ChameleonProperty EXTENSIBLE;
+	public final ChameleonProperty REFINABLE;
+	public final ChameleonProperty DEFINED;
+	public final ChameleonProperty INSTANCE;
+	public final ChameleonProperty CLASS;
+	public final ChameleonProperty CONSTRUCTOR;
+	public final ChameleonProperty DESTRUCTOR;
+	public final ChameleonProperty REFERENCE_TYPE;
+	public final ChameleonProperty VALUE_TYPE;
 
 	public ObjectOrientedLanguage(String name) {
 		this(name,null);

@@ -13,6 +13,7 @@ import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacepart.NamespacePart;
+import chameleon.core.property.ChameleonProperty;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
 import chameleon.core.validation.Valid;
@@ -46,21 +47,21 @@ public class NamespaceAlias extends Namespace {
 		return new NamespaceAlias(signature().clone(),aliasedNamespace());
 	}
 
-	private PropertySet<Element> myDefaultProperties() {
+	private PropertySet<Element,ChameleonProperty> myDefaultProperties() {
 		return language().defaultProperties(this);
 	}
 
-  public PropertySet<Element> defaultProperties() {
+  public PropertySet<Element,ChameleonProperty> defaultProperties() {
     return filterProperties(myDefaultProperties(), aliasedNamespace().defaultProperties());
   }
 
-  public PropertySet<Element> declaredProperties() {
+  public PropertySet<Element,ChameleonProperty> declaredProperties() {
   	return aliasedNamespace().declaredProperties();
   }
 	
   public Scope scope() throws MetamodelException {
   	Scope result = null;
-  	Property<Element> scopeProperty = property(language().SCOPE_MUTEX);
+  	ChameleonProperty scopeProperty = property(language().SCOPE_MUTEX);
   	if(scopeProperty instanceof ScopeProperty) {
   		result = ((ScopeProperty)scopeProperty).scope(this);
   	} else if(scopeProperty != null){

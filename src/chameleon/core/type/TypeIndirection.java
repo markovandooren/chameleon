@@ -10,6 +10,7 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
+import chameleon.core.property.ChameleonProperty;
 import chameleon.core.type.generics.TypeParameter;
 import chameleon.core.type.inheritance.InheritanceRelation;
 
@@ -76,11 +77,11 @@ public abstract class TypeIndirection extends Type {
 	}
 	
 	//TODO I am not sure if these definitions are appropriate for a constructed type.
-  public PropertySet<Element> defaultProperties() {
+  public PropertySet<Element,ChameleonProperty> defaultProperties() {
     return filterProperties(myDefaultProperties(), aliasedType().defaultProperties());
   }
 	
-  public PropertySet<Element> declaredProperties() {
+  public PropertySet<Element,ChameleonProperty> declaredProperties() {
     return filterProperties(myDeclaredProperties(), aliasedType().declaredProperties());
   }
 

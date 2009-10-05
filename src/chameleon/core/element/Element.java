@@ -17,6 +17,7 @@ import chameleon.core.language.Language;
 import chameleon.core.language.WrongLanguageException;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
+import chameleon.core.property.ChameleonProperty;
 import chameleon.core.tag.Tag;
 import chameleon.core.validation.VerificationResult;
 
@@ -651,7 +652,7 @@ public interface Element<E extends Element, P extends Element> {
      @         declaredProperties().contains(p) |
      @         language().defaultProperties(this).contains(p));
      @*/
-    public abstract PropertySet<Element> properties();
+    public abstract PropertySet<Element,ChameleonProperty> properties();
         
     /**
      * Return the default properties of this element.
@@ -661,7 +662,7 @@ public interface Element<E extends Element, P extends Element> {
      @
      @ post \result != null;
      @*/
-    public PropertySet<Element> defaultProperties();
+    public PropertySet<Element,ChameleonProperty> defaultProperties();
     
     /**
      * Return a property set representing the properties of this element
@@ -672,7 +673,7 @@ public interface Element<E extends Element, P extends Element> {
      @
      @ post \result != null;
      @*/
-    public PropertySet<Element> declaredProperties();
+    public PropertySet<Element,ChameleonProperty> declaredProperties();
 
 
     /**
@@ -693,7 +694,7 @@ public interface Element<E extends Element, P extends Element> {
      @ post ! property.appliesTo(this) ==> \result == declaredProperties().implies(property);
      @ post property.appliesTo(this) ==> \result == declaredProperties().with(property).implies(property);
      @*/
-    public Ternary is(Property<Element> property);
+    public Ternary is(ChameleonProperty property);
     
     /**
      * Return the property of this element for the given property mutex. The property mutex
@@ -717,7 +718,7 @@ public interface Element<E extends Element, P extends Element> {
      @ signals MetamodelException (\num_of Property p; properties().contains(p);
      @       p.mutex() == mutex) > 1; 
      @*/
-    public Property<Element> property(PropertyMutex<Element> mutex) throws MetamodelException;
+    public ChameleonProperty property(PropertyMutex<ChameleonProperty> mutex) throws MetamodelException;
     
     /**
      * Notify this element that the given descendant was modified. This

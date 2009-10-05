@@ -13,6 +13,7 @@ import org.rejuse.association.MultiAssociation;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.property.Property;
+import org.rejuse.property.PropertyImpl;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 import org.rejuse.property.PropertyUniverse;
@@ -21,6 +22,7 @@ import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.namespace.RootNamespace;
+import chameleon.core.property.ChameleonProperty;
 import chameleon.core.property.PropertyRule;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.ValidityRule;
@@ -42,7 +44,7 @@ import chameleon.tool.Processor;
  * @author Marko van Dooren
  */
 
-public abstract class Language implements PropertyUniverse<Element> {
+public abstract class Language implements PropertyUniverse<ChameleonProperty> {
 	
 	/**
 	 * Initialize a new language with the given name.
@@ -81,7 +83,7 @@ public abstract class Language implements PropertyUniverse<Element> {
 		setName(name);
 		setLookupStrategyFactory(factory);
 		initializePropertyRules();
-		SCOPE_MUTEX = new PropertyMutex<Element>();
+		SCOPE_MUTEX = new PropertyMutex<ChameleonProperty>();
 	}
 	
 	/**
@@ -113,8 +115,8 @@ public abstract class Language implements PropertyUniverse<Element> {
    @        \exists(PropertyRule rule; propertyRules().contains(rule);
    @           rule.properties(element).contains(p)));
    @*/
-	public PropertySet<Element> defaultProperties(Element element) {
-		PropertySet<Element> result = new PropertySet<Element>();
+	public PropertySet<Element,ChameleonProperty> defaultProperties(Element element) {
+		PropertySet<Element,ChameleonProperty> result = new PropertySet<Element,ChameleonProperty>();
 		for(PropertyRule rule:propertyRules()) {
 			result.addAll(rule.properties(element));
 		}
@@ -210,7 +212,7 @@ public abstract class Language implements PropertyUniverse<Element> {
 	/**
 	 * A property mutex for the scope property.
 	 */
-	public final PropertyMutex<Element> SCOPE_MUTEX;
+	public final PropertyMutex<ChameleonProperty> SCOPE_MUTEX;
 
 	 /**************
     * CONNECTORS *
@@ -462,8 +464,8 @@ public abstract class Language implements PropertyUniverse<Element> {
      * For every class of properties, one object is in the set.
      * @return
      */
-    public Set<Property<Element>> properties() {
-      return new HashSet<Property<Element>>(_properties.getOtherEnds());
+    public Set<ChameleonProperty> properties() {
+      return new HashSet<ChameleonProperty>(_properties.getOtherEnds());
     }
 
     /**
@@ -473,11 +475,11 @@ public abstract class Language implements PropertyUniverse<Element> {
      * DO NOT MODIFY THE RESULTING OBJECT. IT IS ACCESSIBLE ONLY BECAUSE OF THE 
      * VERY DUMB ACCESS CONTROL IN JAVA.
      */
-    public MultiAssociation<PropertyUniverse<Element>,Property<Element>> propertyLink() {
+    public MultiAssociation<Language,ChameleonProperty> propertyLink() {
       return _properties;
     }
     
-    private MultiAssociation<PropertyUniverse<Element>,Property<Element>> _properties = new MultiAssociation<PropertyUniverse<Element>, Property<Element>>(this);
+    private MultiAssociation<Language,ChameleonProperty> _properties = new MultiAssociation<Language, ChameleonProperty>(this);
     
     /**
      * 
@@ -486,8 +488,8 @@ public abstract class Language implements PropertyUniverse<Element> {
      * @throws ChameleonProgrammerException
      *         There is no property with the given name.
      */
-    public Property<Element> property(String name) throws ChameleonProgrammerException {
-    	for(Property<Element> p: properties()) {
+    public ChameleonProperty property(String name) throws ChameleonProgrammerException {
+    	for(ChameleonProperty p: properties()) {
     		if(p.name().equals(name)) {
     			return p;
     		}

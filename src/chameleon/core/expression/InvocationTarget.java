@@ -38,26 +38,16 @@ public abstract LookupStrategy targetContext() throws LookupException;
 	
   public abstract E clone();
   
-//  public abstract boolean superOf(InvocationTarget target) throws LookupException;
-//
-//  public abstract boolean subOf(InvocationTarget target) throws LookupException;
-//
-//  public abstract boolean compatibleWith(InvocationTarget target) throws LookupException;
-
   /**
    * @param expr
    */
   public abstract void prefix(InvocationTarget target) throws LookupException;
-
-//  public abstract void substituteParameter(String name, Expression expr) throws MetamodelException;
 
   public abstract void prefixRecursive(InvocationTarget target) throws LookupException;
 
 	/**
 	 * Return the set of exception thrown directly this invocation target under the assumption that
 	 * the evaluation of their children does not throw any exceptions.
-	 *
-	 * @uml.property name="directExceptions"
 	 */
 	/*@
 	 @ public behavior

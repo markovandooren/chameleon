@@ -2,25 +2,27 @@ package chameleon.core.property;
 
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.property.DynamicProperty;
-import org.rejuse.property.Property;
+import org.rejuse.property.PropertyImpl;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
+import org.rejuse.property.PropertyUniverse;
 
 import chameleon.core.declaration.Definition;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
+import chameleon.core.validation.VerificationResult;
 
-public class Defined extends DynamicProperty<Element> {
+public class Defined extends DynamicProperty<Element,ChameleonProperty> implements ChameleonProperty {
 
   public Defined(String name, Language lang) {
-    super(name, lang, new PropertyMutex<Element>());
+    super(name, lang, new PropertyMutex<ChameleonProperty>());
   }
 
-  public Defined(String name, Language lang, PropertyMutex<Element> mutex) {
+  public Defined(String name, Language lang, PropertyMutex<ChameleonProperty> mutex) {
     super(name, lang, mutex);
   }
   
-  protected Defined(String name, Language lang, PropertyMutex<Element> mutex, Property inverse) {
+  protected Defined(String name, Language lang, PropertyMutex<ChameleonProperty> mutex, ChameleonProperty inverse) {
     super(name, lang, mutex, inverse);
   }
 
@@ -41,7 +43,7 @@ public class Defined extends DynamicProperty<Element> {
     	  result = Ternary.TRUE;
       } else {
       	// Unless explicitly declared as defined, it is undefined.
-      	PropertySet<Element> declared =element.declaredProperties();
+      	PropertySet<Element,ChameleonProperty> declared =element.declaredProperties();
       	result = declared.implies(this);
       	if(result == Ternary.UNKNOWN) {
           result = Ternary.FALSE;
@@ -54,12 +56,12 @@ public class Defined extends DynamicProperty<Element> {
     return result;
   }
 
-//  protected Property<Element> createInverse(String name, Language lang) {
-//    return new Defined("not "+name, lang, this) {
-//      public boolean appliesTo(Element element) {
-//        return (! (element instanceof Definition)) || (!((Definition)element).complete());
-//      }
-//    };
-//  }
+	@Override
+	protected void createInverse(String name, PropertyUniverse<ChameleonProperty> universe) {
+		compile error
+	}
+
+	public VerificationResult verify(Element element) {
+	}
 
 }

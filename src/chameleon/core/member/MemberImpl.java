@@ -6,16 +6,15 @@ import java.util.List;
 import java.util.Set;
 
 import org.rejuse.predicate.UnsafePredicate;
-import org.rejuse.property.Property;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.ChameleonProgrammerException;
-import chameleon.core.element.Element;
 import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.property.ChameleonProperty;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
@@ -76,7 +75,7 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Declara
   
   public Scope scope() throws MetamodelException {
   	Scope result = null;
-  	Property<Element> scopeProperty = property(language().SCOPE_MUTEX);
+  	ChameleonProperty scopeProperty = property(language().SCOPE_MUTEX);
   	if(scopeProperty instanceof ScopeProperty) {
   		result = ((ScopeProperty)scopeProperty).scope(this);
   	} else if(scopeProperty != null){
