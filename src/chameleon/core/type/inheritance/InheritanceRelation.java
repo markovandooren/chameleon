@@ -12,7 +12,6 @@ import chameleon.core.declaration.Signature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
-import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
@@ -21,6 +20,7 @@ import chameleon.core.type.TypeReference;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.oo.language.ObjectOrientedLanguage;
 
 public abstract class InheritanceRelation<E extends InheritanceRelation> extends ElementImpl<E,Type> {
 	

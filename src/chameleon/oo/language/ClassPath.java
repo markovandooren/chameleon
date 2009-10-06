@@ -1,4 +1,4 @@
-package chameleon.core.language;
+package chameleon.oo.language;
 
 import java.io.File;
 import java.io.IOException;

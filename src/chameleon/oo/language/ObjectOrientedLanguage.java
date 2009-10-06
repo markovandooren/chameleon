@@ -1,15 +1,14 @@
-package chameleon.core.language;
+package chameleon.oo.language;
 
-import org.rejuse.property.Property;
-import org.rejuse.property.PropertyImpl;
-import org.rejuse.property.StaticProperty;
-
-import chameleon.core.element.Element;
+import chameleon.core.declaration.Declaration;
+import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.member.Member;
+import chameleon.core.method.Method;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.property.Defined;
+import chameleon.core.property.StaticChameleonPropertyWithoutConstraints;
 import chameleon.core.relation.EquivalenceRelation;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.relation.WeakPartialOrder;
@@ -36,18 +35,21 @@ public abstract class ObjectOrientedLanguage extends Language {
 
 	public ObjectOrientedLanguage(String name, LookupStrategyFactory factory) {
 		super(name, factory);
-  	INHERITABLE = new StaticProperty<Element>("inheritable",this);
-  	OVERRIDABLE = new StaticProperty<Element>("overridable",this);
-  	EXTENSIBLE = new StaticProperty<Element>("extensible", this);
-  	REFINABLE = new StaticProperty<Element>("refinable", this);
+		// 1) Create the properties.
+  	INHERITABLE = new StaticChameleonPropertyWithoutConstraints("inheritable",this,Declaration.class);
+  	OVERRIDABLE = new StaticChameleonPropertyWithoutConstraints("overridable",this,Declaration.class);
+  	EXTENSIBLE = new StaticChameleonPropertyWithoutConstraints("extensible", this,Declaration.class);
+  	REFINABLE = new StaticChameleonPropertyWithoutConstraints("refinable", this,Declaration.class);
   	DEFINED = new Defined("defined",this);
-  	INSTANCE = new StaticProperty<Element>("instance",this);
+  	INSTANCE = new StaticChameleonPropertyWithoutConstraints("instance",this,Declaration.class);
   	CLASS = INSTANCE.inverse();
     CLASS.setName("class");
-    CONSTRUCTOR = new StaticProperty<Element>("constructor", this);
-    DESTRUCTOR = new StaticProperty<Element>("destructor", this);
-  	REFERENCE_TYPE = new StaticProperty<Element>("reference type", this);
+    CONSTRUCTOR = new StaticChameleonPropertyWithoutConstraints("constructor", this,Method.class);
+    DESTRUCTOR = new StaticChameleonPropertyWithoutConstraints("destructor", this,Method.class);
+  	REFERENCE_TYPE = new StaticChameleonPropertyWithoutConstraints("reference type", this, Type.class);
   	VALUE_TYPE = REFERENCE_TYPE.inverse();
+  	
+  	//2) Add relations between the properties.
     OVERRIDABLE.addImplication(INHERITABLE);
     OVERRIDABLE.addImplication(REFINABLE);
     EXTENSIBLE.addImplication(REFINABLE);

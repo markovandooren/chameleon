@@ -1,10 +1,10 @@
 package chameleon.core.type.generics;
 
-import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 import chameleon.core.validation.VerificationResult;
+import chameleon.oo.language.ObjectOrientedLanguage;
 
 public class SuperConstraint extends TypeConstraintWithReferences<SuperConstraint> {
 

@@ -1,9 +1,9 @@
 package chameleon.core.type.generics;
 
-import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
+import chameleon.oo.language.ObjectOrientedLanguage;
 
 public class ExtendsWildCard extends ActualTypeArgumentWithTypeReference<ExtendsWildCard> {
 

@@ -5,11 +5,11 @@ import java.util.List;
 
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
-import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.oo.language.ObjectOrientedLanguage;
 
 public class PureWildCard extends ActualTypeArgument<PureWildCard> {
 

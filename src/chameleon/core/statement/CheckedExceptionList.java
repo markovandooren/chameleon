@@ -9,9 +9,9 @@ import java.util.Set;
 import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.AbstractPredicate;
 
-import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
+import chameleon.oo.language.ObjectOrientedLanguage;
 
 /**
  * A checked exception list is a list that contains tuples of the form (checked exception type, exception declaration, cause).

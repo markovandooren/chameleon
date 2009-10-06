@@ -1,9 +1,9 @@
 package chameleon.core.type.generics;
 
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
+import chameleon.oo.language.ObjectOrientedLanguage;
 
 public class SuperWildCardType extends WildCardType {
 

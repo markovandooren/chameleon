@@ -58,7 +58,7 @@ public class Defined extends DynamicProperty<Element,ChameleonProperty> implemen
 
 	@Override
 	protected void createInverse(String name, PropertyUniverse<ChameleonProperty> universe) {
-		compile error
+		name;
 	}
 
 	public VerificationResult verify(Element element) {

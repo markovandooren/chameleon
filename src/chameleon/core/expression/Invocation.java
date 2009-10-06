@@ -11,7 +11,6 @@ import org.rejuse.java.collections.Visitor;
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
-import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.DeclaratorSelector;
 import chameleon.core.lookup.LookupException;
@@ -23,6 +22,7 @@ import chameleon.core.type.Type;
 import chameleon.core.type.generics.ActualTypeArgument;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.util.Util;
 
 /**

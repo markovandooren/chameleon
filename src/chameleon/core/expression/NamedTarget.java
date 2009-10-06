@@ -11,7 +11,6 @@ import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
-import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
@@ -23,6 +22,7 @@ import chameleon.core.type.Type;
 import chameleon.core.variable.FormalParameter;
 import chameleon.core.variable.MemberVariable;
 import chameleon.core.variable.Variable;
+import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.util.Util;
 public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDeclaration> implements InvocationTarget<NamedTarget,Element> {
 

@@ -12,7 +12,6 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.ChameleonProgrammerException;
-import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.relation.StrictPartialOrder;
@@ -20,6 +19,7 @@ import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeElementImpl;
+import chameleon.oo.language.ObjectOrientedLanguage;
 
 public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends DeclarationContainer, S extends Signature, F extends Member> extends TypeElementImpl<E, P> implements Member<E,P,S,F>{
 

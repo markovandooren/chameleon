@@ -7,12 +7,12 @@ import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
-import chameleon.core.language.ObjectOrientedLanguage;
 import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.type.Type;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.oo.language.ObjectOrientedLanguage;
 
 public class RootNamespace extends RegularNamespace {
 // @FIXME
