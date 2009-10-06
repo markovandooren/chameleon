@@ -8,7 +8,7 @@ import chameleon.core.member.Member;
 import chameleon.core.method.Method;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.property.Defined;
-import chameleon.core.property.StaticChameleonPropertyWithoutConstraints;
+import chameleon.core.property.StaticChameleonProperty;
 import chameleon.core.relation.EquivalenceRelation;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.relation.WeakPartialOrder;
@@ -36,17 +36,17 @@ public abstract class ObjectOrientedLanguage extends Language {
 	public ObjectOrientedLanguage(String name, LookupStrategyFactory factory) {
 		super(name, factory);
 		// 1) Create the properties.
-  	INHERITABLE = new StaticChameleonPropertyWithoutConstraints("inheritable",this,Declaration.class);
-  	OVERRIDABLE = new StaticChameleonPropertyWithoutConstraints("overridable",this,Declaration.class);
-  	EXTENSIBLE = new StaticChameleonPropertyWithoutConstraints("extensible", this,Declaration.class);
-  	REFINABLE = new StaticChameleonPropertyWithoutConstraints("refinable", this,Declaration.class);
+  	INHERITABLE = new StaticChameleonProperty("inheritable",this,Declaration.class);
+  	OVERRIDABLE = new StaticChameleonProperty("overridable",this,Declaration.class);
+  	EXTENSIBLE = new StaticChameleonProperty("extensible", this,Declaration.class);
+  	REFINABLE = new StaticChameleonProperty("refinable", this,Declaration.class);
   	DEFINED = new Defined("defined",this);
-  	INSTANCE = new StaticChameleonPropertyWithoutConstraints("instance",this,Declaration.class);
+  	INSTANCE = new StaticChameleonProperty("instance",this,Declaration.class);
   	CLASS = INSTANCE.inverse();
     CLASS.setName("class");
-    CONSTRUCTOR = new StaticChameleonPropertyWithoutConstraints("constructor", this,Method.class);
-    DESTRUCTOR = new StaticChameleonPropertyWithoutConstraints("destructor", this,Method.class);
-  	REFERENCE_TYPE = new StaticChameleonPropertyWithoutConstraints("reference type", this, Type.class);
+    CONSTRUCTOR = new StaticChameleonProperty("constructor", this,Method.class);
+    DESTRUCTOR = new StaticChameleonProperty("destructor", this,Method.class);
+  	REFERENCE_TYPE = new StaticChameleonProperty("reference type", this, Type.class);
   	VALUE_TYPE = REFERENCE_TYPE.inverse();
   	
   	//2) Add relations between the properties.

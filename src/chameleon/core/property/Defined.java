@@ -12,20 +12,16 @@ import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.validation.VerificationResult;
 
-public class Defined extends DynamicProperty<Element,ChameleonProperty> implements ChameleonProperty {
+public class Defined extends DynamicChameleonProperty {
 
   public Defined(String name, Language lang) {
-    super(name, lang, new PropertyMutex<ChameleonProperty>());
+    super(name, lang, new PropertyMutex<ChameleonProperty>(), Definition.class);
   }
 
   public Defined(String name, Language lang, PropertyMutex<ChameleonProperty> mutex) {
-    super(name, lang, mutex);
+    super(name, lang, mutex,Definition.class);
   }
   
-  protected Defined(String name, Language lang, PropertyMutex<ChameleonProperty> mutex, ChameleonProperty inverse) {
-    super(name, lang, mutex, inverse);
-  }
-
   /**
    * An object is defined if and only if it is a Definition, and
    * it is complete. 
@@ -55,13 +51,5 @@ public class Defined extends DynamicProperty<Element,ChameleonProperty> implemen
   	}
     return result;
   }
-
-	@Override
-	protected void createInverse(String name, PropertyUniverse<ChameleonProperty> universe) {
-		name;
-	}
-
-	public VerificationResult verify(Element element) {
-	}
 
 }
