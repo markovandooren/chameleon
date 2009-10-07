@@ -444,6 +444,17 @@ public interface Element<E extends Element, P extends Element> {
     public boolean hasTags();
     
     /**
+     * Return the furthest ancestor.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post parent() == null ==> \result == this;
+     @ post parent() != null ==> \result == parent().furthestAncestor();
+     @*/
+    public Element furthestAncestor();
+    
+    /**
      * Return the nearest ancestor of type T. Null if no such ancestor can be found.
      * @param <T>
      *        The type of the ancestor to be found

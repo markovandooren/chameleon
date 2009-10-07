@@ -215,7 +215,11 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  	if(_parentLink != null) {
 	  		_parentLink.connectTo(null);
 	  	}
-	  	_parentLink = null;
+	  	if(parent != null) {
+	  	  _parentLink = null;
+	  	} else {
+	  		_parentLink = new SingleAssociation<E,P>((E) this);
+	  	}
 	  	_parent = parent;
 	  }
 	  
@@ -393,6 +397,15 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	return (T) el;
     }
 
+    public Element furthestAncestor() {
+    	P parent = parent();
+			if(parent == null) {
+    		return this;
+    	} else {
+    		return parent.furthestAncestor();
+    	}
+    }
+    
     public <T extends Element> T nearestAncestor(Class<T> c) {
     	Element el = parent();
     	while ((el != null) && (! c.isInstance(el))){
