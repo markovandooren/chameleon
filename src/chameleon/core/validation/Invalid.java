@@ -9,6 +9,6 @@ import java.util.List;
  */
 public abstract class Invalid extends VerificationResult {
 
-	public abstract List<Invalid> problems();
+	public abstract List<BasicProblem> problems();
 
 }

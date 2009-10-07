@@ -66,8 +66,8 @@ public class BasicProblem extends Invalid {
 	}
 
 	@Override
-	public List<Invalid> problems() {
-		List<Invalid> result = new ArrayList<Invalid>();
+	public List<BasicProblem> problems() {
+		List<BasicProblem> result = new ArrayList<BasicProblem>();
 		result.add(this);
 		return result;
 	}

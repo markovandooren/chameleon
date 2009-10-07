@@ -17,10 +17,8 @@ public class CompositeProblem extends Invalid {
 		result.addAll(problem.problems());
 		return result;
 	}
-	
-	
 
-	private List<Invalid> _problems;
+	private List<BasicProblem> _problems = new ArrayList<BasicProblem>();
 	
 	/**
 	 * Return the problems indicated by this composite problem.
@@ -30,8 +28,8 @@ public class CompositeProblem extends Invalid {
    @
    @ post \result != null;
    @*/
-	public List<Invalid> problems() {
-		return new ArrayList<Invalid>(_problems);
+	public List<BasicProblem> problems() {
+		return new ArrayList<BasicProblem>(_problems);
 	}
 	
 	/**
@@ -45,7 +43,7 @@ public class CompositeProblem extends Invalid {
    @
    @ post problems().contains(problem);
    @*/
-	public void add(Invalid problem) {
+	public void add(BasicProblem problem) {
 		_problems.add(problem);
 	}
 	
@@ -60,8 +58,8 @@ public class CompositeProblem extends Invalid {
    @
    @ post problems().containsAll(problems);
    @*/
-	public void addAll(List<Invalid> problems) {
-		for(Invalid problem:problems) {
+	public void addAll(List<? extends BasicProblem> problems) {
+		for(BasicProblem problem:problems) {
 			add(problem);
 		}
 	}
