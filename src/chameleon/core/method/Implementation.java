@@ -3,7 +3,6 @@ package chameleon.core.method;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.statement.Block;
-import chameleon.core.type.Type;
 
 /**
  * @author Marko van Dooren

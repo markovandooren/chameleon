@@ -1,15 +1,11 @@
 package chameleon.core.method;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Signature;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
-import chameleon.core.type.TypeReference;
 
 public abstract class MethodSignature<E extends MethodSignature,P extends Method> extends Signature<E, P> {
 

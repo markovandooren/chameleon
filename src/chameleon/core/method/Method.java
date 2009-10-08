@@ -10,8 +10,6 @@ import org.rejuse.association.SingleAssociation;
 import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.AbstractPredicate;
 
-import sun.rmi.runtime.GetThreadPoolAction;
-
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Definition;
@@ -34,7 +32,6 @@ import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.core.variable.FormalParameter;
-import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.util.Util;
 
 /**
