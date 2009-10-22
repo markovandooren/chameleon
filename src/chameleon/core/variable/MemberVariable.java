@@ -7,4 +7,6 @@ import chameleon.core.member.Member;
 public interface MemberVariable<E extends MemberVariable<E>> 
        extends Variable<E,DeclarationContainer,MemberVariable>, Member<E,DeclarationContainer,SimpleNameSignature,MemberVariable> {
 
+	
+	public MemberVariable origin();
 }

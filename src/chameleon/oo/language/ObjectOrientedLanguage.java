@@ -28,7 +28,8 @@ public abstract class ObjectOrientedLanguage extends Language {
 	public final ChameleonProperty DESTRUCTOR;
 	public final ChameleonProperty REFERENCE_TYPE;
 	public final ChameleonProperty VALUE_TYPE;
-
+	public final ChameleonProperty NATIVE;
+	
 	public ObjectOrientedLanguage(String name) {
 		this(name,null);
 	}
@@ -48,11 +49,13 @@ public abstract class ObjectOrientedLanguage extends Language {
     DESTRUCTOR = new StaticChameleonProperty("destructor", this,Method.class);
   	REFERENCE_TYPE = new StaticChameleonProperty("reference type", this, Type.class);
   	VALUE_TYPE = REFERENCE_TYPE.inverse();
+  	NATIVE = new StaticChameleonProperty("native", this, Type.class);
   	
   	//2) Add relations between the properties.
     OVERRIDABLE.addImplication(INHERITABLE);
     OVERRIDABLE.addImplication(REFINABLE);
     EXTENSIBLE.addImplication(REFINABLE);
+    NATIVE.addImplication(DEFINED);
 }
 
   protected final class DummyTypeReference extends TypeReference {
@@ -140,6 +143,12 @@ public abstract class ObjectOrientedLanguage extends Language {
 	 * Return the relation that determines when a member is equivalent to another.
 	 */
 	public abstract EquivalenceRelation<Member> equivalenceRelation();
+
+	public Type findType(String fqn) throws LookupException {
+		TypeReference ref = new TypeReference(fqn);
+		ref.setUniParent(defaultNamespace());
+		return ref.getType();
+	}
 
 
 //  protected void initProperties() {

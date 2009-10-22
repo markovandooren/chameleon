@@ -5,27 +5,39 @@
 \newcommand{\code}[1]{\texttt{#1}}
 
 \title{\cham\ Todo List}
-\author{Marko van Dooren \and Koen Vanderkimpen \and Sven De Labey}
+\author{Marko van Dooren}
 \maketitle
 
 \section{Removed Functionality}
 \begin{enumerate}
 \item Anchored exception declarations
-\item Editor functionality
+\end{enumerate}
+
+\section{Framework}
+\begin{enumerate}
+\item Lazy loading of files.
+\item getDeclarator() must return the origin.
+\item Renaming
+\item Put inherited elements in context.
+\item Abstraction for types in general.
+\item Instanceof relation, Kinds.
+\item Sending of events on changes.
+\item Use events to invalidate caching.
+\item Default element (e.g. default default constructor, super calls,
+  inheritance relations).
+\item Generalize inheritance
+\item Multi language models and synchronization.
+\item Infrastructure for auto-completion.
 \end{enumerate}
 
 \section{Version Control}
 \begin{enumerate}
-\item Create separate repositories for Chameleon, Jnome, Cnome, Editor
+\item Create separate repository for the object-oriented layer
 \end{enumerate}
 
 \section{Code Quality}
 \begin{enumerate}
 \item \textbf{Write documentation!}
-\item Remove \code{context} argument from aquirers
-\item Remove \code{getDescription}, \code{getShortDescription}, \code{removeElementChild}, and \code{getFileName}
-\item Remove dependency between Chameleon and ANTLR
-\item Add more abstractions to searching of type members
 \end{enumerate}
 
 \section{Distribution}
@@ -39,15 +51,13 @@
 
 \section{Testing}
 \begin{enumerate}
-\item Add test sources to CVS
-\item Make test files path independent
 \item Create ant target for running tests
 \end{enumerate}
 
 \section{Generics}
 \begin{enumerate}
-\item Separate classes into interface and regular implementation.
-\item Make proxies for generics
+\item Implement type inference for method invocations in Java.
 \end{enumerate}
 
 \end{document}
+

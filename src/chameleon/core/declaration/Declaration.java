@@ -19,7 +19,7 @@ import chameleon.core.scope.Scope;
  * into a type.
  */
 public interface Declaration<E extends Declaration<E,P,S,D>, 
-                             P extends DeclarationContainer, 
+                             P extends Element, 
                              S extends Signature,
                              D extends Declaration> extends Element<E,P>{
 

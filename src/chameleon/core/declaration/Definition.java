@@ -1,5 +1,7 @@
 package chameleon.core.declaration;
 
+import chameleon.core.element.Element;
+
 /**
  * A definition is a declaration that needs a definition. Examples are methods and types.
  * A variable is not a definition because it is always complete.
@@ -10,7 +12,7 @@ package chameleon.core.declaration;
  * @param <S>
  * @param <F>
  */
-public interface Definition<E extends Definition<E,P,S,F>, P extends DeclarationContainer,S extends Signature, F extends Declaration> extends Declaration<E,P,S,F> {
+public interface Definition<E extends Definition<E,P,S,F>, P extends Element,S extends Signature, F extends Declaration> extends Declaration<E,P,S,F> {
 
 	// SIMPLIFY: Can't we move complete() to Declaration?
 	

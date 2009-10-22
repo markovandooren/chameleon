@@ -12,10 +12,8 @@ import chameleon.tool.Processor;
 public interface InputProcessor extends Processor {
 
 	/**
-	 * Set the location of the given element. The location is a range marked by the two given positions.
+	 * Set the locations of the given element. The location is a range marked by the offset and the length of the element.
 	 */
-//	public void setLocation(Element element, Position2D start, Position2D end);
-
   public void setLocation(Element element, int offset, int length, CompilationUnit compilationUnit);
 
   public void setLocation(Element element, int offset, int length, CompilationUnit compilationUnit, String tagType);

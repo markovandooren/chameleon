@@ -9,9 +9,9 @@ import org.rejuse.predicate.UnsafePredicate;
 
 import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.ChameleonProgrammerException;
+import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.relation.StrictPartialOrder;
@@ -21,7 +21,7 @@ import chameleon.core.type.Type;
 import chameleon.core.type.TypeElementImpl;
 import chameleon.oo.language.ObjectOrientedLanguage;
 
-public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends DeclarationContainer, S extends Signature, F extends Member> extends TypeElementImpl<E, P> implements Member<E,P,S,F>{
+public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Element, S extends Signature, F extends Member> extends TypeElementImpl<E, P> implements Member<E,P,S,F>{
 
   /**
    * Return the signature of this member.
@@ -83,5 +83,9 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Declara
   	}
   	return result;
   }
+
+	public F origin() {
+		return (F) this;
+	}
 
 }

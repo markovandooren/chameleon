@@ -211,4 +211,8 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
 		return Valid.create();
 	}
 
+  public MemberVariable origin() {
+  	return aliasedVariable().origin();
+  }
+
 }

@@ -50,6 +50,10 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
   	return language(ObjectOrientedLanguage.class).equivalenceRelation().contains(this,other);
   }
 
+  @Override
+  public MemberVariable origin() {
+  	return this;
+  }
   
   /**********
    * ACCESS *

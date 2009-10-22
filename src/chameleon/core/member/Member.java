@@ -3,8 +3,8 @@ package chameleon.core.member;
 import java.util.Set;
 
 import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
+import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.TypeElement;
 
@@ -20,7 +20,7 @@ import chameleon.core.type.TypeElement;
  * <F> The type of the family to which this member belongs. E should always be a subtype of F but
  * we cannot enforce this because Java is so primitive.
  */
-public interface Member<E extends Member<E,P,S,F>, P extends DeclarationContainer, S extends Signature, F extends Member> extends TypeElement<E,P>, Declaration<E,P,S,F> {
+public interface Member<E extends Member<E,P,S,F>, P extends Element, S extends Signature, F extends Member> extends TypeElement<E,P>, Declaration<E,P,S,F> {
   
   
 //  /**
@@ -84,6 +84,8 @@ public interface Member<E extends Member<E,P,S,F>, P extends DeclarationContaine
    @*/
   public Set<Member> directlyOverriddenMembers() throws LookupException;
 
+  public F origin();
+  
   // Return object of F(amily) type which is cut off at the level of e.g. Type,Method,MemberVariable,Property,....
 //  public abstract F alias(S signature);
 }

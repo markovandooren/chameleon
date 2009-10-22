@@ -10,7 +10,7 @@ import chameleon.core.type.TypeReference;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public class MethodAlias<E extends MethodAlias<E,H,S>, H extends MethodHeader<H, E, S>, S extends MethodSignature> extends Method<E,H,S,MethodAlias> {
+public class MethodAlias<E extends MethodAlias<E,H,S>, H extends MethodHeader<H, E, S>, S extends MethodSignature> extends Method<E,H,S,Method> {
 
 	public MethodAlias(H header, Method aliasedMethod) {
 		super(header);
@@ -22,6 +22,12 @@ public class MethodAlias<E extends MethodAlias<E,H,S>, H extends MethodHeader<H,
 	public Method aliasedMethod() {
 		return _aliasedMethod;
 	}
+	
+  public Method origin() {
+  	Method<?,?,?,? extends Method> aliased = aliasedMethod();
+  	return aliased.origin();
+  }
+
 
 	@Override
 	protected E cloneThis() {

@@ -194,6 +194,13 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  	return _parent != null;
 	  }
 	  
+	  /**
+	   * The default behavior is to return 'this'.
+	   */
+	  public Element origin() {
+	  	return this;
+	  }
+	  
 	  public void disconnect() {
 	  	nonRecursiveDisconnect();
 	  	disconnectChildren();
