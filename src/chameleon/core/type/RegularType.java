@@ -26,6 +26,10 @@ public class RegularType extends Type {
 		_body.connectTo(new ClassBody().parentLink());
 		_parameters.connectTo(new TypeParameterBlock().parentLink());
 	}
+	
+	public RegularType(String name) {
+		this(new SimpleNameSignature(name));
+	}
 
   public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
   	if(element == parameterBlock() || element.isDerived()) {
