@@ -34,6 +34,13 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
   /**
    * @param name
    */
+  public RegularMemberVariable(String name, TypeReference type) {
+    super(new SimpleNameSignature(name), type, null);
+  }
+  
+  /**
+   * @param name
+   */
   public RegularMemberVariable(SimpleNameSignature sig, TypeReference type) {
     super(sig, type, null);
   }

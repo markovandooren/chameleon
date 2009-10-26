@@ -18,7 +18,11 @@ public class FormalParameter extends RegularVariable<FormalParameter,VariableCon
     super(sig, type,null);
   }
 
-  /**
+  public FormalParameter(String string, TypeReference tref) {
+		this(new SimpleNameSignature(string), tref);
+	}
+
+	/**
    * @param parameter
    * @return
    */
