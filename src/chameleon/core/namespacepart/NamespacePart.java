@@ -1,6 +1,7 @@
 package chameleon.core.namespacepart;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -9,9 +10,9 @@ import org.rejuse.association.SingleAssociation;
 import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.Config;
-import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
+import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.lookup.DeclarationSelector;
@@ -308,10 +309,40 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 	 ****************/
 	protected OrderedMultiAssociation<NamespacePart, Declaration> _types = new OrderedMultiAssociation<NamespacePart, Declaration>(this);
 
+	/**
+	 * Add the given declaration to this namespace part.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre declaration != null;
+   @
+   @ post declarations().contains(declaration);
+   @*/
 	public void add(Declaration declaration) {
-		_types.add(declaration.parentLink());
+		if(declaration != null) {
+		  _types.add(declaration.parentLink());
+		} else {
+			throw new ChameleonProgrammerException("Cannot add a null declaration to a namespace part.");
+		}
+	}
+	
+	public void addAll(Collection<Declaration> declarations) {
+		for(Declaration decl: declarations) {
+			add(decl);
+		}
 	}
 
+	/**
+	 * Remove the given declaration from this namespace part.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre declaration != null;
+   @
+   @ post !declarations().contains(declaration);
+   @*/
 	public void remove(Declaration declaration) {
 		_types.remove(declaration.parentLink());
 	}
