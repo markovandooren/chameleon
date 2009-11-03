@@ -387,14 +387,18 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	/*@
 	 @ public behavior
 	 @
-	 @ post \result.contains(header());
-	 @ post \result.contains(getExceptionClause());
-	 @ post getImplementation() != null ==> \result.contains(getImplementation());
+	 @ post \result.containsAll(modifiers());
+	 @ post implementation() != null ==> \result.contains(implementation());
+	 @ post header() != null ==> \result.contains(header());
+	 @ post getExceptionClause() != null ==> \result.contains(getExceptionClause());
+	 @ post getReturnTypeReference() != null ==> \result.contains(getReturnTypeReference());
 	 @*/
-	public List<? extends Element> children() {
-		List<Element> result = Util.createNonNullList(implementation());
+	public List<Element> children() {
+		List<Element> result = super.children();
+		Util.addNonNull(implementation(),result);
 		Util.addNonNull(header(),result);
 		Util.addNonNull(getExceptionClause(), result);
+		Util.addNonNull(getReturnTypeReference(), result);
 		return result;
 	}
 

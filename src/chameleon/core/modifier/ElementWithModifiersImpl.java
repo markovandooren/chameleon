@@ -29,6 +29,10 @@ public abstract class ElementWithModifiersImpl<E extends Element<E, P>, P extend
     return _modifiers.getOtherEnds();
   }
 
+  public List<Element> children() {
+  	return (List)modifiers();
+  }
+  
   public void addModifier(Modifier modifier) {
     if (modifier != null) {
     	if (!_modifiers.contains(modifier.parentLink())) {

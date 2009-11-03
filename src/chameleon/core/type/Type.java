@@ -36,6 +36,7 @@ import chameleon.core.type.inheritance.InheritanceRelation;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.util.Util;
 
 /**
  * <p>A class representing types in object-oriented programs.</p>
@@ -880,11 +881,11 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
      @ post \result.containsAll(getMembers());
      @ post \result.containsAll(getModifiers());
      @*/
-    public List<? extends Element> children() {
-        List<Element> result = new ArrayList<Element>();
+    public List<Element> children() {
+        List<Element> result = super.children();
+        Util.addNonNull(signature(), result);
         result.addAll(inheritanceRelations());
-        result.addAll(modifiers());
-        result.addAll(directlyDeclaredElements());
+//        result.addAll(directlyDeclaredElements());
         return result;
     }
 
