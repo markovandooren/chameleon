@@ -2,13 +2,14 @@ package chameleon.core.namespace;
 
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
+import chameleon.core.expression.NamedTarget;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReference;
 import chameleon.core.reference.SpecificReference;
 
 /**
  * Generic Parameter R is the type of the referenced element.
- * @author marko
+ * @author Marko van Dooren
  */
 public class NamespaceOrTypeReference extends SpecificReference<NamespaceOrTypeReference,Element,NamespaceOrType> {
   
@@ -36,6 +37,10 @@ public class NamespaceOrTypeReference extends SpecificReference<NamespaceOrTypeR
   	super(target,name,NamespaceOrType.class);
   }
   
+  public NamespaceOrTypeReference(NamedTarget target) {
+  	this(target.getTarget() == null ? null : new NamespaceOrTypeReference((NamedTarget)target.getTarget()),target.getName());
+  }
+
   /**
    * Return the fully qualified name of this namespace or type reference.
    * @return

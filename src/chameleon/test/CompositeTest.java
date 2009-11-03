@@ -36,7 +36,16 @@ public abstract class CompositeTest {
 		ChildrenTest childrenTest = new ChildrenTest(modelProvider(), namespaceProvider());
 		childrenTest.excludeFieldName(ElementImpl.class, "_parentLink");
 		childrenTest.excludeFieldName(NamespacePart.class, "_namespaceLink");
+		addExcludes(childrenTest);
 		childrenTest.testChildren();
+	}
+	
+	/**
+	 * Exclude Association fields that should not be children. This method is invoked by
+	 * testChildren(), which already excludes ElementImpl._parentLink and NamespacePart._namespaceLink. 
+	 */
+	public void addExcludes(ChildrenTest test) {
+		
 	}
 
 	/**
