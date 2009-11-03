@@ -745,7 +745,7 @@ public interface Element<E extends Element, P extends Element> {
     public void notifyDescendantChanged(Element descendant);
     
     /**
-     * Verify whether or not this is valid, and if not, what the problems are. The verification is looks recursively
+     * Verify whether or not this is valid, and if not, what the problems are. The verification looks recursively
      * for all problems.
      * @return
      */

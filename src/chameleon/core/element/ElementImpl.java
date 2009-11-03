@@ -634,11 +634,10 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     protected void reactOnDescendantChange(Element descendant) {
     }
 		
-    
-    
     public final VerificationResult verify() {
     	VerificationResult result = verifySelf();
     	result = result.and(verifyProperties());
+    	result = result.and(verifyLoops());
     	for(Element element:children()) {
     		result = result.and(element.verify());
     	}
@@ -646,6 +645,24 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	return result;
     }
     
+    public final VerificationResult verifyLoops() {
+    	VerificationResult result = Valid.create();
+    	Element e = parent();
+    	while(e != null) {
+    		if(e.equals(this)) {
+    			result = result.and(new BasicProblem(this, "There is a loop in the lexical structure. This element is an ancestor of itself."));
+    		}
+    		e = e.parent();
+    	}
+    	return result;
+    }
+    
+    /**
+     * Perform a local verification. The check for a loop in the lexical structure is already implemented
+     * in verifyLoops(), which is used in verify(). The checks to verify that all properties of this element actually
+     * apply to it and that there are no conflicting properties are both implemented in verifyProperties(), which is also used in verify().
+     * @return
+     */
     public abstract VerificationResult verifySelf();
     
     public final VerificationResult verifyProperties() {
@@ -656,7 +673,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     		result = result.and(new ConflictProblem(this,conflict));
     	}
     	for(ChameleonProperty property: properties.properties()) {
-//    		result = result.and(property.verify(this));
+    		result = result.and(property.verify(this));
     	}
     	return result;
     }
