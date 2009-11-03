@@ -101,7 +101,7 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	  @*/
 	 public List<Element> children() {
 		 List<Element> result = super.children();
-		 result.add(getTarget());
+		 Util.addNonNull(getTarget(), result);
 		 return result;
 	 }
 
