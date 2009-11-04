@@ -114,13 +114,13 @@ public abstract class StatementImpl<E extends Statement> extends NamespaceElemen
   /**
    * The linear lookup strategy of a statement is the lookup strategy used for the element that comes next in a block.
    * For example, the linear lookup strategy of a variable declaration statement includes the declared variable, while its
-   * lexicalContext() method does not.
+   * lexical lookup strategy method does not.
    * 
-   * Returns the lexical context by default.
+   * Returns the lexical lookup strategy by default.
    * @return
    * @throws LookupException
    */
-  public LookupStrategy linearContext() throws LookupException {
+  public LookupStrategy linearLookupStrategy() throws LookupException {
   	return lexicalLookupStrategy();
   }
 }
