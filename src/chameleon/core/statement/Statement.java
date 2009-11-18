@@ -10,6 +10,6 @@ public interface Statement<E extends Statement, P extends Element> extends Eleme
 	
 	public E clone();
 	
-	public LookupStrategy linearContext() throws LookupException;
+	public LookupStrategy linearLookupStrategy() throws LookupException;
 	
 }

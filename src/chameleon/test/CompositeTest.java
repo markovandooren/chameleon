@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chameleon.core.Config;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.reference.CrossReference;
 import chameleon.test.provider.BasicDescendantProvider;
@@ -18,12 +19,33 @@ public abstract class CompositeTest {
 	}
 
 	/**
-	 * Test clone and children for all elements in the namespaces provided
+	 * Test clone for all elements in the namespaces provided
 	 * by the namespace provider.
 	 */
 	@Test
-	public void testCloneAndChildren() throws Exception {
+	public void testClone() throws Exception {
 		new CloneAndChildTest(modelProvider(), namespaceProvider()).testClone();
+	}
+
+	/**
+	 * Test children for all elements in the namespaces provided
+	 * by the namespace provider.
+	 */
+	@Test
+	public void testChildren() throws Exception {
+		ChildrenTest childrenTest = new ChildrenTest(modelProvider(), namespaceProvider());
+		childrenTest.excludeFieldName(ElementImpl.class, "_parentLink");
+		childrenTest.excludeFieldName(NamespacePart.class, "_namespaceLink");
+		addExcludes(childrenTest);
+		childrenTest.testChildren();
+	}
+	
+	/**
+	 * Exclude Association fields that should not be children. This method is invoked by
+	 * testChildren(), which already excludes ElementImpl._parentLink and NamespacePart._namespaceLink. 
+	 */
+	public void addExcludes(ChildrenTest test) {
+		
 	}
 
 	/**

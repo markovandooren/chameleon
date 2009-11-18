@@ -65,7 +65,7 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 	}
 
 	public List<? extends Element> children() {
-		return new ArrayList<Element>(members());
+		return new ArrayList<Element>(elements());
 	}
 
 //	public LookupStrategy lexicalLookupStrategy(Element element) {

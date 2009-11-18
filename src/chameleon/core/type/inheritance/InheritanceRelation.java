@@ -116,21 +116,19 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 	 */
 	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
   void accumulateInheritedMembers(final Class<M> kind, List<M> current) throws LookupException {
-		final List<M> toAdd = new ArrayList<M>();
 		final List<M> potential = potentiallyInheritedMembers(kind);
-		removeNonMostSpecificMembers(current, toAdd, potential);
+		removeNonMostSpecificMembers(current, potential);
 	}
 
 	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
   void accumulateInheritedMembers(DeclarationSelector<M> selector, List<M> current) throws LookupException {
-		final List<M> toAdd = new ArrayList<M>();
 		final List<M> potential = potentiallyInheritedMembers(selector);
-		removeNonMostSpecificMembers(current, toAdd, potential);
+		removeNonMostSpecificMembers(current, potential);
 	}
 
-	//FIXME: remove the toAdd argument.
 	private <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>>
-	  void removeNonMostSpecificMembers(List<M> current, final List<M> toAdd, final List<M> potential) throws LookupException {
+	  void removeNonMostSpecificMembers(List<M> current, final List<M> potential) throws LookupException {
+		final List<M> toAdd = new ArrayList<M>();
 		for(M m: potential) {
 			boolean add = true;
 			Iterator<M> iterCurrent = current.iterator();

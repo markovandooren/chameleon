@@ -96,7 +96,7 @@ public abstract class RegularVariable<E extends RegularVariable<E,P,F>, P extend
     Util.addNonNull(getInitialization(), result);
     result.addAll(modifiers());
     Util.addNonNull(signature(), result);
-    Util.addNonNull(getInitialization(), result);
+    Util.addNonNull(getTypeReference(), result);
     return result;
   }
 	/*************

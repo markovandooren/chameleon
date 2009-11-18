@@ -1,5 +1,7 @@
 package chameleon.core.reference;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.rejuse.association.SingleAssociation;
 
@@ -7,6 +9,7 @@ import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
+import chameleon.util.Util;
 
 /**
  * 
@@ -98,6 +101,10 @@ public abstract class ElementReference<E extends ElementReference, P extends Ele
   	} else {
   		_cache = null;
   	}
+  }
+  
+  public List<Element> children() {
+  	return Util.createNonNullList(signature());
   }
   
 //  public abstract D getElement() throws LookupException;

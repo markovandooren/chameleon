@@ -79,7 +79,8 @@ public class CloneAndChildTest extends ModelTest {
 		assertFalse(element.isDerived());
 		List<Element> children = element.children();
 		assertNotNull(msg,children);
-		assertFalse(msg,children.contains(null));
+		// Testing for null in the children is already done by the children test.
+		//assertFalse(msg,children.contains(null));
 		Element clone = element.clone();
 		assertNotNull(msg,clone);
 		List<Element> clonedChildren = clone.children();

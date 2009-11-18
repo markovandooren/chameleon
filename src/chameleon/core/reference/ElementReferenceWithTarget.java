@@ -100,7 +100,9 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	  @ post \result == Util.createNonNullList(getTarget());
 	  @*/
 	 public List<Element> children() {
-	   return Util.createNonNullList(getTarget());
+		 List<Element> result = super.children();
+		 Util.addNonNull(getTarget(), result);
+		 return result;
 	 }
 
 	/*@

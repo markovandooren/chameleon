@@ -80,7 +80,7 @@ public class Block extends StatementImpl<Block> implements StatementListContaine
 		if(index == 0) {
 			return parent().lexicalLookupStrategy(this);
 		} else if (index > 0) {
-			return declarations.get(index-1).linearContext();
+			return declarations.get(index-1).linearLookupStrategy();
 		} else {
 		  throw new ChameleonProgrammerException("Invoking lexicalContext(element) with an element that is not a child.");
 		}

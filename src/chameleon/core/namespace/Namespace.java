@@ -18,6 +18,7 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacepart.NamespacePart;
+import chameleon.util.Util;
 
 /**
  * <p>Namespaces are a completely logical structure. You do not explicitly create a namespace, but query it using
@@ -272,6 +273,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	   @*/
 	  public List<Element> children() {
 	    List<Element> result = new ArrayList<Element>();
+	    Util.addNonNull(signature(), result);
       result.addAll(getSubNamespaces());
 	    result.addAll(getNamespaceParts());
 	    return result;

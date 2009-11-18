@@ -18,6 +18,7 @@ import chameleon.core.type.inheritance.InheritanceRelation;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.util.Util;
 
 public class RegularType extends Type {
 
@@ -29,6 +30,13 @@ public class RegularType extends Type {
 	
 	public RegularType(String name) {
 		this(new SimpleNameSignature(name));
+	}
+	
+	public List<Element> children() {
+		List<Element> result = super.children();
+		Util.addNonNull(parameterBlock(), result);
+		Util.addNonNull(body(), result);
+		return result;
 	}
 
   public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
