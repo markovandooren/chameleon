@@ -89,6 +89,6 @@ public interface Declaration<E extends Declaration<E,P,S,D>,
    @
    @ post \result != null;
    @*/
-  public Scope scope() throws MetamodelException; 
+  public Scope scope() throws MetamodelException;
  
 }

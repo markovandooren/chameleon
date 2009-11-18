@@ -10,6 +10,12 @@ public class SimpleReference<D extends Declaration> extends SpecificReference<Si
 		super(target,name,specificClass);
 	}
 
+	/**
+	 * Initialize a new simple reference given a fully qualified name. The name is split at every dot, and
+	 * multiple objects are created to form a chain of references.
+	 * @param fqn
+	 * @param specificClass
+	 */
 	public SimpleReference(String fqn, Class<D> specificClass) {
 		super(fqn, specificClass);
 	}

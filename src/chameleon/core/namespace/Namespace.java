@@ -311,7 +311,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
   }
 	
 
-	public Declaration alias(SimpleNameSignature sig) {
+	public NamespaceAlias alias(SimpleNameSignature sig) {
 		return new NamespaceAlias(sig,this);
 	}
 
