@@ -155,8 +155,13 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
 		return _typeParameters.getOtherEnd();
 	}
 	
+	/**
+	 * Return the type parameters of this method header. If 
+	 * @return
+	 */
 	public List<TypeParameter> typeParameters() {
-		return parameterBlock().parameters();
+		TypeParameterBlock parameterBlock = parameterBlock();
+		return (parameterBlock == null ? new ArrayList<TypeParameter>() :parameterBlock.parameters());
 	}
 	
 	public void addAllTypeParameters(Collection<TypeParameter> parameters) {
@@ -166,7 +171,12 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
 	}
 
 	public void addTypeParameter(TypeParameter parameter) {
-		parameterBlock().add(parameter);
+		TypeParameterBlock parameterBlock = parameterBlock();
+		if(parameterBlock == null) {
+			// Lazy init.
+			_typeParameters.connectTo(new TypeParameterBlock().parentLink());
+		}
+		parameterBlock.add(parameter);
 	}
 
 	public void removeTypeParameter(TypeParameter parameter) {

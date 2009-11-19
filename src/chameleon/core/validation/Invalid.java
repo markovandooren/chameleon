@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * An abstract class representing verification results that mark an element as invalid.
  * 
- * @author Marko van Dooren, nelis
+ * @author Marko van Dooren, Nelis Boucke
  */
 public abstract class Invalid extends VerificationResult {
 
