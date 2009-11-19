@@ -27,7 +27,7 @@ public class SelectorWithoutOrder<D extends Declaration> extends DeclarationSele
 	public D filter(Declaration declaration) throws LookupException {
 		Signature sig = declaration.signature();
 		D result = null;
-		if((selectedClass().isInstance(declaration)) && 
+		if(sig!=null && (selectedClass().isInstance(declaration)) && 
 			 (sig.sameAs(signature()))) {
 			  result = (D) declaration;
 		}
