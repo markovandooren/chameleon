@@ -1,5 +1,6 @@
 package chameleon.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -9,6 +10,8 @@ import org.junit.Test;
 import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespacepart.NamespacePart;
+import chameleon.core.validation.BasicProblem;
+import chameleon.core.validation.Invalid;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.input.ParseException;
@@ -32,7 +35,7 @@ public class VerificationTest extends ModelTest {
 	public void testVerification() throws LookupException {
 		for(NamespacePart element: elementProvider().elements(language())) {
 			VerificationResult result = element.verify();
-			assertTrue(result == Valid.create());
+			assertTrue(((Invalid) result).toString() ,Valid.create() == result);
 		}
 	}
 

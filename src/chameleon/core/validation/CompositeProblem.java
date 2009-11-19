@@ -63,4 +63,13 @@ public class CompositeProblem extends Invalid {
 			add(problem);
 		}
 	}
+
+	@Override
+	public String message() {
+		String result = "";
+		for (BasicProblem elem : problems()) {
+			result = result.concat("\n " + elem.message());
+		}
+		return result;
+	}
 }

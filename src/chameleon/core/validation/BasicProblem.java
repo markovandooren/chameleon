@@ -44,13 +44,6 @@ public class BasicProblem extends Invalid {
 	public String message() {
 		return _message;
 	}
-	
-	/**
-	 * @return The message of this problem.
-	 */
-	public String toString() {
-		return _message;
-	}
 
 	@Override
 	public VerificationResult and(VerificationResult other) {
