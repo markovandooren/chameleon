@@ -35,7 +35,7 @@ public class VerificationTest extends ModelTest {
 	public void testVerification() throws LookupException {
 		for(NamespacePart element: elementProvider().elements(language())) {
 			VerificationResult result = element.verify();
-			assertTrue(((Invalid) result).toString() ,Valid.create() == result);
+			assertTrue(result.toString() ,Valid.create() == result);
 		}
 	}
 
