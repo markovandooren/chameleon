@@ -17,6 +17,8 @@ public interface InputProcessor extends Processor {
   public void setLocation(Element element, int offset, int length, CompilationUnit compilationUnit);
 
   public void setLocation(Element element, int offset, int length, CompilationUnit compilationUnit, String tagType);
+  
+  public void markParseError(int offset, int length, String message, Element element);
 
   /**
 	 * Report a parse error.
