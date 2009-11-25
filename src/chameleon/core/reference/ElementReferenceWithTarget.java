@@ -4,15 +4,15 @@ import java.util.List;
 
 import org.rejuse.association.SingleAssociation;
 
-import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.util.Util;
 
-public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithTarget, P extends Element, R extends Declaration> extends ElementReference<E,P,R> {
+public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithTarget, P extends Element, R extends Declaration> extends ElementReference<E,P,SimpleNameSignature,R> {
 
 	/*@
 	  @ public behavior

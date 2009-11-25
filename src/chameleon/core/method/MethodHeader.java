@@ -13,6 +13,7 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.type.Type;
 import chameleon.core.type.generics.TypeParameter;
@@ -28,7 +29,7 @@ import chameleon.core.variable.VariableContainer;
  * @param <P>
  * @param <S>
  */
-public abstract class MethodHeader<E extends MethodHeader, P extends Method, S extends MethodSignature> extends NamespaceElementImpl <E,P> implements VariableContainer<E, P> { //extends Signature<E, P> 
+public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceElement, S extends MethodSignature> extends NamespaceElementImpl <E,P> implements VariableContainer<E, P> { //extends Signature<E, P> 
   
   public E clone() {
     E result = cloneThis();
@@ -141,7 +142,7 @@ public abstract class MethodHeader<E extends MethodHeader, P extends Method, S e
   	return result;
   }
 
-  public Method variableScopeElement() {
+  public NamespaceElement variableScopeElement() {
   	return parent();
   }
   

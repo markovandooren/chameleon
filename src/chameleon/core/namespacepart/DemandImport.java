@@ -21,8 +21,8 @@ import chameleon.util.Util;
  */
 public class DemandImport extends Import<DemandImport> {
   
-  public DemandImport(ElementReference<?, ?, ? extends Namespace> ref) {
-    setNamespaceReference( (ElementReference<ElementReference<?, ? super DemandImport, ? extends Namespace>, ? super DemandImport, ? extends Namespace>) ref);
+  public DemandImport(ElementReference<?, ?, ?, ? extends Namespace> ref) {
+    setNamespaceReference( (ElementReference<ElementReference<?, ? super DemandImport, ?, ? extends Namespace>, ? super DemandImport, ?, ? extends Namespace>) ref);
   }
 
   
@@ -31,14 +31,14 @@ public class DemandImport extends Import<DemandImport> {
   }
 
   
-	private SingleAssociation<DemandImport,ElementReference<?, ?, ? extends Namespace>> _packageOrType = new SingleAssociation<DemandImport,ElementReference<?, ?, ? extends Namespace>>(this);
+	private SingleAssociation<DemandImport,ElementReference<?, ?, ?, ? extends Namespace>> _packageOrType = new SingleAssociation<DemandImport,ElementReference<?, ?, ?, ? extends Namespace>>(this);
 
   
-  public ElementReference<?, ?, ? extends Namespace> namespaceReference() {
+  public ElementReference<?, ?, ?, ? extends Namespace> namespaceReference() {
     return _packageOrType.getOtherEnd();
   }
   
-  public void setNamespaceReference(ElementReference<ElementReference<?, ? super DemandImport, ? extends Namespace>, ? super DemandImport, ? extends Namespace> ref) {
+  public void setNamespaceReference(ElementReference<ElementReference<?, ? super DemandImport, ?, ? extends Namespace>, ? super DemandImport, ?, ? extends Namespace> ref) {
   	if(ref != null) {
   		_packageOrType.connectTo(ref.parentLink());
   	}

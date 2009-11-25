@@ -5,9 +5,10 @@ import java.util.List;
 
 import chameleon.core.declaration.Signature;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.type.Type;
 
-public abstract class MethodSignature<E extends MethodSignature,P extends Method> extends Signature<E, P> {
+public abstract class MethodSignature<E extends MethodSignature,P extends NamespaceElement> extends Signature<E, P> {
 
 //	public String name() {
 //		return _name;

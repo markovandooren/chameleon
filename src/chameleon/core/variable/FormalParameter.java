@@ -29,7 +29,7 @@ public class FormalParameter extends RegularVariable<FormalParameter,VariableCon
   public boolean compatibleWith(FormalParameter parameter) throws LookupException {
   	boolean result = false;
   	if((parent() instanceof MethodHeader) && (parameter != null) && (parameter.parent() instanceof MethodHeader)) {
-    	MethodHeader<?,?,?> header = (MethodHeader<?, ?, ?>) parent();
+    	MethodHeader<?,? extends Method,?> header = (MethodHeader<?, ? extends Method, ?>) parent();
     	Method method = header.parent();
     	MethodHeader<?,?,?> otherHeader = (MethodHeader<?, ?, ?>) parent();
     	Method otherMethod = header.parent();

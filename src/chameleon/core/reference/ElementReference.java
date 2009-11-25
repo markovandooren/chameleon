@@ -7,6 +7,7 @@ import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.util.Util;
@@ -16,7 +17,7 @@ import chameleon.util.Util;
  * 
  * @author Marko van Dooren
  */
-public abstract class ElementReference<E extends ElementReference, P extends Element, D extends Declaration> extends CrossReferenceImpl<E,P,D> {
+public abstract class ElementReference<E extends ElementReference, P extends Element, S extends Signature, D extends Declaration> extends CrossReferenceImpl<E,P,D> {
 
 	private static Logger logger = Logger.getLogger("lookup.elementreference");
 	
