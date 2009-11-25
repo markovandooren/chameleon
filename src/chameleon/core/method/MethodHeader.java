@@ -20,6 +20,7 @@ import chameleon.core.type.generics.TypeParameter;
 import chameleon.core.type.generics.TypeParameterBlock;
 import chameleon.core.variable.FormalParameter;
 import chameleon.core.variable.VariableContainer;
+import chameleon.util.Util;
 /**
  * A class of objects representing method headers. A method header contains for example the name and parameters of a method.
  * 
@@ -48,12 +49,31 @@ public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceEl
   
   protected abstract E cloneThis();
   
+  /**
+   * The children of a method header are its formal parameters and the type parameter block.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @ post \result.containsAll(formalParameters());
+   @ post parameterBlock() != null ==> \result.contains(parameterBlock());
+   @*/
   public List<Element> children() {
   	List<Element> result = new ArrayList<Element>();
   	result.addAll(formalParameters());
+  	Util.addNonNull(parameterBlock(), result);
   	return result;
   }
   
+  /**
+   * The name of a method header is the name of its signature.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post \result == signature().name();
+   @*/
   public String name() {
   	return signature().name();
   }
@@ -115,6 +135,16 @@ public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceEl
 //  	return parent().getNearestType();
 //  }
   
+  /**
+   * The declarations of a method header are its formal parameters and its type parameters.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @ post \result.containsAll(formalParameters());
+   @ post \result.containsAll(typeParameters());
+   @*/
   public List<Declaration> declarations() {
     List<Declaration>  result = new ArrayList<Declaration>();
     result.addAll(formalParameters());
