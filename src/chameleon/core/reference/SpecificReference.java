@@ -8,24 +8,24 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.SelectorWithoutOrder;
 
-public class SpecificReference<E extends SpecificReference, P extends Element, R extends Declaration> extends ElementReferenceWithTarget<E,P,R> {
+public class SpecificReference<E extends SpecificReference, P extends Element, D extends Declaration> extends ElementReferenceWithTarget<E,P,D> {
 
-	private Class<R> _specificClass;
+	private Class<D> _specificClass;
 	
-	public SpecificReference(String fqn, Class<R> specificClass){
+	public SpecificReference(String fqn, Class<D> specificClass){
 		super(fqn);
 		_specificClass = specificClass;
-		_selector = new SelectorWithoutOrder<R>(new SelectorWithoutOrder.SignatureSelector() {
+		_selector = new SelectorWithoutOrder<D>(new SelectorWithoutOrder.SignatureSelector() {
 			public Signature signature() {
 				return SpecificReference.this.signature();
 			}
 		},_specificClass);
 	}
 	
-	public SpecificReference(CrossReference<?, ?, ? extends TargetDeclaration> target, String name, Class<R> specificClass) {
+	public SpecificReference(CrossReference<?, ?, ? extends TargetDeclaration> target, String name, Class<D> specificClass) {
 		super(target, name);
 		_specificClass = specificClass;
-		_selector = new SelectorWithoutOrder<R>(new SelectorWithoutOrder.SignatureSelector() {
+		_selector = new SelectorWithoutOrder<D>(new SelectorWithoutOrder.SignatureSelector() {
 			public Signature signature() {
 				return SpecificReference.this.signature();
 			}
@@ -40,14 +40,14 @@ public class SpecificReference<E extends SpecificReference, P extends Element, R
 	   return (E) new SpecificReference((getTarget() == null ? null : getTarget().clone()), getName(), _specificClass);
 	}
 
-	private final DeclarationSelector<R> _selector;
+	private final DeclarationSelector<D> _selector;
 	
 	@Override
-	public DeclarationSelector<R> selector() {
+	public DeclarationSelector<D> selector() {
 		return _selector;
 	}
 	
-	public Class<R> specificType() {
+	public Class<D> specificType() {
 		return _specificClass;
 	}
 

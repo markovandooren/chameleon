@@ -5,7 +5,7 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
 
-public class SimpleReference<D extends Declaration<?,?,SimpleNameSignature,D>> extends SpecificReference<SimpleReference<D>,Element,D> {
+public class SimpleReference<D extends Declaration> extends SpecificReference<SimpleReference<D>,Element,D> {
 
 	public SimpleReference(CrossReference<?, ?, ? extends TargetDeclaration> target, String name, Class<D> specificClass) {
 		super(target,name,specificClass);
