@@ -18,7 +18,11 @@ import chameleon.core.rule.Rule;
  * 
  * @author Marko van Dooren
  */
-public abstract class PropertyRule extends Rule<PropertyRule> {
+public abstract class PropertyRule<E extends Element> extends Rule<PropertyRule, E> {
+
+	public PropertyRule(Class<E> elementType) {
+		super(elementType);
+	}
 
 	/**
 	 * Return the default properties of the given element by this assigner. The result
@@ -36,7 +40,7 @@ public abstract class PropertyRule extends Rule<PropertyRule> {
    @
    @ post \result == suggested.withoutContradictingProperties(declared);
    @*/
-	public PropertySet<Element,ChameleonProperty> properties(Element element) {
+	public PropertySet<Element,ChameleonProperty> properties(E element) {
 		if(appliesTo(element)) {
 		  PropertySet<Element,ChameleonProperty> suggested = suggestedProperties(element);
 		  PropertySet<Element,ChameleonProperty> declared = element.declaredProperties();
@@ -51,7 +55,9 @@ public abstract class PropertyRule extends Rule<PropertyRule> {
    @
    @ post element == null ==> \result == false;
    @*/
-	public abstract boolean appliesTo(Element element);
+	public final boolean appliesTo(Element element) {
+		return elementType().isInstance(element);
+	}
 
  /*@
    @ public behavior
@@ -60,7 +66,7 @@ public abstract class PropertyRule extends Rule<PropertyRule> {
    @
    @ post \result != null; 
    @*/
-	public abstract PropertySet<Element,ChameleonProperty> suggestedProperties(Element element);
+	public abstract PropertySet<Element,ChameleonProperty> suggestedProperties(E element);
 	
 	// COPIED FROM MODIFIERIMPL
 	

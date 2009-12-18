@@ -118,7 +118,9 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
 	public PropertySet<Element,ChameleonProperty> defaultProperties(Element element) {
 		PropertySet<Element,ChameleonProperty> result = new PropertySet<Element,ChameleonProperty>();
 		for(PropertyRule rule:propertyRules()) {
-			result.addAll(rule.properties(element));
+			if(rule.elementType().isInstance(element)) {
+			  result.addAll(rule.properties(element));
+			}
 		}
 		return result;
 	}
@@ -591,7 +593,9 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
 		public VerificationResult verify(Element element) {
 			VerificationResult result = Valid.create();
 			for(ValidityRule rule: validityRules()) {
-				result = result.and(rule.verify(element));
+				if(rule.elementType().isInstance(element)) {
+				  result = result.and(rule.verify(element));
+				}
 			}
 			return result;
 		}

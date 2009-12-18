@@ -3,6 +3,7 @@ package chameleon.core.rule;
 import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.element.ChameleonProgrammerException;
+import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.language.WrongLanguageException;
 /**
@@ -12,7 +13,17 @@ import chameleon.core.language.WrongLanguageException;
  *
  * @param <R> A self type. R must always be a supertype of the class itself. This allows us to define the association at this level.
  */
-public abstract class Rule<R extends Rule> {
+public abstract class Rule<R extends Rule, E extends Element> {
+	
+	public Rule(Class<E> elementType) {
+		_elementType = elementType;
+	}
+	
+	public Class<E> elementType() {
+		return _elementType;
+	}
+	
+	private Class<E> _elementType;
 
 	private SingleAssociation<R,Language> _language = new SingleAssociation<R, Language>((R) this);
 	
