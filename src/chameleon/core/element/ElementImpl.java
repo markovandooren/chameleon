@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.rejuse.association.Association;
+import org.rejuse.association.AbstractMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.Predicate;
@@ -15,8 +15,6 @@ import org.rejuse.predicate.SafePredicate;
 import org.rejuse.predicate.TypePredicate;
 import org.rejuse.predicate.UnsafePredicate;
 import org.rejuse.property.Conflict;
-import org.rejuse.property.Property;
-import org.rejuse.property.PropertyImpl;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 
@@ -702,7 +700,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     }
     
     /**
-     * Set the given Association object (which is typically connected to 'this') as the parent of the given element.
+     * Set the given SingleAssociation object (which is typically connected to 'this') as the parent of the given element.
      * @param <T>
      * @param association
      * @param element
@@ -710,15 +708,40 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
    /*@
      @ public behavior
      @
-     @ pre ! element.isDerived();
+     @ pre association != null;
+     @ pre (element != null) ==> (! element.isDerived());
      @
-     @ post (element != null) ==> (element.parent() == association.getObject());
+     @ post (element != null) ==> (element.parent() == association.getObject() && association.getOtherEnd() == element);
+     @ post (element == null) ==> association.getOtherEnd() == null;
      @*/
-    protected <T extends Element> void setAsParent(Association<? extends Element, ? super T> association, T element) {
+    protected <T extends Element> void setAsParent(SingleAssociation<? extends Element, ? super T> association, T element) {
     	if(element != null) {
-    	  element.parentLink().connectTo(association);
+    	  association.connectTo(element.parentLink());
+    	} else {
+    		association.connectTo(null);
     	}
     }
+    
+    /**
+     * Set the given AbstractMultiAssociation object (which is typically connected to 'this') as the parent of the given element.
+     * @param <T>
+     * @param association
+     * @param element
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre association != null;
+     @ pre (element != null) ==> (! element.isDerived());
+     @
+     @ post (element != null) ==> (element.parent() == association.getObject() && association.contains(element.parentLink());
+     @*/
+    protected <T extends Element> void setAsParent(AbstractMultiAssociation<? extends Element, ? super T> association, T element) {
+    	if(element != null) {
+    		association.add(element.parentLink());
+    	}
+    }
+    
     
     
 //    public Iterator<Element> depthFirstIterator() {
