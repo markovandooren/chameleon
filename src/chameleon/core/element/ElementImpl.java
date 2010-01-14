@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.rejuse.association.Association;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.Predicate;
@@ -698,6 +699,25 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     		result = result.and(new BasicProblem(this, message));
     	}
     	return result;
+    }
+    
+    /**
+     * Set the given Association object (which is typically connected to 'this') as the parent of the given element.
+     * @param <T>
+     * @param association
+     * @param element
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre ! element.isDerived();
+     @
+     @ post (element != null) ==> (element.parent() == association.getObject());
+     @*/
+    protected <T extends Element> void setAsParent(Association<? extends Element, ? super T> association, T element) {
+    	if(element != null) {
+    	  element.parentLink().connectTo(association);
+    	}
     }
     
     
