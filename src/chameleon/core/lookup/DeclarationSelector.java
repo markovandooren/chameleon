@@ -39,17 +39,29 @@ public abstract class DeclarationSelector<D extends Declaration> {
   }
   
   /**
-   * This method decides which declarations are candidates for selection PROVIDED THAT IT IS OF THE CORRECT
-   * CLASS. The method returns the given declaration if it is a candidate. The method returns
-   * null if the given declaration is not a candidate.
+   * This method decides which declarations are candidates for selection <b>provided that it is of the correct
+   * type</b>. This method does not take the signature into account. That check is performed by the selected() method.
+   * The reason to split this up is to support aliases without have to create a separate trio of 
+   * interface, actualdeclaration, and aliasdeclaration for each declaration. The alias contains only the alias name. Further
+   * checks are performed on the 'selectionDeclaration'. Since the selectionDeclaration still have the original signature, the
+   * latter signature must of course be ignored.
    */
  /*@
    @ public behavior
    @
    @ pre selectedClass().isInstance(declaration);
-   @ post \result == declaration | \result == null;
    @*/
-  public abstract Declaration<?,?,?,D> filter(D declaration) throws LookupException;
+  public abstract boolean selectedRegardlessOfSignature(D declaration) throws LookupException;
+  
+  /**
+   * This method decides if the given signature is selected by this declaration selector.
+   */
+ /*@
+   @ public behavior
+   @
+   @ pre signature != null;
+   @*/
+  public abstract boolean selected(Signature signature) throws LookupException;
 
   /**
    * Return the declaration of type D that would be selected based on the
@@ -79,18 +91,18 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @ post ! selectedClass().isInstance(declaration) ==> \result == null;
    @*/
   public D selection(Declaration declarator) throws LookupException {
-  	Declaration resolved = declarator.selectionDeclaration();
-  	if(selectedClass().isInstance(resolved)) {
-  	  Declaration<?, ?, ?, D> filtered = filter((D)resolved);
-  	  if(filtered != null) {
-  	  	// return filtered.actualDeclaration();
-			  return actualDeclaration(declarator);
-  	  } else {
-  	  	return null;
+  	// We first perform the checks on the selectionDeclaration, since a signature check may be
+  	// very expensive.
+  	D result = null;
+  	Declaration selectionDeclaration = declarator.selectionDeclaration();
+  	if(selectedClass().isInstance(selectionDeclaration)) {
+  	  if(selectedRegardlessOfSignature((D)selectionDeclaration)) {
+  	  	if(selected(declarator.signature())) {
+			    result = actualDeclaration(declarator);
+  	  	}
   	  }
-  	} else {
-  		return null;
-  	}
+  	} 
+    return result;
   }
   
   /**

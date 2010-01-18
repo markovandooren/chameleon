@@ -23,15 +23,9 @@ public class SelectorWithoutOrder<D extends Declaration> extends DeclarationSele
 		return _selector.signature();
 	}
 	
-	@Override @SuppressWarnings("unchecked")
-	public D filter(Declaration declaration) throws LookupException {
-		Signature sig = declaration.signature();
-		D result = null;
-		if(sig!=null && (selectedClass().isInstance(declaration)) && 
-			 (sig.sameAs(signature()))) {
-			  result = (D) declaration;
-		}
-		return result;
+	@Override
+	public boolean selectedRegardlessOfSignature(D declaration) throws LookupException {
+		return true;
 	}
 
 	@Override
@@ -56,4 +50,10 @@ public class SelectorWithoutOrder<D extends Declaration> extends DeclarationSele
 	public static interface SignatureSelector {
 		public Signature signature();
 	}
+
+	@Override
+	public boolean selected(Signature signature) throws LookupException {
+		return signature!=null && signature.sameAs(signature());
+	}
+
 }

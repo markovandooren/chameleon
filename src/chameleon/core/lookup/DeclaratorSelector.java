@@ -1,9 +1,10 @@
 package chameleon.core.lookup;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.Signature;
 import chameleon.core.relation.WeakPartialOrder;
 
-public class DeclaratorSelector extends DeclarationSelector<Declaration> {
+public class DeclaratorSelector extends DeclarationSelector{
 	
 	public DeclaratorSelector(DeclarationSelector selector) {
 		_selector = selector;
@@ -17,8 +18,8 @@ public class DeclaratorSelector extends DeclarationSelector<Declaration> {
   private DeclarationSelector _selector;
 
 	@Override
-	public Declaration filter(Declaration declaration) throws LookupException {
-		return _selector.filter(declaration);
+	public boolean selectedRegardlessOfSignature(Declaration declaration) throws LookupException {
+		return _selector.selectedRegardlessOfSignature(declaration);
 	}
 
 	@Override
@@ -29,6 +30,11 @@ public class DeclaratorSelector extends DeclarationSelector<Declaration> {
 	@Override
 	public Class selectedClass() {
 		return _selector.selectedClass();
+	}
+
+	@Override
+	public boolean selected(Signature signature) throws LookupException {
+		return _selector.selected(signature);
 	}
 
 }
