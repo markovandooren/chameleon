@@ -29,7 +29,8 @@ public interface Member<E extends Member<E,P,S,F>, P extends Element, S extends 
 //   */
 //  public void setSignature(S signature);
 
-  
+  public abstract E clone();
+	
   /**
    * Check whether this member overrides the given member.
    */

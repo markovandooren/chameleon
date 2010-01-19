@@ -8,6 +8,9 @@ import org.apache.log4j.Logger;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.logic.ternary.Ternary;
 
+import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.DeclarationAlias;
+import chameleon.core.declaration.DeclarationContainerAlias;
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
@@ -162,6 +165,56 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 		List<M> superMembers = superClass().members(selector);
 		removeNonInheritableMembers(superMembers);
 		return superMembers;
+	}
+	
+	public static DeclarationContainerAlias membersInContext(Type type) throws LookupException {
+		List<Member> elements = type.directlyDeclaredMembers();
+		DeclarationContainerAlias containerAlias = new DeclarationContainerAlias(type);
+		for(Member member: elements) {
+			Member clone = member.clone();
+			containerAlias.add(clone);
+		}
+		for(InheritanceRelation inheritanceRelation: type.inheritanceRelations()) {
+			inheritanceRelation.mergeMembersInContext(containerAlias);
+		}
+		return containerAlias;
+	}
+	
+	public void mergeMembersInContext(DeclarationContainerAlias accumulator) throws LookupException {
+		DeclarationContainerAlias superMemberContainer = membersInContext(superClass());
+		for(Declaration superDeclaration: superMemberContainer.allDeclarations()) {
+			Member superMember;
+			if(superDeclaration instanceof Member) {
+			  superMember = (Member) superDeclaration;
+			} else {
+				superMember = (Member) ((DeclarationAlias) superDeclaration).aliasedDeclaration();
+			}	
+			for(Declaration processedDeclaration: accumulator.allDeclarations()) {
+				Member processedMember;
+				if(processedDeclaration instanceof Member) {
+				  processedMember = (Member) processedDeclaration;
+				} else {
+					processedMember = (Member) ((DeclarationAlias) processedDeclaration).aliasedDeclaration();
+				}	
+				if(processedMember.equals(superMember) || processedMember.overrides(superMember) || processedMember.equivalentTo(superMember) || processedMember.canImplement(superMember) || processedMember.hides(superMember)) {
+					// Make superDeclaration an alias, or update the alias.
+				  DeclarationAlias alias = new DeclarationAlias(superDeclaration.signature().clone(), processedMember);
+				  DeclarationContainerAlias superContainer = (DeclarationContainerAlias) superDeclaration.parent();
+				  superContainer.remove(superDeclaration);
+				  superContainer.add(alias);
+				  break;
+				}
+				else if((!processedMember.equals(superMember)) && (superMember.overrides(processedMember) || superMember.canImplement(processedMember) || superMember.hides(processedMember))) {
+					// Make processedDeclaration an alias, or update the alias.
+				  DeclarationAlias alias = new DeclarationAlias(processedDeclaration.signature().clone(), superMember);
+				  DeclarationContainerAlias processedContainer = (DeclarationContainerAlias) processedDeclaration.parent();
+				  processedContainer.remove(processedDeclaration);
+				  processedContainer.add(alias);
+				}
+				
+			}
+		}
+		accumulator.addSuperContainer(superMemberContainer);
 	}
 
   /**

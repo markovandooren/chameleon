@@ -13,7 +13,9 @@ import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.DeclarationAlias;
 import chameleon.core.declaration.DeclarationContainer;
+import chameleon.core.declaration.DeclarationContainerAlias;
 import chameleon.core.declaration.Definition;
 import chameleon.core.declaration.MissingSignature;
 import chameleon.core.declaration.SimpleNameSignature;
@@ -465,10 +467,10 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
      */
     public abstract List<Member> directlyDeclaredMembers();
     
-    public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
+/*    public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
 
   		// 1) All defined members of the requested kind are added.
-  		final List<D> result = directlyDeclaredMembers(selector);
+  		List<D> result = directlyDeclaredMembers(selector);
 
   		// 2) Fetch all potentially inherited members from all inheritance relations
   		for (InheritanceRelation rel : inheritanceRelations()) {
@@ -476,7 +478,33 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
   		}
   		// The selector must still apply its order to the candidates.
   		return selector.selection(result);
+    }*/
+    
+    public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
+
+  		// 1) All defined members of the requested kind are added.
+  		DeclarationContainerAlias alias = InheritanceRelation.membersInContext(this);
+  		List<Declaration> declarations = alias.allDeclarations();
+  		List<Member> result = new ArrayList<Member>();
+  		for(Declaration declaration:declarations) {
+  			if(
+  					 (declaration.is(language(ObjectOrientedLanguage.class).INHERITABLE) == Ternary.TRUE || 
+  							 declaration.nearestAncestor(Type.class) == this
+  					 )  && 
+  				(! (declaration instanceof DeclarationAlias))) {
+  				result.add((Member) declaration);
+  			}
+  		}
+
+  		
+//  		// 2) Fetch all potentially inherited members from all inheritance relations
+//  		for (InheritanceRelation rel : inheritanceRelations()) {
+//  				rel.accumulateInheritedMembers(selector, result);
+//  		}
+  		// The selector must still apply its order to the candidates.
+  		return selector.selection(result);
     }
+
     
     @SuppressWarnings("unchecked")
     public abstract <D extends Member> List<D> directlyDeclaredMembers(DeclarationSelector<D> selector) throws LookupException;

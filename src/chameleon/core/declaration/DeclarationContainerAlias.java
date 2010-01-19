@@ -1,5 +1,6 @@
 package chameleon.core.declaration;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -42,8 +43,16 @@ public class DeclarationContainerAlias extends NamespaceElementImpl<DeclarationC
 		return result;
 	}
 	
-	public List<? extends Declaration> declarations() {
+	public List<Declaration> declarations() {
 		return _elements.getOtherEnds();
+	}
+	
+	public List<Declaration> allDeclarations() {
+		List<Declaration> result = declarations();
+		for(DeclarationContainerAlias superContainer: superContainers()) {
+			result.addAll(superContainer.allDeclarations());
+		}
+		return result;
 	}
 
 	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
@@ -71,5 +80,19 @@ public class DeclarationContainerAlias extends NamespaceElementImpl<DeclarationC
 	    _elements.remove(element.parentLink());
 	  }
 	}
+	
+	public List<DeclarationContainerAlias> superContainers() {
+		return new ArrayList<DeclarationContainerAlias>(_superContainers);
+	}
+	
+	public void addSuperContainer(DeclarationContainerAlias container) {
+		_superContainers.add(container);
+	}
+	
+	public void removeSuperContainer(DeclarationContainerAlias container) {
+		_superContainers.remove(container);
+	}
+	
+	private List<DeclarationContainerAlias> _superContainers = new ArrayList<DeclarationContainerAlias>();
 	
 }
