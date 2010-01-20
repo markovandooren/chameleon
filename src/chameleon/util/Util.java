@@ -198,7 +198,7 @@ public class Util {
     if(string == null) {
       return null;
     }
-    int dot = string.lastIndexOf(".");
+    int dot = string.indexOf(".");
     if(dot > 0) {
       return string.substring(dot+1,string.length());
     }

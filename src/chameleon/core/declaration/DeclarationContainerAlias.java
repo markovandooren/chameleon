@@ -31,6 +31,10 @@ public class DeclarationContainerAlias extends NamespaceElementImpl<DeclarationC
 		for(Declaration declaration: declarations()) {
 			result.add(declaration.clone());
 		}
+		for(DeclarationContainerAlias alias: superContainers()) {
+			result.addSuperContainer(alias.clone());
+		}
+		result.setUniParent(parent());
 		return result;
 	}
 
@@ -48,10 +52,11 @@ public class DeclarationContainerAlias extends NamespaceElementImpl<DeclarationC
 	}
 	
 	public List<Declaration> allDeclarations() {
-		List<Declaration> result = declarations();
+		List<Declaration> result = new ArrayList<Declaration>();
 		for(DeclarationContainerAlias superContainer: superContainers()) {
 			result.addAll(superContainer.allDeclarations());
 		}
+		result.addAll(declarations());
 		return result;
 	}
 

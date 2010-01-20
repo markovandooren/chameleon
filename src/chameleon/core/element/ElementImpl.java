@@ -3,6 +3,7 @@ package chameleon.core.element;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -518,20 +519,34 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	return new PropertySet<Element,ChameleonProperty>();
     }
     
-
     public Ternary is(ChameleonProperty property) {
-    	// First get the declared properties.
-      PropertySet<Element,ChameleonProperty> properties = properties();
-      // Add the given property if it dynamically applies to this element.
-      Ternary applies = property.appliesTo(this);
-      if(applies == Ternary.TRUE) {
-        properties.add(property);
-      } else if(applies == Ternary.FALSE) {
-      	properties.add(property.inverse());
+    	Ternary result = null;
+    	if(Config.cacheElementProperties()) {
+    		if(_propertyCache == null) {
+    			_propertyCache = new HashMap<ChameleonProperty,Ternary>();
+    		}
+    		result = _propertyCache.get(property);
+    	}
+      if(result == null){
+      	// First get the declared properties.
+      	PropertySet<Element,ChameleonProperty> properties = properties();
+      	// Add the given property if it dynamically applies to this element.
+      	Ternary applies = property.appliesTo(this);
+      	if(applies == Ternary.TRUE) {
+      		properties.add(property);
+      	} else if(applies == Ternary.FALSE) {
+      		properties.add(property.inverse());
+      	}
+      	// Check if the resulting property set implies the given property.
+      	result = properties.implies(property);
+      	if(Config.cacheElementProperties()) {
+      		_propertyCache.put(property, result);
+      	}
       }
-      // Check if the resulting property set implies the given property.
-      return properties.implies(property);
+      return result;
     }
+    
+    private HashMap<ChameleonProperty,Ternary> _propertyCache;
    
     public ChameleonProperty property(PropertyMutex<ChameleonProperty> mutex) throws MetamodelException {
     	List<ChameleonProperty> properties = new ArrayList<ChameleonProperty>();
