@@ -8,7 +8,6 @@ import java.util.List;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
@@ -20,6 +19,7 @@ import chameleon.core.type.generics.TypeParameter;
 import chameleon.core.type.generics.TypeParameterBlock;
 import chameleon.core.variable.FormalParameter;
 import chameleon.core.variable.VariableContainer;
+import chameleon.exception.ModelException;
 import chameleon.util.Util;
 /**
  * A class of objects representing method headers. A method header contains for example the name and parameters of a method.
@@ -101,7 +101,7 @@ public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceEl
    * Return the type of the formal parameters of this signature.
    * 
    * @return
-   * @throws MetamodelException
+   * @throws ModelException
    */
   public List<Type> getParameterTypes() throws LookupException {
     List<Type> result = new ArrayList<Type>();
@@ -157,7 +157,7 @@ public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceEl
 	}
 
 
-  public boolean sameParameterTypesAs(MethodHeader other) throws MetamodelException {
+  public boolean sameParameterTypesAs(MethodHeader other) throws ModelException {
   	boolean result = false;
   	if (other != null) {
 			List<FormalParameter> mine = formalParameters();

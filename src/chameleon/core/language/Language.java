@@ -18,7 +18,6 @@ import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 import org.rejuse.property.PropertyUniverse;
 
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.namespace.RootNamespace;
@@ -27,6 +26,7 @@ import chameleon.core.property.PropertyRule;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.ValidityRule;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
 import chameleon.tool.Connector;
 import chameleon.tool.Processor;
 

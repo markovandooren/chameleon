@@ -5,10 +5,10 @@ import java.util.List;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.property.PropertySet;
 
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.property.ChameleonProperty;
+import chameleon.exception.ChameleonProgrammerException;
 
 public abstract class ElementWithModifiersImpl<E extends Element<E, P>, P extends Element> extends NamespaceElementImpl<E,P> {
 

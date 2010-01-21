@@ -1,7 +1,7 @@
 package chameleon.core.lookup;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.element.Element;
+import chameleon.exception.ModelException;
 
 /**
  * @author marko

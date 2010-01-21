@@ -2,8 +2,8 @@ package chameleon.core.lookup;
 
 
 import chameleon.core.declaration.Declaration;
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
+import chameleon.exception.ChameleonProgrammerException;
 
 /**
  * A lexical lookup strategy is used to lookup elements that are not declared relative to another element 

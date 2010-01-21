@@ -1,10 +1,10 @@
 package chameleon.core.expression;
 
 
-import chameleon.core.MetamodelException;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.method.Method;
 import chameleon.core.type.Type;
+import chameleon.exception.ModelException;
 
 /**
  * This class represents invocations that do not invoke a constructor, and thus have a name.

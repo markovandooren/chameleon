@@ -12,7 +12,6 @@ import org.rejuse.property.Property;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.language.Language;
 import chameleon.core.language.WrongLanguageException;
 import chameleon.core.lookup.LookupException;
@@ -20,6 +19,7 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.tag.Tag;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ModelException;
 
 /**
  * Element is the top interface for an element of a model.
@@ -729,7 +729,7 @@ public interface Element<E extends Element, P extends Element> {
      @ signals MetamodelException (\num_of Property p; properties().contains(p);
      @       p.mutex() == mutex) > 1; 
      @*/
-    public ChameleonProperty property(PropertyMutex<ChameleonProperty> mutex) throws MetamodelException;
+    public ChameleonProperty property(PropertyMutex<ChameleonProperty> mutex) throws ModelException;
     
     /**
      * Notify this element that the given descendant was modified. This
@@ -751,4 +751,43 @@ public interface Element<E extends Element, P extends Element> {
      */
     public VerificationResult verify();
 
+    /*************************
+     * IDENTITY and EQUALITY *
+     *************************/
+    
+    /**
+     * Because equals cannot throw MetamodelExceptions, we have some framework code for equality.
+     * 
+     * First of all: DO NOT USE EQUALS!!! Use sameAs(Element) instead.
+     * 
+     * To ensure that equals work correctly when it is invoked by third-party code (e.g. java.util.HashSet),
+     * equals is implemented in terms of sameAs, which in turn is implemented as uniSameAs. The latter method checks
+     * if an object states that it is equal to another (similar to equals). The sameAs method invokes this method on both
+     * objects to check if one of both objects claims to be the same as the other.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post (other instanceof Element) && sameAs((Element)other);
+     @
+     @ signals (RuntimeMetamodelException)
+     @*/
+    @Override 
+    public abstract boolean equals(Object other);
+    
+    /**
+     * Check if this element is the same as the other element.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post other == null ==> \result == uniSameAs(other);
+     @ post other != null ==> \result == uniSameAs(other) || other.uniSameAs(this);
+     @*/
+    public abstract boolean sameAs(Element other) throws LookupException;
+
+    /**
+     * Check whether this element is the same as the other element.
+     */
+    public abstract boolean uniSameAs(Element other) throws LookupException;
 }

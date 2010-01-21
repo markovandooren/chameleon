@@ -10,10 +10,8 @@ import org.rejuse.predicate.SafePredicate;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
 import chameleon.core.lookup.LookupException;
@@ -28,6 +26,8 @@ import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
+import chameleon.exception.ModelException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 
 public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContainer,MemberVariable> implements MemberVariable<VariableAlias> {
@@ -172,7 +172,7 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
 		throw new ChameleonProgrammerException("Trying to set the type reference of a variable alias.");
 	}
 	
-  public Scope scope() throws MetamodelException {
+  public Scope scope() throws ModelException {
   	Scope result = null;
   	ChameleonProperty scopeProperty = property(language().SCOPE_MUTEX);
   	if(scopeProperty instanceof ScopeProperty) {

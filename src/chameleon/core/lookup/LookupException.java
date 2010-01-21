@@ -1,7 +1,7 @@
 package chameleon.core.lookup;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.reference.CrossReference;
+import chameleon.exception.ModelException;
 
 /**
  * This is a class of exceptions that report the occurrence of an error during lookup.
@@ -11,7 +11,7 @@ import chameleon.core.reference.CrossReference;
  * @author marko
  *
  */
-public class LookupException extends MetamodelException {
+public class LookupException extends ModelException {
 
 	public LookupException(DeclarationSelector selector) {
 		this(null,null,selector);

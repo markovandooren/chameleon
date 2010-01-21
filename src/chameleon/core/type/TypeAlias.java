@@ -1,8 +1,8 @@
 package chameleon.core.type;
 
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.validation.Valid;
-import chameleon.core.validation.VerificationResult;
+import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 
 public class TypeAlias extends TypeIndirection {
 
@@ -11,8 +11,9 @@ public class TypeAlias extends TypeIndirection {
 		super(sig, aliasedType);
 	}
 
-	public boolean uniEqualTo(Type type) {
-		return super.uniEqualTo(type) || 
+	@Override
+	public boolean uniSameAs(Element type) throws LookupException {
+		return super.uniSameAs(type) || 
 		       type.equals(aliasedType()) || 
 		       ((type instanceof TypeIndirection) && (((TypeIndirection)type).aliasedType().equals(aliasedType())));
 	}

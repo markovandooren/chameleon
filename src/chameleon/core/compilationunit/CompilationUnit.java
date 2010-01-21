@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.rejuse.association.OrderedMultiAssociation;
 
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.language.Language;
@@ -13,6 +12,7 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
 
 /**
  * A compilation unit represents a file in which elements of the program/model are defined.

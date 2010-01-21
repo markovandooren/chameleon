@@ -4,11 +4,11 @@ import org.rejuse.association.SingleAssociation;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.language.WrongLanguageException;
 import chameleon.core.rule.Rule;
+import chameleon.exception.ChameleonProgrammerException;
 
 /**
  * A class for assigning default properties to model elements. Default properties are

@@ -5,7 +5,6 @@ import java.util.List;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
@@ -13,6 +12,7 @@ import chameleon.core.member.Member;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.type.generics.TypeParameter;
 import chameleon.core.type.inheritance.InheritanceRelation;
+import chameleon.exception.ChameleonProgrammerException;
 
 public abstract class TypeIndirection extends Type {
 

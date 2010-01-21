@@ -2,12 +2,10 @@ package chameleon.core.type.generics;
 
 import org.rejuse.association.SingleAssociation;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.MissingSignature;
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.scope.LexicalScope;
@@ -15,6 +13,8 @@ import chameleon.core.scope.Scope;
 import chameleon.core.type.Type;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
+import chameleon.exception.ModelException;
 
 public abstract class TypeParameter<E extends TypeParameter<E>> extends NamespaceElementImpl<E, TypeParameterBlock> implements Declaration<E,TypeParameterBlock,SimpleNameSignature,Type>{
 	
@@ -54,7 +54,7 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Namespac
 	
 	public abstract Type lowerBound() throws LookupException;
 
-	public Scope scope() throws MetamodelException {
+	public Scope scope() throws ModelException {
 		return new LexicalScope(nearestAncestor(Type.class));
 	}
 

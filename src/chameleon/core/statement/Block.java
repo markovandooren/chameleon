@@ -5,12 +5,12 @@ import java.util.List;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.java.collections.Visitor;
 
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
 
 /**
  * @author Marko van Dooren

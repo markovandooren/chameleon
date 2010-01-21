@@ -2,12 +2,12 @@ package chameleon.core.type.generics;
 
 import org.rejuse.association.SingleAssociation;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
+import chameleon.exception.ModelException;
 
 public abstract class TypeConstraint<E extends TypeConstraint> extends ElementImpl<E,Element> {
 

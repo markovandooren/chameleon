@@ -6,11 +6,11 @@ import java.util.List;
 import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.ConstructedType;
 import chameleon.core.type.Type;
+import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 
 /**

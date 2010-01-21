@@ -14,14 +14,15 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationAlias;
 import chameleon.core.declaration.DeclarationContainerAlias;
 import chameleon.core.declaration.Signature;
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
+import chameleon.core.method.MethodSignature;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
+import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 
 public abstract class InheritanceRelation<E extends InheritanceRelation> extends ElementImpl<E,Type> {
@@ -224,6 +225,9 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 				} else {
 					processedMember = (Member) ((DeclarationAlias) processedDeclaration).aliasedDeclaration();
 				}	
+				if((superMember.signature() instanceof MethodSignature) && (processedMember.signature() instanceof MethodSignature) && ((chameleon.core.method.MethodSignature)processedMember.signature()).name().equals("notify") && ((chameleon.core.method.MethodSignature)superMember.signature()).name().equals("notify")) {
+					System.out.println("jops");
+				}
 				if(processedMember.equals(superMember) || processedMember.overrides(superMember) || processedMember.equivalentTo(superMember) || processedMember.canImplement(superMember) || processedMember.hides(superMember)) {
 					// Make superDeclaration an alias, or update the alias.
 				  DeclarationAlias alias = new DeclarationAlias(superDeclaration.signature().clone(), processedMember);

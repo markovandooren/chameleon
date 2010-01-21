@@ -7,10 +7,8 @@ import java.util.Set;
 
 import org.rejuse.predicate.UnsafePredicate;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.property.ChameleonProperty;
@@ -19,6 +17,8 @@ import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeElementImpl;
+import chameleon.exception.ChameleonProgrammerException;
+import chameleon.exception.ModelException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 
 public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Element, S extends Signature, F extends Member> extends TypeElementImpl<E, P> implements Member<E,P,S,F>{
@@ -73,7 +73,7 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Element
   	return (F) this;
   }
   
-  public Scope scope() throws MetamodelException {
+  public Scope scope() throws ModelException {
   	Scope result = null;
   	ChameleonProperty scopeProperty = property(language().SCOPE_MUTEX);
   	if(scopeProperty instanceof ScopeProperty) {

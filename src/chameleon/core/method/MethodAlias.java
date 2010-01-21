@@ -2,13 +2,13 @@ package chameleon.core.method;
 
 import org.rejuse.property.PropertySet;
 
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.method.exception.ExceptionClause;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.type.TypeReference;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
 
 public class MethodAlias<E extends MethodAlias<E,H,S>, H extends MethodHeader<H, E, S>, S extends MethodSignature> extends Method<E,H,S,Method> {
 

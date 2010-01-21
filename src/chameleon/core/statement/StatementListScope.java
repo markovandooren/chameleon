@@ -2,10 +2,10 @@ package chameleon.core.statement;
 
 import java.util.Iterator;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.element.Element;
 import chameleon.core.scope.LexicalScope;
 import chameleon.core.scope.Scope;
+import chameleon.exception.ModelException;
 
 /**
  * @author Marko van Dooren

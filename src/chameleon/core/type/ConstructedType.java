@@ -1,10 +1,10 @@
 package chameleon.core.type;
 
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.type.generics.FormalTypeParameter;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
 
 /**
  * This class represents types created as a result of looking up (resolving) a generic parameter, which itself is

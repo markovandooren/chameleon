@@ -1,7 +1,7 @@
 package chameleon.core.visitor;
 
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
+import chameleon.exception.ChameleonProgrammerException;
 
 public class NoVisitorForTypeException extends ChameleonProgrammerException {
 

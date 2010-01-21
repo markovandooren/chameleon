@@ -1,7 +1,7 @@
 package chameleon.output;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.element.Element;
+import chameleon.exception.ModelException;
 import chameleon.tool.ConnectorImpl;
 
 /**
@@ -9,6 +9,6 @@ import chameleon.tool.ConnectorImpl;
  */
 public abstract class Syntax extends ConnectorImpl {
 
-  public abstract String toCode(Element element) throws MetamodelException;
+  public abstract String toCode(Element element) throws ModelException;
 
 }

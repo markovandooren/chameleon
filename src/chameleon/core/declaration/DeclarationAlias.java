@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.rejuse.association.SingleAssociation;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceElementImpl;
@@ -13,6 +12,7 @@ import chameleon.core.scope.Scope;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ModelException;
 
 public class DeclarationAlias<S extends Signature,D extends Declaration> extends NamespaceElementImpl<DeclarationAlias<S,D>, Element> implements Declaration<DeclarationAlias<S,D>, Element, S, D> {
 
@@ -57,12 +57,12 @@ public class DeclarationAlias<S extends Signature,D extends Declaration> extends
    @
    @ signals(MetamodelException) actualDeclaration() == null;
    @*/
-	public Scope scope() throws MetamodelException {
+	public Scope scope() throws ModelException {
 		D aliasedDeclaration = aliasedDeclaration();
 		if(aliasedDeclaration != null) {
 		  return aliasedDeclaration.scope();
 		} else {
-			throw new MetamodelException("The scope of the alias cannot be determined because the aliased declaration is null.");
+			throw new ModelException("The scope of the alias cannot be determined because the aliased declaration is null.");
 		}
 	}
 

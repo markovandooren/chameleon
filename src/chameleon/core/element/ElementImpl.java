@@ -20,7 +20,6 @@ import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.Config;
-import chameleon.core.MetamodelException;
 import chameleon.core.language.Language;
 import chameleon.core.language.WrongLanguageException;
 import chameleon.core.lookup.LookupException;
@@ -30,6 +29,8 @@ import chameleon.core.tag.Tag;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
+import chameleon.exception.ModelException;
 
 /**
  * @author Marko van Dooren
@@ -548,7 +549,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     
     private HashMap<ChameleonProperty,Ternary> _propertyCache;
    
-    public ChameleonProperty property(PropertyMutex<ChameleonProperty> mutex) throws MetamodelException {
+    public ChameleonProperty property(PropertyMutex<ChameleonProperty> mutex) throws ModelException {
     	List<ChameleonProperty> properties = new ArrayList<ChameleonProperty>();
     	for(ChameleonProperty p : properties().properties()) {
     		if(p.mutex() == mutex) {
@@ -558,7 +559,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	if(properties.size() == 1) {
     		return properties.get(0);
     	} else {
-    		throw new MetamodelException("Element has "+properties.size()+" properties for the mutex "+mutex);
+    		throw new ModelException("Element has "+properties.size()+" properties for the mutex "+mutex);
     	}
     }
 
@@ -757,7 +758,21 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	}
     }
     
+    public final boolean equals(Object other) {
+    	try {
+				return (other instanceof Element) && sameAs((Element) other);
+			} catch (LookupException e) {
+				throw new ChameleonProgrammerException(e);
+			}
+    }
     
+    public final boolean sameAs(Element other) throws LookupException {
+    	return uniSameAs(other) || ((other != null) && (other.uniSameAs(this)));
+    }
+    
+    public boolean uniSameAs(Element other) throws LookupException {
+    	return other == this;
+    }
     
 //    public Iterator<Element> depthFirstIterator() {
 //    	return new Iterator<Element>() {

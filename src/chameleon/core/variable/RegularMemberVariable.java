@@ -8,10 +8,8 @@ import java.util.Set;
 
 import org.rejuse.predicate.AbstractPredicate;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.expression.Expression;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
@@ -22,6 +20,8 @@ import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
+import chameleon.exception.ChameleonProgrammerException;
+import chameleon.exception.ModelException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.util.Util;
 
@@ -136,7 +136,7 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
 		return new VariableAlias(signature,this);
 	}
 
-  public Scope scope() throws MetamodelException {
+  public Scope scope() throws ModelException {
   	Scope result = null;
   	ChameleonProperty scopeProperty = property(language().SCOPE_MUTEX);
   	if(scopeProperty instanceof ScopeProperty) {

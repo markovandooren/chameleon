@@ -3,12 +3,12 @@
  */
 package chameleon.core.lookup;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.relation.WeakPartialOrder;
+import chameleon.exception.ModelException;
 
 public class SelectorWithoutOrder<D extends Declaration> extends DeclarationSelector<D> {
 	

@@ -5,9 +5,7 @@ import java.util.List;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
@@ -17,6 +15,8 @@ import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
+import chameleon.exception.ModelException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 
 public class NamespaceAlias extends Namespace {
@@ -59,7 +59,7 @@ public class NamespaceAlias extends Namespace {
   	return aliasedNamespace().declaredProperties();
   }
 	
-  public Scope scope() throws MetamodelException {
+  public Scope scope() throws ModelException {
   	Scope result = null;
   	ChameleonProperty scopeProperty = property(language().SCOPE_MUTEX);
   	if(scopeProperty instanceof ScopeProperty) {

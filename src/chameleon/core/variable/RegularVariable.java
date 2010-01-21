@@ -10,7 +10,6 @@ import org.rejuse.property.PropertySet;
 
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
 import chameleon.core.lookup.LookupException;
@@ -21,6 +20,7 @@ import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
+import chameleon.exception.ChameleonProgrammerException;
 import chameleon.util.Util;
 
 public abstract class RegularVariable<E extends RegularVariable<E,P,F>, P extends DeclarationContainer, F extends Variable> 

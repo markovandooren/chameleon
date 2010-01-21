@@ -12,7 +12,6 @@ import org.rejuse.predicate.TypePredicate;
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.lookup.DeclarationSelector;
@@ -25,6 +24,7 @@ import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
 /**
  * A namespace part adds its declarations to a namespace. Different namespace parts in different compilation units
  * can contribute to the same namespace.

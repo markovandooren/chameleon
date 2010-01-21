@@ -3,12 +3,12 @@ package chameleon.core.type.generics;
 import java.util.ArrayList;
 import java.util.List;
 
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 
 public class PureWildCard extends ActualTypeArgument<PureWildCard> {

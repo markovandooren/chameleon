@@ -3,13 +3,13 @@ package chameleon.core.type.generics;
 import java.util.List;
 
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeElement;
 import chameleon.core.type.inheritance.InheritanceRelation;
+import chameleon.exception.ChameleonProgrammerException;
 
 public abstract class WildCardType extends Type {
 

@@ -8,11 +8,11 @@ import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertyUniverse;
 import org.rejuse.property.StaticProperty;
 
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
 
 public class StaticChameleonProperty extends StaticProperty<Element,ChameleonProperty> implements ChameleonProperty {
 

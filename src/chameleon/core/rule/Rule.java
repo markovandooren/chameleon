@@ -2,10 +2,10 @@ package chameleon.core.rule;
 
 import org.rejuse.association.SingleAssociation;
 
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.language.WrongLanguageException;
+import chameleon.exception.ChameleonProgrammerException;
 /**
  * A class of rules that apply to a language. The semantics of the rules is not determined in this class.
  * 

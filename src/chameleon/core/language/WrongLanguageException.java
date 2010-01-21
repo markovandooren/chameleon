@@ -1,6 +1,6 @@
 package chameleon.core.language;
 
-import chameleon.core.element.ChameleonProgrammerException;
+import chameleon.exception.ChameleonProgrammerException;
 
 /**
  * This class of exceptions signals a mismatch between the language of an element

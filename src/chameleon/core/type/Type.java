@@ -20,7 +20,6 @@ import chameleon.core.declaration.Definition;
 import chameleon.core.declaration.MissingSignature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
-import chameleon.core.element.ChameleonProgrammerException;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LocalLookupStrategy;
@@ -37,6 +36,7 @@ import chameleon.core.type.generics.TypeParameter;
 import chameleon.core.type.inheritance.InheritanceRelation;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.util.Util;
 
@@ -364,23 +364,24 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
      * @param other
      * @return
      */
-    public boolean uniEqualTo(Type other) {
+    @Override
+    public boolean uniSameAs(Element other) throws LookupException {
     	return other == this;
     }
     
-   /*@
-     @ public behavior
-     @
-     @ post ! other instanceof Type ==> \result == false
-     @ post other instanceof Type ==> \result == equalTo(other) || other.equalTo(this); 
-     @*/
-    public boolean equals(Object other) {
-    	boolean result = false;
-    	if(other instanceof Type) {
-    		result = uniEqualTo((Type)other) || ((Type)other).uniEqualTo(this);
-    	}
-    	return result;
-    }
+//   /*@
+//     @ public behavior
+//     @
+//     @ post ! other instanceof Type ==> \result == false
+//     @ post other instanceof Type ==> \result == equalTo(other) || other.equalTo(this); 
+//     @*/
+//    public boolean equals(Object other) {
+//    	boolean result = false;
+//    	if(other instanceof Type) {
+//    		result = uniEqualTo((Type)other) || ((Type)other).uniEqualTo(this);
+//    	}
+//    	return result;
+//    }
 
     /**
      * Check if this type is assignable to another type.

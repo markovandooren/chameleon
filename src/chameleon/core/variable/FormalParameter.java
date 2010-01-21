@@ -1,6 +1,5 @@
 package chameleon.core.variable;
 
-import chameleon.core.MetamodelException;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.method.Method;
@@ -8,6 +7,7 @@ import chameleon.core.method.MethodHeader;
 import chameleon.core.scope.LexicalScope;
 import chameleon.core.scope.Scope;
 import chameleon.core.type.TypeReference;
+import chameleon.exception.ModelException;
 
 /**
  * @author Marko van Dooren
@@ -43,7 +43,7 @@ public class FormalParameter extends RegularVariable<FormalParameter,VariableCon
     return new FormalParameter(signature().clone(), (TypeReference)getTypeReference().clone());
   }
   
-	public Scope scope() throws MetamodelException {
+	public Scope scope() throws ModelException {
 		return new LexicalScope(parent().variableScopeElement());
 	}
 
