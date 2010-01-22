@@ -9,6 +9,7 @@ import org.rejuse.association.OrderedMultiAssociation;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
@@ -29,7 +30,9 @@ public class DeclarationContainerAlias extends NamespaceElementImpl<DeclarationC
 	public DeclarationContainerAlias clone() {
 		DeclarationContainerAlias result = new DeclarationContainerAlias();
 		for(Declaration declaration: declarations()) {
-			result.add(declaration.clone());
+			Declaration clone = declaration.clone();
+			clone.setOrigin(declaration.origin());
+			result.add(clone);
 		}
 		for(DeclarationContainerAlias alias: superContainers()) {
 			result.addSuperContainer(alias.clone());
@@ -37,6 +40,12 @@ public class DeclarationContainerAlias extends NamespaceElementImpl<DeclarationC
 		result.setUniParent(parent());
 		return result;
 	}
+
+	@Override
+	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
+		return parent().lexicalLookupStrategy(child);
+	}
+
 
 	@Override
 	public VerificationResult verifySelf() {

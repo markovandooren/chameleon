@@ -170,20 +170,21 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 	public static DeclarationContainerAlias membersInContext(Type type) throws LookupException {
 		DeclarationContainerAlias result = _cache.get(type);
 		if(result == null) {
-		  System.out.println("computing members for: "+type.getFullyQualifiedName());
+//		  System.out.println("computing members for: "+type.getFullyQualifiedName());
 		  List<Member> elements = type.directlyDeclaredMembers();
 		  result = new DeclarationContainerAlias(type);
 		  for(Member member: elements) {
 			  Member clone = member.clone();
+			  clone.setOrigin(member.origin());
 			  result.add(clone);
 		  }
 		  for(InheritanceRelation inheritanceRelation: type.inheritanceRelations()) {
 			  inheritanceRelation.mergeMembersInContext(result);
 		  }
 		  _cache.put(type, result);
-		  System.out.println("added Cache for: "+type.getFullyQualifiedName());
+//		  System.out.println("added Cache for: "+type.getFullyQualifiedName());
 		} else {
-			System.out.println("CACHE HIT for members of "+type.getFullyQualifiedName());
+//			System.out.println("CACHE HIT for members of "+type.getFullyQualifiedName());
 		}
 		return result;
 	}
@@ -225,10 +226,7 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 				} else {
 					processedMember = (Member) ((DeclarationAlias) processedDeclaration).aliasedDeclaration();
 				}	
-				if((superMember.signature() instanceof MethodSignature) && (processedMember.signature() instanceof MethodSignature) && ((chameleon.core.method.MethodSignature)processedMember.signature()).name().equals("notify") && ((chameleon.core.method.MethodSignature)superMember.signature()).name().equals("notify")) {
-					System.out.println("jops");
-				}
-				if(processedMember.equals(superMember) || processedMember.overrides(superMember) || processedMember.equivalentTo(superMember) || processedMember.canImplement(superMember) || processedMember.hides(superMember)) {
+				if((processedMember.origin().equals(superMember.origin())) || processedMember.equals(superMember) || processedMember.overrides(superMember) || processedMember.equivalentTo(superMember) || processedMember.canImplement(superMember) || processedMember.hides(superMember)) {
 					// Make superDeclaration an alias, or update the alias.
 				  DeclarationAlias alias = new DeclarationAlias(superDeclaration.signature().clone(), processedMember);
 				  DeclarationContainerAlias superContainer = (DeclarationContainerAlias) superDeclaration.parent();

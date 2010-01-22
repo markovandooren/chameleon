@@ -25,7 +25,7 @@ public class MethodAlias<E extends MethodAlias<E,H,S>, H extends MethodHeader<H,
 	
   public Method origin() {
   	Method<?,?,?,? extends Method> aliased = aliasedMethod();
-  	return aliased.origin();
+  	return aliased;//.origin();
   }
 
 

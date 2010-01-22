@@ -26,7 +26,7 @@ public class TypeAlias extends TypeIndirection {
 	}
 
 	public Type origin() {
-		return aliasedType().origin();
+		return aliasedType();//.origin();
 	}
 	
 }

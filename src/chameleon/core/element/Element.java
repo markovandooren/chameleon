@@ -131,6 +131,8 @@ public interface Element<E extends Element, P extends Element> {
 	   @*/
 	  public Element origin();
 	  
+	  public void setOrigin(Element element);
+	  
 
 	  /**
      * Return a list of all ancestors. The direct parent is in front of the list, the

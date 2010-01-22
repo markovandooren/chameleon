@@ -131,15 +131,15 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	   * ORIGINAL ELEMENT *
 	   ********************/
 	  
-	  public E getOriginal() {
-	  	if(_parentLink == null) {
-	  		return _original;
-	  	} else {
-	  		throw new ChameleonProgrammerException("Invoking getOriginal() on real source element");
-	  	}
-	  }
+//	  public E getOriginal() {
+//	  	if(_parentLink == null) {
+//	  		return _original;
+//	  	} else {
+//	  		throw new ChameleonProgrammerException("Invoking getOriginal() on real source element");
+//	  	}
+//	  }
 	  
-	  private E _original;
+//	  private E _original;
 	  
 	  /**********
 	   * PARENT *
@@ -199,8 +199,17 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	   * The default behavior is to return 'this'.
 	   */
 	  public Element origin() {
-	  	return this;
+	  	return _origin;
 	  }
+	  
+	  public void setOrigin(Element origin) {
+	  	if(origin.origin() != origin) {
+	  		System.out.println("Uh oh");
+	  	}
+	  	_origin = origin;
+	  }
+	  
+	  private Element _origin = this;
 	  
 	  public void disconnect() {
 	  	nonRecursiveDisconnect();

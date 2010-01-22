@@ -85,7 +85,7 @@ public interface Member<E extends Member<E,P,S,F>, P extends Element, S extends 
    @*/
   public Set<Member> directlyOverriddenMembers() throws LookupException;
 
-  public F origin();
+//  public F origin();
   
   // Return object of F(amily) type which is cut off at the level of e.g. Type,Method,MemberVariable,Property,....
 //  public abstract F alias(S signature);

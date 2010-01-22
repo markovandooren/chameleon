@@ -84,8 +84,4 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Element
   	return result;
   }
 
-	public F origin() {
-		return (F) this;
-	}
-
 }

@@ -468,7 +468,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
      */
     public abstract List<Member> directlyDeclaredMembers();
     
-/*    public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
+    public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
 
   		// 1) All defined members of the requested kind are added.
   		List<D> result = directlyDeclaredMembers(selector);
@@ -479,9 +479,10 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
   		}
   		// The selector must still apply its order to the candidates.
   		return selector.selection(result);
-    }*/
+    }
     
-    public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
+/*    public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
+    	System.out.println("MEMBERS of: "+getFullyQualifiedName());
   		DeclarationContainerAlias alias = InheritanceRelation.membersInContext(this);
   		List<Declaration> declarations = alias.allDeclarations();
   		List<Member> result = new ArrayList<Member>();
@@ -495,7 +496,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
   			}
   		}
   		return selector.selection(result);
-    }
+    }*/
 
     
     @SuppressWarnings("unchecked")
