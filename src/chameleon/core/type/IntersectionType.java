@@ -92,24 +92,24 @@ public class IntersectionType extends Type {
 	}
 
 	@Override
-	public List<Member> directlyDeclaredMembers() {
+	public List<Member> localMembers() throws LookupException {
 		//FIXME: renaming and so on. Extend both types and perform automatic renaming?
 		//       what about conflicting member definitions?
 		List<Member> result = new ArrayList<Member>();
 		for(Type type: types()) {
-		  result.addAll(type.directlyDeclaredMembers(Member.class));
+		  result.addAll(type.localMembers(Member.class));
 		}
 		removeConstructors(result);
 		return result;
 	}
 	
 	@Override
-	public <D extends Member> List<D> directlyDeclaredMembers(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Member> List<D> localMembers(DeclarationSelector<D> selector) throws LookupException {
 		//FIXME: renaming and so on. Extend both types and perform automatic renaming?
 		//       what about conflicting member definitions?
 		List<D> result = new ArrayList<D>();
 		for(Type type: types()) {
-		  result.addAll(type.directlyDeclaredMembers(selector));
+		  result.addAll(type.localMembers(selector));
 		}
 		removeConstructors(result);
 		return result;

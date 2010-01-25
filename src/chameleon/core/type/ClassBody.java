@@ -56,7 +56,7 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 		return _elements.getOtherEnds();
 	}
 
-	public List<Member> members() {
+	public List<Member> members() throws LookupException {
 		List<Member> result = new ArrayList<Member>();
     for(TypeElement m: _elements.getOtherEnds()) {
       result.addAll(m.getIntroducedMembers());

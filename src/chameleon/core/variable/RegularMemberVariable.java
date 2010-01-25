@@ -91,6 +91,10 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
     return Util.<Member>createSingletonList(this);
   }
 
+  public List<Member> declaredMembers() {
+    return Util.<Member>createSingletonList(this);
+  }
+
   public Set<Member> directlyOverriddenMembers() throws LookupException {
     List<Type> superTypes = nearestAncestor(Type.class).getDirectSuperTypes();
     // Collect the overridden members in the following set.

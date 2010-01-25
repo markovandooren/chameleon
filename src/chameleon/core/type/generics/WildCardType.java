@@ -66,13 +66,13 @@ public abstract class WildCardType extends Type {
 	}
 
 	@Override
-	public List<Member> directlyDeclaredMembers() {
-		return upperBound().directlyDeclaredMembers();
+	public List<Member> localMembers() throws LookupException {
+		return upperBound().localMembers();
 	}
 
 	@Override
-	public <D extends Member> List<D> directlyDeclaredMembers(DeclarationSelector<D> selector) throws LookupException {
-		return upperBound().directlyDeclaredMembers(selector);
+	public <D extends Member> List<D> localMembers(DeclarationSelector<D> selector) throws LookupException {
+		return upperBound().localMembers(selector);
 	}
 
 	@Override

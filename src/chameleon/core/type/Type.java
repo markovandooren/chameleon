@@ -2,6 +2,7 @@ package chameleon.core.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -225,16 +226,20 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
       return result;
     }
     
-    public boolean complete() {
-    	List<Member> members = directlyDeclaredMembers(Member.class);
-    	// Only check for actual definitions
-    	new TypePredicate<Element,Definition>(Definition.class).filter(members);
-    	Iterator<Member> iter = members.iterator();
-    	boolean result = true;
-    	while(result && iter.hasNext()) {
-    		result = result && iter.next().is(language(ObjectOrientedLanguage.class).DEFINED) == Ternary.TRUE;
-    	}
-      return false;
+    public Ternary complete() {
+			try {
+	    	List<Member> members = localMembers(Member.class);
+	    	// Only check for actual definitions
+	    	new TypePredicate<Element,Definition>(Definition.class).filter(members);
+	    	Iterator<Member> iter = members.iterator();
+	    	Ternary result = Ternary.TRUE;
+	    	while(iter.hasNext()) {
+	    		result = result.and(iter.next().is(language(ObjectOrientedLanguage.class).DEFINED));
+	    	}
+	      return result;
+			} catch (LookupException e) {
+				return Ternary.UNKNOWN;
+			}
     }
     
     /**********
@@ -456,22 +461,27 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     /**
      * Return the members of the given kind directly declared by this type.
      * @return
+     * @throws LookupException 
+     * @throws  
      */
-    public <T extends Member> List<T> directlyDeclaredMembers(final Class<T> kind) {
-      return (List<T>) new TypeFilter(kind).retain(directlyDeclaredMembers());
+    public <T extends Member> List<T> localMembers(final Class<T> kind) throws LookupException {
+      return (List<T>) new TypeFilter(kind).retain(localMembers());
     }
     
     /**
      * Return the members directly declared by this type. The order of the elements in the list is the order in which they
      * are written in the type.
      * @return
+     * @throws LookupException 
      */
+    public abstract List<Member> localMembers() throws LookupException;
+    
     public abstract List<Member> directlyDeclaredMembers();
     
     public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
 
   		// 1) All defined members of the requested kind are added.
-  		List<D> result = directlyDeclaredMembers(selector);
+  		List<D> result = localMembers(selector);
 
   		// 2) Fetch all potentially inherited members from all inheritance relations
   		for (InheritanceRelation rel : inheritanceRelations()) {
@@ -500,7 +510,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
 
     
     @SuppressWarnings("unchecked")
-    public abstract <D extends Member> List<D> directlyDeclaredMembers(DeclarationSelector<D> selector) throws LookupException;
+    public abstract <D extends Member> List<D> localMembers(DeclarationSelector<D> selector) throws LookupException;
 
     public List<Member> members() throws LookupException {
       return members(Member.class);
@@ -524,7 +534,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     public <M extends Member> List<M> members(final Class<M> kind) throws LookupException {
 
 		// 1) All defined members of the requested kind are added.
-		final List<M> result = new ArrayList(directlyDeclaredMembers(kind));
+		final List<M> result = new ArrayList(localMembers(kind));
 
 		// 2) Fetch all potentially inherited members from all inheritance relations
 		for (InheritanceRelation rel : inheritanceRelations()) {
@@ -911,7 +921,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     }
 
     /**
-     * DO NOT CONFUSE THIS METHOD WITH directlyDeclaredMembers. This method does not
+     * DO NOT CONFUSE THIS METHOD WITH localMembers. This method does not
      * transform type elements into members.
      * 
      * @return
@@ -924,7 +934,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
 
     public CheckedExceptionList getCEL() throws LookupException {
         CheckedExceptionList cel = new CheckedExceptionList();
-        for(TypeElement el : directlyDeclaredMembers()) {
+        for(TypeElement el : localMembers()) {
         	cel.absorb(el.getCEL());
         }
         return cel;
@@ -932,7 +942,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
 
     public CheckedExceptionList getAbsCEL() throws LookupException {
       CheckedExceptionList cel = new CheckedExceptionList();
-      for(TypeElement el : directlyDeclaredMembers()) {
+      for(TypeElement el : localMembers()) {
       	cel.absorb(el.getAbsCEL());
       }
       return cel;

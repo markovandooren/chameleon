@@ -1,6 +1,9 @@
 package chameleon.core.declaration;
 
+import org.rejuse.logic.ternary.Ternary;
+
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 
 /**
  * A definition is a declaration that needs a definition. Examples are methods and types.
@@ -19,6 +22,7 @@ public interface Definition<E extends Definition<E,P,S,F>, P extends Element,S e
 	/**
 	 * Check if this definition is complete.
 	 * @return
+	 * @throws LookupException 
 	 */
-	public boolean complete();
+	public Ternary complete();
 }

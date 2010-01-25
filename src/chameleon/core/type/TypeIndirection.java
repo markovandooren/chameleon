@@ -47,13 +47,13 @@ public abstract class TypeIndirection extends Type {
 	}
 
 	@Override
-	public List<Member> directlyDeclaredMembers() {
-		return aliasedType().directlyDeclaredMembers();
+	public List<Member> localMembers() throws LookupException {
+		return aliasedType().localMembers();
 	}
 	
 	@Override
-	public <D extends Member> List<D> directlyDeclaredMembers(DeclarationSelector<D> selector) throws LookupException {
-		return aliasedType().directlyDeclaredMembers(selector);
+	public <D extends Member> List<D> localMembers(DeclarationSelector<D> selector) throws LookupException {
+		return aliasedType().localMembers(selector);
 	}
 
 

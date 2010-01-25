@@ -83,13 +83,14 @@ public class RegularType extends Type {
   /**
    * Return the members directly declared by this type.
    * @return
+   * @throws LookupException 
    */
  /*@
    @ public behavior
    @
    @ post \result == body.members();
    @*/
-  public List<Member> directlyDeclaredMembers() {
+  public List<Member> localMembers() throws LookupException {
      return body().members();
   }
 
@@ -110,8 +111,8 @@ public class RegularType extends Type {
 	}
 
 	@Override
-	public <D extends Member> List<D> directlyDeclaredMembers(DeclarationSelector<D> selector) throws LookupException {
-		return selector.selection(directlyDeclaredMembers());
+	public <D extends Member> List<D> localMembers(DeclarationSelector<D> selector) throws LookupException {
+		return selector.selection(localMembers());
 	}
 	
   public void replace(TypeElement oldElement, TypeElement newElement) {

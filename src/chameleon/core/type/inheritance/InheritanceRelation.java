@@ -171,7 +171,7 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 		DeclarationContainerAlias result = _cache.get(type);
 		if(result == null) {
 //		  System.out.println("computing members for: "+type.getFullyQualifiedName());
-		  List<Member> elements = type.directlyDeclaredMembers();
+		  List<Member> elements = type.localMembers();
 		  result = new DeclarationContainerAlias(type);
 		  for(Member member: elements) {
 			  Member clone = member.clone();

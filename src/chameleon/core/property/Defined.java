@@ -32,22 +32,13 @@ public class Defined extends DynamicChameleonProperty {
    @ post \result == (element instanceof Definition) && ((Definition)element).complete();
    @*/
   @Override public Ternary appliesTo(Element element) {
-  	Ternary result;
-  	if((element instanceof Definition)) {
-      if(((Definition)element).complete()) {
-      	// Definitely defined
-    	  result = Ternary.TRUE;
-      } else {
-      	// Unless explicitly declared as defined, it is undefined.
-      	PropertySet<Element,ChameleonProperty> declared =element.declaredProperties();
-      	result = declared.implies(this);
-      	if(result == Ternary.UNKNOWN) {
-          result = Ternary.FALSE;
-      	}
-      }
-  	} else {
-  		// Can't say
-  		result = Ternary.UNKNOWN;
+  	PropertySet<Element,ChameleonProperty> declared = element.declaredProperties();
+  	Ternary result = declared.implies(this);
+  	if(result == Ternary.UNKNOWN) {
+      result = ((Definition)element).complete();
+    	if(result == Ternary.UNKNOWN) {
+        result = Ternary.FALSE;
+    	}
   	}
     return result;
   }

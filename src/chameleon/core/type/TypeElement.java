@@ -23,14 +23,17 @@ public interface TypeElement<E extends TypeElement<E,P>, P extends Element> exte
 
   /**
    * Return the set of members introduced into the parent type (if any) of this type element.
+   * @throws LookupException 
    */
  /*@
    @ public behavior
    @
    @ post \result != null; 
    @*/
-  public List<? extends Member> getIntroducedMembers();
+  public List<? extends Member> getIntroducedMembers() throws LookupException;
   
+  public List<? extends Member> declaredMembers();
+
   public abstract CheckedExceptionList getCEL() throws LookupException;
 	
 	public abstract CheckedExceptionList getAbsCEL() throws LookupException;

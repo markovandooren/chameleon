@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.java.collections.Visitor;
+import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.AbstractPredicate;
 
 import chameleon.core.declaration.Declaration;
@@ -62,8 +63,8 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 		setHeader(header);
 	}
 	
-	public boolean complete() {
-	  return body() != null;
+	public Ternary complete() {
+	  return (body() == null ? Ternary.FALSE : Ternary.TRUE);
 	}
 
 	public List<FormalParameter> formalParameters() {
@@ -140,8 +141,6 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 		result.add(this);
 		return result;
 	}
-
-
 
 	/********
 	 * MISC *

@@ -116,6 +116,8 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
    @           rule.properties(element).contains(p)));
    @*/
 	public PropertySet<Element,ChameleonProperty> defaultProperties(Element element) {
+		// FIXME: verify all dynamic properties? Check if result is TRUE or FALSE, and add property or
+		//       property.inverse() respectively.
 		PropertySet<Element,ChameleonProperty> result = new PropertySet<Element,ChameleonProperty>();
 		for(PropertyRule rule:propertyRules()) {
 			if(rule.elementType().isInstance(element)) {

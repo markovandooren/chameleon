@@ -29,6 +29,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
 import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.util.Util;
 
 public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContainer,MemberVariable> implements MemberVariable<VariableAlias> {
 	
@@ -159,6 +160,10 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
 		result.add(this);
 		return result;
 	}
+  public List<Member> declaredMembers() {
+    return Util.<Member>createSingletonList(this);
+  }
+
 
 	public Expression getInitialization() {
 		return aliasedVariable().getInitialization();
