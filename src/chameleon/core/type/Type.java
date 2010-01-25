@@ -476,7 +476,13 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
      */
     public abstract List<Member> localMembers() throws LookupException;
     
-    public abstract List<Member> directlyDeclaredMembers();
+    public  List<Member> directlyDeclaredMembers() {
+  		List<Member> result = new ArrayList<Member>();
+      for(TypeElement m: directlyDeclaredElements()) {
+        result.addAll(m.declaredMembers());
+      }
+      return result;
+    }
     
     public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
 
