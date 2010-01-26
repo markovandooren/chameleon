@@ -11,13 +11,13 @@ import chameleon.core.namespace.NamespaceElementImpl;
  * 
  * @author Marko van Dooren
  */
-public abstract class Signature<E extends Signature, P extends Element> extends NamespaceElementImpl<E,P> {
+public abstract class Signature<E extends Signature, P extends Element> extends QualifiedName<E,P> {
 
   public abstract E clone();
   
-  /**
-   * Equals cannot throw a checked exception, so we introduce sameAs.
-   */
-  public abstract boolean sameAs(Signature other) throws LookupException;
-  
+//  /**
+//   * Equals cannot throw a checked exception, so we introduce sameAs.
+//   */
+//  public abstract boolean sameAs(Signature other) throws LookupException;
+//  
 }

@@ -30,7 +30,8 @@ public class SimpleNameSignature extends Signature<SimpleNameSignature, Element>
   
   private String _name;
 
-	public boolean sameAs(Signature other) throws LookupException {
+  @Override
+	public boolean uniSameAs(Element other) throws LookupException {
 		boolean result = false;
 		if(other instanceof SimpleNameSignature) {
 			SimpleNameSignature sig = (SimpleNameSignature) other;
