@@ -92,4 +92,10 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
+	
+  public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
+  	// WE DO NOT USE 'this' such that a subclass of regular type can override the lookup for specific members.
+  	return parent().lexicalLookupStrategy(element);
+  }
+
 }

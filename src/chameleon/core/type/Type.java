@@ -109,7 +109,8 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
   	 @ post \result != null;
   	 @*/
   	public String getName() {
-  		return signature().name();
+  		SimpleNameSignature signature = signature();
+			return (signature != null ? signature.name() : null);
   	}
 
     /**
@@ -166,7 +167,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     	}
     }
     
-    private LookupStrategy lexicalMembersLookupStrategy() {
+    protected LookupStrategy lexicalMembersLookupStrategy() {
     	LookupStrategy result = _lexicalMembersLookupStrategy;
     	// Lazy initialization
     	if(result == null) {
@@ -182,9 +183,9 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     	return result;
     }
     
-    private LookupStrategy _lexicalMembersLookupStrategy;
+    protected LookupStrategy _lexicalMembersLookupStrategy;
     
-    private LookupStrategy lexicalParametersLookupStrategy() {
+    protected LookupStrategy lexicalParametersLookupStrategy() {
     	LookupStrategy result = _lexicalParametersLookupStrategy;
     	// lazy initialization
     	if(result == null) {
@@ -194,9 +195,9 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
     	return result;
     }
     
-    private LookupStrategy _lexicalParametersLookupStrategy;
+    protected LookupStrategy _lexicalParametersLookupStrategy;
     
-    private LocalInheritanceLookupStrategy _localInheritanceLookupStrategy = new LocalInheritanceLookupStrategy(this);
+    protected LocalInheritanceLookupStrategy _localInheritanceLookupStrategy = new LocalInheritanceLookupStrategy(this);
     
   	protected class LocalInheritanceLookupStrategy extends LocalLookupStrategy<Type> {
   	  public LocalInheritanceLookupStrategy(Type element) {

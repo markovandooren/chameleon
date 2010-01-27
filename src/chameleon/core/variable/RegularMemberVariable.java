@@ -10,10 +10,10 @@ import org.rejuse.predicate.AbstractPredicate;
 
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
-import chameleon.core.modifier.Modifier;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.scope.Scope;
@@ -60,6 +60,18 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
   @Override
   public MemberVariable origin() {
   	return this;
+  }
+  
+  @Override
+  public boolean uniSameAs(Element other) {
+  	if(other instanceof RegularMemberVariable) {
+  		RegularMemberVariable var = (RegularMemberVariable) other;
+  		DeclarationContainer parent = parent();
+			Element otherParent = other.parent();
+			return (parent != null && otherParent != null && otherParent.equals(parent) && signature().equals(var.signature()));
+  	} else {
+  		return false;
+  	}
   }
   
   /**********

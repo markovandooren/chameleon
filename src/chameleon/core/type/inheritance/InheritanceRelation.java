@@ -138,7 +138,7 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 			while(add && iterCurrent.hasNext()) {
 				M alreadyInherited = iterCurrent.next();
 				// Remove the already inherited member if potentially inherited member m overrides or hides it.
-				if((alreadyInherited != m) && (m.overrides(alreadyInherited) || m.canImplement(alreadyInherited) || m.hides(alreadyInherited))) {
+				if((!alreadyInherited.equals(m)) && (m.overrides(alreadyInherited) || m.canImplement(alreadyInherited) || m.hides(alreadyInherited))) {
 					iterCurrent.remove();
 				}
 				if(add == true && ((alreadyInherited == m) || alreadyInherited.overrides(m) || alreadyInherited.equivalentTo(m) || alreadyInherited.canImplement(m) || alreadyInherited.hides(m))) {

@@ -16,8 +16,14 @@ public class QualifiedName<E extends QualifiedName, P extends Element> extends N
 		return _signatures.getOtherEnds();
 	}
 	
-	public void add(Signature signature) {
+	public void append(Signature signature) {
 		setAsParent(_signatures, signature);
+	}
+	
+	public void prefix(Signature signature) {
+		if(signature != null) {
+			_signatures.addInFront(signature.parentLink());
+		}
 	}
 	
 	public void remove(Signature signature) {
@@ -32,7 +38,7 @@ public class QualifiedName<E extends QualifiedName, P extends Element> extends N
 	public E clone() {
 		QualifiedName result = new QualifiedName();
 		for(Signature signature: signatures()) {
-			result.add(signature.clone());
+			result.append(signature.clone());
 		}
 		return (E)result;
 	}
