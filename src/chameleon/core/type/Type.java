@@ -52,11 +52,16 @@ public abstract class Type extends FixedSignatureMember<Type,Element,SimpleNameS
                            Definition<Type,Element,SimpleNameSignature,Type>,
                            Cloneable, 
                            ExceptionSource<Type,Element>, 
-                           DeclarationContainer<Type,Element> {
+                           DeclarationContainer<Type,Element>,
+                           DeclarationWithType<Type,Element,SimpleNameSignature,Type>{
  
 	
 	public Class<SimpleNameSignature> signatureType() {
 		return SimpleNameSignature.class;
+	}
+	
+	public Type declarationType() {
+		return this;
 	}
 	
 	private List<? extends Declaration> _declarationCache = null;

@@ -1,6 +1,5 @@
 package chameleon.core.variable;
 
-import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
@@ -8,6 +7,7 @@ import chameleon.core.expression.Expression;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.modifier.ElementWithModifiers;
+import chameleon.core.type.DeclarationWithType;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 import chameleon.core.type.VariableOrType;
@@ -17,7 +17,7 @@ import chameleon.core.type.VariableOrType;
  */
 public interface Variable<E extends Variable<E,P,F>, P extends Element, F extends Variable> 
                 extends ElementWithModifiers<E,Element>, 
-                VariableOrType<E,Element,SimpleNameSignature,F>, TargetDeclaration<E,Element,SimpleNameSignature,F> {
+                VariableOrType<E,Element,SimpleNameSignature,F>, TargetDeclaration<E,Element,SimpleNameSignature,F>, DeclarationWithType<E,Element,SimpleNameSignature,F> {
 
 	public Expression getInitialization();
 

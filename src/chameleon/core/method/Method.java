@@ -27,6 +27,7 @@ import chameleon.core.method.exception.TypeExceptionDeclaration;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.statement.Block;
 import chameleon.core.statement.ExceptionTuple;
+import chameleon.core.type.DeclarationWithType;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 import chameleon.core.type.generics.TypeParameter;
@@ -49,7 +50,7 @@ import chameleon.util.Util;
  * @param <S>
  * @param <M>
  */
-public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H, E, S>, S extends MethodSignature, M extends Method> extends MemberImpl<E,Element,S,M> implements Definition<E,Element,S,M>, DeclarationContainer<E,Element>, Target<E,Element> {
+public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H, E, S>, S extends MethodSignature, M extends Method> extends MemberImpl<E,Element,S,M> implements Definition<E,Element,S,M>, DeclarationContainer<E,Element>, Target<E,Element>, DeclarationWithType<E,Element,S,M> {
 
 	/**
 	 * Initialize a new method with the given header.
@@ -62,6 +63,10 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
    @*/ 
 	public Method(H header) {
 		setHeader(header);
+	}
+	
+	public Type declarationType() throws LookupException {
+		return returnType();
 	}
 	
 	public Ternary complete() {
