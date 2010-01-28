@@ -34,6 +34,8 @@ public interface Declaration<E extends Declaration<E,P,S,D>,
    @*/
   public S signature();
   
+  //public void setSignature(Signature signature);
+  
   public E clone();
   
   /**
