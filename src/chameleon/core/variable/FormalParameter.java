@@ -44,7 +44,7 @@ public class FormalParameter extends RegularVariable<FormalParameter,VariableCon
   }
   
 	public Scope scope() throws ModelException {
-		return new LexicalScope(parent().variableScopeElement());
+		return new LexicalScope(nearestAncestor(VariableContainer.class).variableScopeElement());
 	}
 
 	public FormalParameter actualDeclaration() throws LookupException {

@@ -1,10 +1,11 @@
 package chameleon.core.declaration;
 
+import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.Target;
 
-public interface TargetDeclaration<E extends TargetDeclaration<E,P,S,F>,P extends DeclarationContainer,S extends Signature, F extends Declaration> extends Declaration<E,P,S,F>, Target<E,P> {
+public interface TargetDeclaration<E extends TargetDeclaration<E,P,S,F>,P extends Element,S extends Signature, F extends Declaration> extends Declaration<E,P,S,F>, Target<E,P> {
 
   /**
    * Return the target context of this target.

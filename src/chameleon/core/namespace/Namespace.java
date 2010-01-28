@@ -41,7 +41,7 @@ import chameleon.util.Util;
  * @author Marko van Dooren
  */
 
-public abstract class Namespace extends ElementImpl<Namespace,Namespace> implements NamespaceOrType<Namespace,Namespace,SimpleNameSignature,Namespace>, DeclarationContainer<Namespace, Namespace>, TargetDeclaration<Namespace, Namespace,SimpleNameSignature,Namespace> {
+public abstract class Namespace extends ElementImpl<Namespace,Element> implements NamespaceOrType<Namespace,Element,SimpleNameSignature,Namespace>, DeclarationContainer<Namespace, Element>, TargetDeclaration<Namespace, Element,SimpleNameSignature,Namespace> {
 
 	//SPEED : use hashmap to store the subnamespaces and forbid
 	//        adding multiple namespaces with the same name. That is
@@ -113,7 +113,8 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 	 @        \result == getParent().getFullyQualifiedName() + "." + getName();
 	 @*/
 	public String getFullyQualifiedName() {
-		return ((parent() == null || parent().name().equals("")) ? "" : parent().getFullyQualifiedName() + ".") + name();
+		Namespace nearestAncestor = nearestAncestor(Namespace.class);
+		return ((parent() == null || nearestAncestor.name().equals("")) ? "" : nearestAncestor.getFullyQualifiedName() + ".") + name();
 	}
 
 	/**************
@@ -156,7 +157,7 @@ public abstract class Namespace extends ElementImpl<Namespace,Namespace> impleme
 			return this;
 		}
 		else {
-			return parent().defaultNamespace();
+			return nearestAncestor(Namespace.class).defaultNamespace();
 		}
 	}
 

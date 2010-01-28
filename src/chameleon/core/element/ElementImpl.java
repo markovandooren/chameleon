@@ -85,6 +85,15 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	     }
 	  	}
 	  }
+	  
+	  public void removeAllTags() {
+	  	if(_tags != null) {
+	  		List<String> keySet = new ArrayList<String>(_tags.keySet());
+	  		for(String tagName: keySet) {
+	  			removeTag(tagName);
+	  		}
+	  	}
+	  }
 
 	  public void setTag(Tag decorator, String name) {
 	  	//Lazy init of hashmap

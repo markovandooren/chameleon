@@ -3,9 +3,9 @@ package chameleon.core.type.generics;
 import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.MissingSignature;
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.scope.LexicalScope;
@@ -16,7 +16,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
 
-public abstract class TypeParameter<E extends TypeParameter<E>> extends NamespaceElementImpl<E, TypeParameterBlock> implements Declaration<E,TypeParameterBlock,SimpleNameSignature,Type>{
+public abstract class TypeParameter<E extends TypeParameter<E>> extends NamespaceElementImpl<E, Element> implements Declaration<E,Element,SimpleNameSignature,Type>{
 	
 	public TypeParameter(SimpleNameSignature signature) {
 		setSignature(signature);

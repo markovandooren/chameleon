@@ -2,7 +2,6 @@ package chameleon.core.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -14,9 +13,7 @@ import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.DeclarationAlias;
 import chameleon.core.declaration.DeclarationContainer;
-import chameleon.core.declaration.DeclarationContainerAlias;
 import chameleon.core.declaration.Definition;
 import chameleon.core.declaration.MissingSignature;
 import chameleon.core.declaration.SimpleNameSignature;
@@ -48,14 +45,14 @@ import chameleon.util.Util;
  *
  * @author Marko van Dooren
  */
-public abstract class Type extends FixedSignatureMember<Type,DeclarationContainer,SimpleNameSignature,Type> 
-                implements TargetDeclaration<Type,DeclarationContainer,SimpleNameSignature,Type>, 
-                           NamespaceOrType<Type,DeclarationContainer,SimpleNameSignature,Type>, 
-                           VariableOrType<Type,DeclarationContainer,SimpleNameSignature,Type>, 
-                           Definition<Type,DeclarationContainer,SimpleNameSignature,Type>,
+public abstract class Type extends FixedSignatureMember<Type,Element,SimpleNameSignature,Type> 
+                implements TargetDeclaration<Type,Element,SimpleNameSignature,Type>, 
+                           NamespaceOrType<Type,Element,SimpleNameSignature,Type>, 
+                           VariableOrType<Type,Element,SimpleNameSignature,Type>, 
+                           Definition<Type,Element,SimpleNameSignature,Type>,
                            Cloneable, 
-                           ExceptionSource<Type,DeclarationContainer>, 
-                           DeclarationContainer<Type,DeclarationContainer> {
+                           ExceptionSource<Type,Element>, 
+                           DeclarationContainer<Type,Element> {
  
 	
 	private List<? extends Declaration> _declarationCache = null;
@@ -153,7 +150,7 @@ public abstract class Type extends FixedSignatureMember<Type,DeclarationContaine
      */
     public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
     	if(inheritanceRelations().contains(element)) {
-    		DeclarationContainer parent = parent();
+    		Element parent = parent();
     		if(parent != null) {
     			return lexicalParametersLookupStrategy();
 //    		  return parent().lexicalContext(this);

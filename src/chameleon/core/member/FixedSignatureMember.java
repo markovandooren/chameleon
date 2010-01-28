@@ -2,10 +2,10 @@ package chameleon.core.member;
 
 import org.rejuse.association.SingleAssociation;
 
-import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
+import chameleon.core.element.Element;
 
-public abstract class FixedSignatureMember<E extends FixedSignatureMember<E,P,S,F>,P extends DeclarationContainer, S extends Signature, F extends Member> extends MemberImpl<E,P,S,F> {
+public abstract class FixedSignatureMember<E extends FixedSignatureMember<E,P,S,F>,P extends Element, S extends Signature, F extends Member> extends MemberImpl<E,Element,S,F> {
 	
 	public FixedSignatureMember() {
 		

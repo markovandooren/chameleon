@@ -23,8 +23,8 @@ import chameleon.core.type.TypeReference;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.util.Util;
 
-public abstract class RegularVariable<E extends RegularVariable<E,P,F>, P extends DeclarationContainer, F extends Variable> 
-       extends VariableImpl<E,P,F> implements ExceptionSource<E,P> {
+public abstract class RegularVariable<E extends RegularVariable<E,P,F>, P extends Element, F extends Variable> 
+       extends VariableImpl<E,Element,F> implements ExceptionSource<E,Element> {
 
 	public RegularVariable(SimpleNameSignature sig, TypeReference typeRef, Expression init) {
 		super(sig);

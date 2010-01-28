@@ -28,7 +28,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class RegularMemberVariable extends RegularVariable<RegularMemberVariable,DeclarationContainer,MemberVariable> implements MemberVariable<RegularMemberVariable>{
+public class RegularMemberVariable extends RegularVariable<RegularMemberVariable,Element,MemberVariable> implements MemberVariable<RegularMemberVariable>{
   
   
   /**
@@ -66,7 +66,7 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
   public boolean uniSameAs(Element other) {
   	if(other instanceof RegularMemberVariable) {
   		RegularMemberVariable var = (RegularMemberVariable) other;
-  		DeclarationContainer parent = parent();
+  		Element parent = parent();
 			Element otherParent = other.parent();
 			return (parent != null && otherParent != null && otherParent.equals(parent) && signature().equals(var.signature()));
   	} else {

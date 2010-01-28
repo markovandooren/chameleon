@@ -436,6 +436,16 @@ public interface Element<E extends Element, P extends Element> {
     public void removeTag(String name);
     
     /**
+     * Remove all tags from this element
+     */
+   /*@
+     @ public behavior
+     @
+     @ post tags().isEmpty();
+     @*/
+	  public void removeAllTags();
+
+    /**
      * Check whether or not this element has tags.
      */
    /*@
