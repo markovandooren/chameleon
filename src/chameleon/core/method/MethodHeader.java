@@ -9,6 +9,7 @@ import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
@@ -46,6 +47,8 @@ public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceEl
    * @return
    */
   public abstract S signature();
+  
+  public abstract E createFromSignature(Signature signature);
   
   protected abstract E cloneThis();
   

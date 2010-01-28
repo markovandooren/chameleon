@@ -4,6 +4,7 @@ import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.MissingSignature;
+import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
@@ -24,12 +25,16 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Namespac
 
 	public abstract E clone();
 	
-  public void setSignature(SimpleNameSignature signature) {
-    if(signature != null) {
-      _signature.connectTo(signature.parentLink());
-    } else {
-      _signature.connectTo(null);
-    }
+  public void setSignature(Signature signature) {
+  	if(signature instanceof SimpleNameSignature) {
+  		if(signature != null) {
+  			_signature.connectTo(signature.parentLink());
+  		} else {
+  			_signature.connectTo(null);
+  		}
+  	} else {
+  		throw new ChameleonProgrammerException("Setting wrong type of signature. Provided: "+(signature == null ? null :signature.getClass().getName())+" Expected SimpleNameSignature");
+  	}
   }
   
   /**

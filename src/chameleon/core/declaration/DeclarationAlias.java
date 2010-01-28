@@ -14,16 +14,16 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ModelException;
 
-public class DeclarationAlias<S extends Signature,D extends Declaration> extends NamespaceElementImpl<DeclarationAlias<S,D>, Element> implements Declaration<DeclarationAlias<S,D>, Element, S, D> {
+public class DeclarationAlias<D extends Declaration> extends NamespaceElementImpl<DeclarationAlias<D>, Element> implements Declaration<DeclarationAlias<D>, Element, Signature, D> {
 
-	public DeclarationAlias(S signature, D declaration) {
+	public DeclarationAlias(Signature signature, D declaration) {
 		setSignature(signature);
  		_aliasedDeclaration = declaration;
 	}
 	
 	@Override
 	public DeclarationAlias clone() {
-		return new DeclarationAlias<Signature, Declaration>(signature().clone(), aliasedDeclaration());
+		return new DeclarationAlias<Declaration>(signature().clone(), aliasedDeclaration());
 	}
 
 	@Override
@@ -74,15 +74,15 @@ public class DeclarationAlias<S extends Signature,D extends Declaration> extends
 		return new ArrayList<Element>();
 	}
 	
-	public void setSignature(S signature) {
+	public void setSignature(Signature signature) {
 		setAsParent(_signature, signature);
 	}
 	
-	public S signature() {
+	public Signature signature() {
 		return _signature.getOtherEnd();
 	}
 
-	private SingleAssociation<DeclarationAlias, S> _signature = new SingleAssociation<DeclarationAlias, S>(this); 
+	private SingleAssociation<DeclarationAlias, Signature> _signature = new SingleAssociation<DeclarationAlias, Signature>(this); 
 
 	private D _aliasedDeclaration;
 }

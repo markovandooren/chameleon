@@ -4,6 +4,7 @@ import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
+import chameleon.exception.ChameleonProgrammerException;
 
 public abstract class FixedSignatureMember<E extends FixedSignatureMember<E,P,S,F>,P extends Element, S extends Signature, F extends Member> extends MemberImpl<E,Element,S,F> {
 	
@@ -15,12 +16,18 @@ public abstract class FixedSignatureMember<E extends FixedSignatureMember<E,P,S,
 	  setSignature(signature);
 	}
 	
-  public void setSignature(S signature) {
-    if(signature != null) {
-      _signature.connectTo(signature.parentLink());
-    } else {
-      _signature.connectTo(null);
-    }
+	public abstract Class<S> signatureType();
+	
+  public void setSignature(Signature signature) {
+  	if(signatureType().isInstance(signature)) {
+  		if(signature != null) {
+  			_signature.connectTo(signature.parentLink());
+  		} else {
+  			_signature.connectTo(null);
+  		}
+  	} else {
+  		throw new ChameleonProgrammerException("Setting wrong type of signature. Provided: "+(signature == null ? null :signature.getClass().getName())+" Expected "+signatureType().getName());
+  	}
   }
   
   /**

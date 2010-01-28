@@ -55,6 +55,10 @@ public abstract class Type extends FixedSignatureMember<Type,Element,SimpleNameS
                            DeclarationContainer<Type,Element> {
  
 	
+	public Class<SimpleNameSignature> signatureType() {
+		return SimpleNameSignature.class;
+	}
+	
 	private List<? extends Declaration> _declarationCache = null;
 	
 	private List<? extends Declaration> declarationCache() {

@@ -14,6 +14,7 @@ import org.rejuse.predicate.AbstractPredicate;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Definition;
+import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
@@ -96,6 +97,10 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	
 	public S signature() {
 		return header().signature();
+	}
+	
+	public void setSignature(Signature signature) {
+		setHeader(header().createFromSignature(signature));
 	}
 	
 	/**

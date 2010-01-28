@@ -2,13 +2,14 @@ package chameleon.core.variable;
 
 import org.rejuse.association.SingleAssociation;
 
-import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.MissingSignature;
+import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
 
 public abstract class VariableImpl<E extends VariableImpl<E,P,F>, P extends Element, F extends Variable> 
        extends NamespaceElementImpl<E, Element>
@@ -18,12 +19,16 @@ public abstract class VariableImpl<E extends VariableImpl<E,P,F>, P extends Elem
 		setSignature(signature);
 	}
 
-  public void setSignature(SimpleNameSignature signature) {
-    if(signature != null) {
-      _signature.connectTo(signature.parentLink());
-    } else {
-      _signature.connectTo(null);
-    }
+  public void setSignature(Signature signature) {
+  	if(signature instanceof SimpleNameSignature) {
+  		if(signature != null) {
+  			_signature.connectTo(signature.parentLink());
+  		} else {
+  			_signature.connectTo(null);
+  		}
+  	} else {
+  		throw new ChameleonProgrammerException("Setting wrong type of signature. Provided: "+(signature == null ? null :signature.getClass().getName())+" Expected SimpleNameSignature");
+  	}
   }
   
   /**

@@ -19,8 +19,6 @@ public interface Variable<E extends Variable<E,P,F>, P extends Element, F extend
                 extends ElementWithModifiers<E,Element>, 
                 VariableOrType<E,Element,SimpleNameSignature,F>, TargetDeclaration<E,Element,SimpleNameSignature,F> {
 
-  public void setSignature(SimpleNameSignature signature);
-  
 	public Expression getInitialization();
 
 	public void setInitialization(Expression expr);
