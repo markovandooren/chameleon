@@ -8,5 +8,4 @@ public interface MemberVariable<E extends MemberVariable<E>>
        extends Variable<E,Element,MemberVariable>, Member<E,Element,SimpleNameSignature,MemberVariable> {
 
 	
-	public MemberVariable origin();
 }

@@ -207,14 +207,11 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  /**
 	   * The default behavior is to return 'this'.
 	   */
-	  public Element origin() {
+	  public final Element origin() {
 	  	return _origin;
 	  }
 	  
 	  public void setOrigin(Element origin) {
-	  	if(origin.origin() != origin) {
-	  		System.out.println("Uh oh");
-	  	}
 	  	_origin = origin;
 	  }
 	  

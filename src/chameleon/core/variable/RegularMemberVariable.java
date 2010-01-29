@@ -58,11 +58,6 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
   }
 
   @Override
-  public MemberVariable origin() {
-  	return this;
-  }
-  
-  @Override
   public boolean uniSameAs(Element other) {
   	if(other instanceof RegularMemberVariable) {
   		RegularMemberVariable var = (RegularMemberVariable) other;

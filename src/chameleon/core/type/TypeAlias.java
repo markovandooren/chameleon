@@ -9,6 +9,7 @@ public class TypeAlias extends TypeIndirection {
 	
 	public TypeAlias(SimpleNameSignature sig, Type aliasedType) {
 		super(sig, aliasedType);
+		setOrigin(aliasedType);
 	}
 
 	@Override
@@ -25,8 +26,4 @@ public class TypeAlias extends TypeIndirection {
 		return new TypeAlias(signature().clone(), aliasedType());
 	}
 
-	public Type origin() {
-		return aliasedType();//.origin();
-	}
-	
 }

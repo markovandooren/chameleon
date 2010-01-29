@@ -14,7 +14,7 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.language.ObjectOrientedLanguage;
 
-public class RootNamespace extends RegularNamespace {
+public class RootNamespace extends RegularNamespace<RootNamespace> {
 // @FIXME
 // Create Model
 	
@@ -23,11 +23,27 @@ public class RootNamespace extends RegularNamespace {
    */
   public RootNamespace(SimpleNameSignature sig, Language language) {
     super(sig);
-    _language.connectTo(language.defaultNamespaceLink());
-    
+    setLanguage(language); 
 //    NamespacePart primitiveNP = new NamespacePart(this);
 //    _primitiveNamespacePart.connectTo(primitiveNP.getNamespaceLink());
   }
+  
+  /**
+   * @param name
+   */
+  public RootNamespace(SimpleNameSignature sig) {
+  	this(sig,null);
+  }
+
+  	public void setLanguage(Language language) {
+  	if(language != null) {
+      _language.connectTo(language.defaultNamespaceLink());
+  	}
+  }
+  
+	protected RootNamespace cloneThis() {
+		return new RootNamespace(signature().clone());
+	}
 
   public void setNullType(){
 	  NamespacePart pp = new NamespacePart(this);

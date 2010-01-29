@@ -36,6 +36,7 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
 	public VariableAlias(SimpleNameSignature sig, MemberVariable aliasedVariable) {
 		super(sig);
 		_aliasedVariable = aliasedVariable;
+		setOrigin(aliasedVariable);
 	}
 	
 	public MemberVariable aliasedVariable() {
@@ -215,9 +216,5 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
 	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
-
-  public MemberVariable origin() {
-  	return aliasedVariable().origin();
-  }
 
 }
