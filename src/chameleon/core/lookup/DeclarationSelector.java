@@ -3,9 +3,9 @@ package chameleon.core.lookup;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
 import chameleon.core.relation.WeakPartialOrder;
 
@@ -62,6 +62,10 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @ pre signature != null;
    @*/
   public abstract boolean selected(Signature signature) throws LookupException;
+  
+  public List<D> declarations(DeclarationContainer container) throws LookupException {
+  	return container.declarations(this);
+  }
 
   /**
    * Return the declaration of type D that would be selected based on the

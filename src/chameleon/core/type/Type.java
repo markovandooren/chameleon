@@ -974,17 +974,37 @@ public abstract class Type extends FixedSignatureMember<Type,Element,SimpleNameS
     }
 
   	protected void copyContents(Type from) {
+  		copyContents(from, false);
+  	}
+
+  	protected void copyContents(Type from, boolean link) {
   		for(InheritanceRelation relation : from.inheritanceRelations()) {
-        addInheritanceRelation(relation.clone());
+        InheritanceRelation clone = relation.clone();
+        if(link) {
+        	clone.setOrigin(relation);
+        }
+				addInheritanceRelation(clone);
   		}
       for(Modifier mod : from.modifiers()) {
-      	addModifier(mod.clone());
+      	Modifier clone = mod.clone();
+        if(link) {
+        	clone.setOrigin(mod);
+        }
+				addModifier(clone);
       }
       for(TypeElement el : from.directlyDeclaredElements()) {
-        add(el.clone());
+        TypeElement clone = el.clone();
+        if(link) {
+        	clone.setOrigin(el);
+        }
+				add(clone);
       }
       for(TypeParameter par : from.parameters()) {
-      	addParameter(par.clone());
+      	TypeParameter clone = par.clone();
+        if(link) {
+        	clone.setOrigin(par);
+        }
+				addParameter(clone);
       }
   	}
   

@@ -118,7 +118,7 @@ public class StaticChameleonProperty extends StaticProperty<Element,ChameleonPro
   @
   @ post validElementTypes().contains(type);
   @*/
-	protected void addValidElementType(Class<? extends Element> type) {
+	public void addValidElementType(Class<? extends Element> type) {
 		_validTypes.add(type);
 	}
 	

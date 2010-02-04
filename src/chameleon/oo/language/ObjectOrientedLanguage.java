@@ -18,7 +18,7 @@ import chameleon.core.type.TypeReference;
 public abstract class ObjectOrientedLanguage extends Language {
 	
 	//TODO document the properties. This is becoming complicated without an explanation.
-	public final ChameleonProperty INHERITABLE;
+	public final StaticChameleonProperty INHERITABLE;
 	public final ChameleonProperty OVERRIDABLE;
 	public final ChameleonProperty EXTENSIBLE;
 	public final ChameleonProperty REFINABLE;

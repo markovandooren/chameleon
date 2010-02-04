@@ -17,9 +17,9 @@ import chameleon.core.lookup.SelectorWithoutOrder;
 import chameleon.core.reference.CrossReference;
 import chameleon.core.type.DeclarationWithType;
 import chameleon.core.type.Type;
+import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
-import chameleon.core.variable.Variable;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.util.Util;
 
@@ -81,7 +81,13 @@ public class NamedTargetExpression extends Expression<NamedTargetExpression> imp
 
 	@Override
 	public VerificationResult verifySelf() {
-		return Valid.create();
+		VerificationResult result = Valid.create();
+		try {
+			Element element = getElement();
+		} catch (LookupException e) {
+			result = result.and(new BasicProblem(this, "The referenced element cannot be found."));
+		}
+		return result;
 	}
 
 	public Set getDirectExceptions() throws LookupException {

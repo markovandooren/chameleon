@@ -1,6 +1,7 @@
 package chameleon.core.type;
 
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.element.Element;
 import chameleon.core.type.generics.FormalTypeParameter;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -22,7 +23,8 @@ public class ConstructedType extends TypeIndirection {
 		_param = param;
 	}
 	
-	public boolean uniEqualTo(Type type) {
+	@Override
+	public boolean uniSameAs(Element type) {
 		return type == this || 
 		       ((type instanceof ConstructedType) && (((ConstructedType)type).parameter().equals(parameter())));
 	}

@@ -6,8 +6,10 @@ public class DerivedType extends RegularType {
 
 	public DerivedType(Type type) {
 		super(type.signature().clone());
-		copyContents(type);
+		// Does not take nested members of any kind into account.
+		copyContents(type, true);
 		_baseType = type;
+		setOrigin(type);
 	}
 
 	private Type _baseType;
