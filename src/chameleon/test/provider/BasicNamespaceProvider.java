@@ -20,6 +20,15 @@ import chameleon.util.Util;
 	 /*@
 		 @ public behavior
 		 @
+		 @ post namespaces().isEmpty(); 
+		 @*/
+		public BasicNamespaceProvider() {
+			
+		}
+		
+	 /*@
+		 @ public behavior
+		 @
 		 @ pre fqn != null;
 		 @
 		 @ post namespaces().contains(fqn); 

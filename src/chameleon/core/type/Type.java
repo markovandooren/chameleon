@@ -483,6 +483,10 @@ public abstract class Type extends FixedSignatureMember<Type,Element,SimpleNameS
      */
     public abstract List<Member> localMembers() throws LookupException;
     
+    public <T extends Member> List<T> directlyDeclaredMembers(Class<T> kind) {
+      return (List<T>) new TypeFilter(kind).retain(directlyDeclaredMembers());
+    }
+    
     public  List<Member> directlyDeclaredMembers() {
   		List<Member> result = new ArrayList<Member>();
       for(TypeElement m: directlyDeclaredElements()) {

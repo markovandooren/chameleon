@@ -80,7 +80,7 @@ public class BasicModelProvider implements ModelProvider {
 	 */
 	public Language model() throws ParseException, IOException {
 		// Create a clone, we don't want to accidentally add files to an existing model.
-    ModelFactory factory = factory().clone();
+    ModelFactory factory = factory().language().clone().connector(ModelFactory.class);
     factory.initializeBase(baseFiles());
     factory.addToModel(customFiles());
     return factory.language();

@@ -7,13 +7,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.rejuse.association.Association;
 import org.rejuse.association.MultiAssociation;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
-import org.rejuse.property.Property;
-import org.rejuse.property.PropertyImpl;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 import org.rejuse.property.PropertyUniverse;
@@ -85,6 +84,15 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
 		initializePropertyRules();
 		SCOPE_MUTEX = new PropertyMutex<ChameleonProperty>();
 	}
+	
+	public final Language clone() {
+		Language result = cloneThis();
+		result.cloneConnectorsFrom(this);
+		result.cloneProcessorsFrom(this);
+		return result;
+	}
+	
+	protected abstract Language cloneThis();
 	
 	/**
 	 * Return the name of this language.
@@ -228,9 +236,17 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
         public <S extends T> S get(Class<S> key) {
             return (S)_map.get(key);
         }
+        
+        public Set<Entry<Class<? extends T>,T>> entrySet() {
+        	return _map.entrySet();
+        }
 
         public <S extends T> void put(Class<? extends S> key, S value) {
             _map.put(key,value);
+        }
+        
+        public void putAll(MapWrapper<T> other) {
+        	_map.putAll(other._map);
         }
 
         public <S extends T> void remove(Class<S> key) {
@@ -257,6 +273,14 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
       	return _map.size();
       }
       
+      public Set<Class<? extends T>> keySet() {
+      	return _map.keySet();
+      }
+      
+      public Map<Class<? extends T>,List<? extends T>> map() {
+      	return new HashMap<Class<? extends T>,List<? extends T>>(_map);
+      }
+      
       public <S extends T> List<S> get(Class<S> key) {
       	List<S> processors = (List<S>)_map.get(key);
       	if(processors == null) {
@@ -264,6 +288,10 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
       	} else {
           return new ArrayList<S>(processors);
       	}
+      }
+      
+      public void addAll(Map<Class<? extends T>,List<? extends T>> map) {
+      	_map.putAll(map);
       }
 
       public <S extends T> void add(Class<S> key, S value) {
@@ -369,6 +397,14 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
             }
         }
     }
+    
+  	public <S extends Connector> void cloneConnectorsFrom(Language from) {
+  		for(Entry<Class<? extends Connector>, Connector> entry: from._toolConnectors.entrySet()) {
+  			Class<S> key = (Class<S>) entry.getKey();
+				S value = (S) entry.getValue();
+				_toolConnectors.put(key, (S)value.clone());
+  		}
+  	}
 
     /**
      * Return all connectors attached to this language object.
@@ -423,6 +459,11 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
     /**
      * Return the processors corresponding to the given processor interface.
      */
+   /*@
+     @ public behavior
+     @
+     @ post \result.equals(processorMap().get(connectorInterface));
+     @*/
     public <T extends Processor> List<T> processors(Class<T> connectorInterface) {
       return _processors.get(connectorInterface);
     }
@@ -434,6 +475,14 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
      * @param <T>
      * @param connectorInterface
      */
+   /*@
+     @ public behavior
+     @
+     @ pre connectorInterface != null;
+     @ pre processor != null;
+     @
+     @ post !processor(connectorInterface).contains(processor); 
+     @*/
     public <T extends Processor> void removeProcessor(Class<T> connectorInterface, T processor) {
         List<T> list = _processors.get(connectorInterface);
         if (list!=null && list.contains(processor)) {
@@ -444,13 +493,21 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
 
 
     /**
-     * Add the ginve processor to the list of processors correponding to the given connector interface. 
+     * Add the given processor to the list of processors correponding to the given connector interface. 
      * The bidirectional relation is kept in a consistent state.
      * 
      * @param <T>
      * @param connectorInterface
      * @param connector
      */
+   /*@
+     @ public behavior
+     @
+     @ pre connectorInterface != null;
+     @ pre processor != null;
+     @
+     @ post processor(connectorInterface).contains(processor); 
+     @*/
     public <T extends Processor> void addProcessor(Class<T> connectorInterface, T processor) {
       _processors.add(connectorInterface, processor);
       if(processor.language() != this) {
@@ -458,6 +515,37 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
       }
     }
 
+    /**
+     * Copy the processor mapping from the given language to this language.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post (\forall Class<? extends Processor> cls; from.processorMap().containsKey(cls);
+     @         processors(cls).containsAll(from.processorMap().valueSet());
+     @*/
+  	public <S extends Processor> void cloneProcessorsFrom(Language from) {
+  		for(Entry<Class<? extends Processor>, List<? extends Processor>> entry: from.processorMap().entrySet()) {
+  			Class<S> key = (Class<S>) entry.getKey();
+				List<S> value = (List<S>) entry.getValue();
+				for(S processor: value) {
+				  _processors.add(key, (S)processor.clone());
+				}
+  		}
+  	}
+  	
+  	/**
+  	 * Return the mapping of classes/interfaces to the processors of that kind.
+  	 */
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @*/
+  	public Map<Class<? extends Processor>, List<? extends Processor>> processorMap() {
+  		return _processors.map();
+  	}
+  	
     /**************************************************************************
      *                                 PROPERTIES                             *
      **************************************************************************/
