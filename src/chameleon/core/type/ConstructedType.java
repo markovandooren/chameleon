@@ -29,6 +29,13 @@ public class ConstructedType extends TypeIndirection {
 		       ((type instanceof ConstructedType) && (((ConstructedType)type).parameter().equals(parameter())));
 	}
 	
+	
+	
+	@Override
+	public String getFullyQualifiedName() {
+		return signature().name();
+	}
+
 	public FormalTypeParameter parameter() {
 		return _param;
 	}
