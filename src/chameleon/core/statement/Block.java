@@ -29,11 +29,15 @@ public class Block extends StatementImpl<Block> implements StatementListContaine
   }
 
   public void addStatement(Statement statement) {
-    _statements.add(statement.parentLink());
+  	if(statement != null) {
+      _statements.add(statement.parentLink());
+  	}
   }
 
   public void removeStatement(Statement statement) {
-    _statements.add(statement.parentLink());
+  	if(statement != null) {
+      _statements.remove(statement.parentLink());
+  	}
   }
 
   public List<Statement> statements() {

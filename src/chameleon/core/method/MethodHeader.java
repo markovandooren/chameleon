@@ -13,6 +13,7 @@ import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.type.Type;
@@ -156,11 +157,34 @@ public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceEl
   }
   
 	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
-		return selector.selection(formalParameters());
+		return selector.selection(declarations());
 	}
 
+  @Override
+  public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
+  	if(formalParameters().contains(element)) {
+  		if(_lexical == null) {
+  			_lexical = language().lookupFactory().createLexicalLookupStrategy(localLookupStrategy(), this);
+  		}
+  		return _lexical;
+  	}
+  	else {
+  		return parent().lexicalLookupStrategy(this);
+  	}
+  }
+  
+  public LookupStrategy localLookupStrategy() {
+  	if(_local == null) {
+  		_local = language().lookupFactory().createTargetLookupStrategy(this);
+  	}
+  	return _local;
+  }
+  
+  private LookupStrategy _local;
+  
+  private LookupStrategy _lexical;
 
-  public boolean sameParameterTypesAs(MethodHeader other) throws ModelException {
+	public boolean sameParameterTypesAs(MethodHeader other) throws ModelException {
   	boolean result = false;
   	if (other != null) {
 			List<FormalParameter> mine = formalParameters();
@@ -208,7 +232,8 @@ public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceEl
 		TypeParameterBlock parameterBlock = parameterBlock();
 		if(parameterBlock == null) {
 			// Lazy init.
-			_typeParameters.connectTo(new TypeParameterBlock().parentLink());
+			parameterBlock = new TypeParameterBlock();
+			_typeParameters.connectTo(parameterBlock.parentLink());
 		}
 		parameterBlock.add(parameter);
 	}

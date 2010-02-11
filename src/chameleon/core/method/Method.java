@@ -440,10 +440,14 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	}
 
   public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
-  	if(_lexical == null) {
-	    _lexical = language().lookupFactory().createLexicalLookupStrategy(localLookupStrategy(), this);
+  	if(element == header()) {
+  		return parent().lexicalLookupStrategy(this);
+  	} else {
+  	  if(_lexical == null) {
+	      _lexical = language().lookupFactory().createLexicalLookupStrategy(localLookupStrategy(), this);
+  	  }
+  	  return _lexical;
   	}
-  	return _lexical;
   }
   
   public LookupStrategy localLookupStrategy() {
