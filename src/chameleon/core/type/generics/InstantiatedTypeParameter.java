@@ -3,13 +3,17 @@ package chameleon.core.type.generics;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.rejuse.association.Association;
+import org.rejuse.association.SingleAssociation;
+import org.rejuse.predicate.UnsafePredicate;
+
 import chameleon.core.declaration.MissingSignature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.reference.CrossReference;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeIndirection;
-import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
 public class InstantiatedTypeParameter extends TypeParameter<InstantiatedTypeParameter> {
@@ -18,6 +22,25 @@ public class InstantiatedTypeParameter extends TypeParameter<InstantiatedTypePar
 		super(signature);
 		setArgument(argument);
 	}
+	
+//	public void substitute() throws LookupException {
+//		Type type = nearestAncestor(Type.class);
+//		List<CrossReference> crossReferences = 
+//			 type.descendants(CrossReference.class, 
+//					              new UnsafePredicate<CrossReference,LookupException>() {
+//
+//													@Override
+//													public boolean eval(CrossReference object) throws LookupException {
+//														return object.getElement().equals(selectionDeclaration());
+//													}
+//				 
+//			                  });
+//		for(CrossReference cref: crossReferences) {
+//			SingleAssociation parentLink = cref.parentLink();
+//			Association childLink = parentLink.getOtherRelation();
+//			childLink.replace(parentLink, new JavaTypeReference().parentLink());
+//		}
+//	}
 
 	@Override
 	public InstantiatedTypeParameter clone() {
