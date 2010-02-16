@@ -46,8 +46,7 @@ import chameleon.util.Util;
  * @author Marko van Dooren
  */
 public abstract class Type extends FixedSignatureMember<Type,Element,SimpleNameSignature,Type> 
-                implements TargetDeclaration<Type,Element,SimpleNameSignature,Type>, 
-                           NamespaceOrType<Type,Element,SimpleNameSignature,Type>, 
+                implements NamespaceOrType<Type,Element,SimpleNameSignature,Type>, 
                            VariableOrType<Type,Element,SimpleNameSignature,Type>, 
                            Definition<Type,Element,SimpleNameSignature,Type>,
                            Cloneable, 

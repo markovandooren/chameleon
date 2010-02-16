@@ -1,7 +1,7 @@
 package chameleon.core.reference;
 
 import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
 
@@ -9,6 +9,10 @@ public class SimpleReference<D extends Declaration> extends SpecificReference<Si
 
 	public SimpleReference(CrossReference<?, ?, ? extends TargetDeclaration> target, String name, Class<D> specificClass) {
 		super(target,name,specificClass);
+	}
+
+	public SimpleReference(CrossReference<?, ?, ? extends TargetDeclaration> target, Signature signature, Class<D> specificClass) {
+		super(target,signature,specificClass);
 	}
 
 	/**
@@ -26,7 +30,7 @@ public class SimpleReference<D extends Declaration> extends SpecificReference<Si
 	 */
 	@Override
 	public SimpleReference<D> clone() {
-	   return new SimpleReference<D>((getTarget() == null ? null : getTarget().clone()), getName(), specificType());
+	   return new SimpleReference<D>((getTarget() == null ? null : getTarget().clone()), signature().clone(), specificType());
 	}
 
 }

@@ -1,5 +1,6 @@
 package chameleon.core.namespace;
 
+import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
 import chameleon.core.expression.NamedTarget;
@@ -37,7 +38,19 @@ public class NamespaceOrTypeReference extends SpecificReference<NamespaceOrTypeR
   	super(target,name,NamespaceOrType.class);
   }
   
-  public NamespaceOrTypeReference(NamedTarget target) {
+ /*@
+   @ public behavior
+   @
+   @ pre name != null;
+   @
+   @ post getTarget() == target;
+   @ post getName() == name;
+   @*/
+  public NamespaceOrTypeReference(CrossReference<? , ?, ? extends TargetDeclaration> target, Signature signature) {
+ 	  super(target,signature,NamespaceOrType.class);
+  }
+
+ public NamespaceOrTypeReference(NamedTarget target) {
   	this(target.getTarget() == null ? null : new NamespaceOrTypeReference((NamedTarget)target.getTarget()),target.getName());
   }
 
@@ -82,7 +95,7 @@ public class NamespaceOrTypeReference extends SpecificReference<NamespaceOrTypeR
    @ post (* \result.getTarget() is a clone of getTarget() *);
    @*/
   public NamespaceOrTypeReference clone() {
-    return new NamespaceOrTypeReference((getTarget() == null ? null : getTarget().clone()), getName());
+    return new NamespaceOrTypeReference((getTarget() == null ? null : getTarget().clone()), signature().clone());
   }
 
 }

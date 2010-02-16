@@ -5,6 +5,7 @@ import java.util.List;
 import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
@@ -23,7 +24,7 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	  @ post getName() == Util.getLastPart(qn);
 	  @*/
 	 public ElementReferenceWithTarget(String qn) {
-	   this(getTarget(Util.getAllButLastPart(qn)), Util.getLastPart(qn));
+	   this(getTarget(Util.getAllButLastPart(qn)), new SimpleNameSignature(Util.getLastPart(qn)));
 	 }
 	 
    protected static CrossReference<? extends CrossReference<?,?,? extends TargetDeclaration>,?, ? extends TargetDeclaration> getTarget(String qn) {
@@ -50,8 +51,8 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	  @ post getTarget() == target;
 	  @ post getName() == name;
 	  @*/
-	 public ElementReferenceWithTarget(CrossReference<?,?,? extends TargetDeclaration> target, String name) {
-	 	super(name);
+	 public ElementReferenceWithTarget(CrossReference<?,?,? extends TargetDeclaration> target, Signature signature) {
+	 	super(signature);
 		  setTarget((CrossReference<? extends CrossReference<?, ? super ElementReferenceWithTarget, ? extends TargetDeclaration>, ? super ElementReferenceWithTarget,? extends TargetDeclaration>) target); 
 	 }
 	 
@@ -156,7 +157,7 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	   	} else {
 	   		result = lexicalLookupStrategy().lookUp(selector);
 	   	}
-	     throw new LookupException("Cannot find namespace or type with name: "+getName(),this);
+	     throw new LookupException("Cannot find namespace or type with name: "+signature(),this);
 	   }
 	 }
 	 

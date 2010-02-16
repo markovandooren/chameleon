@@ -35,37 +35,37 @@ public abstract class ElementReference<E extends ElementReference, P extends Ele
    @
    @ post getName().equals(name);
    @*/
-	public ElementReference(String name) {
-		setSignature(new SimpleNameSignature(name));
-	}
-	
- /*@
-   @ public behavior
-   @
-   @ pre name != null;
-   @
-   @ post signature().equals(signature);
-   @*/
-	public ElementReference(SimpleNameSignature signature) {
+	public ElementReference(Signature signature) {
 		setSignature(signature);
 	}
 	
+// /*@
+//   @ public behavior
+//   @
+//   @ pre name != null;
+//   @
+//   @ post signature().equals(signature);
+//   @*/
+//	public ElementReference(SimpleNameSignature signature) {
+//		setSignature(signature);
+//	}
+	
 
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @*/
-  public String getName() {
-    return signature().name();
-  }
+// /*@
+//   @ public behavior
+//   @
+//   @ post \result != null;
+//   @*/
+//  public String getName() {
+//    return signature().name();
+//  }
   
-  private SingleAssociation<ElementReference,SimpleNameSignature> _signature = new SingleAssociation<ElementReference,SimpleNameSignature>(this);
+  private SingleAssociation<ElementReference,Signature> _signature = new SingleAssociation<ElementReference,Signature>(this);
 
   /**
    * Return the signature of this element reference.
    */
-  public SimpleNameSignature signature() {
+  public Signature signature() {
   	return _signature.getOtherEnd();
   }
   
@@ -76,12 +76,8 @@ public abstract class ElementReference<E extends ElementReference, P extends Ele
    @
    @ post getName() == name;
    @*/
-  public void setSignature(SimpleNameSignature signature) {
-  	if(signature == null) {
-  		_signature.connectTo(null);
-  	} else {
-  	  _signature.connectTo(signature.parentLink());
-  	}
+  public void setSignature(Signature signature) {
+  	setAsParent(_signature, signature);
   }
  
   private D _cache;

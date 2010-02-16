@@ -21,9 +21,9 @@ public class SpecificReference<E extends SpecificReference, P extends Element, D
 			}
 		},_specificClass);
 	}
-	
-	public SpecificReference(CrossReference<?, ?, ? extends TargetDeclaration> target, String name, Class<D> specificClass) {
-		super(target, name);
+
+	public SpecificReference(CrossReference<?, ?, ? extends TargetDeclaration> target, Signature signature, Class<D> specificClass) {
+		super(target, signature);
 		_specificClass = specificClass;
 		_selector = new SelectorWithoutOrder<D>(new SelectorWithoutOrder.SignatureSelector() {
 			public Signature signature() {
@@ -31,13 +31,24 @@ public class SpecificReference<E extends SpecificReference, P extends Element, D
 			}
 		},_specificClass);
 	}
+
+	public SpecificReference(CrossReference<?, ?, ? extends TargetDeclaration> target, String name, Class<D> specificClass) {
+		this(target, new SimpleNameSignature(name), specificClass);
+//		super(target, name);
+//		_specificClass = specificClass;
+//		_selector = new SelectorWithoutOrder<D>(new SelectorWithoutOrder.SignatureSelector() {
+//			public Signature signature() {
+//				return SpecificReference.this.signature();
+//			}
+//		},_specificClass);
+	}
 	
 	/**
 	 * YOU MUST OVERRIDE THIS METHOD IF YOU SUBCLASS THIS CLASS!
 	 */
 	@Override
 	public E clone() {
-	   return (E) new SpecificReference((getTarget() == null ? null : getTarget().clone()), getName(), _specificClass);
+	   return (E) new SpecificReference((getTarget() == null ? null : getTarget().clone()), signature().clone(), _specificClass);
 	}
 
 	private final DeclarationSelector<D> _selector;

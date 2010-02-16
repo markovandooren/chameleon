@@ -57,5 +57,10 @@ public class SimpleNameSignature extends Signature<SimpleNameSignature, Element>
 			return Valid.create();
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return _name;
+	}
 
 }

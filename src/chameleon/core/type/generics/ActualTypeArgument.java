@@ -7,6 +7,7 @@ import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
+import chameleon.exception.ChameleonProgrammerException;
 
 public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends ElementImpl<ActualTypeArgument, InstantiatedTypeParameter> {
 
@@ -26,4 +27,14 @@ public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends E
 	public abstract Type lowerBound() throws LookupException;
 
 	public abstract TypeParameter capture(FormalTypeParameter formal);
+	
+	/**
+	 * Return the type reference that must be used for substitution of a formal parameter.
+	 * 
+	 * @param parameter
+	 * @return
+	 */
+	public TypeReference substitutionReference() {
+		throw new ChameleonProgrammerException();
+	}
 }

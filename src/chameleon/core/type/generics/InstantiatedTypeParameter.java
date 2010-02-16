@@ -14,7 +14,9 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReference;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeIndirection;
+import chameleon.core.type.TypeReference;
 import chameleon.core.validation.VerificationResult;
+import chameleon.oo.language.ObjectOrientedLanguage;
 
 public class InstantiatedTypeParameter extends TypeParameter<InstantiatedTypeParameter> {
 	
@@ -23,28 +25,29 @@ public class InstantiatedTypeParameter extends TypeParameter<InstantiatedTypePar
 		setArgument(argument);
 	}
 	
-//	public void substitute() throws LookupException {
-//		Type type = nearestAncestor(Type.class);
-//		List<CrossReference> crossReferences = 
-//			 type.descendants(CrossReference.class, 
-//					              new UnsafePredicate<CrossReference,LookupException>() {
-//
-//													@Override
-//													public boolean eval(CrossReference object) throws LookupException {
-//														return object.getElement().equals(selectionDeclaration());
-//													}
-//				 
-//			                  });
-//		for(CrossReference cref: crossReferences) {
-//			SingleAssociation parentLink = cref.parentLink();
-//			Association childLink = parentLink.getOtherRelation();
-//			childLink.replace(parentLink, new JavaTypeReference().parentLink());
-//		}
-//	}
+	public void substitute(Element<?,?> element) throws LookupException {
+		Type type = nearestAncestor(Type.class);
+		List<CrossReference> crossReferences = 
+			 element.descendants(CrossReference.class, 
+					              new UnsafePredicate<CrossReference,LookupException>() {
+
+													@Override
+													public boolean eval(CrossReference object) throws LookupException {
+														return object.getElement().equals(selectionDeclaration());
+													}
+				 
+			                  });
+		for(CrossReference cref: crossReferences) {
+			SingleAssociation parentLink = cref.parentLink();
+			Association childLink = parentLink.getOtherRelation();
+			TypeReference namedTargetExpression = argument().substitutionReference().clone();
+			childLink.replace(parentLink, namedTargetExpression.parentLink());
+		}
+	}
 
 	@Override
 	public InstantiatedTypeParameter clone() {
-		throw new Error();
+		return new InstantiatedTypeParameter(signature().clone(),argument());
 	}
 	
 //	/**
@@ -90,6 +93,11 @@ public class InstantiatedTypeParameter extends TypeParameter<InstantiatedTypePar
 		@Override
 		public Type actualDeclaration() {
 			return aliasedType();
+		}
+		
+		@Override
+		public boolean uniSameAs(Element element) {
+			return element.equals(aliasedType());
 		}
 		
 	}

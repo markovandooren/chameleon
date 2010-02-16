@@ -151,7 +151,6 @@ public abstract class ObjectOrientedLanguage extends Language {
 		return ref.getType();
 	}
 
-
 //  protected void initProperties() {
 //  	INHERITABLE = new StaticProperty<Element>("inheritable",this);
 //  	OVERRIDABLE = new StaticProperty<Element>("overridable",this);

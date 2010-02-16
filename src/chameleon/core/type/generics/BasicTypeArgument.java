@@ -78,4 +78,9 @@ public class BasicTypeArgument extends ActualTypeArgumentWithTypeReference<Basic
 	public TypeParameter capture(FormalTypeParameter formal) {
 		return parent();
 	}
+
+	@Override
+	public TypeReference substitutionReference() {
+		return typeReference();
+	}
 }

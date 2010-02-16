@@ -56,7 +56,7 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
    @ post \result == superClassReference().getType();
    @*/
 	public Type superClass() throws LookupException {
-			lookupLogger().debug("Inheritance relation of class "+parent().getFullyQualifiedName()+" is going to look up super class " + superClassReference().getName());
+			lookupLogger().debug("Inheritance relation of class "+parent().getFullyQualifiedName()+" is going to look up super class " + superClassReference().signature());
 			Type result = null;
 			try {
 		    result = superClassReference().getType();
