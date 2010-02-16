@@ -429,6 +429,21 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	}
     }
     
+    public <T extends Element> T furthestAncestor(Class<T> c) {
+    	Element el = parent();
+    	T anc = null;
+    	while(el != null) {
+    		while ((el != null) && (! c.isInstance(el))){
+    			el = el.parent();
+    		}
+    		if(el != null) {
+    			anc = (T) el;
+    			el = el.parent();
+    		}
+    	}
+    	return anc;
+    }
+    
     public <T extends Element> T nearestAncestor(Class<T> c) {
     	Element el = parent();
     	while ((el != null) && (! c.isInstance(el))){

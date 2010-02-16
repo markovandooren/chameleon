@@ -299,7 +299,7 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 	public void addImport(Import newImport) {
 		_imports.add(newImport.parentLink());
 	}
-
+	
 	public void removeImport(Import removedImport) {
 		_imports.remove(removedImport.parentLink());
 	}

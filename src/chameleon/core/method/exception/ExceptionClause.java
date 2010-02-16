@@ -121,11 +121,9 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
    */
   public ExceptionClause clone() {
     final ExceptionClause result = new ExceptionClause();
-    new Visitor() {
-      public void visit(Object element) {
-         result.add(((ExceptionDeclaration)element).clone());
-      }
-    }.applyTo(exceptionDeclarations());
+    for(ExceptionDeclaration declaration: exceptionDeclarations()) {
+    	result.add(declaration.clone());
+    }
     return result;
   }
 
