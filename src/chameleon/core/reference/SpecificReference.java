@@ -1,6 +1,9 @@
 package chameleon.core.reference;
 
+import java.util.List;
+
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.QualifiedName;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
@@ -41,6 +44,20 @@ public class SpecificReference<E extends SpecificReference, P extends Element, D
 //				return SpecificReference.this.signature();
 //			}
 //		},_specificClass);
+	}
+	
+	public SpecificReference(QualifiedName<?,?> name, Class<D> specificClass) {
+		this(targetOf(name, specificClass), name.lastSignature(), specificClass);
+	}
+	
+	public static <DD extends Declaration>CrossReference targetOf(QualifiedName<?,?> name, Class<DD> specificClass) {
+		SpecificReference current = null;
+		List<Signature> signatures = name.signatures();
+		int size = signatures.size();
+		for(int i = 0; i < size-1; i++) {
+			current = new SpecificReference<SpecificReference, Element, DD>(current, signatures.get(i), specificClass);
+		}
+		return current;
 	}
 	
 	/**

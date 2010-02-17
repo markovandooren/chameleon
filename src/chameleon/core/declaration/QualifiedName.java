@@ -9,46 +9,23 @@ import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.VerificationResult;
 
-public class QualifiedName<E extends QualifiedName, P extends Element> extends NamespaceElementImpl<E,P> {
+public abstract class QualifiedName<E extends QualifiedName, P extends Element> extends NamespaceElementImpl<E,P> {
 
+	public abstract List<Signature> signatures();
 	
-	public List<Signature> signatures() {
-		return _signatures.getOtherEnds();
-	}
+	public abstract Signature lastSignature();
 	
-	public void append(Signature signature) {
-		setAsParent(_signatures, signature);
-	}
+	public abstract E clone();
 	
-	public void prefix(Signature signature) {
-		if(signature != null) {
-			_signatures.addInFront(signature.parentLink());
-		}
-	}
+	public abstract int length();
 	
-	public void remove(Signature signature) {
-		if(signature != null) {
-			_signatures.remove(signature.parentLink());
-		}
+	public QualifiedName<?,?> popped() {
+			CompositeQualifiedName<?, ?> result = new CompositeQualifiedName();
+			List<Signature> signatures = signatures();
+			int length = signatures.size();
+			for(int i=0; i< length; i++) {
+				result.append(signatures.get(i).clone());
+			}
+			return result;
 	}
-	
-	private OrderedMultiAssociation<QualifiedName, Signature> _signatures = new OrderedMultiAssociation<QualifiedName, Signature>(this);
-
-	@Override
-	public E clone() {
-		QualifiedName result = new QualifiedName();
-		for(Signature signature: signatures()) {
-			result.append(signature.clone());
-		}
-		return (E)result;
-	}
-
-	@Override
-	public VerificationResult verifySelf() {
-		return new BasicProblem(this, "TODO: implement verifySelf of FullyQualifiedName");
-	}
-
-	public List<? extends Element> children() {
-		return signatures();
-	} 
 }

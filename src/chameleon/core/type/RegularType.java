@@ -11,11 +11,11 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.Member;
+import chameleon.core.method.Method;
 import chameleon.core.type.generics.TypeParameter;
 import chameleon.core.type.generics.TypeParameterBlock;
 import chameleon.core.type.inheritance.InheritanceRelation;
 import chameleon.core.validation.BasicProblem;
-import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.util.Util;
@@ -40,7 +40,7 @@ public class RegularType extends Type {
 	}
 
   public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
-  	if(element == parameterBlock() || element.isDerived()) {
+  	if(element == parameterBlock()) { // || element.isDerived()
   		return parent().lexicalLookupStrategy(this);
   	} else {
   		return super.lexicalLookupStrategy(element);
@@ -72,6 +72,18 @@ public class RegularType extends Type {
 	}
 	
 	public void add(TypeElement element) {
+//		if(element instanceof Method) {
+//			Method method = (Method)element;
+//		List<Member> dmembers = directlyDeclaredMembers();
+//		for(Member member:dmembers) {
+//			try {
+//				if(method.signature().sameAs(member.signature())) {
+//					System.out.println("ola");
+//				}
+//			} catch (Exception e) {
+//			}
+//		}
+//		}
 	  body().add(element);
 	}
 	

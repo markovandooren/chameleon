@@ -97,7 +97,7 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration<TypeException
   }
 
   public TypeExceptionDeclaration clone() {
-    return new TypeExceptionDeclaration((TypeReference)getTypeReference().clone());
+    return new TypeExceptionDeclaration(getTypeReference().clone());
   }
 
   

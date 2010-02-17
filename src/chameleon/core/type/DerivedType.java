@@ -19,4 +19,8 @@ public class DerivedType extends RegularType {
 		return _baseType;
 	}
 
+	@Override
+	public DerivedType clone() {
+		return new DerivedType(baseType());
+	}
 }

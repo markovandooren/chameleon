@@ -71,7 +71,8 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 //	return parameters();
 		List<Declaration> result = new ArrayList<Declaration>();
 		Stub stub = new Stub();
-		stub.setUniParent(parent());
+//		stub.setUniParent(parent());
+		stub.setUniParent(this);
 		for(TypeParameter parameter:parameters()) {
 			TypeParameter clone = parameter.clone();
 			result.add(clone);
@@ -84,8 +85,12 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 		return selector.selection(declarations());
 	}
 	
-	public LookupStrategy lexicalLookupStrategy(Element element) {
-		return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this), this);
+	public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
+		if(element instanceof Stub) {
+			return parent().lexicalLookupStrategy(this);
+		} else {
+		  return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this), this);
+		}
 	}
 	
 	public static class Stub extends ElementImpl<Stub, Element> implements DeclarationContainer<Stub, Element>{

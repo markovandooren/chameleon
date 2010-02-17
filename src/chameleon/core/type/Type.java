@@ -464,6 +464,12 @@ public abstract class Type extends FixedSignatureMember<Type,Element,SimpleNameS
      @*/
   	public abstract void removeInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException;
   	
+  	public void removeAllInheritanceRelations() {
+  		for(InheritanceRelation relation: inheritanceRelations()) {
+  			removeInheritanceRelation(relation);
+  		}
+  	}
+  	
     /**
      * Return the members of the given kind directly declared by this type.
      * @return

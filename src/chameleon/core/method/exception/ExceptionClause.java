@@ -120,7 +120,7 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
    * @return
    */
   public ExceptionClause clone() {
-    final ExceptionClause result = new ExceptionClause();
+    ExceptionClause result = new ExceptionClause();
     for(ExceptionDeclaration declaration: exceptionDeclarations()) {
     	result.add(declaration.clone());
     }
