@@ -19,6 +19,7 @@ import chameleon.core.declaration.MissingSignature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
+import chameleon.core.language.Language;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
@@ -172,11 +173,15 @@ public abstract class Type extends FixedSignatureMember<Type,Element,SimpleNameS
     	}
     }
     
-    protected LookupStrategy lexicalMembersLookupStrategy() {
+    protected LookupStrategy lexicalMembersLookupStrategy() throws LookupException {
     	LookupStrategy result = _lexicalMembersLookupStrategy;
     	// Lazy initialization
     	if(result == null) {
-    		_lexicalMembersLookupStrategy = language().lookupFactory().createLexicalLookupStrategy(targetContext(), this, 
+    		Language language = language();
+    		if(language == null) {
+    			throw new LookupException("Parent of type "+signature().name()+" is null.");
+    		}
+				_lexicalMembersLookupStrategy = language.lookupFactory().createLexicalLookupStrategy(targetContext(), this, 
     			new LookupStrategySelector(){
 					
 						public LookupStrategy strategy() throws LookupException {
