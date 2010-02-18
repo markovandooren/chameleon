@@ -1,4 +1,4 @@
-package chameleon.project;
+package chameleon.core.project;
 
 import java.io.IOException;
 
@@ -22,6 +22,8 @@ public abstract class InputSource {
    @ public behavior
    @
    @ pre defaultNamespace != null;
+   @
+   @ post defaultNamespace() == defaultNamespace;
    @*/
 	public InputSource(RootNamespace defaultNamespace) {
 		_defaultNamespace = defaultNamespace;
