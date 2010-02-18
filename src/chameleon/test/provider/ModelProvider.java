@@ -22,5 +22,9 @@ public interface ModelProvider {
    @ post \result != null;
    @*/
 	public Language model() throws ParseException, IOException;
+	
+	
+	//read();
+	//update();
 
 }
