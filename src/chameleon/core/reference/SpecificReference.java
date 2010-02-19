@@ -47,7 +47,7 @@ public class SpecificReference<E extends SpecificReference, P extends Element, D
 	}
 	
 	public SpecificReference(QualifiedName<?,?> name, Class<D> specificClass) {
-		this(targetOf(name, specificClass), name.lastSignature(), specificClass);
+		this(targetOf(name, specificClass), name.lastSignature().clone(), specificClass);
 	}
 	
 	public static <DD extends Declaration>CrossReference targetOf(QualifiedName<?,?> name, Class<DD> specificClass) {
@@ -55,7 +55,7 @@ public class SpecificReference<E extends SpecificReference, P extends Element, D
 		List<Signature> signatures = name.signatures();
 		int size = signatures.size();
 		for(int i = 0; i < size-1; i++) {
-			current = new SpecificReference<SpecificReference, Element, DD>(current, signatures.get(i), specificClass);
+			current = new SpecificReference<SpecificReference, Element, DD>(current, signatures.get(i).clone(), specificClass);
 		}
 		return current;
 	}

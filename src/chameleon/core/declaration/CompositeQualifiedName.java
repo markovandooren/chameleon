@@ -18,6 +18,12 @@ public class CompositeQualifiedName<E extends CompositeQualifiedName<E,P>,P exte
 		setAsParent(_signatures, signature);
 	}
 	
+	public void appendAll(List<Signature> signatures) {
+		for(Signature signature: signatures) {
+			append(signature);
+		}
+	}
+	
 	public void prefix(Signature signature) {
 		if(signature != null) {
 			_signatures.addInFront(signature.parentLink());
