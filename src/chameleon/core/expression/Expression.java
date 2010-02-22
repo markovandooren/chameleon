@@ -75,32 +75,32 @@ public abstract class Expression<E extends Expression> extends NamespaceElementI
   public abstract E clone();
 
   
-  /**
-   * See superclass.
-   */
-  public final Set getExceptions() throws LookupException {
-    final Set result = getDirectExceptions();
-    try {
-      new RobustVisitor() {
-        public Object visit(Object element) throws LookupException {
-          result.addAll(((InvocationTarget)element).getExceptions());
-          return null;
-        }
-
-        public void unvisit(Object element, Object undo) {
-          //NOP
-        }
-      }.applyTo(children());
-      return result;
-    }
-    catch (LookupException e) {
-      throw e;
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-      throw new Error();
-    }
-  }
+//  /**
+//   * See superclass.
+//   */
+//  public final Set getExceptions() throws LookupException {
+//    final Set result = getDirectExceptions();
+//    try {
+//      new RobustVisitor() {
+//        public Object visit(Object element) throws LookupException {
+//          result.addAll(((InvocationTarget)element).getExceptions());
+//          return null;
+//        }
+//
+//        public void unvisit(Object element, Object undo) {
+//          //NOP
+//        }
+//      }.applyTo(children());
+//      return result;
+//    }
+//    catch (LookupException e) {
+//      throw e;
+//    }
+//    catch (Exception e) {
+//      e.printStackTrace();
+//      throw new Error();
+//    }
+//  }
 
   public CheckedExceptionList getCEL() throws LookupException {
     final CheckedExceptionList cel = getDirectCEL();

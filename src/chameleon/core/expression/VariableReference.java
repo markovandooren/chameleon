@@ -94,9 +94,9 @@ public class VariableReference extends Expression<VariableReference> implements 
     return new VariableReference(getName(), target);
   }
 
-  public void prefix(InvocationTarget target) throws LookupException {
-    getTarget().prefixRecursive(target);
-  }
+//  public void prefix(InvocationTarget target) throws LookupException {
+//    getTarget().prefixRecursive(target);
+//  }
   
 //  public void substituteParameter(String name, Expression expr) throws MetamodelException {
 //    getTarget().substituteParameter(name, expr);

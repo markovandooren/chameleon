@@ -65,13 +65,13 @@ public abstract class NonConstructorInvocation<E extends NonConstructorInvocatio
 //    return result;
 //  }
   
-  public void prefix(InvocationTarget target) throws LookupException {
-    if(getTarget() == null) {
-      setTarget(target);
-    }
-    else {
-      getTarget().prefixRecursive(target);
-    }
-  }
+//  public void prefix(InvocationTarget target) throws LookupException {
+//    if(getTarget() == null) {
+//      setTarget(target);
+//    }
+//    else {
+//      getTarget().prefixRecursive(target);
+//    }
+//  }
   
 }

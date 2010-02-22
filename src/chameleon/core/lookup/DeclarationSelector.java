@@ -52,7 +52,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @ pre selectedClass().isInstance(declaration);
    @*/
   public abstract boolean selectedRegardlessOfSignature(D declaration) throws LookupException;
-  
+
   /**
    * This method decides if the given signature is selected by this declaration selector.
    */

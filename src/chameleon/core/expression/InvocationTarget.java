@@ -38,40 +38,40 @@ public abstract LookupStrategy targetContext() throws LookupException;
 	
   public abstract E clone();
   
-  /**
-   * @param expr
-   */
-  public abstract void prefix(InvocationTarget target) throws LookupException;
+//  /**
+//   * @param expr
+//   */
+//  public abstract void prefix(InvocationTarget target) throws LookupException;
+//
+//  public abstract void prefixRecursive(InvocationTarget target) throws LookupException;
 
-  public abstract void prefixRecursive(InvocationTarget target) throws LookupException;
+//	/**
+//	 * Return the set of exception thrown directly this invocation target under the assumption that
+//	 * the evaluation of their children does not throw any exceptions.
+//	 */
+//	/*@
+//	 @ public behavior
+//	 @
+//	 @ post \result != null;
+//	 @ post ! \result.contains(null);
+//	 @ post (\forall Object o; \result.contains(o); o instanceof Type);
+//	 @*/
+//	public abstract Set getDirectExceptions() throws LookupException;
 
-	/**
-	 * Return the set of exception thrown directly this invocation target under the assumption that
-	 * the evaluation of their children does not throw any exceptions.
-	 */
-	/*@
-	 @ public behavior
-	 @
-	 @ post \result != null;
-	 @ post ! \result.contains(null);
-	 @ post (\forall Object o; \result.contains(o); o instanceof Type);
-	 @*/
-	public abstract Set getDirectExceptions() throws LookupException;
-
-	/**
-	 * Return the set of all exceptions thrown by the evaluation of this invocation target and all of its
-	 * children.
-	 */
-	/*@
-	 @ public behavior
-	 @
-	 @ post \result != null;
-	 @ post ! \result.contains(null);
-	 @ post (\forall Object o; \result.contains(o); o instanceof Type);
-	 @ post (\forall InvocationTarget it; getChildren().contains(it);
-	 @         \result.containsAll(it.getExceptions()));
-	 @*/
-	public abstract Set getExceptions() throws LookupException;
+//	/**
+//	 * Return the set of all exceptions thrown by the evaluation of this invocation target and all of its
+//	 * children.
+//	 */
+//	/*@
+//	 @ public behavior
+//	 @
+//	 @ post \result != null;
+//	 @ post ! \result.contains(null);
+//	 @ post (\forall Object o; \result.contains(o); o instanceof Type);
+//	 @ post (\forall InvocationTarget it; getChildren().contains(it);
+//	 @         \result.containsAll(it.getExceptions()));
+//	 @*/
+//	public abstract Set getExceptions() throws LookupException;
 
 
 }

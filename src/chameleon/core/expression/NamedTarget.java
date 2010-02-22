@@ -201,21 +201,21 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
     return result;
   }
   
-  public void prefix(InvocationTarget target) throws LookupException {
-    if (getTarget() == null) {
-      Target vt = getElement();
-      if (vt instanceof MemberVariable) {
-          setTarget(target);
-      }
-    }
-    else {
-      getTarget().prefixRecursive(target);
-    }
-  }
+//  public void prefix(InvocationTarget target) throws LookupException {
+//    if (getTarget() == null) {
+//      Target vt = getElement();
+//      if (vt instanceof MemberVariable) {
+//          setTarget(target);
+//      }
+//    }
+//    else {
+//      getTarget().prefixRecursive(target);
+//    }
+//  }
 
-  public void prefixRecursive(InvocationTarget target) throws LookupException {
-    prefix(target);
-  }
+//  public void prefixRecursive(InvocationTarget target) throws LookupException {
+//    prefix(target);
+//  }
 
   @SuppressWarnings("unchecked")
   public Set getDirectExceptions() throws LookupException {
@@ -226,13 +226,13 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
     return result;
   }
 
-  public Set getExceptions() throws LookupException {
-    Set result = getDirectExceptions();
-    if(getTarget() != null) {
-      result.addAll(getTarget().getExceptions());
-    }
-    return result;
-  }
+//  public Set getExceptions() throws LookupException {
+//    Set result = getDirectExceptions();
+//    if(getTarget() != null) {
+//      result.addAll(getTarget().getExceptions());
+//    }
+//    return result;
+//  }
 
   public CheckedExceptionList getCEL() throws LookupException {
     if(getTarget() != null) {
