@@ -135,42 +135,6 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
 
 	private SimpleNameSignature _signature;
 
-//  public boolean superOf(InvocationTarget target) throws LookupException {
-//    Target self = getElement();
-//    if(target instanceof Expression) {
-//      // If this is a type, an expression assignable to this type will be compatible
-//      return (self instanceof Type) && ((Expression)target).getType().assignableTo((Type)self);
-//    }
-//    if(!(target instanceof NamedTarget)) {
-//      return false;
-//    }
-//    NamedTarget nt = (NamedTarget)target;
-//    if( (getTarget() != null) && (nt.getTarget() != null)) {
-//      if (! getTarget().compatibleWith(nt.getTarget())) {
-//        return false;
-//      }
-//    } else if( ! ((getTarget() == null) && (nt.getTarget() == null))) {
-//      return false; 
-//    }
-//    if(self instanceof Variable) {
-//	    Variable vt1 = (Variable)self;
-//	    Target vt2 = nt.getElement();
-//	    if((vt2 instanceof Variable)) {
-//	      return compatVar(vt1, (Variable)vt2) ; // && supportVar(vt1, Util.getSecondPart(getName()), (Variable)vt2, Util.getSecondPart(nt.getName()))
-//	    }
-//	    else {
-//	      return false;
-//	    }
-//    }
-//    else {
-//      // self is a type
-//      Target other = nt.getElement();
-//      if(! (other instanceof Type)) {
-//        return false;
-//      }
-//      return ((Type)other).assignableTo((Type)self);
-//    }
-//  }
   
 //  private boolean compatVar(Variable variable, Variable variable2) throws LookupException {
 //    return ((variable == null) && (variable2 == null)) || 
@@ -195,8 +159,9 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
 
   public NamedTarget clone() {
     NamedTarget result = new NamedTarget(getName());
-    if(getTarget()!= null) {
-      result.setTarget(getTarget().clone());
+    InvocationTarget<?, ?> target = getTarget();
+		if(target!= null) {
+      result.setTarget(target.clone());
     }
     return result;
   }
