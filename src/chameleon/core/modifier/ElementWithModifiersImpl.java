@@ -36,7 +36,7 @@ public abstract class ElementWithModifiersImpl<E extends Element<E, P>, P extend
   public void addModifier(Modifier modifier) {
     if (modifier != null) {
     	if (!_modifiers.contains(modifier.parentLink())) {
-    		_modifiers.add(modifier.parentLink());	
+    		_modifiers.add(modifier.parentLink());
       }
     } else {
     	throw new ChameleonProgrammerException("Modifier passed to addModifier is null");
