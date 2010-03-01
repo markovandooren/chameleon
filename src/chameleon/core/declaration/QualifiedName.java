@@ -20,12 +20,13 @@ public abstract class QualifiedName<E extends QualifiedName, P extends Element> 
 	public abstract int length();
 	
 	public QualifiedName<?,?> popped() {
-			CompositeQualifiedName<?, ?> result = new CompositeQualifiedName();
-			List<Signature> signatures = signatures();
-			int length = signatures.size();
-			for(int i=0; i< length-1; i++) {
-				result.append(signatures.get(i).clone());
-			}
-			return result;
+		CompositeQualifiedName<?, ?> result = new CompositeQualifiedName();
+		List<Signature> signatures = signatures();
+		int length = signatures.size();
+		for(int i=0; i< length-1; i++) {
+			result.append(signatures.get(i).clone());
+		}
+		return result;
 	}
+	
 }

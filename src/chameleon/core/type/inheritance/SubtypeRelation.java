@@ -4,6 +4,7 @@ import org.rejuse.logic.ternary.Ternary;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.modifier.Modifier;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 import chameleon.core.validation.BasicProblem;
@@ -19,7 +20,11 @@ public class SubtypeRelation extends InheritanceRelation<SubtypeRelation> {
 
 	@Override
 	public SubtypeRelation clone() {
-		return new SubtypeRelation(superClassReference().clone());
+		SubtypeRelation result = new SubtypeRelation(superClassReference().clone());
+		for(Modifier<Modifier, Element> modifier:modifiers()) {
+			result.addModifier(modifier.clone());
+		}
+		return result;
 	}
 
 	@Override

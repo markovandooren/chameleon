@@ -20,12 +20,13 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
 import chameleon.core.method.MethodSignature;
+import chameleon.core.modifier.ElementWithModifiersImpl;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 
-public abstract class InheritanceRelation<E extends InheritanceRelation> extends ElementImpl<E,Type> {
+public abstract class InheritanceRelation<E extends InheritanceRelation<E>> extends ElementWithModifiersImpl<E,Type> {
 	
 	private static Logger logger = Logger.getLogger("lookup.inheritance");
 	
@@ -39,8 +40,8 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
 		setSuperClassReference(ref);
 	}
 	
-	public List<? extends Element> children() {
-		List<Element> result = new ArrayList<Element>();
+	public List<Element> children() {
+		List<Element> result = super.children();
 		result.add(superClassReference());
 		return result;
 	}
@@ -56,14 +57,18 @@ public abstract class InheritanceRelation<E extends InheritanceRelation> extends
    @ post \result == superClassReference().getType();
    @*/
 	public Type superClass() throws LookupException {
-			lookupLogger().debug("Inheritance relation of class "+parent().getFullyQualifiedName()+" is going to look up super class " + superClassReference().signature());
+//			lookupLogger().debug("Inheritance relation of class "+fullyQualifiedName+" is going to look up super class " + superClassReference().signature());
 			Type result = null;
 			try {
 		    result = superClassReference().getType();
 			} 
 			catch(NullPointerException exc) {
+				String fullyQualifiedName = "CLASS WITHOUT PARENT!!!";
+				if(parent() != null) {
+				  fullyQualifiedName = parent().getFullyQualifiedName();
+				}
 				if(superClassReference() == null) {
-				  throw new ChameleonProgrammerException("trying to get the super class of an inheritance relation that points to null in class" + parent().getFullyQualifiedName(),exc);
+				  throw new ChameleonProgrammerException("trying to get the super class of an inheritance relation that points to null in class" + fullyQualifiedName,exc);
 				} else {
 					throw exc;
 				}

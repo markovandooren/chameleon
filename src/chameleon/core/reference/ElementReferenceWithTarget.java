@@ -11,6 +11,7 @@ import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.util.Util;
 
 public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithTarget, P extends Element, R extends Declaration> extends ElementReference<E,P,SimpleNameSignature,R> {
@@ -27,21 +28,21 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	   this(getTarget(Util.getAllButLastPart(qn)), new SimpleNameSignature(Util.getLastPart(qn)));
 	 }
 	 
-   protected static CrossReference<? extends CrossReference<?,?,? extends TargetDeclaration>,?, ? extends TargetDeclaration> getTarget(String qn) {
-     if(qn == null) {
-       return null;
-     }
-     //ElementReference<? extends ElementReference<?,? extends TargetDeclaration>, ? extends TargetDeclaration> target = new SpecificReference<SpecificReferece,TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
-     SpecificReference<SpecificReference<SpecificReference,Element,TargetDeclaration>, Element,TargetDeclaration> target = new SpecificReference<SpecificReference<SpecificReference,Element,TargetDeclaration>,Element,TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
-     qn = Util.getSecondPart(qn);
-     while(qn != null) {
-       SpecificReference<SpecificReference<SpecificReference,Element,TargetDeclaration>,Element,TargetDeclaration> newTarget = new SpecificReference<SpecificReference<SpecificReference,Element,TargetDeclaration>,Element,TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
-       newTarget.setTarget(target);
-       target = newTarget;
-       qn = Util.getSecondPart(qn);
-     }
-   return target;
-}
+	 protected static CrossReference<? extends CrossReference<?,?,? extends TargetDeclaration>,?, ? extends TargetDeclaration> getTarget(String qn) {
+		 if(qn == null) {
+			 return null;
+		 }
+		 //ElementReference<? extends ElementReference<?,? extends TargetDeclaration>, ? extends TargetDeclaration> target = new SpecificReference<SpecificReferece,TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
+		 SpecificReference<SpecificReference<SpecificReference,Element,TargetDeclaration>, Element,TargetDeclaration> target = new SpecificReference<SpecificReference<SpecificReference,Element,TargetDeclaration>,Element,TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
+		 qn = Util.getSecondPart(qn);
+		 while(qn != null) {
+			 SpecificReference<SpecificReference<SpecificReference,Element,TargetDeclaration>,Element,TargetDeclaration> newTarget = new SpecificReference<SpecificReference<SpecificReference,Element,TargetDeclaration>,Element,TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
+			 newTarget.setTarget(target);
+			 target = newTarget;
+			 qn = Util.getSecondPart(qn);
+		 }
+		 return target;
+	 }
 
 	/*@
 	  @ public behavior
@@ -160,6 +161,10 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	     throw new LookupException("Cannot find namespace or type with name: "+signature(),this);
 	   }
 	 }
+
+	protected LookupStrategy nonTargetLookupStrategy() throws LookupException {
+		return lexicalLookupStrategy();
+	}
 	 
 	 public abstract DeclarationSelector<R> selector();
 	 

@@ -50,7 +50,7 @@ public class SpecificReference<E extends SpecificReference, P extends Element, D
 		this(targetOf(name, specificClass), name.lastSignature().clone(), specificClass);
 	}
 	
-	public static <DD extends Declaration>CrossReference targetOf(QualifiedName<?,?> name, Class<DD> specificClass) {
+	public static <DD extends Declaration> CrossReference targetOf(QualifiedName<?,?> name, Class<DD> specificClass) {
 		SpecificReference current = null;
 		List<Signature> signatures = name.signatures();
 		int size = signatures.size();
