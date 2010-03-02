@@ -138,7 +138,7 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	     }
 	   }
 	   else {
-	     result = lexicalLookupStrategy().lookUp(selector);
+	     result = nonTargetLookupStrategy().lookUp(selector);
 	   }
 		
 	   if(result != null) {
@@ -156,7 +156,7 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	         result = target.targetContext().lookUp(selector);
 	       }
 	   	} else {
-	   		result = lexicalLookupStrategy().lookUp(selector);
+	   		result = nonTargetLookupStrategy().lookUp(selector);
 	   	}
 	     throw new LookupException("Cannot find namespace or type with name: "+signature(),this);
 	   }
