@@ -802,4 +802,9 @@ public interface Element<E extends Element, P extends Element> {
      * Check whether this element is the same as the other element.
      */
     public abstract boolean uniSameAs(Element other) throws LookupException;
+    
+    /**
+     * Flush any caching this element may have.
+     */
+    public abstract void flushCache();
 }

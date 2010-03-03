@@ -98,7 +98,7 @@ public abstract class DynamicChameleonProperty extends DynamicProperty<Element,C
   @
   @ post validElementTypes().contains(type);
   @*/
-	protected void addValidElementType(Class<? extends Element> type) {
+	public void addValidElementType(Class<? extends Element> type) {
 		_validTypes.add(type);
 	}
 	

@@ -555,8 +555,9 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	if(Config.cacheElementProperties()) {
     		if(_propertyCache == null) {
     			_propertyCache = new HashMap<ChameleonProperty,Ternary>();
+    		} else {
+    			result = _propertyCache.get(property);
     		}
-    		result = _propertyCache.get(property);
     	}
       if(result == null){
       	// First get the declared properties.
@@ -800,8 +801,31 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	return uniSameAs(other) || ((other != null) && (other.uniSameAs(this)));
     }
     
+    /**
+     * By default, use reference equality.
+     */
     public boolean uniSameAs(Element other) throws LookupException {
     	return other == this;
+    }
+    
+    /**
+     * Flush cache of children.
+     */
+    public void flushCache() {
+    	flushLocalCache();
+    	for(Element child:children()) {
+    		child.flushCache();
+    	}
+    }
+
+    /**
+     * Flush language cache and property cache.
+     */
+    public void flushLocalCache() {
+    	_languageCache = null;
+    	if(_propertyCache != null) {
+    	  _propertyCache.clear();
+    	}
     }
     
 //    public Iterator<Element> depthFirstIterator() {

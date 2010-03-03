@@ -82,6 +82,12 @@ public abstract class ElementReference<E extends ElementReference, P extends Ele
  
   private D _cache;
   
+  @Override
+  public void flushLocalCache() {
+  	super.flushLocalCache();
+  	_cache = null;
+  }
+  
   protected D getCache() {
   	if(Config.cacheElementReferences() == true) {
   	  return _cache;

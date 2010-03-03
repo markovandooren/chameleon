@@ -5,6 +5,7 @@ import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.Target;
 
@@ -16,6 +17,6 @@ public interface NamespaceOrType<E extends NamespaceOrType<E,P,S,F>, P extends E
 
 	public String getFullyQualifiedName();
 	
-	public LookupStrategy localStrategy();
+	public LookupStrategy localStrategy() throws LookupException;
   
 }

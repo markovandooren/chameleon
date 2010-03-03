@@ -45,6 +45,12 @@ public abstract class Expression<E extends Expression> extends NamespaceElementI
 		return result;
 	}
 	
+	@Override
+	public void flushLocalCache() {
+		super.flushLocalCache();
+		_typeCache = null;
+	}
+	
 	private Type _typeCache;
 	
 	protected abstract Type actualType() throws LookupException;

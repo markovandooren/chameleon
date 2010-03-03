@@ -8,6 +8,7 @@ import chameleon.core.member.Member;
 import chameleon.core.method.Method;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.property.Defined;
+import chameleon.core.property.DynamicChameleonProperty;
 import chameleon.core.property.StaticChameleonProperty;
 import chameleon.core.relation.EquivalenceRelation;
 import chameleon.core.relation.StrictPartialOrder;
@@ -19,10 +20,10 @@ public abstract class ObjectOrientedLanguage extends Language {
 	
 	//TODO document the properties. This is becoming complicated without an explanation.
 	public final StaticChameleonProperty INHERITABLE;
-	public final ChameleonProperty OVERRIDABLE;
+	public final StaticChameleonProperty OVERRIDABLE;
 	public final ChameleonProperty EXTENSIBLE;
 	public final ChameleonProperty REFINABLE;
-	public final ChameleonProperty DEFINED;
+	public final DynamicChameleonProperty DEFINED;
 	public final ChameleonProperty INSTANCE;
 	public final ChameleonProperty CLASS;
 	public final ChameleonProperty CONSTRUCTOR;

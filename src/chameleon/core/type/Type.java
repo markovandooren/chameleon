@@ -74,6 +74,12 @@ public abstract class Type extends FixedSignatureMember<Type,Element,SimpleNameS
 		}
 	}
 	
+  @Override
+  public void flushLocalCache() {
+  	super.flushLocalCache();
+  	_declarationCache = null;
+  }
+
 	private void setDeclarationCache(List<? extends Declaration> cache) {
 		if(Config.cacheDeclarations()) {
 		  _declarationCache = new ArrayList<Declaration>(cache);
@@ -140,15 +146,20 @@ public abstract class Type extends FixedSignatureMember<Type,Element,SimpleNameS
     }
 
     /*******************
-     * LEXICAL CONTEXT *
+     * LEXICAL CONTEXT 
      *******************/
     
     
-    public LookupStrategy targetContext() {
-    	return language().lookupFactory().createTargetLookupStrategy(this);
+    public LookupStrategy targetContext() throws LookupException {
+    	Language language = language();
+    	if(language != null) {
+			  return language.lookupFactory().createTargetLookupStrategy(this);
+    	} else {
+    		throw new LookupException("Element of type "+getClass().getName()+" is not connected to a language. Cannot retrieve target context.");
+    	}
     }
     
-    public LookupStrategy localStrategy() {
+    public LookupStrategy localStrategy() throws LookupException {
     	return targetContext();
     }
     
