@@ -150,8 +150,8 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	   } else {
 	   	// repeat lookups for debugging purposes
 	   	//Config.setCaching(false);
-	   	if(getTarget() != null) {
-	     	TargetDeclaration target = getTarget().getElement();
+	   	if(targetReference != null) {
+	     	TargetDeclaration target = targetReference.getElement();
 	       if(target != null) {
 	         result = target.targetContext().lookUp(selector);
 	       }

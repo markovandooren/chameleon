@@ -76,7 +76,7 @@ public class BasicTypeArgument extends ActualTypeArgumentWithTypeReference<Basic
 
 	@Override
 	public TypeParameter capture(FormalTypeParameter formal) {
-		return parent();
+		return new InstantiatedTypeParameter(formal.signature().clone(), this);
 	}
 
 	@Override

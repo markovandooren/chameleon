@@ -9,7 +9,7 @@ import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 import chameleon.exception.ChameleonProgrammerException;
 
-public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends ElementImpl<ActualTypeArgument, InstantiatedTypeParameter> {
+public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends ElementImpl<ActualTypeArgument, Element> {
 
 	public ActualTypeArgument() {
 	}
