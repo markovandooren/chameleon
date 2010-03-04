@@ -17,6 +17,13 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
 
+/**
+ * A class representing type parameters. These can be formal type parameters or instantiated type parameters.
+ * 
+ * @author Marko van Dooren
+ *
+ * @param <E>
+ */
 public abstract class TypeParameter<E extends TypeParameter<E>> extends NamespaceElementImpl<E, Element> implements Declaration<E,Element,SimpleNameSignature,Type>{
 	
 	public TypeParameter(SimpleNameSignature signature) {
@@ -25,7 +32,16 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Namespac
 
 	public abstract E clone();
 	
-  public void setSignature(Signature signature) {
+	/**
+	 * Check whether this type parameter is equal to the other type parameter. 
+	 * 
+	 * Equality for type parameters means that for each assignment of actual types, both parameters
+	 * must refer to the same type. 
+	 */
+  @Override
+	public abstract boolean uniSameAs(Element other) throws LookupException;
+
+	public void setSignature(Signature signature) {
   	if(signature instanceof SimpleNameSignature) {
   		if(signature != null) {
   			_signature.connectTo(signature.parentLink());

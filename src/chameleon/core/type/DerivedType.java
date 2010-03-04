@@ -3,6 +3,8 @@ package chameleon.core.type;
 import java.util.Iterator;
 import java.util.List;
 
+import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.type.generics.ActualTypeArgument;
 import chameleon.core.type.generics.InstantiatedTypeParameter;
 import chameleon.core.type.generics.TypeParameter;
@@ -38,6 +40,25 @@ public class DerivedType extends RegularType {
 			replaceParameter(parameter, instantiated);
 		}
 
+	}
+	
+	@Override
+	public boolean uniSameAs(Element otherType) throws LookupException {
+		boolean result = false;
+		if(otherType instanceof DerivedType) {
+			DerivedType type = (DerivedType) otherType;
+			result = type.baseType().sameAs(baseType());
+			Iterator<TypeParameter> myParams = parameters().iterator();
+			Iterator<TypeParameter> otherParams = type.parameters().iterator();
+			while(myParams.hasNext() && result) {
+				TypeParameter mine = myParams.next();
+				TypeParameter otherParam = otherParams.next();
+				if(! mine.sameAs(otherParam)) {
+					result = false;
+				}
+			}
+		}
+		return result;
 	}
 	
 	public DerivedType(List<TypeParameter> typeParameters, Type baseType) {

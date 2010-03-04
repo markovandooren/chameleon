@@ -83,4 +83,13 @@ public class BasicTypeArgument extends ActualTypeArgumentWithTypeReference<Basic
 	public TypeReference substitutionReference() {
 		return typeReference();
 	}
+
+	public boolean alwaysSameAs(ActualTypeArgument argument) throws LookupException {
+		boolean result = false;
+		if(argument instanceof BasicTypeArgument) {
+			return type().sameAs(argument.type());
+		}
+		return result;
+	}
+
 }

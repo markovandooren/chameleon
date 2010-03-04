@@ -112,4 +112,10 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 		return result;
 	}
 
+
+	@Override
+	public boolean uniSameAs(Element other) throws LookupException {
+		return this == other;
+	}
+
 }
