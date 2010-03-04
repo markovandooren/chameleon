@@ -117,15 +117,8 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
    @ post getDeclaredNamespace() == namespace
    @*/ 
 	public NamespacePart(Namespace namespace) {
-		try{
-			throw new Exception();
-		} catch(Exception exc) {
-			_creatorTrace = exc.getStackTrace();
-		}
     setNamespace(namespace);
 	}
-	
-	private StackTraceElement[] _creatorTrace;
 	
 	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
 		if(imports().contains(child)) {
