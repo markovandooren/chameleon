@@ -129,44 +129,44 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	   }
 	   
 	  CrossReference<?, ?, ? extends TargetDeclaration> targetReference = getTarget();
-		if(targetReference != null) {
-	   	TargetDeclaration target = targetReference.getElement();
-	     if(target != null) {
-	       result = target.targetContext().lookUp(selector);
-	     } else {
-	     	throw new LookupException("Lookup of target of NamespaceOrVariableReference returned null",targetReference);
-	     }
-	   }
-	   else {
-	     result = nonTargetLookupStrategy().lookUp(selector);
-	   }
+	  if(targetReference != null) {
+	  	TargetDeclaration target = targetReference.getElement();
+	  	if(target != null) {
+	  		result = target.targetContext().lookUp(selector);
+	  	} else {
+	  		throw new LookupException("Lookup of target of NamespaceOrVariableReference returned null",targetReference);
+	  	}
+	  }
+	  else {
+	  	result = nonTargetLookupStrategy().lookUp(selector);
+	  }
 		
-	   if(result != null) {
-	   	//OPTIMISATION
-	  	 if(cache) {
-	   	   setCache((R) result);
-	  	 }
-	     return result;
-	   } else {
-	   	// repeat lookups for debugging purposes
-	   	//Config.setCaching(false);
-	   	if(targetReference != null) {
-	     	TargetDeclaration target = targetReference.getElement();
-	       if(target != null) {
-	         result = target.targetContext().lookUp(selector);
-	       }
-	   	} else {
-	   		result = nonTargetLookupStrategy().lookUp(selector);
-	   	}
-	     throw new LookupException("Cannot find namespace or type with name: "+signature(),this);
-	   }
+	  if(result != null) {
+	  	//OPTIMISATION
+	  	if(cache) {
+	  		setCache((R) result);
+	  	}
+	  	return result;
+	  } else {
+	  	// repeat lookups for debugging purposes
+	  	//Config.setCaching(false);
+	  	if(targetReference != null) {
+	  		TargetDeclaration target = targetReference.getElement();
+	  		if(target != null) {
+	  			result = target.targetContext().lookUp(selector);
+	  		}
+	  	} else {
+	  		result = nonTargetLookupStrategy().lookUp(selector);
+	  	}
+	  	throw new LookupException("Cannot find namespace or type with name: "+signature(),this);
+	  }
 	 }
 
 	protected LookupStrategy nonTargetLookupStrategy() throws LookupException {
 		return lexicalLookupStrategy();
 	}
 	 
-	 public abstract DeclarationSelector<R> selector();
+//	 public abstract DeclarationSelector<R> selector();
 	 
 	/*@
 	  @ also public behavior

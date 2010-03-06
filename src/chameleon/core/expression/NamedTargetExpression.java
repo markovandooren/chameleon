@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.rejuse.association.SingleAssociation;
 
+import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
@@ -110,15 +111,55 @@ public class NamedTargetExpression extends Expression<NamedTargetExpression> imp
   	return getElement(selector());
 	}
 
+  private DeclarationWithType _cache;
+  
+  @Override
+  public void flushLocalCache() {
+  	super.flushLocalCache();
+  	_cache = null;
+  }
+  
+  protected DeclarationWithType getCache() {
+  	if(Config.cacheElementReferences() == true) {
+  	  return _cache;
+  	} else {
+  		return null;
+  	}
+  }
+  
+  protected void setCache(DeclarationWithType value) {
+  	if(! value.isDerived()) {
+    	if(Config.cacheElementReferences() == true) {
+    		_cache = value;
+    	}
+  	} else {
+  		_cache = null;
+  	}
+  }
+
   public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
+  	X result = null;
+  	
+  	//OPTIMISATION
+  	boolean cache = selector.equals(selector());
+  	if(cache) {
+  		result = (X) getCache();
+  	}
+	  if(result != null) {
+	   	return result;
+	  }
+	   
     InvocationTarget target = getTarget();
-    X result;
     if(target != null) {
       result = target.targetContext().lookUp(selector);//findElement(getName());
     } else {
       result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
     }
     if(result != null) {
+	  	//OPTIMISATION
+	  	if(cache) {
+	  		setCache((DeclarationWithType) result);
+	  	}
       return result;
     } else {
     	// repeat for debugging purposes
@@ -132,11 +173,13 @@ public class NamedTargetExpression extends Expression<NamedTargetExpression> imp
   }
 
 	public DeclarationSelector<DeclarationWithType> selector() {
-		return new SelectorWithoutOrder<DeclarationWithType>(new SelectorWithoutOrder.SignatureSelector() {
-			public Signature signature() {
-				return _signature;
-			}
-		}, DeclarationWithType.class);
+		return _selector;
 	}
+	
+	private DeclarationSelector<DeclarationWithType> _selector = new SelectorWithoutOrder<DeclarationWithType>(new SelectorWithoutOrder.SignatureSelector() {
+		public SimpleNameSignature signature() {
+			return NamedTargetExpression.this._signature;
+		}
+	}, DeclarationWithType.class);
 
 }

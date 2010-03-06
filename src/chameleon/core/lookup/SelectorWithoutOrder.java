@@ -56,4 +56,9 @@ public class SelectorWithoutOrder<D extends Declaration> extends DeclarationSele
 		return signature!=null && signature.sameAs(signature());
 	}
 
+	@Override
+	public String selectionName() {
+		return signature().name();
+	}
+
 }

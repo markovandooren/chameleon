@@ -12,6 +12,14 @@ import chameleon.core.validation.VerificationResult;
 
 public abstract class CrossReferenceImpl<E extends CrossReference, P extends Element, D extends Declaration> extends NamespaceElementImpl<E,P> implements CrossReference<E, P, D> {
 
+	/**
+	 * Return the declaration selector that is responsible for selecting the declaration
+	 * referenced by this cross-reference.
+	 * 
+	 * @return
+	 */
+	public abstract DeclarationSelector<D> selector();
+
 	public final D getElement() throws LookupException {
 		return getElement(selector());
 	}

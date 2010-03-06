@@ -65,7 +65,7 @@ public class TypeImport extends Import<TypeImport> {
 
 	@Override
 	public List<Declaration> directImports() throws LookupException {
-		lookupLogger().debug("NamespacePart of " + nearestAncestor(NamespacePart.class).getFullyQualifiedName()+"Looking up direct import: "+getTypeReference().signature());
+		//lookupLogger().debug("NamespacePart of " + nearestAncestor(NamespacePart.class).getFullyQualifiedName()+"Looking up direct import: "+getTypeReference().signature());
 		List<Declaration> result = new ArrayList<Declaration>();
 		result.add(type());
 		return result;
@@ -78,7 +78,7 @@ public class TypeImport extends Import<TypeImport> {
 
 	@Override
 	public <D extends Declaration> List<D> directImports(DeclarationSelector<D> selector) throws LookupException {
-		lookupLogger().debug("NamespacePart of " + nearestAncestor(NamespacePart.class).getFullyQualifiedName()+"Looking up direct import: "+getTypeReference().signature());
+//		lookupLogger().debug("NamespacePart of " + nearestAncestor(NamespacePart.class).getFullyQualifiedName()+"Looking up direct import: "+getTypeReference().signature());
 		List<D> result = new ArrayList<D>();
 		D element = selector.selection(type());
 		if(element != null) {

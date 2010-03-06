@@ -36,9 +36,17 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   public Invocation(InvocationTarget target) {
 	  setTarget(target);
 	  _parameters.connectTo(new ActualArgumentList().parentLink());
+	  _selector = createSelector();
   }
   
-  public abstract DeclarationSelector<D> selector();
+  
+  public final DeclarationSelector<D> selector() {
+    return _selector;
+  }
+  
+  protected abstract DeclarationSelector<D> createSelector();
+  
+  protected DeclarationSelector<D> _selector;
   
 	/**
 	 * TARGET
@@ -179,6 +187,33 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
 	public Declaration getDeclarator() throws LookupException {
 		return getElement(new DeclaratorSelector(selector()));
 	}
+	
+  private D _cache;
+  
+  @Override
+  public void flushLocalCache() {
+  	super.flushLocalCache();
+  	_cache = null;
+  }
+  
+  protected D getCache() {
+  	if(Config.cacheElementReferences() == true) {
+  	  return _cache;
+  	} else {
+  		return null;
+  	}
+  }
+  
+  protected void setCache(D value) {
+  	if(! value.isDerived()) {
+    	if(Config.cacheElementReferences() == true) {
+    		_cache = value;
+    	}
+  	} else {
+  		_cache = null;
+  	}
+  }
+
 
 	/**
 	 * Return the method invoked by this invocation.
@@ -192,14 +227,31 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
 	 @*/
 //	public abstract D getMethod() throws MetamodelException;
   public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
+  	X result = null;
+  	
+  	//OPTIMISATION
+  	boolean cache = selector.equals(selector());
+  	if(cache) {
+  		result = (X) getCache();
+  	}
+	  if(result != null) {
+	   	return result;
+	  }
+	   
   	InvocationTarget target = getTarget();
-  	X result;
   	if(target == null) {
       result = lexicalLookupStrategy().lookUp(selector);
   	} else {
   		result = getTarget().targetContext().lookUp(selector);
   	}
-		if (result == null) {
+		if (result != null) {
+	  	//OPTIMISATION
+	  	if(cache) {
+	  		setCache((D) result);
+	  	}
+	    return result;
+		}
+		else {
 			//repeat lookup for debugging purposes.
 			//Config.setCaching(false);
 	  	if(target == null) {
@@ -209,7 +261,6 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
 	  	}
 			throw new LookupException("Method returned by invocation is null", this);
 		}
-    return result;
   }
 
   public D getMethod() throws LookupException {

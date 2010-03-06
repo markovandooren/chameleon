@@ -124,7 +124,8 @@ public class RegularType extends Type {
 
 	@Override
 	public <D extends Member> List<D> localMembers(DeclarationSelector<D> selector) throws LookupException {
-		return selector.selection(localMembers());
+//		return selector.selection(localMembers());
+		return body().members(selector);
 	}
 	
   public void replace(TypeElement oldElement, TypeElement newElement) {

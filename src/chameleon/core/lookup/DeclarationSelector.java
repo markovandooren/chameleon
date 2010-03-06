@@ -54,6 +54,21 @@ public abstract class DeclarationSelector<D extends Declaration> {
   public abstract boolean selectedRegardlessOfName(D declaration) throws LookupException;
 
   /**
+   * Return the of the declaration that will be selected by this declaration selector.
+   * 
+   * This method is provided here such that declaration containers can keep a hashmap as
+   * a cache, and quickly select the potential candidate(s). This way, we avoid having to
+   * check all members. The most discriminating property of a declaration is usually its name.
+   * 
+   * @assumption We assume that a declaration selector can only select a declaration with a single
+   *             name. If that is no longer the case, this method should return a collection of names.
+   *             That makes the caching code more complex, and is slower, so we don't do that for now.
+   * 
+   * @return
+   */
+  public abstract String selectionName();
+  
+  /**
    * This method decides if the given signature is selected by this declaration selector.
    */
  /*@

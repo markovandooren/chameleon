@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.rejuse.association.SingleAssociation;
 
+import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
@@ -16,6 +17,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.SelectorWithoutOrder;
 import chameleon.core.lookup.Target;
+import chameleon.core.lookup.SelectorWithoutOrder.SignatureSelector;
 import chameleon.core.reference.CrossReferenceImpl;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.type.Type;
@@ -84,20 +86,60 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
   }
 
   
+  private TargetDeclaration _cache;
+  
+  @Override
+  public void flushLocalCache() {
+  	super.flushLocalCache();
+  	_cache = null;
+  }
+  
+  protected TargetDeclaration getCache() {
+  	if(Config.cacheElementReferences() == true) {
+  	  return _cache;
+  	} else {
+  		return null;
+  	}
+  }
+  
+  protected void setCache(TargetDeclaration value) {
+  	if(! value.isDerived()) {
+    	if(Config.cacheElementReferences() == true) {
+    		_cache = value;
+    	}
+  	} else {
+  		_cache = null;
+  	}
+  }
+  
   /***********
    * CONTEXT *
    ***********/
    
   @SuppressWarnings("unchecked")
   protected <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
-    InvocationTarget target = getTarget();
-    X result;
+  	X result = null;
+  	
+  	//OPTIMISATION
+  	boolean cache = selector.equals(selector());
+  	if(cache) {
+  		result = (X) getCache();
+  	}
+	  if(result != null) {
+	   	return result;
+	  }
+
+	  InvocationTarget target = getTarget();
     if(target != null) {
       result = target.targetContext().lookUp(selector);//findElement(getName());
     } else {
       result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
     }
     if(result != null) {
+	  	//OPTIMISATION
+	  	if(cache) {
+	  		setCache((TargetDeclaration) result);
+	  	}
       return result;
     } else {
     	// repeat for debugging purposes
@@ -111,13 +153,15 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
   }
   
   public DeclarationSelector<TargetDeclaration> selector() {
-  	return new SelectorWithoutOrder<TargetDeclaration>(new SelectorWithoutOrder.SignatureSelector() {
-			public Signature signature() {
-				return _signature;
-			}
-		}, TargetDeclaration.class);
+  	return _selector;
   }
-
+  
+  private DeclarationSelector<TargetDeclaration> _selector = new SelectorWithoutOrder<TargetDeclaration>(new SelectorWithoutOrder.SignatureSelector() {
+		public SimpleNameSignature signature() {
+			return NamedTarget.this._signature;
+		}
+	}, TargetDeclaration.class); 
+  
   /********
    * NAME *
    ********/

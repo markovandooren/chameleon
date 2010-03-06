@@ -15,6 +15,11 @@ public abstract class Signature<E extends Signature, P extends Element> extends 
 
   public abstract E clone();
   
+  /**
+   * Return a string representation of this signature.
+   * @return
+   */
+  public abstract String name();
 //  /**
 //   * Equals cannot throw a checked exception, so we introduce sameAs.
 //   */

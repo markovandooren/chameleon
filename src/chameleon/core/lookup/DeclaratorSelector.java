@@ -3,10 +3,14 @@ package chameleon.core.lookup;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.relation.WeakPartialOrder;
+import chameleon.exception.ChameleonProgrammerException;
 
 public class DeclaratorSelector extends DeclarationSelector{
 	
 	public DeclaratorSelector(DeclarationSelector selector) {
+		if(_selector == null) {
+			throw new ChameleonProgrammerException("The wrapped selector of a declarator selector cannot be null.");
+		}
 		_selector = selector;
 	}
 	
@@ -35,6 +39,11 @@ public class DeclaratorSelector extends DeclarationSelector{
 	@Override
 	public boolean selectedBasedOnName(Signature signature) throws LookupException {
 		return _selector.selectedBasedOnName(signature);
+	}
+
+	@Override
+	public String selectionName() {
+		return _selector.selectionName();
 	}
 
 }

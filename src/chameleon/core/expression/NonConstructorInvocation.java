@@ -1,6 +1,7 @@
 package chameleon.core.expression;
 
 
+import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.method.Method;
 import chameleon.core.type.Type;
