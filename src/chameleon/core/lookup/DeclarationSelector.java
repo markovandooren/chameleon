@@ -65,8 +65,9 @@ public abstract class DeclarationSelector<D extends Declaration> {
    *             That makes the caching code more complex, and is slower, so we don't do that for now.
    * 
    * @return
+   * @throws LookupException 
    */
-  public abstract String selectionName();
+  public abstract String selectionName() throws LookupException;
   
   /**
    * This method decides if the given signature is selected by this declaration selector.

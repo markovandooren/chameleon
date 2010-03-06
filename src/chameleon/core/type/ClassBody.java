@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.rejuse.association.OrderedMultiAssociation;
 
+import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.element.Element;
@@ -56,8 +57,13 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 	}
 	
 	public  <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
-		ensureLocalCache();
-		List<Declaration> list = _declarationCache.get(selector.selectionName());
+		List<? extends Declaration> list = null;
+		if(Config.cacheDeclarations()) {
+			ensureLocalCache();
+		  list = _declarationCache.get(selector.selectionName());
+		} else {
+			list = members();
+		}
 	  if(list == null) {
 	  	list = Collections.EMPTY_LIST;
 	  }

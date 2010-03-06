@@ -42,7 +42,7 @@ public class DeclaratorSelector extends DeclarationSelector{
 	}
 
 	@Override
-	public String selectionName() {
+	public String selectionName() throws LookupException {
 		return _selector.selectionName();
 	}
 
