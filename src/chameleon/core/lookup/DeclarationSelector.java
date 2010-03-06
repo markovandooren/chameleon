@@ -51,7 +51,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @
    @ pre selectedClass().isInstance(declaration);
    @*/
-  public abstract boolean selectedRegardlessOfSignature(D declaration) throws LookupException;
+  public abstract boolean selectedRegardlessOfName(D declaration) throws LookupException;
 
   /**
    * This method decides if the given signature is selected by this declaration selector.
@@ -61,7 +61,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @
    @ pre signature != null;
    @*/
-  public abstract boolean selected(Signature signature) throws LookupException;
+  public abstract boolean selectedBasedOnName(Signature signature) throws LookupException;
   
   public List<D> declarations(DeclarationContainer container) throws LookupException {
   	return container.declarations(this);
@@ -100,8 +100,8 @@ public abstract class DeclarationSelector<D extends Declaration> {
   	D result = null;
   	Declaration selectionDeclaration = declarator.selectionDeclaration();
   	if(selectedClass().isInstance(selectionDeclaration)) {
-  	  if(selectedRegardlessOfSignature((D)selectionDeclaration)) {
-  	  	if(selected(declarator.signature())) {
+  	  if(selectedBasedOnName(declarator.signature())) {
+  	  	if(selectedRegardlessOfName((D)selectionDeclaration)) {
 			    result = actualDeclaration(declarator);
   	  	}
   	  }

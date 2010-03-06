@@ -18,8 +18,8 @@ public class DeclaratorSelector extends DeclarationSelector{
   private DeclarationSelector _selector;
 
 	@Override
-	public boolean selectedRegardlessOfSignature(Declaration declaration) throws LookupException {
-		return _selector.selectedRegardlessOfSignature(declaration);
+	public boolean selectedRegardlessOfName(Declaration declaration) throws LookupException {
+		return _selector.selectedRegardlessOfName(declaration);
 	}
 
 	@Override
@@ -33,8 +33,8 @@ public class DeclaratorSelector extends DeclarationSelector{
 	}
 
 	@Override
-	public boolean selected(Signature signature) throws LookupException {
-		return _selector.selected(signature);
+	public boolean selectedBasedOnName(Signature signature) throws LookupException {
+		return _selector.selectedBasedOnName(signature);
 	}
 
 }

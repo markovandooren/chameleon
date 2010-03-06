@@ -26,6 +26,11 @@ public class Config {
 	private static boolean CACHE_EXPRESSION_TYPES = false;
 
 	/**
+	 * Turn cache of signatures on and off. Default is off.
+	 */
+	private static boolean CACHE_SIGNATURES = false;
+
+	/**
 	 * Turn cache of language on and off. Default is off.
 	 */
 	private static boolean CACHE_LANGUAGE = false;
@@ -36,6 +41,15 @@ public class Config {
 		setCacheLanguage(bool);
 		setCacheExpressionTypes(bool);
 		setCacheElementProperties(bool);
+		setCacheSignatures(bool);
+	}
+
+	public static boolean cacheSignatures() {
+		return CACHE_SIGNATURES;
+	}
+
+	public static void setCacheSignatures(boolean value) {
+		CACHE_SIGNATURES = value;
 	}
 
 	public static boolean cacheExpressionTypes() {

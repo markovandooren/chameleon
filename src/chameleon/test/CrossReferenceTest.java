@@ -28,7 +28,11 @@ public class CrossReferenceTest extends ModelTest {
 	public void testCrossReferences() throws LookupException {
 		for(CrossReference crossReference: crossReferenceProvider().elements(language())) {
 			Declaration declaration = crossReference.getElement();
-			Declaration declarator = crossReference.getDeclarator();
+			// The declarator test isn't necessary since every implementation simply
+			// creates a DeclaratorSelector using its own selector, and then performs a lookup
+			// since the lookup path is exactly the same (it uses the original selector), testing 
+			// this for a single element is sufficient.
+			//Declaration declarator = crossReference.getDeclarator();
 		}
 	}
 }

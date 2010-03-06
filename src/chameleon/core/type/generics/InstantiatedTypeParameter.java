@@ -138,11 +138,12 @@ public class InstantiatedTypeParameter extends TypeParameter<InstantiatedTypePar
 
 	@Override
 	public boolean uniSameAs(Element other) throws LookupException {
-		boolean result = false;
-		if(other instanceof InstantiatedTypeParameter) {
-		 result = argument().alwaysSameAs(((InstantiatedTypeParameter)other).argument());
-		}
-		return result;
+		return other == this;
+//		boolean result = false;
+//		if(other instanceof InstantiatedTypeParameter) {
+//		 result = argument().alwaysSameAs(((InstantiatedTypeParameter)other).argument());
+//		}
+//		return result;
 	}
 
 }

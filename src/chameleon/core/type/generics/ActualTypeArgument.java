@@ -16,15 +16,15 @@ public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends E
 	
 	public abstract E clone();
 	
-	@Override
-	public boolean uniSameAs(Element element) throws LookupException {
-		boolean result = false;
-		if(element instanceof ActualTypeArgument) {
-			return upperBound().sameAs(((ActualTypeArgument) element).upperBound())
-			      && lowerBound().sameAs(((ActualTypeArgument) element).lowerBound());
-		}
-		return result;
-	}
+//	@Override
+//	public boolean uniSameAs(Element element) throws LookupException {
+//		boolean result = false;
+//		if(element instanceof ActualTypeArgument) {
+//			return upperBound().sameAs(((ActualTypeArgument) element).upperBound())
+//			      && lowerBound().sameAs(((ActualTypeArgument) element).lowerBound());
+//		}
+//		return result;
+//	}
 	
 	public abstract Type type() throws LookupException;
 	

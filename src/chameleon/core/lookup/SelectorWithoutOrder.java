@@ -24,7 +24,7 @@ public class SelectorWithoutOrder<D extends Declaration> extends DeclarationSele
 	}
 	
 	@Override
-	public boolean selectedRegardlessOfSignature(D declaration) throws LookupException {
+	public boolean selectedRegardlessOfName(D declaration) throws LookupException {
 		return true;
 	}
 
@@ -52,7 +52,7 @@ public class SelectorWithoutOrder<D extends Declaration> extends DeclarationSele
 	}
 
 	@Override
-	public boolean selected(Signature signature) throws LookupException {
+	public boolean selectedBasedOnName(Signature signature) throws LookupException {
 		return signature!=null && signature.sameAs(signature());
 	}
 
