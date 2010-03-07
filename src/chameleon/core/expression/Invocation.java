@@ -36,11 +36,13 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   public Invocation(InvocationTarget target) {
 	  setTarget(target);
 	  _parameters.connectTo(new ActualArgumentList().parentLink());
-	  _selector = createSelector();
   }
   
   
   public final DeclarationSelector<D> selector() {
+  	if(_selector == null) {
+  	  _selector = createSelector();
+  	}
     return _selector;
   }
   

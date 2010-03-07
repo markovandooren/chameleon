@@ -18,21 +18,11 @@ public class SpecificReference<E extends SpecificReference, P extends Element, D
 	public SpecificReference(String fqn, Class<D> specificClass){
 		super(fqn);
 		_specificClass = specificClass;
-		_selector = new SelectorWithoutOrder<D>(new SelectorWithoutOrder.SignatureSelector() {
-			public Signature signature() {
-				return SpecificReference.this.signature();
-			}
-		},_specificClass);
 	}
 
 	public SpecificReference(CrossReference<?, ?, ? extends TargetDeclaration> target, Signature signature, Class<D> specificClass) {
 		super(target, signature);
 		_specificClass = specificClass;
-		_selector = new SelectorWithoutOrder<D>(new SelectorWithoutOrder.SignatureSelector() {
-			public Signature signature() {
-				return SpecificReference.this.signature();
-			}
-		},_specificClass);
 	}
 
 	public SpecificReference(CrossReference<?, ?, ? extends TargetDeclaration> target, String name, Class<D> specificClass) {
@@ -68,10 +58,17 @@ public class SpecificReference<E extends SpecificReference, P extends Element, D
 	   return (E) new SpecificReference((getTarget() == null ? null : getTarget().clone()), signature().clone(), _specificClass);
 	}
 
-	private final DeclarationSelector<D> _selector;
+	private DeclarationSelector<D> _selector;
 	
 	@Override
 	public DeclarationSelector<D> selector() {
+		if(_selector == null) {
+			_selector = new SelectorWithoutOrder<D>(new SelectorWithoutOrder.SignatureSelector() {
+				public Signature signature() {
+					return SpecificReference.this.signature();
+				}
+			},_specificClass);
+		}
 		return _selector;
 	}
 	
