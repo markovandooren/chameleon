@@ -92,7 +92,10 @@ public abstract class ModelTest extends TestSuite {
    @Before
    public void setUp() throws ParseException, IOException {
     	setLogLevels();
+    	long start = System.nanoTime();
       _language = modelProvider().model();
+    	long stop = System.nanoTime();
+    	System.out.println("Model input took "+(stop-start)/1000000+" milliseconds.");
     }
     
    @After
