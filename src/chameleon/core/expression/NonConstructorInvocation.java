@@ -33,7 +33,6 @@ public abstract class NonConstructorInvocation<E extends NonConstructorInvocatio
 				  throw new LookupException("Could not find method of constructor invocation", this);
 				}
 			} catch (LookupException e) {
-				// TODO Auto-generated catch block
 //				e.printStackTrace();
 //				getMethod();
 				throw e;

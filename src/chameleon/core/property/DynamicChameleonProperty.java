@@ -27,6 +27,10 @@ public abstract class DynamicChameleonProperty extends DynamicProperty<Element,C
 		addValidElementType(validElementType);
 	}
 
+	public DynamicChameleonProperty(String name, PropertyUniverse<ChameleonProperty> universe, Class<? extends Element> validElementType) {
+		this(name, universe, new PropertyMutex<ChameleonProperty>(), validElementType);
+	}
+
 	private final class InverseDynamicChameleonProperty extends InverseProperty<Element, ChameleonProperty> implements ChameleonProperty {
 		private InverseDynamicChameleonProperty(String name, PropertyUniverse<ChameleonProperty> universe,
 				PropertyMutex<ChameleonProperty> mutex, ChameleonProperty inverse) {

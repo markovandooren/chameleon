@@ -146,7 +146,7 @@ public abstract class InheritanceRelation<E extends InheritanceRelation<E>> exte
 				if((!alreadyInherited.equals(m)) && (m.overrides(alreadyInherited) || m.canImplement(alreadyInherited) || m.hides(alreadyInherited))) {
 					iterCurrent.remove();
 				}
-				if(add == true && ((alreadyInherited == m) || alreadyInherited.overrides(m) || alreadyInherited.equivalentTo(m) || alreadyInherited.canImplement(m) || alreadyInherited.hides(m))) {
+				if(add == true && ((alreadyInherited == m) || alreadyInherited.overrides(m) || alreadyInherited.sameAs(m) || alreadyInherited.canImplement(m) || alreadyInherited.hides(m))) {
 					add = false;
 				}
 			}
@@ -231,7 +231,7 @@ public abstract class InheritanceRelation<E extends InheritanceRelation<E>> exte
 				} else {
 					processedMember = (Member) ((DeclarationAlias) processedDeclaration).aliasedDeclaration();
 				}	
-				if((processedMember.origin().equals(superMember.origin())) || processedMember.equals(superMember) || processedMember.overrides(superMember) || processedMember.equivalentTo(superMember) || processedMember.canImplement(superMember) || processedMember.hides(superMember)) {
+				if((processedMember.origin().equals(superMember.origin())) || processedMember.equals(superMember) || processedMember.overrides(superMember) || processedMember.sameAs(superMember) || processedMember.canImplement(superMember) || processedMember.hides(superMember)) {
 					// Make superDeclaration an alias, or update the alias.
 				  DeclarationAlias alias = new DeclarationAlias(superDeclaration.signature().clone(), processedMember);
 				  DeclarationContainerAlias superContainer = (DeclarationContainerAlias) superDeclaration.parent();
@@ -266,7 +266,7 @@ public abstract class InheritanceRelation<E extends InheritanceRelation<E>> exte
 				} else {
 					processedMember = (Member) ((DeclarationAlias) processedDeclaration).aliasedDeclaration();
 				}	
-				if(processedMember.equals(superMember) || processedMember.overrides(superMember) || processedMember.equivalentTo(superMember) || processedMember.canImplement(superMember) || processedMember.hides(superMember)) {
+				if(processedMember.equals(superMember) || processedMember.overrides(superMember) || processedMember.sameAs(superMember) || processedMember.canImplement(superMember) || processedMember.hides(superMember)) {
 					// Make superDeclaration an alias, or update the alias.
 				  DeclarationAlias alias = new DeclarationAlias(superDeclaration.signature().clone(), processedMember);
 				  DeclarationContainerAlias superContainer = (DeclarationContainerAlias) superDeclaration.parent();

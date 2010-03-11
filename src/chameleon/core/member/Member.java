@@ -51,15 +51,15 @@ public interface Member<E extends Member<E,P,S,F>, P extends Element, S extends 
    @*/
   public boolean hides(Member other) throws LookupException;
   
-  /**
-   * Check whether this is equivalent to given member.
-   */
- /*@
-   @ public behavior
-   @
-   @ post other == null ==> \result == false;
-   @*/
-  public boolean equivalentTo(Member other) throws LookupException;
+//  /**
+//   * Check whether this is equivalent to given member.
+//   */
+// /*@
+//   @ public behavior
+//   @
+//   @ post other == null ==> \result == false;
+//   @*/
+//  public boolean equivalentTo(Member other) throws LookupException;
   
   /**
    * Check whether this member can implement the given member.

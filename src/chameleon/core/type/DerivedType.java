@@ -53,9 +53,7 @@ public class DerivedType extends RegularType {
 			while(myParams.hasNext() && result) {
 				TypeParameter mine = myParams.next();
 				TypeParameter otherParam = otherParams.next();
-				if(! mine.sameAs(otherParam)) {
-					result = false;
-				}
+				result = mine.sameAs(otherParam);
 			}
 		}
 		return result;

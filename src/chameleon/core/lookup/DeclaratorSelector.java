@@ -8,7 +8,7 @@ import chameleon.exception.ChameleonProgrammerException;
 public class DeclaratorSelector extends DeclarationSelector{
 	
 	public DeclaratorSelector(DeclarationSelector selector) {
-		if(_selector == null) {
+		if(selector == null) {
 			throw new ChameleonProgrammerException("The wrapped selector of a declarator selector cannot be null.");
 		}
 		_selector = selector;

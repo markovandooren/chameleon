@@ -38,10 +38,6 @@ public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Element
     return hidesRelation.contains(this, other);
   }
   
-  public final boolean equivalentTo(Member other) throws LookupException {
-  	return language(ObjectOrientedLanguage.class).equivalenceRelation().contains(this,other);
-  }
-
   public final boolean canImplement(Member other) throws LookupException {
   	return language(ObjectOrientedLanguage.class).implementsRelation().contains(this,other);
   }

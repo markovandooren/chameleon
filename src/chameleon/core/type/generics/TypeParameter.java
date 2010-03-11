@@ -71,6 +71,10 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Namespac
 		return upperBound().subTypeOf(other.upperBound()) && other.lowerBound().subTypeOf(lowerBound());
 	}
 	
+	public boolean canBeAssigned(ActualTypeArgument typeArgument) throws LookupException {
+		return lowerBound().subTypeOf(typeArgument.lowerBound()) && typeArgument.upperBound().subTypeOf(upperBound());
+	}
+	
 	public abstract Type upperBound() throws LookupException;
 	
 	public abstract Type lowerBound() throws LookupException;
