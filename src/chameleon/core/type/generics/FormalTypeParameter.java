@@ -39,7 +39,9 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 	 * is the upper bound of this generic parameter as defined by the upperBound method.
 	 */
 	public Type selectionDeclaration() throws LookupException {
-		return new ConstructedType(signature().clone(),upperBound(),this);
+		ConstructedType constructedType = new ConstructedType(signature().clone(),upperBound(),this);
+		constructedType.setUniParent(parent());
+		return constructedType;
 	}
 	
 	public Type resolveForRoundTrip() throws LookupException {

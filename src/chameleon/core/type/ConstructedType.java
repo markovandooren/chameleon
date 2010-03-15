@@ -23,6 +23,7 @@ public class ConstructedType extends TypeIndirection {
 		_param = param;
 	}
 	
+	
 	@Override
 	public boolean uniSameAs(Element type) {
 		return type == this || 

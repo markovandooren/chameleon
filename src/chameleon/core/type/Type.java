@@ -1049,6 +1049,7 @@ public abstract class Type extends FixedSignatureMember<Type,Element,SimpleNameS
   			result = this;
   		} else {
   		  result = new IntersectionType(this,type);
+  		  result.setUniParent(parent());
   		}
   		return result;
   	}

@@ -87,7 +87,7 @@ public class BasicTypeArgument extends ActualTypeArgumentWithTypeReference<Basic
 	public boolean alwaysSameAs(ActualTypeArgument argument) throws LookupException {
 		boolean result = false;
 		if(argument instanceof BasicTypeArgument) {
-			return type().sameAs(argument.type());
+			return typeReference().getDeclarator().sameAs(((BasicTypeArgument) argument).typeReference().getDeclarator());
 		}
 		return result;
 	}

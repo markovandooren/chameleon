@@ -25,8 +25,8 @@ public class IntersectionType extends Type {
 
 	IntersectionType(Type first, Type second) {
 		super(createSignature(Arrays.asList(new Type[]{first,second})));
-		add(first);
-		add(second);
+		addType(first);
+		addType(second);
 	}
 	
 	private IntersectionType(Set<Type> types) {

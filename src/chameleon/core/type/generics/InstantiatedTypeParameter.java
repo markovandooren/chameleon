@@ -16,7 +16,6 @@ import chameleon.core.type.Type;
 import chameleon.core.type.TypeIndirection;
 import chameleon.core.type.TypeReference;
 import chameleon.core.validation.VerificationResult;
-import chameleon.oo.language.ObjectOrientedLanguage;
 
 public class InstantiatedTypeParameter extends TypeParameter<InstantiatedTypeParameter> {
 	
@@ -138,12 +137,12 @@ public class InstantiatedTypeParameter extends TypeParameter<InstantiatedTypePar
 
 	@Override
 	public boolean uniSameAs(Element other) throws LookupException {
-		return other == this;
-//		boolean result = false;
-//		if(other instanceof InstantiatedTypeParameter) {
-//		 result = argument().alwaysSameAs(((InstantiatedTypeParameter)other).argument());
-//		}
-//		return result;
+//		return other == this;
+		boolean result = false;
+		if(other instanceof InstantiatedTypeParameter) {
+		 result = argument().alwaysSameAs(((InstantiatedTypeParameter)other).argument());
+		}
+		return result;
 	}
 
 }
