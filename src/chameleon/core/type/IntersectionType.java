@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.rejuse.logic.ternary.Ternary;
+import org.rejuse.predicate.UnsafePredicate;
 
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
@@ -173,6 +175,29 @@ public class IntersectionType extends Type {
 		}
 		removeConstructors(result);
 		return result;
+	}
+	
+	
+
+	@Override
+	public boolean uniSameAs(final Element other) throws LookupException {
+		Set<Type> types = types();
+		if (other instanceof IntersectionType) {
+			return new UnsafePredicate<Type, LookupException>() {
+				@Override
+				public boolean eval(final Type first) throws LookupException {
+					return new UnsafePredicate<Type, LookupException>() {
+						@Override
+						public boolean eval(Type second) throws LookupException {
+							return first.sameAs(second);
+						}
+						
+					}.exists(((IntersectionType)other).types());
+				}
+			}.forAll(types);
+		} else {
+			return (types.size() == 1) && (types.iterator().next().equals(other));
+		}
 	}
 
 	@Override

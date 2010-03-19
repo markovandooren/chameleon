@@ -140,7 +140,7 @@ public class InstantiatedTypeParameter extends TypeParameter<InstantiatedTypePar
 //		return other == this;
 		boolean result = false;
 		if(other instanceof InstantiatedTypeParameter) {
-		 result = argument().alwaysSameAs(((InstantiatedTypeParameter)other).argument());
+		 result = argument().sameAs(((InstantiatedTypeParameter)other).argument());
 		}
 		return result;
 	}

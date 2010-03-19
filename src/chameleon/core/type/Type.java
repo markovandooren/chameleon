@@ -1072,6 +1072,20 @@ public abstract class Type extends FixedSignatureMember<Type,Element,SimpleNameS
 				return new MissingSignature(this); 
 			}
 		}
+
+//		public boolean sameRangeAs(Type other) throws LookupException {
+//			return other != null && (uniSameRangeAs(other)) || other.uniSameRangeAs(this);
+//		}
+		
+//		public abstract boolean uniSameRangeAs(Type other) throws LookupException;
+		
+//		public boolean sameBoundsAs(Type other) throws LookupException {
+//			return upperBound().sameAs(other.upperBound()) && (lowerBound().sameAs(other.lowerBound()));
+//		}
+		
+//		public abstract Type upperBound();
+//		
+//		public abstract Type lowerBound();
 }
 
 

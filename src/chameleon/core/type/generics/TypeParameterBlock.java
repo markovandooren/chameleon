@@ -7,14 +7,17 @@ import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.NamespaceElementImpl;
+import chameleon.core.type.Type;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.util.Util;
 
 /**
  * WARNING! If you use a parameter block as an subelement of a class X, then you must add
@@ -74,7 +77,11 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 //		stub.setUniParent(parent());
 		stub.setUniParent(this);
 		for(TypeParameter parameter:parameters()) {
+			//FIXME must create subclass of formalparameter that keeps a reference to the original formal
+			// parameter OR use origin() for that.
+//			TypeParameter clone = new StubTypeParameter(parameter);
 			TypeParameter clone = parameter.clone();
+			clone.setOrigin(parameter);
 			result.add(clone);
 			stub.add(clone);
 		}
@@ -163,4 +170,55 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 		return Valid.create();
 	}
 	
+	public static class StubTypeParameter extends TypeParameter<StubTypeParameter> {
+
+		public StubTypeParameter(TypeParameter original) {
+			super(original.signature().clone());
+			setOriginalTypeParameter(original);
+		}
+		
+		public void setOriginalTypeParameter(TypeParameter original) {
+			_original = original;
+		}
+		
+		private TypeParameter _original;
+
+		public TypeParameter originalTypeParameter() {
+			return _original;
+		}
+		
+		@Override
+		public StubTypeParameter clone() {
+			return new StubTypeParameter(originalTypeParameter());
+		}
+
+		@Override
+		public Type lowerBound() throws LookupException {
+			return originalTypeParameter().lowerBound();
+		}
+
+		@Override
+		public Declaration resolveForRoundTrip() throws LookupException {
+			return originalTypeParameter().resolveForRoundTrip();
+		}
+
+		@Override
+		public boolean uniSameAs(Element other) throws LookupException {
+			return originalTypeParameter().uniSameAs(other);
+		}
+
+		@Override
+		public Type upperBound() throws LookupException {
+			return originalTypeParameter().upperBound();
+		}
+
+		public Declaration<?, ?, ?, Type> selectionDeclaration() throws LookupException {
+			return originalTypeParameter().selectionDeclaration();
+		}
+
+		public List<? extends Element> children() {
+			return Util.createSingletonList(signature());
+		}
+		
+	}
 }

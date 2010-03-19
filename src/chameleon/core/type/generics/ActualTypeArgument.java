@@ -48,7 +48,14 @@ public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends E
 		throw new ChameleonProgrammerException();
 	}
 
-	public boolean alwaysSameAs(ActualTypeArgument argument) throws LookupException {
-		return false;
+//	public boolean alwaysSameAs(ActualTypeArgument argument) throws LookupException {
+//		return false;
+//	}
+
+	@Override
+	public boolean uniSameAs(Element other) throws LookupException {
+		return (other instanceof ActualTypeArgument) && (type().sameAs(((ActualTypeArgument)other).type()));
 	}
+
+	
 }

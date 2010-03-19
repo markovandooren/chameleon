@@ -88,7 +88,12 @@ public class CloneAndChildTest extends ModelTest {
 		assertNotNull(msg,clonedChildren);
 		assertFalse(msg,clonedChildren.contains(null));
 		assertEquals(msg,children.size(), newChildren.size());
-		assertEquals(msg,children, newChildren);
+		try {
+		  assertEquals(msg,children, newChildren);
+		} catch(AssertionError err) {
+			children.get(1).equals(newChildren.get(1));
+			throw err;
+		}
 		assertEquals(msg,children.size(), clonedChildren.size());
 	}
 	

@@ -3,6 +3,7 @@ package chameleon.core.type.generics;
 import java.util.List;
 
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
@@ -99,6 +100,17 @@ public abstract class WildCardType extends Type {
 	public List<InheritanceRelation> inheritanceRelations() {
 		return upperBound().inheritanceRelations();
 	}
+
+	@Override
+	public boolean uniSameAs(Element other) throws LookupException {
+		if(other instanceof WildCardType) {
+			WildCardType wild = (WildCardType) other;
+			return upperBound().sameAs(wild.upperBound()) && lowerBound().sameAs(wild.lowerBound());
+		} else {
+			return false;
+		}
+	}
+	
 	
 
 }

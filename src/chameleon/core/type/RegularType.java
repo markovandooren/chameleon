@@ -181,4 +181,5 @@ public class RegularType extends Type {
 		}
 		
 	}
+
 }

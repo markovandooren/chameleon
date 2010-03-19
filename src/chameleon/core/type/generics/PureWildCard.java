@@ -28,7 +28,7 @@ public class PureWildCard extends ActualTypeArgument<PureWildCard> {
 
 	// TypeVariable concept invoeren, en lowerbound,... verplaatsen naar daar? Deze is context sensitive. Hoewel, dat
 	// wordt toch nooit direct vergeleken. Er moet volgens mij altijd eerst gecaptured worden, dus dan moet dit inderdaad
-	// verplaatst worden.
+	// verplaatst worden. NOPE, niet altijd eerst capturen.
 	@Override
 	public Type lowerBound() throws LookupException {
 		return language(ObjectOrientedLanguage.class).getNullType();

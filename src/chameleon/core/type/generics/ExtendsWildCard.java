@@ -1,5 +1,6 @@
 package chameleon.core.type.generics;
 
+import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
@@ -66,5 +67,5 @@ public class ExtendsWildCard extends ActualTypeArgumentWithTypeReference<Extends
 		newParameter.addConstraint(new ExtendsConstraint(typeReference().clone()));
     return newParameter;
 	}
-
+	
 }

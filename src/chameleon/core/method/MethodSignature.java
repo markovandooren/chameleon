@@ -39,6 +39,21 @@ public abstract class MethodSignature<E extends MethodSignature,P extends Namesp
 	
 	public abstract List<Type> parameterTypes() throws LookupException;
 	
+	public boolean sameParameterBoundsAs(MethodSignature other) throws LookupException {
+  	boolean result = false;
+  	if (other != null) {
+			List<Type> mine = parameterTypes();
+			List<Type> others = other.parameterTypes();
+			result = mine.size() == others.size();
+			Iterator<Type> iter1 = mine.iterator();
+			Iterator<Type> iter2 = others.iterator();
+			while (result && iter1.hasNext()) {
+        result = result && iter1.next().sameAs(iter2.next());
+			}
+		}
+  	return result;
+	}
+	
   public boolean sameParameterTypesAs(MethodSignature other) throws LookupException {
   	boolean result = false;
   	if (other != null) {

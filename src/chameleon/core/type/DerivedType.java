@@ -1,5 +1,6 @@
 package chameleon.core.type;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -81,7 +82,7 @@ public class DerivedType extends RegularType {
 	 * The contents of the type is copied into this type.
 	 * @param baseType
 	 */
-	private DerivedType(Type baseType) {
+	public DerivedType(Type baseType) {
 		super(baseType.signature().clone());
 		// Does not take nested members of any kind into account.
 		copyContents(baseType, true);
@@ -98,6 +99,10 @@ public class DerivedType extends RegularType {
 
 	@Override
 	public DerivedType clone() {
-		return new DerivedType(baseType());
+		List<TypeParameter> args = new ArrayList<TypeParameter>();
+		for(TypeParameter par: parameters()) {
+			args.add(par.clone());
+		}
+		return new DerivedType(args,baseType());
 	}
 }
