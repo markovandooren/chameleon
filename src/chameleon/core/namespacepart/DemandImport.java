@@ -53,7 +53,7 @@ public class DemandImport extends Import<DemandImport> {
   
   @Override
   public DemandImport clone() {
-    return new DemandImport(namespaceReference().clone());
+    return new DemandImport((ElementReference<?, ?, ?, ? extends Namespace>) namespaceReference().clone());
   }
 
 

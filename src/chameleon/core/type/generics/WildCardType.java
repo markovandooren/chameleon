@@ -83,7 +83,7 @@ public abstract class WildCardType extends Type {
 
 	@Override
 	public void removeInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException {
-		throw new ChameleonProgrammerException("Trying to remove a super type from a type alias.");
+		throw new ChameleonProgrammerException("Trying to remove a super type from a wildcard type.");
 	}
 
 	@Override
@@ -96,6 +96,11 @@ public abstract class WildCardType extends Type {
 		throw new ChameleonProgrammerException("Trying to replace a type parameter in a type alias.");
 	}
 	
+	@Override
+	public void replaceAllParameter(List<TypeParameter> newParameters) {
+		throw new ChameleonProgrammerException("Trying to replace type parameters in a type alias.");
+	}
+
 	@Override
 	public List<InheritanceRelation> inheritanceRelations() {
 		return upperBound().inheritanceRelations();

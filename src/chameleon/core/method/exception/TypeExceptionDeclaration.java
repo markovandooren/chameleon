@@ -30,10 +30,6 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration<TypeException
     setTypeReference(type);
   }
 
-  public TypeExceptionDeclaration(String type) {
-    setTypeReference(new TypeReference(type));
-  }
-
   public Set<Type> getExceptionTypes(Invocation invocation) throws LookupException {
     return getExceptionTypeSet();
   }

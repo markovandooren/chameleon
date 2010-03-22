@@ -1,5 +1,6 @@
 package chameleon.core.type;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.rejuse.association.OrderedMultiAssociation;
@@ -11,7 +12,6 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.Member;
-import chameleon.core.method.Method;
 import chameleon.core.type.generics.TypeParameter;
 import chameleon.core.type.generics.TypeParameterBlock;
 import chameleon.core.type.inheritance.InheritanceRelation;
@@ -180,6 +180,18 @@ public class RegularType extends Type {
 			super(element, "Class body is missing.");
 		}
 		
+	}
+
+	@Override
+	public void replaceAllParameter(List<TypeParameter> newParameters) {
+		int size = newParameters.size();
+		List<TypeParameter> old = parameters();
+		if(old.size() != size) {
+			throw new ChameleonProgrammerException("Trying to substitute "+parameters().size()+" type parameters with "+size+" new parameters.");
+		}
+		for(int i = 0; i< size; i++) {
+			replaceParameter(old.get(i), newParameters.get(i));
+		}
 	}
 
 }

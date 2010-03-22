@@ -17,7 +17,7 @@ import chameleon.util.Util;
  * 
  * @author Marko van Dooren
  */
-public abstract class ElementReference<E extends ElementReference, P extends Element, S extends Signature, D extends Declaration> extends CrossReferenceImpl<E,P,D> {
+public abstract class ElementReference<E extends CrossReference, P extends Element, S extends Signature, D extends Declaration> extends CrossReferenceImpl<E,P,D> {
 
 	private static Logger logger = Logger.getLogger("lookup.elementreference");
 	

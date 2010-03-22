@@ -1,6 +1,8 @@
 package chameleon.oo.language;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategyFactory;
@@ -10,6 +12,7 @@ import chameleon.core.property.ChameleonProperty;
 import chameleon.core.property.Defined;
 import chameleon.core.property.DynamicChameleonProperty;
 import chameleon.core.property.StaticChameleonProperty;
+import chameleon.core.reference.CrossReference;
 import chameleon.core.relation.EquivalenceRelation;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.relation.WeakPartialOrder;
@@ -60,15 +63,20 @@ public abstract class ObjectOrientedLanguage extends Language {
     NATIVE.addImplication(DEFINED);
 }
 
-  protected final class DummyTypeReference extends TypeReference {
-	  public DummyTypeReference(String qn) {
-		  super(qn);
-		  setUniParent(defaultNamespace());
-    }
+  public abstract TypeReference createTypeReference(String fqn);
+  
+  public abstract TypeReference createTypeReference(CrossReference<?, ?, ? extends TargetDeclaration> target, String name);
+  
+  public abstract TypeReference createTypeReference(CrossReference<?, ?, ? extends TargetDeclaration> target, SimpleNameSignature signature);
+  
+  public TypeReference createTypeReferenceInDefaultNamespace(String fqn) {
+	  TypeReference typeRef = createTypeReference(fqn);
+	  typeRef.setUniParent(defaultNamespace());
+	  return typeRef;
   }
-
+  
 	public Type getDefaultSuperClass() throws LookupException {
-		  TypeReference typeRef = new DummyTypeReference(getDefaultSuperClassFQN());
+		  TypeReference typeRef = createTypeReferenceInDefaultNamespace(getDefaultSuperClassFQN());
 	    Type result = typeRef.getType();
 	    if (result==null) {
 	        throw new LookupException("Default super class "+getDefaultSuperClassFQN()+" not found.");
@@ -147,8 +155,7 @@ public abstract class ObjectOrientedLanguage extends Language {
 	public abstract EquivalenceRelation<Member> equivalenceRelation();
 
 	public Type findType(String fqn) throws LookupException {
-		TypeReference ref = new TypeReference(fqn);
-		ref.setUniParent(defaultNamespace());
+		TypeReference ref = createTypeReferenceInDefaultNamespace(fqn);
 		return ref.getType();
 	}
 

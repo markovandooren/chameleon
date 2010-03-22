@@ -105,6 +105,11 @@ public abstract class TypeIndirection extends Type {
 	}
 
 	@Override
+	public void replaceAllParameter(List<TypeParameter> newParameters) {
+		throw new ChameleonProgrammerException("Trying to replace type parameters in a type alias.");
+	}
+
+	@Override
 	public void addParameter(TypeParameter parameter) {
 		throw new ChameleonProgrammerException("Trying to add a type parameter to a type alias.");
 	}

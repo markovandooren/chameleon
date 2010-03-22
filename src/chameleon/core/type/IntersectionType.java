@@ -141,7 +141,7 @@ public class IntersectionType extends Type {
 
 	@Override
 	public void removeInheritanceRelation(InheritanceRelation type) {
-		throw new ChameleonProgrammerException("Trying to remove a super type from a intersection type.");
+		throw new ChameleonProgrammerException("Trying to remove a super type from an intersection type.");
 	}
 
 	@Override
@@ -159,12 +159,17 @@ public class IntersectionType extends Type {
 
 	@Override
 	public void replaceParameter(TypeParameter oldParameter, TypeParameter newParameter) {
-		throw new ChameleonProgrammerException("Trying to remove a super type from a intersection type.");
+		throw new ChameleonProgrammerException("Trying to replace a type parameter in an intersection type.");
+	}
+
+	@Override
+	public void replaceAllParameter(List<TypeParameter> newParameters) {
+		throw new ChameleonProgrammerException("Trying to replace type parameters in an intersection type.");
 	}
 
 	@Override
 	public void addParameter(TypeParameter parameter) {
-		throw new ChameleonProgrammerException("Trying to remove a super type from a intersection type.");
+		throw new ChameleonProgrammerException("Trying to add a type parameter to an intersection type.");
 	}
 
 	@Override

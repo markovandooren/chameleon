@@ -238,6 +238,8 @@ public abstract class Type extends FixedSignatureMember<Type,Element,SimpleNameS
   	
   	public abstract void replaceParameter(TypeParameter oldParameter, TypeParameter newParameter);
 
+  	public abstract void replaceAllParameter(List<TypeParameter> newParameters);
+  	
     /************************
      * BEING A TYPE ELEMENT *
      ************************/
@@ -369,7 +371,7 @@ public abstract class Type extends FixedSignatureMember<Type,Element,SimpleNameS
     }
     
     public Set<Type> getAllSuperTypes() throws LookupException {
-    	Set result = new HashSet();
+    	Set<Type> result = new HashSet<Type>();
     	accumulateAllSuperTypes(result);
     	return result;
     }
