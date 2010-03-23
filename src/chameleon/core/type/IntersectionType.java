@@ -25,7 +25,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 
 public class IntersectionType extends Type {
 
-	IntersectionType(Type first, Type second) {
+	public IntersectionType(Type first, Type second) {
 		super(createSignature(Arrays.asList(new Type[]{first,second})));
 		addType(first);
 		addType(second);

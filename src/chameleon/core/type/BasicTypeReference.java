@@ -10,7 +10,7 @@ import chameleon.core.reference.SpecificReference;
 /**
  * @author Marko van Dooren
  */
-public class BasicTypeReference extends SpecificReference<TypeReference,Element,Type> implements TypeReference {
+public class BasicTypeReference<E extends TypeReference> extends SpecificReference<E,Element,Type> implements TypeReference<E> {
 
   public BasicTypeReference(String fqn) {
     super(fqn, Type.class);
@@ -28,8 +28,8 @@ public class BasicTypeReference extends SpecificReference<TypeReference,Element,
   	return getElement();
   }
 
-  public TypeReference clone() {
-    return new BasicTypeReference((getTarget() == null ? null : getTarget().clone()),(SimpleNameSignature)signature().clone());
+  public E clone() {
+    return (E) new BasicTypeReference((getTarget() == null ? null : getTarget().clone()),(SimpleNameSignature)signature().clone());
   }
   
 }

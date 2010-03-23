@@ -9,7 +9,7 @@ import chameleon.core.reference.CrossReference;
 /**
  * @author Marko van Dooren
  */
-public interface TypeReference extends CrossReference<TypeReference,Element,Type> {
+public interface TypeReference<E extends TypeReference> extends CrossReference<E,Element,Type> {
 
 //  public TypeReference(String fqn) {
 //    super(fqn, Type.class);
@@ -33,9 +33,10 @@ public interface TypeReference extends CrossReference<TypeReference,Element,Type
   
 	public Type getType() throws LookupException;
 	
-	public TypeReference clone();
+	public Type getElement() throws LookupException;
 	
-	public Signature signature();
+	public E clone();
 	
-	public CrossReference<?, ?, ? extends TargetDeclaration> getTarget();
+//	public Signature signature();
+	
 }

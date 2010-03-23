@@ -48,5 +48,5 @@ public interface CrossReference<E extends CrossReference, P extends Element, D e
 	 * 
 	 * @return
 	 */
-	public DeclarationSelector<D> selector();
+	//public DeclarationSelector<D> selector();
 }
