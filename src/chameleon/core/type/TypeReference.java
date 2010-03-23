@@ -1,6 +1,7 @@
 package chameleon.core.type;
 
 import chameleon.core.declaration.Signature;
+import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReference;
@@ -35,4 +36,6 @@ public interface TypeReference extends CrossReference<TypeReference,Element,Type
 	public TypeReference clone();
 	
 	public Signature signature();
+	
+	public CrossReference<?, ?, ? extends TargetDeclaration> getTarget();
 }
