@@ -524,7 +524,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     /**
      * @see Element#lexicalLookupStrategy() 
      */
-    public final LookupStrategy lexicalLookupStrategy() throws LookupException {
+    public LookupStrategy lexicalLookupStrategy() throws LookupException {
     	try {
         return parent().lexicalLookupStrategy(this);
     	} catch(NullPointerException exc) {

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.rejuse.association.OrderedMultiAssociation;
+import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
@@ -13,59 +14,44 @@ import chameleon.core.type.TypeReference;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.util.Util;
 
 public abstract class TypeConstraintWithReferences<E extends TypeConstraintWithReferences> extends TypeConstraint<E> {
-	public void add(TypeReference tref) {
-		if(tref != null) {
-			_types.add(tref.parentLink());
+
+	
+	public void setTypeReference(TypeReference ref) {
+		if(ref != null) {
+			_types.connectTo(ref.parentLink());
+		} else {
+			_types.connectTo(null);
 		}
 	}
-	
-	public void remove(TypeReference tref) {
-		if(tref != null) {
-			_types.remove(tref.parentLink());
-		}
+	public TypeReference typeReference() {
+		return _types.getOtherEnd();
 	}
 	
-	public List<TypeReference> typeReferences() {
-		return _types.getOtherEnds();
-	}
-	
-	private OrderedMultiAssociation<TypeConstraintWithReferences,TypeReference> _types = new OrderedMultiAssociation<TypeConstraintWithReferences, TypeReference>(this);
+	private SingleAssociation<TypeConstraintWithReferences,TypeReference> _types = new SingleAssociation<TypeConstraintWithReferences, TypeReference>(this);
 
 	public List<Element> children() {
-		return new ArrayList<Element>(typeReferences());
+		return Util.createNonNullList(typeReference());
 	} 
 	
 	@Override
 	public E clone() {
 		E result = cloneThis();
-		for(TypeReference ref : typeReferences()) {
-			result.add(ref.clone());
-		}
+		result.setTypeReference(typeReference().clone());
 		return result;
 	}
 	
 	public abstract E cloneThis();
 
 	public Type bound() throws LookupException {
-		Iterator<TypeReference> iter = typeReferences().iterator();
-		Type result = null;
-		if(iter.hasNext()) {
-			result = iter.next().getType();
-			while(iter.hasNext()) {
-				result = result.intersection(iter.next().getType());
-			}
-		} else {
-			throw new LookupException("No type in the extends constraint");
-		}
-		return result;
+		return typeReference().getElement();
 	}
 
 	@Override
 	public VerificationResult verifySelf() {
-		int nbConstraints = _types.size();
-		if(nbConstraints > 0) {
+		if(typeReference() != null) {
 			return Valid.create();
 		} else {
 			return new MissingConstraintTypes(this);

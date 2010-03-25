@@ -31,9 +31,9 @@ public class IntersectionType extends Type {
 		addType(second);
 	}
 	
-	private IntersectionType(Set<Type> types) {
+	public IntersectionType(List<Type> types) {
 		super(createSignature(types));
-		_types = types;
+		_types = new ArrayList<Type>();
 	}
 
 	protected Type intersectionDoubleDispatch(Type type) {
@@ -50,14 +50,14 @@ public class IntersectionType extends Type {
 		_types.addAll(type.types());
 	}
 	
-	private Set<Type> _types = new HashSet<Type>();
+	private List<Type> _types = new ArrayList<Type>();
 	
 	public void addType(Type type) {
 		_types.add(type);
 	}
 	
-	public Set<Type> types() {
-		return new HashSet<Type>(_types);
+	public List<Type> types() {
+		return new ArrayList<Type>(_types);
 	}
 
 	
@@ -186,7 +186,7 @@ public class IntersectionType extends Type {
 
 	@Override
 	public boolean uniSameAs(final Element other) throws LookupException {
-		Set<Type> types = types();
+		List<Type> types = types();
 		if (other instanceof IntersectionType) {
 			return new UnsafePredicate<Type, LookupException>() {
 				@Override

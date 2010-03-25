@@ -251,7 +251,7 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	 * RETURN TYPE *
 	 ***************/
 
-	public abstract TypeReference getReturnTypeReference();
+	public abstract TypeReference returnTypeReference();
 
 	/**
 	 * Return the type of this method.
@@ -262,8 +262,8 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	 @ post \result == getReturnTypeReference().getType();
 	 @*/
 	public Type returnType() throws LookupException {
-		if(getReturnTypeReference() != null) {
-		  return getReturnTypeReference().getType();
+		if(returnTypeReference() != null) {
+		  return returnTypeReference().getType();
 		} else {
 			throw new LookupException("Return type reference of method is null");
 		}
@@ -407,7 +407,7 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 		Util.addNonNull(implementation(),result);
 		Util.addNonNull(header(),result);
 		Util.addNonNull(getExceptionClause(), result);
-		Util.addNonNull(getReturnTypeReference(), result);
+		Util.addNonNull(returnTypeReference(), result);
 		return result;
 	}
 

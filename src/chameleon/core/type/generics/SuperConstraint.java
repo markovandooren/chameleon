@@ -13,7 +13,7 @@ public class SuperConstraint extends TypeConstraintWithReferences<SuperConstrain
 	}
 	
 	public SuperConstraint(TypeReference ref) {
-		add(ref);
+		setTypeReference(ref);
 	}
 	
 	@Override
@@ -21,18 +21,15 @@ public class SuperConstraint extends TypeConstraintWithReferences<SuperConstrain
 		return upperBound().subTypeOf(type);
 	}
 
-
 	@Override
 	public SuperConstraint cloneThis() {
 		return new SuperConstraint();
 	}
 
-
 	@Override
 	public Type lowerBound() throws LookupException {
 		return bound();
 	}
-
 
 	@Override
 	public Type upperBound() throws LookupException {

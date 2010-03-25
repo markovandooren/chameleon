@@ -17,7 +17,7 @@ public abstract class RegularMethod<E extends RegularMethod<E,H,S,M>, H extends 
 	
 	private SingleAssociation<Method,TypeReference> _typeReference = new SingleAssociation<Method,TypeReference>(this);
 
-	public TypeReference getReturnTypeReference() {
+	public TypeReference returnTypeReference() {
 		return _typeReference.getOtherEnd();
 	}
 
@@ -67,7 +67,7 @@ public abstract class RegularMethod<E extends RegularMethod<E,H,S,M>, H extends 
 	@Override
 	public VerificationResult verifySelf() {
 		VerificationResult result = super.verifySelf();
-		if(getReturnTypeReference() == null) {
+		if(returnTypeReference() == null) {
 			result = result.and(new BasicProblem(this, "Method "+name()+" has no return type."));
 		}
 		return result;

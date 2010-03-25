@@ -40,8 +40,8 @@ public class MethodAlias<E extends MethodAlias<E,H,S>, H extends MethodHeader<H,
 	}
 
 	@Override
-	public TypeReference getReturnTypeReference() {
-		return aliasedMethod().getReturnTypeReference();
+	public TypeReference returnTypeReference() {
+		return aliasedMethod().returnTypeReference();
 	}
 
 	@Override

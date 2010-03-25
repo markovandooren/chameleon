@@ -11,7 +11,7 @@ public class ExtendsConstraint extends TypeConstraintWithReferences<ExtendsConst
 	}
 	
 	public ExtendsConstraint(TypeReference ref) {
-		add(ref);
+		setTypeReference(ref);
 	}
 
 
