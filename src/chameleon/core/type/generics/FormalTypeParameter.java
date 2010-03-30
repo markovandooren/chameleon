@@ -10,6 +10,7 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.type.ConstructedType;
 import chameleon.core.type.Type;
+import chameleon.core.type.TypeReference;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 
@@ -84,6 +85,15 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 		if(constraint != null) {
 			_typeConstraints.add(constraint.parentLink());
 		}
+	}
+	
+	public TypeReference upperBoundReference() {
+		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+		TypeReference result = language.createTypeReference(language.getDefaultSuperClassFQN());
+		for(TypeConstraint constraint: constraints()) {
+			result = result.intersection(constraint.upperBoundReference());
+		}
+		return result;
 	}
 
 	public Type upperBound() throws LookupException {

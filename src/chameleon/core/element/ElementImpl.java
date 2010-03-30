@@ -513,12 +513,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
      * @see Element#lexicalLookupStrategy(Element) 
      */
     public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
-    	P parent = parent();
-    	if(parent != null) {
-        return parent.lexicalLookupStrategy(this);
-    	} else {
-    		throw new LookupException("Going to the parent context when there is no parent.");
-    	}
+    	return lexicalLookupStrategy();
     }
 
     /**

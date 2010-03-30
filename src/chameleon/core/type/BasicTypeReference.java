@@ -6,6 +6,7 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReference;
 import chameleon.core.reference.SpecificReference;
+import chameleon.oo.language.ObjectOrientedLanguage;
 
 /**
  * @author Marko van Dooren
@@ -31,5 +32,19 @@ public class BasicTypeReference<E extends TypeReference> extends SpecificReferen
   public E clone() {
     return (E) new BasicTypeReference((getTarget() == null ? null : getTarget().clone()),(SimpleNameSignature)signature().clone());
   }
+
+	public TypeReference intersection(TypeReference other) {
+		return other.intersectionDoubleDispatch(this);
+	}
+
+	public TypeReference intersectionDoubleDispatch(TypeReference other) {
+		return language(ObjectOrientedLanguage.class).createIntersectionReference(clone(), other.clone());
+	}
+
+	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference<?> other) {
+		IntersectionTypeReference<?> result = other.clone();
+		result.add(clone());
+		return result;
+	}
   
 }

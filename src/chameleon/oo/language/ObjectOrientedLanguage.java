@@ -16,6 +16,7 @@ import chameleon.core.reference.CrossReference;
 import chameleon.core.relation.EquivalenceRelation;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.relation.WeakPartialOrder;
+import chameleon.core.type.IntersectionTypeReference;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 
@@ -68,6 +69,8 @@ public abstract class ObjectOrientedLanguage extends Language {
   public abstract TypeReference createTypeReference(CrossReference<?, ?, ? extends TargetDeclaration> target, String name);
   
   public abstract TypeReference createTypeReference(CrossReference<?, ?, ? extends TargetDeclaration> target, SimpleNameSignature signature);
+  
+  public abstract IntersectionTypeReference createIntersectionReference(TypeReference first, TypeReference second);
   
   public TypeReference createTypeReferenceInDefaultNamespace(String fqn) {
 	  TypeReference typeRef = createTypeReference(fqn);

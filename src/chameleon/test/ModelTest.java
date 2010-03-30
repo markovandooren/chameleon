@@ -9,8 +9,8 @@ import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 
-import chameleon.core.Config;
 import chameleon.core.language.Language;
+import chameleon.core.type.TypeReference;
 import chameleon.input.ParseException;
 import chameleon.test.provider.ModelProvider;
 
@@ -97,6 +97,7 @@ public abstract class ModelTest extends TestSuite {
     	long stop = System.nanoTime();
     	System.out.println("Model input took "+(stop-start)/1000000+" milliseconds.");
     	System.out.println("Model contains "+language().defaultNamespace().descendants().size()+" elements.");
+    	System.out.println("Model contains "+language().defaultNamespace().descendants(TypeReference.class).size()+" type references.");
     }
     
    @After

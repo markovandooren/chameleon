@@ -38,5 +38,10 @@ public class ExtendsConstraint extends TypeConstraintWithReferences<ExtendsConst
 		return bound();
 	}
 
+	@Override
+	public TypeReference upperBoundReference() {
+		return typeReference();
+	}
+
 	
 }

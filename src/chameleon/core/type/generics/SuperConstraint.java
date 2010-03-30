@@ -36,4 +36,10 @@ public class SuperConstraint extends TypeConstraintWithReferences<SuperConstrain
 		return language(ObjectOrientedLanguage.class).getDefaultSuperClass();
 	}
 
+	@Override
+	public TypeReference upperBoundReference() {
+		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+		return language.createTypeReference(language.getDefaultSuperClassFQN());
+	}
+
 }

@@ -52,6 +52,8 @@ public abstract class TypeConstraint<E extends TypeConstraint> extends ElementIm
 	 */
 	public abstract Type upperBound() throws LookupException;
 	
+	public abstract TypeReference upperBoundReference();
+	
 	/**
 	 * Return the lower bound on the type that this type constraint imposes.
 	 * 

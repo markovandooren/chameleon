@@ -390,20 +390,6 @@ public abstract class Type extends FixedSignatureMember<Type,Element,SimpleNameS
     	return other == this;
     }
     
-//   /*@
-//     @ public behavior
-//     @
-//     @ post ! other instanceof Type ==> \result == false
-//     @ post other instanceof Type ==> \result == equalTo(other) || other.equalTo(this); 
-//     @*/
-//    public boolean equals(Object other) {
-//    	boolean result = false;
-//    	if(other instanceof Type) {
-//    		result = uniEqualTo((Type)other) || ((Type)other).uniEqualTo(this);
-//    	}
-//    	return result;
-//    }
-
     /**
      * Check if this type is assignable to another type.
      * 
@@ -433,6 +419,16 @@ public abstract class Type extends FixedSignatureMember<Type,Element,SimpleNameS
      @*/
   	public abstract List<InheritanceRelation> inheritanceRelations();
   	
+  	/**
+  	 * Return the direct super types of this type.
+  	 */
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @ post (\forall InheritanceRelation relation; inheritanceRelations().contains(relation) ;
+     @             \result.contains(relation.superType()));
+     @*/
   	public List<Type> directSuperTypes() throws LookupException {
   	  List<Type> result = new ArrayList<Type>();
   		for(InheritanceRelation relation: inheritanceRelations()) {
