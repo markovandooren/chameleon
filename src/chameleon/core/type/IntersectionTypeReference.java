@@ -51,7 +51,11 @@ public class IntersectionTypeReference<E extends IntersectionTypeReference> exte
 
 	@Override
 	public E clone() {
-		return (E) new IntersectionTypeReference(typeReferences());
+		List<TypeReference> trefs = new ArrayList<TypeReference>();
+		for(TypeReference tref: typeReferences()) {
+			trefs.add(tref.clone());
+		}
+		return (E) new IntersectionTypeReference(trefs);
 	}
 
 	@Override

@@ -55,18 +55,6 @@ public abstract class AbstractType extends Type {
 	}
 
 	public void add(TypeElement element) {
-	//		if(element instanceof Method) {
-	//			Method method = (Method)element;
-	//		List<Member> dmembers = directlyDeclaredMembers();
-	//		for(Member member:dmembers) {
-	//			try {
-	//				if(method.signature().sameAs(member.signature())) {
-	//					System.out.println("ola");
-	//				}
-	//			} catch (Exception e) {
-	//			}
-	//		}
-	//		}
 		  body().add(element);
 		}
 

@@ -3,10 +3,8 @@ package chameleon.core.type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.UnsafePredicate;
@@ -22,18 +20,26 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.util.CreationStackTrace;
 
 public class IntersectionType extends Type {
 
+	private final CreationStackTrace _trace;
+	
 	public IntersectionType(Type first, Type second) {
 		super(createSignature(Arrays.asList(new Type[]{first,second})));
 		addType(first);
 		addType(second);
+		_trace = new CreationStackTrace();
 	}
 	
 	public IntersectionType(List<Type> types) {
 		super(createSignature(types));
-		_types = new ArrayList<Type>();
+		if(types.isEmpty()) {
+			throw new ChameleonProgrammerException("Creating an intersection with an empty collection of types.");
+		}
+		_types = new ArrayList<Type>(types);
+		_trace = new CreationStackTrace();
 	}
 
 	protected Type intersectionDoubleDispatch(Type type) {
