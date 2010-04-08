@@ -17,8 +17,20 @@ import chameleon.core.type.generics.TypeParameter;
  * 
  * @author Marko van Dooren
  */
-public class DerivedType extends RegularType {
+public class DerivedType extends AbstractType {
 
+	/**
+	 * Create a new derived type for the given base type.
+	 * The contents of the type is copied into this type.
+	 * @param baseType
+	 */
+	private DerivedType(Type baseType) {
+		super(baseType.signature().clone());
+		copyContents(baseType, true);
+		_baseType = baseType;
+		setOrigin(baseType);
+	}
+	
 	/**
 	 * Create a derived type by filling in the type parameters with the given list of
 	 * actual type arguments.
@@ -63,31 +75,6 @@ public class DerivedType extends RegularType {
 	public DerivedType(List<TypeParameter> typeParameters, Type baseType) {
 		this(baseType);
 		substituteParameters(typeParameters);
-	}
-
-	public void substituteParameters(List<TypeParameter> typeParameters) {
-		Iterator<TypeParameter> parametersIterator = parameters().iterator();
-		Iterator<TypeParameter> argumentsIterator = typeParameters.iterator();
-		while (parametersIterator.hasNext()) {
-			TypeParameter parameter = parametersIterator.next();
-			TypeParameter argument = argumentsIterator.next();
-			// The next call does not change the parent of 'argument'. It is stored in InstantiatedTypeParameter
-			// using a regular reference.
-			replaceParameter(parameter, argument);
-		}
-	}
-	
-	/**
-	 * Create a new derived type for the given base type.
-	 * The contents of the type is copied into this type.
-	 * @param baseType
-	 */
-	public DerivedType(Type baseType) {
-		super(baseType.signature().clone());
-		// Does not take nested members of any kind into account.
-		copyContents(baseType, true);
-		_baseType = baseType;
-		setOrigin(baseType);
 	}
 
 	private Type _baseType;

@@ -377,6 +377,15 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
       return result;
     }
 
+    public final <T extends Element<?,?>> List<T> ancestors(Class<T> c) {
+    	List<T> result = new ArrayList<T>();
+    	T el = nearestAncestor(c);
+    	while ((el != null) && (! c.isInstance(el))){
+    		result.add(el);
+    		el = el.nearestAncestor(c);
+    	}
+    	return result;
+    }
 
     public final List<Element> ancestors() {
         if (parent()!=null) {

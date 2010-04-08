@@ -82,6 +82,21 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	  }
 	}
 	
+	/**
+	 * The index starts at 1.
+	 */
+	public FormalParameter formalParameter(int index) {
+		return header().formalParameter(index);
+	}
+	
+	public FormalParameter lastFormalParameter() {
+		return formalParameter(nbFormalParameters());
+	}
+	
+	public int nbFormalParameters() {
+		return header().nbFormalParameters();
+	}
+	
 	public List<TypeParameter> typeParameters() {
 	  return header().typeParameters();
 	}

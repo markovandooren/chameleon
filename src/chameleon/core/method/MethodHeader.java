@@ -37,7 +37,7 @@ public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceEl
   public E clone() {
     E result = cloneThis();
     for(FormalParameter param:formalParameters()) {
-      result.addParameter(param.clone());
+      result.addFormalParameter(param.clone());
     }
     for(TypeParameter param:typeParameters()) {
     	result.addTypeParameter(param.clone());
@@ -93,13 +93,21 @@ public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceEl
     return _parameters.getOtherEnds();
   }
 
-
-  public void addParameter(FormalParameter arg) {
+  public void addFormalParameter(FormalParameter arg) {
     _parameters.add(arg.parentLink());
   }
 
-  public int getNbParameters() {
+  public int nbFormalParameters() {
     return _parameters.size();
+  }
+  
+  /**
+   * The index starts from 1.
+   * @param index
+   * @return
+   */
+  public FormalParameter formalParameter(int index) {
+  	return _parameters.elementAt(index);
   }
 
   private OrderedMultiAssociation<MethodHeader,FormalParameter> _parameters = new OrderedMultiAssociation<MethodHeader,FormalParameter>(this);
@@ -110,7 +118,7 @@ public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceEl
    * @return
    * @throws ModelException
    */
-  public List<Type> getParameterTypes() throws LookupException {
+  public List<Type> formalParameterTypes() throws LookupException {
     List<Type> result = new ArrayList<Type>();
     for(FormalParameter param:formalParameters()) {
       result.add(param.getType());
