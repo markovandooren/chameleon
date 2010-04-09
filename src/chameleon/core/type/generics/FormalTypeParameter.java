@@ -93,6 +93,7 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 		for(TypeConstraint constraint: constraints()) {
 			result = result.intersection(constraint.upperBoundReference());
 		}
+		result.setUniParent(this);
 		return result;
 	}
 

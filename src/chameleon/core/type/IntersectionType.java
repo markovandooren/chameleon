@@ -24,13 +24,10 @@ import chameleon.util.CreationStackTrace;
 
 public class IntersectionType extends Type {
 
-	private final CreationStackTrace _trace;
-	
 	public IntersectionType(Type first, Type second) {
 		super(createSignature(Arrays.asList(new Type[]{first,second})));
 		addType(first);
 		addType(second);
-		_trace = new CreationStackTrace();
 	}
 	
 	public IntersectionType(List<Type> types) {
@@ -39,7 +36,6 @@ public class IntersectionType extends Type {
 			throw new ChameleonProgrammerException("Creating an intersection with an empty collection of types.");
 		}
 		_types = new ArrayList<Type>(types);
-		_trace = new CreationStackTrace();
 	}
 
 	protected Type intersectionDoubleDispatch(Type type) {

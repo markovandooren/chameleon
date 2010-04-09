@@ -38,7 +38,9 @@ public class IntersectionTypeReference<E extends IntersectionTypeReference> exte
 		for(TypeReference ref: typeReferences()) {
 			types.add(ref.getElement());
 		}
-		return new IntersectionType(types);
+		IntersectionType result = new IntersectionType(types);
+		result.setUniParent(this);
+		return result;
 	}
 
 	public List<TypeReference> typeReferences() {

@@ -96,8 +96,6 @@ public abstract class ModelTest extends TestSuite {
       _language = modelProvider().model();
     	long stop = System.nanoTime();
     	System.out.println("Model input took "+(stop-start)/1000000+" milliseconds.");
-    	System.out.println("Model contains "+language().defaultNamespace().descendants().size()+" elements.");
-    	System.out.println("Model contains "+language().defaultNamespace().descendants(TypeReference.class).size()+" type references.");
     }
     
    @After
