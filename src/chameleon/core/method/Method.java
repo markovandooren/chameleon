@@ -90,7 +90,12 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	}
 	
 	public FormalParameter lastFormalParameter() {
-		return formalParameter(nbFormalParameters());
+		int nbFormalParameters = nbFormalParameters();
+		if(nbFormalParameters > 0) {
+		  return formalParameter(nbFormalParameters);
+		} else {
+			return null;
+		}
 	}
 	
 	public int nbFormalParameters() {

@@ -34,7 +34,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @
    @ post \result == (selection(declaration) != null);
    @*/
-  public boolean selects(Declaration declaration) throws LookupException {
+  protected boolean selects(Declaration declaration) throws LookupException {
     return selection(declaration) != null;
   }
   
@@ -51,7 +51,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @
    @ pre selectedClass().isInstance(declaration);
    @*/
-  public abstract boolean selectedRegardlessOfName(D declaration) throws LookupException;
+  protected abstract boolean selectedRegardlessOfName(D declaration) throws LookupException;
 
   /**
    * Return the of the declaration that will be selected by this declaration selector.
@@ -77,8 +77,14 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @
    @ pre signature != null;
    @*/
-  public abstract boolean selectedBasedOnName(Signature signature) throws LookupException;
+  protected abstract boolean selectedBasedOnName(Signature signature) throws LookupException;
   
+  /**
+   * Return the declarations of the given declaration container to which selection is applied.
+   * This round-trip allows both the container and the selector to filter the candidates.
+   * 
+   * The default result is container.declarations(this), but clients cannot rely on that.
+   */
   public List<D> declarations(DeclarationContainer container) throws LookupException {
   	return container.declarations(this);
   }
@@ -110,7 +116,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @ post \result == declaration | \result == null;
    @ post ! selectedClass().isInstance(declaration) ==> \result == null;
    @*/
-  public D selection(Declaration declarator) throws LookupException {
+  protected D selection(Declaration declarator) throws LookupException {
   	// We first perform the checks on the selectionDeclaration, since a signature check may be
   	// very expensive.
   	D result = null;
@@ -170,15 +176,15 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @            ! (\exists D other; set.contains(other); order().strictOrder().contains(other,d))));
    @*/
   public List<D> selection(List<? extends Declaration> selectionCandidates) throws LookupException {
-    List<Declaration> tmp = new ArrayList<Declaration>();
+    List<D> tmp = new ArrayList<D>();
       for(Declaration decl: selectionCandidates) {
         D e = selection(decl);
         if(e != null) {
           tmp.add(e);
         }
       }
-      order().removeBiggerElements((Collection<D>) tmp);
-    return (List<D>) tmp;
+      order().removeBiggerElements(tmp);
+    return tmp;
   }
   
   /**
@@ -189,6 +195,6 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @
    @ post \result != null;
    @*/
-  public abstract WeakPartialOrder<D> order();
+  protected abstract WeakPartialOrder<D> order();
 
 }

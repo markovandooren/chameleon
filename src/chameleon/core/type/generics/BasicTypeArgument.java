@@ -12,6 +12,7 @@ import chameleon.core.type.TypeReference;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.util.CreationStackTrace;
 
 /**
  * A class of type arguments that consist of a type name.
@@ -19,7 +20,6 @@ import chameleon.core.validation.VerificationResult;
  * @author Marko van Dooren
  */
 public class BasicTypeArgument extends ActualTypeArgumentWithTypeReference<BasicTypeArgument> {
-
 
 	public BasicTypeArgument(TypeReference ref) {
 		super(ref);

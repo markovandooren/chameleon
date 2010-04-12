@@ -13,6 +13,7 @@ import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.util.CreationStackTrace;
 
 /**
  * This class represents generic parameters as used in Java and C#.
