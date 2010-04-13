@@ -244,7 +244,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   	if(target == null) {
       result = lexicalLookupStrategy().lookUp(selector);
   	} else {
-  		result = getTarget().targetContext().lookUp(selector);
+  		result = target.targetContext().lookUp(selector);
   	}
 		if (result != null) {
 	  	//OPTIMISATION
