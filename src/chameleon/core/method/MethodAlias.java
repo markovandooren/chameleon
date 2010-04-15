@@ -72,4 +72,9 @@ public class MethodAlias<E extends MethodAlias<E,H,S>, H extends MethodHeader<H,
 		return Valid.create();
 	}
 
+	@Override
+	public void setReturnTypeReference(TypeReference type) {
+		throw new ChameleonProgrammerException("Trying to set the return type reference of a method alias.");
+	}
+
 }

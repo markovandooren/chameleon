@@ -20,12 +20,9 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
-import chameleon.util.CreationStackTrace;
 
 public class IntersectionType extends Type {
 
-	CreationStackTrace _trace = new CreationStackTrace();
-	
 	public IntersectionType(Type first, Type second) {
 		super(createSignature(Arrays.asList(new Type[]{first,second})));
 		addType(first);

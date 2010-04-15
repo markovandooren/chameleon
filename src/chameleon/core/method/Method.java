@@ -272,6 +272,8 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	 ***************/
 
 	public abstract TypeReference returnTypeReference();
+	
+	public abstract void setReturnTypeReference(TypeReference type);
 
 	/**
 	 * Return the type of this method.
