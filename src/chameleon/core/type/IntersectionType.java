@@ -24,6 +24,8 @@ import chameleon.util.CreationStackTrace;
 
 public class IntersectionType extends Type {
 
+	CreationStackTrace _trace = new CreationStackTrace();
+	
 	public IntersectionType(Type first, Type second) {
 		super(createSignature(Arrays.asList(new Type[]{first,second})));
 		addType(first);

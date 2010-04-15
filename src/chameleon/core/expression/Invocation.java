@@ -259,7 +259,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
 	  	if(target == null) {
 	      result = lexicalLookupStrategy().lookUp(selector);
 	  	} else {
-	  		result = getTarget().targetContext().lookUp(selector);
+	  		result = target.targetContext().lookUp(selector);
 	  	}
 			throw new LookupException("Method returned by invocation is null", this);
 		}
