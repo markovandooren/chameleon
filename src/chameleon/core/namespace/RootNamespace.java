@@ -7,6 +7,8 @@ import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
+import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.type.Type;
 import chameleon.core.validation.BasicProblem;
@@ -83,27 +85,8 @@ public class RootNamespace extends RegularNamespace<RootNamespace> {
 		
 	}
 
-//	  /**
-//	   * PRIMITIVE NAMESPACE PART
-//	   * 
-//	   * In this namespace part a UsingAlias will be present which
-//	   * connects the shortcuts for all primitive types (except void) and
-//	   * their class in the System namespace
-//	   * for example:
-//	   * using int = System.int32
-//	   * 
-//	   * Normally usings are only ment for the type declared in the NamespacePart
-//	   * but these usings should be there for every type.
-//	   * Therefor the RootNamespace overrides the getType() method.
-//	   * 
-//	   * !!! This is a logical expansion to fit everything in the metamodel.
-//	   * !!! The _primitiveNamespacePart should never be written down with for
-//	   * !!! example the CSharpCodeWriter or an editor.
-//	   */
-//	  private Reference _primitiveNamespacePart = new Reference(this);
-//	  
-//	  public NamespacePart getPrimitiveNamespacePart(){
-//		  return (NamespacePart)_primitiveNamespacePart.getOtherEnd();
-//	  }
-	  
+	public LookupStrategy lexicalLookupStrategy() throws LookupException {
+		return targetContext();
+	}
+
 }

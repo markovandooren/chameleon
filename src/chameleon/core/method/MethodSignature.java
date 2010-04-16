@@ -7,6 +7,8 @@ import chameleon.core.declaration.Signature;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.type.Type;
+import chameleon.core.type.generics.TypeParameter;
+import chameleon.core.variable.FormalParameter;
 
 public abstract class MethodSignature<E extends MethodSignature,P extends NamespaceElement> extends Signature<E, P> {
 
@@ -35,12 +37,30 @@ public abstract class MethodSignature<E extends MethodSignature,P extends Namesp
 //
 //  private OrderedReferenceSet<E,TypeReference> _parameters = new OrderedReferenceSet<E,TypeReference>((E) this);
 
+	public abstract E clone();
+	
 	public abstract String name();
 	
 	public abstract List<Type> parameterTypes() throws LookupException;
 	
 	public boolean sameParameterBoundsAs(MethodSignature other) throws LookupException {
   	boolean result = false;
+  	// substitute paramaters.
+  	Method method = (Method)other.nearestAncestor(Method.class);
+  	MethodHeader<?,?,?> clonedHeader = method.header().clone();
+  	clonedHeader.setUniParent(method);
+		List<TypeParameter> cloneTypeParameters = clonedHeader.typeParameters();
+  	List<TypeParameter> myTypeParameters = nearestAncestor(Method.class).typeParameters();
+  	int size = myTypeParameters.size();
+  	if(size == cloneTypeParameters.size()) {
+  		for(TypeParameter myTypeParameter: myTypeParameters) {
+  			// substitute in formal parameters
+  			for(FormalParameter formal: clonedHeader.formalParameters()) {
+  				
+  			}
+  			// substitute in type bounds of the type parameters of the cloned header.
+  		}
+  	}
   	if (other != null) {
 			List<Type> mine = parameterTypes();
 			List<Type> others = other.parameterTypes();
