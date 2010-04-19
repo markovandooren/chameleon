@@ -1,8 +1,14 @@
 package chameleon.oo.language;
 
+import java.util.List;
+
+import org.rejuse.association.SingleAssociation;
+import org.rejuse.predicate.UnsafePredicate;
+
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
+import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategyFactory;
@@ -19,6 +25,7 @@ import chameleon.core.relation.WeakPartialOrder;
 import chameleon.core.type.IntersectionTypeReference;
 import chameleon.core.type.Type;
 import chameleon.core.type.TypeReference;
+import chameleon.core.type.generics.TypeParameter;
 
 public abstract class ObjectOrientedLanguage extends Language {
 	
@@ -162,22 +169,31 @@ public abstract class ObjectOrientedLanguage extends Language {
 		return ref.getType();
 	}
 
-//  protected void initProperties() {
-//  	INHERITABLE = new StaticProperty<Element>("inheritable",this);
-//  	OVERRIDABLE = new StaticProperty<Element>("overridable",this);
-//  	EXTENSIBLE = new StaticProperty<Element>("extensible", this);
-//  	REFINABLE = new StaticProperty<Element>("refinable", this);
-//  	DEFINED = new Defined("defined",this);
-//  	INSTANCE = new StaticProperty<Element>("instance",this);
-//  	CLASS = INSTANCE.inverse();
-//    CLASS.setName("class");
-//    CONSTRUCTOR = new StaticProperty<Element>("constructor", this);
-//    DESTRUCTOR = new StaticProperty<Element>("destructor", this);
-//  	REFERENCE_TYPE = new StaticProperty<Element>("reference type", this);
-//  	VALUE_TYPE = REFERENCE_TYPE.inverse();
-//    OVERRIDABLE.addImplication(INHERITABLE);
-//    OVERRIDABLE.addImplication(REFINABLE);
-//    EXTENSIBLE.addImplication(REFINABLE);
-//  }
+	public void replace(TypeReference replacement, final Declaration declarator, TypeReference<?> in) throws LookupException {
+		List<TypeReference> crefs = in.descendants(TypeReference.class, 
+				new UnsafePredicate<TypeReference, LookupException>() {
+			@Override
+			public boolean eval(TypeReference object) throws LookupException {
+				return object.getDeclarator().sameAs(declarator);
+			}
+		});
+		for(TypeReference cref: crefs) {
+			TypeReference substitute;
+			if(replacement.isDerived()) {
+				Element oldParent = replacement.parent();
+				replacement.setUniParent(null);
+			  substitute = createNonLocalTypeReference(replacement,oldParent);
+			} else {
+			  substitute = createNonLocalTypeReference(replacement);
+			}
+			SingleAssociation crefParentLink = cref.parentLink();
+			crefParentLink.getOtherRelation().replace(crefParentLink, substitute.parentLink());
+		}
+	}
+	
+	public TypeReference createNonLocalTypeReference(TypeReference tref) {
+		return createNonLocalTypeReference(tref, tref.parent());
+	}
 
+	public abstract TypeReference createNonLocalTypeReference(TypeReference tref, Element lookupParent);
 }

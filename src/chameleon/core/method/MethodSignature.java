@@ -7,8 +7,12 @@ import chameleon.core.declaration.Signature;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.type.Type;
+import chameleon.core.type.TypeReference;
+import chameleon.core.type.generics.ExtendsConstraint;
+import chameleon.core.type.generics.FormalTypeParameter;
 import chameleon.core.type.generics.TypeParameter;
 import chameleon.core.variable.FormalParameter;
+import chameleon.oo.language.ObjectOrientedLanguage;
 
 public abstract class MethodSignature<E extends MethodSignature,P extends NamespaceElement> extends Signature<E, P> {
 
@@ -41,36 +45,51 @@ public abstract class MethodSignature<E extends MethodSignature,P extends Namesp
 	
 	public abstract String name();
 	
+	public abstract int nbFormalParameters();
+	
 	public abstract List<Type> parameterTypes() throws LookupException;
 	
 	public boolean sameParameterBoundsAs(MethodSignature other) throws LookupException {
-  	boolean result = false;
   	// substitute paramaters.
   	Method method = (Method)other.nearestAncestor(Method.class);
-  	MethodHeader<?,?,?> clonedHeader = method.header().clone();
-  	clonedHeader.setUniParent(method);
-		List<TypeParameter> cloneTypeParameters = clonedHeader.typeParameters();
-  	List<TypeParameter> myTypeParameters = nearestAncestor(Method.class).typeParameters();
-  	int size = myTypeParameters.size();
-  	if(size == cloneTypeParameters.size()) {
-  		for(TypeParameter myTypeParameter: myTypeParameters) {
-  			// substitute in formal parameters
-  			for(FormalParameter formal: clonedHeader.formalParameters()) {
-  				
+  	MethodHeader otherHeader = method.header();
+  	int nbOtherFormalParameters = otherHeader.nbFormalParameters();
+  	int nbMyFormalParameters = nbFormalParameters();
+  	boolean result = nbOtherFormalParameters == nbMyFormalParameters;
+  	if(result) {
+  		MethodHeader clonedHeader = otherHeader.clone();
+  		clonedHeader.setUniParent(method);
+  		List<TypeParameter> cloneTypeParameters = clonedHeader.typeParameters();
+  		List<TypeParameter> myTypeParameters = nearestAncestor(Method.class).typeParameters();
+  		int size = myTypeParameters.size();
+  		result = (size == cloneTypeParameters.size());
+  		if(result) {
+  			List<FormalParameter> clonedFormalParameters = (List<FormalParameter>)clonedHeader.formalParameters();
+  			for(int i=0; i < size; i++) {
+  				TypeParameter myTypeParameter = myTypeParameters.get(i);
+  				TypeParameter clonedTypeParameter = cloneTypeParameters.get(i);
+  				TypeReference replacement = language(ObjectOrientedLanguage.class).createTypeReference(myTypeParameter.signature().name());
+  				replacement.setUniParent(myTypeParameter.parent());
+  				// substitute in formal parameters
+  				for(FormalParameter formal: clonedFormalParameters) {
+  					language(ObjectOrientedLanguage.class).replace(replacement, clonedTypeParameter, formal.getTypeReference());
+  				}
+
+  				// substitute in type bounds of the type parameters of the cloned header.
+  				for(TypeParameter typeParameter: (List<TypeParameter>)clonedHeader.typeParameters()) {
+  					FormalTypeParameter formal = (FormalTypeParameter) typeParameter;
+  					language(ObjectOrientedLanguage.class).replace(replacement, clonedTypeParameter, ((ExtendsConstraint)formal.constraints().get(0)).typeReference());
+  				}
   			}
-  			// substitute in type bounds of the type parameters of the cloned header.
+  			List<Type> myFormalParameterTypes = parameterTypes();
+  			for(int i=0; result && i < nbMyFormalParameters; i++) {
+  				result = clonedFormalParameters.get(i).getType().sameAs(myFormalParameterTypes.get(i));
+  			}
+  			for(int i=0; result && i < size; i++) {
+  				result = cloneTypeParameters.get(i).upperBound().sameAs(myTypeParameters.get(i).upperBound());
+  			}
   		}
   	}
-  	if (other != null) {
-			List<Type> mine = parameterTypes();
-			List<Type> others = other.parameterTypes();
-			result = mine.size() == others.size();
-			Iterator<Type> iter1 = mine.iterator();
-			Iterator<Type> iter2 = others.iterator();
-			while (result && iter1.hasNext()) {
-        result = result && iter1.next().sameAs(iter2.next());
-			}
-		}
   	return result;
 	}
 	
