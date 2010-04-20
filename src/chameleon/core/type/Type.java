@@ -226,6 +226,10 @@ public abstract class Type extends FixedSignatureMember<Type,Element,SimpleNameS
 
   	public abstract List<TypeParameter> parameters();
   	
+  	public abstract TypeParameter parameter(int index);
+  	
+  	public abstract int nbTypeParameters();
+  	
   	public abstract void addParameter(TypeParameter parameter);
   	
   	public abstract void replaceParameter(TypeParameter oldParameter, TypeParameter newParameter);

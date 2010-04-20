@@ -52,6 +52,14 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 		return _parameters.getOtherEnds();
 	}
 	
+	public int nbTypeParameters() {
+		return _parameters.size();
+	}
+	
+	public TypeParameter parameter(int index) {
+		return _parameters.elementAt(index);
+	}
+	
 	public void add(TypeParameter parameter) {
 		if(parameter != null) {
 			_parameters.add(parameter.parentLink());

@@ -159,6 +159,11 @@ public class IntersectionType extends Type {
 	}
 
 	@Override
+	public int nbTypeParameters() {
+		return 0;
+	}
+
+	@Override
 	public void replaceParameter(TypeParameter oldParameter, TypeParameter newParameter) {
 		throw new ChameleonProgrammerException("Trying to replace a type parameter in an intersection type.");
 	}
@@ -209,6 +214,11 @@ public class IntersectionType extends Type {
 	@Override
 	public VerificationResult verifySelf() {
 		return Valid.create();
+	}
+
+	@Override
+	public TypeParameter parameter(int index) {
+		throw new IllegalArgumentException();
 	}
 
 }

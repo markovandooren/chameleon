@@ -113,6 +113,17 @@ public abstract class AbstractType extends Type {
 	public List<TypeParameter> parameters() {
 		return parameterBlock().parameters();
 	}
+	
+	public int nbTypeParameters() {
+		return parameterBlock().nbTypeParameters();
+	}
+
+	
+	
+	@Override
+	public TypeParameter parameter(int index) {
+		return parameterBlock().parameter(index);
+	}
 
 	public void addParameter(TypeParameter parameter) {
 		parameterBlock().add(parameter);

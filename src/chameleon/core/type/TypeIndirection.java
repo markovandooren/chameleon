@@ -98,6 +98,15 @@ public abstract class TypeIndirection extends Type {
 	public List<TypeParameter> parameters() {
 		return aliasedType().parameters();
 	}
+	
+	@Override
+	public TypeParameter parameter(int index) {
+		return aliasedType().parameter(index);
+	}
+
+	public int nbTypeParameters() {
+		return aliasedType().nbTypeParameters();
+	}
 
 	@Override
 	public void replaceParameter(TypeParameter oldParameter, TypeParameter newParameter) {

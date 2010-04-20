@@ -76,9 +76,20 @@ public abstract class WildCardType extends Type {
 		return upperBound().localMembers(selector);
 	}
 
+	//FIXME shouldn't this return an empty list?
 	@Override
 	public List<TypeParameter> parameters() {
 		return upperBound().parameters();
+	}
+
+	@Override
+	public int nbTypeParameters() {
+		return upperBound().nbTypeParameters();
+	}
+	
+	@Override
+	public TypeParameter parameter(int index) {
+		return upperBound().parameter(index);
 	}
 
 	@Override
