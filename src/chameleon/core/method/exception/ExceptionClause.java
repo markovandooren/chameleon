@@ -14,9 +14,9 @@ import chameleon.core.expression.Invocation;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.method.Method;
 import chameleon.core.namespace.NamespaceElementImpl;
-import chameleon.core.type.Type;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.oo.type.Type;
 
 /**
  * @author Marko van Dooren

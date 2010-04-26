@@ -20,11 +20,11 @@ import chameleon.core.lookup.Target;
 import chameleon.core.lookup.SelectorWithoutOrder.SignatureSelector;
 import chameleon.core.reference.CrossReferenceImpl;
 import chameleon.core.statement.CheckedExceptionList;
-import chameleon.core.type.Type;
 import chameleon.core.variable.FormalParameter;
 import chameleon.core.variable.MemberVariable;
 import chameleon.core.variable.Variable;
 import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.oo.type.Type;
 import chameleon.util.Util;
 public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDeclaration> implements InvocationTarget<NamedTarget,Element> {
 

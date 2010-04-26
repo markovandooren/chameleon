@@ -7,10 +7,10 @@ import chameleon.core.expression.Expression;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.modifier.ElementWithModifiers;
-import chameleon.core.type.DeclarationWithType;
-import chameleon.core.type.Type;
-import chameleon.core.type.TypeReference;
-import chameleon.core.type.VariableOrType;
+import chameleon.oo.type.DeclarationWithType;
+import chameleon.oo.type.Type;
+import chameleon.oo.type.TypeReference;
+import chameleon.oo.type.VariableOrType;
 
 /**
  * @author Marko van Dooren

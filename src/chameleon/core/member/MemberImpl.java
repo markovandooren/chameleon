@@ -15,13 +15,13 @@ import chameleon.core.property.ChameleonProperty;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
-import chameleon.core.type.Type;
-import chameleon.core.type.TypeElementImpl;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
 import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.oo.type.Type;
+import chameleon.oo.type.TypeElementImpl;
 
-public abstract class MemberImpl<E extends MemberImpl<E,P,S,F>,P extends Element, S extends Signature, F extends Member> extends TypeElementImpl<E, Element> implements Member<E,P,S,F>{
+public abstract class MemberImpl<E extends Member<E,P,S,F>,P extends Element, S extends Signature, F extends Member> extends TypeElementImpl<E, Element> implements Member<E,P,S,F>{
 
   /**
    * Return the signature of this member.

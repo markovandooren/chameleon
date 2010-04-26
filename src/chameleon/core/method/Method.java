@@ -27,14 +27,14 @@ import chameleon.core.method.exception.TypeExceptionDeclaration;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.statement.Block;
 import chameleon.core.statement.ExceptionTuple;
-import chameleon.core.type.DeclarationWithType;
-import chameleon.core.type.Type;
-import chameleon.core.type.TypeReference;
-import chameleon.core.type.generics.TypeParameter;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.core.variable.FormalParameter;
+import chameleon.oo.type.DeclarationWithType;
+import chameleon.oo.type.Type;
+import chameleon.oo.type.TypeReference;
+import chameleon.oo.type.generics.TypeParameter;
 import chameleon.util.Util;
 
 /**
@@ -104,6 +104,13 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	
 	public List<TypeParameter> typeParameters() {
 	  return header().typeParameters();
+	}
+	
+	/**
+	 * Return the index-th type parameter. Indices start at 1.
+	 */
+	public TypeParameter typeParameter(int index) {
+		return header().typeParameter(index);
 	}
 
 	/**

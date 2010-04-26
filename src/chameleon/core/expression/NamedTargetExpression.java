@@ -16,12 +16,12 @@ import chameleon.core.lookup.DeclaratorSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.SelectorWithoutOrder;
 import chameleon.core.reference.CrossReference;
-import chameleon.core.type.DeclarationWithType;
-import chameleon.core.type.Type;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.oo.type.DeclarationWithType;
+import chameleon.oo.type.Type;
 import chameleon.util.Util;
 
 public class NamedTargetExpression extends Expression<NamedTargetExpression> implements CrossReference<NamedTargetExpression,Element,DeclarationWithType>{

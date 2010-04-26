@@ -10,12 +10,12 @@ import org.rejuse.predicate.AbstractPredicate;
 import chameleon.core.element.Element;
 import chameleon.core.expression.Invocation;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.type.Type;
-import chameleon.core.type.TypeReference;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.oo.type.Type;
+import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
 
 /**

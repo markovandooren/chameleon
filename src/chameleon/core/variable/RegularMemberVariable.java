@@ -18,11 +18,11 @@ import chameleon.core.property.ChameleonProperty;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
-import chameleon.core.type.Type;
-import chameleon.core.type.TypeReference;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
 import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.oo.type.Type;
+import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
 
 /**

@@ -1,7 +1,7 @@
 package chameleon.core.statement;
 
 import chameleon.core.method.exception.ExceptionDeclaration;
-import chameleon.core.type.Type;
+import chameleon.oo.type.Type;
 
 /**
  * A class of pairs (checked exception type, exception declaration). These are the elements of a

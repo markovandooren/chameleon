@@ -3,9 +3,9 @@ package chameleon.core.method;
 import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.method.exception.ExceptionClause;
-import chameleon.core.type.TypeReference;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.VerificationResult;
+import chameleon.oo.type.TypeReference;
 
 public abstract class RegularMethod<E extends RegularMethod<E,H,S,M>, H extends MethodHeader<H, E, S>, S extends MethodSignature,M extends Method> extends Method<E,H,S,M> {
 

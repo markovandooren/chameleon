@@ -16,11 +16,11 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.SelectorWithoutOrder;
 import chameleon.core.reference.CrossReference;
 import chameleon.core.reference.UnresolvableCrossReference;
-import chameleon.core.type.Type;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.core.variable.Variable;
 import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.oo.type.Type;
 import chameleon.util.Util;
 
 /**

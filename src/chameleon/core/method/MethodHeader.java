@@ -16,12 +16,12 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.namespace.NamespaceElementImpl;
-import chameleon.core.type.Type;
-import chameleon.core.type.generics.TypeParameter;
-import chameleon.core.type.generics.TypeParameterBlock;
 import chameleon.core.variable.FormalParameter;
 import chameleon.core.variable.VariableContainer;
 import chameleon.exception.ModelException;
+import chameleon.oo.type.Type;
+import chameleon.oo.type.generics.TypeParameter;
+import chameleon.oo.type.generics.TypeParameterBlock;
 import chameleon.util.Util;
 /**
  * A class of objects representing method headers. A method header contains for example the name and parameters of a method.
@@ -231,6 +231,13 @@ public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceEl
 	public List<TypeParameter> typeParameters() {
 		TypeParameterBlock parameterBlock = parameterBlock();
 		return (parameterBlock == null ? new ArrayList<TypeParameter>() :parameterBlock.parameters());
+	}
+	
+	/**
+	 * Return the index-th type parameter. Indices start at 1.
+	 */
+	public TypeParameter typeParameter(int index) {
+		return parameterBlock().parameter(index);
 	}
 	
 	public void addAllTypeParameters(Collection<TypeParameter> parameters) {

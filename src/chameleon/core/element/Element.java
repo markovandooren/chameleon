@@ -148,6 +148,18 @@ public interface Element<E extends Element, P extends Element> {
     public List<Element> ancestors();
 
     /**
+     * Return a list of all ancestors of the given type.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post parent() == null ==> \result.isEmpty();
+     @ post parent() != null && c.isInstance(parent()) ==> \result.get(0) == parent();
+     @ post parent() != null ==> \result.subList(1,\result.size()).equals(parent().ancestors(c));
+     @*/
+    public <T extends Element<?,?>> List<T> ancestors(Class<T> c);
+    
+    /**
      * Return the direct children of this element.
      * 
      * The result will never be null. All elements in the collection will have this element as
@@ -456,7 +468,7 @@ public interface Element<E extends Element, P extends Element> {
     public boolean hasTags();
     
     /**
-     * Return the furthest ancestor.
+     * Return the farthest ancestor.
      */
    /*@
      @ public behavior
@@ -464,7 +476,19 @@ public interface Element<E extends Element, P extends Element> {
      @ post parent() == null ==> \result == this;
      @ post parent() != null ==> \result == parent().furthestAncestor();
      @*/
-    public Element furthestAncestor();
+    public Element farthestAncestor();
+    
+    /**
+     * Return the farthest ancestor of the given type.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post parent() == null ==> \result == null;
+     @ post parent() != null && c.isInstance(parent()) && parent().farthestAncestor(c) == null ==> \result == parent();
+     @ post parent() != null && (parent().farthestAncestor(c) != null) ==> \result == parent().farthestAncestor(c);
+     @*/
+    public <T extends Element> T farthestAncestor(Class<T> c);
     
     /**
      * Return the nearest ancestor of type T. Null if no such ancestor can be found.

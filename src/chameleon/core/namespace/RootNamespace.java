@@ -10,11 +10,11 @@ import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacepart.NamespacePart;
-import chameleon.core.type.Type;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.oo.type.Type;
 
 public class RootNamespace extends RegularNamespace<RootNamespace> {
 // @FIXME

@@ -22,10 +22,11 @@ import chameleon.core.reference.CrossReference;
 import chameleon.core.relation.EquivalenceRelation;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.relation.WeakPartialOrder;
-import chameleon.core.type.IntersectionTypeReference;
-import chameleon.core.type.Type;
-import chameleon.core.type.TypeReference;
-import chameleon.core.type.generics.TypeParameter;
+import chameleon.oo.type.IntersectionTypeReference;
+import chameleon.oo.type.Type;
+import chameleon.oo.type.TypeReference;
+import chameleon.oo.type.generics.TypeParameter;
+import chameleon.oo.type.inheritance.InheritanceRelation;
 
 public abstract class ObjectOrientedLanguage extends Language {
 	
@@ -42,7 +43,8 @@ public abstract class ObjectOrientedLanguage extends Language {
 	public final ChameleonProperty REFERENCE_TYPE;
 	public final ChameleonProperty VALUE_TYPE;
 	public final ChameleonProperty NATIVE;
-	
+	public final ChameleonProperty INTERFACE;	
+
 	public ObjectOrientedLanguage(String name) {
 		this(name,null);
 	}
@@ -63,12 +65,14 @@ public abstract class ObjectOrientedLanguage extends Language {
   	REFERENCE_TYPE = new StaticChameleonProperty("reference type", this, Type.class);
   	VALUE_TYPE = REFERENCE_TYPE.inverse();
   	NATIVE = new StaticChameleonProperty("native", this, Type.class);
-  	
+		INTERFACE = new StaticChameleonProperty("interface", this, Type.class);
+
   	//2) Add relations between the properties.
     OVERRIDABLE.addImplication(INHERITABLE);
     OVERRIDABLE.addImplication(REFINABLE);
     EXTENSIBLE.addImplication(REFINABLE);
     NATIVE.addImplication(DEFINED);
+    INTERFACE.addImplication(DEFINED.inverse());
 }
 
   public abstract TypeReference createTypeReference(String fqn);

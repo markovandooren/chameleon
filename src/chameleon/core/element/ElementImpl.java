@@ -429,16 +429,16 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	return (T) el;
     }
 
-    public Element furthestAncestor() {
+    public Element farthestAncestor() {
     	P parent = parent();
 			if(parent == null) {
     		return this;
     	} else {
-    		return parent.furthestAncestor();
+    		return parent.farthestAncestor();
     	}
     }
     
-    public <T extends Element> T furthestAncestor(Class<T> c) {
+    public <T extends Element> T farthestAncestor(Class<T> c) {
     	Element el = parent();
     	T anc = null;
     	while(el != null) {

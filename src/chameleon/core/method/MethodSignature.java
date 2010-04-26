@@ -6,13 +6,13 @@ import java.util.List;
 import chameleon.core.declaration.Signature;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceElement;
-import chameleon.core.type.Type;
-import chameleon.core.type.TypeReference;
-import chameleon.core.type.generics.ExtendsConstraint;
-import chameleon.core.type.generics.FormalTypeParameter;
-import chameleon.core.type.generics.TypeParameter;
 import chameleon.core.variable.FormalParameter;
 import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.oo.type.Type;
+import chameleon.oo.type.TypeReference;
+import chameleon.oo.type.generics.ExtendsConstraint;
+import chameleon.oo.type.generics.FormalTypeParameter;
+import chameleon.oo.type.generics.TypeParameter;
 
 public abstract class MethodSignature<E extends MethodSignature,P extends NamespaceElement> extends Signature<E, P> {
 
@@ -77,8 +77,10 @@ public abstract class MethodSignature<E extends MethodSignature,P extends Namesp
 
   				// substitute in type bounds of the type parameters of the cloned header.
   				for(TypeParameter typeParameter: (List<TypeParameter>)clonedHeader.typeParameters()) {
-  					FormalTypeParameter formal = (FormalTypeParameter) typeParameter;
-  					language(ObjectOrientedLanguage.class).replace(replacement, clonedTypeParameter, ((ExtendsConstraint)formal.constraints().get(0)).typeReference());
+  					if(typeParameter instanceof FormalTypeParameter) {
+  						FormalTypeParameter formal = (FormalTypeParameter) typeParameter;
+  						language(ObjectOrientedLanguage.class).replace(replacement, clonedTypeParameter, ((ExtendsConstraint)formal.constraints().get(0)).typeReference());
+  					}
   				}
   			}
   			List<Type> myFormalParameterTypes = parameterTypes();

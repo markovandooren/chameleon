@@ -18,11 +18,11 @@ import chameleon.core.method.Method;
 import chameleon.core.reference.CrossReference;
 import chameleon.core.reference.UnresolvableCrossReference;
 import chameleon.core.statement.CheckedExceptionList;
-import chameleon.core.type.Type;
-import chameleon.core.type.generics.ActualTypeArgument;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.oo.type.Type;
+import chameleon.oo.type.generics.ActualTypeArgument;
 import chameleon.util.Util;
 
 /**

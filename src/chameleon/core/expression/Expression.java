@@ -12,7 +12,7 @@ import chameleon.core.lookup.Target;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
-import chameleon.core.type.Type;
+import chameleon.oo.type.Type;
 
 /**
  * A class of elements representing expressions in a language. Each expression has a type.

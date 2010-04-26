@@ -1,5 +1,8 @@
 package chameleon.core.lookup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.relation.WeakPartialOrder;
@@ -21,6 +24,10 @@ public class DeclaratorSelector extends DeclarationSelector{
 
   private DeclarationSelector _selector;
 
+  public List selection(List selectionCandidates) throws LookupException {
+  	return _selector.declarators(selectionCandidates);
+  }
+  
 	@Override
 	public boolean selectedRegardlessOfName(Declaration declaration) throws LookupException {
 		return _selector.selectedRegardlessOfName(declaration);

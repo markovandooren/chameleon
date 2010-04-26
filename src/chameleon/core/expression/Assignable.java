@@ -2,7 +2,7 @@ package chameleon.core.expression;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.type.Type;
+import chameleon.oo.type.Type;
 
 /**
  * A class of elements to which expressions can be assigned.

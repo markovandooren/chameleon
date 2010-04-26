@@ -6,10 +6,10 @@ import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.element.Element;
 import chameleon.core.namespace.NamespaceElementImpl;
-import chameleon.core.type.ClassBody;
-import chameleon.core.type.TypeElement;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.oo.type.ClassBody;
+import chameleon.oo.type.TypeElement;
 
 public class LookupRedirector extends NamespaceElementImpl<LookupRedirector,Element> {
 

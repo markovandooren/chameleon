@@ -10,8 +10,8 @@ import org.junit.After;
 import org.junit.Before;
 
 import chameleon.core.language.Language;
-import chameleon.core.type.TypeReference;
 import chameleon.input.ParseException;
+import chameleon.oo.type.TypeReference;
 import chameleon.test.provider.ModelProvider;
 
 /**

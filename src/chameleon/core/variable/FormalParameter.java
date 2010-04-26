@@ -6,8 +6,8 @@ import chameleon.core.method.Method;
 import chameleon.core.method.MethodHeader;
 import chameleon.core.scope.LexicalScope;
 import chameleon.core.scope.Scope;
-import chameleon.core.type.TypeReference;
 import chameleon.exception.ModelException;
+import chameleon.oo.type.TypeReference;
 
 /**
  * @author Marko van Dooren

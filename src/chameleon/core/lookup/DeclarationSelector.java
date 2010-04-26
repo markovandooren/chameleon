@@ -1,8 +1,9 @@
 package chameleon.core.lookup;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
@@ -161,6 +162,35 @@ public abstract class DeclarationSelector<D extends Declaration> {
   /**
    * Return the list of declarations in the given set that are selected.
    * 
+   * @param declarators
+   *        The list containing the declarations that are checked for a match with {@link #selects(Signature)}}.
+   * @return
+   * @throws LookupException
+   */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @ post (\forall D d;; \result.contains(d) == 
+   @           (set.contains(d) && 
+   @            selects(d) && 
+   @            ! (\exists D other; set.contains(other); order().strictOrder().contains(other,d))));
+   @*/
+  public List<D> selection(List<? extends Declaration> declarators) throws LookupException {
+    List<D> tmp = new ArrayList<D>();
+      for(Declaration decl: declarators) {
+        D e = selection(decl);
+        if(e != null) {
+          tmp.add(e);
+        }
+      }
+      order().removeBiggerElements(tmp);
+    return tmp;
+  }
+  
+  /**
+   * Return the list of declarations in the given set that are selected.
+   * 
    * @param selectionCandidates
    *        The list containing the declarations that are checked for a match with {@link #selects(Signature)}}.
    * @return
@@ -175,18 +205,28 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @            selects(d) && 
    @            ! (\exists D other; set.contains(other); order().strictOrder().contains(other,d))));
    @*/
-  public List<D> selection(List<? extends Declaration> selectionCandidates) throws LookupException {
-    List<D> tmp = new ArrayList<D>();
-      for(Declaration decl: selectionCandidates) {
-        D e = selection(decl);
-        if(e != null) {
-          tmp.add(e);
-        }
-      }
-      order().removeBiggerElements(tmp);
-    return tmp;
+  public List<Declaration> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
+  	Map<D,Declaration> tmp = new HashMap<D,Declaration>();
+  	List<D> Ds = new ArrayList<D>();
+  	for(Declaration decl: selectionCandidates) {
+  		Declaration selectionDeclaration = decl.selectionDeclaration();
+  		if(selectedClass().isInstance(selectionDeclaration)) {
+  			if(selectedBasedOnName(decl.signature())) {
+  				if(selectedRegardlessOfName((D)selectionDeclaration)) {
+  					tmp.put((D) selectionDeclaration,decl);
+  					Ds.add((D) selectionDeclaration);
+  				}
+  			}
+  		} 
+  	}
+  	order().removeBiggerElements(Ds);
+    List<Declaration> result = new ArrayList<Declaration>();
+    for(D d: Ds) {
+    	result.add(tmp.get(d));
+    }
+  	return result;
   }
-  
+
   /**
    * Return the order used to sort the possible candidates. More specific elements should be smaller than less specific elements.
    */
@@ -195,6 +235,11 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @
    @ post \result != null;
    @*/
-  protected abstract WeakPartialOrder<D> order();
+  public abstract WeakPartialOrder<D> order();
+
+	public void applyOrder(List<D> tmp) throws LookupException {
+		order().removeBiggerElements(tmp);
+	}
+
 
 }

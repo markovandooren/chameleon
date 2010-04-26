@@ -138,7 +138,7 @@ public abstract class ElementReferenceWithTarget<E extends CrossReference, P ext
 	  	}
 	  }
 	  else {
-	  	result = nonTargetLookupStrategy().lookUp(selector);
+	  	result = lexicalLookupStrategy().lookUp(selector);
 	  }
 		
 	  if(result != null) {
@@ -156,16 +156,12 @@ public abstract class ElementReferenceWithTarget<E extends CrossReference, P ext
 	  			result = target.targetContext().lookUp(selector);
 	  		}
 	  	} else {
-	  		result = nonTargetLookupStrategy().lookUp(selector);
+	  		result = lexicalLookupStrategy().lookUp(selector);
 	  	}
 	  	throw new LookupException("Cannot find namespace or type with name: "+signature(),this);
 	  }
 	 }
 
-	protected LookupStrategy nonTargetLookupStrategy() throws LookupException {
-		return lexicalLookupStrategy();
-	}
-	 
 //	 public abstract DeclarationSelector<R> selector();
 	 
 	/*@

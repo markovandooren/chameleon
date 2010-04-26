@@ -3,7 +3,7 @@ package chameleon.core.method.exception;
 import java.util.HashMap;
 import java.util.Map;
 
-import chameleon.core.type.Type;
+import chameleon.oo.type.Type;
 
 /**
  * @author Marko van Dooren

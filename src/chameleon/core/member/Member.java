@@ -6,7 +6,7 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.type.TypeElement;
+import chameleon.oo.type.TypeElement;
 
 /**
  * A class of type elements (@see {@link #TypeElement}) that have a signature and can thus be referenced. Examples
