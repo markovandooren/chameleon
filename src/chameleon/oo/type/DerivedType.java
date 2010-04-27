@@ -9,6 +9,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.oo.type.generics.ActualTypeArgument;
 import chameleon.oo.type.generics.InstantiatedTypeParameter;
 import chameleon.oo.type.generics.TypeParameter;
+import chameleon.util.CreationStackTrace;
 
 
 /**
@@ -18,6 +19,11 @@ import chameleon.oo.type.generics.TypeParameter;
  * @author Marko van Dooren
  */
 public class DerivedType extends TypeWithBody {
+
+	public DerivedType(List<TypeParameter> typeParameters, Type baseType) {
+		this(baseType);
+		substituteParameters(typeParameters);
+	}
 
 	/**
 	 * Create a new derived type for the given base type.
@@ -72,11 +78,6 @@ public class DerivedType extends TypeWithBody {
 		return result;
 	}
 	
-	public DerivedType(List<TypeParameter> typeParameters, Type baseType) {
-		this(baseType);
-		substituteParameters(typeParameters);
-	}
-
 	private Type _baseType;
 	
 	@Override

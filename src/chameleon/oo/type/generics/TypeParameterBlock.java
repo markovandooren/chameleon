@@ -179,60 +179,60 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 		return Valid.create();
 	}
 	
-	public static class StubTypeParameter extends TypeParameter<StubTypeParameter> {
-
-		public StubTypeParameter(TypeParameter original) {
-			super(original.signature().clone());
-			setOriginalTypeParameter(original);
-		}
-		
-		public void setOriginalTypeParameter(TypeParameter original) {
-			_original = original;
-		}
-		
-		private TypeParameter _original;
-
-		public TypeParameter originalTypeParameter() {
-			return _original;
-		}
-		
-		@Override
-		public StubTypeParameter clone() {
-			return new StubTypeParameter(originalTypeParameter());
-		}
-
-		@Override
-		public Type lowerBound() throws LookupException {
-			return originalTypeParameter().lowerBound();
-		}
-
-		@Override
-		public Declaration resolveForRoundTrip() throws LookupException {
-			return originalTypeParameter().resolveForRoundTrip();
-		}
-
-		@Override
-		public boolean uniSameAs(Element other) throws LookupException {
-			return originalTypeParameter().uniSameAs(other);
-		}
-
-		@Override
-		public Type upperBound() throws LookupException {
-			return originalTypeParameter().upperBound();
-		}
-
-		public Declaration<?, ?, ?, Type> selectionDeclaration() throws LookupException {
-			return originalTypeParameter().selectionDeclaration();
-		}
-
-		public List<? extends Element> children() {
-			return Util.createSingletonList(signature());
-		}
-
-		@Override
-		public TypeReference upperBoundReference() throws LookupException {
-			return originalTypeParameter().upperBoundReference();
-		}
-		
-	}
+//	public static class StubTypeParameter extends TypeParameter<StubTypeParameter> {
+//
+//		public StubTypeParameter(TypeParameter original) {
+//			super(original.signature().clone());
+//			setOriginalTypeParameter(original);
+//		}
+//		
+//		public void setOriginalTypeParameter(TypeParameter original) {
+//			_original = original;
+//		}
+//		
+//		private TypeParameter _original;
+//
+//		public TypeParameter originalTypeParameter() {
+//			return _original;
+//		}
+//		
+//		@Override
+//		public StubTypeParameter clone() {
+//			return new StubTypeParameter(originalTypeParameter());
+//		}
+//
+//		@Override
+//		public Type lowerBound() throws LookupException {
+//			return originalTypeParameter().lowerBound();
+//		}
+//
+//		@Override
+//		public Declaration resolveForRoundTrip() throws LookupException {
+//			return originalTypeParameter().resolveForRoundTrip();
+//		}
+//
+//		@Override
+//		public boolean uniSameAs(Element other) throws LookupException {
+//			return originalTypeParameter().uniSameAs(other);
+//		}
+//
+//		@Override
+//		public Type upperBound() throws LookupException {
+//			return originalTypeParameter().upperBound();
+//		}
+//
+//		public Declaration<?, ?, ?, Type> selectionDeclaration() throws LookupException {
+//			return originalTypeParameter().selectionDeclaration();
+//		}
+//
+//		public List<? extends Element> children() {
+//			return Util.createSingletonList(signature());
+//		}
+//
+//		@Override
+//		public TypeReference upperBoundReference() throws LookupException {
+//			return originalTypeParameter().upperBoundReference();
+//		}
+//		
+//	}
 }

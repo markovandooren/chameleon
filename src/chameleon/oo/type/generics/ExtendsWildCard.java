@@ -14,7 +14,9 @@ public class ExtendsWildCard extends ActualTypeArgumentWithTypeReference<Extends
 
 	@Override
 	public Type type() throws LookupException {
-		return new ExtendsWildcardType(baseType());
+		ExtendsWildcardType extendsWildcardType = new ExtendsWildcardType(baseType());
+		extendsWildcardType.setUniParent(this);
+		return extendsWildcardType;
 	}
 
 	@Override
@@ -36,7 +38,8 @@ public class ExtendsWildCard extends ActualTypeArgumentWithTypeReference<Extends
 
 	@Override
 	public Type lowerBound() throws LookupException {
-		return baseType().language(ObjectOrientedLanguage.class).getNullType();
+		Type baseType = baseType();
+		return baseType.language(ObjectOrientedLanguage.class).getNullType();
 	}
 
 	@Override

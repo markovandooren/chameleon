@@ -425,26 +425,26 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
      @*/
   	public abstract List<InheritanceRelation> inheritanceRelations();
   	
-  	/* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#directSuperTypes()
-		 */
-   /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @ post (\forall InheritanceRelation relation; inheritanceRelations().contains(relation) ;
-     @             \result.contains(relation.superType()));
-     @*/
-  	public List<Type> directSuperTypes() throws LookupException {
-  	  List<Type> result = new ArrayList<Type>();
-  		for(InheritanceRelation relation: inheritanceRelations()) {
-  			Type superType = relation.superType();
-  			if(superType != null) {
-  				result.add(superType);
-  			}
-  		}
-  		return result;
-  	}
+//  	/* (non-Javadoc)
+//		 * @see chameleon.oo.type.Tajp#directSuperTypes()
+//		 */
+//   /*@
+//     @ public behavior
+//     @
+//     @ post \result != null;
+//     @ post (\forall InheritanceRelation relation; inheritanceRelations().contains(relation) ;
+//     @             \result.contains(relation.superType()));
+//     @*/
+//  	public List<Type> directSuperTypes() throws LookupException {
+//  	  List<Type> result = new ArrayList<Type>();
+//  		for(InheritanceRelation relation: inheritanceRelations()) {
+//  			Type superType = relation.superType();
+//  			if(superType != null) {
+//  				result.add(superType);
+//  			}
+//  		}
+//  		return result;
+//  	}
 
   	/* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#addInheritanceRelation(chameleon.oo.type.inheritance.InheritanceRelation)

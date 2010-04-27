@@ -13,11 +13,13 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReference;
 import chameleon.core.validation.VerificationResult;
+import chameleon.oo.type.ConstructedType;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeIndirection;
 import chameleon.oo.type.TypeReference;
+import chameleon.util.CreationStackTrace;
 
-public class InstantiatedTypeParameter extends TypeParameter<InstantiatedTypeParameter> {
+public class InstantiatedTypeParameter<E extends InstantiatedTypeParameter<E>> extends TypeParameter<E> {
 	
 	public InstantiatedTypeParameter(SimpleNameSignature signature, ActualTypeArgument argument) {
 		super(signature);
@@ -45,8 +47,8 @@ public class InstantiatedTypeParameter extends TypeParameter<InstantiatedTypePar
 	}
 
 	@Override
-	public InstantiatedTypeParameter clone() {
-		return new InstantiatedTypeParameter(signature().clone(),argument());
+	public E clone() {
+		return (E) new InstantiatedTypeParameter(signature().clone(),argument());
 	}
 	
 //	/**
@@ -106,9 +108,41 @@ public class InstantiatedTypeParameter extends TypeParameter<InstantiatedTypePar
 //	}
 
 	@Override
-	public InstantiatedTypeParameter resolveForRoundTrip() throws LookupException {
-		return this;
+	public Type resolveForRoundTrip() throws LookupException {
+//		return this;
+  	Type result = new LazyTypeAlias(signature().clone(), this);
+  	result.setUniParent(parent());
+  	return result;
 	}
+
+	private static class LazyTypeAlias extends TypeIndirection {
+
+		public LazyTypeAlias(SimpleNameSignature sig, InstantiatedTypeParameter param) {
+			super(sig,null);
+			_param = param;
+		}
+		
+		public Type aliasedType() {
+			try {
+				return parameter().upperBound();
+			} catch (LookupException e) {
+				throw new Error("LookupException while looking for aliasedType of a lazy alias",e);
+			}
+		}
+		
+		public InstantiatedTypeParameter parameter() {
+			return _param;
+		}
+		
+		private final InstantiatedTypeParameter _param;
+
+		@Override
+		public Type clone() {
+			return new LazyTypeAlias(signature().clone(), _param);
+		}
+		
+	}
+	
 
 	public TypeParameter capture(FormalTypeParameter formal) {
 //		return argument().capture(formal);

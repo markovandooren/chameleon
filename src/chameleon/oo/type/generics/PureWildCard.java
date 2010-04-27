@@ -36,7 +36,9 @@ public class PureWildCard extends ActualTypeArgument<PureWildCard> {
 
 	@Override
 	public Type type() throws LookupException {
-		return new PureWildCardType(language(ObjectOrientedLanguage.class));
+		PureWildCardType pureWildCardType = new PureWildCardType(language(ObjectOrientedLanguage.class));
+		pureWildCardType.setUniParent(this);
+		return pureWildCardType;
 	}
 
 	@Override

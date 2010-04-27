@@ -1,7 +1,11 @@
 package chameleon.oo.type;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
@@ -32,6 +36,14 @@ public class ConstructedType extends TypeIndirection {
 	
 	
 	
+	@Override
+	public List<Type> getDirectSuperTypes() throws LookupException {
+		List<Type> result = new ArrayList<Type>();
+		result.add(aliasedType());
+		return result;
+	}
+
+
 	@Override
 	public String getFullyQualifiedName() {
 		return signature().name();

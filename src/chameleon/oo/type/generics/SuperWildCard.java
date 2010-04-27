@@ -30,7 +30,9 @@ public class SuperWildCard extends ActualTypeArgumentWithTypeReference<SuperWild
 
 	@Override
 	public Type type() throws LookupException {
-		return new SuperWildCardType(baseType());
+		SuperWildCardType superWildCardType = new SuperWildCardType(baseType());
+		superWildCardType.setUniParent(this);
+		return superWildCardType;
 	}
 
 	@Override

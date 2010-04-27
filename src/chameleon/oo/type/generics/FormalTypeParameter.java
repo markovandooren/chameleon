@@ -52,7 +52,7 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
   	return result;
 	}
 	
-	private static class LazyTypeAlias extends ConstructedType {
+	public static class LazyTypeAlias extends ConstructedType {
 
 		public LazyTypeAlias(SimpleNameSignature sig, FormalTypeParameter param) {
 			super(sig,null,param);
@@ -135,5 +135,6 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 			return origin().sameAs(other);
 		}
 	}
+
 
 }

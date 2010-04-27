@@ -36,6 +36,11 @@ public class IntersectionType extends AbstractType {
 		}
 		_types = new ArrayList<Type>(types);
 	}
+	
+	@Override
+	public List<Type> getDirectSuperTypes() throws LookupException {
+		return types();
+	}
 
 	public Type intersectionDoubleDispatch(Type type) {
 		return type.intersectionDoubleDispatch(this);

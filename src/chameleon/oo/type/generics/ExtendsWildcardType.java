@@ -15,6 +15,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeElement;
 import chameleon.oo.type.TypeReference;
 import chameleon.oo.type.inheritance.InheritanceRelation;
+import chameleon.util.CreationStackTrace;
 
 public class ExtendsWildcardType extends WildCardType {
 
