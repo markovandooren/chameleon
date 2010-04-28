@@ -21,7 +21,7 @@ import chameleon.exception.ModelException;
 public interface Declaration<E extends Declaration<E,P,S,D>, 
                              P extends Element, 
                              S extends Signature,
-                             D extends Declaration> extends Element<E,Element>{
+                             D extends Declaration> extends Element<E,P>{
 
 	/**
 	 * Return the signature of this declaration

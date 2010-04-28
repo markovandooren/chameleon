@@ -7,12 +7,15 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
-import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 
-public class PureWildCard extends ActualTypeArgument<PureWildCard> {
+public class PureWildcard<E extends PureWildcard> extends ActualTypeArgument<E> {
 
+	public PureWildcard() {
+		
+	}
+	
 	public TypeParameter capture(FormalTypeParameter formal) {
 		CapturedTypeParameter newParameter = new CapturedTypeParameter(formal.signature().clone());
 		for(TypeConstraint constraint: formal.constraints()) {
@@ -22,8 +25,8 @@ public class PureWildCard extends ActualTypeArgument<PureWildCard> {
 	}
 
 	@Override
-	public PureWildCard clone() {
-		return new PureWildCard();
+	public E clone() {
+		return (E) new PureWildcard();
 	}
 
 	// TypeVariable concept invoeren, en lowerbound,... verplaatsen naar daar? Deze is context sensitive. Hoewel, dat

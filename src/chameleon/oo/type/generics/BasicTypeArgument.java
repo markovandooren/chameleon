@@ -1,33 +1,23 @@
 package chameleon.oo.type.generics;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
-
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.validation.BasicProblem;
-import chameleon.core.validation.Valid;
-import chameleon.core.validation.VerificationResult;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
-import chameleon.util.CreationStackTrace;
 
 /**
  * A class of type arguments that consist of a type name.
  * 
  * @author Marko van Dooren
  */
-public class BasicTypeArgument extends ActualTypeArgumentWithTypeReference<BasicTypeArgument> {
+public class BasicTypeArgument<E extends BasicTypeArgument> extends ActualTypeArgumentWithTypeReference<E> {
 
 	public BasicTypeArgument(TypeReference ref) {
 		super(ref);
 	}
 
 	@Override
-	public BasicTypeArgument clone() {
-		return new BasicTypeArgument(typeReference().clone());
+	public E clone() {
+		return (E) new BasicTypeArgument(typeReference().clone());
 	}
 
  /*@
@@ -83,13 +73,5 @@ public class BasicTypeArgument extends ActualTypeArgumentWithTypeReference<Basic
 	public TypeReference substitutionReference() {
 		return typeReference();
 	}
-
-//	public boolean alwaysSameAs(ActualTypeArgument argument) throws LookupException {
-//		boolean result = false;
-//		if(argument instanceof BasicTypeArgument) {
-//			return typeReference().getDeclarator().sameAs(((BasicTypeArgument) argument).typeReference().getDeclarator());
-//		}
-//		return result;
-//	}
 
 }

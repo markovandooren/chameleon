@@ -21,7 +21,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeElementImpl;
 
-public abstract class MemberImpl<E extends Member<E,P,S,F>,P extends Element, S extends Signature, F extends Member> extends TypeElementImpl<E, Element> implements Member<E,P,S,F>{
+public abstract class MemberImpl<E extends Member<E,P,S,F>,P extends Element, S extends Signature, F extends Member> extends TypeElementImpl<E, P> implements Member<E,P,S,F>{
 
   /**
    * Return the signature of this member.

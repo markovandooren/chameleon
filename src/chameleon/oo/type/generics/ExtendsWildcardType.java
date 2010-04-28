@@ -23,6 +23,8 @@ public class ExtendsWildcardType extends WildCardType {
 		super(new SimpleNameSignature("? extends "+upperBound.getName()), upperBound,upperBound.language(ObjectOrientedLanguage.class).getNullType());
 	}
 
-	
+	public Type bound() {
+		return upperBound();
+	}
 
 }

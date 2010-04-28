@@ -1,19 +1,21 @@
 package chameleon.oo.type.generics;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.oo.type.IntersectionTypeReference;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 
-public class SuperWildCard extends ActualTypeArgumentWithTypeReference<SuperWildCard> {
+public class SuperWildcard<E extends SuperWildcard> extends ActualTypeArgumentWithTypeReference<E> {
 
-	public SuperWildCard(TypeReference ref) {
+	public SuperWildcard(TypeReference ref) {
 		super(ref);
 	}
 
 	@Override
-	public SuperWildCard clone() {
-		return new SuperWildCard(typeReference().clone());
+	public E clone() {
+		return (E) new SuperWildcard(typeReference().clone());
 	}
 
 //	@Override
@@ -30,7 +32,7 @@ public class SuperWildCard extends ActualTypeArgumentWithTypeReference<SuperWild
 
 	@Override
 	public Type type() throws LookupException {
-		SuperWildCardType superWildCardType = new SuperWildCardType(baseType());
+		SuperWildcardType superWildCardType = new SuperWildcardType(baseType());
 		superWildCardType.setUniParent(this);
 		return superWildCardType;
 	}
@@ -68,6 +70,5 @@ public class SuperWildCard extends ActualTypeArgumentWithTypeReference<SuperWild
 		newParameter.addConstraint(new SuperConstraint(typeReference().clone()));
     return newParameter;
 	}
-
 
 }

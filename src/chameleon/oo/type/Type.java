@@ -100,8 +100,6 @@ DeclarationWithType<Type,Element,SimpleNameSignature,Type>, Member<Type,Element,
 	 * ACCESS *
 	 **********/
 
-	public Type getTopLevelType();
-
 	public Type getType();
 
 	/**

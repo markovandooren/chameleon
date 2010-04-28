@@ -274,19 +274,6 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 			}
     }
     
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#getTopLevelType()
-		 */
-
-    public Type getTopLevelType() {
-        // FIXME: BAD design !!!
-        if (parent() instanceof Type) {
-            return ((Type)parent()).getTopLevelType();
-        } else {
-            return this;
-        }
-    }
-
 
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#getType()
