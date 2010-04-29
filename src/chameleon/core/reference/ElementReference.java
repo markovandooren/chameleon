@@ -97,13 +97,9 @@ public abstract class ElementReference<E extends CrossReference, P extends Eleme
   }
   
   protected void setCache(D value) {
-//  	if(! value.isDerived()) {
     	if(Config.cacheElementReferences() == true) {
     		_cache = value;
     	}
-//  	} else {
-//  		_cache = null;
-//  	}
   }
   
   public List<Element> children() {

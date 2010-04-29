@@ -57,7 +57,7 @@ public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends N
 
 	@Override
 	public boolean uniSameAs(Element other) throws LookupException {
-		return (other instanceof ActualTypeArgument) && (type().sameAs(((ActualTypeArgument)other).type()));
+		return (other.getClass().equals(getClass())) && (type().sameAs(((ActualTypeArgument)other).type()));
 	}
 
 	@Override

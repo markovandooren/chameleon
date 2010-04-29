@@ -3,9 +3,7 @@ package chameleon.core.namespace;
 import java.util.List;
 
 import org.rejuse.association.OrderedMultiAssociation;
-import org.rejuse.association.MultiAssociation;
 
-import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;

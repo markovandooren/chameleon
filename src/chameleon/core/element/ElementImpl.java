@@ -802,7 +802,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     }
     
     public final boolean sameAs(Element other) throws LookupException {
-    	return uniSameAs(other) || ((other != null) && (other.uniSameAs(this)));
+    	return other == this || (uniSameAs(other) || ((other != null) && (other.uniSameAs(this))));
     }
     
     /**
