@@ -128,6 +128,9 @@ public abstract class WildCardType extends AbstractType {
 		}
 	}
 	
-	
+	@Override
+	public int hashCode() {
+		return lowerBound().hashCode()+upperBound().hashCode();
+	}
 
 }

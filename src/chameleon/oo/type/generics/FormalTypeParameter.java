@@ -136,5 +136,13 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 		}
 	}
 
+  @Override
+  public int hashCode() {
+		if(origin() == this) {
+			return super.hashCode();
+		} else {
+			return origin().hashCode();
+		}
 
+  }
 }

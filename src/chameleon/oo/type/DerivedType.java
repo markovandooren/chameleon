@@ -78,6 +78,15 @@ public class DerivedType extends TypeWithBody {
 		return result;
 	}
 	
+	@Override
+	public int hashCode() {
+		int result = baseType().hashCode();
+		for(TypeParameter parameter: parameters()) {
+			result += parameter.hashCode();
+		}
+		return result;
+	}
+	
 	private Type _baseType;
 	
 	@Override

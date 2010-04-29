@@ -103,13 +103,13 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
   }
   
   protected void setCache(TargetDeclaration value) {
-  	if(! value.isDerived()) {
+//  	if(! value.isDerived()) {
     	if(Config.cacheElementReferences() == true) {
     		_cache = value;
     	}
-  	} else {
-  		_cache = null;
-  	}
+//  	} else {
+//  		_cache = null;
+//  	}
   }
   
   /***********

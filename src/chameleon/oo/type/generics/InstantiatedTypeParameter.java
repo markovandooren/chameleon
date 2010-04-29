@@ -178,6 +178,10 @@ public class InstantiatedTypeParameter<E extends InstantiatedTypeParameter<E>> e
 		}
 		return result;
 	}
+	
+	public int hashCode() {
+		return argument().hashCode();
+	}
 
 	@Override
 	public TypeReference upperBoundReference() throws LookupException {

@@ -34,6 +34,10 @@ public class ConstructedType extends TypeIndirection {
 		       ((type instanceof ConstructedType) && (((ConstructedType)type).parameter().equals(parameter())));
 	}
 	
+	@Override
+	public int hashCode() {
+		return parameter().hashCode();
+	}
 	
 	
 	@Override

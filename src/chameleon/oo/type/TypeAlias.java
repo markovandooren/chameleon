@@ -19,6 +19,11 @@ public class TypeAlias extends TypeIndirection {
 		       ((type instanceof TypeIndirection) && (((TypeIndirection)type).aliasedType().equals(aliasedType())));
 	}
 	
+	@Override
+	public int hashCode() {
+		return aliasedType().hashCode();
+	}
+	
 	/**
 	 * OVERRIDE IN SUBCLASSES !!!!
 	 */

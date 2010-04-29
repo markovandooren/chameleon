@@ -1,10 +1,13 @@
 package chameleon.core.member;
 
+import java.util.List;
+
 import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.exception.ChameleonProgrammerException;
+import chameleon.util.Util;
 
 public abstract class FixedSignatureMember<E extends Member<E,P,S,F>,P extends Element, S extends Signature, F extends Member> extends MemberImpl<E,P,S,F> {
 	
@@ -28,6 +31,12 @@ public abstract class FixedSignatureMember<E extends Member<E,P,S,F>,P extends E
   	} else {
   		throw new ChameleonProgrammerException("Setting wrong type of signature. Provided: "+(signature == null ? null :signature.getClass().getName())+" Expected "+signatureType().getName());
   	}
+  }
+  
+  public List<Element> children() {
+    List<Element> result = super.children();
+    Util.addNonNull(signature(), result);
+    return result;
   }
   
   /**

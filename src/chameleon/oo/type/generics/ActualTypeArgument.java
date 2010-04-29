@@ -60,6 +60,15 @@ public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends N
 		return (other instanceof ActualTypeArgument) && (type().sameAs(((ActualTypeArgument)other).type()));
 	}
 
+	@Override
+	public int hashCode() {
+		try {
+			int hashCode = type().hashCode();
+			return hashCode;
+		} catch (LookupException e) {
+			throw new ChameleonProgrammerException();
+		}
+	}
 	
 	public Type getElement() throws LookupException {
 		return type();

@@ -40,6 +40,11 @@ public class SimpleNameSignature extends Signature<SimpleNameSignature, Element>
 		}
 		return result;
 	}
+  
+  @Override
+  public int hashCode() {
+  	return _name.hashCode();
+  }
 
 	@Override
 	public SimpleNameSignature clone() {

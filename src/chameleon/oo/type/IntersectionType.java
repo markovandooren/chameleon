@@ -20,9 +20,12 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.generics.TypeParameter;
 import chameleon.oo.type.inheritance.InheritanceRelation;
+import chameleon.util.CreationStackTrace;
 
 public class IntersectionType extends AbstractType {
 
+	private CreationStackTrace _trace = new CreationStackTrace();
+	
 	public IntersectionType(Type first, Type second) {
 		super(createSignature(Arrays.asList(new Type[]{first,second})));
 		addType(first);
@@ -214,6 +217,15 @@ public class IntersectionType extends AbstractType {
 		} else {
 			return (types.size() == 1) && (types.iterator().next().equals(other));
 		}
+	}
+	
+	@Override
+	public int hashCode() {
+		int result = 0;
+		for(Type type:types()) {
+			result += type.hashCode();
+		}
+		return result;
 	}
 
 	@Override

@@ -358,14 +358,23 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
     	}
     }
     
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#getAllSuperTypes()
-		 */
     public Set<Type> getAllSuperTypes() throws LookupException {
-    	Set<Type> result = new HashSet<Type>();
-    	accumulateAllSuperTypes(result);
+    	if(_superTypeCache == null) {
+    		_superTypeCache = new HashSet<Type>();
+    		accumulateAllSuperTypes(_superTypeCache);
+    	}
+    	Set<Type>  result = new HashSet<Type>(_superTypeCache);
     	return result;
     }
+    
+//    public Set<Type> getAllSuperTypes() throws LookupException {
+//    	Set<Type> result = new HashSet<Type>();
+//    	accumulateAllSuperTypes(result);
+//    	return result;
+//    }
+
+    
+    private Set<Type> _superTypeCache;
 
     
     //TODO: rename to properSubTypeOf
@@ -379,13 +388,13 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 //        return superTypes.contains(other);
     }
     
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#uniSameAs(chameleon.core.element.Element)
-		 */
-    @Override
-    public boolean uniSameAs(Element other) throws LookupException {
-    	return other == this;
-    }
+//    /* (non-Javadoc)
+//		 * @see chameleon.oo.type.Tajp#uniSameAs(chameleon.core.element.Element)
+//		 */
+//    @Override
+//    public boolean uniSameAs(Element other) throws LookupException {
+//    	return other == this;
+//    }
     
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#assignableTo(chameleon.oo.type.Type)
@@ -586,7 +595,6 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 		 */
     public List<Element> children() {
         List<Element> result = super.children();
-        Util.addNonNull(signature(), result);
         result.addAll(inheritanceRelations());
 //        result.addAll(directlyDeclaredElements());
         return result;

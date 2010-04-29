@@ -128,13 +128,13 @@ public class NamedTargetExpression extends Expression<NamedTargetExpression> imp
   }
   
   protected void setCache(DeclarationWithType value) {
-  	if(! value.isDerived()) {
+//  	if(! value.isDerived()) {
     	if(Config.cacheElementReferences() == true) {
     		_cache = value;
     	}
-  	} else {
-  		_cache = null;
-  	}
+//  	} else {
+//  		_cache = null;
+//  	}
   }
 
   public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {

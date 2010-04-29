@@ -207,13 +207,13 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   }
   
   protected void setCache(D value) {
-  	if(! value.isDerived()) {
+//  	if(! value.isDerived()) {
     	if(Config.cacheElementReferences() == true) {
     		_cache = value;
     	}
-  	} else {
-  		_cache = null;
-  	}
+//  	} else {
+//  		_cache = null;
+//  	}
   }
 
 

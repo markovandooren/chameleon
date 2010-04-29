@@ -135,7 +135,9 @@ public class ChildrenTest extends ModelTest {
 				}catch(ClassCastException exc){}
 			}
 		}
-		
+		if(! reflchildren.equals(children)) {
+			reflchildren.equals(children);
+		}
 		assertEquals(msg,reflchildren,children);
 		//assertTrue(msg,reflchildren.containsAll(implchildren) && implchildren.containsAll(reflchildren));
 	}
