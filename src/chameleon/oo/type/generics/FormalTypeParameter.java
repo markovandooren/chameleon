@@ -11,6 +11,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.ConstructedType;
+import chameleon.oo.type.IntersectionTypeReference;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.CreationStackTrace;
@@ -89,12 +90,21 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 	}
 	
 	public TypeReference upperBoundReference() {
+		List<TypeConstraint> constraints = constraints();
+		int size = constraints.size();
+		TypeReference result;
 		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-		TypeReference result = language.createTypeReference(language.getDefaultSuperClassFQN());
-		for(TypeConstraint constraint: constraints()) {
-			result = result.intersection(constraint.upperBoundReference());
+		if(size == 0) {
+		  result = language.createTypeReferenceInDefaultNamespace(language.getDefaultSuperClassFQN());
+		} else if(size == 1) {
+			result = constraints.get(0).upperBoundReference();
+		} else {
+			result = language.createIntersectionReference(constraints.get(0).upperBoundReference(), constraints.get(1).upperBoundReference());
+			for(int i=2; i<size;i++) {
+				((IntersectionTypeReference)result).add(constraints.get(i).upperBoundReference());
+			}
+			result.setUniParent(this);
 		}
-		result.setUniParent(this);
 		return result;
 	}
 

@@ -31,6 +31,8 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Namespac
 		setSignature(signature);
 	}
 
+	public abstract Type selectionDeclaration() throws LookupException;
+	
 	public abstract E clone();
 	
 	/**
