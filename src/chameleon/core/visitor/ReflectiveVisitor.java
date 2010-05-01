@@ -47,8 +47,7 @@ import chameleon.core.element.Element;
  * 			System.out.println("}");
  * 		} 	
  * 
- * @author nelis
- *
+ * @author Nelis Boucke
  */
 public abstract class ReflectiveVisitor {
 
