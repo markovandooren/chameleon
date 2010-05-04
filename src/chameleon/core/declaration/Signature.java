@@ -16,8 +16,10 @@ public abstract class Signature<E extends Signature, P extends Element> extends 
   public abstract E clone();
   
   /**
-   * Return a string representation of this signature.
-   * @return
+   * Return a string representation of the name of this signature. For method, e.g., the arguments
+   * are not included.
+   * 
+   * SPEED: This name is used to speed up selection of declarations in declaration containers. 
    */
   public abstract String name();
 //  /**

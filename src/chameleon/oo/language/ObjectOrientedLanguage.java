@@ -25,8 +25,7 @@ import chameleon.core.relation.WeakPartialOrder;
 import chameleon.oo.type.IntersectionTypeReference;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
-import chameleon.oo.type.generics.TypeParameter;
-import chameleon.oo.type.inheritance.InheritanceRelation;
+import chameleon.util.Pair;
 
 public abstract class ObjectOrientedLanguage extends Language {
 	
@@ -135,7 +134,7 @@ public abstract class ObjectOrientedLanguage extends Language {
 	 * Return the relation that determines when a member overrides another
 	 */
 	public abstract WeakPartialOrder<Type> subtypeRelation();
-
+	
 	/**
 	 * Return the relation that determines when a member overrides another
 	 */

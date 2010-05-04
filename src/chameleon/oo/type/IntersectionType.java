@@ -14,6 +14,7 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
+import chameleon.core.namespace.Namespace;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
@@ -23,6 +24,19 @@ import chameleon.oo.type.inheritance.InheritanceRelation;
 import chameleon.util.CreationStackTrace;
 
 public class IntersectionType extends AbstractType {
+	
+	public static Type create(List<Type> types) {
+		if(types.size() == 1) {
+			return types.get(0);
+		} else {
+			Namespace def = types.get(0).language().defaultNamespace();
+			IntersectionType result = new IntersectionType(types);
+			result.setUniParent(def);
+			return result;
+		}
+	}
+
+	private CreationStackTrace _trace = new CreationStackTrace();
 
 	public IntersectionType(Type first, Type second) {
 		super(createSignature(Arrays.asList(new Type[]{first,second})));

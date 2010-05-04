@@ -30,14 +30,7 @@ public class SelectorWithoutOrder<D extends Declaration> extends DeclarationSele
 
 	@Override
 	public WeakPartialOrder<D> order() {
-		return new WeakPartialOrder<D>() {
-
-			@Override
-			public boolean contains(D first, D second) throws LookupException {
-				return first.equals(second);
-			}
-			
-		};
+		return new EqualityOrder<D>();
 	}
 
 	private Class<D> _class;
@@ -47,6 +40,13 @@ public class SelectorWithoutOrder<D extends Declaration> extends DeclarationSele
 		return _class;
 	}
 	
+	public static class EqualityOrder<D> extends WeakPartialOrder<D> {
+		@Override
+		public boolean contains(D first, D second) throws LookupException {
+			return first.equals(second);
+		}
+	}
+
 	public static interface SignatureSelector {
 		public Signature signature();
 	}

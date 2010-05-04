@@ -144,6 +144,16 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 		} else {
 			return origin().sameAs(other);
 		}
+//		boolean result = false;
+//		if(other instanceof FormalTypeParameter) {
+//			result = signature().sameAs(((FormalTypeParameter) other).signature());
+//			if(result) {
+//				Element parent = nearestAncestor(TypeParameterBlock.class).parent();
+//				Element otherParent = other.nearestAncestor(TypeParameterBlock.class).parent();
+//				result = parent.sameAs(otherParent);
+//			}
+//		}
+//		return result;
 	}
 
   @Override
