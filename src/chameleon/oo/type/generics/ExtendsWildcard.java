@@ -67,7 +67,10 @@ public class ExtendsWildcard<E extends ExtendsWildcard> extends ActualTypeArgume
 		for(TypeConstraint constraint: formal.constraints()) {
 			newParameter.addConstraint(constraint.clone());
 		}
-		newParameter.addConstraint(new ExtendsConstraint(typeReference().clone()));
+		TypeReference typeReference = typeReference();
+		TypeReference clone = typeReference.clone();
+		TypeReference nl = language(ObjectOrientedLanguage.class).createNonLocalTypeReference(clone, typeReference.parent());
+		newParameter.addConstraint(new ExtendsConstraint(nl));
     return newParameter;
 	}
 	

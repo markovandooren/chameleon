@@ -25,6 +25,7 @@ import chameleon.core.relation.WeakPartialOrder;
 import chameleon.oo.type.IntersectionTypeReference;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
+import chameleon.oo.type.generics.TypeParameter;
 import chameleon.util.Pair;
 
 public abstract class ObjectOrientedLanguage extends Language {
@@ -127,6 +128,8 @@ public abstract class ObjectOrientedLanguage extends Language {
 	 * Check whether the given type is a checked exception.
 	 */
 	public abstract boolean isCheckedException(Type type) throws LookupException;
+
+	public abstract boolean upperBoundNotHigherThan(Type first, Type second, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException;
 
 	public abstract Type getNullType();
 

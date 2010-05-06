@@ -42,7 +42,11 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 	 * is the upper bound of this generic parameter as defined by the upperBound method.
 	 */
 	public Type selectionDeclaration() throws LookupException {
-		ConstructedType constructedType = new ConstructedType(signature().clone(),upperBound(),this);
+		Type upperBound = upperBound();
+//		if((upperBound instanceof ConstructedType) && ((ConstructedType)upperBound).parameter().sameAs(this)) {
+//			upperBound = ((ConstructedType)upperBound).aliasedType();
+//		}
+		ConstructedType constructedType = new ConstructedType(signature().clone(),upperBound,this);
 		constructedType.setUniParent(parent());
 		return constructedType;
 	}
@@ -66,6 +70,12 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 				throw new Error("LookupException while looking for aliasedType of a lazy alias",e);
 			}
 		}
+		
+		@Override
+		public Type baseType() {
+			return this;
+		}
+
 	}
 	
 
@@ -140,7 +150,11 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 	@Override
 	public boolean uniSameAs(Element other) throws LookupException {
 		if(origin() == this) {
-			return this == other;
+			if(other == other.origin()) {
+			  return this == other;
+			} else {
+				return uniSameAs(other.origin());
+			}
 		} else {
 			return origin().sameAs(other);
 		}
@@ -165,4 +179,10 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 		}
 
   }
+
+
+	@Override
+	public boolean sameValueAs(TypeParameter otherParam) throws LookupException {
+		return sameAs(otherParam);
+	}
 }

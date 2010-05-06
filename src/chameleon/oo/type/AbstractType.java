@@ -33,6 +33,7 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.generics.TypeParameter;
 import chameleon.oo.type.inheritance.InheritanceRelation;
+import chameleon.util.Pair;
 import chameleon.util.Util;
 
 /**
@@ -352,9 +353,15 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 
     public void accumulateAllSuperTypes(Set<Type> acc) throws LookupException {
     	List<Type> temp =getDirectSuperTypes();
-    	acc.addAll(temp);
+//    	acc.addAll(temp);
+//    	for(Type type:temp) {
+//    		  type.accumulateAllSuperTypes(acc);
+//    	}
     	for(Type type:temp) {
-    		type.accumulateAllSuperTypes(acc);
+    		if(! acc.contains(type)) {
+    			acc.add(type);
+    		  type.accumulateAllSuperTypes(acc);
+    		}
     	}
     }
     
@@ -740,19 +747,11 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 			}
 		}
 
-//		public boolean sameRangeAs(Type other) throws LookupException {
-//			return other != null && (uniSameRangeAs(other)) || other.uniSameRangeAs(this);
-//		}
-		
-//		public abstract boolean uniSameRangeAs(Type other) throws LookupException;
-		
-//		public boolean sameBoundsAs(Type other) throws LookupException {
-//			return upperBound().sameAs(other.upperBound()) && (lowerBound().sameAs(other.lowerBound()));
-//		}
-		
-//		public abstract Type upperBound();
-//		
-//		public abstract Type lowerBound();
+		public boolean upperBoundNotHigherThan(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+    	return language(ObjectOrientedLanguage.class).upperBoundNotHigherThan(this, other, trace);
+		}
+
+
 }
 
 

@@ -22,6 +22,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.type.generics.TypeParameter;
 import chameleon.oo.type.inheritance.InheritanceRelation;
+import chameleon.util.Pair;
 
 public interface Type extends NamespaceOrType<Type,Element,SimpleNameSignature,Type>, 
 VariableOrType<Type,Element,SimpleNameSignature,Type>, 
@@ -78,6 +79,9 @@ DeclarationWithType<Type,Element,SimpleNameSignature,Type>, Member<Type,Element,
 
 	public List<TypeParameter> parameters();
 
+	/**
+	 * Indices start at 1.
+	 */
 	public TypeParameter parameter(int index);
 
 	public int nbTypeParameters();
@@ -319,5 +323,8 @@ DeclarationWithType<Type,Element,SimpleNameSignature,Type>, Member<Type,Element,
 	public Type baseType();
 
 	public VerificationResult verifySelf();
+
+	public boolean upperBoundNotHigherThan(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException;
+	
 
 }

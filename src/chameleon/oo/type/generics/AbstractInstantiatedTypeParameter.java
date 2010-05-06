@@ -125,8 +125,7 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 	
 
 	public TypeParameter capture(FormalTypeParameter formal) {
-//		return argument().capture(formal);
-		throw new Error();
+		return argument().capture(formal);
 	}
 	
 	@Override
@@ -151,15 +150,24 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 
 	@Override
 	public boolean uniSameAs(Element other) throws LookupException {
-//		return other == this;
+		return other == this;
+//		boolean result = false;
+//		if(other instanceof InstantiatedTypeParameter) {
+//		 result = argument().sameAs(((InstantiatedTypeParameter)other).argument());
+//		}
+//		return result;
+	}
+	
+	@Override
+	public boolean sameValueAs(TypeParameter other) throws LookupException {
 		boolean result = false;
-		if(other instanceof InstantiatedTypeParameter) {
-		 result = argument().sameAs(((InstantiatedTypeParameter)other).argument());
+		if(other instanceof AbstractInstantiatedTypeParameter) {
+			result = argument().sameAs(((InstantiatedTypeParameter)other).argument());
 		}
 		return result;
 	}
-	
-	public int hashCode() {
+
+		public int hashCode() {
 		return argument().hashCode();
 	}
 

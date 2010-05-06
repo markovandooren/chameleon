@@ -20,6 +20,8 @@ import chameleon.util.CreationStackTrace;
  */
 public class DerivedType extends TypeWithBody {
 
+	private CreationStackTrace _trace = new CreationStackTrace();
+
 	public DerivedType(List<TypeParameter> typeParameters, Type baseType) {
 		this(baseType);
 		substituteParameters(typeParameters);
@@ -72,7 +74,7 @@ public class DerivedType extends TypeWithBody {
 			while(myParams.hasNext() && result) {
 				TypeParameter mine = myParams.next();
 				TypeParameter otherParam = otherParams.next();
-				result = mine.sameAs(otherParam);
+				result = mine.sameValueAs(otherParam);
 			}
 		}
 		return result;

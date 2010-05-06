@@ -1,5 +1,7 @@
 package chameleon.oo.type.generics;
 
+import java.util.List;
+
 import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
@@ -17,6 +19,7 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
+import chameleon.util.Pair;
 
 /**
  * A class representing type parameters. These can be formal type parameters or instantiated type parameters.
@@ -70,26 +73,35 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Namespac
   }
 
 
-	public boolean compatibleWith(TypeParameter other) throws LookupException {
-		Type myType = nearestAncestor(Type.class);
-		Type otherType = (Type) other.nearestAncestor(Type.class);
-		String x = myType.getFullyQualifiedName()+"."+signature().name();
-		String y = otherType.getFullyQualifiedName() + "." + other.signature().name();
-		if(x.equals("chameleon.core.declaration.Signature.E")) {
-			System.out.println("Hebbes");
-		}
-		return sameAs(other) || upperBound().subTypeOf(other.upperBound()) && other.lowerBound().subTypeOf(lowerBound());
-	}
-	
-	public boolean compatibleWith(TypeParameter other,Object trace) throws LookupException {
-		Type myType = nearestAncestor(Type.class);
-		Type otherType = (Type) other.nearestAncestor(Type.class);
-		String x = myType.getFullyQualifiedName()+"."+signature().name();
-		String y = otherType.getFullyQualifiedName() + "." + other.signature().name();
-		if(x.equals("chameleon.core.declaration.Signature.E")) {
-			System.out.println("Hebbes");
-		}
-		return sameAs(other) || upperBound().subTypeOf(other.upperBound()) && other.lowerBound().subTypeOf(lowerBound());
+//	public boolean compatibleWith(TypeParameter other) throws LookupException {
+//		Type myType = nearestAncestor(Type.class);
+//		Type otherType = (Type) other.nearestAncestor(Type.class);
+//		String x = myType.getFullyQualifiedName()+"."+signature().name();
+//		String y = otherType.getFullyQualifiedName() + "." + other.signature().name();
+//		if(x.equals("chameleon.core.declaration.Signature.E")) {
+//			System.out.println("Hebbes");
+//		}
+//		return sameAs(other) || upperBound().subTypeOf(other.upperBound()) && other.lowerBound().subTypeOf(lowerBound());
+//	}
+//	
+  
+  private static int count;
+	public boolean compatibleWith(TypeParameter other,List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+//		Type myType = nearestAncestor(Type.class);
+//		Type otherType = (Type) other.nearestAncestor(Type.class);
+//		String x = myType.getFullyQualifiedName()+"."+signature().name();
+//		String y = otherType.getFullyQualifiedName() + "." + other.signature().name();
+//		if(x.equals("chameleon.core.member.Member.E")) {
+//			count++;
+//		} else {
+//			count = 0;
+//		}
+//		if(count >= 4) {
+//			System.out.println("Hebbes");
+//		}
+////			System.out.println(x+" ? "+y);
+////		}
+		return sameAs(other) || upperBound().upperBoundNotHigherThan(other.upperBound(),trace) && other.lowerBound().upperBoundNotHigherThan(lowerBound(),trace);
 	}
 
 	public boolean canBeAssigned(ActualTypeArgument typeArgument) throws LookupException {
@@ -116,5 +128,7 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Namespac
 			return new MissingSignature(this); 
 		}
 	}
+
+	public abstract boolean sameValueAs(TypeParameter otherParam) throws LookupException;
 
 }

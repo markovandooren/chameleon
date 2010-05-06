@@ -10,6 +10,7 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.type.generics.FormalTypeParameter;
+import chameleon.util.CreationStackTrace;
 
 /**
  * This class represents types created as a result of looking up (resolving) a generic parameter, which itself is
@@ -19,6 +20,8 @@ import chameleon.oo.type.generics.FormalTypeParameter;
  */
 public class ConstructedType extends TypeIndirection {
 
+	private CreationStackTrace _trace = new CreationStackTrace();
+	
 	public ConstructedType(SimpleNameSignature sig, Type aliasedType, FormalTypeParameter param) {
 		super(sig, aliasedType);
 		if(param == null) {
@@ -29,9 +32,9 @@ public class ConstructedType extends TypeIndirection {
 	
 	
 	@Override
-	public boolean uniSameAs(Element type) {
+	public boolean uniSameAs(Element type) throws LookupException {
 		return type == this || 
-		       ((type instanceof ConstructedType) && (((ConstructedType)type).parameter().equals(parameter())));
+		       ((type instanceof ConstructedType) && (((ConstructedType)type).parameter().sameAs(parameter())));
 	}
 	
 	@Override
@@ -68,5 +71,6 @@ public class ConstructedType extends TypeIndirection {
 	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
+
 
 }

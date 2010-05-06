@@ -119,7 +119,9 @@ public abstract class TypeWithBody extends AbstractType {
 	}
 
 	
-	
+	/**
+	 * Indices start at 1.
+	 */
 	@Override
 	public TypeParameter parameter(int index) {
 		return parameterBlock().parameter(index);

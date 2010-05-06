@@ -14,7 +14,6 @@ public class ExtendsConstraint extends TypeConstraintWithReferences<ExtendsConst
 		setTypeReference(ref);
 	}
 
-
 	@Override
 	public boolean matches(Type type) throws LookupException {
 		return type.subTypeOf(upperBound());

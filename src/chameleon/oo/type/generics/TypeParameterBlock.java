@@ -57,6 +57,9 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 		return _parameters.size();
 	}
 	
+	/**
+	 * Indices start at 1.
+	 */
 	public TypeParameter parameter(int index) {
 		return _parameters.elementAt(index);
 	}

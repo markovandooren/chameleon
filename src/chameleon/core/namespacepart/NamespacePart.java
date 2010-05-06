@@ -210,12 +210,12 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 	public void nonRecursiveDisconnect() {
 		// 1) Set the lexical parent to null.
 		super.nonRecursiveDisconnect();
-		if(Config.DEBUG) {
-			if(namespace() != null) {
-			  System.out.println("Disconnecting from "+namespace().getFullyQualifiedName());
-			}
-//			showStackTrace("Disconnecting from "+namespace().getFullyQualifiedName());
-		}
+//		if(Config.DEBUG) {
+//			if(namespace() != null) {
+//			  System.out.println("Disconnecting from "+namespace().getFullyQualifiedName());
+//			}
+////			showStackTrace("Disconnecting from "+namespace().getFullyQualifiedName());
+//		}
 		// 2) Disconnect from the namespace. 
 		setNamespace(null);
 //		// 3) IS NOW DONE BY DEFAULT RECURSION Disconnecting the children.

@@ -1,9 +1,7 @@
 package chameleon.oo.type.generics;
 
-import chameleon.core.declaration.Declaration;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.language.ObjectOrientedLanguage;
-import chameleon.oo.type.IntersectionTypeReference;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 
@@ -67,7 +65,10 @@ public class SuperWildcard<E extends SuperWildcard> extends ActualTypeArgumentWi
 		for(TypeConstraint constraint: formal.constraints()) {
 			newParameter.addConstraint(constraint.clone());
 		}
-		newParameter.addConstraint(new SuperConstraint(typeReference().clone()));
+		TypeReference typeReference = typeReference();
+		TypeReference clone = typeReference.clone();
+		TypeReference nl = language(ObjectOrientedLanguage.class).createNonLocalTypeReference(clone, typeReference.parent());
+		newParameter.addConstraint(new SuperConstraint(nl));
     return newParameter;
 	}
 

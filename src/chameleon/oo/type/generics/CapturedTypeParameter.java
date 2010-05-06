@@ -9,6 +9,16 @@ public class CapturedTypeParameter extends FormalTypeParameter {
 		super(signature);
 	}
 
+	@Override
+	public FormalTypeParameter clone() {
+		FormalTypeParameter result = new FormalTypeParameter(signature().clone());
+		for(TypeConstraint constraint: constraints()) {
+			result.addConstraint(constraint.clone());
+		}
+		return result;
+	}
+
+	
 //	public boolean compatibleWith(TypeParameter other) throws LookupException {
 //		throw new Error();
 //	}

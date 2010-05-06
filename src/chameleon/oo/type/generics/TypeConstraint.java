@@ -33,8 +33,6 @@ public abstract class TypeConstraint<E extends TypeConstraint> extends ElementIm
 	
 	public abstract boolean matches(Type type) throws LookupException;
 	
-  private SingleAssociation<TypeConstraint, TypeReference> _typeRef = new SingleAssociation<TypeConstraint, TypeReference>(this);
-
 	@Override
 	public abstract E clone();
 
