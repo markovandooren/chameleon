@@ -1,5 +1,6 @@
 package chameleon.oo.type.generics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.rejuse.association.SingleAssociation;
@@ -87,21 +88,16 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Namespac
   
   private static int count;
 	public boolean compatibleWith(TypeParameter other,List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
-//		Type myType = nearestAncestor(Type.class);
-//		Type otherType = (Type) other.nearestAncestor(Type.class);
-//		String x = myType.getFullyQualifiedName()+"."+signature().name();
-//		String y = otherType.getFullyQualifiedName() + "." + other.signature().name();
-//		if(x.equals("chameleon.core.member.Member.E")) {
-//			count++;
-//		} else {
-//			count = 0;
-//		}
-//		if(count >= 4) {
-//			System.out.println("Hebbes");
-//		}
-////			System.out.println(x+" ? "+y);
-////		}
-		return sameAs(other) || upperBound().upperBoundNotHigherThan(other.upperBound(),trace) && other.lowerBound().upperBoundNotHigherThan(lowerBound(),trace);
+//		List<Pair<TypeParameter, TypeParameter>> slowTrace = new ArrayList<Pair<TypeParameter, TypeParameter>>(trace);
+		List<Pair<TypeParameter, TypeParameter>> slowTrace = trace;
+		boolean result = sameAs(other);
+		if(! result) {
+		 result = upperBound().upperBoundNotHigherThan(other.upperBound(),slowTrace);
+		 if(result) {
+			 result = other.lowerBound().upperBoundNotHigherThan(lowerBound(),slowTrace);
+		 }
+		}
+		return result;
 	}
 
 	public boolean canBeAssigned(ActualTypeArgument typeArgument) throws LookupException {

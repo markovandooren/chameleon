@@ -8,7 +8,7 @@ import chameleon.oo.type.TypeReference;
 
 public class SuperConstraint extends TypeConstraintWithReferences<SuperConstraint> {
 
-	public SuperConstraint() {
+	private SuperConstraint() {
 		
 	}
 	

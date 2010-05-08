@@ -95,9 +95,9 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
   	return result;
 	}
 
-	private static class LazyTypeAlias extends TypeIndirection {
+	public static class LazyTypeAlias extends TypeIndirection {
 
-		public LazyTypeAlias(SimpleNameSignature sig, AbstractInstantiatedTypeParameter param) {
+		public LazyTypeAlias(SimpleNameSignature sig, TypeParameter param) {
 			super(sig,null);
 			_param = param;
 		}
@@ -110,11 +110,11 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 			}
 		}
 		
-		public AbstractInstantiatedTypeParameter parameter() {
+		public TypeParameter parameter() {
 			return _param;
 		}
 		
-		private final AbstractInstantiatedTypeParameter _param;
+		private final TypeParameter _param;
 
 		@Override
 		public Type clone() {
@@ -130,12 +130,12 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 	
 	@Override
 	public Type lowerBound() throws LookupException {
-		return argument().lowerBound();
+		return argument().getType().lowerBound();
 	}
 
 	@Override
 	public Type upperBound() throws LookupException {
-		return argument().upperBound();
+		return argument().getType().upperBound();
 	}
 	
 	@Override

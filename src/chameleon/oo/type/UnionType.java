@@ -22,26 +22,26 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.generics.TypeParameter;
 import chameleon.oo.type.inheritance.InheritanceRelation;
 
-public class IntersectionType extends AbstractType {
+public class UnionType extends AbstractType {
 	
 	public static Type create(List<Type> types) throws LookupException {
 		if(types.size() == 1) {
 			return types.get(0);
 		} else {
 			Namespace def = types.get(0).language().defaultNamespace();
-			IntersectionType result = new IntersectionType(types);
+			UnionType result = new UnionType(types);
 			result.setUniParent(def);
 			return result;
 		}
 	}
 
-	public IntersectionType(Type first, Type second) throws LookupException {
+	public UnionType(Type first, Type second) throws LookupException {
 		super(createSignature(Arrays.asList(new Type[]{first,second})));
 		addType(first);
 		addType(second);
 	}
 	
-	public IntersectionType(List<Type> types) throws LookupException {
+	public UnionType(List<Type> types) throws LookupException {
 		super(createSignature(types));
 		if(types.isEmpty()) {
 			throw new ChameleonProgrammerException("Creating an intersection with an empty collection of types.");
@@ -53,20 +53,12 @@ public class IntersectionType extends AbstractType {
 	
 	@Override
 	public List<Type> getDirectSuperTypes() throws LookupException {
-		return types();
+		ArrayList<Type> result = new ArrayList<Type>();
+		result.add(language(ObjectOrientedLanguage.class).getDefaultSuperClass());
+		return result;
 	}
 
-	public Type intersectionDoubleDispatch(Type type) throws LookupException {
-		return type.intersectionDoubleDispatch(this);
-	}
-
-	public Type intersectionDoubleDispatch(IntersectionType type) throws LookupException {
-		IntersectionType result = clone();
-		result.addAll(type);
-		return type;
-	}
-
-	public void addAll(IntersectionType type) throws LookupException {
+	public void addAll(UnionType type) throws LookupException {
 		for(Type t: type.types()) {
 			addType(t);
 		}
@@ -76,10 +68,10 @@ public class IntersectionType extends AbstractType {
 	
 	public void addType(Type type) throws LookupException {
 		for(Type alreadyPresent:types()) {
-			if(alreadyPresent.subTypeOf(type)) {
+			if(type.subTypeOf(alreadyPresent)) {
 				return;
 			}
-			if(type.subTypeOf(alreadyPresent)) {
+			if(alreadyPresent.subTypeOf(type)) {
 				removeType(alreadyPresent);
 			}
 		}
@@ -98,24 +90,24 @@ public class IntersectionType extends AbstractType {
 	
 	@Override
 	public void add(TypeElement element) throws ChameleonProgrammerException {
-		throw new ChameleonProgrammerException("Trying to add an element to an intersection type.");
+		throw new ChameleonProgrammerException("Trying to add an element to a union type.");
 	}
 
 	@Override
 	public void remove(TypeElement element) throws ChameleonProgrammerException {
-		throw new ChameleonProgrammerException("Trying to remove an element from an intersection type.");
+		throw new ChameleonProgrammerException("Trying to remove an element from a union type.");
 	}
 	@Override
 	public void addInheritanceRelation(InheritanceRelation type) throws ChameleonProgrammerException {
-		throw new ChameleonProgrammerException("Trying to add a super type to an intersection type.");
+		throw new ChameleonProgrammerException("Trying to add a super type to a union type.");
 	}
 
   public void replace(TypeElement oldElement, TypeElement newElement) {
-		throw new ChameleonProgrammerException("Trying to replace an element in an intersection type.");
+		throw new ChameleonProgrammerException("Trying to replace an element in a union type.");
   }
 	
 	public static SimpleNameSignature createSignature(Collection<Type> types) {
-		StringBuffer name = new StringBuffer("intersection of ");
+		StringBuffer name = new StringBuffer("union of ");
 		for(Type type:types) {
 			name.append(type.getFullyQualifiedName()+", ");
 		}
@@ -123,29 +115,30 @@ public class IntersectionType extends AbstractType {
 		return new SimpleNameSignature(name.toString());
 	}
 	
-	private IntersectionType(List<Type> types, boolean useless) {
+	private UnionType(List<Type> types, boolean useless) {
 		super(createSignature(types));
 		if(types.isEmpty()) {
-			throw new ChameleonProgrammerException("Creating an intersection with an empty collection of types.");
+			throw new ChameleonProgrammerException("Creating a union type with an empty collection of types.");
 		}
 		_types = new ArrayList<Type>(types);
 	}
 	
 	@Override
-	public IntersectionType clone() {
-		return new IntersectionType(types(), false);
+	public UnionType clone() {
+		return new UnionType(types(), false);
 	}
 
 	@Override
 	public List<Member> localMembers() throws LookupException {
 		//FIXME: renaming and so on. Extend both types and perform automatic renaming?
 		//       what about conflicting member definitions?
-		List<Member> result = new ArrayList<Member>();
-		for(Type type: types()) {
-		  result.addAll(type.localMembers(Member.class));
-		}
-		removeConstructors(result);
-		return result;
+		return new ArrayList<Member>();
+//		List<Member> result = new ArrayList<Member>();
+//		for(Type type: types()) {
+//		  result.addAll(type.localMembers(Member.class));
+//		}
+//		removeConstructors(result);
+//		return result;
 	}
 	
 	@Override
@@ -153,10 +146,10 @@ public class IntersectionType extends AbstractType {
 		//FIXME: renaming and so on. Extend both types and perform automatic renaming?
 		//       what about conflicting member definitions?
 		List<D> result = new ArrayList<D>();
-		for(Type type: types()) {
-		  result.addAll(type.localMembers(selector));
-		}
-		removeConstructors(result);
+//		for(Type type: types()) {
+//		  result.addAll(type.localMembers(selector));
+//		}
+//		removeConstructors(result);
 		return result;
 	}
 	
@@ -176,15 +169,15 @@ public class IntersectionType extends AbstractType {
 	@Override
 	public List<InheritanceRelation> inheritanceRelations() {
 		List<InheritanceRelation> result = new ArrayList<InheritanceRelation>();
-		for(Type type: types()) {
-		  result.addAll(type.inheritanceRelations());
-		}
+//		for(Type type: types()) {
+//		  result.addAll(type.inheritanceRelations());
+//		}
 		return result;
 	}
 
 	@Override
 	public void removeInheritanceRelation(InheritanceRelation type) {
-		throw new ChameleonProgrammerException("Trying to remove a super type from an intersection type.");
+		throw new ChameleonProgrammerException("Trying to remove a super type from a union type.");
 	}
 
 	@Override
@@ -207,26 +200,26 @@ public class IntersectionType extends AbstractType {
 
 	@Override
 	public void replaceParameter(TypeParameter oldParameter, TypeParameter newParameter) {
-		throw new ChameleonProgrammerException("Trying to replace a type parameter in an intersection type.");
+		throw new ChameleonProgrammerException("Trying to replace a type parameter in a union type.");
 	}
 
 	@Override
 	public void replaceAllParameter(List<TypeParameter> newParameters) {
-		throw new ChameleonProgrammerException("Trying to replace type parameters in an intersection type.");
+		throw new ChameleonProgrammerException("Trying to replace type parameters in a union type.");
 	}
 
 	@Override
 	public void addParameter(TypeParameter parameter) {
-		throw new ChameleonProgrammerException("Trying to add a type parameter to an intersection type.");
+		throw new ChameleonProgrammerException("Trying to add a type parameter to a union type.");
 	}
 
 	@Override
 	public List<? extends TypeElement> directlyDeclaredElements() {
 		List<TypeElement> result = new ArrayList<TypeElement>();
-		for(Type type: types()) {
-		  result.addAll(type.directlyDeclaredElements());
-		}
-		removeConstructors(result);
+//		for(Type type: types()) {
+//		  result.addAll(type.directlyDeclaredElements());
+//		}
+//		removeConstructors(result);
 		return result;
 	}
 	
@@ -235,7 +228,7 @@ public class IntersectionType extends AbstractType {
 	@Override
 	public boolean uniSameAs(final Element other) throws LookupException {
 		List<Type> types = types();
-		if (other instanceof IntersectionType) {
+		if (other instanceof UnionType) {
 			return new UnsafePredicate<Type, LookupException>() {
 				@Override
 				public boolean eval(final Type first) throws LookupException {
@@ -245,7 +238,7 @@ public class IntersectionType extends AbstractType {
 							return first.sameAs(second);
 						}
 						
-					}.exists(((IntersectionType)other).types());
+					}.exists(((UnionType)other).types());
 				}
 			}.forAll(types);
 		} else {
@@ -270,6 +263,18 @@ public class IntersectionType extends AbstractType {
 	@Override
 	public TypeParameter parameter(int index) {
 		throw new IllegalArgumentException();
+	}
+
+	@Override
+	public Type unionDoubleDispatch(Type type) throws LookupException {
+		return type.unionDoubleDispatch(this);
+	}
+
+	@Override
+	public Type unionDoubleDispatch(UnionType type) throws LookupException {
+		UnionType result = clone();
+		result.addAll(type);
+		return type;
 	}
 
 }

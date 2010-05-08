@@ -20,8 +20,6 @@ import chameleon.util.CreationStackTrace;
  */
 public class DerivedType extends TypeWithBody {
 
-	private CreationStackTrace _trace = new CreationStackTrace();
-
 	public DerivedType(List<TypeParameter> typeParameters, Type baseType) {
 		this(baseType);
 		substituteParameters(typeParameters);
@@ -83,9 +81,9 @@ public class DerivedType extends TypeWithBody {
 	@Override
 	public int hashCode() {
 		int result = baseType().hashCode();
-		for(TypeParameter parameter: parameters()) {
-			result += parameter.hashCode();
-		}
+//		for(TypeParameter parameter: parameters()) {
+//			result += parameter.hashCode();
+//		}
 		return result;
 	}
 	

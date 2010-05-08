@@ -316,7 +316,7 @@ DeclarationWithType<Type,Element,SimpleNameSignature,Type>, Member<Type,Element,
 	
 	public Type intersectionDoubleDispatch(Type type) throws LookupException;
 	
-	public Type intersectionDoubleDispatch(IntersectionType type);
+	public Type intersectionDoubleDispatch(IntersectionType type) throws LookupException;
 
 	public void replace(TypeElement oldElement, TypeElement newElement);
 
@@ -325,6 +325,16 @@ DeclarationWithType<Type,Element,SimpleNameSignature,Type>, Member<Type,Element,
 	public VerificationResult verifySelf();
 
 	public boolean upperBoundNotHigherThan(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException;
+
+	public Type union(Type lowerBound) throws LookupException;
+	
+	public Type unionDoubleDispatch(Type type) throws LookupException;
+	
+	public Type unionDoubleDispatch(UnionType type) throws LookupException;
+
+	public Type upperBound();
+	
+	public Type lowerBound();
 	
 
 }

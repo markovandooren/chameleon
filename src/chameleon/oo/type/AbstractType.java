@@ -26,6 +26,7 @@ import chameleon.core.lookup.LookupStrategySelector;
 import chameleon.core.member.FixedSignatureMember;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
+import chameleon.core.relation.WeakPartialOrder;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -34,7 +35,6 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.generics.TypeParameter;
 import chameleon.oo.type.inheritance.InheritanceRelation;
 import chameleon.util.Pair;
-import chameleon.util.Util;
 
 /**
  * <p>A class representing types in object-oriented programs.</p>
@@ -390,7 +390,9 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 		 * @see chameleon.oo.type.Tajp#subTypeOf(chameleon.oo.type.Type)
 		 */
     public boolean subTypeOf(Type other) throws LookupException {
-    	return language(ObjectOrientedLanguage.class).subtypeRelation().contains(this, other);
+    	ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+			WeakPartialOrder<Type> subtypeRelation = language.subtypeRelation();
+			return subtypeRelation.contains(this, other);
 //    	  Collection superTypes = getAllSuperTypes(); 
 //        return superTypes.contains(other);
     }
@@ -703,24 +705,33 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 		 * @see chameleon.oo.type.Tajp#intersection(chameleon.oo.type.Type)
 		 */
   	public Type intersection(Type type) throws LookupException {
-  		return type.intersectionDoubleDispatch(type);
+  		return type.intersectionDoubleDispatch(this);
   	}
   	
   	public Type intersectionDoubleDispatch(Type type) throws LookupException {
-  		Type result;
-  		if(type.subTypeOf(this)) {
-  			result = type;
-  		} else if (subTypeOf(type)) {
-  			result = this;
-  		} else {
-  		  result = new IntersectionType(this,type);
-  		  result.setUniParent(parent());
-  		}
+  		Type result = new IntersectionType(this,type);
+  		result.setUniParent(parent());
   		return result;
   	}
 
-  	public Type intersectionDoubleDispatch(IntersectionType type) {
+  	public Type intersectionDoubleDispatch(IntersectionType type) throws LookupException {
   		IntersectionType result = type.clone();
+  		result.addType(type);
+  		return result;
+  	}
+
+  	public Type union(Type type) throws LookupException {
+  		return type.unionDoubleDispatch(this);
+  	}
+  	
+  	public Type unionDoubleDispatch(Type type) throws LookupException {
+  		Type result = new UnionType(this,type);
+  		result.setUniParent(parent());
+  		return result;
+  	}
+  	
+  	public Type unionDoubleDispatch(UnionType type) throws LookupException {
+  		UnionType result = type.clone();
   		result.addType(type);
   		return result;
   	}
@@ -748,9 +759,19 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 		}
 
 		public boolean upperBoundNotHigherThan(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
-    	return language(ObjectOrientedLanguage.class).upperBoundNotHigherThan(this, other, trace);
+//			List<Pair<TypeParameter, TypeParameter>> slowTrace = new ArrayList<Pair<TypeParameter, TypeParameter>>(trace);
+			List<Pair<TypeParameter, TypeParameter>> slowTrace = trace;
+  	ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+			return language.upperBoundNotHigherThan(this, other, slowTrace);
 		}
 
+		public Type upperBound() {
+			return this;
+		}
+		
+		public Type lowerBound() {
+			return this;
+		}
 
 }
 

@@ -42,19 +42,25 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 	 * is the upper bound of this generic parameter as defined by the upperBound method.
 	 */
 	public Type selectionDeclaration() throws LookupException {
-		Type upperBound = upperBound();
-//		if((upperBound instanceof ConstructedType) && ((ConstructedType)upperBound).parameter().sameAs(this)) {
-//			upperBound = ((ConstructedType)upperBound).aliasedType();
-//		}
-		ConstructedType constructedType = new ConstructedType(signature().clone(),upperBound,this);
+		Type constructedType = createSelectionType();
 		constructedType.setUniParent(parent());
 		return constructedType;
 	}
+
+
+	protected Type createSelectionType() throws LookupException {
+		return new ConstructedType(signature().clone(),upperBound(),this);
+	}
 	
 	public Type resolveForRoundTrip() throws LookupException {
-  	Type result = new LazyTypeAlias(signature().clone(), this);
+  	Type result = createLazyAlias();
   	result.setUniParent(parent());
   	return result;
+	}
+
+
+	protected Type createLazyAlias() {
+		return new LazyTypeAlias(signature().clone(), this);
 	}
 	
 	public static class LazyTypeAlias extends ConstructedType {
@@ -71,10 +77,6 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 			}
 		}
 		
-		@Override
-		public Type baseType() {
-			return this;
-		}
 
 	}
 	
@@ -119,9 +121,16 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 	}
 
 	public Type upperBound() throws LookupException {
-		Type result = language(ObjectOrientedLanguage.class).getDefaultSuperClass();
-		for(TypeConstraint constraint: constraints()) {
-			result = result.intersection(constraint.upperBound());
+		List<TypeConstraint> constraints = constraints();
+		Type result;
+		int size = constraints.size();
+		if(size == 0) {
+			result = language(ObjectOrientedLanguage.class).getDefaultSuperClass();
+		} else {
+			result = constraints.get(0).upperBound();
+			for(int i = 1; i < size; i++) {
+				result = result.intersection(constraints.get(i).upperBound());
+			}
 		}
 		return result;
 	}
@@ -139,9 +148,16 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 
 	@Override
 	public Type lowerBound() throws LookupException {
-		Type result = language(ObjectOrientedLanguage.class).getNullType();
-		for(TypeConstraint constraint: constraints()) {
-			result = result.intersection(constraint.lowerBound());
+		List<TypeConstraint> constraints = constraints();
+		Type result;
+		int size = constraints.size();
+		if(size == 0) {
+			result = language(ObjectOrientedLanguage.class).getNullType();
+		} else {
+			result = constraints.get(0).lowerBound();
+			for(int i = 1; i < size; i++) {
+				result = result.union(constraints.get(i).lowerBound());
+			}
 		}
 		return result;
 	}

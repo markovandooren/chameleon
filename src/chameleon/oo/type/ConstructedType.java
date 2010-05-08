@@ -20,8 +20,6 @@ import chameleon.util.CreationStackTrace;
  */
 public class ConstructedType extends TypeIndirection {
 
-	private CreationStackTrace _trace = new CreationStackTrace();
-	
 	public ConstructedType(SimpleNameSignature sig, Type aliasedType, FormalTypeParameter param) {
 		super(sig, aliasedType);
 		if(param == null) {
@@ -72,5 +70,9 @@ public class ConstructedType extends TypeIndirection {
 		return Valid.create();
 	}
 
+	@Override
+	public Type baseType() {
+		return this;
+	}
 
 }

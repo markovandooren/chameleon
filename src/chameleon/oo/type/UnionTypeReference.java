@@ -12,18 +12,18 @@ import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public class IntersectionTypeReference<E extends IntersectionTypeReference> extends NamespaceElementImpl<E, Element> implements TypeReference<E> {
+public class UnionTypeReference<E extends UnionTypeReference> extends NamespaceElementImpl<E, Element> implements TypeReference<E> {
 
-	public IntersectionTypeReference() {
+	public UnionTypeReference() {
 		
 	}
 
-	public IntersectionTypeReference(List<? extends TypeReference> refs) {
+	public UnionTypeReference(List<? extends TypeReference> refs) {
 		addAll(refs);
 	}
 	
 
-	protected OrderedMultiAssociation<IntersectionTypeReference,TypeReference> _types = new OrderedMultiAssociation<IntersectionTypeReference, TypeReference>(this);
+	protected OrderedMultiAssociation<UnionTypeReference,TypeReference> _types = new OrderedMultiAssociation<UnionTypeReference, TypeReference>(this);
 
 	public Type getType() throws LookupException {
 		return getElement();
@@ -38,7 +38,7 @@ public class IntersectionTypeReference<E extends IntersectionTypeReference> exte
 		for(TypeReference ref: typeReferences()) {
 			types.add(ref.getElement());
 		}
-		Type result = IntersectionType.create(types);
+		Type result = UnionType.create(types);
 		result.setUniParent(this);
 		return result;
 	}
@@ -57,7 +57,7 @@ public class IntersectionTypeReference<E extends IntersectionTypeReference> exte
 		for(TypeReference tref: typeReferences()) {
 			trefs.add(tref.clone());
 		}
-		return (E) new IntersectionTypeReference(trefs);
+		return (E) new UnionTypeReference(trefs);
 	}
 
 	@Override
@@ -88,17 +88,15 @@ public class IntersectionTypeReference<E extends IntersectionTypeReference> exte
 	}
 
 	public TypeReference intersectionDoubleDispatch(TypeReference other) {
-		IntersectionTypeReference result = clone();
+		UnionTypeReference result = clone();
 		result.add(other.clone());
 		return result;	
 	}
 
 	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference<?> other) {
-		IntersectionTypeReference result = clone();
-		for(TypeReference<?> tref: other.typeReferences()) {
-		  result.add(tref.clone());
-		}
-		return result;	
+		IntersectionTypeReference<?> result = other.clone();
+		result.add(clone());
+		return result;
 	} 
 
 
