@@ -128,11 +128,4 @@ public abstract class TypeIndirection extends AbstractType {
 		return aliasedType().directlyDeclaredElements();
 	}
 
-	public Type lowerBound() {
-		return aliasedType().lowerBound();
-	}
-	
-	public Type upperBound() {
-		return aliasedType().upperBound();
-	}
 }

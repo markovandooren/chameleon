@@ -6,7 +6,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 
-public class SuperConstraint extends TypeConstraintWithReferences<SuperConstraint> {
+public class SuperConstraint extends TypeConstraint<SuperConstraint> {
 
 	private SuperConstraint() {
 		

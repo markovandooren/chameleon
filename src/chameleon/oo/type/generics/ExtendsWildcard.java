@@ -1,5 +1,7 @@
 package chameleon.oo.type.generics;
 
+import java.util.List;
+
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.language.ObjectOrientedLanguage;
@@ -62,16 +64,23 @@ public class ExtendsWildcard<E extends ExtendsWildcard> extends ActualTypeArgume
 	}
 
 	@Override
-	public TypeParameter capture(FormalTypeParameter formal) {
+	public TypeParameter capture(FormalTypeParameter formal, List<TypeConstraint> accumulator) {
 		CapturedTypeParameter newParameter = new CapturedTypeParameter(formal.signature().clone());
+		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
 		for(TypeConstraint constraint: formal.constraints()) {
-			newParameter.addConstraint(constraint.clone());
+			TypeConstraint clone = cloneAndResetTypeReference(constraint,constraint);
+			newParameter.addConstraint(clone);
+			accumulator.add(clone);
 		}
-		TypeReference typeReference = typeReference();
-		TypeReference clone = typeReference.clone();
-		TypeReference nl = language(ObjectOrientedLanguage.class).createNonLocalTypeReference(clone, typeReference.parent());
-		newParameter.addConstraint(new ExtendsConstraint(nl));
+//		TypeReference typeReference = typeReference();
+//		TypeReference clone = typeReference.clone();
+//		TypeReference nl = language.createNonLocalTypeReference(clone, this);
+//		newParameter.addConstraint(new ExtendsConstraint(nl));
+		
+		newParameter.addConstraint(cloneAndResetTypeReference(new ExtendsConstraint(typeReference().clone()),this));
     return newParameter;
 	}
+	
+	
 	
 }

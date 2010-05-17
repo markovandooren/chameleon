@@ -19,7 +19,7 @@ import chameleon.util.CreationStackTrace;
  * @author Marko van Dooren
  */
 public class DerivedType extends TypeWithBody {
-
+	
 	public DerivedType(List<TypeParameter> typeParameters, Type baseType) {
 		this(baseType);
 		substituteParameters(typeParameters);

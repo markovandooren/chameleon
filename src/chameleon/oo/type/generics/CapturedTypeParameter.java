@@ -1,9 +1,6 @@
 package chameleon.oo.type.generics;
 
-import java.util.ArrayList;
-
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.type.Type;
 
@@ -14,8 +11,8 @@ public class CapturedTypeParameter extends FormalTypeParameter {
 	}
 
 	@Override
-	public FormalTypeParameter clone() {
-		FormalTypeParameter result = new FormalTypeParameter(signature().clone());
+	public CapturedTypeParameter clone() {
+		CapturedTypeParameter result = new CapturedTypeParameter(signature().clone());
 		for(TypeConstraint constraint: constraints()) {
 			result.addConstraint(constraint.clone());
 		}
@@ -29,20 +26,7 @@ public class CapturedTypeParameter extends FormalTypeParameter {
 
 	@Override
 	protected Type createSelectionType() throws LookupException {
-		return new AbstractInstantiatedTypeParameter.ActualType(signature().clone(), upperBound());
+		return new ActualType(signature().clone(), upperBound(),this);
 	}
-
-	
-//	@Override
-//	public boolean uniSameAs(Element other) throws LookupException {
-//		return other instanceof CapturedTypeParameter && compatibleWith((TypeParameter) other, new ArrayList());
-//	}
-	
-	
-
-	
-//	public boolean compatibleWith(TypeParameter other) throws LookupException {
-//		throw new Error();
-//	}
 
 }

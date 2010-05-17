@@ -765,14 +765,6 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 			return language.upperBoundNotHigherThan(this, other, slowTrace);
 		}
 
-		public Type upperBound() {
-			return this;
-		}
-		
-		public Type lowerBound() {
-			return this;
-		}
-
 }
 
 

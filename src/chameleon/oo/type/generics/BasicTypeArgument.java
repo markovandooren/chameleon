@@ -1,5 +1,7 @@
 package chameleon.oo.type.generics;
 
+import java.util.List;
+
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
@@ -66,11 +68,11 @@ public class BasicTypeArgument<E extends BasicTypeArgument> extends ActualTypeAr
 	}
 
 	@Override
-	public TypeParameter capture(FormalTypeParameter formal) {
+	public TypeParameter capture(FormalTypeParameter formal, List<TypeConstraint> accumulator) {
 		CapturedTypeParameter newParameter = new CapturedTypeParameter(formal.signature().clone());
 		TypeReference typeReference = typeReference();
 		TypeReference clone = typeReference.clone();
-		TypeReference nl = language(ObjectOrientedLanguage.class).createNonLocalTypeReference(clone, typeReference.parent());
+		TypeReference nl = language(ObjectOrientedLanguage.class).createNonLocalTypeReference(clone, this);
 		newParameter.addConstraint(new EqualityConstraint(nl));
 		return newParameter;
 	}

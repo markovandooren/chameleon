@@ -5,7 +5,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 
-public class ExtendsConstraint extends TypeConstraintWithReferences<ExtendsConstraint> {
+public class ExtendsConstraint extends TypeConstraint<ExtendsConstraint> {
 
 	public ExtendsConstraint() {
 	}

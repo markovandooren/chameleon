@@ -2,6 +2,8 @@ package chameleon.oo.type.generics;
 
 
 
+import java.util.List;
+
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
@@ -39,7 +41,7 @@ public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends N
 	
 	public abstract Type lowerBound() throws LookupException;
 
-	public abstract TypeParameter capture(FormalTypeParameter formal);
+	public abstract TypeParameter capture(FormalTypeParameter formal, List<TypeConstraint> accumulator);
 	
 	/**
 	 * Return the type reference that must be used for substitution of a formal parameter.
@@ -94,6 +96,14 @@ public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends N
 
 	public Declaration getDeclarator() throws LookupException {
 		return getElement();
+	}
+
+	protected TypeConstraint cloneAndResetTypeReference(TypeConstraint constraint, Element lookupParent) {
+		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+		TypeConstraint kloon = constraint.clone();
+		TypeReference nl = language.createNonLocalTypeReference(kloon.typeReference(), lookupParent);
+		kloon.setTypeReference(nl);
+		return kloon;
 	}
 
 }

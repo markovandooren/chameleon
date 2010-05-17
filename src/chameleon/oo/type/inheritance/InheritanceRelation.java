@@ -120,7 +120,7 @@ public abstract class InheritanceRelation<E extends InheritanceRelation<E>> exte
 	 * @return
 	 * @throws LookupException
 	 */
-	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
+	public <M extends Member<M,? super Type,U,F>, U extends Signature<U,M>, F extends Member<? extends Member,? super Type,U,F>> 
   void accumulateInheritedMembers(final Class<M> kind, List<M> current) throws LookupException {
 		final List<M> potential = potentiallyInheritedMembers(kind);
 		removeNonMostSpecificMembers(current, potential);
@@ -162,7 +162,7 @@ public abstract class InheritanceRelation<E extends InheritanceRelation<E>> exte
     return superMembers;
 	}
 
-	public <M extends Member<M, ? super Type, S, F>, S extends Signature<S, M>, F extends Member<?, ? super Type, S, F>> List<M> potentiallyInheritedMembers(
+	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<?, ? super Type,S,F>> List<M> potentiallyInheritedMembers(
 			final DeclarationSelector<M> selector) throws LookupException {
 		List<M> superMembers = superClass().members(selector);
 		removeNonInheritableMembers(superMembers);

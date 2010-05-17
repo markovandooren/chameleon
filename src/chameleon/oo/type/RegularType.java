@@ -3,6 +3,7 @@ package chameleon.oo.type;
 
 
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.util.CreationStackTrace;
 
 public class RegularType extends TypeWithBody {
 

@@ -60,32 +60,8 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 	private ActualTypeArgument _argument;
 
 	public Type selectionDeclaration() throws LookupException {
-		return new ActualType(signature().clone(), argument().type());
+		return new ActualType(signature().clone(), argument().type(),this);
 	}
-
-	public static class ActualType extends TypeIndirection {
-
-		public ActualType(SimpleNameSignature sig, Type aliasedType) {
-			super(sig,aliasedType);
-		}
-
-		@Override
-		public Type clone() {
-			return new ActualType(signature().clone(), aliasedType());
-		}
-		
-		@Override
-		public Type actualDeclaration() {
-			return aliasedType();
-		}
-		
-		@Override
-		public boolean uniSameAs(Element element) {
-			return element.equals(aliasedType());
-		}
-		
-	}
-
 
 	@Override
 	public Type resolveForRoundTrip() throws LookupException {
@@ -124,18 +100,18 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 	}
 	
 
-	public TypeParameter capture(FormalTypeParameter formal) {
-		return argument().capture(formal);
+	public TypeParameter capture(FormalTypeParameter formal, List<TypeConstraint> accumulator) {
+		return argument().capture(formal,accumulator);
 	}
 	
 	@Override
 	public Type lowerBound() throws LookupException {
-		return argument().getType().lowerBound();
+		return argument().getType();
 	}
 
 	@Override
 	public Type upperBound() throws LookupException {
-		return argument().getType().upperBound();
+		return argument().getType();
 	}
 	
 	@Override

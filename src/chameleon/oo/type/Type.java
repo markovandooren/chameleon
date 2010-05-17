@@ -332,9 +332,4 @@ DeclarationWithType<Type,Element,SimpleNameSignature,Type>, Member<Type,Element,
 	
 	public Type unionDoubleDispatch(UnionType type) throws LookupException;
 
-	public Type upperBound();
-	
-	public Type lowerBound();
-	
-
 }
