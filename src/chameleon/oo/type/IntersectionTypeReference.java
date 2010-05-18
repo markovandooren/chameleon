@@ -39,7 +39,6 @@ public class IntersectionTypeReference<E extends IntersectionTypeReference> exte
 			types.add(ref.getElement());
 		}
 		Type result = IntersectionType.create(types);
-		result.setUniParent(this);
 		return result;
 	}
 

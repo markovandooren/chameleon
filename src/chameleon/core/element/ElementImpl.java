@@ -234,7 +234,11 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  	}
 	  }
 	  
-	  public final void setUniParent(P parent) {
+	  /**
+	   * DO NOT OVERRIDE THIS METHOD UNLESS YOU *REALLY* KNOW WHAT YOU ARE DOING! We don't see
+	   * any use other than diagnostic purposes.
+	   */
+	  public void setUniParent(P parent) {
 	  	if(_parentLink != null) {
 	  		_parentLink.connectTo(null);
 	  	}

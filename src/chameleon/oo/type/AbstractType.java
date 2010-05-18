@@ -758,9 +758,9 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 			}
 		}
 
-		public boolean upperBoundNotHigherThan(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+		public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
 //			List<Pair<TypeParameter, TypeParameter>> slowTrace = new ArrayList<Pair<TypeParameter, TypeParameter>>(trace);
-			List<Pair<TypeParameter, TypeParameter>> slowTrace = trace;
+			List<Pair<Type, TypeParameter>> slowTrace = trace;
   	ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
 			return language.upperBoundNotHigherThan(this, other, slowTrace);
 		}

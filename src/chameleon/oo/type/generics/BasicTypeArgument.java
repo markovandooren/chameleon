@@ -72,6 +72,7 @@ public class BasicTypeArgument<E extends BasicTypeArgument> extends ActualTypeAr
 		CapturedTypeParameter newParameter = new CapturedTypeParameter(formal.signature().clone());
 		TypeReference typeReference = typeReference();
 		TypeReference clone = typeReference.clone();
+		clone.setOrigin(typeReference);//DEBUG
 		TypeReference nl = language(ObjectOrientedLanguage.class).createNonLocalTypeReference(clone, this);
 		newParameter.addConstraint(new EqualityConstraint(nl));
 		return newParameter;

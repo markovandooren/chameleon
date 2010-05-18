@@ -129,7 +129,7 @@ public abstract class ObjectOrientedLanguage extends Language {
 	 */
 	public abstract boolean isCheckedException(Type type) throws LookupException;
 
-	public abstract boolean upperBoundNotHigherThan(Type first, Type second, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException;
+	public abstract boolean upperBoundNotHigherThan(Type first, Type second, List<Pair<Type, TypeParameter>> trace) throws LookupException;
 
 	public abstract Type getNullType();
 

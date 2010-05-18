@@ -40,8 +40,22 @@ public class ActualType extends TypeIndirection {
 		}
 		
 		@Override
-		public boolean uniSameAs(Element element) {
-			return element.equals(aliasedType());
+		public boolean uniSameAs(Element element) throws LookupException {
+//			
+//			String x = getFullyQualifiedName();
+//			String y = ((Type)element).getFullyQualifiedName();
+//			if(x.equals("org.rejuse.property.Property.F") && y.equals("org.rejuse.property.Property.F")) {
+//				System.out.println("Checking uniSameAs of:"+x+" and "+y);
+//			}
+			boolean result = false;
+			if(element instanceof ActualType) {
+				result = parameter().sameAs(((ActualType)element).parameter());
+			} 
+			if(! result) {
+			  result = element.sameAs(aliasedType());
+			}
+//			System.out.println("uniSameAs= "+result);
+			return result;
 		}
 		
 		public TypeParameter parameter() {

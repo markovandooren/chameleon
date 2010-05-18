@@ -87,9 +87,9 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Namespac
 //	
   
   private static int count;
-	public boolean compatibleWith(TypeParameter other,List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
-//		List<Pair<TypeParameter, TypeParameter>> slowTrace = new ArrayList<Pair<TypeParameter, TypeParameter>>(trace);
-		List<Pair<TypeParameter, TypeParameter>> slowTrace = trace;
+	public boolean compatibleWith(TypeParameter other,List<Pair<Type, TypeParameter>> trace) throws LookupException {
+//		List<Pair<Type, TypeParameter>> slowTrace = new ArrayList<Pair<Type, TypeParameter>>(trace);
+		List<Pair<Type, TypeParameter>> slowTrace = trace;
 		boolean result = sameAs(other);
 		if(! result) {
 		 result = upperBound().upperBoundNotHigherThan(other.upperBound(),slowTrace);

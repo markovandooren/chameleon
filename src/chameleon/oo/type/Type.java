@@ -324,7 +324,7 @@ DeclarationWithType<Type,Element,SimpleNameSignature,Type>, Member<Type,Element,
 
 	public VerificationResult verifySelf();
 
-	public boolean upperBoundNotHigherThan(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException;
+	public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException;
 
 	public Type union(Type lowerBound) throws LookupException;
 	
