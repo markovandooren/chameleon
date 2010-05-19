@@ -16,8 +16,6 @@ import chameleon.util.Pair;
  */
 public class BasicTypeArgument<E extends BasicTypeArgument> extends ActualTypeArgumentWithTypeReference<E> {
 
-	private CreationStackTrace _trace = new CreationStackTrace();
-	
 	public BasicTypeArgument(TypeReference ref) {
 		super(ref);
 	}

@@ -121,15 +121,15 @@ public abstract class DeclarationSelector<D extends Declaration> {
   	// We first perform the checks on the selectionDeclaration, since a signature check may be
   	// very expensive.
   	D result = null;
-  	Declaration selectionDeclaration = declarator.selectionDeclaration();
-  	if(selectedClass().isInstance(selectionDeclaration)) {
-  	  if(selectedBasedOnName(declarator.signature())) {
-  	  	if(selectedRegardlessOfName((D)selectionDeclaration)) {
-			    result = actualDeclaration(declarator);
-  	  	}
-  	  }
+  	if(selectedBasedOnName(declarator.signature())) {
+  		Declaration selectionDeclaration = declarator.selectionDeclaration();
+  		if(selectedClass().isInstance(selectionDeclaration)) {
+  			if(selectedRegardlessOfName((D)selectionDeclaration)) {
+  				result = actualDeclaration(declarator);
+  			}
+  		}
   	}
-    return result;
+  	return result;
   }
   
   /**
