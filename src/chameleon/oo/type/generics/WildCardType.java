@@ -12,6 +12,7 @@ import chameleon.oo.type.AbstractType;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeElement;
 import chameleon.oo.type.inheritance.InheritanceRelation;
+import chameleon.util.Pair;
 
 public abstract class WildCardType extends AbstractType {
 
@@ -128,6 +129,15 @@ public abstract class WildCardType extends AbstractType {
 		}
 	}
 	
+	public boolean uniSameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+		if(other instanceof WildCardType) {
+			WildCardType wild = (WildCardType) other;
+			return upperBound().sameAs(wild.upperBound(),trace) && lowerBound().sameAs(wild.lowerBound(),trace);
+		} else {
+			return false;
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		return lowerBound().hashCode()+upperBound().hashCode();

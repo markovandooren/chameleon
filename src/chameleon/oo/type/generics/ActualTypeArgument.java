@@ -2,6 +2,7 @@ package chameleon.oo.type.generics;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import chameleon.core.declaration.Declaration;
@@ -13,6 +14,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.IntersectionTypeReference;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
+import chameleon.util.Pair;
 
 public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends NamespaceElementImpl<E, Element> implements TypeReference<E> {
 
@@ -106,4 +108,12 @@ public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends N
 		return kloon;
 	}
 
+	public boolean sameAs(ActualTypeArgument argument, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+		List<Pair<TypeParameter, TypeParameter>> newTrace = new ArrayList<Pair<TypeParameter, TypeParameter>>(trace);
+		return uniSameAs(argument,newTrace) || argument.uniSameAs(this,newTrace);
+	}
+
+	public boolean uniSameAs(ActualTypeArgument argument, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+		return (argument.getClass().equals(getClass())) && (type().sameAs(((ActualTypeArgument)argument).type(),trace));
+	}
 }

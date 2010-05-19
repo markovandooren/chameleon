@@ -10,6 +10,7 @@ import chameleon.oo.type.generics.ActualTypeArgument;
 import chameleon.oo.type.generics.InstantiatedTypeParameter;
 import chameleon.oo.type.generics.TypeParameter;
 import chameleon.util.CreationStackTrace;
+import chameleon.util.Pair;
 
 
 /**
@@ -72,11 +73,28 @@ public class DerivedType extends TypeWithBody {
 			while(myParams.hasNext() && result) {
 				TypeParameter mine = myParams.next();
 				TypeParameter otherParam = otherParams.next();
-				result = mine.sameValueAs(otherParam);
+				result = mine.sameValueAs(otherParam, new ArrayList());
 			}
 		}
 		return result;
 	}
+	
+	public boolean uniSameAs(Type otherType, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+		boolean result = false;
+		if(otherType instanceof DerivedType) {
+			DerivedType type = (DerivedType) otherType;
+			result = type.baseType().sameAs(baseType());
+			Iterator<TypeParameter> myParams = parameters().iterator();
+			Iterator<TypeParameter> otherParams = type.parameters().iterator();
+			while(myParams.hasNext() && result) {
+				TypeParameter mine = myParams.next();
+				TypeParameter otherParam = otherParams.next();
+				result = mine.sameValueAs(otherParam,trace);
+			}
+		}
+		return result;
+	}
+
 	
 	@Override
 	public int hashCode() {
@@ -102,4 +120,5 @@ public class DerivedType extends TypeWithBody {
 		}
 		return new DerivedType(args,baseType());
 	}
+
 }

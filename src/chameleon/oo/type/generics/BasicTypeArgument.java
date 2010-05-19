@@ -6,6 +6,8 @@ import chameleon.core.lookup.LookupException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
+import chameleon.util.CreationStackTrace;
+import chameleon.util.Pair;
 
 /**
  * A class of type arguments that consist of a type name.
@@ -14,6 +16,8 @@ import chameleon.oo.type.TypeReference;
  */
 public class BasicTypeArgument<E extends BasicTypeArgument> extends ActualTypeArgumentWithTypeReference<E> {
 
+	private CreationStackTrace _trace = new CreationStackTrace();
+	
 	public BasicTypeArgument(TypeReference ref) {
 		super(ref);
 	}

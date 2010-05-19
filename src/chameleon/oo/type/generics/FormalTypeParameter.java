@@ -15,6 +15,7 @@ import chameleon.oo.type.IntersectionTypeReference;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.CreationStackTrace;
+import chameleon.util.Pair;
 
 /**
  * This class represents generic parameters as used in Java and C#.
@@ -199,6 +200,12 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 
 	@Override
 	public boolean sameValueAs(TypeParameter otherParam) throws LookupException {
+		return sameAs(otherParam);
+	}
+
+
+	@Override
+	public boolean sameValueAs(TypeParameter otherParam, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
 		return sameAs(otherParam);
 	}
 }

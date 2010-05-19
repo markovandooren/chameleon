@@ -128,7 +128,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
 			    result = actualDeclaration(declarator);
   	  	}
   	  }
-  	} 
+  	}
     return result;
   }
   

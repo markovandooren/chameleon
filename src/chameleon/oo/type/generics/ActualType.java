@@ -10,6 +10,7 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeIndirection;
+import chameleon.util.Pair;
 
 public class ActualType extends TypeIndirection {
 
@@ -17,15 +18,11 @@ public class ActualType extends TypeIndirection {
 			super(sig,aliasedType);
 			setParameter(parameter);
 		}
-
-		
 		
 		@Override
 		public List<Type> getDirectSuperTypes() throws LookupException {
 			return aliasedType().getDirectSuperTypes();
 		}
-
-
 
 		@Override
 		public Type clone() {
@@ -34,19 +31,11 @@ public class ActualType extends TypeIndirection {
 		
 		@Override
 		public Type actualDeclaration() {
-			//debug
-//			return aliasedType();
 			return this;
 		}
 		
 		@Override
 		public boolean uniSameAs(Element element) throws LookupException {
-//			
-//			String x = getFullyQualifiedName();
-//			String y = ((Type)element).getFullyQualifiedName();
-//			if(x.equals("org.rejuse.property.Property.F") && y.equals("org.rejuse.property.Property.F")) {
-//				System.out.println("Checking uniSameAs of:"+x+" and "+y);
-//			}
 			boolean result = false;
 			if(element instanceof ActualType) {
 				result = parameter().sameAs(((ActualType)element).parameter());
@@ -54,10 +43,30 @@ public class ActualType extends TypeIndirection {
 			if(! result) {
 			  result = element.sameAs(aliasedType());
 			}
-//			System.out.println("uniSameAs= "+result);
 			return result;
 		}
 		
+		public boolean uniSameAs(Type element, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+			boolean result = false;
+			if(element instanceof ActualType) {
+				TypeParameter mine = parameter();
+				TypeParameter others = ((ActualType)element).parameter();
+				result = mine.sameAs(others);
+				if(! result) {
+					for(Pair<TypeParameter, TypeParameter> pair: trace) {
+						if(mine.sameAs(pair.first()) && others.sameAs(pair.second())) {
+							return true;
+						}
+					}
+					trace.add(new Pair<TypeParameter, TypeParameter>(mine, others));
+				}
+			} 
+			if(! result) {
+				result = ((Type)element).sameAs(aliasedType(),trace);
+			}
+			return result;
+		}
+
 		public TypeParameter parameter() {
 			return _parameter;
 		}

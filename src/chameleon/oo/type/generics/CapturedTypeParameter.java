@@ -28,31 +28,41 @@ public class CapturedTypeParameter extends FormalTypeParameter {
 
 	@Override
 	protected Type createSelectionType() throws LookupException {
-		return new ActualType(signature().clone(), upperBound(),this);
+		if(_selectionTypeCache == null) {
+		  _selectionTypeCache = new ActualType(signature().clone(), upperBound(),this);
+		}
+		return _selectionTypeCache;
+	}
+	
+	@Override
+	public void flushLocalCache() {
+		super.flushLocalCache();
+		_selectionTypeCache = null;
 	}
 
-	//FIXME this is dirty.
-	@Override
-	public boolean uniSameAs(Element other) throws LookupException {
-		if(origin() == this) {
-			if(other == other.origin()) {
-			  // The real test is here.
-				if(other instanceof CapturedTypeParameter) {
-					boolean result = signature().sameAs(((CapturedTypeParameter) other).signature());
-					if(result) {
-					  result = nearestAncestor(DerivedType.class).baseType().sameAs(((DerivedType)other.nearestAncestor(DerivedType.class)).baseType());
-					}
-					return result;
-				} else {
-					return false;
-				}
-			} else {
-				return uniSameAs(other.origin());
-			}
-		} else {
-			return origin().sameAs(other);
-		}
-	}
+	private Type _selectionTypeCache;
+
+//	@Override
+//	public boolean uniSameAs(Element other) throws LookupException {
+//		if(origin() == this) {
+//			if(other == other.origin()) {
+//			  // The real test is here.
+//				if(other instanceof CapturedTypeParameter) {
+//					boolean result = signature().sameAs(((CapturedTypeParameter) other).signature());
+//					if(result) {
+//					  result = nearestAncestor(DerivedType.class).baseType().sameAs(((DerivedType)other.nearestAncestor(DerivedType.class)).baseType());
+//					}
+//					return result;
+//				} else {
+//					return false;
+//				}
+//			} else {
+//				return uniSameAs(other.origin());
+//			}
+//		} else {
+//			return origin().sameAs(other);
+//		}
+//	}
 
 	
 }

@@ -765,6 +765,10 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 			return language.upperBoundNotHigherThan(this, other, slowTrace);
 		}
 
+		public boolean sameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+			List<Pair<TypeParameter, TypeParameter>> newTrace = new ArrayList<Pair<TypeParameter, TypeParameter>>(trace);
+			return uniSameAs(other,newTrace) || other.uniSameAs(this,newTrace);
+		}
 }
 
 

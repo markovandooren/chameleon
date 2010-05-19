@@ -16,6 +16,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeIndirection;
 import chameleon.oo.type.TypeReference;
+import chameleon.util.Pair;
 
 
 public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstantiatedTypeParameter<E>> extends TypeParameter<E> {
@@ -60,9 +61,21 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 	private ActualTypeArgument _argument;
 
 	public Type selectionDeclaration() throws LookupException {
-		return new ActualType(signature().clone(), argument().type(),this);
+		if(_selectionTypeCache == null) {
+		  _selectionTypeCache = new ActualType(signature().clone(), argument().type(),this);
+		}
+		return _selectionTypeCache;
 	}
 
+	@Override
+	public void flushLocalCache() {
+		super.flushLocalCache();
+		_selectionTypeCache = null;
+	}
+
+	private Type _selectionTypeCache;
+
+	
 	@Override
 	public Type resolveForRoundTrip() throws LookupException {
 //		return this;
@@ -95,6 +108,10 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 		@Override
 		public Type clone() {
 			return new LazyTypeAlias(signature().clone(), _param);
+		}
+
+		public boolean uniSameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+			return other == this;
 		}
 		
 	}
@@ -139,6 +156,15 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 		boolean result = false;
 		if(other instanceof AbstractInstantiatedTypeParameter) {
 			result = argument().sameAs(((InstantiatedTypeParameter)other).argument());
+		}
+		return result;
+	}
+
+	@Override
+	public boolean sameValueAs(TypeParameter other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+		boolean result = false;
+		if(other instanceof AbstractInstantiatedTypeParameter) {
+			result = argument().sameAs(((InstantiatedTypeParameter)other).argument(), trace);
 		}
 		return result;
 	}

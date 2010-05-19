@@ -10,7 +10,9 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.type.generics.FormalTypeParameter;
+import chameleon.oo.type.generics.TypeParameter;
 import chameleon.util.CreationStackTrace;
+import chameleon.util.Pair;
 
 /**
  * This class represents types created as a result of looking up (resolving) a generic parameter, which itself is
@@ -73,6 +75,11 @@ public class ConstructedType extends TypeIndirection {
 	@Override
 	public Type baseType() {
 		return this;
+	}
+
+
+	public boolean uniSameAs(Type type, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+		return uniSameAs(type);
 	}
 
 }

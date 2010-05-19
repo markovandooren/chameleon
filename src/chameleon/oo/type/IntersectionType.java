@@ -21,6 +21,7 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.generics.TypeParameter;
 import chameleon.oo.type.inheritance.InheritanceRelation;
+import chameleon.util.Pair;
 
 public class IntersectionType extends AbstractType {
 	
@@ -249,7 +250,7 @@ public class IntersectionType extends AbstractType {
 				}
 			}.forAll(types);
 		} else {
-			return (types.size() == 1) && (types.iterator().next().equals(other));
+			return (other instanceof Type) && (types.size() == 1) && (types.iterator().next().sameAs(other));
 		}
 	}
 	
@@ -270,6 +271,26 @@ public class IntersectionType extends AbstractType {
 	@Override
 	public TypeParameter parameter(int index) {
 		throw new IllegalArgumentException();
+	}
+
+	public boolean uniSameAs(final Type other, final List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+		List<Type> types = types();
+		if (other instanceof IntersectionType) {
+			return new UnsafePredicate<Type, LookupException>() {
+				@Override
+				public boolean eval(final Type first) throws LookupException {
+					return new UnsafePredicate<Type, LookupException>() {
+						@Override
+						public boolean eval(Type second) throws LookupException {
+							return first.sameAs(second,trace);
+						}
+						
+					}.exists(((IntersectionType)other).types());
+				}
+			}.forAll(types);
+		} else {
+			return (other instanceof Type) && (types.size() == 1) && (types.iterator().next().sameAs(other,trace));
+		}
 	}
 
 }
