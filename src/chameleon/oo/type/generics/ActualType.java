@@ -5,6 +5,7 @@ package chameleon.oo.type.generics;
 
 import java.util.List;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
@@ -76,5 +77,9 @@ public class ActualType extends TypeIndirection {
 		}
 		
 		private TypeParameter _parameter;
+
+		public Declaration declarator() {
+			return parameter();
+		}
 		
 	}

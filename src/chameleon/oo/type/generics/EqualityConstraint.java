@@ -3,9 +3,10 @@ package chameleon.oo.type.generics;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
+import chameleon.util.CreationStackTrace;
 
 public class EqualityConstraint extends TypeConstraint<EqualityConstraint> {
-
+	
 	public EqualityConstraint() {
 	}
 	

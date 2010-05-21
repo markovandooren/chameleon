@@ -6,8 +6,6 @@ import chameleon.core.lookup.LookupException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
-import chameleon.util.CreationStackTrace;
-import chameleon.util.Pair;
 
 /**
  * A class of type arguments that consist of a type name.

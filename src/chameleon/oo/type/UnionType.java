@@ -9,6 +9,7 @@ import java.util.List;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.UnsafePredicate;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
@@ -296,6 +297,10 @@ public class UnionType extends AbstractType {
 		} else {
 			return (types.size() == 1) && (types.iterator().next().sameAs(other,trace));
 		}
+	}
+
+	public Declaration declarator() {
+		return this;
 	}
 
 }

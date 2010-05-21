@@ -8,6 +8,7 @@ import org.rejuse.association.SingleAssociation;
 import org.rejuse.java.collections.Visitor;
 import org.rejuse.property.PropertySet;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
@@ -195,5 +196,10 @@ public abstract class RegularVariable<E extends RegularVariable<E,P,F>, P extend
  public Variable selectionDeclaration() {
  	return this;
  }
+
+ public Declaration declarator() {
+	 return this;
+ }
+
 
 }

@@ -14,4 +14,11 @@ public class SuperWildcardType extends WildCardType {
 	public Type bound() {
 		return lowerBound();
 	}
+	
+	@Override
+	public String getFullyQualifiedName() {
+		return "? super "+lowerBound().getFullyQualifiedName();
+	}
+
+
 }

@@ -2,6 +2,7 @@ package chameleon.oo.type.generics;
 
 import java.util.List;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
@@ -21,6 +22,8 @@ public abstract class WildCardType extends AbstractType {
 		_upperBound = upperBound;
 		_lowerBound = lowerBound;
 	}
+	
+	public abstract String getFullyQualifiedName();
 	
   private Type _upperBound;
 
@@ -143,4 +146,7 @@ public abstract class WildCardType extends AbstractType {
 		return lowerBound().hashCode()+upperBound().hashCode();
 	}
 
+	public Declaration declarator() {
+		return this;
+	}
 }

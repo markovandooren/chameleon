@@ -67,7 +67,7 @@ public class DeclarationAlias<D extends Declaration> extends NamespaceElementImp
 	}
 
 	public Declaration<?, ?, ?, D> selectionDeclaration() throws LookupException {
-		return _aliasedDeclaration;
+		return aliasedDeclaration();
 	}
 
 	public List<? extends Element> children() {
@@ -85,4 +85,8 @@ public class DeclarationAlias<D extends Declaration> extends NamespaceElementImp
 	private SingleAssociation<DeclarationAlias, Signature> _signature = new SingleAssociation<DeclarationAlias, Signature>(this); 
 
 	private D _aliasedDeclaration;
+
+	public Declaration declarator() {
+		return aliasedDeclaration().declarator();
+	}
 }

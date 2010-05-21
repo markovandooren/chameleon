@@ -28,6 +28,10 @@ public class CapturedTypeParameter extends FormalTypeParameter {
 
 	@Override
 	protected Type createSelectionType() throws LookupException {
+//		String x = nearestAncestor(Type.class).getFullyQualifiedName() +"."+ signature();
+//		if(x.equals("chameleon.core.member.Member.E")) {
+//			System.out.println("Creating selection type of " + x);
+//		}
 		if(_selectionTypeCache == null) {
 		  _selectionTypeCache = new ActualType(signature().clone(), upperBound(),this);
 		}

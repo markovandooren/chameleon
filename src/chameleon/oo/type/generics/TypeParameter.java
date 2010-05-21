@@ -129,4 +129,7 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Namespac
 
 	public abstract boolean sameValueAs(TypeParameter otherParam, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException;
 
+  public Declaration declarator() {
+  	return this;
+  }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
@@ -87,6 +88,10 @@ public class NamespaceAlias extends Namespace {
 	@Override
 	public VerificationResult verifySelf() {
 		return Valid.create();
+	}
+
+	public Declaration declarator() {
+		return aliasedNamespace().declarator();
 	}
 
 }

@@ -53,6 +53,7 @@ DeclarationWithType<Type,Element,SimpleNameSignature,Type>, Member<Type,Element,
 
 	/**
 	 * Return the fully qualified name.
+	 * @throws LookupException 
 	 */
 	/*@
 	  @ public behavior

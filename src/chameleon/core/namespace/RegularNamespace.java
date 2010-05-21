@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.rejuse.association.OrderedMultiAssociation;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
@@ -124,5 +125,9 @@ public class RegularNamespace<E extends RegularNamespace<E>> extends Namespace<E
 	@Override
 	public VerificationResult verifySelf() {
 		return Valid.create();
+	}
+
+	public Declaration declarator() {
+		return this;
 	}
 }

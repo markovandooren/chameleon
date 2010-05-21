@@ -10,6 +10,7 @@ import org.rejuse.predicate.SafePredicate;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
@@ -215,6 +216,10 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
 	@Override
 	public VerificationResult verifySelf() {
 		return Valid.create();
+	}
+
+	public Declaration declarator() {
+		return aliasedVariable().declarator();
 	}
 
 }

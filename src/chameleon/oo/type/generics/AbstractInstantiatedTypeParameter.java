@@ -7,6 +7,7 @@ import org.rejuse.association.Association;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.predicate.UnsafePredicate;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.MissingSignature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
@@ -112,6 +113,10 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 
 		public boolean uniSameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
 			return other == this;
+		}
+
+		public Declaration declarator() {
+			return parameter();
 		}
 		
 	}

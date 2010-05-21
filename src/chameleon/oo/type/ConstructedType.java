@@ -3,6 +3,7 @@ package chameleon.oo.type;
 import java.util.ArrayList;
 import java.util.List;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
@@ -80,6 +81,11 @@ public class ConstructedType extends TypeIndirection {
 
 	public boolean uniSameAs(Type type, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
 		return uniSameAs(type);
+	}
+
+
+	public Declaration declarator() {
+		return parameter();
 	}
 
 }

@@ -2,6 +2,7 @@ package chameleon.core.method;
 
 import org.rejuse.property.PropertySet;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.method.exception.ExceptionClause;
 import chameleon.core.property.ChameleonProperty;
@@ -75,6 +76,10 @@ public class MethodAlias<E extends MethodAlias<E,H,S>, H extends MethodHeader<H,
 	@Override
 	public void setReturnTypeReference(TypeReference type) {
 		throw new ChameleonProgrammerException("Trying to set the return type reference of a method alias.");
+	}
+
+	public Declaration declarator() {
+		return aliasedMethod().declarator();
 	}
 
 }

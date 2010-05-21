@@ -9,6 +9,7 @@ import java.util.List;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.UnsafePredicate;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
@@ -291,6 +292,10 @@ public class IntersectionType extends AbstractType {
 		} else {
 			return (other instanceof Type) && (types.size() == 1) && (types.iterator().next().sameAs(other,trace));
 		}
+	}
+
+	public Declaration declarator() {
+		return this;
 	}
 
 }

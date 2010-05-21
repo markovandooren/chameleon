@@ -209,18 +209,18 @@ public abstract class DeclarationSelector<D extends Declaration> {
   	Map<D,Declaration> tmp = new HashMap<D,Declaration>();
   	List<D> Ds = new ArrayList<D>();
   	for(Declaration decl: selectionCandidates) {
-  		Declaration selectionDeclaration = decl.selectionDeclaration();
-  		if(selectedClass().isInstance(selectionDeclaration)) {
-  			if(selectedBasedOnName(decl.signature())) {
+  		if(selectedBasedOnName(decl.signature())) {
+  			Declaration selectionDeclaration = decl.selectionDeclaration();
+  			if(selectedClass().isInstance(selectionDeclaration)) {
   				if(selectedRegardlessOfName((D)selectionDeclaration)) {
-  					tmp.put((D) selectionDeclaration,decl);
+  					tmp.put((D) selectionDeclaration,decl.declarator());
   					Ds.add((D) selectionDeclaration);
   				}
   			}
   		} 
   	}
   	order().removeBiggerElements(Ds);
-    List<Declaration> result = new ArrayList<Declaration>();
+  	List<Declaration> result = new ArrayList<Declaration>();
     for(D d: Ds) {
     	result.add(tmp.get(d));
     }

@@ -27,4 +27,9 @@ public class ExtendsWildcardType extends WildCardType {
 		return upperBound();
 	}
 
+	@Override
+	public String getFullyQualifiedName() {
+		return "? extends "+upperBound().getFullyQualifiedName();
+	}
+
 }

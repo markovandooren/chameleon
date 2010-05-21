@@ -358,10 +358,22 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 //    		  type.accumulateAllSuperTypes(acc);
 //    	}
     	for(Type type:temp) {
-    		if(! acc.contains(type)) {
+    		boolean add=true;
+    		for(Type acced: acc) {
+    			if(acced.baseType().sameAs(type.baseType())) {
+    				add=false;
+    				break;
+    			}
+    		}
+    		if(add) {
     			acc.add(type);
     		  type.accumulateAllSuperTypes(acc);
     		}
+    		
+//    		if(! acc.contains(type)) {
+//    			acc.add(type);
+//    		  type.accumulateAllSuperTypes(acc);
+//    		}
     	}
     }
     

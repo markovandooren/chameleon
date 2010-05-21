@@ -2,6 +2,7 @@ package chameleon.oo.type;
 
 import java.util.List;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
@@ -39,6 +40,10 @@ public class TypeAlias extends TypeIndirection {
 		return super.uniSameAs(other) || 
     other.sameAs(aliasedType(),trace) || 
     ((other instanceof TypeIndirection) && (((TypeIndirection)other).aliasedType().sameAs(aliasedType(),trace)));
+	}
+
+	public Declaration declarator() {
+		return aliasedType().declarator();
 	}
 
 

@@ -7,6 +7,7 @@ import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.predicate.TypePredicate;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
@@ -188,6 +189,10 @@ public abstract class TypeWithBody extends AbstractType {
 			// using a regular reference.
 			replaceParameter(parameter, argument);
 		}
+	}
+	
+	public Declaration declarator() {
+		return this;
 	}
 
 }
