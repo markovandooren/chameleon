@@ -781,6 +781,15 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 			List<Pair<TypeParameter, TypeParameter>> newTrace = new ArrayList<Pair<TypeParameter, TypeParameter>>(trace);
 			return uniSameAs(other,newTrace) || other.uniSameAs(this,newTrace);
 		}
+		
+		public Type lowerBound() throws LookupException {
+			return this;
+		}
+		
+		public Type upperBound() throws LookupException {
+			return this;
+		}
+
 }
 
 

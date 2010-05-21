@@ -21,7 +21,7 @@ public class EqualityConstraint extends TypeConstraint<EqualityConstraint> {
 
 	@Override
 	public Type lowerBound() throws LookupException {
-		return bound();
+		return bound().lowerBound();
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class EqualityConstraint extends TypeConstraint<EqualityConstraint> {
 //		if(x.equals("java.util.AbstractCollection.E")) {
 //			System.out.println(x);
 //		}
-		return bound();
+		return bound().upperBound();
 	}
 
 	@Override

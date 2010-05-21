@@ -163,6 +163,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   public List<Element> children() {
     List<Element> result = new ArrayList<Element>();
     result.add(actualArgumentList());
+    result.addAll(typeArguments());
     Util.addNonNull(getTarget(), result);
     return result;
   }
@@ -290,6 +291,9 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
         result.addArgument(element.clone());
       }
     }.applyTo(getActualParameters());
+    for(ActualTypeArgument arg: typeArguments()) {
+    	result.addArgument(arg.clone());
+    }
     return result;
   }
 

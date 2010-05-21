@@ -9,6 +9,7 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
 import chameleon.exception.ChameleonProgrammerException;
+import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.AbstractType;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeElement;
@@ -54,7 +55,7 @@ public abstract class WildCardType extends AbstractType {
 	}
 	
 	public Type lowerBound() {
-		return _upperBound;
+		return _lowerBound;
 	}
 	
 	public Type baseType() {

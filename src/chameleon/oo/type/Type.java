@@ -336,4 +336,8 @@ DeclarationWithType<Type,Element,SimpleNameSignature,Type>, Member<Type,Element,
 	public boolean sameAs(Type aliasedType, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException;
 
 	public boolean uniSameAs(Type aliasedType, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException;
+	
+	public Type lowerBound() throws LookupException;
+	
+	public Type upperBound() throws LookupException;
 }
