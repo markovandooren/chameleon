@@ -205,7 +205,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @            selects(d) && 
    @            ! (\exists D other; set.contains(other); order().strictOrder().contains(other,d))));
    @*/
-  public List<Declaration> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
+  public List<? extends Declaration> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
   	Map<D,Declaration> tmp = new HashMap<D,Declaration>();
   	List<D> Ds = new ArrayList<D>();
   	for(Declaration decl: selectionCandidates) {
