@@ -146,7 +146,8 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * @throws LookupException
    */
   public D actualDeclaration(Declaration declarator) throws LookupException {
-  	return ((Declaration<?, ?, ?, D>)declarator.selectionDeclaration()).actualDeclaration();
+  	Declaration<?, ?, ?, D> declaration = (Declaration<?, ?, ?, D>)declarator.selectionDeclaration();
+		return declaration.actualDeclaration();
   }
   
   /**
