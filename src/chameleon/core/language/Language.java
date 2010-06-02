@@ -692,6 +692,13 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
 		
 		private OrderedMultiAssociation<Language,ValidityRule> _validityRules = new OrderedMultiAssociation<Language,ValidityRule>(this);
 		
+		
+		/**
+		 * Flush the caches kept by this language. Caches of model elements are flushed separately. The default behavior is to do nothing.
+		 */
+		public void flushCache() {
+			
+		}
 
 }
 
