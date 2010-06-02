@@ -12,6 +12,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeIndirection;
 import chameleon.util.Pair;
+import chameleon.util.Util;
 
 public class ActualType extends TypeIndirection {
 
@@ -23,6 +24,7 @@ public class ActualType extends TypeIndirection {
 		@Override
 		public List<Type> getDirectSuperTypes() throws LookupException {
 			return aliasedType().getDirectSuperTypes();
+//			return Util.createNonNullList(aliasedType());
 		}
 
 		@Override
