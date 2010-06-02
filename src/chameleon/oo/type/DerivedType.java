@@ -1,15 +1,16 @@
 package chameleon.oo.type;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.type.generics.ActualTypeArgument;
 import chameleon.oo.type.generics.InstantiatedTypeParameter;
 import chameleon.oo.type.generics.TypeParameter;
-import chameleon.util.CreationStackTrace;
 import chameleon.util.Pair;
 
 
@@ -38,19 +39,51 @@ public class DerivedType extends TypeWithBody {
 		setOrigin(baseType);
 	}
 	
+	public static DerivedType create(Type baseType, List<ActualTypeArgument> typeArguments) throws LookupException {
+		Map<List<Type>, DerivedType> map = _cache.get(baseType);
+		if(map == null) {
+			map = new HashMap<List<Type>, DerivedType>();
+			_cache.put(baseType, map);
+		} 
+//		else {
+//			MAPCOUNT++;
+//			System.out.println("Map cache hits: "+MAPCOUNT);
+//		}
+		List<Type> typeList = new ArrayList<Type>();
+		for(ActualTypeArgument arg: typeArguments) {
+			typeList.add(arg.type());
+		}
+		DerivedType result = map.get(typeList);
+		if(result == null) {
+			result = new DerivedType(baseType, typeArguments);
+			map.put(typeList, result);
+		} else {
+			COUNT++;
+			System.out.println("Cache hits: "+COUNT);
+		}
+		return result;
+	}
+	
+	private static int COUNT;
+	
+	private static Map<Type, Map<List<Type>, DerivedType>> _cache = new HashMap<Type, Map<List<Type>, DerivedType>>();
+	
 	/**
 	 * Create a derived type by filling in the type parameters with the given list of
 	 * actual type arguments.
 	 * 
+	 * Note that the arguments are reversed compared to the constructor which takes a list
+	 * of type parameters because otherwise, both constructors would have the same erasure.
+	 * 
 	 * @param baseType
-	 * @param typeParameters
+	 * @param typeArguments
 	 */
-	public DerivedType(Type baseType, List<ActualTypeArgument> typeParameters) {
+	public DerivedType(Type baseType, List<ActualTypeArgument> typeArguments) {
 		this(baseType);
 		// substitute parameters
 		List<TypeParameter> myParameters = parameters();
 		Iterator<TypeParameter> parametersIterator = myParameters.iterator();
-		Iterator<ActualTypeArgument> argumentsIterator = typeParameters.iterator();
+		Iterator<ActualTypeArgument> argumentsIterator = typeArguments.iterator();
 		while (parametersIterator.hasNext()) {
 			TypeParameter parameter = parametersIterator.next();
 			ActualTypeArgument argument = argumentsIterator.next();
