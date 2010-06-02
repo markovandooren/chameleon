@@ -132,4 +132,8 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Namespac
   public Declaration declarator() {
   	return this;
   }
+
+	public E cloneForStub() throws LookupException {
+		return clone();
+	}
 }

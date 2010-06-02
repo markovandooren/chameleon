@@ -92,7 +92,7 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 			//FIXME must create subclass of formalparameter that keeps a reference to the original formal
 			// parameter OR use origin() for that.
 //			TypeParameter clone = new StubTypeParameter(parameter);
-			TypeParameter clone = parameter.clone();
+			TypeParameter clone = parameter.cloneForStub();
 			clone.setOrigin(parameter);
 			result.add(clone);
 			stub.add(clone);

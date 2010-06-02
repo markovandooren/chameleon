@@ -43,6 +43,10 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 	 * is the upper bound of this generic parameter as defined by the upperBound method.
 	 */
 	public Type selectionDeclaration() throws LookupException {
+//		String x = nearestAncestor(Type.class).getFullyQualifiedName()+"."+signature();
+//		if(x.equals("org.rejuse.property.Property.E")) {
+//			System.out.println("Selection declaration of " + x);
+//		}
 		Type constructedType = createSelectionType();
 		constructedType.setUniParent(parent());
 		return constructedType;
@@ -64,25 +68,6 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 		return new LazyTypeAlias(signature().clone(), this);
 	}
 	
-	public static class LazyTypeAlias extends ConstructedType {
-
-		public LazyTypeAlias(SimpleNameSignature sig, FormalTypeParameter param) {
-			super(sig,null,param);
-		}
-		
-		public Type aliasedType() {
-			try {
-				return parameter().upperBound();
-			} catch (LookupException e) {
-				throw new Error("LookupException while looking for aliasedType of a lazy alias",e);
-			}
-		}
-		
-
-	}
-	
-
-
 	public List<Element> children() {
 		List<Element> result = new ArrayList<Element>();
 		result.add(signature());
