@@ -1,5 +1,6 @@
 package chameleon.core.expression;
 
+import java.lang.ref.SoftReference;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,7 +9,6 @@ import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
@@ -111,7 +111,7 @@ public class NamedTargetExpression extends Expression<NamedTargetExpression> imp
   	return getElement(selector());
 	}
 
-  private DeclarationWithType _cache;
+  private SoftReference<DeclarationWithType> _cache;
   
   @Override
   public void flushLocalCache() {
@@ -120,17 +120,17 @@ public class NamedTargetExpression extends Expression<NamedTargetExpression> imp
   }
   
   protected DeclarationWithType getCache() {
+  	DeclarationWithType result = null;
   	if(Config.cacheElementReferences() == true) {
-  	  return _cache;
-  	} else {
-  		return null;
+  	  result = (_cache == null ? null : _cache.get());
   	}
+  	return result;
   }
   
   protected void setCache(DeclarationWithType value) {
 //  	if(! value.isDerived()) {
     	if(Config.cacheElementReferences() == true) {
-    		_cache = value;
+    		_cache = new SoftReference<DeclarationWithType>(value);
     	}
 //  	} else {
 //  		_cache = null;

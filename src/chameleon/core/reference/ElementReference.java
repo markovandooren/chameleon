@@ -1,5 +1,6 @@
 package chameleon.core.reference;
 
+import java.lang.ref.SoftReference;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -8,7 +9,6 @@ import org.rejuse.association.SingleAssociation;
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
-import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.util.Util;
 
@@ -80,7 +80,7 @@ public abstract class ElementReference<E extends CrossReference, P extends Eleme
   	setAsParent(_signature, signature);
   }
  
-  private D _cache;
+  private SoftReference<D> _cache;
   
   @Override
   public void flushLocalCache() {
@@ -89,16 +89,16 @@ public abstract class ElementReference<E extends CrossReference, P extends Eleme
   }
   
   protected D getCache() {
+  	D result = null;
   	if(Config.cacheElementReferences() == true) {
-  	  return _cache;
-  	} else {
-  		return null;
+  	  result = (_cache == null ? null: _cache.get());
   	}
+    return result;
   }
   
   protected void setCache(D value) {
     	if(Config.cacheElementReferences() == true) {
-    		_cache = value;
+    		_cache = new SoftReference<D>(value);
     	}
   }
   

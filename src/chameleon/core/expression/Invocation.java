@@ -1,5 +1,6 @@
 package chameleon.core.expression;
 
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -191,7 +192,7 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
 		return getElement(new DeclaratorSelector(selector()));
 	}
 	
-  private D _cache;
+  private SoftReference<D> _cache;
   
   @Override
   public void flushLocalCache() {
@@ -200,17 +201,17 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   }
   
   protected D getCache() {
+  	D result = null;
   	if(Config.cacheElementReferences() == true) {
-  	  return _cache;
-  	} else {
-  		return null;
+  	  result = (_cache == null ? null : _cache.get());
   	}
+  	return result;
   }
   
   protected void setCache(D value) {
 //  	if(! value.isDerived()) {
     	if(Config.cacheElementReferences() == true) {
-    		_cache = value;
+    		_cache = new SoftReference<D>(value);
     	}
 //  	} else {
 //  		_cache = null;

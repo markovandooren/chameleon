@@ -1,5 +1,6 @@
 package chameleon.core.expression;
 
+import java.lang.ref.SoftReference;
 import java.util.Set;
 
 import org.rejuse.java.collections.RobustVisitor;
@@ -34,12 +35,12 @@ public abstract class Expression<E extends Expression> extends NamespaceElementI
 	public final Type getType() throws LookupException {
 		Type result = null;
 		if(Config.cacheExpressionTypes()) {
-			result = _typeCache;
+			result = (_typeCache == null ? null : _typeCache.get());
 		}
 		if(result == null) {
 		  result = actualType();
 			if(Config.cacheExpressionTypes()) {
-				_typeCache = result;
+				_typeCache = new SoftReference<Type>(result);
 			}
 		}
 		return result;
@@ -51,7 +52,7 @@ public abstract class Expression<E extends Expression> extends NamespaceElementI
 		_typeCache = null;
 	}
 	
-	private Type _typeCache;
+	private SoftReference<Type> _typeCache;
 	
 	protected abstract Type actualType() throws LookupException;
 

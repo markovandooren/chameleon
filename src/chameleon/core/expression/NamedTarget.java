@@ -1,5 +1,6 @@
 package chameleon.core.expression;
 
+import java.lang.ref.SoftReference;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -86,7 +87,7 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
   }
 
   
-  private TargetDeclaration _cache;
+  private SoftReference<TargetDeclaration> _cache;
   
   @Override
   public void flushLocalCache() {
@@ -95,17 +96,17 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
   }
   
   protected TargetDeclaration getCache() {
+  	TargetDeclaration result = null;
   	if(Config.cacheElementReferences() == true) {
-  	  return _cache;
-  	} else {
-  		return null;
+  	  result = (_cache == null ? null : _cache.get());
   	}
+  	return result;
   }
   
   protected void setCache(TargetDeclaration value) {
 //  	if(! value.isDerived()) {
     	if(Config.cacheElementReferences() == true) {
-    		_cache = value;
+    		_cache = new SoftReference<TargetDeclaration>(value);
     	}
 //  	} else {
 //  		_cache = null;
