@@ -4,6 +4,7 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.type.DerivedType;
+import chameleon.oo.type.NonLocalTypeReference;
 import chameleon.oo.type.Type;
 
 public class CapturedTypeParameter extends FormalTypeParameter {
@@ -46,6 +47,18 @@ public class CapturedTypeParameter extends FormalTypeParameter {
 
 	private Type _selectionTypeCache;
 
+	@Override
+	public CapturedTypeParameter cloneForStub() throws LookupException {
+		CapturedTypeParameter result = clone();
+		for(NonLocalTypeReference nl: result.descendants(NonLocalTypeReference.class)) {
+			Element p = nl.lookupParent();
+			if(p.sameAs(this) || p.ancestors().contains(this)) {
+				nl.setLookupParent(result);
+			}
+		}
+		return result;
+	}
+
 //	@Override
 //	public boolean uniSameAs(Element other) throws LookupException {
 //		if(origin() == this) {
@@ -68,5 +81,6 @@ public class CapturedTypeParameter extends FormalTypeParameter {
 //		}
 //	}
 
+	
 	
 }
