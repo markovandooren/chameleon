@@ -4,13 +4,14 @@
 package chameleon.core.lookup;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.relation.WeakPartialOrder;
 import chameleon.exception.ModelException;
 
-public class SelectorWithoutOrder<D extends Declaration> extends DeclarationSelector<D> {
+public class SelectorWithoutOrder<D extends Declaration> extends TwoPhaseDeclarationSelector<D> {
 	
 	public SelectorWithoutOrder(SignatureSelector selector, Class<D> selectedClass) {
 		_selector = selector;
@@ -57,7 +58,7 @@ public class SelectorWithoutOrder<D extends Declaration> extends DeclarationSele
 	}
 
 	@Override
-	public String selectionName() {
+	public String selectionName(DeclarationContainer container) {
 		return signature().name();
 	}
 

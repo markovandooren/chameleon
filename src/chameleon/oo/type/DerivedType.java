@@ -39,19 +39,23 @@ public class DerivedType extends TypeWithBody {
 		setOrigin(baseType);
 	}
 	
-	public static DerivedType create(Type baseType, List<ActualTypeArgument> typeArguments) throws LookupException {
-		Map<List<Type>, DerivedType> map = _cache.get(baseType);
+	private static DerivedType create(Type baseType, List<ActualTypeArgument> typeArguments) throws LookupException {
+		Map<List<String>, DerivedType> map = _cache.get(baseType);
 		if(map == null) {
-			map = new HashMap<List<Type>, DerivedType>();
+			map = new HashMap<List<String>, DerivedType>();
 			_cache.put(baseType, map);
 		} 
 //		else {
 //			MAPCOUNT++;
 //			System.out.println("Map cache hits: "+MAPCOUNT);
 //		}
-		List<Type> typeList = new ArrayList<Type>();
+		List<String> typeList = new ArrayList<String>();
 		for(ActualTypeArgument arg: typeArguments) {
-			typeList.add(arg.type());
+			String fullyQualifiedName = arg.type().getFullyQualifiedName();
+			if(fullyQualifiedName.indexOf(".") < 0) {
+				System.out.println("######### "+fullyQualifiedName);
+			}
+			typeList.add(fullyQualifiedName);
 		}
 		DerivedType result = map.get(typeList);
 		if(result == null) {
@@ -59,14 +63,14 @@ public class DerivedType extends TypeWithBody {
 			map.put(typeList, result);
 		} else {
 			COUNT++;
-			System.out.println("Cache hits: "+COUNT);
+//			System.out.println("Cache hits: "+COUNT);
 		}
 		return result;
 	}
 	
 	private static int COUNT;
 	
-	private static Map<Type, Map<List<Type>, DerivedType>> _cache = new HashMap<Type, Map<List<Type>, DerivedType>>();
+	private static Map<Type, Map<List<String>, DerivedType>> _cache = new HashMap<Type, Map<List<String>, DerivedType>>();
 	
 	/**
 	 * Create a derived type by filling in the type parameters with the given list of

@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
 import chameleon.core.relation.WeakPartialOrder;
 import chameleon.exception.ChameleonProgrammerException;
 
-public class DeclaratorSelector extends DeclarationSelector{
+public class DeclaratorSelector extends DeclarationSelector<Declaration>{
 	
 	public DeclaratorSelector(DeclarationSelector selector) {
 		if(selector == null) {
@@ -29,11 +30,6 @@ public class DeclaratorSelector extends DeclarationSelector{
   }
   
 	@Override
-	public boolean selectedRegardlessOfName(Declaration declaration) throws LookupException {
-		return _selector.selectedRegardlessOfName(declaration);
-	}
-
-	@Override
 	public WeakPartialOrder order() {
 		return _selector.order();
 	}
@@ -44,13 +40,13 @@ public class DeclaratorSelector extends DeclarationSelector{
 	}
 
 	@Override
-	public boolean selectedBasedOnName(Signature signature) throws LookupException {
-		return _selector.selectedBasedOnName(signature);
+	public String selectionName(DeclarationContainer container) throws LookupException {
+		return _selector.selectionName(container);
 	}
 
 	@Override
-	public String selectionName() throws LookupException {
-		return _selector.selectionName();
+	public List declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
+		return _selector.declarators(selectionCandidates);
 	}
 
 }

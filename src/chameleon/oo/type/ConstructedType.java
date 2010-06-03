@@ -52,10 +52,10 @@ public class ConstructedType extends TypeIndirection {
 	}
 
 
-	@Override
-	public String getFullyQualifiedName() {
-		return signature().name();
-	}
+//	@Override
+//	public String getFullyQualifiedName() {
+//		return signature().name();
+//	}
 
 	public FormalTypeParameter parameter() {
 		return _param;

@@ -23,8 +23,8 @@ public class ActualType extends TypeIndirection {
 		
 		@Override
 		public List<Type> getDirectSuperTypes() throws LookupException {
-			return aliasedType().getDirectSuperTypes();
-//			return Util.createNonNullList(aliasedType());
+//			return aliasedType().getDirectSuperTypes();
+			return Util.createNonNullList(aliasedType());
 		}
 
 		@Override

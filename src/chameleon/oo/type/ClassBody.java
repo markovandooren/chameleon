@@ -21,7 +21,7 @@ import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> implements NamespaceElement<ClassBody, NamespaceElement>, DeclarationContainer<ClassBody,NamespaceElement> {
+public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> implements NamespaceElement<ClassBody, NamespaceElement>, DeclarationContainer<ClassBody, NamespaceElement> {
 
 	@Override
 	public ClassBody clone() {
@@ -57,18 +57,21 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 	}
 	
 	public  <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
-		List<? extends Declaration> list = null;
-		if(Config.cacheDeclarations()) {
-			ensureLocalCache();
-		  list = _declarationCache.get(selector.selectionName());
+		if(selector.usesSelectionName()) {
+			List<? extends Declaration> list = null;
+			if(Config.cacheDeclarations()) {
+				ensureLocalCache();
+				list = _declarationCache.get(selector.selectionName(this));
+			} else {
+				list = members();
+			}
+			if(list == null) {
+				list = Collections.EMPTY_LIST;
+			}
+			return selector.selection(Collections.unmodifiableList(list));
 		} else {
-			list = members();
+			return selector.selection(declarations());
 		}
-	  if(list == null) {
-	  	list = Collections.EMPTY_LIST;
-	  }
-	  return selector.selection(Collections.unmodifiableList(list));
-		
 	}
 	
 	private void ensureLocalCache() throws LookupException {

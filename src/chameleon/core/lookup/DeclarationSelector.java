@@ -26,35 +26,6 @@ public abstract class DeclarationSelector<D extends Declaration> {
 	}
 	
   /**
-   * Check if this selector selects the given declaration 
-   * @param signature
-   * @return
-   */
- /*@
-   @ public behavior
-   @
-   @ post \result == (selection(declaration) != null);
-   @*/
-  protected boolean selects(Declaration declaration) throws LookupException {
-    return selection(declaration) != null;
-  }
-  
-  /**
-   * This method decides which declarations are candidates for selection <b>provided that it is of the correct
-   * type</b>. This method does not take the signature into account. That check is performed by the selected() method.
-   * The reason to split this up is to support aliases without have to create a separate trio of 
-   * interface, actualdeclaration, and aliasdeclaration for each declaration. The alias contains only the alias name. Further
-   * checks are performed on the 'selectionDeclaration'. Since the selectionDeclaration still have the original signature, the
-   * latter signature must of course be ignored.
-   */
- /*@
-   @ public behavior
-   @
-   @ pre selectedClass().isInstance(declaration);
-   @*/
-  protected abstract boolean selectedRegardlessOfName(D declaration) throws LookupException;
-
-  /**
    * Return the of the declaration that will be selected by this declaration selector.
    * 
    * This method is provided here such that declaration containers can keep a hashmap as
@@ -68,17 +39,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * @return
    * @throws LookupException 
    */
-  public abstract String selectionName() throws LookupException;
-  
-  /**
-   * This method decides if the given signature is selected by this declaration selector.
-   */
- /*@
-   @ public behavior
-   @
-   @ pre signature != null;
-   @*/
-  protected abstract boolean selectedBasedOnName(Signature signature) throws LookupException;
+  public abstract String selectionName(DeclarationContainer<?,?> container) throws LookupException;
   
   /**
    * Return the declarations of the given declaration container to which selection is applied.
@@ -90,47 +51,6 @@ public abstract class DeclarationSelector<D extends Declaration> {
   	return container.declarations(this);
   }
 
-  /**
-   * Return the declaration of type D that would be selected based on the
-   * given input declaration. 
-   * 
-   * First, selectionDeclaration() is invoked on the
-   * input declaration, resulting in declaration 'd'. 
-   * 
-   * Second, 'd' is then passed to the filter()
-   * method to see if it would be selected. 
-   * 
-   * Finally, if filter selects 'd', actualDeclaration()
-   * is invoked to produce the actual declaration that is selected.
-   * 
-   * In most cases, both selectionDeclaration() and actualDeclaration() of the Declaration
-   * will simply return the declaration on which they were invoked. For formal type parameters, and
-   * actual type parameters, this is not the case.
-   * 
-   * @param declarator
-   * @return
-   * @throws LookupException
-   */
- /*@
-   @ public behavior
-   @
-   @ post \result == declaration | \result == null;
-   @ post ! selectedClass().isInstance(declaration) ==> \result == null;
-   @*/
-  protected D selection(Declaration declarator) throws LookupException {
-  	// We first perform the checks on the selectionDeclaration, since a signature check may be
-  	// very expensive.
-  	D result = null;
-  	if(selectedBasedOnName(declarator.signature())) {
-  		Declaration selectionDeclaration = declarator.selectionDeclaration();
-  		if(selectedClass().isInstance(selectionDeclaration)) {
-  			if(selectedRegardlessOfName((D)selectionDeclaration)) {
-  				result = actualDeclaration(declarator);
-  			}
-  		}
-  	}
-  	return result;
-  }
   
   /**
    * Select the actual declaration selected by this declaration selector.
@@ -168,26 +88,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * @return
    * @throws LookupException
    */
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @ post (\forall D d;; \result.contains(d) == 
-   @           (set.contains(d) && 
-   @            selects(d) && 
-   @            ! (\exists D other; set.contains(other); order().strictOrder().contains(other,d))));
-   @*/
-  public List<D> selection(List<? extends Declaration> declarators) throws LookupException {
-    List<D> tmp = new ArrayList<D>();
-      for(Declaration decl: declarators) {
-        D e = selection(decl);
-        if(e != null) {
-          tmp.add(e);
-        }
-      }
-      order().removeBiggerElements(tmp);
-    return tmp;
-  }
+  public abstract List<D> selection(List<? extends Declaration> declarators) throws LookupException;
   
   /**
    * Return the list of declarations in the given set that are selected.
@@ -197,36 +98,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * @return
    * @throws LookupException
    */
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @ post (\forall D d;; \result.contains(d) == 
-   @           (set.contains(d) && 
-   @            selects(d) && 
-   @            ! (\exists D other; set.contains(other); order().strictOrder().contains(other,d))));
-   @*/
-  public List<? extends Declaration> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
-  	Map<D,Declaration> tmp = new HashMap<D,Declaration>();
-  	List<D> Ds = new ArrayList<D>();
-  	for(Declaration decl: selectionCandidates) {
-  		if(selectedBasedOnName(decl.signature())) {
-  			Declaration selectionDeclaration = decl.selectionDeclaration();
-  			if(selectedClass().isInstance(selectionDeclaration)) {
-  				if(selectedRegardlessOfName((D)selectionDeclaration)) {
-  					tmp.put((D) selectionDeclaration,decl.declarator());
-  					Ds.add((D) selectionDeclaration);
-  				}
-  			}
-  		} 
-  	}
-  	order().removeBiggerElements(Ds);
-  	List<Declaration> result = new ArrayList<Declaration>();
-    for(D d: Ds) {
-    	result.add(tmp.get(d));
-    }
-  	return result;
-  }
+  public abstract List<? extends Declaration> declarators(List<? extends Declaration> selectionCandidates) throws LookupException;
 
   /**
    * Return the order used to sort the possible candidates. More specific elements should be smaller than less specific elements.
@@ -242,5 +114,16 @@ public abstract class DeclarationSelector<D extends Declaration> {
 		order().removeBiggerElements(tmp);
 	}
 
+	/**
+	 * If the selectionName() of this selector must match declaration.signature().name() when that declaration is selected,
+	 * then this method returns true. Otherwise, the method returns false. This method can be used for a String based preselection
+	 * such that declaration containers can cache their declarations in a map with the declaration.signature().name() as the key.
+	 * 
+	 * For super constructor calls in Java, e.g. this method will return false.
+	 * @return
+	 */
+	public boolean usesSelectionName() {
+		return true;
+	}
 
 }

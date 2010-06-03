@@ -36,24 +36,34 @@ public class DeclarationContainerSkipper<D extends Declaration> extends Declarat
 		return _original.order();
 	}
 
-	@Override
-	public boolean selectedBasedOnName(Signature signature) throws LookupException {
-		return _original.selectedBasedOnName(signature);
-	}
+//	@Override
+//	public boolean selectedBasedOnName(Signature signature) throws LookupException {
+//		return _original.selectedBasedOnName(signature);
+//	}
 
 	@Override
 	public Class selectedClass() {
 		return _original.selectedClass();
 	}
 
+//	@Override
+//	public boolean selectedRegardlessOfName(D declaration) throws LookupException {
+//		return _original.selectedRegardlessOfName(declaration);
+//	}
+
 	@Override
-	public boolean selectedRegardlessOfName(D declaration) throws LookupException {
-		return _original.selectedRegardlessOfName(declaration);
+	public String selectionName(DeclarationContainer container) throws LookupException {
+		return _original.selectionName(container);
 	}
 
 	@Override
-	public String selectionName() throws LookupException {
-		return _original.selectionName();
+	public List<? extends Declaration> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
+		return _original.declarators(selectionCandidates);
+	}
+
+	@Override
+	public List<D> selection(List<? extends Declaration> declarators) throws LookupException {
+		return _original.selection(declarators);
 	}
 	
 }
