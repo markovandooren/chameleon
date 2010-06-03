@@ -1,5 +1,6 @@
 package chameleon.core.variable;
 
+import chameleon.core.declaration.Definition;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
@@ -16,7 +17,7 @@ import chameleon.oo.type.VariableOrType;
  * @author Marko van Dooren
  */
 public interface Variable<E extends Variable<E,P,F>, P extends Element, F extends Variable> 
-                extends ElementWithModifiers<E,Element>, 
+                extends ElementWithModifiers<E,Element>, Definition<E, Element, SimpleNameSignature, F>, 
                 VariableOrType<E,Element,SimpleNameSignature,F>, DeclarationWithType<E,Element,SimpleNameSignature,F> {
 
 	public Expression getInitialization();

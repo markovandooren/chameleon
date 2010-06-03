@@ -1,6 +1,7 @@
 package chameleon.core.variable;
 
 import org.rejuse.association.SingleAssociation;
+import org.rejuse.logic.ternary.Ternary;
 
 import chameleon.core.declaration.MissingSignature;
 import chameleon.core.declaration.Signature;
@@ -23,6 +24,10 @@ public abstract class VariableImpl<E extends VariableImpl<E,P,F>, P extends Elem
 	
 	public Type declarationType() throws LookupException {
 		return getType();
+	}
+	
+	public Ternary complete() {
+		return Ternary.TRUE;
 	}
 
   public void setSignature(Signature signature) {
