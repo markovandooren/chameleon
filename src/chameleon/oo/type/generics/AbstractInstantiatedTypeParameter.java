@@ -128,12 +128,12 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 	
 	@Override
 	public Type lowerBound() throws LookupException {
-		return argument().getType();
+		return argument().type();
 	}
 
 	@Override
 	public Type upperBound() throws LookupException {
-		return argument().getType();
+		return argument().type();
 	}
 	
 	@Override

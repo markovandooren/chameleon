@@ -16,7 +16,9 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Pair;
 
-public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends NamespaceElementImpl<E, Element> implements TypeReference<E> {
+public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends NamespaceElementImpl<E, Element> 
+//implements TypeReference<E> 
+{
 
 	public ActualTypeArgument() {
 	}
@@ -74,31 +76,19 @@ public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends N
 		}
 	}
 	
-	public Type getElement() throws LookupException {
-		return type();
-	}
-
-	public Type getType() throws LookupException {
-		return type();
-	}
-
-	public TypeReference intersection(TypeReference other) {
-		return other.intersectionDoubleDispatch(this);
-	}
-
-	public TypeReference intersectionDoubleDispatch(TypeReference other) {
-		return language(ObjectOrientedLanguage.class).createIntersectionReference(clone(), other.clone());
-	}
-
-	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference<?> other) {
-		IntersectionTypeReference<?> result = other.clone();
-		result.add(clone());
-		return result;
-	}
-
-	public Declaration getDeclarator() throws LookupException {
-		return getElement();
-	}
+//	public TypeReference intersection(TypeReference other) {
+//		return other.intersectionDoubleDispatch(this);
+//	}
+//
+//	public TypeReference intersectionDoubleDispatch(TypeReference other) {
+//		return language(ObjectOrientedLanguage.class).createIntersectionReference(clone(), other.clone());
+//	}
+//
+//	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference<?> other) {
+//		IntersectionTypeReference<?> result = other.clone();
+//		result.add(clone());
+//		return result;
+//	}
 
 	protected TypeConstraint cloneAndResetTypeReference(TypeConstraint constraint, Element lookupParent) {
 		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
