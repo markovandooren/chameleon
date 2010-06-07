@@ -56,7 +56,6 @@ public class ActualArgument extends ElementWithModifiersImpl<ActualArgument,Actu
 			_expression.connectTo(expression.parentLink());
 		} else {
 			_expression.connectTo(null);
-			throw new Error("Debugging Exception");
 		}
 	}
 

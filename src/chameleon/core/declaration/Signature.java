@@ -3,6 +3,7 @@ package chameleon.core.declaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceElementImpl;
+import chameleon.exception.ChameleonProgrammerException;
 
 /**
  * A signature is a means of identifying a declaration that can be cross-referenced. It contains
@@ -22,6 +23,24 @@ public abstract class Signature<E extends Signature, P extends Element> extends 
    * SPEED: This name is used to speed up selection of declarations in declaration containers. 
    */
   public abstract String name();
+  
+  /**
+   * Change the name of this signature.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post name() == name;
+   @*/
+  public abstract void setName(String name);
+  
+  public Signature elementAt(int index) {
+  	if(index != 1) {
+  		throw new ChameleonProgrammerException();
+  	} else {
+  		return this;
+  	}
+  }
 //  /**
 //   * Equals cannot throw a checked exception, so we introduce sameAs.
 //   */

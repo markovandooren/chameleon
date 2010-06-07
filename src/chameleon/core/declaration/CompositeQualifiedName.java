@@ -68,6 +68,11 @@ public class CompositeQualifiedName<E extends CompositeQualifiedName<E,P>,P exte
 		CompositeQualifiedName<?, ?> result = clone();
 		result.remove(result.lastSignature());
 		return result;
+	}
+
+	@Override
+	public Signature elementAt(int index) {
+		return _signatures.elementAt(index);
 	} 
 
 	

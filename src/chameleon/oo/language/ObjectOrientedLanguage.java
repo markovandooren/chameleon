@@ -22,6 +22,7 @@ import chameleon.core.reference.CrossReference;
 import chameleon.core.relation.EquivalenceRelation;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.relation.WeakPartialOrder;
+import chameleon.core.variable.VariableDeclarator;
 import chameleon.oo.type.IntersectionTypeReference;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
@@ -36,7 +37,7 @@ public abstract class ObjectOrientedLanguage extends Language {
 	public final ChameleonProperty EXTENSIBLE;
 	public final ChameleonProperty REFINABLE;
 	public final DynamicChameleonProperty DEFINED;
-	public final ChameleonProperty INSTANCE;
+	public final StaticChameleonProperty INSTANCE;
 	public final ChameleonProperty CLASS;
 	public final ChameleonProperty CONSTRUCTOR;
 	public final ChameleonProperty DESTRUCTOR;
@@ -58,6 +59,7 @@ public abstract class ObjectOrientedLanguage extends Language {
   	REFINABLE = new StaticChameleonProperty("refinable", this,Declaration.class);
   	DEFINED = new Defined("defined",this);
   	INSTANCE = new StaticChameleonProperty("instance",this,Declaration.class);
+  	INSTANCE.addValidElementType(VariableDeclarator.class);
   	CLASS = INSTANCE.inverse();
     CLASS.setName("class");
     CONSTRUCTOR = new StaticChameleonProperty("constructor", this,Method.class);

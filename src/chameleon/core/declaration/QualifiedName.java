@@ -2,12 +2,8 @@ package chameleon.core.declaration;
 
 import java.util.List;
 
-import org.rejuse.association.OrderedMultiAssociation;
-
 import chameleon.core.element.Element;
 import chameleon.core.namespace.NamespaceElementImpl;
-import chameleon.core.validation.BasicProblem;
-import chameleon.core.validation.VerificationResult;
 
 public abstract class QualifiedName<E extends QualifiedName, P extends Element> extends NamespaceElementImpl<E,P> {
 
@@ -19,6 +15,17 @@ public abstract class QualifiedName<E extends QualifiedName, P extends Element> 
 	
 	public abstract int length();
 	
+	/**
+	 * Return the index-th signature. Indices start at 1.
+	 * @param index
+	 * @return
+	 */
+	public abstract Signature elementAt(int index);
+	
+	/**
+	 * Return a new qualified name that contains all signatures of this qualified name, except for the last one.
+	 * @return
+	 */
 	public QualifiedName<?,?> popped() {
 		CompositeQualifiedName<?, ?> result = new CompositeQualifiedName();
 		List<Signature> signatures = signatures();

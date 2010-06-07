@@ -426,7 +426,7 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
      @ post \result == equals(other) || subTypeOf(other);
      @*/
     public boolean assignableTo(Type other) throws LookupException {
-    	boolean equal = equals(other);
+    	boolean equal = sameAs(other);
     	boolean subtype = subTypeOf(other);
     	return (equal || subtype);
     }

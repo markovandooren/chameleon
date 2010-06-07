@@ -27,7 +27,14 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 		setArgument(argument);
 	}
 
-	public void substitute(Element<?,?> element) throws LookupException {
+	/**
+	 * Return a substitution map that specifies which substitutions must be done in the given
+	 * element if this type parameter were to be substituted.
+	 * @param element The element in which the substitution is to be done.
+	 * @return
+	 * @throws LookupException
+	 */
+	public TypeParameterSubstitution substitution(Element<?,?> element) throws LookupException {
 		Type type = nearestAncestor(Type.class);
 		List<CrossReference> crossReferences = 
 			 element.descendants(CrossReference.class, 
@@ -39,12 +46,14 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 													}
 				 
 			                  });
-		for(CrossReference cref: crossReferences) {
-			SingleAssociation parentLink = cref.parentLink();
-			Association childLink = parentLink.getOtherRelation();
-			TypeReference namedTargetExpression = argument().substitutionReference().clone();
-			childLink.replace(parentLink, namedTargetExpression.parentLink());
-		}
+		
+//		for(CrossReference cref: crossReferences) {
+//			SingleAssociation parentLink = cref.parentLink();
+//			Association childLink = parentLink.getOtherRelation();
+//			TypeReference namedTargetExpression = argument().substitutionReference().clone();
+//			childLink.replace(parentLink, namedTargetExpression.parentLink());
+//		}
+		return new TypeParameterSubstitution(this, crossReferences);
 	}
 
 	public List<Element> children() {

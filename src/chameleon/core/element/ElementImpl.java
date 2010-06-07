@@ -703,7 +703,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	VerificationResult result = Valid.create();
     	Element e = parent();
     	while(e != null) {
-    		if(e.equals(this)) {
+    		if(e == this) {
     			result = result.and(new BasicProblem(this, "There is a loop in the lexical structure. This element is an ancestor of itself."));
     		}
     		e = e.parent();
