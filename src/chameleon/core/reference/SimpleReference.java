@@ -3,9 +3,9 @@ package chameleon.core.reference;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.QualifiedName;
 import chameleon.core.declaration.Signature;
-import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
+import chameleon.util.CreationStackTrace;
 
 public class SimpleReference<D extends Declaration> extends SpecificReference<SimpleReference<D>,Element,D> {
 

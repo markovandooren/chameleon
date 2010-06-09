@@ -42,7 +42,8 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 	
 													@Override
 													public boolean eval(CrossReference object) throws LookupException {
-														return object.getElement().equals(selectionDeclaration());
+//														return object.getElement().sameAs(selectionDeclaration());
+														return object.getDeclarator().sameAs(AbstractInstantiatedTypeParameter.this);
 													}
 				 
 			                  });

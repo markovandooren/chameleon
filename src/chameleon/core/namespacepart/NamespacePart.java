@@ -303,6 +303,10 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 	public void removeImport(Import removedImport) {
 		_imports.remove(removedImport.parentLink());
 	}
+	
+	public void clearImports() {
+		_imports.clear();
+	}
 
 	/****************
 	 * DECLARATIONS *

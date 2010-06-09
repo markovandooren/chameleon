@@ -26,6 +26,7 @@ import chameleon.core.lookup.LookupStrategySelector;
 import chameleon.core.member.FixedSignatureMember;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
+import chameleon.core.namespace.Namespace;
 import chameleon.core.relation.WeakPartialOrder;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.validation.Valid;
@@ -123,9 +124,14 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
         if(nearest != null) {
         	prefix = nearest.getFullyQualifiedName();
         } else {
-          prefix = getNamespace().getFullyQualifiedName();
+          Namespace namespace = getNamespace();
+          if(namespace != null) {
+					  prefix = namespace.getFullyQualifiedName();
+          } else {
+          	prefix = null;
+          }
         }
-        return (prefix.equals("") ? "" : prefix+".")+getName();
+        return prefix == null ? null : (prefix.equals("") ? "" : prefix+".")+getName();
     }
 
     /* (non-Javadoc)
