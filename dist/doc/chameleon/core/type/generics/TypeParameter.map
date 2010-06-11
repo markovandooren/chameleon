@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" href="../../declaration/Declaration.html" title="chameleon.core.declaration.Declaration" alt="" coords="16,11,715,48"/>
+<area shape="rect" href="./TypeParameter.html" title="chameleon.core.type.generics.TypeParameter" alt="" coords="519,114,796,138"/>
+<area shape="rect" href="../../namespace/NamespaceElementImpl.html" title="chameleon.core.namespace.NamespaceElementImpl" alt="" coords="760,18,1141,42"/>
+<area shape="rect" href="./InstantiatedTypeParameter.html" title="chameleon.core.type.generics.InstantiatedTypeParameter" alt="" coords="476,210,641,234"/>
+<area shape="rect" href="./FormalTypeParameter.html" title="chameleon.core.type.generics.FormalTypeParameter" alt="" coords="687,210,825,234"/>
+</map>

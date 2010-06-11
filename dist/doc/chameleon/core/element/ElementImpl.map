@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" href="../compilationunit/CompilationUnit.html" title="chameleon.core.compilationunit.CompilationUnit" alt="" coords="16,210,123,234"/>
+<area shape="rect" href="../declaration/StubDeclarationContainer.html" title="chameleon.core.declaration.StubDeclarationContainer" alt="" coords="168,210,461,234"/>
+<area shape="rect" href="./ElementImpl.html" title="chameleon.core.element.ElementImpl" alt="" coords="1207,114,1521,138"/>
+<area shape="rect" href="../lookup/StubContextElement.html" title="chameleon.core.lookup.StubContextElement" alt="" coords="507,210,637,234"/>
+<area shape="rect" href="../modifier/ModifierImpl.html" title="chameleon.core.modifier.ModifierImpl" alt="" coords="683,210,989,234"/>
+<area shape="rect" href="../namespace/NamespaceElementImpl.html" title="chameleon.core.namespace.NamespaceElementImpl" alt="" coords="1035,210,1416,234"/>
+<area shape="rect" href="../namespace/Namespace.html" title="chameleon.core.namespace.Namespace" alt="" coords="1461,210,1547,234"/>
+<area shape="rect" href="../type/generics/TypeParameterBlock.Stub.html" title="chameleon.core.type.generics.TypeParameterBlock.Stub" alt="" coords="1596,210,1639,234"/>
+<area shape="rect" href="../type/generics/TypeConstraint.html" title="chameleon.core.type.generics.TypeConstraint" alt="" coords="1688,210,1941,234"/>
+<area shape="rect" href="../type/generics/ActualTypeArgument.html" title="chameleon.core.type.generics.ActualTypeArgument" alt="" coords="1987,210,2304,234"/>
+<area shape="rect" href="../type/inheritance/InheritanceRelation.html" title="chameleon.core.type.inheritance.InheritanceRelation" alt="" coords="2349,210,2653,234"/>
+<area shape="rect" href="./Element.html" title="chameleon.core.element.Element" alt="" coords="1219,11,1509,48"/>
+</map>

@@ -1,0 +1,18 @@
+<map id="G" name="G">
+<area shape="rect" href="./Variance.html" title="chameleon.core.type.Variance" alt="" coords="16,18,83,42"/>
+<area shape="rect" href="./VariableOrType.html" title="chameleon.core.type.VariableOrType" alt="" coords="128,11,861,48"/>
+<area shape="rect" href="./Type.html" title="chameleon.core.type.Type" alt="" coords="473,114,516,138"/>
+<area shape="rect" href="./TypeReference.html" title="chameleon.core.type.TypeReference" alt="" coords="907,18,1005,42"/>
+<area shape="rect" href="./TypeListener.html" title="chameleon.core.type.TypeListener" alt="" coords="1051,11,1139,48"/>
+<area shape="rect" href="./TypeIndirection.html" title="chameleon.core.type.TypeIndirection" alt="" coords="304,210,405,234"/>
+<area shape="rect" href="./TypeAlias.html" title="chameleon.core.type.TypeAlias" alt="" coords="185,306,255,330"/>
+<area shape="rect" href="./ConstructedType.html" title="chameleon.core.type.ConstructedType" alt="" coords="300,306,409,330"/>
+<area shape="rect" href="./TypeElementImpl.html" title="chameleon.core.type.TypeElementImpl" alt="" coords="1159,114,1585,138"/>
+<area shape="rect" href="./TypeElement.html" title="chameleon.core.type.TypeElement" alt="" coords="1184,11,1560,48"/>
+<area shape="rect" href="./RegularType.html" title="chameleon.core.type.RegularType" alt="" coords="452,210,537,234"/>
+<area shape="rect" href="./IntersectionType.html" title="chameleon.core.type.IntersectionType" alt="" coords="583,210,689,234"/>
+<area shape="rect" href="./Type.LocalInheritanceLookupStrategy.html" title="chameleon.core.type.Type.LocalInheritanceLookupStrategy" alt="" coords="1605,18,1800,42"/>
+<area shape="rect" href="./StubTypeElement.html" title="chameleon.core.type.StubTypeElement" alt="" coords="1845,18,2131,42"/>
+<area shape="rect" href="./DerivedType.html" title="chameleon.core.type.DerivedType" alt="" coords="455,306,540,330"/>
+<area shape="rect" href="./ClassBody.html" title="chameleon.core.type.ClassBody" alt="" coords="2176,18,2253,42"/>
+</map>

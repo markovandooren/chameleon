@@ -1,0 +1,23 @@
+<map id="G" name="G">
+<area shape="rect" href="../declaration/Signature.html" title="chameleon.core.declaration.Signature" alt="" coords="16,210,320,234"/>
+<area shape="rect" href="../element/ElementImpl.html" title="chameleon.core.element.ElementImpl" alt="" coords="2853,18,3168,42"/>
+<area shape="rect" href="./NamespaceElementImpl.html" title="chameleon.core.namespace.NamespaceElementImpl" alt="" coords="2820,114,3201,138"/>
+<area shape="rect" href="../expression/InvocationTarget.html" title="chameleon.core.expression.InvocationTarget" alt="" coords="365,210,744,234"/>
+<area shape="rect" href="../expression/ActualArgumentList.html" title="chameleon.core.expression.ActualArgumentList" alt="" coords="789,210,912,234"/>
+<area shape="rect" href="../expression/ActualArgument.html" title="chameleon.core.expression.ActualArgument" alt="" coords="957,210,1059,234"/>
+<area shape="rect" href="../method/MethodHeader.html" title="chameleon.core.method.MethodHeader" alt="" coords="1104,210,1613,234"/>
+<area shape="rect" href="../method/Implementation.html" title="chameleon.core.method.Implementation" alt="" coords="1659,210,1920,234"/>
+<area shape="rect" href="../method/exception/ExceptionDeclaration.html" title="chameleon.core.method.exception.ExceptionDeclaration" alt="" coords="1965,210,2288,234"/>
+<area shape="rect" href="../method/exception/ExceptionClause.html" title="chameleon.core.method.exception.ExceptionClause" alt="" coords="2333,210,2443,234"/>
+<area shape="rect" href="../modifier/ElementWithModifiersImpl.html" title="chameleon.core.modifier.ElementWithModifiersImpl" alt="" coords="2488,210,2912,234"/>
+<area shape="rect" href="../namespacepart/NamespacePart.html" title="chameleon.core.namespacepart.NamespacePart" alt="" coords="2957,210,3064,234"/>
+<area shape="rect" href="../namespacepart/Import.html" title="chameleon.core.namespacepart.Import" alt="" coords="3109,210,3280,234"/>
+<area shape="rect" href="../reference/ElementReference.html" title="chameleon.core.reference.ElementReference" alt="" coords="3325,210,3856,234"/>
+<area shape="rect" href="../statement/Statement.html" title="chameleon.core.statement.Statement" alt="" coords="3901,210,4101,234"/>
+<area shape="rect" href="../type/StubTypeElement.html" title="chameleon.core.type.StubTypeElement" alt="" coords="4147,210,4432,234"/>
+<area shape="rect" href="../type/ClassBody.html" title="chameleon.core.type.ClassBody" alt="" coords="5589,210,5667,234"/>
+<area shape="rect" href="../type/generics/TypeParameterBlock.html" title="chameleon.core.type.generics.TypeParameterBlock" alt="" coords="4477,210,4608,234"/>
+<area shape="rect" href="../type/generics/TypeParameter.html" title="chameleon.core.type.generics.TypeParameter" alt="" coords="4653,210,4931,234"/>
+<area shape="rect" href="../variable/VariableImpl.html" title="chameleon.core.variable.VariableImpl" alt="" coords="4976,210,5544,234"/>
+<area shape="rect" href="./NamespaceElement.html" title="chameleon.core.namespace.NamespaceElement" alt="" coords="4331,11,4688,48"/>
+</map>

@@ -1,0 +1,23 @@
+<map id="G" name="G">
+<area shape="rect" href="./WildCardType.html" title="chameleon.core.type.generics.WildCardType" alt="" coords="200,18,293,42"/>
+<area shape="rect" href="./SuperWildCardType.html" title="chameleon.core.type.generics.SuperWildCardType" alt="" coords="16,114,141,138"/>
+<area shape="rect" href="./PureWildCardType.html" title="chameleon.core.type.generics.PureWildCardType" alt="" coords="187,114,307,138"/>
+<area shape="rect" href="./ExtendsWildcardType.html" title="chameleon.core.type.generics.ExtendsWildcardType" alt="" coords="352,114,485,138"/>
+<area shape="rect" href="./TypeParameterBlock.html" title="chameleon.core.type.generics.TypeParameterBlock" alt="" coords="347,18,477,42"/>
+<area shape="rect" href="./TypeParameterBlock.Stub.html" title="chameleon.core.type.generics.TypeParameterBlock.Stub" alt="" coords="541,18,584,42"/>
+<area shape="rect" href="./TypeParameter.html" title="chameleon.core.type.generics.TypeParameter" alt="" coords="664,18,941,42"/>
+<area shape="rect" href="./InstantiatedTypeParameter.html" title="chameleon.core.type.generics.InstantiatedTypeParameter" alt="" coords="625,114,791,138"/>
+<area shape="rect" href="./FormalTypeParameter.html" title="chameleon.core.type.generics.FormalTypeParameter" alt="" coords="836,114,975,138"/>
+<area shape="rect" href="./TypeConstraintWithReferences.html" title="chameleon.core.type.generics.TypeConstraintWithReferences" alt="" coords="1023,114,1449,138"/>
+<area shape="rect" href="./SuperConstraint.html" title="chameleon.core.type.generics.SuperConstraint" alt="" coords="1027,210,1133,234"/>
+<area shape="rect" href="./ExtendsConstraint.html" title="chameleon.core.type.generics.ExtendsConstraint" alt="" coords="1179,210,1296,234"/>
+<area shape="rect" href="./TypeConstraint.html" title="chameleon.core.type.generics.TypeConstraint" alt="" coords="1109,18,1363,42"/>
+<area shape="rect" href="./SuperWildCard.html" title="chameleon.core.type.generics.SuperWildCard" alt="" coords="1495,114,1596,138"/>
+<area shape="rect" href="./PureWildCard.html" title="chameleon.core.type.generics.PureWildCard" alt="" coords="1641,114,1735,138"/>
+<area shape="rect" href="./InstantiatedTypeParameter.ActualType.html" title="chameleon.core.type.generics.InstantiatedTypeParameter.ActualType" alt="" coords="1965,18,2040,42"/>
+<area shape="rect" href="./CapturedTypeParameter.html" title="chameleon.core.type.generics.CapturedTypeParameter" alt="" coords="829,210,981,234"/>
+<area shape="rect" href="./FormalTypeParameter.LazyTypeAlias.html" title="chameleon.core.type.generics.FormalTypeParameter.LazyTypeAlias" alt="" coords="2085,18,2179,42"/>
+<area shape="rect" href="./ExtendsWildCard.html" title="chameleon.core.type.generics.ExtendsWildCard" alt="" coords="1780,114,1892,138"/>
+<area shape="rect" href="./BasicTypeArgument.html" title="chameleon.core.type.generics.BasicTypeArgument" alt="" coords="1937,114,2063,138"/>
+<area shape="rect" href="./ActualTypeArgument.html" title="chameleon.core.type.generics.ActualTypeArgument" alt="" coords="1603,18,1920,42"/>
+</map>

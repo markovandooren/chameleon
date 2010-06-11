@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testrun name="AllTests" project="Jnome" tests="21" started="21" failures="0" errors="0" ignored="0">
+<testsuite name="jnome.test.AllTests" time="330.334">
+<testsuite name="jnome.test.TestRejuse" time="40.62">
+<testcase name="testExpressions" classname="jnome.test.TestRejuse" time="14.416"/>
+<testcase name="testVerification" classname="jnome.test.TestRejuse" time="0.002"/>
+<testcase name="testClone" classname="jnome.test.TestRejuse" time="6.771"/>
+<testcase name="testChildren" classname="jnome.test.TestRejuse" time="7.811"/>
+<testcase name="testCrossReferences" classname="jnome.test.TestRejuse" time="11.62"/>
+</testsuite>
+<testsuite name="jnome.test.TestJnome" time="124.164">
+<testcase name="testExpressions" classname="jnome.test.TestJnome" time="33.515"/>
+<testcase name="testVerification" classname="jnome.test.TestJnome" time="0.0"/>
+<testcase name="testClone" classname="jnome.test.TestJnome" time="13.994"/>
+<testcase name="testChildren" classname="jnome.test.TestJnome" time="17.165"/>
+<testcase name="testCrossReferences" classname="jnome.test.TestJnome" time="59.49"/>
+</testsuite>
+<testsuite name="jnome.test.TestAntlr" time="136.35">
+<testcase name="testExpressions" classname="jnome.test.TestAntlr" time="35.665"/>
+<testcase name="testVerification" classname="jnome.test.TestAntlr" time="0.0"/>
+<testcase name="testClone" classname="jnome.test.TestAntlr" time="9.069"/>
+<testcase name="testChildren" classname="jnome.test.TestAntlr" time="16.84"/>
+<testcase name="testCrossReferences" classname="jnome.test.TestAntlr" time="74.776"/>
+</testsuite>
+<testsuite name="jnome.test.TestGenerics" time="29.199">
+<testcase name="testGenerics" classname="jnome.test.TestGenerics" time="5.172"/>
+<testcase name="testExpressions" classname="jnome.test.TestGenerics" time="7.675"/>
+<testcase name="testVerification" classname="jnome.test.TestGenerics" time="0.0"/>
+<testcase name="testClone" classname="jnome.test.TestGenerics" time="4.957"/>
+<testcase name="testChildren" classname="jnome.test.TestGenerics" time="5.187"/>
+<testcase name="testCrossReferences" classname="jnome.test.TestGenerics" time="6.208"/>
+</testsuite>
+</testsuite>
+</testrun>

@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" href="../namespace/NamespaceReference.html" title="chameleon.core.namespace.NamespaceReference" alt="" coords="16,210,157,234"/>
+<area shape="rect" href="../namespace/NamespaceOrTypeReference.html" title="chameleon.core.namespace.NamespaceOrTypeReference" alt="" coords="203,210,384,234"/>
+<area shape="rect" href="./SpecificReference.html" title="chameleon.core.reference.SpecificReference" alt="" coords="160,114,685,138"/>
+<area shape="rect" href="./SimpleReference.html" title="chameleon.core.reference.SimpleReference" alt="" coords="429,210,677,234"/>
+<area shape="rect" href="../type/TypeReference.html" title="chameleon.core.type.TypeReference" alt="" coords="723,210,821,234"/>
+<area shape="rect" href="./ElementReferenceWithTarget.html" title="chameleon.core.reference.ElementReferenceWithTarget" alt="" coords="100,18,745,42"/>
+</map>

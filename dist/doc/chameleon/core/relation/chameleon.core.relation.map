@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" href="./WeakPartialOrder.html" title="chameleon.core.relation.WeakPartialOrder" alt="" coords="16,18,155,42"/>
+<area shape="rect" href="./StrictPartialOrder.html" title="chameleon.core.relation.StrictPartialOrder" alt="" coords="200,18,333,42"/>
+<area shape="rect" href="./EquivalenceRelation.html" title="chameleon.core.relation.EquivalenceRelation" alt="" coords="379,18,533,42"/>
+</map>

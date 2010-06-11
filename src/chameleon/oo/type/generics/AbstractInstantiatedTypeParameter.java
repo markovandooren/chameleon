@@ -35,7 +35,6 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 	 * @throws LookupException
 	 */
 	public TypeParameterSubstitution substitution(Element<?,?> element) throws LookupException {
-		Type type = nearestAncestor(Type.class);
 		List<CrossReference> crossReferences = 
 			 element.descendants(CrossReference.class, 
 					              new UnsafePredicate<CrossReference,LookupException>() {

@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" href="./TypeParameter.html" title="chameleon.core.type.generics.TypeParameter" alt="" coords="16,18,293,42"/>
+<area shape="rect" href="./FormalTypeParameter.html" title="chameleon.core.type.generics.FormalTypeParameter" alt="" coords="85,114,224,138"/>
+<area shape="rect" href="./CapturedTypeParameter.html" title="chameleon.core.type.generics.CapturedTypeParameter" alt="" coords="79,210,231,234"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" href="./SimpleNameSignature.html" title="chameleon.core.declaration.SimpleNameSignature" alt="" coords="16,210,160,234"/>
+<area shape="rect" href="./Signature.html" title="chameleon.core.declaration.Signature" alt="" coords="89,114,393,138"/>
+<area shape="rect" href="../method/MethodSignature.html" title="chameleon.core.method.MethodSignature" alt="" coords="205,210,584,234"/>
+<area shape="rect" href="../namespace/NamespaceElementImpl.html" title="chameleon.core.namespace.NamespaceElementImpl" alt="" coords="51,18,432,42"/>
+</map>

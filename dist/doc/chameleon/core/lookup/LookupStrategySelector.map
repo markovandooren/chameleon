@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" href="./ParentLookupStrategySelector.html" title="chameleon.core.lookup.ParentLookupStrategySelector" alt="" coords="16,114,200,138"/>
+<area shape="rect" href="./LookupStrategySelector.html" title="chameleon.core.lookup.LookupStrategySelector" alt="" coords="483,11,629,48"/>
+<area shape="rect" href="../namespacepart/NamespacePart.DefaultNamespaceSelector.html" title="chameleon.core.namespacepart.NamespacePart.DefaultNamespaceSelector" alt="" coords="245,114,416,138"/>
+<area shape="rect" href="../namespacepart/NamespacePart.DemandImportStrategySelector.html" title="chameleon.core.namespacepart.NamespacePart.DemandImportStrategySelector" alt="" coords="461,114,651,138"/>
+<area shape="rect" href="../namespacepart/NamespacePart.CurrentNamespaceStrategySelector.html" title="chameleon.core.namespacepart.NamespacePart.CurrentNamespaceStrategySelector" alt="" coords="696,114,912,138"/>
+<area shape="rect" href="../namespacepart/NamespacePart.DirectImportStrategySelector.html" title="chameleon.core.namespacepart.NamespacePart.DirectImportStrategySelector" alt="" coords="957,114,1131,138"/>
+</map>

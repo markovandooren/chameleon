@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" href="../declaration/TargetDeclaration.html" title="chameleon.core.declaration.TargetDeclaration" alt="" coords="16,11,779,48"/>
+<area shape="rect" href="../namespace/NamespaceOrType.html" title="chameleon.core.namespace.NamespaceOrType" alt="" coords="227,107,1008,144"/>
+<area shape="rect" href="./Type.html" title="chameleon.core.type.Type" alt="" coords="1755,210,1797,234"/>
+<area shape="rect" href="../declaration/Definition.html" title="chameleon.core.declaration.Definition" alt="" coords="1053,107,1728,144"/>
+<area shape="rect" href="../declaration/DeclarationContainer.html" title="chameleon.core.declaration.DeclarationContainer" alt="" coords="1192,11,1621,48"/>
+<area shape="rect" href="../member/FixedSignatureMember.html" title="chameleon.core.member.FixedSignatureMember" alt="" coords="1824,114,2635,138"/>
+<area shape="rect" href="../statement/ExceptionSource.html" title="chameleon.core.statement.ExceptionSource" alt="" coords="2680,107,3061,144"/>
+<area shape="rect" href="./VariableOrType.html" title="chameleon.core.type.VariableOrType" alt="" coords="3107,107,3840,144"/>
+<area shape="rect" href="./TypeIndirection.html" title="chameleon.core.type.TypeIndirection" alt="" coords="1516,306,1617,330"/>
+<area shape="rect" href="./RegularType.html" title="chameleon.core.type.RegularType" alt="" coords="1663,306,1748,330"/>
+<area shape="rect" href="./IntersectionType.html" title="chameleon.core.type.IntersectionType" alt="" coords="1793,306,1900,330"/>
+<area shape="rect" href="./generics/WildCardType.html" title="chameleon.core.type.generics.WildCardType" alt="" coords="1945,306,2039,330"/>
+</map>

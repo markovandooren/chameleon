@@ -8,7 +8,8 @@ import chameleon.oo.type.NonLocalTypeReference;
 import chameleon.oo.type.Type;
 
 public class CapturedTypeParameter extends FormalTypeParameter {
-
+//FIXME a captured type parameter should NOT be a formal type parameter but an instantiated type parameter!!!!
+//      I must modify the instantiated type parameter hierarchy.
 	public CapturedTypeParameter(SimpleNameSignature signature) {
 		super(signature);
 	}

@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" href="./Type.html" title="chameleon.core.type.Type" alt="" coords="37,18,80,42"/>
+<area shape="rect" href="./RegularType.html" title="chameleon.core.type.RegularType" alt="" coords="16,114,101,138"/>
+<area shape="rect" href="./DerivedType.html" title="chameleon.core.type.DerivedType" alt="" coords="16,210,101,234"/>
+</map>

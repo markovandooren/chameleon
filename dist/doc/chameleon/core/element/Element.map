@@ -1,0 +1,15 @@
+<map id="G" name="G">
+<area shape="rect" href="../declaration/DeclarationContainer.html" title="chameleon.core.declaration.DeclarationContainer" alt="" coords="2243,107,2672,144"/>
+<area shape="rect" href="../namespace/NamespaceOrType.html" title="chameleon.core.namespace.NamespaceOrType" alt="" coords="519,203,1300,240"/>
+<area shape="rect" href="../variable/VariableContainer.html" title="chameleon.core.variable.VariableContainer" alt="" coords="3083,203,3475,240"/>
+<area shape="rect" href="../declaration/Declaration.html" title="chameleon.core.declaration.Declaration" alt="" coords="43,107,741,144"/>
+<area shape="rect" href="./ElementImpl.html" title="chameleon.core.element.ElementImpl" alt="" coords="787,114,1101,138"/>
+<area shape="rect" href="./Element.html" title="chameleon.core.element.Element" alt="" coords="2111,11,2401,48"/>
+<area shape="rect" href="../expression/Assignable.html" title="chameleon.core.expression.Assignable" alt="" coords="1147,107,1467,144"/>
+<area shape="rect" href="../method/exception/AnchoredDeclaration.html" title="chameleon.core.method.exception.AnchoredDeclaration" alt="" coords="1512,107,1869,144"/>
+<area shape="rect" href="../modifier/Modifier.html" title="chameleon.core.modifier.Modifier" alt="" coords="1915,107,2197,144"/>
+<area shape="rect" href="../namespace/NamespaceElement.html" title="chameleon.core.namespace.NamespaceElement" alt="" coords="2717,107,3075,144"/>
+<area shape="rect" href="../reference/CrossReference.html" title="chameleon.core.reference.CrossReference" alt="" coords="3120,107,3627,144"/>
+<area shape="rect" href="../statement/ExceptionSource.html" title="chameleon.core.statement.ExceptionSource" alt="" coords="3672,107,4053,144"/>
+<area shape="rect" href="../variable/Variable.html" title="chameleon.core.variable.Variable" alt="" coords="4149,107,4659,144"/>
+</map>

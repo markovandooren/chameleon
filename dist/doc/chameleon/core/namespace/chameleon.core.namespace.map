@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" href="./RootNamespace.html" title="chameleon.core.namespace.RootNamespace" alt="" coords="268,306,380,330"/>
+<area shape="rect" href="./RegularNamespace.html" title="chameleon.core.namespace.RegularNamespace" alt="" coords="259,210,389,234"/>
+<area shape="rect" href="./NamespaceScope.html" title="chameleon.core.namespace.NamespaceScope" alt="" coords="843,18,963,42"/>
+<area shape="rect" href="./NamespaceReference.html" title="chameleon.core.namespace.NamespaceReference" alt="" coords="1008,18,1149,42"/>
+<area shape="rect" href="./NamespaceOrTypeReference.html" title="chameleon.core.namespace.NamespaceOrTypeReference" alt="" coords="1195,18,1376,42"/>
+<area shape="rect" href="./NamespaceOrType.html" title="chameleon.core.namespace.NamespaceOrType" alt="" coords="16,11,797,48"/>
+<area shape="rect" href="./Namespace.html" title="chameleon.core.namespace.Namespace" alt="" coords="364,114,449,138"/>
+<area shape="rect" href="./NamespaceElementImpl.html" title="chameleon.core.namespace.NamespaceElementImpl" alt="" coords="1409,114,1791,138"/>
+<area shape="rect" href="./NamespaceElement.html" title="chameleon.core.namespace.NamespaceElement" alt="" coords="1421,11,1779,48"/>
+<area shape="rect" href="./NamespaceAlias.html" title="chameleon.core.namespace.NamespaceAlias" alt="" coords="435,210,547,234"/>
+</map>

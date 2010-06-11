@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" href="./TypeMap.html" title="chameleon.core.method.exception.TypeMap" alt="" coords="16,18,83,42"/>
+<area shape="rect" href="./TypeExceptionDeclaration.html" title="chameleon.core.method.exception.TypeExceptionDeclaration" alt="" coords="211,114,368,138"/>
+<area shape="rect" href="./StubExceptionClauseContainer.html" title="chameleon.core.method.exception.StubExceptionClauseContainer" alt="" coords="496,18,685,42"/>
+<area shape="rect" href="./ExceptionDeclaration.html" title="chameleon.core.method.exception.ExceptionDeclaration" alt="" coords="128,18,451,42"/>
+<area shape="rect" href="./ExceptionClause.html" title="chameleon.core.method.exception.ExceptionClause" alt="" coords="731,18,840,42"/>
+<area shape="rect" href="./AnchoredDeclaration.html" title="chameleon.core.method.exception.AnchoredDeclaration" alt="" coords="885,11,1243,48"/>
+</map>

@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" href="./Target.html" title="chameleon.core.lookup.Target" alt="" coords="16,11,293,48"/>
+<area shape="rect" href="./StubContextElement.html" title="chameleon.core.lookup.StubContextElement" alt="" coords="339,18,469,42"/>
+<area shape="rect" href="./SelectorWithoutOrder.html" title="chameleon.core.lookup.SelectorWithoutOrder" alt="" coords="511,114,780,138"/>
+<area shape="rect" href="./ParentLookupStrategySelector.html" title="chameleon.core.lookup.ParentLookupStrategySelector" alt="" coords="825,114,1009,138"/>
+<area shape="rect" href="./LookupStrategySelector.html" title="chameleon.core.lookup.LookupStrategySelector" alt="" coords="844,11,991,48"/>
+<area shape="rect" href="./LookupStrategyFactory.html" title="chameleon.core.lookup.LookupStrategyFactory" alt="" coords="1144,18,1285,42"/>
+<area shape="rect" href="./LookupStrategy.html" title="chameleon.core.lookup.LookupStrategy" alt="" coords="1439,18,1543,42"/>
+<area shape="rect" href="./LocalLookupStrategy.html" title="chameleon.core.lookup.LocalLookupStrategy" alt="" coords="1055,114,1375,138"/>
+<area shape="rect" href="./LexicalLookupStrategy.html" title="chameleon.core.lookup.LexicalLookupStrategy" alt="" coords="1420,114,1561,138"/>
+<area shape="rect" href="./DummyLookupStrategy.html" title="chameleon.core.lookup.DummyLookupStrategy" alt="" coords="1607,114,1753,138"/>
+<area shape="rect" href="./LookupException.html" title="chameleon.core.lookup.LookupException" alt="" coords="1588,18,1700,42"/>
+<area shape="rect" href="./DeclarationSelector.html" title="chameleon.core.lookup.DeclarationSelector" alt="" coords="515,18,776,42"/>
+</map>

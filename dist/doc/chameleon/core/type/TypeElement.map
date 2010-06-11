@@ -1,0 +1,7 @@
+<map id="G" name="G">
+<area shape="rect" href="../member/Member.html" title="chameleon.core.member.Member" alt="" coords="16,299,659,336"/>
+<area shape="rect" href="../modifier/ElementWithModifiers.html" title="chameleon.core.modifier.ElementWithModifiers" alt="" coords="303,107,703,144"/>
+<area shape="rect" href="./TypeElement.html" title="chameleon.core.type.TypeElement" alt="" coords="439,203,815,240"/>
+<area shape="rect" href="../namespace/NamespaceElement.html" title="chameleon.core.namespace.NamespaceElement" alt="" coords="448,11,805,48"/>
+<area shape="rect" href="./TypeElementImpl.html" title="chameleon.core.type.TypeElementImpl" alt="" coords="704,306,1131,330"/>
+</map>
