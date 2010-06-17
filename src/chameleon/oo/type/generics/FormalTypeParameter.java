@@ -183,10 +183,10 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
   }
 
 
-	@Override
-	public boolean sameValueAs(TypeParameter otherParam) throws LookupException {
-		return sameAs(otherParam);
-	}
+//	@Override
+//	public boolean sameValueAs(TypeParameter otherParam) throws LookupException {
+//		return sameAs(otherParam);
+//	}
 
 
 	@Override

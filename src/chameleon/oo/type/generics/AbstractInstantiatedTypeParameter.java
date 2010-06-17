@@ -165,14 +165,14 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 //		return result;
 	}
 	
-	@Override
-	public boolean sameValueAs(TypeParameter other) throws LookupException {
-		boolean result = false;
-		if(other instanceof AbstractInstantiatedTypeParameter) {
-			result = argument().sameAs(((InstantiatedTypeParameter)other).argument());
-		}
-		return result;
-	}
+//	@Override
+//	public boolean sameValueAs(TypeParameter other) throws LookupException {
+//		boolean result = false;
+//		if(other instanceof AbstractInstantiatedTypeParameter) {
+//			result = argument().sameAs(((InstantiatedTypeParameter)other).argument());
+//		}
+//		return result;
+//	}
 
 	@Override
 	public boolean sameValueAs(TypeParameter other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {

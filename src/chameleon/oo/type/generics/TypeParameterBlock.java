@@ -22,7 +22,7 @@ import chameleon.util.Util;
 
 /**
  * WARNING! If you use a parameter block as an subelement of a class X, then you must add
- * a lookupstrategy to X that directly returns parameters(). Declarations() returns lazy type aliases
+ * a lookupstrategy to X that directly returns parameters(). Declarations() returns stubs
  * to support recursion in generic parameters. If anything is wrong in a type reference of a generic parameter,
  * then it won't be noticed by the lazy alias until an operation is executed on the alias by the declaration
  * selector. At that point, there should be no exception. If you use parameters() instead, any problems will be

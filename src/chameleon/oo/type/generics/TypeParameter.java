@@ -73,23 +73,8 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Namespac
   	throw new ChameleonProgrammerException();
   }
 
-
-//	public boolean compatibleWith(TypeParameter other) throws LookupException {
-//		Type myType = nearestAncestor(Type.class);
-//		Type otherType = (Type) other.nearestAncestor(Type.class);
-//		String x = myType.getFullyQualifiedName()+"."+signature().name();
-//		String y = otherType.getFullyQualifiedName() + "." + other.signature().name();
-//		if(x.equals("chameleon.core.declaration.Signature.E")) {
-//			System.out.println("Hebbes");
-//		}
-//		return sameAs(other) || upperBound().subTypeOf(other.upperBound()) && other.lowerBound().subTypeOf(lowerBound());
-//	}
-//	
-  
-  private static int count;
 	public boolean compatibleWith(TypeParameter other,List<Pair<Type, TypeParameter>> trace) throws LookupException {
 		List<Pair<Type, TypeParameter>> slowTrace = new ArrayList<Pair<Type, TypeParameter>>(trace);
-//		List<Pair<Type, TypeParameter>> slowTrace = trace;
 		boolean result = sameAs(other);
 		if(! result) {
 		 result = upperBound().upperBoundNotHigherThan(other.upperBound(),slowTrace);
@@ -125,7 +110,7 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Namespac
 		}
 	}
 
-	public abstract boolean sameValueAs(TypeParameter otherParam) throws LookupException;
+//	public abstract boolean sameValueAs(TypeParameter otherParam) throws LookupException;
 
 	public abstract boolean sameValueAs(TypeParameter otherParam, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException;
 
