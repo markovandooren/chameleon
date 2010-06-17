@@ -94,32 +94,27 @@ public abstract class TypeIndirection extends AbstractType {
 		return aliasedType().baseType();
 	}
 
-	@Override
-	public List<TypeParameter> parameters() {
-		return aliasedType().parameters();
+	public <P extends Parameter> List<P> parameters(Class<P> kind) {
+		return aliasedType().parameters(kind);
 	}
 	
-	@Override
-	public TypeParameter parameter(int index) {
-		return aliasedType().parameter(index);
+	public <P extends Parameter> P parameter(Class<P> kind, int index) {
+		return aliasedType().parameter(kind, index);
 	}
 
-	public int nbTypeParameters() {
-		return aliasedType().nbTypeParameters();
+	public <P extends Parameter> int nbTypeParameters(Class<P> kind) {
+		return aliasedType().nbTypeParameters(kind);
 	}
 
-	@Override
-	public void replaceParameter(TypeParameter oldParameter, TypeParameter newParameter) {
+	public <P extends Parameter> void replaceParameter(Class<P> kind,P oldParameter, P newParameter) {
 		throw new ChameleonProgrammerException("Trying to replace a type parameter in a type alias.");
 	}
 
-	@Override
-	public void replaceAllParameter(List<TypeParameter> newParameters) {
+	public <P extends Parameter> void replaceAllParameter(Class<P> kind,List<P> newParameters) {
 		throw new ChameleonProgrammerException("Trying to replace type parameters in a type alias.");
 	}
 
-	@Override
-	public void addParameter(TypeParameter parameter) {
+	public <P extends Parameter> void addParameter(Class<P> kind,P parameter) {
 		throw new ChameleonProgrammerException("Trying to add a type parameter to a type alias.");
 	}
   
@@ -127,5 +122,29 @@ public abstract class TypeIndirection extends AbstractType {
 	public List<? extends TypeElement> directlyDeclaredElements() {
 		return aliasedType().directlyDeclaredElements();
 	}
+
+	public void addParameterBlock(ParameterBlock block) {
+		throw new ChameleonProgrammerException("Trying to add a type parameter block to a type alias.");
+	}
+
+
+	public Class<? extends Parameter> kindOf(ParameterBlock block) throws LookupException {
+		return aliasedType().kindOf(block);
+	}
+
+
+	public List<ParameterBlock> parameterBlocks() {
+		return aliasedType().parameterBlocks();
+	}
+
+
+	public void removeParameterBlock(ParameterBlock block) {
+		throw new ChameleonProgrammerException("Trying to remove a type parameter block from a type alias.");
+	}
+
+	public <P extends Parameter> ParameterBlock<?, P> parameterBlock(Class<P> kind) {
+		return aliasedType().parameterBlock(kind);
+	}
+
 
 }

@@ -7,18 +7,14 @@ import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
-import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
-import chameleon.oo.type.Type;
-import chameleon.oo.type.TypeReference;
-import chameleon.util.Util;
+import chameleon.oo.type.ParameterBlock;
 
 /**
  * WARNING! If you use a parameter block as an subelement of a class X, then you must add
@@ -32,55 +28,21 @@ import chameleon.util.Util;
  *   
  * @author Marko van Dooren
  */
-public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock, Element> implements DeclarationContainer<TypeParameterBlock, Element> {
+public class TypeParameterBlock extends ParameterBlock<TypeParameterBlock,TypeParameter> implements DeclarationContainer<TypeParameterBlock, Element> {
 
+	public TypeParameterBlock() {
+		super(TypeParameter.class);
+	}
+	
 	@Override
-	public TypeParameterBlock clone() {
+	public TypeParameterBlock cloneThis() {
 		TypeParameterBlock result = new TypeParameterBlock();
-		for(TypeParameter parameter: parameters()) {
-			result.add(parameter.clone());
-		}
+//		for(TypeParameter<?> parameter: parameters()) {
+//			result.add(parameter.clone());
+//		}
 		return result;
 	}
 
-	public List<? extends Element> children() {
-		return parameters();
-	}
-
-	private OrderedMultiAssociation<TypeParameterBlock, TypeParameter> _parameters = new OrderedMultiAssociation<TypeParameterBlock, TypeParameter>(this);
-	
-	public List<TypeParameter> parameters() {
-		return _parameters.getOtherEnds();
-	}
-	
-	public int nbTypeParameters() {
-		return _parameters.size();
-	}
-	
-	/**
-	 * Indices start at 1.
-	 */
-	public TypeParameter parameter(int index) {
-		return _parameters.elementAt(index);
-	}
-	
-	public void add(TypeParameter parameter) {
-		if(parameter != null) {
-			_parameters.add(parameter.parentLink());
-		}
-	}
-
-	public void remove(TypeParameter parameter) {
-		if(parameter != null) {
-			_parameters.remove(parameter.parentLink());
-		}
-	}
-	
-	public void replace(TypeParameter oldParameter, TypeParameter newParameter) {
-		if((oldParameter != null) && (newParameter != null)){
-			_parameters.replace(oldParameter.parentLink(), newParameter.parentLink());
-		}
-	}
 
 	public List<? extends Declaration> declarations() throws LookupException {
 //	return parameters();
@@ -88,7 +50,7 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 		Stub stub = new Stub();
 //		stub.setUniParent(parent());
 		stub.setUniParent(this);
-		for(TypeParameter parameter:parameters()) {
+		for(TypeParameter<?> parameter:parameters()) {
 			//FIXME must create subclass of formalparameter that keeps a reference to the original formal
 			// parameter OR use origin() for that.
 //			TypeParameter clone = new StubTypeParameter(parameter);
@@ -117,7 +79,7 @@ public class TypeParameterBlock extends NamespaceElementImpl<TypeParameterBlock,
 		@Override
 		public Stub clone() {
 			Stub result = new Stub();
-			for(TypeParameter parameter: parameters()) {
+			for(TypeParameter<?> parameter: parameters()) {
 				result.add(parameter.clone());
 			}
 			return result;

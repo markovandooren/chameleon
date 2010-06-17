@@ -24,7 +24,10 @@ public class DerivedType extends TypeWithBody {
 	
 	public DerivedType(List<TypeParameter> typeParameters, Type baseType) {
 		this(baseType);
-		substituteParameters(typeParameters);
+		substituteParameters(TypeParameter.class,typeParameters);
+		if(nbTypeParameters(TypeParameter.class) == 0) {
+			throw new Error();
+		}
 	}
 
 	/**
@@ -37,40 +40,38 @@ public class DerivedType extends TypeWithBody {
 		copyContents(baseType, true);
 		_baseType = baseType;
 		setOrigin(baseType);
+		if(nbTypeParameters(TypeParameter.class) == 0) {
+			nbTypeParameters(TypeParameter.class);
+			throw new Error();
+		}
 	}
 	
-	private static DerivedType create(Type baseType, List<ActualTypeArgument> typeArguments) throws LookupException {
-		Map<List<String>, DerivedType> map = _cache.get(baseType);
-		if(map == null) {
-			map = new HashMap<List<String>, DerivedType>();
-			_cache.put(baseType, map);
-		} 
-//		else {
-//			MAPCOUNT++;
-//			System.out.println("Map cache hits: "+MAPCOUNT);
+//	private static DerivedType create(Type baseType, List<ActualTypeArgument> typeArguments) throws LookupException {
+//		Map<List<String>, DerivedType> map = _cache.get(baseType);
+//		if(map == null) {
+//			map = new HashMap<List<String>, DerivedType>();
+//			_cache.put(baseType, map);
+//		} 
+//		List<String> typeList = new ArrayList<String>();
+//		for(ActualTypeArgument arg: typeArguments) {
+//			String fullyQualifiedName = arg.type().getFullyQualifiedName();
+//			if(fullyQualifiedName.indexOf(".") < 0) {
+//				System.out.println("######### "+fullyQualifiedName);
+//			}
+//			typeList.add(fullyQualifiedName);
 //		}
-		List<String> typeList = new ArrayList<String>();
-		for(ActualTypeArgument arg: typeArguments) {
-			String fullyQualifiedName = arg.type().getFullyQualifiedName();
-			if(fullyQualifiedName.indexOf(".") < 0) {
-				System.out.println("######### "+fullyQualifiedName);
-			}
-			typeList.add(fullyQualifiedName);
-		}
-		DerivedType result = map.get(typeList);
-		if(result == null) {
-			result = new DerivedType(baseType, typeArguments);
-			map.put(typeList, result);
-		} else {
-			COUNT++;
-//			System.out.println("Cache hits: "+COUNT);
-		}
-		return result;
-	}
+//		DerivedType result = map.get(typeList);
+//		if(result == null) {
+//			result = new DerivedType(baseType, typeArguments);
+//			map.put(typeList, result);
+//		} else {
+//		}
+//		return result;
+//	}
 	
-	private static int COUNT;
+//	private static int COUNT;
 	
-	private static Map<Type, Map<List<String>, DerivedType>> _cache = new HashMap<Type, Map<List<String>, DerivedType>>();
+//	private static Map<Type, Map<List<String>, DerivedType>> _cache = new HashMap<Type, Map<List<String>, DerivedType>>();
 	
 	/**
 	 * Create a derived type by filling in the type parameters with the given list of
@@ -85,7 +86,7 @@ public class DerivedType extends TypeWithBody {
 	public DerivedType(Type baseType, List<ActualTypeArgument> typeArguments) {
 		this(baseType);
 		// substitute parameters
-		List<TypeParameter> myParameters = parameters();
+		List<TypeParameter> myParameters = parameters(TypeParameter.class);
 		Iterator<TypeParameter> parametersIterator = myParameters.iterator();
 		Iterator<ActualTypeArgument> argumentsIterator = typeArguments.iterator();
 		while (parametersIterator.hasNext()) {
@@ -94,10 +95,13 @@ public class DerivedType extends TypeWithBody {
 			// The next call does not change the parent of 'argument'. It is stored in InstantiatedTypeParameter
 			// using a regular reference.
 			InstantiatedTypeParameter instantiated = new InstantiatedTypeParameter(parameter.signature().clone(), argument);
-			replaceParameter(parameter, instantiated);
+			replaceParameter(TypeParameter.class,parameter, instantiated);
 		}
 
-	}
+		if(nbTypeParameters(TypeParameter.class) == 0) {
+			throw new Error();
+		}
+}
 	
 	@Override
 	public boolean uniSameAs(Element otherType) throws LookupException {
@@ -105,8 +109,8 @@ public class DerivedType extends TypeWithBody {
 		if(otherType instanceof DerivedType) {
 			DerivedType type = (DerivedType) otherType;
 			result = type.baseType().sameAs(baseType());
-			Iterator<TypeParameter> myParams = parameters().iterator();
-			Iterator<TypeParameter> otherParams = type.parameters().iterator();
+			Iterator<TypeParameter> myParams = parameters(TypeParameter.class).iterator();
+			Iterator<TypeParameter> otherParams = type.parameters(TypeParameter.class).iterator();
 			while(myParams.hasNext() && result) {
 				TypeParameter mine = myParams.next();
 				TypeParameter otherParam = otherParams.next();
@@ -121,8 +125,8 @@ public class DerivedType extends TypeWithBody {
 		if(otherType instanceof DerivedType) {
 			DerivedType type = (DerivedType) otherType;
 			result = type.baseType().sameAs(baseType());
-			Iterator<TypeParameter> myParams = parameters().iterator();
-			Iterator<TypeParameter> otherParams = type.parameters().iterator();
+			Iterator<TypeParameter> myParams = parameters(TypeParameter.class).iterator();
+			Iterator<TypeParameter> otherParams = type.parameters(TypeParameter.class).iterator();
 			while(myParams.hasNext() && result) {
 				TypeParameter mine = myParams.next();
 				TypeParameter otherParam = otherParams.next();
@@ -152,7 +156,7 @@ public class DerivedType extends TypeWithBody {
 	@Override
 	public DerivedType clone() {
 		List<TypeParameter> args = new ArrayList<TypeParameter>();
-		for(TypeParameter par: parameters()) {
+		for(TypeParameter<?> par: parameters(TypeParameter.class)) {
 			args.add(par.clone());
 		}
 		return new DerivedType(args,baseType());

@@ -39,7 +39,7 @@ public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceEl
     for(FormalParameter param:formalParameters()) {
       result.addFormalParameter(param.clone());
     }
-    for(TypeParameter param:typeParameters()) {
+    for(TypeParameter<?> param:typeParameters()) {
     	result.addTypeParameter(param.clone());
     }
     return result;

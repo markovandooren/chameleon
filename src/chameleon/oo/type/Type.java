@@ -78,20 +78,30 @@ DeclarationWithType<Type,Element,SimpleNameSignature,Type>, Member<Type,Element,
 	 */
 	public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException;
 
-	public List<TypeParameter> parameters();
+	public List<ParameterBlock> parameterBlocks();
+	
+	public <P extends Parameter> ParameterBlock<?,P> parameterBlock(Class<P> kind);
+	
+	public void addParameterBlock(ParameterBlock block);
+	
+	public void removeParameterBlock(ParameterBlock block);
+	
+	public Class<? extends Parameter> kindOf(ParameterBlock block) throws LookupException;
+	
+	public <P extends Parameter> List<P> parameters(Class<P> kind);
 
 	/**
 	 * Indices start at 1.
 	 */
-	public TypeParameter parameter(int index);
+	public <P extends Parameter> P parameter(Class<P> kind, int index);
 
-	public int nbTypeParameters();
+	public <P extends Parameter> int nbTypeParameters(Class<P> kind);
 
-	public void addParameter(TypeParameter parameter);
+	public <P extends Parameter> void addParameter(Class<P> kind,P parameter);
 
-	public void replaceParameter(TypeParameter oldParameter, TypeParameter newParameter);
+	public <P extends Parameter> void replaceParameter(Class<P> kind, P oldParameter, P newParameter);
 
-	public void replaceAllParameter(List<TypeParameter> newParameters);
+	public <P extends Parameter> void replaceAllParameter(Class<P> kind, List<P> newParameters);
 
 	/************************
 	 * BEING A TYPE ELEMENT *

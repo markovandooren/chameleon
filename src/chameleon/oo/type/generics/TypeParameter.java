@@ -11,13 +11,13 @@ import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.scope.LexicalScope;
 import chameleon.core.scope.Scope;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
+import chameleon.oo.type.Parameter;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Pair;
@@ -29,16 +29,12 @@ import chameleon.util.Pair;
  *
  * @param <E>
  */
-public abstract class TypeParameter<E extends TypeParameter<E>> extends NamespaceElementImpl<E, Element> implements Declaration<E,Element,SimpleNameSignature,Type>{
+public abstract class TypeParameter<E extends TypeParameter<E>> extends Parameter<E,Type> {
 	
 	public TypeParameter(SimpleNameSignature signature) {
 		setSignature(signature);
 	}
 
-	public abstract Type selectionDeclaration() throws LookupException;
-	
-	public abstract E clone();
-	
 	/**
 	 * Check whether this type parameter is equal to the other type parameter. 
 	 * 
@@ -48,31 +44,16 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Namespac
   @Override
 	public abstract boolean uniSameAs(Element other) throws LookupException;
 
-	public void setSignature(Signature signature) {
-  	if(signature instanceof SimpleNameSignature) {
-  		if(signature != null) {
-  			_signature.connectTo(signature.parentLink());
-  		} else {
-  			_signature.connectTo(null);
-  		}
-  	} else {
-  		throw new ChameleonProgrammerException("Setting wrong type of signature. Provided: "+(signature == null ? null :signature.getClass().getName())+" Expected SimpleNameSignature");
-  	}
-  }
-  
-  /**
-   * Return the signature of this member.
-   */
-  public SimpleNameSignature signature() {
-    return _signature.getOtherEnd();
-  }
-  
-  private SingleAssociation<TypeParameter, SimpleNameSignature> _signature = new SingleAssociation<TypeParameter, SimpleNameSignature>(this);
-
   public Type actualDeclaration() throws LookupException {
   	throw new ChameleonProgrammerException();
   }
 
+	public abstract Declaration resolveForRoundTrip() throws LookupException;
+
+	public E cloneForStub() throws LookupException {
+		return clone();
+	}
+	
 	public boolean compatibleWith(TypeParameter other,List<Pair<Type, TypeParameter>> trace) throws LookupException {
 		List<Pair<Type, TypeParameter>> slowTrace = new ArrayList<Pair<Type, TypeParameter>>(trace);
 		boolean result = sameAs(other);
@@ -99,8 +80,6 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Namespac
 		return new LexicalScope(nearestAncestor(Type.class));
 	}
 
-	public abstract Declaration resolveForRoundTrip() throws LookupException;
-
 	@Override
 	public VerificationResult verifySelf() {
 		if(signature() != null) {
@@ -118,7 +97,4 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Namespac
   	return this;
   }
 
-	public E cloneForStub() throws LookupException {
-		return clone();
-	}
 }

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 
 import org.rejuse.java.collections.TypeFilter;
@@ -27,6 +28,7 @@ import chameleon.core.member.FixedSignatureMember;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.namespace.Namespace;
+import chameleon.core.namespacepart.Import;
 import chameleon.core.relation.WeakPartialOrder;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.validation.Valid;
@@ -218,44 +220,35 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
   	  @Override
   	  @SuppressWarnings("unchecked")
   	  public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
-  	    return selector.selection(parameters());
+//  	    return selector.selection(parameters());
+  			List<D> result = new ArrayList<D>();
+  			List<ParameterBlock> imports = parameterBlocks();
+  			Iterator<ParameterBlock> iter = imports.iterator();
+  			// If the selector found a match, we stop.
+  			// We must iterate in reverse.
+  			while(result.isEmpty() && iter.hasNext()) {
+  				ParameterBlock imporT = iter.next();
+  				result.addAll(selector.selection(imporT.parameters()));
+  			}
+  			return result;
   	  }
   	}
+  	
+  	public <P extends Parameter> int nbTypeParameters(Class<P> kind) {
+  		return parameterBlock(kind).nbTypeParameters();
+  	}
 
-  	/* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#parameters()
-		 */
-  	public abstract List<TypeParameter> parameters();
+  	public <P extends Parameter> List<P> parameters(Class<P> kind) {
+  		return parameterBlock(kind).parameters();
+  	}
   	
-  	/* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#parameter(int)
-		 */
-  	public abstract TypeParameter parameter(int index);
-  	
-  	/* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#nbTypeParameters()
-		 */
-  	public abstract int nbTypeParameters();
-  	
-  	/* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#addParameter(chameleon.oo.type.generics.TypeParameter)
-		 */
-  	public abstract void addParameter(TypeParameter parameter);
-  	
-  	/* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#replaceParameter(chameleon.oo.type.generics.TypeParameter, chameleon.oo.type.generics.TypeParameter)
-		 */
-  	public abstract void replaceParameter(TypeParameter oldParameter, TypeParameter newParameter);
+  	/**
+  	 * Indices start at 1.
+  	 */
+  	public <P extends Parameter> P parameter(Class<P> kind, int index) {
+  		return parameterBlock(kind).parameter(index);
+  	}
 
-  	/* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#replaceAllParameter(java.util.List)
-		 */
-  	public abstract void replaceAllParameter(List<TypeParameter> newParameters);
-  	
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#getIntroducedMembers()
-		 */
-    
     public List<Member> getIntroducedMembers() {
       List<Member> result = new ArrayList<Member>();
       result.add(this);
@@ -703,12 +696,15 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
         }
 				add(clone);
       }
-      for(TypeParameter par : from.parameters()) {
-      	TypeParameter clone = par.clone();
+      for(ParameterBlock par : parameterBlocks()) {
+      	removeParameterBlock(par);
+      }
+      for(ParameterBlock par : from.parameterBlocks()) {
+      	ParameterBlock clone = par.clone();
         if(link) {
         	clone.setOrigin(par);
         }
-				addParameter(clone);
+				addParameterBlock(clone);
       }
 		}
   

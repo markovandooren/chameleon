@@ -28,13 +28,13 @@ public abstract class TypeWithBody extends AbstractType {
 
 	public List<Element> children() {
 		List<Element> result = super.children();
-		Util.addNonNull(parameterBlock(), result);
+		result.addAll(parameterBlocks());
 		Util.addNonNull(body(), result);
 		return result;
 	}
 
 	public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
-		if(element == parameterBlock()) { // || element.isDerived()
+		if(parameterBlocks().contains(element)) { // || element.isDerived()
 			return parent().lexicalLookupStrategy(this);
 		} else {
 			return super.lexicalLookupStrategy(element);
@@ -73,7 +73,7 @@ public abstract class TypeWithBody extends AbstractType {
 	   return body().members();
 	}
 
-	protected SingleAssociation<Type, TypeParameterBlock> _parameters = new SingleAssociation<Type, TypeParameterBlock>(this);
+	protected OrderedMultiAssociation<Type, ParameterBlock> _parameters = new OrderedMultiAssociation<Type, ParameterBlock>(this);
 
 	public void removeInheritanceRelation(InheritanceRelation relation) {
 		_inheritanceRelations.remove(relation.parentLink());
@@ -107,37 +107,20 @@ public abstract class TypeWithBody extends AbstractType {
 		
 	}
 
-	public TypeParameterBlock parameterBlock() {
-		return _parameters.getOtherEnd();
+	public List<ParameterBlock> parameterBlocks() {
+		return _parameters.getOtherEnds();
 	}
 
-	public List<TypeParameter> parameters() {
-		return parameterBlock().parameters();
-	}
-	
-	public int nbTypeParameters() {
-		return parameterBlock().nbTypeParameters();
+	public <P extends Parameter> void addParameter(Class<P> kind, P parameter) {
+		parameterBlock(kind).add(parameter);
 	}
 
-	
-	/**
-	 * Indices start at 1.
-	 */
-	@Override
-	public TypeParameter parameter(int index) {
-		return parameterBlock().parameter(index);
+	public <P extends Parameter> void removeParameter(Class<P> kind, P parameter) {
+		parameterBlock(kind).add(parameter);
 	}
 
-	public void addParameter(TypeParameter parameter) {
-		parameterBlock().add(parameter);
-	}
-
-	public void removeParameter(TypeParameter parameter) {
-		parameterBlock().add(parameter);
-	}
-
-	public void replaceParameter(TypeParameter oldParameter, TypeParameter newParameter) {
-		parameterBlock().replace(oldParameter, newParameter);
+	public <P extends Parameter> void replaceParameter(Class<P> kind, P oldParameter, P newParameter) {
+		parameterBlock(kind).replace(oldParameter, newParameter);
 	}
 
 	@Override
@@ -164,35 +147,66 @@ public abstract class TypeWithBody extends AbstractType {
 	public TypeWithBody(SimpleNameSignature sig) {
 		super(sig);
 		_body.connectTo(new ClassBody().parentLink());
-		_parameters.connectTo(new TypeParameterBlock().parentLink());
+		_parameters.add(new TypeParameterBlock().parentLink());
 	}
 
-	@Override
-	public void replaceAllParameter(List<TypeParameter> newParameters) {
+	public <P extends Parameter> void replaceAllParameter(Class<P> kind, List<P> newParameters) {
 		int size = newParameters.size();
-		List<TypeParameter> old = parameters();
+		List<P> old = parameters(kind);
 		if(old.size() != size) {
-			throw new ChameleonProgrammerException("Trying to substitute "+parameters().size()+" type parameters with "+size+" new parameters.");
+			throw new ChameleonProgrammerException("Trying to substitute "+old.size()+" type parameters with "+size+" new parameters.");
 		}
 		for(int i = 0; i< size; i++) {
-			replaceParameter(old.get(i), newParameters.get(i));
+			replaceParameter(kind, old.get(i), newParameters.get(i));
 		}
 	}
 
-	public void substituteParameters(List<TypeParameter> typeParameters) {
-		Iterator<TypeParameter> parametersIterator = parameters().iterator();
-		Iterator<TypeParameter> argumentsIterator = typeParameters.iterator();
+	public <P extends Parameter>void substituteParameters(Class<P> kind, List<P> typeParameters) {
+		Iterator<P> parametersIterator = parameters(kind).iterator();
+		Iterator<P> argumentsIterator = typeParameters.iterator();
 		while (parametersIterator.hasNext()) {
-			TypeParameter parameter = parametersIterator.next();
-			TypeParameter argument = argumentsIterator.next();
+			P parameter = parametersIterator.next();
+			P argument = argumentsIterator.next();
 			// The next call does not change the parent of 'argument'. It is stored in InstantiatedTypeParameter
 			// using a regular reference.
-			replaceParameter(parameter, argument);
+			replaceParameter(kind, parameter, argument);
 		}
 	}
 	
 	public Declaration declarator() {
 		return this;
 	}
+
+	public void addParameterBlock(ParameterBlock block) {
+		if(block != null && parameterBlock(block.parameterType()) != null) {
+			throw new ChameleonProgrammerException("There is already a parameter block containing the following kind of element "+block.parameterType().getName());
+		}
+		setAsParent(_parameters, block);
+	}
+
+	public Class<? extends Parameter> kindOf(ParameterBlock block) throws LookupException {
+		for(ParameterBlock p: parameterBlocks()) {
+			if(p.sameAs(block)) {
+				return p.parameterType();
+			}
+		}
+		return null;
+	}
+
+	public <P extends Parameter> ParameterBlock<?, P> parameterBlock(Class<P> kind) {
+		for(ParameterBlock p: parameterBlocks()) {
+			if(p.parameterType().equals(kind)) {
+				return p;
+			}
+		}
+		return null;
+	}
+
+	public void removeParameterBlock(ParameterBlock block) {
+		if(block != null) {
+		  _parameters.remove(block.parentLink());
+		}
+	}
+
 
 }

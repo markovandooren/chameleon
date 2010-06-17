@@ -11,6 +11,8 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.oo.type.Parameter;
+import chameleon.oo.type.ParameterBlock;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeElement;
 import chameleon.oo.type.TypeReference;
@@ -31,5 +33,6 @@ public class ExtendsWildcardType extends WildCardType {
 	public String getFullyQualifiedName() {
 		return "? extends "+upperBound().getFullyQualifiedName();
 	}
+
 
 }

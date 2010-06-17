@@ -11,7 +11,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 /**
  * @author Marko van Dooren
  */
-public class BasicTypeReference<E extends TypeReference> extends SpecificReference<E,Element,Type> implements TypeReference<E> {
+public class BasicTypeReference<E extends BasicTypeReference> extends SpecificReference<E,Element,Type> implements TypeReference<E> {
 
   public BasicTypeReference(String fqn) {
     super(fqn, Type.class);

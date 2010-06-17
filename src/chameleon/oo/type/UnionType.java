@@ -9,7 +9,6 @@ import java.util.List;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.UnsafePredicate;
 
-import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
@@ -24,7 +23,7 @@ import chameleon.oo.type.generics.TypeParameter;
 import chameleon.oo.type.inheritance.InheritanceRelation;
 import chameleon.util.Pair;
 
-public class UnionType extends AbstractType {
+public class UnionType extends MultiType {
 	
 	public static Type create(List<Type> types) throws LookupException {
 		if(types.size() == 1) {
@@ -38,19 +37,11 @@ public class UnionType extends AbstractType {
 	}
 
 	public UnionType(Type first, Type second) throws LookupException {
-		super(createSignature(Arrays.asList(new Type[]{first,second})));
-		addType(first);
-		addType(second);
+		super(createSignature(Arrays.asList(new Type[]{first,second})), Arrays.asList(new Type[]{first,second}));
 	}
 	
 	public UnionType(List<Type> types) throws LookupException {
-		super(createSignature(types));
-		if(types.isEmpty()) {
-			throw new ChameleonProgrammerException("Creating an intersection with an empty collection of types.");
-		}
-		for(Type type:types) {
-			addType(type);
-		}
+		super(createSignature(types),types);
 	}
 	
 	@Override
@@ -66,48 +57,6 @@ public class UnionType extends AbstractType {
 		}
 	}
 	
-	private List<Type> _types = new ArrayList<Type>();
-	
-	public void addType(Type type) throws LookupException {
-		for(Type alreadyPresent:types()) {
-			if(type.subTypeOf(alreadyPresent)) {
-				return;
-			}
-			if(alreadyPresent.subTypeOf(type)) {
-				removeType(alreadyPresent);
-			}
-		}
-		// If we reach this place, then no type in the intersection is a subtype of the new type.
-		_types.add(type);
-	}
-	
-	public void removeType(Type type) {
-		_types.remove(type);
-	}
-	
-	public List<Type> types() {
-		return new ArrayList<Type>(_types);
-	}
-
-	
-	@Override
-	public void add(TypeElement element) throws ChameleonProgrammerException {
-		throw new ChameleonProgrammerException("Trying to add an element to a union type.");
-	}
-
-	@Override
-	public void remove(TypeElement element) throws ChameleonProgrammerException {
-		throw new ChameleonProgrammerException("Trying to remove an element from a union type.");
-	}
-	@Override
-	public void addInheritanceRelation(InheritanceRelation type) throws ChameleonProgrammerException {
-		throw new ChameleonProgrammerException("Trying to add a super type to a union type.");
-	}
-
-  public void replace(TypeElement oldElement, TypeElement newElement) {
-		throw new ChameleonProgrammerException("Trying to replace an element in a union type.");
-  }
-	
 	public static SimpleNameSignature createSignature(Collection<Type> types) {
 		StringBuffer name = new StringBuffer("union of ");
 		for(Type type:types) {
@@ -118,11 +67,7 @@ public class UnionType extends AbstractType {
 	}
 	
 	private UnionType(List<Type> types, boolean useless) {
-		super(createSignature(types));
-		if(types.isEmpty()) {
-			throw new ChameleonProgrammerException("Creating a union type with an empty collection of types.");
-		}
-		_types = new ArrayList<Type>(types);
+		super(createSignature(types),types);
 	}
 	
 	@Override
@@ -171,57 +116,12 @@ public class UnionType extends AbstractType {
 	@Override
 	public List<InheritanceRelation> inheritanceRelations() {
 		List<InheritanceRelation> result = new ArrayList<InheritanceRelation>();
-//		for(Type type: types()) {
-//		  result.addAll(type.inheritanceRelations());
-//		}
 		return result;
 	}
 
-	@Override
-	public void removeInheritanceRelation(InheritanceRelation type) {
-		throw new ChameleonProgrammerException("Trying to remove a super type from a union type.");
-	}
-
-	@Override
-	public Type baseType() {
-		return this;
-	}
-
-  /**
-   * An intersection type has not type parameters. 
-   */
-	@Override
-	public List<TypeParameter> parameters() {
-		return new ArrayList<TypeParameter>();
-	}
-
-	@Override
-	public int nbTypeParameters() {
-		return 0;
-	}
-
-	@Override
-	public void replaceParameter(TypeParameter oldParameter, TypeParameter newParameter) {
-		throw new ChameleonProgrammerException("Trying to replace a type parameter in a union type.");
-	}
-
-	@Override
-	public void replaceAllParameter(List<TypeParameter> newParameters) {
-		throw new ChameleonProgrammerException("Trying to replace type parameters in a union type.");
-	}
-
-	@Override
-	public void addParameter(TypeParameter parameter) {
-		throw new ChameleonProgrammerException("Trying to add a type parameter to a union type.");
-	}
-
-	@Override
+  @Override
 	public List<? extends TypeElement> directlyDeclaredElements() {
 		List<TypeElement> result = new ArrayList<TypeElement>();
-//		for(Type type: types()) {
-//		  result.addAll(type.directlyDeclaredElements());
-//		}
-//		removeConstructors(result);
 		return result;
 	}
 	
@@ -249,21 +149,12 @@ public class UnionType extends AbstractType {
 	}
 	
 	@Override
-	public int hashCode() {
-		int result = 0;
-		for(Type type:types()) {
-			result += type.hashCode();
-		}
-		return result;
-	}
-
-	@Override
 	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
 
 	@Override
-	public TypeParameter parameter(int index) {
+	public <P extends Parameter> P parameter(Class<P> kind, int index) {
 		throw new IllegalArgumentException();
 	}
 
@@ -277,6 +168,19 @@ public class UnionType extends AbstractType {
 		UnionType result = clone();
 		result.addAll(type);
 		return type;
+	}
+
+	public void addType(Type type) throws LookupException {
+		for(Type alreadyPresent:types()) {
+			if(type.subTypeOf(alreadyPresent)) {
+				return;
+			}
+			if(alreadyPresent.subTypeOf(type)) {
+				removeType(alreadyPresent);
+			}
+		}
+		// If we reach this place, then no type in the intersection is a subtype of the new type.
+		_types.add(type);
 	}
 
 	public boolean uniSameAs(final Type other, final List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
@@ -297,10 +201,6 @@ public class UnionType extends AbstractType {
 		} else {
 			return (types.size() == 1) && (types.iterator().next().sameAs(other,trace));
 		}
-	}
-
-	public Declaration declarator() {
-		return this;
 	}
 
 }

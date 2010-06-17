@@ -8,7 +8,6 @@ import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.Predicate;
 import org.rejuse.predicate.SafePredicate;
 import org.rejuse.predicate.UnsafePredicate;
-import org.rejuse.property.Property;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 
