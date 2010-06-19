@@ -74,13 +74,22 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 		}
 	}
 	
+	protected List<Declaration> declarations(String selectionName) throws LookupException {
+		ensureLocalCache();
+		List<Declaration> result = cachedDeclarations(selectionName);
+  	if(result == null) {
+  		result = new ArrayList<Declaration>();
+  	}
+  	return result;
+	}
+	
 	private void ensureLocalCache() throws LookupException {
 		if(_declarationCache == null) {
 		  List<Member> members = members();
 		  _declarationCache = new HashMap<String, List<Declaration>>();
 		  for(Member member: members) {
 		  	String name = member.signature().name();
-				List<Declaration> list = _declarationCache.get(name);
+				List<Declaration> list = cachedDeclarations(name);
 		  	boolean newList = false;
 		  	if(list == null) {
 		  		list = new ArrayList<Declaration>();
@@ -94,6 +103,21 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 		  }
 		}
 	}
+
+	protected List<Declaration> cachedDeclarations(String name) {
+		if(_declarationCache != null) {
+		  return _declarationCache.get(name);
+		} else {
+			return null;
+		}
+	}
+	
+	protected void storeCache(String name, List<Declaration> declarations) {
+		if(_declarationCache == null) {
+			_declarationCache = new HashMap<String, List<Declaration>>();
+		}
+		_declarationCache.put(name, declarations);
+	}
 	
 	@Override
 	public void flushLocalCache() {
@@ -101,7 +125,7 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 	}
 	
 	private HashMap<String, List<Declaration>> _declarationCache;
-
+	
 	public List<Member> members() throws LookupException {
 		List<Member> result = new ArrayList<Member>();
     for(TypeElement m: _elements.getOtherEnds()) {

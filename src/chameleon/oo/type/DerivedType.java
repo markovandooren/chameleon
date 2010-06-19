@@ -25,9 +25,6 @@ public class DerivedType extends TypeWithBody {
 	public DerivedType(List<TypeParameter> typeParameters, Type baseType) {
 		this(baseType);
 		substituteParameters(TypeParameter.class,typeParameters);
-		if(nbTypeParameters(TypeParameter.class) == 0) {
-			throw new Error();
-		}
 	}
 
 	/**
@@ -37,13 +34,17 @@ public class DerivedType extends TypeWithBody {
 	 */
 	private DerivedType(Type baseType) {
 		super(baseType.signature().clone());
-		copyContents(baseType, true);
+		
 		_baseType = baseType;
 		setOrigin(baseType);
-		if(nbTypeParameters(TypeParameter.class) == 0) {
-			nbTypeParameters(TypeParameter.class);
-			throw new Error();
-		}
+		copyInheritanceRelations(baseType, true);
+		copyParameterBlocks(baseType, true);
+		copyModifiers(baseType, true);
+		setBody(new LazyClassBody(((TypeWithBody)baseType).body()));
+
+//		copyContents(baseType, true);
+//		_baseType = baseType;
+//		setOrigin(baseType);
 	}
 	
 //	private static DerivedType create(Type baseType, List<ActualTypeArgument> typeArguments) throws LookupException {
@@ -97,11 +98,7 @@ public class DerivedType extends TypeWithBody {
 			InstantiatedTypeParameter instantiated = new InstantiatedTypeParameter(parameter.signature().clone(), argument);
 			replaceParameter(TypeParameter.class,parameter, instantiated);
 		}
-
-		if(nbTypeParameters(TypeParameter.class) == 0) {
-			throw new Error();
-		}
-}
+	}
 	
 	@Override
 	public boolean uniSameAs(Element otherType) throws LookupException {

@@ -671,31 +671,37 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
   	}
 
   	protected void copyContents(Type from, boolean link) {
-  		for(InheritanceRelation relation : from.inheritanceRelations()) {
+  		copyInheritanceRelations(from, link);
+      copyEverythingExceptInheritanceRelations(from, link);
+  	}
+
+		protected void copyInheritanceRelations(Type from, boolean link) {
+			for(InheritanceRelation relation : from.inheritanceRelations()) {
         InheritanceRelation clone = relation.clone();
         if(link) {
         	clone.setOrigin(relation);
         }
 				addInheritanceRelation(clone);
   		}
-      copyEverythingExceptionInheritanceRelations(from, link);
-  	}
+		}
 
-		protected void copyEverythingExceptionInheritanceRelations(Type from, boolean link) {
-			for(Modifier mod : from.modifiers()) {
-      	Modifier clone = mod.clone();
-        if(link) {
-        	clone.setOrigin(mod);
-        }
-				addModifier(clone);
-      }
-      for(TypeElement el : from.directlyDeclaredElements()) {
+		protected void copyEverythingExceptInheritanceRelations(Type from, boolean link) {
+			copyParameterBlocks(from, link);
+			copyModifiers(from, link);
+      copyTypeElements(from, link);
+		}
+
+		private void copyTypeElements(Type from, boolean link) {
+			for(TypeElement el : from.directlyDeclaredElements()) {
         TypeElement clone = el.clone();
         if(link) {
         	clone.setOrigin(el);
         }
 				add(clone);
       }
+		}
+
+		protected void copyParameterBlocks(Type from, boolean link) {
       for(ParameterBlock par : parameterBlocks()) {
       	removeParameterBlock(par);
       }
@@ -705,6 +711,16 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
         	clone.setOrigin(par);
         }
 				addParameterBlock(clone);
+      }
+		}
+
+		protected void copyModifiers(Type from, boolean link) {
+			for(Modifier mod : from.modifiers()) {
+      	Modifier clone = mod.clone();
+        if(link) {
+        	clone.setOrigin(mod);
+        }
+				addModifier(clone);
       }
 		}
   
