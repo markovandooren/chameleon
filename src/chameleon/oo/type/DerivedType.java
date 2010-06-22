@@ -8,6 +8,7 @@ import java.util.Map;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.modifier.Modifier;
 import chameleon.oo.type.generics.ActualTypeArgument;
 import chameleon.oo.type.generics.InstantiatedTypeParameter;
 import chameleon.oo.type.generics.TypeParameter;
@@ -39,7 +40,7 @@ public class DerivedType extends TypeWithBody {
 		setOrigin(baseType);
 		copyInheritanceRelations(baseType, true);
 		copyParameterBlocks(baseType, true);
-		copyModifiers(baseType, true);
+//		copyModifiers(baseType, true); // Let's try to do this lazily.
 		setBody(new LazyClassBody(((TypeWithBody)baseType).body()));
 
 //		copyContents(baseType, true);
@@ -100,6 +101,20 @@ public class DerivedType extends TypeWithBody {
 		}
 	}
 	
+	
+	/**
+	 * The modifiers are loaded lazily from the base type.
+	 */
+	@Override
+	public List<Modifier> modifiers() {
+		List<Modifier> result = super.modifiers();
+		if(result.isEmpty()) {
+			copyModifiers(baseType(), true);
+			result = super.modifiers();
+		}
+		return result;
+	}
+
 	@Override
 	public boolean uniSameAs(Element otherType) throws LookupException {
 		boolean result = false;

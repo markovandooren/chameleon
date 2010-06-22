@@ -178,22 +178,31 @@ public abstract class ObjectOrientedLanguage extends Language {
 	}
 
 	public void replace(TypeReference replacement, final Declaration declarator, TypeReference<?> in) throws LookupException {
-		List<TypeReference> crefs = in.descendants(TypeReference.class, 
-				new UnsafePredicate<TypeReference, LookupException>() {
+		UnsafePredicate<TypeReference, LookupException> predicate = new UnsafePredicate<TypeReference, LookupException>() {
 			@Override
 			public boolean eval(TypeReference object) throws LookupException {
 				return object.getDeclarator().sameAs(declarator);
 			}
-		});
+		};
+		List<TypeReference> crefs = in.descendants(TypeReference.class,predicate);
+		if(predicate.eval(in)) {
+			crefs.add(in);
+		}
+		
 		for(TypeReference cref: crefs) {
-			TypeReference substitute;
-			if(replacement.isDerived()) {
-				Element oldParent = replacement.parent();
-				replacement.setUniParent(null);
-			  substitute = createNonLocalTypeReference(replacement,oldParent);
-			} else {
-			  substitute = createNonLocalTypeReference(replacement);
-			}
+			TypeReference clonedReplacement = replacement.clone();
+			TypeReference substitute = createNonLocalTypeReference(clonedReplacement, replacement.parent());
+			
+//			TypeReference substitute;
+//			if(replacement.isDerived()) {
+//				Element oldParent = replacement.parent();
+//				replacement.setUniParent(null);
+//				substitute = createNonLocalTypeReference(replacement,oldParent);
+//			} else {
+//				substitute = createNonLocalTypeReference(replacement);
+//			}
+
+			
 			SingleAssociation crefParentLink = cref.parentLink();
 			crefParentLink.getOtherRelation().replace(crefParentLink, substitute.parentLink());
 		}
