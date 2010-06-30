@@ -161,9 +161,9 @@ public abstract class TypeWithBody extends AbstractType {
 		}
 	}
 
-	public <P extends Parameter>void substituteParameters(Class<P> kind, List<P> typeParameters) {
+	public <P extends Parameter>void substituteParameters(Class<P> kind, List<P> parameters) {
 		Iterator<P> parametersIterator = parameters(kind).iterator();
-		Iterator<P> argumentsIterator = typeParameters.iterator();
+		Iterator<P> argumentsIterator = parameters.iterator();
 		while (parametersIterator.hasNext()) {
 			P parameter = parametersIterator.next();
 			P argument = argumentsIterator.next();

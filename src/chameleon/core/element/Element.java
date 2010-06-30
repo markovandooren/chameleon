@@ -76,7 +76,8 @@ public interface Element<E extends Element, P extends Element> {
      * Check if this element is disconnected. Usually this is true if the
      * lexical parent is null. If an element has additional logical parents,
      * this method must be overridden to verify if the element is also attached
-     * from its logical parents.
+     * from its logical parents. An example of such an element is a namespace part,
+     * which is connected to a namespace.
      * 
      * @return
      */
