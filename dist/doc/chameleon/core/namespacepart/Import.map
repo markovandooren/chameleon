@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="../namespace/NamespaceElementImpl.html" title="chameleon.core.namespace.NamespaceElementImpl" alt="" coords="16,18,397,42"/>
-<area shape="rect" href="./Import.html" title="chameleon.core.namespacepart.Import" alt="" coords="121,114,292,138"/>
-<area shape="rect" href="./UsingAlias.html" title="chameleon.core.namespacepart.UsingAlias" alt="" coords="45,210,123,234"/>
-<area shape="rect" href="./TypeImport.html" title="chameleon.core.namespacepart.TypeImport" alt="" coords="168,210,245,234"/>
-<area shape="rect" href="./DemandImport.html" title="chameleon.core.namespacepart.DemandImport" alt="" coords="291,210,392,234"/>
-</map>

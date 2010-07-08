@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="../declaration/Definition.html" title="chameleon.core.declaration.Definition" alt="" coords="16,11,691,48"/>
-<area shape="rect" href="./Method.html" title="chameleon.core.method.Method" alt="" coords="804,114,1495,138"/>
-<area shape="rect" href="../declaration/DeclarationContainer.html" title="chameleon.core.declaration.DeclarationContainer" alt="" coords="736,11,1165,48"/>
-<area shape="rect" href="../lookup/Target.html" title="chameleon.core.lookup.Target" alt="" coords="1211,11,1488,48"/>
-<area shape="rect" href="../member/MemberImpl.html" title="chameleon.core.member.MemberImpl" alt="" coords="1533,18,2227,42"/>
-<area shape="rect" href="./RegularMethod.html" title="chameleon.core.method.RegularMethod" alt="" coords="387,210,1165,234"/>
-<area shape="rect" href="./MethodAlias.html" title="chameleon.core.method.MethodAlias" alt="" coords="1211,210,1837,234"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="../statement/ExceptionSource.html" title="chameleon.core.statement.ExceptionSource" alt="" coords="16,11,397,48"/>
-<area shape="rect" href="./RegularVariable.html" title="chameleon.core.variable.RegularVariable" alt="" coords="164,114,769,138"/>
-<area shape="rect" href="./VariableImpl.html" title="chameleon.core.variable.VariableImpl" alt="" coords="443,18,1011,42"/>
-<area shape="rect" href="./RegularMemberVariable.html" title="chameleon.core.variable.RegularMemberVariable" alt="" coords="304,210,453,234"/>
-<area shape="rect" href="./FormalParameter.html" title="chameleon.core.variable.FormalParameter" alt="" coords="499,210,613,234"/>
-</map>

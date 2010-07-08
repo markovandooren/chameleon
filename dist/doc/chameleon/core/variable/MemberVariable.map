@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="../member/Member.html" title="chameleon.core.member.Member" alt="" coords="16,11,659,48"/>
-<area shape="rect" href="./MemberVariable.html" title="chameleon.core.variable.MemberVariable" alt="" coords="504,107,792,144"/>
-<area shape="rect" href="./VariableAlias.html" title="chameleon.core.variable.VariableAlias" alt="" coords="523,210,611,234"/>
-<area shape="rect" href="./Variable.html" title="chameleon.core.variable.Variable" alt="" coords="704,11,1213,48"/>
-<area shape="rect" href="./RegularMemberVariable.html" title="chameleon.core.variable.RegularMemberVariable" alt="" coords="656,210,805,234"/>
-</map>

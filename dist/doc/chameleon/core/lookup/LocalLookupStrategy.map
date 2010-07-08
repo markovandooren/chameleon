@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="./LookupStrategy.html" title="chameleon.core.lookup.LookupStrategy" alt="" coords="257,18,361,42"/>
-<area shape="rect" href="./LocalLookupStrategy.html" title="chameleon.core.lookup.LocalLookupStrategy" alt="" coords="149,114,469,138"/>
-<area shape="rect" href="../namespacepart/NamespacePart.ImportLocalDemandContext.html" title="chameleon.core.namespacepart.NamespacePart.ImportLocalDemandContext" alt="" coords="16,210,187,234"/>
-<area shape="rect" href="../namespacepart/NamespacePart.ImportLocalDirectContext.html" title="chameleon.core.namespacepart.NamespacePart.ImportLocalDirectContext" alt="" coords="232,210,387,234"/>
-<area shape="rect" href="../type/Type.LocalInheritanceLookupStrategy.html" title="chameleon.core.type.Type.LocalInheritanceLookupStrategy" alt="" coords="432,210,627,234"/>
-</map>

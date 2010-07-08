@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="../namespace/NamespaceScope.html" title="chameleon.core.namespace.NamespaceScope" alt="" coords="16,114,136,138"/>
-<area shape="rect" href="./UniversalScope.html" title="chameleon.core.scope.UniversalScope" alt="" coords="181,114,285,138"/>
-<area shape="rect" href="./Scope.html" title="chameleon.core.scope.Scope" alt="" coords="349,18,403,42"/>
-<area shape="rect" href="./LexicalScope.html" title="chameleon.core.scope.LexicalScope" alt="" coords="331,114,421,138"/>
-<area shape="rect" href="./CompositeScope.html" title="chameleon.core.scope.CompositeScope" alt="" coords="467,114,579,138"/>
-<area shape="rect" href="../statement/StatementListScope.html" title="chameleon.core.statement.StatementListScope" alt="" coords="624,114,752,138"/>
-</map>

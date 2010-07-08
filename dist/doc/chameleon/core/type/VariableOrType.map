@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="../declaration/Declaration.html" title="chameleon.core.declaration.Declaration" alt="" coords="16,11,715,48"/>
-<area shape="rect" href="./VariableOrType.html" title="chameleon.core.type.VariableOrType" alt="" coords="532,107,1265,144"/>
-<area shape="rect" href="../lookup/Target.html" title="chameleon.core.lookup.Target" alt="" coords="760,11,1037,48"/>
-<area shape="rect" href="../namespace/NamespaceElement.html" title="chameleon.core.namespace.NamespaceElement" alt="" coords="1083,11,1440,48"/>
-<area shape="rect" href="./Type.html" title="chameleon.core.type.Type" alt="" coords="715,210,757,234"/>
-<area shape="rect" href="../variable/Variable.html" title="chameleon.core.variable.Variable" alt="" coords="807,203,1316,240"/>
-</map>

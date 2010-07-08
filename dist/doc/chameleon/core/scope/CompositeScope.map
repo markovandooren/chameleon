@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="./Union.html" title="chameleon.core.scope.Union" alt="" coords="16,210,67,234"/>
-<area shape="rect" href="./Scope.html" title="chameleon.core.scope.Scope" alt="" coords="71,18,124,42"/>
-<area shape="rect" href="./CompositeScope.html" title="chameleon.core.scope.CompositeScope" alt="" coords="41,114,153,138"/>
-<area shape="rect" href="./Intersection.html" title="chameleon.core.scope.Intersection" alt="" coords="112,210,195,234"/>
-</map>

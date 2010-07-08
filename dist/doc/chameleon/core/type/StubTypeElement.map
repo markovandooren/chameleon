@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="../expression/StubExpressionContainer.html" title="chameleon.core.expression.StubExpressionContainer" alt="" coords="19,210,176,234"/>
-<area shape="rect" href="../method/exception/StubExceptionClauseContainer.html" title="chameleon.core.method.exception.StubExceptionClauseContainer" alt="" coords="221,210,411,234"/>
-<area shape="rect" href="../namespace/NamespaceElementImpl.html" title="chameleon.core.namespace.NamespaceElementImpl" alt="" coords="16,18,397,42"/>
-<area shape="rect" href="./StubTypeElement.html" title="chameleon.core.type.StubTypeElement" alt="" coords="64,114,349,138"/>
-</map>

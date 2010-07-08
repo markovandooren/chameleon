@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="./UniversalScope.html" title="chameleon.core.scope.UniversalScope" alt="" coords="16,114,120,138"/>
-<area shape="rect" href="./Union.html" title="chameleon.core.scope.Union" alt="" coords="276,210,327,234"/>
-<area shape="rect" href="./ScopeProperty.html" title="chameleon.core.scope.ScopeProperty" alt="" coords="283,18,381,42"/>
-<area shape="rect" href="./Scope.html" title="chameleon.core.scope.Scope" alt="" coords="184,18,237,42"/>
-<area shape="rect" href="./LexicalScope.html" title="chameleon.core.scope.LexicalScope" alt="" coords="165,114,256,138"/>
-<area shape="rect" href="./CompositeScope.html" title="chameleon.core.scope.CompositeScope" alt="" coords="301,114,413,138"/>
-<area shape="rect" href="./Intersection.html" title="chameleon.core.scope.Intersection" alt="" coords="372,210,455,234"/>
-</map>

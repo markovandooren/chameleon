@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="../../element/ElementImpl.html" title="chameleon.core.element.ElementImpl" alt="" coords="125,18,440,42"/>
-<area shape="rect" href="./ActualTypeArgument.html" title="chameleon.core.type.generics.ActualTypeArgument" alt="" coords="124,114,441,138"/>
-<area shape="rect" href="./SuperWildCard.html" title="chameleon.core.type.generics.SuperWildCard" alt="" coords="16,210,117,234"/>
-<area shape="rect" href="./PureWildCard.html" title="chameleon.core.type.generics.PureWildCard" alt="" coords="163,210,256,234"/>
-<area shape="rect" href="./ExtendsWildCard.html" title="chameleon.core.type.generics.ExtendsWildCard" alt="" coords="301,210,413,234"/>
-<area shape="rect" href="./BasicTypeArgument.html" title="chameleon.core.type.generics.BasicTypeArgument" alt="" coords="459,210,584,234"/>
-</map>

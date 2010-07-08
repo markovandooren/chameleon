@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="../Type.html" title="chameleon.core.type.Type" alt="" coords="225,18,268,42"/>
-<area shape="rect" href="./WildCardType.html" title="chameleon.core.type.generics.WildCardType" alt="" coords="200,114,293,138"/>
-<area shape="rect" href="./SuperWildCardType.html" title="chameleon.core.type.generics.SuperWildCardType" alt="" coords="16,210,141,234"/>
-<area shape="rect" href="./PureWildCardType.html" title="chameleon.core.type.generics.PureWildCardType" alt="" coords="187,210,307,234"/>
-<area shape="rect" href="./ExtendsWildcardType.html" title="chameleon.core.type.generics.ExtendsWildcardType" alt="" coords="352,210,485,234"/>
-</map>

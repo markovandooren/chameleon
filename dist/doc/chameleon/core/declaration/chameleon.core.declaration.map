@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="./TargetDeclaration.html" title="chameleon.core.declaration.TargetDeclaration" alt="" coords="16,107,779,144"/>
-<area shape="rect" href="./StubDeclarationContainer.html" title="chameleon.core.declaration.StubDeclarationContainer" alt="" coords="1544,114,1837,138"/>
-<area shape="rect" href="./SimpleNameSignature.html" title="chameleon.core.declaration.SimpleNameSignature" alt="" coords="2031,114,2175,138"/>
-<area shape="rect" href="./Signature.html" title="chameleon.core.declaration.Signature" alt="" coords="1951,18,2255,42"/>
-<area shape="rect" href="./Definition.html" title="chameleon.core.declaration.Definition" alt="" coords="824,107,1499,144"/>
-<area shape="rect" href="./DeclarationContainer.html" title="chameleon.core.declaration.DeclarationContainer" alt="" coords="1476,11,1905,48"/>
-<area shape="rect" href="./Declaration.html" title="chameleon.core.declaration.Declaration" alt="" coords="389,11,1088,48"/>
-</map>

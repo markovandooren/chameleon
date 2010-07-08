@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="../namespace/NamespaceElementImpl.html" title="chameleon.core.namespace.NamespaceElementImpl" alt="" coords="16,18,397,42"/>
-<area shape="rect" href="./VariableImpl.html" title="chameleon.core.variable.VariableImpl" alt="" coords="168,114,736,138"/>
-<area shape="rect" href="./VariableAlias.html" title="chameleon.core.variable.VariableAlias" alt="" coords="212,210,300,234"/>
-<area shape="rect" href="./RegularVariable.html" title="chameleon.core.variable.RegularVariable" alt="" coords="345,210,951,234"/>
-<area shape="rect" href="./Variable.html" title="chameleon.core.variable.Variable" alt="" coords="443,11,952,48"/>
-</map>

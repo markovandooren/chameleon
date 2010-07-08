@@ -1,5 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="./ChameleonProgrammerException.html" title="chameleon.core.element.ChameleonProgrammerException" alt="" coords="99,18,304,42"/>
-<area shape="rect" href="../language/WrongLanguageException.html" title="chameleon.core.language.WrongLanguageException" alt="" coords="16,114,179,138"/>
-<area shape="rect" href="../visitor/NoVisitorForTypeException.html" title="chameleon.core.visitor.NoVisitorForTypeException" alt="" coords="224,114,387,138"/>
-</map>

@@ -14,7 +14,7 @@ public abstract class ConnectorImpl implements Connector {
     }
 
     /**
-     * T MUST BE A SUPERTYPE OF THIS CLASS!!!
+     * T MUST BE A SUPERTYPE OF THIS OBJECT!!!
      */
     public <T extends Connector> void setLanguage(Language lang, Class<T> connectorInterface) {
     	if (lang!=_language) {

@@ -1,5 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="./TypeIndirection.html" title="chameleon.core.type.TypeIndirection" alt="" coords="20,18,121,42"/>
-<area shape="rect" href="./ConstructedType.html" title="chameleon.core.type.ConstructedType" alt="" coords="16,114,125,138"/>
-<area shape="rect" href="./generics/FormalTypeParameter.LazyTypeAlias.html" title="chameleon.core.type.generics.FormalTypeParameter.LazyTypeAlias" alt="" coords="24,210,117,234"/>
-</map>

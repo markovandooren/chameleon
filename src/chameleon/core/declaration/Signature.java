@@ -24,16 +24,6 @@ public abstract class Signature<E extends Signature, P extends Element> extends 
    */
   public abstract String name();
   
-  /**
-   * Change the name of this signature.
-   */
- /*@
-   @ public behavior
-   @
-   @ post name() == name;
-   @*/
-  public abstract void setName(String name);
-  
   public Signature elementAt(int index) {
   	if(index != 1) {
   		throw new ChameleonProgrammerException();

@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="./SpecificReference.html" title="chameleon.core.reference.SpecificReference" alt="" coords="76,306,601,330"/>
-<area shape="rect" href="./SimpleReference.html" title="chameleon.core.reference.SimpleReference" alt="" coords="215,402,463,426"/>
-<area shape="rect" href="./ElementReferenceWithTarget.html" title="chameleon.core.reference.ElementReferenceWithTarget" alt="" coords="16,210,661,234"/>
-<area shape="rect" href="./ElementReference.html" title="chameleon.core.reference.ElementReference" alt="" coords="73,114,604,138"/>
-<area shape="rect" href="./CrossReference.html" title="chameleon.core.reference.CrossReference" alt="" coords="85,11,592,48"/>
-</map>

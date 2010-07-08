@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="./TypeIndirection.html" title="chameleon.core.type.TypeIndirection" alt="" coords="135,114,236,138"/>
-<area shape="rect" href="./TypeAlias.html" title="chameleon.core.type.TypeAlias" alt="" coords="16,210,85,234"/>
-<area shape="rect" href="./ConstructedType.html" title="chameleon.core.type.ConstructedType" alt="" coords="131,210,240,234"/>
-<area shape="rect" href="./generics/InstantiatedTypeParameter.ActualType.html" title="chameleon.core.type.generics.InstantiatedTypeParameter.ActualType" alt="" coords="285,210,360,234"/>
-<area shape="rect" href="./Type.html" title="chameleon.core.type.Type" alt="" coords="164,18,207,42"/>
-</map>
