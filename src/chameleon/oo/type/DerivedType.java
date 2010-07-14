@@ -23,9 +23,19 @@ import chameleon.util.Pair;
  */
 public class DerivedType extends TypeWithBody {
 	
-	public DerivedType(List<TypeParameter> typeParameters, Type baseType) {
+	public DerivedType(List<ParameterSubstitution> parameters, Type baseType) {
 		this(baseType);
-		substituteParameters(TypeParameter.class,typeParameters);
+		substituteParameters(parameters);
+	}
+
+	public <P extends Parameter> DerivedType(Class<P> kind, List<P> parameters, Type baseType) {
+		this(baseType);
+		substituteParameters(kind, parameters);
+	}
+	
+	public DerivedType(ParameterSubstitution substitution, Type baseType) {
+		this(baseType);
+		substituteParameters(substitution);
 	}
 
 	/**
@@ -167,9 +177,13 @@ public class DerivedType extends TypeWithBody {
 
 	@Override
 	public DerivedType clone() {
-		List<TypeParameter> args = new ArrayList<TypeParameter>();
-		for(TypeParameter<?> par: parameters(TypeParameter.class)) {
-			args.add(par.clone());
+		List<ParameterSubstitution> args = new ArrayList<ParameterSubstitution>();
+		for(ParameterBlock<?,?> block: parameterBlocks()) {
+			List<Parameter> list = new ArrayList<Parameter>();
+			for(Parameter par: block.parameters()) {
+				list.add(par.clone());
+			}
+			args.add(new ParameterSubstitution(block.parameterType(), list)); 
 		}
 		return new DerivedType(args,baseType());
 	}

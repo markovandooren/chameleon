@@ -32,7 +32,7 @@ import chameleon.util.Pair;
 public abstract class TypeParameter<E extends TypeParameter<E>> extends Parameter<E,Type> {
 	
 	public TypeParameter(SimpleNameSignature signature) {
-		setSignature(signature);
+		super(signature);
 	}
 
 	/**

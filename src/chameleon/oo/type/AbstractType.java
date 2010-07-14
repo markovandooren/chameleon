@@ -54,6 +54,10 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 		return SimpleNameSignature.class;
 	}
 	
+	public void setName(String name) {
+		setSignature(new SimpleNameSignature(name));
+	}
+	
 	public Type declarationType() {
 		return this;
 	}

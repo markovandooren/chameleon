@@ -15,6 +15,7 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Definition;
 import chameleon.core.declaration.Signature;
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
@@ -133,6 +134,10 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
 	
 	public void setSignature(Signature signature) {
 		setHeader(header().createFromSignature(signature));
+	}
+	
+	public void setName(String name) {
+		header().setName(name);
 	}
 	
 	/**

@@ -46,6 +46,10 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 	  }
 	}
 	
+	public void clear() {
+		_elements.clear();
+	}
+	
 	public void remove(TypeElement element) {
 	  if(element != null) {
 	    _elements.remove(element.parentLink());
@@ -128,7 +132,7 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 	
 	public List<Member> members() throws LookupException {
 		List<Member> result = new ArrayList<Member>();
-    for(TypeElement m: _elements.getOtherEnds()) {
+    for(TypeElement m: elements()) {
       result.addAll(m.getIntroducedMembers());
     }
     return result;

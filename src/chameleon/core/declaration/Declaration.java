@@ -36,6 +36,8 @@ public interface Declaration<E extends Declaration<E,P,S,D>,
   
   public void setSignature(Signature signature);
   
+  public void setName(String name);
+  
   public E clone();
   
   /**

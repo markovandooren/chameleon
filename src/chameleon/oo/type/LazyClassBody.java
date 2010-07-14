@@ -28,23 +28,27 @@ public class LazyClassBody extends ClassBody {
 	}
 
 	protected List<Declaration> declarations(String selectionName) throws LookupException {
-		List<Declaration> result = cachedDeclarations(selectionName);
-  	if(result == null) {
-  		List<Declaration> tmp = original().declarations(selectionName);
-  		if(tmp != null) {
-  			// If the cache was empty, and the aliased body contains matches
-  			// we clone the matches and store them in the cache.
-  			result = new ArrayList<Declaration>();
-  			for(Declaration decl: tmp) {
-  				Declaration clone = decl.clone();
-  				super.add((TypeElement) clone);
-					result.add(clone);
-  			}
-  			storeCache(selectionName, result);
-  			result = new ArrayList<Declaration>(result);
-  		}
-  	}
-  	return result;
+		if(_initializedElements) {
+			return super.declarations(selectionName);
+		} else {
+			List<Declaration> result = cachedDeclarations(selectionName);
+			if(result == null) {
+				List<Declaration> tmp = original().declarations(selectionName);
+				if(tmp != null) {
+					// If the cache was empty, and the aliased body contains matches
+					// we clone the matches and store them in the cache.
+					result = new ArrayList<Declaration>();
+					for(Declaration decl: tmp) {
+						Declaration clone = decl.clone();
+						super.add((TypeElement) clone);
+						result.add(clone);
+					}
+					storeCache(selectionName, result);
+					result = new ArrayList<Declaration>(result);
+				}
+			}
+			return result;
+		}
 	}
 
 	public void add(TypeElement element) {
@@ -67,9 +71,9 @@ public class LazyClassBody extends ClassBody {
 
 	public List<TypeElement> elements() {
 		if(! _initializedElements) {
-			List<TypeElement> tmp = super.elements();
+			flushLocalCache();
+			clear();
 			for(TypeElement element: original().elements()) {
-				// PROBLEM This will introduce doubles!
 				super.add(element.clone());
 			}
 			_initializedElements = true;
@@ -93,14 +97,6 @@ public class LazyClassBody extends ClassBody {
 		} else {
 			return selector.selection(declarations());
 		}
-	}
-
-	public List<Member> members() throws LookupException {
-		List<Member> result = new ArrayList<Member>();
-    for(TypeElement m: elements()) {
-      result.addAll(m.getIntroducedMembers());
-    }
-    return result;
 	}
 
 	@Override

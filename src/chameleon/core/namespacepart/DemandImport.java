@@ -75,7 +75,6 @@ public class DemandImport extends Import<DemandImport> {
 		List<D> result = new ArrayList<D>();
 		Util.addNonNull(selected, result);
 		return result;
-		//return declarationContainer().declarations(selector);
 	}
 
 

@@ -52,6 +52,8 @@ public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceEl
    */
   public abstract S signature();
   
+  public abstract void setName(String name);
+  
   public abstract E createFromSignature(Signature signature);
   
   protected abstract E cloneThis();

@@ -78,6 +78,10 @@ public class DeclarationAlias<D extends Declaration> extends NamespaceElementImp
 		setAsParent(_signature, signature);
 	}
 	
+	public void setName(String name) {
+		setSignature(new SimpleNameSignature(name));
+	}
+	
 	public Signature signature() {
 		return _signature.getOtherEnd();
 	}

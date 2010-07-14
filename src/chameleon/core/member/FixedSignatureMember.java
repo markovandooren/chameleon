@@ -23,12 +23,11 @@ public abstract class FixedSignatureMember<E extends Member<E,P,S,F>,P extends E
 	
   public void setSignature(Signature signature) {
   	if(signatureType().isInstance(signature)) {
-  		if(signature != null) {
   			_signature.connectTo(signature.parentLink());
-  		} else {
-  			_signature.connectTo(null);
-  		}
-  	} else {
+  	} else if(signature == null) {
+			_signature.connectTo(null);
+  	}
+    else {
   		throw new ChameleonProgrammerException("Setting wrong type of signature. Provided: "+(signature == null ? null :signature.getClass().getName())+" Expected "+signatureType().getName());
   	}
   }

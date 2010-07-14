@@ -29,14 +29,16 @@ public abstract class VariableImpl<E extends VariableImpl<E,P,F>, P extends Elem
 	public Ternary complete() {
 		return Ternary.TRUE;
 	}
+	
+	public void setName(String name) {
+		setSignature(new SimpleNameSignature(name));
+	}
 
   public void setSignature(Signature signature) {
   	if(signature instanceof SimpleNameSignature) {
-  		if(signature != null) {
-  			_signature.connectTo(signature.parentLink());
-  		} else {
-  			_signature.connectTo(null);
-  		}
+  		_signature.connectTo(signature.parentLink());
+  	} else if(signature == null) {
+  		_signature.connectTo(null);
   	} else {
   		throw new ChameleonProgrammerException("Setting wrong type of signature. Provided: "+(signature == null ? null :signature.getClass().getName())+" Expected SimpleNameSignature");
   	}

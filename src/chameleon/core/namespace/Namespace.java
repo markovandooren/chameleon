@@ -73,12 +73,17 @@ public abstract class Namespace<E extends Namespace<E>> extends ElementImpl<E,El
    @ post signature() = signature; 
    @*/
 	public void setSignature(Signature signature) {
-	  if(signature != null) {
+	  if(signature instanceof SimpleNameSignature) {
 	    _signature.connectTo(signature.parentLink());
 	  } else {
-	    throw new IllegalArgumentException("The signature of a namespace cannot be set to null");
+	    throw new IllegalArgumentException("The signature of a namespace cannot be set to "+signature());
 	  }
 	}
+	
+	public void setName(String name) {
+		setSignature(new SimpleNameSignature(name));
+	}
+
 		  
 	  /**
 	   * Return the signature of this member.

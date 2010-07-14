@@ -160,8 +160,17 @@ public abstract class TypeWithBody extends AbstractType {
 			replaceParameter(kind, old.get(i), newParameters.get(i));
 		}
 	}
+	
+	public void substituteParameters(List<ParameterSubstitution> substitutions) {
+		for(ParameterSubstitution substitution: substitutions) {
+			substituteParameters(substitution);
+		}
+	}
+	public void substituteParameters(ParameterSubstitution substitution) {
+		substituteParameters(substitution.parameterKind(),substitution.parameters());
+	}
 
-	public <P extends Parameter>void substituteParameters(Class<P> kind, List<P> parameters) {
+	public <P extends Parameter> void substituteParameters(Class<P> kind, List<P> parameters) {
 		Iterator<P> parametersIterator = parameters(kind).iterator();
 		Iterator<P> argumentsIterator = parameters.iterator();
 		while (parametersIterator.hasNext()) {

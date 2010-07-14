@@ -48,5 +48,6 @@ public interface CrossReference<E extends CrossReference, P extends Element, D e
 	 * 
 	 * @return
 	 */
+	// Not every cross reference uses a selector anymore.
 	//public DeclarationSelector<D> selector();
 }

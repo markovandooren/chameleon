@@ -12,17 +12,23 @@ import chameleon.exception.ChameleonProgrammerException;
 
 public abstract class Parameter<E extends Parameter<E,T>, T extends Declaration> extends NamespaceElementImpl<E, Element> implements Declaration<E,Element,SimpleNameSignature,T> {
 	
+	public Parameter(SimpleNameSignature sig) {
+		setSignature(sig);
+	}
+	
 	public abstract T selectionDeclaration() throws LookupException;
 	
 	public abstract E clone();
 	
+	public void setName(String name) {
+		setSignature(new SimpleNameSignature(name));
+	}
+	
 	public void setSignature(Signature signature) {
   	if(signature instanceof SimpleNameSignature) {
-  		if(signature != null) {
-  			_signature.connectTo(signature.parentLink());
-  		} else {
-  			_signature.connectTo(null);
-  		}
+  		_signature.connectTo(signature.parentLink());
+  	} else if(signature == null) {
+  		_signature.connectTo(null);
   	} else {
   		throw new ChameleonProgrammerException("Setting wrong type of signature. Provided: "+(signature == null ? null :signature.getClass().getName())+" Expected SimpleNameSignature");
   	}
