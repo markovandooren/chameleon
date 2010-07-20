@@ -16,8 +16,10 @@ import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.NamespaceElementImpl;
+import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.oo.type.Type;
 import chameleon.util.Util;
 
 public class VariableDeclaration<V extends Variable> extends NamespaceElementImpl<VariableDeclaration<V>,VariableDeclarator<?,V,?>> implements DeclarationContainer<VariableDeclaration<V>,VariableDeclarator<?,V,?>> {
@@ -124,7 +126,33 @@ public class VariableDeclaration<V extends Variable> extends NamespaceElementImp
 
 	@Override
 	public VerificationResult verifySelf() {
-		return checkNull(signature(), "The variable declaration has no signature", Valid.create());
+		VerificationResult result = checkNull(signature(), "The variable declaration has no signature", Valid.create());
+		Expression initialization = initialization();
+		if(initialization != null) {
+			Type initType = null;
+			try {
+				initType = initialization.getType();
+			} catch (LookupException e) {
+				result = result.and(new BasicProblem(this, "Cannot calculate the type of the initialization expression"));
+			}
+			Type variableType = null;
+			try {
+				variableType = variable().getType();
+			} catch (LookupException e) {
+				result = result.and(new BasicProblem(this, "Cannot calculate the type of the declared variable."));
+			}
+			if(initType != null && variableType != null) {
+				try {
+					if(! initType.subTypeOf(variableType)) {
+						result = result.and(new BasicProblem(this, "The type of the initializer is not a subtype of the type of the declared variable."));
+					}
+				} catch (LookupException e) {
+					result = result.and(new BasicProblem(this, "Cannot determine the relation between the type of the initializer and the type of the declared variable."));
+				}
+			}
+
+		}
+		return result;
 	}
   
 }

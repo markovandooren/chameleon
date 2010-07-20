@@ -108,6 +108,9 @@ public class Util {
     }
   }
 
+  /**
+   * Returns everything before the last '.' character.
+   */
   public static String getAllButLastPart(String string) {
     if(string == null) {
       return null;
