@@ -213,4 +213,6 @@ public abstract class ObjectOrientedLanguage extends Language {
 	}
 
 	public abstract TypeReference createNonLocalTypeReference(TypeReference tref, Element lookupParent);
+	
+	public abstract <E extends Element<?,?>> E replace(TypeReference replacement, Declaration declarator, E in, Class<E> kind) throws LookupException;
 }

@@ -6,8 +6,11 @@ import java.util.List;
 
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.Signature;
+import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.Stub;
 import chameleon.core.member.Member;
 import chameleon.exception.ChameleonProgrammerException;
 
@@ -39,8 +42,39 @@ public class LazyClassBody extends ClassBody {
 					// we clone the matches and store them in the cache.
 					result = new ArrayList<Declaration>();
 					for(Declaration decl: tmp) {
-						Declaration clone = decl.clone();
-						super.add((TypeElement) clone);
+						Element parent = decl.parent();
+						Declaration clone = null;
+						if(parent instanceof TypeElementStub) {
+							TypeElementStub<?> stub = (TypeElementStub<?>) parent;
+							TypeElement generator = stub.generator();
+							TypeElement newGenerator = null;
+							for(TypeElement element:super.elements()) {
+								if(element.origin().sameAs(generator)) {
+									newGenerator = element;
+									break;
+								}
+							}
+							if(newGenerator == null) {
+								newGenerator = generator.clone();
+								newGenerator.setOrigin(generator);
+								super.add(newGenerator);
+							}
+							List<? extends Member> introduced = newGenerator.getIntroducedMembers();
+							for(Member m: introduced) {
+								Signature msig = m.signature();
+								if(msig.name().equals(selectionName) && msig.sameAs(decl.signature())) {
+									clone = m;
+									break;
+								}
+							}
+							if(clone == null) {
+								throw new ChameleonProgrammerException();
+							}
+						} else {
+						  clone = decl.clone();
+						  super.add((TypeElement) clone); //FIX ME there should be a separate stub for type elements.
+						}
+					  clone.setOrigin(decl);
 						result.add(clone);
 					}
 					storeCache(selectionName, result);

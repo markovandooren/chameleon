@@ -2,31 +2,29 @@ package chameleon.core.lookup;
 
 import java.util.List;
 
-import org.rejuse.association.OrderedMultiAssociation;
+import org.rejuse.association.SingleAssociation;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
-import chameleon.oo.type.ClassBody;
-import chameleon.oo.type.TypeElement;
+import chameleon.util.Util;
 
-public class LookupRedirector extends NamespaceElementImpl<LookupRedirector,Element> {
+public class LookupRedirector extends NamespaceElementImpl<LookupRedirector,Element> implements Stub<LookupRedirector>{
 
-	public LookupRedirector() {
-		
-	}
-	
 	public LookupRedirector(Element contextElement) {
 		setContextElement(contextElement);
 	}
 	
+	public LookupRedirector(Element contextElement, Declaration child) {
+		setContextElement(contextElement);
+		setChild(child);
+	}
+	
 	@Override
 	public LookupRedirector clone() {
-		LookupRedirector result = new LookupRedirector(contextElement());
-		for(Element element: elements()) {
-			result.add(element.clone());
-		}
+		LookupRedirector result = new LookupRedirector(contextElement(), child().clone());
 		return result;
 	}
 
@@ -36,7 +34,7 @@ public class LookupRedirector extends NamespaceElementImpl<LookupRedirector,Elem
 	}
 
 	public List<? extends Element> children() {
-		return elements();
+		return Util.createNonNullList(child());
 	}
 	
 	public Element contextElement() {
@@ -49,22 +47,14 @@ public class LookupRedirector extends NamespaceElementImpl<LookupRedirector,Elem
 	
 	private Element _context;
 
-	private OrderedMultiAssociation<LookupRedirector, Element> _elements = new OrderedMultiAssociation<LookupRedirector, Element>(this);
+	private SingleAssociation<LookupRedirector, Declaration> _element = new SingleAssociation<LookupRedirector, Declaration>(this);
 
-	public void add(Element element) {
-	  if(element != null) {
-	    _elements.add(element.parentLink());
-	  }
+	public void setChild(Declaration element) {
+		setAsParent(_element, element);
 	}
 	
-	public void remove(Element element) {
-	  if(element != null) {
-	    _elements.remove(element.parentLink());
-	  }
-	}
-	
-	public List<Element> elements() {
-		return _elements.getOtherEnds();
+	public Declaration child() {
+		return _element.getOtherEnd();
 	}
 
 	@Override
@@ -72,5 +62,8 @@ public class LookupRedirector extends NamespaceElementImpl<LookupRedirector,Elem
 		return contextElement().lexicalLookupStrategy(child);
 	}
 
+	public Element generator() {
+		return contextElement();
+	}
 
 }

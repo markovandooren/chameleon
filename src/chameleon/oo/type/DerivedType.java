@@ -44,7 +44,6 @@ public class DerivedType extends TypeWithBody {
 	 */
 	private DerivedType(Type baseType) {
 		super(baseType.signature().clone());
-		
 		_baseType = baseType;
 		setOrigin(baseType);
 		copyInheritanceRelations(baseType, true);

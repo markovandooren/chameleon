@@ -144,7 +144,8 @@ public class VariableDeclaration<V extends Variable> extends NamespaceElementImp
 			if(initType != null && variableType != null) {
 				try {
 					if(! initType.subTypeOf(variableType)) {
-						result = result.and(new BasicProblem(this, "The type of the initializer is not a subtype of the type of the declared variable."));
+						result = result.and(new BasicProblem(this, "The type of the initializer ("+initType.getFullyQualifiedName()+") is not a subtype of the type of the declared variable ("+variableType.getFullyQualifiedName()+")."));
+						initialization.getType().subTypeOf(variable().getType());
 					}
 				} catch (LookupException e) {
 					result = result.and(new BasicProblem(this, "Cannot determine the relation between the type of the initializer and the type of the declared variable."));

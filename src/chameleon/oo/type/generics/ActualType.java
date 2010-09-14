@@ -11,6 +11,7 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeIndirection;
+import chameleon.util.CreationStackTrace;
 import chameleon.util.Pair;
 import chameleon.util.Util;
 
