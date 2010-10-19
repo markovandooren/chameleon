@@ -16,10 +16,8 @@ import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.NamespaceElementImpl;
-import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
-import chameleon.oo.type.Type;
 import chameleon.util.Util;
 
 public class VariableDeclaration<V extends Variable> extends NamespaceElementImpl<VariableDeclaration<V>,VariableDeclarator<?,V,?>> implements DeclarationContainer<VariableDeclaration<V>,VariableDeclarator<?,V,?>> {
@@ -126,6 +124,7 @@ public class VariableDeclaration<V extends Variable> extends NamespaceElementImp
 
 	@Override
 	public VerificationResult verifySelf() {
+<<<<<<< HEAD
 		VerificationResult result = checkNull(signature(), "The variable declaration has no signature", Valid.create());
 		Expression initialization = initialization();
 		if(initialization != null) {
@@ -154,6 +153,9 @@ public class VariableDeclaration<V extends Variable> extends NamespaceElementImp
 
 		}
 		return result;
+=======
+		return checkNull(signature(), "The variable declaration has no signature", Valid.create());
+>>>>>>> e1bba3a... fixes and updates
 	}
   
 }

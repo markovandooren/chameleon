@@ -23,7 +23,6 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
-import chameleon.util.Util;
 
 public abstract class InheritanceRelation<E extends InheritanceRelation<E>> extends ElementWithModifiersImpl<E,Type> {
 	
@@ -41,7 +40,7 @@ public abstract class InheritanceRelation<E extends InheritanceRelation<E>> exte
 	
 	public List<Element> children() {
 		List<Element> result = super.children();
-		Util.addNonNull(superClassReference(),result);
+		result.add(superClassReference());
 		return result;
 	}
 	

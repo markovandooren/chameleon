@@ -829,8 +829,6 @@ public interface Element<E extends Element, P extends Element> {
     
     /**
      * Flush any caching this element may have.
-     * This method flushes the local cache using "flushLocalCache()" and then
-     * recurses into the children.
      */
     public abstract void flushCache();
 }

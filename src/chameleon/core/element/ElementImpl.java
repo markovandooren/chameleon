@@ -810,24 +810,19 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     }
     
     /**
-     * By default, reference equality is used.
+     * By default, use reference equality.
      */
     public boolean uniSameAs(Element other) throws LookupException {
     	return other == this;
     }
     
     /**
-     * Flush the cache. This method flushes the local cache using "flushLocalCache()" and then
-     * recurses into the children.
+     * Flush cache of children.
      */
     public void flushCache() {
     	flushLocalCache();
     	for(Element child:children()) {
-    		if(child != null) {
-    		  child.flushCache();
-    		} else {
-    			throw new ChameleonProgrammerException("Element of class "+getClass()+" contains a ");
-    		}
+    		child.flushCache();
     	}
     }
 

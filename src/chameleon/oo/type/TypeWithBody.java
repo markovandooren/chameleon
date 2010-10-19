@@ -34,14 +34,8 @@ public abstract class TypeWithBody extends AbstractType {
 	}
 
 	public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
-		List<ParameterBlock> parameterBlocks = parameterBlocks();
-		if(parameterBlocks.contains(element)) { // || element.isDerived()
-			int index = parameterBlocks.indexOf(element);
-			if(index <= 0) {
-			  return parent().lexicalLookupStrategy(this);
-			} else {
-				return parameterBlocks.get(index-1).lexicalLookupStrategy(element);
-			}
+		if(parameterBlocks().contains(element)) { // || element.isDerived()
+			return parent().lexicalLookupStrategy(this);
 		} else {
 			return super.lexicalLookupStrategy(element);
 		}
@@ -54,7 +48,11 @@ public abstract class TypeWithBody extends AbstractType {
 	}
 
 	public void setBody(ClassBody body) {
-		setAsParent(_body,body);
+		if(body == null) {
+			throw new ChameleonProgrammerException("Body passed to setBody is null.");
+		} else {
+			_body.connectTo(body.parentLink());
+		}
 	}
 
 	public void add(TypeElement element) {

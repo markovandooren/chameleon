@@ -29,23 +29,13 @@ public abstract class MemberImpl<E extends Member<E,P,S,F>,P extends Element, S 
   public abstract S signature();
   
   public final boolean overrides(Member other) throws LookupException {
-    ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-    if(language != null) {
-		  StrictPartialOrder<Member> overridesRelation = language.overridesRelation();
-      return overridesRelation.contains(this, other);
-    } else {
-    	throw new LookupException("Language is null");
-    }
+    StrictPartialOrder<Member> overridesRelation = language(ObjectOrientedLanguage.class).overridesRelation();
+    return overridesRelation.contains(this, other);
   }
   
   public final boolean hides(Member other) throws LookupException {
-    ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-    if(language != null) {
-    	StrictPartialOrder<Member> hidesRelation = language.hidesRelation();
-    	return hidesRelation.contains(this, other);
-    } else {
-    	throw new LookupException("Language is null");
-    }
+    StrictPartialOrder<Member> hidesRelation = language(ObjectOrientedLanguage.class).hidesRelation();
+    return hidesRelation.contains(this, other);
   }
   
   public final boolean canImplement(Member other) throws LookupException {

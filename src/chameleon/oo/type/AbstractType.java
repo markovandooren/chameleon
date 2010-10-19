@@ -243,14 +243,7 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
   	}
 
   	public <P extends Parameter> List<P> parameters(Class<P> kind) {
-  		List<P> result;
-  		ParameterBlock<?, P> parameterBlock = parameterBlock(kind);
-  		if(parameterBlock != null) {
-			  result = parameterBlock.parameters();
-  		} else {
-  			result = new ArrayList<P>();
-  		}
-  		return result;
+  		return parameterBlock(kind).parameters();
   	}
   	
   	/**

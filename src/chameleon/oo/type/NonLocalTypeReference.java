@@ -40,10 +40,6 @@ public abstract class NonLocalTypeReference<E extends NonLocalTypeReference> ext
 		return lookupParent().lexicalLookupStrategy(this);
 	}
 
-  public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
-		return lookupParent().lexicalLookupStrategy(this);
-  }
-  
 	public void setLookupParent(Element newParent) {
 		_lookupParent = newParent;
 	}
