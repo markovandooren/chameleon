@@ -130,4 +130,8 @@ public class RegularNamespace<E extends RegularNamespace<E>> extends Namespace<E
 	public Declaration declarator() {
 		return this;
 	}
+
+	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+		return declarations();
+	}
 }

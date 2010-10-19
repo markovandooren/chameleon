@@ -31,7 +31,7 @@ public abstract class VariableImpl<E extends VariableImpl<E,P,F>, P extends Elem
 	}
 	
 	public void setName(String name) {
-		setSignature(new SimpleNameSignature(name));
+		signature().setName(name);
 	}
 
   public void setSignature(Signature signature) {

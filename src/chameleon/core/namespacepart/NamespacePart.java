@@ -403,4 +403,8 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> i
 		return Valid.create();
 	}
 
+	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+		return declarations();
+	}
+
 }

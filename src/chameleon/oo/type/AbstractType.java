@@ -624,6 +624,12 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
         return result;
     }
 
+    
+  	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+  		return directlyDeclaredMembers();
+  	}
+
+
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#directlyDeclaredElements()
 		 */

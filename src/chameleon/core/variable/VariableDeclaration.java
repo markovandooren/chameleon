@@ -157,5 +157,9 @@ public class VariableDeclaration<V extends Variable> extends NamespaceElementImp
 		return checkNull(signature(), "The variable declaration has no signature", Valid.create());
 >>>>>>> e1bba3a... fixes and updates
 	}
+
+	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+		return declarations();
+	}
   
 }
