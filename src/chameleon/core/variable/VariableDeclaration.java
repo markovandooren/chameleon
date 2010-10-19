@@ -155,5 +155,9 @@ public class VariableDeclaration<V extends Variable> extends NamespaceElementImp
 		}
 		return result;
 	}
+
+	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+		return declarations();
+	}
   
 }

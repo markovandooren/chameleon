@@ -89,5 +89,4 @@ public class ConstructedType extends TypeIndirection {
 	}
 
 
-
 }

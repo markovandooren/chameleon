@@ -108,5 +108,9 @@ public class DeclarationContainerAlias extends NamespaceElementImpl<DeclarationC
 	}
 	
 	private List<DeclarationContainerAlias> _superContainers = new ArrayList<DeclarationContainerAlias>();
+
+	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+		return _elements.getOtherEnds();
+	}
 	
 }

@@ -21,10 +21,29 @@ public interface DeclarationContainer<E extends DeclarationContainer, P extends 
   
   /**
    * Return the declarations the are defined in this declaration container.
-   * @return
-   * @throws LookupException 
+   * The resulting collection contains the locally declared declarations and
+   * those that this declaration container receives from other declaration
+   * containers (e.g. through an inheritance relation).
    */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @ post \result.containsAll(locallyDeclaredDeclarations());
+   @*/
   public List<? extends Declaration> declarations() throws LookupException;
+
+  /**
+   * Return the declarations the are defined locally in this declaration container.
+   * @return
+   * @throws LookupException
+   */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
+  public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException;
   
   /**
    * Return the declarations the are defined in this declaration container and selected

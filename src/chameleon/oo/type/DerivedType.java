@@ -11,6 +11,7 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.type.generics.ActualTypeArgument;
 import chameleon.oo.type.generics.InstantiatedTypeParameter;
 import chameleon.oo.type.generics.TypeParameter;
+import chameleon.util.CreationStackTrace;
 import chameleon.util.Pair;
 
 

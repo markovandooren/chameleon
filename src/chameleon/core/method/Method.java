@@ -499,6 +499,10 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H
   	return returnType().lexicalLookupStrategy();
   }
   
+	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+		return declarations();
+	}
+
   public List<? extends Declaration> declarations() {
   	return header().declarations();
   }

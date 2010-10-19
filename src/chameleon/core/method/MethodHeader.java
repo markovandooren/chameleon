@@ -152,6 +152,11 @@ public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceEl
 //  	return parent().getNearestType();
 //  }
   
+	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+		return declarations();
+	}
+
+  
   /**
    * The declarations of a method header are its formal parameters and its type parameters.
    */

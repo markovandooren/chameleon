@@ -11,7 +11,9 @@ import chameleon.exception.ModelException;
  * 
  * Each declaration has a signature, which is used to identify that declaration. Information
  * that is not used for identification, such as the return type of a method, does not belong in
- * the signature.
+ * the signature. Therefore, it can be that a specific declaration has a signature that is derived.
+ * A Method, for example, has a MethodHeader which contains all the information that is required to
+ * compute the signature.
  * 
  * Each declaration results in the lookup of an actual declaration of type D. This type ensures that 
  * if a declaration is just a stub, such as a generic parameter, the transformation performed by the resolveForResult 
@@ -34,17 +36,19 @@ public interface Declaration<E extends Declaration<E,P,S,D>,
    @*/
   public S signature();
   
+  /**
+   * Change the signature of this declaration to the given declaration.
+   * @param signature
+   */
   public void setSignature(Signature signature);
-  
+
+  /**
+   * Change the name of the signature of this declaration.
+   * @param name
+   */
   public void setName(String name);
   
   public E clone();
-  
-  /**
-   * Return an alias 
-   * @return
-   */
-//  public Declaration alias(S sig);
   
   /**
    * Because some declarations, such as formal generic parameters, are stubs for other declarations,

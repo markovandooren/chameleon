@@ -94,4 +94,8 @@ public class NamespaceAlias extends Namespace {
 		return aliasedNamespace().declarator();
 	}
 
+	public List locallyDeclaredDeclarations() throws LookupException {
+		return aliasedNamespace().locallyDeclaredDeclarations();
+	}
+
 }

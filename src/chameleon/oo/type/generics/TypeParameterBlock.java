@@ -135,6 +135,10 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameterBlock,TypePa
 			return Valid.create();
 		}
 
+		public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+			return declarations();
+		}
+
 
 		
 	}
@@ -142,6 +146,10 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameterBlock,TypePa
 	@Override
 	public VerificationResult verifySelf() {
 		return Valid.create();
+	}
+
+	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+		return declarations();
 	}
 	
 //	public static class StubTypeParameter extends TypeParameter<StubTypeParameter> {
