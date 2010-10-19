@@ -40,14 +40,14 @@ public abstract class Invocation<E extends Invocation,D extends Method> extends 
   }
   
   
-  public final DeclarationSelector<D> selector() {
+  public final DeclarationSelector<D> selector() throws LookupException {
   	if(_selector == null) {
   	  _selector = createSelector();
   	}
     return _selector;
   }
   
-  protected abstract DeclarationSelector<D> createSelector();
+  protected abstract DeclarationSelector<D> createSelector() throws LookupException;
   
   protected DeclarationSelector<D> _selector;
   
