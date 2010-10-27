@@ -150,12 +150,12 @@ public abstract class RegularVariable<E extends RegularVariable<E,P,F>, P extend
   }
 
   public Type getType() throws LookupException {
-    Type result = getTypeReference().getType();
+    Type result = getTypeReference().getElement();
     if(result != null) {
       return result;
     }
     else {
-      getTypeReference().getType();
+      getTypeReference().getElement();
       throw new LookupException("getType on regular variable returned null.");
     }
   }

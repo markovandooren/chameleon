@@ -32,7 +32,7 @@ import chameleon.util.Util;
  * @param <D> The type of declaration invoked by this invocation.
  */
 
-public abstract class Invocation<E extends Invocation,D extends Method> extends Expression<E> implements CrossReference<E,Element,D> {
+public abstract class Invocation<E extends Invocation<E,D>,D extends Method> extends TargetedExpression<E> implements CrossReference<E,Element,D> {
 
   public Invocation(InvocationTarget target) {
 	  setTarget(target);

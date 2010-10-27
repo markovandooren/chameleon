@@ -104,7 +104,7 @@ public abstract class MethodSignature<E extends MethodSignature,P extends Namesp
 			Iterator<Type> iter1 = mine.iterator();
 			Iterator<Type> iter2 = others.iterator();
 			while (result && iter1.hasNext()) {
-        result = result && iter1.next().equals(iter2.next());
+        result = result && iter1.next().sameAs(iter2.next());
 			}
 		}
   	return result;
