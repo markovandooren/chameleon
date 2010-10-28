@@ -77,7 +77,7 @@ public abstract class Invocation<E extends Invocation<E,D>,D extends Method> ext
 	 *********************/
  private SingleAssociation<Invocation,ActualArgumentList> _parameters = new SingleAssociation<Invocation,ActualArgumentList>(this);
  
- public ActualArgumentList actualArgumentList() {
+ private ActualArgumentList actualArgumentList() {
 	 return _parameters.getOtherEnd();
  }
 
