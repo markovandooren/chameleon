@@ -72,6 +72,11 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 		}
 	}
 	
+  public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+    return directlyDeclaredMembers();
+ }
+
+	
   @Override
   public void flushLocalCache() {
   	super.flushLocalCache();
@@ -243,7 +248,14 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
   	}
 
   	public <P extends Parameter> List<P> parameters(Class<P> kind) {
-  		return parameterBlock(kind).parameters();
+  		List<P> result;
+  		ParameterBlock<?, P> parameterBlock = parameterBlock(kind);
+  		if(parameterBlock != null) {
+			  result = parameterBlock.parameters();
+  		} else {
+  			result = new ArrayList<P>();
+  		}
+  		return result;
   	}
   	
   	/**
@@ -623,12 +635,6 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 //        result.addAll(directlyDeclaredElements());
         return result;
     }
-
-    
-  	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
-  		return directlyDeclaredMembers();
-  	}
-
 
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#directlyDeclaredElements()

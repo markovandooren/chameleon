@@ -1,18 +1,16 @@
 package chameleon.oo.type;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.modifier.Modifier;
+import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.type.generics.ActualTypeArgument;
 import chameleon.oo.type.generics.InstantiatedTypeParameter;
 import chameleon.oo.type.generics.TypeParameter;
-import chameleon.util.CreationStackTrace;
 import chameleon.util.Pair;
 
 
@@ -99,6 +97,9 @@ public class DerivedType extends TypeWithBody {
 		this(baseType);
 		// substitute parameters
 		List<TypeParameter> myParameters = parameters(TypeParameter.class);
+		if(myParameters.size() != typeArguments.size()) {
+			throw new ChameleonProgrammerException();
+		}
 		Iterator<TypeParameter> parametersIterator = myParameters.iterator();
 		Iterator<ActualTypeArgument> argumentsIterator = typeArguments.iterator();
 		while (parametersIterator.hasNext()) {
@@ -172,7 +173,7 @@ public class DerivedType extends TypeWithBody {
 	
 	@Override
 	public Type baseType() {
-		return _baseType;
+		return _baseType.baseType();
 	}
 
 	@Override
