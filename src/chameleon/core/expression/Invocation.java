@@ -36,7 +36,6 @@ public abstract class Invocation<E extends Invocation<E,D>,D extends Method> ext
 
   public Invocation(InvocationTarget target) {
 	  setTarget(target);
-	  _parameters.connectTo(new ActualArgumentList().parentLink());
   }
   
   
@@ -75,28 +74,24 @@ public abstract class Invocation<E extends Invocation<E,D>,D extends Method> ext
 	/*********************
 	 * ACTUAL PARAMETERS *
 	 *********************/
- private SingleAssociation<Invocation,ActualArgumentList> _parameters = new SingleAssociation<Invocation,ActualArgumentList>(this);
+  private OrderedMultiAssociation<Invocation,Expression> _parameters = new OrderedMultiAssociation<Invocation,Expression>(this);
  
- private ActualArgumentList actualArgumentList() {
-	 return _parameters.getOtherEnd();
- }
-
-  public void addArgument(ActualArgument parameter) {
-  	actualArgumentList().addParameter(parameter);
+  public void addArgument(Expression parameter) {
+  	setAsParent(_parameters, parameter);
   }
   
-  public void addAllArguments(List<ActualArgument> parameters) {
-  	for(ActualArgument parameter: parameters) {
+  public void addAllArguments(List<Expression> parameters) {
+  	for(Expression parameter: parameters) {
   		addArgument(parameter);
   	}
   }
 
-  public void removeParameter(ActualArgument parameter) {
-  	actualArgumentList().removeParameter(parameter);
+  public void removeParameter(Expression parameter) {
+  	_parameters.remove(parameter.parentLink());
   }
 
-  public List<ActualArgument> getActualParameters() {
-    return actualArgumentList().getActualParameters();
+  public List<Expression> getActualParameters() {
+    return _parameters.getOtherEnds();
   }
 
  /*@
@@ -105,13 +100,13 @@ public abstract class Invocation<E extends Invocation<E,D>,D extends Method> ext
    @ post \result == getActualParameters().size;
    @*/
   public int nbActualParameters() {
-  	return actualArgumentList().nbActualParameters();
+  	return _parameters.size();
   }
   
   public List<Type> getActualParameterTypes() throws LookupException {
-	    List<ActualArgument> params = getActualParameters();
+	    List<Expression> params = getActualParameters();
 	    final List<Type> result = new ArrayList<Type>();
-	    for(ActualArgument param:params) {
+	    for(Expression param:params) {
         Type type = param.getType();
         if (type != null) {
       	  result.add(type);
@@ -163,7 +158,7 @@ public abstract class Invocation<E extends Invocation<E,D>,D extends Method> ext
    @*/  
   public List<Element> children() {
     List<Element> result = new ArrayList<Element>();
-    result.add(actualArgumentList());
+    result.addAll(getActualParameters());
     result.addAll(typeArguments());
     Util.addNonNull(getTarget(), result);
     return result;
@@ -287,11 +282,9 @@ public abstract class Invocation<E extends Invocation<E,D>,D extends Method> ext
       target = getTarget().clone();
     }
     final E result = cloneInvocation(target);
-    new Visitor<ActualArgument>() {
-      public void visit(ActualArgument element) {
-        result.addArgument(element.clone());
-      }
-    }.applyTo(getActualParameters());
+    for(Expression element: getActualParameters()) {
+      result.addArgument(element.clone());
+    }
     for(ActualTypeArgument arg: typeArguments()) {
     	result.addArgument(arg.clone());
     }
