@@ -12,7 +12,7 @@ import chameleon.oo.type.Type;
  * 
  * @author Marko van Dooren
  */
-public abstract class NonConstructorInvocation<E extends NonConstructorInvocation, D extends Method> extends Invocation<E,D> {
+public abstract class NonConstructorInvocation<E extends NonConstructorInvocation<E,D>, D extends Method> extends Invocation<E,D> {
 
   /**
    * @param target

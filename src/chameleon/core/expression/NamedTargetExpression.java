@@ -24,15 +24,19 @@ import chameleon.oo.type.DeclarationWithType;
 import chameleon.oo.type.Type;
 import chameleon.util.Util;
 
-public class NamedTargetExpression extends Expression<NamedTargetExpression> implements CrossReference<NamedTargetExpression,Element,DeclarationWithType>{
+public class NamedTargetExpression extends TargetedExpression<NamedTargetExpression> implements CrossReference<NamedTargetExpression,Element,DeclarationWithType> {
 
-  public NamedTargetExpression(String identifier, InvocationTarget target) {
+  public NamedTargetExpression(String identifier) {
   	_signature = new SimpleNameSignature(identifier);
   	setName(identifier);
+	}
+
+  public NamedTargetExpression(String identifier, InvocationTarget target) {
+  	this(identifier);
 	  setTarget(target);
 	}
 
-	/********
+  /********
    * NAME *
    ********/
 

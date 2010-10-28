@@ -11,7 +11,9 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.util.CreationStackTrace;
 import chameleon.util.Util;
 
 public abstract class NonLocalTypeReference<E extends NonLocalTypeReference> extends NamespaceElementImpl<E,Element> implements TypeReference<E> {
@@ -21,8 +23,8 @@ public abstract class NonLocalTypeReference<E extends NonLocalTypeReference> ext
 		}
 		
 		public NonLocalTypeReference(TypeReference tref, Element lookupParent) {
-		   setActualReference(tref);
-			_lookupParent = lookupParent;
+		  setActualReference(tref);
+			setLookupParent(lookupParent);
 		}
 	
 	public TypeReference actualReference() {
