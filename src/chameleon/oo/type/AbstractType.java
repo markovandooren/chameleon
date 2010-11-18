@@ -401,13 +401,6 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
     	return result;
     }
     
-//    public Set<Type> getAllSuperTypes() throws LookupException {
-//    	Set<Type> result = new HashSet<Type>();
-//    	accumulateAllSuperTypes(result);
-//    	return result;
-//    }
-
-    
     private Set<Type> _superTypeCache;
 
     
@@ -521,16 +514,30 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 		 */
     public abstract List<Member> localMembers() throws LookupException;
     
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#directlyDeclaredMembers(java.lang.Class)
-		 */
+    public List<Member> implicitMembers() {
+    	return new ArrayList<Member>();
+    }
+    
+    public <M extends Member> List<M> implicitMembers(Class<M> kind) {
+    	List result = implicitMembers();
+    	Iterator iter = result.iterator();
+    	while(iter.hasNext()) {
+    		Object o = iter.next();
+    		if(! kind.isInstance(o)) {
+    			iter.remove();
+    		}
+    	}
+    	return result;
+    }
+
+    public <D extends Member> List<D> implicitMembers(DeclarationSelector<D> selector) throws LookupException {
+    	return selector.selection(implicitMembers());
+    }
+
     public <T extends Member> List<T> directlyDeclaredMembers(Class<T> kind) {
       return (List<T>) new TypeFilter(kind).retain(directlyDeclaredMembers());
     }
     
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#directlyDeclaredMembers()
-		 */
     public  List<Member> directlyDeclaredMembers() {
   		List<Member> result = new ArrayList<Member>();
       for(TypeElement m: directlyDeclaredElements()) {
@@ -539,14 +546,13 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
       return result;
     }
     
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#members(chameleon.core.lookup.DeclarationSelector)
-		 */
     public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
 
   		// 1) All defined members of the requested kind are added.
   		List<D> result = localMembers(selector);
 
+  		result.addAll(implicitMembers(selector));
+  		
   		// 2) Fetch all potentially inherited members from all inheritance relations
   		for (InheritanceRelation rel : inheritanceRelations()) {
   				rel.accumulateInheritedMembers(selector, result);
@@ -557,65 +563,28 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
   		return selector.selection(result);
     }
     
-/*    public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
-    	System.out.println("MEMBERS of: "+getFullyQualifiedName());
-  		DeclarationContainerAlias alias = InheritanceRelation.membersInContext(this);
-  		List<Declaration> declarations = alias.allDeclarations();
-  		List<Member> result = new ArrayList<Member>();
-  		for(Declaration declaration:declarations) {
-  			if(
-  					 (declaration.is(language(ObjectOrientedLanguage.class).INHERITABLE) == Ternary.TRUE || 
-  							 declaration.nearestAncestor(Type.class) == this
-  					 )  && 
-  				(! (declaration instanceof DeclarationAlias))) {
-  				result.add((Member) declaration);
-  			}
-  		}
-  		return selector.selection(result);
-    }*/
-
-    
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#localMembers(chameleon.core.lookup.DeclarationSelector)
 		 */
     @SuppressWarnings("unchecked")
     public abstract <D extends Member> List<D> localMembers(DeclarationSelector<D> selector) throws LookupException;
 
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#members()
-		 */
     public List<Member> members() throws LookupException {
       return members(Member.class);
     }
     
-//    public <M extends Member> Set<M> potentiallyInheritedMembers(final Class<M> kind) throws MetamodelException {
-//  		final Set<M> result = new HashSet<M>();
-//			for (InheritanceRelation rel : inheritanceRelations()) {
-//				result.addAll(rel.potentiallyInheritedMembers(kind));
-//			}
-//  		return result;
-//    }
-//
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#members(java.lang.Class)
-		 */
     public <M extends Member> List<M> members(final Class<M> kind) throws LookupException {
 
 		// 1) All defined members of the requested kind are added.
-		final List<M> result = new ArrayList(localMembers(kind));
-
+    	// FIXME optimize
+		final List<M> result = localMembers(kind);
+    result.addAll(implicitMembers(kind));
 		// 2) Fetch all potentially inherited members from all inheritance relations
 		for (InheritanceRelation rel : inheritanceRelations()) {
 				rel.accumulateInheritedMembers(kind, result);
 		}
 		return result;
 	}
-
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#clone()
-		 */
-
-
 
     public abstract Type clone();
 

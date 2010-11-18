@@ -1,13 +1,10 @@
 package chameleon.oo.type;
 
-
-
 import java.util.List;
 
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.type.generics.TypeParameter;
-import chameleon.util.CreationStackTrace;
 import chameleon.util.Pair;
 
 public class RegularType extends TypeWithBody {

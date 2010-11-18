@@ -17,6 +17,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeElement;
 import chameleon.oo.type.inheritance.InheritanceRelation;
 import chameleon.util.Pair;
+import chameleon.util.Util;
 
 public abstract class WildCardType extends AbstractType {
 
@@ -119,8 +120,14 @@ public abstract class WildCardType extends AbstractType {
 
 	@Override
 	public List<InheritanceRelation> inheritanceRelations() {
+		//FIXME wrong!
 		return upperBound().inheritanceRelations();
 	}
+
+	public List<Type> getDirectSuperTypes() throws LookupException {
+//	return aliasedType().getDirectSuperTypes();
+	  return Util.createNonNullList(upperBound());
+  }
 
 	@Override
 	public boolean uniSameAs(Element other) throws LookupException {

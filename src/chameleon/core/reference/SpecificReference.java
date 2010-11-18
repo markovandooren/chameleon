@@ -11,7 +11,7 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.SelectorWithoutOrder;
 
-public class SpecificReference<E extends CrossReference, P extends Element, D extends Declaration> extends ElementReferenceWithTarget<E,P,D> {
+public class SpecificReference<E extends SpecificReference, P extends Element, D extends Declaration> extends ElementReferenceWithTarget<E,P,D> {
 
 	private Class<D> _specificClass;
 	

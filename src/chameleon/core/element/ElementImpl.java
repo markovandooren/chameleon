@@ -457,6 +457,16 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	return anc;
     }
     
+    public <T extends Element> T farthestAncestorOrSelf(Class<T> c) {
+    	T result = farthestAncestor(c);
+    	if((result == null) && (c.isInstance(this))) {
+    		result = (T) this;
+    	}
+    	return result;
+    }
+
+    
+    
     public <T extends Element> T nearestAncestor(Class<T> c) {
     	Element el = parent();
     	while ((el != null) && (! c.isInstance(el))){
@@ -558,6 +568,18 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	return new PropertySet<Element,ChameleonProperty>();
     }
     
+    public boolean isTrue(ChameleonProperty property) {
+    	return is(property) == Ternary.TRUE;
+    }
+    
+    public boolean isFalse(ChameleonProperty property) {
+    	return is(property) == Ternary.FALSE;
+    }
+
+    public boolean isUnknown(ChameleonProperty property) {
+    	return is(property) == Ternary.UNKNOWN;
+    }
+
     public Ternary is(ChameleonProperty property) {
     	Ternary result = null;
     	if(Config.cacheElementProperties()) {
@@ -685,7 +707,16 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
      * 
      * By default, there is no reaction.
      */
-    protected void reactOnDescendantChange(Element descendant) {
+    public void reactOnDescendantChange(Element descendant) {
+    }
+		
+    public void reactOnDescendantAdded(Element descendant) {
+    }
+		
+    public void reactOnDescendantRemoved(Element descendant) {
+    }
+		
+    public void reactOnDescendantReplaced(Element oldElement, Element newElement) {
     }
 		
     public final VerificationResult verify() {

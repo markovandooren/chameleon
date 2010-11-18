@@ -1,11 +1,14 @@
 package chameleon.oo.type;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import chameleon.core.element.Element;
+import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.type.generics.ActualTypeArgument;
@@ -48,41 +51,32 @@ public class DerivedType extends TypeWithBody {
 		setOrigin(baseType);
 		copyInheritanceRelations(baseType, true);
 		copyParameterBlocks(baseType, true);
-//		copyModifiers(baseType, true); // Let's try to do this lazily.
 		setBody(new LazyClassBody(((TypeWithBody)baseType).body()));
-
-//		copyContents(baseType, true);
-//		_baseType = baseType;
-//		setOrigin(baseType);
+		copyImplicitMembers(baseType);
 	}
 	
-//	private static DerivedType create(Type baseType, List<ActualTypeArgument> typeArguments) throws LookupException {
-//		Map<List<String>, DerivedType> map = _cache.get(baseType);
-//		if(map == null) {
-//			map = new HashMap<List<String>, DerivedType>();
-//			_cache.put(baseType, map);
-//		} 
-//		List<String> typeList = new ArrayList<String>();
-//		for(ActualTypeArgument arg: typeArguments) {
-//			String fullyQualifiedName = arg.type().getFullyQualifiedName();
-//			if(fullyQualifiedName.indexOf(".") < 0) {
-//				System.out.println("######### "+fullyQualifiedName);
-//			}
-//			typeList.add(fullyQualifiedName);
-//		}
-//		DerivedType result = map.get(typeList);
-//		if(result == null) {
-//			result = new DerivedType(baseType, typeArguments);
-//			map.put(typeList, result);
-//		} else {
-//		}
-//		return result;
-//	}
+	private void copyImplicitMembers(Type original) {
+		_implicitMembers = new ArrayList<Member>();
+		List<Member> implicits = original.implicitMembers();
+		for(Member m: implicits) {
+			Member clone = m.clone();
+			clone.setUniParent(body());
+			_implicitMembers.add(clone);
+		}
+	}
+
+	private List<Member> _implicitMembers;
 	
-//	private static int COUNT;
+	@Override
+	public List<Member> implicitMembers() {
+		return new ArrayList<Member>(_implicitMembers);
+	}
 	
-//	private static Map<Type, Map<List<String>, DerivedType>> _cache = new HashMap<Type, Map<List<String>, DerivedType>>();
-	
+	@Override
+	public <D extends Member> List<D> implicitMembers(DeclarationSelector<D> selector) throws LookupException {
+		return selector.selection(Collections.unmodifiableList(_implicitMembers));
+	}
+
 	/**
 	 * Create a derived type by filling in the type parameters with the given list of
 	 * actual type arguments.
@@ -111,7 +105,6 @@ public class DerivedType extends TypeWithBody {
 			replaceParameter(TypeParameter.class,parameter, instantiated);
 		}
 	}
-	
 	
 	/**
 	 * The modifiers are loaded lazily from the base type.
@@ -163,9 +156,6 @@ public class DerivedType extends TypeWithBody {
 	@Override
 	public int hashCode() {
 		int result = baseType().hashCode();
-//		for(TypeParameter parameter: parameters()) {
-//			result += parameter.hashCode();
-//		}
 		return result;
 	}
 	

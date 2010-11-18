@@ -6,11 +6,14 @@ import java.util.List;
 import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.Signature;
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
 
 public class IntersectionTypeReference<E extends IntersectionTypeReference> extends NamespaceElementImpl<E, Element> implements TypeReference<E> {
 
@@ -22,7 +25,6 @@ public class IntersectionTypeReference<E extends IntersectionTypeReference> exte
 		addAll(refs);
 	}
 	
-
 	protected OrderedMultiAssociation<IntersectionTypeReference,TypeReference> _types = new OrderedMultiAssociation<IntersectionTypeReference, TypeReference>(this);
 
 	public Type getType() throws LookupException {
@@ -98,7 +100,6 @@ public class IntersectionTypeReference<E extends IntersectionTypeReference> exte
 		  result.add(tref.clone());
 		}
 		return result;	
-	} 
-
+	}
 
 }

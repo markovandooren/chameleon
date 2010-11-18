@@ -19,6 +19,7 @@ import chameleon.core.reference.UnresolvableCrossReference;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.core.variable.Variable;
+import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.util.Util;
@@ -48,16 +49,25 @@ public class VariableReference extends Expression<VariableReference> implements 
    * NAME *
    ********/
 
-  public String getName() {
-    return _name;
+  public String name() {
+    return signature().name();
+  }
+  
+  public SimpleNameSignature signature() {
+  	return _signature;
   }
 
   public void setName(String name) {
-    _name = name;
     _signature.setName(name);
   }
 
-  private String _name;
+	public void setSignature(Signature signature) {
+		if(signature instanceof SimpleNameSignature) {
+			_signature = (SimpleNameSignature) signature;
+		} else {
+			throw new ChameleonProgrammerException();
+		}
+	}
 
 	private SimpleNameSignature _signature;
 
@@ -91,7 +101,7 @@ public class VariableReference extends Expression<VariableReference> implements 
     if(getTarget() != null) {
       target = getTarget().clone();
     }
-    return new VariableReference(getName(), target);
+    return new VariableReference(name(), target);
   }
 
 //  public void prefix(InvocationTarget target) throws LookupException {
@@ -140,7 +150,7 @@ public class VariableReference extends Expression<VariableReference> implements 
       } else {
         result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
       }
-    	throw new LookupException("Lookup of named target with name: "+getName()+" returned null.");
+    	throw new LookupException("Lookup of named target with name: "+name()+" returned null.");
     }
   }
 

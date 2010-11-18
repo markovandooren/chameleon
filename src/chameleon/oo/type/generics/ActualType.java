@@ -4,6 +4,7 @@
 package chameleon.oo.type.generics;
 
 import java.util.List;
+import java.util.Set;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
@@ -28,6 +29,20 @@ public class ActualType extends TypeIndirection {
 			return Util.createNonNullList(aliasedType());
 		}
 
+    public void accumulateAllSuperTypes(Set<Type> acc) throws LookupException {
+    	Type aliased =aliasedType();
+    		boolean add=true;
+    		for(Type acced: acc) {
+    			if(acced == aliased) {
+    				add=false;
+    				break;
+    			}
+    		}
+    		if(add) {
+    			acc.add(aliased);
+    		  aliased.accumulateAllSuperTypes(acc);
+    		}
+    }
 		@Override
 		public Type clone() {
 			return new ActualType(signature().clone(), aliasedType(),parameter());

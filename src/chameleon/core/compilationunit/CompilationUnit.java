@@ -1,5 +1,6 @@
 package chameleon.core.compilationunit;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.rejuse.association.OrderedMultiAssociation;
@@ -9,6 +10,7 @@ import chameleon.core.element.ElementImpl;
 import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
+import chameleon.core.namespace.Namespace;
 import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -50,6 +52,15 @@ public class CompilationUnit extends ElementImpl<CompilationUnit,Element> {
 	 */
 	public List<NamespacePart> namespaceParts() {
 		return _subNamespaceParts.getOtherEnds();
+	}
+	
+	/**
+	 * Indices start at 1.
+	 * @param index
+	 * @return
+	 */
+	public NamespacePart namespacePart(int index) {
+		return _subNamespaceParts.elementAt(index);
 	}
 
 	public void add(NamespacePart pp) {
@@ -93,6 +104,23 @@ public class CompilationUnit extends ElementImpl<CompilationUnit,Element> {
 	@Override
 	public VerificationResult verifySelf() {
 		return Valid.create();
+	}
+
+	public CompilationUnit cloneTo(Language targetLanguage) throws LookupException {
+		CompilationUnit clone = clone();
+		List<NamespacePart> originalNamespaceParts = namespaceParts();
+		List<NamespacePart> newNamespaceParts = clone.namespaceParts();
+		Iterator<NamespacePart> originalIterator = originalNamespaceParts.iterator();
+		Iterator<NamespacePart> newIterator = newNamespaceParts.iterator();
+		while(originalIterator.hasNext()) {
+			NamespacePart originalNamespacePart = originalIterator.next();
+			NamespacePart newNamespacePart = newIterator.next();
+			Namespace originalNamespace = originalNamespacePart.namespace();
+			String fqn = originalNamespace.getFullyQualifiedName();
+			Namespace newNamespace = targetLanguage.defaultNamespace().getOrCreateNamespace(fqn);
+			newNamespace.addNamespacePart(newNamespacePart);
+		}
+		return clone;
 	}
 
  }

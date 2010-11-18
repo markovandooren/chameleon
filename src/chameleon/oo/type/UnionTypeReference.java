@@ -6,14 +6,16 @@ import java.util.List;
 import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
 
 public class UnionTypeReference<E extends UnionTypeReference> extends NamespaceElementImpl<E, Element> implements TypeReference<E> {
-
+//FIXME make abstract superclass for this and IntersectionTypeReference
 	public UnionTypeReference() {
 		
 	}
@@ -22,7 +24,6 @@ public class UnionTypeReference<E extends UnionTypeReference> extends NamespaceE
 		addAll(refs);
 	}
 	
-
 	protected OrderedMultiAssociation<UnionTypeReference,TypeReference> _types = new OrderedMultiAssociation<UnionTypeReference, TypeReference>(this);
 
 	public Type getType() throws LookupException {
@@ -98,6 +99,5 @@ public class UnionTypeReference<E extends UnionTypeReference> extends NamespaceE
 		result.add(clone());
 		return result;
 	} 
-
-
+	
 }

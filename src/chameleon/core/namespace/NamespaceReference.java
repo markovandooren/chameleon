@@ -1,6 +1,6 @@
 package chameleon.core.namespace;
 
-import chameleon.core.declaration.Signature;
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
 import chameleon.core.reference.CrossReference;
@@ -15,7 +15,7 @@ public class NamespaceReference extends SpecificReference<NamespaceReference,Ele
     super(target, name, Namespace.class);
   }
   
-  public NamespaceReference(CrossReference<?, ?, ? extends TargetDeclaration> target, Signature signature) {
+  public NamespaceReference(CrossReference<?, ?, ? extends TargetDeclaration> target, SimpleNameSignature signature) {
     super(target, signature, Namespace.class);
   }
   
@@ -24,7 +24,7 @@ public class NamespaceReference extends SpecificReference<NamespaceReference,Ele
   }
 
   public NamespaceReference clone() {
-    return new NamespaceReference((getTarget() == null ? null : getTarget().clone()),signature().clone());
+    return new NamespaceReference((getTarget() == null ? null : getTarget().clone()),(SimpleNameSignature)signature().clone());
   }
 
   

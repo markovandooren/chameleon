@@ -491,6 +491,18 @@ public interface Element<E extends Element, P extends Element> {
     public <T extends Element> T farthestAncestor(Class<T> c);
     
     /**
+     * Return the farthest ancestor of the given type.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post parent() == null ==> \result == null;
+     @ post parent() != null && c.isInstance(this) && parent().farthestAncestor(c) == null ==> \result == this;
+     @ post parent() != null && (parent().farthestAncestor(c) != null) ==> \result == parent().farthestAncestor(c);
+     @*/
+    public <T extends Element> T farthestAncestorOrSelf(Class<T> c);
+
+    /**
      * Return the nearest ancestor of type T. Null if no such ancestor can be found.
      * @param <T>
      *        The type of the ancestor to be found
@@ -743,6 +755,58 @@ public interface Element<E extends Element, P extends Element> {
      @*/
     public Ternary is(ChameleonProperty property);
     
+    
+    /**
+     * WARNING: THIS IS TERNARY LOGIC!!! For example, it is not the case that !isTrue(p) == isFalse(p).
+     * 
+     * Check if this type element really has the given property. 
+     * 
+     * @param property
+     *        The property to be verified.
+     */
+   /*@
+     @ behavior
+     @
+     @ pre property != null;
+     @
+     @ post \result == (is(property) == Ternary.TRUE);
+     @*/
+    public boolean isTrue(ChameleonProperty property);
+    
+    /**
+     * WARNING: THIS IS TERNARY LOGIC!!! For example, it is not the case that !isFalse(p) == isTrue(p).
+     *
+     * Check if this type element really does not have the given property. 
+     * 
+     * @param property
+     *        The property to be verified.
+     */
+   /*@
+     @ behavior
+     @
+     @ pre property != null;
+     @
+     @ post \result == (is(property) == Ternary.FALSE);
+     @*/
+    public boolean isFalse(ChameleonProperty property);
+
+    /**
+     * WARNING: THIS IS TERNARY LOGIC!!! For example, it is not the case that !isUnknown(p) == isTrue(p).
+     * 
+     * Check if it is unknown whether or not this type element has the given property. 
+     * 
+     * @param property
+     *        The property to be verified.
+     */
+   /*@
+     @ behavior
+     @
+     @ pre property != null;
+     @
+     @ post \result == (is(property) == Ternary.UNKNOWN);
+     @*/
+    public boolean isUnknown(ChameleonProperty property);
+
     /**
      * Return the property of this element for the given property mutex. The property mutex
      * can be seen as the family of properties that a property belongs to. An example of a
@@ -780,6 +844,31 @@ public interface Element<E extends Element, P extends Element> {
      @*/
     public void notifyDescendantChanged(Element descendant);
     
+    
+    /**
+     * Notify this element that the given descendant was modified. This method
+     * only performs the local reaction to the event.
+     */
+    public void reactOnDescendantChange(Element descendant);
+    
+    /**
+     * Notify this element that the given descendant was added. This method
+     * only performs the local reaction to the event.
+     */
+    public void reactOnDescendantAdded(Element descendant);
+		
+    /**
+     * Notify this element that the given descendant was removed. This method
+     * only performs the local reaction to the event.
+     */
+    public void reactOnDescendantRemoved(Element descendant);
+		
+    /**
+     * Notify this element that the given descendant was replaced. This method
+     * only performs the local reaction to the event.
+     */
+    public void reactOnDescendantReplaced(Element oldElement, Element newElement);
+
     /**
      * Verify whether or not this is valid, and if not, what the problems are. The verification looks recursively
      * for all problems.

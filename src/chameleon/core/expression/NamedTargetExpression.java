@@ -9,22 +9,25 @@ import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.DeclaratorSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.SelectorWithoutOrder;
-import chameleon.core.reference.CrossReference;
+import chameleon.core.reference.CrossReferenceWithName;
+import chameleon.core.reference.CrossReferenceWithTarget;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.DeclarationWithType;
 import chameleon.oo.type.Type;
 import chameleon.util.Util;
 
-public class NamedTargetExpression extends TargetedExpression<NamedTargetExpression> implements CrossReference<NamedTargetExpression,Element,DeclarationWithType> {
+public class NamedTargetExpression extends TargetedExpression<NamedTargetExpression> implements CrossReferenceWithName<NamedTargetExpression,Element,DeclarationWithType>, CrossReferenceWithTarget<NamedTargetExpression,Element,DeclarationWithType> {
 
   public NamedTargetExpression(String identifier) {
   	_signature = new SimpleNameSignature(identifier);
@@ -40,16 +43,25 @@ public class NamedTargetExpression extends TargetedExpression<NamedTargetExpress
    * NAME *
    ********/
 
-  public String getName() {
-    return _name;
+  public String name() {
+    return signature().name();
   }
 
   public void setName(String name) {
-    _name = name;
     _signature.setName(name);
   }
 
-  private String _name;
+	public void setSignature(Signature signature) {
+		if(signature instanceof SimpleNameSignature) {
+			_signature = (SimpleNameSignature) signature;
+		} else {
+			throw new ChameleonProgrammerException();
+		}
+	}
+
+	public SimpleNameSignature signature() {
+		return _signature;
+	}
 
 	private SimpleNameSignature _signature;
 
@@ -81,7 +93,7 @@ public class NamedTargetExpression extends TargetedExpression<NamedTargetExpress
     if(getTarget() != null) {
       target = getTarget().clone();
     }
-    return new NamedTargetExpression(getName(), target);
+    return new NamedTargetExpression(name(), target);
 	}
 
 	@Override
@@ -172,7 +184,7 @@ public class NamedTargetExpression extends TargetedExpression<NamedTargetExpress
       } else {
         result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
       }
-    	throw new LookupException("Lookup of named target with name: "+getName()+" returned null.");
+    	throw new LookupException("Lookup of named target with name: "+name()+" returned null.");
     }
   }
 

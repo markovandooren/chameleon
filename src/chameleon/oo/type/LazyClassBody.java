@@ -12,6 +12,7 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
+import chameleon.core.property.ChameleonProperty;
 import chameleon.core.reference.CrossReference;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
@@ -47,7 +48,6 @@ public class LazyClassBody extends ClassBody {
 					// Use lazy initialization for the type parameters. We want to reuse the collection
 					// for different elements in declarationsFromBaseType, but we don't want to compute
 					// it unnecessarily when we don't need it, or compute it more than once if we do need it.
-					List<TypeParameter> typeParameters = null;
 					ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
 					for(Declaration<?,?,?,?> declarationFromBaseType: declarationsFromBaseType) {
 						Element parent = declarationFromBaseType.parent();
@@ -56,55 +56,15 @@ public class LazyClassBody extends ClassBody {
 						// this lazy class body.
 						Declaration clone = null;
 						if(parent instanceof TypeElementStub) {
-							if(typeParameters == null) {
-								typeParameters = original().nearestAncestor(Type.class).parameters(TypeParameter.class);
-							}
-							Declaration<?,?,?,?> declClone = declarationFromBaseType.clone();
-							((Declaration)declClone).setUniParent(parent);
-							Iterator<TypeParameter> parameterIter = typeParameters.iterator();
-							while(parameterIter.hasNext()) {
-								TypeParameter par = parameterIter.next();
-								TypeReference tref = language.createTypeReference(par.signature().name());
-								tref.setUniParent(this);
-								language.replace(tref, par, declClone, Declaration.class);
-							}
-							TypeElementStub<?> stub = (TypeElementStub<?>) parent;
-							TypeElement generator = stub.generator();
-							TypeElement newGenerator = null;
-							for(TypeElement element:super.elements()) {
-								if(element.origin().sameAs(generator)) {
-									newGenerator = element;
-									break;
-								}
-							}
-							if(newGenerator == null) {
-								newGenerator = generator.clone();
-								newGenerator.setOrigin(generator);
-								super.add(newGenerator);
-							}
-							List<? extends Member> introducedByNewGenerator = newGenerator.getIntroducedMembers();
-							for(Member m: introducedByNewGenerator) {
-								Signature msig = m.signature();
-								if(msig.name().equals(selectionName) && msig.sameAs(declClone.signature())) {
-									clone = m;
-									break;
-								}
-							}
-							if(clone == null) {
-								//DEBUG CODE
-								for(Member m: introducedByNewGenerator) {
-									Signature msig = m.signature();
-									if(msig.name().equals(selectionName) && msig.sameAs(declClone.signature())) {
-										clone = m;
-										break;
-									}
-								}
-								throw new ChameleonProgrammerException();
-							}
+							clone = caseElementFromStub(selectionName, declarationFromBaseType, parent);
 						} else {
-						  clone = declarationFromBaseType.clone();
-						  super.add((TypeElement) clone); //FIX ME there should be a separate stub for type elements.
-						  clone.setOrigin(declarationFromBaseType);
+							if(! declarationFromBaseType.isTrue(language.CLASS)) {
+							  clone = declarationFromBaseType.clone();
+							  super.add((TypeElement) clone); //FIX ME there should be a separate stub for type elements.
+							  clone.setOrigin(declarationFromBaseType);
+							} else {
+								clone = declarationFromBaseType;
+							}
 						}
 						result.add(clone);
 					}
@@ -114,6 +74,58 @@ public class LazyClassBody extends ClassBody {
 			}
 			return result;
 		}
+	}
+
+	private Declaration caseElementFromStub(String selectionName, Declaration<?, ?, ?, ?> declarationFromBaseType, Element parent) throws LookupException {
+		Declaration clone = null;
+		List<TypeParameter> typeParameters = null;
+		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+		if(typeParameters == null) {
+			typeParameters = original().nearestAncestor(Type.class).parameters(TypeParameter.class);
+		}
+		Declaration<?,?,?,?> declClone = declarationFromBaseType.clone();
+		((Declaration)declClone).setUniParent(parent);
+		Iterator<TypeParameter> parameterIter = typeParameters.iterator();
+		while(parameterIter.hasNext()) {
+			TypeParameter par = parameterIter.next();
+			TypeReference tref = language.createTypeReference(par.signature().name());
+			tref.setUniParent(this);
+			language.replace(tref, par, declClone, Declaration.class);
+		}
+		TypeElementStub<?> stub = (TypeElementStub<?>) parent;
+		TypeElement generator = stub.generator();
+		TypeElement newGenerator = null;
+		for(TypeElement element:super.elements()) {
+			if(element.origin().sameAs(generator)) {
+				newGenerator = element;
+				break;
+			}
+		}
+		if(newGenerator == null) {
+			newGenerator = generator.clone();
+			newGenerator.setOrigin(generator);
+			super.add(newGenerator);
+		}
+		List<? extends Member> introducedByNewGenerator = newGenerator.getIntroducedMembers();
+		for(Member m: introducedByNewGenerator) {
+			Signature msig = m.signature();
+			if(msig.name().equals(selectionName) && msig.sameAs(declClone.signature())) {
+				clone = m;
+				break;
+			}
+		}
+		if(clone == null) {
+			//DEBUG CODE
+			for(Member m: introducedByNewGenerator) {
+				Signature msig = m.signature();
+				if(msig.name().equals(selectionName) && msig.sameAs(declClone.signature())) {
+					clone = m;
+					break;
+				}
+			}
+			throw new ChameleonProgrammerException();
+		}
+		return clone;
 	}
 
 	public void add(TypeElement element) {
@@ -138,14 +150,23 @@ public class LazyClassBody extends ClassBody {
 		if(! _initializedElements) {
 			flushLocalCache();
 			clear();
+			_statics = new ArrayList<TypeElement>();
 			for(TypeElement element: original().elements()) {
-				super.add(element.clone());
+				ChameleonProperty clazz = language(ObjectOrientedLanguage.class).CLASS;
+				if(! element.isTrue(clazz)) {
+				  super.add(element.clone());
+				} else {
+					_statics.add(element);
+				}
 			}
 			_initializedElements = true;
 		}
 		List<TypeElement> result = super.elements();
+		result.addAll(_statics);
 		return result;
 	}
+	
+	private List<TypeElement> _statics;
 	
 	public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
 		if(selector.usesSelectionName()) {

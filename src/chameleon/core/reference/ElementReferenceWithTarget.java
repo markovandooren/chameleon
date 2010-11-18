@@ -14,7 +14,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.util.Util;
 
-public abstract class ElementReferenceWithTarget<E extends CrossReference, P extends Element, R extends Declaration> extends ElementReference<E,P,SimpleNameSignature,R> {
+public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithTarget, P extends Element, R extends Declaration> extends ElementReference<E,P,SimpleNameSignature,R> implements CrossReferenceWithTarget<E,P,R>{
 
 	/*@
 	  @ public behavior

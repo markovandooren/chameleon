@@ -251,6 +251,14 @@ DeclarationWithType<Type,Element,SimpleNameSignature,Type>, Member<Type,Element,
 	public <T extends Member> List<T> localMembers(final Class<T> kind) throws LookupException;
 
 	/**
+	 * Return the members that are implicitly part of this type, such as default constructors and destructors.
+	 * @return
+	 */
+	public List<Member> implicitMembers();
+	
+	public <M extends Member> List<M> implicitMembers(Class<M> kind);
+	
+	/**
 	 * Return the members directly declared by this type. The order of the elements in the list is the order in which they
 	 * are written in the type.
 	 * @return

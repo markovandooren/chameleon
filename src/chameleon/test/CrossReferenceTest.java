@@ -1,5 +1,7 @@
 package chameleon.test;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 
 import org.junit.Test;
@@ -28,6 +30,7 @@ public class CrossReferenceTest extends ModelTest {
 	public void testCrossReferences() throws LookupException {
 		for(CrossReference crossReference: crossReferenceProvider().elements(language())) {
 			Declaration declaration = crossReference.getElement();
+			assertTrue(declaration != null);
 			// The declarator test isn't necessary since every implementation simply
 			// creates a DeclaratorSelector using its own selector, and then performs a lookup
 			// since the lookup path is exactly the same (it uses the original selector), testing 

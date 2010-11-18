@@ -17,17 +17,14 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.SelectorWithoutOrder;
-import chameleon.core.lookup.Target;
-import chameleon.core.lookup.SelectorWithoutOrder.SignatureSelector;
 import chameleon.core.reference.CrossReferenceImpl;
+import chameleon.core.reference.CrossReferenceWithName;
+import chameleon.core.reference.CrossReferenceWithTarget;
 import chameleon.core.statement.CheckedExceptionList;
-import chameleon.core.variable.FormalParameter;
-import chameleon.core.variable.MemberVariable;
-import chameleon.core.variable.Variable;
+import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
-import chameleon.oo.type.Type;
 import chameleon.util.Util;
-public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDeclaration> implements InvocationTarget<NamedTarget,Element> {
+public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDeclaration> implements InvocationTarget<NamedTarget,Element>, CrossReferenceWithTarget<NamedTarget,Element,TargetDeclaration>, CrossReferenceWithName<NamedTarget,Element,TargetDeclaration> {
 
 	/**
 	 * Initialize a new named target with the given fully qualified name. The
@@ -149,7 +146,7 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
       } else {
         result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
       }
-    	throw new LookupException("Lookup of named target with name: "+getName()+" returned null.");
+    	throw new LookupException("Lookup of named target with name: "+name()+" returned null.");
     }
   }
   
@@ -170,17 +167,18 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
    * NAME *
    ********/
 
-  public String getName() {
-    return _name;
+  public String name() {
+    return signature().name();
   }
 
   public void setName(String name) {
-    _name = name;
     _signature.setName(name);
   }
 
-  private String _name;
-
+  public SimpleNameSignature signature() {
+  	return _signature;
+  }
+  
 	private SimpleNameSignature _signature;
 
   
@@ -206,7 +204,7 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
 //  }
 
   public NamedTarget clone() {
-    NamedTarget result = new NamedTarget(getName());
+    NamedTarget result = new NamedTarget(name());
     InvocationTarget<?, ?> target = getTarget();
 		if(target!= null) {
       result.setTarget(target.clone());
@@ -233,7 +231,7 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
   @SuppressWarnings("unchecked")
   public Set getDirectExceptions() throws LookupException {
     Set result = new HashSet();
-    if(getTarget() != null || Util.getSecondPart(getName()) != null) {
+    if(getTarget() != null || Util.getSecondPart(name()) != null) {
       Util.addNonNull(language(ObjectOrientedLanguage.class).getNullInvocationException(), result);
     }
     return result;
@@ -268,4 +266,12 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
   public LookupStrategy targetContext() throws LookupException {
     return getElement().targetContext();
   }
+
+	public void setSignature(Signature signature) {
+		if(signature instanceof SimpleNameSignature) {
+			_signature = (SimpleNameSignature) signature;
+		} else {
+			throw new ChameleonProgrammerException();
+		}
+	}
 }

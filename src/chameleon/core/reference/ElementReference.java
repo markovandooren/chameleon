@@ -17,7 +17,7 @@ import chameleon.util.Util;
  * 
  * @author Marko van Dooren
  */
-public abstract class ElementReference<E extends CrossReference, P extends Element, S extends Signature, D extends Declaration> extends CrossReferenceImpl<E,P,D> {
+public abstract class ElementReference<E extends ElementReference, P extends Element, S extends Signature, D extends Declaration> extends CrossReferenceImpl<E,P,D> implements CrossReferenceWithName<E,P,D> {
 
 	private static Logger logger = Logger.getLogger("lookup.elementreference");
 	
@@ -69,6 +69,10 @@ public abstract class ElementReference<E extends CrossReference, P extends Eleme
   	return _signature.getOtherEnd();
   }
   
+  public String name() {
+  	return signature().name();
+  }
+  
  /*@
    @ public behavior
    @
@@ -79,7 +83,12 @@ public abstract class ElementReference<E extends CrossReference, P extends Eleme
   public void setSignature(Signature signature) {
   	setAsParent(_signature, signature);
   }
- 
+  
+	@Override
+	public final void setName(String name) {
+		signature().setName(name);
+	}
+  
   private SoftReference<D> _cache;
   
   @Override

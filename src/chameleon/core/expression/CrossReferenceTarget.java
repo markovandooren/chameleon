@@ -1,7 +1,7 @@
 package chameleon.core.expression;
 
 import chameleon.core.declaration.QualifiedName;
-import chameleon.core.declaration.Signature;
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
@@ -13,7 +13,7 @@ import chameleon.exception.ChameleonProgrammerException;
 
 public class CrossReferenceTarget<D extends TargetDeclaration> extends SpecificReference<CrossReferenceTarget<D>, Element, D> implements InvocationTarget<CrossReferenceTarget<D>, Element> {
 
-	public CrossReferenceTarget(CrossReference<?, ?, ? extends TargetDeclaration> target, Signature signature, Class<D> specificClass) {
+	public CrossReferenceTarget(CrossReference<?, ?, ? extends TargetDeclaration> target, SimpleNameSignature signature, Class<D> specificClass) {
 		super(target, signature, specificClass);
 	}
 
@@ -45,7 +45,7 @@ public class CrossReferenceTarget<D extends TargetDeclaration> extends SpecificR
 	public CrossReferenceTarget<D> clone() {
 		CrossReference<?, ?, ? extends TargetDeclaration> target = getTarget();
 		CrossReference<?, ?, ? extends TargetDeclaration> clone = (target != null ? target.clone() : null);
-		return new CrossReferenceTarget<D>(clone, signature().clone(), specificType());
+		return new CrossReferenceTarget<D>(clone, (SimpleNameSignature)signature().clone(), specificType());
 	}
 
 
