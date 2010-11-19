@@ -179,7 +179,7 @@ public interface Element<E extends Element, P extends Element> {
      @*/
     public List<? extends Element> children();
 
-    
+    public List<? extends Element> reflectiveChildren();
     /**
      * Return all children of this element that are of the given type.
      */

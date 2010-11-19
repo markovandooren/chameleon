@@ -1,14 +1,16 @@
 package chameleon.core.element;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.rejuse.association.AbstractMultiAssociation;
+import org.rejuse.association.Association;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.Predicate;
@@ -41,6 +43,8 @@ import chameleon.exception.ModelException;
  * @opt types
  */
 public abstract class ElementImpl<E extends Element, P extends Element> implements Element<E,P> {
+
+  private static Map<Class,List<String>> _excludedFieldNames = new HashMap<Class,List<String>>();
 
 	  public ElementImpl() {
 //	  	_parentLink.addListener(new AssociationListener<P>() {
@@ -254,24 +258,123 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
         return descendants(Element.class);
     }
 
+  	public static void excludeFieldName(Class<? extends Element> type, String fieldName) {
+  		List<String> list = _excludedFieldNames.get(type);
+  		if(list == null) {
+  			list = new ArrayList<String>();
+  			_excludedFieldNames.put(type, list);
+  		}
+  		list.add(fieldName);
+  	}
+
+    static {
+    	excludeFieldName(ElementImpl.class,"_parentLink");
+    }
+  	private static List<String> excludedFieldNames(Class<? extends Element> type) {
+  		return _excludedFieldNames.get(type);
+  	}
+  	
+  	public List<Element> reflectiveChildren() {
+  		List<Element> reflchildren = new ArrayList<Element>();
+  		for (Association association : associations()) {
+  			reflchildren.addAll(association.getOtherEnds());
+  		}
+  		return reflchildren;
+  	}
+    
+  	private static Map<Class, List<Field>> _fieldMap = new HashMap<Class, List<Field>>();
+  	
+  	public static List<Field> getAllFieldsTillClass(Class currentClass){
+  		List<Field> result = _fieldMap.get(currentClass);
+  		if(result == null) {
+  			result = new ArrayList<Field>();
+  			addAllFieldsTillClass(currentClass, result);
+  			_fieldMap.put(currentClass, result);
+  		}
+  		return result;
+  	}
+
+    
+    private List<Association<? super Element,? extends Element>> _associations;
+    
+    private List<Association<? super Element,? extends Element>> associations() {
+    	if(_associations == null) {
+    		_associations = new ArrayList<Association<? super Element,? extends Element>>();
+    		Class<? extends Element>  currentClass = getClass();
+    		List<Field> fields = getAllFieldsTillClass(currentClass);
+    		for (Field field : fields) {
+    			Object content = getFieldValue(field);
+    			if(content instanceof Association){
+    				_associations.add((Association<? super Element,? extends Element>) content);
+    			}
+    		}
+    		((ArrayList)_associations).trimToSize();
+    	}
+    	return _associations;
+    }
+    
+//  	private ArrayList<Field> getAllFieldsTillClass(Class currentClass, Class till){
+//  		ArrayList<Field> arrayList = new ArrayList<Field>();
+//  		addAllFieldsTillClass(currentClass, till, arrayList);
+//  		return arrayList;
+//  	}
+
+  	private static void addAllFieldsTillClass(final Class currentClass, Collection<Field> accumulator){
+  		List<Field> fieldList = new ArrayList<Field>(Arrays.asList(currentClass.getDeclaredFields()));
+  		new SafePredicate<Field>() {
+
+  			@Override
+  			public boolean eval(Field field) {
+  				final String fieldName = field.getName();
+  				return new SafePredicate<String>() {
+
+  					@Override
+  					public boolean eval(String excludedField) {
+  						return !excludedField.equals(fieldName);
+  					}
+  					
+  				}.forall(_excludedFieldNames.get(currentClass));
+  			}
+  		}.filter(fieldList);
+  		accumulator.addAll(fieldList);
+      if(currentClass != ElementImpl.class) {
+    		Class superClass = currentClass.getSuperclass();
+    		accumulator.addAll(getAllFieldsTillClass(superClass));
+      }
+  	}
+  	
+  	public Object getFieldValue(Field field){
+  		try {
+  			field.setAccessible(true);
+  			return field.get(this);
+  		} catch (IllegalArgumentException e) {
+  			e.printStackTrace();
+  		} catch (IllegalAccessException e) {	
+  			e.printStackTrace();
+  		}
+  		return null;
+  	}
+
+
+
     public final <T extends Element> List<T> children(Class<T> c) {
-    	List<Element> tmp = (List<Element>) children();
+    	List<Element> tmp = (List<Element>) reflectiveChildren();
     	new TypePredicate<Element,T>(c).filter(tmp);
       return (List<T>)tmp;
     }
 
     public final <T extends Element> List<T> descendants(Class<T> c) {
-    	List<Element> tmp = (List<Element>) children();
+    	List<Element> tmp = (List<Element>) reflectiveChildren();
     	new TypePredicate<Element,T>(c).filter(tmp);
       List<T> result = (List<T>)tmp;
-      for (Element e : children()) {
+      for (Element e : reflectiveChildren()) {
         result.addAll(e.descendants(c));
       }
       return result;
     }
     
     public final List<Element> children(Predicate<Element> predicate) throws Exception {
-    	List<? extends Element> tmp = children();
+    	List<? extends Element> tmp = reflectiveChildren();
     	predicate.filter(tmp);
       return (List<Element>)tmp;
     }
@@ -279,17 +382,17 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     public final List<Element> descendants(Predicate<Element> predicate) throws Exception {
     	// Do not compute all descendants, and apply predicate afterwards.
     	// That is way too expensive.
-    	List<? extends Element> tmp = children();
+    	List<? extends Element> tmp = reflectiveChildren();
     	predicate.filter(tmp);
       List<Element> result = (List<Element>)tmp;
-      for (Element e : children()) {
+      for (Element e : reflectiveChildren()) {
         result.addAll(e.descendants(predicate));
       }
       return result;
     }
 
     public final List<Element> children(SafePredicate<Element> predicate) {
-    	List<? extends Element> tmp = children();
+    	List<? extends Element> tmp = reflectiveChildren();
     	predicate.filter(tmp);
       return (List<Element>)tmp;
     }
@@ -297,17 +400,17 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     public final List<Element> descendants(SafePredicate<Element> predicate) {
     	// Do not compute all descendants, and apply predicate afterwards.
     	// That is way too expensive.
-    	List<? extends Element> tmp = children();
+    	List<? extends Element> tmp = reflectiveChildren();
     	predicate.filter(tmp);
       List<Element> result = (List<Element>)tmp;
-      for (Element e : children()) {
+      for (Element e : reflectiveChildren()) {
         result.addAll(e.descendants(predicate));
       }
       return result;
     }
 
     public final <X extends Exception> List<Element> children(UnsafePredicate<Element,X> predicate) throws X {
-    	List<? extends Element> tmp = children();
+    	List<? extends Element> tmp = reflectiveChildren();
     	predicate.filter(tmp);
       return (List<Element>)tmp;
     }
@@ -315,17 +418,17 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     public final <X extends Exception> List<Element> descendants(UnsafePredicate<Element,X> predicate) throws X {
     	// Do not compute all descendants, and apply predicate afterwards.
     	// That is way too expensive.
-    	List<? extends Element> tmp = children();
+    	List<? extends Element> tmp = reflectiveChildren();
     	predicate.filter(tmp);
       List<Element> result = (List<Element>)tmp;
-      for (Element<?,?> e : children()) {
+      for (Element<?,?> e : reflectiveChildren()) {
         result.addAll(e.descendants(predicate));
       }
       return result;
     }
 
     public final <T extends Element> List<T> children(Class<T> c, Predicate<T> predicate) throws Exception {
-    	List<Element> tmp = (List<Element>) children();
+    	List<Element> tmp = (List<Element>) reflectiveChildren();
     	new TypePredicate<Element,T>(c).filter(tmp);
       List<T> result = (List<T>)tmp;
       predicate.filter(result);
@@ -333,7 +436,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     }
 
     public final <T extends Element> List<T> children(Class<T> c, SafePredicate<T> predicate) {
-    	List<Element> tmp = (List<Element>) children();
+    	List<Element> tmp = (List<Element>) reflectiveChildren();
     	new TypePredicate<Element,T>(c).filter(tmp);
       List<T> result = (List<T>)tmp;
       predicate.filter(result);
@@ -341,7 +444,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     }
     
     public final <T extends Element, X extends Exception> List<T> children(Class<T> c, UnsafePredicate<T,X> predicate) throws X {
-    	List<Element> tmp = (List<Element>) children();
+    	List<Element> tmp = (List<Element>) reflectiveChildren();
     	new TypePredicate<Element,T>(c).filter(tmp);
       List<T> result = (List<T>)tmp;
       predicate.filter(result);
@@ -349,33 +452,33 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     }
 
     public final <T extends Element> List<T> descendants(Class<T> c, Predicate<T> predicate) throws Exception {
-    	List<Element> tmp = (List<Element>) children();
+    	List<Element> tmp = (List<Element>) reflectiveChildren();
     	new TypePredicate<Element,T>(c).filter(tmp);
       List<T> result = (List<T>)tmp;
       predicate.filter(result);
-      for (Element e : children()) {
+      for (Element e : reflectiveChildren()) {
         result.addAll(e.descendants(c, predicate));
       }
       return result;
     }
 
     public final <T extends Element> List<T> descendants(Class<T> c, SafePredicate<T> predicate) {
-    	List<Element> tmp = (List<Element>) children();
+    	List<Element> tmp = (List<Element>) reflectiveChildren();
     	new TypePredicate<Element,T>(c).filter(tmp);
       List<T> result = (List<T>)tmp;
       predicate.filter(result);
-      for (Element e : children()) {
+      for (Element e : reflectiveChildren()) {
         result.addAll(e.descendants(c, predicate));
       }
       return result;
     }
     
     public final <T extends Element, X extends Exception> List<T> descendants(Class<T> c, UnsafePredicate<T,X> predicate) throws X {
-    	List<Element> tmp = (List<Element>) children();
+    	List<Element> tmp = (List<Element>) reflectiveChildren();
     	new TypePredicate<Element,T>(c).filter(tmp);
       List<T> result = (List<T>)tmp;
       predicate.filter(result);
-      for (Element<?,?> e : children()) {
+      for (Element<?,?> e : reflectiveChildren()) {
         result.addAll(e.descendants(c, predicate));
       }
       return result;
@@ -650,7 +753,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 		}
 
     public void disconnectChildren() {
-    	for(Element child:children()) {
+    	for(Element child:reflectiveChildren()) {
     		if(child != null) {
     			child.disconnect();
     		} else {
@@ -682,7 +785,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     }
     
     public List<? extends Element> directDependencies() {
-    	return children();
+    	return reflectiveChildren();
     }
     
     /**
@@ -723,7 +826,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	VerificationResult result = verifySelf();
     	result = result.and(verifyProperties());
     	result = result.and(verifyLoops());
-    	for(Element element:children()) {
+    	for(Element element:reflectiveChildren()) {
     		result = result.and(element.verify());
     	}
     	result = result.and(language().verify(this));
@@ -853,7 +956,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
      */
     public void flushCache() {
     	flushLocalCache();
-    	for(Element child:children()) {
+    	for(Element child:reflectiveChildren()) {
     		if(child != null) {
     		  child.flushCache();
     		} else {

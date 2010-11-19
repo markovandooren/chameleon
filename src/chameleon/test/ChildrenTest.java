@@ -108,6 +108,12 @@ public class ChildrenTest extends ModelTest {
 		assertNotNull(msg,children);
 		assertFalse(msg,children.contains(null));
 		
+		Set<Element> reflchildren = reflectiveChildren(element);
+		assertEquals(msg,reflchildren,children);
+		//assertTrue(msg,reflchildren.containsAll(implchildren) && implchildren.containsAll(reflchildren));
+	}
+
+	private Set<Element> reflectiveChildren(Element element) {
 		Set<Element> reflchildren = new HashSet<Element>();
 		
 		Class<? extends Element>  currentClass = element.getClass();
@@ -135,8 +141,7 @@ public class ChildrenTest extends ModelTest {
 				}catch(ClassCastException exc){}
 			}
 		}
-		assertEquals(msg,reflchildren,children);
-		//assertTrue(msg,reflchildren.containsAll(implchildren) && implchildren.containsAll(reflchildren));
+		return reflchildren;
 	}
 
 	public ArrayList<Field> getAllFieldsTillClass(Class currentClass, Class till){

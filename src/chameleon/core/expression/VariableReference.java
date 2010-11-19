@@ -14,7 +14,8 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.DeclaratorSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.SelectorWithoutOrder;
-import chameleon.core.reference.CrossReference;
+import chameleon.core.reference.CrossReferenceWithName;
+import chameleon.core.reference.CrossReferenceWithTarget;
 import chameleon.core.reference.UnresolvableCrossReference;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -27,7 +28,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class VariableReference extends Expression<VariableReference> implements Assignable<VariableReference,Element>, CrossReference<VariableReference,Element,Variable> {
+public class VariableReference extends Expression<VariableReference> implements Assignable<VariableReference,Element>, CrossReferenceWithName<VariableReference,Element,Variable>,CrossReferenceWithTarget<VariableReference,Element,Variable> {
 
   /**
    * Create a new variable reference with the given identifier as name, and

@@ -32,7 +32,9 @@ import chameleon.exception.ChameleonProgrammerException;
  * @author Tim Laeremans
  */
 public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> implements DeclarationContainer<NamespacePart,Element> {
-
+  static {
+    excludeFieldName(NamespacePart.class,"_namespaceLink");
+  }
 	private final class DefaultNamespaceSelector implements LookupStrategySelector {
 		public LookupStrategy strategy() throws LookupException {
 			// 5 SEARCH IN DEFAULT NAMESPACE
