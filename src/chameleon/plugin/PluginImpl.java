@@ -1,11 +1,11 @@
-package chameleon.tool;
+package chameleon.plugin;
 
 import chameleon.core.language.Language;
 
 /**
  * @author Marko van Dooren
  */
-public abstract class ConnectorImpl implements Connector {
+public abstract class PluginImpl implements Plugin {
 
     private Language _language;
 
@@ -16,21 +16,21 @@ public abstract class ConnectorImpl implements Connector {
     /**
      * T MUST BE A SUPERTYPE OF THIS OBJECT!!!
      */
-    public <T extends Connector> void setLanguage(Language lang, Class<T> connectorInterface) {
+    public <T extends Plugin> void setLanguage(Language lang, Class<T> pluginInterface) {
     	if (lang!=_language) {
     		Language old = _language;
     		// 1) set _language
     		_language = lang;
     		// 2) remove old backpointer
     		if (old!=null) {
-    			old.removeConnector(connectorInterface);
+    			old.removePlugin(pluginInterface);
     		}
     		// 3) set new backpointer
     		if (_language!=null) {
-    			_language.setConnector(connectorInterface, (T)this);
+    			_language.setPlugin(pluginInterface, (T)this);
     		}
     	}
     }
 
-    public abstract Connector clone();
+    public abstract Plugin clone();
 }

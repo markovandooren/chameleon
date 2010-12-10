@@ -6,7 +6,7 @@ import java.util.Collection;
 
 import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.element.Element;
-import chameleon.tool.Connector;
+import chameleon.plugin.Plugin;
 
 /**
  * An interface for model factories. A model factory must be able to create
@@ -16,7 +16,7 @@ import chameleon.tool.Connector;
  * A model factory is attached to a Language object as a Connector.
  * @author Marko van Dooren
  */
-public interface ModelFactory extends Connector {
+public interface ModelFactory extends Plugin {
 
 	/**
 	 * Initialize the base infrastructure from the given collection of files.

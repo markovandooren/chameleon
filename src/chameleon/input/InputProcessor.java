@@ -2,7 +2,7 @@ package chameleon.input;
 
 import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.element.Element;
-import chameleon.tool.Processor;
+import chameleon.plugin.Processor;
 
 /**
  * An interface for processors used while reading a model from source files.

@@ -1,4 +1,4 @@
-package chameleon.tool;
+package chameleon.plugin;
 
 import chameleon.core.language.Language;
 

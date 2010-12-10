@@ -26,8 +26,8 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.ValidityRule;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
-import chameleon.tool.Connector;
-import chameleon.tool.Processor;
+import chameleon.plugin.Plugin;
+import chameleon.plugin.Processor;
 
 /**
  * A class representing a Chameleon language.
@@ -87,7 +87,7 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
 	
 	public final Language clone() {
 		Language result = cloneThis();
-		result.cloneConnectorsFrom(this);
+		result.clonePluginsFrom(this);
 		result.cloneProcessorsFrom(this);
 		return result;
 	}
@@ -320,7 +320,7 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
       }
   }
 
-    private MapWrapper<Connector> _toolConnectors = new MapWrapper<Connector>();
+    private MapWrapper<Plugin> _plugins = new MapWrapper<Plugin>();
 
     //private Map<Class<? extends ToolExtension>,? extends ToolExtension> toolExtensions = new HashMap<Class<? extends ToolExtension>,ToolExtension>();
     /*private <T extends ToolExtension> Map<Class<T>,T> getMap() {
@@ -335,96 +335,96 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
      @
      @ pre connectorInterface != null;
      @*/
-    public <T extends Connector> T connector(Class<T> connectorInterface) {
-        return _toolConnectors.get(connectorInterface);//((Map<Class<T>,T>)getMap()).get(toolExtensionClass);
+    public <T extends Plugin> T plugin(Class<T> pluginInterface) {
+        return _plugins.get(pluginInterface);//((Map<Class<T>,T>)getMap()).get(toolExtensionClass);
     }
 
     /**
-     * Remove the connector corresponding to the given connector interface. The
+     * Remove the plugin corresponding to the given plugin interface. The
      * bidirectional relation is kept in a consistent state.
      * 
      * @param <T>
-     * @param connectorInterface
+     * @param pluginInterface
      */
    /*@
      @ public behavior
      @
-     @ pre connectorInterface != null;
+     @ pre pluginInterface != null;
      @
-     @ post connector(connectorInterface) == null;
+     @ post plugin(pluginInterface) == null;
      @*/
-    public <T extends Connector> void removeConnector(Class<T> connectorInterface) {
-        T old = _toolConnectors.get(connectorInterface);
-        _toolConnectors.remove(connectorInterface);
+    public <T extends Plugin> void removePlugin(Class<T> pluginInterface) {
+        T old = _plugins.get(pluginInterface);
+        _plugins.remove(pluginInterface);
         if (old!=null && old.language() == this) {
-            old.setLanguage(null, connectorInterface);
+            old.setLanguage(null, pluginInterface);
         }
     }
 
     /**
-     * Set the connector corresponding to the given connector interface. The bidirectional relation is 
+     * Set the plugin corresponding to the given plugin interface. The bidirectional relation is 
      * kept in a consistent state.
      * 
      * @param <T>
-     * @param connectorInterface
-     * @param connector
+     * @param pluginInterface
+     * @param plugin
      */
    /*@
      @ public behavior
      @
-     @ pre connectorInterface != null;
-     @ pre connector != null;
+     @ pre pluginInterface != null;
+     @ pre plugin != null;
      @
-     @ post connector(connectorInterface) == connector; 
+     @ post plugin(pluginInterface) == plugin; 
      @*/
-    public <T extends Connector> void setConnector(Class<T> connectorInterface, T connector) {
-        T old = _toolConnectors.get(connectorInterface);
-        if (old!=connector) {
-            if ((connector!=null) && (connector.language()!=this)) {
-                connector.setLanguage(this, connectorInterface);
+    public <T extends Plugin> void setPlugin(Class<T> pluginInterface, T plugin) {
+        T old = _plugins.get(pluginInterface);
+        if (old!=plugin) {
+            if ((plugin!=null) && (plugin.language()!=this)) {
+                plugin.setLanguage(this, pluginInterface);
             }
             // Clean up old backpointer
             if (old!=null) {
-                old.setLanguage(null, connectorInterface);
+                old.setLanguage(null, pluginInterface);
             }
             // Either
-            if(connector != null) {
+            if(plugin != null) {
             	// Add connector to map
-              _toolConnectors.put(connectorInterface, connector);
+              _plugins.put(pluginInterface, plugin);
             } else {
             	// Remove entry in map
-            	_toolConnectors.remove(connectorInterface);
+            	_plugins.remove(pluginInterface);
             }
         }
     }
     
-  	public <S extends Connector> void cloneConnectorsFrom(Language from) {
-  		for(Entry<Class<? extends Connector>, Connector> entry: from._toolConnectors.entrySet()) {
+  	public <S extends Plugin> void clonePluginsFrom(Language from) {
+  		for(Entry<Class<? extends Plugin>, Plugin> entry: from._plugins.entrySet()) {
   			Class<S> key = (Class<S>) entry.getKey();
 				S value = (S) entry.getValue();
-				_toolConnectors.put(key, (S)value.clone());
+				_plugins.put(key, (S)value.clone());
   		}
   	}
 
     /**
-     * Return all connectors attached to this language object.
+     * Return all plugins attached to this language object.
      * @return
      */
    /*@
      @ public behavior
      @
      @ post \result != null;
-     @ post (\forall Connector c; ; \result.contains(c) == 
-     @           (\exists Class<? extends Connector> connectorInterface;; connector(connectorInterface) == c)
+     @ post (\forall Plugin c; ; \result.contains(c) == 
+     @           (\exists Class<? extends Plugin> pluginInterface;; plugin(pluignInterface) == c)
      @      ); 
      @*/
-    public Collection<Connector> connectors() {
-        return _toolConnectors.values();
+    public Collection<Plugin> plugins() {
+        return _plugins.values();
     }
     
 
     /**
-     * Check if this language has a connector for the given connector type. Typically
+     * Check if this language has a plugin for the given plugin type. Typically
      * the type is an interface or abstract class for a specific tool.
      */
    /*@
@@ -434,20 +434,20 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
      @
      @ post \result == connector(connectorInterface) != null;
      @*/
-    public <T extends Connector> boolean hasConnector(Class<T> connectorInterface) {
-        return _toolConnectors.containsKey(connectorInterface);
+    public <T extends Plugin> boolean hasPlugin(Class<T> pluginInterface) {
+        return _plugins.containsKey(pluginInterface);
     }
 
     /**
-     * Check if this language object has any connectors.
+     * Check if this language object has any plugins.
      */
    /*@
      @ public behavior
      @
      @ post \result ==  
      @*/
-    public boolean hasConnectors() {
-        return ! _toolConnectors.isEmpty();
+    public boolean hasPlugins() {
+        return ! _plugins.isEmpty();
     }
 
     /**************
