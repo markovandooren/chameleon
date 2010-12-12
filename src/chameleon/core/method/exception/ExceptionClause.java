@@ -10,7 +10,7 @@ import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.AbstractPredicate;
 
 import chameleon.core.element.Element;
-import chameleon.core.expression.Invocation;
+import chameleon.core.expression.MethodInvocation;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.method.Method;
 import chameleon.core.namespace.NamespaceElementImpl;
@@ -47,7 +47,7 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
     }
   }
 
-  public Set getExceptionTypes(final Invocation invocation) throws LookupException {
+  public Set getExceptionTypes(final MethodInvocation invocation) throws LookupException {
     final Set result = new HashSet();
     try {
       new RobustVisitor() {

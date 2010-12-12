@@ -2,7 +2,7 @@ package chameleon.core.method.exception;
 
 import java.util.Set;
 
-import chameleon.core.expression.Invocation;
+import chameleon.core.expression.MethodInvocation;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceElementImpl;
 
@@ -20,7 +20,7 @@ public abstract class ExceptionDeclaration<E extends ExceptionDeclaration> exten
 
   public abstract E clone();
 
-  public abstract Set getExceptionTypes(Invocation invocation) throws LookupException;
+  public abstract Set getExceptionTypes(MethodInvocation invocation) throws LookupException;
 
 	/**
 	 *
