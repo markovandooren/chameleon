@@ -580,7 +580,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	return is(property) == Ternary.UNKNOWN;
     }
 
-    public Ternary is(ChameleonProperty property) {
+    public synchronized Ternary is(ChameleonProperty property) {
     	Ternary result = null;
     	if(Config.cacheElementProperties()) {
     		if(_propertyCache == null) {
@@ -865,7 +865,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     /**
      * Flush language cache and property cache.
      */
-    public void flushLocalCache() {
+    public synchronized void flushLocalCache() {
     	_languageCache = null;
     	if(_propertyCache != null) {
     	  _propertyCache.clear();

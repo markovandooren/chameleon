@@ -17,9 +17,9 @@ import chameleon.core.member.Member;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
-import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.generics.TypeParameter;
+import chameleon.oo.type.inheritance.AbstractInheritanceRelation;
 import chameleon.oo.type.inheritance.InheritanceRelation;
 import chameleon.util.Pair;
 

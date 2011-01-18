@@ -190,12 +190,12 @@ public abstract class Invocation<E extends Invocation<E,D>,D extends Method> ext
   private SoftReference<D> _cache;
   
   @Override
-  public void flushLocalCache() {
+  public synchronized void flushLocalCache() {
   	super.flushLocalCache();
   	_cache = null;
   }
   
-  protected D getCache() {
+  protected synchronized D getCache() {
   	D result = null;
   	if(Config.cacheElementReferences() == true) {
   	  result = (_cache == null ? null : _cache.get());
@@ -203,7 +203,7 @@ public abstract class Invocation<E extends Invocation<E,D>,D extends Method> ext
   	return result;
   }
   
-  protected void setCache(D value) {
+  protected synchronized void setCache(D value) {
 //  	if(! value.isDerived()) {
     	if(Config.cacheElementReferences() == true) {
     		_cache = new SoftReference<D>(value);

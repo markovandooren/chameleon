@@ -5,8 +5,8 @@ import java.util.List;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.lookup.LookupException;
 import chameleon.exception.ChameleonProgrammerException;
+import chameleon.oo.type.inheritance.AbstractInheritanceRelation;
 import chameleon.oo.type.inheritance.InheritanceRelation;
 
 public abstract class MultiType extends AbstractType {

@@ -52,6 +52,11 @@ public abstract class MemberImpl<E extends Member<E,P,S,F>,P extends Element, S 
   	return language(ObjectOrientedLanguage.class).implementsRelation().contains(this,other);
   }
 
+  /**
+   * Return the members that are overridden by this member.
+   * 
+   * DOES NOT WORK WITH RENAMING YET!
+   */
   public Set<Member> directlyOverriddenMembers() throws LookupException {
     List<Type> superTypes = nearestAncestor(Type.class).getDirectSuperTypes();
     // Collect the overridden members in the following set.
@@ -69,6 +74,30 @@ public abstract class MemberImpl<E extends Member<E,P,S,F>,P extends Element, S 
       result.addAll(superMembers);
     }
     return result;
+  }
+  
+  /**
+   * Return the member that this member overrides. If there is more than
+   * one candidate, an exception is thrown. If there is no candidate, null
+   * is returned.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post directlyOverriddenMembers().size() == 0 ==> \result == null;
+   @ post directlyOverriddenMembers().size() == 1 ==> directlyOverriddenMembers().contains(\result);
+   @ post directlyOverriddenMembers().size() > 1 ==> false;
+   @*/
+  public Member overriddenMember() throws LookupException {
+  	Set<Member> overridden = directlyOverriddenMembers();
+  	int size = overridden.size();
+  	if(size == 1) {
+  		return overridden.iterator().next();
+  	} else if (size > 1) {
+  		throw new LookupException("There is than one overridden member. Use directlyOverriddenMembers() instead.");
+  	} else {
+  		return null;
+  	}
   }
   
   public Declaration selectionDeclaration() throws LookupException {

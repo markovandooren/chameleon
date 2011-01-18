@@ -92,12 +92,12 @@ public abstract class ElementReference<E extends ElementReference, P extends Ele
   private SoftReference<D> _cache;
   
   @Override
-  public void flushLocalCache() {
+  public synchronized void flushLocalCache() {
   	super.flushLocalCache();
   	_cache = null;
   }
   
-  protected D getCache() {
+  protected synchronized D getCache() {
   	D result = null;
   	if(Config.cacheElementReferences() == true) {
   	  result = (_cache == null ? null: _cache.get());
@@ -105,7 +105,7 @@ public abstract class ElementReference<E extends ElementReference, P extends Ele
     return result;
   }
   
-  protected void setCache(D value) {
+  protected synchronized void setCache(D value) {
     	if(Config.cacheElementReferences() == true) {
     		_cache = new SoftReference<D>(value);
     	}
@@ -115,5 +115,4 @@ public abstract class ElementReference<E extends ElementReference, P extends Ele
   	return Util.createNonNullList(signature());
   }
   
-//  public abstract D getElement() throws LookupException;
 }

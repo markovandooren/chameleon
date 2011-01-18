@@ -11,7 +11,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.exception.ChameleonProgrammerException;
-import chameleon.oo.type.generics.TypeParameter;
+import chameleon.oo.type.inheritance.AbstractInheritanceRelation;
 import chameleon.oo.type.inheritance.InheritanceRelation;
 
 public abstract class TypeIndirection extends AbstractType {

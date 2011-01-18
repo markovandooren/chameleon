@@ -50,6 +50,11 @@ import java.util.Map.Entry;
  *
  */
 public class ValueCache<K,V> {
+	
+	public ValueCache() {
+		
+	}
+	
 	protected static class Entry<K, V> implements Map.Entry<K, V> {
 
 		public Entry(K key, V value) {

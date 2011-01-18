@@ -70,7 +70,7 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 	
 	private ActualTypeArgument _argument;
 
-	public Type selectionDeclaration() throws LookupException {
+	public synchronized Type selectionDeclaration() throws LookupException {
 		if(_selectionTypeCache == null) {
 		  _selectionTypeCache = new ActualType(signature().clone(), argument().type(),this);
 		}
@@ -78,7 +78,7 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 	}
 
 	@Override
-	public void flushLocalCache() {
+	public synchronized void flushLocalCache() {
 		super.flushLocalCache();
 		_selectionTypeCache = null;
 	}

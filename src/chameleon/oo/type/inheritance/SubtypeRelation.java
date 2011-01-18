@@ -12,7 +12,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 
-public class SubtypeRelation extends InheritanceRelation<SubtypeRelation> {
+public class SubtypeRelation extends AbstractInheritanceRelation<SubtypeRelation> {
 
 	public SubtypeRelation(TypeReference ref) {
 		super(ref);

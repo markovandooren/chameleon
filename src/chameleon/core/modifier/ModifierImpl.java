@@ -3,6 +3,7 @@ package chameleon.core.modifier;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
@@ -79,6 +80,38 @@ public abstract class ModifierImpl<E extends Modifier,P extends Element> extends
 		return Valid.create();
 	}
 	
+	
+	public Ternary implies(Property property) {
+		return impliedProperties().implies(property);
+	}
+
+	public boolean impliesTrue(Property property) {
+		return implies(property) == Ternary.TRUE;
+	}
+
+	public boolean impliesFalse(Property property) {
+		return implies(property) == Ternary.FALSE;
+	}
+
+	public boolean impliesUnknown(Property property) {
+		return implies(property) == Ternary.UNKNOWN;
+	}
+
+	public Ternary contradicts(Property property) {
+		return impliedProperties().contradicts(property);
+	}
+
+	public boolean contradictsTrue(Property property) {
+		return contradicts(property) == Ternary.TRUE;
+	}
+
+	public boolean contradictsFalse(Property property) {
+		return contradicts(property) == Ternary.FALSE;
+	}
+
+	public boolean contradictsUnknown(Property property) {
+		return contradicts(property) == Ternary.UNKNOWN;
+	}
 
   
 }

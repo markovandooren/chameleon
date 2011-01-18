@@ -107,10 +107,11 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
   public List<? extends Declaration> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
   	Map<D,Declaration> tmp = new HashMap<D,Declaration>();
   	List<D> Ds = new ArrayList<D>();
+  	Class<D> selectedClass = selectedClass();
   	for(Declaration decl: selectionCandidates) {
   		if(selectedBasedOnName(decl.signature())) {
   			Declaration selectionDeclaration = decl.selectionDeclaration();
-  			if(selectedClass().isInstance(selectionDeclaration)) {
+			if(selectedClass.isInstance(selectionDeclaration)) {
   				if(selectedRegardlessOfName((D)selectionDeclaration)) {
   					tmp.put((D) selectionDeclaration,decl.declarator());
   					Ds.add((D) selectionDeclaration);

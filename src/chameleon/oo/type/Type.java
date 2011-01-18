@@ -21,6 +21,7 @@ import chameleon.core.statement.ExceptionSource;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.type.generics.TypeParameter;
+import chameleon.oo.type.inheritance.AbstractInheritanceRelation;
 import chameleon.oo.type.inheritance.InheritanceRelation;
 import chameleon.util.Pair;
 
@@ -209,6 +210,10 @@ DeclarationWithType<Type,Element,SimpleNameSignature,Type>, Member<Type,Element,
 	  @ post \result != null;
 	  @*/
 	public List<InheritanceRelation> inheritanceRelations();
+	
+	public List<InheritanceRelation> nonMemberInheritanceRelations();
+
+	public <I extends InheritanceRelation> List<I> inheritanceRelations(Class<I> kind);
 
 	/**
 	 * Add the give given inheritance relation to this type.

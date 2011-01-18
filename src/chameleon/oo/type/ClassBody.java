@@ -109,12 +109,14 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 		return _elements.getOtherEnds();
 	}
 	
-	public  <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
 		if(selector.usesSelectionName()) {
 			List<? extends Declaration> list = null;
 			if(Config.cacheDeclarations()) {
 				ensureLocalCache();
-				list = _declarationCache.get(selector.selectionName(this));
+				synchronized(this) {
+				  list = _declarationCache.get(selector.selectionName(this));
+				}
 			} else {
 				list = members();
 			}
@@ -136,7 +138,7 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
   	return result;
 	}
 	
-	private void ensureLocalCache() throws LookupException {
+	private synchronized void ensureLocalCache() throws LookupException {
 		if(_declarationCache == null) {
 		  List<Member> members = members();
 		  _declarationCache = new HashMap<String, List<Declaration>>();
@@ -157,7 +159,7 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 		}
 	}
 
-	protected List<Declaration> cachedDeclarations(String name) {
+	protected synchronized List<Declaration> cachedDeclarations(String name) {
 		if(_declarationCache != null) {
 		  return _declarationCache.get(name);
 		} else {
@@ -165,7 +167,7 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 		}
 	}
 	
-	protected void storeCache(String name, List<Declaration> declarations) {
+	protected synchronized void storeCache(String name, List<Declaration> declarations) {
 		if(_declarationCache == null) {
 			_declarationCache = new HashMap<String, List<Declaration>>();
 		}
@@ -173,7 +175,7 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 	}
 	
 	@Override
-	public void flushLocalCache() {
+	public synchronized void flushLocalCache() {
 		_declarationCache = null;
 	}
 	

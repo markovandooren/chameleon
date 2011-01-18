@@ -32,7 +32,7 @@ public abstract class Expression<E extends Expression> extends NamespaceElementI
    @
    @ post \result == actualType();
    @*/
-	public final Type getType() throws LookupException {
+	public synchronized final Type getType() throws LookupException {
 		Type result = null;
 		if(Config.cacheExpressionTypes()) {
 			result = (_typeCache == null ? null : _typeCache.get());
@@ -47,7 +47,7 @@ public abstract class Expression<E extends Expression> extends NamespaceElementI
 	}
 	
 	@Override
-	public void flushLocalCache() {
+	public synchronized void flushLocalCache() {
 		super.flushLocalCache();
 		_typeCache = null;
 	}

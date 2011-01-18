@@ -58,7 +58,7 @@ public class RegularNamespace<E extends RegularNamespace<E>> extends Namespace<E
 		return _namespaceParts;
 	}
 
-	public void addNamespacePart(NamespacePart namespacePart){
+	public synchronized void addNamespacePart(NamespacePart namespacePart){
 		if(namespacePart != null) {
 		  namespacePart.getNamespaceLink().connectTo(_namespaceParts);
 		}
@@ -92,7 +92,7 @@ public class RegularNamespace<E extends RegularNamespace<E>> extends Namespace<E
   	return language().lookupFactory().createLexicalLookupStrategy(targetContext(), this);
   }
   
-	public Namespace getOrCreateNamespace(final String name) throws LookupException {
+	public synchronized Namespace getOrCreateNamespace(final String name) throws LookupException {
 		if ((name == null) || name.equals("")) {
 			return this;
 		}

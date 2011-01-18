@@ -17,8 +17,8 @@ import chameleon.core.member.Member;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
-import chameleon.oo.type.generics.TypeParameter;
 import chameleon.oo.type.generics.TypeParameterBlock;
+import chameleon.oo.type.inheritance.AbstractInheritanceRelation;
 import chameleon.oo.type.inheritance.InheritanceRelation;
 import chameleon.util.Util;
 
@@ -130,9 +130,9 @@ public abstract class TypeWithBody extends AbstractType {
 		return body().elements();
 	}
 
-	public <T extends TypeElement> List<T> directlyDeclaredElements(Class<T> type) {
+	public <T extends TypeElement> List<T> directlyDeclaredElements(Class<T> kind) {
   	List<TypeElement> tmp = (List<TypeElement>) body().elements();
-  	new TypePredicate<TypeElement,T>(type).filter(tmp);
+  	new TypePredicate<TypeElement,T>(kind).filter(tmp);
     return (List<T>)tmp;
 	}
 

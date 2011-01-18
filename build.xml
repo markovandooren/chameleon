@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- WARNING: Eclipse auto-generated file.
               Any modifications will be overwritten.
               To include a user specific buildfile here, simply create one in the same
@@ -6,56 +6,34 @@
               as the first entry and export the buildfile again. -->
 <project basedir="." default="build" name="Chameleon">
     <property environment="env"/>
-    <property name="CASE-Test.location" value="../../tmp/CASE/CASE tool/SRC"/>
+    <property name="Chameleon CASE Tool.location" value="../chameleon-casetool"/>
     <property name="Chameleon Editor.location" value="../chameleon-editor"/>
     <property name="Chameleon Support.location" value="../chameleon-support"/>
     <property name="Chameleon Tools.location" value="../chameleon-tools"/>
-    <property name="ChameleonTrial.location" value="../../Documents/workspace/ChameleonTrial"/>
-    <property name="Cnome.location" value="../cnome"/>
+    <property name="Cnome Generics.location" value="../cnome"/>
     <property name="Jnome.location" value="../jnome"/>
     <property name="Jnome Editor.location" value="../jnome-editor"/>
-    <property name="modules.location" value="../../tmp/modules"/>
-    <property name="ECLIPSE_HOME" value="../../../../Applications/eclipse"/>
+    <property name="Subobject Java.location" value="../subobject-java"/>
+    <property name="Subobject Java Editor.location" value="../subobject-java-editor"/>
     <property name="rejuse.location" value="../rejuse"/>
     <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.5"/>
-    <property name="source" value="1.5"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
     <path id="rejuse.classpath">
         <pathelement location="${rejuse.location}/dist/classes"/>
         <pathelement location="${rejuse.location}/lib/jregex1.2_00.jar"/>
-        <pathelement location="${rejuse.location}/lib/junit.jar"/>
+        <pathelement location="${rejuse.location}/lib/junit-4.7.jar"/>
     </path>
     <path id="Chameleon.classpath">
         <pathelement location="bin"/>
-        <pathelement location="lib/junit.jar"/>
         <pathelement location="lib/log4j-1.2.15.jar"/>
+        <pathelement location="lib/junit-4.7.jar"/>
         <path refid="rejuse.classpath"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
-                <exclude name="**/*.uad"/>
-                <exclude name="**/*.ucd"/>
-                <exclude name="**/*.uld"/>
-                <exclude name="**/*.upd"/>
-                <exclude name="**/*.udd"/>
-                <exclude name="**/*.uod"/>
-                <exclude name="**/*.usd"/>
-                <exclude name="**/*.utd"/>
-                <exclude name="**/*.uud"/>
-                <exclude name="**/*.odd"/>
-                <exclude name="**/*.ead"/>
-                <exclude name="**/*.ecd"/>
-                <exclude name="**/*.eld"/>
-                <exclude name="**/*.epd"/>
-                <exclude name="**/*.edd"/>
-                <exclude name="**/*.eod"/>
-                <exclude name="**/*.esd"/>
-                <exclude name="**/*.etd"/>
-                <exclude name="**/*.eud"/>
-                <exclude name="**/*.urd*.uml"/>
-                <exclude name="**/*.ecore"/>
                 <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
@@ -65,15 +43,11 @@
         <delete dir="bin"/>
     </target>
     <target depends="clean" name="cleanall">
-        <ant antfile="${rejuse.location}/build.xml" dir="${rejuse.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${rejuse.location}" inheritAll="false" target="clean"/>
     </target>
     <target depends="build-subprojects,build-project" name="build"/>
     <target name="build-subprojects">
-        <ant antfile="${rejuse.location}/build.xml" dir="${rejuse.location}" inheritAll="false" target="build-project">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
+        <ant antfile="build.xml" dir="${rejuse.location}" inheritAll="false" target="build-project"/>
     </target>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
@@ -83,72 +57,23 @@
         </javac>
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects">
-        <ant antfile="${CASE-Test.location}/build.xml" dir="${CASE-Test.location}" inheritAll="false" target="clean"/>
-        <ant antfile="${CASE-Test.location}/build.xml" dir="${CASE-Test.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
-        <ant antfile="${Chameleon Editor.location}/build.xml" dir="${Chameleon Editor.location}" inheritAll="false" target="clean"/>
-        <ant antfile="${Chameleon Editor.location}/build.xml" dir="${Chameleon Editor.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
-        <ant antfile="${Chameleon Support.location}/build.xml" dir="${Chameleon Support.location}" inheritAll="false" target="clean"/>
-        <ant antfile="${Chameleon Support.location}/build.xml" dir="${Chameleon Support.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
-        <ant antfile="${Chameleon Tools.location}/build.xml" dir="${Chameleon Tools.location}" inheritAll="false" target="clean"/>
-        <ant antfile="${Chameleon Tools.location}/build.xml" dir="${Chameleon Tools.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
-        <ant antfile="${ChameleonTrial.location}/build.xml" dir="${ChameleonTrial.location}" inheritAll="false" target="clean"/>
-        <ant antfile="${ChameleonTrial.location}/build.xml" dir="${ChameleonTrial.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
-        <ant antfile="${Cnome.location}/build.xml" dir="${Cnome.location}" inheritAll="false" target="clean"/>
-        <ant antfile="${Cnome.location}/build.xml" dir="${Cnome.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
-        <ant antfile="${Jnome.location}/build.xml" dir="${Jnome.location}" inheritAll="false" target="clean"/>
-        <ant antfile="${Jnome.location}/build.xml" dir="${Jnome.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
-        <ant antfile="${Jnome Editor.location}/build.xml" dir="${Jnome Editor.location}" inheritAll="false" target="clean"/>
-        <ant antfile="${Jnome Editor.location}/build.xml" dir="${Jnome Editor.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
-        <ant antfile="${modules.location}/build.xml" dir="${modules.location}" inheritAll="false" target="clean"/>
-        <ant antfile="${modules.location}/build.xml" dir="${modules.location}" inheritAll="false" target="build">
-            <propertyset>
-                <propertyref name="build.compiler"/>
-            </propertyset>
-        </ant>
-    </target>
-    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
-        <copy todir="${ant.library.dir}">
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </copy>
-        <unzip dest="${ant.library.dir}">
-            <patternset includes="jdtCompilerAdapter.jar"/>
-            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-        </unzip>
-    </target>
-    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
-        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
-        <antcall target="build"/>
+        <ant antfile="build.xml" dir="${Chameleon CASE Tool.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Chameleon CASE Tool.location}" inheritAll="false" target="build"/>
+        <ant antfile="build.xml" dir="${Chameleon Editor.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Chameleon Editor.location}" inheritAll="false" target="build"/>
+        <ant antfile="build.xml" dir="${Chameleon Support.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Chameleon Support.location}" inheritAll="false" target="build"/>
+        <ant antfile="build.xml" dir="${Chameleon Tools.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Chameleon Tools.location}" inheritAll="false" target="build"/>
+        <ant antfile="build.xml" dir="${Cnome Generics.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Cnome Generics.location}" inheritAll="false" target="build"/>
+        <ant antfile="build.xml" dir="${Jnome.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Jnome.location}" inheritAll="false" target="build"/>
+        <ant antfile="build.xml" dir="${Jnome Editor.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Jnome Editor.location}" inheritAll="false" target="build"/>
+        <ant antfile="build.xml" dir="${Subobject Java.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Subobject Java.location}" inheritAll="false" target="build"/>
+        <ant antfile="build.xml" dir="${Subobject Java Editor.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Subobject Java Editor.location}" inheritAll="false" target="build"/>
     </target>
 </project>

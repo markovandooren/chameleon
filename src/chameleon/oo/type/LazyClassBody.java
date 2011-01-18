@@ -146,7 +146,7 @@ public class LazyClassBody extends ClassBody {
 		_initializedElements = false;
 	}
 
-	public List<TypeElement> elements() {
+	public synchronized List<TypeElement> elements() {
 		if(! _initializedElements) {
 			flushLocalCache();
 			clear();

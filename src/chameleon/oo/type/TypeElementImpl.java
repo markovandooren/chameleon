@@ -1,13 +1,19 @@
 package chameleon.oo.type;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.rejuse.property.Property;
+import org.rejuse.property.PropertyMutex;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.ElementWithModifiersImpl;
+import chameleon.core.modifier.Modifier;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.exception.ChameleonProgrammerException;
+import chameleon.exception.ModelException;
 
 /**
  * Support class for member-like elements that can be the direct children of a type.
@@ -36,6 +42,14 @@ public abstract class TypeElementImpl<E extends TypeElement<E,P>, P extends Elem
 		}
   }
 
-
-	
+  public List<Modifier> modifiers(PropertyMutex mutex) throws ModelException {
+  	Property property = property(mutex);
+  	List<Modifier> result = new ArrayList<Modifier>();
+  	for(Modifier mod: modifiers()) {
+  		if(mod.impliesTrue(property)) {
+  			result.add(mod);
+  		}
+  	}
+  	return result;
+  }
 }

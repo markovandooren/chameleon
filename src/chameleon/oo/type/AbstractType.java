@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Set;
 
 import org.rejuse.java.collections.TypeFilter;
@@ -28,7 +27,6 @@ import chameleon.core.member.FixedSignatureMember;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.namespacepart.Import;
 import chameleon.core.relation.WeakPartialOrder;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.validation.Valid;
@@ -36,6 +34,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.generics.TypeParameter;
+import chameleon.oo.type.inheritance.AbstractInheritanceRelation;
 import chameleon.oo.type.inheritance.InheritanceRelation;
 import chameleon.util.Pair;
 
@@ -64,7 +63,7 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 	
 	private List<? extends Declaration> _declarationCache = null;
 	
-	private List<? extends Declaration> declarationCache() {
+	private synchronized List<? extends Declaration> declarationCache() {
 		if(_declarationCache != null && Config.cacheDeclarations()) {
 		  return new ArrayList<Declaration>(_declarationCache);
 		} else {
@@ -78,12 +77,12 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 
 	
   @Override
-  public void flushLocalCache() {
+  public synchronized void flushLocalCache() {
   	super.flushLocalCache();
   	_declarationCache = null;
   }
 
-	private void setDeclarationCache(List<? extends Declaration> cache) {
+	private synchronized void setDeclarationCache(List<? extends Declaration> cache) {
 		if(Config.cacheDeclarations()) {
 		  _declarationCache = new ArrayList<Declaration>(cache);
 		}
@@ -350,7 +349,7 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
     public List<Type> getDirectSuperTypes() throws LookupException {
             final ArrayList<Type> result = new ArrayList<Type>();
             for(InheritanceRelation element:inheritanceRelations()) {
-              Type type = element.superType();
+              Type type = (Type) element.superElement();
               if (type!=null) {
                 result.add(type);
               }
@@ -361,7 +360,7 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
     public List<Type> getDirectSuperClasses() throws LookupException {
       final ArrayList<Type> result = new ArrayList<Type>();
       for(InheritanceRelation element:inheritanceRelations()) {
-        result.add(element.superClass());
+        result.add((Type)element.superElement());
       }
       return result;
 }
@@ -392,7 +391,7 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
     	}
     }
     
-    public Set<Type> getAllSuperTypes() throws LookupException {
+    public synchronized Set<Type> getAllSuperTypes() throws LookupException {
     	if(_superTypeCache == null) {
     		_superTypeCache = new HashSet<Type>();
     		accumulateAllSuperTypes(_superTypeCache);
@@ -450,7 +449,20 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
      @*/
   	public abstract List<InheritanceRelation> inheritanceRelations();
   	
-//  	/* (non-Javadoc)
+  	/**
+  	 * The default behavior is to return inheritanceRelations(). If there are
+  	 * member inheritance relations, the method must be overridden to exclude them.
+  	 * @return
+  	 */
+  	public List<InheritanceRelation> nonMemberInheritanceRelations() {
+  		return inheritanceRelations();
+  	}
+  	
+  	public <I extends InheritanceRelation> List<I> inheritanceRelations(Class<I> kind) {
+  		return (List<I>) new TypePredicate(kind).filterReturn(inheritanceRelations());
+  	}
+
+  	//  	/* (non-Javadoc)
 //		 * @see chameleon.oo.type.Tajp#directSuperTypes()
 //		 */
 //   /*@
@@ -661,7 +673,7 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
   	}
 
 		protected void copyInheritanceRelations(Type from, boolean link) {
-			for(InheritanceRelation relation : from.inheritanceRelations()) {
+			for(InheritanceRelation relation : from.nonMemberInheritanceRelations()) {
         InheritanceRelation clone = relation.clone();
         if(link) {
         	clone.setOrigin(relation);
