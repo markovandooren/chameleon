@@ -35,6 +35,7 @@ public class CrossReferenceTest extends ModelTest {
 	
 	@Test
 	public void testCrossReferences() throws LookupException, InterruptedException {
+  	long startTime = System.nanoTime();
 		Collection<CrossReference> crossReferences = crossReferenceProvider().elements(language());
 		final BlockingQueue<CrossReference> queue = new ArrayBlockingQueue<CrossReference>(crossReferences.size(), true, crossReferences);
 		CallableFactory factory = new QueuePollingCallableFactory(new UnsafeAction<CrossReference,LookupException>() {
@@ -46,9 +47,12 @@ public class CrossReferenceTest extends ModelTest {
 
 		},queue);
 		new FixedThreadCallableExecutor<LookupException>(factory).run();
+  	long endTime = System.nanoTime();
+  	System.out.println("Testing took "+(endTime-startTime)/1000000+" milliseconds.");
 	}
 //	@Test
 //	public void testCrossReferences() throws LookupException, InterruptedException {
+//	long startTime = System.nanoTime();
 //		Collection<CrossReference> crossReferences = crossReferenceProvider().elements(language());
 //		final BlockingQueue<CrossReference> queue = new ArrayBlockingQueue<CrossReference>(crossReferences.size(), true, crossReferences);
 //		RunnableFactory factory = new QueuePollingRunnableFactory(new SafeAction<CrossReference>() {
@@ -60,5 +64,7 @@ public class CrossReferenceTest extends ModelTest {
 //
 //		},queue);
 //		new UnsafeFixedThreadExecutor<LookupException>(factory,LookupException.class).run();
+//	long endTime = System.nanoTime();
+//	System.out.println("Testing took "+(endTime-startTime)/1000000+" milliseconds.");
 //	}
 }

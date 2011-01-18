@@ -1,16 +1,16 @@
 package chameleon.util.concurrent;
 
-import java.util.concurrent.BlockingQueue;
+import java.util.Queue;
 
 public abstract class QueuePollingRunnable<T> extends QueuePollingExecutable<T> implements Runnable {
 
-	public QueuePollingRunnable(BlockingQueue<T> queue) {
+	public QueuePollingRunnable(Queue<T> queue) {
 		super(queue);
 	}
 	
 	@Override
 	public final void run() {
-		BlockingQueue<T> queue = queue();
+		Queue<T> queue = queue();
 		T t = queue.poll();
 		while(t != null) {
 			process(t);

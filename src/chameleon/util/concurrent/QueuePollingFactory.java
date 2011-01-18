@@ -1,16 +1,16 @@
 package chameleon.util.concurrent;
 
-import java.util.concurrent.BlockingQueue;
+import java.util.Queue;
 
 public class QueuePollingFactory<T> {
 
-	public QueuePollingFactory(Action<T> action, BlockingQueue<T> queue) {
+	public QueuePollingFactory(Action<T> action, Queue<T> queue) {
 		_action = action;
 		_queue = queue;
 	}
 	
 	protected Action<T> _action;
-	protected BlockingQueue<T> _queue;
+	protected Queue<T> _queue;
 
 	public Action<T> action() {
 		return _action;
@@ -20,7 +20,7 @@ public class QueuePollingFactory<T> {
 		super();
 	}
 
-	public BlockingQueue<T> queue() {
+	public Queue<T> queue() {
 		return _queue;
 	}
 

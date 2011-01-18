@@ -1,16 +1,16 @@
 package chameleon.util.concurrent;
 
-import java.util.concurrent.BlockingQueue;
+import java.util.Queue;
 
 public abstract class QueuePollingExecutable<T> {
 
-	public QueuePollingExecutable(BlockingQueue<T> queue) {
+	public QueuePollingExecutable(Queue<T> queue) {
 		this._queue = queue;
 	}
 
-	protected BlockingQueue<T> _queue;
+	protected Queue<T> _queue;
 
-	public BlockingQueue<T> queue() {
+	public Queue<T> queue() {
 		return _queue;
 	}
 
