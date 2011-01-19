@@ -6,24 +6,10 @@
               as the first entry and export the buildfile again. -->
 <project basedir="." default="build" name="Chameleon">
     <property environment="env"/>
-    <property name="Chameleon CASE Tool.location" value="../chameleon-casetool"/>
-    <property name="Chameleon Editor.location" value="../chameleon-editor"/>
-    <property name="Chameleon Support.location" value="../chameleon-support"/>
-    <property name="Chameleon Tools.location" value="../chameleon-tools"/>
-    <property name="Cnome Generics.location" value="../cnome"/>
-    <property name="Jnome.location" value="../jnome"/>
-    <property name="Jnome Editor.location" value="../jnome-editor"/>
-    <property name="Subobject Java.location" value="../subobject-java"/>
-    <property name="Subobject Java Editor.location" value="../subobject-java-editor"/>
     <property name="rejuse.location" value="../rejuse"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.6"/>
     <property name="source" value="1.6"/>
-    <path id="rejuse.classpath">
-        <pathelement location="${rejuse.location}/dist/classes"/>
-        <pathelement location="${rejuse.location}/lib/jregex1.2_00.jar"/>
-        <pathelement location="${rejuse.location}/lib/junit-4.7.jar"/>
-    </path>
     <path id="Chameleon.classpath">
         <pathelement location="bin"/>
         <pathelement location="lib/log4j-1.2.15.jar"/>
@@ -55,25 +41,5 @@
             <src path="src"/>
             <classpath refid="Chameleon.classpath"/>
         </javac>
-    </target>
-    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects">
-        <ant antfile="build.xml" dir="${Chameleon CASE Tool.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Chameleon CASE Tool.location}" inheritAll="false" target="build"/>
-        <ant antfile="build.xml" dir="${Chameleon Editor.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Chameleon Editor.location}" inheritAll="false" target="build"/>
-        <ant antfile="build.xml" dir="${Chameleon Support.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Chameleon Support.location}" inheritAll="false" target="build"/>
-        <ant antfile="build.xml" dir="${Chameleon Tools.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Chameleon Tools.location}" inheritAll="false" target="build"/>
-        <ant antfile="build.xml" dir="${Cnome Generics.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Cnome Generics.location}" inheritAll="false" target="build"/>
-        <ant antfile="build.xml" dir="${Jnome.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Jnome.location}" inheritAll="false" target="build"/>
-        <ant antfile="build.xml" dir="${Jnome Editor.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Jnome Editor.location}" inheritAll="false" target="build"/>
-        <ant antfile="build.xml" dir="${Subobject Java.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Subobject Java.location}" inheritAll="false" target="build"/>
-        <ant antfile="build.xml" dir="${Subobject Java Editor.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Subobject Java Editor.location}" inheritAll="false" target="build"/>
     </target>
 </project>
