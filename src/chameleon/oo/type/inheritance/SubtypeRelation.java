@@ -1,9 +1,14 @@
 package chameleon.oo.type.inheritance;
 
+import java.util.List;
+
 import org.rejuse.logic.ternary.Ternary;
 
+import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.TwoPhaseDeclarationSelector;
+import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
@@ -51,6 +56,11 @@ public class SubtypeRelation extends AbstractInheritanceRelation<SubtypeRelation
 			super(element, "The super class is not extensible");
 		}
 		
+	}
+
+	@Override
+	public <D extends Member> List<D> membersOverriddenBy(TwoPhaseDeclarationSelector<D> selector) throws LookupException {
+		return superClass().membersOverriddenBy(selector);
 	}
 
 

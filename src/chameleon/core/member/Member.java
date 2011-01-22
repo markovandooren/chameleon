@@ -6,6 +6,7 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.TwoPhaseDeclarationSelector;
 import chameleon.oo.type.TypeElement;
 
 /**
@@ -40,6 +41,12 @@ public interface Member<E extends Member<E,P,S,F>, P extends Element, S extends 
    @ post other == null ==> \result == false;
    @*/
   public boolean overrides(Member other) throws LookupException;
+  
+  /**
+   * Return a selector that selects members that could override this
+   * member based on the signature and other properties.
+   */
+//  public TwoPhaseDeclarationSelector<? extends Member> overridesSelector();
   
   /**
    * Check whether this member overrides the given member.
@@ -85,8 +92,4 @@ public interface Member<E extends Member<E,P,S,F>, P extends Element, S extends 
    @*/
   public Set<Member> directlyOverriddenMembers() throws LookupException;
 
-//  public F origin();
-  
-  // Return object of F(amily) type which is cut off at the level of e.g. Type,Method,MemberVariable,Property,....
-//  public abstract F alias(S signature);
 }

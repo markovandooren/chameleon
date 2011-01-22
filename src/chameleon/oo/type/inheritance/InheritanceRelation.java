@@ -3,9 +3,11 @@ package chameleon.oo.type.inheritance;
 import java.util.List;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.TwoPhaseDeclarationSelector;
 import chameleon.core.member.Member;
 
 /**
@@ -28,7 +30,7 @@ public interface InheritanceRelation<E extends InheritanceRelation<E,S>, S exten
 	
 	public <X extends Member> void accumulateInheritedMembers(DeclarationSelector<X> selector, List<X> current) throws LookupException;
 	
-//	public <X extends Element> List<X> overriddenMembers() throws LookupException;
+	public <D extends Member> List<D> membersOverriddenBy(TwoPhaseDeclarationSelector<D> selector) throws LookupException;
 	
 //	public <X>
 	

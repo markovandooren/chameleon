@@ -15,6 +15,7 @@ import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Definition;
 import chameleon.core.declaration.MissingSignature;
+import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
@@ -23,6 +24,7 @@ import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.LookupStrategySelector;
+import chameleon.core.lookup.TwoPhaseDeclarationSelector;
 import chameleon.core.member.FixedSignatureMember;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
@@ -805,6 +807,15 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 			return this;
 		}
 
+		@Override
+		public <D extends Member> List<D> membersOverriddenBy(TwoPhaseDeclarationSelector<D> selector) throws LookupException {
+			List<D> result = new ArrayList<D>();
+			for(InheritanceRelation relation:inheritanceRelations()) {
+				result.addAll(relation.membersOverriddenBy(selector));
+			}
+			result.addAll(members(selector));
+			return result;
+		}
 }
 
 
