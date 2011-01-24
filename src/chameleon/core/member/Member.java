@@ -6,7 +6,6 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.lookup.TwoPhaseDeclarationSelector;
 import chameleon.oo.type.TypeElement;
 
 /**
@@ -46,7 +45,7 @@ public interface Member<E extends Member<E,P,S,F>, P extends Element, S extends 
    * Return a selector that selects members that could override this
    * member based on the signature and other properties.
    */
-//  public TwoPhaseDeclarationSelector<? extends Member> overridesSelector();
+  public OverridesRelation<? extends Member> overridesSelector();
   
   /**
    * Check whether this member overrides the given member.

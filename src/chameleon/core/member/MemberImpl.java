@@ -11,6 +11,10 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.SelectorWithoutOrder;
+import chameleon.core.lookup.TwoPhaseDeclarationSelector;
+import chameleon.core.method.Method;
+import chameleon.core.method.MethodSignature;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.scope.Scope;
@@ -28,26 +32,34 @@ public abstract class MemberImpl<E extends Member<E,P,S,F>,P extends Element, S 
    */
   public abstract S signature();
   
+//  public final boolean overrides(Member other) throws LookupException {
+//    ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+//    if(language != null) {
+//		  StrictPartialOrder<Member> overridesRelation = language.overridesRelation();
+//      return overridesRelation.contains(this, other);
+//    } else {
+//    	throw new LookupException("Language is null");
+//    }
+//  }
+  
   public final boolean overrides(Member other) throws LookupException {
-    ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-    if(language != null) {
-		  StrictPartialOrder<Member> overridesRelation = language.overridesRelation();
-      return overridesRelation.contains(this, other);
-    } else {
-    	throw new LookupException("Language is null");
-    }
+  	return ((OverridesRelation)overridesSelector()).contains(this,other);
   }
   
+//  public final boolean hides(Member other) throws LookupException {
+//    ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+//    if(language != null) {
+//    	StrictPartialOrder<Member> hidesRelation = language.hidesRelation();
+//    	return hidesRelation.contains(this, other);
+//    } else {
+//    	throw new LookupException("Language is null");
+//    }
+//  }
+
   public final boolean hides(Member other) throws LookupException {
-    ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-    if(language != null) {
-    	StrictPartialOrder<Member> hidesRelation = language.hidesRelation();
-    	return hidesRelation.contains(this, other);
-    } else {
-    	throw new LookupException("Language is null");
-    }
+	  return ((HidesRelation)hidesSelector()).contains(this,other);
   }
-  
+
   public final boolean canImplement(Member other) throws LookupException {
   	return language(ObjectOrientedLanguage.class).implementsRelation().contains(this,other);
   }
@@ -118,5 +130,46 @@ public abstract class MemberImpl<E extends Member<E,P,S,F>,P extends Element, S 
   	}
   	return result;
   }
+  
+  public OverridesRelation<? extends Member> overridesSelector() {
+		return _overridesSelector;
+  }
+  
+  private static OverridesRelation<Member> _overridesSelector = new OverridesRelation<Member>(Member.class) {
+		
+		public boolean containsBasedOnRest(Member first, Member second) throws LookupException {
+			boolean result = first.signature().sameAs(second.signature());
+			return result;
+		}
 
+		/**
+		 * Returns true by default. The "rest" method will check for equality of the signatures
+		 * by default. 
+		 */
+		@Override
+		public boolean containsBasedOnName(Member first, Member second) {
+			return true;
+		}
+	};
+
+  public HidesRelation<? extends Member> hidesSelector() {
+		return _hidesSelector;
+  }
+  
+  private static HidesRelation<Member> _hidesSelector = new HidesRelation<Member>(Member.class) {
+		
+		public boolean containsBasedOnRest(Member first, Member second) throws LookupException {
+			boolean result = first.signature().sameAs(second.signature());
+			return result;
+		}
+
+		/**
+		 * Returns true by default. The "rest" method will check for equality of the signatures
+		 * by default. 
+		 */
+		@Override
+		public boolean containsBasedOnName(Member first, Member second) {
+			return true;
+		}
+	};
 }

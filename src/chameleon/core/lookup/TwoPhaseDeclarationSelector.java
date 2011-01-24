@@ -23,7 +23,7 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
    @
    @ pre selectedClass().isInstance(declaration);
    @*/
-  protected abstract boolean selectedRegardlessOfName(D declaration) throws LookupException;
+  public abstract boolean selectedRegardlessOfName(D declaration) throws LookupException;
 
   /**
    * Return the declaration of type D that would be selected based on the
@@ -137,7 +137,7 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
    @
    @ post \result == (selection(declaration) != null);
    @*/
-  protected boolean selects(Declaration declaration) throws LookupException {
+  public boolean selects(Declaration declaration) throws LookupException {
     return selection(declaration) != null;
   }
 
@@ -149,7 +149,7 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
    @
    @ pre signature != null;
    @*/
-  protected abstract boolean selectedBasedOnName(Signature signature) throws LookupException;
+  public abstract boolean selectedBasedOnName(Signature signature) throws LookupException;
   
 
 }

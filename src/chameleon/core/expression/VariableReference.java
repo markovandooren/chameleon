@@ -155,11 +155,11 @@ public class VariableReference extends Expression<VariableReference> implements 
   }
 
 	public DeclarationSelector<Variable> selector() {
-		return new SelectorWithoutOrder<Variable>(new SelectorWithoutOrder.SignatureSelector() {
+		return new SelectorWithoutOrder<Variable>(Variable.class) {
 			public Signature signature() {
 				return _signature;
 			}
-		}, Variable.class);
+		};
 	}
 
 	@Override

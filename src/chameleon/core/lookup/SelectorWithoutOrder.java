@@ -11,18 +11,13 @@ import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.relation.WeakPartialOrder;
 import chameleon.exception.ModelException;
 
-public class SelectorWithoutOrder<D extends Declaration> extends TwoPhaseDeclarationSelector<D> {
+public abstract class SelectorWithoutOrder<D extends Declaration> extends TwoPhaseDeclarationSelector<D> {
 	
-	public SelectorWithoutOrder(SignatureSelector selector, Class<D> selectedClass) {
-		_selector = selector;
+	public SelectorWithoutOrder(Class<D> selectedClass) {
 		_class = selectedClass;
 	}
 	
-	private SignatureSelector _selector;
-	
-	public Signature signature() {
-		return _selector.signature();
-	}
+	public abstract Signature signature();
 	
 	@Override
 	public boolean selectedRegardlessOfName(D declaration) throws LookupException {

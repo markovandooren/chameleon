@@ -8,12 +8,13 @@ import java.util.Set;
 
 import org.rejuse.predicate.AbstractPredicate;
 
-import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.member.HidesRelation;
 import chameleon.core.member.Member;
+import chameleon.core.member.OverridesRelation;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.scope.Scope;
@@ -129,8 +130,7 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
   }
 
   public boolean overrides(Member other) throws LookupException {
-    StrictPartialOrder<Member> overridesRelation = language(ObjectOrientedLanguage.class).overridesRelation();
-    return overridesRelation.contains(this, other);
+  	return ((OverridesRelation)overridesSelector()).contains(this,other);
   }
 
   public boolean canImplement(Member other) throws LookupException {
@@ -139,8 +139,9 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
   }
 
   public boolean hides(Member other) throws LookupException {
-    StrictPartialOrder<Member> hidesRelation = language(ObjectOrientedLanguage.class).hidesRelation();
-    return hidesRelation.contains(this, other);
+//    StrictPartialOrder<Member> hidesRelation = language(ObjectOrientedLanguage.class).hidesRelation();
+//    return hidesRelation.contains(this, other);
+  	return ((HidesRelation)hidesSelector()).contains(this,other);
   }
 
 	public MemberVariable alias(SimpleNameSignature signature) {
@@ -162,4 +163,38 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
 		return this;
 	}
 
+  public OverridesRelation<? extends Member> overridesSelector() {
+		return _overridesSelector;
+  }
+  
+  private static OverridesRelation<Member> _overridesSelector = new OverridesRelation<Member>(Member.class) {
+		
+		public boolean containsBasedOnRest(Member first, Member second) throws LookupException {
+			boolean result = first.signature().sameAs(second.signature());
+			return result;
+		}
+
+		/**
+		 * Returns true by default. The "rest" method will check for equality of the signatures
+		 * by default. 
+		 */
+		@Override
+		public boolean containsBasedOnName(Member first, Member second) {
+			return true;
+		}
+	};
+	
+  public HidesRelation<? extends Member> hidesSelector() {
+		return _hidesSelector;
+  }
+  
+  private static HidesRelation<RegularMemberVariable> _hidesSelector = new HidesRelation<RegularMemberVariable>(RegularMemberVariable.class) {
+		
+  	/**
+  	 * Returns true because only the name matters.
+  	 */
+		public boolean containsBasedOnRest(RegularMemberVariable first, RegularMemberVariable second) throws LookupException {
+			return true;
+		}
+	};
 }

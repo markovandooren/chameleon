@@ -192,10 +192,10 @@ public class NamedTargetExpression extends TargetedExpression<NamedTargetExpress
 		return _selector;
 	}
 	
-	private DeclarationSelector<DeclarationWithType> _selector = new SelectorWithoutOrder<DeclarationWithType>(new SelectorWithoutOrder.SignatureSelector() {
+	private DeclarationSelector<DeclarationWithType> _selector = new SelectorWithoutOrder<DeclarationWithType>(DeclarationWithType.class) {
 		public SimpleNameSignature signature() {
 			return NamedTargetExpression.this._signature;
 		}
-	}, DeclarationWithType.class);
+	};
 
 }

@@ -152,11 +152,11 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
   
   public DeclarationSelector<TargetDeclaration> selector() {
   	if(_selector == null) {
-  		_selector = new SelectorWithoutOrder<TargetDeclaration>(new SelectorWithoutOrder.SignatureSelector() {
+  		_selector = new SelectorWithoutOrder<TargetDeclaration>(TargetDeclaration.class) {
   			public SimpleNameSignature signature() {
   				return NamedTarget.this._signature;
   			}
-  		}, TargetDeclaration.class);
+  		};
   	}
   	return _selector;
   }

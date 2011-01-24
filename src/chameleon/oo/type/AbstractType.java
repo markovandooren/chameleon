@@ -26,6 +26,7 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.LookupStrategySelector;
 import chameleon.core.lookup.TwoPhaseDeclarationSelector;
 import chameleon.core.member.FixedSignatureMember;
+import chameleon.core.member.HidesRelation;
 import chameleon.core.member.Member;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.namespace.Namespace;
@@ -33,6 +34,7 @@ import chameleon.core.relation.WeakPartialOrder;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.core.variable.RegularMemberVariable;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.generics.TypeParameter;
@@ -816,6 +818,21 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 			result.addAll(members(selector));
 			return result;
 		}
+		
+	  public HidesRelation<? extends Member> hidesSelector() {
+			return _hidesSelector;
+	  }
+	  
+	  private static HidesRelation<Type> _hidesSelector = new HidesRelation<Type>(Type.class) {
+			
+	  	/**
+	  	 * Returns true because only the name matters.
+	  	 */
+			public boolean containsBasedOnRest(Type first, Type second) throws LookupException {
+				return true;
+			}
+		};
+
 }
 
 

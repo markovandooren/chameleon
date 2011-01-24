@@ -140,15 +140,15 @@ public abstract class ObjectOrientedLanguage extends Language {
 	 */
 	public abstract WeakPartialOrder<Type> subtypeRelation();
 	
-	/**
-	 * Return the relation that determines when a member overrides another
-	 */
-	public abstract StrictPartialOrder<Member> overridesRelation();
+//	/**
+//	 * Return the relation that determines when a member overrides another
+//	 */
+//	public abstract StrictPartialOrder<Member> overridesRelation();
 
-	/**
-	 * Return the relation that determines when a member hides another
-	 */
-	public abstract StrictPartialOrder<Member> hidesRelation();
+//	/**
+//	 * Return the relation that determines when a member hides another
+//	 */
+//	public abstract StrictPartialOrder<Member> hidesRelation();
 
 	/**
 	 * Return the relation that determines when a member implements another.

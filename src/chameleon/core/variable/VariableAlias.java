@@ -7,17 +7,18 @@ import java.util.Set;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.SafePredicate;
-import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
+import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.Member;
+import chameleon.core.member.OverridesRelation;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.scope.Scope;
@@ -221,5 +222,21 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
 	public Declaration declarator() {
 		return aliasedVariable().declarator();
 	}
+
+  public OverridesRelation<? extends Member> overridesSelector() {
+		return new OverridesRelation<Member>(Member.class) {
+
+			@Override
+			public boolean containsBasedOnRest(Member first, Member second) throws LookupException {
+				return ((VariableAlias)first).aliasedVariable().overridesSelector().containsBasedOnRest(first, second);
+			}
+
+			@Override
+			public boolean containsBasedOnName(Member first, Member second) throws LookupException {
+				return ((VariableAlias)first).signature().name().equals(second.signature().name());
+			}
+		};
+
+  }
 
 }
