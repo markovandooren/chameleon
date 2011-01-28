@@ -15,7 +15,6 @@ import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Definition;
 import chameleon.core.declaration.MissingSignature;
-import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
@@ -24,21 +23,19 @@ import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.LookupStrategySelector;
-import chameleon.core.lookup.TwoPhaseDeclarationSelector;
 import chameleon.core.member.FixedSignatureMember;
 import chameleon.core.member.HidesRelation;
 import chameleon.core.member.Member;
+import chameleon.core.member.MemberRelationSelector;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.relation.WeakPartialOrder;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
-import chameleon.core.variable.RegularMemberVariable;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.generics.TypeParameter;
-import chameleon.oo.type.inheritance.AbstractInheritanceRelation;
 import chameleon.oo.type.inheritance.InheritanceRelation;
 import chameleon.util.Pair;
 
@@ -566,7 +563,6 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 
   		// 1) All defined members of the requested kind are added.
   		List<D> result = localMembers(selector);
-
   		result.addAll(implicitMembers(selector));
   		
   		// 2) Fetch all potentially inherited members from all inheritance relations
@@ -810,7 +806,7 @@ public abstract class AbstractType extends FixedSignatureMember<Type,Element,Sim
 		}
 
 		@Override
-		public <D extends Member> List<D> membersOverriddenBy(TwoPhaseDeclarationSelector<D> selector) throws LookupException {
+		public <D extends Member> List<D> membersOverriddenBy(MemberRelationSelector<D> selector) throws LookupException {
 			List<D> result = new ArrayList<D>();
 			for(InheritanceRelation relation:inheritanceRelations()) {
 				result.addAll(relation.membersOverriddenBy(selector));

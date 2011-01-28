@@ -9,21 +9,19 @@ import org.rejuse.logic.ternary.Ternary;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Definition;
-import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.lookup.TwoPhaseDeclarationSelector;
 import chameleon.core.member.Member;
+import chameleon.core.member.MemberRelationSelector;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.type.generics.TypeParameter;
-import chameleon.oo.type.inheritance.AbstractInheritanceRelation;
 import chameleon.oo.type.inheritance.InheritanceRelation;
 import chameleon.util.Pair;
 
@@ -366,5 +364,5 @@ DeclarationWithType<Type,Element,SimpleNameSignature,Type>, Member<Type,Element,
 	
 	public Type upperBound() throws LookupException;
 
-	public <D extends Member> List<D> membersOverriddenBy(TwoPhaseDeclarationSelector<D> selector) throws LookupException;
+	public <D extends Member> List<D> membersOverriddenBy(MemberRelationSelector<D> selector) throws LookupException;
 }

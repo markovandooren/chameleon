@@ -168,6 +168,10 @@ public class DerivedType extends TypeWithBody {
 
 	@Override
 	public DerivedType clone() {
+		return new DerivedType(clonedParameters(),baseType());
+	}
+
+	protected List<ParameterSubstitution> clonedParameters() {
 		List<ParameterSubstitution> args = new ArrayList<ParameterSubstitution>();
 		for(ParameterBlock<?,?> block: parameterBlocks()) {
 			List<Parameter> list = new ArrayList<Parameter>();
@@ -176,7 +180,7 @@ public class DerivedType extends TypeWithBody {
 			}
 			args.add(new ParameterSubstitution(block.parameterType(), list)); 
 		}
-		return new DerivedType(args,baseType());
+		return args;
 	}
 
 }

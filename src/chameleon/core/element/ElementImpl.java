@@ -136,33 +136,19 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  	}
 	  }
 
-	  /********************
-	   * ORIGINAL ELEMENT *
-	   ********************/
-	  
-//	  public E getOriginal() {
-//	  	if(_parentLink == null) {
-//	  		return _original;
-//	  	} else {
-//	  		throw new ChameleonProgrammerException("Invoking getOriginal() on real source element");
-//	  	}
-//	  }
-	  
-//	  private E _original;
-	  
 	  /**********
 	   * PARENT *
 	   **********/
 	  
 	  // WORKING AROUND LACK OF MULTIPLE INHERITANCE
 	  
-	  // THESE VARIABLES MUST NOT BE USED BOTH
+	  // THESE VARIABLES MUST NOT BE USED AT THE SAME TIME
 	  //
-	  // IF _parentLink IS NULL, THE ELEMENT IS NOT LEXICAL,
+	  // IF _parentLink IS NULL, THE ELEMENT IS NOT LEXICALLY IN THE MODEL,
 	  // IN WHICH CASE _parent PROVIDES THE UNIDIRECTIONAL ASSOCIATION
-	  // WITH THE PARENT. IN THAT CASE, _original IS SET TO THE ELEMENT
+	  // WITH THE PARENT. IN THAT CASE, THE ORIGIN IS SET TO THE ELEMENT
 	  // OF WHICH THIS ELEMENT IS A DERIVED ELEMENT
-	  private SingleAssociation<E,P> _parentLink = new SingleAssociation<E,P>((E) this);
+	  private SingleAssociation<E,P> _parentLink = createParentLink();//new SingleAssociation<E,P>((E) this);
 
 	  /**
 	   * This is the undirectional association with the parent in case this element is derived.
@@ -182,6 +168,10 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  	} else {
 	  		throw new ChameleonProgrammerException("Invoking getParentLink() on automatic derivation");
 	  	}
+	  }
+	  
+	  protected SingleAssociation<E,P> createParentLink() {
+	  	return new SingleAssociation<E,P>((E) this);
 	  }
 	  
 	  /**
@@ -245,7 +235,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  	if(parent != null) {
 	  	  _parentLink = null;
 	  	} else {
-	  		_parentLink = new SingleAssociation<E,P>((E) this);
+	  		_parentLink = createParentLink();
 	  	}
 	  	_parent = parent;
 	  }

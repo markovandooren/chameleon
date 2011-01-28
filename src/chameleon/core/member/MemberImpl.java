@@ -43,7 +43,7 @@ public abstract class MemberImpl<E extends Member<E,P,S,F>,P extends Element, S 
 //  }
   
   public final boolean overrides(Member other) throws LookupException {
-  	return ((OverridesRelation)overridesSelector()).contains(this,other);
+  	return overridesSelector().selects(other);
   }
   
 //  public final boolean hides(Member other) throws LookupException {
@@ -131,24 +131,19 @@ public abstract class MemberImpl<E extends Member<E,P,S,F>,P extends Element, S 
   	return result;
   }
   
-  public OverridesRelation<? extends Member> overridesSelector() {
-		return _overridesSelector;
+  public MemberRelationSelector<? extends Member> overridesSelector() {
+		return new OverridesRelationSelector<Member>(Member.class,this,_overridesSelector);
   }
   
   private static OverridesRelation<Member> _overridesSelector = new OverridesRelation<Member>(Member.class) {
 		
 		public boolean containsBasedOnRest(Member first, Member second) throws LookupException {
-			boolean result = first.signature().sameAs(second.signature());
-			return result;
+			return true;
 		}
 
-		/**
-		 * Returns true by default. The "rest" method will check for equality of the signatures
-		 * by default. 
-		 */
 		@Override
-		public boolean containsBasedOnName(Member first, Member second) {
-			return true;
+		public boolean containsBasedOnName(Signature first, Signature second) {
+			return first.name().equals(second.name());
 		}
 	};
 
@@ -159,17 +154,12 @@ public abstract class MemberImpl<E extends Member<E,P,S,F>,P extends Element, S 
   private static HidesRelation<Member> _hidesSelector = new HidesRelation<Member>(Member.class) {
 		
 		public boolean containsBasedOnRest(Member first, Member second) throws LookupException {
-			boolean result = first.signature().sameAs(second.signature());
-			return result;
+			return true;
 		}
 
-		/**
-		 * Returns true by default. The "rest" method will check for equality of the signatures
-		 * by default. 
-		 */
 		@Override
-		public boolean containsBasedOnName(Member first, Member second) {
-			return true;
+		public boolean containsBasedOnName(Signature first, Signature second) {
+			return first.name().equals(second.name());
 		}
 	};
 }

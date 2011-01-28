@@ -85,14 +85,14 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
    @            ! (\exists D other; set.contains(other); order().strictOrder().contains(other,d))));
    @*/
   public List<D> selection(List<? extends Declaration> declarators) throws LookupException {
-    List<D> tmp = new ArrayList<D>();
-      for(Declaration decl: declarators) {
-        D e = selection(decl);
-        if(e != null) {
-          tmp.add(e);
-        }
-      }
-      order().removeBiggerElements(tmp);
+  	List<D> tmp = new ArrayList<D>();
+  	for(Declaration decl: declarators) {
+  		D e = selection(decl);
+  		if(e != null) {
+  			tmp.add(e);
+  		}
+  	}
+  	order().removeBiggerElements(tmp);
     return tmp;
   }
 
@@ -108,12 +108,12 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
   	Map<D,Declaration> tmp = new HashMap<D,Declaration>();
   	List<D> Ds = new ArrayList<D>();
   	Class<D> selectedClass = selectedClass();
-  	for(Declaration decl: selectionCandidates) {
-  		if(selectedBasedOnName(decl.signature())) {
-  			Declaration selectionDeclaration = decl.selectionDeclaration();
-			if(selectedClass.isInstance(selectionDeclaration)) {
+  	for(Declaration selectionCandidate: selectionCandidates) {
+  		if(selectedBasedOnName(selectionCandidate.signature())) {
+  			Declaration selectionDeclaration = selectionCandidate.selectionDeclaration();
+  			if(selectedClass.isInstance(selectionDeclaration)) {
   				if(selectedRegardlessOfName((D)selectionDeclaration)) {
-  					tmp.put((D) selectionDeclaration,decl.declarator());
+  					tmp.put((D) selectionDeclaration,selectionCandidate.declarator());
   					Ds.add((D) selectionDeclaration);
   				}
   			}
@@ -121,9 +121,9 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
   	}
   	order().removeBiggerElements(Ds);
   	List<Declaration> result = new ArrayList<Declaration>();
-    for(D d: Ds) {
-    	result.add(tmp.get(d));
-    }
+  	for(D d: Ds) {
+  		result.add(tmp.get(d));
+  	}
   	return result;
   }
 

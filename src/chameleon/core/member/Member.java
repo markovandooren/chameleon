@@ -45,7 +45,7 @@ public interface Member<E extends Member<E,P,S,F>, P extends Element, S extends 
    * Return a selector that selects members that could override this
    * member based on the signature and other properties.
    */
-  public OverridesRelation<? extends Member> overridesSelector();
+  public MemberRelationSelector<? extends Member> overridesSelector();
   
   /**
    * Check whether this member overrides the given member.

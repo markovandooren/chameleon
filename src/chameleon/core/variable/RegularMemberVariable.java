@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.rejuse.predicate.AbstractPredicate;
 
+import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
@@ -15,6 +16,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.member.HidesRelation;
 import chameleon.core.member.Member;
 import chameleon.core.member.OverridesRelation;
+import chameleon.core.member.OverridesRelationSelector;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.scope.Scope;
@@ -130,7 +132,7 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
   }
 
   public boolean overrides(Member other) throws LookupException {
-  	return ((OverridesRelation)overridesSelector()).contains(this,other);
+  	return overridesSelector().selects(other);
   }
 
   public boolean canImplement(Member other) throws LookupException {
@@ -163,15 +165,14 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
 		return this;
 	}
 
-  public OverridesRelation<? extends Member> overridesSelector() {
-		return _overridesSelector;
+  public OverridesRelationSelector<? extends Member> overridesSelector() {
+		return new OverridesRelationSelector<MemberVariable>(MemberVariable.class,this,_overridesSelector);
   }
   
-  private static OverridesRelation<Member> _overridesSelector = new OverridesRelation<Member>(Member.class) {
+  private static OverridesRelation<MemberVariable> _overridesSelector = new OverridesRelation<MemberVariable>(MemberVariable.class) {
 		
-		public boolean containsBasedOnRest(Member first, Member second) throws LookupException {
-			boolean result = first.signature().sameAs(second.signature());
-			return result;
+		public boolean containsBasedOnRest(MemberVariable first, MemberVariable second) throws LookupException {
+			return true;
 		}
 
 		/**
@@ -179,8 +180,8 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
 		 * by default. 
 		 */
 		@Override
-		public boolean containsBasedOnName(Member first, Member second) {
-			return true;
+		public boolean containsBasedOnName(Signature first, Signature second) {
+			return first.name().equals(second.name());
 		}
 	};
 	

@@ -1,6 +1,7 @@
 package chameleon.core.member;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.Signature;
 import chameleon.core.lookup.LookupException;
 
 /**
@@ -33,12 +34,12 @@ public abstract class DeclarationComparator<D extends Declaration<?, ?, ?, ?>> {
 	}
 
 	public boolean contains(D first, D second) throws LookupException {
-		return selectedClass().isInstance(second) && containsBasedOnName(first, second) &&
+		return selectedClass().isInstance(second) && containsBasedOnName(first.signature(), second.signature()) &&
 		       containsBasedOnRest(first, second);
 	}
 
 	public abstract boolean containsBasedOnRest(D first, D second) throws LookupException;
 
-	public abstract boolean containsBasedOnName(D first, D second) throws LookupException;
+	public abstract boolean containsBasedOnName(Signature first, Signature second) throws LookupException;
 
 }

@@ -1,6 +1,7 @@
 package chameleon.core.member;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.Signature;
 
 public abstract class HidesRelation<D extends Declaration<?,?,?,?>> extends DeclarationComparator<D> {
 
@@ -9,8 +10,8 @@ public abstract class HidesRelation<D extends Declaration<?,?,?,?>> extends Decl
 	}
 	
 	@Override
-	public boolean containsBasedOnName(D first, D second) {
-		return first.signature().name().equals(second.signature().name());
+	public boolean containsBasedOnName(Signature first, Signature second) {
+		return first.name().equals(second.name());
 	}
 
 }

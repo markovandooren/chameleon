@@ -19,6 +19,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.Member;
 import chameleon.core.member.OverridesRelation;
+import chameleon.core.member.OverridesRelationSelector;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.scope.Scope;
@@ -223,20 +224,26 @@ public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContain
 		return aliasedVariable().declarator();
 	}
 
-  public OverridesRelation<? extends Member> overridesSelector() {
-		return new OverridesRelation<Member>(Member.class) {
-
-			@Override
-			public boolean containsBasedOnRest(Member first, Member second) throws LookupException {
-				return ((VariableAlias)first).aliasedVariable().overridesSelector().containsBasedOnRest(first, second);
-			}
-
-			@Override
-			public boolean containsBasedOnName(Member first, Member second) throws LookupException {
-				return ((VariableAlias)first).signature().name().equals(second.signature().name());
-			}
-		};
-
+  public OverridesRelationSelector<? extends Member> overridesSelector() {
+		return new OverridesRelationSelector<MemberVariable>(MemberVariable.class,this,_overridesSelector);
   }
+
+  private static OverridesSelector _overridesSelector = new OverridesSelector();
+  
+	private static class OverridesSelector extends OverridesRelation<MemberVariable> {
+		private OverridesSelector() {
+			super(MemberVariable.class);
+		}
+
+		@Override
+		public boolean containsBasedOnRest(MemberVariable first, MemberVariable second) throws LookupException {
+			return ((VariableAlias)first).aliasedVariable().overridesSelector().selectedRegardlessOfName(second);
+		}
+
+		@Override
+		public boolean containsBasedOnName(Signature first, Signature second) throws LookupException {
+			return first.name().equals(second.name());
+		}
+	}
 
 }

@@ -23,7 +23,9 @@ import chameleon.core.relation.EquivalenceRelation;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.relation.WeakPartialOrder;
 import chameleon.core.variable.VariableDeclarator;
+import chameleon.oo.type.DerivedType;
 import chameleon.oo.type.IntersectionTypeReference;
+import chameleon.oo.type.Parameter;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.oo.type.generics.TypeParameter;
@@ -90,6 +92,8 @@ public abstract class ObjectOrientedLanguage extends Language {
 	  typeRef.setUniParent(defaultNamespace());
 	  return typeRef;
   }
+  
+  public abstract <P extends Parameter> DerivedType createDerivedType(Class<P> kind, List<P> parameters, Type baseType);
   
 	public Type getDefaultSuperClass() throws LookupException {
 		  TypeReference typeRef = createTypeReferenceInDefaultNamespace(getDefaultSuperClassFQN());
