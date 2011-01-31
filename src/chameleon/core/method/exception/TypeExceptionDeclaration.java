@@ -8,7 +8,7 @@ import org.rejuse.association.SingleAssociation;
 import org.rejuse.predicate.AbstractPredicate;
 
 import chameleon.core.element.Element;
-import chameleon.core.expression.Invocation;
+import chameleon.core.expression.MethodInvocation;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
@@ -30,7 +30,7 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration<TypeException
     setTypeReference(type);
   }
 
-  public Set<Type> getExceptionTypes(Invocation invocation) throws LookupException {
+  public Set<Type> getExceptionTypes(MethodInvocation invocation) throws LookupException {
     return getExceptionTypeSet();
   }
   

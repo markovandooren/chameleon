@@ -31,7 +31,8 @@ Definition<Type,Element,SimpleNameSignature,Type>,
 Cloneable, 
 ExceptionSource<Type,Element>, 
 DeclarationContainer<Type,Element>,
-DeclarationWithType<Type,Element,SimpleNameSignature,Type>, Member<Type,Element,SimpleNameSignature,Type>, Element<Type,Element> {
+DeclarationWithType<Type,Element,SimpleNameSignature,Type>, Member<Type,Element,SimpleNameSignature,Type>, Element<Type,Element>,
+AspectOrType<Type,Type> {
 
 	public Class<SimpleNameSignature> signatureType();
 

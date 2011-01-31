@@ -1,10 +1,10 @@
-package chameleon.core.method;
+package chameleon.core.declaration;
 
 import java.util.Iterator;
 import java.util.List;
 
-import chameleon.core.declaration.Signature;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.method.Method;
 import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.variable.FormalParameter;
 import chameleon.oo.language.ObjectOrientedLanguage;
@@ -14,7 +14,7 @@ import chameleon.oo.type.generics.ExtendsConstraint;
 import chameleon.oo.type.generics.FormalTypeParameter;
 import chameleon.oo.type.generics.TypeParameter;
 
-public abstract class MethodSignature<E extends MethodSignature,P extends NamespaceElement> extends Signature<E, P> {
+public abstract class DeclarationWithParametersSignature<E extends DeclarationWithParametersSignature,P extends NamespaceElement> extends Signature<E, P> {
 
 //	public String name() {
 //		return _name;
@@ -49,15 +49,15 @@ public abstract class MethodSignature<E extends MethodSignature,P extends Namesp
 	
 	public abstract List<Type> parameterTypes() throws LookupException;
 	
-	public boolean sameParameterBoundsAs(MethodSignature other) throws LookupException {
+	public boolean sameParameterBoundsAs(DeclarationWithParametersSignature other) throws LookupException {
   	// substitute paramaters.
   	Method method = (Method)other.nearestAncestor(Method.class);
-  	MethodHeader otherHeader = method.header();
+  	DeclarationWithParametersHeader otherHeader = method.header();
   	int nbOtherFormalParameters = otherHeader.nbFormalParameters();
   	int nbMyFormalParameters = nbFormalParameters();
   	boolean result = nbOtherFormalParameters == nbMyFormalParameters;
   	if(result) {
-  		MethodHeader clonedHeader = otherHeader.clone();
+  		DeclarationWithParametersHeader clonedHeader = otherHeader.clone();
   		clonedHeader.setUniParent(method);
   		List<TypeParameter> cloneTypeParameters = clonedHeader.typeParameters();
   		List<TypeParameter> myTypeParameters = nearestAncestor(Method.class).typeParameters();
@@ -95,7 +95,7 @@ public abstract class MethodSignature<E extends MethodSignature,P extends Namesp
   	return result;
 	}
 	
-  public boolean sameParameterTypesAs(MethodSignature other) throws LookupException {
+  public boolean sameParameterTypesAs(DeclarationWithParametersSignature other) throws LookupException {
   	boolean result = false;
   	if (other != null) {
 			List<Type> mine = parameterTypes();

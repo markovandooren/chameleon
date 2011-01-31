@@ -1,9 +1,9 @@
 package chameleon.core.variable;
 
+import chameleon.core.declaration.DeclarationWithParametersHeader;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.method.Method;
-import chameleon.core.method.MethodHeader;
 import chameleon.core.scope.LexicalScope;
 import chameleon.core.scope.Scope;
 import chameleon.exception.ModelException;
@@ -28,10 +28,10 @@ public class FormalParameter extends RegularVariable<FormalParameter,VariableCon
    */
   public boolean compatibleWith(FormalParameter parameter) throws LookupException {
   	boolean result = false;
-  	if((parent() instanceof MethodHeader) && (parameter != null) && (parameter.parent() instanceof MethodHeader)) {
-    	MethodHeader<?,? extends Method,?> header = (MethodHeader<?, ? extends Method, ?>) parent();
+  	if((parent() instanceof DeclarationWithParametersHeader) && (parameter != null) && (parameter.parent() instanceof DeclarationWithParametersHeader)) {
+    	DeclarationWithParametersHeader<?,? extends Method,?> header = (DeclarationWithParametersHeader<?, ? extends Method, ?>) parent();
     	Method method = header.parent();
-    	MethodHeader<?,?,?> otherHeader = (MethodHeader<?, ?, ?>) parent();
+    	DeclarationWithParametersHeader<?,?,?> otherHeader = (DeclarationWithParametersHeader<?, ?, ?>) parent();
     	Method otherMethod = header.parent();
     	result = method.overrides(otherMethod) &&
       method.formalParameters().indexOf(this) == otherMethod.formalParameters().indexOf(parameter); 

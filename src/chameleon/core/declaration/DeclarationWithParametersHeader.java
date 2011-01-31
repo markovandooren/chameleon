@@ -1,15 +1,14 @@
-package chameleon.core.method;
+package chameleon.core.declaration;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import javax.lang.model.type.NullType;
 
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 
-import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
@@ -32,7 +31,7 @@ import chameleon.util.Util;
  * @param <P>
  * @param <S>
  */
-public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceElement, S extends MethodSignature> extends NamespaceElementImpl <E,P> implements VariableContainer<E, P> { //extends Signature<E, P> 
+public abstract class DeclarationWithParametersHeader<E extends DeclarationWithParametersHeader, P extends NamespaceElement, S extends DeclarationWithParametersSignature> extends NamespaceElementImpl <E,P> implements VariableContainer<E, P> { //extends Signature<E, P> 
   
   public E clone() {
     E result = cloneThis();
@@ -98,6 +97,15 @@ public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceEl
   public void addFormalParameter(FormalParameter arg) {
     _parameters.add(arg.parentLink());
   }
+  
+  public void addFormalParameters(List<FormalParameter> parameters) {
+	if (parameters == null)
+		return;
+	
+	for (FormalParameter f : parameters)
+		addFormalParameter(f);
+		
+  }
 
   public int nbFormalParameters() {
     return _parameters.size();
@@ -112,7 +120,7 @@ public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceEl
   	return _parameters.elementAt(index);
   }
 
-  private OrderedMultiAssociation<MethodHeader,FormalParameter> _parameters = new OrderedMultiAssociation<MethodHeader,FormalParameter>(this);
+  private OrderedMultiAssociation<DeclarationWithParametersHeader,FormalParameter> _parameters = new OrderedMultiAssociation<DeclarationWithParametersHeader,FormalParameter>(this);
   
   /**
    * Return the type of the formal parameters of this signature.
@@ -202,7 +210,7 @@ public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceEl
   
   private LookupStrategy _lexical;
 
-	public boolean sameParameterTypesAs(MethodHeader other) throws ModelException {
+	public boolean sameParameterTypesAs(DeclarationWithParametersHeader other) throws ModelException {
   	boolean result = false;
   	if (other != null) {
 			List<FormalParameter> mine = formalParameters();
@@ -225,7 +233,7 @@ public abstract class MethodHeader<E extends MethodHeader, P extends NamespaceEl
 //  	return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this),this);
 //  }
   
-	private SingleAssociation<MethodHeader, TypeParameterBlock> _typeParameters = new SingleAssociation<MethodHeader, TypeParameterBlock>(this);
+	private SingleAssociation<DeclarationWithParametersHeader, TypeParameterBlock> _typeParameters = new SingleAssociation<DeclarationWithParametersHeader, TypeParameterBlock>(this);
 	
 	public TypeParameterBlock parameterBlock() {
 		return _typeParameters.getOtherEnd();

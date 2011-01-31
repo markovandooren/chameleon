@@ -13,9 +13,11 @@ import org.rejuse.predicate.AbstractPredicate;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
+import chameleon.core.declaration.DeclarationWithHeader;
+import chameleon.core.declaration.DeclarationWithParametersHeader;
+import chameleon.core.declaration.DeclarationWithParametersSignature;
 import chameleon.core.declaration.Definition;
 import chameleon.core.declaration.Signature;
-import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
@@ -51,7 +53,7 @@ import chameleon.util.Util;
  * @param <S>
  * @param <M>
  */
-public abstract class Method<E extends Method<E,H,S,M>, H extends MethodHeader<H, E, S>, S extends MethodSignature, M extends Method> extends MemberImpl<E,Element,S,M> implements Definition<E,Element,S,M>, DeclarationContainer<E,Element>, Target<E,Element>, DeclarationWithType<E,Element,S,M> {
+public abstract class Method<E extends Method<E,H,S,M>, H extends DeclarationWithParametersHeader<H, E, S>, S extends DeclarationWithParametersSignature, M extends Method> extends MemberImpl<E,Element,S,M> implements Definition<E,Element,S,M>, DeclarationContainer<E,Element>, Target<E,Element>, DeclarationWithType<E,Element,S,M>, DeclarationWithHeader<E, Element, S, M, H> {
 
 	/**
 	 * Initialize a new method with the given header.
