@@ -34,6 +34,9 @@ public class LazyClassBody extends ClassBody {
 		_original = original;
 	}
 
+	/**
+	 * Return the declarations with the given name. The declarations are loaded lazily from the base type.
+	 */
 	protected List<Declaration> declarations(String selectionName) throws LookupException {
 		if(_initializedElements) {
 			return super.declarations(selectionName);
@@ -41,39 +44,45 @@ public class LazyClassBody extends ClassBody {
 			List<Declaration> result = cachedDeclarations(selectionName);
 			if(result == null) {
 				List<Declaration> declarationsFromBaseType = original().declarations(selectionName);
-				if(declarationsFromBaseType != null) {
-					// If the cache was empty, and the aliased body contains matches
-					// we clone the matches and store them in the cache.
-					result = new ArrayList<Declaration>();
-					// Use lazy initialization for the type parameters. We want to reuse the collection
-					// for different elements in declarationsFromBaseType, but we don't want to compute
-					// it unnecessarily when we don't need it, or compute it more than once if we do need it.
-					ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-					for(Declaration<?,?,?,?> declarationFromBaseType: declarationsFromBaseType) {
-						Element parent = declarationFromBaseType.parent();
-						// Replace the references to the formal type parameters of base class with
-						// references to the actual type arguments of the derived type that is the parent of
-						// this lazy class body.
-						Declaration clone = null;
-						if(parent instanceof TypeElementStub) {
-							clone = caseElementFromStub(selectionName, declarationFromBaseType, parent);
-						} else {
-							if(! declarationFromBaseType.isTrue(language.CLASS)) {
-							  clone = declarationFromBaseType.clone();
-							  super.add((TypeElement) clone); //FIX ME there should be a separate stub for type elements.
-							  clone.setOrigin(declarationFromBaseType);
-							} else {
-								clone = declarationFromBaseType;
-							}
-						}
-						result.add(clone);
-					}
-					storeCache(selectionName, result);
-					result = new ArrayList<Declaration>(result);
-				}
+				result = fetchMembers(selectionName, result, declarationsFromBaseType);
 			}
 			return result;
 		}
+	}
+
+	public List<Declaration> fetchMembers(String selectionName, List<Declaration> result, List<Declaration> declarationsFromBaseType)
+			throws LookupException {
+		if(declarationsFromBaseType != null) {
+			// If the cache was empty, and the aliased body contains matches
+			// we clone the matches and store them in the cache.
+			result = new ArrayList<Declaration>();
+			// Use lazy initialization for the type parameters. We want to reuse the collection
+			// for different elements in declarationsFromBaseType, but we don't want to compute
+			// it unnecessarily when we don't need it, or compute it more than once if we do need it.
+			ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+			for(Declaration<?,?,?,?> declarationFromBaseType: declarationsFromBaseType) {
+				Element parent = declarationFromBaseType.parent();
+				// Replace the references to the formal type parameters of base class with
+				// references to the actual type arguments of the derived type that is the parent of
+				// this lazy class body.
+				Declaration clone = null;
+				if(parent instanceof TypeElementStub) {
+					clone = caseElementFromStub(selectionName, declarationFromBaseType, parent);
+				} else {
+					if(! declarationFromBaseType.isTrue(language.CLASS)) {
+					  clone = declarationFromBaseType.clone();
+					  super.add((TypeElement) clone); //FIX ME there should be a separate stub for type elements.
+					  clone.setOrigin(declarationFromBaseType);
+					} else {
+						clone = declarationFromBaseType;
+					}
+				}
+				result.add(clone);
+			}
+			storeCache(selectionName, result);
+			result = new ArrayList<Declaration>(result);
+		}
+		return result;
 	}
 
 	private Declaration caseElementFromStub(String selectionName, Declaration<?, ?, ?, ?> declarationFromBaseType, Element parent) throws LookupException {
