@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import javax.lang.model.type.NullType;
 
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
@@ -95,6 +96,15 @@ public abstract class DeclarationWithParametersHeader<E extends DeclarationWithP
 
   public void addFormalParameter(FormalParameter arg) {
     _parameters.add(arg.parentLink());
+  }
+  
+  public void addFormalParameters(List<FormalParameter> parameters) {
+	if (parameters == null)
+		return;
+	
+	for (FormalParameter f : parameters)
+		addFormalParameter(f);
+		
   }
 
   public int nbFormalParameters() {

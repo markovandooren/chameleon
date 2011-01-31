@@ -172,11 +172,11 @@ public abstract class MethodInvocation<E extends MethodInvocation<E, D>, D exten
 		return crossReference().getDeclarator();
 	}
 
-	@Override
-	public void flushLocalCache() {
-		super.flushLocalCache();
-		crossReference().flushLocalCache();
-	}
+//	@Override
+//	public void flushLocalCache() {
+//		super.flushLocalCache();
+//		crossReference().flushLocalCache();
+//	}
 
 	protected D getCache() {
 		return (D) crossReference().getCache();

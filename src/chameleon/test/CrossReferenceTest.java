@@ -29,6 +29,8 @@ public class CrossReferenceTest extends ModelTest {
 	@Test
 	public void testCrossReferences() throws LookupException {
 		for(CrossReference crossReference: crossReferenceProvider().elements(language())) {
+			System.out.println(crossReference.getClass());
+			
 			Declaration declaration = crossReference.getElement();
 			assertTrue(declaration != null);
 			// The declarator test isn't necessary since every implementation simply

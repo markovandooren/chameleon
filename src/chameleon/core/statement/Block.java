@@ -61,6 +61,24 @@ public class Block extends StatementImpl<Block> implements StatementListContaine
   public int getIndexOf(Statement statement) {
     return statements().indexOf(statement) + 1;
   }
+  
+  public void addStatementBefore(Statement toAdd, Statement before) {
+	  int idx = statements().indexOf(before);
+	  
+	  if (idx == -1)
+		  return;
+	  
+	  _statements.addAtIndex(toAdd.parentLink(), idx);
+  }
+  
+  public void addStatementAfter(Statement toAdd, Statement after) {
+	  int idx = statements().indexOf(after);
+	  
+	  if (idx == -1)
+		  return;
+	  
+	  _statements.addAtIndex(toAdd.parentLink(), idx+1); 
+  }
 
 	public List<Statement> statementsAfter(Statement statement) {
 		List<Statement> statements = statements(); 
