@@ -21,7 +21,7 @@ import chameleon.core.lookup.LookupException;
  *
  * @param <D>
  */
-public abstract class DeclarationComparator<D extends Declaration<?, ?, ?, ?>> {
+public abstract class DeclarationComparator<D extends Declaration<?, ?, ?>> {
 
 	private final Class<D> _declarationClass;
 

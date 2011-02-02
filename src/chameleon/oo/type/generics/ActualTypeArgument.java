@@ -5,18 +5,16 @@ package chameleon.oo.type.generics;
 import java.util.ArrayList;
 import java.util.List;
 
-import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
-import chameleon.oo.type.IntersectionTypeReference;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Pair;
 
-public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends NamespaceElementImpl<E, Element> 
+public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends NamespaceElementImpl<E> 
 //implements TypeReference<E> 
 {
 

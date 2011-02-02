@@ -14,7 +14,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
 
-public abstract class TypeConstraint<E extends TypeConstraint> extends ElementImpl<E,Element> {
+public abstract class TypeConstraint<E extends TypeConstraint> extends ElementImpl<E> {
 
 	public TypeConstraint() {
 	}

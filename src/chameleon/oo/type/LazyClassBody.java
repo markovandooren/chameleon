@@ -13,11 +13,17 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
 import chameleon.core.property.ChameleonProperty;
-import chameleon.core.reference.CrossReference;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.generics.TypeParameter;
 
+/**
+ *
+ * All non-static declarations of a lazy class body have their origin set to the corresponding
+ * declaration in the base type.
+ * 
+ * @author Marko van Dooren
+ */
 public class LazyClassBody extends ClassBody {
 	
 	public LazyClassBody(ClassBody original) {
@@ -44,23 +50,23 @@ public class LazyClassBody extends ClassBody {
 			List<Declaration> result = cachedDeclarations(selectionName);
 			if(result == null) {
 				List<Declaration> declarationsFromBaseType = original().declarations(selectionName);
-				result = fetchMembers(selectionName, result, declarationsFromBaseType);
+				result = fetchMembers(selectionName, declarationsFromBaseType);
 			}
 			return result;
 		}
 	}
 
-	public List<Declaration> fetchMembers(String selectionName, List<Declaration> result, List<Declaration> declarationsFromBaseType)
+	public List<Declaration> fetchMembers(String selectionName, List<Declaration> declarationsFromBaseType)
 			throws LookupException {
+		ArrayList<Declaration> result = new ArrayList<Declaration>();
 		if(declarationsFromBaseType != null) {
 			// If the cache was empty, and the aliased body contains matches
 			// we clone the matches and store them in the cache.
-			result = new ArrayList<Declaration>();
 			// Use lazy initialization for the type parameters. We want to reuse the collection
 			// for different elements in declarationsFromBaseType, but we don't want to compute
 			// it unnecessarily when we don't need it, or compute it more than once if we do need it.
 			ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-			for(Declaration<?,?,?,?> declarationFromBaseType: declarationsFromBaseType) {
+			for(Declaration<?,?,?> declarationFromBaseType: declarationsFromBaseType) {
 				Element parent = declarationFromBaseType.parent();
 				// Replace the references to the formal type parameters of base class with
 				// references to the actual type arguments of the derived type that is the parent of
@@ -85,18 +91,20 @@ public class LazyClassBody extends ClassBody {
 		return result;
 	}
 
-	private Declaration caseElementFromStub(String selectionName, Declaration<?, ?, ?, ?> declarationFromBaseType, Element parent) throws LookupException {
+	private Declaration caseElementFromStub(String selectionName, Declaration<?, ?, ?> declarationFromBaseType, Element parent) throws LookupException {
 		Declaration clone = null;
-		List<TypeParameter> typeParameters = null;
+		// 1. Clone the declaration 
+		Declaration<?,?,?> declClone = declarationFromBaseType.clone();
+		// 2. Substitute the type parameters with those of the surrounding DerivedType.
 		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-		if(typeParameters == null) {
-			typeParameters = original().nearestAncestor(Type.class).parameters(TypeParameter.class);
-		}
-		Declaration<?,?,?,?> declClone = declarationFromBaseType.clone();
-		((Declaration)declClone).setUniParent(parent);
+		List<TypeParameter> typeParameters = original().nearestAncestor(Type.class).parameters(TypeParameter.class);
+		declClone.setUniParent(parent);
 		Iterator<TypeParameter> parameterIter = typeParameters.iterator();
 		while(parameterIter.hasNext()) {
 			TypeParameter par = parameterIter.next();
+			// Creating a new type reference with the same name will ensure that the name is
+			// resolved in the current context, and thus point to the corresponding type
+			// parameter in the surrounding DerivedType.
 			TypeReference tref = language.createTypeReference(par.signature().name());
 			tref.setUniParent(this);
 			language.replace(tref, par, declClone, Declaration.class);
@@ -157,13 +165,20 @@ public class LazyClassBody extends ClassBody {
 
 	public synchronized List<TypeElement> elements() {
 		if(! _initializedElements) {
-			flushLocalCache();
-			clear();
+//			flushLocalCache();
+//			clear();
 			_statics = new ArrayList<TypeElement>();
+			List<TypeElement> alreadyCloned = super.elements();
 			for(TypeElement element: original().elements()) {
 				ChameleonProperty clazz = language(ObjectOrientedLanguage.class).CLASS;
 				if(! element.isTrue(clazz)) {
-				  super.add(element.clone());
+					TypeElement clonedElement;
+					if(element instanceof Declaration) {
+						
+					} else {
+						clonedElement = element.clone();
+						super.add(clonedElement);
+					}
 				} else {
 					_statics.add(element);
 				}
@@ -174,6 +189,26 @@ public class LazyClassBody extends ClassBody {
 		result.addAll(_statics);
 		return result;
 	}
+
+	//	public synchronized List<TypeElement> elements() {
+//		if(! _initializedElements) {
+//			flushLocalCache();
+//			clear();
+//			_statics = new ArrayList<TypeElement>();
+//			for(TypeElement element: original().elements()) {
+//				ChameleonProperty clazz = language(ObjectOrientedLanguage.class).CLASS;
+//				if(! element.isTrue(clazz)) {
+//				  super.add(element.clone());
+//				} else {
+//					_statics.add(element);
+//				}
+//			}
+//			_initializedElements = true;
+//		}
+//		List<TypeElement> result = super.elements();
+//		result.addAll(_statics);
+//		return result;
+//	}
 	
 	private List<TypeElement> _statics;
 	

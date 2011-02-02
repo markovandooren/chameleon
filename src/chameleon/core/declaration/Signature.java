@@ -12,7 +12,7 @@ import chameleon.exception.ChameleonProgrammerException;
  * 
  * @author Marko van Dooren
  */
-public abstract class Signature<E extends Signature, P extends Element> extends QualifiedName<E,P> {
+public abstract class Signature<E extends Signature> extends QualifiedName<E> {
 
   public abstract E clone();
   

@@ -31,7 +31,7 @@ import chameleon.exception.ChameleonProgrammerException;
  * @author Marko van Dooren
  * @author Tim Laeremans
  */
-public class NamespacePart extends NamespaceElementImpl<NamespacePart,Element> implements DeclarationContainer<NamespacePart,Element> {
+public class NamespacePart extends NamespaceElementImpl<NamespacePart> implements DeclarationContainer<NamespacePart> {
 
 	private final class DefaultNamespaceSelector implements LookupStrategySelector {
 		public LookupStrategy strategy() throws LookupException {

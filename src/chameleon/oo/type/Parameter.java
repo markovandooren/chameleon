@@ -10,7 +10,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.exception.ChameleonProgrammerException;
 
-public abstract class Parameter<E extends Parameter<E,T>, T extends Declaration> extends NamespaceElementImpl<E, Element> implements Declaration<E,Element,SimpleNameSignature,T> {
+public abstract class Parameter<E extends Parameter<E,T>, T extends Declaration> extends NamespaceElementImpl<E> implements Declaration<E,SimpleNameSignature,T> {
 	
 	public Parameter(SimpleNameSignature sig) {
 		setSignature(sig);

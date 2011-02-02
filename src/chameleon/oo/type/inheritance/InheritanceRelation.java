@@ -19,7 +19,7 @@ import chameleon.core.member.MemberRelationSelector;
  * @param <M>
  * @param <S> The type of the super element from which things are inherited. 
  */
-public interface InheritanceRelation<E extends InheritanceRelation<E,S>, S extends Declaration> extends Element<E,Element> {
+public interface InheritanceRelation<E extends InheritanceRelation<E,S>, S extends Declaration> extends Element<E> {
 	
 	public E clone();
 

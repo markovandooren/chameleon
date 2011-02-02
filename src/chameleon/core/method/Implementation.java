@@ -8,7 +8,7 @@ import chameleon.core.statement.Block;
  * @author Marko van Dooren
  */
 
-public abstract class Implementation<E extends Implementation> extends NamespaceElementImpl<E,Method<?,?,?,?>> {
+public abstract class Implementation<E extends Implementation> extends NamespaceElementImpl<E> {
 
   public Implementation() {
     }

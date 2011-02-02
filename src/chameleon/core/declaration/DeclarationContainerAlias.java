@@ -15,7 +15,7 @@ import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public class DeclarationContainerAlias extends NamespaceElementImpl<DeclarationContainerAlias,DeclarationContainer> implements DeclarationContainer<DeclarationContainerAlias,DeclarationContainer> {
+public class DeclarationContainerAlias extends NamespaceElementImpl<DeclarationContainerAlias> implements DeclarationContainer<DeclarationContainerAlias> {
 
 	public DeclarationContainerAlias(DeclarationContainer parent) {
 		setUniParent(parent);

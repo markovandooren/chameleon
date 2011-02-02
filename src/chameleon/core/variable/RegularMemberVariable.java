@@ -31,7 +31,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class RegularMemberVariable extends RegularVariable<RegularMemberVariable,Element,MemberVariable> implements MemberVariable<RegularMemberVariable>{
+public class RegularMemberVariable extends RegularVariable<RegularMemberVariable,MemberVariable> implements MemberVariable<RegularMemberVariable>{
   
   
   /**

@@ -34,7 +34,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
 
-public class VariableAlias extends VariableImpl<VariableAlias,DeclarationContainer,MemberVariable> implements MemberVariable<VariableAlias> {
+public class VariableAlias extends VariableImpl<VariableAlias,MemberVariable> implements MemberVariable<VariableAlias> {
 	
 	public VariableAlias(SimpleNameSignature sig, MemberVariable aliasedVariable) {
 		super(sig);

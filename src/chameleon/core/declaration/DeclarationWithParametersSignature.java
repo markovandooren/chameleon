@@ -14,7 +14,7 @@ import chameleon.oo.type.generics.ExtendsConstraint;
 import chameleon.oo.type.generics.FormalTypeParameter;
 import chameleon.oo.type.generics.TypeParameter;
 
-public abstract class DeclarationWithParametersSignature<E extends DeclarationWithParametersSignature,P extends NamespaceElement> extends Signature<E, P> {
+public abstract class DeclarationWithParametersSignature<E extends DeclarationWithParametersSignature> extends Signature<E> {
 
 //	public String name() {
 //		return _name;

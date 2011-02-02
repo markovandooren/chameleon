@@ -15,7 +15,7 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 
-public class IntersectionTypeReference<E extends IntersectionTypeReference> extends NamespaceElementImpl<E, Element> implements TypeReference<E> {
+public class IntersectionTypeReference<E extends IntersectionTypeReference> extends NamespaceElementImpl<E> implements TypeReference<E> {
 
 	public IntersectionTypeReference() {
 		

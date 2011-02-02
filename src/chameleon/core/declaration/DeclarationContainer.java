@@ -17,7 +17,7 @@ import chameleon.core.lookup.LookupException;
  * @param <E>
  * @param <P>
  */
-public interface DeclarationContainer<E extends DeclarationContainer, P extends Element> extends Element<E,P> {
+public interface DeclarationContainer<E extends DeclarationContainer> extends Element<E> {
   
   /**
    * Return the declarations the are defined in this declaration container.

@@ -15,7 +15,7 @@ import chameleon.exception.ChameleonProgrammerException;
 /**
  * @author Marko van Dooren
  */
-public class Block extends StatementImpl<Block> implements StatementListContainer<Block,Element> {
+public class Block extends StatementImpl<Block> implements StatementListContainer<Block> {
 	//TODO: should this be a member, or should there be a separate ObjectInitializer that contains a block ?
 	//TODO: can any statement be a member ? In this case the methods of Member have to move up.
 

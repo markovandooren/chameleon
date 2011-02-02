@@ -12,7 +12,7 @@ import chameleon.core.reference.SpecificReference;
  * Generic Parameter R is the type of the referenced element.
  * @author Marko van Dooren
  */
-public class NamespaceOrTypeReference extends SpecificReference<NamespaceOrTypeReference,Element,NamespaceOrType> {
+public class NamespaceOrTypeReference extends SpecificReference<NamespaceOrTypeReference,NamespaceOrType> {
   
  /*@
    @ public behavior
@@ -34,7 +34,7 @@ public class NamespaceOrTypeReference extends SpecificReference<NamespaceOrTypeR
    @ post getTarget() == target;
    @ post getName() == name;
    @*/
-  public NamespaceOrTypeReference(CrossReference<? , ?, ? extends TargetDeclaration> target, String name) {
+  public NamespaceOrTypeReference(CrossReference<?, ? extends TargetDeclaration> target, String name) {
   	super(target,name,NamespaceOrType.class);
   }
   
@@ -46,7 +46,7 @@ public class NamespaceOrTypeReference extends SpecificReference<NamespaceOrTypeR
    @ post getTarget() == target;
    @ post getName() == name;
    @*/
-  public NamespaceOrTypeReference(CrossReference<? , ?, ? extends TargetDeclaration> target, SimpleNameSignature signature) {
+  public NamespaceOrTypeReference(CrossReference<?, ? extends TargetDeclaration> target, SimpleNameSignature signature) {
  	  super(target,signature,NamespaceOrType.class);
   }
 

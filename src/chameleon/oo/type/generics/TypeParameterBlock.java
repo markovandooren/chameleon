@@ -28,7 +28,7 @@ import chameleon.oo.type.ParameterBlock;
  *   
  * @author Marko van Dooren
  */
-public class TypeParameterBlock extends ParameterBlock<TypeParameterBlock,TypeParameter> implements DeclarationContainer<TypeParameterBlock, Element> {
+public class TypeParameterBlock extends ParameterBlock<TypeParameterBlock,TypeParameter> implements DeclarationContainer<TypeParameterBlock> {
 
 	public TypeParameterBlock() {
 		super(TypeParameter.class);
@@ -74,7 +74,7 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameterBlock,TypePa
 		}
 	}
 	
-	public static class Stub extends ElementImpl<Stub, Element> implements DeclarationContainer<Stub, Element>{
+	public static class Stub extends ElementImpl<Stub> implements DeclarationContainer<Stub>{
 
 		@Override
 		public Stub clone() {

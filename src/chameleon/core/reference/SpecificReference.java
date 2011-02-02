@@ -11,7 +11,7 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.SelectorWithoutOrder;
 
-public class SpecificReference<E extends SpecificReference, P extends Element, D extends Declaration> extends ElementReferenceWithTarget<E,P,D> {
+public class SpecificReference<E extends SpecificReference, D extends Declaration> extends ElementReferenceWithTarget<E,D> {
 
 	private Class<D> _specificClass;
 	
@@ -20,12 +20,12 @@ public class SpecificReference<E extends SpecificReference, P extends Element, D
 		_specificClass = specificClass;
 	}
 
-	public SpecificReference(CrossReference<?, ?, ? extends TargetDeclaration> target, Signature signature, Class<D> specificClass) {
+	public SpecificReference(CrossReference<?, ? extends TargetDeclaration> target, Signature signature, Class<D> specificClass) {
 		super(target, signature);
 		_specificClass = specificClass;
 	}
 
-	public SpecificReference(CrossReference<?, ?, ? extends TargetDeclaration> target, String name, Class<D> specificClass) {
+	public SpecificReference(CrossReference<?, ? extends TargetDeclaration> target, String name, Class<D> specificClass) {
 		this(target, new SimpleNameSignature(name), specificClass);
 //		super(target, name);
 //		_specificClass = specificClass;
@@ -36,16 +36,16 @@ public class SpecificReference<E extends SpecificReference, P extends Element, D
 //		},_specificClass);
 	}
 	
-	public SpecificReference(QualifiedName<?,?> name, Class<D> specificClass) {
+	public SpecificReference(QualifiedName<?> name, Class<D> specificClass) {
 		this(targetOf(name, specificClass), name.lastSignature().clone(), specificClass);
 	}
 	
-	public static <DD extends Declaration> CrossReference targetOf(QualifiedName<?,?> name, Class<DD> specificClass) {
+	public static <DD extends Declaration> CrossReference targetOf(QualifiedName<?> name, Class<DD> specificClass) {
 		SpecificReference current = null;
 		List<Signature> signatures = name.signatures();
 		int size = signatures.size();
 		for(int i = 0; i < size-1; i++) {
-			current = new SpecificReference<SpecificReference, Element, DD>(current, signatures.get(i).clone(), specificClass);
+			current = new SpecificReference<SpecificReference, DD>(current, signatures.get(i).clone(), specificClass);
 		}
 		return current;
 	}

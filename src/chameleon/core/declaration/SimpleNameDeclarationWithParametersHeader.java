@@ -11,7 +11,7 @@ import chameleon.core.variable.FormalParameter;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.type.TypeReference;
 
-public class SimpleNameDeclarationWithParametersHeader<E extends SimpleNameDeclarationWithParametersHeader, P extends NamespaceElement, S extends SimpleNameDeclarationWithParametersSignature> extends DeclarationWithParametersHeader<E, P, S>{
+public class SimpleNameDeclarationWithParametersHeader<E extends SimpleNameDeclarationWithParametersHeader, S extends SimpleNameDeclarationWithParametersSignature> extends DeclarationWithParametersHeader<E, S>{
 
   public SimpleNameDeclarationWithParametersHeader(String name) {
     setName(name);

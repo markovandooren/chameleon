@@ -24,7 +24,7 @@ import chameleon.exception.ChameleonProgrammerException;
  * 
  * @author Marko van Dooren
  */
-public class CompilationUnit extends ElementImpl<CompilationUnit,Element> {
+public class CompilationUnit extends ElementImpl<CompilationUnit> {
 
 	public CompilationUnit() {
 		

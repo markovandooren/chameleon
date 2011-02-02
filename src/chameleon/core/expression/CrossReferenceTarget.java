@@ -11,17 +11,17 @@ import chameleon.core.reference.SpecificReference;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.exception.ChameleonProgrammerException;
 
-public class CrossReferenceTarget<D extends TargetDeclaration> extends SpecificReference<CrossReferenceTarget<D>, Element, D> implements InvocationTarget<CrossReferenceTarget<D>, Element> {
+public class CrossReferenceTarget<D extends TargetDeclaration> extends SpecificReference<CrossReferenceTarget<D>, D> implements InvocationTarget<CrossReferenceTarget<D>> {
 
-	public CrossReferenceTarget(CrossReference<?, ?, ? extends TargetDeclaration> target, SimpleNameSignature signature, Class<D> specificClass) {
+	public CrossReferenceTarget(CrossReference<?, ? extends TargetDeclaration> target, SimpleNameSignature signature, Class<D> specificClass) {
 		super(target, signature, specificClass);
 	}
 
-	public CrossReferenceTarget(CrossReference<?, ?, ? extends TargetDeclaration> target, String name, Class<D> specificClass) {
+	public CrossReferenceTarget(CrossReference<?, ? extends TargetDeclaration> target, String name, Class<D> specificClass) {
 		super(target, name, specificClass);
 	}
 
-	public CrossReferenceTarget(QualifiedName<?, ?> name, Class<D> specificClass) {
+	public CrossReferenceTarget(QualifiedName<?> name, Class<D> specificClass) {
 		super(name, specificClass);
 	}
 
@@ -43,8 +43,8 @@ public class CrossReferenceTarget<D extends TargetDeclaration> extends SpecificR
 
 	@Override
 	public CrossReferenceTarget<D> clone() {
-		CrossReference<?, ?, ? extends TargetDeclaration> target = getTarget();
-		CrossReference<?, ?, ? extends TargetDeclaration> clone = (target != null ? target.clone() : null);
+		CrossReference<?, ? extends TargetDeclaration> target = getTarget();
+		CrossReference<?, ? extends TargetDeclaration> clone = (target != null ? target.clone() : null);
 		return new CrossReferenceTarget<D>(clone, (SimpleNameSignature)signature().clone(), specificType());
 	}
 

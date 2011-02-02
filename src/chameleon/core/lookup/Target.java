@@ -7,7 +7,7 @@ import chameleon.exception.ModelException;
  * @author marko
  */
 
-public interface Target<E extends Element, P extends Element> {
+public interface Target<E extends Element> extends Element<E>{
 
     /**
      * Return the target context of this target.

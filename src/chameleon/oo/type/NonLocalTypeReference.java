@@ -15,7 +15,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.util.Util;
 
-public abstract class NonLocalTypeReference<E extends NonLocalTypeReference> extends NamespaceElementImpl<E,Element> implements TypeReference<E> {
+public abstract class NonLocalTypeReference<E extends NonLocalTypeReference> extends NamespaceElementImpl<E> implements TypeReference<E> {
 
 	public NonLocalTypeReference(TypeReference tref) {
 	   this(tref,tref.parent());

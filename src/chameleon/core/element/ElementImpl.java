@@ -40,7 +40,7 @@ import chameleon.exception.ModelException;
  * @opt visibility
  * @opt types
  */
-public abstract class ElementImpl<E extends Element, P extends Element> implements Element<E,P> {
+public abstract class ElementImpl<E extends Element> implements Element<E> {
 
 	  public ElementImpl() {
 //	  	_parentLink.addListener(new AssociationListener<P>() {
@@ -148,12 +148,12 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  // IN WHICH CASE _parent PROVIDES THE UNIDIRECTIONAL ASSOCIATION
 	  // WITH THE PARENT. IN THAT CASE, THE ORIGIN IS SET TO THE ELEMENT
 	  // OF WHICH THIS ELEMENT IS A DERIVED ELEMENT
-	  private SingleAssociation<E,P> _parentLink = createParentLink();//new SingleAssociation<E,P>((E) this);
+	  private SingleAssociation<E,Element> _parentLink = createParentLink();//new SingleAssociation<E,P>((E) this);
 
 	  /**
 	   * This is the undirectional association with the parent in case this element is derived.
 	   */
-	  private P _parent;
+	  private Element _parent;
 	  
 	  /**
 	   * Return the bidirectional link to the parent in case the element IS NOT derived.
@@ -162,7 +162,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	   * @throws ChameleonProgrammerException
 	   *    The method is invoked on a derived element. 
 	   */
-	  public final SingleAssociation<E,P> parentLink() {
+	  public final SingleAssociation<E,Element> parentLink() {
 	  	if(_parentLink != null) {
 	      return _parentLink;
 	  	} else {
@@ -170,14 +170,14 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	  	}
 	  }
 	  
-	  protected SingleAssociation<E,P> createParentLink() {
-	  	return new SingleAssociation<E,P>((E) this);
+	  protected SingleAssociation<E,Element> createParentLink() {
+	  	return new SingleAssociation<E,Element>((E) this);
 	  }
 	  
 	  /**
 	   * Return the parent of this element
 	   */
-	  public final P parent() {
+	  public final Element parent() {
 	  	if(_parentLink != null) {
 	      return _parentLink.getOtherEnd();
 	  	} else {
@@ -228,7 +228,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
 	   * DO NOT OVERRIDE THIS METHOD UNLESS YOU *REALLY* KNOW WHAT YOU ARE DOING! We don't see
 	   * any use other than diagnostic purposes.
 	   */
-	  public void setUniParent(P parent) {
+	  public void setUniParent(Element parent) {
 	  	if(_parentLink != null) {
 	  		_parentLink.connectTo(null);
 	  	}
@@ -308,7 +308,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	List<? extends Element> tmp = children();
     	predicate.filter(tmp);
       List<Element> result = (List<Element>)tmp;
-      for (Element<?,?> e : children()) {
+      for (Element<?> e : children()) {
         result.addAll(e.descendants(predicate));
       }
       return result;
@@ -365,13 +365,13 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     	new TypePredicate<Element,T>(c).filter(tmp);
       List<T> result = (List<T>)tmp;
       predicate.filter(result);
-      for (Element<?,?> e : children()) {
+      for (Element<?> e : children()) {
         result.addAll(e.descendants(c, predicate));
       }
       return result;
     }
 
-    public final <T extends Element<?,?>> List<T> ancestors(Class<T> c) {
+    public final <T extends Element<?>> List<T> ancestors(Class<T> c) {
     	List<T> result = new ArrayList<T>();
     	T el = nearestAncestor(c);
     	while (el != null){
@@ -424,7 +424,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     }
 
     public Element farthestAncestor() {
-    	P parent = parent();
+    	Element parent = parent();
 			if(parent == null) {
     		return this;
     	} else {
@@ -497,7 +497,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     		result = _languageCache;
     	}
     	if(result == null) {
-    		P parent = parent();
+    		Element parent = parent();
     		if(parent != null) {
     			result = parent().language();
     			if(Config.cacheLanguage() == true) {
@@ -686,7 +686,7 @@ public abstract class ElementImpl<E extends Element, P extends Element> implemen
     }
 
 		private void notifyParent(Element descendant) {
-			P parent = parent();
+			Element parent = parent();
     	if(parent != null) {
     		parent.notifyDescendantChanged(descendant);
     	}

@@ -10,7 +10,7 @@ import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public abstract class CrossReferenceImpl<E extends CrossReference, P extends Element, D extends Declaration> extends NamespaceElementImpl<E,P> implements CrossReference<E, P, D> {
+public abstract class CrossReferenceImpl<E extends CrossReference, D extends Declaration> extends NamespaceElementImpl<E> implements CrossReference<E, D> {
 
 	/**
 	 * Return the declaration selector that is responsible for selecting the declaration

@@ -15,7 +15,7 @@ import chameleon.core.lookup.LookupException;
  * 
  * <D> The type of the declaration that is referenced by this cross reference.
  */
-public interface CrossReference<E extends CrossReference, P extends Element, D extends Declaration> extends Element<E,P> {
+public interface CrossReference<E extends CrossReference, D extends Declaration> extends Element<E> {
 	
 	/**
 	 * Return the element referenced by this cross-reference.

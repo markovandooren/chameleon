@@ -10,12 +10,12 @@ import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.exception.ChameleonProgrammerException;
 
-public abstract class ElementWithModifiersImpl<E extends Element<E, P>, P extends Element> extends NamespaceElementImpl<E,P> {
+public abstract class ElementWithModifiersImpl<E extends Element<E>> extends NamespaceElementImpl<E> {
 
   /*************
    * MODIFIERS *
    *************/
-  private OrderedMultiAssociation<ElementWithModifiersImpl<E,P>, Modifier> _modifiers = new OrderedMultiAssociation<ElementWithModifiersImpl<E,P>, Modifier>(this);
+  private OrderedMultiAssociation<ElementWithModifiersImpl<E>, Modifier> _modifiers = new OrderedMultiAssociation<ElementWithModifiersImpl<E>, Modifier>(this);
 
   /**
    * Return the list of modifiers of this member.

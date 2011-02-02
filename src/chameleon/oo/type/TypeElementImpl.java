@@ -23,7 +23,7 @@ import chameleon.exception.ModelException;
  * @param <E> The type of the element
  * @param <P> The type of the parent
  */
-public abstract class TypeElementImpl<E extends TypeElement<E,P>, P extends Element> extends ElementWithModifiersImpl<E, P> implements TypeElement<E,P> {
+public abstract class TypeElementImpl<E extends TypeElement<E>> extends ElementWithModifiersImpl<E> implements TypeElement<E> {
   
 
 	public CheckedExceptionList getCEL() throws LookupException {

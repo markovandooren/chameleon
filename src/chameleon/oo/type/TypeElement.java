@@ -17,7 +17,7 @@ import chameleon.core.statement.CheckedExceptionList;
  * @param <E> The type of the element itself
  * @param <P> The type of the parent of the element
  */
-public interface TypeElement<E extends TypeElement<E,P>, P extends Element> extends NamespaceElement<E, P>, ElementWithModifiers<E, P> {
+public interface TypeElement<E extends TypeElement<E>> extends NamespaceElement<E>, ElementWithModifiers<E> {
 
 	public abstract E clone();
 

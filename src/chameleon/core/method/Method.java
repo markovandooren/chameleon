@@ -53,7 +53,7 @@ import chameleon.util.Util;
  * @param <S>
  * @param <M>
  */
-public abstract class Method<E extends Method<E,H,S,M>, H extends DeclarationWithParametersHeader<H, E, S>, S extends DeclarationWithParametersSignature, M extends Method> extends MemberImpl<E,Element,S,M> implements Definition<E,Element,S,M>, DeclarationContainer<E,Element>, Target<E,Element>, DeclarationWithType<E,Element,S,M>, DeclarationWithHeader<E, Element, S, M, H> {
+public abstract class Method<E extends Method<E,H,S,M>, H extends DeclarationWithParametersHeader<H, S>, S extends DeclarationWithParametersSignature, M extends Method> extends MemberImpl<E,S,M> implements Definition<E,S,M>, DeclarationContainer<E>, Target<E>, DeclarationWithType<E,S,M>, DeclarationWithHeader<E, S, M, H> {
 
 	/**
 	 * Initialize a new method with the given header.

@@ -81,9 +81,9 @@ public abstract class ObjectOrientedLanguage extends Language {
 
   public abstract TypeReference createTypeReference(String fqn);
   
-  public abstract TypeReference createTypeReference(CrossReference<?, ?, ? extends TargetDeclaration> target, String name);
+  public abstract TypeReference createTypeReference(CrossReference<?, ? extends TargetDeclaration> target, String name);
   
-  public abstract TypeReference createTypeReference(CrossReference<?, ?, ? extends TargetDeclaration> target, SimpleNameSignature signature);
+  public abstract TypeReference createTypeReference(CrossReference<?, ? extends TargetDeclaration> target, SimpleNameSignature signature);
   
   public abstract IntersectionTypeReference createIntersectionReference(TypeReference first, TypeReference second);
   
@@ -218,5 +218,5 @@ public abstract class ObjectOrientedLanguage extends Language {
 
 	public abstract TypeReference createNonLocalTypeReference(TypeReference tref, Element lookupParent);
 	
-	public abstract <E extends Element<?,?>> E replace(TypeReference replacement, Declaration declarator, E in, Class<E> kind) throws LookupException;
+	public abstract <E extends Element<?>> E replace(TypeReference replacement, Declaration declarator, E in, Class<E> kind) throws LookupException;
 }

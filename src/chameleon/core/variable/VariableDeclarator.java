@@ -9,7 +9,7 @@ import chameleon.core.expression.Expression;
 import chameleon.core.modifier.Modifier;
 import chameleon.oo.type.TypeReference;
 
-public interface VariableDeclarator<E extends VariableDeclarator, V extends Variable, P extends Element> extends Element<E,P> , DeclarationContainer<E, P> {
+public interface VariableDeclarator<E extends VariableDeclarator, V extends Variable> extends Element<E> , DeclarationContainer<E> {
 
 	public List<VariableDeclaration<V>> variableDeclarations();
 

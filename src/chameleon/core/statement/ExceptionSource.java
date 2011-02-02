@@ -7,7 +7,7 @@ import chameleon.core.lookup.LookupException;
  * @author Marko van Dooren
  */
 
-public interface ExceptionSource<E extends ExceptionSource, P extends Element> extends Element<E, P> {
+public interface ExceptionSource<E extends ExceptionSource> extends Element<E> {
 
 	/**
 	 *  

@@ -14,7 +14,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.util.Util;
 
-public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithTarget, P extends Element, R extends Declaration> extends ElementReference<E,P,SimpleNameSignature,R> implements CrossReferenceWithTarget<E,P,R>{
+public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithTarget, R extends Declaration> extends ElementReference<E,SimpleNameSignature,R> implements CrossReferenceWithTarget<E,R>{
 
 	/*@
 	  @ public behavior
@@ -28,15 +28,15 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	   this(getTarget(Util.getAllButLastPart(qn)), new SimpleNameSignature(Util.getLastPart(qn)));
 	 }
 	 
-	 protected static CrossReference<? extends CrossReference<?,?,? extends TargetDeclaration>,?, ? extends TargetDeclaration> getTarget(String qn) {
+	 protected static CrossReference<? extends CrossReference<?,? extends TargetDeclaration>, ? extends TargetDeclaration> getTarget(String qn) {
 		 if(qn == null) {
 			 return null;
 		 }
 		 //ElementReference<? extends ElementReference<?,? extends TargetDeclaration>, ? extends TargetDeclaration> target = new SpecificReference<SpecificReferece,TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
-		 SpecificReference<SpecificReference<SpecificReference,Element,TargetDeclaration>, Element,TargetDeclaration> target = new SpecificReference<SpecificReference<SpecificReference,Element,TargetDeclaration>,Element,TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
+		 SpecificReference<SpecificReference<SpecificReference,TargetDeclaration>, TargetDeclaration> target = new SpecificReference<SpecificReference<SpecificReference,TargetDeclaration>,TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
 		 qn = Util.getSecondPart(qn);
 		 while(qn != null) {
-			 SpecificReference<SpecificReference<SpecificReference,Element,TargetDeclaration>,Element,TargetDeclaration> newTarget = new SpecificReference<SpecificReference<SpecificReference,Element,TargetDeclaration>,Element,TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
+			 SpecificReference<SpecificReference<SpecificReference,TargetDeclaration>,TargetDeclaration> newTarget = new SpecificReference<SpecificReference<SpecificReference,TargetDeclaration>,TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
 			 newTarget.setTarget(target);
 			 target = newTarget;
 			 qn = Util.getSecondPart(qn);
@@ -52,9 +52,9 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	  @ post getTarget() == target;
 	  @ post getName() == name;
 	  @*/
-	 public ElementReferenceWithTarget(CrossReference<?,?,? extends TargetDeclaration> target, Signature signature) {
+	 public ElementReferenceWithTarget(CrossReference<?,? extends TargetDeclaration> target, Signature signature) {
 	 	super(signature);
-		  setTarget((CrossReference<? extends CrossReference<?, ? super ElementReferenceWithTarget, ? extends TargetDeclaration>, ? super ElementReferenceWithTarget,? extends TargetDeclaration>) target); 
+		  setTarget((CrossReference<? extends CrossReference<?, ? extends TargetDeclaration>, ? extends TargetDeclaration>) target); 
 	 }
 	 
 	 /**
@@ -78,17 +78,17 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 		/**
 		 * TARGET
 		 */
-		private SingleAssociation<ElementReferenceWithTarget,CrossReference<?, ?, ? extends TargetDeclaration>> _target = new SingleAssociation<ElementReferenceWithTarget,CrossReference<?, ?, ? extends TargetDeclaration>>(this);
+		private SingleAssociation<ElementReferenceWithTarget,CrossReference<?, ? extends TargetDeclaration>> _target = new SingleAssociation<ElementReferenceWithTarget,CrossReference<?, ? extends TargetDeclaration>>(this);
 
-		protected SingleAssociation<ElementReferenceWithTarget,CrossReference<?, ?, ? extends TargetDeclaration>> targetLink() {
+		protected SingleAssociation<ElementReferenceWithTarget,CrossReference<?, ? extends TargetDeclaration>> targetLink() {
 			return _target;
 		}
 		
-	 public CrossReference<?, ?, ? extends TargetDeclaration> getTarget() {
+	 public CrossReference<?, ? extends TargetDeclaration> getTarget() {
 	   return _target.getOtherEnd();
 	 }
 
-	 public void setTarget(CrossReference<? extends CrossReference<?,? super ElementReferenceWithTarget,? extends TargetDeclaration>, ? super ElementReferenceWithTarget, ? extends TargetDeclaration> target) {
+	 public void setTarget(CrossReference<? extends CrossReference<?,? extends TargetDeclaration>, ? extends TargetDeclaration> target) {
 	   if(target != null) {
 	     _target.connectTo(target.parentLink());
 	   } else {
@@ -128,7 +128,7 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	   	return result;
 	   }
 	   
-	  CrossReference<?, ?, ? extends TargetDeclaration> targetReference = getTarget();
+	  CrossReference<?, ? extends TargetDeclaration> targetReference = getTarget();
 	  if(targetReference != null) {
 	  	TargetDeclaration target = targetReference.getElement();
 	  	if(target != null) {

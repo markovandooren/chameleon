@@ -27,7 +27,7 @@ import chameleon.oo.type.DeclarationWithType;
 import chameleon.oo.type.Type;
 import chameleon.util.Util;
 
-public class NamedTargetExpression extends TargetedExpression<NamedTargetExpression> implements CrossReferenceWithName<NamedTargetExpression,Element,DeclarationWithType>, CrossReferenceWithTarget<NamedTargetExpression,Element,DeclarationWithType> {
+public class NamedTargetExpression extends TargetedExpression<NamedTargetExpression> implements CrossReferenceWithName<NamedTargetExpression,DeclarationWithType>, CrossReferenceWithTarget<NamedTargetExpression,DeclarationWithType> {
 
   public NamedTargetExpression(String identifier) {
   	_signature = new SimpleNameSignature(identifier);

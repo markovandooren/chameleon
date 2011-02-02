@@ -2,10 +2,9 @@ package chameleon.core.declaration;
 
 import chameleon.core.element.Element;
 
-public interface DeclarationWithHeader<	E extends DeclarationWithHeader<E, P, S, D, H>, 
-										P extends Element, 
+public interface DeclarationWithHeader<	E extends DeclarationWithHeader<E, S, D, H>, 
 										S extends DeclarationWithParametersSignature, 
 										D extends Declaration, 
-										H extends DeclarationWithParametersHeader> extends Declaration<E, P, S, D> {
+										H extends DeclarationWithParametersHeader> extends Declaration<E, S, D> {
 	public H header();
 }

@@ -25,13 +25,13 @@ import chameleon.oo.type.generics.TypeParameter;
 import chameleon.oo.type.inheritance.InheritanceRelation;
 import chameleon.util.Pair;
 
-public interface Type extends NamespaceOrType<Type,Element,SimpleNameSignature,Type>, 
-VariableOrType<Type,Element,SimpleNameSignature,Type>, 
-Definition<Type,Element,SimpleNameSignature,Type>,
+public interface Type extends NamespaceOrType<Type,SimpleNameSignature,Type>, 
+VariableOrType<Type,SimpleNameSignature,Type>, 
+Definition<Type,SimpleNameSignature,Type>,
 Cloneable, 
-ExceptionSource<Type,Element>, 
-DeclarationContainer<Type,Element>,
-DeclarationWithType<Type,Element,SimpleNameSignature,Type>, Member<Type,Element,SimpleNameSignature,Type>, Element<Type,Element>,
+ExceptionSource<Type>, 
+DeclarationContainer<Type>,
+DeclarationWithType<Type,SimpleNameSignature,Type>, Member<Type,SimpleNameSignature,Type>, 
 AspectOrType<Type,Type> {
 
 	public Class<SimpleNameSignature> signatureType();

@@ -21,7 +21,7 @@ import chameleon.oo.type.Type;
  * @author Marko van Dooren
  */
 
-public abstract class Expression<E extends Expression> extends NamespaceElementImpl<E,Element> implements InvocationTarget<E,Element> {
+public abstract class Expression<E extends Expression> extends NamespaceElementImpl<E> implements InvocationTarget<E> {
 
 	/**
 	 * Return the type of this expression. The actual computation of the type is done in actualType. This

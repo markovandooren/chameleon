@@ -15,7 +15,7 @@ import chameleon.core.namespace.NamespaceElementImpl;
  * @author Marko van Dooren
  */
 
-public abstract class StatementImpl<E extends Statement> extends NamespaceElementImpl<E,Element> implements Statement<E,Element> {
+public abstract class StatementImpl<E extends Statement> extends NamespaceElementImpl<E> implements Statement<E> {
 
 
   protected StatementImpl() {
@@ -85,8 +85,8 @@ public abstract class StatementImpl<E extends Statement> extends NamespaceElemen
     List otherParents = other.ancestors();
     myParents.add(0, this);
     otherParents.add(0, other);
-    Statement<E, Element> myAncestor = (Statement<E, Element>)myParents.get(myParents.indexOf(container) - 1);
-    Statement<E, Element> otherAncestor = (Statement<E, Element>)otherParents.get(myParents.indexOf(container) - 1);
+    Statement<E> myAncestor = (Statement<E>)myParents.get(myParents.indexOf(container) - 1);
+    Statement<E> otherAncestor = (Statement<E>)otherParents.get(myParents.indexOf(container) - 1);
     return container.getIndexOf(myAncestor) < container.getIndexOf(otherAncestor);
   }
 

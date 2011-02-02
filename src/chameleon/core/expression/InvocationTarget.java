@@ -12,8 +12,8 @@ import chameleon.core.statement.ExceptionSource;
  * @author Marko van Dooren
  */
 
-public interface InvocationTarget<E extends InvocationTarget,P extends Element> 
-                extends NamespaceElement<E,P>, Cloneable, ExceptionSource<E,P> {
+public interface InvocationTarget<E extends InvocationTarget> 
+                extends NamespaceElement<E>, Cloneable, ExceptionSource<E> {
 
   /**
    * Return the target context of this target.

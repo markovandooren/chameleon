@@ -21,9 +21,9 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
 import chameleon.oo.type.Type;
 
-public abstract class VariableImpl<E extends VariableImpl<E,P,F>, P extends Element, F extends Variable> 
-       extends NamespaceElementImpl<E, Element>
-       implements Variable<E,Element,F> {
+public abstract class VariableImpl<E extends VariableImpl<E,F>, F extends Variable> 
+       extends NamespaceElementImpl<E>
+       implements Variable<E,F> {
 	
 	public VariableImpl(SimpleNameSignature signature) {
 		setSignature(signature);

@@ -15,7 +15,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
 
-public class SimpleNameDeclarationWithParametersSignature extends DeclarationWithParametersSignature<SimpleNameDeclarationWithParametersSignature, NamespaceElement>{
+public class SimpleNameDeclarationWithParametersSignature extends DeclarationWithParametersSignature<SimpleNameDeclarationWithParametersSignature>{
 
   public SimpleNameDeclarationWithParametersSignature(String name) {
     setName(name);

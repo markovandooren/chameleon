@@ -22,7 +22,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.oo.type.Type;
 import chameleon.util.Util;
 
-public class VariableDeclaration<V extends Variable> extends NamespaceElementImpl<VariableDeclaration<V>,VariableDeclarator<?,V,?>> implements DeclarationContainer<VariableDeclaration<V>,VariableDeclarator<?,V,?>> {
+public class VariableDeclaration<V extends Variable> extends NamespaceElementImpl<VariableDeclaration<V>> implements DeclarationContainer<VariableDeclaration<V>> {
 
 	public VariableDeclaration(String name) {
 		this(new SimpleNameSignature(name), null);
@@ -94,7 +94,7 @@ public class VariableDeclaration<V extends Variable> extends NamespaceElementImp
   public V variable() {
   	Expression init = initialization();
 		Expression initClone = (init == null ? null : init.clone());
-		V result = parent().createVariable(signature().clone(),initClone);
+		V result = (V)((VariableDeclarator<?,V>)parent()).createVariable(signature().clone(),initClone);
   	result.setUniParent(parent());
   	result.setOrigin(this);
   	transform(result);

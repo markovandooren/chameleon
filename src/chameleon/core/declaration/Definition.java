@@ -15,7 +15,7 @@ import chameleon.core.lookup.LookupException;
  * @param <S>
  * @param <F>
  */
-public interface Definition<E extends Definition<E,P,S,F>, P extends Element,S extends Signature, F extends Declaration> extends Declaration<E,P,S,F> {
+public interface Definition<E extends Definition<E,S,F>, S extends Signature, F extends Declaration> extends Declaration<E,S,F> {
 
 	// SIMPLIFY: Can't we move complete() to Declaration?
 	

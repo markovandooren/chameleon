@@ -8,7 +8,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.namespace.NamespaceOrType;
 
-public interface AspectOrType<E extends AspectOrType<E, D>, D extends Declaration> extends NamespaceElement<E,Element>, Declaration<E, Element,  SimpleNameSignature, D> {
+public interface AspectOrType<E extends AspectOrType<E, D>, D extends Declaration> extends NamespaceElement<E>, Declaration<E,  SimpleNameSignature, D> {
 
 	/********
 	 * NAME *

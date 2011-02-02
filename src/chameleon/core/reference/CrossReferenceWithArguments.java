@@ -28,7 +28,11 @@ import chameleon.oo.type.generics.ActualTypeArgument;
 import chameleon.util.Util;
 
 public class CrossReferenceWithArguments<E extends CrossReferenceWithArguments<E>>
-		extends NamespaceElementImpl<E, Element> {
+		extends NamespaceElementImpl<E> {
+	
+	public CrossReferenceWithArguments() {
+		
+	}
 
 	/**
 	 * TARGET

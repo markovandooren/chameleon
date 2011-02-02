@@ -25,7 +25,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
 
-public abstract class AbstractInheritanceRelation<E extends AbstractInheritanceRelation<E>> extends ElementWithModifiersImpl<E,Element> implements InheritanceRelation<E,Type> {
+public abstract class AbstractInheritanceRelation<E extends AbstractInheritanceRelation<E>> extends ElementWithModifiersImpl<E> implements InheritanceRelation<E,Type> {
 	
 	private static Logger logger = Logger.getLogger("lookup.inheritance");
 	

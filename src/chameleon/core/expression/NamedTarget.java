@@ -24,7 +24,7 @@ import chameleon.core.statement.CheckedExceptionList;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.util.Util;
-public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDeclaration> implements InvocationTarget<NamedTarget,Element>, CrossReferenceWithTarget<NamedTarget,Element,TargetDeclaration>, CrossReferenceWithName<NamedTarget,Element,TargetDeclaration> {
+public class NamedTarget extends CrossReferenceImpl<NamedTarget,TargetDeclaration> implements InvocationTarget<NamedTarget>, CrossReferenceWithTarget<NamedTarget,TargetDeclaration>, CrossReferenceWithName<NamedTarget,TargetDeclaration> {
 
 	/**
 	 * Initialize a new named target with the given fully qualified name. The
@@ -66,7 +66,7 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
 	 */
 	private SingleAssociation<InvocationTarget,InvocationTarget> _target = new SingleAssociation<InvocationTarget,InvocationTarget>(this);
 
-  public InvocationTarget<?,?> getTarget() {
+  public InvocationTarget<?> getTarget() {
     return _target.getOtherEnd();
   }
 
@@ -205,7 +205,7 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,Element,TargetDe
 
   public NamedTarget clone() {
     NamedTarget result = new NamedTarget(name());
-    InvocationTarget<?, ?> target = getTarget();
+    InvocationTarget<?> target = getTarget();
 		if(target!= null) {
       result.setTarget(target.clone());
     }

@@ -37,7 +37,7 @@ import chameleon.util.Util;
  */
 
 public abstract class MethodInvocation<E extends MethodInvocation<E, D>, D extends Method>
-		extends TargetedExpression<E> implements CrossReference<E, Element, D> {
+		extends TargetedExpression<E> implements CrossReference<E, D> {
 
 	private SingleAssociation<MethodInvocation<E, D>, CrossReferenceWithArguments> _crossReference = new SingleAssociation<MethodInvocation<E, D>, CrossReferenceWithArguments>(
 			this);

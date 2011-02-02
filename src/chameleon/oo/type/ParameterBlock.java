@@ -12,7 +12,7 @@ import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public class ParameterBlock<E extends ParameterBlock<E,T>, T extends Parameter> extends NamespaceElementImpl<E, Element> {
+public class ParameterBlock<E extends ParameterBlock<E,T>, T extends Parameter> extends NamespaceElementImpl<E> {
 
 	public ParameterBlock(Class<T> parameterType) {
 		_parameterType = parameterType;

@@ -40,12 +40,12 @@ import chameleon.exception.ModelException;
  * 
  * @opt all
  */
-public interface Element<E extends Element, P extends Element> {
+public interface Element<E extends Element> {
 
 	  /**
 	   * Return the parent element of this element. Null if there is no parent.
 	   */
-    public P parent();
+    public Element parent();
     
     /**
      * Return the object representing the <b>bidirectional</b>link to the parent of this element.
@@ -58,7 +58,7 @@ public interface Element<E extends Element, P extends Element> {
      @
      @ post \result != null;
      @*/
-    public SingleAssociation<E,P> parentLink();
+    public SingleAssociation<E,Element> parentLink();
 
     /**
      * Completely disconnect this element and all children from the parent.
@@ -157,7 +157,7 @@ public interface Element<E extends Element, P extends Element> {
      @ post parent() != null && c.isInstance(parent()) ==> \result.get(0) == parent();
      @ post parent() != null ==> \result.subList(1,\result.size()).equals(parent().ancestors(c));
      @*/
-    public <T extends Element<?,?>> List<T> ancestors(Class<T> c);
+    public <T extends Element<?>> List<T> ancestors(Class<T> c);
     
     /**
      * Return the direct children of this element.
@@ -690,7 +690,7 @@ public interface Element<E extends Element, P extends Element> {
      @
      @ post parent() == parent;
      @*/
-    public void setUniParent(P parent);
+    public void setUniParent(Element parent);
     
     /**************
      * PROPERTIES *

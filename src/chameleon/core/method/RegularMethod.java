@@ -9,7 +9,7 @@ import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.type.TypeReference;
 
-public abstract class RegularMethod<E extends RegularMethod<E,H,S,M>, H extends DeclarationWithParametersHeader<H, E, S>, S extends DeclarationWithParametersSignature,M extends Method> extends Method<E,H,S,M> {
+public abstract class RegularMethod<E extends RegularMethod<E,H,S,M>, H extends DeclarationWithParametersHeader<H, S>, S extends DeclarationWithParametersSignature,M extends Method> extends Method<E,H,S,M> {
 
 	public RegularMethod(H header, TypeReference returnType) {
 		super(header);

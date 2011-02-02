@@ -13,7 +13,7 @@ import chameleon.core.namespace.NamespaceElementImpl;
 /**
  * @author Marko van Dooren
  */
-public abstract class Import<E extends Import> extends NamespaceElementImpl<E,NamespacePart> {
+public abstract class Import<E extends Import> extends NamespaceElementImpl<E> {
 
   public Import() {
 	}

@@ -10,7 +10,7 @@ import chameleon.core.namespace.NamespaceElementImpl;
  * @author Marko van Dooren
  */
 
-public abstract class ExceptionDeclaration<E extends ExceptionDeclaration> extends NamespaceElementImpl<E,ExceptionClause> {
+public abstract class ExceptionDeclaration<E extends ExceptionDeclaration> extends NamespaceElementImpl<E> {
 
   public ExceptionDeclaration() {
 	}

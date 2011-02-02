@@ -31,7 +31,7 @@ import chameleon.util.Util;
  * @param <P>
  * @param <S>
  */
-public abstract class DeclarationWithParametersHeader<E extends DeclarationWithParametersHeader, P extends NamespaceElement, S extends DeclarationWithParametersSignature> extends NamespaceElementImpl <E,P> implements VariableContainer<E, P> { //extends Signature<E, P> 
+public abstract class DeclarationWithParametersHeader<E extends DeclarationWithParametersHeader, S extends DeclarationWithParametersSignature> extends NamespaceElementImpl <E> implements VariableContainer<E> { //extends Signature<E, P> 
   
   public E clone() {
     E result = cloneThis();
@@ -226,7 +226,7 @@ public abstract class DeclarationWithParametersHeader<E extends DeclarationWithP
   }
 
   public NamespaceElement variableScopeElement() {
-  	return parent();
+  	return nearestAncestor(NamespaceElement.class);
   }
   
 //  public LookupStrategy lexicalLookupStrategy(Element element) {

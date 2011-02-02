@@ -20,7 +20,7 @@ import chameleon.core.validation.VerificationResult;
  * 
  * @author Marko van Dooren
  */
-public abstract class ModifierImpl<E extends Modifier,P extends Element> extends ElementImpl<E,P> implements Modifier<E,P> {
+public abstract class ModifierImpl<E extends Modifier> extends ElementImpl<E> implements Modifier<E> {
 
 
 

@@ -2,10 +2,9 @@ package chameleon.core.declaration;
 
 import java.util.List;
 
-import chameleon.core.element.Element;
 import chameleon.core.namespace.NamespaceElementImpl;
 
-public abstract class QualifiedName<E extends QualifiedName, P extends Element> extends NamespaceElementImpl<E,P> {
+public abstract class QualifiedName<E extends QualifiedName> extends NamespaceElementImpl<E> {
 
 	public abstract List<Signature> signatures();
 	
@@ -26,8 +25,8 @@ public abstract class QualifiedName<E extends QualifiedName, P extends Element> 
 	 * Return a new qualified name that contains all signatures of this qualified name, except for the last one.
 	 * @return
 	 */
-	public QualifiedName<?,?> popped() {
-		CompositeQualifiedName<?, ?> result = new CompositeQualifiedName();
+	public QualifiedName<?> popped() {
+		CompositeQualifiedName<?> result = new CompositeQualifiedName();
 		List<Signature> signatures = signatures();
 		int length = signatures.size();
 		for(int i=0; i< length-1; i++) {

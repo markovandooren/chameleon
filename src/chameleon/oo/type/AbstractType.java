@@ -46,7 +46,7 @@ import chameleon.util.Pair;
  *
  * @author Marko van Dooren
  */
-public abstract class AbstractType extends FixedSignatureMember<Type,Element,SimpleNameSignature,Type> 
+public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameSignature,Type> 
                 implements Type {
  
 	

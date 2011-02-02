@@ -21,7 +21,7 @@ import chameleon.oo.type.Type;
 /**
  * @author Marko van Dooren
  */
-public class ExceptionClause extends NamespaceElementImpl<ExceptionClause,Method<?,?,?,?>> {
+public class ExceptionClause extends NamespaceElementImpl<ExceptionClause> {
 
   public ExceptionClause() {
 	}

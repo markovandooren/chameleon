@@ -22,23 +22,23 @@ import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> implements NamespaceElement<ClassBody, NamespaceElement>, DeclarationContainer<ClassBody, NamespaceElement> {
+public class ClassBody extends NamespaceElementImpl<ClassBody> implements NamespaceElement<ClassBody>, DeclarationContainer<ClassBody> {
 
 	public ClassBody() {
-		parentLink().addListener(new AssociationListener<NamespaceElement>() {
+		parentLink().addListener(new AssociationListener<Element>() {
 
 			@Override
-			public void notifyElementAdded(NamespaceElement element) {
+			public void notifyElementAdded(Element element) {
 				_elements.addListener(_listener);
 			}
 
 			@Override
-			public void notifyElementRemoved(NamespaceElement element) {
+			public void notifyElementRemoved(Element element) {
 				_elements.removeListener(_listener);
 			}
 
 			@Override
-			public void notifyElementReplaced(NamespaceElement oldElement, NamespaceElement newElement) {
+			public void notifyElementReplaced(Element oldElement, Element newElement) {
 			}
 		});
 	}
@@ -65,7 +65,7 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 
 		@Override
 		public void notifyElementAdded(TypeElement element) {
-			NamespaceElement parent = parent();
+			Element parent = parent();
 			if(parent != null) {
 			  parent.reactOnDescendantAdded(element);
 			}
@@ -73,7 +73,7 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 
 		@Override
 		public void notifyElementRemoved(TypeElement element) {
-			NamespaceElement parent = parent();
+			Element parent = parent();
 			if(parent != null) {
 			  parent.reactOnDescendantRemoved(element);
 			}
@@ -81,7 +81,7 @@ public class ClassBody extends NamespaceElementImpl<ClassBody,NamespaceElement> 
 
 		@Override
 		public void notifyElementReplaced(TypeElement oldElement, TypeElement newElement) {
-			NamespaceElement parent = parent();
+			Element parent = parent();
 			if(parent != null) {
 			  parent.reactOnDescendantReplaced(oldElement, newElement);
 			}

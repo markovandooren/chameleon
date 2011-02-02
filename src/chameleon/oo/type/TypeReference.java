@@ -7,7 +7,7 @@ import chameleon.core.reference.CrossReference;
 /**
  * @author Marko van Dooren
  */
-public interface TypeReference<E extends TypeReference> extends CrossReference<E,Element,Type> {
+public interface TypeReference<E extends TypeReference> extends CrossReference<E,Type> {
 
 //  public TypeReference(String fqn) {
 //    super(fqn, Type.class);

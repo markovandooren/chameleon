@@ -17,7 +17,7 @@ import chameleon.exception.ModelException;
  * @param <E>
  * @param <P>
  */
-public interface ElementWithModifiers<E extends Element<E, P>, P extends Element> extends NamespaceElement<E,P> {
+public interface ElementWithModifiers<E extends Element<E>> extends NamespaceElement<E> {
 
 	public E clone();
 

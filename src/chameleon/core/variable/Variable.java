@@ -16,9 +16,9 @@ import chameleon.oo.type.VariableOrType;
 /**
  * @author Marko van Dooren
  */
-public interface Variable<E extends Variable<E,P,F>, P extends Element, F extends Variable> 
-                extends ElementWithModifiers<E,Element>, Definition<E, Element, SimpleNameSignature, F>, 
-                VariableOrType<E,Element,SimpleNameSignature,F>, DeclarationWithType<E,Element,SimpleNameSignature,F> {
+public interface Variable<E extends Variable<E,F>, F extends Variable> 
+                extends ElementWithModifiers<E>, Definition<E, SimpleNameSignature, F>, 
+                VariableOrType<E,SimpleNameSignature,F>, DeclarationWithType<E,SimpleNameSignature,F> {
 
 	public Expression getInitialization();
 

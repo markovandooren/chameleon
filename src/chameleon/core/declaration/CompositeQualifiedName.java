@@ -9,7 +9,7 @@ import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public class CompositeQualifiedName<E extends CompositeQualifiedName<E,P>,P extends Element> extends QualifiedName<E, P> {
+public class CompositeQualifiedName<E extends CompositeQualifiedName<E>> extends QualifiedName<E> {
 
 	public List<Signature> signatures() {
 		return _signatures.getOtherEnds();
@@ -65,8 +65,8 @@ public class CompositeQualifiedName<E extends CompositeQualifiedName<E,P>,P exte
 		return signatures();
 	}
 
-	public QualifiedName<?, ?> poppedName() {
-		CompositeQualifiedName<?, ?> result = clone();
+	public QualifiedName<?> poppedName() {
+		CompositeQualifiedName<?> result = clone();
 		result.remove(result.lastSignature());
 		return result;
 	}
