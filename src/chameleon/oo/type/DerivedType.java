@@ -14,6 +14,7 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.type.generics.ActualTypeArgument;
 import chameleon.oo.type.generics.InstantiatedTypeParameter;
 import chameleon.oo.type.generics.TypeParameter;
+import chameleon.util.CreationStackTrace;
 import chameleon.util.Pair;
 
 
@@ -24,6 +25,9 @@ import chameleon.util.Pair;
  * @author Marko van Dooren
  */
 public class DerivedType extends TypeWithBody {
+	
+  private CreationStackTrace _trace = new CreationStackTrace();
+	
 	
 	public DerivedType(List<ParameterSubstitution> parameters, Type baseType) {
 		this(baseType);
@@ -55,28 +59,6 @@ public class DerivedType extends TypeWithBody {
 		copyImplicitMembers(baseType);
 	}
 	
-	private void copyImplicitMembers(Type original) {
-		_implicitMembers = new ArrayList<Member>();
-		List<Member> implicits = original.implicitMembers();
-		for(Member m: implicits) {
-			Member clone = m.clone();
-			clone.setUniParent(body());
-			_implicitMembers.add(clone);
-		}
-	}
-
-	private List<Member> _implicitMembers;
-	
-	@Override
-	public List<Member> implicitMembers() {
-		return new ArrayList<Member>(_implicitMembers);
-	}
-	
-	@Override
-	public <D extends Member> List<D> implicitMembers(DeclarationSelector<D> selector) throws LookupException {
-		return selector.selection(Collections.unmodifiableList(_implicitMembers));
-	}
-
 	/**
 	 * Create a derived type by filling in the type parameters with the given list of
 	 * actual type arguments.
@@ -106,6 +88,28 @@ public class DerivedType extends TypeWithBody {
 		}
 	}
 	
+	private void copyImplicitMembers(Type original) {
+		_implicitMembers = new ArrayList<Member>();
+		List<Member> implicits = original.implicitMembers();
+		for(Member m: implicits) {
+			Member clone = m.clone();
+			clone.setUniParent(body());
+			_implicitMembers.add(clone);
+		}
+	}
+
+	private List<Member> _implicitMembers;
+	
+	@Override
+	public List<Member> implicitMembers() {
+		return new ArrayList<Member>(_implicitMembers);
+	}
+	
+	@Override
+	public <D extends Member> List<D> implicitMembers(DeclarationSelector<D> selector) throws LookupException {
+		return selector.selection(Collections.unmodifiableList(_implicitMembers));
+	}
+
 	/**
 	 * The modifiers are loaded lazily from the base type.
 	 */

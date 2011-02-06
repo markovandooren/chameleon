@@ -73,7 +73,7 @@ public class LazyClassBody extends ClassBody {
 				// this lazy class body.
 				Declaration clone = null;
 				if(parent instanceof TypeElementStub) {
-					clone = caseElementFromStub(selectionName, declarationFromBaseType, parent);
+					clone = caseElementFromStub(selectionName, declarationFromBaseType, (TypeElementStub) parent);
 				} else {
 					if(! declarationFromBaseType.isTrue(language.CLASS)) {
 					  clone = declarationFromBaseType.clone();
@@ -91,14 +91,14 @@ public class LazyClassBody extends ClassBody {
 		return result;
 	}
 
-	private Declaration caseElementFromStub(String selectionName, Declaration<?, ?, ?> declarationFromBaseType, Element parent) throws LookupException {
+	private Declaration caseElementFromStub(String selectionName, Declaration<?, ?, ?> declarationFromBaseType, TypeElementStub stub) throws LookupException {
 		Declaration clone = null;
 		// 1. Clone the declaration 
 		Declaration<?,?,?> declClone = declarationFromBaseType.clone();
 		// 2. Substitute the type parameters with those of the surrounding DerivedType.
 		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
 		List<TypeParameter> typeParameters = original().nearestAncestor(Type.class).parameters(TypeParameter.class);
-		declClone.setUniParent(parent);
+		declClone.setUniParent(stub);
 		Iterator<TypeParameter> parameterIter = typeParameters.iterator();
 		while(parameterIter.hasNext()) {
 			TypeParameter par = parameterIter.next();
@@ -109,8 +109,9 @@ public class LazyClassBody extends ClassBody {
 			tref.setUniParent(this);
 			language.replace(tref, par, declClone, Declaration.class);
 		}
-		TypeElementStub<?> stub = (TypeElementStub<?>) parent;
+		// 3. Find out who generated the stub
 		TypeElement generator = stub.generator();
+		// 4. Search for the clone of the generator and store it in newGenerator.
 		TypeElement newGenerator = null;
 		for(TypeElement element:super.elements()) {
 			if(element.origin().sameAs(generator)) {
@@ -118,12 +119,15 @@ public class LazyClassBody extends ClassBody {
 				break;
 			}
 		}
+		// 5. If the generator had not yet been cloned before, we do it now.
 		if(newGenerator == null) {
 			newGenerator = generator.clone();
 			newGenerator.setOrigin(generator);
 			super.add(newGenerator);
 		}
+		// 6. Ask which members are introduced by the new (cloned) generator.
 		List<? extends Member> introducedByNewGenerator = newGenerator.getIntroducedMembers();
+		// 7. Search for the one with the same signature as the clone of the declaration (which is in the same context). 
 		for(Member m: introducedByNewGenerator) {
 			Signature msig = m.signature();
 			if(msig.name().equals(selectionName) && msig.sameAs(declClone.signature())) {
@@ -171,16 +175,22 @@ public class LazyClassBody extends ClassBody {
 			List<TypeElement> alreadyCloned = super.elements();
 			for(TypeElement element: original().elements()) {
 				ChameleonProperty clazz = language(ObjectOrientedLanguage.class).CLASS;
-				if(! element.isTrue(clazz)) {
-					TypeElement clonedElement;
-					if(element instanceof Declaration) {
-						
-					} else {
+				TypeElement clonedElement=null;
+				for(TypeElement already: alreadyCloned) {
+					if(already.origin().equals(element)) { //EQUALS
+						clonedElement = already;
+						break;
+					}
+				}
+				if(clonedElement == null) {
+					if(! element.isTrue(clazz)) {
 						clonedElement = element.clone();
 						super.add(clonedElement);
+					} else {
+						_statics.add(element);
 					}
 				} else {
-					_statics.add(element);
+					super.add(clonedElement);
 				}
 			}
 			_initializedElements = true;
@@ -227,6 +237,20 @@ public class LazyClassBody extends ClassBody {
 		} else {
 			return selector.selection(declarations());
 		}
+	}
+	
+	public <D extends Member> List<D> members(Class<D> kind) throws LookupException {
+		List<D> originals = original().members(kind);
+		List<D> result = new ArrayList<D>();
+		for(D original:originals) {
+			List<Declaration> clones = declarations(original.signature().name());
+			for(Declaration clone:clones) {
+				if(kind.isInstance(clone)) {
+					result.add((D) clone);
+				}
+			}
+		}
+		return result;
 	}
 
 	@Override

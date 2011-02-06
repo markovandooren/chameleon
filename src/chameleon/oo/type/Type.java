@@ -204,17 +204,18 @@ AspectOrType<Type,Type> {
 
 	/**
 	 * Return the inheritance relations of this type.
+	 * @throws LookupException 
 	 */
 	/*@
 	  @ public behavior
 	  @
 	  @ post \result != null;
 	  @*/
-	public List<InheritanceRelation> inheritanceRelations();
+	public List<InheritanceRelation> inheritanceRelations() throws LookupException;
 	
 	public List<InheritanceRelation> nonMemberInheritanceRelations();
 
-	public <I extends InheritanceRelation> List<I> inheritanceRelations(Class<I> kind);
+	public <I extends InheritanceRelation> List<I> nonMemberInheritanceRelations(Class<I> kind);
 
 	/**
 	 * Add the give given inheritance relation to this type.
@@ -244,9 +245,9 @@ AspectOrType<Type,Type> {
 	  @ pre relation != null;
 	  @ post ! inheritanceRelations().contains(relation);
 	  @*/
-	public void removeInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException;
+	public void removeNonMemberInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException;
 
-	public void removeAllInheritanceRelations();
+	public void removeAllNonMemberInheritanceRelations();
 
 	/**
 	 * Return the members of the given kind directly declared by this type.

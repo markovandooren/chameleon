@@ -49,7 +49,7 @@ public abstract class MultiType extends AbstractType {
 	}
 
 	@Override
-	public void removeInheritanceRelation(InheritanceRelation type) {
+	public void removeNonMemberInheritanceRelation(InheritanceRelation type) {
 		throw new ChameleonProgrammerException("Trying to remove a super type from a union type.");
 	}
 

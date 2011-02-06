@@ -119,7 +119,13 @@ public class UnionType extends MultiType {
 		return result;
 	}
 
-  @Override
+	public List<InheritanceRelation> nonMemberInheritanceRelations() {
+		List<InheritanceRelation> result = new ArrayList<InheritanceRelation>();
+		return result;
+	}
+
+
+ @Override
 	public List<? extends TypeElement> directlyDeclaredElements() {
 		List<TypeElement> result = new ArrayList<TypeElement>();
 		return result;

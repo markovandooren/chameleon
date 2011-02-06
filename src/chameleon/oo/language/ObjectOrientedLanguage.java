@@ -28,6 +28,7 @@ import chameleon.oo.type.IntersectionTypeReference;
 import chameleon.oo.type.Parameter;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
+import chameleon.oo.type.generics.ActualTypeArgument;
 import chameleon.oo.type.generics.TypeParameter;
 import chameleon.util.Pair;
 
@@ -94,6 +95,8 @@ public abstract class ObjectOrientedLanguage extends Language {
   }
   
   public abstract <P extends Parameter> DerivedType createDerivedType(Class<P> kind, List<P> parameters, Type baseType);
+  
+  public abstract DerivedType createDerivedType(Type baseType, List<ActualTypeArgument> typeArguments);
   
 	public Type getDefaultSuperClass() throws LookupException {
 		  TypeReference typeRef = createTypeReferenceInDefaultNamespace(getDefaultSuperClassFQN());

@@ -102,7 +102,7 @@ public abstract class WildCardType extends AbstractType {
 	}
 
 	@Override
-	public void removeInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException {
+	public void removeNonMemberInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException {
 		throw new ChameleonProgrammerException("Trying to remove a super type from a wildcard type.");
 	}
 
@@ -120,9 +120,15 @@ public abstract class WildCardType extends AbstractType {
 	}
 
 	@Override
-	public List<InheritanceRelation> inheritanceRelations() {
+	public List<InheritanceRelation> inheritanceRelations() throws LookupException {
 		//FIXME wrong!
 		return upperBound().inheritanceRelations();
+	}
+
+	@Override
+	public List<InheritanceRelation> nonMemberInheritanceRelations() {
+		//FIXME wrong!
+		return upperBound().nonMemberInheritanceRelations();
 	}
 
 	public List<Type> getDirectSuperTypes() throws LookupException {

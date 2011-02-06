@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.rejuse.association.AssociationListener;
 import org.rejuse.association.OrderedMultiAssociation;
+import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
@@ -127,6 +128,10 @@ public class ClassBody extends NamespaceElementImpl<ClassBody> implements Namesp
 		} else {
 			return selector.selection(declarations());
 		}
+	}
+	
+	public <D extends Member> List<D> members(Class<D> kind) throws LookupException {
+		return (List<D>) new TypePredicate(kind).filterReturn(members());
 	}
 	
 	protected List<Declaration> declarations(String selectionName) throws LookupException {

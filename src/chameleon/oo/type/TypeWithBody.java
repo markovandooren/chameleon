@@ -26,6 +26,11 @@ public abstract class TypeWithBody extends AbstractType {
 
 	protected SingleAssociation<Type, ClassBody> _body = new SingleAssociation<Type, ClassBody>(this);
 
+	
+	public List<InheritanceRelation> nonMemberInheritanceRelations() {
+		return _inheritanceRelations.getOtherEnds();
+	}
+	
 	public List<Element> children() {
 		List<Element> result = super.children();
 		result.addAll(parameterBlocks());
@@ -77,12 +82,12 @@ public abstract class TypeWithBody extends AbstractType {
 
 	protected OrderedMultiAssociation<Type, ParameterBlock> _parameters = new OrderedMultiAssociation<Type, ParameterBlock>(this);
 
-	public void removeInheritanceRelation(InheritanceRelation relation) {
+	public void removeNonMemberInheritanceRelation(InheritanceRelation relation) {
 		_inheritanceRelations.remove(relation.parentLink());
 	}
 
 	@Override
-	public List<InheritanceRelation> inheritanceRelations() {
+	public List<InheritanceRelation> inheritanceRelations() throws LookupException {
 		return _inheritanceRelations.getOtherEnds();
 	}
 

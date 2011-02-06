@@ -133,7 +133,7 @@ public class IntersectionType extends MultiType {
 	}
 
 	@Override
-	public List<InheritanceRelation> inheritanceRelations() {
+	public List<InheritanceRelation> inheritanceRelations() throws LookupException {
 		List<InheritanceRelation> result = new ArrayList<InheritanceRelation>();
 		for(Type type: types()) {
 		  result.addAll(type.inheritanceRelations());
@@ -141,8 +141,16 @@ public class IntersectionType extends MultiType {
 		return result;
 	}
 
+	public List<InheritanceRelation> nonMemberInheritanceRelations() {
+		List<InheritanceRelation> result = new ArrayList<InheritanceRelation>();
+		for(Type type: types()) {
+		  result.addAll(type.nonMemberInheritanceRelations());
+		}
+		return result;
+	}
+
 	@Override
-	public void removeInheritanceRelation(InheritanceRelation type) {
+	public void removeNonMemberInheritanceRelation(InheritanceRelation type) {
 		throw new ChameleonProgrammerException("Trying to remove a super type from an intersection type.");
 	}
 

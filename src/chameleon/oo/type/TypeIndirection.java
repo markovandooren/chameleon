@@ -58,7 +58,7 @@ public abstract class TypeIndirection extends AbstractType {
 
 
 	@Override
-	public void removeInheritanceRelation(InheritanceRelation relation) {
+	public void removeNonMemberInheritanceRelation(InheritanceRelation relation) {
 		throw new ChameleonProgrammerException("Trying to remove a super type from a type alias.");
 	}
 
@@ -72,8 +72,13 @@ public abstract class TypeIndirection extends AbstractType {
 
 
 	@Override
-	public List<InheritanceRelation> inheritanceRelations() {
+	public List<InheritanceRelation> inheritanceRelations() throws LookupException {
 		return aliasedType().inheritanceRelations();
+	}
+	
+	@Override
+	public List<InheritanceRelation> nonMemberInheritanceRelations() {
+		return aliasedType().nonMemberInheritanceRelations();
 	}
 	
 	//TODO I am not sure if these definitions are appropriate for a constructed type.

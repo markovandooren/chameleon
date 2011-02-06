@@ -448,51 +448,29 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
      @
      @ post \result != null;
      @*/
-  	public abstract List<InheritanceRelation> inheritanceRelations();
+  	public abstract List<InheritanceRelation> inheritanceRelations() throws LookupException;
   	
   	/**
   	 * The default behavior is to return inheritanceRelations(). If there are
   	 * member inheritance relations, the method must be overridden to exclude them.
   	 * @return
   	 */
-  	public List<InheritanceRelation> nonMemberInheritanceRelations() {
-  		return inheritanceRelations();
-  	}
-  	
-  	public <I extends InheritanceRelation> List<I> inheritanceRelations(Class<I> kind) {
-  		return (List<I>) new TypePredicate(kind).filterReturn(inheritanceRelations());
-  	}
-
-  	//  	/* (non-Javadoc)
-//		 * @see chameleon.oo.type.Tajp#directSuperTypes()
-//		 */
-//   /*@
-//     @ public behavior
-//     @
-//     @ post \result != null;
-//     @ post (\forall InheritanceRelation relation; inheritanceRelations().contains(relation) ;
-//     @             \result.contains(relation.superType()));
-//     @*/
-//  	public List<Type> directSuperTypes() throws LookupException {
-//  	  List<Type> result = new ArrayList<Type>();
-//  		for(InheritanceRelation relation: inheritanceRelations()) {
-//  			Type superType = relation.superType();
-//  			if(superType != null) {
-//  				result.add(superType);
-//  			}
-//  		}
-//  		return result;
+  	public abstract List<InheritanceRelation> nonMemberInheritanceRelations();
+//  	{
+//  		return inheritanceRelations();
 //  	}
+  	
+  	public <I extends InheritanceRelation> List<I> nonMemberInheritanceRelations(Class<I> kind) {
+  		return (List<I>) new TypePredicate(kind).filterReturn(nonMemberInheritanceRelations());
+  	}
 
-  	/* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#addInheritanceRelation(chameleon.oo.type.inheritance.InheritanceRelation)
-		 */
    /*@
      @ public behavior
      @
      @ pre relation != null;
      @ post inheritanceRelations().contains(relation);
      @*/
+  	// FIXME rename to addNonMemberInheritanceRelation.
   	public abstract void addInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException;
     
   	/* (non-Javadoc)
@@ -504,14 +482,11 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
      @ pre relation != null;
      @ post ! inheritanceRelations().contains(relation);
      @*/
-  	public abstract void removeInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException;
+  	public abstract void removeNonMemberInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException;
   	
-  	/* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#removeAllInheritanceRelations()
-		 */
-  	public void removeAllInheritanceRelations() {
-  		for(InheritanceRelation relation: inheritanceRelations()) {
-  			removeInheritanceRelation(relation);
+  	public void removeAllNonMemberInheritanceRelations() {
+  		for(InheritanceRelation relation: nonMemberInheritanceRelations()) {
+  			removeNonMemberInheritanceRelation(relation);
   		}
   	}
   	
@@ -607,24 +582,13 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
      @ post \result.containsAll(getMembers());
      @ post \result.containsAll(getModifiers());
      @*/
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#children()
-		 */
     public List<Element> children() {
         List<Element> result = super.children();
-        result.addAll(inheritanceRelations());
-//        result.addAll(directlyDeclaredElements());
+        result.addAll(nonMemberInheritanceRelations());
         return result;
     }
 
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#directlyDeclaredElements()
-		 */
     public abstract List<? extends TypeElement> directlyDeclaredElements();
-
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#getCEL()
-		 */
 
     public CheckedExceptionList getCEL() throws LookupException {
         CheckedExceptionList cel = new CheckedExceptionList();
