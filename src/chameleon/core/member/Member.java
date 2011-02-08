@@ -1,10 +1,10 @@
 package chameleon.core.member;
 
+import java.util.List;
 import java.util.Set;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.type.TypeElement;
 
@@ -40,6 +40,10 @@ public interface Member<E extends Member<E,S,F>, S extends Signature, F extends 
    @ post other == null ==> \result == false;
    @*/
   public boolean overrides(Member other) throws LookupException;
+  
+//  public boolean canOverride(Member other) throws LookupException;
+//
+//  public OverridesRelation<? extends Member> overridesRelation();
   
   /**
    * Return a selector that selects members that could override this
@@ -89,6 +93,7 @@ public interface Member<E extends Member<E,S,F>, S extends Signature, F extends 
    @ post \result != null;
    @ (\forall Member m; \result.contains(m); overrides(m));
    @*/
-  public Set<Member> directlyOverriddenMembers() throws LookupException;
+  public List<? extends Member> directlyOverriddenMembers() throws LookupException;
 
+  public Set<? extends Member> overriddenMembers() throws LookupException;
 }

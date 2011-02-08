@@ -105,34 +105,42 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
     return Util.<Member>createSingletonList(this);
   }
 
-  public Set<Member> directlyOverriddenMembers() throws LookupException {
-    List<Type> superTypes = nearestAncestor(Type.class).getDirectSuperTypes();
-    // Collect the overridden members in the following set.
-    final Set<Member> result = new HashSet<Member>();
-    // Iterate over all super types.
-    for(Type type: superTypes) {
-      // Fetch all members from the current super type.
-      Collection superMembers = type.members(Member.class);
-      // Retain only those members that are overridden by this member. 
-      try {
-        new AbstractPredicate<Member>() {
-          public boolean eval(Member o) throws LookupException {
-            return overrides(o);
-          }
-        }.filter(superMembers);
-      } catch(LookupException e) {
-        throw e; 
-      } catch (Exception e) {
-        e.printStackTrace();
-        throw new Error();
-      }
-      result.addAll(superMembers);
-    }
-    return result;
+//  public Set<Member> directlyOverriddenMembers() throws LookupException {
+//    List<Type> superTypes = nearestAncestor(Type.class).getDirectSuperTypes();
+//    // Collect the overridden members in the following set.
+//    final Set<Member> result = new HashSet<Member>();
+//    // Iterate over all super types.
+//    for(Type type: superTypes) {
+//      // Fetch all members from the current super type.
+//      Collection superMembers = type.members(Member.class);
+//      // Retain only those members that are overridden by this member. 
+//      try {
+//        new AbstractPredicate<Member>() {
+//          public boolean eval(Member o) throws LookupException {
+//            return overrides(o);
+//          }
+//        }.filter(superMembers);
+//      } catch(LookupException e) {
+//        throw e; 
+//      } catch (Exception e) {
+//        e.printStackTrace();
+//        throw new Error();
+//      }
+//      result.addAll(superMembers);
+//    }
+//    return result;
+//  }
+
+  public List<? extends Member> directlyOverriddenMembers() throws LookupException {
+    return nearestAncestor(Type.class).membersDirectlyOverriddenBy(overridesSelector());
   }
 
   public boolean overrides(Member other) throws LookupException {
   	return overridesSelector().selects(other);
+  }
+
+  public final boolean canOverride(Member other) throws LookupException {
+  	return overridesRelation().contains(this, other);
   }
 
   public boolean canImplement(Member other) throws LookupException {
@@ -169,6 +177,10 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
 		return new OverridesRelationSelector<MemberVariable>(MemberVariable.class,this,_overridesSelector);
   }
   
+  public OverridesRelation<MemberVariable> overridesRelation() {
+  	return _overridesSelector;
+  }
+  
   private static OverridesRelation<MemberVariable> _overridesSelector = new OverridesRelation<MemberVariable>(MemberVariable.class) {
 		
 		public boolean containsBasedOnRest(MemberVariable first, MemberVariable second) throws LookupException {
@@ -198,4 +210,19 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
 			return true;
 		}
 	};
+	
+  public Set<? extends Member> overriddenMembers() throws LookupException {
+  	List<? extends Member> todo = directlyOverriddenMembers();
+  	Set<Member> result = new HashSet<Member>();
+  	while(! todo.isEmpty()) {
+  		Member m = todo.get(0);
+  		todo.remove(0);
+  		if(result.add(m)) {
+  			todo.addAll(m.overriddenMembers());
+  		}
+  	}
+  	return result;
+  }
+
+  
 }

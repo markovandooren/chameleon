@@ -58,8 +58,13 @@ public class SubtypeRelation extends AbstractInheritanceRelation<SubtypeRelation
 	}
 
 	@Override
-	public <D extends Member> List<D> membersOverriddenBy(MemberRelationSelector<D> selector) throws LookupException {
-		return superClass().membersOverriddenBy(selector);
+	public <D extends Member> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException {
+		return superClass().membersDirectlyOverriddenBy(selector);
+	}
+
+	@Override
+	public <D extends Member> List<D> membersDirectlyAliasedBy(MemberRelationSelector<D> selector) throws LookupException {
+		return superClass().membersDirectlyAliasedBy(selector);
 	}
 
 

@@ -1,15 +1,11 @@
 package chameleon.core.member;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.predicate.UnsafePredicate;
-
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.scope.Scope;
@@ -27,31 +23,32 @@ public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F 
    */
   public abstract S signature();
   
-//  public final boolean overrides(Member other) throws LookupException {
-//    ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-//    if(language != null) {
-//		  StrictPartialOrder<Member> overridesRelation = language.overridesRelation();
-//      return overridesRelation.contains(this, other);
-//    } else {
-//    	throw new LookupException("Language is null");
-//    }
-//  }
-  
   public final boolean overrides(Member other) throws LookupException {
-  	return overridesSelector().selects(other);
+//  	return overridesSelector().selects(other);
+  	return overridesRelation().contains(this,other);
+
+  	//  	return overriddenMembers().contains(other);
+  	
+//  	List<Member> todo = (List<Member>) directlyOverriddenMembers();
+//  	Set<Member> done = new HashSet<Member>();
+//  	while(! todo.isEmpty()) {
+//  		Member<?,?,?> m = todo.get(0);
+//  		todo.remove(0);
+//			if(m.sameAs(other)) {
+//				return true;
+//			}
+//  		if(done.add(m)) {
+//  			todo.addAll(m.directlyOverriddenMembers());
+//  		}
+//  	}
+//  	return false;
   }
   
-//  public final boolean hides(Member other) throws LookupException {
-//    ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-//    if(language != null) {
-//    	StrictPartialOrder<Member> hidesRelation = language.hidesRelation();
-//    	return hidesRelation.contains(this, other);
-//    } else {
-//    	throw new LookupException("Language is null");
-//    }
+//  public final boolean canOverride(Member other) throws LookupException {
+//  	return overridesRelation().contains(this, other);
 //  }
 
-  public final boolean hides(Member other) throws LookupException {
+  	public final boolean hides(Member other) throws LookupException {
 	  return ((HidesRelation)hidesSelector()).contains(this,other);
   }
 
@@ -59,28 +56,21 @@ public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F 
   	return language(ObjectOrientedLanguage.class).implementsRelation().contains(this,other);
   }
 
-  /**
-   * Return the members that are overridden by this member.
-   * 
-   * DOES NOT WORK WITH RENAMING YET!
-   */
-  public Set<Member> directlyOverriddenMembers() throws LookupException {
-    List<Type> superTypes = nearestAncestor(Type.class).getDirectSuperTypes();
-    // Collect the overridden members in the following set.
-    final Set<Member> result = new HashSet<Member>();
-    // Iterate over all super types.
-    for(Type type: superTypes) {
-      // Fetch all members from the current super type.
-      Collection<Member> superMembers = type.members(Member.class);
-      // Retain only those members that are overridden by this member. 
-      new UnsafePredicate<Member,LookupException>() {
-        public boolean eval(Member o) throws LookupException {
-          return overrides(o);
-        }
-      }.filter(superMembers);
-      result.addAll(superMembers);
-    }
-    return result;
+  public List<? extends Member> directlyOverriddenMembers() throws LookupException {
+    return nearestAncestor(Type.class).membersDirectlyOverriddenBy(overridesSelector());
+  }
+  
+  public Set<? extends Member> overriddenMembers() throws LookupException {
+  	List<Member> todo = (List<Member>) directlyOverriddenMembers();
+  	Set<Member> result = new HashSet<Member>();
+  	while(! todo.isEmpty()) {
+  		Member<?,?,?> m = todo.get(0);
+  		todo.remove(0);
+  		if(result.add(m)) {
+  			todo.addAll(m.directlyOverriddenMembers());
+  		}
+  	}
+  	return result;
   }
   
   /**
@@ -96,7 +86,7 @@ public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F 
    @ post directlyOverriddenMembers().size() > 1 ==> false;
    @*/
   public Member overriddenMember() throws LookupException {
-  	Set<Member> overridden = directlyOverriddenMembers();
+  	List<? extends Member> overridden = directlyOverriddenMembers();
   	int size = overridden.size();
   	if(size == 1) {
   		return overridden.iterator().next();
@@ -130,6 +120,10 @@ public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F 
 		return new OverridesRelationSelector<Member>(Member.class,this,_overridesSelector);
   }
   
+  public OverridesRelation<? extends Member> overridesRelation() {
+  	return _overridesSelector;
+  }
+  
   private static OverridesRelation<Member> _overridesSelector = new OverridesRelation<Member>(Member.class) {
 		
 		public boolean containsBasedOnRest(Member first, Member second) throws LookupException {
@@ -157,4 +151,5 @@ public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F 
 			return first.name().equals(second.name());
 		}
 	};
+
 }

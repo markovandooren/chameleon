@@ -366,5 +366,7 @@ AspectOrType<Type,Type> {
 	
 	public Type upperBound() throws LookupException;
 
-	public <D extends Member> List<D> membersOverriddenBy(MemberRelationSelector<D> selector) throws LookupException;
+	public <D extends Member> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException;
+	
+	public <D extends Member> List<D> membersDirectlyAliasedBy(MemberRelationSelector<D> selector) throws LookupException;
 }

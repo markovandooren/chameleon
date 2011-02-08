@@ -404,7 +404,7 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends DeclarationWit
 	 */
 	public boolean hasValidOverridingExceptionClause() throws LookupException {
 		try {
-			Set methods = directlyOverriddenMembers();
+			List methods = directlyOverriddenMembers();
 			return new AbstractPredicate() {
 				public boolean eval(Object o) throws LookupException {
 					Method method = (Method)o;

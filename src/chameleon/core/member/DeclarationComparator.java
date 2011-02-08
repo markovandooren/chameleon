@@ -33,9 +33,9 @@ public abstract class DeclarationComparator<D extends Declaration<?, ?, ?>> {
 		return _declarationClass;
 	}
 
-	public boolean contains(D first, D second) throws LookupException {
-		return selectedClass().isInstance(second) && containsBasedOnName(first.signature(), second.signature()) &&
-		       containsBasedOnRest(first, second);
+	public boolean contains(Member first, Member second) throws LookupException {
+		return selectedClass().isInstance(first) && selectedClass().isInstance(second) && containsBasedOnName(first.signature(), second.signature()) &&
+		       containsBasedOnRest((D) first, (D) second);
 	}
 
 	public abstract boolean containsBasedOnRest(D first, D second) throws LookupException;

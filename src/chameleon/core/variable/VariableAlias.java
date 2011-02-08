@@ -143,7 +143,7 @@ public class VariableAlias extends VariableImpl<VariableAlias,MemberVariable> im
 		return new VariableAlias(signature,this);
 	}
 
-	public Set<Member> directlyOverriddenMembers() throws LookupException {
+	public List<? extends Member> directlyOverriddenMembers() throws LookupException {
 		return aliasedVariable().directlyOverriddenMembers();
 	}
 
@@ -154,6 +154,10 @@ public class VariableAlias extends VariableImpl<VariableAlias,MemberVariable> im
 	public boolean overrides(Member other) throws LookupException {
 		return aliasedVariable().overrides(other);
 	}
+
+//  public final boolean canOverride(Member other) throws LookupException {
+//  	return aliasedVariable().canOverride(other);
+//  }
 
   public boolean canImplement(Member other) throws LookupException {
 		return aliasedVariable().canImplement(other);
@@ -228,6 +232,10 @@ public class VariableAlias extends VariableImpl<VariableAlias,MemberVariable> im
 		return new OverridesRelationSelector<MemberVariable>(MemberVariable.class,this,_overridesSelector);
   }
 
+  public OverridesRelation<? extends Member> overridesRelation() {
+  	return _overridesSelector;
+  }
+  
   private static OverridesSelector _overridesSelector = new OverridesSelector();
   
 	private static class OverridesSelector extends OverridesRelation<MemberVariable> {
@@ -244,6 +252,11 @@ public class VariableAlias extends VariableImpl<VariableAlias,MemberVariable> im
 		public boolean containsBasedOnName(Signature first, Signature second) throws LookupException {
 			return first.name().equals(second.name());
 		}
+	}
+
+	@Override
+	public Set<? extends Member> overriddenMembers() throws LookupException {
+		return aliasedVariable().overriddenMembers();
 	}
 
 }

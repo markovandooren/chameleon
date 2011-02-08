@@ -770,12 +770,23 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
 		}
 
 		@Override
-		public <D extends Member> List<D> membersOverriddenBy(MemberRelationSelector<D> selector) throws LookupException {
+		public <D extends Member> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException {
+			List<D> result = new ArrayList<D>();
+			if(!selector.declaration().ancestors().contains(this)) {
+				result.addAll(members(selector));
+			} else {
+				for(InheritanceRelation relation:inheritanceRelations()) {
+					result.addAll(relation.membersDirectlyOverriddenBy(selector));
+				}
+			}
+			return result;
+		}
+		
+		public <D extends Member> List<D> membersDirectlyAliasedBy(MemberRelationSelector<D> selector) throws LookupException {
 			List<D> result = new ArrayList<D>();
 			for(InheritanceRelation relation:inheritanceRelations()) {
-				result.addAll(relation.membersOverriddenBy(selector));
+				result.addAll(relation.membersDirectlyAliasedBy(selector));
 			}
-			result.addAll(members(selector));
 			return result;
 		}
 		

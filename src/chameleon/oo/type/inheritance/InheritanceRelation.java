@@ -29,8 +29,9 @@ public interface InheritanceRelation<E extends InheritanceRelation<E,S>, S exten
 	
 	public <X extends Member> void accumulateInheritedMembers(DeclarationSelector<X> selector, List<X> current) throws LookupException;
 	
-	public <D extends Member> List<D> membersOverriddenBy(MemberRelationSelector<D> selector) throws LookupException;
+	public <D extends Member> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException;
 	
+	public <D extends Member> List<D> membersDirectlyAliasedBy(MemberRelationSelector<D> selector) throws LookupException;
 //	public <X>
 	
 //	public <X extends Element> List<X> overriddenDeclarations() throws LookupException;
