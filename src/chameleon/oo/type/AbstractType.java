@@ -790,7 +790,12 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
 			return result;
 		}
 		
-	  public HidesRelation<? extends Member> hidesSelector() {
+		public <D extends Member> List<D> membersDirectlyAliasing(MemberRelationSelector<D> selector) throws LookupException {
+			List<D> result = new ArrayList<D>();
+			return result;
+		}
+		
+	  public HidesRelation<? extends Member> hidesRelation() {
 			return _hidesSelector;
 	  }
 	  

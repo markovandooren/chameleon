@@ -79,7 +79,7 @@ public class SimpleNameDeclarationWithParametersSignature extends DeclarationWit
 		}
 		return result;
 	}
-
+  
 	@Override
 	public List<Type> parameterTypes() throws LookupException {
 		List<Type> result = new ArrayList<Type>();

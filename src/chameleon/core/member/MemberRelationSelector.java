@@ -13,12 +13,19 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.SelectorWithoutOrder.EqualityOrder;
 import chameleon.core.relation.WeakPartialOrder;
 
-public abstract class MemberRelationSelector<D extends Declaration> extends DeclarationSelector<D> {
+public class MemberRelationSelector<D extends Declaration> extends DeclarationSelector<D> {
 
-	public MemberRelationSelector(Class<D> kind, D declaration) {
+	public MemberRelationSelector(Class<D> kind, D declaration,DeclarationComparator<D> comparator) {
 		_selectedClass = kind;
 		_declaration = declaration;
+		_comparator = comparator;
 	}
+	
+	public DeclarationComparator<D> comparator() {
+		return _comparator;
+	}
+	
+	private DeclarationComparator<D> _comparator;
 	
 	private Class<D> _selectedClass;
 	
@@ -72,9 +79,17 @@ public abstract class MemberRelationSelector<D extends Declaration> extends Decl
 	}
 	
 
-	public abstract boolean selectedBasedOnName(Signature signature) throws LookupException;
-	
-	public abstract boolean selectedRegardlessOfName(D declaration) throws LookupException;
+	public boolean selectedBasedOnName(Signature signature) throws LookupException {
+		return comparator().containsBasedOnName(declaration().signature(), signature);
+	}
+
+	public boolean selectedRegardlessOfName(D declaration) throws LookupException {
+		return comparator().containsBasedOnRest(declaration(), declaration);
+	}
+
+//	public abstract boolean selectedBasedOnName(Signature signature) throws LookupException;
+//	
+//	public abstract boolean selectedRegardlessOfName(D declaration) throws LookupException;
 
 	@Override
 	public List<? extends Declaration> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {

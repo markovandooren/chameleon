@@ -1,22 +1,20 @@
 package chameleon.core.variable;
 
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.rejuse.predicate.AbstractPredicate;
 
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.member.DeclarationComparator;
 import chameleon.core.member.HidesRelation;
 import chameleon.core.member.Member;
+import chameleon.core.member.MemberRelationSelector;
 import chameleon.core.member.OverridesRelation;
-import chameleon.core.member.OverridesRelationSelector;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.scope.Scope;
@@ -135,6 +133,14 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
     return nearestAncestor(Type.class).membersDirectlyOverriddenBy(overridesSelector());
   }
 
+  public List<? extends Member> directlyAliasedMembers() throws LookupException {
+    return nearestAncestor(Type.class).membersDirectlyAliasedBy(aliasSelector());
+  }
+
+  public List<? extends Member> directlyAliasingMembers() throws LookupException {
+    return nearestAncestor(Type.class).membersDirectlyAliasing(aliasSelector());
+  }
+  
   public boolean overrides(Member other) throws LookupException {
   	return overridesSelector().selects(other);
   }
@@ -173,8 +179,8 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
 		return this;
 	}
 
-  public OverridesRelationSelector<? extends Member> overridesSelector() {
-		return new OverridesRelationSelector<MemberVariable>(MemberVariable.class,this,_overridesSelector);
+  public MemberRelationSelector<? extends Member> overridesSelector() {
+		return new MemberRelationSelector<MemberVariable>(MemberVariable.class,this,_overridesSelector);
   }
   
   public OverridesRelation<MemberVariable> overridesRelation() {
@@ -223,6 +229,22 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
   	}
   	return result;
   }
+
+  public MemberRelationSelector<? extends Member> aliasSelector() {
+		return new MemberRelationSelector<Member>(Member.class,this,_aliasSelector);
+  }
+	
+  private static DeclarationComparator<Member> _aliasSelector = new DeclarationComparator<Member>(Member.class) {
+		
+		public boolean containsBasedOnRest(Member first, Member second) throws LookupException {
+			return first.signature().sameAs(second.signature());
+		}
+
+		@Override
+		public boolean containsBasedOnName(Signature first, Signature second) {
+			return true;
+		}
+	};
 
   
 }

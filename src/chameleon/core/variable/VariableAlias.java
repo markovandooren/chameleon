@@ -10,16 +10,16 @@ import org.rejuse.predicate.SafePredicate;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
+import chameleon.core.member.DeclarationComparator;
 import chameleon.core.member.Member;
+import chameleon.core.member.MemberRelationSelector;
 import chameleon.core.member.OverridesRelation;
-import chameleon.core.member.OverridesRelationSelector;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.scope.Scope;
@@ -228,8 +228,8 @@ public class VariableAlias extends VariableImpl<VariableAlias,MemberVariable> im
 		return aliasedVariable().declarator();
 	}
 
-  public OverridesRelationSelector<? extends Member> overridesSelector() {
-		return new OverridesRelationSelector<MemberVariable>(MemberVariable.class,this,_overridesSelector);
+  public MemberRelationSelector<? extends Member> overridesSelector() {
+		return new MemberRelationSelector<MemberVariable>(MemberVariable.class,this,_overridesSelector);
   }
 
   public OverridesRelation<? extends Member> overridesRelation() {
@@ -259,4 +259,29 @@ public class VariableAlias extends VariableImpl<VariableAlias,MemberVariable> im
 		return aliasedVariable().overriddenMembers();
 	}
 
+  public MemberRelationSelector<? extends Member> aliasSelector() {
+		return new MemberRelationSelector<Member>(Member.class,this,_aliasSelector);
+  }
+	
+  private static DeclarationComparator<Member> _aliasSelector = new DeclarationComparator<Member>(Member.class) {
+		
+		public boolean containsBasedOnRest(Member first, Member second) throws LookupException {
+			return ((VariableAlias)first).aliasedVariable().aliasSelector().selectedRegardlessOfName(second);
+		}
+
+		@Override
+		public boolean containsBasedOnName(Signature first, Signature second) {
+			return true;
+		}
+	};
+
+	@Override
+	public List<? extends Member> directlyAliasedMembers() throws LookupException {
+		return Util.createNonNullList(aliasedVariable());
+	}
+
+  public List<? extends Member> directlyAliasingMembers() throws LookupException {
+    return nearestAncestor(Type.class).membersDirectlyAliasing(aliasSelector());
+  }
+  
 }

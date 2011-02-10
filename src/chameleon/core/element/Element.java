@@ -148,7 +148,8 @@ public interface Element<E extends Element> {
     public List<Element> ancestors();
 
     /**
-     * Return a list of all ancestors of the given type.
+     * Return a list of all ancestors of the given type. A closer ancestors will have a lower index than a 
+     * farther ancestor.
      */
    /*@
      @ public behavior

@@ -52,6 +52,12 @@ public interface Member<E extends Member<E,S,F>, S extends Signature, F extends 
   public MemberRelationSelector<? extends Member> overridesSelector();
   
   /**
+   * Return a selector that selects members that could override this
+   * member based on the signature and other properties.
+   */
+  public MemberRelationSelector<? extends Member> aliasSelector();
+  
+  /**
    * Check whether this member overrides the given member.
    */
  /*@
@@ -94,6 +100,10 @@ public interface Member<E extends Member<E,S,F>, S extends Signature, F extends 
    @ (\forall Member m; \result.contains(m); overrides(m));
    @*/
   public List<? extends Member> directlyOverriddenMembers() throws LookupException;
+
+  public List<? extends Member> directlyAliasedMembers() throws LookupException;
+  
+  public List<? extends Member> directlyAliasingMembers() throws LookupException;
 
   public Set<? extends Member> overriddenMembers() throws LookupException;
 }

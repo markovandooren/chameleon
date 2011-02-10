@@ -44,12 +44,8 @@ public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F 
 //  	return false;
   }
   
-//  public final boolean canOverride(Member other) throws LookupException {
-//  	return overridesRelation().contains(this, other);
-//  }
-
-  	public final boolean hides(Member other) throws LookupException {
-	  return ((HidesRelation)hidesSelector()).contains(this,other);
+  public final boolean hides(Member other) throws LookupException {
+	  return ((HidesRelation)hidesRelation()).contains(this,other);
   }
 
   public final boolean canImplement(Member other) throws LookupException {
@@ -60,6 +56,14 @@ public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F 
     return nearestAncestor(Type.class).membersDirectlyOverriddenBy(overridesSelector());
   }
   
+  public List<? extends Member> directlyAliasedMembers() throws LookupException {
+    return nearestAncestor(Type.class).membersDirectlyAliasedBy(aliasSelector());
+  }
+  
+  public List<? extends Member> directlyAliasingMembers() throws LookupException {
+    return nearestAncestor(Type.class).membersDirectlyAliasing(aliasSelector());
+  }
+  
   public Set<? extends Member> overriddenMembers() throws LookupException {
   	List<Member> todo = (List<Member>) directlyOverriddenMembers();
   	Set<Member> result = new HashSet<Member>();
@@ -68,6 +72,21 @@ public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F 
   		todo.remove(0);
   		if(result.add(m)) {
   			todo.addAll(m.directlyOverriddenMembers());
+  			todo.addAll(m.directlyAliasedMembers());
+  			todo.addAll(m.directlyAliasingMembers());
+  		}
+  	}
+  	return result;
+  }
+  
+  public Set<? extends Member> aliasedMembers() throws LookupException {
+  	List<Member> todo = (List<Member>) directlyAliasedMembers();
+  	Set<Member> result = new HashSet<Member>();
+  	while(! todo.isEmpty()) {
+  		Member<?,?,?> m = todo.get(0);
+  		todo.remove(0);
+  		if(result.add(m)) {
+  			todo.addAll(m.directlyAliasedMembers());
   		}
   	}
   	return result;
@@ -117,7 +136,7 @@ public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F 
   }
   
   public MemberRelationSelector<? extends Member> overridesSelector() {
-		return new OverridesRelationSelector<Member>(Member.class,this,_overridesSelector);
+		return new MemberRelationSelector<Member>(Member.class,this,_overridesSelector);
   }
   
   public OverridesRelation<? extends Member> overridesRelation() {
@@ -136,7 +155,7 @@ public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F 
 		}
 	};
 
-  public HidesRelation<? extends Member> hidesSelector() {
+  public HidesRelation<? extends Member> hidesRelation() {
 		return _hidesSelector;
   }
   
@@ -146,10 +165,21 @@ public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F 
 			return true;
 		}
 
-		@Override
-		public boolean containsBasedOnName(Signature first, Signature second) {
-			return first.name().equals(second.name());
-		}
 	};
 
+  public MemberRelationSelector<? extends Member> aliasSelector() {
+		return new MemberRelationSelector<Member>(Member.class,this,_aliasSelector);
+  }
+	
+  private static DeclarationComparator<Member> _aliasSelector = new DeclarationComparator<Member>(Member.class) {
+		
+		public boolean containsBasedOnRest(Member first, Member second) throws LookupException {
+			return first.signature().sameAs(second.signature());
+		}
+
+		@Override
+		public boolean containsBasedOnName(Signature first, Signature second) {
+			return true;
+		}
+	};
 }
