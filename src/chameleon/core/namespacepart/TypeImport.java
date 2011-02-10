@@ -94,10 +94,8 @@ public class TypeImport extends Import<TypeImport> {
 		return Valid.create();
 	}
   
-	
-	
-	
-
-	  
-  
+//	@Override
+//	public boolean importsSameAs(Import other) throws LookupException {
+//		return other instanceof TypeImport && ((TypeImport)other).type().sameAs(type());
+//	}
 }

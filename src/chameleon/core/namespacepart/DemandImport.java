@@ -88,7 +88,17 @@ public class DemandImport extends Import<DemandImport> {
 	public VerificationResult verifySelf() {
 		return Valid.create();
 	}
-  
+	
+	public Namespace importedNamespace() throws LookupException {
+		return namespaceReference().getElement();
+	}
 
-
+	public boolean importsSameAs(Import other) throws LookupException {
+		return super.importsSameAs(other);
+	}
+//	@Override
+//	public boolean importsSameAs(Import other) throws LookupException {
+//		return other instanceof DemandImport && ((DemandImport)other).importedNamespace().sameAs(importedNamespace());
+//	}
+//  
 }

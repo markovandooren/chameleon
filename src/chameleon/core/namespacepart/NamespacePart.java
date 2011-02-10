@@ -306,6 +306,24 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart> implement
 	public void clearImports() {
 		_imports.clear();
 	}
+	
+	public void removeDuplicateImports() throws LookupException {
+		List<Import> imports = imports();
+		int nbImports = imports.size();
+		for(int i=0; i< nbImports;i++) {
+			Import outer = imports.get(i);
+			for(int j=i+1; j< nbImports;) {
+				Import inner = imports.get(j);
+				if(outer.importsSameAs(inner)) {
+					removeImport(inner);
+					imports.remove(j);
+					nbImports--;
+				} else {
+					j++;
+				}
+			}
+		}
+	}
 
 	/****************
 	 * DECLARATIONS *
