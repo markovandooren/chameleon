@@ -98,7 +98,7 @@ public abstract class AbstractInheritanceRelation<E extends AbstractInheritanceR
 	 * @return
 	 */
 	public TypeReference superClassReference() {
-    return _superClass.getOtherEnd();
+		return _superClass.getOtherEnd();
 	}
 	
 	/**
