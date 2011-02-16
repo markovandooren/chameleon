@@ -106,4 +106,8 @@ public interface Member<E extends Member<E,S,F>, S extends Signature, F extends 
   public List<? extends Member> directlyAliasingMembers() throws LookupException;
 
   public Set<? extends Member> overriddenMembers() throws LookupException;
+
+  public Set<? extends Member> aliasedMembers() throws LookupException;
+
+  public Set<? extends Member> aliasingMembers() throws LookupException;
 }

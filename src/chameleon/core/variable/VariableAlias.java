@@ -1,6 +1,7 @@
 package chameleon.core.variable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -284,4 +285,30 @@ public class VariableAlias extends VariableImpl<VariableAlias,MemberVariable> im
     return nearestAncestor(Type.class).membersDirectlyAliasing(aliasSelector());
   }
   
+  public Set<? extends Member> aliasedMembers() throws LookupException {
+	  List<Member> todo = (List<Member>) directlyAliasedMembers();
+	  Set<Member> result = new HashSet<Member>();
+	  while(! todo.isEmpty()) {
+		  Member<?,?,?> m = todo.get(0);
+		  todo.remove(0);
+		  if(result.add(m)) {
+			  todo.addAll(m.directlyAliasedMembers());
+		  }
+	  }
+	  return result;
+  }
+
+  public Set<? extends Member> aliasingMembers() throws LookupException {
+	  List<Member> todo = (List<Member>) directlyAliasingMembers();
+	  Set<Member> result = new HashSet<Member>();
+	  while(! todo.isEmpty()) {
+		  Member<?,?,?> m = todo.get(0);
+		  todo.remove(0);
+		  if(result.add(m)) {
+			  todo.addAll(m.directlyAliasingMembers());
+		  }
+	  }
+	  return result;
+  }
+
 }

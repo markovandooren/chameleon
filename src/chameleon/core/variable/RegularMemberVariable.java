@@ -246,5 +246,31 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
 		}
 	};
 
+	  public Set<? extends Member> aliasedMembers() throws LookupException {
+		  List<Member> todo = (List<Member>) directlyAliasedMembers();
+		  Set<Member> result = new HashSet<Member>();
+		  while(! todo.isEmpty()) {
+			  Member<?,?,?> m = todo.get(0);
+			  todo.remove(0);
+			  if(result.add(m)) {
+				  todo.addAll(m.directlyAliasedMembers());
+			  }
+		  }
+		  return result;
+	  }
+
+	  public Set<? extends Member> aliasingMembers() throws LookupException {
+		  List<Member> todo = (List<Member>) directlyAliasingMembers();
+		  Set<Member> result = new HashSet<Member>();
+		  while(! todo.isEmpty()) {
+			  Member<?,?,?> m = todo.get(0);
+			  todo.remove(0);
+			  if(result.add(m)) {
+				  todo.addAll(m.directlyAliasingMembers());
+			  }
+		  }
+		  return result;
+	  }
+
   
 }

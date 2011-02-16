@@ -1,7 +1,10 @@
 package chameleon.core.member;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import chameleon.core.declaration.Declaration;
@@ -66,33 +69,62 @@ public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F 
   
   public Set<? extends Member> overriddenMembers() throws LookupException {
   	List<Member> todo = (List<Member>) directlyOverriddenMembers();
-  	Set<Member> result = new HashSet<Member>();
+  	Map<Type,List<Member>> visitedTypes = new HashMap<Type,List<Member>>();
   	while(! todo.isEmpty()) {
   		Member<?,?,?> m = todo.get(0);
-  		System.out.println(m.nearestAncestor(Type.class).getFullyQualifiedName()+"."+m.signature().name());
   		todo.remove(0);
-  		if(result.add(m)) {
-  			todo.addAll(m.directlyOverriddenMembers());
-  			todo.addAll(m.directlyAliasedMembers());
-  			todo.addAll(m.directlyAliasingMembers());
-  		}
+  		Type containingType = m.nearestAncestor(Type.class);
+		if(! visitedTypes.containsKey(containingType)) {
+			visitedTypes.put(containingType, new ArrayList<Member>());
+		}
+		List<Member> done = visitedTypes.get(containingType);
+		boolean contains = false;
+		for(Member member:done) {
+			if(member.signature().sameAs(m.signature())) {
+				contains = true;
+				break;
+			}
+		}
+		if(! contains) {
+			done.add(m);
+			todo.addAll(m.directlyOverriddenMembers());
+			todo.addAll(m.aliasedMembers());
+			todo.addAll(m.aliasingMembers());
+		}
+  	}
+  	Set<Member> result = new HashSet<Member>();
+  	for(List<Member> members: visitedTypes.values()) {
+  		result.addAll(members);
   	}
   	return result;
   }
   
   public Set<? extends Member> aliasedMembers() throws LookupException {
-  	List<Member> todo = (List<Member>) directlyAliasedMembers();
-  	Set<Member> result = new HashSet<Member>();
-  	while(! todo.isEmpty()) {
-  		Member<?,?,?> m = todo.get(0);
-  		todo.remove(0);
-  		if(result.add(m)) {
-  			todo.addAll(m.directlyAliasedMembers());
-  		}
-  	}
-  	return result;
+	  List<Member> todo = (List<Member>) directlyAliasedMembers();
+	  Set<Member> result = new HashSet<Member>();
+	  while(! todo.isEmpty()) {
+		  Member<?,?,?> m = todo.get(0);
+		  todo.remove(0);
+		  if(result.add(m)) {
+			  todo.addAll(m.directlyAliasedMembers());
+		  }
+	  }
+	  return result;
   }
-  
+
+  public Set<? extends Member> aliasingMembers() throws LookupException {
+	  List<Member> todo = (List<Member>) directlyAliasingMembers();
+	  Set<Member> result = new HashSet<Member>();
+	  while(! todo.isEmpty()) {
+		  Member<?,?,?> m = todo.get(0);
+		  todo.remove(0);
+		  if(result.add(m)) {
+			  todo.addAll(m.directlyAliasingMembers());
+		  }
+	  }
+	  return result;
+  }
+
   /**
    * Return the member that this member overrides. If there is more than
    * one candidate, an exception is thrown. If there is no candidate, null
