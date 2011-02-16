@@ -69,6 +69,7 @@ public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F 
   	Set<Member> result = new HashSet<Member>();
   	while(! todo.isEmpty()) {
   		Member<?,?,?> m = todo.get(0);
+  		System.out.println(m.nearestAncestor(Type.class).getFullyQualifiedName()+"."+m.signature().name());
   		todo.remove(0);
   		if(result.add(m)) {
   			todo.addAll(m.directlyOverriddenMembers());

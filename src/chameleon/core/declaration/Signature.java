@@ -34,6 +34,13 @@ public abstract class Signature<E extends Signature> extends QualifiedName<E> {
   		return this;
   	}
   }
+  
+  /**
+   * The default string representation of a signature is its name.
+   */
+  public String toString() {
+  	return name();
+  }
 //  /**
 //   * Equals cannot throw a checked exception, so we introduce sameAs.
 //   */

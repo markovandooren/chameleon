@@ -26,9 +26,6 @@ import chameleon.util.Pair;
  */
 public class DerivedType extends TypeWithBody {
 	
-  private CreationStackTrace _trace = new CreationStackTrace();
-	
-	
 	public DerivedType(List<ParameterSubstitution> parameters, Type baseType) {
 		this(baseType);
 		substituteParameters(parameters);
