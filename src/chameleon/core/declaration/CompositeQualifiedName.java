@@ -76,5 +76,21 @@ public class CompositeQualifiedName<E extends CompositeQualifiedName<E>> extends
 		return _signatures.elementAt(index);
 	} 
 
+	/**
+	 * For debugging purposes because Eclipse detail formatters simply don't work.
+	 */
+	public String toString() {
+		StringBuffer result = new StringBuffer();
+		List<Signature> signatures = signatures();
+		int size = signatures.size();
+		for(int i=0; i< size; i++) {
+			result.append(signatures.get(i));
+			if(i < size - 1) {
+				result.append('.');
+			}
+		}
+		return result.toString();
+	}
+
 	
 }

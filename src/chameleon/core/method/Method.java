@@ -605,4 +605,12 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends DeclarationWit
 	public Declaration declarator() {
 		return this;
 	}
+	
+	/**
+	 * For debugging purposes because Eclipse detail formatters simply don't work.
+	 */
+	public String toString() {
+		return signature().name();
+	}
+
 }
