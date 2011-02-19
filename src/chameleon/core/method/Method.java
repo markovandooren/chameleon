@@ -610,7 +610,7 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends DeclarationWit
 	 * For debugging purposes because Eclipse detail formatters simply don't work.
 	 */
 	public String toString() {
-		return signature().name();
+		return signature().toString();
 	}
 
 }

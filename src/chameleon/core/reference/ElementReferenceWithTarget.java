@@ -173,4 +173,8 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	  @*/
 	 public abstract E clone() ;
 	 
+	 public String toString() {
+		 return (getTarget() == null ? "" : getTarget().toString())+signature().toString();
+	 }
+	 
 }
