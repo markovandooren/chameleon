@@ -161,6 +161,20 @@ public interface Element<E extends Element> {
     public <T extends Element<?>> List<T> ancestors(Class<T> c);
     
     /**
+     * Return a list of all ancestors of the given type that satify the given predicate. 
+     * A closer ancestors will have a lower index than a farther ancestor.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post parent() == null ==> \result.isEmpty();
+     @ post parent() != null && c.isInstance(parent()) && predicate.eval(parent()) ==> \result.get(0) == parent();
+     @ post parent() != null ==> \result.subList(1,\result.size()).equals(parent().ancestors(c));
+     @*/
+    public <T extends Element<?>> List<T> ancestors(Class<T> c, SafePredicate<T> predicate);
+
+    
+    /**
      * Return the direct children of this element.
      * 
      * The result will never be null. All elements in the collection will have this element as

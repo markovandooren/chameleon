@@ -381,6 +381,12 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
     	return result;
     }
 
+    public <T extends Element<?>> List<T> ancestors(Class<T> c, SafePredicate<T> predicate) {
+    	List<T> result = ancestors(c);
+      predicate.filter(result);
+    	return result;
+    }
+
     public final List<Element> ancestors() {
         if (parent()!=null) {
             List<Element> result = parent().ancestors();
