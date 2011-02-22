@@ -22,6 +22,7 @@ import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.util.CreationStackTrace;
 
 public class ClassBody extends NamespaceElementImpl<ClassBody> implements NamespaceElement<ClassBody>, DeclarationContainer<ClassBody> {
 
@@ -137,15 +138,16 @@ public class ClassBody extends NamespaceElementImpl<ClassBody> implements Namesp
 	protected List<Declaration> declarations(String selectionName) throws LookupException {
 		ensureLocalCache();
 		List<Declaration> result = cachedDeclarations(selectionName);
-  	if(result == null) {
-  		result = new ArrayList<Declaration>();
-  	}
-  	return result;
+		if(result == null) {
+			result = new ArrayList<Declaration>();
+		}
+		return result;
 	}
-	
+
 	private synchronized void ensureLocalCache() throws LookupException {
-		if(_declarationCache == null) {
-		  List<Member> members = members();
+		if(! _completelyCached) {
+			_completelyCached = true;
+			List<Member> members = members();
 		  _declarationCache = new HashMap<String, List<Declaration>>();
 		  for(Member member: members) {
 		  	String name = member.signature().name();
@@ -163,6 +165,8 @@ public class ClassBody extends NamespaceElementImpl<ClassBody> implements Namesp
 		  }
 		}
 	}
+	
+	private boolean _completelyCached = false;
 
 	protected synchronized List<Declaration> cachedDeclarations(String name) {
 		if(_declarationCache != null) {
@@ -182,6 +186,7 @@ public class ClassBody extends NamespaceElementImpl<ClassBody> implements Namesp
 	@Override
 	public synchronized void flushLocalCache() {
 		_declarationCache = null;
+		_completelyCached = false;
 	}
 	
 	private HashMap<String, List<Declaration>> _declarationCache;
