@@ -136,7 +136,7 @@ public abstract class TypeWithBody extends AbstractType {
 	}
 
 	public <T extends TypeElement> List<T> directlyDeclaredElements(Class<T> kind) {
-  	List<TypeElement> tmp = (List<TypeElement>) body().elements();
+  	List<TypeElement> tmp = (List<TypeElement>) directlyDeclaredElements();
   	new TypePredicate<TypeElement,T>(kind).filter(tmp);
     return (List<T>)tmp;
 	}

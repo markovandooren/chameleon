@@ -324,6 +324,8 @@ AspectOrType<Type,Type> {
 	 */
 	public List<? extends TypeElement> directlyDeclaredElements();
 
+	public <T extends TypeElement> List<T> directlyDeclaredElements(Class<T> kind);
+	
 	/********************
 	 * EXCEPTION SOURCE *
 	 ********************/

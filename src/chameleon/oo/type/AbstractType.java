@@ -590,7 +590,13 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
 
     public abstract List<? extends TypeElement> directlyDeclaredElements();
 
-    public CheckedExceptionList getCEL() throws LookupException {
+  	public <T extends TypeElement> List<T> directlyDeclaredElements(Class<T> kind) {
+    	List<TypeElement> tmp = (List<TypeElement>) directlyDeclaredElements();
+    	new TypePredicate<TypeElement,T>(kind).filter(tmp);
+      return (List<T>)tmp;
+  	}
+
+  	public CheckedExceptionList getCEL() throws LookupException {
         CheckedExceptionList cel = new CheckedExceptionList();
         for(TypeElement el : localMembers()) {
         	cel.absorb(el.getCEL());
