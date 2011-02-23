@@ -143,7 +143,6 @@ public class ClassBody extends NamespaceElementImpl<ClassBody> implements Namesp
 		}
 		return result;
 	}
-
 	private synchronized void ensureLocalCache() throws LookupException {
 		if(! _completelyCached) {
 			_completelyCached = true;

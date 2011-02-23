@@ -814,6 +814,10 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
 				return true;
 			}
 		};
+		
+		public String toString() {
+			return getFullyQualifiedName();
+		}
 
 }
 
