@@ -22,6 +22,7 @@ import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.util.CreationStackTrace;
 
 public class ClassBody extends NamespaceElementImpl<ClassBody> implements NamespaceElement<ClassBody>, DeclarationContainer<ClassBody> {
 
@@ -143,8 +144,11 @@ public class ClassBody extends NamespaceElementImpl<ClassBody> implements Namesp
   	return result;
 	}
 	
+	private CreationStackTrace _trace;
+	
 	private synchronized void ensureLocalCache() throws LookupException {
 		if(_declarationCache == null) {
+			_trace = new CreationStackTrace();
 		  List<Member> members = members();
 		  _declarationCache = new HashMap<String, List<Declaration>>();
 		  for(Member member: members) {
