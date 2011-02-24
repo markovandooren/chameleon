@@ -397,7 +397,7 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
         }
     }
 
-    public <T extends Element> T nearestElement(Class<T> c) {
+    public <T extends Element> T nearestAncestorOrSelf(Class<T> c) {
     	Element el = this;
     	while ((el != null) && (! c.isInstance(el))){
     		el = el.parent();
@@ -405,7 +405,7 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
     	return (T) el;
     }
 
-    public <T extends Element> T nearestElement(Class<T> c, Predicate<T> predicate) throws Exception {
+    public <T extends Element> T nearestAncestorOrSelf(Class<T> c, Predicate<T> predicate) throws Exception {
     	Element el = this;
     	while ((el != null) && (! (c.isInstance(el) && predicate.eval((T)el)))) {
     		el = el.parent();
@@ -413,7 +413,7 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
     	return (T) el;
     }
 
-    public <T extends Element> T nearestElement(Class<T> c, SafePredicate<T> predicate) {
+    public <T extends Element> T nearestAncestorOrSelf(Class<T> c, SafePredicate<T> predicate) {
     	Element el = this;
     	while ((el != null) && (! (c.isInstance(el) && predicate.eval((T)el)))) {
     		el = el.parent();
@@ -421,7 +421,7 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
     	return (T) el;
     }
 
-    public <T extends Element, X extends Exception> T nearestElement(Class<T> c, UnsafePredicate<T,X> predicate) throws X {
+    public <T extends Element, X extends Exception> T nearestAncestorOrSelf(Class<T> c, UnsafePredicate<T,X> predicate) throws X {
     	Element el = this;
     	while ((el != null) && (! (c.isInstance(el) && predicate.eval((T)el)))) {
     		el = el.parent();

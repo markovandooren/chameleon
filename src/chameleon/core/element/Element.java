@@ -114,7 +114,8 @@ public interface Element<E extends Element> {
 	  public void nonRecursiveDisconnect();
 
     /**
-	   * Check if this element is derived or not.
+	   * Check if this element is derived (or generated) or not. A derived element has a unidirectional 
+	   * connection with its parent.
 	   * 
 	   * @return True if this element is derived, false otherwise.
 	   */
@@ -131,6 +132,15 @@ public interface Element<E extends Element> {
 	   @*/
 	  public Element origin();
 	  
+	  /**
+	   * Set the origin of this element.
+	   * @param element
+	   */
+	 /*@
+	   @ public behavior
+	   @
+	   @ post origin() == element;
+	   @*/
 	  public void setOrigin(Element element);
 	  
 
@@ -525,6 +535,13 @@ public interface Element<E extends Element> {
      *        The class object of type T (T.class)
      * @return
      */
+   /*@
+     @ public behavior
+     @
+     @ post parent() == null ==> \result == null;
+     @ post parent() != null && c.isInstance(parent()) ==> \result == parent();
+     @ post parent() != null && (! c.isInstance(parent())) ==> \result == parent().nearestAncestor(c);
+     @*/
     public <T extends Element> T nearestAncestor(Class<T> c);
     
     /**
@@ -539,6 +556,14 @@ public interface Element<E extends Element> {
      *        The class object of type T (T.class)
      * @return
      */
+   /*@
+     @ public behavior
+     @
+     @ post parent() == null ==> \result == null;
+     @ post parent() != null && c.isInstance(parent()) && predicate.eval((T)parent()) ==> \result == parent();
+     @ post parent() != null && ((! c.isInstance(parent())) || (c.isInstance(parent()) && ! predicate.eval((T)parent())) 
+     @          ==> \result == parent().nearestAncestor(c, predicate);
+     @*/
     public <T extends Element> T nearestAncestor(Class<T> c, Predicate<T> predicate) throws Exception;
 
     /**
@@ -553,6 +578,14 @@ public interface Element<E extends Element> {
      *        The class object of type T (T.class)
      * @return
      */
+   /*@
+     @ public behavior
+     @
+     @ post parent() == null ==> \result == null;
+     @ post parent() != null && c.isInstance(parent()) && predicate.eval((T)parent()) ==> \result == parent();
+     @ post parent() != null && ((! c.isInstance(parent())) || (c.isInstance(parent()) && ! predicate.eval((T)parent())) 
+     @          ==> \result == parent().nearestAncestor(c, predicate);
+     @*/
     public <T extends Element> T nearestAncestor(Class<T> c, SafePredicate<T> predicate);
     
     /**
@@ -567,6 +600,14 @@ public interface Element<E extends Element> {
      *        The class object of type T (T.class)
      * @return
      */
+   /*@
+     @ public behavior
+     @
+     @ post parent() == null ==> \result == null;
+     @ post parent() != null && c.isInstance(parent()) && predicate.eval((T)parent()) ==> \result == parent();
+     @ post parent() != null && ((! c.isInstance(parent())) || (c.isInstance(parent()) && ! predicate.eval((T)parent())) 
+     @          ==> \result == parent().nearestAncestor(c, predicate);
+     @*/
     public <T extends Element, X extends Exception> T nearestAncestor(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
     
     /**
@@ -577,7 +618,14 @@ public interface Element<E extends Element> {
      *        The class object of type T (T.class)
      * @return
      */
-    public <T extends Element> T nearestElement(Class<T> c);
+   /*@
+     @ public behavior
+     @
+     @ post c.isInstance(this) ==> \result == this;
+     @ post ! c.isInstance(this) && parent() != null ==> \result == parent().nearestAncestor(c);
+     @ post ! c.isInstance(this) && parent() == null ==> \result == null;
+     @*/
+    public <T extends Element> T nearestAncestorOrSelf(Class<T> c);
     
     /**
      * Return the nearest element of type T that satifies the given predicate. Null if no such ancestor can be found.
@@ -591,7 +639,14 @@ public interface Element<E extends Element> {
      *        The class object of type T (T.class)
      * @return
      */
-    public <T extends Element> T nearestElement(Class<T> c, Predicate<T> predicate) throws Exception;
+   /*@
+     @ public behavior
+     @
+     @ post c.isInstance(this) && predicate.eval(this) ==> \result == this;
+     @ post (! c.isInstance(this) || (c.isInstance(this) && (! predicate.eval(this)))) && parent() != null ==> \result == parent().nearestAncestor(c,predicate);
+     @ post (! c.isInstance(this) || (c.isInstance(this) && (! predicate.eval(this)))) && parent() == null ==> \result == null;
+     @*/
+    public <T extends Element> T nearestAncestorOrSelf(Class<T> c, Predicate<T> predicate) throws Exception;
 
     /**
      * Return the nearest element of type T that satifies the given predicate. Null if no such ancestor can be found.
@@ -605,7 +660,14 @@ public interface Element<E extends Element> {
      *        The class object of type T (T.class)
      * @return
      */
-    public <T extends Element> T nearestElement(Class<T> c, SafePredicate<T> predicate);
+   /*@
+     @ public behavior
+     @
+     @ post c.isInstance(this) && predicate.eval(this) ==> \result == this;
+     @ post (! c.isInstance(this) || (c.isInstance(this) && (! predicate.eval(this)))) && parent() != null ==> \result == parent().nearestAncestor(c,predicate);
+     @ post (! c.isInstance(this) || (c.isInstance(this) && (! predicate.eval(this)))) && parent() == null ==> \result == null;
+     @*/
+    public <T extends Element> T nearestAncestorOrSelf(Class<T> c, SafePredicate<T> predicate);
     
     /**
      * Return the nearest element of type T that satifies the given predicate. Null if no such ancestor can be found.
@@ -619,7 +681,15 @@ public interface Element<E extends Element> {
      *        The class object of type T (T.class)
      * @return
      */
-    public <T extends Element, X extends Exception> T nearestElement(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
+   /*@
+     @ public behavior
+     @
+     @ post c.isInstance(this) && predicate.eval(this) ==> \result == this;
+     @ post (! c.isInstance(this) || (c.isInstance(this) && (! predicate.eval(this)))) && parent() != null ==> \result == parent().nearestAncestor(c,predicate);
+     @ post (! c.isInstance(this) || (c.isInstance(this) && (! predicate.eval(this)))) && parent() == null ==> \result == null;
+     @*/
+    public <T extends Element, X extends Exception> T nearestAncestorOrSelf(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
+    
     /**
      * Return the language of this element. Return null if this element is not
      * connected to a complete model.
@@ -660,10 +730,10 @@ public interface Element<E extends Element> {
     public E clone();
     
     /**
-     * Return the lexical context for the given child element. The
+     * Return the lexical lookup context for the given child element. The
      * default behavior is to delegate the search to the parent.
      * 
-     * If this element declares elements itself, it searches those
+     * If this element contains declarations itself, it searches those
      * elements first, and only delegates to the parent if nothing
      * is found.
      * 
@@ -675,7 +745,9 @@ public interface Element<E extends Element> {
    /*@
      @ public behavior
      @
-     @ pre children().contains(child); 
+     @ pre children().contains(child);
+     @
+     @ post \result != null; 
      @*/
     public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException;
     
@@ -703,7 +775,7 @@ public interface Element<E extends Element> {
      * of the model, but need a parent in order to have a context. Unfortunately,
      * Java does not allow me to hide the method.
      * 
-     * @param parent
+     * @param parent The new parent of this element.
      */
    /*@
      @ public behavior
@@ -903,7 +975,7 @@ public interface Element<E extends Element> {
      *************************/
     
     /**
-     * Because equals cannot throw MetamodelExceptions, we have some framework code for equality.
+     * Because equals cannot throw checked exceptions, we have some framework code for equality.
      * 
      * First of all: DO NOT USE EQUALS!!! Use sameAs(Element) instead.
      * 
@@ -917,7 +989,7 @@ public interface Element<E extends Element> {
      @
      @ post (other instanceof Element) && sameAs((Element)other);
      @
-     @ signals (RuntimeMetamodelException)
+     @ signals (RuntimeMetamodelException) (* sameAs(other) has thrown an exception *);
      @*/
     @Override 
     public abstract boolean equals(Object other);
@@ -928,7 +1000,8 @@ public interface Element<E extends Element> {
    /*@
      @ public behavior
      @
-     @ post other == null ==> \result == uniSameAs(other);
+     @ post other == null ==> \result == false;
+     @ post other == this ==> \result == true;
      @ post other != null ==> \result == uniSameAs(other) || other.uniSameAs(this);
      @*/
     public abstract boolean sameAs(Element other) throws LookupException;
@@ -936,6 +1009,11 @@ public interface Element<E extends Element> {
     /**
      * Check whether this element is the same as the other element.
      */
+   /*@
+     @ public behavior
+     @
+     @ post other == null ==> \result == false;
+     @*/
     public abstract boolean uniSameAs(Element other) throws LookupException;
     
     /**

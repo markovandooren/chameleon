@@ -2,16 +2,17 @@ package chameleon.core.lookup;
 
 import java.util.List;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
-import chameleon.core.declaration.DeclarationWithHeader;
 import chameleon.core.declaration.DeclarationWithParametersHeader;
+import chameleon.core.declaration.DeclarationWithParametersSignature;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameDeclarationWithParametersSignature;
 import chameleon.core.member.MoreSpecificTypesOrder;
 import chameleon.core.relation.WeakPartialOrder;
 import chameleon.oo.type.Type;
 
-public abstract class SimpleNameCrossReferenceWithArgumentsSelector<D extends DeclarationWithHeader>
+public abstract class SimpleNameCrossReferenceWithArgumentsSelector<D extends Declaration>
 		extends TwoPhaseDeclarationSelector<D> {
 	@Override
 	public boolean selectedRegardlessOfName(D declaration)
@@ -58,10 +59,8 @@ public abstract class SimpleNameCrossReferenceWithArgumentsSelector<D extends De
 				return MoreSpecificTypesOrder
 						.create()
 						.contains(
-								((DeclarationWithParametersHeader) first
-										.header()).formalParameterTypes(),
-								((DeclarationWithParametersHeader) second
-										.header()).formalParameterTypes());
+								((DeclarationWithParametersSignature) first.signature()).parameterTypes(),
+								((DeclarationWithParametersSignature) second.signature()).parameterTypes());
 			}
 		};
 	}

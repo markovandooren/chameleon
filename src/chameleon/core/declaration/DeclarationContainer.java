@@ -48,8 +48,13 @@ public interface DeclarationContainer<E extends DeclarationContainer> extends El
   /**
    * Return the declarations the are defined in this declaration container and selected
    * by the given declaration selector.
-   * @return
-   * @throws LookupException 
+   * 
+   * Most implementations will directly invoke selector.selection(declarations()), but in some cases, 
+   * calculating the collection of declarations is very expensive. In such cases, the selector is typically
+   * pass along the chain of objects that contain the declarations of this container. For example, a class will pass
+   * the selector to its super classes instead of asking them for all declarations and then using the selector.
+   * Applying the inheritance rules (such as overriding) to all class members is very expensive, and useless for
+   * declarations that cannot be selected anyway.
    */
  /*@
    @ public behavior
