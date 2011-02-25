@@ -50,14 +50,9 @@ public interface Element<E extends Element> {
     /**
      * Return the object representing the <b>bidirectional</b>link to the parent of this element.
      * 
-     * This link is <b>NOT</b> used for elements that are generated! Always use parent() to obtain
-     * the parent. This method is only public due to the limitations of Java.
+     * This link is <b>NOT</b> used for elements that are derived/generated! Always use parent() to obtain
+     * the parent.
      */
-   /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @*/
     public SingleAssociation<E,Element> parentLink();
 
     /**

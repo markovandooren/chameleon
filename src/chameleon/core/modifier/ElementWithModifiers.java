@@ -2,6 +2,7 @@ package chameleon.core.modifier;
 
 import java.util.List;
 
+import org.rejuse.property.Property;
 import org.rejuse.property.PropertyMutex;
 
 import chameleon.core.element.Element;
@@ -64,6 +65,33 @@ public interface ElementWithModifiers<E extends Element<E>> extends NamespaceEle
 	 @*/
 	public void addModifiers(List<Modifier> modifiers);
 	
-	public List<Modifier> modifiers(PropertyMutex mutex) throws ModelException; 
+	/**
+	 * Return all modifiers that implies properties that are in the given mutex.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post (\forall Modifier modifier: \result.contains(modifier) : modifiers().contains(modifier));
+   @ post (\forall Modifier modifier
+   @             : modifiers().contains(modifier) && 
+   @                                 (\exists Property property
+   @                                        : modifier.impliedProperties().contains(property)
+   @                                        : propery.mutex() == mutex)
+   @             : \result.contains(modifier));
+   @*/
+	public List<Modifier> modifiers(PropertyMutex mutex) throws ModelException;
+	
+	/**
+	 * Return all modifiers that imply the given property.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post (\forall Modifier modifier: \result.contains(modifier) : modifiers().contains(modifier));
+   @ post (\forall Modifier modifier
+   @             : modifiers().contains(modifier) && modifier.impliedProperties().contains(property)
+   @             : \result.contains(modifier));
+   @*/
+	public List<Modifier> modifiers(Property property) throws ModelException;
 
 }

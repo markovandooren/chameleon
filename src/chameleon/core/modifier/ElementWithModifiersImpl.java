@@ -1,14 +1,17 @@
 package chameleon.core.modifier;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.rejuse.association.OrderedMultiAssociation;
+import org.rejuse.property.Property;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.element.Element;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.exception.ChameleonProgrammerException;
+import chameleon.exception.ModelException;
 
 public abstract class ElementWithModifiersImpl<E extends Element<E>> extends NamespaceElementImpl<E> {
 
@@ -29,10 +32,29 @@ public abstract class ElementWithModifiersImpl<E extends Element<E>> extends Nam
     return _modifiers.getOtherEnds();
   }
 
+  /**
+   * The children of an element with modifiers contains its modifiers.
+   */
+ /*@
+   @ also public behavior
+   @
+   @ post \result.containsAll(modifiers());
+   @*/
   public List<Element> children() {
   	return (List)modifiers();
   }
   
+  /**
+   * Add the given modifier to this element.
+   * @param modifier The modifier to be added.
+   */
+ /*@
+   @ public behavior
+   @
+   @ pre modifier != null;
+   @
+   @ post modifiers().contains(modifier);
+   @*/
   public void addModifier(Modifier modifier) {
     if (modifier != null) {
     	if (!_modifiers.contains(modifier.parentLink())) {
@@ -43,6 +65,19 @@ public abstract class ElementWithModifiersImpl<E extends Element<E>> extends Nam
     }
   }
   
+  /**
+   * Add all modifiers in the given collection to this element.
+   * 
+   * @param modifiers The collection that contains the modifiers that must be added.
+   */
+ /*@
+   @ public behavior
+   @
+   @ pre modifiers != null;
+   @ pre ! modifiers.contains(null);
+   @
+   @ post modifiers().containsAll(modifiers);
+   @*/
   public void addModifiers(List<Modifier> modifiers) {
   	if(modifiers == null) {
   		throw new ChameleonProgrammerException("List passed to addModifiers is null");
@@ -53,6 +88,18 @@ public abstract class ElementWithModifiersImpl<E extends Element<E>> extends Nam
   	}
   }
 
+  /**
+   * Remove the given modifier from this element.
+   * 
+   * @param modifier The modifier that must be removed.
+   */
+ /*@
+   @ public behavior
+   @
+   @ pre modifier != null;
+   @
+   @ post ! modifiers().contains(modifier);
+   @*/
   public void removeModifier(Modifier modifier) {
   	if(modifier != null) {
       _modifiers.remove(modifier.parentLink());
@@ -61,6 +108,18 @@ public abstract class ElementWithModifiersImpl<E extends Element<E>> extends Nam
   	}
   }
 
+  /**
+   * Check whether this element contains the given modifier.
+   * 
+   * @param modifier The modifier that is searched.
+   */
+ /*@
+   @ public behavior
+   @
+   @ pre modifier != null;
+   @
+   @ post \result == modifiers().contains(modifier);
+   @*/
   public boolean hasModifier(Modifier modifier) {
     return _modifiers.getOtherEnds().contains(modifier);
   }
@@ -84,5 +143,16 @@ public abstract class ElementWithModifiersImpl<E extends Element<E>> extends Nam
 	protected PropertySet<Element,ChameleonProperty> myDefaultProperties() {
 		return language().defaultProperties(this);
 	}
+	
+	public List<Modifier> modifiers(Property property) throws ModelException {
+		List<Modifier> result = new ArrayList<Modifier>();
+		for(Modifier modifier: modifiers()) {
+			if(modifier.impliesTrue(property)) {
+				result.add(modifier);
+			}
+		}
+		return result;
+	}
+
 
 }

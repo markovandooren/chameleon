@@ -83,4 +83,13 @@ public abstract class VariableImpl<E extends VariableImpl<E,F>, F extends Variab
   	return result;
   }
 
+	public List<Modifier> modifiers(Property property) throws ModelException {
+		List<Modifier> result = new ArrayList<Modifier>();
+		for(Modifier modifier: modifiers()) {
+			if(modifier.impliesTrue(property)) {
+				result.add(modifier);
+			}
+		}
+		return result;
+	}
 }
