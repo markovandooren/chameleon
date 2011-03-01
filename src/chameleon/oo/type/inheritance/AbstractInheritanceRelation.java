@@ -165,9 +165,14 @@ public abstract class AbstractInheritanceRelation<E extends AbstractInheritanceR
 	
 //	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
 //	        List<M> potentiallyInheritedMembers(final Class<M> kind) throws LookupException {
-	public <M extends Member> 
-    List<M> potentiallyInheritedMembers(final Class<M> kind) throws LookupException {
+	public <M extends Member> List<M> potentiallyInheritedMembers(final Class<M> kind) throws LookupException {
 		List<M> superMembers = superClass().members(kind);
+		removeNonInheritableMembers(superMembers);
+    return superMembers;
+	}
+
+	public List<Member> potentiallyInheritedMembers() throws LookupException {
+		List<Member> superMembers = superClass().members();
 		removeNonInheritableMembers(superMembers);
     return superMembers;
 	}
