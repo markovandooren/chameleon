@@ -5,10 +5,6 @@ import java.util.concurrent.Callable;
 
 public class QueuePollingCallableFactory<T,E extends Exception> extends QueuePollingFactory<T> implements CallableFactory {
 
-//	public QueuePollingCallableFactory(UnsafeAction<T,E> action, Collection<T> collection) {
-//		this(action,new ArrayBlockingQueue<T>(collection.size(), true, collection));
-//	}
-	
 	public QueuePollingCallableFactory(UnsafeAction<T,E> action, Queue<T> queue) {
 		super(action,queue);
 	}

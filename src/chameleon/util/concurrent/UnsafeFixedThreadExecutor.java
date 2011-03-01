@@ -1,9 +1,9 @@
 package chameleon.util.concurrent;
 
 
-public class UnsafeFixedThreadExecutor<E extends Exception> extends FixedThreadRunnableExecutor {
+public class UnsafeFixedThreadExecutor<E extends Exception> extends FixedThreadCallableExecutor {
 
-	public UnsafeFixedThreadExecutor(RunnableFactory factory, Class<E> clazz) {
+	public UnsafeFixedThreadExecutor(CallableFactory factory, Class<E> clazz) {
 		super(factory);
 		_clazz = clazz;
 	}

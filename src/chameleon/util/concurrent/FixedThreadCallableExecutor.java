@@ -2,6 +2,7 @@ package chameleon.util.concurrent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
@@ -12,22 +13,23 @@ public class FixedThreadCallableExecutor<E extends Exception> extends FixedThrea
 		_factory = factory;
 	}
 	
-	public void run() throws InterruptedException, E {
+	public void run() throws InterruptedException, E, ExecutionException {
 		int availableProcessors = availableProcessors();
-//		int availableProcessors = 1;
-//		System.out.println("Using "+availableProcessors+" threads");
-		List<Future> futures = new ArrayList<Future>();
-//		try {
+		List<Callable<Object>> tasks = new ArrayList<Callable<Object>>();
 		for(int i=0; i<availableProcessors;i++) {
-			FutureTask fut = new FutureTask(factory().createCallable());
-				executor().execute(fut);
+			tasks.add(factory().createCallable());
 		}
-		executor().shutdown();
-		executor().awaitTermination(100, TimeUnit.HOURS);
-//		}
-//		catch(ExecutionException e) {
-//			throw (E)e.getCause();
-//		}
+		List<Future<Object>> futures = executor().invokeAll(tasks, 100, TimeUnit.HOURS);
+		for(int i=0; i<availableProcessors;i++) {
+			try {
+				futures.get(i).get();
+			} catch (ExecutionException e) {
+//				e.getCause().printStackTrace();
+				throw e;
+			}
+		}
+//		executor().shutdown();
+//		executor().awaitTermination();
 	}
 	
 	

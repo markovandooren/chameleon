@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutionException;
 
 import org.junit.Test;
 
@@ -34,7 +35,7 @@ public class CrossReferenceTest extends ModelTest {
 	}
 	
 	@Test
-	public void testCrossReferences() throws LookupException, InterruptedException {
+	public void testCrossReferences() throws LookupException, InterruptedException, ExecutionException {
   	long startTime = System.nanoTime();
 		Collection<CrossReference> crossReferences = crossReferenceProvider().elements(language());
 		final BlockingQueue<CrossReference> queue = new ArrayBlockingQueue<CrossReference>(crossReferences.size(), true, crossReferences);
