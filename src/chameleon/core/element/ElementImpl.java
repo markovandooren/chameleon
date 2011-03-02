@@ -650,32 +650,33 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
     		if(child != null) {
     			child.disconnect();
     		} else {
-    			showStackTrace("CHILD IS NULL for element of Type "+getClass().getName());    		
+    			throw new ChameleonProgrammerException("CHILD IS NULL for element of Type "+getClass().getName());
+//    			showStackTrace("CHILD IS NULL for element of Type "+getClass().getName());    		
     		}
     	}
     }
     
-    private static int stackTraceCount = 0;
-    
-    /**
-     * This debugging method throws an exception, catches it, and prints
-     * the stacktrace.
-     */
-    protected void showStackTrace(String message) {
-    	try {
-    		throw new Exception(++stackTraceCount + ":: "+message);
-    	} catch(Exception e) {
-    		e.printStackTrace();
-    	}
-    }
-
-    /**
-     * This debugging method throws an exception, catches it, and prints
-     * the stacktrace.
-     */
-    protected void showStackTrace() {
-    	showStackTrace(null);
-    }
+//    private static int stackTraceCount = 0;
+//    
+//    /**
+//     * This debugging method throws an exception, catches it, and prints
+//     * the stacktrace.
+//     */
+//    protected void showStackTrace(String message) {
+//    	try {
+//    		throw new Exception(++stackTraceCount + ":: "+message);
+//    	} catch(Exception e) {
+//    		e.printStackTrace();
+//    	}
+//    }
+//
+//    /**
+//     * This debugging method throws an exception, catches it, and prints
+//     * the stacktrace.
+//     */
+//    protected void showStackTrace() {
+//    	showStackTrace(null);
+//    }
     
     public List<? extends Element> directDependencies() {
     	return children();
