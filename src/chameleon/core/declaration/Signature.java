@@ -1,8 +1,5 @@
 package chameleon.core.declaration;
 
-import chameleon.core.element.Element;
-import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.exception.ChameleonProgrammerException;
 
 /**
@@ -17,17 +14,27 @@ public abstract class Signature<E extends Signature> extends QualifiedName<E> {
   public abstract E clone();
   
   /**
-   * Return a string representation of the name of this signature. For method, e.g., the arguments
+   * Return a string representation of the name of this signature. For methods, e.g., the arguments
    * are not included.
    * 
    * SPEED: This name is used to speed up selection of declarations in declaration containers. 
    */
   public abstract String name();
   
-  
+  /**
+   * Change the name of this signature to the given name.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post name().equals(name);
+   @*/
   public abstract void setName(String name);
   
-  public Signature elementAt(int index) {
+  /* (non-Javadoc)
+   * @see chameleon.core.declaration.QualifiedName#signatureAt(int)
+   */
+  public Signature signatureAt(int index) {
   	if(index != 1) {
   		throw new ChameleonProgrammerException();
   	} else {
@@ -41,9 +48,4 @@ public abstract class Signature<E extends Signature> extends QualifiedName<E> {
   public String toString() {
   	return name();
   }
-//  /**
-//   * Equals cannot throw a checked exception, so we introduce sameAs.
-//   */
-//  public abstract boolean sameAs(Signature other) throws LookupException;
-//  
 }

@@ -170,17 +170,17 @@ public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F 
   }
   
   public MemberRelationSelector<? extends Member> overridesSelector() {
-		return new MemberRelationSelector<Member>(Member.class,this,_overridesSelector);
+		return new MemberRelationSelector<Member>(Member.class,this,_overridesRelation);
   }
   
   public OverridesRelation<? extends Member> overridesRelation() {
-  	return _overridesSelector;
+  	return _overridesRelation;
   }
   
-  private static OverridesRelation<Member> _overridesSelector = new OverridesRelation<Member>(Member.class) {
+  private static OverridesRelation<Member> _overridesRelation = new OverridesRelation<Member>(Member.class) {
 		
 		public boolean containsBasedOnRest(Member first, Member second) throws LookupException {
-			return true;
+			return first.signature().sameAs(second.signature());
 		}
 
 		@Override

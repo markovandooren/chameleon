@@ -9,6 +9,13 @@ import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
+/**
+ * A class of composite qualified names.
+ * 
+ * @author Marko van Dooren
+ *
+ * @param <E>
+ */
 public class CompositeQualifiedName<E extends CompositeQualifiedName<E>> extends QualifiedName<E> {
 
 	public List<Signature> signatures() {
@@ -72,7 +79,7 @@ public class CompositeQualifiedName<E extends CompositeQualifiedName<E>> extends
 	}
 
 	@Override
-	public Signature elementAt(int index) {
+	public Signature signatureAt(int index) {
 		return _signatures.elementAt(index);
 	} 
 

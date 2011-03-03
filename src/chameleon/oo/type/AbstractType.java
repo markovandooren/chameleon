@@ -170,7 +170,7 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
 		 * @see chameleon.oo.type.Tajp#lexicalLookupStrategy(chameleon.core.element.Element)
 		 */
     public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
-    	if(inheritanceRelations().contains(element)) {
+    	if(element instanceof InheritanceRelation && hasInheritanceRelation((InheritanceRelation) element)) {
     		Element parent = parent();
     		if(parent != null) {
     			return lexicalParametersLookupStrategy();
@@ -183,6 +183,19 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
     	  
     	  //language().lookupFactory().createLexicalContext(this,targetContext());
     	}
+    }
+    
+    /**
+     * Check whether the given element is an inheritance relation of this type.
+     * The default implementation checks whether the given element is in the 
+     * collection returned by inheritanceRelations().
+     * 
+     * This method can be overridden for example to deal with generated inheritance
+     * relations, which are not lexically part of the type.
+     * @throws LookupException 
+     */
+    public boolean hasInheritanceRelation(InheritanceRelation relation) throws LookupException {
+    	return inheritanceRelations().contains(relation);
     }
     
     protected LookupStrategy lexicalMembersLookupStrategy() throws LookupException {
