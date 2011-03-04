@@ -95,5 +95,13 @@ public class Block extends StatementImpl<Block> implements StatementListContaine
 		return Valid.create();
 	}
 
+	public void addBlock(Block block) {
+		if (block == null)
+			return;
+		
+		for (Statement st : block.statements())
+			addStatement(st.clone());
+	}
+
 	
 }
