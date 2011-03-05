@@ -176,11 +176,18 @@ public abstract class AbstractInheritanceRelation<E extends AbstractInheritanceR
 		removeNonInheritableMembers(superMembers);
     return superMembers;
 	}
+	
+	private static int count;
 
 	public <M extends Member> List<M> potentiallyInheritedMembers(
 			final DeclarationSelector<M> selector) throws LookupException {
+		count++;
+		if(count > 100) {
+			System.out.println("10");
+		}
 		List<M> superMembers = superClass().members(selector);
 		removeNonInheritableMembers(superMembers);
+		count--;
 		return superMembers;
 	}
 	

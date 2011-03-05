@@ -75,7 +75,7 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
 	}
 	
 	public boolean selects(Signature signature, Declaration declaration) throws LookupException {
-		return selectedClass().isInstance(declaration) && selectedBasedOnName(signature) && selectedRegardlessOfName((D) declaration);
+		return (declaration == null || selectedClass().isInstance(declaration)) && selectedBasedOnName(signature) && (declaration == null || selectedRegardlessOfName((D) declaration));
 	}
 	
 

@@ -19,7 +19,7 @@ public class FixedThreadCallableExecutor<E extends Exception> extends FixedThrea
 		for(int i=0; i<availableProcessors;i++) {
 			tasks.add(factory().createCallable());
 		}
-		List<Future<Object>> futures = executor().invokeAll(tasks, 100, TimeUnit.HOURS);
+		List<Future<Object>> futures = executor().invokeAll(tasks);
 		for(int i=0; i<availableProcessors;i++) {
 			try {
 				futures.get(i).get();
@@ -28,7 +28,7 @@ public class FixedThreadCallableExecutor<E extends Exception> extends FixedThrea
 				throw e;
 			}
 		}
-//		executor().shutdown();
+		executor().shutdown();
 //		executor().awaitTermination();
 	}
 	
