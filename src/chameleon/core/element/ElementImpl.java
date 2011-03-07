@@ -197,8 +197,18 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
 	  /**
 	   * The default behavior is to return 'this'.
 	   */
-	  public final Element origin() {
+	  public Element origin() {
 	  	return _origin;
+	  }
+	  
+	  public Element rootOrigin() {
+	  	Element current = this;
+	  	Element origin = origin();
+	  	while(current != origin) {
+	  		current = origin;
+	  		origin = current.origin();
+	  	}
+	  	return current;
 	  }
 	  
 	  public void setOrigin(Element origin) {

@@ -56,7 +56,7 @@ public interface Element<E extends Element> {
     public SingleAssociation<E,Element> parentLink();
 
     /**
-     * Completely disconnect this element and all children from the parent.
+     * Completely disconnect this element and all descendants from the parent.
      * This method also removes associations with any logical parents.
      */
    /*@
@@ -114,19 +114,31 @@ public interface Element<E extends Element> {
 	   * 
 	   * @return True if this element is derived, false otherwise.
 	   */
+	 /*@
+	   @ public behavior
+	   @
+	   @ post \result == (! (origin() == this));
+	   @*/
 	  public boolean isDerived();
 	  
 	  /**
 	   * If this element is derived, return the element from which this element originates.
 	   * If this element is not derived, the method returns the current object.
 	   */
+	  public Element origin();
+	  
+	  /**
+	   * Return the root origin of this element. This is the element that is found when the "origin()" is
+	   * resolved until a fixed point is found.
+	   */
 	 /*@
 	   @ public behavior
 	   @
-	   @ post ! isDerived() ==> \result == this;
+	   @ post origin() == this ==> \result == this;
+	   @ post origin() != this ==> \result == origin().rootOrigin();
 	   @*/
-	  public Element origin();
-	  
+	  public Element rootOrigin();
+
 	  /**
 	   * Set the origin of this element.
 	   * @param element

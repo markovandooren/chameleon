@@ -53,6 +53,12 @@ public class Block extends StatementImpl<Block> implements StatementListContaine
     }.applyTo(statements());
     return result;
   }
+  
+  public void clear() {
+  	for(Element child: children()) {
+  		child.disconnect();
+  	}
+  }
 
   public List<? extends Element> children() {
     return statements();
