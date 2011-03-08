@@ -26,6 +26,10 @@ public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F 
    */
   public abstract S signature();
   
+  public String name() {
+  	return signature().name();
+  }
+  
   public final boolean overrides(Member other) throws LookupException {
 //  	return overridesSelector().selects(other);
   	return overridesRelation().contains(this,other);
