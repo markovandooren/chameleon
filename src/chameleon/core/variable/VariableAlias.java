@@ -15,8 +15,8 @@ import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
+import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.DeclarationComparator;
 import chameleon.core.member.Member;
 import chameleon.core.member.MemberRelationSelector;
@@ -132,7 +132,7 @@ public class VariableAlias extends VariableImpl<VariableAlias,MemberVariable> im
 		return this;
 	}
 
-	public LookupStrategy targetContext() throws LookupException {
+	public LocalLookupStrategy targetContext() throws LookupException {
 		return aliasedVariable().targetContext();
 	}
 

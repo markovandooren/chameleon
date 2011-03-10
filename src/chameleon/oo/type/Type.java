@@ -12,6 +12,7 @@ import chameleon.core.declaration.Definition;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
+import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.Member;
@@ -69,7 +70,7 @@ AspectOrType<Type,Type> {
 	 * LEXICAL CONTEXT 
 	 *******************/
 
-	public LookupStrategy targetContext() throws LookupException;
+	public LocalLookupStrategy targetContext() throws LookupException;
 
 	public LookupStrategy localStrategy() throws LookupException;
 

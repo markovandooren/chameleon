@@ -19,6 +19,7 @@ import chameleon.core.declaration.Definition;
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
+import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.Target;
@@ -496,8 +497,9 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends DeclarationWit
   
   private LookupStrategy _lexical;
   
-  public LookupStrategy targetContext() throws LookupException {
-  	return returnType().lexicalLookupStrategy();
+  public LocalLookupStrategy targetContext() throws LookupException {
+//  	return returnType().lexicalLookupStrategy();
+  	return returnType().targetContext();
   }
   
 	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {

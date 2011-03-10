@@ -2,11 +2,9 @@ package chameleon.core.variable;
 
 import chameleon.core.declaration.Definition;
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.declaration.TargetDeclaration;
-import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
+import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.modifier.ElementWithModifiers;
 import chameleon.oo.type.DeclarationWithType;
 import chameleon.oo.type.Type;
@@ -54,7 +52,7 @@ public interface Variable<E extends Variable<E,F>, F extends Variable>
 
   public E clone();
 
-  public LookupStrategy targetContext() throws LookupException;
+  public LocalLookupStrategy targetContext() throws LookupException;
 
 
   public Variable selectionDeclaration();

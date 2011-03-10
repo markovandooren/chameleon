@@ -58,7 +58,7 @@ public class LookupStrategyFactory {
 		return new LexicalLookupStrategy(local, selector);
 	}
 	
-  public  LookupStrategy createTargetLookupStrategy(DeclarationContainer element) {
+  public  LocalLookupStrategy createTargetLookupStrategy(DeclarationContainer element) {
   	return new LocalLookupStrategy(element);
   }
 

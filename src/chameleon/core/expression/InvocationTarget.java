@@ -1,10 +1,7 @@
 package chameleon.core.expression;
 
-import java.util.Set;
-
-import chameleon.core.element.Element;
+import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.statement.ExceptionSource;
 
@@ -33,7 +30,7 @@ public interface InvocationTarget<E extends InvocationTarget>
    *   2) in "typename.f", "f" must be looked up in the type represented by "typename"
    *   3) in "packagename.f", "f" must be looked up in the package represented by "package"
    */
-public abstract LookupStrategy targetContext() throws LookupException;
+public abstract LocalLookupStrategy<?> targetContext() throws LookupException;
 
 	
   public abstract E clone();

@@ -273,7 +273,7 @@ public class CrossReferenceWithArguments<E extends CrossReferenceWithArguments<E
 			return result;
 		}
 
-		InvocationTarget target = getTarget();
+		InvocationTarget<?> target = getTarget();
 		if (target == null) {
 			result = lexicalLookupStrategy().lookUp(selector);
 		} else {

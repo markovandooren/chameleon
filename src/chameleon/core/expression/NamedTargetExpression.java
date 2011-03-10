@@ -165,7 +165,7 @@ public class NamedTargetExpression extends TargetedExpression<NamedTargetExpress
 	   	return result;
 	  }
 	   
-    InvocationTarget target = getTarget();
+    InvocationTarget<?> target = getTarget();
     if(target != null) {
       result = target.targetContext().lookUp(selector);//findElement(getName());
     } else {

@@ -3,9 +3,8 @@ package chameleon.core.expression;
 import chameleon.core.declaration.QualifiedName;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
-import chameleon.core.element.Element;
+import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.reference.CrossReference;
 import chameleon.core.reference.SpecificReference;
 import chameleon.core.statement.CheckedExceptionList;
@@ -29,7 +28,7 @@ public class CrossReferenceTarget<D extends TargetDeclaration> extends SpecificR
 		super(fqn, specificClass);
 	}
 
-	public LookupStrategy targetContext() throws LookupException {
+	public LocalLookupStrategy targetContext() throws LookupException {
 		return getElement().targetContext();
 	}
 

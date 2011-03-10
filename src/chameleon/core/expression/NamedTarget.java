@@ -14,6 +14,7 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
+import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.SelectorWithoutOrder;
@@ -127,7 +128,7 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,TargetDeclaratio
 	   	return result;
 	  }
 
-	  InvocationTarget target = getTarget();
+	  InvocationTarget<?> target = getTarget();
     if(target != null) {
       result = target.targetContext().lookUp(selector);//findElement(getName());
     } else {
@@ -263,7 +264,7 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,TargetDeclaratio
     }
   }
 
-  public LookupStrategy targetContext() throws LookupException {
+  public LocalLookupStrategy targetContext() throws LookupException {
     return getElement().targetContext();
   }
 
