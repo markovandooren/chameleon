@@ -70,7 +70,7 @@ AspectOrType<Type,Type> {
 	 * LEXICAL CONTEXT 
 	 *******************/
 
-	public LocalLookupStrategy targetContext() throws LookupException;
+	public LocalLookupStrategy<?> targetContext() throws LookupException;
 
 	public LookupStrategy localStrategy() throws LookupException;
 
