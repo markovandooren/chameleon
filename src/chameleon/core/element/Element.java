@@ -42,9 +42,9 @@ import chameleon.exception.ModelException;
  */
 public interface Element<E extends Element> {
 
-	  /**
-	   * Return the parent element of this element. Null if there is no parent.
-	   */
+    /**
+     * Return the parent element of this element. Null if there is no parent.
+     */
     public Element parent();
     
     /**
@@ -106,52 +106,52 @@ public interface Element<E extends Element> {
      @ post disconnected();
      @ post (\forall Element e; \old(this.contains(e)); e.disconnected());
      @*/
-	  public void nonRecursiveDisconnect();
+    public void nonRecursiveDisconnect();
 
     /**
-	   * Check if this element is derived (or generated) or not. A derived element has a unidirectional 
-	   * connection with its parent.
-	   * 
-	   * @return True if this element is derived, false otherwise.
-	   */
-	 /*@
-	   @ public behavior
-	   @
-	   @ post \result == (! (origin() == this));
-	   @*/
-	  public boolean isDerived();
-	  
-	  /**
-	   * If this element is derived, return the element from which this element originates.
-	   * If this element is not derived, the method returns the current object.
-	   */
-	  public Element origin();
-	  
-	  /**
-	   * Return the root origin of this element. This is the element that is found when the "origin()" is
-	   * resolved until a fixed point is found.
-	   */
-	 /*@
-	   @ public behavior
-	   @
-	   @ post origin() == this ==> \result == this;
-	   @ post origin() != this ==> \result == origin().rootOrigin();
-	   @*/
-	  public Element rootOrigin();
+     * Check if this element is derived (or generated) or not. A derived element has a unidirectional 
+     * connection with its parent.
+     * 
+     * @return True if this element is derived, false otherwise.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post \result == (! (origin() == this));
+     @*/
+    public boolean isDerived();
+    
+    /**
+     * If this element is derived, return the element from which this element originates.
+     * If this element is not derived, the method returns the current object.
+     */
+    public Element origin();
+    
+    /**
+     * Return the root origin of this element. This is the element that is found when the "origin()" is
+     * resolved until a fixed point is found.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post origin() == this ==> \result == this;
+     @ post origin() != this ==> \result == origin().rootOrigin();
+     @*/
+    public Element rootOrigin();
 
-	  /**
-	   * Set the origin of this element.
-	   * @param element
-	   */
-	 /*@
-	   @ public behavior
-	   @
-	   @ post origin() == element;
-	   @*/
-	  public void setOrigin(Element element);
-	  
+    /**
+     * Set the origin of this element.
+     * @param element
+     */
+   /*@
+     @ public behavior
+     @
+     @ post origin() == element;
+     @*/
+    public void setOrigin(Element element);
+    
 
-	  /**
+    /**
      * Return a list of all ancestors. The direct parent is in front of the list, the
      * furthest ancestor is last.
      */
@@ -207,7 +207,7 @@ public interface Element<E extends Element> {
      @ public behavior
      @
      @ post \result != null;
-     @ post \forall(Element e; \result.contains(e); e.parent() == this);
+     @ post (\forall Element e; \result.contains(e); e.parent() == this);
      @*/
     public List<? extends Element> children();
 
@@ -218,7 +218,7 @@ public interface Element<E extends Element> {
    /*@
      @ public behavior
      @
-     @ post \forall(Element e; children().contains(e) && c.isInstance(e); \result.contains(e));
+     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && c.isInstance(e));
      @*/
     public <T extends Element> List<T> children(Class<T> c);
     
@@ -233,7 +233,7 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
-     @ post \forall(Element e; children().contains(e) && predicate.eval(e) == true; \result.contains(e));
+     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && predicate.eval(e) == true);
      @*/
     public List<Element> children(Predicate<Element> predicate) throws Exception;
     
@@ -245,7 +245,7 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
-     @ post \forall(Element e; children().contains(e) && predicate.eval(e) == true; \result.contains(e));
+     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && predicate.eval(e));
      @*/
     public List<Element> children(SafePredicate<Element> predicate);
 
@@ -259,7 +259,7 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
-     @ post \forall(Element e; children().contains(e) && predicate.eval(e) == true; \result.contains(e));
+     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && predicate.eval(e));
      @*/
     public <X extends Exception> List<Element> children(UnsafePredicate<Element,X> predicate) throws X;
     
@@ -274,7 +274,7 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
-     @ post \forall(Element e; children().contains(e) && c.isInstance(e) && predicate.eval(e) == true; \result.contains(e));
+     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && c.isInstance(e) && predicate.eval(e));
      @*/
     public <T extends Element> List<T> children(Class<T> c, Predicate<T> predicate) throws Exception;
     
@@ -286,7 +286,7 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
-     @ post \forall(Element e; children().contains(e) && c.isInstance(e) && predicate.eval(e) == true; \result.contains(e));
+     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && c.isInstance(e) && predicate.eval(e));
      @*/
     public <T extends Element> List<T> children(Class<T> c, SafePredicate<T> predicate);
     
@@ -300,9 +300,22 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
-     @ post \forall(Element e; children().contains(e) && c.isInstance(e) && predicate.eval(e) == true; \result.contains(e));
+     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && c.isInstance(e) && predicate.eval(e));
      @*/
     public <T extends Element, X extends Exception> List<T> children(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
+    
+    
+    /**
+     * Return all children of this element that are of the given type, and that have the given property.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre predicate != null;
+     @
+     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && c.isInstance(e) && e.isTrue(property));
+     @*/
+    public <T extends Element> List<T> children(Class<T> c, final ChameleonProperty property);
     
     /**
      * Recursively return all children of this element.
@@ -311,7 +324,8 @@ public interface Element<E extends Element> {
    /*@
      @ public behavior
      @
-     @ post \forall(Element e; children().contains(c); \result.contains(e) && \result.containsAll(e.descendants()));
+     @ post (\forall Element e; \result.contains(e) <==> children().contains(e) ||
+     @                                                   (\exists Element c; children().contains(c); c.descendants().contains(e)));
      @*/ 
     public List<Element> descendants();
 
@@ -321,12 +335,25 @@ public interface Element<E extends Element> {
    /*@
      @ public behavior
      @
-     @ post \forall(Element e; descendants().contains(e) && c.isInstance(e); \result.contains(e));
+     @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && c.isInstance(e));
      @*/
     public <T extends Element> List<T> descendants(Class<T> c);
 
     
+
     /**
+     * Recursively return all descendants of this element that are of the given type, and have the given property.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre predicate != null;
+     @
+     @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && c.isInstance(e) && e.isTrue(property));
+     @*/
+   public <T extends Element> List<T> descendants(Class<T> c, ChameleonProperty property);
+
+   /**
      * Recursively return all descendants of this element that satisfy the given predicate.
      * 
      * The only checked exceptions that can occur will come from the predicate. Use the safe and unsafe variants
@@ -337,7 +364,7 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
-     @ post \forall(Element e; descendants().contains(e) && predicate.eval(e) == true; \result.contains(e));
+     @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && predicate.eval(e));
      @*/
    public List<Element> descendants(Predicate<Element> predicate) throws Exception;
 
@@ -349,7 +376,7 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
-     @ post \forall(Element e; descendants().contains(e) && predicate.eval(e) == true; \result.contains(e));
+     @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && predicate.eval(e));
      @*/
    public List<Element> descendants(SafePredicate<Element> predicate);
    
@@ -363,7 +390,7 @@ public interface Element<E extends Element> {
     @
     @ pre predicate != null;
     @
-    @ post \forall(Element e; descendants().contains(e) && predicate.eval(e) == true; \result.contains(e));
+    @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && predicate.eval(e));
     @*/
    public <X extends Exception> List<Element> descendants(UnsafePredicate<Element,X> predicate) throws X;
    
@@ -378,7 +405,7 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
-     @ post \forall(Element e; descendants().contains(e) && c.isInstance(e) && predicate.eval(e) == true; \result.contains(e));
+     @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && c.isInstance(e) && predicate.eval(e));
      @*/
    public <T extends Element> List<T> descendants(Class<T> c, Predicate<T> predicate) throws Exception;
 
@@ -390,7 +417,7 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
-     @ post \forall(Element e; descendants().contains(e) && c.isInstance(e) && predicate.eval(e) == true; \result.contains(e));
+     @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && c.isInstance(e) && predicate.eval(e));
      @*/
    public <T extends Element> List<T> descendants(Class<T> c, SafePredicate<T> predicate);
 
@@ -404,7 +431,7 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
-     @ post \forall(Element e; descendants().contains(e) && c.isInstance(e) && predicate.eval(e) == true; \result.contains(e));
+     @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && c.isInstance(e) && predicate.eval(e));
      @*/
    public <T extends Element, X extends Exception> List<T> descendants(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
 
@@ -487,7 +514,7 @@ public interface Element<E extends Element> {
      @
      @ post tags().isEmpty();
      @*/
-	  public void removeAllTags();
+    public void removeAllTags();
 
     /**
      * Check whether or not this element has tags.
@@ -957,13 +984,13 @@ public interface Element<E extends Element> {
      * only performs the local reaction to the event.
      */
     public void reactOnDescendantAdded(Element descendant);
-		
+    
     /**
      * Notify this element that the given descendant was removed. This method
      * only performs the local reaction to the event.
      */
     public void reactOnDescendantRemoved(Element descendant);
-		
+    
     /**
      * Notify this element that the given descendant was replaced. This method
      * only performs the local reaction to the event.
@@ -975,6 +1002,11 @@ public interface Element<E extends Element> {
      * for all problems.
      * @return
      */
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @*/
     public VerificationResult verify();
 
     /*************************

@@ -33,6 +33,12 @@ public class Block extends StatementImpl<Block> implements StatementListContaine
       _statements.add(statement.parentLink());
   	}
   }
+  
+  public void addInFront(Statement statement) {
+	  if(statement != null) {
+		  _statements.addInFront(statement.parentLink());
+	  }
+  }
 
   public void removeStatement(Statement statement) {
   	if(statement != null) {

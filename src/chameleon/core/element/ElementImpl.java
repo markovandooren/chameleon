@@ -261,9 +261,7 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
     }
 
     public final <T extends Element> List<T> descendants(Class<T> c) {
-    	List<Element> tmp = (List<Element>) children();
-    	new TypePredicate<Element,T>(c).filter(tmp);
-      List<T> result = (List<T>)tmp;
+      List<T> result = children(c);
       for (Element e : children()) {
         result.addAll(e.descendants(c));
       }
@@ -325,29 +323,40 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
     }
 
     public final <T extends Element> List<T> children(Class<T> c, Predicate<T> predicate) throws Exception {
-    	List<Element> tmp = (List<Element>) children();
-    	new TypePredicate<Element,T>(c).filter(tmp);
-      List<T> result = (List<T>)tmp;
+      List<T> result = children(c);
       predicate.filter(result);
       return result;
     }
 
+    public final <T extends Element> List<T> children(Class<T> c, final ChameleonProperty property) {
+        List<T> result = children(c, new SafePredicate<T>() {
+			public boolean eval(T element) {
+				return element.isTrue(property);
+			}
+		});
+        return result;
+      }
+      
     public final <T extends Element> List<T> children(Class<T> c, SafePredicate<T> predicate) {
-    	List<Element> tmp = (List<Element>) children();
-    	new TypePredicate<Element,T>(c).filter(tmp);
-      List<T> result = (List<T>)tmp;
+      List<T> result = children(c);
       predicate.filter(result);
       return result;
     }
     
     public final <T extends Element, X extends Exception> List<T> children(Class<T> c, UnsafePredicate<T,X> predicate) throws X {
-    	List<Element> tmp = (List<Element>) children();
-    	new TypePredicate<Element,T>(c).filter(tmp);
-      List<T> result = (List<T>)tmp;
+      List<T> result = children(c);
       predicate.filter(result);
       return result;
     }
 
+    public final <T extends Element> List<T> descendants(Class<T> c, ChameleonProperty property) {
+      List<T> result = children(c, property);
+      for (Element e : children()) {
+        result.addAll(e.descendants(c, property));
+      }
+      return result;
+    }
+    
     public final <T extends Element> List<T> descendants(Class<T> c, Predicate<T> predicate) throws Exception {
     	List<Element> tmp = (List<Element>) children();
     	new TypePredicate<Element,T>(c).filter(tmp);
