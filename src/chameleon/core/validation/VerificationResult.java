@@ -20,6 +20,16 @@ public abstract class VerificationResult {
    @*/
 	public abstract VerificationResult and(VerificationResult other);
 
-	protected abstract VerificationResult andInvalid(Invalid compositeProblem);
+	/**
+	 * Combine this verification result with the given problem.
+	 * @param compositeProblem
+	 * @return
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre problem != null;
+   @*/
+	protected abstract VerificationResult andInvalid(Invalid problem);
 	
 }

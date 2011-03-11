@@ -3,13 +3,40 @@ package chameleon.core.validation;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class that combines basic problems.
+ * 
+ * @author Marko van Dooren
+ */
 public class CompositeProblem extends Invalid {
 
+	/**
+	 * The conjunction of a composite problem with another verification result
+	 * is the 'invalid' conjunction of the other verification result with this object.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre other != null;
+   @
+   @ post \result == other.andInvalid(this);
+   @*/
 	@Override
 	public VerificationResult and(VerificationResult other) {
 		return other.andInvalid(this);
 	}
 	
+	/**
+	 * The conjunction of a composite problem with another invalid verification result
+	 * is a composite problem that contains the basic problems of both invalid verification results.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre problem != null;
+   @
+   @ post (\forall BasicProblem p; ; \result.contains(p) <==> problems().contains(p) || problem.problems().contains(p));
+   @*/
 	@Override
 	protected VerificationResult andInvalid(Invalid problem) {
 		CompositeProblem result = new CompositeProblem();
@@ -42,6 +69,7 @@ public class CompositeProblem extends Invalid {
    @ pre problem != null;
    @
    @ post problems().contains(problem);
+   @ post problems().size() == \old(problems().size()) + 1;
    @*/
 	public void add(BasicProblem problem) {
 		_problems.add(problem);
@@ -57,6 +85,7 @@ public class CompositeProblem extends Invalid {
    @ pre ! problems.contains(null);
    @
    @ post problems().containsAll(problems);
+   @ post problems().size() == \old(problems().size()) + problems.size();
    @*/
 	public void addAll(List<? extends BasicProblem> problems) {
 		for(BasicProblem problem:problems) {
@@ -64,6 +93,10 @@ public class CompositeProblem extends Invalid {
 		}
 	}
 
+	/**
+	 * The message of a composite problem is the concatenation of the messages of its basic problems. The
+	 * messages of the basic problems are separated with a newline character.
+	 */
 	@Override
 	public String message() {
 		String result = "";

@@ -9,6 +9,14 @@ import java.util.List;
  */
 public abstract class Invalid extends VerificationResult {
 
+	/**
+	 * Return the basic problems that make up this invalid verification result.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
 	public abstract List<BasicProblem> problems();
 
 	/**
@@ -21,5 +29,10 @@ public abstract class Invalid extends VerificationResult {
 	/**
 	 * @return The message of this problem.
 	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
 	public abstract String message();
 }

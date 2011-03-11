@@ -6,12 +6,25 @@ import java.util.List;
 import chameleon.core.element.Element;
 
 /**
- * A class that represents an error.
+ * A class that represents a single problem in a model. To report multiple
+ * problems, the individual problems are combined using the Composite pattern.
+ * 
  * @author Marko van Dooren
- *
  */
 public class BasicProblem extends Invalid {
 
+	/**
+	 * Create a new basic problem for the given element with the given error message.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre element != null;
+   @ pre message != null;
+   @
+   @ post element() == element;
+   @ post message() == message;
+   @*/
 	public BasicProblem(Element element, String message) {
 		_element = element;
 		_message = message;
