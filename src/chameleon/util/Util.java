@@ -26,6 +26,7 @@ package chameleon.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -229,11 +230,11 @@ public class Util {
   }
 
   public static List createNonNullList(Object object) {
-    List result = new ArrayList();
-    if(object != null) {
-      result.add(object);
-    }
-    return result;
+	  List result = new ArrayList();
+	  if(object != null)
+		  result.add(object);
+	  
+	  return result;
   }
   
   /**

@@ -102,7 +102,4 @@ public class SimpleNameDeclarationWithParametersHeader<E extends SimpleNameDecla
   		throw new ChameleonProgrammerException("Setting wrong type of signature. Provided: "+(signature == null ? null :signature.getClass().getName())+" Expected SimpleNameSignature");
 		}
 	}
-
-	
-
 }

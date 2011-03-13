@@ -3,7 +3,6 @@ package chameleon.core.element;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -238,6 +237,23 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
 	  		_parentLink = createParentLink();
 	  	}
 	  	_parent = parent;
+	  }
+	  
+	  public final <T extends Element> boolean hasDescendant(Class<T> c, SafePredicate<T> predicate) {
+		  List<Element> tmp = (List<Element>) children();
+	      new TypePredicate<Element,T>(c).filter(tmp);
+	      List<T> result = (List<T>)tmp;
+	      predicate.filter(result);
+	      
+	      if (!result.isEmpty())
+	    	  return true;
+	      
+	      for (Element e : children()) {
+	    	  if (e.hasDescendant(c, predicate))
+	    		  return true;
+	      }
+	      
+	      return false;
 	  }
 	  
     public final List<Element> descendants() {

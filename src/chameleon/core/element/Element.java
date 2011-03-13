@@ -302,6 +302,13 @@ public interface Element<E extends Element> {
      @ post \forall(Element e; children().contains(c); \result.contains(e) && \result.containsAll(e.descendants()));
      @*/ 
     public List<Element> descendants();
+    
+    /**
+     * 	Recursively check if there is an element that is of the given type, and satisfies the given predicate. Terminates early if a result is found.
+     * 
+     * 	TODO: behavior doc
+     */
+    public <T extends Element> boolean hasDescendant(Class<T> c, SafePredicate<T> predicate);
 
     /**
      * Recursively return all descendants of this element that are of the given type.

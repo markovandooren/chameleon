@@ -33,6 +33,13 @@ public class Block extends StatementImpl<Block> implements StatementListContaine
       _statements.add(statement.parentLink());
   	}
   }
+  
+	public void addStatements(List<Statement> statements) {
+		if (statements != null) {
+			for (Statement st : statements)
+				addStatement(st);
+		}
+	}
 
   public void removeStatement(Statement statement) {
   	if(statement != null) {
@@ -61,6 +68,15 @@ public class Block extends StatementImpl<Block> implements StatementListContaine
   public int getIndexOf(Statement statement) {
     return statements().indexOf(statement) + 1;
   }
+  
+	public List<Statement> statementsBefore(Statement statement) {
+		List<Statement> statements = statements(); 
+		int index = statements.indexOf(statement);
+		// returns a view on a clone of _statements (getStatements() clones the list).
+		// the view depends on the local variable, but since no other references exist
+		// this is not a problem.
+		return statements.subList(0, index);
+	}
   
 	public List<Statement> statementsAfter(Statement statement) {
 		List<Statement> statements = statements(); 
