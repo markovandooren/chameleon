@@ -107,7 +107,9 @@ public abstract class Namespace<E extends Namespace<E>> extends ElementImpl<E> i
 	  }
 	  
 	/**
-	 * Return the fully qualified name of this package/
+	 * Return the fully qualified name of this package. This is the concatenation of the
+	 * parent namespaces starting at the root. In between the names of two namespaces, a
+	 * "." character is placed.
 	 */
  /*@
 	 @ public behavior
@@ -120,6 +122,10 @@ public abstract class Namespace<E extends Namespace<E>> extends ElementImpl<E> i
 	public String getFullyQualifiedName() {
 		Namespace nearestAncestor = nearestAncestor(Namespace.class);
 		return ((parent() == null || nearestAncestor.name().equals("")) ? "" : nearestAncestor.getFullyQualifiedName() + ".") + name();
+	}
+	
+	public String toString() {
+		return getFullyQualifiedName();
 	}
 
 	/**************

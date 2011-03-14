@@ -141,9 +141,10 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
     return selection(declaration) != null;
   }
 
-  /**
-   * This method decides if the given signature is selected by this declaration selector.
-   */
+	/**
+	 * Determine whether the declaration represented by the given signature is
+	 * selected based on the name of the signature.
+	 */
  /*@
    @ public behavior
    @
