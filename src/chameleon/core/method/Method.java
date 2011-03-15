@@ -85,6 +85,15 @@ public abstract class Method<E extends Method<E,H,S,M>, H extends DeclarationWit
 	  }
 	}
 	
+	public List<Type> formalParameterTypes() throws LookupException {
+	  H header = header();
+	  if(header != null) {
+		  return header.formalParameterTypes();
+	  } else {
+	  	return new ArrayList<Type>();
+	  }
+	}
+	
 	/**
 	 * The index starts at 1.
 	 */
