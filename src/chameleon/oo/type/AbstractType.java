@@ -363,7 +363,7 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
     public List<Type> getDirectSuperTypes() throws LookupException {
             final ArrayList<Type> result = new ArrayList<Type>();
             for(InheritanceRelation element:inheritanceRelations()) {
-              Type type = (Type) element.superElement();
+              Type type = (Type) element.superType();
               if (type!=null) {
                 result.add(type);
               }

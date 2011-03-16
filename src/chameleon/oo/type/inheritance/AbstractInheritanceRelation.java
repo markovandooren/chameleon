@@ -84,16 +84,6 @@ public abstract class AbstractInheritanceRelation<E extends AbstractInheritanceR
 	}
 	
 	/**
-	 * Return the inherited type, if this relation also introduces a subtype relation.
-	 */
- /*@
-   @ public behavior
-   @
-   @ post \result == null || \result == superClass();
-   @*/
-	public abstract Type superType() throws LookupException;
-	
-	/**
 	 * Return a reference to the super class of this inheritance relation.
 	 * @return
 	 */

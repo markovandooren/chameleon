@@ -8,6 +8,7 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
 import chameleon.core.member.MemberRelationSelector;
+import chameleon.oo.type.Type;
 
 /**
  * A general interface for inheritance relations. We use the dictionary definition of 'inheritance'. If
@@ -32,6 +33,17 @@ public interface InheritanceRelation<E extends InheritanceRelation<E,S>, S exten
 	public <D extends Member> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException;
 	
 	public <D extends Member> List<D> membersDirectlyAliasedBy(MemberRelationSelector<D> selector) throws LookupException;
+	
+	/**
+	 * Return the inherited type, if this relation also introduces a subtype relation.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result == null || \result == superClass();
+   @*/
+	public Type superType() throws LookupException;
+
 //	public <X>
 	
 //	public <X extends Element> List<X> overriddenDeclarations() throws LookupException;
