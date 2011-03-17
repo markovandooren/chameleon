@@ -7,5 +7,5 @@ public abstract class TargetedExpression<E extends TargetedExpression<E>> extend
 
 	public abstract void setTarget(InvocationTarget target);
 	
-	public abstract InvocationTarget getTarget();
+	public abstract InvocationTarget<?> getTarget();
 }

@@ -34,12 +34,20 @@ public class Block extends StatementImpl<Block> implements StatementListContaine
   	}
   }
   
+
 	public void addStatements(List<Statement> statements) {
 		if (statements != null) {
 			for (Statement st : statements)
 				addStatement(st);
 		}
 	}
+
+  public void addInFront(Statement statement) {
+	  if(statement != null) {
+		  _statements.addInFront(statement.parentLink());
+	  }
+  }
+
 
   public void removeStatement(Statement statement) {
   	if(statement != null) {
@@ -59,6 +67,12 @@ public class Block extends StatementImpl<Block> implements StatementListContaine
       }
     }.applyTo(statements());
     return result;
+  }
+  
+  public void clear() {
+  	for(Element child: children()) {
+  		child.disconnect();
+  	}
   }
 
   public List<? extends Element> children() {

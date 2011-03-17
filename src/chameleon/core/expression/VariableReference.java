@@ -134,7 +134,7 @@ public class VariableReference extends Expression<VariableReference> implements 
   
   @SuppressWarnings("unchecked")
   public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
-    InvocationTarget target = getTarget();
+    InvocationTarget<?> target = getTarget();
     X result;
     if(target != null) {
       result = target.targetContext().lookUp(selector);//findElement(getName());

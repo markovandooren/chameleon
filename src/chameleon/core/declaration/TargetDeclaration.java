@@ -1,8 +1,7 @@
 package chameleon.core.declaration;
 
-import chameleon.core.element.Element;
+import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.Target;
 
 public interface TargetDeclaration<E extends TargetDeclaration<E,S,F>, S extends Signature, F extends Declaration> extends Declaration<E,S,F>, Target<E> {
@@ -25,5 +24,5 @@ public interface TargetDeclaration<E extends TargetDeclaration<E,S,F>, S extends
    *   2) in "typename.f", "f" must be looked up in the type represented by "typename"
    *   3) in "packagename.f", "f" must be looked up in the package represented by "package"
    */
-public LookupStrategy targetContext() throws LookupException;
+public LocalLookupStrategy<?> targetContext() throws LookupException;
 }

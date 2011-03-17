@@ -11,10 +11,10 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
+import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacepart.NamespacePart;
@@ -291,7 +291,7 @@ public abstract class Namespace<E extends Namespace<E>> extends ElementImpl<E> i
 //      return new Namespace(signature().clone());
 //    }
 
-	public LookupStrategy targetContext() {
+	public LocalLookupStrategy targetContext() {
 		return language().lookupFactory().createTargetLookupStrategy(this);
 	}
 	

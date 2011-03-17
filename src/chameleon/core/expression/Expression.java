@@ -1,14 +1,12 @@
 package chameleon.core.expression;
 
 import java.lang.ref.SoftReference;
-import java.util.Set;
 
 import org.rejuse.java.collections.RobustVisitor;
 
 import chameleon.core.Config;
-import chameleon.core.element.Element;
+import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.Target;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.statement.CheckedExceptionList;
@@ -60,7 +58,7 @@ public abstract class Expression<E extends Expression> extends NamespaceElementI
 	 * @see {@link Target#targetContext()}
 	 */
 	@SuppressWarnings("unchecked")
-  public LookupStrategy targetContext() throws LookupException {
+  public LocalLookupStrategy targetContext() throws LookupException {
     return getType().targetContext();
   }
 
