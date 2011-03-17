@@ -239,6 +239,21 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
 	  	_parent = parent;
 	  }
 	  
+	  public final <T extends Element> boolean hasDescendant(Class<T> c) {
+		  List<Element> tmp = (List<Element>) children();
+	      new TypePredicate<Element,T>(c).filter(tmp);
+	      
+	      if (!tmp.isEmpty())
+	    	  return true;
+	      
+	      for (Element e : children()) {
+	    	  if (e.hasDescendant(c))
+	    		  return true;
+	      }
+	      
+	      return false;
+	  }
+	  
 	  public final <T extends Element> boolean hasDescendant(Class<T> c, SafePredicate<T> predicate) {
 		  List<Element> tmp = (List<Element>) children();
 	      new TypePredicate<Element,T>(c).filter(tmp);

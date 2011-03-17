@@ -311,6 +311,13 @@ public interface Element<E extends Element> {
     public <T extends Element> boolean hasDescendant(Class<T> c, SafePredicate<T> predicate);
 
     /**
+     * 	Recursively check if there is an element that is of the given type, Terminates early if a result is found.
+     * 
+     * 	TODO: behavior doc
+     */
+    public <T extends Element> boolean hasDescendant(Class<T> c);
+    
+    /**
      * Recursively return all descendants of this element that are of the given type.
      */
    /*@
