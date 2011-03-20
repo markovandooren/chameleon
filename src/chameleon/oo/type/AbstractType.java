@@ -548,7 +548,6 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
     }
     
     public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
-
   		// 1) All defined members of the requested kind are added.
   		List<D> result = localMembers(selector);
   		result.addAll(implicitMembers(selector));
@@ -559,7 +558,6 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
   		}
   		// The selector must still apply its order to the candidates.
   		//selector.applyOrder(result);
-  		
   		return selector.selection(result);
     }
     
