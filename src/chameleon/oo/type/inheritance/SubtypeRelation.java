@@ -15,9 +15,12 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
+import chameleon.util.CreationStackTrace;
 
 public class SubtypeRelation extends AbstractInheritanceRelation<SubtypeRelation> {
 
+	private CreationStackTrace _trace = new CreationStackTrace();
+	
 	public SubtypeRelation(TypeReference ref) {
 		super(ref);
 	}
@@ -25,6 +28,7 @@ public class SubtypeRelation extends AbstractInheritanceRelation<SubtypeRelation
 	@Override
 	public SubtypeRelation clone() {
 		SubtypeRelation result = cloneThis();
+		result.setOrigin(this);
 		for(Modifier<Modifier> modifier:modifiers()) {
 			result.addModifier(modifier.clone());
 		}
