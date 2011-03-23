@@ -125,8 +125,26 @@ public interface Element<E extends Element> {
      * If this element is derived, return the element from which this element originates.
      * If this element is not derived, the method returns the current object.
      */
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @*/
     public Element origin();
     
+    /**
+     * Return the fartest origin of this element. The farthest origin of an element is
+     * the fartest origin of its origin. The farthest origin of an element that has itself
+     * as its origin is the element itself.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post origin() == this ==> \result == this;
+     @ post origin() != this ==> \result == origin().farthestOrigin();
+     @*/
+    public Element farthestOrigin();
+
     /**
      * Return the root origin of this element. This is the element that is found when the "origin()" is
      * resolved until a fixed point is found.
