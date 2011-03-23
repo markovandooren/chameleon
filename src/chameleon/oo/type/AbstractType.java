@@ -578,7 +578,8 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
 		final List<M> result = localMembers(kind);
     result.addAll(implicitMembers(kind));
 		// 2) Fetch all potentially inherited members from all inheritance relations
-		for (InheritanceRelation rel : inheritanceRelations()) {
+		List<InheritanceRelation> inheritanceRelations = inheritanceRelations();
+		for (InheritanceRelation rel : inheritanceRelations) {
 				rel.accumulateInheritedMembers(kind, result);
 		}
 		return result;
