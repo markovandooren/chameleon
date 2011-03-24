@@ -19,8 +19,6 @@ import chameleon.util.CreationStackTrace;
 
 public class SubtypeRelation extends AbstractInheritanceRelation<SubtypeRelation> {
 
-	private CreationStackTrace _trace = new CreationStackTrace();
-	
 	public SubtypeRelation(TypeReference ref) {
 		super(ref);
 	}
