@@ -28,6 +28,7 @@ public class LazyClassBody extends ClassBody {
 	
 	public LazyClassBody(ClassBody original) {
 		setClassBody(original);
+		setOrigin(original);
 	}
 	
 	private ClassBody _original;

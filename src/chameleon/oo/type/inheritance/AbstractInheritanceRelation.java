@@ -134,6 +134,9 @@ public abstract class AbstractInheritanceRelation<E extends AbstractInheritanceR
 	  void removeNonMostSpecificMembers(List<M> current, final List<M> potential) throws LookupException {
 		final List<M> toAdd = new ArrayList<M>();
 		for(M m: potential) {
+			if(m.signature().name().equals("object")) {
+				System.out.println("debug");
+			}
 			boolean add = true;
 			Iterator<M> iterCurrent = current.iterator();
 			while(add && iterCurrent.hasNext()) {
