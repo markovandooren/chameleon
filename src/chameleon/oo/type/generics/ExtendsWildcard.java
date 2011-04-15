@@ -26,18 +26,6 @@ public class ExtendsWildcard<E extends ExtendsWildcard> extends ActualTypeArgume
 		return (E) new ExtendsWildcard(typeReference().clone());
 	}
 
-//	@Override
-//	public boolean contains(ActualTypeArgument other) throws LookupException {
-//		return (
-//				     (other instanceof BasicTypeArgument) && 
-//				     (((BasicTypeArgument)other).type().equals(baseType()))
-//				   ) ||
-//				   (
-//				  	 (other instanceof ExtendsWildCard) &&
-//				  	 (((ExtendsWildCard)other).baseType().subTypeOf(baseType()))
-//				   );
-//	}
-
 	@Override
 	public Type lowerBound() throws LookupException {
 		Type baseType = baseType();

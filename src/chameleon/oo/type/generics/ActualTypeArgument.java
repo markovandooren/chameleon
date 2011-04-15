@@ -23,16 +23,6 @@ public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends N
 	
 	public abstract E clone();
 	
-//	@Override
-//	public boolean uniSameAs(Element element) throws LookupException {
-//		boolean result = false;
-//		if(element instanceof ActualTypeArgument) {
-//			return upperBound().sameAs(((ActualTypeArgument) element).upperBound())
-//			      && lowerBound().sameAs(((ActualTypeArgument) element).lowerBound());
-//		}
-//		return result;
-//	}
-	
 	public abstract Type type() throws LookupException;
 	
 	public final boolean contains(ActualTypeArgument other) throws LookupException {
@@ -55,10 +45,6 @@ public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends N
 		throw new ChameleonProgrammerException();
 	}
 
-//	public boolean alwaysSameAs(ActualTypeArgument argument) throws LookupException {
-//		return false;
-//	}
-
 	@Override
 	public boolean uniSameAs(Element other) throws LookupException {
 		return (other.getClass().equals(getClass())) && (type().sameAs(((ActualTypeArgument)other).type()));
@@ -74,20 +60,6 @@ public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends N
 		}
 	}
 	
-//	public TypeReference intersection(TypeReference other) {
-//		return other.intersectionDoubleDispatch(this);
-//	}
-//
-//	public TypeReference intersectionDoubleDispatch(TypeReference other) {
-//		return language(ObjectOrientedLanguage.class).createIntersectionReference(clone(), other.clone());
-//	}
-//
-//	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference<?> other) {
-//		IntersectionTypeReference<?> result = other.clone();
-//		result.add(clone());
-//		return result;
-//	}
-
 	protected TypeConstraint cloneAndResetTypeReference(TypeConstraint constraint, Element lookupParent) {
 		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
 		TypeConstraint kloon = constraint.clone();
