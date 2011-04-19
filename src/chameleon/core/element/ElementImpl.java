@@ -254,7 +254,7 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
 	  	}
 	  	if(parent != null) {
 	  	  _parentLink = null;
-	  	} else {
+	  	} else if(_parentLink == null) {
 	  		_parentLink = createParentLink();
 	  	}
 	  	_parent = parent;
