@@ -1,7 +1,9 @@
 package chameleon.oo.type;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
@@ -18,7 +20,6 @@ import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.type.generics.TypeParameterBlock;
-import chameleon.oo.type.inheritance.AbstractInheritanceRelation;
 import chameleon.oo.type.inheritance.InheritanceRelation;
 import chameleon.util.Util;
 
@@ -94,6 +95,26 @@ public abstract class TypeWithBody extends AbstractType {
 	@Override
 	public void addInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException {
 		_inheritanceRelations.add(relation.parentLink());
+	}
+	
+	/**
+	 * Remove redundant inheritance relations.
+	 * @throws LookupException
+	 */
+	public void pruneInheritanceRelations() throws LookupException {
+		Set<Type> types = new HashSet<Type>();
+		Set<InheritanceRelation> toRemove = new HashSet<InheritanceRelation>();
+		for(InheritanceRelation<?,Type> relation: nonMemberInheritanceRelations()) {
+			Type superElement = relation.superElement();
+			if(types.contains(superElement)) {
+				toRemove.add(relation);
+			} else {
+				types.add(superElement);
+			}
+		}
+		for(InheritanceRelation<?,Type> relation: toRemove) {
+			removeNonMemberInheritanceRelation(relation);
+		}
 	}
 
 	@Override
