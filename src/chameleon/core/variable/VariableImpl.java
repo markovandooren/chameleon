@@ -92,4 +92,8 @@ public abstract class VariableImpl<E extends VariableImpl<E,F>, F extends Variab
 		}
 		return result;
 	}
+	
+	public String toString() {
+		return getTypeReference().toString() +" "+signature().toString();
+	}
 }

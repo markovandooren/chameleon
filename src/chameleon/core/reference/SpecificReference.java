@@ -7,8 +7,8 @@ import chameleon.core.declaration.QualifiedName;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.SelectorWithoutOrder;
 
 public class SpecificReference<E extends SpecificReference, D extends Declaration> extends ElementReferenceWithTarget<E,D> {
@@ -75,6 +75,6 @@ public class SpecificReference<E extends SpecificReference, D extends Declaratio
 	public Class<D> specificType() {
 		return _specificClass;
 	}
-
+	
 }
 

@@ -44,6 +44,11 @@ public abstract class DynamicChameleonProperty extends DynamicProperty<Element,C
 		public VerificationResult verify(Element element) {
 			return verifyAux(element, this);
 		}
+
+		@Override
+		public void addValidElementType(Class<? extends Element> type) {
+			DynamicChameleonProperty.this.addValidElementType(type);
+		}
 	}
 
 	@Override

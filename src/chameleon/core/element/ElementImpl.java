@@ -201,6 +201,16 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
 	  	return _origin;
 	  }
 	  
+	  public Element farthestOrigin() {
+		  Element element = this;
+		  Element origin = origin();
+		  while(element != origin) {
+			  element = origin;
+			  origin = element.origin();
+		  }
+		  return origin;
+	  }
+	  
 	  public Element rootOrigin() {
 	  	Element current = this;
 	  	Element origin = origin();
@@ -244,7 +254,7 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
 	  	}
 	  	if(parent != null) {
 	  	  _parentLink = null;
-	  	} else {
+	  	} else if(_parentLink == null) {
 	  		_parentLink = createParentLink();
 	  	}
 	  	_parent = parent;

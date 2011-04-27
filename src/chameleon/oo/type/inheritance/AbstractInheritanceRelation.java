@@ -84,16 +84,6 @@ public abstract class AbstractInheritanceRelation<E extends AbstractInheritanceR
 	}
 	
 	/**
-	 * Return the inherited type, if this relation also introduces a subtype relation.
-	 */
- /*@
-   @ public behavior
-   @
-   @ post \result == null || \result == superClass();
-   @*/
-	public abstract Type superType() throws LookupException;
-	
-	/**
 	 * Return a reference to the super class of this inheritance relation.
 	 * @return
 	 */
@@ -144,6 +134,9 @@ public abstract class AbstractInheritanceRelation<E extends AbstractInheritanceR
 	  void removeNonMostSpecificMembers(List<M> current, final List<M> potential) throws LookupException {
 		final List<M> toAdd = new ArrayList<M>();
 		for(M m: potential) {
+			if(m.signature().name().equals("object")) {
+				System.out.println("debug");
+			}
 			boolean add = true;
 			Iterator<M> iterCurrent = current.iterator();
 			while(add && iterCurrent.hasNext()) {
@@ -177,17 +170,10 @@ public abstract class AbstractInheritanceRelation<E extends AbstractInheritanceR
     return superMembers;
 	}
 	
-	private static int count;
-
 	public <M extends Member> List<M> potentiallyInheritedMembers(
 			final DeclarationSelector<M> selector) throws LookupException {
-		count++;
-		if(count > 100) {
-			System.out.println("10");
-		}
 		List<M> superMembers = superClass().members(selector);
 		removeNonInheritableMembers(superMembers);
-		count--;
 		return superMembers;
 	}
 	

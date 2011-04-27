@@ -122,6 +122,11 @@ public class StaticChameleonProperty extends StaticProperty<Element,ChameleonPro
 			  return new BasicProblem(element, "Property "+name()+" is not applicable to a "+elementClass.getName()); 
 			}
 		}
+
+		@Override
+		public void addValidElementType(Class<? extends Element> type) {
+			StaticChameleonProperty.this.addValidElementType(type);
+		}
 	}
 
 

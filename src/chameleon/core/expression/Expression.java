@@ -57,8 +57,7 @@ public abstract class Expression<E extends Expression> extends NamespaceElementI
 	/**
 	 * @see {@link Target#targetContext()}
 	 */
-	@SuppressWarnings("unchecked")
-  public LocalLookupStrategy targetContext() throws LookupException {
+  public LocalLookupStrategy<?> targetContext() throws LookupException {
     return getType().targetContext();
   }
 
