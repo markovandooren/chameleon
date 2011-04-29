@@ -645,8 +645,12 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
     	if(properties.size() == 1) {
     		return properties.get(0);
     	} else {
-    		throw new ModelException("Element has "+properties.size()+" properties for the mutex "+mutex);
+    		throw new ModelException("Element of type " +getClass().getName()+ " has "+properties.size()+" properties for the mutex "+mutex);
     	}
+    }
+    
+    public boolean hasProperty(PropertyMutex<ChameleonProperty> mutex) throws ModelException {
+    	return properties().hasPropertyFor(mutex);
     }
 
     /*@

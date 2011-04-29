@@ -972,10 +972,12 @@ public interface Element<E extends Element> {
      @ post (\num_of Property p; properties().contains(p);
      @       p.mutex() == mutex) == 1 ==> \result != null;
      @
-     @ signals MetamodelException (\num_of Property p; properties().contains(p);
-     @       p.mutex() == mutex) > 1; 
+     @ signals ModelException (\num_of Property p; properties().contains(p);
+     @       p.mutex() == mutex) != 1; 
      @*/
     public ChameleonProperty property(PropertyMutex<ChameleonProperty> mutex) throws ModelException;
+    
+    public boolean hasProperty(PropertyMutex<ChameleonProperty> mutex) throws ModelException;
     
     /**
      * Notify this element that the given descendant was modified. This
