@@ -14,7 +14,7 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ModelException;
 
-public class DeclarationAlias<D extends Declaration> extends NamespaceElementImpl<DeclarationAlias<D>> implements Declaration<DeclarationAlias<D>, Signature, D> {
+public class DeclarationAlias<D extends Declaration> extends NamespaceElementImpl<DeclarationAlias<D>> implements Declaration<DeclarationAlias<D>, Signature> {
 
 	public DeclarationAlias(Signature signature, D declaration) {
 		setSignature(signature);
@@ -66,7 +66,7 @@ public class DeclarationAlias<D extends Declaration> extends NamespaceElementImp
 		}
 	}
 
-	public Declaration<?, ?, D> selectionDeclaration() throws LookupException {
+	public Declaration<?, ?> selectionDeclaration() throws LookupException {
 		return aliasedDeclaration();
 	}
 

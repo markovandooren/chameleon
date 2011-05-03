@@ -35,7 +35,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
 
-public class VariableAlias extends VariableImpl<VariableAlias,MemberVariable> implements MemberVariable<VariableAlias> {
+public class VariableAlias extends VariableImpl<VariableAlias> implements MemberVariable<VariableAlias> {
 	
 	public VariableAlias(SimpleNameSignature sig, MemberVariable aliasedVariable) {
 		super(sig);
@@ -289,7 +289,7 @@ public class VariableAlias extends VariableImpl<VariableAlias,MemberVariable> im
 	  List<Member> todo = (List<Member>) directlyAliasedMembers();
 	  Set<Member> result = new HashSet<Member>();
 	  while(! todo.isEmpty()) {
-		  Member<?,?,?> m = todo.get(0);
+		  Member<?,?> m = todo.get(0);
 		  todo.remove(0);
 		  if(result.add(m)) {
 			  todo.addAll(m.directlyAliasedMembers());
@@ -302,7 +302,7 @@ public class VariableAlias extends VariableImpl<VariableAlias,MemberVariable> im
 	  List<Member> todo = (List<Member>) directlyAliasingMembers();
 	  Set<Member> result = new HashSet<Member>();
 	  while(! todo.isEmpty()) {
-		  Member<?,?,?> m = todo.get(0);
+		  Member<?,?> m = todo.get(0);
 		  todo.remove(0);
 		  if(result.add(m)) {
 			  todo.addAll(m.directlyAliasingMembers());

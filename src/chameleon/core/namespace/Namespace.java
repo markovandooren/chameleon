@@ -41,7 +41,7 @@ import chameleon.util.Util;
  * @author Marko van Dooren
  */
 
-public abstract class Namespace<E extends Namespace<E>> extends ElementImpl<E> implements NamespaceOrType<E,SimpleNameSignature,Namespace>, DeclarationContainer<E> {
+public abstract class Namespace<E extends Namespace<E>> extends ElementImpl<E> implements NamespaceOrType<E,SimpleNameSignature>, DeclarationContainer<E> {
 
 	//SPEED : use hashmap to store the subnamespaces and forbid
 	//        adding multiple namespaces with the same name. That is

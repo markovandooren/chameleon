@@ -63,8 +63,13 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * @throws LookupException
    */
   public D actualDeclaration(Declaration declarator) throws LookupException {
-  	Declaration<?, ?, D> declaration = (Declaration<?, ?, D>)declarator.selectionDeclaration();
-		return declaration.actualDeclaration();
+  	Declaration<?, ?> declaration = declarator.selectionDeclaration();
+		Declaration actualDeclaration = declaration.actualDeclaration();
+		if(selectedClass().isInstance(actualDeclaration)) {
+			return (D) actualDeclaration;
+		} else {
+			throw new LookupException("The actual declaration is of type "+actualDeclaration.getClass().getName()+" but a declaration of type "+selectedClass().getName()+" was expected.");
+		}
   }
   
   /**

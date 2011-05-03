@@ -9,7 +9,7 @@ import chameleon.core.element.Element;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.util.Util;
 
-public abstract class FixedSignatureMember<E extends Member<E,S,F>, S extends Signature, F extends Member> extends MemberImpl<E,S,F> {
+public abstract class FixedSignatureMember<E extends Member<E,S>, S extends Signature, F extends Member> extends MemberImpl<E,S> {
 	
 	public FixedSignatureMember() {
 		

@@ -29,7 +29,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class RegularMemberVariable extends RegularVariable<RegularMemberVariable,MemberVariable> implements MemberVariable<RegularMemberVariable>{
+public class RegularMemberVariable extends RegularVariable<RegularMemberVariable> implements MemberVariable<RegularMemberVariable>{
   
   
   /**
@@ -250,7 +250,7 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
 		  List<Member> todo = (List<Member>) directlyAliasedMembers();
 		  Set<Member> result = new HashSet<Member>();
 		  while(! todo.isEmpty()) {
-			  Member<?,?,?> m = todo.get(0);
+			  Member<?,?> m = todo.get(0);
 			  todo.remove(0);
 			  if(result.add(m)) {
 				  todo.addAll(m.directlyAliasedMembers());
@@ -263,7 +263,7 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
 		  List<Member> todo = (List<Member>) directlyAliasingMembers();
 		  Set<Member> result = new HashSet<Member>();
 		  while(! todo.isEmpty()) {
-			  Member<?,?,?> m = todo.get(0);
+			  Member<?,?> m = todo.get(0);
 			  todo.remove(0);
 			  if(result.add(m)) {
 				  todo.addAll(m.directlyAliasingMembers());

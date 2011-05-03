@@ -130,7 +130,7 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	   
 	  CrossReference<?, ? extends TargetDeclaration> targetReference = getTarget();
 	  if(targetReference != null) {
-	  	TargetDeclaration<?,?,?> target = targetReference.getElement();
+	  	TargetDeclaration<?,?> target = targetReference.getElement();
 	  	if(target != null) {
 	  		result = target.targetContext().lookUp(selector);
 	  	} else {
@@ -151,7 +151,7 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	  	// repeat lookups for debugging purposes
 	  	//Config.setCaching(false);
 	  	if(targetReference != null) {
-	  		TargetDeclaration<?,?,?> target = targetReference.getElement();
+	  		TargetDeclaration<?,?> target = targetReference.getElement();
 	  		if(target != null) {
 	  			result = target.targetContext().lookUp(selector);
 	  		}

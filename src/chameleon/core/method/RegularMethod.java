@@ -9,7 +9,7 @@ import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.type.TypeReference;
 
-public abstract class RegularMethod<E extends RegularMethod<E,H,S,M>, H extends DeclarationWithParametersHeader<H, S>, S extends DeclarationWithParametersSignature,M extends Method> extends Method<E,H,S,M> {
+public abstract class RegularMethod<E extends RegularMethod<E,H,S>, H extends DeclarationWithParametersHeader<H, S>, S extends DeclarationWithParametersSignature> extends Method<E,H,S> {
 
 	public RegularMethod(H header, TypeReference returnType) {
 		super(header);
@@ -50,7 +50,7 @@ public abstract class RegularMethod<E extends RegularMethod<E,H,S,M>, H extends 
   /**
    * EXCEPTION CLAUSE
    */
-  private SingleAssociation<RegularMethod<E,H,S,M>,ExceptionClause> _exceptionClause = new SingleAssociation<RegularMethod<E,H,S,M>,ExceptionClause>(this);
+  private SingleAssociation<RegularMethod<E,H,S>,ExceptionClause> _exceptionClause = new SingleAssociation<RegularMethod<E,H,S>,ExceptionClause>(this);
 
 
   public ExceptionClause getExceptionClause() {

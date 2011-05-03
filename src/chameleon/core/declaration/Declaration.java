@@ -20,9 +20,8 @@ import chameleon.exception.ModelException;
  * method returns a declaration of the same family. In case of a type parameter, this ensures that the stub type will be transformed
  * into a type.
  */
-public interface Declaration<E extends Declaration<E,S,D>, 
-                             S extends Signature,
-                             D extends Declaration> extends Element<E>{
+public interface Declaration<E extends Declaration<E,S>, 
+                             S extends Signature> extends Element<E>{
 
   /**
    * Return the signature of this declaration. The signature represents the identity of this declaration.
@@ -68,7 +67,7 @@ public interface Declaration<E extends Declaration<E,S,D>,
    @
    @ post \result != null;
    @*/
-  public Declaration<?,?,D> selectionDeclaration() throws LookupException;
+  public Declaration<?,?> selectionDeclaration() throws LookupException;
 
   /**
    * As explained in the selectionDeclaration method, formal generic parameters create stub types for
@@ -84,7 +83,7 @@ public interface Declaration<E extends Declaration<E,S,D>,
    @
    @ post \result != null;
    @*/
-  public D actualDeclaration() throws LookupException;
+  public Declaration actualDeclaration() throws LookupException;
   
   /**
    * Return the declaration that declared this declaration. In most cases the declaration is the same

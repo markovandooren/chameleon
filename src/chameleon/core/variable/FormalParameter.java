@@ -12,7 +12,7 @@ import chameleon.oo.type.TypeReference;
 /**
  * @author Marko van Dooren
  */
-public class FormalParameter extends RegularVariable<FormalParameter,FormalParameter> {
+public class FormalParameter extends RegularVariable<FormalParameter> {
 
   public FormalParameter(SimpleNameSignature sig, TypeReference type) {
     super(sig, type,null);

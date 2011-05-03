@@ -19,7 +19,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeElementImpl;
 
-public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F extends Member> extends TypeElementImpl<E> implements Member<E,S,F>{
+public abstract class MemberImpl<E extends Member<E,S>,S extends Signature> extends TypeElementImpl<E> implements Member<E,S>{
 
   /**
    * Return the signature of this member.
@@ -75,7 +75,7 @@ public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F 
   	List<Member> todo = (List<Member>) directlyOverriddenMembers();
   	Map<Type,List<Member>> visitedTypes = new HashMap<Type,List<Member>>();
   	while(! todo.isEmpty()) {
-  		Member<?,?,?> m = todo.get(0);
+  		Member<?,?> m = todo.get(0);
   		todo.remove(0);
   		Type containingType = m.nearestAncestor(Type.class);
 		if(! visitedTypes.containsKey(containingType)) {
@@ -107,7 +107,7 @@ public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F 
 	  List<Member> todo = (List<Member>) directlyAliasedMembers();
 	  Set<Member> result = new HashSet<Member>();
 	  while(! todo.isEmpty()) {
-		  Member<?,?,?> m = todo.get(0);
+		  Member<?,?> m = todo.get(0);
 		  System.out.println(m.nearestAncestor(Type.class).getFullyQualifiedName()+"."+m.signature().name());
 		  todo.remove(0);
 		  if(result.add(m)) {
@@ -121,7 +121,7 @@ public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F 
 	  List<Member> todo = (List<Member>) directlyAliasingMembers();
 	  Set<Member> result = new HashSet<Member>();
 	  while(! todo.isEmpty()) {
-		  Member<?,?,?> m = todo.get(0);
+		  Member<?,?> m = todo.get(0);
 		  todo.remove(0);
 		  if(result.add(m)) {
 			  todo.addAll(m.directlyAliasingMembers());
@@ -158,8 +158,8 @@ public abstract class MemberImpl<E extends Member<E,S,F>,S extends Signature, F 
   	return this;
   }
   
-  public F actualDeclaration() throws LookupException {
-  	return (F) this;
+  public Declaration actualDeclaration() throws LookupException {
+  	return this;
   }
   
   public Scope scope() throws ModelException {

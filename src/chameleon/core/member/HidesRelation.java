@@ -3,7 +3,7 @@ package chameleon.core.member;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 
-public abstract class HidesRelation<D extends Declaration<?,?,?>> extends DeclarationComparator<D> {
+public abstract class HidesRelation<D extends Declaration<?,?>> extends DeclarationComparator<D> {
 
 	public HidesRelation(Class<D> kind) {
 		super(kind);

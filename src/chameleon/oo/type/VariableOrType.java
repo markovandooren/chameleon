@@ -12,7 +12,7 @@ import chameleon.core.namespace.NamespaceElement;
  * @author Marko van Dooren
  */
 
-public interface VariableOrType<E extends VariableOrType<E,S,F>, S extends Signature, F extends Declaration> extends NamespaceElement<E>, Target<E>, Declaration<E,S,F> {
+public interface VariableOrType<E extends VariableOrType<E,S>, S extends Signature> extends NamespaceElement<E>, Target<E>, Declaration<E,S> {
 
 	public Type getType() throws LookupException;
 

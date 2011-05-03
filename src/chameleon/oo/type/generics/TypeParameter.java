@@ -29,7 +29,7 @@ import chameleon.util.Pair;
  *
  * @param <E>
  */
-public abstract class TypeParameter<E extends TypeParameter<E>> extends Parameter<E,Type> {
+public abstract class TypeParameter<E extends TypeParameter<E>> extends Parameter<E> {
 	
 	public TypeParameter(SimpleNameSignature signature) {
 		super(signature);

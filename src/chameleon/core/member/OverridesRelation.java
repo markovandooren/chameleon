@@ -6,7 +6,7 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 
-public abstract class OverridesRelation<D extends Declaration<?,?,?>> extends DeclarationComparator<D> {
+public abstract class OverridesRelation<D extends Declaration<?,?>> extends DeclarationComparator<D> {
 
 	public OverridesRelation(Class<D> kind) {
 		super(kind);
@@ -17,7 +17,7 @@ public abstract class OverridesRelation<D extends Declaration<?,?,?>> extends De
 		return isOverridable(second) && super.contains(first, second);
 	}
 
-	public boolean isOverridable(Member<?,?,?> d) throws LookupException {
+	public boolean isOverridable(Member<?,?> d) throws LookupException {
 		boolean result;
 		Ternary temp = d.is(d.language(ObjectOrientedLanguage.class).OVERRIDABLE);
 		if(temp == Ternary.TRUE) {

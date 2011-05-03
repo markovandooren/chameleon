@@ -4,7 +4,7 @@ import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.Target;
 
-public interface TargetDeclaration<E extends TargetDeclaration<E,S,F>, S extends Signature, F extends Declaration> extends Declaration<E,S,F>, Target<E> {
+public interface TargetDeclaration<E extends TargetDeclaration<E,S>, S extends Signature> extends Declaration<E,S>, Target<E> {
 
   /**
    * Return the target context of this target.
