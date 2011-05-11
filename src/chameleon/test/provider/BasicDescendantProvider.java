@@ -46,7 +46,8 @@ public class BasicDescendantProvider<E extends Element> extends AbstractDescenda
 	public Collection<E> elements(Language language) {
 		Collection<E> result = new ArrayList<E>();
 		Class<E> cls = elementType();
-		for(Element<?> element: ancestorProvider().elements(language)) {
+		Collection<? extends Element> elements = ancestorProvider().elements(language);
+		for(Element<?> element: elements) {
 			result.addAll(element.descendants(cls));
 		}
 		return result;
