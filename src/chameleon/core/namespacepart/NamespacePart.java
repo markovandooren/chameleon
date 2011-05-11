@@ -423,5 +423,4 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart> implement
 	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
 	}
-
 }
