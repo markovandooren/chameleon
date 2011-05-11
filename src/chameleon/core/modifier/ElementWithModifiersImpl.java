@@ -40,6 +40,7 @@ public abstract class ElementWithModifiersImpl<E extends Element<E>> extends Nam
    @
    @ post \result.containsAll(modifiers());
    @*/
+  @Override
   public List<Element> children() {
   	return (List)modifiers();
   }
