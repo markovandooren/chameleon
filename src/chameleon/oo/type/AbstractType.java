@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.rejuse.java.collections.TypeFilter;
 import org.rejuse.logic.ternary.Ternary;
+import org.rejuse.predicate.SafePredicate;
 import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.Config;
@@ -29,6 +30,7 @@ import chameleon.core.member.Member;
 import chameleon.core.member.MemberRelationSelector;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.namespace.Namespace;
+import chameleon.core.property.ChameleonProperty;
 import chameleon.core.relation.WeakPartialOrder;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.validation.Valid;
@@ -537,6 +539,18 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
 
     public <T extends Member> List<T> directlyDeclaredMembers(Class<T> kind) {
       return (List<T>) new TypeFilter(kind).retain(directlyDeclaredMembers());
+    }
+    
+    public <T extends Member> List<T> directlyDeclaredMembers(Class<T> kind, ChameleonProperty property) {
+      List<T> result = directlyDeclaredMembers(kind);
+      Iterator<T> iter = result.iterator();
+      while(iter.hasNext()) {
+      	T t = iter.next();
+      	if(! t.isTrue(property)) {
+      		iter.remove();
+      	}
+      }
+      return result;
     }
     
     public  List<Member> directlyDeclaredMembers() {

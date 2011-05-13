@@ -29,7 +29,6 @@ import chameleon.exception.ModelException;
  * to an element without modifying Chameleon.
  * 
  * <E> The type of the element (typically the subclass being defined).
- * <P> The type of the parent of the element.
  * 
  * As the client of a model, you can mostly ignore these parameters. Because Java
  * supports parametric polymorphism only through functional-style generic parameters,

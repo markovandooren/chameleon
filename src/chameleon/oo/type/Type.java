@@ -18,6 +18,7 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.member.Member;
 import chameleon.core.member.MemberRelationSelector;
 import chameleon.core.namespace.NamespaceOrType;
+import chameleon.core.property.ChameleonProperty;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.statement.ExceptionSource;
 import chameleon.core.validation.VerificationResult;
@@ -274,6 +275,8 @@ DeclarationWithType<Type,SimpleNameSignature>, Member<Type,SimpleNameSignature> 
 	public List<Member> localMembers() throws LookupException;
 
 	public <T extends Member> List<T> directlyDeclaredMembers(Class<T> kind);
+	
+	public <T extends Member> List<T> directlyDeclaredMembers(Class<T> kind, ChameleonProperty property);
 
 	public List<Member> directlyDeclaredMembers();
 

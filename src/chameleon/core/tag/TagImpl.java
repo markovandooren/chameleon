@@ -2,7 +2,7 @@ package chameleon.core.tag;
 
 import chameleon.core.element.Element;
 
-public abstract class TagImpl implements Tag {
+public class TagImpl implements Tag {
 
 	private Element _element;
 	
