@@ -66,8 +66,4 @@ public class LookupStrategyFactory {
   	return new LocalLookupStrategy(element);
   }
   
-//	public LookupStrategy wrapLocalStrategy(LookupStrategy targetContext, Element element) {
-//		return targetContext;
-//	}
-  
 }
