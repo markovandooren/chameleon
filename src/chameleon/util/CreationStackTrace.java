@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A debugging class that stores the current stacktrace. To find out XXXXXX
+ * @author Marko van Dooren
+ *
+ */
 public class CreationStackTrace {
 
 	private StackTraceElement[] _stackTrace;

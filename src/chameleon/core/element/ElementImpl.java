@@ -3,7 +3,7 @@ package chameleon.core.element;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -274,6 +274,23 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
       List<T> result = children(c);
       for (Element e : children()) {
         result.addAll(e.descendants(c));
+      }
+      return result;
+    }
+    
+    public final <T extends Element> List<T> nearestDescendants(Class<T> c) {
+      List<? extends Element> tmp = children();
+      List<T> result = new ArrayList<T>();
+      Iterator<? extends Element> iter = tmp.iterator();
+      while(iter.hasNext()) {
+      	Element e = iter.next();
+      	if(c.isInstance(e)) {
+      		result.add((T)e);
+      		iter.remove();
+      	}
+      }
+      for (Element e : tmp) {
+        result.addAll(e.nearestDescendants(c));
       }
       return result;
     }

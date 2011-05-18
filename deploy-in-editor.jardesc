@@ -11,8 +11,11 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <javaElement handleIdentifier="=Chameleon Support"/>
-        <folder path="/Chameleon/lib"/>
+        <file path="/Chameleon Support/.classpath"/>
+        <javaElement handleIdentifier="=Chameleon Support/src"/>
         <javaElement handleIdentifier="=Chameleon/src"/>
+        <file path="/Chameleon Support/.project"/>
+        <file path="/Chameleon Support/.gitignore"/>
+        <file path="/Chameleon Support/build.xml"/>
     </selectedElements>
 </jardesc>

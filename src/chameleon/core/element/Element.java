@@ -175,6 +175,7 @@ public interface Element<E extends Element> {
    /*@
      @ public behavior
      @
+     @ post \result != null;
      @ post parent() == null ==> \result.isEmpty();
      @ post parent() != null ==> \result.get(0) == parent();
      @ post parent() != null ==> \result.subList(1,\result.size()).equals(parent().ancestors());
@@ -188,6 +189,7 @@ public interface Element<E extends Element> {
    /*@
      @ public behavior
      @
+     @ post \result != null;
      @ post parent() == null ==> \result.isEmpty();
      @ post parent() != null && c.isInstance(parent()) ==> \result.get(0) == parent();
      @ post parent() != null ==> \result.subList(1,\result.size()).equals(parent().ancestors(c));
@@ -201,6 +203,7 @@ public interface Element<E extends Element> {
    /*@
      @ public behavior
      @
+     @ post \result != null;
      @ post parent() == null ==> \result.isEmpty();
      @ post parent() != null && c.isInstance(parent()) && predicate.eval(parent()) ==> \result.get(0) == parent();
      @ post parent() != null ==> \result.subList(1,\result.size()).equals(parent().ancestors(c));
@@ -235,6 +238,7 @@ public interface Element<E extends Element> {
    /*@
      @ public behavior
      @
+     @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && c.isInstance(e));
      @*/
     public <T extends Element> List<T> children(Class<T> c);
@@ -250,6 +254,7 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
+     @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && predicate.eval(e) == true);
      @*/
     public List<Element> children(Predicate<Element> predicate) throws Exception;
@@ -262,6 +267,7 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
+     @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && predicate.eval(e));
      @*/
     public List<Element> children(SafePredicate<Element> predicate);
@@ -276,6 +282,7 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
+     @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && predicate.eval(e));
      @*/
     public <X extends Exception> List<Element> children(UnsafePredicate<Element,X> predicate) throws X;
@@ -291,6 +298,7 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
+     @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && c.isInstance(e) && predicate.eval(e));
      @*/
     public <T extends Element> List<T> children(Class<T> c, Predicate<T> predicate) throws Exception;
@@ -303,6 +311,7 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
+     @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && c.isInstance(e) && predicate.eval(e));
      @*/
     public <T extends Element> List<T> children(Class<T> c, SafePredicate<T> predicate);
@@ -317,6 +326,7 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
+     @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && c.isInstance(e) && predicate.eval(e));
      @*/
     public <T extends Element, X extends Exception> List<T> children(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
@@ -330,6 +340,7 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
+     @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && c.isInstance(e) && e.isTrue(property));
      @*/
     public <T extends Element> List<T> children(Class<T> c, final ChameleonProperty property);
@@ -341,6 +352,7 @@ public interface Element<E extends Element> {
    /*@
      @ public behavior
      @
+     @ post \result != null;
      @ post (\forall Element e; \result.contains(e) <==> children().contains(e) ||
      @                                                   (\exists Element c; children().contains(c); c.descendants().contains(e)));
      @*/ 
@@ -352,11 +364,25 @@ public interface Element<E extends Element> {
    /*@
      @ public behavior
      @
+     @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && c.isInstance(e));
      @*/
     public <T extends Element> List<T> descendants(Class<T> c);
 
     
+    /**
+     * Return the descendants of the given type that are themselves no descendants of an element of the given type. In other words,
+     * do a deep search for elements of the given type, but if you have found one, don't search its descendants.
+     * @param <T>
+     * @param c
+     * @return
+     */
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @*/
+    public <T extends Element> List<T> nearestDescendants(Class<T> c);
 
     /**
      * Recursively return all descendants of this element that are of the given type, and have the given property.
@@ -366,9 +392,10 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
+     @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && c.isInstance(e) && e.isTrue(property));
      @*/
-   public <T extends Element> List<T> descendants(Class<T> c, ChameleonProperty property);
+    public <T extends Element> List<T> descendants(Class<T> c, ChameleonProperty property);
 
    /**
      * Recursively return all descendants of this element that satisfy the given predicate.
@@ -381,9 +408,10 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
+     @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && predicate.eval(e));
      @*/
-   public List<Element> descendants(Predicate<Element> predicate) throws Exception;
+    public List<Element> descendants(Predicate<Element> predicate) throws Exception;
 
     /**
      * Recursively return all descendants of this element that satisfy the given predicate.
@@ -393,23 +421,25 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
+     @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && predicate.eval(e));
      @*/
-   public List<Element> descendants(SafePredicate<Element> predicate);
+    public List<Element> descendants(SafePredicate<Element> predicate);
    
-   /**
-    * Recursively return all descendants of this element that satisfy the given predicate.
-    * 
-    * The only checked exceptions that can occurs are determined by type parameter X.
-    */
-  /*@
-    @ public behavior
-    @
-    @ pre predicate != null;
-    @
-    @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && predicate.eval(e));
-    @*/
-   public <X extends Exception> List<Element> descendants(UnsafePredicate<Element,X> predicate) throws X;
+    /**
+     * Recursively return all descendants of this element that satisfy the given predicate.
+     * 
+     * The only checked exceptions that can occurs are determined by type parameter X.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre predicate != null;
+     @
+     @ post \result != null;
+     @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && predicate.eval(e));
+     @*/
+    public <X extends Exception> List<Element> descendants(UnsafePredicate<Element,X> predicate) throws X;
    
     /**
      * Recursively return all descendants of this element that are of the given type, and satisfy the given predicate.
@@ -422,9 +452,10 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
+     @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && c.isInstance(e) && predicate.eval(e));
      @*/
-   public <T extends Element> List<T> descendants(Class<T> c, Predicate<T> predicate) throws Exception;
+    public <T extends Element> List<T> descendants(Class<T> c, Predicate<T> predicate) throws Exception;
 
     /**
      * Recursively return all descendants of this element that are of the given type, and satisfy the given predicate.
@@ -434,9 +465,10 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
+     @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && c.isInstance(e) && predicate.eval(e));
      @*/
-   public <T extends Element> List<T> descendants(Class<T> c, SafePredicate<T> predicate);
+    public <T extends Element> List<T> descendants(Class<T> c, SafePredicate<T> predicate);
 
     /**
      * Recursively return all descendants of this element that are of the given type, and satisfy the given predicate.
@@ -448,9 +480,10 @@ public interface Element<E extends Element> {
      @
      @ pre predicate != null;
      @
+     @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && c.isInstance(e) && predicate.eval(e));
      @*/
-   public <T extends Element, X extends Exception> List<T> descendants(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
+    public <T extends Element, X extends Exception> List<T> descendants(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
 
     /**
      * Return the tag with the given name.

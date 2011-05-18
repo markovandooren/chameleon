@@ -72,43 +72,60 @@ public abstract class MemberImpl<E extends Member<E,S>,S extends Signature> exte
   }
   
   public Set<? extends Member> overriddenMembers() throws LookupException {
-  	List<Member> todo = (List<Member>) directlyOverriddenMembers();
-  	Map<Type,List<Member>> visitedTypes = new HashMap<Type,List<Member>>();
-  	while(! todo.isEmpty()) {
-  		Member<?,?> m = todo.get(0);
-  		todo.remove(0);
-  		Type containingType = m.nearestAncestor(Type.class);
-		if(! visitedTypes.containsKey(containingType)) {
-			visitedTypes.put(containingType, new ArrayList<Member>());
-		}
-		List<Member> done = visitedTypes.get(containingType);
-		boolean contains = false;
-		for(Member member:done) {
-			if(member.signature().sameAs(m.signature())) {
-				contains = true;
-				break;
-			}
-		}
-		if(! contains) {
-			done.add(m);
-			todo.addAll(m.directlyOverriddenMembers());
-			todo.addAll(m.aliasedMembers());
-			todo.addAll(m.aliasingMembers());
-		}
-  	}
-  	Set<Member> result = new HashSet<Member>();
-  	for(List<Member> members: visitedTypes.values()) {
-  		result.addAll(members);
+  	Set<Member> result = null;
+//  	boolean cacheDeclarations = Config.cacheDeclarations();
+//		if(cacheDeclarations && _overriddenMembersCache != null) {
+//  		result = new HashSet<Member>(_overriddenMembersCache);
+//  	}
+  	if(result == null) {
+  		List<Member> todo = (List<Member>) directlyOverriddenMembers();
+  		Map<Type,List<Member>> visitedTypes = new HashMap<Type,List<Member>>();
+  		while(! todo.isEmpty()) {
+  			Member<?,?> m = todo.get(0);
+  			todo.remove(0);
+  			Type containingType = m.nearestAncestor(Type.class);
+  			if(! visitedTypes.containsKey(containingType)) {
+  				visitedTypes.put(containingType, new ArrayList<Member>());
+  			}
+  			List<Member> done = visitedTypes.get(containingType);
+  			boolean contains = false;
+  			for(Member member:done) {
+  				if(member.signature().sameAs(m.signature())) {
+  					contains = true;
+  					break;
+  				}
+  			}
+  			if(! contains) {
+  				done.add(m);
+  				todo.addAll(m.directlyOverriddenMembers());
+  				todo.addAll(m.aliasedMembers());
+  				todo.addAll(m.aliasingMembers());
+  			}
+  		}
+  		result = new HashSet<Member>();
+  		for(List<Member> members: visitedTypes.values()) {
+  			result.addAll(members);
+  		}
+//  		if(cacheDeclarations) {
+//  			_overriddenMembersCache = new HashSet<Member>(result);
+//  		}
   	}
   	return result;
   }
+  
+  @Override
+  public synchronized void flushLocalCache() {
+  	super.flushLocalCache();
+//  	_overriddenMembersCache = null;
+  }
+  
+//  private Set<Member> _overriddenMembersCache;
   
   public Set<? extends Member> aliasedMembers() throws LookupException {
 	  List<Member> todo = (List<Member>) directlyAliasedMembers();
 	  Set<Member> result = new HashSet<Member>();
 	  while(! todo.isEmpty()) {
 		  Member<?,?> m = todo.get(0);
-		  System.out.println(m.nearestAncestor(Type.class).getFullyQualifiedName()+"."+m.signature().name());
 		  todo.remove(0);
 		  if(result.add(m)) {
 			  todo.addAll(m.directlyAliasedMembers());

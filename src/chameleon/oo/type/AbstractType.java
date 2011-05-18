@@ -2,14 +2,15 @@ package chameleon.oo.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.rejuse.java.collections.TypeFilter;
 import org.rejuse.logic.ternary.Ternary;
-import org.rejuse.predicate.SafePredicate;
 import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.Config;
@@ -83,6 +84,7 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
   public synchronized void flushLocalCache() {
   	super.flushLocalCache();
   	_declarationCache = null;
+  	_membersCache = null;
   }
 
 	private synchronized void setDeclarationCache(List<? extends Declaration> cache) {
@@ -584,20 +586,40 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
       return members(Member.class);
     }
     
-    public <M extends Member> List<M> members(final Class<M> kind) throws LookupException {
+    @SuppressWarnings("unchecked")
+		public <M extends Member> List<M> members(final Class<M> kind) throws LookupException {
 
 		// 1) All defined members of the requested kind are added.
-    	// FIXME optimize
-		final List<M> result = localMembers(kind);
-    result.addAll(implicitMembers(kind));
-		// 2) Fetch all potentially inherited members from all inheritance relations
-		List<InheritanceRelation> inheritanceRelations = inheritanceRelations();
-		for (InheritanceRelation rel : inheritanceRelations) {
-				rel.accumulateInheritedMembers(kind, result);
-		}
+    boolean foundInCache = false;
+    List<M> result = null;
+    boolean cacheDeclarations = Config.cacheDeclarations();
+		if(cacheDeclarations && _membersCache != null) {
+    	result = _membersCache.get(kind);
+    	if(result != null) {
+    		foundInCache = true;
+    		result = new ArrayList<M>(result);
+    	}
+    } 
+    if(! foundInCache){
+    	result = localMembers(kind);
+    	result.addAll(implicitMembers(kind));
+    	// 2) Fetch all potentially inherited members from all inheritance relations
+    	List<InheritanceRelation> inheritanceRelations = inheritanceRelations();
+    	for (InheritanceRelation rel : inheritanceRelations) {
+    		rel.accumulateInheritedMembers(kind, result);
+    	}
+    	if(cacheDeclarations) {
+    		if(_membersCache == null) {
+    			_membersCache = new HashMap<Class,List>();
+    		}
+    		_membersCache.put(kind, new ArrayList(result));
+    	}
+    }
 		return result;
 	}
 
+    private Map<Class,List> _membersCache;
+    
     public abstract Type clone();
 
    /*@
@@ -781,9 +803,8 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
 		}
 
 		public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
-//			List<Pair<TypeParameter, TypeParameter>> slowTrace = new ArrayList<Pair<TypeParameter, TypeParameter>>(trace);
 			List<Pair<Type, TypeParameter>> slowTrace = trace;
-  	ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+			ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
 			return language.upperBoundNotHigherThan(this, other, slowTrace);
 		}
 
