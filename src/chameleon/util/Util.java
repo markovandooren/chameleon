@@ -26,7 +26,6 @@ package chameleon.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -34,6 +33,7 @@ import java.util.Set;
 
 import org.rejuse.java.collections.Visitor;
 
+import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
 
 /**
@@ -257,4 +257,10 @@ public class Util {
   	return result;
   }
 
+  public static <T extends Element> T cloneOrNull(T element) {
+	  if (element == null)
+		  return null;
+	  else
+		  return (T) element.clone();
+  }
 }

@@ -35,7 +35,7 @@ public class Block extends StatementImpl<Block> implements StatementListContaine
   }
   
 
-	public void addStatements(List<Statement> statements) {
+	public void addStatements(List<? extends Statement> statements) {
 		if (statements != null) {
 			for (Statement st : statements)
 				addStatement(st);
