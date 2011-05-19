@@ -34,6 +34,7 @@ import chameleon.core.namespace.Namespace;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.relation.WeakPartialOrder;
 import chameleon.core.statement.CheckedExceptionList;
+import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
@@ -79,6 +80,32 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
     return directlyDeclaredMembers();
  }
 
+  public String infoName() {
+  	try {
+  		try {
+  			return getFullyQualifiedName();
+  		} catch(Exception exc) {
+  			return signature().name();
+  		}
+  	} catch(NullPointerException exc) {
+  		return "";
+  	}
+  }
+  
+  public VerificationResult verifySubtypeOf(Type otherType, String meaningThisType, String meaningOtherType) {
+  	VerificationResult result = Valid.create();
+  	String messageOther = meaningOtherType+" ("+otherType.infoName()+").";
+  	String messageThis = meaningThisType + " (" + infoName() + ")";
+		try {
+			boolean subtype = subTypeOf(otherType);
+			if(! subtype) {
+					result = result.and(new BasicProblem(this, messageThis+" is not a subtype of " + messageOther));
+			}
+		} catch (Exception e) {
+				result = result.and(new BasicProblem(this, "Cannot determine if "+messageThis+" is a subtype of "+messageOther));
+		}
+  	return result;
+  }
 	
   @Override
   public synchronized void flushLocalCache() {

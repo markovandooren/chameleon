@@ -1,22 +1,14 @@
 package chameleon.core.expression;
 
-import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 
-import com.sun.org.apache.xml.internal.security.encryption.Reference;
-
-import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
-import chameleon.core.lookup.DeclaratorSelector;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.method.Method;
 import chameleon.core.reference.CrossReference;
 import chameleon.core.reference.CrossReferenceWithArguments;
@@ -24,7 +16,7 @@ import chameleon.core.reference.UnresolvableCrossReference;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
-import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.generics.ActualTypeArgument;
 import chameleon.util.Util;
@@ -255,7 +247,9 @@ public abstract class MethodInvocation<E extends MethodInvocation<E, D>, D exten
 			if (getElement() == null) {
 				result = result.and(new UnresolvableCrossReference(this));
 			}
-		} catch (LookupException e) {
+		} catch(LookupException e) {
+			result = result.and(new UnresolvableCrossReference(this));
+		} catch(ChameleonProgrammerException e) {
 			result = result.and(new UnresolvableCrossReference(this));
 		}
 		return result;

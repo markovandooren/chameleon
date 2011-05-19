@@ -9,6 +9,7 @@ import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
 
 public abstract class CrossReferenceImpl<E extends CrossReference, D extends Declaration> extends NamespaceElementImpl<E> implements CrossReference<E, D> {
 
@@ -40,7 +41,9 @@ public abstract class CrossReferenceImpl<E extends CrossReference, D extends Dec
 			} else {
 				return new UnresolvableCrossReference(this);
 			}
-		} catch (LookupException e) {
+		} catch(LookupException e) {
+			return new UnresolvableCrossReference(this);
+		} catch(ChameleonProgrammerException e) {
 			return new UnresolvableCrossReference(this);
 		}
 	}
