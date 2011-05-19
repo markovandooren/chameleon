@@ -376,4 +376,18 @@ DeclarationWithType<Type,SimpleNameSignature>, Member<Type,SimpleNameSignature> 
 	public <D extends Member> List<D> membersDirectlyAliasedBy(MemberRelationSelector<D> selector) throws LookupException;
 	
 	public <D extends Member> List<D> membersDirectlyAliasing(MemberRelationSelector<D> selector) throws LookupException;
+	
+	public String infoName();
+	
+	/**
+	 * Verify whether the this type is a subtype of the given other type. If that is the case, then a valid verification result is returned.
+	 * Otherwise, a problem is reported. The message of the problem is constructed using the descriptions of the meaning of
+	 * each type as determined by the arguments.
+	 * 
+	 * @param otherType
+	 * @param meaningThisType
+	 * @param meaningOtherType
+	 * @return
+	 */
+	public VerificationResult verifySubtypeOf(Type otherType, String meaningThisType, String meaningOtherType);
 }
