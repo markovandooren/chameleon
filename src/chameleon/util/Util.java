@@ -33,6 +33,7 @@ import java.util.Set;
 
 import org.rejuse.java.collections.Visitor;
 
+import chameleon.core.element.Element;
 import chameleon.core.expression.Expression;
 
 /**
@@ -255,5 +256,12 @@ public class Util {
   	}
   	return result;
   }
+
+public static <T extends Element> T cloneOrNull(T element) {
+	if (element == null)
+		return null;
+	
+	return (T) element.clone();
+}
 
 }
