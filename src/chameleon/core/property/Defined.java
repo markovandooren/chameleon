@@ -1,25 +1,23 @@
 package chameleon.core.property;
 
 import org.rejuse.logic.ternary.Ternary;
-import org.rejuse.property.DynamicProperty;
-import org.rejuse.property.PropertyImpl;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
-import org.rejuse.property.PropertyUniverse;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Definition;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
-import chameleon.core.validation.VerificationResult;
+import chameleon.core.lookup.LookupException;
 
 public class Defined extends DynamicChameleonProperty {
 
   public Defined(String name, Language lang) {
-    super(name, lang, new PropertyMutex<ChameleonProperty>(), Definition.class);
+    super(name, lang, new PropertyMutex<ChameleonProperty>(), Declaration.class);
   }
 
   public Defined(String name, Language lang, PropertyMutex<ChameleonProperty> mutex) {
-    super(name, lang, mutex,Definition.class);
+    super(name, lang, mutex,Declaration.class);
   }
   
   /**
@@ -32,14 +30,21 @@ public class Defined extends DynamicChameleonProperty {
    @ post \result == (element instanceof Definition) && ((Definition)element).complete();
    @*/
   @Override public Ternary appliesTo(Element element) {
-  	PropertySet<Element,ChameleonProperty> declared = element.declaredProperties();
-  	Ternary result = declared.implies(this);
-  	if(result == Ternary.UNKNOWN) {
-      result = ((Definition)element).complete();
-    	if(result == Ternary.UNKNOWN) {
-        result = Ternary.FALSE;
-    	}
-  	}
+		PropertySet<Element,ChameleonProperty> declared = element.declaredProperties();
+		Ternary result = declared.implies(this);
+		if(result == Ternary.UNKNOWN) {
+			if(element instanceof Declaration) {
+				if(result == Ternary.UNKNOWN) {
+					try {
+						result = ((Declaration)element).complete() ? Ternary.TRUE : Ternary.FALSE;
+					} catch (LookupException e) {
+						result = Ternary.UNKNOWN; //not required, but allows breakpoint 
+					}
+				}
+			} else {
+				result = Ternary.FALSE;
+			}
+		}
     return result;
   }
 

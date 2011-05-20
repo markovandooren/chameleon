@@ -39,5 +39,7 @@ public abstract class Implementation<E extends Implementation> extends Namespace
    */
 	public abstract Block getBody();
 
+	public abstract boolean complete();
+
 
 }

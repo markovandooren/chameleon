@@ -36,7 +36,7 @@ public abstract class ActualTypeArgumentWithTypeReference<E extends ActualTypeAr
 		}
 	}
 
-	private SingleAssociation<ActualTypeArgument,TypeReference> _type = new SingleAssociation<ActualTypeArgument,TypeReference>(this);
+	protected SingleAssociation<ActualTypeArgument,TypeReference> _type = new SingleAssociation<ActualTypeArgument,TypeReference>(this);
 
 	@Override
 	public VerificationResult verifySelf() {

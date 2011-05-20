@@ -44,6 +44,11 @@ public interface Declaration<E extends Declaration<E,S>,
    * Change the name of the signature of this declaration.
    * @param name
    */
+ /*@
+   @ public behavior
+   @
+   @ post signature().name().equals(name); 
+   @*/
   public void setName(String name);
   
   public E clone();
@@ -112,4 +117,11 @@ public interface Declaration<E extends Declaration<E,S>,
    @*/
   public Scope scope() throws ModelException;
  
+  /**
+   * Check whether this declaration is complete (whether all necessary elements are present). A complete declaration <b>can</b> be non-abstract or abstract. An incomplete
+   * declaration, however, must always be abstract. Defined (and thus its inverse: abstract) is a dynamic property that uses
+   * this method to determine whether or not it applies to this declaration.
+   * @throws LookupException 
+   */
+  public boolean complete() throws LookupException;
 }

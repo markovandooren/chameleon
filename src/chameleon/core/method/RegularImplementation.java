@@ -93,4 +93,9 @@ public class RegularImplementation extends Implementation<RegularImplementation>
 		return Valid.create();
 	}
 
+	@Override
+	public boolean complete() {
+		return getBody() != null;
+	}
+
 }

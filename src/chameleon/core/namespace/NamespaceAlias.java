@@ -98,4 +98,9 @@ public class NamespaceAlias extends Namespace {
 		return aliasedNamespace().locallyDeclaredDeclarations();
 	}
 
+	@Override
+	public boolean complete() throws LookupException {
+		return aliasedNamespace().complete();
+	}
+
 }

@@ -72,8 +72,8 @@ public abstract class Method<E extends Method<E,H,S>, H extends DeclarationWithP
 		return returnType();
 	}
 	
-	public Ternary complete() {
-	  return (body() == null ? Ternary.FALSE : Ternary.TRUE);
+	public boolean complete() {
+	  return implementation() != null && implementation().complete();
 	}
 
 	public List<FormalParameter> formalParameters() {

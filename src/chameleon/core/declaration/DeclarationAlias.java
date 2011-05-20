@@ -93,4 +93,9 @@ public class DeclarationAlias<D extends Declaration> extends NamespaceElementImp
 	public Declaration declarator() {
 		return aliasedDeclaration().declarator();
 	}
+
+	@Override
+	public boolean complete() throws LookupException {
+		return aliasedDeclaration().complete();
+	}
 }

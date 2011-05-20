@@ -33,8 +33,8 @@ public abstract class VariableImpl<E extends VariableImpl<E>>
 		return getType();
 	}
 	
-	public Ternary complete() {
-		return Ternary.TRUE;
+	public boolean complete() {
+		return true;
 	}
 	
 	public void setName(String name) {

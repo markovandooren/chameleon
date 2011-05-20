@@ -35,4 +35,9 @@ public class NativeImplementation extends Implementation<NativeImplementation> {
 		return Valid.create();
 	}
 
+	@Override
+	public boolean complete() {
+		return true;
+	}
+
 }

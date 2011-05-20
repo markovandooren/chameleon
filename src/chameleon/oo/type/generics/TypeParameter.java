@@ -89,12 +89,15 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Paramete
 		}
 	}
 
-//	public abstract boolean sameValueAs(TypeParameter otherParam) throws LookupException;
-
 	public abstract boolean sameValueAs(TypeParameter otherParam, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException;
 
   public Declaration declarator() {
   	return this;
   }
+
+	@Override
+	public boolean complete() {
+		return true;
+	}
 
 }

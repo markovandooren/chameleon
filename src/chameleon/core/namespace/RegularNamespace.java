@@ -134,4 +134,9 @@ public class RegularNamespace<E extends RegularNamespace<E>> extends Namespace<E
 	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
 	}
+
+	@Override
+	public boolean complete() {
+		return true;
+	}
 }

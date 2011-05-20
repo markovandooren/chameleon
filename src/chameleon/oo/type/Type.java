@@ -112,8 +112,6 @@ DeclarationWithType<Type,SimpleNameSignature>, Member<Type,SimpleNameSignature> 
 
 	public List<Member> getIntroducedMembers();
 
-	public Ternary complete();
-
 	/**********
 	 * ACCESS *
 	 **********/

@@ -318,20 +318,16 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#complete()
 		 */
-    public Ternary complete() {
-			try {
+    public boolean complete() throws LookupException {
 	    	List<Member> members = localMembers(Member.class);
 	    	// Only check for actual definitions
 	    	new TypePredicate<Element,Definition>(Definition.class).filter(members);
 	    	Iterator<Member> iter = members.iterator();
-	    	Ternary result = Ternary.TRUE;
+	    	boolean result = true;
 	    	while(iter.hasNext()) {
-	    		result = result.and(iter.next().is(language(ObjectOrientedLanguage.class).DEFINED));
+	    		result = result && (iter.next().isTrue(language(ObjectOrientedLanguage.class).DEFINED));
 	    	}
 	      return result;
-			} catch (LookupException e) {
-				return Ternary.UNKNOWN;
-			}
     }
     
 
@@ -822,11 +818,44 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
 		 */
 		@Override
 		public VerificationResult verifySelf() {
-			if(signature() != null) {
-			  return Valid.create();
-			} else {
-				return new MissingSignature(this); 
+			VerificationResult result = Valid.create(); 
+			if(signature() == null) {
+				result = result.and(new MissingSignature(this)); 
 			}
+			ObjectOrientedLanguage lang = language(ObjectOrientedLanguage.class);
+			ChameleonProperty abs = lang.ABSTRACT;
+			if(isFalse(abs)) {
+				List<Member> members = null;
+				try {
+					members = members();
+				} catch (LookupException e) {
+					result = result.and(new BasicProblem(this, "Cannot compute the members of this class"));
+				}
+				if(members != null) {
+					Iterator<Member> iter = members.iterator();
+					while(iter.hasNext()) {
+						Member m = iter.next();
+						if(m.isFalse(abs)) {
+							iter.remove();
+						}
+					}
+					if(! members.isEmpty()) {
+						StringBuffer msg = new StringBuffer("This class must implement the following abstract members: ");
+						int size = members.size();
+						for(int i=0; i< size; i++) {
+							try {
+								msg.append(members.get(i).signature().name());
+								if(i < size -1) {
+									msg.append(',');
+								}
+							} catch(NullPointerException exc) {
+							}
+						}
+						result = result.and(new BasicProblem(this, msg.toString()));
+					}
+				}
+			}
+			return result;
 		}
 
 		public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {

@@ -904,7 +904,7 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
     		if(child != null) {
     		  child.flushCache();
     		} else {
-    			throw new ChameleonProgrammerException("Element of class "+getClass()+" contains a ");
+    			throw new ChameleonProgrammerException("The children method of class "+getClass()+" returns a collection that contains a null reference");
     		}
     	}
     }

@@ -17,12 +17,12 @@ import chameleon.core.lookup.LookupException;
  */
 public interface Definition<E extends Definition<E,S>, S extends Signature> extends Declaration<E,S> {
 
-	// SIMPLIFY: Can't we move complete() to Declaration?
+	// TODO: Can't we move complete() to Declaration? Yes we can! Name it 'canBeComplete' or so. And I think it can be a boolean.
 	
 	/**
 	 * Check if this definition is complete.
 	 * @return
 	 * @throws LookupException 
 	 */
-	public Ternary complete();
+//	public Ternary complete();
 }

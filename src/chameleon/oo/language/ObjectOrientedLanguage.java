@@ -41,6 +41,10 @@ public abstract class ObjectOrientedLanguage extends Language {
 	public final ChameleonProperty EXTENSIBLE;
 	public final ChameleonProperty REFINABLE;
 	public final DynamicChameleonProperty DEFINED;
+	/**
+	 * The inverse of DEFINED.
+	 */
+	public final ChameleonProperty ABSTRACT;
 	public final StaticChameleonProperty INSTANCE;
 	public final ChameleonProperty CLASS;
 	public final ChameleonProperty CONSTRUCTOR;
@@ -63,6 +67,7 @@ public abstract class ObjectOrientedLanguage extends Language {
   	REFINABLE = new StaticChameleonProperty("refinable", this,Declaration.class);
   	DEFINED = new Defined("defined",this);
   	DEFINED.addValidElementType(Variable.class);
+  	ABSTRACT = DEFINED.inverse();
   	INSTANCE = new StaticChameleonProperty("instance",this,Declaration.class);
   	INSTANCE.addValidElementType(VariableDeclarator.class);
   	CLASS = INSTANCE.inverse();

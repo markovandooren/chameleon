@@ -74,10 +74,11 @@ public abstract class DynamicChameleonProperty extends DynamicProperty<Element,C
 		  result = result.and(new BasicProblem(element, "Property "+property.name()+" is not applicable to a "+elementClass.getName())); 
 		}
 
-		if(property.appliesTo(element) == Ternary.FALSE) {
+		Ternary appliesTo = property.appliesTo(element);
+		if(appliesTo == Ternary.FALSE) {
 			result = result.and(new BasicProblem(element,"Property "+property.name()+" does not apply to the element"));
-		} else if(property.appliesTo(element) == Ternary.UNKNOWN) {
-			result = result.and(new BasicProblem(element,"It is not know if property "+property.name()+" applies to the element"));
+		} else if(appliesTo == Ternary.UNKNOWN) {
+			result = result.and(new BasicProblem(element,"It is not known if property "+property.name()+" applies to the element"));
 		}
 		return result;
 	}

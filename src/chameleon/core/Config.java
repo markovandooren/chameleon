@@ -6,7 +6,7 @@ public class Config {
 	 * OPTIMISATION CONSTANTS *
 	 **************************/
 	
-	public static boolean DEBUG=true;
+	private static boolean DEBUG=false;
 	
 	private static boolean CACHE_DECLARATIONS = false;
 
@@ -35,6 +35,10 @@ public class Config {
 	 */
 	private static boolean CACHE_LANGUAGE = false;
 
+	public static boolean debug() {
+		return DEBUG;
+	}
+	
 	public static void setCaching(boolean bool) {
 		setCacheDeclarations(bool);
 		setCacheElementReferences(bool);
