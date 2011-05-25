@@ -60,15 +60,20 @@ public class ExtendsWildcard<E extends ExtendsWildcard> extends ActualTypeArgume
 			newParameter.addConstraint(clone);
 			accumulator.add(clone);
 		}
-//		TypeReference typeReference = typeReference();
-//		TypeReference clone = typeReference.clone();
-//		TypeReference nl = language.createNonLocalTypeReference(clone, this);
-//		newParameter.addConstraint(new ExtendsConstraint(nl));
-		
 		newParameter.addConstraint(cloneAndResetTypeReference(new ExtendsConstraint(typeReference().clone()),this));
     return newParameter;
 	}
-	
-	
+
+	@Override
+	public String infoDisplayName() {
+		TypeReference tref = typeReference();
+		StringBuffer result = new StringBuffer();
+		result.append('?');
+		if(tref != null) {
+			result.append(" extends ");
+			result.append(typeReference().infoDisplayName());
+		}
+		return result.toString();
+	}
 	
 }

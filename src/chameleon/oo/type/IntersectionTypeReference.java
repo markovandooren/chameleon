@@ -15,22 +15,15 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 
-public class IntersectionTypeReference<E extends IntersectionTypeReference> extends NamespaceElementImpl<E> implements TypeReference<E> {
+public class IntersectionTypeReference<E extends IntersectionTypeReference<E>> extends CombinationTypeReference<E> implements TypeReference<E> {
 
 	public IntersectionTypeReference() {
-		
 	}
 
 	public IntersectionTypeReference(List<? extends TypeReference> refs) {
 		addAll(refs);
 	}
 	
-	protected OrderedMultiAssociation<IntersectionTypeReference,TypeReference> _types = new OrderedMultiAssociation<IntersectionTypeReference, TypeReference>(this);
-
-	public Type getType() throws LookupException {
-		return getElement();
-	}
-
 	public Declaration getDeclarator() throws LookupException {
 		throw new LookupException("Requesting declarator for an intersection type reference.");
 	}
@@ -42,14 +35,6 @@ public class IntersectionTypeReference<E extends IntersectionTypeReference> exte
 		}
 		Type result = IntersectionType.create(types);
 		return result;
-	}
-
-	public List<TypeReference> typeReferences() {
-		return _types.getOtherEnds();
-	}
-
-	public List<Element> children() {
-		return new ArrayList<Element>(typeReferences());
 	}
 
 	@Override
@@ -70,24 +55,6 @@ public class IntersectionTypeReference<E extends IntersectionTypeReference> exte
 		return other.intersectionDoubleDispatch(this);
 	}
 
-	public void add(TypeReference tref) {
-		if(tref != null) {
-			_types.add(tref.parentLink());
-		}
-	}
-	
-	public void addAll(List<? extends TypeReference> refs) {
-		for(TypeReference ref: refs) {
-			add(ref);
-		}
-	}
-	
-	public void remove(TypeReference tref) {
-		if(tref != null) {
-			_types.remove(tref.parentLink());
-		}
-	}
-
 	public TypeReference intersectionDoubleDispatch(TypeReference other) {
 		IntersectionTypeReference result = clone();
 		result.add(other.clone());
@@ -100,6 +67,11 @@ public class IntersectionTypeReference<E extends IntersectionTypeReference> exte
 		  result.add(tref.clone());
 		}
 		return result;	
+	}
+
+	@Override
+	public String operatorName() {
+		return " & ";
 	}
 
 }

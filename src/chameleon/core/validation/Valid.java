@@ -1,5 +1,7 @@
 package chameleon.core.validation;
 
+import chameleon.core.element.Element;
+
 /**
  * A class representing the status of a valid model.
  * 
@@ -62,6 +64,12 @@ public class Valid extends VerificationResult {
 	@Override
 	protected VerificationResult andInvalid(Invalid problem) {
 		return problem;
+	}
+
+	
+	@Override
+	public void setElement(Element element) {
+		// Do nothing
 	}
 
 }

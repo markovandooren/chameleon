@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chameleon.core.element.Element;
+import chameleon.exception.ChameleonProgrammerException;
 
 /**
  * A class that represents a single problem in a model. To report multiple
@@ -76,5 +77,21 @@ public class BasicProblem extends Invalid {
 		List<BasicProblem> result = new ArrayList<BasicProblem>();
 		result.add(this);
 		return result;
+	}
+
+	/**
+	 * The element to which this basic problem applies is set to the given element.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post element() == element; 
+   @*/
+	@Override
+	public void setElement(Element element) {
+		if(element == null) {
+			throw new ChameleonProgrammerException();
+		}
+		_element = element;
 	}
 }

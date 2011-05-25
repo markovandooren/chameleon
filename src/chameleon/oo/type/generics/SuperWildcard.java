@@ -65,19 +65,24 @@ public class SuperWildcard<E extends SuperWildcard> extends ActualTypeArgumentWi
 	public TypeParameter capture(FormalTypeParameter formal, List<TypeConstraint> accumulator) {
 		CapturedTypeParameter newParameter = new CapturedTypeParameter(formal.signature().clone());
 		for(TypeConstraint constraint: formal.constraints()) {
-//			newParameter.addConstraint(constraint.clone());
 			TypeConstraint clone = cloneAndResetTypeReference(constraint,constraint);
 			newParameter.addConstraint(clone);
 			accumulator.add(clone);
 		}
-//`		TypeReference typeReference = typeReference();
-//		TypeReference clone = typeReference.clone();
-//		TypeReference nl = language(ObjectOrientedLanguage.class).createNonLocalTypeReference(clone, typeReference.parent());
-//		newParameter.addConstraint(new SuperConstraint(nl));
-//		
 		newParameter.addConstraint(cloneAndResetTypeReference(new SuperConstraint(typeReference().clone()),this));
 		
     return newParameter;
+	}
+
+	@Override
+	public String infoDisplayName() {
+		TypeReference tref = typeReference();
+		StringBuffer result = new StringBuffer();
+		result.append("? super ");
+		if(tref != null) {
+			result.append(typeReference().infoDisplayName());
+		}
+		return result.toString();
 	}
 
 }

@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.rejuse.java.collections.TypeFilter;
-import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.Config;
@@ -176,6 +175,18 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
         return prefix == null ? null : (prefix.equals("") ? "" : prefix+".")+getName();
     }
 
+    public String infoDisplayName() {
+			try {
+				try {
+					return getFullyQualifiedName();
+				} catch(Exception exc) {
+					return signature().name();
+				}
+			}catch(NullPointerException exc) {
+				return "";
+			}
+    }
+    
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#targetContext()
 		 */

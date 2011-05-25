@@ -3,6 +3,8 @@ package chameleon.core.validation;
 import java.util.ArrayList;
 import java.util.List;
 
+import chameleon.core.element.Element;
+
 /**
  * A class that combines basic problems.
  * 
@@ -104,5 +106,12 @@ public class CompositeProblem extends Invalid {
 			result = result.concat("\n " + elem.message());
 		}
 		return result;
+	}
+
+	@Override
+	public void setElement(Element element) {
+		for(VerificationResult problem:problems()) {
+			problem.setElement(element);
+		}
 	}
 }

@@ -83,4 +83,9 @@ public class BasicTypeArgument<E extends BasicTypeArgument> extends ActualTypeAr
 		return typeReference();
 	}
 
+	@Override
+	public String infoDisplayName() {
+		return typeReference().infoDisplayName();
+	}
+
 }

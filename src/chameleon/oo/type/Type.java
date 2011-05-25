@@ -55,6 +55,14 @@ DeclarationWithType<Type,SimpleNameSignature>, Member<Type,SimpleNameSignature> 
 	public String getName();
 
 	/**
+	 * Return a new for showing information to the user. For types,
+	 * this method tries to return the fully qualified name. If that fails,
+	 * it returns the name. Finally, if that fails as well, it returns the empty
+	 * string.
+	 */
+	public String infoDisplayName();
+	
+	/**
 	 * Return the fully qualified name.
 	 * @throws LookupException 
 	 */

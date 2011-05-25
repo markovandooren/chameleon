@@ -46,5 +46,20 @@ public class BasicTypeReference<E extends BasicTypeReference> extends SpecificRe
 		result.add(clone());
 		return result;
 	}
+
+	@Override
+	public String infoDisplayName() {
+		String result;
+		try {
+			try {
+				result = getElement().infoDisplayName();
+			} catch (LookupException e) {
+				result = toString();
+			}
+		}	catch(Exception exc) {
+			result = "";
+		}
+		return result;
+	}
   
 }

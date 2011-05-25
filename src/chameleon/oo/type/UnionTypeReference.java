@@ -3,18 +3,15 @@ package chameleon.oo.type;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 
-public class UnionTypeReference<E extends UnionTypeReference> extends NamespaceElementImpl<E> implements TypeReference<E> {
+public class UnionTypeReference<E extends UnionTypeReference<E>> extends CombinationTypeReference<E> {
 //FIXME make abstract superclass for this and IntersectionTypeReference
 	public UnionTypeReference() {
 		
@@ -24,12 +21,6 @@ public class UnionTypeReference<E extends UnionTypeReference> extends NamespaceE
 		addAll(refs);
 	}
 	
-	protected OrderedMultiAssociation<UnionTypeReference,TypeReference> _types = new OrderedMultiAssociation<UnionTypeReference, TypeReference>(this);
-
-	public Type getType() throws LookupException {
-		return getElement();
-	}
-
 	public Declaration getDeclarator() throws LookupException {
 		throw new LookupException("Requesting declarator for an intersection type reference.");
 	}
@@ -42,14 +33,6 @@ public class UnionTypeReference<E extends UnionTypeReference> extends NamespaceE
 		Type result = UnionType.create(types);
 		result.setUniParent(this);
 		return result;
-	}
-
-	public List<TypeReference> typeReferences() {
-		return _types.getOtherEnds();
-	}
-
-	public List<Element> children() {
-		return new ArrayList<Element>(typeReferences());
 	}
 
 	@Override
@@ -70,24 +53,6 @@ public class UnionTypeReference<E extends UnionTypeReference> extends NamespaceE
 		return other.intersectionDoubleDispatch(this);
 	}
 
-	public void add(TypeReference tref) {
-		if(tref != null) {
-			_types.add(tref.parentLink());
-		}
-	}
-	
-	public void addAll(List<? extends TypeReference> refs) {
-		for(TypeReference ref: refs) {
-			add(ref);
-		}
-	}
-	
-	public void remove(TypeReference tref) {
-		if(tref != null) {
-			_types.remove(tref.parentLink());
-		}
-	}
-
 	public TypeReference intersectionDoubleDispatch(TypeReference other) {
 		UnionTypeReference result = clone();
 		result.add(other.clone());
@@ -98,6 +63,11 @@ public class UnionTypeReference<E extends UnionTypeReference> extends NamespaceE
 		IntersectionTypeReference<?> result = other.clone();
 		result.add(clone());
 		return result;
-	} 
-	
+	}
+
+	@Override
+	public String operatorName() {
+		return " U ";
+	}
+
 }

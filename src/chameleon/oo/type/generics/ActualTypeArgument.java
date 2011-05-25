@@ -76,4 +76,6 @@ public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends N
 	public boolean uniSameAs(ActualTypeArgument argument, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
 		return (argument.getClass().equals(getClass())) && (type().sameAs(((ActualTypeArgument)argument).type(),trace));
 	}
+
+	public abstract String infoDisplayName();
 }
