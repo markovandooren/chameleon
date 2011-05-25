@@ -103,7 +103,7 @@ public abstract class ObjectOrientedLanguage extends Language {
   
   public abstract <P extends Parameter> DerivedType createDerivedType(Class<P> kind, List<P> parameters, Type baseType);
   
-  public abstract DerivedType createDerivedType(Type baseType, List<ActualTypeArgument> typeArguments);
+  public abstract DerivedType createDerivedType(Type baseType, List<ActualTypeArgument> typeArguments) throws LookupException;
   
 	public Type getDefaultSuperClass() throws LookupException {
 		  TypeReference typeRef = createTypeReferenceInDefaultNamespace(getDefaultSuperClassFQN());

@@ -65,13 +65,14 @@ public class DerivedType extends TypeWithBody {
 	 * 
 	 * @param baseType
 	 * @param typeArguments
+	 * @throws LookupException 
 	 */
-	public DerivedType(Type baseType, List<ActualTypeArgument> typeArguments) {
+	public DerivedType(Type baseType, List<ActualTypeArgument> typeArguments) throws LookupException {
 		this(baseType);
 		// substitute parameters
 		List<TypeParameter> myParameters = parameters(TypeParameter.class);
 		if(myParameters.size() != typeArguments.size()) {
-			throw new ChameleonProgrammerException();
+			throw new LookupException("The number of actual type arguments ("+typeArguments.size()+") does not match the number of formal type parameters ("+myParameters.size()+").");
 		}
 		Iterator<TypeParameter> parametersIterator = myParameters.iterator();
 		Iterator<ActualTypeArgument> argumentsIterator = typeArguments.iterator();
