@@ -76,4 +76,8 @@ public class ExtendsWildcard<E extends ExtendsWildcard> extends ActualTypeArgume
 		return result.toString();
 	}
 	
+	public String toString() {
+		return "? extends "+typeReference().toString();
+	}
+	
 }

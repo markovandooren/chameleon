@@ -88,4 +88,7 @@ public class BasicTypeArgument<E extends BasicTypeArgument> extends ActualTypeAr
 		return typeReference().infoDisplayName();
 	}
 
+	public String toString() {
+		return typeReference().toString();
+	}
 }

@@ -113,11 +113,11 @@ public abstract class DeclarationWithParametersHeader<E extends DeclarationWithP
   
   /**
    * The index starts from 1.
-   * @param index
+   * @param baseOneIndex
    * @return
    */
-  public FormalParameter formalParameter(int index) {
-  	return _parameters.elementAt(index);
+  public FormalParameter formalParameter(int baseOneIndex) {
+  	return _parameters.elementAt(baseOneIndex);
   }
 
   private OrderedMultiAssociation<DeclarationWithParametersHeader,FormalParameter> _parameters = new OrderedMultiAssociation<DeclarationWithParametersHeader,FormalParameter>(this);

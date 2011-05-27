@@ -85,4 +85,7 @@ public class SuperWildcard<E extends SuperWildcard> extends ActualTypeArgumentWi
 		return result.toString();
 	}
 
+	public String toString() {
+		return "? super "+typeReference().toString();
+	}
 }

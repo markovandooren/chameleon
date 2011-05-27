@@ -1,5 +1,6 @@
 package chameleon.oo.type;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.rejuse.property.PropertySet;
@@ -11,7 +12,6 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.member.Member;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.exception.ChameleonProgrammerException;
-import chameleon.oo.type.inheritance.AbstractInheritanceRelation;
 import chameleon.oo.type.inheritance.InheritanceRelation;
 
 public abstract class TypeIndirection extends AbstractType {
@@ -100,15 +100,15 @@ public abstract class TypeIndirection extends AbstractType {
 	}
 
 	public <P extends Parameter> List<P> parameters(Class<P> kind) {
-		return aliasedType().parameters(kind);
+		return new ArrayList<P>();
 	}
 	
 	public <P extends Parameter> P parameter(Class<P> kind, int index) {
-		return aliasedType().parameter(kind, index);
+		return null;
 	}
 
 	public <P extends Parameter> int nbTypeParameters(Class<P> kind) {
-		return aliasedType().nbTypeParameters(kind);
+		return 0;
 	}
 
 	public <P extends Parameter> void replaceParameter(Class<P> kind,P oldParameter, P newParameter) {

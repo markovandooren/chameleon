@@ -89,6 +89,8 @@ public abstract class ObjectOrientedLanguage extends Language {
 
   public abstract TypeReference createTypeReference(String fqn);
   
+  public abstract TypeReference createTypeReference(Type type);
+  
   public abstract TypeReference createTypeReference(CrossReference<?, ? extends TargetDeclaration> target, String name);
   
   public abstract TypeReference createTypeReference(CrossReference<?, ? extends TargetDeclaration> target, SimpleNameSignature signature);
