@@ -99,16 +99,28 @@ public abstract class TypeIndirection extends AbstractType {
 		return aliasedType().baseType();
 	}
 
+//	public <P extends Parameter> List<P> parameters(Class<P> kind) {
+//		return new ArrayList<P>();
+//	}
+//	
+//	public <P extends Parameter> P parameter(Class<P> kind, int index) {
+//		return null;
+//	}
+//
+//	public <P extends Parameter> int nbTypeParameters(Class<P> kind) {
+//		return 0;
+//	}
+
 	public <P extends Parameter> List<P> parameters(Class<P> kind) {
-		return new ArrayList<P>();
+		return aliasedType().parameters(kind);
 	}
 	
 	public <P extends Parameter> P parameter(Class<P> kind, int index) {
-		return null;
+		return aliasedType().parameter(kind, index);
 	}
 
 	public <P extends Parameter> int nbTypeParameters(Class<P> kind) {
-		return 0;
+		return aliasedType().nbTypeParameters(kind);
 	}
 
 	public <P extends Parameter> void replaceParameter(Class<P> kind,P oldParameter, P newParameter) {
