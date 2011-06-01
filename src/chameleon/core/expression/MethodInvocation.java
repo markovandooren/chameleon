@@ -10,8 +10,8 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.method.Method;
-import chameleon.core.reference.CrossReference;
 import chameleon.core.reference.CrossReferenceWithArguments;
+import chameleon.core.reference.CrossReferenceWithTarget;
 import chameleon.core.reference.UnresolvableCrossReference;
 import chameleon.core.statement.CheckedExceptionList;
 import chameleon.core.validation.Valid;
@@ -29,7 +29,7 @@ import chameleon.util.Util;
  */
 
 public abstract class MethodInvocation<E extends MethodInvocation<E, D>, D extends Method>
-		extends TargetedExpression<E> implements CrossReference<E, D> {
+		extends TargetedExpression<E> implements CrossReferenceWithTarget<E, D> {
 
 	private SingleAssociation<MethodInvocation<E, D>, CrossReferenceWithArguments> _crossReference = new SingleAssociation<MethodInvocation<E, D>, CrossReferenceWithArguments>(
 			this);

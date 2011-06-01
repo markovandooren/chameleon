@@ -275,4 +275,8 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,TargetDeclaratio
 			throw new ChameleonProgrammerException();
 		}
 	}
+	
+	public String toString() {
+		return signature().name();
+	}
 }
