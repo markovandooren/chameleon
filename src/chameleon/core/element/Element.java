@@ -7,6 +7,7 @@ import org.rejuse.association.SingleAssociation;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.Predicate;
 import org.rejuse.predicate.SafePredicate;
+import org.rejuse.predicate.TypePredicate;
 import org.rejuse.predicate.UnsafePredicate;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
@@ -368,6 +369,13 @@ public interface Element<E extends Element> {
      @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && c.isInstance(e));
      @*/
     public <T extends Element> List<T> descendants(Class<T> c);
+    
+    
+    // TODO: documentation
+	public <T extends Element> boolean hasDescendant(Class<T> c);
+
+	// TODO: documentation
+	public <T extends Element> boolean hasDescendant(Class<T> c, SafePredicate<T> predicate);
 
     
     /**

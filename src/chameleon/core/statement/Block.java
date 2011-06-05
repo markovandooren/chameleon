@@ -107,5 +107,19 @@ public class Block extends StatementImpl<Block> implements StatementListContaine
 		return Valid.create();
 	}
 
+	public void addBlock(Block block) {
+		if (block != null) {
+			for (Statement st : block.statements())
+				addStatement(st.clone());
+		}
+	}
+
+	public void addStatements(List<? extends Statement> statements) {
+		if (statements != null) {
+			for (Statement st : statements)
+				addStatement(st);
+		}
+	}
+
 	
 }
