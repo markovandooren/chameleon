@@ -26,7 +26,7 @@ public class SubtypeRelation extends AbstractInheritanceRelation<SubtypeRelation
 	@Override
 	public SubtypeRelation clone() {
 		SubtypeRelation result = cloneThis();
-		result.setOrigin(this);
+//		result.setOrigin(this);
 		for(Modifier<Modifier> modifier:modifiers()) {
 			result.addModifier(modifier.clone());
 		}
