@@ -9,6 +9,6 @@ import chameleon.plugin.Plugin;
 
 public interface Builder extends Plugin {
 
-	public void build(CompilationUnit compilationUnit, List<CompilationUnit> allProjectCompilationUnits) throws ModelException, IOException;
-	
+	public void build(List<CompilationUnit> compilationUnits, List<CompilationUnit> allProjectCompilationUnits, BuildProgressHelper buildProgressHelper) throws ModelException, IOException;
+	public int totalAmountOfWork(List<CompilationUnit> compilationUnits, List<CompilationUnit> allProjectCompilationUnits);
 }
