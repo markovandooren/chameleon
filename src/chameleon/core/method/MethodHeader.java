@@ -1,5 +1,7 @@
 package chameleon.core.method;
 
+import java.util.List;
+
 import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.DeclarationWithParametersHeader;
@@ -10,6 +12,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.type.TypeReference;
+import chameleon.util.Util;
 
 public abstract class MethodHeader<E extends DeclarationWithParametersHeader, S extends DeclarationWithParametersSignature> extends DeclarationWithParametersHeader<E,S> {
 
@@ -32,6 +35,13 @@ public abstract class MethodHeader<E extends DeclarationWithParametersHeader, S 
 		}
 	}
 
+	@Override
+	public List<Element> children() {
+		List<Element> result = super.children();
+		Util.addNonNull(returnTypeReference(), result);
+		return result;
+	}
+	
 //  @Override
 //  public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
 //  	if(element.sameAs(returnTypeReference()) || element.isDerived()) {

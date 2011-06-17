@@ -452,7 +452,6 @@ public abstract class Method<E extends Method<E,H,S>, H extends DeclarationWithP
 		Util.addNonNull(implementation(),result);
 		Util.addNonNull(header(),result);
 		Util.addNonNull(getExceptionClause(), result);
-		Util.addNonNull(returnTypeReference(), result);
 		return result;
 	}
 

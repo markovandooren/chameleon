@@ -664,19 +664,22 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
     		}
     	}
       if(result == null){
-      	// First get the declared properties.
-      	PropertySet<Element,ChameleonProperty> properties = properties();
-      	// Add the given property if it dynamically applies to this element.
-      	Ternary applies = property.appliesTo(this);
-      	if(applies == Ternary.TRUE) {
-      		properties.add(property);
-      	} else if(applies == Ternary.FALSE) {
-      		properties.add(property.inverse());
-      	}
-      	// Check if the resulting property set implies the given property.
-      	result = properties.implies(property);
-      	if(Config.cacheElementProperties()) {
-      		_propertyCache.put(property, result);
+      	result = property.appliesTo(this);
+      	if(result == Ternary.UNKNOWN) {
+      		// First get the declared properties.
+      		PropertySet<Element,ChameleonProperty> properties = properties();
+      		// Add the given property if it dynamically applies to this element.
+      		Ternary applies = property.appliesTo(this);
+      		if(applies == Ternary.TRUE) {
+      			properties.add(property);
+      		} else if(applies == Ternary.FALSE) {
+      			properties.add(property.inverse());
+      		}
+      		// Check if the resulting property set implies the given property.
+      		result = properties.implies(property);
+      		if(Config.cacheElementProperties()) {
+      			_propertyCache.put(property, result);
+      		}
       	}
       }
       return result;

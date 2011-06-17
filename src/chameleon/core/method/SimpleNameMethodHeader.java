@@ -14,6 +14,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.core.variable.FormalParameter;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.type.TypeReference;
+import chameleon.util.CreationStackTrace;
 
 /**
  * 
@@ -24,6 +25,8 @@ import chameleon.oo.type.TypeReference;
  */
 public class SimpleNameMethodHeader<E extends SimpleNameMethodHeader, S extends DeclarationWithParametersSignature> extends MethodHeader<E,S> {
 
+	public CreationStackTrace _trace;
+	
 	//FIXME LARGELY COPIED FROM SimpleNameDeclarationWithParametersHeader.
 	//      Better solution is to use a SimpleNameDeclarationWithParametersHeader as a subobject, but
 	//      I don't want to increase memory consumption further until we have lazy class loading. A

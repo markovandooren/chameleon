@@ -13,6 +13,7 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
+import chameleon.util.CreationStackTrace;
 import chameleon.util.Util;
 
 /**
@@ -20,8 +21,13 @@ import chameleon.util.Util;
  */
 public class TypeImport extends Import<TypeImport> {
 
+	private CreationStackTrace _trace = new CreationStackTrace();
+	
   public TypeImport(TypeReference ref) {
     setTypeReference(ref);
+    if(ref.toString().equals("int")) {
+    	System.out.println("debug");
+    }
   }
   
   public List<Element> children() {
