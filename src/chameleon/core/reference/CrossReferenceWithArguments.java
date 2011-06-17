@@ -321,12 +321,17 @@ public class CrossReferenceWithArguments<E extends CrossReferenceWithArguments<E
 	// }
 
 	public List<ActualTypeArgument> typeArguments() {
-		return _genericParameters.getOtherEnds();
+		return _genericArguments.getOtherEnds();
 	}
 
+	public boolean hasTypeArguments() {
+		return _genericArguments.size() > 0;
+	}
+
+	
 	public void addArgument(ActualTypeArgument arg) {
 		if (arg != null) {
-			_genericParameters.add(arg.parentLink());
+			_genericArguments.add(arg.parentLink());
 		}
 	}
 
@@ -338,11 +343,11 @@ public class CrossReferenceWithArguments<E extends CrossReferenceWithArguments<E
 
 	public void removeArgument(ActualTypeArgument arg) {
 		if (arg != null) {
-			_genericParameters.remove(arg.parentLink());
+			_genericArguments.remove(arg.parentLink());
 		}
 	}
 
-	private OrderedMultiAssociation<CrossReferenceWithArguments, ActualTypeArgument> _genericParameters = new OrderedMultiAssociation<CrossReferenceWithArguments, ActualTypeArgument>(
+	private OrderedMultiAssociation<CrossReferenceWithArguments, ActualTypeArgument> _genericArguments = new OrderedMultiAssociation<CrossReferenceWithArguments, ActualTypeArgument>(
 			this);
 
 	@Override
@@ -358,5 +363,4 @@ public class CrossReferenceWithArguments<E extends CrossReferenceWithArguments<E
 		return result;
 	}
 
-	
 }

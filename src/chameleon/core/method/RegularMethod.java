@@ -9,27 +9,19 @@ import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.type.TypeReference;
 
-public abstract class RegularMethod<E extends RegularMethod<E,H,S>, H extends DeclarationWithParametersHeader<H, S>, S extends DeclarationWithParametersSignature> extends Method<E,H,S> {
+public abstract class RegularMethod<E extends RegularMethod<E,H,S>, H extends MethodHeader<H, S>, S extends DeclarationWithParametersSignature> extends Method<E,H,S> {
 
-	public RegularMethod(H header, TypeReference returnType) {
+	public RegularMethod(H header) {
 		super(header);
-		setReturnTypeReference(returnType);
 		setExceptionClause(new ExceptionClause());
 	}
 	
-	private SingleAssociation<Method,TypeReference> _typeReference = new SingleAssociation<Method,TypeReference>(this);
-
 	public TypeReference returnTypeReference() {
-		return _typeReference.getOtherEnd();
+		return header().returnTypeReference();
 	}
 
 	public void setReturnTypeReference(TypeReference type) {
-		if(type != null) {
-			_typeReference.connectTo(type.parentLink());
-		}
-		else {
-			_typeReference.connectTo(null);
-		}
+		header().setReturnTypeReference(type);
 	}
 
 	private SingleAssociation<Method,Implementation> _implementationLink = new SingleAssociation<Method,Implementation>(this);

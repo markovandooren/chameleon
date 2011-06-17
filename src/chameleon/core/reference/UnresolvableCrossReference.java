@@ -8,4 +8,8 @@ public class UnresolvableCrossReference extends BasicProblem {
 		super(element, "Cross reference could not be resolved.");
 	}
 
+	public UnresolvableCrossReference(CrossReference element, String msg) {
+		super(element, "Cross reference could not be resolved: "+msg);
+	}
+
 }

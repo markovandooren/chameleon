@@ -227,6 +227,10 @@ public abstract class MethodInvocation<E extends MethodInvocation<E, D>, D exten
 	public List<ActualTypeArgument> typeArguments() {
 		return crossReference().typeArguments();
 	}
+	
+	public boolean hasTypeArguments() {
+		return crossReference().hasTypeArguments();
+	}
 
 	public void addArgument(ActualTypeArgument arg) {
 		crossReference().addArgument(arg);
@@ -248,9 +252,9 @@ public abstract class MethodInvocation<E extends MethodInvocation<E, D>, D exten
 				result = result.and(new UnresolvableCrossReference(this));
 			}
 		} catch(LookupException e) {
-			result = result.and(new UnresolvableCrossReference(this));
+			result = result.and(new UnresolvableCrossReference(this, e.getMessage()));
 		} catch(ChameleonProgrammerException e) {
-			result = result.and(new UnresolvableCrossReference(this));
+			result = result.and(new UnresolvableCrossReference(this, e.getMessage()));
 		}
 		return result;
 	}

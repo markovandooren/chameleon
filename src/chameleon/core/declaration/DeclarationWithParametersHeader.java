@@ -188,16 +188,20 @@ public abstract class DeclarationWithParametersHeader<E extends DeclarationWithP
 
   @Override
   public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
-  	if(formalParameters().contains(element)) {
-  		if(_lexical == null) {
-  			_lexical = language().lookupFactory().createLexicalLookupStrategy(localLookupStrategy(), this);
-  		}
-  		return _lexical;
-  	}
-  	else {
+  	if(typeParameters().contains(element)) {
   		return parent().lexicalLookupStrategy(this);
   	}
+  	else {
+  		return lexicalStrategy();
+  	}
   }
+
+	protected LookupStrategy lexicalStrategy() {
+		if(_lexical == null) {
+			_lexical = language().lookupFactory().createLexicalLookupStrategy(localLookupStrategy(), this);
+		}
+		return _lexical;
+	}
   
   public LookupStrategy localLookupStrategy() {
   	if(_local == null) {

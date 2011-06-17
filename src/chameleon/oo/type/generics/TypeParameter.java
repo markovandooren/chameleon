@@ -99,5 +99,9 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Paramete
 	public boolean complete() {
 		return true;
 	}
+	
+	public String toString() {
+		return signature().name();
+	}
 
 }

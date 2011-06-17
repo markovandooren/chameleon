@@ -32,6 +32,15 @@ public interface DeclarationContainer<E extends DeclarationContainer> extends El
    @ post \result.containsAll(locallyDeclaredDeclarations());
    @*/
   public List<? extends Declaration> declarations() throws LookupException;
+  
+  /**
+   * Return the most specific single super type of all declarations in this declaration container.
+   * This method is used to speed up the lookup as follows. The declaration selector avoids invoking declarations() on
+   * a declaration container if the declarationClass() of the container and the selectedClass of the selector are both classes
+   * and do not intersect.
+   * @return
+   */
+//  public Class<? extends Declaration> declarationClass();
 
   /**
    * Return the declarations the are defined locally in this declaration container.

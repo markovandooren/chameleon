@@ -42,9 +42,9 @@ public abstract class CrossReferenceImpl<E extends CrossReference, D extends Dec
 				return new UnresolvableCrossReference(this);
 			}
 		} catch(LookupException e) {
-			return new UnresolvableCrossReference(this);
+			return new UnresolvableCrossReference(this, e.getMessage());
 		} catch(ChameleonProgrammerException e) {
-			return new UnresolvableCrossReference(this);
+			return new UnresolvableCrossReference(this, e.getMessage());
 		}
 	}
 
