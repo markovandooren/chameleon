@@ -15,7 +15,6 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
-import chameleon.util.CreationStackTrace;
 
 public class SubtypeRelation extends AbstractInheritanceRelation<SubtypeRelation> {
 

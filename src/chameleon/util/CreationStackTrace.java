@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * A debugging class that stores the current stacktrace. To find out XXXXXX
+ * A debugging class that stores the current stacktrace.
+ * 
  * @author Marko van Dooren
- *
  */
 public class CreationStackTrace {
 

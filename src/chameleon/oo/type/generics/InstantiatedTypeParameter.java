@@ -1,20 +1,6 @@
 package chameleon.oo.type.generics;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
-import chameleon.core.declaration.MissingSignature;
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.element.Element;
-import chameleon.core.lookup.LookupException;
-import chameleon.core.validation.VerificationResult;
-import chameleon.oo.type.ConstructedType;
-import chameleon.oo.type.Type;
-import chameleon.oo.type.TypeIndirection;
-import chameleon.oo.type.TypeReference;
-import chameleon.util.CreationStackTrace;
-import chameleon.util.Pair;
 
 public class InstantiatedTypeParameter<E extends InstantiatedTypeParameter<E>> extends AbstractInstantiatedTypeParameter<E> {
 	

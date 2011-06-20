@@ -14,7 +14,6 @@ import chameleon.oo.type.ConstructedType;
 import chameleon.oo.type.IntersectionTypeReference;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
-import chameleon.util.CreationStackTrace;
 import chameleon.util.Pair;
 
 /**

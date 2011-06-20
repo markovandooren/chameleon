@@ -22,7 +22,6 @@ import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
-import chameleon.util.CreationStackTrace;
 
 public class ClassBody extends NamespaceElementImpl<ClassBody> implements NamespaceElement<ClassBody>, DeclarationContainer<ClassBody> {
 

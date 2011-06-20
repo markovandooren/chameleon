@@ -12,7 +12,6 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.type.generics.FormalTypeParameter;
 import chameleon.oo.type.generics.TypeParameter;
-import chameleon.util.CreationStackTrace;
 import chameleon.util.Pair;
 
 /**
