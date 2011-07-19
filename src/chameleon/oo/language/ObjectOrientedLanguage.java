@@ -85,7 +85,7 @@ public abstract class ObjectOrientedLanguage extends Language {
     EXTENSIBLE.addImplication(REFINABLE);
     NATIVE.addImplication(DEFINED);
     INTERFACE.addImplication(DEFINED.inverse());
-}
+	}
 
   public abstract TypeReference createTypeReference(String fqn);
   
