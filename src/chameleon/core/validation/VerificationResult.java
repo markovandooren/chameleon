@@ -3,7 +3,7 @@ package chameleon.core.validation;
 import chameleon.core.element.Element;
 
 /**
- * A class the represents the result of a verification of a model element. A verification result
+ * A class the represents the result of an analysis of a model element. An analysis result
  * can for example be valid, an error, a warning, etc.
  * 
  * @author Marko van Dooren
