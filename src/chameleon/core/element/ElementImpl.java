@@ -464,6 +464,13 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
       predicate.filter(result);
     	return result;
     }
+    
+    @Override
+    public <T extends Element<?>, X extends Exception> List<T> ancestors(Class<T> c, UnsafePredicate<T, X> predicate) throws X {
+    	List<T> result = ancestors(c);
+      predicate.filter(result);
+    	return result;
+    }
 
     public final List<Element> ancestors() {
         if (parent()!=null) {
