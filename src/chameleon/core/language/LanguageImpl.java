@@ -43,7 +43,7 @@ import chameleon.plugin.Processor;
  * @author Marko van Dooren
  */
 
-public abstract class Language implements PropertyUniverse<ChameleonProperty> {
+public abstract class LanguageImpl implements Language {
 	
 	/**
 	 * Initialize a new language with the given name.
@@ -59,7 +59,7 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
    @ post name().equals(name);
    @ post (* The lookup strategy factory is initialized to the default LookupStrategyFactory *);
    @*/
-	public Language(String name) {
+	public LanguageImpl(String name) {
 		this(name, new LookupStrategyFactory());
 	}
 	
@@ -78,7 +78,7 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
    @ post name().equals(name);
    @ post lookupFactory() == factory;
    @*/
-	public Language(String name, LookupStrategyFactory factory) {
+	public LanguageImpl(String name, LookupStrategyFactory factory) {
 		setName(name);
 		setLookupStrategyFactory(factory);
 		initializePropertyRules();
@@ -226,6 +226,10 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
 	 */
 	public final PropertyMutex<ChameleonProperty> SCOPE_MUTEX;
 
+	public final PropertyMutex<ChameleonProperty> SCOPE_MUTEX() {
+		return SCOPE_MUTEX;
+	}
+	
 	 /**************
     * CONNECTORS *
     **************/
@@ -398,26 +402,18 @@ public abstract class Language implements PropertyUniverse<ChameleonProperty> {
         }
     }
     
+    public Set<Entry<Class<? extends Plugin>,Plugin>> pluginEntrySet() {
+    	return _plugins.entrySet();
+    }
+    
   	public <S extends Plugin> void clonePluginsFrom(Language from) {
-  		for(Entry<Class<? extends Plugin>, Plugin> entry: from._plugins.entrySet()) {
+  		for(Entry<Class<? extends Plugin>, Plugin> entry: from.pluginEntrySet()) {
   			Class<S> key = (Class<S>) entry.getKey();
 				S value = (S) entry.getValue();
 				_plugins.put(key, (S)value.clone());
   		}
   	}
 
-    /**
-     * Return all plugins attached to this language object.
-     * @return
-     */
-   /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @ post (\forall Plugin c; ; \result.contains(c) == 
-     @           (\exists Class<? extends Plugin> pluginInterface;; plugin(pluignInterface) == c)
-     @      ); 
-     @*/
     public Collection<Plugin> plugins() {
         return _plugins.values();
     }

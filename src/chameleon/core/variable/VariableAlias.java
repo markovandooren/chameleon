@@ -188,7 +188,7 @@ public class VariableAlias extends VariableImpl<VariableAlias> implements Member
 	
   public Scope scope() throws ModelException {
   	Scope result = null;
-  	ChameleonProperty scopeProperty = property(language().SCOPE_MUTEX);
+  	ChameleonProperty scopeProperty = property(language().SCOPE_MUTEX());
   	if(scopeProperty instanceof ScopeProperty) {
   		result = ((ScopeProperty)scopeProperty).scope(this);
   	} else if(scopeProperty != null){

@@ -9,7 +9,7 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
-import chameleon.core.language.Language;
+import chameleon.core.language.LanguageImpl;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.member.Member;
@@ -33,7 +33,7 @@ import chameleon.oo.type.generics.ActualTypeArgument;
 import chameleon.oo.type.generics.TypeParameter;
 import chameleon.util.Pair;
 
-public abstract class ObjectOrientedLanguage extends Language {
+public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	
 	//TODO document the properties. This is becoming complicated without an explanation.
 	public final StaticChameleonProperty INHERITABLE;
