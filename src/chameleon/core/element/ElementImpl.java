@@ -31,6 +31,9 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
+import chameleon.util.concurrent.Action;
+import chameleon.util.concurrent.SafeAction;
+import chameleon.util.concurrent.UnsafeAction;
 
 /**
  * @author Marko van Dooren
@@ -447,6 +450,33 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
         result.addAll(e.descendants(c, predicate));
       }
       return result;
+    }
+
+    public final <T extends Element> void apply(Class<T> c, Action<T> action) throws Exception {
+    	if(c.isInstance(this)) {
+    		action.perform((T)this);
+    	}
+      for (Element e : children()) {
+        e.apply(c, action);
+      }
+    }
+
+    public final <T extends Element> void apply(Class<T> c, SafeAction<T> action) {
+    	if(c.isInstance(this)) {
+    		action.perform((T)this);
+    	}
+      for (Element e : children()) {
+        e.apply(c, action);
+      }
+    }
+    
+    public final <T extends Element, X extends Exception> void apply(Class<T> c, UnsafeAction<T,X> action) throws X {
+    	if(c.isInstance(this)) {
+    		action.perform((T)this);
+    	}
+      for (Element<?> e : children()) {
+        e.apply(c, action);
+      }
     }
 
     public final <T extends Element<?>> List<T> ancestors(Class<T> c) {

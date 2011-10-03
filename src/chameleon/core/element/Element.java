@@ -7,7 +7,6 @@ import org.rejuse.association.SingleAssociation;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.Predicate;
 import org.rejuse.predicate.SafePredicate;
-import org.rejuse.predicate.TypePredicate;
 import org.rejuse.predicate.UnsafePredicate;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
@@ -20,6 +19,9 @@ import chameleon.core.property.ChameleonProperty;
 import chameleon.core.tag.Tag;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ModelException;
+import chameleon.util.concurrent.Action;
+import chameleon.util.concurrent.SafeAction;
+import chameleon.util.concurrent.UnsafeAction;
 
 /**
  * Element is the top interface for an element of a model.
@@ -505,6 +507,24 @@ public interface Element<E extends Element> {
      @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && c.isInstance(e) && predicate.eval(e));
      @*/
     public <T extends Element, X extends Exception> List<T> descendants(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
+
+    
+    /**
+     * Recursively apply the given action to this element and all of its descendants, but only if they their type conforms to T.
+     */
+    public <T extends Element> void apply(Class<T> c, Action<T> action) throws Exception;
+    
+    /**
+     * Recursively apply the given action to this element and all of its descendants, but only if they their type conforms to T.
+     */
+    public <T extends Element> void apply(Class<T> c, SafeAction<T> action);
+    
+    /**
+     * Recursively apply the given action to this element and all of its descendants, but only if they their type conforms to T.
+     * 
+     * The only checked exception that occurs are determined by type parameter X.
+     */
+    public <T extends Element, X extends Exception> void apply(Class<T> c, UnsafeAction<T,X> action) throws X;
 
     /**
      * Return the tag with the given name.
