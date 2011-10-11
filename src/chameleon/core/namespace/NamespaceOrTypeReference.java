@@ -3,10 +3,10 @@ package chameleon.core.namespace;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
-import chameleon.core.expression.NamedTarget;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReference;
 import chameleon.core.reference.SpecificReference;
+import chameleon.oo.expression.NamedTarget;
 
 /**
  * Generic Parameter R is the type of the referenced element.

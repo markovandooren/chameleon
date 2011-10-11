@@ -8,12 +8,12 @@ import org.rejuse.property.PropertyMutex;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.member.Member;
 import chameleon.core.modifier.ElementWithModifiersImpl;
 import chameleon.core.modifier.Modifier;
-import chameleon.core.statement.CheckedExceptionList;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
+import chameleon.oo.member.Member;
+import chameleon.oo.statement.CheckedExceptionList;
 
 /**
  * Support class for member-like elements that can be the direct children of a type.

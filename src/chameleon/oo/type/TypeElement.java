@@ -4,10 +4,10 @@ import java.util.List;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.member.Member;
 import chameleon.core.modifier.ElementWithModifiers;
 import chameleon.core.namespace.NamespaceElement;
-import chameleon.core.statement.CheckedExceptionList;
+import chameleon.oo.member.Member;
+import chameleon.oo.statement.CheckedExceptionList;
 
 /**
  * A class of elements that can be direct children of a type.

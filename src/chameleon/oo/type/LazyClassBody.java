@@ -11,10 +11,10 @@ import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.member.Member;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.oo.member.Member;
 import chameleon.oo.type.generics.TypeParameter;
 
 /**

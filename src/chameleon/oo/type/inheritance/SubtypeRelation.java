@@ -6,13 +6,13 @@ import org.rejuse.logic.ternary.Ternary;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.member.Member;
-import chameleon.core.member.MemberRelationSelector;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.oo.member.Member;
+import chameleon.oo.member.MemberRelationSelector;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 

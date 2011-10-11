@@ -12,8 +12,6 @@ import chameleon.core.element.Element;
 import chameleon.core.language.LanguageImpl;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategyFactory;
-import chameleon.core.member.Member;
-import chameleon.core.method.Method;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.property.Defined;
 import chameleon.core.property.DynamicChameleonProperty;
@@ -22,8 +20,8 @@ import chameleon.core.reference.CrossReference;
 import chameleon.core.relation.EquivalenceRelation;
 import chameleon.core.relation.StrictPartialOrder;
 import chameleon.core.relation.WeakPartialOrder;
-import chameleon.core.variable.Variable;
-import chameleon.core.variable.VariableDeclarator;
+import chameleon.oo.member.Member;
+import chameleon.oo.method.Method;
 import chameleon.oo.type.DerivedType;
 import chameleon.oo.type.IntersectionTypeReference;
 import chameleon.oo.type.Parameter;
@@ -31,6 +29,8 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.oo.type.generics.ActualTypeArgument;
 import chameleon.oo.type.generics.TypeParameter;
+import chameleon.oo.variable.Variable;
+import chameleon.oo.variable.VariableDeclarator;
 import chameleon.util.Pair;
 
 public abstract class ObjectOrientedLanguage extends LanguageImpl {

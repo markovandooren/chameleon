@@ -17,11 +17,11 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.member.Member;
 import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.oo.member.Member;
 
 public class ClassBody extends NamespaceElementImpl<ClassBody> implements NamespaceElement<ClassBody>, DeclarationContainer<ClassBody> {
 

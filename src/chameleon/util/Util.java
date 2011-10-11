@@ -34,7 +34,7 @@ import java.util.Set;
 import org.rejuse.java.collections.Visitor;
 
 import chameleon.core.element.Element;
-import chameleon.core.expression.Expression;
+import chameleon.oo.expression.Expression;
 
 /**
  * @author Marko van Dooren

@@ -6,8 +6,8 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.member.Member;
-import chameleon.core.member.MemberRelationSelector;
+import chameleon.oo.member.Member;
+import chameleon.oo.member.MemberRelationSelector;
 import chameleon.oo.type.Type;
 
 /**

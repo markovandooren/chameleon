@@ -72,7 +72,7 @@ public class CompositeQualifiedName<E extends CompositeQualifiedName<E>> extends
 		return signatures();
 	}
 
-	public QualifiedName<?> poppedName() {
+	public QualifiedName<?> popped() {
 		CompositeQualifiedName<?> result = clone();
 		result.remove(result.lastSignature());
 		return result;

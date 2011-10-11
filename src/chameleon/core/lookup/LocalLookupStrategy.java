@@ -4,7 +4,7 @@ import java.util.List;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
-import chameleon.core.member.Member;
+import chameleon.oo.member.Member;
 
 /**
  * A lookup strategy for search declarations locally in a declaration container.
