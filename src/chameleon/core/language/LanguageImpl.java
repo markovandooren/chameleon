@@ -151,7 +151,8 @@ public abstract class LanguageImpl implements Language {
   /**
    * Add all property rules in this method.
    */
-	protected abstract void initializePropertyRules();
+	protected void initializePropertyRules() {
+	}
 	
 	/**
 	 * Add a property rule to this language object.
@@ -638,7 +639,8 @@ public abstract class LanguageImpl implements Language {
 	  /**
 	   * Add all property rules in this method.
 	   */
-		protected abstract void initializeValidityRules();
+		protected void initializeValidityRules() {
+		}
 		
 		/**
 		 * Add a property rule to this language object.

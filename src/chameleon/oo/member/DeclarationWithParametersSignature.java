@@ -15,7 +15,7 @@ import chameleon.oo.type.generics.FormalTypeParameter;
 import chameleon.oo.type.generics.TypeParameter;
 import chameleon.oo.variable.FormalParameter;
 
-public abstract class DeclarationWithParametersSignature<E extends DeclarationWithParametersSignature> extends Signature<E> {
+public abstract class DeclarationWithParametersSignature<E extends DeclarationWithParametersSignature<E>> extends Signature<E> {
 
 //	public String name() {
 //		return _name;
