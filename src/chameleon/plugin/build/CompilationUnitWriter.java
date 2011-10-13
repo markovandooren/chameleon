@@ -7,7 +7,6 @@ import java.io.IOException;
 import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.lookup.LookupException;
 import chameleon.exception.ModelException;
-import chameleon.oo.type.Type;
 import chameleon.plugin.PluginImpl;
 import chameleon.plugin.output.Syntax;
 
