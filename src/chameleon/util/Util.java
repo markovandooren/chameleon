@@ -65,6 +65,14 @@ public class Util {
     }
   }
 
+  public static <T extends Element<T>> List<T> clone(List<T> original) {
+  	List<T> result = new ArrayList<T>();
+  	for(T t: original) {
+  		result.add(t.clone());
+  	}
+  	return result;
+  }
+  
   /**
     * @param indent
     * @param tab
