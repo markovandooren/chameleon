@@ -36,7 +36,8 @@ public class SimpleNameSignature extends Signature<SimpleNameSignature>{
 		boolean result = false;
 		if(other instanceof SimpleNameSignature) {
 			SimpleNameSignature sig = (SimpleNameSignature) other;
-			result = name().equals(sig.name());
+			String name = name();
+			result = name != null && name.equals(sig.name());
 		}
 		return result;
 	}
