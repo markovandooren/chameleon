@@ -840,6 +840,9 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
 		
     public final VerificationResult verify() {
     	VerificationResult result = verifySelf();
+    	if(result == null) {
+    		throw new ChameleonProgrammerException("The verifySelf method of "+getClass().getName()+" returned null.");
+    	}
     	result = result.and(verifyProperties());
     	result = result.and(verifyLoops());
     	for(Element element:children()) {
