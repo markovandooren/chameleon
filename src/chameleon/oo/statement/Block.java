@@ -46,8 +46,16 @@ public class Block extends StatementImpl<Block> implements StatementListContaine
   	}
   }
 
+  public int nbStatements() {
+  	return _statements.size();
+  }
+  
   public List<Statement> statements() {
     return _statements.getOtherEnds();
+  }
+  
+  public Statement statement(int baseOneIndex) {
+  	return _statements.elementAt(baseOneIndex);
   }
 
   public Block clone() {
