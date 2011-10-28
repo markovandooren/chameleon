@@ -76,7 +76,7 @@ import chameleon.util.Util;
 			Collection<Namespace> result = new ArrayList<Namespace>();
 			try {
 				for(String fqn: _namespaces) {
-				  result.add(namespace(fqn, language));
+				  Util.addNonNull(namespace(fqn, language),result);
 				}
 			} catch (LookupException e) {
 				e.printStackTrace();
