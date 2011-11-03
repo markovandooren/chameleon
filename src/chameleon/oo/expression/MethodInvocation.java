@@ -11,6 +11,7 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReferenceWithArguments;
 import chameleon.core.reference.CrossReferenceWithTarget;
+import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.core.reference.UnresolvableCrossReference;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -34,7 +35,7 @@ public abstract class MethodInvocation<E extends MethodInvocation<E, D>, D exten
 	private SingleAssociation<MethodInvocation<E, D>, CrossReferenceWithArguments> _crossReference = new SingleAssociation<MethodInvocation<E, D>, CrossReferenceWithArguments>(
 			this);
 
-	public MethodInvocation(InvocationTarget target) {
+	public MethodInvocation(CrossReferenceTarget target) {
 		setAsParent(_crossReference, new CrossReferenceWithArguments());
 		setTarget(target);
 	}
@@ -55,11 +56,11 @@ public abstract class MethodInvocation<E extends MethodInvocation<E, D>, D exten
 
 	protected DeclarationSelector<D> _selector;
 
-	public InvocationTarget getTarget() {
+	public CrossReferenceTarget getTarget() {
 		return crossReference().getTarget();
 	}
 
-	public void setTarget(InvocationTarget target) {
+	public void setTarget(CrossReferenceTarget target) {
 		crossReference().setTarget(target);
 	}
 
@@ -192,10 +193,10 @@ public abstract class MethodInvocation<E extends MethodInvocation<E, D>, D exten
 	 * 
 	 * @
 	 */
-	protected abstract E cloneInvocation(InvocationTarget target);
+	protected abstract E cloneInvocation(CrossReferenceTarget target);
 
 	public E clone() {
-		InvocationTarget target = null;
+		CrossReferenceTarget target = null;
 		if (getTarget() != null) {
 			target = getTarget().clone();
 		}

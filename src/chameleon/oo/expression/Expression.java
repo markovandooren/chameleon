@@ -9,6 +9,7 @@ import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.Target;
 import chameleon.core.namespace.NamespaceElementImpl;
+import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.oo.statement.CheckedExceptionList;
 import chameleon.oo.statement.ExceptionSource;
 import chameleon.oo.type.Type;
@@ -19,7 +20,7 @@ import chameleon.oo.type.Type;
  * @author Marko van Dooren
  */
 
-public abstract class Expression<E extends Expression> extends NamespaceElementImpl<E> implements InvocationTarget<E> {
+public abstract class Expression<E extends Expression> extends NamespaceElementImpl<E> implements CrossReferenceTarget<E> {
 
 	/**
 	 * Return the type of this expression. The actual computation of the type is done in actualType. This
@@ -61,11 +62,11 @@ public abstract class Expression<E extends Expression> extends NamespaceElementI
     return getType().targetContext();
   }
 
-  public void prefix(InvocationTarget target) throws LookupException {
+  public void prefix(CrossReferenceTarget target) throws LookupException {
     // Do nothing by default.
   }
   
-  public void prefixRecursive(InvocationTarget target) throws LookupException {
+  public void prefixRecursive(CrossReferenceTarget target) throws LookupException {
     // Do nothing by default.
   }
   

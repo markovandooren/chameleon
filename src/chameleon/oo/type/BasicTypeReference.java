@@ -2,9 +2,9 @@ package chameleon.oo.type;
 
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReference;
+import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.core.reference.SpecificReference;
 import chameleon.oo.language.ObjectOrientedLanguage;
 
@@ -17,11 +17,11 @@ public class BasicTypeReference<E extends BasicTypeReference> extends SpecificRe
     super(fqn, Type.class);
   }
   
-  public BasicTypeReference(CrossReference<?, ? extends TargetDeclaration> target, String name) {
+  public BasicTypeReference(CrossReferenceTarget<?> target, String name) {
     super(target, name, Type.class);
   }
   
-  public BasicTypeReference(CrossReference<?, ? extends TargetDeclaration> target, SimpleNameSignature signature) {
+  public BasicTypeReference(CrossReferenceTarget<?> target, SimpleNameSignature signature) {
     super(target, signature, Type.class);
   }
   

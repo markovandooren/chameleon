@@ -18,6 +18,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.SelectorWithoutOrder;
 import chameleon.core.reference.CrossReferenceWithName;
 import chameleon.core.reference.CrossReferenceWithTarget;
+import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -34,7 +35,7 @@ public class NamedTargetExpression extends TargetedExpression<NamedTargetExpress
   	setName(identifier);
 	}
 
-  public NamedTargetExpression(String identifier, InvocationTarget target) {
+  public NamedTargetExpression(String identifier, CrossReferenceTarget target) {
   	this(identifier);
 	  setTarget(target);
 	}
@@ -68,13 +69,13 @@ public class NamedTargetExpression extends TargetedExpression<NamedTargetExpress
 	/**
 	 * TARGET
 	 */
-	private SingleAssociation<NamedTargetExpression,InvocationTarget> _target = new SingleAssociation<NamedTargetExpression,InvocationTarget>(this);
+	private SingleAssociation<NamedTargetExpression,CrossReferenceTarget> _target = new SingleAssociation<NamedTargetExpression,CrossReferenceTarget>(this);
 
-  public InvocationTarget getTarget() {
+  public CrossReferenceTarget getTarget() {
     return _target.getOtherEnd();
   }
 
-  public void setTarget(InvocationTarget target) {
+  public void setTarget(CrossReferenceTarget target) {
   	if(target != null) {
       _target.connectTo(target.parentLink());
   	} else {
@@ -89,7 +90,7 @@ public class NamedTargetExpression extends TargetedExpression<NamedTargetExpress
 
 	@Override
 	public NamedTargetExpression clone() {
-    InvocationTarget target = null;
+    CrossReferenceTarget target = null;
     if(getTarget() != null) {
       target = getTarget().clone();
     }
@@ -165,7 +166,7 @@ public class NamedTargetExpression extends TargetedExpression<NamedTargetExpress
 	   	return result;
 	  }
 	   
-    InvocationTarget<?> target = getTarget();
+    CrossReferenceTarget<?> target = getTarget();
     if(target != null) {
       result = target.targetContext().lookUp(selector);//findElement(getName());
     } else {

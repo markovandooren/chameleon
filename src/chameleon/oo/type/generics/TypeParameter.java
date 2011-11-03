@@ -10,6 +10,7 @@ import chameleon.core.declaration.MissingSignature;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.scope.LexicalScope;
 import chameleon.core.scope.Scope;
@@ -103,5 +104,9 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Paramete
 	public String toString() {
 		return signature().name();
 	}
+
+  public LocalLookupStrategy<?> targetContext() throws LookupException {
+  	return upperBound().targetContext();
+  }
 
 }

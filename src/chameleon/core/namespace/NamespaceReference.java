@@ -1,9 +1,7 @@
 package chameleon.core.namespace;
 
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.declaration.TargetDeclaration;
-import chameleon.core.element.Element;
-import chameleon.core.reference.CrossReference;
+import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.core.reference.SpecificReference;
 
 /**
@@ -11,11 +9,11 @@ import chameleon.core.reference.SpecificReference;
  */
 public class NamespaceReference extends SpecificReference<NamespaceReference,Namespace> {
 
-  public NamespaceReference(CrossReference<?, ? extends TargetDeclaration> target, String name) {
+  public NamespaceReference(CrossReferenceTarget<?> target, String name) {
     super(target, name, Namespace.class);
   }
   
-  public NamespaceReference(CrossReference<?, ? extends TargetDeclaration> target, SimpleNameSignature signature) {
+  public NamespaceReference(CrossReferenceTarget<?> target, SimpleNameSignature signature) {
     super(target, signature, Namespace.class);
   }
   

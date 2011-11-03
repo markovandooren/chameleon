@@ -15,6 +15,7 @@ import chameleon.core.lookup.DeclaratorSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.SelectorWithoutOrder;
 import chameleon.core.reference.CrossReference;
+import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.core.reference.UnresolvableCrossReference;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -39,7 +40,7 @@ public class VariableReference extends Expression<VariableReference> implements 
    @ post getName() == identifier;
    @ post getTarget() == target;
    @*/
-  public VariableReference(String identifier, InvocationTarget target) {
+  public VariableReference(String identifier, CrossReferenceTarget target) {
   	_signature = new SimpleNameSignature(identifier);
   	setName(identifier);
 	  setTarget(target);
@@ -74,13 +75,13 @@ public class VariableReference extends Expression<VariableReference> implements 
 	/**
 	 * TARGET
 	 */
-	private SingleAssociation<VariableReference,InvocationTarget> _target = new SingleAssociation<VariableReference,InvocationTarget>(this);
+	private SingleAssociation<VariableReference,CrossReferenceTarget> _target = new SingleAssociation<VariableReference,CrossReferenceTarget>(this);
 
-  public InvocationTarget getTarget() {
+  public CrossReferenceTarget getTarget() {
     return _target.getOtherEnd();
   }
 
-  public void setTarget(InvocationTarget target) {
+  public void setTarget(CrossReferenceTarget target) {
   	if(target != null) {
       _target.connectTo(target.parentLink());
   	} else {
@@ -97,7 +98,7 @@ public class VariableReference extends Expression<VariableReference> implements 
   }
 
   public VariableReference clone() {
-    InvocationTarget target = null;
+    CrossReferenceTarget target = null;
     if(getTarget() != null) {
       target = getTarget().clone();
     }
@@ -134,7 +135,7 @@ public class VariableReference extends Expression<VariableReference> implements 
   
   @SuppressWarnings("unchecked")
   public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
-    InvocationTarget<?> target = getTarget();
+    CrossReferenceTarget<?> target = getTarget();
     X result;
     if(target != null) {
       result = target.targetContext().lookUp(selector);//findElement(getName());

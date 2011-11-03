@@ -20,11 +20,12 @@ import chameleon.core.lookup.SelectorWithoutOrder;
 import chameleon.core.reference.CrossReferenceImpl;
 import chameleon.core.reference.CrossReferenceWithName;
 import chameleon.core.reference.CrossReferenceWithTarget;
+import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.statement.CheckedExceptionList;
 import chameleon.util.Util;
-public class NamedTarget extends CrossReferenceImpl<NamedTarget,TargetDeclaration> implements InvocationTarget<NamedTarget>, CrossReferenceWithTarget<NamedTarget,TargetDeclaration>, CrossReferenceWithName<NamedTarget,TargetDeclaration> {
+public class NamedTarget extends CrossReferenceImpl<NamedTarget,TargetDeclaration> implements CrossReferenceTarget<NamedTarget>, CrossReferenceWithTarget<NamedTarget,TargetDeclaration>, CrossReferenceWithName<NamedTarget,TargetDeclaration> {
 
 	/**
 	 * Initialize a new named target with the given fully qualified name. The
@@ -55,7 +56,7 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,TargetDeclaratio
    * @param identifier
    * @param target
    */
-  public NamedTarget(String identifier, InvocationTarget target) {
+  public NamedTarget(String identifier, CrossReferenceTarget target) {
   	_signature=new SimpleNameSignature(""); // name will be set correctly in setName().
   	setName(identifier);
   	setTarget(target);
@@ -64,13 +65,13 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,TargetDeclaratio
 	/**
 	 * TARGET
 	 */
-	private SingleAssociation<InvocationTarget,InvocationTarget> _target = new SingleAssociation<InvocationTarget,InvocationTarget>(this);
+	private SingleAssociation<CrossReferenceTarget,CrossReferenceTarget> _target = new SingleAssociation<CrossReferenceTarget,CrossReferenceTarget>(this);
 
-  public InvocationTarget<?> getTarget() {
+  public CrossReferenceTarget<?> getTarget() {
     return _target.getOtherEnd();
   }
 
-  public void setTarget(InvocationTarget target) {
+  public void setTarget(CrossReferenceTarget target) {
     if (target != null) {
       _target.connectTo(target.parentLink());
     }
@@ -127,7 +128,7 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,TargetDeclaratio
 	   	return result;
 	  }
 
-	  InvocationTarget<?> target = getTarget();
+	  CrossReferenceTarget<?> target = getTarget();
     if(target != null) {
       result = target.targetContext().lookUp(selector);//findElement(getName());
     } else {
@@ -205,7 +206,7 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,TargetDeclaratio
 
   public NamedTarget clone() {
     NamedTarget result = new NamedTarget(name());
-    InvocationTarget<?> target = getTarget();
+    CrossReferenceTarget<?> target = getTarget();
 		if(target!= null) {
       result.setTarget(target.clone());
     }
@@ -246,21 +247,21 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,TargetDeclaratio
 //  }
 
   public CheckedExceptionList getCEL() throws LookupException {
-    if(getTarget() != null) {
-      return getTarget().getCEL();
-    }
-    else {
+//    if(getTarget() != null) {
+//      return getTarget().getCEL();
+//    }
+//    else {
       return new CheckedExceptionList();
-    }
+//    }
   }
 
   public CheckedExceptionList getAbsCEL() throws LookupException {
-    if(getTarget() != null) {
-      return getTarget().getAbsCEL();
-    }
-    else {
+//    if(getTarget() != null) {
+//      return getTarget().getAbsCEL();
+//    }
+//    else {
       return new CheckedExceptionList();
-    }
+//    }
   }
 
   public LocalLookupStrategy targetContext() throws LookupException {

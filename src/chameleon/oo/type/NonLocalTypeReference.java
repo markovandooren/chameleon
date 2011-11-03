@@ -90,4 +90,10 @@ public abstract class NonLocalTypeReference<E extends NonLocalTypeReference> ext
 		return Util.createNonNullList(actualReference());
 	}
 	
+	@Override
+	public LookupStrategy targetContext() throws LookupException {
+		return getElement().targetContext();
+	}
+
+
 }

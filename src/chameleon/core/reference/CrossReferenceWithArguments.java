@@ -19,7 +19,6 @@ import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
-import chameleon.oo.expression.InvocationTarget;
 import chameleon.oo.expression.MethodInvocation;
 import chameleon.oo.member.MoreSpecificTypesOrder;
 import chameleon.oo.member.SimpleNameDeclarationWithParametersSignature;
@@ -37,14 +36,14 @@ public class CrossReferenceWithArguments<E extends CrossReferenceWithArguments<E
 	/**
 	 * TARGET
 	 */
-	private SingleAssociation<CrossReferenceWithArguments, InvocationTarget> _target = new SingleAssociation<CrossReferenceWithArguments, InvocationTarget>(
+	private SingleAssociation<CrossReferenceWithArguments, CrossReferenceTarget> _target = new SingleAssociation<CrossReferenceWithArguments, CrossReferenceTarget>(
 			this);
 
-	public InvocationTarget getTarget() {
+	public CrossReferenceTarget getTarget() {
 		return _target.getOtherEnd();
 	}
 
-	public void setTarget(InvocationTarget target) {
+	public void setTarget(CrossReferenceTarget target) {
 		if (target != null) {
 			_target.connectTo(target.parentLink());
 		} else {
@@ -273,7 +272,7 @@ public class CrossReferenceWithArguments<E extends CrossReferenceWithArguments<E
 			return result;
 		}
 
-		InvocationTarget<?> target = getTarget();
+		CrossReferenceTarget<?> target = getTarget();
 		if (target == null) {
 			result = lexicalLookupStrategy().lookUp(selector);
 		} else {
@@ -298,7 +297,7 @@ public class CrossReferenceWithArguments<E extends CrossReferenceWithArguments<E
 	}
 
 	public E clone() {
-		InvocationTarget target = null;
+		CrossReferenceTarget target = null;
 		if (getTarget() != null) {
 			target = getTarget().clone();
 		}

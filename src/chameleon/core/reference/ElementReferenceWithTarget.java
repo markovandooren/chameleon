@@ -28,7 +28,7 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	   this(getTarget(Util.getAllButLastPart(qn)), new SimpleNameSignature(Util.getLastPart(qn)));
 	 }
 	 
-	 protected static CrossReference<? extends CrossReference<?,? extends TargetDeclaration>, ? extends TargetDeclaration> getTarget(String qn) {
+	 protected static CrossReferenceTarget getTarget(String qn) {
 		 if(qn == null) {
 			 return null;
 		 }
@@ -52,9 +52,9 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	  @ post getTarget() == target;
 	  @ post getName() == name;
 	  @*/
-	 public ElementReferenceWithTarget(CrossReference<?,? extends TargetDeclaration> target, Signature signature) {
+	 public ElementReferenceWithTarget(CrossReferenceTarget target, Signature signature) {
 	 	super(signature);
-		  setTarget((CrossReference<? extends CrossReference<?, ? extends TargetDeclaration>, ? extends TargetDeclaration>) target); 
+		  setTarget(target); 
 	 }
 	 
 	 /**
@@ -78,17 +78,17 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 		/**
 		 * TARGET
 		 */
-		private SingleAssociation<ElementReferenceWithTarget,CrossReference<?, ? extends TargetDeclaration>> _target = new SingleAssociation<ElementReferenceWithTarget,CrossReference<?, ? extends TargetDeclaration>>(this);
+		private SingleAssociation<ElementReferenceWithTarget,CrossReferenceTarget> _target = new SingleAssociation<ElementReferenceWithTarget,CrossReferenceTarget>(this);
 
-		protected SingleAssociation<ElementReferenceWithTarget,CrossReference<?, ? extends TargetDeclaration>> targetLink() {
+		protected SingleAssociation<ElementReferenceWithTarget,CrossReferenceTarget> targetLink() {
 			return _target;
 		}
 		
-	 public CrossReference<?, ? extends TargetDeclaration> getTarget() {
+	 public CrossReferenceTarget<?> getTarget() {
 	   return _target.getOtherEnd();
 	 }
 
-	 public void setTarget(CrossReference<? extends CrossReference<?,? extends TargetDeclaration>, ? extends TargetDeclaration> target) {
+	 public void setTarget(CrossReferenceTarget<?> target) {
 	   if(target != null) {
 	     _target.connectTo(target.parentLink());
 	   } else {
@@ -128,14 +128,14 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	   	return result;
 	   }
 	   
-	  CrossReference<?, ? extends TargetDeclaration> targetReference = getTarget();
+	  CrossReferenceTarget<?> targetReference = getTarget();
 	  if(targetReference != null) {
-	  	TargetDeclaration<?,?> target = targetReference.getElement();
-	  	if(target != null) {
-	  		result = target.targetContext().lookUp(selector);
-	  	} else {
-	  		throw new LookupException("Lookup of target of NamespaceOrVariableReference returned null",targetReference);
-	  	}
+//	  	TargetDeclaration<?,?> target = targetReference.getElement();
+//	  	if(target != null) {
+	  		result = targetReference.targetContext().lookUp(selector);
+//	  	} else {
+//	  		throw new LookupException("Lookup of target of NamespaceOrVariableReference returned null",targetReference);
+//	  	}
 	  }
 	  else {
 	  	result = lexicalLookupStrategy().lookUp(selector);
@@ -151,10 +151,7 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	  	// repeat lookups for debugging purposes
 	  	//Config.setCaching(false);
 	  	if(targetReference != null) {
-	  		TargetDeclaration<?,?> target = targetReference.getElement();
-	  		if(target != null) {
-	  			result = target.targetContext().lookUp(selector);
-	  		}
+	  		result = targetReference.targetContext().lookUp(selector);
 	  	} else {
 	  		result = lexicalLookupStrategy().lookUp(selector);
 	  	}

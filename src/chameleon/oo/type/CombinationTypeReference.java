@@ -6,6 +6,7 @@ import java.util.List;
 import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.element.Element;
+import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceElementImpl;
 
@@ -66,4 +67,8 @@ public abstract class CombinationTypeReference<E extends CombinationTypeReferenc
 	}
 
 	public abstract String operatorName();
+	
+  public LocalLookupStrategy<?> targetContext() throws LookupException {
+  	return getElement().targetContext();
+  }
 }

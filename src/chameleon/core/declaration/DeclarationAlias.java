@@ -7,6 +7,7 @@ import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.scope.Scope;
 import chameleon.core.validation.BasicProblem;
@@ -97,5 +98,10 @@ public class DeclarationAlias<D extends Declaration> extends NamespaceElementImp
 	@Override
 	public boolean complete() throws LookupException {
 		return aliasedDeclaration().complete();
+	}
+
+	@Override
+	public LookupStrategy targetContext() throws LookupException {
+		return aliasedDeclaration().targetContext();
 	}
 }

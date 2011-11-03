@@ -1,10 +1,8 @@
 package chameleon.core.namespace;
 
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.declaration.TargetDeclaration;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.reference.CrossReference;
+import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.core.reference.SpecificReference;
 import chameleon.oo.expression.NamedTarget;
 
@@ -34,7 +32,7 @@ public class NamespaceOrTypeReference extends SpecificReference<NamespaceOrTypeR
    @ post getTarget() == target;
    @ post getName() == name;
    @*/
-  public NamespaceOrTypeReference(CrossReference<?, ? extends TargetDeclaration> target, String name) {
+  public NamespaceOrTypeReference(CrossReferenceTarget<?> target, String name) {
   	super(target,name,NamespaceOrType.class);
   }
   
@@ -46,7 +44,7 @@ public class NamespaceOrTypeReference extends SpecificReference<NamespaceOrTypeR
    @ post getTarget() == target;
    @ post getName() == name;
    @*/
-  public NamespaceOrTypeReference(CrossReference<?, ? extends TargetDeclaration> target, SimpleNameSignature signature) {
+  public NamespaceOrTypeReference(CrossReferenceTarget<?> target, SimpleNameSignature signature) {
  	  super(target,signature,NamespaceOrType.class);
   }
 

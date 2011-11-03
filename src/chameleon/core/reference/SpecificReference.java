@@ -20,12 +20,12 @@ public class SpecificReference<E extends SpecificReference, D extends Declaratio
 		_specificClass = specificClass;
 	}
 
-	public SpecificReference(CrossReference<?, ? extends TargetDeclaration> target, Signature signature, Class<D> specificClass) {
+	public SpecificReference(CrossReferenceTarget<?>  target, Signature signature, Class<D> specificClass) {
 		super(target, signature);
 		_specificClass = specificClass;
 	}
 
-	public SpecificReference(CrossReference<?, ? extends TargetDeclaration> target, String name, Class<D> specificClass) {
+	public SpecificReference(CrossReferenceTarget<?>  target, String name, Class<D> specificClass) {
 		this(target, new SimpleNameSignature(name), specificClass);
 //		super(target, name);
 //		_specificClass = specificClass;

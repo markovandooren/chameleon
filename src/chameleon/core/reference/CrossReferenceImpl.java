@@ -1,12 +1,11 @@
 package chameleon.core.reference;
 
 import chameleon.core.declaration.Declaration;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.DeclaratorSelector;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.NamespaceElementImpl;
-import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
@@ -47,5 +46,9 @@ public abstract class CrossReferenceImpl<E extends CrossReference, D extends Dec
 			return new UnresolvableCrossReference(this, e.getMessage());
 		}
 	}
+
+  public LookupStrategy targetContext() throws LookupException {
+  	return getElement().targetContext();
+  }
 
 }
