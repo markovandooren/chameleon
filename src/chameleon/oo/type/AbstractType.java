@@ -336,7 +336,9 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
 	    	Iterator<Member> iter = members.iterator();
 	    	boolean result = true;
 	    	while(iter.hasNext()) {
-	    		result = result && (iter.next().isTrue(language(ObjectOrientedLanguage.class).DEFINED));
+	    		Member member = iter.next();
+	    		ObjectOrientedLanguage lang = language(ObjectOrientedLanguage.class);
+	    		result = result && (mustBeOverridden(member));
 	    	}
 	      return result;
     }
@@ -824,6 +826,11 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
 		 */
 		public abstract Type baseType();
 
+		protected boolean mustBeOverridden(Member member) {
+			ObjectOrientedLanguage lang = language(ObjectOrientedLanguage.class);
+			return member.isFalse(lang.ABSTRACT) || member.isTrue(lang.CLASS);
+		}
+		
 		/* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#verifySelf()
 		 */
@@ -834,8 +841,7 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
 				result = result.and(new MissingSignature(this)); 
 			}
 			ObjectOrientedLanguage lang = language(ObjectOrientedLanguage.class);
-			ChameleonProperty abs = lang.ABSTRACT;
-			if(isFalse(abs)) {
+			if(isFalse(lang.ABSTRACT)) {
 				List<Member> members = null;
 				try {
 					members = members();
@@ -846,7 +852,7 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
 					Iterator<Member> iter = members.iterator();
 					while(iter.hasNext()) {
 						Member m = iter.next();
-						if(m.isFalse(abs)) {
+						if(mustBeOverridden(m)) {
 							iter.remove();
 						}
 					}

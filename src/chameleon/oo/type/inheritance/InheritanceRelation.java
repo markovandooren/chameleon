@@ -9,6 +9,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.oo.member.Member;
 import chameleon.oo.member.MemberRelationSelector;
 import chameleon.oo.type.Type;
+import chameleon.oo.type.TypeReference;
 
 /**
  * A general interface for inheritance relations. We use the dictionary definition of 'inheritance'. If
@@ -25,6 +26,8 @@ public interface InheritanceRelation<E extends InheritanceRelation<E,S>, S exten
 	public E clone();
 
 	public S superElement() throws LookupException;
+	
+	public TypeReference superClassReference();
 	
 	public <X extends Member> void accumulateInheritedMembers(final Class<X> kind, List<X> current) throws LookupException;
 	

@@ -16,6 +16,12 @@ public abstract class CompositeTest {
 	@Before
 	public void setCaching() {
 	  Config.setCaching(true);
+//	  Config.setCacheDeclarations(false);
+//	  Config.setCacheElementProperties(false);
+//    Config.setCacheElementReferences(false);
+//	  Config.setCacheExpressionTypes(false);
+//	  Config.setCacheLanguage(false);
+//	  Config.setCacheSignatures(false);
 	}
 
 	/**

@@ -62,7 +62,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * @return
    * @throws LookupException
    */
-  public D actualDeclaration(Declaration declarator) throws LookupException {
+  protected D actualDeclaration(Declaration declarator) throws LookupException {
   	Declaration<?, ?> declaration = declarator.selectionDeclaration();
 		Declaration actualDeclaration = declaration.actualDeclaration();
 		if(selectedClass().isInstance(actualDeclaration)) {
@@ -80,7 +80,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @
    @ post \result != null;
    @*/
-  public abstract Class<D> selectedClass();
+  protected abstract Class<D> selectedClass();
   
   /**
    * Return the list of declarations in the given set that are selected.
@@ -110,9 +110,9 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @
    @ post \result != null;
    @*/
-  public abstract WeakPartialOrder<D> order();
+  protected abstract WeakPartialOrder<D> order();
 
-	public void applyOrder(List<D> tmp) throws LookupException {
+	protected void applyOrder(List<D> tmp) throws LookupException {
 		order().removeBiggerElements(tmp);
 	}
 
