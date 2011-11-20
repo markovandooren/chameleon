@@ -61,9 +61,8 @@ public class LocalLookupStrategy<E extends DeclarationContainer> extends LookupS
    * @return
    * @throws LookupException
    */
-  protected <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
-  	//return declarationContainer().declarations(selector);
-  	return selector.declarations(declarationContainer());
+  protected <D extends Declaration> void declarations(DeclarationCollector<D> selector) throws LookupException {
+  	selector.process(declarationContainer());
   }
 
   /**
@@ -73,20 +72,8 @@ public class LocalLookupStrategy<E extends DeclarationContainer> extends LookupS
    * LookupException is thrown since the lookup is ambiguous.
    */
 	@Override
-	public <D extends Declaration> D lookUp(DeclarationSelector<D> selector) throws LookupException {
-	  List<D> tmp = declarations(selector);
-	  int size = tmp.size();
-	  if(size == 1) {
-	    return tmp.iterator().next();
-	  } else if (size == 0) {
-	    return null;
-	  } else {
-	 // Disable declaration cache before we go debugging.
-      //Config.setCaching(false);
-	  	((Member<?,?>)tmp.get(0)).overrides(((Member<?,?>)tmp.get(1)));
-	  	tmp = declarations(selector);
-	    throw new LookupException("Multiple matches found in "+declarationContainer().toString() + " using selector "+selector.toString(),selector);
-	  }
+	public <D extends Declaration> void lookUp(DeclarationCollector<D> collector) throws LookupException {
+	  declarations(collector);
 	}
 
 }
