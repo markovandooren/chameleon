@@ -13,6 +13,7 @@ import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.DeclarationCollector;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
@@ -128,27 +129,29 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,TargetDeclaratio
 	   	return result;
 	  }
 
+		DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
 	  CrossReferenceTarget<?> target = getTarget();
     if(target != null) {
-      result = target.targetContext().lookUp(selector);//findElement(getName());
+      target.targetContext().lookUp(collector);
     } else {
-      result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
+      lexicalLookupStrategy().lookUp(collector);
     }
-    if(result != null) {
-	  	//OPTIMISATION
+    result = collector.result();
+//    if(result != null) {
+//	  	//OPTIMISATION
 	  	if(cache) {
 	  		setCache((TargetDeclaration) result);
 	  	}
       return result;
-    } else {
-    	// repeat for debugging purposes
-      if(target != null) {
-        result = target.targetContext().lookUp(selector);//findElement(getName());
-      } else {
-        result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
-      }
-    	throw new LookupException("Lookup of named target with name: "+name()+" returned null.");
-    }
+//    } else {
+//    	// repeat for debugging purposes
+//      if(target != null) {
+//        result = target.targetContext().lookUp(selector);//findElement(getName());
+//      } else {
+//        result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
+//      }
+//    	throw new LookupException("Lookup of named target with name: "+name()+" returned null.");
+//    }
   }
   
   public DeclarationSelector<TargetDeclaration> selector() {

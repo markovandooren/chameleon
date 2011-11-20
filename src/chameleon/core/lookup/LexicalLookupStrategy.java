@@ -77,6 +77,8 @@ public class LexicalLookupStrategy extends LookupStrategy {
 
 	public <D extends Declaration> void lookUp(DeclarationCollector<D> selector) throws LookupException {
 		localContext().lookUp(selector);
-		selector.proceed(nextStrategy());
+		if(selector.willProceed()) {
+		  selector.proceed(nextStrategy());
+		}
 	}
 }

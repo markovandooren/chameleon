@@ -9,6 +9,7 @@ import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.DeclarationCollector;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
@@ -128,35 +129,36 @@ public abstract class ElementReferenceWithTarget<E extends ElementReferenceWithT
 	   	return result;
 	   }
 	   
+		DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
 	  CrossReferenceTarget<?> targetReference = getTarget();
 	  if(targetReference != null) {
 //	  	TargetDeclaration<?,?> target = targetReference.getElement();
 //	  	if(target != null) {
-	  		result = targetReference.targetContext().lookUp(selector);
+	  		targetReference.targetContext().lookUp(collector);
 //	  	} else {
 //	  		throw new LookupException("Lookup of target of NamespaceOrVariableReference returned null",targetReference);
 //	  	}
 	  }
 	  else {
-	  	result = lexicalLookupStrategy().lookUp(selector);
+	  	lexicalLookupStrategy().lookUp(collector);
 	  }
-		
-	  if(result != null) {
-	  	//OPTIMISATION
+		result = collector.result();
+//	  if(result != null) {
+//	  	//OPTIMISATION
 	  	if(cache) {
 	  		setCache((R) result);
 	  	}
 	  	return result;
-	  } else {
-	  	// repeat lookups for debugging purposes
-	  	//Config.setCaching(false);
-	  	if(targetReference != null) {
-	  		result = targetReference.targetContext().lookUp(selector);
-	  	} else {
-	  		result = lexicalLookupStrategy().lookUp(selector);
-	  	}
-	  	throw new LookupException("Cannot find namespace or type with name: "+signature(),this);
-	  }
+//	  } else {
+//	  	// repeat lookups for debugging purposes
+//	  	//Config.setCaching(false);
+//	  	if(targetReference != null) {
+//	  		result = targetReference.targetContext().lookUp(selector);
+//	  	} else {
+//	  		result = lexicalLookupStrategy().lookUp(selector);
+//	  	}
+//	  	throw new LookupException("Cannot find namespace or type with name: "+signature(),this);
+//	  }
 	 }
 
 //	 public abstract DeclarationSelector<R> selector();

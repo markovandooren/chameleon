@@ -12,6 +12,7 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.DeclarationCollector;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.DeclaratorSelector;
 import chameleon.core.lookup.LookupException;
@@ -166,27 +167,29 @@ public class NamedTargetExpression extends TargetedExpression<NamedTargetExpress
 	   	return result;
 	  }
 	   
+		DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
     CrossReferenceTarget<?> target = getTarget();
     if(target != null) {
-      result = target.targetContext().lookUp(selector);//findElement(getName());
+      target.targetContext().lookUp(collector);//findElement(getName());
     } else {
-      result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
+      lexicalLookupStrategy().lookUp(collector);//findElement(getName());
     }
-    if(result != null) {
-	  	//OPTIMISATION
+    result = collector.result(); 
+//    if(result != null) {
+//	  	//OPTIMISATION
 	  	if(cache) {
 	  		setCache((DeclarationWithType) result);
 	  	}
       return result;
-    } else {
-    	// repeat for debugging purposes
-      if(target != null) {
-        result = target.targetContext().lookUp(selector);//findElement(getName());
-      } else {
-        result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
-      }
-    	throw new LookupException("Lookup of named target with name: "+name()+" returned null.");
-    }
+//    } else {
+//    	// repeat for debugging purposes
+//      if(target != null) {
+//        result = target.targetContext().lookUp(selector);//findElement(getName());
+//      } else {
+//        result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
+//      }
+//    	throw new LookupException("Lookup of named target with name: "+name()+" returned null.");
+//    }
   }
 
 	public DeclarationSelector<DeclarationWithType> selector() {

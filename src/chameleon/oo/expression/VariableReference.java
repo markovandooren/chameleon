@@ -10,6 +10,7 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.DeclarationCollector;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.DeclaratorSelector;
 import chameleon.core.lookup.LookupException;
@@ -135,24 +136,25 @@ public class VariableReference extends Expression<VariableReference> implements 
   
   @SuppressWarnings("unchecked")
   public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
+		DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
     CrossReferenceTarget<?> target = getTarget();
     X result;
     if(target != null) {
-      result = target.targetContext().lookUp(selector);//findElement(getName());
+      target.targetContext().lookUp(collector);//findElement(getName());
     } else {
-      result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
+      lexicalLookupStrategy().lookUp(collector);//findElement(getName());
     }
-    if(result != null) {
-      return result;
-    } else {
-    	// repeat for debugging purposes
-      if(target != null) {
-        result = target.targetContext().lookUp(selector);//findElement(getName());
-      } else {
-        result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
-      }
-    	throw new LookupException("Lookup of named target with name: "+name()+" returned null.");
-    }
+//    if(result != null) {
+      return collector.result();
+//    } else {
+//    	// repeat for debugging purposes
+//      if(target != null) {
+//        result = target.targetContext().lookUp(selector);//findElement(getName());
+//      } else {
+//        result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
+//      }
+//    	throw new LookupException("Lookup of named target with name: "+name()+" returned null.");
+//    }
   }
 
 	public DeclarationSelector<Variable> selector() {

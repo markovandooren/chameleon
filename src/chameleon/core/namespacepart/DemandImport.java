@@ -7,6 +7,7 @@ import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.DeclarationCollector;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.Namespace;
@@ -71,9 +72,13 @@ public class DemandImport extends Import<DemandImport> {
 
 	@Override
 	public <D extends Declaration> List<D> demandImports(DeclarationSelector<D> selector) throws LookupException {
-		D selected = declarationContainer().localStrategy().lookUp(selector);
+		DeclarationCollector<D> collector = new DeclarationCollector<D>(selector);
+		declarationContainer().localStrategy().lookUp(collector);
 		List<D> result = new ArrayList<D>();
-		Util.addNonNull(selected, result);
+		if(! collector.willProceed()) { 
+		  D selected = collector.result();
+		  Util.addNonNull(selected, result);
+		}
 		return result;
 	}
 

@@ -38,15 +38,15 @@ public abstract class DeclarationSelector<D extends Declaration> {
    */
   public abstract String selectionName(DeclarationContainer<?> container) throws LookupException;
   
-//  /**
-//   * Return the declarations of the given declaration container to which selection is applied.
-//   * This round-trip allows both the container and the selector to filter the candidates.
-//   * 
-//   * The default result is container.declarations(this), but clients cannot rely on that.
-//   */
-//  public List<D> declarations(DeclarationContainer container) throws LookupException {
-//  	return container.declarations(this);
-//  }
+  /**
+   * Return the declarations of the given declaration container to which selection is applied.
+   * This round-trip allows both the container and the selector to filter the candidates.
+   * 
+   * The default result is container.declarations(this), but clients cannot rely on that.
+   */
+  public List<D> declarations(DeclarationContainer container) throws LookupException {
+  	return container.declarations(this);
+  }
 
   
   /**

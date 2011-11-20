@@ -11,6 +11,7 @@ import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
+import chameleon.core.lookup.DeclarationCollector;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.DeclaratorSelector;
 import chameleon.core.lookup.LookupException;
@@ -259,8 +260,7 @@ public class CrossReferenceWithArguments<E extends CrossReferenceWithArguments<E
 	 * @
 	 */
 	// public abstract D getMethod() throws MetamodelException;
-	public <X extends Declaration> X getElement(DeclarationSelector<X> selector)
-			throws LookupException {
+	public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
 		X result = null;
 
 		// OPTIMISATION
@@ -272,28 +272,30 @@ public class CrossReferenceWithArguments<E extends CrossReferenceWithArguments<E
 			return result;
 		}
 
+		DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
 		CrossReferenceTarget<?> target = getTarget();
 		if (target == null) {
-			result = lexicalLookupStrategy().lookUp(selector);
+			lexicalLookupStrategy().lookUp(collector);
 		} else {
-			result = target.targetContext().lookUp(selector);
+			target.targetContext().lookUp(collector);
 		}
-		if (result != null) {
-			// OPTIMISATION
+		result = collector.result();
+//		if (result != null) {
+//			// OPTIMISATION
 			if (cache) {
 				setCache((Declaration) result);
 			}
 			return result;
-		} else {
-			// repeat lookup for debugging purposes.
-			// Config.setCaching(false);
-			if (target == null) {
-				result = lexicalLookupStrategy().lookUp(selector);
-			} else {
-				result = target.targetContext().lookUp(selector);
-			}
-			throw new LookupException("Method returned by invocation is null");
-		}
+//		} else {
+//			// repeat lookup for debugging purposes.
+//			// Config.setCaching(false);
+//			if (target == null) {
+//				result = lexicalLookupStrategy().lookUp(selector);
+//			} else {
+//				result = target.targetContext().lookUp(selector);
+//			}
+//			throw new LookupException("Method returned by invocation is null");
+//		}
 	}
 
 	public E clone() {

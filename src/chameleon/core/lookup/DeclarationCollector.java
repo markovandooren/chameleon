@@ -23,7 +23,10 @@ public class DeclarationCollector<D extends Declaration> {
     if(_accumulator != null) {
     	tmp.addAll(_accumulator);
     }
-		_accumulator = selector().selection(candidates);
+		List<D> t = selector().selection(tmp);
+		if(! t.isEmpty()) {
+			_accumulator = t;
+		}
 	}
 	
 	public D result() throws LookupException {
@@ -46,7 +49,7 @@ public class DeclarationCollector<D extends Declaration> {
    * The default result is container.declarations(this), but clients cannot rely on that.
    */
   public void process(DeclarationContainer<?> container) throws LookupException {
-  	container.declarations(this);
+  	container.declarations(selector());
   }
 
 	public void proceed(LookupStrategy next) throws LookupException {

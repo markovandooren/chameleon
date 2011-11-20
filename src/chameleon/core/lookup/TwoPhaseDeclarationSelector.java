@@ -92,7 +92,7 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
   			tmp.add(e);
   		}
   	}
-  	order().removeBiggerElements(tmp);
+  	applyOrder(tmp);
     return tmp;
   }
 
