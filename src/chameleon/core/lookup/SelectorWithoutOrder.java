@@ -3,6 +3,8 @@
  */
 package chameleon.core.lookup;
 
+import java.util.List;
+
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
@@ -64,6 +66,13 @@ public abstract class SelectorWithoutOrder<D extends Declaration> extends TwoPha
 	@Override
 	public boolean selectedRegardlessOfName(D declaration) throws LookupException {
 		return true;
+	}
+
+	/**
+	 * This method does nothing because this selector has no real order.
+	 */
+	@Override
+	protected void applyOrder(List<D> tmp) throws LookupException {
 	}
 
 	/** 

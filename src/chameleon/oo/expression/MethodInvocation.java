@@ -47,7 +47,7 @@ public abstract class MethodInvocation<E extends MethodInvocation<E, D>, D exten
 		return _selector;
 	}
 
-	protected CrossReferenceWithArguments crossReference() {
+	public CrossReferenceWithArguments crossReference() {
 		return _crossReference.getOtherEnd();
 	}
 

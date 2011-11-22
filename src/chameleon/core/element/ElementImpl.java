@@ -620,7 +620,7 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
     	if(result == null) {
     		Element parent = parent();
     		if(parent != null) {
-    			result = parent().language();
+    			result = parent.language();
     			if(Config.cacheLanguage() == true) {
     			  _languageCache = result;
     			}
@@ -988,7 +988,7 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
      * Flush language cache and property cache.
      */
     public synchronized void flushLocalCache() {
-    	_languageCache = null;
+//    	_languageCache = null;
     	if(_propertyCache != null) {
     	  _propertyCache.clear();
     	}
