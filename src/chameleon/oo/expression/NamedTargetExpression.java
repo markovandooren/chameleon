@@ -47,6 +47,10 @@ public class NamedTargetExpression extends TargetedExpression<NamedTargetExpress
   public String name() {
     return signature().name();
   }
+  
+  public String toString() {
+  	return name();
+  }
 
   public void setName(String name) {
     _signature.setName(name);
