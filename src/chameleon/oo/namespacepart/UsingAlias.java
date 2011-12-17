@@ -1,9 +1,7 @@
-package chameleon.core.namespacepart;
+package chameleon.oo.namespacepart;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.rejuse.association.SingleAssociation;
 
@@ -15,7 +13,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.namespace.NamespaceOrTypeReference;
-import chameleon.core.reference.ElementReference;
+import chameleon.core.namespacepart.Import;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;

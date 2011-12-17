@@ -1,4 +1,4 @@
-package chameleon.core.namespacepart;
+package chameleon.oo.namespacepart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.namespacepart.Import;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.type.Type;
