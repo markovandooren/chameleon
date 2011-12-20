@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="import" name="chameleon" xmlns:ivy="antlib:org.apache.ivy.ant">
+    <property file="../chameleon.properties"/>
+    <path id="ivy.lib.path">
+      <fileset file="${ivy.jar}"/>
+      <fileset file="../lib/jsch-0.1.45.jar"/>
+    </path>
+    <taskdef resource="org/apache/ivy/ant/antlib.xml"
+             uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+
+    <target name="init-ivy">
+      <ivy:settings file="copy_to_chameleon_repository.xml"/>
+    </target>
+    <target name="import" depends="init-ivy">
+      <ivy:install organisation="junit" module="junit" revision="4.10"
+                   from="maven" to="chameleon"/>
+    </target>
+</project>

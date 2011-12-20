@@ -1,0 +1,13 @@
+<ivysettings>
+        <properties file="ivy.properties"/>
+	<settings	defaultCache="${ivy.cache.dir}"	
+			defaultResolver="chameleon"
+			defaultConflictManager="all" />		<!-- in order to get all revisions without any eviction -->
+	<resolvers>
+  		<sftp keyFile="${ssh.keyfile}" user="marko" host="${chameleon.repository.host}" name="chameleon">
+  			<ivy pattern="${chameleon.repository.dir}/[organisation]/[module]/ivys/ivy-[revision].xml"/>
+  			<artifact pattern="${chameleon.repository.dir}/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"/>
+  		</sftp>
+		<ibiblio name="maven" m2compatible="true" />
+	</resolvers>
+</ivysettings>
