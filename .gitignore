@@ -3,3 +3,5 @@ bin
 scratchbook
 .classpath
 .project
+chameleon.properties
+ivy/ivy.properties
