@@ -1,6 +1,6 @@
 <ivysettings>
-        <properties file="ivy.properties.custom"/>
         <properties file="ivy.properties"/>
+        <properties file="ivy.default.properties"/>
 	<settings	defaultCache="${ivy.cache.dir}"	
 			defaultResolver="chameleon"
 			defaultConflictManager="all" />		<!-- in order to get all revisions without any eviction -->
