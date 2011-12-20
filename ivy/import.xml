@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project basedir="." default="import" name="chameleon" xmlns:ivy="antlib:org.apache.ivy.ant">
+    <property file="../chameleon.properties.custom"/>
     <property file="../chameleon.properties"/>
     <path id="ivy.lib.path">
       <fileset file="${ivy.jar}"/>

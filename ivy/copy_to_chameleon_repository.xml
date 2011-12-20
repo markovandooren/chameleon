@@ -1,4 +1,5 @@
 <ivysettings>
+        <properties file="ivy.properties.custom"/>
         <properties file="ivy.properties"/>
 	<settings	defaultCache="${ivy.cache.dir}"	
 			defaultResolver="chameleon"
