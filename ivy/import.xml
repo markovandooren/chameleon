@@ -14,6 +14,10 @@
     </target>
     <target name="import" depends="init-ivy">
       <ivy:install organisation="junit" module="junit" revision="4.10"
-                   from="maven" to="chameleon"/>
+                   from="maven" to="pubchameleon"
+                   transitive="true" overwrite="true"/>
+      <ivy:install organisation="com.jcraft" module="jsch" revision="0.1.45"
+                   from="maven" to="pubchameleon"
+                   transitive="true" overwrite="true"/>
     </target>
 </project>

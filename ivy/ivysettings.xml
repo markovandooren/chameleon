@@ -1,0 +1,14 @@
+<ivysettings>
+        <properties file="ivy.properties"/>
+        <properties file="ivy.default.properties"/>
+	<settings	defaultCache="${ivy.cache.dir}"	
+			defaultResolver="chameleon"
+			defaultConflictManager="all" />		<!-- in order to get all revisions without any eviction -->
+	<resolvers>
+  		<url name="chameleon" m2compatible="true">
+          <artifact pattern="${chameleon.repository.url}/[organisation]/[module]/ivys/ivy-[revision].xml"/>
+		  <artifact pattern="${chameleon.repository.url}/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"/>
+  		</url>
+		<ibiblio name="maven" m2compatible="true" />
+	</resolvers>
+</ivysettings>
