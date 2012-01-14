@@ -1,6 +1,7 @@
-<ivy-module>
-  <info organisation="distrinet" module="chameleon"/>
+<ivy-module version="2.0">
+  <info organisation="distrinet.cs.kuleuven.be" module="chameleon"/>
   <dependencies>
     <dependency org="junit" name="junit" rev="4.10"/>
+    <dependency org="distrinet.cs.kuleuven.be" name="rejuse" rev="latest.integration"/>
   </dependencies>
 </ivy-module>
