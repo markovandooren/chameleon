@@ -1,0 +1,41 @@
+//package chameleon.aspect.oo.weave.infrastructure;
+//package chameleon.aspect.oo.weaver.factory;
+//
+//import java.util.List;
+//
+//import chameleon.aspect.oo.advice.ProceedCall;
+//import chameleon.aspect.oo.advice.ProgrammingAdvice;
+//import chameleon.aspect.oo.advice.transformation.AdviceMethodFactory;
+//import chameleon.core.expression.Expression;
+//import chameleon.core.statement.Block;
+//import chameleon.oo.language.ObjectOrientedLanguage;
+//import chameleon.oo.type.Type;
+//import chameleon.support.expression.ClassCastExpression;
+//
+//public class AroundExpression extends AdvisedExpressionFactory {
+//
+//	public AroundExpression(AdviceMethodFactory factory) {
+//		super(factory);
+//	}
+//	
+//	public Block createBody() {
+//		ProgrammingAdvice<?> advice = factory().getAdvice();
+//		Block adviceBody = advice.body().clone();
+//		
+//		// Replace each proceed call to the method call
+//		List<ProceedCall> proceedCalls = adviceBody.descendants(ProceedCall.class);
+//		
+//		ObjectOrientedLanguage lang = (ObjectOrientedLanguage) advice.language(ObjectOrientedLanguage.class);
+//		for (ProceedCall pc : proceedCalls) {
+//			Expression<?> expr = factory().next(pc);
+//			// Note that if the return type is a primitive, we first have to cast the primitive to its boxed variant, then cast to T
+//			Type type = advice.actualReturnType().getType();
+//
+//			Expression<?> reflectiveCallInvocation = factory().wrapProceed(expr);
+//			
+//			pc.parentLink().getOtherRelation().replace(pc.parentLink(), actualReturnExpression.parentLink());
+//		}
+//		return adviceBody;
+//	}
+//
+//}
