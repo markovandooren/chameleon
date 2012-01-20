@@ -23,5 +23,8 @@
       <ivy:install organisation="log4j" module="log4j" revision="1.2.16"
                    from="maven" to="pubchameleon"
                    transitive="true" overwrite="true"/>
+      <ivy:install organisation="org.antlr" module="antlr-runtime" revision="3.2"
+                   from="maven" to="pubchameleon"
+                   transitive="true" overwrite="true"/>
     </target>
 </project>
