@@ -1,0 +1,6 @@
+<ivy-module version="1.0">
+  <info organisation="dummy" module="bootstrap"/>
+  <dependencies>
+    <dependency org="com.jcraft" name="jsch" rev="0.1.45"/>
+  </dependencies>
+</ivy-module>

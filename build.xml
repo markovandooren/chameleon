@@ -28,6 +28,13 @@
       <pathelement location="lib/rejuse-1.0.0.jar"/>
   </path> -->
 
+  <target name="bootstrap">
+    <ivy:settings file="ivy/generic_ivy_settings.xml"/>
+    <ivy:resolve file="ivy/bootstrap.xml"/>
+    <ivy:retrieve/>
+  </target>
+
+
   <target name="init-ivy">
     <ivy:settings file="ivy/ivysettings.xml"/>
     <ivy:resolve file="ivy/ivy.xml"/>
