@@ -23,6 +23,8 @@ public abstract class VariableImpl<E extends VariableImpl<E>>
        extends NamespaceElementImpl<E>
        implements Variable<E> {
 	
+	public abstract E clone();
+
 	public VariableImpl(SimpleNameSignature signature) {
 		setSignature(signature);
 	}

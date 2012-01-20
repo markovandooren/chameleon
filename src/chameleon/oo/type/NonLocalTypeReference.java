@@ -26,6 +26,8 @@ public abstract class NonLocalTypeReference<E extends NonLocalTypeReference> ext
 			setLookupParent(lookupParent);
 		}
 	
+	public abstract E clone();
+	
 	public TypeReference actualReference() {
 		return _actual.getOtherEnd();
 	}

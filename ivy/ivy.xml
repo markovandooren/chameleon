@@ -2,6 +2,7 @@
   <info organisation="distrinet.cs.kuleuven.be" module="chameleon"/>
   <dependencies>
     <dependency org="junit" name="junit" rev="4.10"/>
-    <dependency org="distrinet.cs.kuleuven.be" name="rejuse" rev="latest.integration"/>
+    <dependency org="log4j" name="log4j" rev="1.2.16"/>
+    <dependency org="distrinet.cs.kuleuven.be" name="rejuse" rev="1.0.0"/>
   </dependencies>
 </ivy-module>

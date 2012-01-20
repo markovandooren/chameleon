@@ -6,7 +6,7 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 
-public abstract class OverridesRelation<D extends Declaration<?,?>> extends DeclarationComparator<D> {
+public abstract class OverridesRelation<D extends Declaration> extends DeclarationComparator<D> {
 
 	public OverridesRelation(Class<D> kind) {
 		super(kind);

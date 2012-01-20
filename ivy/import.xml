@@ -10,13 +10,17 @@
              uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
 
     <target name="init-ivy">
-      <ivy:settings file="copy_to_chameleon_repository.xml"/>
+      <!-- <ivy:settings file="copy_to_chameleon_repository.xml"/> -->
+      <ivy:settings file="ivysettings.xml"/>
     </target>
     <target name="import" depends="init-ivy">
       <ivy:install organisation="junit" module="junit" revision="4.10"
                    from="maven" to="pubchameleon"
                    transitive="true" overwrite="true"/>
       <ivy:install organisation="com.jcraft" module="jsch" revision="0.1.45"
+                   from="maven" to="pubchameleon"
+                   transitive="true" overwrite="true"/>
+      <ivy:install organisation="log4j" module="log4j" revision="1.2.16"
                    from="maven" to="pubchameleon"
                    transitive="true" overwrite="true"/>
     </target>

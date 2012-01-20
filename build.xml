@@ -1,28 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project basedir="." default="build" name="Chameleon">
-    <property environment="env"/>
-    <property name="target" value="1.6"/>
-    <property name="source" value="1.6"/>
-    <path id="chameleon.classpath">
-        <pathelement location="lib/log4j-1.2.15.jar"/>
-        <pathelement location="lib/junit-4.7.jar"/>
-    </path>
-    <target name="init">
-        <mkdir dir="bin"/>
-        <copy includeemptydirs="false" todir="bin">
-            <fileset dir="src">
-                <exclude name="**/*.launch"/>
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="clean">
-        <delete dir="bin"/>
-    </target>
-    <target depends="compile" name="build-project">
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
-            <src path="src"/>
-            <classpath refid="chameleon.classpath"/>
-        </javac>
-    </target>
+<project basedir="." default="build" name="Chameleon" xmlns:ivy="antlib:org.apache.ivy.ant">
+  <property file="properties"/>
+  <property file="default.properties"/>
+
+  <path id="ivy.lib.path">
+    <fileset file="${ivy.jar}"/>
+    <fileset file="lib/jsch-0.1.45.jar"/>
+  </path>
+
+  <taskdef resource="org/apache/ivy/ant/antlib.xml"
+           uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+
+  <property environment="env"/>
+  <property name="target" value="1.6"/>
+  <property name="source" value="1.6"/>
+  <property name="dist" value="dist"/>
+  <property name="dist.local" value="dist/local"/>
+  <property name="lib" value="lib"/>
+  <property name="bin" value="${dist}/bin"/>
+  <property name="dist.jar" value="${dist}/jar"/>
+  <property name="dist.local.jar" value="${dist.local}/jar"/>
+  <property name="src" value="src"/>
+
+  <!-- <path id="chameleon.classpath">
+      <pathelement location="lib/log4j-1.2.16.jar"/>
+      <pathelement location="lib/junit-4.10.jar"/>
+      <pathelement location="lib/rejuse-1.0.0.jar"/>
+  </path> -->
+
+  <target name="init-ivy">
+    <ivy:settings file="ivy/ivysettings.xml"/>
+    <ivy:resolve file="ivy/ivy.xml"/>
+    <ivy:retrieve/>
+    <ivy:buildnumber organisation="distrinet.cs.kuleuven.be" module="chameleon"/>
+    <ivy:cachepath pathid="chameleon.classpath" conf="default" />
+  </target>
+
+  <target name="init" depends="init-ivy">
+    <mkdir dir="${dist}"/>
+    <mkdir dir="${bin}"/>
+    <mkdir dir="${dist.jar}"/>
+    <mkdir dir="${dist.local}"/>
+    <mkdir dir="${dist.local.jar}"/>
+
+    <copy includeemptydirs="false" todir="${bin}">
+      <fileset dir="${src}">
+        <exclude name="**/*.launch"/>
+        <exclude name="**/*.java"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="clean">
+    <delete dir="${dist}"/>
+  </target>
+
+  <target name="compile" depends="init">
+    <javac debug="true" debuglevel="${debuglevel}" destdir="${bin}" source="${source}" target="${target}">
+      <src path="${src}"/>
+      <classpath refid="chameleon.classpath"/>
+    </javac>
+  </target>
+
+  <target name="build" depends="compile">
+  </target>
 </project>

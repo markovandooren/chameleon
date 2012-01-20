@@ -28,7 +28,9 @@ public abstract class ElementReference<E extends ElementReference, S extends Sig
 	public ElementReference() {
 	}
 	
- /*@
+	public abstract E clone();
+
+	/*@
    @ public behavior
    @
    @ pre name != null;

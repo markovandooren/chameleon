@@ -34,7 +34,9 @@ public abstract class TypeElementImpl<E extends TypeElement<E>> extends ElementW
 		return new CheckedExceptionList();
 	}
 
-  public List<? extends Member> declaredMembers() {
+	public abstract E clone();
+
+	public List<? extends Member> declaredMembers() {
     try {
 			return getIntroducedMembers();
 		} catch (LookupException e) {

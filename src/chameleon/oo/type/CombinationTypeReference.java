@@ -12,6 +12,8 @@ import chameleon.core.namespace.NamespaceElementImpl;
 
 public abstract class CombinationTypeReference<E extends CombinationTypeReference<E>> extends NamespaceElementImpl<E> implements TypeReference<E> {
 
+	public abstract E clone();
+
 	private OrderedMultiAssociation<CombinationTypeReference,TypeReference> _types = new OrderedMultiAssociation<CombinationTypeReference, TypeReference>(this);
 	
 	public CombinationTypeReference() {

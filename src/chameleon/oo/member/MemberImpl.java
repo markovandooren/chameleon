@@ -21,6 +21,8 @@ import chameleon.oo.type.TypeElementImpl;
 
 public abstract class MemberImpl<E extends Member<E,S>,S extends Signature> extends TypeElementImpl<E> implements Member<E,S>{
 
+	public abstract E clone();
+	
   /**
    * Return the signature of this member.
    */

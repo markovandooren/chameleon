@@ -43,6 +43,8 @@ import chameleon.util.Util;
 
 public abstract class Namespace<E extends Namespace<E>> extends ElementImpl<E> implements NamespaceOrType<E,SimpleNameSignature>, DeclarationContainer<E> {
 
+	public abstract E clone();
+
 	//SPEED : use hashmap to store the subnamespaces and forbid
 	//        adding multiple namespaces with the same name. That is
 	//        never useful anyway.
