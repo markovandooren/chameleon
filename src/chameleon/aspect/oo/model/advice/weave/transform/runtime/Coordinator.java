@@ -14,7 +14,7 @@ import chameleon.oo.variable.FormalParameter;
  *
  * 	@param <T>	The type of the advice that is being transformed (e.g. NormalMethod for MethodInvocations)
  */
-public interface Coordinator<T extends Element<?>> {
+public interface Coordinator<T extends Element> {
 	
 	/**
 	 * 	Transform the given advice element to add all applicable runtime checks

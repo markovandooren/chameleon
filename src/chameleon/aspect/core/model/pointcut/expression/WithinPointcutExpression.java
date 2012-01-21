@@ -8,7 +8,7 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 
-public class WithinPointcutExpression extends DeclarationPointcutExpression<WithinPointcutExpression, Element<?>>{
+public class WithinPointcutExpression extends DeclarationPointcutExpression<WithinPointcutExpression, Element>{
 
 	public WithinPointcutExpression(DeclarationPattern pattern, Class<? extends Declaration> type) {
 		super(pattern);
@@ -16,8 +16,8 @@ public class WithinPointcutExpression extends DeclarationPointcutExpression<With
 	}
 
 	@Override
-	public Class<? extends Element<?>> joinPointType() throws LookupException {
-		return (Class<? extends Element<?>>) Element.class;
+	public Class<? extends Element> joinPointType() throws LookupException {
+		return Element.class;
 	}
 
 	@Override
@@ -31,8 +31,8 @@ public class WithinPointcutExpression extends DeclarationPointcutExpression<With
 	}
 
 	@Override
-	protected Declaration declaration(Element<?> joinpoint) throws LookupException {
-		return joinpoint.nearestAncestor(type());
+	protected Declaration declaration(Element joinpoint) throws LookupException {
+		return (Declaration) joinpoint.nearestAncestor(type());
 	}
 	
 	public Class<? extends Declaration> type() {
