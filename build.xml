@@ -69,6 +69,22 @@
     </javac>
   </target>
 
-  <target name="build" depends="compile">
+  <target name="jar" depends="compile">
+    <jar jarfile="${dist.local.jar}/chameleon-local.jar" basedir="${bin}"        includes="**"/>
+  </target>
+
+  <target name="build" depends="jar">
+  </target>
+
+  <target name="build-version" depends="compile">
+    <fail unless="version" message="You must provide a version with the       command line argument -Dversion=major.minor.micro"/>
+    <jar jarfile="${dist.jar}/chameleon-${version}.jar" basedir="${bin}"         includes="**"/>
+    <echo message="${ant.project.name}: ${ant.file}"/>
+  </target>
+
+  <target name="publish" depends="build-version">
+    <ivy:publish resolver="pubchameleon" pubrevision="${version}"             overwrite="true">
+      <artifacts pattern="${dist.jar}/[artifact]-[revision].[ext]"/>
+    </ivy:publish>
   </target>
 </project>
