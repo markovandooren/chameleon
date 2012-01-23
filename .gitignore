@@ -1,7 +1,9 @@
 bin
 .DS_Store
+lib
+dist
 scratchbook
 .classpath
 .project
-chameleon.properties
 ivy/ivy.properties
+properties
