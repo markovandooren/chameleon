@@ -22,25 +22,18 @@
   <property name="dist.local.jar" value="${dist.local}/jar"/>
   <property name="src" value="src"/>
 
-  <!-- <path id="chameleon.classpath">
-      <pathelement location="lib/log4j-1.2.16.jar"/>
-      <pathelement location="lib/junit-4.10.jar"/>
-      <pathelement location="lib/rejuse-1.0.0.jar"/>
-  </path> -->
-
   <target name="bootstrap">
     <ivy:settings file="ivy/generic_ivy_settings.xml"/>
     <ivy:resolve file="ivy/bootstrap.xml"/>
     <ivy:retrieve/>
   </target>
 
-
   <target name="init-ivy">
     <ivy:settings file="ivy/ivysettings.xml"/>
     <ivy:resolve file="ivy/ivy.xml"/>
     <ivy:retrieve/>
     <ivy:buildnumber organisation="distrinet.cs.kuleuven.be" module="chameleon"/>
-    <ivy:cachepath pathid="chameleon.classpath" conf="default" />
+    <ivy:cachepath pathid="project.classpath" conf="default" />
   </target>
 
   <target name="init" depends="init-ivy">
@@ -65,7 +58,7 @@
   <target name="compile" depends="init">
     <javac debug="true" debuglevel="${debuglevel}" destdir="${bin}" source="${source}" target="${target}">
       <src path="${src}"/>
-      <classpath refid="chameleon.classpath"/>
+      <classpath refid="project.classpath"/>
     </javac>
   </target>
 
