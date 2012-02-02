@@ -218,6 +218,7 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 		      Association childLink = element.parentLink().getOtherRelation();
 		      childLink.replace(element.parentLink(), newElement.parentLink());
 		      done = true;
+		      break;
 		    }
 			} catch(ParseException exc) {
 			} catch (NoLocationException e) {
