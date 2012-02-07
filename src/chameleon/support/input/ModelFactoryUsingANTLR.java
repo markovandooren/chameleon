@@ -223,12 +223,13 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 			} catch(ParseException exc) {
 			} catch (NoLocationException e) {
 			}
-			Element<?> old = element;
-			element = element.parent();
-			if(element == null) {
-				throw new ParseException(old.nearestAncestor(CompilationUnit.class));
+			if(! done) {
+				Element<?> old = element;
+				element = element.parent();
+				if(element == null) {
+					throw new ParseException(old.nearestAncestor(CompilationUnit.class));
+				}
 			}
-
 		}
 	}
 	
