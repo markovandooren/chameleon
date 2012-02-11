@@ -23,7 +23,10 @@ import org.rejuse.io.DirectoryScanner;
 
 import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.element.Element;
+import chameleon.core.language.Language;
+import chameleon.core.tag.Tag;
 import chameleon.exception.ChameleonProgrammerException;
+import chameleon.input.InputProcessor;
 import chameleon.input.ModelFactory;
 import chameleon.input.NoLocationException;
 import chameleon.input.ParseException;
@@ -207,6 +210,7 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 
 	public void reParse(Element<?> element) throws ParseException {
 		CompilationUnit compilationUnit = element.nearestAncestor(CompilationUnit.class);
+		Language lang = element.language();
 		boolean done = false;
 		while((element != null) && (! done)){
 			try {
@@ -217,6 +221,7 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 		      // Use raw type here, we can't really type check this.
 		      Association childLink = element.parentLink().getOtherRelation();
 		      childLink.replace(element.parentLink(), newElement.parentLink());
+		      clearPositions(element,lang);
 		      done = true;
 		      break;
 		    }
@@ -233,6 +238,12 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 		}
 	}
 	
+	private void clearPositions(Element<?> element, Language lang) {
+   	for(InputProcessor processor: lang.processors(InputProcessor.class)) {
+   		processor.removeLocations(element);
+   	}
+	}
+
 	protected abstract <P extends Element> Element parse(Element<?> element, String text) throws ParseException;
 
 
