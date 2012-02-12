@@ -34,7 +34,13 @@
     <ivy:resolve file="ivy/ivy.xml"/>
     <ivy:retrieve/>
     <ivy:buildnumber organisation="distrinet.cs.kuleuven.be" module="chameleon"/>
-    <ivy:cachepath pathid="project.classpath" conf="default" />
+    <ivy:cachepath pathid="ivy.classpath" conf="default" />
+    <path id="project.classpath">
+      <path refid="ivy.classpath"/>
+      <fileset dir="${eclipse.home}">
+        <include name="**/*.jar"/>
+      </fileset>
+    </path>
   </target>
 
   <target name="init" depends="init-ivy">

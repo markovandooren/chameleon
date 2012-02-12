@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project default="javadoc">
-<target name="javadoc">
-<javadoc access="public" author="true" classpath="bin:/Users/marko/git/rejuse/lib/jregex1.2_00.jar:lib/log4j-1.2.15.jar:/Users/marko/git/rejuse/dist/classes:lib/junit.jar:/Users/marko/git/rejuse/lib/junit.jar" destdir="doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="chameleon.core.declaration,chameleon.support.type,chameleon.core.modifier,chameleon.core.type,chameleon.core.method,chameleon.core.namespace,chameleon.support.modifier,chameleon.core.method.exception,chameleon.core.comment,chameleon.core.variable,chameleon.core.compilationunit,chameleon.core.tag,chameleon.core,chameleon.core.statement,chameleon.support.member.simplename.operator.infix,chameleon.support.statement,chameleon.support.property.accessibility,chameleon.core.expression,chameleon.core.namespacepart,chameleon.input,chameleon.core.element,chameleon.support.rule.member,chameleon.support.member.simplename.method,chameleon.core.lookup,chameleon.core.type.generics,chameleon.support.member.simplename.operator.prefix,chameleon.support.member.simplename,chameleon.tool,chameleon.core.relation,chameleon.support.expression,chameleon.support.variable,chameleon.core.type.inheritance,chameleon.util,chameleon.support.tool,chameleon.support.member.simplename.operator,chameleon.linkage,chameleon.core.reference,chameleon.core.scope,chameleon.support.member,chameleon.core.property,chameleon.support.member.simplename.variable,chameleon.support.member.simplename.operator.postfix,chameleon.core.member,chameleon.output,chameleon.core.language" source="1.5" sourcepath="/Users/marko/git/chameleon-support/src:src" splitindex="true" use="true" version="true">
-<link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
-<link href="file:/Users/marko/git/chameleon/doc/"/>
-</javadoc>
-</target>
-</project>

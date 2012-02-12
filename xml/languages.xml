@@ -1,0 +1,4 @@
+<supportedLanguages>
+	<Language name="Java" fqn="org.jnome.input.MetaModelFactory" writerFQN="org.jnome.output.JavaCodeWriter"/>
+	<Language name="CSharp" fqn="org.cnome.input.MetaModelFactory" writerFQN="org.cnome.output.CSharpCodeWriter"/>
+</supportedLanguages>

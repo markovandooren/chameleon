@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   
+    <extension-point id="chameleon.eclipse.language" name="Language" schema="schema/chameleon.eclipse.language.exsd"/>
+
+   	<extension
+       id="chameleon.editor.editors.ChameleonEditor"
+       name="Chameleon Editor"
+       point="org.eclipse.ui.editors">
+      <editor
+            class="chameleon.editor.editors.ChameleonEditor"
+            contributorClass="chameleon.editor.editors.actions.ChameleonEditorActionContributor"
+            default="true"
+            icon="icons/chameleon.png"
+            id="chameleon.editor.editors.ChameleonEditor"
+            name="Chameleon Editor">
+      <contentTypeBinding contentTypeId="be.chameleon.eclipse.chameleonsource"/>
+      </editor>
+   </extension>
+   
+   
+   <extension
+         id="ChameleonNature"
+         name="Chameleon Project"
+         point="org.eclipse.core.resources.natures">
+         <runtime>
+         	<run class="chameleon.editor.project.ChameleonProjectNature">
+         </run>
+      </runtime>
+      <builder id="be.chameleon.eclipse.ChameleonBuilder"/>
+      <content-type id="be.chameleon.eclipse.chameleonsource"/>
+   </extension>
+   
+   <extension
+         id="chameleon.editor.project.ProjectWizard"
+         name="ChameleonProject"
+         point="org.eclipse.ui.newWizards"
+        >
+       	<category
+         name="Chameleon"
+         id="chameleon.category1">
+   </category>
+      <wizard
+            class="chameleon.editor.project.ProjectWizard"
+            id="chameleon.editor.ProjectWizard"
+            name="New Chameleon Project"
+            icon="icons/chameleon.png"
+            category="chameleon.category1"            
+            project="true">
+            <description>Creates a new Chameleon Project</description>
+      </wizard>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="ChameleonEditorPreferencePage"
+            class="chameleon.editor.editors.preferences.ColoringPreferencePage"
+            id="ColoringPreferencePage"
+            name="Syntax Coloring"/>
+      <page
+            category="ChameleonEditorPreferencePage"
+            class="chameleon.editor.editors.preferences.OutlinePreferencePage"
+            id="OutlinePreferencePage"
+            name="Outline Elements"/>
+      <page
+            category="ChameleonEditorPreferencePage"
+            class="chameleon.editor.editors.preferences.FormatterPreferencePage"
+            id="FormatterPreferencePage"
+            name="Formatting"/>
+      <page
+            class="chameleon.editor.editors.preferences.ChameleonEditorPreferencePage"
+            id="ChameleonEditorPreferencePage"
+            name="ChameleonEditor"/>
+   </extension>
+
+<extension
+      id="problemmarker" 
+      point="org.eclipse.core.resources.markers" 
+      name="%problemName">
+      <super type="org.eclipse.core.resources.marker"/>
+      <persistent value="true"/>
+      <attribute name="severity"/>
+      <attribute name="message"/>
+      <attribute name="location"/>
+   </extension>
+   <extension
+      id="taskmarker" 
+      point="org.eclipse.core.resources.markers" 
+      name="%taskName">
+      <super type="org.eclipse.core.resources.marker"/>
+      <persistent value="true"/>
+      <attribute name="priority"/>
+      <attribute name="message"/>
+      <attribute name="done"/>
+      <attribute name="userEditable"/>      
+   </extension>
+   <extension
+      id="bookmark" 
+      point="org.eclipse.core.resources.markers" 
+      name="%bookmarkName">
+      <super type="org.eclipse.core.resources.marker"/>
+      <persistent value="true"/>
+      <attribute name="message"/>
+      <attribute name="location"/>
+   </extension>
+  
+  <extension point ="org.eclipse.ui.actionSets">
+  	<actionSet 
+  		id="chameleon.editor.actionSet"
+		label="ChameleonActions">
+ 
+   	<action
+       definitionId="chameleon.editor.actions.format"
+       label="FormatAction.label"
+       retarget="true"
+       id="chameleon.editor.actions.format">
+     </action>
+     <action
+       definitionId="chameleon.editor.actions.opensubhierarchy"
+       label="HierarchyAction.label"
+       retarget="true"
+       id="chameleon.editor.actions.opensubhierarchy">
+     </action>
+     <action
+       definitionId="chameleon.editor.actions.opensuperhierarchy"
+       label="HierarchyAction.label"
+       retarget="true"
+       id="chameleon.editor.actions.opensuperhierarchy">
+     </action>
+    </actionSet>
+   </extension>
+   
+   <extension point="org.eclipse.ui.commands">
+	<command
+        name="formatting"
+        description="Auto-Formatting"
+        id="chameleon.editor.actions.format">
+  </command>
+  <command
+        name="hierarchy"
+        description="Open Sub-Type hierarchy"
+        id="chameleon.editor.actions.opensubhierarchy">
+  </command>
+  <command
+        name="hierarchy"
+        description="Open Super-Type hierarchy"
+        id="chameleon.editor.actions.opensuperhierarchy">
+  </command>
+  </extension>
+
+  <!-- TODO: doesn't work yet: -->
+  <extension point="org.eclipse.ui.bindings">
+	<key sequence="CTRL+I"
+		commandId="chameleon.editor.actions.format"
+		schemeId="default"
+		contextId="org.eclipse.ui.contexts.window" />
+	<scheme name="default"
+		description="Default shortcuts for Chameleon"
+		id="default" />
+	</extension>
+
+  <extension point="org.eclipse.ui.views" >
+	  <category 
+	    id="chameleon.editor.ChameleonEditorPlugin"
+	    name="Chameleon editor">
+	  </category>
+	
+	  <view 
+		  id="chameleon.editor.ChameleonEditorPlugin.hierarchyview" 
+		  name="Type Hierarchy"
+		  icon="icons/type_hierarchy.gif"
+		  category="chameleon.editor.ChameleonEditorPlugin"
+		  class="chameleon.editor.presentation.hierarchy.HierarchyView"/>
+	
+	  <view 
+		  id="chameleon.editor.ChameleonEditorPlugin.callhierarchyview" 
+		  name="Call Hierarchy"
+		  icon="icons/call_hierarchy.gif"
+		  category="chameleon.editor.ChameleonEditorPlugin"
+		  class="chameleon.editor.presentation.callhierarchy.CallHierarchyView"/>
+	
+    <view 
+		  id="chameleon.editor.ChameleonEditorPlugin.modelview" 
+		  name="Chameleon Model"
+		  icon="icons/model.gif"
+		  category="chameleon.editor.ChameleonEditorPlugin"
+		  class="chameleon.editor.developertools.modelview.ModelView"/>
+
+	  <view 
+		  id="chameleon.editor.ChameleonEditorPlugin.editortagtextview" 
+		  name="EditorTag Text View"
+		  icon="icons/model.gif"
+		  category="chameleon.editor.ChameleonEditorPlugin"
+		  class="chameleon.editor.developertools.tagview.EditorTagTextView"/>
+	
+	  <view 
+		  id="chameleon.editor.ChameleonEditorPlugin.editortaglistview" 
+		  name="EditorTag List View"
+		  icon="icons/model.gif"
+		  category="chameleon.editor.ChameleonEditorPlugin"
+		  class="chameleon.editor.developertools.tagview.EditorTagListView"/>
+  </extension>
+  
+  <extension
+       id="ChameleonBuilder"
+       name="Chameleon Builder" 
+       point="org.eclipse.core.resources.builders">
+       <builder hasNature="true"> 
+       <run class="chameleon.editor.builder.ChameleonBuilder"/> 
+      </builder>
+  </extension>
+   
+   
+   <extension point="org.eclipse.ui.ide.projectNatureImages">
+     <image id="chameleon.natureImage"
+            natureId="be.chameleon.eclipse.ChameleonNature"
+            icon="icons/chameleon.png">
+     </image>
+   </extension>
+   
+   <extension point="org.eclipse.core.contenttype.contentTypes">
+     <content-type base-type="org.eclipse.core.runtime.text"
+      				     id="chameleonsource"
+      				     name="Chameleon Source Document"
+      				     priority="high"/>
+   </extension>
+
+   
+</plugin>
