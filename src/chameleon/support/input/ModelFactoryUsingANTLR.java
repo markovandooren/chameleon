@@ -83,25 +83,25 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 	}
 
 	public void addToModel(Collection<File> files) throws IOException, ParseException {
-//		final int size = files.size();
-//		class Counter {
-//			private int count;
-//			
-//			synchronized void increase() {
-//				this.count++;
-//			}
-//			synchronized int get() {
-//				return count;
-//			}
-//		}
-//		final Counter counter = new Counter();
+		final int size = files.size();
+		class Counter {
+			private int count;
+			
+			synchronized void increase() {
+				this.count++;
+			}
+			synchronized int get() {
+				return count;
+			}
+		}
+		final Counter counter = new Counter();
 		int availableProcessors = Runtime.getRuntime().availableProcessors();
 		final BlockingQueue<File> fileQueue = new ArrayBlockingQueue<File>(files.size(), true, files);
 
 	  UnsafeAction<File,Exception> unsafeAction = new UnsafeAction<File,Exception>() {
 		public void actuallyPerform(File file) throws IOException, ParseException {
-//					counter.increase();
-//					System.out.println(counter.get()+" of "+size);
+					counter.increase();
+					System.out.println(counter.get()+" of "+size);
   			  addToModel(file);
 		} 
 	  };
