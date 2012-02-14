@@ -100,7 +100,7 @@ public class ArgumentParser {
       if(args[i].startsWith("@")) {
       	NamespaceOrTypeReference ref= new NamespaceOrTypeReference(args[i].substring(1));
       	ref.setUniParent(mm);
-      	Namespace ns = ref.getNamespace();
+      	Namespace ns = (Namespace) ref.getElement();
         types.addAll(ns.allDeclarations(Type.class));
       }
     }
@@ -108,7 +108,7 @@ public class ArgumentParser {
       if(args[i].startsWith("#")) {
       	NamespaceOrTypeReference ref= new NamespaceOrTypeReference(args[i].substring(1));
       	ref.setUniParent(mm);
-      	Namespace ns = ref.getNamespace();
+      	Namespace ns = (Namespace) ref.getElement();
         types.addAll(ns.declarations(Type.class));
       }
     }

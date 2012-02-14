@@ -14,8 +14,6 @@ import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import org.antlr.runtime.RecognitionException;
 import org.rejuse.association.Association;
@@ -24,7 +22,6 @@ import org.rejuse.io.DirectoryScanner;
 import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
-import chameleon.core.tag.Tag;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.InputProcessor;
 import chameleon.input.ModelFactory;
@@ -41,9 +38,9 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 
 	public void initializeBase(Collection<File> base) throws IOException, ParseException {
 		addToModel(base);
-		if(language().defaultNamespace().getSubNamespaces().isEmpty()) {
-			addToModel(base);
-		}
+//		if(language().defaultNamespace().getSubNamespaces().isEmpty()) {
+//			addToModel(base);
+//		}
 		initializePredefinedElements();
 	}
 	
@@ -86,12 +83,25 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 	}
 
 	public void addToModel(Collection<File> files) throws IOException, ParseException {
+//		final int size = files.size();
+//		class Counter {
+//			private int count;
+//			
+//			synchronized void increase() {
+//				this.count++;
+//			}
+//			synchronized int get() {
+//				return count;
+//			}
+//		}
+//		final Counter counter = new Counter();
 		int availableProcessors = Runtime.getRuntime().availableProcessors();
-		ExecutorService executor = Executors.newFixedThreadPool(availableProcessors);
 		final BlockingQueue<File> fileQueue = new ArrayBlockingQueue<File>(files.size(), true, files);
 
 	  UnsafeAction<File,Exception> unsafeAction = new UnsafeAction<File,Exception>() {
 		public void actuallyPerform(File file) throws IOException, ParseException {
+//					counter.increase();
+//					System.out.println(counter.get()+" of "+size);
   			  addToModel(file);
 		} 
 	  };
@@ -113,50 +123,6 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 	  } catch (Exception e) {
 	  	e.printStackTrace();
 	  }
-//
-//		
-//		
-//		
-//		try {
-//		for(int i=0; i < availableProcessors; i++) {
-//			executor.execute(new Runnable() {
-//				@Override
-//				public void run() {
-//					boolean ongoing = true;
-//					while(ongoing) {
-//						File file = fileQueue.poll();
-//						if(file != null) {
-//							try {
-//								addToModel(file);
-//							} catch (IOException e) {
-//								throw new ChameleonProgrammerException(e); 
-//							} catch (ParseException e) {
-//								throw new ChameleonProgrammerException(e); 
-//							}
-//						} else {
-//							ongoing = false;
-//						}
-//					}
-//				}
-//			});
-//		}
-//		} catch(ChameleonProgrammerException exc) {
-//			Throwable cause = exc.getCause();
-//			if(cause instanceof IOException) {
-//				throw (IOException)cause;
-//			} else if(cause instanceof ParseException) {
-//				throw (ParseException) cause;
-//			}
-//			else {
-//				throw exc;
-//			}
-//		}
-//		executor.shutdown();
-//		try {
-//			executor.awaitTermination(100, TimeUnit.HOURS);
-//		} catch (InterruptedException e) {
-//			throw new ChameleonProgrammerException();
-//		}
 	}
 	
 	
