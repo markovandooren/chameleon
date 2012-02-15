@@ -14,7 +14,7 @@ import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public class StubDeclarationContainer extends NamespaceElementImpl<StubDeclarationContainer> implements DeclarationContainer<StubDeclarationContainer> {
+public class StubDeclarationContainer extends NamespaceElementImpl implements DeclarationContainer {
 
 	public void add(Declaration declaration) {
 		setAsParent(_declarations, declaration);

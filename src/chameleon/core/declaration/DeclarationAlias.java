@@ -15,16 +15,16 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ModelException;
 
-public class DeclarationAlias<D extends Declaration> extends NamespaceElementImpl<DeclarationAlias<D>> implements Declaration<DeclarationAlias<D>, Signature> {
+public class DeclarationAlias extends NamespaceElementImpl implements Declaration {
 
-	public DeclarationAlias(Signature signature, D declaration) {
+	public DeclarationAlias(Signature signature, Declaration declaration) {
 		setSignature(signature);
  		_aliasedDeclaration = declaration;
 	}
 	
 	@Override
 	public DeclarationAlias clone() {
-		return new DeclarationAlias<Declaration>(signature().clone(), aliasedDeclaration());
+		return new DeclarationAlias(signature().clone(), aliasedDeclaration());
 	}
 
 	@Override
@@ -39,11 +39,11 @@ public class DeclarationAlias<D extends Declaration> extends NamespaceElementImp
 		return result;
 	}
 
-	public D aliasedDeclaration() {
+	public Declaration aliasedDeclaration() {
 		return _aliasedDeclaration;
 	}
 
-	public D actualDeclaration() {
+	public Declaration actualDeclaration() {
 		return _aliasedDeclaration;
 	}
 
@@ -59,7 +59,7 @@ public class DeclarationAlias<D extends Declaration> extends NamespaceElementImp
    @ signals(MetamodelException) actualDeclaration() == null;
    @*/
 	public Scope scope() throws ModelException {
-		D aliasedDeclaration = aliasedDeclaration();
+		Declaration aliasedDeclaration = aliasedDeclaration();
 		if(aliasedDeclaration != null) {
 		  return aliasedDeclaration.scope();
 		} else {
@@ -67,7 +67,7 @@ public class DeclarationAlias<D extends Declaration> extends NamespaceElementImp
 		}
 	}
 
-	public Declaration<?, ?> selectionDeclaration() throws LookupException {
+	public Declaration selectionDeclaration() throws LookupException {
 		return aliasedDeclaration();
 	}
 
@@ -89,7 +89,7 @@ public class DeclarationAlias<D extends Declaration> extends NamespaceElementImp
 
 	private SingleAssociation<DeclarationAlias, Signature> _signature = new SingleAssociation<DeclarationAlias, Signature>(this); 
 
-	private D _aliasedDeclaration;
+	private Declaration _aliasedDeclaration;
 
 	public Declaration declarator() {
 		return aliasedDeclaration().declarator();

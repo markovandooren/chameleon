@@ -15,7 +15,7 @@ import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public class DeclarationContainerAlias extends NamespaceElementImpl<DeclarationContainerAlias> implements DeclarationContainer<DeclarationContainerAlias> {
+public class DeclarationContainerAlias extends NamespaceElementImpl implements DeclarationContainer {
 
 	public DeclarationContainerAlias(DeclarationContainer parent) {
 		setUniParent(parent);
@@ -90,9 +90,7 @@ public class DeclarationContainerAlias extends NamespaceElementImpl<DeclarationC
 	}
 	
 	public void remove(Declaration element) {
-	  if(element != null) {
-	    _elements.remove(element.parentLink());
-	  }
+	  remove(_elements,element);
 	}
 	
 	public List<DeclarationContainerAlias> superContainers() {

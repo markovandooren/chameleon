@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.rejuse.association.AbstractMultiAssociation;
+import org.rejuse.association.Association;
+import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.Predicate;
@@ -43,7 +45,7 @@ import chameleon.util.concurrent.UnsafeAction;
  * @opt visibility
  * @opt types
  */
-public abstract class ElementImpl<E extends Element> implements Element<E> {
+public abstract class ElementImpl implements Element {
 
 	  public ElementImpl() {
 //	  	_parentLink.addListener(new AssociationListener<P>() {
@@ -151,7 +153,7 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
 	  // IN WHICH CASE _parent PROVIDES THE UNIDIRECTIONAL ASSOCIATION
 	  // WITH THE PARENT. IN THAT CASE, THE ORIGIN IS SET TO THE ELEMENT
 	  // OF WHICH THIS ELEMENT IS A DERIVED ELEMENT
-	  private SingleAssociation<E,Element> _parentLink = createParentLink();//new SingleAssociation<E,P>((E) this);
+	  private SingleAssociation<Element,Element> _parentLink = createParentLink();//new SingleAssociation<E,P>((E) this);
 
 	  /**
 	   * This is the undirectional association with the parent in case this element is derived.
@@ -165,7 +167,7 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
 	   * @throws ChameleonProgrammerException
 	   *    The method is invoked on a derived element. 
 	   */
-	  public final SingleAssociation<E,Element> parentLink() {
+	  public final SingleAssociation<Element,Element> parentLink() {
 	  	if(_parentLink != null) {
 	      return _parentLink;
 	  	} else {
@@ -173,8 +175,8 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
 	  	}
 	  }
 	  
-	  protected SingleAssociation<E,Element> createParentLink() {
-	  	return new SingleAssociation<E,Element>((E) this);
+	  protected SingleAssociation<Element,Element> createParentLink() {
+	  	return new SingleAssociation<Element,Element>(this);
 	  }
 	  
 	  /**
@@ -378,7 +380,7 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
     	List<? extends Element> tmp = children();
     	predicate.filter(tmp);
       List<Element> result = (List<Element>)tmp;
-      for (Element<?> e : children()) {
+      for (Element e : children()) {
         result.addAll(e.descendants(predicate));
       }
       return result;
@@ -446,7 +448,7 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
     	new TypePredicate<Element,T>(c).filter(tmp);
       List<T> result = (List<T>)tmp;
       predicate.filter(result);
-      for (Element<?> e : children()) {
+      for (Element e : children()) {
         result.addAll(e.descendants(c, predicate));
       }
       return result;
@@ -474,12 +476,12 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
     	if(c.isInstance(this)) {
     		action.perform((T)this);
     	}
-      for (Element<?> e : children()) {
+      for (Element e : children()) {
         e.apply(c, action);
       }
     }
 
-    public final <T extends Element<?>> List<T> ancestors(Class<T> c) {
+    public final <T extends Element> List<T> ancestors(Class<T> c) {
     	List<T> result = new ArrayList<T>();
     	T el = nearestAncestor(c);
     	while (el != null){
@@ -489,14 +491,14 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
     	return result;
     }
 
-    public <T extends Element<?>> List<T> ancestors(Class<T> c, SafePredicate<T> predicate) {
+    public <T extends Element> List<T> ancestors(Class<T> c, SafePredicate<T> predicate) {
     	List<T> result = ancestors(c);
       predicate.filter(result);
     	return result;
     }
     
     @Override
-    public <T extends Element<?>, X extends Exception> List<T> ancestors(Class<T> c, UnsafePredicate<T, X> predicate) throws X {
+    public <T extends Element, X extends Exception> List<T> ancestors(Class<T> c, UnsafePredicate<T, X> predicate) throws X {
     	List<T> result = ancestors(c);
       predicate.filter(result);
     	return result;
@@ -610,7 +612,7 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
     	return (T) el;
     }
 
-    public abstract E clone();
+    public abstract Element clone();
     
     public Language language() {
     	Language result = null;
@@ -924,7 +926,7 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
      @*/
     protected <T extends Element> void setAsParent(SingleAssociation<? extends Element, ? super T> association, T element) {
     	if(element != null) {
-    	  association.connectTo(element.parentLink());
+    	  association.connectTo((Association) element.parentLink());
     	} else {
     		association.connectTo(null);
     	}
@@ -946,10 +948,47 @@ public abstract class ElementImpl<E extends Element> implements Element<E> {
      @*/
     protected <T extends Element> void setAsParent(AbstractMultiAssociation<? extends Element, ? super T> association, T element) {
     	if(element != null) {
-    		association.add(element.parentLink());
+    		association.add((Association)element.parentLink());
     	}
     }
-    
+
+    /**
+     * Add the given element to the given association end.
+     * 
+     * @param association The association end to which the element must be added.
+     * @param element The element that must be added to the association end.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre association != null;
+     @ pre element != null;
+     @
+     @ post association.getOtherRelations().contains(element.parentLink());
+     @*/
+  	protected <E extends Element> void add(OrderedMultiAssociation<? extends Element,E> association, E element) {
+  		association.add((Association)element.parentLink());
+  	}
+
+    /**
+     * Remove the given element from the given association end.
+     * 
+     * @param association The association end to which the element must be removed.
+     * @param element The element that must be removed to the association end.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre association != null;
+     @ pre element != null;
+     @
+     @ post !association.getOtherRelations().contains(element.parentLink());
+     @*/
+  	protected <E extends Element> void remove(OrderedMultiAssociation<? extends Element,E> association, E element) {
+  		association.remove((Association)element.parentLink());
+  	}
+
+
     public final boolean equals(Object other) {
     	try {
 				return (other instanceof Element) && sameAs((Element) other);

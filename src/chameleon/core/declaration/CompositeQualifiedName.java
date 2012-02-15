@@ -2,10 +2,10 @@ package chameleon.core.declaration;
 
 import java.util.List;
 
+import org.rejuse.association.Association;
 import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.element.Element;
-import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
@@ -16,7 +16,7 @@ import chameleon.core.validation.VerificationResult;
  *
  * @param <E>
  */
-public class CompositeQualifiedName<E extends CompositeQualifiedName<E>> extends QualifiedName<E> {
+public class CompositeQualifiedName extends QualifiedName {
 
 	public List<Signature> signatures() {
 		return _signatures.getOtherEnds();
@@ -34,14 +34,12 @@ public class CompositeQualifiedName<E extends CompositeQualifiedName<E>> extends
 	
 	public void prefix(Signature signature) {
 		if(signature != null) {
-			_signatures.addInFront(signature.parentLink());
+			_signatures.addInFront((Association)signature.parentLink());
 		}
 	}
 	
 	public void remove(Signature signature) {
-		if(signature != null) {
-			_signatures.remove(signature.parentLink());
-		}
+		remove(_signatures,signature);
 	}
 	
 	private OrderedMultiAssociation<QualifiedName, Signature> _signatures = new OrderedMultiAssociation<QualifiedName, Signature>(this);
@@ -51,12 +49,12 @@ public class CompositeQualifiedName<E extends CompositeQualifiedName<E>> extends
 	}
 	
 	@Override
-	public E clone() {
+	public CompositeQualifiedName clone() {
 		CompositeQualifiedName result = new CompositeQualifiedName();
 		for(Signature signature: signatures()) {
 			result.append(signature.clone());
 		}
-		return (E)result;
+		return result;
 	}
 	
 	public int length() {
@@ -72,8 +70,8 @@ public class CompositeQualifiedName<E extends CompositeQualifiedName<E>> extends
 		return signatures();
 	}
 
-	public QualifiedName<?> popped() {
-		CompositeQualifiedName<?> result = clone();
+	public QualifiedName popped() {
+		CompositeQualifiedName result = clone();
 		result.remove(result.lastSignature());
 		return result;
 	}

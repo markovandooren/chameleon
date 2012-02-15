@@ -6,7 +6,7 @@ import chameleon.core.element.ElementImpl;
 import chameleon.core.language.Language;
 import chameleon.core.namespacepart.NamespacePart;
 
-public abstract class NamespaceElementImpl<E extends Element> extends ElementImpl<E> implements NamespaceElement<E> {
+public abstract class NamespaceElementImpl extends ElementImpl implements NamespaceElement {
 
 	public Namespace getNamespace() {
 		NamespacePart ancestor = nearestAncestor(NamespacePart.class);

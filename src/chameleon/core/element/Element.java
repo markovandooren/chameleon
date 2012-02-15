@@ -42,7 +42,7 @@ import chameleon.util.concurrent.UnsafeAction;
  * 
  * @opt all
  */
-public interface Element<E extends Element> {
+public interface Element {
 
     /**
      * Return the parent element of this element. Null if there is no parent.
@@ -55,7 +55,7 @@ public interface Element<E extends Element> {
      * This link is <b>NOT</b> used for elements that are derived/generated! Always use parent() to obtain
      * the parent.
      */
-    public SingleAssociation<E,Element> parentLink();
+    public SingleAssociation<? extends Element,? extends Element> parentLink();
 
     /**
      * Completely disconnect this element and all descendants from the parent.
@@ -197,7 +197,7 @@ public interface Element<E extends Element> {
      @ post parent() != null && c.isInstance(parent()) ==> \result.get(0) == parent();
      @ post parent() != null ==> \result.subList(1,\result.size()).equals(parent().ancestors(c));
      @*/
-    public <T extends Element<?>> List<T> ancestors(Class<T> c);
+    public <T extends Element> List<T> ancestors(Class<T> c);
     
     /**
      * Return a list of all ancestors of the given type that satify the given predicate. 
@@ -211,7 +211,7 @@ public interface Element<E extends Element> {
      @ post parent() != null && c.isInstance(parent()) && predicate.eval(parent()) ==> \result.get(0) == parent();
      @ post parent() != null ==> \result.subList(1,\result.size()).equals(parent().ancestors(c));
      @*/
-    public <T extends Element<?>> List<T> ancestors(Class<T> c, SafePredicate<T> predicate);
+    public <T extends Element> List<T> ancestors(Class<T> c, SafePredicate<T> predicate);
 
     /**
      * Return a list of all ancestors of the given type that satify the given predicate. 
@@ -225,7 +225,7 @@ public interface Element<E extends Element> {
      @ post parent() != null && c.isInstance(parent()) && predicate.eval(parent()) ==> \result.get(0) == parent();
      @ post parent() != null ==> \result.subList(1,\result.size()).equals(parent().ancestors(c));
      @*/
-    public <T extends Element<?>, X extends Exception> List<T> ancestors(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
+    public <T extends Element, X extends Exception> List<T> ancestors(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
    
     /**
      * Return the direct children of this element.
@@ -852,7 +852,7 @@ public interface Element<E extends Element> {
      @ post \result != null;
      @ post \result.getParent() == null;
      @*/
-    public E clone();
+    public Element clone();
     
     /**
      * Return the lexical lookup context for the given child element. The

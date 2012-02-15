@@ -15,7 +15,7 @@ import chameleon.util.Util;
  * 
  * @author Marko van Dooren
  */
-public class SimpleNameSignature extends Signature<SimpleNameSignature>{
+public class SimpleNameSignature extends Signature {
 
   public SimpleNameSignature(String name) {
     setName(name);

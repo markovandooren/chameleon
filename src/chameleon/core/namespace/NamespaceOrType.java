@@ -12,7 +12,7 @@ import chameleon.core.lookup.Target;
  * @author Marko van Dooren
  */
 
-public interface NamespaceOrType<E extends NamespaceOrType<E,S>, S extends Signature> extends TargetDeclaration<E,S>, DeclarationContainer<E> {
+public interface NamespaceOrType extends TargetDeclaration, DeclarationContainer {
 
 	public String getFullyQualifiedName();
 	

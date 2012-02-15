@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.rejuse.association.Association;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.predicate.TypePredicate;
@@ -31,7 +32,7 @@ import chameleon.exception.ChameleonProgrammerException;
  * @author Marko van Dooren
  * @author Tim Laeremans
  */
-public class NamespacePart extends NamespaceElementImpl<NamespacePart> implements DeclarationContainer<NamespacePart> {
+public class NamespacePart extends NamespaceElementImpl implements DeclarationContainer {
 
 	private final class DefaultNamespaceSelector implements LookupStrategySelector {
 		public LookupStrategy strategy() throws LookupException {
@@ -191,7 +192,7 @@ public class NamespacePart extends NamespaceElementImpl<NamespacePart> implement
 	}
 
 	public void addNamespacePart(NamespacePart pp) {
-		_subNamespaceParts.add(pp.parentLink());
+		_subNamespaceParts.add((Association)pp.parentLink());
 	}
 
 	public void removeNamespacePart(NamespacePart pp) {

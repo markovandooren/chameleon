@@ -12,7 +12,7 @@ import chameleon.core.namespace.NamespaceElementImpl;
  *
  * @param <E>
  */
-public abstract class QualifiedName<E extends QualifiedName> extends NamespaceElementImpl<E> {
+public abstract class QualifiedName extends NamespaceElementImpl {
 
 	/**
 	 * Return the signatures that make up this qualified name.
@@ -45,7 +45,7 @@ public abstract class QualifiedName<E extends QualifiedName> extends NamespaceEl
      @ post \result.length() == length();
      @ post (\forall int i; i >= 1 && i <= length(); \result.signatureAt(i).sameAs(signatureAt(i)));
      @*/
-	public abstract E clone();
+	public abstract QualifiedName clone();
 	
 	/**
 	 * Return the length of this qualified name.
@@ -81,8 +81,8 @@ public abstract class QualifiedName<E extends QualifiedName> extends NamespaceEl
      @ post \result.length() == length() - 1;
      @ post (\forall int i; i >= 1 && i <= length() - 1; \result.signatureAt(i).sameAs(signatureAt(i)));
      @*/
-	public QualifiedName<?> popped() {
-		CompositeQualifiedName<?> result = new CompositeQualifiedName();
+	public QualifiedName popped() {
+		CompositeQualifiedName result = new CompositeQualifiedName();
 		List<Signature> signatures = signatures();
 		int length = signatures.size();
 		for(int i=0; i< length-1; i++) {

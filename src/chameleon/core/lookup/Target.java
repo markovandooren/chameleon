@@ -1,14 +1,17 @@
 package chameleon.core.lookup;
 
 import chameleon.core.element.Element;
-import chameleon.exception.ModelException;
 
 /**
- * @author marko
+ * An element relative to which declarations can be specified.
+ * 
+ * @author Marko van Dooren
  */
 
-public interface Target<E extends Element> extends Element<E>{
+public interface Target extends Element {
 
+	//FIXME I think this should be a DeclarationContainer
+	
     /**
      * Return the target context of this target.
      *

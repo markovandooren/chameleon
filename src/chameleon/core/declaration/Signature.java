@@ -9,9 +9,9 @@ import chameleon.exception.ChameleonProgrammerException;
  * 
  * @author Marko van Dooren
  */
-public abstract class Signature<E extends Signature<E>> extends QualifiedName<E> {
+public abstract class Signature extends QualifiedName {
 
-  public abstract E clone();
+  public abstract Signature clone();
   
   /**
    * Return a string representation of the name of this signature. For methods, e.g., the arguments

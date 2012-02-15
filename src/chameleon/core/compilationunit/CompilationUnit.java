@@ -3,6 +3,7 @@ package chameleon.core.compilationunit;
 import java.util.Iterator;
 import java.util.List;
 
+import org.rejuse.association.Association;
 import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.element.Element;
@@ -24,7 +25,7 @@ import chameleon.exception.ChameleonProgrammerException;
  * 
  * @author Marko van Dooren
  */
-public class CompilationUnit extends ElementImpl<CompilationUnit> {
+public class CompilationUnit extends ElementImpl {
 
 	public CompilationUnit() {
 		
@@ -64,13 +65,13 @@ public class CompilationUnit extends ElementImpl<CompilationUnit> {
 	}
 
 	public void add(NamespacePart pp) {
-		_subNamespaceParts.add(pp.parentLink());
+		add(_subNamespaceParts,pp);
 	}
 
 	public void remove(NamespacePart pp) {
-		_subNamespaceParts.remove(pp.parentLink());
+		remove(_subNamespaceParts,pp);
 	}
-
+	
 	private OrderedMultiAssociation<CompilationUnit, NamespacePart> _subNamespaceParts = new OrderedMultiAssociation<CompilationUnit, NamespacePart>(this);
 
 
