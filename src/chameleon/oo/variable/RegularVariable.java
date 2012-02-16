@@ -3,6 +3,7 @@ package chameleon.oo.variable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.rejuse.association.Association;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.java.collections.Visitor;
@@ -23,8 +24,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
 
-public abstract class RegularVariable<E extends RegularVariable<E>> 
-       extends VariableImpl<E> implements ExceptionSource<E> {
+public abstract class RegularVariable extends VariableImpl implements ExceptionSource {
 
 	public RegularVariable(SimpleNameSignature sig, TypeReference typeRef, Expression init) {
 		super(sig);
@@ -43,7 +43,7 @@ public abstract class RegularVariable<E extends RegularVariable<E>>
   }
 
   public void setTypeReference(TypeReference type) {
-    _typeReference.connectTo(type.parentLink());
+    setAsParent(_typeReference,type);
   }
 
 	/**
@@ -57,12 +57,7 @@ public abstract class RegularVariable<E extends RegularVariable<E>>
   }
   
   public void setInitialization(Expression expr) {
-    if(expr != null) {
-      _init.connectTo(expr.parentLink());
-    }
-    else {
-      _init.connectTo(null);
-    }
+    setAsParent(_init,expr);
   }
   
   public CheckedExceptionList getCEL() throws LookupException {
@@ -110,8 +105,8 @@ public abstract class RegularVariable<E extends RegularVariable<E>>
 	}
 
 	public void addModifier(Modifier modifier) {
-		if ((modifier != null) && (!_modifiers.contains(modifier.parentLink()))) {
-			_modifiers.add(modifier.parentLink());
+		if ((modifier != null) && (!_modifiers.contains((Association)modifier.parentLink()))) {
+			add(_modifiers,modifier);
 		}
 	}
 	
@@ -122,7 +117,7 @@ public abstract class RegularVariable<E extends RegularVariable<E>>
 	}
 
 	public void removeModifier(Modifier modifier) {
-		_modifiers.remove(modifier.parentLink());
+		remove(_modifiers,modifier);
 	}
 
 	public boolean hasModifier(Modifier modifier) {
@@ -159,8 +154,8 @@ public abstract class RegularVariable<E extends RegularVariable<E>>
     }
   }
 
- public E clone() {
-   final E result = cloneThis();
+ public RegularVariable clone() {
+   final RegularVariable result = cloneThis();
    new Visitor<Modifier>() {
      public void visit(Modifier element) {
        result.addModifier(element.clone());
@@ -169,7 +164,7 @@ public abstract class RegularVariable<E extends RegularVariable<E>>
    return result;
  }
 
- protected abstract E cloneThis();
+ protected abstract RegularVariable cloneThis();
 
 // public Ternary is(Property<Element> property) {
 //   PropertySet<Element> declared = declaredProperties();

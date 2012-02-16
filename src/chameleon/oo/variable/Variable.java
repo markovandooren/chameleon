@@ -8,14 +8,11 @@ import chameleon.oo.expression.Expression;
 import chameleon.oo.type.DeclarationWithType;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
-import chameleon.oo.type.VariableOrType;
 
 /**
  * @author Marko van Dooren
  */
-public interface Variable<E extends Variable<E>> 
-                extends ElementWithModifiers<E>,  
-                VariableOrType<E,SimpleNameSignature>, DeclarationWithType<E,SimpleNameSignature> {
+public interface Variable extends ElementWithModifiers, DeclarationWithType {
 
 	public Expression getInitialization();
 
@@ -49,9 +46,9 @@ public interface Variable<E extends Variable<E>>
 //
 //	public void removeModifier(Modifier modifier);
 
-  public E clone();
+  public Variable clone();
 
-  public LocalLookupStrategy targetContext() throws LookupException;
+  public LocalLookupStrategy<?> targetContext() throws LookupException;
 
 
   public Variable selectionDeclaration();

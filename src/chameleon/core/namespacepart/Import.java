@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 import org.rejuse.predicate.UnsafePredicate;
 
 import chameleon.core.declaration.Declaration;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceElementImpl;
@@ -14,12 +13,12 @@ import chameleon.core.namespace.NamespaceElementImpl;
 /**
  * @author Marko van Dooren
  */
-public abstract class Import<E extends Import> extends NamespaceElementImpl<E> {
+public abstract class Import extends NamespaceElementImpl {
 
   public Import() {
 	}
   
-  public abstract E clone();
+  public abstract Import clone();
   
   private static Logger logger = Logger.getLogger("lookup.import");
 

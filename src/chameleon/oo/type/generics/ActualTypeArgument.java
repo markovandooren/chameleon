@@ -14,14 +14,12 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Pair;
 
-public abstract class ActualTypeArgument<E extends ActualTypeArgument> extends NamespaceElementImpl<E> 
-//implements TypeReference<E> 
-{
+public abstract class ActualTypeArgument extends NamespaceElementImpl {
 
 	public ActualTypeArgument() {
 	}
 	
-	public abstract E clone();
+	public abstract ActualTypeArgument clone();
 	
 	public abstract Type type() throws LookupException;
 	

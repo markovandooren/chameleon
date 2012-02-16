@@ -4,7 +4,6 @@ import java.util.List;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
-import chameleon.oo.member.Member;
 
 /**
  * A lookup strategy for search declarations locally in a declaration container.
@@ -83,8 +82,8 @@ public class LocalLookupStrategy<E extends DeclarationContainer> extends LookupS
 	  } else {
 	 // Disable declaration cache before we go debugging.
       //Config.setCaching(false);
-	  	((Member<?,?>)tmp.get(1)).overrides(((Member<?,?>)tmp.get(0)));
-	  	tmp = declarations(selector);
+//	  	((Member)tmp.get(1)).overrides(((Member)tmp.get(0)));
+//	  	tmp = declarations(selector);
 	    throw new LookupException("Multiple matches found in "+declarationContainer().toString() + " using selector "+selector.toString(),selector);
 	  }
 	}

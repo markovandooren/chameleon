@@ -12,7 +12,7 @@ import chameleon.oo.type.TypeReference;
 /**
  * @author Marko van Dooren
  */
-public class FormalParameter extends RegularVariable<FormalParameter> {
+public class FormalParameter extends RegularVariable {
 
   public FormalParameter(SimpleNameSignature sig, TypeReference type) {
     super(sig, type,null);
@@ -29,9 +29,10 @@ public class FormalParameter extends RegularVariable<FormalParameter> {
   public boolean compatibleWith(FormalParameter parameter) throws LookupException {
   	boolean result = false;
   	if((parent() instanceof DeclarationWithParametersHeader) && (parameter != null) && (parameter.parent() instanceof DeclarationWithParametersHeader)) {
-    	DeclarationWithParametersHeader<?,?> header = (DeclarationWithParametersHeader<?, ?>) parent();
+    	DeclarationWithParametersHeader header = (DeclarationWithParametersHeader) parent();
     	Method method = header.nearestAncestor(Method.class);
-    	DeclarationWithParametersHeader<?,?> otherHeader = (DeclarationWithParametersHeader<?, ?>) parent();
+    	//BUG: the following should be parameter.parent(). Fix after removing the parameters.
+    	DeclarationWithParametersHeader otherHeader = (DeclarationWithParametersHeader) parent();
     	Method otherMethod = otherHeader.nearestAncestor(Method.class); //REFACTORING
     	result = method.overrides(otherMethod) &&
       method.formalParameters().indexOf(this) == otherMethod.formalParameters().indexOf(parameter); 

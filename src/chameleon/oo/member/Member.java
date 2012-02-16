@@ -13,14 +13,8 @@ import chameleon.oo.type.TypeElement;
  * are methods, variable, types, properties,...
  * 
  * @author Marko van Dooren
- * 
- * <E> The type of the element
- * <P> The type of the parent
- * <S> The type of the signature
- * <F> The type of the family to which this member belongs. E should always be a subtype of F but
- * we cannot enforce this because Java is so primitive.
  */
-public interface Member<E extends Member<E,S>, S extends Signature> extends TypeElement<E>, Declaration<E,S> {
+public interface Member extends TypeElement, Declaration {
   
   
 //  /**
@@ -29,7 +23,7 @@ public interface Member<E extends Member<E,S>, S extends Signature> extends Type
 //   */
 //  public void setSignature(S signature);
 
-  public abstract E clone();
+  public abstract Member clone();
 	
   /**
    * Check whether this member overrides the given member.

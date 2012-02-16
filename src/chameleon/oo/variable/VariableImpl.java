@@ -19,11 +19,9 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
 import chameleon.oo.type.Type;
 
-public abstract class VariableImpl<E extends VariableImpl<E>> 
-       extends NamespaceElementImpl<E>
-       implements Variable<E> {
+public abstract class VariableImpl extends NamespaceElementImpl implements Variable {
 	
-	public abstract E clone();
+	public abstract VariableImpl clone();
 
 	public VariableImpl(SimpleNameSignature signature) {
 		setSignature(signature);
@@ -42,10 +40,8 @@ public abstract class VariableImpl<E extends VariableImpl<E>>
 	}
 
   public void setSignature(Signature signature) {
-  	if(signature instanceof SimpleNameSignature) {
-  		_signature.connectTo(signature.parentLink());
-  	} else if(signature == null) {
-  		_signature.connectTo(null);
+  	if(signature instanceof SimpleNameSignature || signature == null) {
+  		setAsParent(_signature, (SimpleNameSignature)signature);
   	} else {
   		throw new ChameleonProgrammerException("Setting wrong type of signature. Provided: "+(signature == null ? null :signature.getClass().getName())+" Expected SimpleNameSignature");
   	}

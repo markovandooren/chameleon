@@ -19,11 +19,8 @@ import chameleon.oo.statement.CheckedExceptionList;
  * Support class for member-like elements that can be the direct children of a type.
  * 
  * @author Marko van Dooren
- *
- * @param <E> The type of the element
- * @param <P> The type of the parent
  */
-public abstract class TypeElementImpl<E extends TypeElement<E>> extends ElementWithModifiersImpl<E> implements TypeElement<E> {
+public abstract class TypeElementImpl extends ElementWithModifiersImpl implements TypeElement {
   
 
 	public CheckedExceptionList getCEL() throws LookupException {
@@ -34,7 +31,7 @@ public abstract class TypeElementImpl<E extends TypeElement<E>> extends ElementW
 		return new CheckedExceptionList();
 	}
 
-	public abstract E clone();
+	public abstract TypeElementImpl clone();
 
 	public List<? extends Member> declaredMembers() {
     try {

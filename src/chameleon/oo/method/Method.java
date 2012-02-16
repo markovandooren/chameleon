@@ -52,7 +52,7 @@ import chameleon.util.Util;
  * @param <S>
  * @param <M>
  */
-public abstract class Method<E extends Method<E,H,S>, H extends DeclarationWithParametersHeader<H, S>, S extends DeclarationWithParametersSignature> extends MemberImpl<E,S> implements Definition<E,S>, DeclarationContainer<E>, Target<E>, DeclarationWithType<E,S> {
+public abstract class Method extends MemberImpl implements DeclarationContainer, Target, DeclarationWithType {
 
 	/**
 	 * Initialize a new method with the given header.
@@ -63,7 +63,7 @@ public abstract class Method<E extends Method<E,H,S>, H extends DeclarationWithP
    @
    @ post header() == header;
    @*/ 
-	public Method(H header) {
+	public Method(DeclarationWithParametersHeader header) {
 		setHeader(header);
 	}
 	
@@ -76,7 +76,7 @@ public abstract class Method<E extends Method<E,H,S>, H extends DeclarationWithP
 	}
 
 	public List<FormalParameter> formalParameters() {
-	  H header = header();
+		DeclarationWithParametersHeader header = header();
 	  if(header != null) {
 		  return header.formalParameters();
 	  } else {
@@ -85,7 +85,7 @@ public abstract class Method<E extends Method<E,H,S>, H extends DeclarationWithP
 	}
 	
 	public List<Type> formalParameterTypes() throws LookupException {
-	  H header = header();
+		DeclarationWithParametersHeader header = header();
 	  if(header != null) {
 		  return header.formalParameterTypes();
 	  } else {
@@ -130,7 +130,7 @@ public abstract class Method<E extends Method<E,H,S>, H extends DeclarationWithP
 	 * @return
 	 */
 	public String name() {
-		H header = header();
+		DeclarationWithParametersHeader header = header();
 		if(header != null) {
 		  return header.name();
 		} else {
@@ -138,7 +138,7 @@ public abstract class Method<E extends Method<E,H,S>, H extends DeclarationWithP
 		}
 	}
 	
-	public S signature() {
+	public Signature signature() {
 		return header().signature();
 	}
 	
@@ -154,22 +154,18 @@ public abstract class Method<E extends Method<E,H,S>, H extends DeclarationWithP
 	 * Set the header of this method.
 	 * @param header
 	 */
-	public void setHeader(H header) {
-	  if(header != null) {
-	    _header.connectTo(header.parentLink());
-	  } else {
-	    _header.connectTo(null);
-	  }
+	public void setHeader(DeclarationWithParametersHeader header) {
+	  setAsParent(_header,header);
 	}
 	  
 	  /**
 	   * Return the signature of this member.
 	   */
-	  public H header() {
+	  public DeclarationWithParametersHeader header() {
 	    return _header.getOtherEnd();
 	  }
 	  
-	  private SingleAssociation<E, H> _header = new SingleAssociation<E, H>((E) this);
+	  private SingleAssociation<Method, DeclarationWithParametersHeader> _header = new SingleAssociation<Method, DeclarationWithParametersHeader>(this);
 	
 	/******************
 	 * IMPLEMENTATION *
@@ -314,8 +310,8 @@ public abstract class Method<E extends Method<E,H,S>, H extends DeclarationWithP
 	}
 
 
-	public E clone() {
-		final E result = cloneThis();
+	public Method clone() {
+		final Method result = cloneThis();
 		// MODIFIERS
 		new Visitor<Modifier>() {
 			public void visit(Modifier element) {
@@ -325,7 +321,7 @@ public abstract class Method<E extends Method<E,H,S>, H extends DeclarationWithP
 		// EXCEPTION CLAUSE
 		result.setExceptionClause(getExceptionClause().clone());
 		// HEADER
-		result.setHeader((H)header().clone());
+		result.setHeader((DeclarationWithParametersHeader)header().clone());
 		// IMPLEMENTATION
 		if(implementation() != null) {
 			result.setImplementation(implementation().clone());
@@ -334,7 +330,7 @@ public abstract class Method<E extends Method<E,H,S>, H extends DeclarationWithP
 		return result;
 	}
 
-	protected abstract E cloneThis();
+	protected abstract Method cloneThis();
 
 	/**
 	 * Check whether or not the implementation of this method is compatible with the exception clause

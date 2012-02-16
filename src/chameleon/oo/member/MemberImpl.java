@@ -19,14 +19,14 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeElementImpl;
 
-public abstract class MemberImpl<E extends Member<E,S>,S extends Signature> extends TypeElementImpl<E> implements Member<E,S>{
+public abstract class MemberImpl extends TypeElementImpl implements Member {
 
-	public abstract E clone();
+	public abstract MemberImpl clone();
 	
   /**
    * Return the signature of this member.
    */
-  public abstract S signature();
+  public abstract Signature signature();
   
   public String name() {
   	return signature().name();
@@ -83,7 +83,7 @@ public abstract class MemberImpl<E extends Member<E,S>,S extends Signature> exte
   		List<Member> todo = (List<Member>) directlyOverriddenMembers();
   		Map<Type,List<Member>> visitedTypes = new HashMap<Type,List<Member>>();
   		while(! todo.isEmpty()) {
-  			Member<?,?> m = todo.get(0);
+  			Member m = todo.get(0);
   			todo.remove(0);
   			Type containingType = m.nearestAncestor(Type.class);
   			if(! visitedTypes.containsKey(containingType)) {
@@ -127,7 +127,7 @@ public abstract class MemberImpl<E extends Member<E,S>,S extends Signature> exte
 	  List<Member> todo = (List<Member>) directlyAliasedMembers();
 	  Set<Member> result = new HashSet<Member>();
 	  while(! todo.isEmpty()) {
-		  Member<?,?> m = todo.get(0);
+		  Member m = todo.get(0);
 		  todo.remove(0);
 		  if(result.add(m)) {
 			  todo.addAll(m.directlyAliasedMembers());
@@ -140,7 +140,7 @@ public abstract class MemberImpl<E extends Member<E,S>,S extends Signature> exte
 	  List<Member> todo = (List<Member>) directlyAliasingMembers();
 	  Set<Member> result = new HashSet<Member>();
 	  while(! todo.isEmpty()) {
-		  Member<?,?> m = todo.get(0);
+		  Member m = todo.get(0);
 		  todo.remove(0);
 		  if(result.add(m)) {
 			  todo.addAll(m.directlyAliasingMembers());

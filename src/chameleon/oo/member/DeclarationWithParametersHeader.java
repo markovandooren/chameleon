@@ -33,15 +33,15 @@ import chameleon.util.Util;
  * @param <P>
  * @param <S>
  */
-public abstract class DeclarationWithParametersHeader<E extends DeclarationWithParametersHeader, S extends DeclarationWithParametersSignature> extends NamespaceElementImpl <E> implements VariableContainer<E> { //extends Signature<E, P> 
+public abstract class DeclarationWithParametersHeader extends NamespaceElementImpl implements VariableContainer { //extends Signature<E, P> 
   
-  public E clone() {
-    E result = cloneThis();
+  public DeclarationWithParametersHeader clone() {
+  	DeclarationWithParametersHeader result = cloneThis();
     for(FormalParameter param:formalParameters()) {
-      result.addFormalParameter(param.clone());
+      result.addFormalParameter((FormalParameter) param.clone());
     }
-    for(TypeParameter<?> param:typeParameters()) {
-    	result.addTypeParameter(param.clone());
+    for(TypeParameter param:typeParameters()) {
+    	result.addTypeParameter((TypeParameter) param.clone());
     }
     return result;
   }
@@ -51,13 +51,13 @@ public abstract class DeclarationWithParametersHeader<E extends DeclarationWithP
    * the information in the header.
    * @return
    */
-  public abstract S signature();
+  public abstract Signature signature();
   
   public abstract void setName(String name);
   
-  public abstract E createFromSignature(Signature signature);
+  public abstract DeclarationWithParametersHeader createFromSignature(Signature signature);
   
-  protected abstract E cloneThis();
+  protected abstract DeclarationWithParametersHeader cloneThis();
   
   /**
    * The children of a method header are its formal parameters and the type parameter block.
@@ -97,7 +97,7 @@ public abstract class DeclarationWithParametersHeader<E extends DeclarationWithP
   }
 
   public void addFormalParameter(FormalParameter arg) {
-    _parameters.add(arg.parentLink());
+    add(_parameters,arg);
   }
   
   public void addFormalParameters(List<FormalParameter> parameters) {
@@ -272,7 +272,7 @@ public abstract class DeclarationWithParametersHeader<E extends DeclarationWithP
 		if(parameterBlock == null) {
 			// Lazy init.
 			parameterBlock = new TypeParameterBlock();
-			_typeParameters.connectTo(parameterBlock.parentLink());
+			setAsParent(_typeParameters,parameterBlock);
 		}
 		parameterBlock.add(parameter);
 	}

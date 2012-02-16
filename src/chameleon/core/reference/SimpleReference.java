@@ -3,20 +3,18 @@ package chameleon.core.reference;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.QualifiedName;
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.declaration.TargetDeclaration;
-import chameleon.core.element.Element;
 
-public class SimpleReference<D extends Declaration> extends SpecificReference<SimpleReference<D>,D> {
+public class SimpleReference<D extends Declaration> extends SpecificReference<D> {
 
-	public SimpleReference(CrossReferenceTarget<?> target, String name, Class<D> specificClass) {
+	public SimpleReference(CrossReferenceTarget target, String name, Class<D> specificClass) {
 		super(target,name,specificClass);
 	}
 
-	public SimpleReference(CrossReferenceTarget<?>  target, SimpleNameSignature signature, Class<D> specificClass) {
+	public SimpleReference(CrossReferenceTarget  target, SimpleNameSignature signature, Class<D> specificClass) {
 		super(target,signature,specificClass);
 	}
 
-	public SimpleReference(QualifiedName<?> name, Class<D> specificClass) {
+	public SimpleReference(QualifiedName name, Class<D> specificClass) {
 		super(name, specificClass);
 	}
 

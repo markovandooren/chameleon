@@ -7,8 +7,7 @@ import chameleon.core.namespace.NamespaceElement;
 /**
  * @author Marko van Dooren
  */
-public interface VariableContainer<E extends VariableContainer> extends Element<E>, DeclarationContainer<E>
-{
+public interface VariableContainer extends Element, DeclarationContainer {
 	
 	/**
 	 * Return the element in which the variables are visible. 

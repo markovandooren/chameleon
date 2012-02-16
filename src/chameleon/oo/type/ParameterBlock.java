@@ -2,6 +2,7 @@ package chameleon.oo.type;
 
 import java.util.List;
 
+import org.rejuse.association.Association;
 import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.declaration.Declaration;
@@ -12,7 +13,7 @@ import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public class ParameterBlock<E extends ParameterBlock<E,T>, T extends Parameter> extends NamespaceElementImpl<E> {
+public class ParameterBlock<T extends Parameter> extends NamespaceElementImpl {
 
 	public ParameterBlock(Class<T> parameterType) {
 		_parameterType = parameterType;
@@ -28,7 +29,7 @@ public class ParameterBlock<E extends ParameterBlock<E,T>, T extends Parameter> 
 		return parameters();
 	}
 
-	private OrderedMultiAssociation<ParameterBlock, T> _parameters = new OrderedMultiAssociation<ParameterBlock, T>(this);
+	private OrderedMultiAssociation<ParameterBlock<T>, T> _parameters = new OrderedMultiAssociation<ParameterBlock<T>, T>(this);
 	
 	public List<T> parameters() {
 		return _parameters.getOtherEnds();
@@ -45,35 +46,31 @@ public class ParameterBlock<E extends ParameterBlock<E,T>, T extends Parameter> 
 		return _parameters.elementAt(index);
 	}
 	
-	public void add(Parameter parameter) {
-		if(parameter != null) {
-			_parameters.add(parameter.parentLink());
-		}
+	public void add(T parameter) {
+		add(_parameters,parameter);
 	}
 
 	public void remove(T parameter) {
-		if(parameter != null) {
-			_parameters.remove(parameter.parentLink());
-		}
+		remove(_parameters,parameter);
 	}
 	
 	public void replace(T oldParameter, T newParameter) {
 		if((oldParameter != null) && (newParameter != null)){
-			_parameters.replace(oldParameter.parentLink(), newParameter.parentLink());
+			_parameters.replace((Association)oldParameter.parentLink(), (Association)newParameter.parentLink());
 		}
 	}
 
 	@Override
-	public E clone() {
-		E result = cloneThis();
+	public ParameterBlock<T> clone() {
+		ParameterBlock<T> result = cloneThis();
 		for(T parameter: parameters()) {
-			result.add(parameter.clone());
+			result.add((T)parameter.clone());
 		}
 		return result;
 	}
 
-	public E cloneThis() {
-		return (E) new ParameterBlock(parameterType());
+	public ParameterBlock<T> cloneThis() {
+		return new ParameterBlock<T>(parameterType());
 	}
 
 	@Override

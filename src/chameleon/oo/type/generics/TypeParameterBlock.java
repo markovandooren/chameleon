@@ -3,6 +3,7 @@ package chameleon.oo.type.generics;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.rejuse.association.Association;
 import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.declaration.Declaration;
@@ -28,7 +29,7 @@ import chameleon.oo.type.ParameterBlock;
  *   
  * @author Marko van Dooren
  */
-public class TypeParameterBlock extends ParameterBlock<TypeParameterBlock,TypeParameter> implements DeclarationContainer<TypeParameterBlock> {
+public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements DeclarationContainer {
 
 	public TypeParameterBlock() {
 		super(TypeParameter.class);
@@ -50,7 +51,7 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameterBlock,TypePa
 		Stub stub = new Stub();
 //		stub.setUniParent(parent());
 		stub.setUniParent(this);
-		for(TypeParameter<?> parameter:parameters()) {
+		for(TypeParameter parameter:parameters()) {
 			//FIXME must create subclass of formalparameter that keeps a reference to the original formal
 			// parameter OR use origin() for that.
 //			TypeParameter clone = new StubTypeParameter(parameter);
@@ -74,13 +75,13 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameterBlock,TypePa
 		}
 	}
 	
-	public static class Stub extends ElementImpl<Stub> implements DeclarationContainer<Stub>{
+	public static class Stub extends ElementImpl implements DeclarationContainer{
 
 		@Override
 		public Stub clone() {
 			Stub result = new Stub();
-			for(TypeParameter<?> parameter: parameters()) {
-				result.add(parameter.clone());
+			for(TypeParameter parameter: parameters()) {
+				result.add((TypeParameter) parameter.clone());
 			}
 			return result;
 		}
@@ -113,20 +114,16 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameterBlock,TypePa
 		}
 		
 		public void add(TypeParameter parameter) {
-			if(parameter != null) {
-				_parameters.add(parameter.parentLink());
-			}
+			add(_parameters,parameter);
 		}
 
 		public void remove(TypeParameter parameter) {
-			if(parameter != null) {
-				_parameters.remove(parameter.parentLink());
-			}
+			remove(_parameters,parameter);
 		}
 		
 		public void replace(TypeParameter oldParameter, TypeParameter newParameter) {
 			if((oldParameter != null) && (newParameter != null)){
-				_parameters.replace(oldParameter.parentLink(), newParameter.parentLink());
+				_parameters.replace((Association)oldParameter.parentLink(), (Association)newParameter.parentLink());
 			}
 		}
 

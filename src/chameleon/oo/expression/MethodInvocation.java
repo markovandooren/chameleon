@@ -47,7 +47,7 @@ public abstract class MethodInvocation<D extends Method>
 		return _selector;
 	}
 
-	public CrossReferenceWithArguments<?> crossReference() {
+	public CrossReferenceWithArguments crossReference() {
 		return _crossReference.getOtherEnd();
 	}
 
@@ -193,14 +193,14 @@ public abstract class MethodInvocation<D extends Method>
 	 * 
 	 * @
 	 */
-	protected abstract E cloneInvocation(CrossReferenceTarget target);
+	protected abstract MethodInvocation cloneInvocation(CrossReferenceTarget target);
 
-	public E clone() {
+	public MethodInvocation clone() {
 		CrossReferenceTarget target = null;
 		if (getTarget() != null) {
 			target = getTarget().clone();
 		}
-		final E result = cloneInvocation(target);
+		MethodInvocation result = cloneInvocation(target);
 		for (Expression element : getActualParameters()) {
 			result.addArgument(element.clone());
 		}

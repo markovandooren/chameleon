@@ -67,7 +67,7 @@ public class CrossReferenceWithArguments extends NamespaceElementImpl {
 	}
 
 	public void removeParameter(Expression parameter) {
-		_parameters.remove(parameter.parentLink());
+		remove(_parameters,parameter);
 	}
 
 	public List<Expression> getActualParameters() {
@@ -267,7 +267,7 @@ public class CrossReferenceWithArguments extends NamespaceElementImpl {
 			return result;
 		}
 
-		CrossReferenceTarget<?> target = getTarget();
+		CrossReferenceTarget target = getTarget();
 		if (target == null) {
 			result = lexicalLookupStrategy().lookUp(selector);
 		} else {
@@ -291,12 +291,12 @@ public class CrossReferenceWithArguments extends NamespaceElementImpl {
 		}
 	}
 
-	public E clone() {
+	public CrossReferenceWithArguments clone() {
 		CrossReferenceTarget target = null;
 		if (getTarget() != null) {
 			target = getTarget().clone();
 		}
-		final E result = (E) new CrossReferenceWithArguments<E>();
+		final CrossReferenceWithArguments result = new CrossReferenceWithArguments();
 		result.setTarget(target);
 		for (Expression element : getActualParameters()) {
 			result.addArgument(element.clone());
@@ -324,9 +324,7 @@ public class CrossReferenceWithArguments extends NamespaceElementImpl {
 
 	
 	public void addArgument(ActualTypeArgument arg) {
-		if (arg != null) {
-			_genericArguments.add(arg.parentLink());
-		}
+		add(_genericArguments,arg);
 	}
 
 	public void addAllTypeArguments(List<ActualTypeArgument> args) {
@@ -336,9 +334,7 @@ public class CrossReferenceWithArguments extends NamespaceElementImpl {
 	}
 
 	public void removeArgument(ActualTypeArgument arg) {
-		if (arg != null) {
-			_genericArguments.remove(arg.parentLink());
-		}
+		remove(_genericArguments,arg);
 	}
 
 	private OrderedMultiAssociation<CrossReferenceWithArguments, ActualTypeArgument> _genericArguments = new OrderedMultiAssociation<CrossReferenceWithArguments, ActualTypeArgument>(

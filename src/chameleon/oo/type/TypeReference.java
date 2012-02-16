@@ -6,15 +6,13 @@ import chameleon.core.reference.CrossReference;
 /**
  * @author Marko van Dooren
  */
-public interface TypeReference<E extends TypeReference> extends CrossReference<E,Type> {
+public interface TypeReference extends CrossReference<Type> {
 
 	public Type getType() throws LookupException;
 	
-	public String infoDisplayName();
-	
 	public Type getElement() throws LookupException;
 	
-	public E clone();
+	public TypeReference clone();
 
 	public TypeReference intersection(TypeReference other);
 	

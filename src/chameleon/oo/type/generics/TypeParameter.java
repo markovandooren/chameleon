@@ -30,7 +30,7 @@ import chameleon.util.Pair;
  *
  * @param <E>
  */
-public abstract class TypeParameter<E extends TypeParameter<E>> extends Parameter<E> {
+public abstract class TypeParameter extends Parameter {
 	
 	public TypeParameter(SimpleNameSignature signature) {
 		super(signature);
@@ -51,8 +51,8 @@ public abstract class TypeParameter<E extends TypeParameter<E>> extends Paramete
 
 	public abstract Declaration resolveForRoundTrip() throws LookupException;
 
-	public E cloneForStub() throws LookupException {
-		return clone();
+	public TypeParameter cloneForStub() throws LookupException {
+		return (TypeParameter) clone();
 	}
 	
 	public boolean compatibleWith(TypeParameter other,List<Pair<Type, TypeParameter>> trace) throws LookupException {

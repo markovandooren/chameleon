@@ -10,7 +10,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.exception.ChameleonProgrammerException;
 
-public abstract class Parameter<E extends Parameter<E>> extends NamespaceElementImpl<E> implements Declaration<E,SimpleNameSignature> {
+public abstract class Parameter extends NamespaceElementImpl implements Declaration {
 	
 	public Parameter(SimpleNameSignature sig) {
 		setSignature(sig);
@@ -18,17 +18,15 @@ public abstract class Parameter<E extends Parameter<E>> extends NamespaceElement
 	
 	public abstract Declaration selectionDeclaration() throws LookupException;
 	
-	public abstract E clone();
+	public abstract Parameter clone();
 	
 	public void setName(String name) {
 		setSignature(new SimpleNameSignature(name));
 	}
 	
 	public void setSignature(Signature signature) {
-  	if(signature instanceof SimpleNameSignature) {
-  		_signature.connectTo(signature.parentLink());
-  	} else if(signature == null) {
-  		_signature.connectTo(null);
+  	if(signature instanceof SimpleNameSignature || signature == null) {
+  		setAsParent(_signature,(SimpleNameSignature)signature);
   	} else {
   		throw new ChameleonProgrammerException("Setting wrong type of signature. Provided: "+(signature == null ? null :signature.getClass().getName())+" Expected SimpleNameSignature");
   	}

@@ -110,5 +110,11 @@ public class DeclarationContainerAlias extends NamespaceElementImpl implements D
 	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return _elements.getOtherEnds();
 	}
+
+
+	@Override
+	public LookupStrategy localStrategy() throws LookupException {
+		return ((DeclarationContainer)parent()).localStrategy();
+	}
 	
 }

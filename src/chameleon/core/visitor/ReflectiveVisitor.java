@@ -97,14 +97,14 @@ public abstract class ReflectiveVisitor {
 	 * @throws NoVisitorForTypeException When no appropriate visit method for one of the types of children of element is defined.
 	 */
 	protected void visitChildren(Element element) throws NoVisitorForTypeException{
-		List<Element> children = element.children();
+		List<? extends Element> children = element.children();
 		for (Element child : children) {
 			nonRecursiveVisit(child);
 		}
 	}
 	
 	private void resursiveVisitChildren(Element e) throws NoVisitorForTypeException{
-		List<Element> children = e.children();
+		List<? extends Element> children = e.children();
 		for (Element child : children) {
 			recursiveVisit(child);
 		}

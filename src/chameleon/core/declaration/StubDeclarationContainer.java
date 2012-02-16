@@ -76,7 +76,12 @@ public class StubDeclarationContainer extends NamespaceElementImpl implements De
 		}
 		return _local;
 	}
-	
+
 	private LookupStrategy _local;
 	private LookupStrategy _lexical;
+
+	@Override
+	public LookupStrategy localStrategy() throws LookupException {
+		return targetContext();
+	}
 }

@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.rejuse.association.Association;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.predicate.TypePredicate;
@@ -192,11 +191,11 @@ public class NamespacePart extends NamespaceElementImpl implements DeclarationCo
 	}
 
 	public void addNamespacePart(NamespacePart pp) {
-		_subNamespaceParts.add((Association)pp.parentLink());
+		add(_subNamespaceParts,pp);
 	}
 
 	public void removeNamespacePart(NamespacePart pp) {
-		_subNamespaceParts.remove(pp.parentLink());
+		remove(_subNamespaceParts,pp);
 	}
 
 	public OrderedMultiAssociation<NamespacePart, NamespacePart> getNamespacePartsLink() {
@@ -297,11 +296,11 @@ public class NamespacePart extends NamespaceElementImpl implements DeclarationCo
 	}
 
 	public void addImport(Import newImport) {
-		_imports.add(newImport.parentLink());
+		add(_imports,newImport);
 	}
 	
 	public void removeImport(Import removedImport) {
-		_imports.remove(removedImport.parentLink());
+		remove(_imports,removedImport);
 	}
 	
 	public void clearImports() {
@@ -342,11 +341,7 @@ public class NamespacePart extends NamespaceElementImpl implements DeclarationCo
    @ post declarations().contains(declaration);
    @*/
 	public void add(Declaration declaration) {
-		if(declaration != null) {
-		  _types.add(declaration.parentLink());
-		} else {
-			throw new ChameleonProgrammerException("Cannot add a null declaration to a namespace part.");
-		}
+		add(_types,declaration);
 	}
 	
 	public void addAll(Collection<Declaration> declarations) {
@@ -366,7 +361,7 @@ public class NamespacePart extends NamespaceElementImpl implements DeclarationCo
    @ post !declarations().contains(declaration);
    @*/
 	public void remove(Declaration declaration) {
-		_types.remove(declaration.parentLink());
+		remove(_types,declaration);
 	}
 
 	/**
@@ -408,7 +403,7 @@ public class NamespacePart extends NamespaceElementImpl implements DeclarationCo
   	for(Declaration declaration:declarations()) {
   		result.add(declaration.clone());
   	}
-  	for(Import<Import> importt:imports()) {
+  	for(Import importt:imports()) {
   		result.addImport(importt.clone());
   	}
   	return result;
@@ -423,5 +418,10 @@ public class NamespacePart extends NamespaceElementImpl implements DeclarationCo
 
 	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
+	}
+
+	@Override
+	public LookupStrategy localStrategy() throws LookupException {
+		throw new ChameleonProgrammerException("This method should never be invoked.");
 	}
 }

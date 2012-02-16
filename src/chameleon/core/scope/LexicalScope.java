@@ -28,7 +28,7 @@ public class LexicalScope extends Scope {
    @
    @ post \result != null;
    @*/
-	public NamespaceElement<?> element() {
+	public NamespaceElement element() {
 		return _element;
 	}
 

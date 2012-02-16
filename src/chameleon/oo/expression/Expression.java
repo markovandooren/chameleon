@@ -20,7 +20,7 @@ import chameleon.oo.type.Type;
  * @author Marko van Dooren
  */
 
-public abstract class Expression<E extends Expression> extends NamespaceElementImpl<E> implements CrossReferenceTarget<E> {
+public abstract class Expression extends NamespaceElementImpl implements CrossReferenceTarget {
 
 	/**
 	 * Return the type of this expression. The actual computation of the type is done in actualType. This
@@ -74,10 +74,7 @@ public abstract class Expression<E extends Expression> extends NamespaceElementI
     // Do nothing by default.
   }
 
-  /**
-   * Repeated because the Java type checker is dumb.
-   */
-  public abstract E clone();
+  public abstract Expression clone();
 
   
 //  /**

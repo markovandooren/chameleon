@@ -967,7 +967,9 @@ public abstract class ElementImpl implements Element {
      @ post association.getOtherRelations().contains(element.parentLink());
      @*/
   	protected <E extends Element> void add(OrderedMultiAssociation<? extends Element,E> association, E element) {
-  		association.add((Association)element.parentLink());
+  		if(element != null) {
+  		  association.add((Association)element.parentLink());
+  		}
   	}
 
     /**
@@ -985,7 +987,9 @@ public abstract class ElementImpl implements Element {
      @ post !association.getOtherRelations().contains(element.parentLink());
      @*/
   	protected <E extends Element> void remove(OrderedMultiAssociation<? extends Element,E> association, E element) {
-  		association.remove((Association)element.parentLink());
+  		if(element != null) {
+  		  association.remove((Association)element.parentLink());
+  		}
   	}
 
 

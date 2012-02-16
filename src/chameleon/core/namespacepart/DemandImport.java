@@ -6,11 +6,11 @@ import java.util.List;
 import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.reference.ElementReference;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -19,10 +19,10 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class DemandImport extends Import<DemandImport> {
+public class DemandImport extends Import {
   
-  public DemandImport(ElementReference<?, ?, ? extends Namespace> ref) {
-    setNamespaceReference( (ElementReference<ElementReference<?, ?, ? extends Namespace>, ?, ? extends Namespace>) ref);
+  public DemandImport(ElementReference<? extends Namespace> ref) {
+    setNamespaceReference( (ElementReference<? extends Namespace>) ref);
   }
 
   
@@ -31,35 +31,30 @@ public class DemandImport extends Import<DemandImport> {
   }
 
   
-	private SingleAssociation<DemandImport,ElementReference<?, ?, ? extends Namespace>> _packageOrType = new SingleAssociation<DemandImport,ElementReference<?, ?, ? extends Namespace>>(this);
+	private SingleAssociation<DemandImport,ElementReference<? extends Namespace>> _packageOrType = new SingleAssociation<DemandImport,ElementReference<? extends Namespace>>(this);
 
   
-  public ElementReference<?, ?, ? extends Namespace> namespaceReference() {
+  public ElementReference<? extends Namespace> namespaceReference() {
     return _packageOrType.getOtherEnd();
   }
   
-  public void setNamespaceReference(ElementReference<ElementReference<?, ?, ? extends Namespace>, ?, ? extends Namespace> ref) {
-  	if(ref != null) {
-  		_packageOrType.connectTo(ref.parentLink());
-  	}
-  	else {
-  		_packageOrType.connectTo(null);
-  	}
+  public void setNamespaceReference(ElementReference<? extends Namespace> ref) {
+  	setAsParent(_packageOrType,ref);
   }
   
-  public NamespaceOrType declarationContainer() throws LookupException {
+  public DeclarationContainer declarationContainer() throws LookupException {
     return namespaceReference().getElement();
   }
   
   @Override
   public DemandImport clone() {
-    return new DemandImport((ElementReference<?, ?, ? extends Namespace>) namespaceReference().clone());
+    return new DemandImport((ElementReference<? extends Namespace>) namespaceReference().clone());
   }
 
 
 	@Override
 	public List<Declaration> demandImports() throws LookupException {
-		return declarationContainer().declarations();
+		return (List<Declaration>) declarationContainer().declarations();
 	}
 
 

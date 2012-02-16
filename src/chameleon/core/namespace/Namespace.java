@@ -42,7 +42,7 @@ import chameleon.util.Util;
  * @author Marko van Dooren
  */
 
-public abstract class Namespace extends ElementImpl implements NamespaceOrType, DeclarationContainer {
+public abstract class Namespace extends ElementImpl implements Declaration, DeclarationContainer {
 
 	public abstract Namespace clone();
 

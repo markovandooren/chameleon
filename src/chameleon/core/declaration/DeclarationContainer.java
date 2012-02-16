@@ -5,6 +5,7 @@ import java.util.List;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 
 /**
  * A general interface for elements that contain declarations. This interface allows the
@@ -71,5 +72,7 @@ public interface DeclarationContainer extends Element {
    @ post \result.equals(selector.selection(declarations()));
    @*/
   public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException;
+
+	public LookupStrategy localStrategy() throws LookupException;
   
 }

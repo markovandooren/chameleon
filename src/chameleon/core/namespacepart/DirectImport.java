@@ -22,7 +22,7 @@ import chameleon.util.Util;
  * 
  * @author Marko van Dooren
  */
-public class DirectImport<D extends Declaration> extends Import<DirectImport> {
+public class DirectImport<D extends Declaration> extends Import {
 
 	/**
 	 * Create a new direct import with the given cross reference and
@@ -32,7 +32,7 @@ public class DirectImport<D extends Declaration> extends Import<DirectImport> {
 	 * @param kind
 	 *        A class object that represents the type of the imported declaration.
 	 */
-  public DirectImport(CrossReference<?, D> ref, Class<D> kind) {
+  public DirectImport(CrossReference<D> ref, Class<D> kind) {
     setCrossReference(ref);
   }
   
@@ -50,14 +50,14 @@ public class DirectImport<D extends Declaration> extends Import<DirectImport> {
     return Util.createNonNullList(crossReference());
   }
 
-	private SingleAssociation<DirectImport, CrossReference<?, D>> _typeReference = new SingleAssociation<DirectImport, CrossReference<?, D>>(this);
+	private SingleAssociation<DirectImport, CrossReference<D>> _typeReference = new SingleAssociation<DirectImport, CrossReference<D>>(this);
 
   
-  public CrossReference<?, D> crossReference() {
+  public CrossReference<D> crossReference() {
     return _typeReference.getOtherEnd();
   }
 
-  public void setCrossReference(CrossReference<?,D> reference) {
+  public void setCrossReference(CrossReference<D> reference) {
   	setAsParent(_typeReference, reference);
   }
   
@@ -71,8 +71,8 @@ public class DirectImport<D extends Declaration> extends Import<DirectImport> {
   }
 
   @Override
-  public DirectImport clone() {
-    return new DirectImport(crossReference().clone(),kind());
+  public DirectImport<D> clone() {
+    return new DirectImport<D>((CrossReference<D>)crossReference().clone(),kind());
   }
 
 	@Override
