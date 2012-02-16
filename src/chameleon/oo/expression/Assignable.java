@@ -10,9 +10,9 @@ import chameleon.oo.type.Type;
  * @author Marko van Dooren
  */
 
-public interface Assignable<E extends Assignable> extends Element<E> {
+public interface Assignable extends Element {
 
 	public Type getType() throws LookupException;
 
-  public E clone();
+  public Assignable clone();
 }

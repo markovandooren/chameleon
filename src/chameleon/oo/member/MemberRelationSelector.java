@@ -30,7 +30,7 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
 	private Class<D> _selectedClass;
 	
 	@Override
-	public String selectionName(DeclarationContainer<?> container) throws LookupException {
+	public String selectionName(DeclarationContainer container) throws LookupException {
 		return declaration().signature().name();
 	}
 	

@@ -2,6 +2,7 @@ package chameleon.oo.statement;
 
 import java.util.List;
 
+import org.rejuse.association.Association;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.java.collections.Visitor;
 
@@ -15,7 +16,7 @@ import chameleon.exception.ChameleonProgrammerException;
 /**
  * @author Marko van Dooren
  */
-public class Block extends StatementImpl<Block> implements StatementListContainer<Block> {
+public class Block extends StatementImpl implements StatementListContainer {
 	//TODO: should this be a member, or should there be a separate ObjectInitializer that contains a block ?
 	//TODO: can any statement be a member ? In this case the methods of Member have to move up.
 
@@ -29,21 +30,17 @@ public class Block extends StatementImpl<Block> implements StatementListContaine
   }
 
   public void addStatement(Statement statement) {
-  	if(statement != null) {
-      _statements.add(statement.parentLink());
-  	}
+  	add(_statements,statement);
   }
   
   public void addInFront(Statement statement) {
 	  if(statement != null) {
-		  _statements.addInFront(statement.parentLink());
+		  _statements.addInFront((Association)statement.parentLink());
 	  }
   }
 
   public void removeStatement(Statement statement) {
-  	if(statement != null) {
-      _statements.remove(statement.parentLink());
-  	}
+  	remove(_statements,statement);
   }
 
   public int nbStatements() {

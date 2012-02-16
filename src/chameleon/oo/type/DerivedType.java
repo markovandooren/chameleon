@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
@@ -45,7 +46,7 @@ public class DerivedType extends TypeWithBody {
 	 * @param baseType
 	 */
 	private DerivedType(Type baseType) {
-		super(baseType.signature().clone());
+		super((SimpleNameSignature) baseType.signature().clone());
 		_baseType = baseType;
 		setOrigin(baseType);
 		copyInheritanceRelations(baseType, true);
@@ -173,7 +174,7 @@ public class DerivedType extends TypeWithBody {
 
 	protected List<ParameterSubstitution> clonedParameters() {
 		List<ParameterSubstitution> args = new ArrayList<ParameterSubstitution>();
-		for(ParameterBlock<?,?> block: parameterBlocks()) {
+		for(ParameterBlock<?> block: parameterBlocks()) {
 			List<Parameter> list = new ArrayList<Parameter>();
 			for(Parameter par: block.parameters()) {
 				list.add(par.clone());

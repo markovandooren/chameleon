@@ -9,11 +9,11 @@ import chameleon.core.modifier.Modifier;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.type.TypeReference;
 
-public interface VariableDeclarator<E extends VariableDeclarator, V extends Variable> extends Element<E> , DeclarationContainer<E> {
+public interface VariableDeclarator extends Element, DeclarationContainer {
 
-	public List<VariableDeclaration<V>> variableDeclarations();
+	public List<VariableDeclaration> variableDeclarations();
 
-	public V createVariable(SimpleNameSignature signature, Expression expression);
+	public Variable createVariable(SimpleNameSignature signature, Expression expression);
 	
 	public TypeReference typeReference();
 	

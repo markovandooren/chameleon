@@ -174,7 +174,7 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 	    return result;
 	}
 
-	public void reParse(Element<?> element) throws ParseException {
+	public void reParse(Element element) throws ParseException {
 		CompilationUnit compilationUnit = element.nearestAncestor(CompilationUnit.class);
 		Language lang = element.language();
 		boolean done = false;
@@ -195,7 +195,7 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 			} catch (NoLocationException e) {
 			}
 			if(! done) {
-				Element<?> old = element;
+				Element old = element;
 				element = element.parent();
 				if(element == null) {
 					throw new ParseException(old.nearestAncestor(CompilationUnit.class));
@@ -204,13 +204,13 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 		}
 	}
 	
-	private void clearPositions(Element<?> element, Language lang) {
+	private void clearPositions(Element element, Language lang) {
    	for(InputProcessor processor: lang.processors(InputProcessor.class)) {
    		processor.removeLocations(element);
    	}
 	}
 
-	protected abstract <P extends Element> Element parse(Element<?> element, String text) throws ParseException;
+	protected abstract <P extends Element> Element parse(Element element, String text) throws ParseException;
 
 
 }

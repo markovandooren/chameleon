@@ -419,7 +419,7 @@ public class ChameleonProjectNature implements IProjectNature {
 	/* (non-Javadoc)
 	 * @see chameleonEditor.editors.IChameleonDocument#getModel()
 	 */
-	public Namespace<?> getModel(){
+	public Namespace getModel(){
 		return language().defaultNamespace();
 	}
 
@@ -454,7 +454,7 @@ public class ChameleonProjectNature implements IProjectNature {
 	 * @param element
 	 * @return
 	 */
-	public ChameleonDocument document(Element<?> element) {
+	public ChameleonDocument document(Element element) {
 		if(element != null) {
 			CompilationUnit cu = element.nearestAncestorOrSelf(CompilationUnit.class);
 			for(ChameleonDocument doc : _documents) {

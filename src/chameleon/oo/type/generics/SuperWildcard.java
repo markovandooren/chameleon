@@ -7,15 +7,15 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 
-public class SuperWildcard<E extends SuperWildcard> extends ActualTypeArgumentWithTypeReference<E> {
+public class SuperWildcard extends ActualTypeArgumentWithTypeReference {
 
 	public SuperWildcard(TypeReference ref) {
 		super(ref);
 	}
 
 	@Override
-	public E clone() {
-		return (E) new SuperWildcard(typeReference().clone());
+	public SuperWildcard clone() {
+		return new SuperWildcard(typeReference().clone());
 	}
 
 //	@Override
@@ -75,17 +75,14 @@ public class SuperWildcard<E extends SuperWildcard> extends ActualTypeArgumentWi
 	}
 
 	@Override
-	public String infoDisplayName() {
+	public String toString() {
 		TypeReference tref = typeReference();
 		StringBuffer result = new StringBuffer();
 		result.append("? super ");
 		if(tref != null) {
-			result.append(typeReference().infoDisplayName());
+			result.append(typeReference().toString());
 		}
 		return result.toString();
 	}
 
-	public String toString() {
-		return "? super "+typeReference().toString();
-	}
 }

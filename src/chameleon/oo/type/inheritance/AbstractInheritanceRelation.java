@@ -25,7 +25,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
 
-public abstract class AbstractInheritanceRelation<E extends AbstractInheritanceRelation<E>> extends ElementWithModifiersImpl<E> implements InheritanceRelation<E,Type> {
+public abstract class AbstractInheritanceRelation extends ElementWithModifiersImpl implements InheritanceRelation {
 	
 	private static Logger logger = Logger.getLogger("lookup.inheritance");
 	
@@ -33,7 +33,7 @@ public abstract class AbstractInheritanceRelation<E extends AbstractInheritanceR
 		return logger;
 	}
 	
-	public abstract E clone();
+	public abstract AbstractInheritanceRelation clone();
 
 	public AbstractInheritanceRelation(TypeReference ref) {
 		setSuperClassReference(ref);
@@ -100,11 +100,7 @@ public abstract class AbstractInheritanceRelation<E extends AbstractInheritanceR
    @ post superClassReference() == ref;
    @*/
 	public void setSuperClassReference(TypeReference ref) {
-		if(ref != null) {
-			_superClass.connectTo(ref.parentLink());
-		} else {
-			_superClass.connectTo(null);
-		}
+		setAsParent(_superClass,ref);
 	}
 	
 	/**

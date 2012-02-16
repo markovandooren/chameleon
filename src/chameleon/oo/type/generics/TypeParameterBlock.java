@@ -71,8 +71,12 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 		if(element instanceof Stub) {
 			return parent().lexicalLookupStrategy(this);
 		} else {
-		  return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this), this);
+		  return language().lookupFactory().createLexicalLookupStrategy(localStrategy(), this);
 		}
+	}
+
+	public LookupStrategy localStrategy() {
+		return language().lookupFactory().createLocalLookupStrategy(this);
 	}
 	
 	public static class Stub extends ElementImpl implements DeclarationContainer{
@@ -87,7 +91,11 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 		}
 		
 		public LookupStrategy lexicalLookupStrategy(Element element) {
-			return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this), this);
+			return language().lookupFactory().createLexicalLookupStrategy(localStrategy(), this);
+		}
+
+		public LookupStrategy localStrategy() {
+			return language().lookupFactory().createLocalLookupStrategy(this);
 		}
 		
 
@@ -136,8 +144,6 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 			return declarations();
 		}
 
-
-		
 	}
 
 	@Override

@@ -75,5 +75,4 @@ public abstract class ActualTypeArgument extends NamespaceElementImpl {
 		return (argument.getClass().equals(getClass())) && (type().sameAs(((ActualTypeArgument)argument).type(),trace));
 	}
 
-	public abstract String infoDisplayName();
 }

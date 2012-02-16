@@ -20,7 +20,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class StaticInitializer extends TypeElementImpl<StaticInitializer> implements ExceptionSource<StaticInitializer> {
+public class StaticInitializer extends TypeElementImpl implements ExceptionSource {
 
   public StaticInitializer(Block block) {
       setBlock(block);
@@ -50,7 +50,7 @@ public class StaticInitializer extends TypeElementImpl<StaticInitializer> implem
   private SingleAssociation<StaticInitializer,Block> _blockLink = new SingleAssociation<StaticInitializer,Block>(this);
 
   public void setBlock(Block block) {
-    _blockLink.connectTo(block.parentLink());
+    setAsParent(_blockLink,block);
   }
 
   /**

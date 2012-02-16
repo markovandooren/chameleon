@@ -4,7 +4,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 
-public class EqualityConstraint extends TypeConstraint<EqualityConstraint> {
+public class EqualityConstraint extends TypeConstraint {
 	
 	public EqualityConstraint() {
 	}

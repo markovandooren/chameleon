@@ -37,7 +37,7 @@ public class CompositeIconProvider implements IconProvider {
 	
 	private List<IconProvider> _providers = new ArrayList<IconProvider>();
 
-	public String iconName(Element<?> element) throws ModelException {
+	public String iconName(Element element) throws ModelException {
 		String result = null;
 		for(IconProvider provider: _providers) {
 			result = provider.iconName(element);

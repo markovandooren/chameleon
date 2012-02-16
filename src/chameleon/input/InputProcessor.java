@@ -16,16 +16,16 @@ public interface InputProcessor extends Processor {
 	/**
 	 * Set the locations of the given element. The location is a range marked by the offset and the length of the element.
 	 */
-  public void setLocation(Element<?> element, int offset, int length, CompilationUnit compilationUnit);
+  public void setLocation(Element element, int offset, int length, CompilationUnit compilationUnit);
 
-  public void setLocation(Element<?> element, int offset, int length, CompilationUnit compilationUnit, String tagType);
+  public void setLocation(Element element, int offset, int length, CompilationUnit compilationUnit, String tagType);
   
   /**
    * Remove all locations from the given element.
    * 
    * @param element The element from which all locations must be removed.
    */
-  public void removeLocations(Element<?> element);
+  public void removeLocations(Element element);
   
   /**
    * Mark a parse error in the source document.

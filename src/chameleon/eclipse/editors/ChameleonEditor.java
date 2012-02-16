@@ -630,7 +630,7 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 	 * 			the type of editortag that has to be highlighted (must be a constant of EditorTagTypes)
 	 * @result	true if the element is shown, false when failed or (element is part of closed editor and openNewEditor == false)
 	 */
-	public static boolean showInEditor(Element<?> element, boolean openOtherEditor, boolean openNewEditor, ChameleonEditor chamEditor, boolean selectElement, String editorTagToHighlight){
+	public static boolean showInEditor(Element element, boolean openOtherEditor, boolean openNewEditor, ChameleonEditor chamEditor, boolean selectElement, String editorTagToHighlight){
 		if(element==null){
 			chamEditor.resetHighlight(selectElement);
 			return false;

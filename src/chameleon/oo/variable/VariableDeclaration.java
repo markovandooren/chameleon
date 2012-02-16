@@ -18,11 +18,12 @@ import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.type.Type;
 import chameleon.util.Util;
 
-public class VariableDeclaration<V extends Variable> extends NamespaceElementImpl<VariableDeclaration<V>> implements DeclarationContainer<VariableDeclaration<V>> {
+public class VariableDeclaration extends NamespaceElementImpl implements DeclarationContainer {
 
 	public VariableDeclaration(String name) {
 		this(new SimpleNameSignature(name), null);
@@ -47,13 +48,9 @@ public class VariableDeclaration<V extends Variable> extends NamespaceElementImp
 		return new VariableDeclaration(signature().clone(), clonedExpression);
 	}
 
-	 public void setSignature(SimpleNameSignature signature) {
-	    if(signature != null) {
-	    	_signature.connectTo(signature.parentLink());
-	    } else {
-	    	_signature.connectTo(null);
-	    }
-	  }
+	public void setSignature(SimpleNameSignature signature) {
+		setAsParent(_signature,signature);
+	}
 	  
 	  /**
 	   * Return the signature of this member.
@@ -83,25 +80,20 @@ public class VariableDeclaration<V extends Variable> extends NamespaceElementImp
   }
   
   public void setInitialization(Expression expression) {
-    if(expression != null) {
-    	_expression.connectTo(expression.parentLink());
-    }
-    else {
-      _expression.connectTo(null); 
-    }
+    setAsParent(_expression,expression);
   }
   
-  public V variable() {
+  public Variable variable() {
   	Expression init = initialization();
 		Expression initClone = (init == null ? null : init.clone());
-		V result = (V)((VariableDeclarator<?,V>)parent()).createVariable(signature().clone(),initClone);
+		Variable result = ((VariableDeclarator)parent()).createVariable(signature().clone(),initClone);
   	result.setUniParent(parent());
   	result.setOrigin(this);
   	transform(result);
   	return result;
   }
   
-  protected void transform(V variable) {
+  protected void transform(Variable variable) {
   }
 
 	public List<? extends Declaration> declarations() throws LookupException {
@@ -157,5 +149,12 @@ public class VariableDeclaration<V extends Variable> extends NamespaceElementImp
 	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
 	}
+
+	@Override
+	public LookupStrategy localStrategy() throws LookupException {
+		throw new ChameleonProgrammerException();
+	}
+	// BUG shouldn't this override lexical strategy?
+	
   
 }

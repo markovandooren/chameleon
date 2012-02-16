@@ -63,7 +63,7 @@ public abstract class Method extends MemberImpl implements DeclarationContainer,
    @
    @ post header() == header;
    @*/ 
-	public Method(DeclarationWithParametersHeader header) {
+	public Method(MethodHeader header) {
 		setHeader(header);
 	}
 	
@@ -143,7 +143,7 @@ public abstract class Method extends MemberImpl implements DeclarationContainer,
 	}
 	
 	public void setSignature(Signature signature) {
-		setHeader(header().createFromSignature(signature));
+		setHeader((MethodHeader) header().createFromSignature(signature));
 	}
 	
 	public void setName(String name) {
@@ -154,18 +154,18 @@ public abstract class Method extends MemberImpl implements DeclarationContainer,
 	 * Set the header of this method.
 	 * @param header
 	 */
-	public void setHeader(DeclarationWithParametersHeader header) {
+	public void setHeader(MethodHeader header) {
 	  setAsParent(_header,header);
 	}
 	  
 	  /**
 	   * Return the signature of this member.
 	   */
-	  public DeclarationWithParametersHeader header() {
+	  public MethodHeader header() {
 	    return _header.getOtherEnd();
 	  }
 	  
-	  private SingleAssociation<Method, DeclarationWithParametersHeader> _header = new SingleAssociation<Method, DeclarationWithParametersHeader>(this);
+	  private SingleAssociation<Method, MethodHeader> _header = new SingleAssociation<Method, MethodHeader>(this);
 	
 	/******************
 	 * IMPLEMENTATION *
@@ -321,7 +321,7 @@ public abstract class Method extends MemberImpl implements DeclarationContainer,
 		// EXCEPTION CLAUSE
 		result.setExceptionClause(getExceptionClause().clone());
 		// HEADER
-		result.setHeader((DeclarationWithParametersHeader)header().clone());
+		result.setHeader((MethodHeader)header().clone());
 		// IMPLEMENTATION
 		if(implementation() != null) {
 			result.setImplementation(implementation().clone());
@@ -494,6 +494,10 @@ public abstract class Method extends MemberImpl implements DeclarationContainer,
   		_local = language().lookupFactory().createTargetLookupStrategy(this);
   	}
   	return _local;
+  }
+  
+  public LookupStrategy localStrategy() {
+  	return localLookupStrategy();
   }
   
   private LookupStrategy _local;

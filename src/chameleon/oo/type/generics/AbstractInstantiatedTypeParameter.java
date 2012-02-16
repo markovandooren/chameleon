@@ -20,7 +20,7 @@ import chameleon.oo.type.TypeReference;
 import chameleon.util.Pair;
 
 
-public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstantiatedTypeParameter<E>> extends TypeParameter<E> {
+public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 
 	public AbstractInstantiatedTypeParameter(SimpleNameSignature signature, ActualTypeArgument argument) {
 		super(signature);
@@ -34,7 +34,7 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 	 * @return
 	 * @throws LookupException
 	 */
-	public TypeParameterSubstitution substitution(Element<?> element) throws LookupException {
+	public TypeParameterSubstitution substitution(Element element) throws LookupException {
 		List<CrossReference> crossReferences = 
 			 element.descendants(CrossReference.class, 
 					              new UnsafePredicate<CrossReference,LookupException>() {
@@ -116,8 +116,8 @@ public abstract class AbstractInstantiatedTypeParameter<E extends AbstractInstan
 		private final TypeParameter _param;
 
 		@Override
-		public Type clone() {
-			return new LazyTypeAlias(signature().clone(), _param);
+		public LazyTypeAlias clone() {
+			return new LazyTypeAlias((SimpleNameSignature) signature().clone(), _param);
 		}
 
 		public boolean uniSameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {

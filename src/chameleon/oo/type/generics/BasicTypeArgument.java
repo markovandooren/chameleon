@@ -12,15 +12,15 @@ import chameleon.oo.type.TypeReference;
  * 
  * @author Marko van Dooren
  */
-public class BasicTypeArgument<E extends BasicTypeArgument> extends ActualTypeArgumentWithTypeReference<E> {
+public class BasicTypeArgument extends ActualTypeArgumentWithTypeReference {
 
 	public BasicTypeArgument(TypeReference ref) {
 		super(ref);
 	}
 
 	@Override
-	public E clone() {
-		return (E) new BasicTypeArgument(typeReference().clone());
+	public BasicTypeArgument clone() {
+		return new BasicTypeArgument(typeReference().clone());
 	}
 
  /*@
@@ -84,11 +84,8 @@ public class BasicTypeArgument<E extends BasicTypeArgument> extends ActualTypeAr
 	}
 
 	@Override
-	public String infoDisplayName() {
-		return typeReference().infoDisplayName();
-	}
-
 	public String toString() {
 		return typeReference().toString();
 	}
+
 }

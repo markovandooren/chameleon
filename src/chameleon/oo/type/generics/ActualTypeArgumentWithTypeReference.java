@@ -12,7 +12,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.oo.type.TypeReference;
 
 
-public abstract class ActualTypeArgumentWithTypeReference<E extends ActualTypeArgumentWithTypeReference> extends ActualTypeArgument<E> {
+public abstract class ActualTypeArgumentWithTypeReference extends ActualTypeArgument {
 
 	public ActualTypeArgumentWithTypeReference(TypeReference ref) {
 		setTypeReference(ref);
@@ -29,11 +29,7 @@ public abstract class ActualTypeArgumentWithTypeReference<E extends ActualTypeAr
 	}
 
 	public void setTypeReference(TypeReference ref) {
-		if(ref == null) {
-			_type.connectTo(null);
-		} else {
-			_type.connectTo(ref.parentLink());
-		}
+		setAsParent(_type,ref);
 	}
 
 	protected SingleAssociation<ActualTypeArgument,TypeReference> _type = new SingleAssociation<ActualTypeArgument,TypeReference>(this);

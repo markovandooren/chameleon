@@ -17,7 +17,7 @@ public abstract class OverridesRelation<D extends Declaration> extends Declarati
 		return isOverridable(second) && super.contains(first, second);
 	}
 
-	public boolean isOverridable(Member<?,?> d) throws LookupException {
+	public boolean isOverridable(Member d) throws LookupException {
 		boolean result;
 		Ternary temp = d.is(d.language(ObjectOrientedLanguage.class).OVERRIDABLE);
 		if(temp == Ternary.TRUE) {

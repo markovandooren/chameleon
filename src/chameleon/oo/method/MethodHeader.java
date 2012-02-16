@@ -10,7 +10,7 @@ import chameleon.oo.member.DeclarationWithParametersSignature;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
 
-public abstract class MethodHeader<E extends DeclarationWithParametersHeader, S extends DeclarationWithParametersSignature> extends DeclarationWithParametersHeader<E,S> {
+public abstract class MethodHeader extends DeclarationWithParametersHeader {
 
 	public MethodHeader(TypeReference returnType) {
 		setReturnTypeReference(returnType);
@@ -23,12 +23,7 @@ public abstract class MethodHeader<E extends DeclarationWithParametersHeader, S 
 	}
 
 	public void setReturnTypeReference(TypeReference type) {
-		if(type != null) {
-			_typeReference.connectTo(type.parentLink());
-		}
-		else {
-			_typeReference.connectTo(null);
-		}
+		setAsParent(_typeReference,type);
 	}
 
 	@Override

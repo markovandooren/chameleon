@@ -8,7 +8,7 @@ import chameleon.oo.statement.Block;
  * @author Marko van Dooren
  */
 
-public abstract class Implementation<E extends Implementation> extends NamespaceElementImpl<E> {
+public abstract class Implementation extends NamespaceElementImpl {
 
   public Implementation() {
     }
@@ -16,7 +16,7 @@ public abstract class Implementation<E extends Implementation> extends Namespace
   /**
    * @return
    */
-  public abstract E clone();
+  public abstract Implementation clone();
 
   /**
    * Check if the implementation exception clause of the method body 

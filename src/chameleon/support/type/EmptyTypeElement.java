@@ -12,7 +12,7 @@ import chameleon.oo.member.Member;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeElementImpl;
 
-public class EmptyTypeElement extends TypeElementImpl<EmptyTypeElement> {
+public class EmptyTypeElement extends TypeElementImpl {
 
 	@Override
 	public EmptyTypeElement clone() {

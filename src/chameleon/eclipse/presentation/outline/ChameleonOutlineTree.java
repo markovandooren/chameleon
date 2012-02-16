@@ -77,7 +77,7 @@ public class ChameleonOutlineTree {
 	 * @param element
 	 * 	The parent element for which the displayed children are returned
 	 */
-	protected List<Element> getChildren(Element<?> element) {
+	protected List<Element> getChildren(Element element) {
 		try {
 			return element.language().plugin(EclipseEditorExtension.class).outlineSelector().outlineChildren(element);
 		} 

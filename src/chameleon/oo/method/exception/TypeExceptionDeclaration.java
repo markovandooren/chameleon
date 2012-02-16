@@ -24,7 +24,7 @@ import chameleon.util.Util;
  * 
  * @author Marko van Dooren
  */
-public class TypeExceptionDeclaration extends ExceptionDeclaration<TypeExceptionDeclaration> {
+public class TypeExceptionDeclaration extends ExceptionDeclaration {
 
   public TypeExceptionDeclaration(TypeReference type) {
     setTypeReference(type);
@@ -55,7 +55,7 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration<TypeException
   }
   
   public void setTypeReference(TypeReference ref) {
-    _typeReference.connectTo(ref.parentLink());
+    setAsParent(_typeReference,ref);
   }
 
   /**

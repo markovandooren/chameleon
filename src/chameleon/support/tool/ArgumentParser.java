@@ -10,10 +10,12 @@ import java.util.Set;
 
 import org.rejuse.io.DirectoryScanner;
 
+import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.NamespaceOrTypeReference;
+import chameleon.core.reference.SimpleReference;
 import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
 import chameleon.oo.language.ObjectOrientedLanguage;
@@ -98,17 +100,17 @@ public class ArgumentParser {
     
     for(int i = low; i < args.length;i++) {
       if(args[i].startsWith("@")) {
-      	NamespaceOrTypeReference ref= new NamespaceOrTypeReference(args[i].substring(1));
+      	SimpleReference<Namespace> ref= new SimpleReference<Namespace>(new SimpleNameSignature(args[i].substring(1)),Namespace.class);
       	ref.setUniParent(mm);
-      	Namespace ns = (Namespace) ref.getElement();
+      	Namespace ns = ref.getElement();
         types.addAll(ns.allDeclarations(Type.class));
       }
     }
     for(int i = low; i < args.length;i++) {
       if(args[i].startsWith("#")) {
-      	NamespaceOrTypeReference ref= new NamespaceOrTypeReference(args[i].substring(1));
+      	SimpleReference<Namespace> ref= new SimpleReference<Namespace>(new SimpleNameSignature(args[i].substring(1)),Namespace.class);
       	ref.setUniParent(mm);
-      	Namespace ns = (Namespace) ref.getElement();
+      	Namespace ns = ref.getElement();
         types.addAll(ns.declarations(Type.class));
       }
     }

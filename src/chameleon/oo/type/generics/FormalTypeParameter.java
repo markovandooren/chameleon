@@ -21,7 +21,7 @@ import chameleon.util.Pair;
  * 
  * @author Marko van Dooren
  */
-public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
+public class FormalTypeParameter extends TypeParameter {
 
 	public FormalTypeParameter(SimpleNameSignature signature) {
 		super(signature);
@@ -81,9 +81,7 @@ public class FormalTypeParameter extends TypeParameter<FormalTypeParameter> {
 	}
 	
 	public void addConstraint(TypeConstraint constraint) {
-		if(constraint != null) {
-			_typeConstraints.add(constraint.parentLink());
-		}
+		add(_typeConstraints,constraint);
 	}
 	
 	public TypeReference upperBoundReference() {

@@ -6,7 +6,7 @@ import chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
 import chameleon.core.element.Element;
 import chameleon.oo.variable.FormalParameter;
 
-public interface ParameterExposurePointcutExpression<E extends ParameterExposurePointcutExpression<E,J>,J extends Element> extends PointcutExpression<E,J> {
+public interface ParameterExposurePointcutExpression<J extends Element> extends PointcutExpression<J> {
 	
 	/**
 	 * 	Rename the parameters this expression exposes according to the given map

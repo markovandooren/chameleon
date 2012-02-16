@@ -14,7 +14,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
 
-public abstract class TypeConstraint<E extends TypeConstraint> extends ElementImpl<E> {
+public abstract class TypeConstraint extends ElementImpl {
 
 	public TypeConstraint() {
 	}
@@ -40,12 +40,9 @@ public abstract class TypeConstraint<E extends TypeConstraint> extends ElementIm
 	public abstract Type lowerBound() throws LookupException;
 	
 	public void setTypeReference(TypeReference ref) {
-		if(ref != null) {
-			_types.connectTo(ref.parentLink());
-		} else {
-			_types.connectTo(null);
-		}
+		setAsParent(_types,ref);
 	}
+	
 	public TypeReference typeReference() {
 		return _types.getOtherEnd();
 	}
@@ -57,13 +54,13 @@ public abstract class TypeConstraint<E extends TypeConstraint> extends ElementIm
 	} 
 	
 	@Override
-	public E clone() {
-		E result = cloneThis();
+	public TypeConstraint clone() {
+		TypeConstraint result = cloneThis();
 		result.setTypeReference(typeReference().clone());
 		return result;
 	}
 	
-	public abstract E cloneThis();
+	public abstract TypeConstraint cloneThis();
 
 	public Type bound() throws LookupException {
 		return typeReference().getElement();

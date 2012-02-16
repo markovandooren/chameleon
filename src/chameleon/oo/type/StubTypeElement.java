@@ -6,7 +6,7 @@ import chameleon.core.namespace.NamespaceElementImpl;
 /**
  * @author marko
  */
-public abstract class StubTypeElement<E extends StubTypeElement> extends NamespaceElementImpl<E> {
+public abstract class StubTypeElement extends NamespaceElementImpl {
 
   public StubTypeElement(Element parent) {
     setUniParent(parent);

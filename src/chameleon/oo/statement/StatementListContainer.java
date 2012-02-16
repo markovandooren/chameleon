@@ -7,11 +7,8 @@ import chameleon.core.element.Element;
 /**
  * 
  * @author Marko van Dooren
- *
- * @param <E>
- * @param <P>
  */
-public interface StatementListContainer<E extends Element> extends Element<E>{
+public interface StatementListContainer extends Element {
 
     public int getIndexOf(Statement statement);
     

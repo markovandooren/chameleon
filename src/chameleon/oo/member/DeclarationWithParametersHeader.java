@@ -212,6 +212,13 @@ public abstract class DeclarationWithParametersHeader extends NamespaceElementIm
   	return _local;
   }
   
+	@Override
+	public LookupStrategy localStrategy() throws LookupException {
+		return localLookupStrategy();
+	}
+
+
+  
   private LookupStrategy _local;
   
   private LookupStrategy _lexical;

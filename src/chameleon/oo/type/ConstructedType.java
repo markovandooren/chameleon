@@ -64,7 +64,7 @@ public class ConstructedType extends TypeIndirection {
 
 	@Override
 	public ConstructedType clone() {
-		return new ConstructedType(signature().clone(), aliasedType(), parameter());
+		return new ConstructedType((SimpleNameSignature) signature().clone(), aliasedType(), parameter());
 	}
 
 	@Override

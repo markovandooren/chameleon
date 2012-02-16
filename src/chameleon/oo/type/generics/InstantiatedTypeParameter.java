@@ -2,15 +2,15 @@ package chameleon.oo.type.generics;
 
 import chameleon.core.declaration.SimpleNameSignature;
 
-public class InstantiatedTypeParameter<E extends InstantiatedTypeParameter<E>> extends AbstractInstantiatedTypeParameter<E> {
+public class InstantiatedTypeParameter extends AbstractInstantiatedTypeParameter {
 	
 	public InstantiatedTypeParameter(SimpleNameSignature signature, ActualTypeArgument argument) {
 		super(signature,argument);
 	}
 	
 	@Override
-	public E clone() {
-		return (E) new InstantiatedTypeParameter(signature().clone(),argument());
+	public InstantiatedTypeParameter clone() {
+		return new InstantiatedTypeParameter(signature().clone(),argument());
 	}
 
 	

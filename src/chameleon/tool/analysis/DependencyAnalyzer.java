@@ -54,7 +54,7 @@ public class DependencyAnalyzer {
   
   public <T extends Element> Set<T> nearestAncestors(Collection<? extends Element> elements, Class<T> kind) {
   	Set<T> result = new HashSet<T>();
-  	for(Element<?> element: elements) {
+  	for(Element element: elements) {
   		result.add(element.nearestAncestor(kind));
   	}
   	return result;

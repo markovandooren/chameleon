@@ -15,7 +15,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
 
-public class SimpleNameDeclarationWithParametersSignature extends DeclarationWithParametersSignature<SimpleNameDeclarationWithParametersSignature>{
+public class SimpleNameDeclarationWithParametersSignature extends DeclarationWithParametersSignature {
 
   public SimpleNameDeclarationWithParametersSignature(String name) {
     setName(name);
@@ -47,7 +47,7 @@ public class SimpleNameDeclarationWithParametersSignature extends DeclarationWit
   }
 
   public void add(TypeReference arg) {
-   _parameterTypes.add(arg.parentLink());
+    add(_parameterTypes,arg);
   }
 
   public void addAll(List<TypeReference> trefs) {
@@ -57,7 +57,7 @@ public class SimpleNameDeclarationWithParametersSignature extends DeclarationWit
   }
   
   public void remove(TypeReference arg) {
-    _parameterTypes.remove(arg.parentLink());
+    remove(_parameterTypes,arg);
    }
 
   public int nbTypeReferences() {

@@ -16,6 +16,7 @@ import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Definition;
 import chameleon.core.declaration.MissingSignature;
+import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
@@ -49,8 +50,7 @@ import chameleon.util.Pair;
  *
  * @author Marko van Dooren
  */
-public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameSignature,Type> 
-                implements Type {
+public abstract class AbstractType extends FixedSignatureMember implements Type {
  
 	
 	public Class<SimpleNameSignature> signatureType() {
@@ -65,6 +65,9 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
 		return this;
 	}
 	
+	public SimpleNameSignature signature() {
+		return (SimpleNameSignature) super.signature();
+	}
 	private List<? extends Declaration> _declarationCache = null;
 	
 	private synchronized List<? extends Declaration> declarationCache() {
@@ -146,7 +149,7 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
   	 @ post \result != null;
   	 @*/
   	public String getName() {
-  		SimpleNameSignature signature = signature();
+  		Signature signature = signature();
 			return (signature != null ? signature.name() : null);
   	}
 
@@ -304,7 +307,7 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
 
   	public <P extends Parameter> List<P> parameters(Class<P> kind) {
   		List<P> result;
-  		ParameterBlock<?, P> parameterBlock = parameterBlock(kind);
+  		ParameterBlock<P> parameterBlock = parameterBlock(kind);
   		if(parameterBlock != null) {
 			  result = parameterBlock.parameters();
   		} else {
@@ -656,7 +659,7 @@ public abstract class AbstractType extends FixedSignatureMember<Type,SimpleNameS
 
     private Map<Class,List> _membersCache;
     
-    public abstract Type clone();
+    public abstract AbstractType clone();
 
    /*@
      @ also public behavior

@@ -25,7 +25,7 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.statement.CheckedExceptionList;
 import chameleon.util.Util;
-public class NamedTarget extends CrossReferenceImpl<NamedTarget,TargetDeclaration> implements CrossReferenceTarget<NamedTarget>, CrossReferenceWithTarget<NamedTarget,TargetDeclaration>, CrossReferenceWithName<NamedTarget,TargetDeclaration> {
+public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implements CrossReferenceTarget, CrossReferenceWithTarget<TargetDeclaration>, CrossReferenceWithName<TargetDeclaration> {
 
 	/**
 	 * Initialize a new named target with the given fully qualified name. The
@@ -67,17 +67,12 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,TargetDeclaratio
 	 */
 	private SingleAssociation<CrossReferenceTarget,CrossReferenceTarget> _target = new SingleAssociation<CrossReferenceTarget,CrossReferenceTarget>(this);
 
-  public CrossReferenceTarget<?> getTarget() {
+  public CrossReferenceTarget getTarget() {
     return _target.getOtherEnd();
   }
 
   public void setTarget(CrossReferenceTarget target) {
-    if (target != null) {
-      _target.connectTo(target.parentLink());
-    }
-    else {
-      _target.connectTo(null);
-    }
+    setAsParent(_target,target);
   }
 
   public List<Element> children() {
@@ -128,7 +123,7 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,TargetDeclaratio
 	   	return result;
 	  }
 
-	  CrossReferenceTarget<?> target = getTarget();
+	  CrossReferenceTarget target = getTarget();
     if(target != null) {
       result = target.targetContext().lookUp(selector);//findElement(getName());
     } else {
@@ -206,7 +201,7 @@ public class NamedTarget extends CrossReferenceImpl<NamedTarget,TargetDeclaratio
 
   public NamedTarget clone() {
     NamedTarget result = new NamedTarget(name());
-    CrossReferenceTarget<?> target = getTarget();
+    CrossReferenceTarget target = getTarget();
 		if(target!= null) {
       result.setTarget(target.clone());
     }

@@ -16,11 +16,8 @@ import chameleon.oo.variable.FormalParameter;
 /**
  * 
  * @author Marko van Dooren
- *
- * @param <E>
- * @param <S>
  */
-public class SimpleNameMethodHeader<E extends SimpleNameMethodHeader, S extends DeclarationWithParametersSignature> extends MethodHeader<E,S> {
+public class SimpleNameMethodHeader extends MethodHeader {
 
 	//FIXME LARGELY COPIED FROM SimpleNameDeclarationWithParametersHeader.
 	//      Better solution is to use a SimpleNameDeclarationWithParametersHeader as a subobject, but
@@ -43,14 +40,14 @@ public class SimpleNameMethodHeader<E extends SimpleNameMethodHeader, S extends 
   private String _name;
 
 	@Override
-	public E cloneThis() {
-		return (E) new SimpleNameMethodHeader(getName(), returnTypeReference().clone());
+	public SimpleNameMethodHeader cloneThis() {
+		return new SimpleNameMethodHeader(getName(), returnTypeReference().clone());
 	}
 
 	private SimpleNameDeclarationWithParametersSignature _signatureCache;
 	
 	@Override
-	public S signature() {
+	public SimpleNameDeclarationWithParametersSignature signature() {
 		SimpleNameDeclarationWithParametersSignature result;
 		boolean cacheSignatures = Config.cacheSignatures();
 		if(cacheSignatures) {
@@ -76,7 +73,7 @@ public class SimpleNameMethodHeader<E extends SimpleNameMethodHeader, S extends 
 				_signatureCache = result;
 			}
 		}
-		return (S) result;
+		return result;
 	}
 
 	@Override
@@ -94,10 +91,10 @@ public class SimpleNameMethodHeader<E extends SimpleNameMethodHeader, S extends 
 	}
 
 	@Override
-	public E createFromSignature(Signature signature) {
+	public SimpleNameMethodHeader createFromSignature(Signature signature) {
 		if(signature instanceof SimpleNameDeclarationWithParametersSignature) {
 			SimpleNameDeclarationWithParametersSignature sig = (SimpleNameDeclarationWithParametersSignature) signature;
-			E result;
+			SimpleNameMethodHeader result;
 			List<TypeReference> typeReferences = sig.typeReferences();
 			List<FormalParameter> params = formalParameters();
 			int size = params.size();
@@ -105,7 +102,7 @@ public class SimpleNameMethodHeader<E extends SimpleNameMethodHeader, S extends 
 				throw new ChameleonProgrammerException();
 			} else {
 				// clone and copy parameter types
-				result = clone();
+				result = (SimpleNameMethodHeader) clone();
 				result.setName(sig.name());
 				params = result.formalParameters();
 				for(int i=0; i <size; i++) {

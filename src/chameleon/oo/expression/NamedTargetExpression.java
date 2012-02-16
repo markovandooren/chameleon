@@ -28,7 +28,7 @@ import chameleon.oo.type.DeclarationWithType;
 import chameleon.oo.type.Type;
 import chameleon.util.Util;
 
-public class NamedTargetExpression extends TargetedExpression<NamedTargetExpression> implements CrossReferenceWithName<NamedTargetExpression,DeclarationWithType>, CrossReferenceWithTarget<NamedTargetExpression,DeclarationWithType> {
+public class NamedTargetExpression extends TargetedExpression implements CrossReferenceWithName<DeclarationWithType>, CrossReferenceWithTarget<DeclarationWithType> {
 
   public NamedTargetExpression(String identifier) {
   	_signature = new SimpleNameSignature(identifier);
@@ -80,11 +80,7 @@ public class NamedTargetExpression extends TargetedExpression<NamedTargetExpress
   }
 
   public void setTarget(CrossReferenceTarget target) {
-  	if(target != null) {
-      _target.connectTo(target.parentLink());
-  	} else {
-  		_target.connectTo(null);
-  	}
+  	setAsParent(_target,target);
   }
   
   protected Type actualType() throws LookupException {
@@ -170,7 +166,7 @@ public class NamedTargetExpression extends TargetedExpression<NamedTargetExpress
 	   	return result;
 	  }
 	   
-    CrossReferenceTarget<?> target = getTarget();
+    CrossReferenceTarget target = getTarget();
     if(target != null) {
       result = target.targetContext().lookUp(selector);//findElement(getName());
     } else {

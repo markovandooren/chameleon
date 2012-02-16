@@ -67,7 +67,7 @@ public class LazyClassBody extends ClassBody {
 			// for different elements in declarationsFromBaseType, but we don't want to compute
 			// it unnecessarily when we don't need it, or compute it more than once if we do need it.
 			ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-			for(Declaration<?,?> declarationFromBaseType: declarationsFromBaseType) {
+			for(Declaration declarationFromBaseType: declarationsFromBaseType) {
 				Element parent = declarationFromBaseType.parent();
 				// Replace the references to the formal type parameters of base class with
 				// references to the actual type arguments of the derived type that is the parent of
@@ -92,10 +92,10 @@ public class LazyClassBody extends ClassBody {
 		return result;
 	}
 
-	private Declaration caseElementFromStub(String selectionName, Declaration<?, ?> declarationFromBaseType, TypeElementStub stub) throws LookupException {
+	private Declaration caseElementFromStub(String selectionName, Declaration declarationFromBaseType, TypeElementStub stub) throws LookupException {
 		Declaration clone = null;
 		// 1. Clone the declaration 
-		Declaration<?,?> declClone = declarationFromBaseType.clone();
+		Declaration declClone = declarationFromBaseType.clone();
 		// 2. Substitute the type parameters with those of the surrounding DerivedType.
 		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
 		List<TypeParameter> typeParameters = original().nearestAncestor(Type.class).parameters(TypeParameter.class);

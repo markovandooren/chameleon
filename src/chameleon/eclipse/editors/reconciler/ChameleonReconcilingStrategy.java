@@ -397,7 +397,7 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 	 * @param dirtyRegion the document region which has been changed
 	 * @param subRegion the sub region in the dirty region which should be reconciled 
 	 */
-	public static void showSize(Namespace<?> ns) {
+	public static void showSize(Namespace ns) {
 		int size = ns.getNamespaceParts().size();
 		System.out.println(ns.getFullyQualifiedName()+" defined by "+size+" parts");
 		for(Namespace nested: ns.getSubNamespaces()) {
@@ -405,7 +405,7 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 		}
 	}
 	
-	public static void showTypeSize(Namespace<?> root) {
+	public static void showTypeSize(Namespace root) {
 		for(Type type:root.descendants(Type.class)) {
 		  int size = type.descendants(Element.class).size();
 		  System.out.println(type.getFullyQualifiedName()+" contains "+size+" elements");

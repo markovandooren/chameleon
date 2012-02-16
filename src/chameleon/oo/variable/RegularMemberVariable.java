@@ -29,7 +29,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class RegularMemberVariable extends RegularVariable<RegularMemberVariable> implements MemberVariable<RegularMemberVariable>{
+public class RegularMemberVariable extends RegularVariable implements MemberVariable {
   
   
   /**
@@ -87,6 +87,14 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
 //    return found;
 //  }
 
+  /**
+   * ONLY HERE BECAUSE JAVA IS ANNOYING.
+   */
+  @Override
+  public RegularMemberVariable clone() {
+  	return (RegularMemberVariable) super.clone();
+  }
+  
   protected RegularMemberVariable cloneThis() {
     Expression expr = null;
     if(getInitialization() != null) {
@@ -179,7 +187,7 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
 		return this;
 	}
 
-  public MemberRelationSelector<? extends Member> overridesSelector() {
+  public MemberRelationSelector<MemberVariable> overridesSelector() {
 		return new MemberRelationSelector<MemberVariable>(MemberVariable.class,this,_overridesSelector);
   }
   
@@ -218,7 +226,7 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
 	};
 	
   public Set<? extends Member> overriddenMembers() throws LookupException {
-  	List<? extends Member> todo = directlyOverriddenMembers();
+  	List<Member> todo = (List<Member>) directlyOverriddenMembers();
   	Set<Member> result = new HashSet<Member>();
   	while(! todo.isEmpty()) {
   		Member m = todo.get(0);
@@ -230,7 +238,7 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
   	return result;
   }
 
-  public MemberRelationSelector<? extends Member> aliasSelector() {
+  public MemberRelationSelector<Member> aliasSelector() {
 		return new MemberRelationSelector<Member>(Member.class,this,_aliasSelector);
   }
 	
@@ -250,7 +258,7 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
 		  List<Member> todo = (List<Member>) directlyAliasedMembers();
 		  Set<Member> result = new HashSet<Member>();
 		  while(! todo.isEmpty()) {
-			  Member<?,?> m = todo.get(0);
+			  Member m = todo.get(0);
 			  todo.remove(0);
 			  if(result.add(m)) {
 				  todo.addAll(m.directlyAliasedMembers());
@@ -263,7 +271,7 @@ public class RegularMemberVariable extends RegularVariable<RegularMemberVariable
 		  List<Member> todo = (List<Member>) directlyAliasingMembers();
 		  Set<Member> result = new HashSet<Member>();
 		  while(! todo.isEmpty()) {
-			  Member<?,?> m = todo.get(0);
+			  Member m = todo.get(0);
 			  todo.remove(0);
 			  if(result.add(m)) {
 				  todo.addAll(m.directlyAliasingMembers());

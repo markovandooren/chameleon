@@ -21,11 +21,11 @@ import chameleon.oo.type.TypeReference;
  * @param <M>
  * @param <S> The type of the super element from which things are inherited. 
  */
-public interface InheritanceRelation<E extends InheritanceRelation<E,S>, S extends Declaration> extends Element<E> {
+public interface InheritanceRelation extends Element {
 	
-	public E clone();
+	public InheritanceRelation clone();
 
-	public S superElement() throws LookupException;
+	public Declaration superElement() throws LookupException;
 	
 	public TypeReference superClassReference();
 	

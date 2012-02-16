@@ -15,7 +15,7 @@ import chameleon.oo.type.generics.FormalTypeParameter;
 import chameleon.oo.type.generics.TypeParameter;
 import chameleon.oo.variable.FormalParameter;
 
-public abstract class DeclarationWithParametersSignature<E extends DeclarationWithParametersSignature<E>> extends Signature<E> {
+public abstract class DeclarationWithParametersSignature extends Signature {
 
 //	public String name() {
 //		return _name;
@@ -42,7 +42,7 @@ public abstract class DeclarationWithParametersSignature<E extends DeclarationWi
 //
 //  private OrderedReferenceSet<E,TypeReference> _parameters = new OrderedReferenceSet<E,TypeReference>((E) this);
 
-	public abstract E clone();
+	public abstract DeclarationWithParametersSignature clone();
 	
 	public abstract String name();
 	
@@ -65,7 +65,7 @@ public abstract class DeclarationWithParametersSignature<E extends DeclarationWi
   	int nbMyFormalParameters = nbFormalParameters();
   	boolean result = nbOtherFormalParameters == nbMyFormalParameters;
   	if(result) {
-  		DeclarationWithParametersHeader<?,?> clonedHeader = otherHeader.clone();
+  		DeclarationWithParametersHeader clonedHeader = otherHeader.clone();
   		clonedHeader.setUniParent(method);
   		List<TypeParameter> cloneTypeParameters = clonedHeader.typeParameters();
   		List<TypeParameter> myTypeParameters = nearestAncestor(Method.class).typeParameters();

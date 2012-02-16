@@ -84,7 +84,7 @@ public abstract class TypeWithBody extends AbstractType {
 	protected OrderedMultiAssociation<Type, ParameterBlock> _parameters = new OrderedMultiAssociation<Type, ParameterBlock>(this);
 
 	public void removeNonMemberInheritanceRelation(InheritanceRelation relation) {
-		_inheritanceRelations.remove(relation.parentLink());
+		remove(_inheritanceRelations,relation);
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public abstract class TypeWithBody extends AbstractType {
 
 	@Override
 	public void addInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException {
-		_inheritanceRelations.add(relation.parentLink());
+		add(_inheritanceRelations,relation);
 	}
 	
 	/**
@@ -104,15 +104,15 @@ public abstract class TypeWithBody extends AbstractType {
 	public void pruneInheritanceRelations() throws LookupException {
 		Set<Type> types = new HashSet<Type>();
 		Set<InheritanceRelation> toRemove = new HashSet<InheritanceRelation>();
-		for(InheritanceRelation<?,Type> relation: nonMemberInheritanceRelations()) {
-			Type superElement = relation.superElement();
+		for(InheritanceRelation relation: nonMemberInheritanceRelations()) {
+			Type superElement = (Type) relation.superElement();
 			if(types.contains(superElement)) {
 				toRemove.add(relation);
 			} else {
 				types.add(superElement);
 			}
 		}
-		for(InheritanceRelation<?,Type> relation: toRemove) {
+		for(InheritanceRelation relation: toRemove) {
 			removeNonMemberInheritanceRelation(relation);
 		}
 	}
@@ -174,8 +174,8 @@ public abstract class TypeWithBody extends AbstractType {
 
 	public TypeWithBody(SimpleNameSignature sig) {
 		super(sig);
-		_body.connectTo(new ClassBody().parentLink());
-		_parameters.add(new TypeParameterBlock().parentLink());
+		setAsParent(_body,new ClassBody());
+		add(_parameters,new TypeParameterBlock());
 	}
 
 	public <P extends Parameter> void replaceAllParameter(Class<P> kind, List<P> newParameters) {
@@ -230,7 +230,7 @@ public abstract class TypeWithBody extends AbstractType {
 		return null;
 	}
 
-	public <P extends Parameter> ParameterBlock<?, P> parameterBlock(Class<P> kind) {
+	public <P extends Parameter> ParameterBlock<P> parameterBlock(Class<P> kind) {
 		for(ParameterBlock p: parameterBlocks()) {
 			if(p.parameterType().equals(kind)) {
 				return p;
@@ -240,9 +240,7 @@ public abstract class TypeWithBody extends AbstractType {
 	}
 
 	public void removeParameterBlock(ParameterBlock block) {
-		if(block != null) {
-		  _parameters.remove(block.parentLink());
-		}
+		remove(_parameters,block);
 	}
 
 

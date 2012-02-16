@@ -131,7 +131,7 @@ public class EclipseEditorInputProcessor extends ProcessorImpl implements InputP
 		document.addProblemMarker(attributes);
 	}
 
-	public void removeLocations(Element<?> element) {
+	public void removeLocations(Element element) {
 		Collection<Tag> tags = element.tags(); 
 		for(Tag tag:tags) {
 			if(tag instanceof EclipseEditorTag) {

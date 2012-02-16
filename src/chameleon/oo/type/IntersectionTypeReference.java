@@ -15,7 +15,7 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 
-public class IntersectionTypeReference<E extends IntersectionTypeReference<E>> extends CombinationTypeReference<E> implements TypeReference<E> {
+public class IntersectionTypeReference extends CombinationTypeReference implements TypeReference {
 
 	public IntersectionTypeReference() {
 	}
@@ -38,12 +38,12 @@ public class IntersectionTypeReference<E extends IntersectionTypeReference<E>> e
 	}
 
 	@Override
-	public E clone() {
+	public IntersectionTypeReference clone() {
 		List<TypeReference> trefs = new ArrayList<TypeReference>();
 		for(TypeReference tref: typeReferences()) {
 			trefs.add(tref.clone());
 		}
-		return (E) new IntersectionTypeReference(trefs);
+		return new IntersectionTypeReference(trefs);
 	}
 
 	@Override
@@ -61,9 +61,9 @@ public class IntersectionTypeReference<E extends IntersectionTypeReference<E>> e
 		return result;	
 	}
 
-	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference<?> other) {
+	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference other) {
 		IntersectionTypeReference result = clone();
-		for(TypeReference<?> tref: other.typeReferences()) {
+		for(TypeReference tref: other.typeReferences()) {
 		  result.add(tref.clone());
 		}
 		return result;	

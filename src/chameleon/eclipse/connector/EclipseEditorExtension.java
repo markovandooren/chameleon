@@ -76,7 +76,7 @@ public abstract class EclipseEditorExtension extends PluginImpl {
    * @throws IOException 
    * @throws ModelException 
    */
-	public Image getIcon(Element<?> element) throws ModelException {
+	public Image getIcon(Element element) throws ModelException {
 		IconProvider iconProvider = iconProvider();
 		return iconProvider != null ? image(iconProvider.iconName(element)) : null;
 	}

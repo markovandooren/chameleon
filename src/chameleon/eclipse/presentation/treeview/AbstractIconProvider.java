@@ -64,7 +64,7 @@ public abstract class AbstractIconProvider implements IconProvider {
    @
    @ post \result == null | \result.equals(decoratedName(element, baseIconName()));
    @*/
-	public String iconName(Element<?> element) throws ModelException {
+	public String iconName(Element element) throws ModelException {
 		String result = null;
 		if(elementType().isInstance(element)) {
 			result = baseIconName(element);
@@ -90,7 +90,7 @@ public abstract class AbstractIconProvider implements IconProvider {
    @
    @ post \result.equals(decoratedName(element, baseIconName, decorators()));
    @*/
-	public String decoratedName(Element<?> element, String baseIconName) throws ModelException {
+	public String decoratedName(Element element, String baseIconName) throws ModelException {
 		return decoratedName(element, baseIconName, decorators());
 	}
 	
@@ -111,7 +111,7 @@ public abstract class AbstractIconProvider implements IconProvider {
    @ post decorators.isEmpty() ==> \result == baseIconName;
    @ post !decorators.isEmpty() ==> \result.equals(decorators.get(decorators.size()-1).decorate(element, decoratedName(element,baseIconName,decorators.subList(0, decorators.size()-1))));
    @*/
-	public String decoratedName(Element<?> element, String baseIconName, List<NameBasedIconDecorator> decorators) throws ModelException {
+	public String decoratedName(Element element, String baseIconName, List<NameBasedIconDecorator> decorators) throws ModelException {
 		String result = baseIconName;
 		for(NameBasedIconDecorator decorator: decorators) {
 			result = decorator.decorate(element, result);
@@ -133,7 +133,7 @@ public abstract class AbstractIconProvider implements IconProvider {
    @ post elementType().isInstance(element) ==>  \result.equals(baseIconName());
    @ post ! elementType().isInstance(element) ==> \result == null;  
    @*/
-	public abstract String baseIconName(Element<?> element);
+	public abstract String baseIconName(Element element);
 
 	/**
 	 * Add a new decorator to his icon provider.

@@ -18,5 +18,5 @@ public interface TypeReference extends CrossReference<Type> {
 	
 	public TypeReference intersectionDoubleDispatch(TypeReference other);
 	
-	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference<?> other);
+	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference other);
 }

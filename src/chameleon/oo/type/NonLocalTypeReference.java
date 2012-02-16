@@ -15,7 +15,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.util.Util;
 
-public abstract class NonLocalTypeReference<E extends NonLocalTypeReference> extends NamespaceElementImpl<E> implements TypeReference<E> {
+public abstract class NonLocalTypeReference extends NamespaceElementImpl implements TypeReference {
 
 	public NonLocalTypeReference(TypeReference tref) {
 	   this(tref,tref.parent());
@@ -26,7 +26,7 @@ public abstract class NonLocalTypeReference<E extends NonLocalTypeReference> ext
 			setLookupParent(lookupParent);
 		}
 	
-	public abstract E clone();
+	public abstract NonLocalTypeReference clone();
 	
 	public TypeReference actualReference() {
 		return _actual.getOtherEnd();
@@ -78,8 +78,8 @@ public abstract class NonLocalTypeReference<E extends NonLocalTypeReference> ext
 		return language(ObjectOrientedLanguage.class).createIntersectionReference(clone(), other.clone());
 	}
 
-	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference<?> other) {
-		IntersectionTypeReference<?> result = other.clone();
+	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference other) {
+		IntersectionTypeReference result = other.clone();
 		result.add(clone());
 		return result;
 	}

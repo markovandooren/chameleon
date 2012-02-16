@@ -4,18 +4,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.logic.ternary.Ternary;
-
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
-import chameleon.core.declaration.Definition;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespace.NamespaceOrType;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
@@ -85,7 +81,7 @@ public interface Type extends ExceptionSource, DeclarationContainer, Declaration
 
 	public List<ParameterBlock> parameterBlocks();
 	
-	public <P extends Parameter> ParameterBlock<?,P> parameterBlock(Class<P> kind);
+	public <P extends Parameter> ParameterBlock<P> parameterBlock(Class<P> kind);
 	
 	public void addParameterBlock(ParameterBlock block);
 	

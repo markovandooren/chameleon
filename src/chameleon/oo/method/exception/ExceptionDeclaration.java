@@ -10,7 +10,7 @@ import chameleon.oo.expression.MethodInvocation;
  * @author Marko van Dooren
  */
 
-public abstract class ExceptionDeclaration<E extends ExceptionDeclaration> extends NamespaceElementImpl<E> {
+public abstract class ExceptionDeclaration extends NamespaceElementImpl {
 
   public ExceptionDeclaration() {
 	}
@@ -18,7 +18,7 @@ public abstract class ExceptionDeclaration<E extends ExceptionDeclaration> exten
 
   public abstract boolean compatibleWith(ExceptionClause clause) throws LookupException;
 
-  public abstract E clone();
+  public abstract ExceptionDeclaration clone();
 
   public abstract Set getExceptionTypes(MethodInvocation invocation) throws LookupException;
 

@@ -224,7 +224,7 @@ public class ChameleonLabelProvider implements ILabelProvider {
 	 * @param element
 	 * @param noFirstSeparator if true, the first separator won't be set
 	 */
-	public String getExtraInfo(Element<?> element, boolean noFirstSeparator) {
+	public String getExtraInfo(Element element, boolean noFirstSeparator) {
 		String label = "";
 		// don't show extra info for types and constructors:
 		if(element != null && !(element instanceof Type) && (!(element instanceof Method) || 
@@ -247,7 +247,7 @@ public class ChameleonLabelProvider implements ILabelProvider {
 //				}
 //			}
 			if(showDeclaringElementFqn && element instanceof TypeElement){
-				Type type = ((TypeElement<?>)element).nearestAncestorOrSelf(Type.class);
+				Type type = ((TypeElement)element).nearestAncestorOrSelf(Type.class);
 				if(type != null){
 					if(!noFirstSeparator)
 						label += " - ";

@@ -15,7 +15,7 @@ import chameleon.oo.type.Type;
 /**
  * @author Marko van Dooren
  */
-public abstract class Literal<E extends Literal> extends Expression<E> {
+public abstract class Literal extends Expression {
   
   public Literal(String value) {
     setValue(value);

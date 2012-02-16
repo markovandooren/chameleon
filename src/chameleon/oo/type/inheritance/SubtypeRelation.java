@@ -16,7 +16,7 @@ import chameleon.oo.member.MemberRelationSelector;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 
-public class SubtypeRelation extends AbstractInheritanceRelation<SubtypeRelation> {
+public class SubtypeRelation extends AbstractInheritanceRelation {
 
 	public SubtypeRelation(TypeReference ref) {
 		super(ref);
@@ -26,7 +26,7 @@ public class SubtypeRelation extends AbstractInheritanceRelation<SubtypeRelation
 	public SubtypeRelation clone() {
 		SubtypeRelation result = cloneThis();
 //		result.setOrigin(this);
-		for(Modifier<Modifier> modifier:modifiers()) {
+		for(Modifier modifier:modifiers()) {
 			result.addModifier(modifier.clone());
 		}
 		return result;

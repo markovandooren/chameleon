@@ -84,7 +84,7 @@ public class ChameleonHyperlink implements IHyperlink {
 	public String getStatus(){
 		try {
 			// perform lookup:
-			Declaration<?,?> refElement = getDeclarator();
+			Declaration refElement = getDeclarator();
 			if(refElement==null)
 				return INVALID_STATUS;
 			// check wheter the compilationUnit and the document are found:
@@ -105,7 +105,7 @@ public class ChameleonHyperlink implements IHyperlink {
 	
 	public void open() {
 		try {
-			Declaration<?,?> referencedElement = getDeclarator();
+			Declaration referencedElement = getDeclarator();
 			if (referencedElement != null) {
 				ChameleonEditor.showInEditor(referencedElement, true, true, null);
 			}

@@ -28,7 +28,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class VariableReference extends Expression<VariableReference> implements Assignable<VariableReference>, CrossReference<VariableReference,Variable> {
+public class VariableReference extends Expression implements Assignable, CrossReference<Variable> {
 
   /**
    * Create a new variable reference with the given identifier as name, and
@@ -82,11 +82,7 @@ public class VariableReference extends Expression<VariableReference> implements 
   }
 
   public void setTarget(CrossReferenceTarget target) {
-  	if(target != null) {
-      _target.connectTo(target.parentLink());
-  	} else {
-  		_target.connectTo(null);
-  	}
+  	setAsParent(_target,target);
   }
 
   public Variable getVariable() throws LookupException {
@@ -135,7 +131,7 @@ public class VariableReference extends Expression<VariableReference> implements 
   
   @SuppressWarnings("unchecked")
   public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
-    CrossReferenceTarget<?> target = getTarget();
+    CrossReferenceTarget target = getTarget();
     X result;
     if(target != null) {
       result = target.targetContext().lookUp(selector);//findElement(getName());

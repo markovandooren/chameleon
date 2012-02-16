@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import org.rejuse.association.Association;
 import org.rejuse.association.AssociationListener;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.predicate.TypePredicate;
@@ -23,7 +24,7 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.member.Member;
 
-public class ClassBody extends NamespaceElementImpl<ClassBody> implements NamespaceElement<ClassBody>, DeclarationContainer<ClassBody> {
+public class ClassBody extends NamespaceElementImpl implements NamespaceElement, DeclarationContainer {
 
 	public ClassBody() {
 		parentLink().addListener(new AssociationListener<Element>() {
@@ -91,9 +92,7 @@ public class ClassBody extends NamespaceElementImpl<ClassBody> implements Namesp
 	};
 
 	public void add(TypeElement element) {
-	  if(element != null) {
-	    _elements.add(element.parentLink());
-	  }
+	  add(_elements,element);
 	}
 	
 	public void clear() {
@@ -101,9 +100,7 @@ public class ClassBody extends NamespaceElementImpl<ClassBody> implements Namesp
 	}
 	
 	public void remove(TypeElement element) {
-	  if(element != null) {
-	    _elements.remove(element.parentLink());
-	  }
+	  remove(_elements,element);
 	}
 	
 	public List<TypeElement> elements() {
@@ -218,7 +215,7 @@ public class ClassBody extends NamespaceElementImpl<ClassBody> implements Namesp
 	}
 
 	public void replace(TypeElement oldElement, TypeElement newElement) {
-		_elements.replace(oldElement.parentLink(), newElement.parentLink());
+		_elements.replace((Association)oldElement.parentLink(), (Association)newElement.parentLink());
 	}
 
 	@Override
@@ -237,6 +234,11 @@ public class ClassBody extends NamespaceElementImpl<ClassBody> implements Namesp
 
 	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
+	}
+
+	@Override
+	public LookupStrategy localStrategy() throws LookupException {
+		return nearestAncestor(Type.class).localStrategy();
 	}
 
 }

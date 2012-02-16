@@ -8,9 +8,9 @@ import chameleon.oo.member.DeclarationWithParametersSignature;
 import chameleon.oo.method.exception.ExceptionClause;
 import chameleon.oo.type.TypeReference;
 
-public abstract class RegularMethod<E extends RegularMethod<E,H,S>, H extends MethodHeader<H, S>, S extends DeclarationWithParametersSignature> extends Method<E,H,S> {
+public abstract class RegularMethod extends Method {
 
-	public RegularMethod(H header) {
+	public RegularMethod(MethodHeader header) {
 		super(header);
 		setExceptionClause(new ExceptionClause());
 	}
@@ -30,18 +30,13 @@ public abstract class RegularMethod<E extends RegularMethod<E,H,S>, H extends Me
 	}
 
 	public void setImplementation(Implementation implementation) {
-		if (implementation != null) {
-			_implementationLink.connectTo(implementation.parentLink());
-		}
-		else {
-			_implementationLink.connectTo(null);
-		}
+		setAsParent(_implementationLink,implementation);
 	}
 
   /**
    * EXCEPTION CLAUSE
    */
-  private SingleAssociation<RegularMethod<E,H,S>,ExceptionClause> _exceptionClause = new SingleAssociation<RegularMethod<E,H,S>,ExceptionClause>(this);
+  private SingleAssociation<RegularMethod,ExceptionClause> _exceptionClause = new SingleAssociation<RegularMethod,ExceptionClause>(this);
 
 
   public ExceptionClause getExceptionClause() {
@@ -49,12 +44,7 @@ public abstract class RegularMethod<E extends RegularMethod<E,H,S>, H extends Me
   }
 
   public void setExceptionClause(ExceptionClause clause) {
-    if(clause != null) {
-      _exceptionClause.connectTo(clause.parentLink());
-    }
-    else {
-      _exceptionClause.connectTo(null);
-    }
+    setAsParent(_exceptionClause,clause);
   }
   
 	@Override

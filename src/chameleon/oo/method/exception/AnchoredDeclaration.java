@@ -8,12 +8,9 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 
 /**
- * @author marko
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ * @author Marko van Dooren
  */
-public interface AnchoredDeclaration<E extends Element> extends Element<E> {
+public interface AnchoredDeclaration extends Element {
 	public Set getRawExceptionTypes() throws LookupException;
 
 	/**

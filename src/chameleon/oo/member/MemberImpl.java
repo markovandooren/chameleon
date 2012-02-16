@@ -192,7 +192,7 @@ public abstract class MemberImpl extends TypeElementImpl implements Member {
   	return result;
   }
   
-  public MemberRelationSelector<? extends Member> overridesSelector() {
+  public MemberRelationSelector<Member> overridesSelector() {
 		return new MemberRelationSelector<Member>(Member.class,this,_overridesRelation);
   }
   

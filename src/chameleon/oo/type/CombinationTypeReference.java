@@ -10,9 +10,9 @@ import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.NamespaceElementImpl;
 
-public abstract class CombinationTypeReference<E extends CombinationTypeReference<E>> extends NamespaceElementImpl<E> implements TypeReference<E> {
+public abstract class CombinationTypeReference extends NamespaceElementImpl implements TypeReference {
 
-	public abstract E clone();
+	public abstract CombinationTypeReference clone();
 
 	private OrderedMultiAssociation<CombinationTypeReference,TypeReference> _types = new OrderedMultiAssociation<CombinationTypeReference, TypeReference>(this);
 	
@@ -37,9 +37,7 @@ public abstract class CombinationTypeReference<E extends CombinationTypeReferenc
 	}
 
 	public void add(TypeReference tref) {
-		if(tref != null) {
-			_types.add(tref.parentLink());
-		}
+		add(_types,tref);
 	}
 
 	public void addAll(List<? extends TypeReference> refs) {
@@ -49,18 +47,16 @@ public abstract class CombinationTypeReference<E extends CombinationTypeReferenc
 	}
 
 	public void remove(TypeReference tref) {
-		if(tref != null) {
-			_types.remove(tref.parentLink());
-		}
+		remove(_types,tref);
 	}
 
 	@Override
-	public String infoDisplayName() {
+	public String toString() {
 		List<? extends TypeReference> trefs = typeReferences();
 		int size = trefs.size();
 		StringBuffer result = new StringBuffer();
 		for(int i=0; i< size; i++) {
-			result.append(trefs.get(i).infoDisplayName());
+			result.append(trefs.get(i).toString());
 			if(i<size - 1) {
 				result.append(operatorName());
 			}

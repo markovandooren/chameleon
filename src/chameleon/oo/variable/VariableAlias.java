@@ -35,7 +35,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
 
-public class VariableAlias extends VariableImpl<VariableAlias> implements MemberVariable<VariableAlias> {
+public class VariableAlias extends VariableImpl implements MemberVariable {
 	
 	public VariableAlias(SimpleNameSignature sig, MemberVariable aliasedVariable) {
 		super(sig);
@@ -78,13 +78,11 @@ public class VariableAlias extends VariableImpl<VariableAlias> implements Member
 	private OrderedMultiAssociation<Variable, Modifier> _modifiers = new OrderedMultiAssociation<Variable, Modifier>(this);
 
 	public void addModifier(Modifier modifier) {
-		if ((modifier != null) && (!_modifiers.contains(modifier.parentLink()))) {
-			_modifiers.add(modifier.parentLink());
-		}
+		add(_modifiers,modifier);
 	}
 
 	public void removeModifier(Modifier modifier) {
-		_modifiers.remove(modifier.parentLink());
+		remove(_modifiers,modifier);
 	}
 
 	public boolean hasModifier(Modifier modifier) {
@@ -229,7 +227,7 @@ public class VariableAlias extends VariableImpl<VariableAlias> implements Member
 		return aliasedVariable().declarator();
 	}
 
-  public MemberRelationSelector<? extends Member> overridesSelector() {
+  public MemberRelationSelector<MemberVariable> overridesSelector() {
 		return new MemberRelationSelector<MemberVariable>(MemberVariable.class,this,_overridesSelector);
   }
 
@@ -246,7 +244,7 @@ public class VariableAlias extends VariableImpl<VariableAlias> implements Member
 
 		@Override
 		public boolean containsBasedOnRest(MemberVariable first, MemberVariable second) throws LookupException {
-			return ((VariableAlias)first).aliasedVariable().overridesSelector().selectedRegardlessOfName(second);
+			return ((MemberRelationSelector)((VariableAlias)first).aliasedVariable().overridesSelector()).selectedRegardlessOfName(second);
 		}
 
 		@Override
@@ -260,7 +258,7 @@ public class VariableAlias extends VariableImpl<VariableAlias> implements Member
 		return aliasedVariable().overriddenMembers();
 	}
 
-  public MemberRelationSelector<? extends Member> aliasSelector() {
+  public MemberRelationSelector<Member> aliasSelector() {
 		return new MemberRelationSelector<Member>(Member.class,this,_aliasSelector);
   }
 	
@@ -289,7 +287,7 @@ public class VariableAlias extends VariableImpl<VariableAlias> implements Member
 	  List<Member> todo = (List<Member>) directlyAliasedMembers();
 	  Set<Member> result = new HashSet<Member>();
 	  while(! todo.isEmpty()) {
-		  Member<?,?> m = todo.get(0);
+		  Member m = todo.get(0);
 		  todo.remove(0);
 		  if(result.add(m)) {
 			  todo.addAll(m.directlyAliasedMembers());
@@ -302,7 +300,7 @@ public class VariableAlias extends VariableImpl<VariableAlias> implements Member
 	  List<Member> todo = (List<Member>) directlyAliasingMembers();
 	  Set<Member> result = new HashSet<Member>();
 	  while(! todo.isEmpty()) {
-		  Member<?,?> m = todo.get(0);
+		  Member m = todo.get(0);
 		  todo.remove(0);
 		  if(result.add(m)) {
 			  todo.addAll(m.directlyAliasingMembers());

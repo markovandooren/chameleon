@@ -19,7 +19,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class TypeImport extends Import<TypeImport> {
+public class TypeImport extends Import {
 
   public TypeImport(TypeReference ref) {
     setTypeReference(ref);
@@ -40,12 +40,7 @@ public class TypeImport extends Import<TypeImport> {
   }
 
   public void setTypeReference(TypeReference reference) {
-  	if(reference != null) {
-  		_typeReference.connectTo(reference.parentLink());
-  	}
-  	else {
-  		_typeReference.connectTo(null);
-  	}
+  	setAsParent(_typeReference,reference);
   }
   
   public Type type() throws LookupException {

@@ -11,9 +11,8 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.namespace.NamespaceOrType;
-import chameleon.core.namespace.NamespaceOrTypeReference;
 import chameleon.core.namespacepart.Import;
+import chameleon.core.reference.CrossReference;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -28,17 +27,17 @@ import chameleon.util.Util;
  * that second part is equal to a DemandImport which can have as initializing parameter
  * a Type as well as a Namespace
  */
-public class UsingAlias extends Import<UsingAlias> {
+public class UsingAlias extends Import {
 
 	//TODO use ElementReference<?, ?, ? extends Namespace>
 	
-	public UsingAlias(String identifier, NamespaceOrTypeReference ref) {
+	public UsingAlias(String identifier, CrossReference ref) {
 		setNamespaceOrTypeReference(ref);
 		setIdentifier(identifier);
 	}
 
 	public List<Element> children() {
-		return Util.createNonNullList(getNamespaceOrTypeReference());
+		return Util.createNonNullList(getCrossReference());
 	}
 
 	private String _identifier;
@@ -59,20 +58,15 @@ public class UsingAlias extends Import<UsingAlias> {
 		this._identifier = identifier;
 	}
 
-	private SingleAssociation<UsingAlias,NamespaceOrTypeReference> _packageOrType = new SingleAssociation<UsingAlias,NamespaceOrTypeReference>(this);
+	private SingleAssociation<UsingAlias,CrossReference> _packageOrType = new SingleAssociation<UsingAlias,CrossReference>(this);
 
   
-  public NamespaceOrTypeReference getNamespaceOrTypeReference() {
+  public CrossReference getCrossReference() {
     return _packageOrType.getOtherEnd();
   }
   
-  public void setNamespaceOrTypeReference(NamespaceOrTypeReference ref) {
-  	if(ref != null) {
-  		_packageOrType.connectTo(ref.parentLink());
-  	}
-  	else {
-  		_packageOrType.connectTo(null);
-  	}
+  public void setNamespaceOrTypeReference(CrossReference ref) {
+  	setAsParent(_packageOrType,ref);
   }
 
 //	public Type getType(String name) throws MetamodelException {
@@ -88,13 +82,13 @@ public class UsingAlias extends Import<UsingAlias> {
 //
 //	}
 
-	public NamespaceOrType getElement() throws LookupException {
-		return getNamespaceOrTypeReference().getNamespaceOrType();
+	public Declaration getElement() throws LookupException {
+		return getCrossReference().getElement();
 	}
 
   @Override
   public UsingAlias clone() {
-    return new UsingAlias(getIdentifier(),getNamespaceOrTypeReference().clone());
+    return new UsingAlias(getIdentifier(),(CrossReference) getCrossReference().clone());
   }
 
 	@Override
@@ -106,7 +100,7 @@ public class UsingAlias extends Import<UsingAlias> {
 	public List<Declaration> directImports() throws LookupException {
 		//@FIXME bad design: instanceof 
 		//@FIXME why are these aliased?
-		NamespaceOrType nst = getNamespaceOrTypeReference().getNamespaceOrType(); 
+		Declaration nst = getCrossReference().getElement(); 
 		List<Declaration> result = new ArrayList<Declaration>();
     if(nst instanceof Type) {
       result.add(((Type) nst).alias(new SimpleNameSignature(getIdentifier())));

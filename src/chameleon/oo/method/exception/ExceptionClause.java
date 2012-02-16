@@ -21,7 +21,7 @@ import chameleon.oo.type.Type;
 /**
  * @author Marko van Dooren
  */
-public class ExceptionClause extends NamespaceElementImpl<ExceptionClause> {
+public class ExceptionClause extends NamespaceElementImpl {
 
   public ExceptionClause() {
 	}
@@ -104,11 +104,11 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
   private OrderedMultiAssociation<ExceptionClause,ExceptionDeclaration> _exceptionDeclarations = new OrderedMultiAssociation<ExceptionClause,ExceptionDeclaration>(this);
 
   public void add(ExceptionDeclaration decl) {
-    _exceptionDeclarations.add(decl.parentLink());
+    add(_exceptionDeclarations,decl);
   }
 
   public void remove(ExceptionDeclaration decl) {
-    _exceptionDeclarations.remove(decl.parentLink());
+    remove(_exceptionDeclarations,decl);
   }
 
   public List<ExceptionDeclaration> exceptionDeclarations() {

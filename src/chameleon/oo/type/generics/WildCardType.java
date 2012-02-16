@@ -172,7 +172,7 @@ public abstract class WildCardType extends AbstractType {
 		return null;
 	}
 
-	public <P extends Parameter> ParameterBlock<?, P> parameterBlock(Class<P> kind) {
+	public <P extends Parameter> ParameterBlock<P> parameterBlock(Class<P> kind) {
 		return null;
 	}
 

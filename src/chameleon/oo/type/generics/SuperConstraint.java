@@ -1,12 +1,11 @@
 package chameleon.oo.type.generics;
 
 import chameleon.core.lookup.LookupException;
-import chameleon.core.validation.VerificationResult;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 
-public class SuperConstraint extends TypeConstraint<SuperConstraint> {
+public class SuperConstraint extends TypeConstraint {
 
 	private SuperConstraint() {
 		

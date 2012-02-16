@@ -11,7 +11,7 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 
-public class UnionTypeReference<E extends UnionTypeReference<E>> extends CombinationTypeReference<E> {
+public class UnionTypeReference extends CombinationTypeReference {
 //FIXME make abstract superclass for this and IntersectionTypeReference
 	public UnionTypeReference() {
 		
@@ -36,12 +36,12 @@ public class UnionTypeReference<E extends UnionTypeReference<E>> extends Combina
 	}
 
 	@Override
-	public E clone() {
+	public UnionTypeReference clone() {
 		List<TypeReference> trefs = new ArrayList<TypeReference>();
 		for(TypeReference tref: typeReferences()) {
 			trefs.add(tref.clone());
 		}
-		return (E) new UnionTypeReference(trefs);
+		return new UnionTypeReference(trefs);
 	}
 
 	@Override
@@ -59,8 +59,8 @@ public class UnionTypeReference<E extends UnionTypeReference<E>> extends Combina
 		return result;	
 	}
 
-	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference<?> other) {
-		IntersectionTypeReference<?> result = other.clone();
+	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference other) {
+		IntersectionTypeReference result = other.clone();
 		result.add(clone());
 		return result;
 	}

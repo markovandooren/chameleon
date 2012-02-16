@@ -4,7 +4,7 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 
-public interface Statement<E extends Statement> extends Element<E>, ExceptionSource<E> {
+public interface Statement<E extends Statement> extends Element, ExceptionSource {
 
 	public boolean before(Statement other);
 	

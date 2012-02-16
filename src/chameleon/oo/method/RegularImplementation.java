@@ -14,7 +14,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class RegularImplementation extends Implementation<RegularImplementation>  {
+public class RegularImplementation extends Implementation  {
 
   public RegularImplementation(Block body) {
 	  setBody(body);
@@ -26,7 +26,7 @@ public class RegularImplementation extends Implementation<RegularImplementation>
 	private SingleAssociation<RegularImplementation,Block> _body = new SingleAssociation<RegularImplementation,Block>(this);
 
   public void setBody(Block block) {
-    _body.connectTo(block.parentLink());
+    setAsParent(_body,block);
   }
 
   public Block getBody() {

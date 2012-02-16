@@ -8,7 +8,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 
-public class ExtendsWildcard<E extends ExtendsWildcard> extends ActualTypeArgumentWithTypeReference<E> {
+public class ExtendsWildcard extends ActualTypeArgumentWithTypeReference {
 
 	public ExtendsWildcard(TypeReference ref) {
 		super(ref);
@@ -22,8 +22,8 @@ public class ExtendsWildcard<E extends ExtendsWildcard> extends ActualTypeArgume
 	}
 
 	@Override
-	public E clone() {
-		return (E) new ExtendsWildcard(typeReference().clone());
+	public ExtendsWildcard clone() {
+		return new ExtendsWildcard(typeReference().clone());
 	}
 
 	@Override
@@ -65,19 +65,15 @@ public class ExtendsWildcard<E extends ExtendsWildcard> extends ActualTypeArgume
 	}
 
 	@Override
-	public String infoDisplayName() {
+	public String toString() {
 		TypeReference tref = typeReference();
 		StringBuffer result = new StringBuffer();
 		result.append('?');
 		if(tref != null) {
 			result.append(" extends ");
-			result.append(typeReference().infoDisplayName());
+			result.append(typeReference().toString());
 		}
 		return result.toString();
-	}
-	
-	public String toString() {
-		return "? extends "+typeReference().toString();
 	}
 	
 }

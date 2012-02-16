@@ -8,7 +8,7 @@ import chameleon.exception.ModelException;
 
 public class ChameleonOutlineSelector {
 
-	public List<Element> outlineChildren(Element<?> element) throws ModelException {
+	public List<Element> outlineChildren(Element element) throws ModelException {
 		return (List<Element>) element.children();
 	}
 	
@@ -17,7 +17,7 @@ public class ChameleonOutlineSelector {
 	 * 
 	 * By default only declarations are allowed.
 	 */
-	public boolean isAllowed(Element<?> element) throws ModelException {
+	public boolean isAllowed(Element element) throws ModelException {
 		return element instanceof Declaration;
 	}
 }

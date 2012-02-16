@@ -24,5 +24,5 @@ public interface NameBasedIconDecorator {
 	/**
 	 * Determine
 	 */
-	public String decorate(Element<?> element, String baseName) throws ModelException;
+	public String decorate(Element element, String baseName) throws ModelException;
 }

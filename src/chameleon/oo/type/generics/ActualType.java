@@ -43,7 +43,7 @@ public class ActualType extends TypeIndirection {
     		}
     }
 		@Override
-		public Type clone() {
+		public ActualType clone() {
 			return new ActualType(signature().clone(), aliasedType(),parameter());
 		}
 		

@@ -159,7 +159,7 @@ public abstract class TypeIndirection extends AbstractType {
 		throw new ChameleonProgrammerException("Trying to remove a type parameter block from a type alias.");
 	}
 
-	public <P extends Parameter> ParameterBlock<?, P> parameterBlock(Class<P> kind) {
+	public <P extends Parameter> ParameterBlock<P> parameterBlock(Class<P> kind) {
 		return aliasedType().parameterBlock(kind);
 	}
 

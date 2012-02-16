@@ -65,10 +65,10 @@ public class Util {
     }
   }
 
-  public static <T extends Element<T>> List<T> clone(List<T> original) {
+  public static <T extends Element> List<T> clone(List<T> original) {
   	List<T> result = new ArrayList<T>();
   	for(T t: original) {
-  		result.add(t.clone());
+  		result.add((T)t.clone());
   	}
   	return result;
   }

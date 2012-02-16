@@ -91,9 +91,9 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
   
   public abstract TypeReference createTypeReference(Type type);
   
-  public abstract TypeReference createTypeReference(CrossReference<?, ? extends TargetDeclaration> target, String name);
+  public abstract TypeReference createTypeReference(CrossReference<? extends TargetDeclaration> target, String name);
   
-  public abstract TypeReference createTypeReference(CrossReference<?, ? extends TargetDeclaration> target, SimpleNameSignature signature);
+  public abstract TypeReference createTypeReference(CrossReference<? extends TargetDeclaration> target, SimpleNameSignature signature);
   
   public abstract IntersectionTypeReference createIntersectionReference(TypeReference first, TypeReference second);
   
@@ -193,7 +193,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 		return ref.getType();
 	}
 
-	public void replace(TypeReference replacement, final Declaration declarator, TypeReference<?> in) throws LookupException {
+	public void replace(TypeReference replacement, final Declaration declarator, TypeReference in) throws LookupException {
 		UnsafePredicate<TypeReference, LookupException> predicate = new UnsafePredicate<TypeReference, LookupException>() {
 			@Override
 			public boolean eval(TypeReference object) throws LookupException {
@@ -230,5 +230,5 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 
 	public abstract TypeReference createNonLocalTypeReference(TypeReference tref, Element lookupParent);
 	
-	public abstract <E extends Element<?>> E replace(TypeReference replacement, Declaration declarator, E in, Class<E> kind) throws LookupException;
+	public abstract <E extends Element> E replace(TypeReference replacement, Declaration declarator, E in, Class<E> kind) throws LookupException;
 }

@@ -11,7 +11,7 @@ import chameleon.oo.statement.Block;
 /**
  * @author Marko van Dooren
  */
-public class NativeImplementation extends Implementation<NativeImplementation> {
+public class NativeImplementation extends Implementation {
 
 
   public NativeImplementation clone() {

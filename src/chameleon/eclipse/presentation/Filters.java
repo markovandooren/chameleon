@@ -107,7 +107,7 @@ public class Filters {
 			
 			if(element instanceof Declaration){
 				try {
-					Declaration<?,?> decl = (Declaration)element;
+					Declaration decl = (Declaration)element;
 					return decl.scope().contains(decl.nearestAncestor(NamespacePart.class).namespace());
 				} catch (ModelException e) {
 					e.printStackTrace();
@@ -165,7 +165,7 @@ public class Filters {
 			Element element = ChameleonLabelProvider.getElement(object);
 			if(element instanceof ElementWithModifiers && !(element instanceof Type) ){
 //				return ! ((ElementWithModifiers)element).modifiers().contains(modifier);
-				for(Modifier mod: ((ElementWithModifiers<?>)element).modifiers()) {
+				for(Modifier mod: ((ElementWithModifiers)element).modifiers()) {
 					if(mod.getClass().equals(modifier.getClass())) {
 						return false;
 					}

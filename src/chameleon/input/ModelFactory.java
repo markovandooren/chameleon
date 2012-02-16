@@ -37,7 +37,7 @@ public interface ModelFactory extends Plugin {
 	
 	public void addToModel(String source, CompilationUnit compilationUnit) throws ParseException;
 
-	public void reParse(Element<?> element) throws ParseException;
+	public void reParse(Element element) throws ParseException;
 	
 	/**
 	 * Create a 'clone' of this model factory. The model factory will be attached to a fresh language instance.

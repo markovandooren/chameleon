@@ -9,25 +9,22 @@ import chameleon.core.element.Element;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.util.Util;
 
-public abstract class FixedSignatureMember<E extends Member<E,S>, S extends Signature, F extends Member> extends MemberImpl<E,S> {
+public abstract class FixedSignatureMember extends MemberImpl {
 	
 	public FixedSignatureMember() {
 		
 	}
 	
-	public FixedSignatureMember(S signature) {
+	public FixedSignatureMember(Signature signature) {
 	  setSignature(signature);
 	}
 	
-	public abstract Class<S> signatureType();
+	public abstract Class<? extends Signature> signatureType();
 	
   public void setSignature(Signature signature) {
-  	if(signatureType().isInstance(signature)) {
-  			_signature.connectTo(signature.parentLink());
-  	} else if(signature == null) {
-			_signature.connectTo(null);
-  	}
-    else {
+  	if(signatureType().isInstance(signature) || signature == null) {
+  		setAsParent(_signature,signature);
+  	} else {
   		throw new ChameleonProgrammerException("Setting wrong type of signature. Provided: "+(signature == null ? null :signature.getClass().getName())+" Expected "+signatureType().getName());
   	}
   }
@@ -41,10 +38,10 @@ public abstract class FixedSignatureMember<E extends Member<E,S>, S extends Sign
   /**
    * Return the signature of this member.
    */
-  public S signature() {
+  public Signature signature() {
     return _signature.getOtherEnd();
   }
   
-  private SingleAssociation<Member, S> _signature = new SingleAssociation<Member, S>(this);
+  private SingleAssociation<Member, Signature> _signature = new SingleAssociation<Member, Signature>(this);
 
 }

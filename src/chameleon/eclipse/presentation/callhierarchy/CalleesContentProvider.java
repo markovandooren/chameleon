@@ -28,7 +28,7 @@ public class CalleesContentProvider implements ITreeContentProvider {
 	 */
 	public Object[] getChildren(Object inputObject) {
 		if (inputObject instanceof Method) {
-			Method<?,?,?> method = (Method) inputObject;
+			Method method = (Method) inputObject;
 			// get all the invocations of the given method:
 			List<MethodInvocation> invocations = method.descendants(MethodInvocation.class);
 			// get all the methods of these invocations:

@@ -26,7 +26,7 @@ import chameleon.oo.variable.VariableDeclarator;
 import chameleon.support.statement.ForInit;
 import chameleon.util.Util;
 
-public class LocalVariableDeclarator extends StatementImpl<LocalVariableDeclarator> implements VariableDeclarator<LocalVariableDeclarator,LocalVariable>, ForInit<LocalVariableDeclarator> {
+public class LocalVariableDeclarator extends StatementImpl implements VariableDeclarator, ForInit<LocalVariableDeclarator> {
 
 	
 	public LocalVariableDeclarator() {
@@ -35,8 +35,8 @@ public class LocalVariableDeclarator extends StatementImpl<LocalVariableDeclarat
 	
 	public List<LocalVariable> variables() {
 		List<LocalVariable> result = new ArrayList<LocalVariable>();
-		for(VariableDeclaration<LocalVariable> declaration: variableDeclarations()) {
-			result.add(declaration.variable());
+		for(VariableDeclaration declaration: variableDeclarations()) {
+			result.add((LocalVariable) declaration.variable());
 		}
 		return result;
 	}
@@ -56,7 +56,7 @@ public class LocalVariableDeclarator extends StatementImpl<LocalVariableDeclarat
 	@Override
 	public LocalVariableDeclarator clone() {
 		LocalVariableDeclarator result = new LocalVariableDeclarator(typeReference().clone());
-		for(VariableDeclaration<LocalVariable> declaration: variableDeclarations()) {
+		for(VariableDeclaration declaration: variableDeclarations()) {
 			result.add(declaration.clone());
 		}
 		for(Modifier mod: modifiers()) {
@@ -87,26 +87,22 @@ public class LocalVariableDeclarator extends StatementImpl<LocalVariableDeclarat
   }
 
   public void setTypeReference(TypeReference type) {
-    _typeReference.connectTo(type.parentLink());
+    setAsParent(_typeReference,type);
   }
 
-	public List<VariableDeclaration<LocalVariable>> variableDeclarations() {
+	public List<VariableDeclaration> variableDeclarations() {
 		return _declarations.getOtherEnds();
 	}
 	
-	public void add(VariableDeclaration<LocalVariable> declaration) {
-		if(declaration != null) {
-			_declarations.add(declaration.parentLink());
-		}
+	public void add(VariableDeclaration declaration) {
+		add(_declarations,declaration);
 	}
 	
 	public void remove(VariableDeclaration declaration) {
-		if(declaration != null) {
-			_declarations.remove(declaration.parentLink());
-		}
+		remove(_declarations,declaration);
 	}
 	
-	private OrderedMultiAssociation<LocalVariableDeclarator, VariableDeclaration<LocalVariable>> _declarations = new OrderedMultiAssociation<LocalVariableDeclarator, VariableDeclaration<LocalVariable>>(this);
+	private OrderedMultiAssociation<LocalVariableDeclarator, VariableDeclaration> _declarations = new OrderedMultiAssociation<LocalVariableDeclarator, VariableDeclaration>(this);
 
 	
 	
@@ -132,13 +128,7 @@ public class LocalVariableDeclarator extends StatementImpl<LocalVariableDeclarat
   }
 
   public void addModifier(Modifier modifier) {
-    if (modifier != null) {
-    	if (!_modifiers.contains(modifier.parentLink())) {
-    		_modifiers.add(modifier.parentLink());	
-      }
-    } else {
-    	throw new ChameleonProgrammerException("Modifier passed to addModifier is null");
-    }
+    add(_modifiers,modifier);	
   }
   
   public void addModifiers(List<Modifier> modifiers) {
@@ -152,11 +142,7 @@ public class LocalVariableDeclarator extends StatementImpl<LocalVariableDeclarat
   }
 
   public void removeModifier(Modifier modifier) {
-  	if(modifier != null) {
-      _modifiers.remove(modifier.parentLink());
-  	} else {
-  		throw new ChameleonProgrammerException("Modifier passed to removeModifier was null");
-  	}
+  	remove(_modifiers,modifier);
   }
 
   public boolean hasModifier(Modifier modifier) {
@@ -199,7 +185,7 @@ public class LocalVariableDeclarator extends StatementImpl<LocalVariableDeclarat
    @      \result == declarations().elementAt(declarations().indexOf(element) - 1).lexicalContext();
    @*/
 	public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
-		List<VariableDeclaration<LocalVariable>> declarations = variableDeclarations();
+		List<VariableDeclaration> declarations = variableDeclarations();
 		int index = declarations.indexOf(element);
 		if(index <= 0) {
 			return parent().lexicalLookupStrategy(this);
@@ -219,6 +205,11 @@ public class LocalVariableDeclarator extends StatementImpl<LocalVariableDeclarat
 	public VerificationResult verifySelf() {
 		VerificationResult result = Valid.create();
 		return result;
+	}
+
+	@Override
+	public LookupStrategy localStrategy() throws LookupException {
+		throw new ChameleonProgrammerException();
 	}
 
 }

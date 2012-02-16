@@ -54,7 +54,7 @@ public class CloneAndChildTest extends ModelTest {
 	
 	@Test
 	public void testClone() throws LookupException {
-		for(Namespace<?> namespace: namespaceProvider().elements(language())) {
+		for(Namespace namespace: namespaceProvider().elements(language())) {
 			assertTrue(namespace != null);
 		  for(Element element : namespace.descendants()) {
 		  	test(element);
@@ -77,15 +77,15 @@ public class CloneAndChildTest extends ModelTest {
 	private void test(Element element) {
 		String msg = "element type:"+element.getClass().getName();
 		assertFalse(element.isDerived());
-		List<Element> children = element.children();
+		List<Element> children = (List<Element>) element.children();
 		assertNotNull(msg,children);
 		// Testing for null in the children is already done by the children test.
 		//assertFalse(msg,children.contains(null));
 		Element clone = element.clone();
 		clone.setUniParent(element);
 		assertNotNull(msg,clone);
-		List<Element> clonedChildren = clone.children();
-		List<Element> newChildren = element.children();
+		List<Element> clonedChildren = (List<Element>) clone.children();
+		List<Element> newChildren = (List<Element>) element.children();
 		assertNotNull(msg,clonedChildren);
 		assertFalse(msg,clonedChildren.contains(null));
 		assertEquals(msg,children.size(), newChildren.size());

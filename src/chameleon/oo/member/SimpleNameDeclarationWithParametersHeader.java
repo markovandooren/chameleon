@@ -4,6 +4,8 @@ import java.util.List;
 
 import chameleon.core.Config;
 import chameleon.core.declaration.Signature;
+import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
@@ -12,7 +14,7 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.type.TypeReference;
 import chameleon.oo.variable.FormalParameter;
 
-public class SimpleNameDeclarationWithParametersHeader<E extends SimpleNameDeclarationWithParametersHeader, S extends SimpleNameDeclarationWithParametersSignature> extends DeclarationWithParametersHeader<E, S>{
+public class SimpleNameDeclarationWithParametersHeader extends DeclarationWithParametersHeader {
 
   public SimpleNameDeclarationWithParametersHeader(String name) {
     setName(name);
@@ -29,14 +31,14 @@ public class SimpleNameDeclarationWithParametersHeader<E extends SimpleNameDecla
   private String _name;
 
 	@Override
-	public E cloneThis() {
-		return (E) new SimpleNameDeclarationWithParametersHeader(getName());
+	public SimpleNameDeclarationWithParametersHeader cloneThis() {
+		return new SimpleNameDeclarationWithParametersHeader(getName());
 	}
 
 	private SimpleNameDeclarationWithParametersSignature _signatureCache;
 	
 	@Override
-	public S signature() {
+	public SimpleNameDeclarationWithParametersSignature signature() {
 		SimpleNameDeclarationWithParametersSignature result;
 		boolean cacheSignatures = Config.cacheSignatures();
 		if(cacheSignatures) {
@@ -62,7 +64,7 @@ public class SimpleNameDeclarationWithParametersHeader<E extends SimpleNameDecla
 				_signatureCache = result;
 			}
 		}
-		return (S) result;
+		return result;
 	}
 
 	@Override
@@ -80,10 +82,10 @@ public class SimpleNameDeclarationWithParametersHeader<E extends SimpleNameDecla
 	}
 
 	@Override
-	public E createFromSignature(Signature signature) {
+	public SimpleNameDeclarationWithParametersHeader createFromSignature(Signature signature) {
 		if(signature instanceof SimpleNameDeclarationWithParametersSignature) {
 			SimpleNameDeclarationWithParametersSignature sig = (SimpleNameDeclarationWithParametersSignature) signature;
-			E result;
+			SimpleNameDeclarationWithParametersHeader result;
 			List<TypeReference> typeReferences = sig.typeReferences();
 			List<FormalParameter> params = formalParameters();
 			int size = params.size();
@@ -91,7 +93,7 @@ public class SimpleNameDeclarationWithParametersHeader<E extends SimpleNameDecla
 				throw new ChameleonProgrammerException();
 			} else {
 				// clone and copy parameter types
-				result = clone();
+				result = (SimpleNameDeclarationWithParametersHeader) clone();
 				result.setName(sig.name());
 				params = result.formalParameters();
 				for(int i=0; i <size; i++) {
@@ -103,7 +105,5 @@ public class SimpleNameDeclarationWithParametersHeader<E extends SimpleNameDecla
   		throw new ChameleonProgrammerException("Setting wrong type of signature. Provided: "+(signature == null ? null :signature.getClass().getName())+" Expected SimpleNameSignature");
 		}
 	}
-
-	
 
 }

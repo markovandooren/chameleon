@@ -17,5 +17,5 @@ public interface IconProvider {
    @
    @ pre element != null;
    @*/
-	public String iconName(Element<?> element) throws ModelException;
+	public String iconName(Element element) throws ModelException;
 }
