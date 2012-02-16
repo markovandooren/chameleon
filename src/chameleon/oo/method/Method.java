@@ -138,7 +138,7 @@ public abstract class Method extends MemberImpl implements DeclarationContainer,
 		}
 	}
 	
-	public Signature signature() {
+	public DeclarationWithParametersSignature signature() {
 		return header().signature();
 	}
 	

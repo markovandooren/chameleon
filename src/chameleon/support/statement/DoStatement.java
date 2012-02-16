@@ -12,7 +12,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class DoStatement extends IterationStatementWithExpression<DoStatement> {
+public class DoStatement extends IterationStatementWithExpression {
 
   public DoStatement(Expression expression, Statement statement) {
     super(statement, expression);

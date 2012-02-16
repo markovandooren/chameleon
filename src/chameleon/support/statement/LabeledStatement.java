@@ -12,7 +12,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class LabeledStatement extends StatementContainingStatement<LabeledStatement> {
+public class LabeledStatement extends StatementContainingStatement {
 
   public LabeledStatement(String label, Statement statement) {
     super(statement);

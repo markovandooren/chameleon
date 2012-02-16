@@ -11,7 +11,7 @@ import chameleon.oo.statement.StatementImpl;
 /**
  * @author Marko van Dooren
  */
-public class EmptyStatement extends StatementImpl<EmptyStatement> {
+public class EmptyStatement extends StatementImpl {
 	
 	public EmptyStatement() {
 		

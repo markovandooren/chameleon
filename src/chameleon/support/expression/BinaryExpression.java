@@ -11,7 +11,7 @@ import chameleon.oo.expression.Expression;
 /**
  * @author Marko van Dooren
  */
-public abstract class BinaryExpression<E extends BinaryExpression> extends ExpressionContainingExpression<E> {
+public abstract class BinaryExpression extends ExpressionContainingExpression {
   
   public BinaryExpression(Expression first, Expression second) {
     super(first);
@@ -35,7 +35,7 @@ public abstract class BinaryExpression<E extends BinaryExpression> extends Expre
   /**
    * Return the second expression
    */
-  public Expression<? extends Expression> getSecond() {
+  public Expression getSecond() {
     return _second.getOtherEnd();
   }
   
@@ -48,7 +48,7 @@ public abstract class BinaryExpression<E extends BinaryExpression> extends Expre
    @ post getSecond().equals(second); 
    @*/
   public void setSecond(Expression expression) {
-    _second.connectTo(expression.parentLink());
+    setAsParent(_second,expression);
   }
  
 	@Override

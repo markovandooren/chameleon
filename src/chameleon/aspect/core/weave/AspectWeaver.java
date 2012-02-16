@@ -90,7 +90,7 @@ public abstract class AspectWeaver {
 		Map<Element, List<JoinPointWeaver>> weavingMap = new HashMap<Element, List<JoinPointWeaver>>();
 		
 		// Weave all advices
-		for (Advice<?,?> advice : advices) {			
+		for (Advice<?> advice : advices) {			
 			// Get all joinpoints matched by that expression
 			List<MatchResult<? extends Element>> joinpoints = advice.getJoinPoints(compilationUnit);
 			

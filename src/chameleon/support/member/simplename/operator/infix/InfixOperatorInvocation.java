@@ -10,7 +10,7 @@ import chameleon.support.member.simplename.SimpleNameMethodInvocation;
 /**
  * @author Marko van Dooren
  */
-public class InfixOperatorInvocation extends SimpleNameMethodInvocation<InfixOperatorInvocation,InfixOperator> {
+public class InfixOperatorInvocation extends SimpleNameMethodInvocation<InfixOperator> {
 
   /**
    * @param target

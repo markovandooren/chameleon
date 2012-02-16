@@ -11,7 +11,7 @@ import chameleon.oo.type.Type;
 /**
  * @author Marko van Dooren
  */
-public class ReturnStatement extends ExpressionContainingStatement<ReturnStatement> {
+public class ReturnStatement extends ExpressionContainingStatement {
 
 	public ReturnStatement() {
 		

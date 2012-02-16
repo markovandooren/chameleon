@@ -16,7 +16,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.variable.Variable;
 import chameleon.util.Util;
 
-public class SimpleForControl extends ForControl<SimpleForControl> {
+public class SimpleForControl extends ForControl {
 
 	public SimpleForControl(ForInit init, Expression condition, StatementExprList update) {
 		setForInit(init);
@@ -35,12 +35,7 @@ public class SimpleForControl extends ForControl<SimpleForControl> {
   }
 
   public void setForInit(ForInit forInit) {
-    if (forInit != null) {
-      _forInit.connectTo(forInit.parentLink());
-    }
-    else {
-      _forInit.connectTo(null);
-    }
+    setAsParent(_forInit,forInit);
   }
 
   public ForInit getForInit() {
@@ -58,12 +53,7 @@ public class SimpleForControl extends ForControl<SimpleForControl> {
   }
 
   public void setUpdate(StatementExprList update) {
-    if (update != null) {
-      _update.connectTo(update.parentLink());
-    }
-    else {
-      _update.connectTo(null);
-    }
+  	setAsParent(_update,update);
   }
 
   public StatementExprList update() {
@@ -77,7 +67,7 @@ public class SimpleForControl extends ForControl<SimpleForControl> {
     }
     ForInit init = null;
     if(getForInit() != null) {
-      init = ((ForInit<? extends ForInit>)getForInit()).clone();
+      init = (ForInit)getForInit().clone();
     }
     StatementExprList update = null;
     if(update() != null) {
@@ -100,17 +90,12 @@ public class SimpleForControl extends ForControl<SimpleForControl> {
 	private SingleAssociation<SimpleForControl,Expression> _expression = new SingleAssociation<SimpleForControl,Expression>(this);
 
   
-  public Expression<? extends Expression> condition() {
+  public Expression condition() {
     return _expression.getOtherEnd();
   }
   
   public void setExpression(Expression expression) {
-    if(expression != null) {
-      _expression.connectTo(expression.parentLink());
-    }
-    else {
-      _expression.connectTo(null);
-    }
+  	setAsParent(_expression,expression);
   }
   
 	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
@@ -118,7 +103,7 @@ public class SimpleForControl extends ForControl<SimpleForControl> {
 	}
 
 
-	public List<? extends Variable> declarations() throws LookupException {
+	public List<? extends Declaration> declarations() throws LookupException {
 		ForInit init = getForInit();
 		if(init != null) {
 		  return getForInit().declarations();

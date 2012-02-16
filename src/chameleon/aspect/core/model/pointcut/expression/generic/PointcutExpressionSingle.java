@@ -12,7 +12,7 @@ import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.VerificationResult;
 
 
-public abstract class PointcutExpressionSingle<E extends PointcutExpressionSingle<E,J>, J extends Element> extends AbstractPointcutExpression<E,J> {
+public abstract class PointcutExpressionSingle<J extends Element> extends AbstractPointcutExpression<J> {
 	private SingleAssociation<PointcutExpressionSingle, PointcutExpression> _expression = new SingleAssociation<PointcutExpressionSingle, PointcutExpression>(this);;
 
 	public PointcutExpressionSingle(PointcutExpression expression) {
@@ -20,7 +20,7 @@ public abstract class PointcutExpressionSingle<E extends PointcutExpressionSingl
 		setExpression(expression);
 	}
 
-	public PointcutExpression<?,?> expression() {
+	public PointcutExpression<?> expression() {
 		return _expression.getOtherEnd();
 	}
 
@@ -49,8 +49,8 @@ public abstract class PointcutExpressionSingle<E extends PointcutExpressionSingl
 	}
 	
 	@Override
-	public List<PointcutExpression<?,?>> toPostorderList() {
-		List<PointcutExpression<?,?>> result = new ArrayList<PointcutExpression<?,?>>();
+	public List<PointcutExpression<?>> toPostorderList() {
+		List<PointcutExpression<?>> result = new ArrayList<PointcutExpression<?>>();
 		
 		result.addAll(expression().toPostorderList());
 		result.add(this);

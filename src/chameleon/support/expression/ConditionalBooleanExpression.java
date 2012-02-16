@@ -7,10 +7,6 @@ import java.util.Set;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.reference.CrossReferenceTarget;
-import chameleon.core.validation.BasicProblem;
-import chameleon.core.validation.Valid;
-import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
@@ -19,7 +15,7 @@ import chameleon.oo.type.Type;
 /**
  * @author Marko van Dooren
  */
-public abstract class ConditionalBooleanExpression<E extends ConditionalBooleanExpression> extends BinaryExpression<E> {
+public abstract class ConditionalBooleanExpression extends BinaryExpression {
 
   /**
    * @param first

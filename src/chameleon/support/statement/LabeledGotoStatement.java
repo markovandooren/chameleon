@@ -7,7 +7,7 @@ import chameleon.core.element.Element;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public class LabeledGotoStatement extends GotoStatement<LabeledGotoStatement>{
+public class LabeledGotoStatement extends GotoStatement{
 
 	public LabeledGotoStatement(String label) {
 		setLabel(label);

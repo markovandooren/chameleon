@@ -12,7 +12,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
  * 
  * @author Marko van Dooren
  */
-public class Constructor extends ModifierImpl<Constructor> {
+public class Constructor extends ModifierImpl {
 	
 	  public Constructor() {
 		  

@@ -9,7 +9,7 @@ import chameleon.core.validation.VerificationResult;
 /**
  * @author Marko van Dooren
  */
-public class ContinueStatement extends JumpStatement<ContinueStatement> {
+public class ContinueStatement extends JumpStatement {
 
 	public ContinueStatement() {
 		super(null);

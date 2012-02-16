@@ -14,7 +14,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class CaseLabel extends SwitchLabel<CaseLabel> {
+public class CaseLabel extends SwitchLabel {
   
   public CaseLabel(Expression expr) {
     setExpression(expr);
@@ -26,12 +26,12 @@ public class CaseLabel extends SwitchLabel<CaseLabel> {
 	private SingleAssociation<CaseLabel,Expression> _expression = new SingleAssociation<CaseLabel,Expression>(this);
 
   
-  public Expression<? extends Expression> getExpression() {
+  public Expression getExpression() {
     return _expression.getOtherEnd();
   }
   
   public void setExpression(Expression expression) {
-    _expression.connectTo(expression.parentLink());
+    setAsParent(_expression,expression);
   }
 
   public void removeExpression(Expression expr) {

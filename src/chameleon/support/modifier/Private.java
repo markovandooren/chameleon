@@ -10,7 +10,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 /**
  * @author Marko van Dooren
  */
-public class Private extends ModifierImpl<Private> {
+public class Private extends ModifierImpl {
 
   public Private() {
     

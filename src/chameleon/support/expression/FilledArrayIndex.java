@@ -12,7 +12,7 @@ import chameleon.oo.expression.Expression;
  * @author Marko van Dooren
  * @author Tim Laeremans
  */
-public class FilledArrayIndex extends ArrayIndex<FilledArrayIndex> {
+public class FilledArrayIndex extends ArrayIndex {
 
 	public FilledArrayIndex(){
 
@@ -25,15 +25,11 @@ public class FilledArrayIndex extends ArrayIndex<FilledArrayIndex> {
 	private OrderedMultiAssociation<FilledArrayIndex,Expression> _expressions = new OrderedMultiAssociation<FilledArrayIndex,Expression>(this);
 
 	public void addIndex(Expression expr){
-		if(expr != null) {
-		  _expressions.add(expr.parentLink());
-		}
+		add(_expressions,expr);
 	}
 
 	public void removeIndex(Expression expr){
-		if(expr != null) {
-		  _expressions.remove(expr.parentLink());
-		}
+		remove(_expressions,expr);
 	}
 	
 	public List<Expression> getIndices() {

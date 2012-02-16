@@ -11,7 +11,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.language.ObjectOrientedLanguage;
 
-public class AssertStatement extends ExpressionContainingStatement<AssertStatement> {
+public class AssertStatement extends ExpressionContainingStatement {
 
   /**
    * @param expression
@@ -35,12 +35,7 @@ public class AssertStatement extends ExpressionContainingStatement<AssertStateme
   }
   
   public void setMessageExpression(Expression expression) {
-    if(expression != null) {
-    	_messageExpression.connectTo(expression.parentLink());
-    }
-    else {
-      _messageExpression.connectTo(null); 
-    }
+    setAsParent(_messageExpression,expression);
   }
 
   public List<Element> children() {

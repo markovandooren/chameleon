@@ -16,10 +16,10 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.oo.variable.FormalParameter;
 
 
-public abstract class PointcutExpressionDual<E extends PointcutExpressionDual<E,J>,J extends Element> extends AbstractPointcutExpression<E,J> implements RuntimePointcutExpression<E,J> {
+public abstract class PointcutExpressionDual<J extends Element> extends AbstractPointcutExpression<J> implements RuntimePointcutExpression<J> {
 	
-	private SingleAssociation<PointcutExpressionDual, PointcutExpression> _expression1 = new SingleAssociation<PointcutExpressionDual, PointcutExpression>(this);
-	private SingleAssociation<PointcutExpressionDual, PointcutExpression> _expression2 = new SingleAssociation<PointcutExpressionDual, PointcutExpression>(this);
+	private SingleAssociation<PointcutExpressionDual, PointcutExpression<J>> _expression1 = new SingleAssociation<PointcutExpressionDual, PointcutExpression<J>>(this);
+	private SingleAssociation<PointcutExpressionDual, PointcutExpression<J>> _expression2 = new SingleAssociation<PointcutExpressionDual, PointcutExpression<J>>(this);
 
 	public PointcutExpressionDual(PointcutExpression expression1, PointcutExpression expression2) {
 		super();
@@ -27,19 +27,21 @@ public abstract class PointcutExpressionDual<E extends PointcutExpressionDual<E,
 		setExpression2(expression2);
 	}
 
-	public PointcutExpression<?,?> expression1() {
+	public abstract PointcutExpressionDual<J> clone();
+	
+	public PointcutExpression<J> expression1() {
 		return _expression1.getOtherEnd();
 	}
 
-	public PointcutExpression<?,?> expression2() {
+	public PointcutExpression<J> expression2() {
 		return _expression2.getOtherEnd();
 	}
 	
-	protected void setExpression1(PointcutExpression expression1) {
+	protected void setExpression1(PointcutExpression<J> expression1) {
 		setAsParent(_expression1, expression1);
 	}
 
-	protected void setExpression2(PointcutExpression expression2) {
+	protected void setExpression2(PointcutExpression<J> expression2) {
 		setAsParent(_expression2, expression2);
 	}
 
@@ -70,8 +72,8 @@ public abstract class PointcutExpressionDual<E extends PointcutExpressionDual<E,
 	}
 	
 	@Override
-	public List<PointcutExpression<?,?>> toPostorderList() {
-		List<PointcutExpression<?,?>> result = new ArrayList<PointcutExpression<?,?>>();
+	public List<PointcutExpression<?>> toPostorderList() {
+		List<PointcutExpression<?>> result = new ArrayList<PointcutExpression<?>>();
 		
 		result.addAll(expression1().toPostorderList());
 		result.addAll(expression2().toPostorderList());
@@ -80,64 +82,4 @@ public abstract class PointcutExpressionDual<E extends PointcutExpressionDual<E,
 		return result;
 	}
 	
-//	/**
-//	 * 	{@inheritDoc}
-//	 */
-//	@Override
-//	public void renameParameters(Map<String, String> parameterNamesMap) {
-//		if (expression1() instanceof ParameterExposurePointcutExpression)
-//			((ParameterExposurePointcutExpression<?,?>) expression1()).renameParameters(parameterNamesMap);
-//		
-//		if (expression2() instanceof ParameterExposurePointcutExpression)
-//			((ParameterExposurePointcutExpression<?,?>) expression2()).renameParameters(parameterNamesMap);
-//	}
-	
-//	/**
-//	 * 	{@inheritDoc}
-//	 */
-//	public boolean hasParameter(FormalParameter fp) {
-//		return expression1().hasParameter(fp) || expression2().hasParameter(fp);
-//	}
-	
-//	/**
-//	 * 	{@inheritDoc}
-//	 */
-//	@Override
-//	public int indexOfParameter(FormalParameter fp) {
-//		int expr1 = testAndIndexOfParameter(expression1(), fp);
-//		
-//		if (expr1 != -1)
-//			return expr1;
-//		
-//		return testAndIndexOfParameter(expression2(), fp);
-//	}
-//	
-//	private int testAndIndexOfParameter(PointcutExpression<?,?> expression, FormalParameter fp) {
-//		if (expression instanceof ParameterExposurePointcutExpression)
-//			return ((ParameterExposurePointcutExpression<?,?>) expression).indexOfParameter(fp);
-//		
-//		return -1;
-//	}
-
-//	/**
-//	 * 	{@inheritDoc}
-//	 */
-//	@Override
-//	public ParameterExposurePointcutExpression<?,?> findExpressionFor(FormalParameter fp) {
-//		ParameterExposurePointcutExpression<?,?> expr1 = testAndFindExpressionFor(expression1(), fp);
-//		
-//		if (expr1 != null)
-//			return expr1;
-//			
-//		return testAndFindExpressionFor(expression2(), fp);
-//	}
-	
-//	private ParameterExposurePointcutExpression<?,?> testAndFindExpressionFor(PointcutExpression<?,?> expression, FormalParameter fp) {
-//		ParameterExposurePointcutExpression<?,?> expr1 = null;
-//		
-//		if (expression instanceof ParameterExposurePointcutExpression)
-//			expr1 = ((ParameterExposurePointcutExpression<?,?>) expression.origin()).findExpressionFor(fp);
-//		
-//		return expr1;
-//	}
 }

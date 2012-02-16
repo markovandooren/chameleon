@@ -17,8 +17,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public abstract class ExpressionContainingStatement<E extends ExpressionContainingStatement> 
-                extends StatementImpl<E> {
+public abstract class ExpressionContainingStatement extends StatementImpl {
 	
   public ExpressionContainingStatement(Expression expression) {
     setExpression(expression);
@@ -39,12 +38,7 @@ public abstract class ExpressionContainingStatement<E extends ExpressionContaini
   }
   
   public void setExpression(Expression expression) {
-    if(expression != null) {
-    	_expression.connectTo(expression.parentLink());
-    }
-    else {
-      _expression.connectTo(null); 
-    }
+    setAsParent(_expression,expression);
   }
 
   public List<Element> children() {

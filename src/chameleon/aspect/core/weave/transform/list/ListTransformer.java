@@ -8,9 +8,9 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReference;
 
-public interface ListTransformer<P extends Element, E extends Element, T extends Element<?>> extends JoinPointTransformer<E, T>{
+public interface ListTransformer<P extends Element, E extends Element, T extends Element> extends JoinPointTransformer<E, T>{
 
-	public T toList(Advice advice);
+	public T toList(Advice<?> advice);
 	
 	public T nextList() throws LookupException;
 	
@@ -18,7 +18,7 @@ public interface ListTransformer<P extends Element, E extends Element, T extends
 	
 	public List<P> proceeds(Advice advice);
 	
-	public Advice advice();
+	public Advice<?> advice();
 
 	public void addAfter(T first, T after);
 	

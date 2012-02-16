@@ -16,6 +16,7 @@ import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.modifier.ElementWithModifiers;
+import chameleon.core.modifier.ElementWithModifiersImpl;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.property.ChameleonProperty;
@@ -25,7 +26,7 @@ import chameleon.exception.ModelException;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
 
-public class Advice<E extends Advice<E,B>, B extends Element> extends NamespaceElementImpl<E> implements ElementWithModifiers<E> {
+public class Advice<B extends Element> extends ElementWithModifiersImpl {
 
 	public Advice() {
 	}
@@ -34,8 +35,8 @@ public class Advice<E extends Advice<E,B>, B extends Element> extends NamespaceE
 		setBody(body);
 	}
 
-	private SingleAssociation<Advice<E,B>, B> _body = new SingleAssociation<Advice<E,B>, B>(this);
-	private SingleAssociation<Advice<E,B>, PointcutExpression> _pointcutExpression = new SingleAssociation<Advice<E,B>, PointcutExpression>(this);
+	private SingleAssociation<Advice<B>, B> _body = new SingleAssociation<Advice<B>, B>(this);
+	private SingleAssociation<Advice<B>, PointcutExpression<?>> _pointcutExpression = new SingleAssociation<Advice<B>, PointcutExpression<?>>(this);
 
 	public B body() {
 		return _body.getOtherEnd();
@@ -63,7 +64,7 @@ public class Advice<E extends Advice<E,B>, B extends Element> extends NamespaceE
 		return _pointcutExpression.getOtherEnd();
 	}
 
-	public void setPointcutExpression(PointcutExpression<?,?> pointcutref) {
+	public void setPointcutExpression(PointcutExpression<?> pointcutref) {
 		setAsParent(_pointcutExpression, pointcutref);
 	}
 
@@ -79,7 +80,7 @@ public class Advice<E extends Advice<E,B>, B extends Element> extends NamespaceE
 	}
 
 	@Override
-	public E clone() {
+	public Advice clone() {
 		TypeReference returnTypeClone = null;
 		Advice clone = cloneThis();
 		PointcutExpression pointcutExpression = pointcutExpression();
@@ -89,7 +90,7 @@ public class Advice<E extends Advice<E,B>, B extends Element> extends NamespaceE
 		for (Modifier m : modifiers()) {
 			clone.addModifier(m.clone());
 		}
-		return (E) clone;
+		return clone;
 	}
 
 	protected Advice cloneThis() {
@@ -100,68 +101,6 @@ public class Advice<E extends Advice<E,B>, B extends Element> extends NamespaceE
 	public VerificationResult verifySelf() {
 		VerificationResult result = Valid.create();
 
-		return result;
-	}
-
-	private OrderedMultiAssociation<Advice<E,B>, Modifier> _modifiers = new OrderedMultiAssociation<Advice<E,B>, Modifier>(
-			this);
-
-	@Override
-	public List<Modifier> modifiers() {
-		return _modifiers.getOtherEnds();
-	}
-
-	@Override
-	public void addModifier(Modifier modifier) {
-		if ((modifier != null) && (!_modifiers.contains(modifier.parentLink()))) {
-			_modifiers.add(modifier.parentLink());
-		}
-	}
-
-	@Override
-	public void removeModifier(Modifier modifier) {
-		_modifiers.remove(modifier.parentLink());
-	}
-
-	@Override
-	public void addModifiers(List<Modifier> modifiers) {
-		if (modifiers == null)
-			return;
-
-		for (Modifier modifier : modifiers)
-			addModifier(modifier);
-
-	}
-
-	@Override
-	public List<Modifier> modifiers(PropertyMutex mutex) throws ModelException {
-		Property property = property(mutex);
-		List<Modifier> result = new ArrayList<Modifier>();
-		for (Modifier mod : modifiers()) {
-			if (mod.impliesTrue(property)) {
-				result.add(mod);
-			}
-		}
-		return result;
-	}
-
-	@Override
-	public List<Modifier> modifiers(Property property) throws ModelException {
-		List<Modifier> result = new ArrayList<Modifier>();
-		for(Modifier mod: modifiers()) {
-			if(mod.impliesTrue(property)) {
-				result.add(mod);
-			}
-		}
-		return result;
-	}
-
-	@Override
-	public PropertySet<Element, ChameleonProperty> declaredProperties() {
-		PropertySet<Element, ChameleonProperty> result = new PropertySet<Element, ChameleonProperty>();
-		for (Modifier modifier : modifiers()) {
-			result.addAll(modifier.impliedProperties());
-		}
 		return result;
 	}
 

@@ -12,7 +12,7 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.variable.FormalParameter;
 
-public class PointcutExpressionNot<E extends PointcutExpressionNot<E>> extends PointcutExpressionSingle<E,Element> implements RuntimePointcutExpression<E,Element> {
+public class PointcutExpressionNot extends PointcutExpressionSingle<Element> implements RuntimePointcutExpression<Element> {
 
 	public PointcutExpressionNot(PointcutExpression expression) {
 		super(expression);
@@ -33,21 +33,21 @@ public class PointcutExpressionNot<E extends PointcutExpressionNot<E>> extends P
 	
 
 	@Override
-	public E clone() {
-		return (E) new PointcutExpressionNot<E>(expression().clone());
+	public PointcutExpressionNot clone() {
+		return new PointcutExpressionNot(expression().clone());
 	}
 	
 	/**
 	 * 	{@inheritDoc}
 	 */
 	@Override
-	public PointcutExpression<?,?> without(SafePredicate<PointcutExpression<?,?>> filter) {
-		PointcutExpression<?,?> expression = expression().without(filter);
+	public PointcutExpression<?> without(SafePredicate<PointcutExpression<?>> filter) {
+		PointcutExpression<?> expression = expression().without(filter);
 		
 		if (expression == null)
 			return null;
 		
-		return new PointcutExpressionNot<E>(expression);
+		return new PointcutExpressionNot(expression);
 	}
 
 	@Override

@@ -11,7 +11,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 /**
  * @author Marko van Dooren
  */
-public class Final extends ModifierImpl<Final> {
+public class Final extends ModifierImpl {
 
   public Final() {
   }

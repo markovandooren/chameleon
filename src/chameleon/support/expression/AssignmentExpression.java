@@ -20,7 +20,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class AssignmentExpression extends Expression<AssignmentExpression> {
+public class AssignmentExpression extends Expression {
 
   /**
    * @param first
@@ -43,12 +43,7 @@ public class AssignmentExpression extends Expression<AssignmentExpression> {
   }
 
   public void setVariable(Expression var) {
-  	if(var != null) {
-      _variable.connectTo(var.parentLink());
-  	}
-  	else {
-  		_variable.connectTo(null);
-  	}
+  	setAsParent(_variable,var);
   }
 
 	/**
@@ -61,11 +56,7 @@ public class AssignmentExpression extends Expression<AssignmentExpression> {
   }
 
   public void setValue(Expression expression) {
-  	if(expression != null) {
-      _value.connectTo(expression.parentLink());
-  	} else {
-  		_value.connectTo(null);
-  	}
+  	setAsParent(_value,expression);
   }
 
   protected Type actualType() throws LookupException {
@@ -73,7 +64,7 @@ public class AssignmentExpression extends Expression<AssignmentExpression> {
   }
 
   public AssignmentExpression clone() {
-    return new AssignmentExpression(getVariable().clone(), ((Expression<? extends Expression>)getValue()).clone());
+    return new AssignmentExpression(getVariable().clone(), getValue().clone());
   }
 
   public List<Element> children() {

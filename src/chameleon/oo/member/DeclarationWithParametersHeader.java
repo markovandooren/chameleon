@@ -51,7 +51,7 @@ public abstract class DeclarationWithParametersHeader extends NamespaceElementIm
    * the information in the header.
    * @return
    */
-  public abstract Signature signature();
+  public abstract DeclarationWithParametersSignature signature();
   
   public abstract void setName(String name);
   

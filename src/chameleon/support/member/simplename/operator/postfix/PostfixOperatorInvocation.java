@@ -11,7 +11,7 @@ import chameleon.support.member.simplename.SimpleNameMethodInvocation;
 /**
  * @author Marko van Dooren
  */
-public class PostfixOperatorInvocation extends SimpleNameMethodInvocation<PostfixOperatorInvocation,PostfixOperator> {
+public class PostfixOperatorInvocation extends SimpleNameMethodInvocation<PostfixOperator> {
 
 	/**
 	 * @param target

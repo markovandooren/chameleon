@@ -23,7 +23,7 @@ public class SimpleNameMethodHeader extends MethodHeader {
 	//      Better solution is to use a SimpleNameDeclarationWithParametersHeader as a subobject, but
 	//      I don't want to increase memory consumption further until we have lazy class loading. A
 	//      tool that uses too much memory is completely useless.
-	
+
 	public SimpleNameMethodHeader(String name, TypeReference returnType) {
 		super(returnType);
 		setName(name);

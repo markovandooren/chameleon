@@ -6,7 +6,6 @@ import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.element.Element;
 import chameleon.oo.member.DeclarationWithParametersHeader;
-import chameleon.oo.member.DeclarationWithParametersSignature;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
 
@@ -15,6 +14,8 @@ public abstract class MethodHeader extends DeclarationWithParametersHeader {
 	public MethodHeader(TypeReference returnType) {
 		setReturnTypeReference(returnType);
 	}
+	
+//	public abstract MethodHeader clone();
 	
 	private SingleAssociation<MethodHeader,TypeReference> _typeReference = new SingleAssociation<MethodHeader,TypeReference>(this);
 

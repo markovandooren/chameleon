@@ -14,7 +14,6 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.namespace.NamespaceOrTypeReference;
 import chameleon.core.reference.SimpleReference;
 import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;

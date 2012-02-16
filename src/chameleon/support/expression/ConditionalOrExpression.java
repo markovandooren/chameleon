@@ -1,14 +1,12 @@
 package chameleon.support.expression;
 
-import chameleon.core.lookup.LookupException;
-import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.oo.expression.Expression;
 
 
 /**
  * @author Marko van Dooren
  */
-public class ConditionalOrExpression extends ConditionalBooleanExpression<ConditionalOrExpression> {
+public class ConditionalOrExpression extends ConditionalBooleanExpression {
 
   /**
    * @param first

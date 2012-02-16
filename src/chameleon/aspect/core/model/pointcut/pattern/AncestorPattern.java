@@ -17,7 +17,7 @@ public class AncestorPattern<D extends Declaration> extends DeclarationPattern {
 	private Class<D> _ancestorType;
 
 	@Override
-	public boolean eval(Declaration<?,?> declaration) throws LookupException {
+	public boolean eval(Declaration declaration) throws LookupException {
 		D decl = declaration.nearestAncestor(ancestorType());
 		return ancestorPattern().eval(decl);
 	}

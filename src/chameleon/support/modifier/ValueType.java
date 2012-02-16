@@ -11,7 +11,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
  * 
  * @author Marko van Dooren
  */
-public class ValueType extends ModifierImpl<ValueType> {
+public class ValueType extends ModifierImpl {
 	
 	public ValueType() {
 		

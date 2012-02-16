@@ -18,7 +18,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class TryStatement extends StatementContainingStatement<TryStatement> {
+public class TryStatement extends StatementContainingStatement {
 
   public TryStatement(Statement statement) {
     super(statement);
@@ -35,11 +35,7 @@ public class TryStatement extends StatementContainingStatement<TryStatement> {
   }
 
   public void addCatchClause(CatchClause catchClause) {
-  	if(catchClause != null) {
-      _catchClausesLink.add(catchClause.parentLink());
-  	} else {
-  		throw new ChameleonProgrammerException("Trying to add a null catch clause to a try statement");
-  	}
+  	add(_catchClausesLink,catchClause);
   }
   
   public void addAllCatchClauses(List<CatchClause> catchClauses) {
@@ -49,7 +45,7 @@ public class TryStatement extends StatementContainingStatement<TryStatement> {
   }
 
   public void removeCatchClause(CatchClause catchClause) {
-    _catchClausesLink.remove(catchClause.parentLink());
+    remove(_catchClausesLink,catchClause);
   }
 
   public List<CatchClause> getCatchClauses() {
@@ -66,7 +62,7 @@ public class TryStatement extends StatementContainingStatement<TryStatement> {
   }
 
   public void setFinallyClause(FinallyClause clause) {
-    _finally.connectTo(clause.parentLink());
+    setAsParent(_finally,clause);
   }
 
   public TryStatement clone() {

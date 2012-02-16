@@ -21,7 +21,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class SuperTarget extends NamespaceElementImpl<SuperTarget> implements CrossReferenceTarget<SuperTarget> {
+public class SuperTarget extends NamespaceElementImpl implements CrossReferenceTarget {
 
   public SuperTarget() {
 	}
@@ -35,17 +35,12 @@ public class SuperTarget extends NamespaceElementImpl<SuperTarget> implements Cr
 	 */
 	private SingleAssociation<CrossReferenceTarget,CrossReferenceTarget> _target = new SingleAssociation<CrossReferenceTarget,CrossReferenceTarget>(this);
 
-  public CrossReferenceTarget<?> getTarget() {
+  public CrossReferenceTarget getTarget() {
     return _target.getOtherEnd();
   }
 
   public void setTarget(CrossReferenceTarget target) {
-    if (target != null) {
-      _target.connectTo(target.parentLink());
-    }
-    else {
-      _target.connectTo(null);
-    }
+    setAsParent(_target,target);
   }
 
   public List<Element> children() {

@@ -4,7 +4,7 @@ import org.rejuse.association.SingleAssociation;
 
 import chameleon.oo.expression.Expression;
 
-public abstract class ExpressionContainingExpression<E extends ExpressionContainingExpression> extends Expression<E> {
+public abstract class ExpressionContainingExpression extends Expression {
 
 	public ExpressionContainingExpression(Expression expr) {
 		setExpression(expr);
@@ -14,12 +14,12 @@ public abstract class ExpressionContainingExpression<E extends ExpressionContain
 	 * FIRST
 	 */
   
-	private SingleAssociation<E,Expression> _first = new SingleAssociation<E,Expression>((E) this);
+	private SingleAssociation<ExpressionContainingExpression,Expression> _first = new SingleAssociation<ExpressionContainingExpression,Expression>(this);
 
   /**
    * Return the first expression
    */
-  public Expression<? extends Expression> getExpression() {
+  public Expression getExpression() {
     return _first.getOtherEnd();
   }
 
@@ -32,7 +32,7 @@ public abstract class ExpressionContainingExpression<E extends ExpressionContain
    @ post getFirst().equals(first); 
    @*/
   public void setExpression(Expression expression) {
-    _first.connectTo(expression.parentLink());
+    setAsParent(_first,expression);
   }
 
 

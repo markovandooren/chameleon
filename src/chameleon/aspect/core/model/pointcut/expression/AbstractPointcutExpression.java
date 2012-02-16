@@ -21,11 +21,8 @@ import chameleon.oo.variable.FormalParameter;
  * 
  * 	@author Jens De Temmerman
  *  @author Marko van Dooren
- *
- * 	@param <E>
- * 	@param <T>
  */
-public abstract class AbstractPointcutExpression<E extends AbstractPointcutExpression<E,J>,J extends Element> extends NamespaceElementImpl<E> implements PointcutExpression<E,J> {
+public abstract class AbstractPointcutExpression<J extends Element> extends NamespaceElementImpl implements PointcutExpression<J> {
 	/**
 	 *  {@inheritDoc}
 	 */
@@ -38,17 +35,17 @@ public abstract class AbstractPointcutExpression<E extends AbstractPointcutExpre
 	 *  {@inheritDoc}
 	 */
 	@Override
-	public abstract E clone();
+	public abstract AbstractPointcutExpression clone();
 		
 	/**
 	 * 	{@inheritDoc}
 	 */
 	@Override
-	public final PointcutExpression<?,?> retainOnly(final SafePredicate<PointcutExpression<?,?>> filter) {
-		return without(new SafePredicate<PointcutExpression<?,?>>() {
+	public final PointcutExpression<?> retainOnly(final SafePredicate<PointcutExpression<?>> filter) {
+		return without(new SafePredicate<PointcutExpression<?>>() {
 
 			@Override
-			public boolean eval(PointcutExpression<?,?> object) {
+			public boolean eval(PointcutExpression<?> object) {
 				return ! filter.eval(object);
 			}
 		});
@@ -58,10 +55,10 @@ public abstract class AbstractPointcutExpression<E extends AbstractPointcutExpre
 	 *	{@inheritDoc}
 	 */
 	@Override
-	public PointcutExpression<?,?> without(final Class<? extends PointcutExpression> type) {	
-		SafePredicate<PointcutExpression<?,?>> filter = new SafePredicate<PointcutExpression<?,?>>() {
+	public PointcutExpression<?> without(final Class<? extends PointcutExpression> type) {	
+		SafePredicate<PointcutExpression<?>> filter = new SafePredicate<PointcutExpression<?>>() {
 			@Override
-			public boolean eval(PointcutExpression<?,?> object) {
+			public boolean eval(PointcutExpression<?> object) {
 				return type.isInstance(object);
 			}
 		};
@@ -72,8 +69,8 @@ public abstract class AbstractPointcutExpression<E extends AbstractPointcutExpre
 	 * 	{@inheritDoc}
 	 */
 	@Override
-	public PointcutExpression<?,?> without(SafePredicate<PointcutExpression<?,?>> filter) {
-		PointcutExpression<?,?> result = null;
+	public PointcutExpression<?> without(SafePredicate<PointcutExpression<?>> filter) {
+		PointcutExpression<?> result = null;
 		if (!filter.eval(this)) {
 			result = clone();
 			result.setOrigin(origin());
@@ -85,8 +82,8 @@ public abstract class AbstractPointcutExpression<E extends AbstractPointcutExpre
 	 * 	{@inheritDoc}
 	 */
 	@Override
-	public List<PointcutExpression<?,?>> toPostorderList() {
-		return Collections.<PointcutExpression<?,?>>singletonList(this);
+	public List<PointcutExpression<?>> toPostorderList() {
+		return Collections.<PointcutExpression<?>>singletonList(this);
 	}
 	
 //	/**
@@ -114,7 +111,7 @@ public abstract class AbstractPointcutExpression<E extends AbstractPointcutExpre
 	}
 	
 	@Override
-	public final MatchResult matches(Element<?> joinpoint) throws LookupException {
+	public final MatchResult matches(Element joinpoint) throws LookupException {
 		if(joinPointType().isInstance(joinpoint)) {
 			return match((J)joinpoint);
 		} else {

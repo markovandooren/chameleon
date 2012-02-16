@@ -11,7 +11,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 /**
  * @author Marko van Dooren
  */
-public class Abstract extends ModifierImpl<Abstract> {
+public class Abstract extends ModifierImpl {
 
   public Abstract() {
     

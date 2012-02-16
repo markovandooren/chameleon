@@ -14,7 +14,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class SwitchStatement extends ExpressionContainingStatement<SwitchStatement> {
+public class SwitchStatement extends ExpressionContainingStatement {
 
   public SwitchStatement(Expression expression) {
     super(expression);
@@ -30,7 +30,7 @@ public class SwitchStatement extends ExpressionContainingStatement<SwitchStateme
   }
 
   public void addCase(SwitchCase switchCase) {
-    _switchCases.add(switchCase.parentLink());
+    add(_switchCases,switchCase);
   }
   
   public void addAllCases(List<SwitchCase> cases) {
@@ -40,7 +40,7 @@ public class SwitchStatement extends ExpressionContainingStatement<SwitchStateme
   }
 
   public void removeCase(SwitchCase switchCase) {
-    _switchCases.remove(switchCase.parentLink());
+    remove(_switchCases,switchCase);
   }
 
   public List<SwitchCase> getSwitchCases() {

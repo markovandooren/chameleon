@@ -53,7 +53,7 @@ public class JoinPointWeaver<T extends Element, U> {
 	/**
 	 * 	The advice
 	 */
-	private Advice<?,?> _advice;
+	private Advice<?> _advice;
 	
 	/**
 	 * 	The next encapsulator in the chain
@@ -87,7 +87,8 @@ public class JoinPointWeaver<T extends Element, U> {
 	 * 	@param 	joinpoint
 	 * 			The joinpoint
 	 */
-	public JoinPointWeaver(JoinPointTransformer<T,U> weavingResultProvider, AdviceInfrastructureFactory adviceTransformationProvider, Advice<?,?> advice, MatchResult<T> joinpoint) {
+	public JoinPointWeaver(JoinPointTransformer<T,U> weavingResultProvider, AdviceInfrastructureFactory adviceTransformationProvider, 
+			                   Advice<?> advice, MatchResult<T> joinpoint) {
 		_joinPointTransformer = weavingResultProvider;
 		_joinPointTransformer.setJoinPointWeaver(this);
 		_adviceTransformationProvider = adviceTransformationProvider;
@@ -201,7 +202,7 @@ public class JoinPointWeaver<T extends Element, U> {
 	 * 
 	 * 	@return	The advice
 	 */
-	public Advice<?,?> getAdvice() {
+	public Advice<?> getAdvice() {
 		return _advice;
 	}
 }

@@ -22,7 +22,7 @@ public abstract class ThreePhaseCoordinator<T extends Element> extends AbstractC
 		super(adviceTransformationProvider, matchResult);
 	}
 	
-	protected RuntimePointcutExpression<?,?> getRuntimeTree(PointcutExpression<?> initialTree) {
+	protected RuntimePointcutExpression<?> getRuntimeTree(PointcutExpression<?> initialTree) {
 		// Part one: get all the runtime pointcut expressions but maintain the structure (and/or/...)
 		SafePredicate<PointcutExpression<?>> runtimeFilter = new SafePredicate<PointcutExpression<?>>() {
 			@Override
@@ -32,7 +32,7 @@ public abstract class ThreePhaseCoordinator<T extends Element> extends AbstractC
 			}
 		};
 		// Cast is safe due to the filter
-		return (RuntimePointcutExpression<?,?>) initialTree.retainOnly(runtimeFilter);
+		return (RuntimePointcutExpression<?>) initialTree.retainOnly(runtimeFilter);
 	}
 
 	protected Block getSecondPhase(PointcutExpression<?> initialTree, List<FormalParameter> parameters) throws LookupException {

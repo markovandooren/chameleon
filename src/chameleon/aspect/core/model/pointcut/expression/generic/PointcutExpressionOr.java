@@ -9,7 +9,7 @@ import chameleon.aspect.oo.model.pointcut.RuntimePointcutExpression;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 
-public class PointcutExpressionOr<E extends PointcutExpressionOr<E>> extends PointcutExpressionDual<E,Element> implements RuntimePointcutExpression<E,Element> {
+public class PointcutExpressionOr extends PointcutExpressionDual<Element> implements RuntimePointcutExpression<Element> {
 
 	public PointcutExpressionOr(PointcutExpression expression1, PointcutExpression expression2) {
 		super(expression1, expression2);
@@ -41,7 +41,7 @@ public class PointcutExpressionOr<E extends PointcutExpressionOr<E>> extends Poi
 		
 		MatchResult result = MatchResult.noMatch();
 		if (r1.isMatch() && r2.isMatch()) {
-			result = new MatchResult<Element<?>>(this, joinpoint);
+			result = new MatchResult<Element>(this, joinpoint);
 		}	else if (r1.isMatch()) {
 			result = r1;
 		} else if (r2.isMatch()) {
@@ -51,8 +51,8 @@ public class PointcutExpressionOr<E extends PointcutExpressionOr<E>> extends Poi
 	}
 
 	@Override
-	public E clone() {
-		return (E) new PointcutExpressionOr<E>(expression1().clone(), expression2().clone());
+	public PointcutExpressionOr clone() {
+		return new PointcutExpressionOr(expression1().clone(), expression2().clone());
 	}
 
 	@Override
@@ -64,9 +64,9 @@ public class PointcutExpressionOr<E extends PointcutExpressionOr<E>> extends Poi
 	 * 	{@inheritDoc}
 	 */	
 	@Override
-	public PointcutExpression<?,?> without(SafePredicate<PointcutExpression<?,?>> filter) {	
-		PointcutExpression<?,?> left = expression1().without(filter);
-		PointcutExpression<?,?> right = expression2().without(filter);
+	public PointcutExpression<?> without(SafePredicate<PointcutExpression<?>> filter) {	
+		PointcutExpression<?> left = expression1().without(filter);
+		PointcutExpression<?> right = expression2().without(filter);
 		if (left == null && right == null)
 			return null;
 		if (left == null && right != null)
@@ -74,6 +74,6 @@ public class PointcutExpressionOr<E extends PointcutExpressionOr<E>> extends Poi
 		if (left != null && right == null)
 			return left;
 		
-		return new PointcutExpressionOr<E>(left, right);
+		return new PointcutExpressionOr(left, right);
 	}
 }

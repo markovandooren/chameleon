@@ -23,13 +23,13 @@ import chameleon.oo.type.TypeReference;
 import chameleon.oo.variable.FormalParameter;
 import chameleon.util.Util;
 
-public abstract class ProgrammingAdvice<E extends ProgrammingAdvice<E>> extends Advice<E,Block> implements DeclarationContainer<E> {
+public abstract class ProgrammingAdvice extends Advice<Block> implements DeclarationContainer {
 
 	public ProgrammingAdvice() {
 		
 	}
 	
-	private SingleAssociation<ProgrammingAdvice<E>, TypeReference> _returnType = new SingleAssociation<ProgrammingAdvice<E>, TypeReference>(this);
+	private SingleAssociation<ProgrammingAdvice, TypeReference> _returnType = new SingleAssociation<ProgrammingAdvice, TypeReference>(this);
 
 	protected TypeReference returnType() {
 		return _returnType.getOtherEnd();
@@ -46,7 +46,7 @@ public abstract class ProgrammingAdvice<E extends ProgrammingAdvice<E>> extends 
 	}
 
 
-	private OrderedMultiAssociation<ProgrammingAdvice<E>, FormalParameter> _parameters = new OrderedMultiAssociation<ProgrammingAdvice<E>, FormalParameter>(this);
+	private OrderedMultiAssociation<ProgrammingAdvice, FormalParameter> _parameters = new OrderedMultiAssociation<ProgrammingAdvice, FormalParameter>(this);
 
 	public List<FormalParameter> formalParameters() {
 		return _parameters.getOtherEnds();
@@ -75,8 +75,8 @@ public abstract class ProgrammingAdvice<E extends ProgrammingAdvice<E>> extends 
   }
   
   @Override
-  public E clone() {
-  	E result = super.clone();
+  public ProgrammingAdvice clone() {
+  	ProgrammingAdvice result = (ProgrammingAdvice) super.clone();
   	for(FormalParameter param: formalParameters()) {
   		result.addFormalParameter(param.clone());
   	}

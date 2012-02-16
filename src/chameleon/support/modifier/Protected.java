@@ -9,7 +9,7 @@ import chameleon.core.property.ChameleonProperty;
 /**
  * @author Marko van Dooren
  */
-public class Protected extends ModifierImpl<Protected> {
+public class Protected extends ModifierImpl {
 
 	
 	

@@ -1,16 +1,15 @@
 package chameleon.support.member.simplename.operator.postfix;
 
-import chameleon.oo.member.SimpleNameDeclarationWithParametersSignature;
 import chameleon.oo.method.Method;
-import chameleon.oo.method.SimpleNameMethodHeader;
+import chameleon.oo.method.MethodHeader;
 import chameleon.support.member.simplename.operator.Operator;
 
 /**
  * @author Marko van Dooren
  */
-public class PostfixOperator<E extends PostfixOperator<E,H,S>, H extends SimpleNameMethodHeader<H,S>, S extends SimpleNameDeclarationWithParametersSignature> extends Operator<E,H,S> {
+public class PostfixOperator extends Operator {
 
-  public PostfixOperator(H header) {
+  public PostfixOperator(MethodHeader header) {
     super(header);
   }
   
@@ -18,8 +17,8 @@ public class PostfixOperator<E extends PostfixOperator<E,H,S>, H extends SimpleN
 	  	return(other instanceof PostfixOperator);
 	  }  
 
-  protected E cloneThis() {
-    return (E) new PostfixOperator(header().clone());
+  protected PostfixOperator cloneThis() {
+    return new PostfixOperator((MethodHeader) header().clone());
   }
 
 }

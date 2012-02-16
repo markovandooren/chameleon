@@ -9,7 +9,7 @@ import chameleon.core.modifier.ModifierImpl;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.support.modifier.PublicProperty;
 
-public class Around<E extends Around<E>> extends ModifierImpl<E> implements Modifier<E> {
+public class Around<E extends Around<E>> extends ModifierImpl {
 
 	@Override
 	public PropertySet<Element, ChameleonProperty> impliedProperties() {

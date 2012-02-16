@@ -1,7 +1,6 @@
 package chameleon.support.expression;
 
 import chameleon.core.lookup.LookupException;
-import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.UniversalScope;
 import chameleon.core.validation.Valid;
@@ -13,7 +12,7 @@ import chameleon.oo.type.Type;
 /**
  * @author Marko van Dooren
  */
-public class NullLiteral extends Literal<NullLiteral> {
+public class NullLiteral extends Literal {
 
   public NullLiteral(){
     super("null");

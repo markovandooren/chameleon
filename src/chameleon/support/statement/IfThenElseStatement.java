@@ -12,14 +12,13 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.statement.Statement;
-import chameleon.oo.statement.StatementImpl;
 import chameleon.oo.type.Type;
 import chameleon.util.Util;
 
 /**
  * @author Marko van Dooren
  */
-public class IfThenElseStatement extends ExpressionContainingStatement<IfThenElseStatement> {
+public class IfThenElseStatement extends ExpressionContainingStatement {
 
   public IfThenElseStatement(Expression expression, Statement ifStatement, Statement elseStatement) {
     super(expression);

@@ -9,6 +9,7 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
+import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.LookupStrategyFactory;
@@ -25,8 +26,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class LocalClassStatement extends StatementImpl<LocalClassStatement> 
-             implements DeclarationContainer<LocalClassStatement> {
+public class LocalClassStatement extends StatementImpl implements DeclarationContainer {
 
 	public LocalClassStatement() {
 	}
@@ -97,8 +97,12 @@ public class LocalClassStatement extends StatementImpl<LocalClassStatement>
 //  }
 
   public LookupStrategy lexicalLookupStrategy(Element element) {
-  	return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createTargetLookupStrategy(this), this);
+  	return language().lookupFactory().createLexicalLookupStrategy(localStrategy(), this);
   }
+
+	public LocalLookupStrategy localStrategy() {
+		return language().lookupFactory().createTargetLookupStrategy(this);
+	}
   
   public LookupStrategy linearLookupStrategy() {
   	return lexicalLookupStrategy(getType());

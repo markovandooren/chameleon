@@ -11,9 +11,9 @@ import chameleon.oo.statement.StatementImpl;
 /**
  * @author Marko van Dooren
  */
-public abstract class StatementContainingStatement<E extends StatementContainingStatement> extends StatementImpl<E> {
+public abstract class StatementContainingStatement extends StatementImpl {
   
-  public StatementContainingStatement(Statement<E> statement) {
+  public StatementContainingStatement(Statement statement) {
     setStatement(statement);
   }
 
@@ -32,7 +32,7 @@ public abstract class StatementContainingStatement<E extends StatementContaining
     _statement.connectTo(null);
   }
   
-  public Statement<E> getStatement() {
+  public Statement getStatement() {
     return _statement.getOtherEnd();
   }
   

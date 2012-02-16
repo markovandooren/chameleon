@@ -8,7 +8,7 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 
-public class ExactDeclarationPointcutExpression extends DeclarationPointcutExpression<ExactDeclarationPointcutExpression, Declaration> {
+public class ExactDeclarationPointcutExpression extends DeclarationPointcutExpression<Declaration> {
 
 	public ExactDeclarationPointcutExpression(DeclarationPattern pattern) {
 		super(pattern);

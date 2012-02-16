@@ -19,7 +19,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class ThrowStatement extends ExpressionContainingStatement<ThrowStatement> {
+public class ThrowStatement extends ExpressionContainingStatement {
 
  /*@
    @ public behavior

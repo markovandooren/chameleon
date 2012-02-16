@@ -10,7 +10,7 @@ import chameleon.core.validation.VerificationResult;
 /**
  * @author Marko van Dooren
  */
-public class BreakStatement extends JumpStatement<BreakStatement> {
+public class BreakStatement extends JumpStatement {
 
 	public BreakStatement() {
 		super(null);
@@ -30,8 +30,9 @@ public class BreakStatement extends JumpStatement<BreakStatement> {
 
 	@Override
 	public VerificationResult verifySelf() {
-		BreakableStatement ancestor = nearestAncestor(BreakableStatement.class);
-		return checkNull(ancestor, "The break statement is not nested in a breakable statement", Valid.create());
+		return Valid.create();
+//		BreakableStatement ancestor = nearestAncestor(BreakableStatement.class);
+//		return checkNull(ancestor, "The break statement is not nested in a breakable statement", Valid.create());
 	}
 
 }

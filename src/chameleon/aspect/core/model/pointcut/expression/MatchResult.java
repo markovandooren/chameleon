@@ -5,13 +5,13 @@ import chameleon.core.element.Element;
 public class MatchResult<T extends Element> {
 	private boolean match;
 	private T joinpoint;
-	private PointcutExpression<?,?> expression;
+	private PointcutExpression<?> expression;
 	
-	public MatchResult(PointcutExpression<?,?> expression, T joinpoint) {
+	public MatchResult(PointcutExpression<?> expression, T joinpoint) {
 		this(true, expression, joinpoint);
 	}
 	
-	public MatchResult(boolean match, PointcutExpression<?,?> expression, T joinpoint) {
+	public MatchResult(boolean match, PointcutExpression<?> expression, T joinpoint) {
 		setExpression(expression);
 		setJoinpoint(joinpoint);
 		setMatch(match);
@@ -25,7 +25,7 @@ public class MatchResult<T extends Element> {
 		return joinpoint;
 	}
 
-	public PointcutExpression<?,?> getExpression() {
+	public PointcutExpression<?> getExpression() {
 		return expression;
 	}
 
@@ -33,7 +33,7 @@ public class MatchResult<T extends Element> {
 		this.joinpoint = joinpoint;
 	}
 
-	private void setExpression(PointcutExpression<?,?> expression) {
+	private void setExpression(PointcutExpression<?> expression) {
 		this.expression = expression;
 	}
 	

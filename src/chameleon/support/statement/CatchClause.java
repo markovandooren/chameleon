@@ -10,6 +10,7 @@ import org.rejuse.predicate.UnsafePredicate;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
+import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.NamespaceElement;
@@ -26,7 +27,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class CatchClause extends Clause<CatchClause> implements VariableContainer<CatchClause> {
+public class CatchClause extends Clause implements VariableContainer {
   
   public CatchClause(FormalParameter exc, Statement statement) {
     super(statement);
@@ -44,7 +45,7 @@ public class CatchClause extends Clause<CatchClause> implements VariableContaine
   }
   
   public void setException(FormalParameter exc) {
-    _exceptionLink.connectTo(exc.parentLink());
+    setAsParent(_exceptionLink,exc);
   }
   
   public FormalParameter getExceptionParameter() {
@@ -115,7 +116,11 @@ public class CatchClause extends Clause<CatchClause> implements VariableContaine
 	
 	@Override
 	public LookupStrategy lexicalLookupStrategy(Element element) {
-		return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createTargetLookupStrategy(this), this);
+		return language().lookupFactory().createLexicalLookupStrategy(localStrategy(), this);
+	}
+
+	public LocalLookupStrategy localStrategy() {
+		return language().lookupFactory().createTargetLookupStrategy(this);
 	}
 
   

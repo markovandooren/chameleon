@@ -6,7 +6,7 @@ import chameleon.core.element.Element;
 import chameleon.oo.expression.Expression;
 import chameleon.util.Util;
 
-public class CaseGotoStatement extends ExpressionContainingStatement<CaseGotoStatement> {
+public class CaseGotoStatement extends ExpressionContainingStatement {
 
 	public CaseGotoStatement(Expression expr) {
 		super(expr);
@@ -14,7 +14,7 @@ public class CaseGotoStatement extends ExpressionContainingStatement<CaseGotoSta
 	
 	@Override
 	public CaseGotoStatement clone() {
-		return new CaseGotoStatement(((Expression<? extends Expression>)getExpression()).clone());
+		return new CaseGotoStatement(getExpression().clone());
 	}
 
 	@Override

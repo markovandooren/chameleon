@@ -19,11 +19,15 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class ForStatement extends IterationStatement<ForStatement> implements DeclarationContainer<ForStatement> {
+public class ForStatement extends IterationStatement implements DeclarationContainer {
 
 	@SuppressWarnings("unchecked")
 	public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
-		return new LexicalLookupStrategy(new LocalLookupStrategy<ForStatement>(this),this);
+		return new LexicalLookupStrategy(localStrategy(),this);
+	}
+
+	public LookupStrategy localStrategy() {
+		return language().lookupFactory().createLocalLookupStrategy(this);
 	}
 	
   /**
@@ -40,11 +44,7 @@ public class ForStatement extends IterationStatement<ForStatement> implements De
   }
   
   public void setForControl(ForControl control) {
-  	if(control != null) {
-  		_control.connectTo(control.parentLink());
-  	} else {
-  		_control.connectTo(null);
-  	}
+  	setAsParent(_control,control);
   }
   
   private SingleAssociation<ForStatement,ForControl> _control = new SingleAssociation<ForStatement, ForControl>(this); 
@@ -66,7 +66,7 @@ public class ForStatement extends IterationStatement<ForStatement> implements De
 	}
 
 
-	public List<? extends Variable> declarations() throws LookupException {
+	public List<? extends Declaration> declarations() throws LookupException {
 		return forControl().declarations();
 	}
 

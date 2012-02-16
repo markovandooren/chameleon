@@ -51,7 +51,7 @@ public interface Weaver<T extends Element, U> {
 	 * 			The join points belonging to that advice
 	 * 	@throws LookupException
 	 */
-	public JoinPointWeaver<T, U> weave(Advice<?,?> advice, MatchResult<T> joinpoint) throws LookupException;
+	public JoinPointWeaver<T, U> weave(Advice<?> advice, MatchResult<T> joinpoint) throws LookupException;
 	
 	/**
 	 * 	Get the next weaver in the chain

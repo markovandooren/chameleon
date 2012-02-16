@@ -1,17 +1,16 @@
 package chameleon.support.statement;
 
-import chameleon.core.element.Element;
 import chameleon.oo.statement.Statement;
 
 /**
  * @author Marko van Dooren
  */
-public abstract class IterationStatement<E extends IterationStatement> extends StatementContainingStatement<E> implements BreakableStatement<E, Element>{
+public abstract class IterationStatement extends StatementContainingStatement {
   
   /**
    * @param expression
    */
-  public IterationStatement(Statement<E> statement) {
+  public IterationStatement(Statement statement) {
     super(statement);
   }
 

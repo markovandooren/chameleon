@@ -27,7 +27,7 @@ public abstract class AbstractWeaver<T extends Element, U> implements Weaver<T, 
 	 * 
 	 * 	@return	The object that is responsible for getting the weave-result 
 	 */
-	public abstract JoinPointTransformer<T,U> getWeaveResultProvider(Advice<?,?> advice);	
+	public abstract JoinPointTransformer<T,U> getWeaveResultProvider(Advice<?> advice);	
 	
 	/**
 	 * 	Get the object that perform transformations to the advice. This is called per join point, since this may differ per join point
@@ -40,7 +40,7 @@ public abstract class AbstractWeaver<T extends Element, U> implements Weaver<T, 
 	 * 			The join point this advice was matched on
 	 * 	@return The object responsible for transformation
 	 */
-	public abstract AdviceInfrastructureFactory getInfrastructureFactory(Advice<?,?> advice, MatchResult<T> joinpoint);
+	public abstract AdviceInfrastructureFactory getInfrastructureFactory(Advice<?> advice, MatchResult<T> joinpoint);
 	
 	/**
 	 * 	The next weaver in the chain
@@ -67,7 +67,7 @@ public abstract class AbstractWeaver<T extends Element, U> implements Weaver<T, 
 	 * 	{@inheritDoc}
 	 */
 	@Override
-	public final JoinPointWeaver<T, U> weave(Advice<?,?> advice, MatchResult<T> joinpoint) throws LookupException {
+	public final JoinPointWeaver<T, U> weave(Advice<?> advice, MatchResult<T> joinpoint) throws LookupException {
 		JoinPointWeaver<T, U> isHandled = handle(advice, joinpoint);
 		
 		if (isHandled != null)
@@ -109,7 +109,7 @@ public abstract class AbstractWeaver<T extends Element, U> implements Weaver<T, 
 	 * 			the advice
 	 * 	@return	True if this weaver supports the join point and advice type, false otherwise
 	 */	
-	public abstract boolean supports(Advice<?,?> advice, MatchResult result) throws LookupException;
+	public abstract boolean supports(Advice<?> advice, MatchResult result) throws LookupException;
 	
 	/**
 	 * 	Perform the actual weaving
@@ -120,37 +120,9 @@ public abstract class AbstractWeaver<T extends Element, U> implements Weaver<T, 
 	 * 			The join point belonging to that advice
 	 * 	@throws LookupException
 	 */
-	public JoinPointWeaver<T, U> getJoinPointWeaver(Advice<?,?> advice, MatchResult<T> matchResult) throws LookupException {
+	public JoinPointWeaver<T, U> getJoinPointWeaver(Advice<?> advice, MatchResult<T> matchResult) throws LookupException {
 		JoinPointWeaver<T, U> encapsulator = new JoinPointWeaver<T, U>(getWeaveResultProvider(advice), getInfrastructureFactory(advice, matchResult), advice, matchResult);
 
 		return encapsulator;
 	}
-	
-//	protected PropertySet getAround(Advice advice) {
-//		return new PropertySet().with(advice.language().property("advicetype.around"));		
-//	}
-//	
-//	protected PropertySet getBefore(Advice advice) {
-//		return new PropertySet().with(advice.language().property("advicetype.before"));
-//	}
-//	
-//	protected PropertySet getAfter(Advice advice) {
-//		return new PropertySet().with(advice.language().property("advicetype.after"));
-//	}
-//	
-//	protected PropertySet getAfterReturning(Advice advice) {
-//		PropertySet afterReturning = new PropertySet();
-//		afterReturning.add(advice.language().property("advicetype.after"));
-//		afterReturning.add(advice.language().property("advicetype.returning"));
-//	
-//		return afterReturning;
-//	}
-//	
-//	protected PropertySet getAfterThrowing(Advice advice) {
-//		PropertySet afterThrowing = new PropertySet();
-//		afterThrowing.add(advice.language().property("advicetype.after"));
-//		afterThrowing.add(advice.language().property("advicetype.throwing"));
-//		
-//		return afterThrowing;
-//	}
 }

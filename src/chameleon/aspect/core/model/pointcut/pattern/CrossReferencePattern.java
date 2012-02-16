@@ -21,7 +21,7 @@ public class CrossReferencePattern extends DeclarationPattern {
 	}
 
 	@Override
-	public boolean eval(Declaration<?, ?> object) throws LookupException {
+	public boolean eval(Declaration object) throws LookupException {
 		return object.sameAs(crossReference().getElement());
 	}
 

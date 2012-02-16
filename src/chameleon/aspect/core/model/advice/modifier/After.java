@@ -8,7 +8,7 @@ import chameleon.core.modifier.Modifier;
 import chameleon.core.modifier.ModifierImpl;
 import chameleon.core.property.ChameleonProperty;
 
-public class After<E extends After<E>> extends ModifierImpl<E> implements Modifier<E> {
+public class After extends ModifierImpl {
 
 	@Override
 	public PropertySet<Element, ChameleonProperty> impliedProperties() {
@@ -16,7 +16,7 @@ public class After<E extends After<E>> extends ModifierImpl<E> implements Modifi
 	}
 
 	@Override
-	public E clone() {
-		return (E) new After();
+	public After clone() {
+		return new After();
 	}
 }

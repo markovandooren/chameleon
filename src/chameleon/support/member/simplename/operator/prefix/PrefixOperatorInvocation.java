@@ -8,7 +8,7 @@ import chameleon.support.member.simplename.SimpleNameMethodInvocation;
 /**
  * @author Marko van Dooren
  */
-public class PrefixOperatorInvocation extends SimpleNameMethodInvocation<PrefixOperatorInvocation,PrefixOperator> {
+public class PrefixOperatorInvocation extends SimpleNameMethodInvocation<PrefixOperator> {
 
   /**
    * @param target

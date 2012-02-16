@@ -17,7 +17,7 @@ import chameleon.util.Util;
  * @author Marko van Dooren
  * @author Tim Laeremans
  */
-public class ClassCastExpression extends ExprTypeRefContainingExpression<ClassCastExpression> {
+public class ClassCastExpression extends ExprTypeRefContainingExpression {
 
   public ClassCastExpression(TypeReference type, Expression expression) {
 	  setTypeReference(type);

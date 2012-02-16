@@ -22,7 +22,7 @@ import chameleon.oo.member.SimpleNameDeclarationWithParametersSignature;
 import chameleon.oo.variable.FormalParameter;
 import chameleon.util.Util;
 
-public class ProgrammingPointcut<E extends ProgrammingPointcut<E>> extends Pointcut<E> implements DeclarationContainer<E> {
+public class ProgrammingPointcut extends Pointcut implements DeclarationContainer {
 
 	public ProgrammingPointcut(SimpleNameDeclarationWithParametersHeader header) {
 		setHeader(header);
@@ -33,7 +33,7 @@ public class ProgrammingPointcut<E extends ProgrammingPointcut<E>> extends Point
 		setHeader(header);
 	}
 
-	private SingleAssociation<Pointcut<E>, SimpleNameDeclarationWithParametersHeader> _header = new SingleAssociation<Pointcut<E>, SimpleNameDeclarationWithParametersHeader>(this);
+	private SingleAssociation<Pointcut, SimpleNameDeclarationWithParametersHeader> _header = new SingleAssociation<Pointcut, SimpleNameDeclarationWithParametersHeader>(this);
 	
 	public SimpleNameDeclarationWithParametersHeader header() {
 		return _header.getOtherEnd();
@@ -44,15 +44,15 @@ public class ProgrammingPointcut<E extends ProgrammingPointcut<E>> extends Point
 	}
 	
   @Override
-  public E clone() {
-  	E clone = super.clone();
+  public ProgrammingPointcut clone() {
+  	ProgrammingPointcut clone = (ProgrammingPointcut) super.clone();
 		clone.setHeader((SimpleNameDeclarationWithParametersHeader) header().clone());
 		return clone;
   }
   
   @Override
-  protected E cloneThis() {
-  	return (E) new ProgrammingPointcut((SimpleNameDeclarationWithParametersHeader) header().clone(), expression().clone());
+  protected ProgrammingPointcut cloneThis() {
+  	return new ProgrammingPointcut((SimpleNameDeclarationWithParametersHeader) header().clone(), expression().clone());
   }
   
 	public List<FormalParameter> parameters() {
@@ -128,6 +128,11 @@ public class ProgrammingPointcut<E extends ProgrammingPointcut<E>> extends Point
 			_local = language().lookupFactory().createTargetLookupStrategy(this);
 		}
 		return _local;
+	}
+	
+	@Override
+	public LookupStrategy localStrategy() throws LookupException {
+		return localLookupStrategy();
 	}
 
 	private LookupStrategy _local;

@@ -7,7 +7,7 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
 
-public abstract class TernaryExpression<E extends TernaryExpression> extends BinaryExpression<E> {
+public abstract class TernaryExpression extends BinaryExpression {
 
 	public TernaryExpression(Expression first, Expression second, Expression third) {
 		super(first,second);
@@ -24,11 +24,7 @@ public abstract class TernaryExpression<E extends TernaryExpression> extends Bin
   }
 
   public void setThird(Expression expression) {
-  	if(expression != null) {
-      _third.connectTo(expression.parentLink());
-  	} else {
-  		_third.connectTo(null);
-  	}
+  	setAsParent(_third,expression);
   }
 
 	@Override

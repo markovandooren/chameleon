@@ -5,14 +5,14 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 
-public abstract class DeclarationPointcutExpression<E extends DeclarationPointcutExpression<E,J>,J extends Element> extends AbstractPointcutExpression<E,J> {
+public abstract class DeclarationPointcutExpression<J extends Element> extends AbstractPointcutExpression<J> {
 	
 	public DeclarationPointcutExpression(DeclarationPattern pattern) {
 		this._pattern = pattern;
 	}
 
 	@Override
-	public abstract E clone();
+	public abstract DeclarationPointcutExpression<J> clone();
 
 	private DeclarationPattern _pattern;
 	

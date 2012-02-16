@@ -10,7 +10,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class SynchronizedStatement extends StatementExprStatement<SynchronizedStatement> {
+public class SynchronizedStatement extends StatementExprStatement {
 
   public SynchronizedStatement(Expression expression, Statement statement) {
     super(statement, expression);

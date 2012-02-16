@@ -34,7 +34,7 @@ public class AfterReturningExpression extends AdvisedExpressionFactory {
 		 *	Find the name of the local variable to assign the value to 	
 		 */
 		String returnVariableName = "_$retval";
-		ProgrammingAdvice<?> advice = factory().getAdvice();
+		ProgrammingAdvice advice = factory().getAdvice();
 		try {
 			Returning m = (Returning) advice.modifiers(advice.language(AspectOrientedOOLanguage.class).RETURNING()).get(0);
 			if (m.hasParameter()) {
@@ -44,7 +44,7 @@ public class AfterReturningExpression extends AdvisedExpressionFactory {
 			throw new ChameleonProgrammerException(e);
 		}
 				
-		VariableDeclaration<LocalVariable> returnValDecl = new VariableDeclaration<LocalVariable>(returnVariableName);
+		VariableDeclaration returnValDecl = new VariableDeclaration(returnVariableName);
 		returnValDecl.setInitialization(factory().getNextExpression());
 		returnVal.add(returnValDecl);
 	

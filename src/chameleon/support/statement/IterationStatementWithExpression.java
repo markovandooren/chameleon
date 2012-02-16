@@ -8,11 +8,11 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.statement.Statement;
 
-public abstract class IterationStatementWithExpression<E extends IterationStatementWithExpression> extends IterationStatement<E> {
+public abstract class IterationStatementWithExpression extends IterationStatement {
 	
 	
 	
-	public IterationStatementWithExpression(Statement<E> statement, Expression condition) {
+	public IterationStatementWithExpression(Statement statement, Expression condition) {
 		super(statement);
 		setCondition(condition);
 	}
@@ -28,12 +28,7 @@ public abstract class IterationStatementWithExpression<E extends IterationStatem
   }
   
   public void setCondition(Expression expression) {
-    if(expression != null) {
-    	_expression.connectTo(expression.parentLink());
-    }
-    else {
-      _expression.connectTo(null); 
-    }
+    setAsParent(_expression,expression);
   }
 
 	@Override

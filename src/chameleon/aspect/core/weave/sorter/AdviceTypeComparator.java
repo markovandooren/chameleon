@@ -6,6 +6,7 @@ import org.rejuse.property.Property;
 
 import chameleon.aspect.core.model.advice.Advice;
 import chameleon.aspect.core.weave.JoinPointWeaver;
+import chameleon.core.property.ChameleonProperty;
 
 /**
  * 	This comparator orders WeavingEncapsulators according to the advice type:
@@ -24,11 +25,11 @@ public class AdviceTypeComparator implements Comparator<JoinPointWeaver> {
 	 */
 	@Override
 	public int compare(JoinPointWeaver encapsulator1, JoinPointWeaver encapsulator2) {
-		Advice advice1 = encapsulator1.getAdvice();
-		Advice advice2 = encapsulator2.getAdvice();
-		Property around = advice1.language().property("advicetype.around");
-		Property before = advice1.language().property("advicetype.before");
-		Property after = advice1.language().property("advicetype.after");
+		Advice<?> advice1 = encapsulator1.getAdvice();
+		Advice<?> advice2 = encapsulator2.getAdvice();
+		ChameleonProperty around = advice1.language().property("advicetype.around");
+		ChameleonProperty before = advice1.language().property("advicetype.before");
+		ChameleonProperty after = advice1.language().property("advicetype.after");
 		
 		if (advice1.properties().contains(around)) {
 			if (advice2.properties().contains(around))

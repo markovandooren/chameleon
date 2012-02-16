@@ -8,7 +8,7 @@ import chameleon.core.element.ElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public class DeclarationReference<E extends DeclarationReference<E>> extends ElementImpl<E> {
+public class DeclarationReference extends ElementImpl {
 
 	private String _reference;
 	
@@ -26,8 +26,8 @@ public class DeclarationReference<E extends DeclarationReference<E>> extends Ele
 	}
 
 	@Override
-	public E clone() {
-		return (E) new DeclarationReference(_reference);
+	public DeclarationReference clone() {
+		return new DeclarationReference(_reference);
 	}
 
 	@Override

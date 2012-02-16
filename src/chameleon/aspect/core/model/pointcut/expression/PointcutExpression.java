@@ -11,6 +11,8 @@ import chameleon.core.namespace.NamespaceElement;
 
 public interface PointcutExpression<J extends Element> extends NamespaceElement {
 	
+	public PointcutExpression<J> clone();
+	
 	/**
 	 * 	Get this pointcut-expression tree but filter according to the given predicate
 	 * 

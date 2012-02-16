@@ -21,7 +21,7 @@ import chameleon.oo.statement.StatementListContainer;
 /**
  * @author Marko van Dooren
  */
-public class SwitchCase extends NamespaceElementImpl<SwitchCase> implements StatementListContainer<SwitchCase>, ExceptionSource<SwitchCase> {
+public class SwitchCase extends NamespaceElementImpl implements StatementListContainer, ExceptionSource {
 
   public SwitchCase() {
 	}
@@ -41,11 +41,11 @@ public class SwitchCase extends NamespaceElementImpl<SwitchCase> implements Stat
   }
 
   public void addStatement(Statement statement) {
-    _statements.add(statement.parentLink());
+    add(_statements,statement);
   }
 
   public void removeStatement(Statement statement) {
-    _statements.add(statement.parentLink());
+    remove(_statements,statement);
   }
 
   public List<Statement> statements() {
@@ -58,11 +58,7 @@ public class SwitchCase extends NamespaceElementImpl<SwitchCase> implements Stat
 	private SingleAssociation<SwitchCase,SwitchLabel> _labels = new SingleAssociation<SwitchCase,SwitchLabel>(this);
 
   public void setLabel(SwitchLabel label) {
-  	if(label != null) {
-    _labels.connectTo(label.parentLink());
-  	} else {
-  		_labels.connectTo(null);
-  	}
+  	setAsParent(_labels,label);
   }
 
   public SwitchLabel getLabel() {

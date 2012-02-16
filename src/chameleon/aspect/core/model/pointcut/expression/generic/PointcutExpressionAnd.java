@@ -8,7 +8,7 @@ import chameleon.aspect.oo.model.pointcut.RuntimePointcutExpression;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 
-public class PointcutExpressionAnd<E extends PointcutExpressionAnd<E>> extends PointcutExpressionDual<E,Element> {
+public class PointcutExpressionAnd extends PointcutExpressionDual<Element> {
 
 	public PointcutExpressionAnd(PointcutExpression expression1, PointcutExpression expression2) {
 		super(expression1, expression2);
@@ -26,8 +26,8 @@ public class PointcutExpressionAnd<E extends PointcutExpressionAnd<E>> extends P
 	}
 
 	@Override
-	public E clone() {
-		return (E) new PointcutExpressionAnd<E>(expression1().clone(), expression2().clone());
+	public PointcutExpressionAnd clone() {
+		return new PointcutExpressionAnd(expression1().clone(), expression2().clone());
 	}
 
 	@Override
@@ -39,9 +39,9 @@ public class PointcutExpressionAnd<E extends PointcutExpressionAnd<E>> extends P
 	 * 	{@inheritDoc}
 	 */
 	@Override
-	public PointcutExpression<?,?> without(SafePredicate<PointcutExpression<?,?>> filter) {		
-		PointcutExpression<?,?> left = expression1().without(filter);
-		PointcutExpression<?,?> right = expression2().without(filter);
+	public PointcutExpression<?> without(SafePredicate<PointcutExpression<?>> filter) {		
+		PointcutExpression<?> left = expression1().without(filter);
+		PointcutExpression<?> right = expression2().without(filter);
 		
 		if (left == null && right == null)
 			return null;
@@ -50,6 +50,6 @@ public class PointcutExpressionAnd<E extends PointcutExpressionAnd<E>> extends P
 		if (left != null && right == null)
 			return left;
 		
-		return new PointcutExpressionAnd<E>(left, right);
+		return new PointcutExpressionAnd(left, right);
 	}
 }

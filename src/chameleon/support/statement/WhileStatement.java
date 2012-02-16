@@ -10,7 +10,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class WhileStatement extends IterationStatementWithExpression<WhileStatement> {
+public class WhileStatement extends IterationStatementWithExpression {
 
   public WhileStatement(Expression expression, Statement statement) {
     super(statement, expression);

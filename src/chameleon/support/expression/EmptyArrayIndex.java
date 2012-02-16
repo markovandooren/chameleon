@@ -19,7 +19,7 @@ import chameleon.exception.ChameleonProgrammerException;
  *                     ...
  * 
  */
-public class EmptyArrayIndex extends ArrayIndex<EmptyArrayIndex>{
+public class EmptyArrayIndex extends ArrayIndex {
 	
 	
 	public EmptyArrayIndex(int dimensions){

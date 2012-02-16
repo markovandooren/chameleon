@@ -4,7 +4,7 @@ import chameleon.aspect.core.model.advice.Advice;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 
-public abstract class AdvisedListFactory<P extends Element, T extends Element<?>> {
+public abstract class AdvisedListFactory<P extends Element, T extends Element> {
 
 	public AdvisedListFactory() {
 	}
@@ -20,7 +20,7 @@ public abstract class AdvisedListFactory<P extends Element, T extends Element<?>
 	
 	public abstract T transform() throws LookupException;
 
-	public Advice<?,?> advice() {
+	public Advice<?> advice() {
 		return transformer().advice();
 	}
 

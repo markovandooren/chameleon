@@ -8,7 +8,7 @@ import chameleon.core.modifier.Modifier;
 import chameleon.core.modifier.ModifierImpl;
 import chameleon.core.property.ChameleonProperty;
 
-public class Before<E extends Before<E>> extends ModifierImpl<E> implements Modifier<E> {
+public class Before<E extends Before<E>> extends ModifierImpl {
 
 	@Override
 	public PropertySet<Element, ChameleonProperty> impliedProperties() {

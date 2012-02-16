@@ -36,7 +36,7 @@ import chameleon.util.Util;
  * 	@author Jens De Temmerman
  *  @author Marko van Dooren
  */
-public abstract class Pointcut<E extends Pointcut<E>> extends NamespaceElementImpl<E> implements Declaration<E, Signature> {
+public abstract class Pointcut extends NamespaceElementImpl implements Declaration {
 	
 	public Pointcut() {
 		
@@ -54,23 +54,23 @@ public abstract class Pointcut<E extends Pointcut<E>> extends NamespaceElementIm
 		
 	}
 	
-	private SingleAssociation<Pointcut, PointcutExpression> _expression = new SingleAssociation<Pointcut, PointcutExpression>(this);
+	private SingleAssociation<Pointcut, PointcutExpression<?>> _expression = new SingleAssociation<Pointcut, PointcutExpression<?>>(this);
 	
-	public PointcutExpression<?,?> expression() {
+	public PointcutExpression<?> expression() {
 		return _expression.getOtherEnd();
 	}
 	
-	protected void setExpression(PointcutExpression expression) {
+	protected void setExpression(PointcutExpression<?> expression) {
 		setAsParent(_expression, expression);
 	}
 	
-	public E clone() {
-		E clone = cloneThis();
+	public Pointcut clone() {
+		Pointcut clone = cloneThis();
 		clone.setExpression((PointcutExpression) expression().clone());
 		return clone;
 	}
 	
-	protected abstract E cloneThis();
+	protected abstract Pointcut cloneThis();
 	
 	@Override
 	public VerificationResult verifySelf() {
@@ -89,8 +89,7 @@ public abstract class Pointcut<E extends Pointcut<E>> extends NamespaceElementIm
 	}
 	
 	@Override
-	public Declaration<?, ?> selectionDeclaration()
-			throws LookupException {
+	public Declaration selectionDeclaration() throws LookupException {
 		return this;
 	}
 	

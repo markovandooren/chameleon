@@ -18,7 +18,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public abstract class LiteralWithTypeReference<E extends LiteralWithTypeReference> extends Literal<E> {
+public abstract class LiteralWithTypeReference extends Literal {
   
   public LiteralWithTypeReference(String value) {
     super(value);
@@ -47,7 +47,7 @@ public abstract class LiteralWithTypeReference<E extends LiteralWithTypeReferenc
   }
   
   public void setTypeReference(TypeReference type) {
-    _typeReference.connectTo(type.parentLink());
+    setAsParent(_typeReference,type);
   }
   
   protected Type actualType() throws LookupException {

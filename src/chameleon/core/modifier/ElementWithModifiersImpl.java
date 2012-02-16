@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.property.Property;
+import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.element.Element;
@@ -13,7 +14,7 @@ import chameleon.core.property.ChameleonProperty;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
 
-public abstract class ElementWithModifiersImpl extends NamespaceElementImpl {
+public abstract class ElementWithModifiersImpl extends NamespaceElementImpl implements ElementWithModifiers {
 
   /*************
    * MODIFIERS *
@@ -145,5 +146,16 @@ public abstract class ElementWithModifiersImpl extends NamespaceElementImpl {
 		return result;
 	}
 
+	@Override
+	public List<Modifier> modifiers(PropertyMutex mutex) throws ModelException {
+		Property property = property(mutex);
+		List<Modifier> result = new ArrayList<Modifier>();
+		for (Modifier mod : modifiers()) {
+			if (mod.impliesTrue(property)) {
+				result.add(mod);
+			}
+		}
+		return result;
+	}
 
 }

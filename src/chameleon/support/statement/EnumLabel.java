@@ -21,7 +21,7 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.variable.Variable;
 
-public class EnumLabel extends SwitchLabel<EnumLabel> implements CrossReference<EnumLabel, Variable>{
+public class EnumLabel extends SwitchLabel implements CrossReference<Variable>{
 
 	public EnumLabel(String name) {
 		_signature = new SimpleNameSignature(name);
@@ -52,7 +52,7 @@ public class EnumLabel extends SwitchLabel<EnumLabel> implements CrossReference<
 	
 	public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
 		// class must move to Jnome because of enum dependency?
-		Expression<?> switchExpr = nearestAncestor(SwitchStatement.class).getExpression();
+		Expression switchExpr = nearestAncestor(SwitchStatement.class).getExpression();
 		return switchExpr.getType().targetContext().lookUp(selector);
 	}
 

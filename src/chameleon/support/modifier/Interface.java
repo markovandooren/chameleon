@@ -7,7 +7,7 @@ import chameleon.core.modifier.ModifierImpl;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.oo.language.ObjectOrientedLanguage;
 
-public class Interface extends ModifierImpl<Interface> {
+public class Interface extends ModifierImpl {
 	
 	  public Interface() {
 		  

@@ -9,7 +9,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class StatementExpression extends ExpressionContainingStatement<StatementExpression> {
+public class StatementExpression extends ExpressionContainingStatement {
 
   public StatementExpression(Expression expression) {
     super(expression);

@@ -9,7 +9,7 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReference;
 
-public class CrossReferencePointcutExpression<E extends CrossReferencePointcutExpression<E>> extends DeclarationPointcutExpression<E,CrossReference> {
+public class CrossReferencePointcutExpression extends DeclarationPointcutExpression<CrossReference> {
 
 	public CrossReferencePointcutExpression(DeclarationPattern pattern) {
 		super(pattern);
@@ -26,8 +26,8 @@ public class CrossReferencePointcutExpression<E extends CrossReferencePointcutEx
 	}
 
 	@Override
-	public E clone() {
-		return (E) new CrossReferencePointcutExpression(pattern().clone());
+	public CrossReferencePointcutExpression clone() {
+		return new CrossReferencePointcutExpression(pattern().clone());
 	}
 
 	protected Declaration declaration(CrossReference joinpoint) throws LookupException {

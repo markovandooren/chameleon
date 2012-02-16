@@ -28,7 +28,7 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
 import chameleon.util.Util;
 
-public class Aspect<E extends Aspect<E>> extends NamespaceElementImpl<E> implements DeclarationContainer<E>, Declaration<E,  SimpleNameSignature>{
+public class Aspect extends NamespaceElementImpl implements DeclarationContainer, Declaration {
 	
 	public Aspect(String name) {
 		this(new SimpleNameSignature(name));
@@ -86,8 +86,8 @@ public class Aspect<E extends Aspect<E>> extends NamespaceElementImpl<E> impleme
 		return children;
 	}
 
-	public E clone() {
-		Aspect<E> clone = new Aspect<E>(signature() == null ? null : signature().clone());
+	public Aspect clone() {
+		Aspect clone = new Aspect(signature() == null ? null : signature().clone());
 		
 		for (Pointcut pc : pointcuts()) {
 			Pointcut pcClone = pc.clone();
@@ -99,7 +99,7 @@ public class Aspect<E extends Aspect<E>> extends NamespaceElementImpl<E> impleme
 			clone.addAdvice(adviceClone);
 		}
 		
-		return (E) clone;
+		return clone;
 	}
 
 	@Override
@@ -126,13 +126,17 @@ public class Aspect<E extends Aspect<E>> extends NamespaceElementImpl<E> impleme
 
 	@Override
 	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
-		LookupStrategyFactory lookupFactory = language().lookupFactory();
-		return lookupFactory.createLexicalLookupStrategy(localLookupStrategy(), this);
+		return language().lookupFactory().createLexicalLookupStrategy(localLookupStrategy(), this);
 	}
 
 	private LookupStrategy localLookupStrategy() {
 		LookupStrategyFactory lookupFactory = language().lookupFactory();
 		return lookupFactory.createLocalLookupStrategy(this);
+	}
+	
+	@Override
+	public LookupStrategy localStrategy() throws LookupException {
+		return localLookupStrategy();
 	}
 	
 	private SingleAssociation<Aspect, SimpleNameSignature> _signature = new SingleAssociation<Aspect, SimpleNameSignature>(this);
@@ -152,7 +156,7 @@ public class Aspect<E extends Aspect<E>> extends NamespaceElementImpl<E> impleme
 
 
 	@Override
-	public Declaration<?, ?> selectionDeclaration()
+	public Declaration selectionDeclaration()
 			throws LookupException {
 		return this;
 	}

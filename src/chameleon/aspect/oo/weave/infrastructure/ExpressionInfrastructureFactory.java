@@ -8,9 +8,9 @@ import chameleon.oo.type.TypeReference;
 
 public interface ExpressionInfrastructureFactory extends AdviceInfrastructureFactory {
 	
-	public Expression<?> getNextExpression() throws LookupException;
+	public Expression getNextExpression() throws LookupException;
 
-	public ProgrammingAdvice<?> getAdvice();
+	public ProgrammingAdvice getAdvice();
 
 	public TypeReference expressionTypeReference() throws LookupException;
 

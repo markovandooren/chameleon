@@ -6,12 +6,12 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.util.Util;
 
-public class AfterStep<P extends Element, T extends Element<T>> extends AdvisedListFactory<P,T> {
+public class AfterStep<P extends Element, T extends Element> extends AdvisedListFactory<P,T> {
 
 	@Override
 	public T transform() throws LookupException {
 		ListTransformer<P, ?, T> transformer = transformer();
-		T afters = transformer.toList(advice()).clone();
+		T afters = (T)transformer.toList(advice()).clone();
 		T result = transformer.nextList();
 		transformer.addAfter(result,afters);
 		return result;

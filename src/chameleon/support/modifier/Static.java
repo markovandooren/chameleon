@@ -10,7 +10,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 /**
  * @author Marko van Dooren
  */
-public class Static extends ModifierImpl<Static> {
+public class Static extends ModifierImpl {
 
 	public Static() {
 		

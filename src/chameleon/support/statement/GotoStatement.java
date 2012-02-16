@@ -5,7 +5,7 @@ import chameleon.oo.statement.StatementImpl;
 /**
  * @author Tim Laeremans
  */
-public abstract class GotoStatement<E extends GotoStatement> extends StatementImpl<E> {
+public abstract class GotoStatement extends StatementImpl {
 
 	
 }

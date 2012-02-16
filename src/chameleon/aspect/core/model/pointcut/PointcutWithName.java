@@ -9,7 +9,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.exception.ChameleonProgrammerException;
 
-public class PointcutWithName extends Pointcut<PointcutWithName> {
+public class PointcutWithName extends Pointcut {
 
 	private SingleAssociation<PointcutWithName,SimpleNameSignature> _signature = new SingleAssociation<PointcutWithName, SimpleNameSignature>(this);
 	

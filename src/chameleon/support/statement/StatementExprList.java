@@ -11,6 +11,7 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -24,7 +25,7 @@ import chameleon.oo.statement.Statement;
  * 
  * @author Marko van Dooren
  */
-public class StatementExprList extends NamespaceElementImpl<StatementExprList> implements ForInit<StatementExprList>, ExceptionSource<StatementExprList> {
+public class StatementExprList extends NamespaceElementImpl implements ForInit, ExceptionSource {
 
 	public StatementExprList() {
 	}
@@ -35,11 +36,11 @@ public class StatementExprList extends NamespaceElementImpl<StatementExprList> i
 	private OrderedMultiAssociation<StatementExprList,StatementExpression> _statementExpressions = new OrderedMultiAssociation<StatementExprList,StatementExpression>(this);
 
   public void addStatement(StatementExpression statement) {
-    _statementExpressions.add(statement.parentLink());
+    add(_statementExpressions,statement);
   }
 
   public void removeStatement(StatementExpression statement) {
-    _statementExpressions.remove(statement.parentLink());
+    remove(_statementExpressions,statement);
   }
 
   public List<StatementExpression> statements() {
@@ -133,6 +134,11 @@ public class StatementExprList extends NamespaceElementImpl<StatementExprList> i
 		return new ArrayList<Declaration>();
 	}
 
+	@Override
+	public LookupStrategy localStrategy() throws LookupException {
+		return language().lookupFactory().createLocalLookupStrategy(this);
+	}
+	
 	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
 		return new ArrayList<D>();
 	}

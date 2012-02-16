@@ -17,8 +17,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.generics.ActualTypeArgument;
 import chameleon.oo.variable.FormalParameter;
 
-public class PointcutReference<E extends PointcutReference<E>> extends 
-		CrossReferenceWithArguments<E> implements CrossReference<E, Pointcut> {
+public class PointcutReference extends CrossReferenceWithArguments implements CrossReference<Pointcut> {
 
 	private String _pointcutName;
 
@@ -98,12 +97,12 @@ public class PointcutReference<E extends PointcutReference<E>> extends
 	}
 
 	@Override
-	public E clone() {
+	public PointcutReference clone() {
 		CrossReferenceTarget target = null;
 		if (getTarget() != null) {
 			target = getTarget().clone();
 		}
-		final E result = (E) new PointcutReference<E>(name());
+		PointcutReference result = new PointcutReference(name());
 		result.setTarget(target);
 		for (Expression element : getActualParameters()) {
 			result.addArgument(element.clone());

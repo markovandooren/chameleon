@@ -4,7 +4,7 @@ import chameleon.aspect.core.model.pointcut.expression.AbstractPointcutExpressio
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 
-public abstract class WithinPointcutExpressionDeprecated<E extends WithinPointcutExpressionDeprecated<E>> extends AbstractPointcutExpression<E,Element> {
+public abstract class WithinPointcutExpressionDeprecated extends AbstractPointcutExpression<Element> {
 
 	public WithinPointcutExpressionDeprecated() {
 		

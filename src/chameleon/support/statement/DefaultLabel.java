@@ -10,7 +10,7 @@ import chameleon.core.validation.VerificationResult;
 /**
  * @author Marko van Dooren
  */
-public class DefaultLabel extends SwitchLabel<DefaultLabel> {
+public class DefaultLabel extends SwitchLabel {
 
   public DefaultLabel() {
 	}

@@ -11,7 +11,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
  * @author Tim Laeremans
  * @author Marko van Dooren
  */
-public class Destructor extends ModifierImpl<Destructor> {
+public class Destructor extends ModifierImpl {
 
 	public Destructor() {
 		

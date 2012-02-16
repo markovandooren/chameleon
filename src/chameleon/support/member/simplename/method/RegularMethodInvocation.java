@@ -10,7 +10,7 @@ import chameleon.support.member.simplename.SimpleNameMethodInvocation;
 /**
  * @author Marko van Dooren
  */
-public class RegularMethodInvocation<E extends RegularMethodInvocation<E>> extends SimpleNameMethodInvocation<E,NormalMethod> {
+public class RegularMethodInvocation extends SimpleNameMethodInvocation<NormalMethod> {
 
   public RegularMethodInvocation(String name, CrossReferenceTarget target) {
     super(target, name);
@@ -31,9 +31,9 @@ public class RegularMethodInvocation<E extends RegularMethodInvocation<E>> exten
    * MISC *
    ********/
   
-  protected E cloneInvocation(CrossReferenceTarget target) {
+  protected RegularMethodInvocation cloneInvocation(CrossReferenceTarget target) {
   	//target is already cloned.
-    return (E) new RegularMethodInvocation(name(), target);
+    return new RegularMethodInvocation(name(), target);
   }
 
 

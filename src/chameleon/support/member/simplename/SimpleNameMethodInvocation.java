@@ -13,7 +13,7 @@ import chameleon.oo.lookup.SimpleNameCrossReferenceWithArgumentsSelector;
 import chameleon.oo.method.Method;
 import chameleon.oo.type.Type;
 
-public abstract class SimpleNameMethodInvocation<I extends SimpleNameMethodInvocation<I,D>, D extends Method> extends MethodInvocation<I,D> implements CrossReferenceWithName<I,D> {
+public abstract class SimpleNameMethodInvocation<D extends Method> extends MethodInvocation<D> implements CrossReferenceWithName<D> {
 
   public SimpleNameMethodInvocation(CrossReferenceTarget target, String name) {
     super(target);

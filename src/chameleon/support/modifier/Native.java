@@ -12,7 +12,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 /**
  * @author Marko van Dooren
  */
-public class Native extends ModifierImpl<Native> {
+public class Native extends ModifierImpl {
 
   public Native() {
     

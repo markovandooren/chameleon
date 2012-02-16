@@ -9,6 +9,7 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -17,10 +18,8 @@ import chameleon.support.variable.LocalVariable;
 import chameleon.support.variable.LocalVariableDeclarator;
 import chameleon.util.Util;
 
-public class EnhancedForControl extends ForControl<EnhancedForControl> {
+public class EnhancedForControl extends ForControl {
 
-	
-	
 	public EnhancedForControl(LocalVariableDeclarator variable, Expression expression) {
 		setVariableDeclarator(variable);
 		setCollection(expression);
@@ -31,11 +30,7 @@ public class EnhancedForControl extends ForControl<EnhancedForControl> {
 	}
 	
 	public void setVariableDeclarator(LocalVariableDeclarator variable) {
-		if(variable != null) {
-			_variable.connectTo(variable.parentLink());
-		} else {
-			_variable.connectTo(null);
-		}
+		setAsParent(_variable,variable);
 	}
 	
 	private SingleAssociation<EnhancedForControl,LocalVariableDeclarator> _variable = new SingleAssociation<EnhancedForControl,LocalVariableDeclarator>(this);
@@ -63,12 +58,7 @@ public class EnhancedForControl extends ForControl<EnhancedForControl> {
   }
   
   public void setCollection(Expression expression) {
-    if(expression != null) {
-    	_expression.connectTo(expression.parentLink());
-    }
-    else {
-      _expression.connectTo(null); 
-    }
+    setAsParent(_expression,expression);
   }
 
 	public NamespaceElement variableScopeElement() {
@@ -93,5 +83,4 @@ public class EnhancedForControl extends ForControl<EnhancedForControl> {
 	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
 	}
-
 }

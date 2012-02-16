@@ -11,7 +11,7 @@ import chameleon.oo.expression.Expression;
 /**
  * @author Marko van Dooren
  */
-public class ConditionalAndExpression extends ConditionalBooleanExpression<ConditionalAndExpression> {
+public class ConditionalAndExpression extends ConditionalBooleanExpression {
 
   /**
    * @param first

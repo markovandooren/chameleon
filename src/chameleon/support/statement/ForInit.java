@@ -1,14 +1,13 @@
 package chameleon.support.statement;
 
 import chameleon.core.declaration.DeclarationContainer;
-import chameleon.core.element.Element;
 import chameleon.oo.statement.ExceptionSource;
 
 /**
  * @author Marko van Dooren
  */
 
-public interface ForInit<E extends ForInit> extends ExceptionSource<E>, DeclarationContainer<E> {
+public interface ForInit extends ExceptionSource, DeclarationContainer {
 
 //	public Reference parentLink();
 

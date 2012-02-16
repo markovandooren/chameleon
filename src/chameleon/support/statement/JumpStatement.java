@@ -5,7 +5,7 @@ import chameleon.oo.statement.StatementImpl;
 /**
  * @author Marko van Dooren
  */
-public abstract class JumpStatement<E extends JumpStatement> extends StatementImpl<E> {
+public abstract class JumpStatement extends StatementImpl {
   
   public JumpStatement(String label) {
 	 setLabel(label);

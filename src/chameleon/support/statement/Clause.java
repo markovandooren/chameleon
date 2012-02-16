@@ -13,7 +13,7 @@ import chameleon.oo.statement.StatementImpl;
 /**
  * @author Marko van Dooren
  */
-public abstract class Clause<E extends Clause> extends NamespaceElementImpl<E> implements ExceptionSource<E> {
+public abstract class Clause extends NamespaceElementImpl implements ExceptionSource {
 
   public Clause(Statement statement) {
     setStatement(statement);
@@ -25,7 +25,7 @@ public abstract class Clause<E extends Clause> extends NamespaceElementImpl<E> i
 	private SingleAssociation<Clause,Statement> _statement = new SingleAssociation<Clause,Statement>(this);
 
   public void setStatement(Statement statement) {
-    _statement.connectTo(statement.parentLink());
+    setAsParent(_statement,statement);
   }
 
   public void removeStatement() {

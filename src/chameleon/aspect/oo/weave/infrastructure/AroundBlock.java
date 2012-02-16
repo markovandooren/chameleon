@@ -2,6 +2,8 @@ package chameleon.aspect.oo.weave.infrastructure;
 
 import java.util.List;
 
+import org.rejuse.association.Association;
+
 import chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import chameleon.aspect.oo.model.advice.ProceedCall;
 import chameleon.oo.statement.Block;
@@ -20,7 +22,7 @@ public class AroundBlock extends AdvisedBlockFactory {
 
 		for (ProceedCall pc : descendants) {
 			Statement statement = (Statement) pc.nearestAncestor(Statement.class);
-			statement.parentLink().getOtherRelation().replace(statement.parentLink(), originalCode.clone().parentLink());	
+			statement.parentLink().getOtherRelation().replace((Association)statement.parentLink(), (Association)originalCode.clone().parentLink());	
 		}
 		
 		joinpoint.getJoinpoint().clear();

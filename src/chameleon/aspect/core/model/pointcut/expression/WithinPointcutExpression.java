@@ -8,7 +8,7 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 
-public class WithinPointcutExpression extends DeclarationPointcutExpression<WithinPointcutExpression, Element>{
+public class WithinPointcutExpression extends DeclarationPointcutExpression<Element>{
 
 	public WithinPointcutExpression(DeclarationPattern pattern, Class<? extends Declaration> type) {
 		super(pattern);

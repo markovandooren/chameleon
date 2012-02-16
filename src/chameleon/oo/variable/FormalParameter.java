@@ -22,6 +22,13 @@ public class FormalParameter extends RegularVariable {
 		this(new SimpleNameSignature(string), tref);
 	}
 
+  /**
+   * ONLY HERE BECAUSE OF JAVA TYPECHECKING
+   */
+  @Override
+  public FormalParameter clone() {
+  	return super.clone();
+  }
 	/**
    * @param parameter
    * @return

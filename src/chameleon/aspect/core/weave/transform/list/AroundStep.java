@@ -7,12 +7,12 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReference;
 
-public class AroundStep<P extends Element,T extends Element<T>> extends AdvisedListFactory<P,T> {
+public class AroundStep<P extends Element,T extends Element> extends AdvisedListFactory<P,T> {
 
 	@Override
 	public T transform() throws LookupException {
 		ListTransformer<P, ?, T> transformer = transformer();
-		Advice<?,?> clonedAdvice = advice().clone();
+		Advice<?> clonedAdvice = advice().clone();
 		
 		T next = transformer.nextList();
 		int count = 0;
@@ -27,7 +27,7 @@ public class AroundStep<P extends Element,T extends Element<T>> extends AdvisedL
 
 	// next list moet uni parents gezet hebben? Maar dan resolven de labels niet meer naar steps die ook in de list zitten.
 	private T rewrite(T beh, int count) throws LookupException {
-		T clone = beh.clone();
+		T clone = (T)beh.clone();
 		clone.setUniParent(beh.parent());
 		for(Declaration decl: clone.descendants(Declaration.class)) {
 			Signature signature = decl.signature();

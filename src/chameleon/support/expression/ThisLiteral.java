@@ -8,7 +8,7 @@ import chameleon.oo.type.TypeReference;
  * @author Marko van Dooren
  * @author Tim Laeremans
  */
-public class ThisLiteral extends LiteralWithTypeReference<ThisLiteral> {
+public class ThisLiteral extends LiteralWithTypeReference {
 
   public ThisLiteral() {
     super("this");

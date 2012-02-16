@@ -16,9 +16,9 @@ import chameleon.oo.type.TypeReference;
 /**
  * @author Marko van Dooren
  */
-public class NormalMethod<E extends RegularMethod<E,H,S>, H extends MethodHeader<H, S>, S extends DeclarationWithParametersSignature> extends RegularMethod<E,H,S>  {
+public class NormalMethod extends RegularMethod {
 
-  public NormalMethod(H header) {
+  public NormalMethod(MethodHeader header) {
     super(header);
   }
   
@@ -26,8 +26,8 @@ public class NormalMethod<E extends RegularMethod<E,H,S>, H extends MethodHeader
   	return(other instanceof NormalMethod);
   }  
 
-	protected E cloneThis() {
-    return (E) new NormalMethod(header().clone());
+	protected NormalMethod cloneThis() {
+    return new NormalMethod((MethodHeader) header().clone());
   }
 	
   public HidesRelation<? extends Member> hidesRelation() {

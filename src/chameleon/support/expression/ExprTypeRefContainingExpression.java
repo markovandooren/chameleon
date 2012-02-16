@@ -12,8 +12,7 @@ import chameleon.oo.expression.Expression;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
 
-public abstract class ExprTypeRefContainingExpression<E extends ExprTypeRefContainingExpression> 
-                extends Expression<E> {
+public abstract class ExprTypeRefContainingExpression extends Expression {
 
 	/**
 	 * EXPRESSION
@@ -21,17 +20,12 @@ public abstract class ExprTypeRefContainingExpression<E extends ExprTypeRefConta
 	private SingleAssociation<ExprTypeRefContainingExpression,Expression> _expression = new SingleAssociation<ExprTypeRefContainingExpression,Expression>(this);
 
 
-  public Expression<? extends Expression> getExpression() {
+  public Expression getExpression() {
     return _expression.getOtherEnd();
   }
 
   public void setExpression(Expression expression) {
-  	if(expression != null) {
-      _expression.connectTo(expression.parentLink());
-  	} 
-  	else {
-  		_expression.connectTo(null);
-  	}
+  	setAsParent(_expression,expression);
   }
 
 	/**
@@ -44,7 +38,7 @@ public abstract class ExprTypeRefContainingExpression<E extends ExprTypeRefConta
   }
 
   public void setTypeReference(TypeReference type) {
-    _typeReference.connectTo(type.parentLink());
+    setAsParent(_typeReference,type);
   }
 
   public List<Element> children() {

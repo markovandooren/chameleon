@@ -11,7 +11,7 @@ import chameleon.core.lookup.LookupException;
  * 
  * @author Marko van Dooren
  */
-public abstract class DeclarationPattern extends UnsafePredicate<Declaration<?,?>, LookupException> {
+public abstract class DeclarationPattern extends UnsafePredicate<Declaration, LookupException> {
 
 	public abstract DeclarationPattern clone();
 	

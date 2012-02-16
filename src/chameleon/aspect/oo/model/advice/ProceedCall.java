@@ -6,6 +6,7 @@ import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.java.collections.Visitor;
 
 import chameleon.aspect.core.model.advice.Advice;
+import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
@@ -13,7 +14,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.type.Type;
 
-public class ProceedCall extends Expression<ProceedCall> {
+public class ProceedCall extends Expression {
 
 	public ProceedCall() {
 
@@ -33,7 +34,7 @@ public class ProceedCall extends Expression<ProceedCall> {
 	}
 
 	@Override
-	public List children() {
+	public List<? extends Element> children() {
 		return getActualParameters();
 	}
 
@@ -94,8 +95,8 @@ public class ProceedCall extends Expression<ProceedCall> {
 		}
 	}
 
-	public void removeParameter(Expression parameter) {
-		_parameters.remove(parameter.parentLink());
+	public void removeArgument(Expression parameter) {
+		remove(_parameters,parameter);
 	}
 
 	public List<Expression> getActualParameters() {

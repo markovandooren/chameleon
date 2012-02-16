@@ -13,7 +13,7 @@ import chameleon.util.Util;
  * 
  * @author Marko van Dooren
  */
-public class FinallyClause extends Clause<FinallyClause> {
+public class FinallyClause extends Clause {
 
   public FinallyClause(Statement statement) {
     super(statement);

@@ -29,7 +29,7 @@ public class AfterThrowingExpressionFactory extends AdvisedExpressionFactory {
 		Block catchBlockBody = new Block();
 		ThrowStatement rethrow = new ThrowStatement(new NamedTargetExpression(name));
 		try {
-			ProgrammingAdvice<?> advice = factory().getAdvice();
+			ProgrammingAdvice advice = factory().getAdvice();
 			Throwing m = (Throwing) advice.modifiers(advice.language(AspectOrientedOOLanguage.class).THROWING()).get(0);
 			// Do a type check if there is a type defined
 			if (m.hasParameter()) {
@@ -37,7 +37,7 @@ public class AfterThrowingExpressionFactory extends AdvisedExpressionFactory {
 				// If the declared type is the same or a super type of the type caught, add the advice and expose the parameter
 				if (caughtType.assignableTo(declaredType)) {
 					LocalVariableDeclarator paramExpose = new LocalVariableDeclarator(m.parameter().getTypeReference().clone());
-					paramExpose.add(new VariableDeclaration<LocalVariable>(m.parameter().getName(), new NamedTargetExpression(name)));
+					paramExpose.add(new VariableDeclaration(m.parameter().getName(), new NamedTargetExpression(name)));
 					catchBlockBody.addStatement(paramExpose);
 					catchBlockBody.addBlock(advice.body().clone());
 					catchBlockBody.addStatement(rethrow);
@@ -46,7 +46,7 @@ public class AfterThrowingExpressionFactory extends AdvisedExpressionFactory {
 				else if (declaredType.subTypeOf(caughtType)) {
 					Block innerBody = new Block();
 					LocalVariableDeclarator paramExpose = new LocalVariableDeclarator(m.parameter().getTypeReference().clone());
-					paramExpose.add(new VariableDeclaration<LocalVariable>(m.parameter().getName(), new ClassCastExpression(m.parameter().getTypeReference().clone(), new NamedTargetExpression(name))));
+					paramExpose.add(new VariableDeclaration(m.parameter().getName(), new ClassCastExpression(m.parameter().getTypeReference().clone(), new NamedTargetExpression(name))));
 
 					innerBody.addStatement(paramExpose);
 					innerBody.addBlock(advice.body().clone());
