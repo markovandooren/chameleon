@@ -27,7 +27,7 @@ public class FormalParameter extends RegularVariable {
    */
   @Override
   public FormalParameter clone() {
-  	return super.clone();
+  	return (FormalParameter) super.clone();
   }
 	/**
    * @param parameter

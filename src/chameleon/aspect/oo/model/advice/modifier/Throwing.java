@@ -14,10 +14,8 @@ import chameleon.oo.variable.FormalParameter;
 /**
  * @author Jens De Temmerman
  * @author Marko van Dooren
- *
- * @param <E>
  */
-public class Throwing<E extends Throwing<E>> extends ModifierWithParameters<E> {
+public class Throwing extends ModifierWithParameters {
 
 	
 	@Override
@@ -25,20 +23,8 @@ public class Throwing<E extends Throwing<E>> extends ModifierWithParameters<E> {
 		return createSet(language().property(ThrowingProperty.ID));
 	}
 
-	@Override
-	public E clone() {
-		FormalParameter exceptionParameterClone = null;
-		
-		if (hasParameter())
-			exceptionParameterClone = parameter().clone();
-		Throwing<E> clone = cloneThis();
-		clone.setParameter(exceptionParameterClone);
-		
-		return (E) clone;
-	}
-
-	protected E cloneThis() {
-		return (E) new Throwing<E>();
+	protected Throwing cloneThis() {
+		return new Throwing();
 	}
 
 	@Override

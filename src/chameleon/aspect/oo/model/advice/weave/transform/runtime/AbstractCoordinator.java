@@ -27,7 +27,7 @@ import chameleon.support.variable.LocalVariableDeclarator;
  *
  * @param <T>
  */
-public abstract class AbstractCoordinator<T extends Element<?>> implements Coordinator<T> {
+public abstract class AbstractCoordinator<T extends Element> implements Coordinator<T> {
 
 	/**
 	 * 	The advice transformer used
@@ -87,7 +87,7 @@ public abstract class AbstractCoordinator<T extends Element<?>> implements Coord
 
 		// Get their expressions and assign them to booleans
 		for (RuntimePointcutExpression expression : expressions) {
-			RuntimePointcutExpression<?,?> actualExpression = (RuntimePointcutExpression<?,?>) expression.origin();
+			RuntimePointcutExpression<?> actualExpression = (RuntimePointcutExpression<?>) expression.origin();
 			
 			RuntimeExpressionFactory transformer = getAdviceTransformationProvider().getRuntimeExpressionProvider(actualExpression);
 			Expression runtimeCheck = transformer.getExpression(actualExpression, expressionNames);
@@ -131,9 +131,9 @@ public abstract class AbstractCoordinator<T extends Element<?>> implements Coord
 		return body;
 	}
 	
-	protected IfThenElseStatement getTest(RuntimePointcutExpression<?,?> tree, NamingRegistry<RuntimePointcutExpression> expressionNames) throws LookupException {
+	protected IfThenElseStatement getTest(RuntimePointcutExpression<?> tree, NamingRegistry<RuntimePointcutExpression> expressionNames) throws LookupException {
 		// Now, convert the actual expression to the right test - get the name of the root
-		Expression completeTest = new NamedTargetExpression("_$" + expressionNames.getName((RuntimePointcutExpression<?,?>) tree.origin()));
+		Expression completeTest = new NamedTargetExpression("_$" + expressionNames.getName((RuntimePointcutExpression<?>) tree.origin()));
 		
 		// Negate it, since we do the return of the original method if the expression returns false
 		PrefixOperatorInvocation negation = new PrefixOperatorInvocation("!", completeTest);

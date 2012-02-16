@@ -7,6 +7,6 @@ import chameleon.core.lookup.LookupException;
 import chameleon.oo.statement.Statement;
 import chameleon.oo.variable.FormalParameter;
 
-public interface ParameterExposureProvider<T extends ParameterExposurePointcutExpression<?,?>> {
+public interface ParameterExposureProvider<T extends ParameterExposurePointcutExpression<?>> {
 	public List<Statement> getParameterExposureDeclaration(T expression, FormalParameter fp) throws LookupException;
 }

@@ -10,7 +10,6 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.modifier.ModifierImpl;
 import chameleon.oo.variable.FormalParameter;
 import chameleon.util.Util;
@@ -18,15 +17,13 @@ import chameleon.util.Util;
 /**
  * 
  * @author Marko van Dooren
- *
- * @param <E>
  */
-public abstract class ModifierWithParameters<E extends ModifierWithParameters<E>> extends ModifierImpl<E> implements DeclarationContainer<E> {
+public abstract class ModifierWithParameters extends ModifierImpl implements DeclarationContainer {
 
 	/**
 	 * 	The return parameter
 	 */
-	private SingleAssociation<ModifierWithParameters<E>, FormalParameter> _parameter = new SingleAssociation<ModifierWithParameters<E>, FormalParameter>(this);
+	private SingleAssociation<ModifierWithParameters, FormalParameter> _parameter = new SingleAssociation<ModifierWithParameters, FormalParameter>(this);
 
 	public ModifierWithParameters() {
 		super();
@@ -95,23 +92,26 @@ public abstract class ModifierWithParameters<E extends ModifierWithParameters<E>
 	}
 
 	@Override
-	public E clone() {
+	public ModifierWithParameters clone() {
 		FormalParameter exceptionParameterClone = null;
 		
 		if (hasParameter())
 			exceptionParameterClone = parameter().clone();
-		E clone = cloneThis();
+		ModifierWithParameters clone = cloneThis();
 		clone.setParameter(exceptionParameterClone);
 		
-		return (E) clone;
+		return clone;
 	}
 
-	protected abstract E cloneThis();
+	protected abstract ModifierWithParameters cloneThis();
 	
 	@Override
 	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
-		LookupStrategyFactory lookupFactory = language().lookupFactory();
-		return lookupFactory.createLexicalLookupStrategy(lookupFactory.createLocalLookupStrategy(this), this);
+		return language().lookupFactory().createLexicalLookupStrategy(localStrategy(), this);
+	}
+
+	public LookupStrategy localStrategy() {
+		return language().lookupFactory().createLocalLookupStrategy(this);
 	}
 
 }

@@ -7,10 +7,10 @@ import chameleon.oo.expression.Expression;
 
 /**
  * 	Represents an expression provider for runtime checks. Given a runtime check, return the matching expression.
-
- * 	@author Jens
  *
+ * 	@author Jens De Temmerman
+ *  @author Marko van Dooren
  */
-public interface RuntimeExpressionFactory<T extends RuntimePointcutExpression<?,?>> {
-	public Expression<?> getExpression(T expr, NamingRegistry<RuntimePointcutExpression<?,?>> namingRegistry) throws LookupException;
+public interface RuntimeExpressionFactory<T extends RuntimePointcutExpression<?>> {
+	public Expression getExpression(T expr, NamingRegistry<RuntimePointcutExpression<?>> namingRegistry) throws LookupException;
 }

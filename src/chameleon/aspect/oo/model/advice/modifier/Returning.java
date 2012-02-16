@@ -12,10 +12,8 @@ import chameleon.core.property.ChameleonProperty;
  * 
  * 	@author Jens De Temmerman
  *  @author Marko van Dooren
- *
- * 	@param <E>
  */
-public class Returning<E extends Returning<E>> extends ModifierWithParameters<E> {
+public class Returning extends ModifierWithParameters {
 	
 	/**
 	 * 	Constructor
@@ -33,7 +31,7 @@ public class Returning<E extends Returning<E>> extends ModifierWithParameters<E>
 	}
 
 	@Override
-	protected E cloneThis() {
-		return (E) new Returning<E>();
+	protected Returning cloneThis() {
+		return new Returning();
 	}
 }
