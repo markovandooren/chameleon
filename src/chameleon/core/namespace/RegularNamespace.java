@@ -16,7 +16,7 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.util.Util;
 
-public class RegularNamespace<E extends RegularNamespace<E>> extends Namespace<E> {
+public class RegularNamespace extends Namespace {
 	
 	public RegularNamespace(SimpleNameSignature sig) {
 		super(sig);
@@ -34,9 +34,7 @@ public class RegularNamespace<E extends RegularNamespace<E>> extends Namespace<E
 
 
 	protected void addNamespace(Namespace namespace) {
-		if(namespace != null) {
-			_namespaces.add(namespace.parentLink());
-		}
+		add(_namespaces,namespace);
 	}
 
 	/**
@@ -69,9 +67,9 @@ public class RegularNamespace<E extends RegularNamespace<E>> extends Namespace<E
 	}
 
 	@Override
-	public E clone() {
-		E result = cloneThis();
-		for(Namespace<?> sub:getSubNamespaces()) {
+	public RegularNamespace clone() {
+		RegularNamespace result = cloneThis();
+		for(Namespace sub:getSubNamespaces()) {
 			result.addNamespace(sub.clone());
 		}
 		for(NamespacePart part:getNamespaceParts()) {
@@ -80,8 +78,8 @@ public class RegularNamespace<E extends RegularNamespace<E>> extends Namespace<E
 		return result;
 	}
 	
-	protected E cloneThis() {
-		return (E) new RegularNamespace(signature().clone());
+	protected RegularNamespace cloneThis() {
+		return new RegularNamespace(signature().clone());
 	}
 	
 	public Scope scope() {

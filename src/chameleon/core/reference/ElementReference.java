@@ -17,7 +17,7 @@ import chameleon.util.Util;
  * 
  * @author Marko van Dooren
  */
-public abstract class ElementReference<E extends ElementReference, S extends Signature, D extends Declaration> extends CrossReferenceImpl<E,D> implements CrossReferenceWithName<E,D> {
+public abstract class ElementReference<D extends Declaration> extends CrossReferenceImpl<D> implements CrossReferenceWithName<D> {
 
 	private static Logger logger = Logger.getLogger("lookup.elementreference");
 	
@@ -28,7 +28,7 @@ public abstract class ElementReference<E extends ElementReference, S extends Sig
 	public ElementReference() {
 	}
 	
-	public abstract E clone();
+	public abstract ElementReference<D> clone();
 
 	/*@
    @ public behavior
@@ -41,28 +41,7 @@ public abstract class ElementReference<E extends ElementReference, S extends Sig
 		setSignature(signature);
 	}
 	
-// /*@
-//   @ public behavior
-//   @
-//   @ pre name != null;
-//   @
-//   @ post signature().equals(signature);
-//   @*/
-//	public ElementReference(SimpleNameSignature signature) {
-//		setSignature(signature);
-//	}
-	
-
-// /*@
-//   @ public behavior
-//   @
-//   @ post \result != null;
-//   @*/
-//  public String getName() {
-//    return signature().name();
-//  }
-  
-  private SingleAssociation<ElementReference,Signature> _signature = new SingleAssociation<ElementReference,Signature>(this);
+  private SingleAssociation<ElementReference<D>,Signature> _signature = new SingleAssociation<ElementReference<D>,Signature>(this);
 
   /**
    * Return the signature of this element reference.

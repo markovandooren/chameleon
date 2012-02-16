@@ -12,7 +12,7 @@ import chameleon.core.property.ChameleonProperty;
  * A modifier is an element that gives properties to another element.
  * @author Marko van Dooren
  */
-public interface Modifier<E extends Modifier> extends Element<E> {
+public interface Modifier extends Element {
 
 	/**
 	 * Return the set of properties that are implied by this modifier.
@@ -29,7 +29,7 @@ public interface Modifier<E extends Modifier> extends Element<E> {
    * Return a clone of this modifier.
    * @return
    */
-  public E clone();
+  public Modifier clone();
 
   /**
    * Check if this modifier implies the given property. The result is a ternary value.

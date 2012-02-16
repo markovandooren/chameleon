@@ -14,7 +14,7 @@ import chameleon.core.element.Element;
  *
  * @param <E>
  */
-public interface Stub<E extends Stub<E>> extends Element<E> {
+public interface Stub extends Element {
 
 	public Declaration child();
 	

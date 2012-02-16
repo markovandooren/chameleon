@@ -20,7 +20,7 @@ import chameleon.core.validation.VerificationResult;
  * 
  * @author Marko van Dooren
  */
-public abstract class ModifierImpl<E extends Modifier> extends ElementImpl<E> implements Modifier<E> {
+public abstract class ModifierImpl extends ElementImpl implements Modifier {
 
 
 
@@ -30,7 +30,7 @@ public abstract class ModifierImpl<E extends Modifier> extends ElementImpl<E> im
   /**
    * Clone this modifier.
    */
-  public abstract E clone();
+  public abstract ModifierImpl clone();
 
   /**
    * By default, a modifier has no children, but subclasses are allowed to

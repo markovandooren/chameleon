@@ -7,13 +7,13 @@ import chameleon.core.reference.SpecificReference;
 /**
  * @author marko
  */
-public class NamespaceReference extends SpecificReference<NamespaceReference,Namespace> {
+public class NamespaceReference extends SpecificReference<Namespace> {
 
-  public NamespaceReference(CrossReferenceTarget<?> target, String name) {
+  public NamespaceReference(CrossReferenceTarget target, String name) {
     super(target, name, Namespace.class);
   }
   
-  public NamespaceReference(CrossReferenceTarget<?> target, SimpleNameSignature signature) {
+  public NamespaceReference(CrossReferenceTarget target, SimpleNameSignature signature) {
     super(target, signature, Namespace.class);
   }
   

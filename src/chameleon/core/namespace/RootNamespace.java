@@ -16,7 +16,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 
-public class RootNamespace extends RegularNamespace<RootNamespace> {
+public class RootNamespace extends RegularNamespace {
 // @FIXME
 // Create Model
 	

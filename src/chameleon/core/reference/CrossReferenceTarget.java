@@ -14,7 +14,7 @@ import chameleon.core.namespace.NamespaceElement;
  * @author Marko van Dooren
  */
 
-public interface CrossReferenceTarget<E extends CrossReferenceTarget> extends NamespaceElement<E> {
+public interface CrossReferenceTarget extends NamespaceElement {
 
 	/**
 	 * Return the target context of this target.
@@ -37,6 +37,6 @@ public interface CrossReferenceTarget<E extends CrossReferenceTarget> extends Na
 	public abstract LookupStrategy targetContext() throws LookupException;
 
 
-  public abstract E clone();
+  public abstract CrossReferenceTarget clone();
   
 }

@@ -11,7 +11,7 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.util.Util;
 
-public class LookupRedirector extends NamespaceElementImpl<LookupRedirector> implements Stub<LookupRedirector>{
+public class LookupRedirector extends NamespaceElementImpl implements Stub {
 
 	public LookupRedirector(Element contextElement) {
 		setContextElement(contextElement);

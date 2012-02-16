@@ -13,12 +13,12 @@ import chameleon.core.property.ChameleonProperty;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
 
-public abstract class ElementWithModifiersImpl<E extends Element<E>> extends NamespaceElementImpl<E> {
+public abstract class ElementWithModifiersImpl extends NamespaceElementImpl {
 
   /*************
    * MODIFIERS *
    *************/
-  private OrderedMultiAssociation<ElementWithModifiersImpl<E>, Modifier> _modifiers = new OrderedMultiAssociation<ElementWithModifiersImpl<E>, Modifier>(this);
+  private OrderedMultiAssociation<ElementWithModifiersImpl, Modifier> _modifiers = new OrderedMultiAssociation<ElementWithModifiersImpl, Modifier>(this);
 
   /**
    * Return the list of modifiers of this member.
@@ -57,13 +57,7 @@ public abstract class ElementWithModifiersImpl<E extends Element<E>> extends Nam
    @ post modifiers().contains(modifier);
    @*/
   public void addModifier(Modifier modifier) {
-    if (modifier != null) {
-    	if (!_modifiers.contains(modifier.parentLink())) {
-    		_modifiers.add(modifier.parentLink());
-      }
-    } else {
-    	throw new ChameleonProgrammerException("Modifier passed to addModifier is null");
-    }
+  	add(_modifiers,modifier);
   }
   
   /**
@@ -102,11 +96,7 @@ public abstract class ElementWithModifiersImpl<E extends Element<E>> extends Nam
    @ post ! modifiers().contains(modifier);
    @*/
   public void removeModifier(Modifier modifier) {
-  	if(modifier != null) {
-      _modifiers.remove(modifier.parentLink());
-  	} else {
-  		throw new ChameleonProgrammerException("Modifier passed to removeModifier was null");
-  	}
+  	remove(_modifiers,modifier);
   }
 
   /**

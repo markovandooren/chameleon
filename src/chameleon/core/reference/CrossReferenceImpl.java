@@ -10,7 +10,7 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 
-public abstract class CrossReferenceImpl<E extends CrossReference, D extends Declaration> extends NamespaceElementImpl<E> implements CrossReference<E, D> {
+public abstract class CrossReferenceImpl<D extends Declaration> extends NamespaceElementImpl implements CrossReference<D> {
 
 	/**
 	 * Return the declaration selector that is responsible for selecting the declaration
@@ -20,7 +20,7 @@ public abstract class CrossReferenceImpl<E extends CrossReference, D extends Dec
 	 */
 	public abstract DeclarationSelector<D> selector();
 
-	public abstract E clone();
+	public abstract CrossReferenceImpl<D> clone();
 
 	public final D getElement() throws LookupException {
 		return getElement(selector());

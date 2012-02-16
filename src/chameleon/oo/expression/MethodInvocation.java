@@ -29,10 +29,10 @@ import chameleon.util.Util;
  *            The type of declaration invoked by this invocation.
  */
 
-public abstract class MethodInvocation<E extends MethodInvocation<E, D>, D extends Method>
-		extends TargetedExpression<E> implements CrossReferenceWithTarget<E, D> {
+public abstract class MethodInvocation<D extends Method>
+		extends TargetedExpression implements CrossReferenceWithTarget<D> {
 
-	private SingleAssociation<MethodInvocation<E, D>, CrossReferenceWithArguments> _crossReference = new SingleAssociation<MethodInvocation<E, D>, CrossReferenceWithArguments>(
+	private SingleAssociation<MethodInvocation<D>, CrossReferenceWithArguments> _crossReference = new SingleAssociation<MethodInvocation<D>, CrossReferenceWithArguments>(
 			this);
 
 	public MethodInvocation(CrossReferenceTarget target) {

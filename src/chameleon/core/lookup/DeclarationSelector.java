@@ -36,7 +36,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * @return
    * @throws LookupException 
    */
-  public abstract String selectionName(DeclarationContainer<?> container) throws LookupException;
+  public abstract String selectionName(DeclarationContainer container) throws LookupException;
   
   /**
    * Return the declarations of the given declaration container to which selection is applied.
@@ -63,7 +63,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * @throws LookupException
    */
   protected D actualDeclaration(Declaration declarator) throws LookupException {
-  	Declaration<?, ?> declaration = declarator.selectionDeclaration();
+  	Declaration declaration = declarator.selectionDeclaration();
 		Declaration actualDeclaration = declaration.actualDeclaration();
 		if(selectedClass().isInstance(actualDeclaration)) {
 			return (D) actualDeclaration;

@@ -18,6 +18,7 @@ import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacepart.NamespacePart;
+import chameleon.exception.ChameleonProgrammerException;
 import chameleon.util.Util;
 
 /**
@@ -75,11 +76,11 @@ public abstract class Namespace extends ElementImpl implements NamespaceOrType, 
    @ post signature() = signature; 
    @*/
 	public void setSignature(Signature signature) {
-	  if(signature instanceof SimpleNameSignature) {
-	    _signature.connectTo(signature.parentLink());
-	  } else {
-	    throw new IllegalArgumentException("The signature of a namespace cannot be set to "+signature());
-	  }
+		if(! (signature instanceof SimpleNameSignature)) {
+			throw new ChameleonProgrammerException("A namespace must have a simple name signature. The argument is of type "+
+		                                         (signature == null ? "null type" : signature.getClass().getName()));
+		}
+	  setAsParent(_signature,(SimpleNameSignature)signature);
 	}
 	
 	public void setName(String name) {

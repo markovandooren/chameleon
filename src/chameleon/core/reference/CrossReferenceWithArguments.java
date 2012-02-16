@@ -26,8 +26,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.generics.ActualTypeArgument;
 import chameleon.util.Util;
 
-public class CrossReferenceWithArguments<E extends CrossReferenceWithArguments<E>>
-		extends NamespaceElementImpl<E> {
+public class CrossReferenceWithArguments extends NamespaceElementImpl {
 	
 	public CrossReferenceWithArguments() {
 		
@@ -44,11 +43,7 @@ public class CrossReferenceWithArguments<E extends CrossReferenceWithArguments<E
 	}
 
 	public void setTarget(CrossReferenceTarget target) {
-		if (target != null) {
-			_target.connectTo(target.parentLink());
-		} else {
-			_target.connectTo(null);
-		}
+		setAsParent(_target,target);
 	}
 
 	public DeclarationSelector<Declaration> selector() throws LookupException {
