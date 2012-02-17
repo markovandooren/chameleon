@@ -12,12 +12,14 @@ import chameleon.oo.type.BasicTypeReference;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
 
-public abstract class TypePointcutExpression<E extends TypePointcutExpression<E>> extends AbstractParameterExposurePointcutExpression<E> implements RuntimePointcutExpression<E,Element> {
+public abstract class TypePointcutExpression extends AbstractParameterExposurePointcutExpression implements RuntimePointcutExpression<Element> {
 	public TypePointcutExpression(NamedTargetExpression parameter) {
 		setParameter(parameter);
 	}
+	
+	public abstract TypePointcutExpression clone();
 
-	private SingleAssociation<TypePointcutExpression<E>, NamedTargetExpression> _parameter = new SingleAssociation<TypePointcutExpression<E>, NamedTargetExpression>(this);
+	private SingleAssociation<TypePointcutExpression, NamedTargetExpression> _parameter = new SingleAssociation<TypePointcutExpression, NamedTargetExpression>(this);
 	
 	public NamedTargetExpression parameter() {
 		return _parameter.getOtherEnd();

@@ -10,7 +10,7 @@ import chameleon.oo.statement.Block;
 import chameleon.oo.statement.Statement;
 import chameleon.support.statement.EmptyStatement;
 
-public class EmptyCatchClausePointcutExpression<E extends EmptyCatchClausePointcutExpression<E>> extends CatchClausePointcutExpression<E> {
+public class EmptyCatchClausePointcutExpression extends CatchClausePointcutExpression {
 
 	@Override
 	public List<? extends Element> children() {
@@ -34,7 +34,7 @@ public class EmptyCatchClausePointcutExpression<E extends EmptyCatchClausePointc
 	}
 
 	@Override
-	public E clone() {
-		return (E) new EmptyCatchClausePointcutExpression<E>();
+	public EmptyCatchClausePointcutExpression clone() {
+		return new EmptyCatchClausePointcutExpression();
 	}
 }

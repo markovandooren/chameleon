@@ -24,19 +24,19 @@ import chameleon.oo.variable.FormalParameter;
 import chameleon.util.Util;
 import chameleon.util.concurrent.SafeAction;
 
-public class NamedPointcutExpression<E extends NamedPointcutExpression<E>> extends AbstractPointcutExpression<E,Element> implements CrossReference<E, Pointcut> {
+public class NamedPointcutExpression extends AbstractPointcutExpression<Element> implements CrossReference<Pointcut> {
 	
 	public NamedPointcutExpression() {
 		
 	}
 	
-	private SingleAssociation<NamedPointcutExpression<E>, PointcutReference> _pointcutReference = new SingleAssociation<NamedPointcutExpression<E>, PointcutReference>(this);
+	private SingleAssociation<NamedPointcutExpression, PointcutReference> _pointcutReference = new SingleAssociation<NamedPointcutExpression, PointcutReference>(this);
 	
 	public void setPointcutReference(PointcutReference ref) {
 		setAsParent(_pointcutReference, ref);
 	}
 	
-	public PointcutReference<?> pointcutReference() {
+	public PointcutReference pointcutReference() {
 		return _pointcutReference.getOtherEnd();
 	}
 
@@ -47,13 +47,13 @@ public class NamedPointcutExpression<E extends NamedPointcutExpression<E>> exten
 
 
 	@Override
-	public E clone() {
-		NamedPointcutExpression clone = new NamedPointcutExpression<E>();
+	public NamedPointcutExpression clone() {
+		NamedPointcutExpression clone = new NamedPointcutExpression();
 		
 		if (pointcutReference() != null)
 			clone.setPointcutReference(pointcutReference().clone());
 		
-		return (E) clone;
+		return clone;
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class NamedPointcutExpression<E extends NamedPointcutExpression<E>> exten
 		
 //		PointcutExpression<?> pointcutExpression = ((PointcutExpression<?>) getElement().expression()).expand();
 		Pointcut pointcut = getElement();
-		PointcutExpression<?,?> pointcutExpression = ((PointcutExpression<?,?>)pointcut.expression()).clone();
+		PointcutExpression<?> pointcutExpression = ((PointcutExpression<?>)pointcut.expression()).clone();
 		pointcutExpression.setUniParent(pointcut);
 		
 		if (!pointcutReference().getActualParameters().isEmpty()) {
@@ -120,7 +120,7 @@ public class NamedPointcutExpression<E extends NamedPointcutExpression<E>> exten
 //		throw new ChameleonProgrammerException("Named pointcut expression not expanded before operations!");
 	}
 
-	private void renameParameters(PointcutExpression<?, ?> pointcutExpression, final Map<String, String> parameterNamesMap) {
+	private void renameParameters(PointcutExpression<?> pointcutExpression, final Map<String, String> parameterNamesMap) {
 		 //((ParameterExposurePointcutExpression<?,?>) pointcutExpression).renameParameters(parameterNamesMap);
 		pointcutExpression.apply(ParameterExposurePointcutExpression.class, new SafeAction<ParameterExposurePointcutExpression>() {
 			@Override

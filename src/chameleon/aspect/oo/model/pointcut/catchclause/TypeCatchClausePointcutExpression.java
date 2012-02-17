@@ -14,22 +14,22 @@ import chameleon.oo.type.TypeReference;
 import chameleon.support.statement.CatchClause;
 import chameleon.util.Util;
 
-public class TypeCatchClausePointcutExpression<E extends TypeCatchClausePointcutExpression<E>> extends CatchClausePointcutExpression<E> {
+public class TypeCatchClausePointcutExpression extends CatchClausePointcutExpression {
 	
-	private SingleAssociation<TypeCatchClausePointcutExpression<E>, TypeReference<?>> _exceptionType = new SingleAssociation<TypeCatchClausePointcutExpression<E>, TypeReference<?>>(this);
+	private SingleAssociation<TypeCatchClausePointcutExpression, TypeReference> _exceptionType = new SingleAssociation<TypeCatchClausePointcutExpression, TypeReference>(this);
 	
 	// TODO: check wanted behavior for subtypes
-	private SingleAssociation<TypeCatchClausePointcutExpression<E>, SubtypeMarker<?>> _subtypeMarker = new SingleAssociation<TypeCatchClausePointcutExpression<E>, SubtypeMarker<?>>(this);
+	private SingleAssociation<TypeCatchClausePointcutExpression, SubtypeMarker> _subtypeMarker = new SingleAssociation<TypeCatchClausePointcutExpression, SubtypeMarker>(this);
 	
-	public TypeReference<?> exceptionType() {
+	public TypeReference exceptionType() {
 		return _exceptionType.getOtherEnd();
 	}
 	
-	public void setExceptionType(TypeReference<?> exceptionType) {
+	public void setExceptionType(TypeReference exceptionType) {
 		setAsParent(_exceptionType, exceptionType);
 	}
 	
-	public SubtypeMarker<?> subtypeMarker() {
+	public SubtypeMarker subtypeMarker() {
 		return _subtypeMarker.getOtherEnd();
 	}
 	
@@ -37,7 +37,7 @@ public class TypeCatchClausePointcutExpression<E extends TypeCatchClausePointcut
 		return subtypeMarker() != null;
 	}
 	
-	public void setSubtypeMarker(SubtypeMarker<?> marker) {
+	public void setSubtypeMarker(SubtypeMarker marker) {
 		setAsParent(_subtypeMarker, marker);
 	}
 	
@@ -64,7 +64,7 @@ public class TypeCatchClausePointcutExpression<E extends TypeCatchClausePointcut
 	}
 
 	@Override
-	public E clone() {
+	public TypeCatchClausePointcutExpression clone() {
 		TypeCatchClausePointcutExpression clone = new TypeCatchClausePointcutExpression();
 		
 		if (exceptionType() != null)
@@ -73,6 +73,6 @@ public class TypeCatchClausePointcutExpression<E extends TypeCatchClausePointcut
 		if (subtypeMarker() != null)
 			clone.setSubtypeMarker(subtypeMarker().clone());
 		
-		return (E) clone;
+		return clone;
 	}
 }

@@ -8,7 +8,7 @@ import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public class SubtypeMarker<E extends SubtypeMarker<E>> extends NamespaceElementImpl<E> {
+public class SubtypeMarker extends NamespaceElementImpl {
 
 	@Override
 	public List<? extends Element> children() {
@@ -16,8 +16,8 @@ public class SubtypeMarker<E extends SubtypeMarker<E>> extends NamespaceElementI
 	}
 
 	@Override
-	public E clone() {
-		return (E) new SubtypeMarker<E>();
+	public SubtypeMarker clone() {
+		return new SubtypeMarker();
 	}
 
 	@Override

@@ -7,9 +7,9 @@ import org.rejuse.association.OrderedMultiAssociation;
 import chameleon.core.element.Element;
 import chameleon.oo.expression.NamedTargetExpression;
 
-public class ArgsPointcutExpression<E extends ArgsPointcutExpression<E>> extends AbstractParameterExposurePointcutExpression<E> implements RuntimePointcutExpression<E,Element> {
+public class ArgsPointcutExpression extends AbstractParameterExposurePointcutExpression implements RuntimePointcutExpression<Element> {
 	
-	private OrderedMultiAssociation<ArgsPointcutExpression<E>, NamedTargetExpression> _parameters = new OrderedMultiAssociation<ArgsPointcutExpression<E>, NamedTargetExpression>(this);
+	private OrderedMultiAssociation<ArgsPointcutExpression, NamedTargetExpression> _parameters = new OrderedMultiAssociation<ArgsPointcutExpression, NamedTargetExpression>(this);
 	
 	public List<NamedTargetExpression> parameters() {
 		return _parameters.getOtherEnds();
@@ -30,12 +30,12 @@ public class ArgsPointcutExpression<E extends ArgsPointcutExpression<E>> extends
 	}
 
 	@Override
-	public E clone() {
-		ArgsPointcutExpression<E> clone = new ArgsPointcutExpression<E>();
+	public ArgsPointcutExpression clone() {
+		ArgsPointcutExpression clone = new ArgsPointcutExpression();
 		
 		for (NamedTargetExpression type : parameters())
 			clone.add(type.clone());
 		
-		return (E) clone;
+		return clone;
 	}	
 }

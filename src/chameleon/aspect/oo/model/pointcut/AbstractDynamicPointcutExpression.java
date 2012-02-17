@@ -5,7 +5,7 @@ import chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 
-public abstract class AbstractDynamicPointcutExpression<E extends AbstractDynamicPointcutExpression<E>> extends AbstractPointcutExpression<E,Element> {
+public abstract class AbstractDynamicPointcutExpression extends AbstractPointcutExpression<Element> {
 	
 	@Override
 	public MatchResult match(Element joinpoint) throws LookupException {

@@ -16,7 +16,7 @@ import chameleon.oo.method.Method;
 import chameleon.oo.modifier.AnnotationModifier;
 import chameleon.util.Util;
 
-public class AnnotatedMethodInvocationExpression<E extends AnnotatedMethodInvocationExpression<E>> extends MethodInvocationPointcutExpression<E> {
+public class AnnotatedMethodInvocationExpression extends MethodInvocationPointcutExpression {
 
 	private SingleAssociation<AnnotatedMethodInvocationExpression, AnnotationReference> _reference = new SingleAssociation<AnnotatedMethodInvocationExpression, AnnotationReference>(this); 
 	
@@ -51,9 +51,9 @@ public class AnnotatedMethodInvocationExpression<E extends AnnotatedMethodInvoca
 	}
 
 	@Override
-	public E clone() {
-		AnnotatedMethodInvocationExpression<E> clone = new AnnotatedMethodInvocationExpression<E>();
+	public AnnotatedMethodInvocationExpression clone() {
+		AnnotatedMethodInvocationExpression clone = new AnnotatedMethodInvocationExpression();
 		clone.setReference(reference().clone());
-		return (E) clone;
+		return clone;
 	}
 }

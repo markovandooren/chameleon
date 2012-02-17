@@ -14,7 +14,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
 
-public class WithinTypePointcutExpression<E extends WithinTypePointcutExpression<E>> extends WithinPointcutExpressionDeprecated<E> {
+public class WithinTypePointcutExpression<E extends WithinTypePointcutExpression<E>> extends WithinPointcutExpressionDeprecated {
 	
 	private SingleAssociation<WithinTypePointcutExpression<E>, TypeReference> _typeReference = new SingleAssociation<WithinTypePointcutExpression<E>, TypeReference>(this);
 	private SingleAssociation<WithinTypePointcutExpression<E>, SubtypeMarker> _subtypeMarker = new SingleAssociation<WithinTypePointcutExpression<E>, SubtypeMarker>(this);
@@ -27,11 +27,11 @@ public class WithinTypePointcutExpression<E extends WithinTypePointcutExpression
 		return subtypeMarker() != null;
 	}
 	
-	public SubtypeMarker<?> subtypeMarker() {
+	public SubtypeMarker subtypeMarker() {
 		return _subtypeMarker.getOtherEnd();
 	}
 	
-	public TypeReference<?> typeReference() {
+	public TypeReference typeReference() {
 		return _typeReference.getOtherEnd();
 	}
 	

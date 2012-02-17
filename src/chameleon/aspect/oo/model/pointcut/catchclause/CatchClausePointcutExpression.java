@@ -7,7 +7,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.oo.statement.Statement;
 import chameleon.support.statement.CatchClause;
 
-public abstract class CatchClausePointcutExpression<E extends CatchClausePointcutExpression<E>> extends AbstractPointcutExpression<E,Statement> {
+public abstract class CatchClausePointcutExpression extends AbstractPointcutExpression<Statement> {
 
 	@Override
 	public MatchResult match(Statement joinpoint) throws LookupException {

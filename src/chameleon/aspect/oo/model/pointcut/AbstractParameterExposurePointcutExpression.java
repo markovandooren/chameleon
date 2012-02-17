@@ -8,7 +8,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.oo.expression.NamedTargetExpression;
 import chameleon.oo.variable.FormalParameter;
 
-public abstract class AbstractParameterExposurePointcutExpression<E extends AbstractParameterExposurePointcutExpression<E>> extends AbstractDynamicPointcutExpression<E> implements ParameterExposurePointcutExpression<E,Element> {
+public abstract class AbstractParameterExposurePointcutExpression extends AbstractDynamicPointcutExpression implements ParameterExposurePointcutExpression<Element> {
 	
 	@Override
 	public boolean hasParameter(FormalParameter fp) {

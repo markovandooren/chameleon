@@ -12,9 +12,9 @@ import chameleon.oo.expression.Expression;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.util.Util;
 
-public class IfPointcutExpression<E extends IfPointcutExpression<E>> extends AbstractDynamicPointcutExpression<E> implements RuntimePointcutExpression<E,Element> {
+public class IfPointcutExpression extends AbstractDynamicPointcutExpression implements RuntimePointcutExpression<Element> {
 	
-	private SingleAssociation<IfPointcutExpression<E>, Expression> _expression = new SingleAssociation<IfPointcutExpression<E>, Expression>(this);
+	private SingleAssociation<IfPointcutExpression, Expression> _expression = new SingleAssociation<IfPointcutExpression, Expression>(this);
 
 	public IfPointcutExpression(Expression expression) {
 		setExpression(expression);
@@ -34,12 +34,12 @@ public class IfPointcutExpression<E extends IfPointcutExpression<E>> extends Abs
 	}
 
 	@Override
-	public E clone() {
+	public IfPointcutExpression clone() {
 		Expression clonedExpression = null;
 		if (expression() != null)
 			clonedExpression = expression().clone();
 		
-		return (E) new IfPointcutExpression<E>(clonedExpression);
+		return new IfPointcutExpression(clonedExpression);
 	}
 
 	@Override

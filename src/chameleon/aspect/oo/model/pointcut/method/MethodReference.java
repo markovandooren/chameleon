@@ -27,7 +27,7 @@ import chameleon.util.Util;
  * 	@author Jens De Temmerman
  *  @author Marko van Dooren
  */
-public class MethodReference<E extends MethodReference<E>> extends NamespaceElementImpl<E> {
+public class MethodReference extends NamespaceElementImpl {
 	
 	public MethodReference(QualifiedName fqn, TypeReference type, String typeNameWithWC) {
 		setTypeNameWithWC(typeNameWithWC);
@@ -159,7 +159,7 @@ public class MethodReference<E extends MethodReference<E>> extends NamespaceElem
 	/**
 	 * 	The fully qualified name of the method
 	 */
-	private SingleAssociation<MethodReference<E>, QualifiedName> _fqn = new SingleAssociation<MethodReference<E>, QualifiedName>(this);
+	private SingleAssociation<MethodReference, QualifiedName> _fqn = new SingleAssociation<MethodReference, QualifiedName>(this);
 		
 	private void setFqn(QualifiedName fqn) {
 		setAsParent(_fqn, fqn);
@@ -169,7 +169,7 @@ public class MethodReference<E extends MethodReference<E>> extends NamespaceElem
 		return _fqn.getOtherEnd();
 	}
 
-	private SingleAssociation<MethodReference<E>, TypeReference> _typeRef = new SingleAssociation<MethodReference<E>, TypeReference>(this);
+	private SingleAssociation<MethodReference, TypeReference> _typeRef = new SingleAssociation<MethodReference, TypeReference>(this);
 
 	private void setType(TypeReference type) {
 		setAsParent(_typeRef, type);
@@ -189,12 +189,12 @@ public class MethodReference<E extends MethodReference<E>> extends NamespaceElem
 	}
 
 	@Override
-	public E clone() {
+	public MethodReference clone() {
 		TypeReference typeClone = null;
 		if (type() != null)
 			typeClone = type().clone();
 		
-		return (E) new MethodReference<E>((QualifiedName) fqn().clone(), typeClone, typeNameWithWC);
+		return new MethodReference((QualifiedName) fqn().clone(), typeClone, typeNameWithWC);
 	}
 
 	@Override

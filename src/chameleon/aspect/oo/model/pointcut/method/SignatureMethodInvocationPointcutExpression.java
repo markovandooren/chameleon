@@ -13,7 +13,7 @@ import chameleon.oo.expression.MethodInvocation;
 import chameleon.oo.type.Type;
 import chameleon.util.Util;
 
-public class SignatureMethodInvocationPointcutExpression<E extends SignatureMethodInvocationPointcutExpression<E>> extends MethodInvocationPointcutExpression<E> {
+public class SignatureMethodInvocationPointcutExpression extends MethodInvocationPointcutExpression {
 	private SingleAssociation<SignatureMethodInvocationPointcutExpression, MethodReference> _methodReference = new SingleAssociation<SignatureMethodInvocationPointcutExpression, MethodReference>(this);
 	
 	public SignatureMethodInvocationPointcutExpression(MethodReference methodReference) {
@@ -95,8 +95,8 @@ public class SignatureMethodInvocationPointcutExpression<E extends SignatureMeth
 	}
 
 	@Override
-	public E clone() {
-		return (E) new SignatureMethodInvocationPointcutExpression<E>(methodReference().clone()); 
+	public SignatureMethodInvocationPointcutExpression clone() {
+		return new SignatureMethodInvocationPointcutExpression(methodReference().clone()); 
 	}
 
 }

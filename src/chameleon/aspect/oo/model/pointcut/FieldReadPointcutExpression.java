@@ -17,7 +17,7 @@ import chameleon.oo.variable.RegularMemberVariable;
 import chameleon.support.expression.AssignmentExpression;
 import chameleon.util.Util;
 
-public class FieldReadPointcutExpression<E extends FieldReadPointcutExpression<E>> extends AbstractPointcutExpression<E,NamedTargetExpression> {
+public class FieldReadPointcutExpression extends AbstractPointcutExpression<NamedTargetExpression> {
 
 	public FieldReadPointcutExpression(TypeReference typeReference, DeclarationReference reference) {
 		setFieldReference(reference);
@@ -32,8 +32,8 @@ public class FieldReadPointcutExpression<E extends FieldReadPointcutExpression<E
 		setAsParent(_fieldReference, reference);
 	}
 
-	private SingleAssociation<FieldReadPointcutExpression<E>, DeclarationReference> _fieldReference = new SingleAssociation<FieldReadPointcutExpression<E>, DeclarationReference>(this);
-	private SingleAssociation<FieldReadPointcutExpression<E>, TypeReference> _typeReference = new SingleAssociation<FieldReadPointcutExpression<E>, TypeReference>(this);
+	private SingleAssociation<FieldReadPointcutExpression, DeclarationReference> _fieldReference = new SingleAssociation<FieldReadPointcutExpression, DeclarationReference>(this);
+	private SingleAssociation<FieldReadPointcutExpression, TypeReference> _typeReference = new SingleAssociation<FieldReadPointcutExpression, TypeReference>(this);
 	
 	public DeclarationReference fieldReference() {
 		return _fieldReference.getOtherEnd();
@@ -103,7 +103,7 @@ public class FieldReadPointcutExpression<E extends FieldReadPointcutExpression<E
 	}
 
 	@Override
-	public E clone() {
+	public FieldReadPointcutExpression clone() {
 		DeclarationReference fieldRefClone = null;
 		TypeReference typeRefClone = null;
 		
@@ -113,7 +113,7 @@ public class FieldReadPointcutExpression<E extends FieldReadPointcutExpression<E
 		if (typeReference() != null)
 			typeRefClone = typeReference().clone();
 		
-		return (E) new FieldReadPointcutExpression(typeRefClone, fieldRefClone);
+		return new FieldReadPointcutExpression(typeRefClone, fieldRefClone);
 	}
 
 	@Override

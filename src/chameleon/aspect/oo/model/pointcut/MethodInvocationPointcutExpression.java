@@ -4,7 +4,7 @@ import chameleon.aspect.core.model.pointcut.expression.AbstractPointcutExpressio
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.expression.MethodInvocation;
 
-public abstract class MethodInvocationPointcutExpression<E extends MethodInvocationPointcutExpression<E>> extends AbstractPointcutExpression<E,MethodInvocation> {
+public abstract class MethodInvocationPointcutExpression extends AbstractPointcutExpression<MethodInvocation> {
 
 	@Override
 	public Class<? extends MethodInvocation> joinPointType() throws LookupException {

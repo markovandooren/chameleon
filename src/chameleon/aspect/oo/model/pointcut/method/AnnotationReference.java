@@ -8,7 +8,7 @@ import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public class AnnotationReference<E extends AnnotationReference<E>> extends NamespaceElementImpl<E> {
+public class AnnotationReference extends NamespaceElementImpl {
 	
 	private String referencedName;
 	
@@ -30,8 +30,8 @@ public class AnnotationReference<E extends AnnotationReference<E>> extends Names
 	}
 
 	@Override
-	public E clone() {
-		return (E) new AnnotationReference(referencendName());
+	public AnnotationReference clone() {
+		return new AnnotationReference(referencendName());
 	}
 
 	@Override
