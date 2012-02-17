@@ -268,7 +268,7 @@ public abstract class DeclarationWithParametersHeader extends NamespaceElementIm
 		return parameterBlock().parameter(index);
 	}
 	
-	public void addAllTypeParameters(Collection<TypeParameter> parameters) {
+	public void addAllTypeParameters(Collection<? extends TypeParameter> parameters) {
 		for(TypeParameter param:parameters) {
 			addTypeParameter(param);
 		}

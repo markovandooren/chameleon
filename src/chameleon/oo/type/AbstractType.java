@@ -14,7 +14,6 @@ import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.Definition;
 import chameleon.core.declaration.MissingSignature;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
@@ -178,7 +177,7 @@ public abstract class AbstractType extends FixedSignatureMember implements Type 
         return prefix == null ? null : (prefix.equals("") ? "" : prefix+".")+getName();
     }
 
-    public String infoDisplayName() {
+    public String toString() {
 			try {
 				try {
 					return getFullyQualifiedName();
@@ -335,7 +334,7 @@ public abstract class AbstractType extends FixedSignatureMember implements Type 
     public boolean complete() throws LookupException {
 	    	List<Member> members = localMembers(Member.class);
 	    	// Only check for actual definitions
-	    	new TypePredicate<Element,Definition>(Definition.class).filter(members);
+	    	new TypePredicate<Element,Declaration>(Declaration.class).filter(members);
 	    	Iterator<Member> iter = members.iterator();
 	    	boolean result = true;
 	    	while(iter.hasNext()) {
@@ -936,11 +935,6 @@ public abstract class AbstractType extends FixedSignatureMember implements Type 
 				return true;
 			}
 		};
-		
-		public String toString() {
-			return getFullyQualifiedName();
-		}
-
 }
 
 

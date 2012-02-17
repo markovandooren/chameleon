@@ -9,7 +9,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 /**
  * @author Marko van Dooren
  */
-public class BasicTypeReference<E extends BasicTypeReference> extends SpecificReference<Type> implements TypeReference {
+public class BasicTypeReference extends SpecificReference<Type> implements TypeReference {
 
   public BasicTypeReference(String fqn) {
     super(fqn, Type.class);
@@ -27,8 +27,8 @@ public class BasicTypeReference<E extends BasicTypeReference> extends SpecificRe
   	return getElement();
   }
 
-  public E clone() {
-    return (E) new BasicTypeReference((getTarget() == null ? null : getTarget().clone()),(SimpleNameSignature)signature().clone());
+  public BasicTypeReference clone() {
+    return new BasicTypeReference((getTarget() == null ? null : getTarget().clone()),(SimpleNameSignature)signature().clone());
   }
 
 	public TypeReference intersection(TypeReference other) {
@@ -50,7 +50,7 @@ public class BasicTypeReference<E extends BasicTypeReference> extends SpecificRe
 		String result;
 		try {
 			try {
-				result = getElement().infoDisplayName();
+				result = getElement().toString();
 			} catch (LookupException e) {
 				result = toString();
 			}

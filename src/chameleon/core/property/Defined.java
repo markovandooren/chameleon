@@ -5,7 +5,6 @@ import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.Definition;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;

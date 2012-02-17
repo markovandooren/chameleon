@@ -11,6 +11,7 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
@@ -42,7 +43,7 @@ import chameleon.util.Util;
  * @author Marko van Dooren
  */
 
-public abstract class Namespace extends ElementImpl implements Declaration, DeclarationContainer {
+public abstract class Namespace extends ElementImpl implements TargetDeclaration, DeclarationContainer {
 
 	public abstract Namespace clone();
 

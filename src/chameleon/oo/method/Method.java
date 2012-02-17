@@ -12,7 +12,6 @@ import org.rejuse.predicate.AbstractPredicate;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
-import chameleon.core.declaration.Definition;
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;

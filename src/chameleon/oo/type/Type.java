@@ -50,7 +50,7 @@ public interface Type extends ExceptionSource, DeclarationContainer, Declaration
 	 * it returns the name. Finally, if that fails as well, it returns the empty
 	 * string.
 	 */
-	public String infoDisplayName();
+//	public String infoDisplayName();
 	
 	/**
 	 * Return the fully qualified name.

@@ -23,9 +23,6 @@ public class TypeImport extends Import {
 
   public TypeImport(TypeReference ref) {
     setTypeReference(ref);
-    if(ref.toString().equals("int")) {
-    	System.out.println("debug");
-    }
   }
   
   public List<Element> children() {
