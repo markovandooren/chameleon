@@ -5,15 +5,15 @@
     <extension-point id="chameleon.eclipse.language" name="Language" schema="schema/chameleon.eclipse.language.exsd"/>
 
    	<extension
-       id="chameleon.editor.editors.ChameleonEditor"
+       id="chameleon.eclipse.editors.ChameleonEditor"
        name="Chameleon Editor"
        point="org.eclipse.ui.editors">
       <editor
-            class="chameleon.editor.editors.ChameleonEditor"
-            contributorClass="chameleon.editor.editors.actions.ChameleonEditorActionContributor"
+            class="chameleon.eclipse.editors.ChameleonEditor"
+            contributorClass="chameleon.eclipse.editors.actions.ChameleonEditorActionContributor"
             default="true"
             icon="icons/chameleon.png"
-            id="chameleon.editor.editors.ChameleonEditor"
+            id="chameleon.eclipse.editors.ChameleonEditor"
             name="Chameleon Editor">
       <contentTypeBinding contentTypeId="be.chameleon.eclipse.chameleonsource"/>
       </editor>
@@ -25,7 +25,7 @@
          name="Chameleon Project"
          point="org.eclipse.core.resources.natures">
          <runtime>
-         	<run class="chameleon.editor.project.ChameleonProjectNature">
+         	<run class="chameleon.eclipse.project.ChameleonProjectNature">
          </run>
       </runtime>
       <builder id="be.chameleon.eclipse.ChameleonBuilder"/>
@@ -33,7 +33,7 @@
    </extension>
    
    <extension
-         id="chameleon.editor.project.ProjectWizard"
+         id="chameleon.eclipse.project.ProjectWizard"
          name="ChameleonProject"
          point="org.eclipse.ui.newWizards"
         >
@@ -42,8 +42,8 @@
          id="chameleon.category1">
    </category>
       <wizard
-            class="chameleon.editor.project.ProjectWizard"
-            id="chameleon.editor.ProjectWizard"
+            class="chameleon.eclipse.project.ProjectWizard"
+            id="chameleon.eclipse.ProjectWizard"
             name="New Chameleon Project"
             icon="icons/chameleon.png"
             category="chameleon.category1"            
@@ -56,21 +56,21 @@
          point="org.eclipse.ui.preferencePages">
       <page
             category="ChameleonEditorPreferencePage"
-            class="chameleon.editor.editors.preferences.ColoringPreferencePage"
+            class="chameleon.eclipse.editors.preferences.ColoringPreferencePage"
             id="ColoringPreferencePage"
             name="Syntax Coloring"/>
       <page
             category="ChameleonEditorPreferencePage"
-            class="chameleon.editor.editors.preferences.OutlinePreferencePage"
+            class="chameleon.eclipse.editors.preferences.OutlinePreferencePage"
             id="OutlinePreferencePage"
             name="Outline Elements"/>
       <page
             category="ChameleonEditorPreferencePage"
-            class="chameleon.editor.editors.preferences.FormatterPreferencePage"
+            class="chameleon.eclipse.editors.preferences.FormatterPreferencePage"
             id="FormatterPreferencePage"
             name="Formatting"/>
       <page
-            class="chameleon.editor.editors.preferences.ChameleonEditorPreferencePage"
+            class="chameleon.eclipse.editors.preferences.ChameleonEditorPreferencePage"
             id="ChameleonEditorPreferencePage"
             name="ChameleonEditor"/>
    </extension>
@@ -108,26 +108,26 @@
   
   <extension point ="org.eclipse.ui.actionSets">
   	<actionSet 
-  		id="chameleon.editor.actionSet"
+  		id="chameleon.eclipse.actionSet"
 		label="ChameleonActions">
  
    	<action
-       definitionId="chameleon.editor.actions.format"
+       definitionId="chameleon.eclipse.actions.format"
        label="FormatAction.label"
        retarget="true"
-       id="chameleon.editor.actions.format">
+       id="chameleon.eclipse.actions.format">
      </action>
      <action
-       definitionId="chameleon.editor.actions.opensubhierarchy"
+       definitionId="chameleon.eclipse.actions.opensubhierarchy"
        label="HierarchyAction.label"
        retarget="true"
-       id="chameleon.editor.actions.opensubhierarchy">
+       id="chameleon.eclipse.actions.opensubhierarchy">
      </action>
      <action
-       definitionId="chameleon.editor.actions.opensuperhierarchy"
+       definitionId="chameleon.eclipse.actions.opensuperhierarchy"
        label="HierarchyAction.label"
        retarget="true"
-       id="chameleon.editor.actions.opensuperhierarchy">
+       id="chameleon.eclipse.actions.opensuperhierarchy">
      </action>
     </actionSet>
    </extension>
@@ -136,24 +136,24 @@
 	<command
         name="formatting"
         description="Auto-Formatting"
-        id="chameleon.editor.actions.format">
+        id="chameleon.eclipse.actions.format">
   </command>
   <command
         name="hierarchy"
         description="Open Sub-Type hierarchy"
-        id="chameleon.editor.actions.opensubhierarchy">
+        id="chameleon.eclipse.actions.opensubhierarchy">
   </command>
   <command
         name="hierarchy"
         description="Open Super-Type hierarchy"
-        id="chameleon.editor.actions.opensuperhierarchy">
+        id="chameleon.eclipse.actions.opensuperhierarchy">
   </command>
   </extension>
 
   <!-- TODO: doesn't work yet: -->
   <extension point="org.eclipse.ui.bindings">
 	<key sequence="CTRL+I"
-		commandId="chameleon.editor.actions.format"
+		commandId="chameleon.eclipse.actions.format"
 		schemeId="default"
 		contextId="org.eclipse.ui.contexts.window" />
 	<scheme name="default"
@@ -163,44 +163,44 @@
 
   <extension point="org.eclipse.ui.views" >
 	  <category 
-	    id="chameleon.editor.ChameleonEditorPlugin"
+	    id="chameleon.eclipse.ChameleonEditorPlugin"
 	    name="Chameleon editor">
 	  </category>
 	
 	  <view 
-		  id="chameleon.editor.ChameleonEditorPlugin.hierarchyview" 
+		  id="chameleon.eclipse.ChameleonEditorPlugin.hierarchyview" 
 		  name="Type Hierarchy"
 		  icon="icons/type_hierarchy.gif"
-		  category="chameleon.editor.ChameleonEditorPlugin"
-		  class="chameleon.editor.presentation.hierarchy.HierarchyView"/>
+		  category="chameleon.eclipse.ChameleonEditorPlugin"
+		  class="chameleon.eclipse.presentation.hierarchy.HierarchyView"/>
 	
 	  <view 
-		  id="chameleon.editor.ChameleonEditorPlugin.callhierarchyview" 
+		  id="chameleon.eclipse.ChameleonEditorPlugin.callhierarchyview" 
 		  name="Call Hierarchy"
 		  icon="icons/call_hierarchy.gif"
-		  category="chameleon.editor.ChameleonEditorPlugin"
-		  class="chameleon.editor.presentation.callhierarchy.CallHierarchyView"/>
+		  category="chameleon.eclipse.ChameleonEditorPlugin"
+		  class="chameleon.eclipse.presentation.callhierarchy.CallHierarchyView"/>
 	
     <view 
-		  id="chameleon.editor.ChameleonEditorPlugin.modelview" 
+		  id="chameleon.eclipse.ChameleonEditorPlugin.modelview" 
 		  name="Chameleon Model"
 		  icon="icons/model.gif"
-		  category="chameleon.editor.ChameleonEditorPlugin"
-		  class="chameleon.editor.developertools.modelview.ModelView"/>
+		  category="chameleon.eclipse.ChameleonEditorPlugin"
+		  class="chameleon.eclipse.developertools.modelview.ModelView"/>
 
 	  <view 
-		  id="chameleon.editor.ChameleonEditorPlugin.editortagtextview" 
+		  id="chameleon.eclipse.ChameleonEditorPlugin.editortagtextview" 
 		  name="EditorTag Text View"
 		  icon="icons/model.gif"
-		  category="chameleon.editor.ChameleonEditorPlugin"
-		  class="chameleon.editor.developertools.tagview.EditorTagTextView"/>
+		  category="chameleon.eclipse.ChameleonEditorPlugin"
+		  class="chameleon.eclipse.developertools.tagview.EditorTagTextView"/>
 	
 	  <view 
-		  id="chameleon.editor.ChameleonEditorPlugin.editortaglistview" 
+		  id="chameleon.eclipse.ChameleonEditorPlugin.editortaglistview" 
 		  name="EditorTag List View"
 		  icon="icons/model.gif"
-		  category="chameleon.editor.ChameleonEditorPlugin"
-		  class="chameleon.editor.developertools.tagview.EditorTagListView"/>
+		  category="chameleon.eclipse.ChameleonEditorPlugin"
+		  class="chameleon.eclipse.developertools.tagview.EditorTagListView"/>
   </extension>
   
   <extension
@@ -208,7 +208,7 @@
        name="Chameleon Builder" 
        point="org.eclipse.core.resources.builders">
        <builder hasNature="true"> 
-       <run class="chameleon.editor.builder.ChameleonBuilder"/> 
+       <run class="chameleon.eclipse.builder.ChameleonBuilder"/> 
       </builder>
   </extension>
    

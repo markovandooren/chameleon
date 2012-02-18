@@ -342,7 +342,7 @@ public class HierarchyView extends ViewPart {
 	 */
 	public static HierarchyView getHierarchyView(){
 		try {
-			IViewDescriptor viewDesc = Workbench.getInstance().getViewRegistry().find("chameleon.editor.ChameleonEditorPlugin.hierarchyview");
+			IViewDescriptor viewDesc = Workbench.getInstance().getViewRegistry().find("chameleon.eclipse.ChameleonEditorPlugin.hierarchyview");
 			if(viewDesc!=null){
 				IViewPart view = viewDesc.createView();
 				if(view instanceof HierarchyView){

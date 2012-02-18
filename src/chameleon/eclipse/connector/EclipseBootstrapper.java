@@ -75,7 +75,7 @@ public abstract class EclipseBootstrapper {
 	 * Create the language object, and attach at least the following extensions:
 	 * <ul>
 	 *   <li>chameleon.output.Syntax</li>
-	 *   <li>chameleon.editor.connector.EclipseEditorExtension</li>
+	 *   <li>chameleon.eclipse.connector.EclipseEditorExtension</li>
 	 * </ul>
 	 * @return
 	 * @throws IOException

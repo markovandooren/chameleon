@@ -45,19 +45,15 @@ public class BasicTypeReference extends SpecificReference<Type> implements TypeR
 		return result;
 	}
 
-	@Override
-	public String toString() {
-		String result;
-		try {
-			try {
-				result = getElement().toString();
-			} catch (LookupException e) {
-				result = toString();
-			}
-		}	catch(Exception exc) {
-			result = "";
-		}
-		return result;
-	}
+//	@Override
+//	public String toString() {
+//		String result;
+//		try {
+//				result = getElement().toString();
+//		}	catch(Exception exc) {
+//			result = "";
+//		}
+//		return result;
+//	}
   
 }

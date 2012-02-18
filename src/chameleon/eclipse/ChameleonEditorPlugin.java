@@ -32,7 +32,7 @@ public class ChameleonEditorPlugin extends AbstractUIPlugin {
 	
 	public final static String PLUGIN_ID="be.chameleon.eclipse";
 
-	public final static String CHAMELEON_EDITOR_ID = "chameleon.editor.editors.ChameleonEditor";
+	public final static String CHAMELEON_EDITOR_ID = "chameleon.eclipse.editors.ChameleonEditor";
 
 	public final static String CHAMELEON_RESOURCEBUNDLE_BASENAME = "resourcebundle";
 

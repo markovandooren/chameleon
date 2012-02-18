@@ -21,6 +21,8 @@ public abstract class ElementWithModifiersImpl extends NamespaceElementImpl impl
    *************/
   private OrderedMultiAssociation<ElementWithModifiersImpl, Modifier> _modifiers = new OrderedMultiAssociation<ElementWithModifiersImpl, Modifier>(this);
 
+  public abstract ElementWithModifiersImpl clone();
+  
   /**
    * Return the list of modifiers of this member.
    */
