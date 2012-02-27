@@ -872,8 +872,11 @@ public abstract class ElementImpl implements Element {
      * apply to it and that there are no conflicting properties are both implemented in verifyProperties(), which is also used in verify().
      * @return
      */
-    public abstract VerificationResult verifySelf();
-    
+//    public abstract VerificationResult verifySelf();
+  	public VerificationResult verifySelf() {
+  		return Valid.create();
+  	}
+
     public final VerificationResult verifyProperties() {
     	VerificationResult result = Valid.create();
     	PropertySet<Element,ChameleonProperty> properties = properties();
