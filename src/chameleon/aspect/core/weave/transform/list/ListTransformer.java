@@ -8,6 +8,14 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReference;
 
+/**
+ * 
+ * @author Marko van Dooren
+ *
+ * @param <P> The type of the proceed element.
+ * @param <E>
+ * @param <T>
+ */
 public interface ListTransformer<P extends Element, E extends Element, T extends Element> extends JoinPointTransformer<E, T>{
 
 	public T toList(Advice<?> advice);
