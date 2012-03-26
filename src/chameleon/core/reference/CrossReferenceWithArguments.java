@@ -60,7 +60,7 @@ public class CrossReferenceWithArguments extends NamespaceElementImpl {
 		setAsParent(_parameters, parameter);
 	}
 
-	public void addAllArguments(List<Expression> parameters) {
+	public void addAllArguments(List<? extends Expression> parameters) {
 		for (Expression parameter : parameters) {
 			addArgument(parameter);
 		}

@@ -134,6 +134,11 @@ public abstract class ProgrammingAdvice extends Advice<Block> implements Declara
 	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
 	}
+	
+	@Override
+	public LookupStrategy localStrategy() throws LookupException {
+		return localLookupStrategy();
+	}
 
 	@Override
 	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
