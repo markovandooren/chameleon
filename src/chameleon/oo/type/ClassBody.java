@@ -15,16 +15,15 @@ import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespace.NamespaceElement;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.member.Member;
 
-public class ClassBody extends NamespaceElementImpl implements NamespaceElement, DeclarationContainer {
+public class ClassBody extends ElementImpl implements DeclarationContainer {
 
 	public ClassBody() {
 		parentLink().addListener(new AssociationListener<Element>() {

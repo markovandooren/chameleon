@@ -2,7 +2,6 @@ package chameleon.core.scope;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElement;
 
 public class LexicalScope extends Scope {
 
@@ -13,22 +12,22 @@ public class LexicalScope extends Scope {
    @
    @ post element() = element;
    @*/
-	public LexicalScope(NamespaceElement element) {
+	public LexicalScope(Element element) {
 		setElement(element);
 	}
 	
-	private void setElement(NamespaceElement element) {
+	private void setElement(Element element) {
 		_element = element;
 	}
 	
-	private NamespaceElement _element;
+	private Element _element;
 
  /*@
    @ public behavior
    @
    @ post \result != null;
    @*/
-	public NamespaceElement element() {
+	public Element element() {
 		return _element;
 	}
 

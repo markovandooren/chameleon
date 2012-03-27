@@ -5,7 +5,6 @@ import java.util.List;
 
 import chameleon.core.declaration.Signature;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElement;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.method.Method;
 import chameleon.oo.type.Type;

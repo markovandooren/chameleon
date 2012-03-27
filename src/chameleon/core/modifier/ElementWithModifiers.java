@@ -6,7 +6,6 @@ import org.rejuse.property.Property;
 import org.rejuse.property.PropertyMutex;
 
 import chameleon.core.element.Element;
-import chameleon.core.namespace.NamespaceElement;
 import chameleon.exception.ModelException;
 
 /**
@@ -18,7 +17,7 @@ import chameleon.exception.ModelException;
  * @param <E>
  * @param <P>
  */
-public interface ElementWithModifiers extends NamespaceElement {
+public interface ElementWithModifiers extends Element {
 
 	public ElementWithModifiers clone();
 

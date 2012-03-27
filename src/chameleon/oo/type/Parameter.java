@@ -5,12 +5,11 @@ import org.rejuse.association.SingleAssociation;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.exception.ChameleonProgrammerException;
 
-public abstract class Parameter extends NamespaceElementImpl implements Declaration {
+public abstract class Parameter extends ElementImpl implements Declaration {
 	
 	public Parameter(SimpleNameSignature sig) {
 		setSignature(sig);

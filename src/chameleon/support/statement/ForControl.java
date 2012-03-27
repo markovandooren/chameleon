@@ -1,11 +1,11 @@
 package chameleon.support.statement;
 
 import chameleon.core.declaration.DeclarationContainer;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespace.NamespaceElementImpl;
 
-public abstract class ForControl extends NamespaceElementImpl implements DeclarationContainer {
+public abstract class ForControl extends ElementImpl implements DeclarationContainer {
 	
 //	public abstract List<? extends Variable> declarations() throws LookupException;
 	

@@ -7,9 +7,8 @@ import org.rejuse.predicate.SafePredicate;
 import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElement;
 
-public interface PointcutExpression<J extends Element> extends NamespaceElement {
+public interface PointcutExpression<J extends Element> extends Element {
 	
 	public PointcutExpression<J> clone();
 	

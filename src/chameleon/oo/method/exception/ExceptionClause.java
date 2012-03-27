@@ -6,22 +6,19 @@ import java.util.Set;
 
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.java.collections.RobustVisitor;
-import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.AbstractPredicate;
 
 import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.MethodInvocation;
-import chameleon.oo.method.Method;
-import chameleon.oo.type.Type;
 
 /**
  * @author Marko van Dooren
  */
-public class ExceptionClause extends NamespaceElementImpl {
+public class ExceptionClause extends ElementImpl {
 
   public ExceptionClause() {
 	}

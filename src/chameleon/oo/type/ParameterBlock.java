@@ -7,13 +7,13 @@ import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public class ParameterBlock<T extends Parameter> extends NamespaceElementImpl {
+public class ParameterBlock<T extends Parameter> extends ElementImpl {
 
 	public ParameterBlock(Class<T> parameterType) {
 		_parameterType = parameterType;

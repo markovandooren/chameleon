@@ -10,16 +10,16 @@ import org.rejuse.property.PropertyMutex;
 import chameleon.core.declaration.MissingSignature;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.modifier.Modifier;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
 import chameleon.oo.type.Type;
 
-public abstract class VariableImpl extends NamespaceElementImpl implements Variable {
+public abstract class VariableImpl extends ElementImpl implements Variable {
 	
 	public abstract VariableImpl clone();
 

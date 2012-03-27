@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Pair;
 
-public abstract class ActualTypeArgument extends NamespaceElementImpl {
+public abstract class ActualTypeArgument extends ElementImpl {
 
 	public ActualTypeArgument() {
 	}

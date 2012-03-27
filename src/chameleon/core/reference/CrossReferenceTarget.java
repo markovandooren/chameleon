@@ -1,8 +1,8 @@
 package chameleon.core.reference;
 
+import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespace.NamespaceElement;
 
 /**
  * An invocation target is a "cross-reference" element to an element in which 
@@ -14,7 +14,7 @@ import chameleon.core.namespace.NamespaceElement;
  * @author Marko van Dooren
  */
 
-public interface CrossReferenceTarget extends NamespaceElement {
+public interface CrossReferenceTarget extends Element {
 
 	/**
 	 * Return the target context of this target.

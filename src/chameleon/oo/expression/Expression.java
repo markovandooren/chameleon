@@ -5,10 +5,10 @@ import java.lang.ref.SoftReference;
 import org.rejuse.java.collections.RobustVisitor;
 
 import chameleon.core.Config;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.Target;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.oo.statement.CheckedExceptionList;
 import chameleon.oo.statement.ExceptionSource;
@@ -20,7 +20,7 @@ import chameleon.oo.type.Type;
  * @author Marko van Dooren
  */
 
-public abstract class Expression extends NamespaceElementImpl implements CrossReferenceTarget {
+public abstract class Expression extends ElementImpl implements CrossReferenceTarget {
 
 	/**
 	 * Return the type of this expression. The actual computation of the type is done in actualType. This

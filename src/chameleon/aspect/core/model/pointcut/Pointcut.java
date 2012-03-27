@@ -8,13 +8,9 @@ import org.rejuse.association.SingleAssociation;
 import chameleon.aspect.core.model.aspect.Aspect;
 import chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
 import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.DeclarationContainer;
-import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
-import chameleon.core.lookup.DeclarationSelector;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
@@ -23,8 +19,6 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
-import chameleon.oo.member.SimpleNameDeclarationWithParametersHeader;
-import chameleon.oo.member.SimpleNameDeclarationWithParametersSignature;
 import chameleon.util.Util;
 
 /**
@@ -36,7 +30,7 @@ import chameleon.util.Util;
  * 	@author Jens De Temmerman
  *  @author Marko van Dooren
  */
-public abstract class Pointcut extends NamespaceElementImpl implements Declaration {
+public abstract class Pointcut extends ElementImpl implements Declaration {
 	
 	public Pointcut() {
 		

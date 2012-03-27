@@ -7,15 +7,15 @@ import java.util.List;
 import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public class DeclarationContainerAlias extends NamespaceElementImpl implements DeclarationContainer {
+public class DeclarationContainerAlias extends ElementImpl implements DeclarationContainer {
 
 	public DeclarationContainerAlias(DeclarationContainer parent) {
 		setUniParent(parent);

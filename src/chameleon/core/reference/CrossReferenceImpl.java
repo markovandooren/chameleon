@@ -1,16 +1,16 @@
 package chameleon.core.reference;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.DeclaratorSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 
-public abstract class CrossReferenceImpl<D extends Declaration> extends NamespaceElementImpl implements CrossReference<D> {
+public abstract class CrossReferenceImpl<D extends Declaration> extends ElementImpl implements CrossReference<D> {
 
 	/**
 	 * Return the declaration selector that is responsible for selecting the declaration

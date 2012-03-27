@@ -6,9 +6,9 @@ import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -21,7 +21,7 @@ import chameleon.util.Util;
 /**
  * @author Marko van Dooren
  */
-public class SuperTarget extends NamespaceElementImpl implements CrossReferenceTarget {
+public class SuperTarget extends ElementImpl implements CrossReferenceTarget {
 
   public SuperTarget() {
 	}

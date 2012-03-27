@@ -4,11 +4,11 @@ import java.util.Collections;
 import java.util.List;
 
 import chameleon.core.element.Element;
-import chameleon.core.namespace.NamespaceElementImpl;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public class AnnotationReference extends NamespaceElementImpl {
+public class AnnotationReference extends ElementImpl {
 	
 	private String referencedName;
 	

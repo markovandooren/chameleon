@@ -9,24 +9,20 @@ import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.DeclaratorSelector;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.lookup.TwoPhaseDeclarationSelector;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.expression.MethodInvocation;
-import chameleon.oo.member.MoreSpecificTypesOrder;
-import chameleon.oo.member.SimpleNameDeclarationWithParametersSignature;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.generics.ActualTypeArgument;
 import chameleon.util.Util;
 
-public class CrossReferenceWithArguments extends NamespaceElementImpl {
+public class CrossReferenceWithArguments extends ElementImpl {
 	
 	public CrossReferenceWithArguments() {
 		

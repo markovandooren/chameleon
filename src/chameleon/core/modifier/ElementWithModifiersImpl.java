@@ -9,12 +9,12 @@ import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.element.Element;
-import chameleon.core.namespace.NamespaceElementImpl;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
 
-public abstract class ElementWithModifiersImpl extends NamespaceElementImpl implements ElementWithModifiers {
+public abstract class ElementWithModifiersImpl extends ElementImpl implements ElementWithModifiers {
 
   /*************
    * MODIFIERS *

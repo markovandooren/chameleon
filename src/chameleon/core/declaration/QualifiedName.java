@@ -2,7 +2,7 @@ package chameleon.core.declaration;
 
 import java.util.List;
 
-import chameleon.core.namespace.NamespaceElementImpl;
+import chameleon.core.element.ElementImpl;
 
 /**
  * A class for representing qualified names. A qualified name is a sequence of signatures where each signature 
@@ -12,7 +12,7 @@ import chameleon.core.namespace.NamespaceElementImpl;
  *
  * @param <E>
  */
-public abstract class QualifiedName extends NamespaceElementImpl {
+public abstract class QualifiedName extends ElementImpl {
 
 	/**
 	 * Return the signatures that make up this qualified name.

@@ -2,7 +2,6 @@ package chameleon.oo.variable;
 
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.element.Element;
-import chameleon.core.namespace.NamespaceElement;
 
 /**
  * @author Marko van Dooren
@@ -18,6 +17,6 @@ public interface VariableContainer extends Element, DeclarationContainer {
 	 * and the element that defines the scope of the formal parameter.   
 	 * @return
 	 */
-	public NamespaceElement variableScopeElement();
+	public Element variableScopeElement();
 	
 }

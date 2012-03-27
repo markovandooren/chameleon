@@ -8,20 +8,19 @@ import org.rejuse.java.collections.RobustVisitor;
 import org.rejuse.java.collections.Visitor;
 
 import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.statement.CheckedExceptionList;
 import chameleon.oo.statement.ExceptionSource;
 import chameleon.oo.statement.Statement;
-import chameleon.oo.statement.StatementImpl;
 import chameleon.oo.statement.StatementListContainer;
 
 /**
  * @author Marko van Dooren
  */
-public class SwitchCase extends NamespaceElementImpl implements StatementListContainer, ExceptionSource {
+public class SwitchCase extends ElementImpl implements StatementListContainer, ExceptionSource {
 
   public SwitchCase() {
 	}

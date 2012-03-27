@@ -4,18 +4,16 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.rejuse.java.collections.RobustVisitor;
-import org.rejuse.predicate.TypePredicate;
 
-import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespace.NamespaceElementImpl;
 
 /**
  * @author Marko van Dooren
  */
 
-public abstract class StatementImpl extends NamespaceElementImpl implements Statement {
+public abstract class StatementImpl extends ElementImpl implements Statement {
 
 
   protected StatementImpl() {
