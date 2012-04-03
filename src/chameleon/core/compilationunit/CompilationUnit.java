@@ -3,7 +3,6 @@ package chameleon.core.compilationunit;
 import java.util.Iterator;
 import java.util.List;
 
-import org.rejuse.association.Association;
 import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.element.Element;

@@ -29,7 +29,7 @@ public class MatchResult<T extends Element> {
 		return expression;
 	}
 
-	private void setJoinpoint(T joinpoint) {
+	public void setJoinpoint(T joinpoint) {
 		this.joinpoint = joinpoint;
 	}
 

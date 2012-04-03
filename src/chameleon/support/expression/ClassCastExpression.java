@@ -2,15 +2,16 @@ package chameleon.support.expression;
 
 import java.util.Set;
 
+import org.rejuse.association.AssociationListener;
+
+import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.reference.CrossReferenceTarget;
-import chameleon.core.validation.BasicProblem;
-import chameleon.core.validation.Valid;
-import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
+import chameleon.util.CreationStackTrace;
 import chameleon.util.Util;
 
 /**
@@ -18,7 +19,12 @@ import chameleon.util.Util;
  * @author Tim Laeremans
  */
 public class ClassCastExpression extends ExprTypeRefContainingExpression {
-
+	
+	@Override
+	public void disconnect() {
+		super.disconnect();
+	}
+	
   public ClassCastExpression(TypeReference type, Expression expression) {
 	  setTypeReference(type);
     setExpression(expression);
@@ -35,7 +41,8 @@ public class ClassCastExpression extends ExprTypeRefContainingExpression {
   }
 
   public ClassCastExpression clone() {
-    return new ClassCastExpression((TypeReference)getTypeReference().clone(), getExpression().clone());
+    ClassCastExpression classCastExpression = new ClassCastExpression((TypeReference)getTypeReference().clone(), getExpression().clone());
+		return classCastExpression;
   }
 
   public Set<Type> getDirectExceptions() throws LookupException {

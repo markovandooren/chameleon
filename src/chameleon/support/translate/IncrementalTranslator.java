@@ -26,9 +26,13 @@ public abstract class  IncrementalTranslator<S extends Language, T extends Langu
 	}
 	
 	private boolean _initialized=false;
-	
+
 	protected void initTargetLanguage() throws LookupException {
-		if (! _initialized) {
+		initTargetLanguage(false);
+	}
+	protected void initTargetLanguage(boolean force) throws LookupException {
+		if ((! _initialized) || force) {
+			_implementationMap = new HashMap<CompilationUnit,CompilationUnit>();
 			Set<CompilationUnit> compilationUnits = new HashSet<CompilationUnit>();
 			for(NamespacePart nsp: sourceLanguage().defaultNamespace().descendants(NamespacePart.class)) {
 				CompilationUnit cu = nsp.nearestAncestor(CompilationUnit.class);

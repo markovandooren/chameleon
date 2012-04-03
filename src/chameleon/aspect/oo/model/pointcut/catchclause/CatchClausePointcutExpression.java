@@ -11,13 +11,14 @@ public abstract class CatchClausePointcutExpression extends AbstractPointcutExpr
 
 	@Override
 	public MatchResult match(Statement joinpoint) throws LookupException {
-		if (!(joinpoint.parent() instanceof CatchClause))
+		if (! doesMatch(joinpoint)) {
 			return MatchResult.noMatch();
-		
-		if (((CatchClause) joinpoint.parent()).statement() != joinpoint)
-			return MatchResult.noMatch();
-		
+		}
 		return new MatchResult<Element>(this, joinpoint);
+	}
+	
+	protected boolean doesMatch(Statement joinpoint) throws LookupException {
+		return (joinpoint.parent() instanceof CatchClause) && (((CatchClause) joinpoint.parent()).statement() == joinpoint); 
 	}
 
 	@Override

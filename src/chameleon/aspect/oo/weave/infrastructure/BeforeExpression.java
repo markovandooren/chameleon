@@ -1,6 +1,8 @@
 package chameleon.aspect.oo.weave.infrastructure;
 
+import chameleon.aspect.oo.weave.factory.OOFactory;
 import chameleon.core.lookup.LookupException;
+import chameleon.oo.expression.Expression;
 import chameleon.oo.statement.Block;
 
 public class BeforeExpression extends AdvisedExpressionFactory {
@@ -18,12 +20,15 @@ public class BeforeExpression extends AdvisedExpressionFactory {
 		/*
 		 *	Add the advice-body itself 
 		 */
-		adviceBody.addBlock(factory().getAdvice().body().clone());
+		ExpressionInfrastructureFactory factory = factory();
+		adviceBody.addBlock(factory.getAdvice().body().clone());
 		
 		/*
 		 * 	Add the return statement
 		 */
-		adviceBody.addStatement(ooFactory().createReturn(factory().getNextExpression()));
+		OOFactory ooFactory = ooFactory();
+		Expression nextExpression = factory.getNextExpression();
+		adviceBody.addStatement(ooFactory.createReturn(nextExpression));
 		
 		return adviceBody;
 	}

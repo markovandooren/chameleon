@@ -6,15 +6,12 @@ package chameleon.eclipse.editors;
 
 import org.eclipse.jface.text.IDocument;
 
-import chameleon.eclipse.connector.EclipseEditorTag;
-import chameleon.oo.method.Method;
-import chameleon.oo.type.Type;
-
 
 /**
  * @author Jef Geerinckx
  * @author Manuel Van Wesemael 
- * @author Joeri Hendrickx 
+ * @author Joeri Hendrickx
+ * @author Marko van Dooren 
  * 
  * A class used to synchronize a ChameleonDocument.
  * It detects when the document is changed and reacts accordingly
@@ -27,57 +24,7 @@ public class DocumentSynchronizer {
 		_document = document;
 	}
 	
-	/**
-	 * Triggered when a type name is changed. 
-	 * All necessary changes are made.
-	 */
-	public void onTypeNameChangedEvent(Type type){
-		System.out.println("Synchroniser : Detected Type Name Change");
-		EclipseEditorTag dec = (EclipseEditorTag)type.tag(EclipseEditorTag.NAME_TAG);
-//		for (int i = 0; i < decs.length; i++) {
-//			Decorator dec = (Decorator) decs[i];
-			replaceInDocument(dec.getOffset(),dec.getLength(),type.getName());
-//		}
-	}
-	
-	
-	/**
-	 * Triggered when a variable name is changed. 
-	 * All necessary changes are made.
-	 */
-	public void onVariableNameChangedEvent(Type type){
-		System.out.println("Synchroniser : Detected Variable Name Change");
-		EclipseEditorTag deco = (EclipseEditorTag) type.tag(EclipseEditorTag.ALL_TAG);
-//		for (int i = 0; i < deco.length; i++) {
-//			Decorator pos = (Decorator) deco[i];
-			try{
-				IDocument document = _document;
-				document.replace(deco.getOffset(),deco.getLength(),type.getName());
-			}catch(Exception exc){
-			 throw new Error("replacement in document not possible!");
-			}
-//		}
-	}
-	
-	
-	/**
-	 * Triggered when a method name is changed. 
-	 * All necessary changes are made.
-	 */
-	public void onMethodNameChangedEvent(Method method){
-		System.out.println("Synchroniser : Detected Method Name Change");
-		
-		EclipseEditorTag deco = (EclipseEditorTag) method.tag(EclipseEditorTag.NAME_TAG);
-		//for (int i = 0; i < deco.length; i++) {
-			try{
-				IDocument document = _document;
-				document.replace(deco.getOffset(),deco.getLength(),method.name());
-			}
-			catch (Exception exc) {
-				   throw new Error("replacement in document not possible!");
-			}
-	}
-	
+
 	/**
 	 * Replaces the piece of code at offset with given length by the new code 
 	 * @param offset
@@ -123,6 +70,5 @@ public class DocumentSynchronizer {
 		}
 	}
 	
-
 }
 

@@ -48,7 +48,7 @@ public abstract class ThreePhaseCoordinator<T extends Element> extends AbstractC
 		};
 		
 		// Cast is safe due to the filter
-		ParameterExposurePointcutExpression<?> parameterTree = (ParameterExposurePointcutExpression<?>) initialTree.retainOnly(parameterInjectionFilter);
+		PointcutExpression<?> parameterTree = initialTree.retainOnly(parameterInjectionFilter);
 		for (FormalParameter fp : parameters) {
 			ParameterExposurePointcutExpression<?> exposingParameter = searchParameterExpression(parameterTree, fp);
 			List<Statement> parameterInjector = getAdviceTransformationProvider().getRuntimeParameterInjectionProvider(exposingParameter).getParameterExposureDeclaration((ParameterExposurePointcutExpression<?>) exposingParameter.origin(), fp);
@@ -58,13 +58,22 @@ public abstract class ThreePhaseCoordinator<T extends Element> extends AbstractC
 		return secondPhase;
 	}
 
-	private ParameterExposurePointcutExpression<?> searchParameterExpression(ParameterExposurePointcutExpression<?> parameterTree, final FormalParameter fp) {
-		return (ParameterExposurePointcutExpression<?>) parameterTree.origin().descendants(ParameterExposurePointcutExpression.class, new SafePredicate<ParameterExposurePointcutExpression>() {
+	private ParameterExposurePointcutExpression<?> searchParameterExpression(PointcutExpression<?> parameterTree, final FormalParameter fp) {
+		SafePredicate<ParameterExposurePointcutExpression> predicate = new SafePredicate<ParameterExposurePointcutExpression>() {
 			@Override
 			public boolean eval(ParameterExposurePointcutExpression object) {
 				return object.hasParameter(fp);
 			}
-		});
+		};
+		if(parameterTree instanceof ParameterExposurePointcutExpression  &&  predicate.eval((ParameterExposurePointcutExpression) parameterTree)) {
+			return (ParameterExposurePointcutExpression<?>) parameterTree;
+		}
+		List<ParameterExposurePointcutExpression> descendants = parameterTree.origin().descendants(ParameterExposurePointcutExpression.class, predicate);
+		if(descendants.isEmpty()) {
+			return null;
+		} else {
+			return (ParameterExposurePointcutExpression<?>) descendants.get(0);
+		}
 	}
 	
 }

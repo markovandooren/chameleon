@@ -43,10 +43,10 @@ public abstract class AspectWeaver {
 	 * 			All other compilation units
 	 * 	@throws LookupException
 	 */
-	public void weave(CompilationUnit compilationUnit, Collection<CompilationUnit> aspectCompilationUnits) throws LookupException {
+	public List<JoinPointWeaver> weave(CompilationUnit compilationUnit, Collection<CompilationUnit> aspectCompilationUnits) throws LookupException {
 //		if (!compilationUnit.hasDescendant(Aspect.class)) {
 			Map<Element, List<JoinPointWeaver>> weavingMap = getAllWeavers(compilationUnit, aspectCompilationUnits);
-			
+			List<JoinPointWeaver> heads = new ArrayList<JoinPointWeaver>();
 			for (Entry<Element, List<JoinPointWeaver>> entry : weavingMap.entrySet()) {
 				List<JoinPointWeaver> weavingEncapsulators = entry.getValue();
 				
@@ -55,13 +55,15 @@ public abstract class AspectWeaver {
 				
 				// Transform the weaving encapsulation list to a double linked list
 				JoinPointWeaver weavingChain = JoinPointWeaver.fromIterable(weavingEncapsulators);
-				
-				// Start the weaving
-				weavingChain.weave();
+				heads.add(weavingChain);
 			}
-//		}
+			return heads;
+//			for(JoinPointWeaver weaver:heads) {
+//				// Start the weaving
+//				weaver.weave();
+//			}
 	}
-	
+		
 	public Comparator<JoinPointWeaver> sorter() {
 		return _sorter;
 	}

@@ -19,7 +19,6 @@ import chameleon.eclipse.editors.ChameleonSourceViewerConfiguration;
 import chameleon.eclipse.project.ChameleonProjectNature;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.ModelFactory;
-import chameleon.oo.type.Type;
 
 
 /**
@@ -405,12 +404,13 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 		}
 	}
 	
-	public static void showTypeSize(Namespace root) {
-		for(Type type:root.descendants(Type.class)) {
-		  int size = type.descendants(Element.class).size();
-		  System.out.println(type.getFullyQualifiedName()+" contains "+size+" elements");
-		}
-	}
+//	public static void showTypeSize(Namespace root) {
+//		for(Type type:root.descendants(Type.class)) {
+//		  int size = type.descendants(Element.class).size();
+//		  System.out.println(type.getFullyQualifiedName()+" contains "+size+" elements");
+//		}
+//	}
+	
 	public void reconcile(ChameleonDirtyRegion dirtyRegion, IRegion subRegion){
 		Language language = getDocument().compilationUnit().language();
 		if(language != null) {

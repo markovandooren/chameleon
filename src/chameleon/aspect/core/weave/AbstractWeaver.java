@@ -6,6 +6,7 @@ import chameleon.aspect.core.weave.infrastructure.AdviceInfrastructureFactory;
 import chameleon.aspect.core.weave.transform.JoinPointTransformer;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
+import chameleon.exception.ChameleonProgrammerException;
 
 /**
  *	For general info about how the elementWeavers work, see Weaver.java 
@@ -13,7 +14,7 @@ import chameleon.core.lookup.LookupException;
  * 	@author Jens
  *
  */
-public abstract class AbstractWeaver<T extends Element, U> implements Weaver<T, U> {
+public abstract class AbstractWeaver<T extends Element, U extends Element> implements Weaver<T, U> {
 	
 	public AbstractWeaver() {
 	}
@@ -73,9 +74,9 @@ public abstract class AbstractWeaver<T extends Element, U> implements Weaver<T, 
 		if (isHandled != null)
 			return isHandled;
 		
-		if (next() == null)
+		if (next() == null) {
 			throw new RuntimeException("No matching weaver found in chain for joinpoint of type " + joinpoint.getJoinpoint().getClass());
-		
+		}
 		return next().weave(advice, joinpoint);
 		
 	}

@@ -38,7 +38,7 @@ import chameleon.core.lookup.LookupException;
  * @param <T>	The type of the join point (a subtype of Element)
  * @param <U>	The type of the weaving result (can be anything, e.g. a MethodInvocation, or a List<Statement>, ...)
  */
-public interface Weaver<T extends Element, U> {
+public interface Weaver<T extends Element, U extends Element> {
 
 	/**
 	 * 	The start of the weaving process - each weaver is called until one can handle it. No further weavers are called once handled

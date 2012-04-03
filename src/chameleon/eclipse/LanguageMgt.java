@@ -279,7 +279,9 @@ public class LanguageMgt {
     }
 
 		public List<String> extensions(Language language) {
-			return languages.get(language.name()).fileExtensions();
+			String name = language.name();
+			EclipseBootstrapper eclipseBootstrapper = languages.get(name);
+			return eclipseBootstrapper.fileExtensions();
 		}
 
 		//FIXME BUILDER SHOULD BE CONNECTOR!!!

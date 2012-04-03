@@ -9,6 +9,7 @@ import java.util.List;
 
 import chameleon.core.language.Language;
 import chameleon.eclipse.LanguageMgt;
+import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
 import chameleon.plugin.build.Builder;
@@ -29,10 +30,23 @@ public abstract class EclipseBootstrapper {
 		registerFileExtensions();
 	}
 	
+	public EclipseBootstrapper(String name) {
+		this();
+		if(name == null) {
+			// Let's adopt Martin Rinard's vision and not make the tool crash. Really interesting vision.
+			name = "unknown language "+getClass().getPackage().getName(); 
+		}
+		_name = name;
+	}
+	
+	private String _name;
+	
 	/**
 	 * @return Informal name of the supported language
 	 */
-	public abstract String getLanguageName();
+	public String getLanguageName() {
+		return _name;
+	}
 	
 	/**
 	 * @return Version information of the supported language
@@ -99,7 +113,12 @@ public abstract class EclipseBootstrapper {
 	
 	protected void loadAPIFiles(String extension, String pluginId, ModelFactory factory) throws IOException, ParseException {
 		FilenameFilter filter = LanguageMgt.fileNameFilter(extension);
-		URL directory = LanguageMgt.pluginURL(pluginId, "api/");
+		URL directory;
+		try {
+		  directory = LanguageMgt.pluginURL(pluginId, "api/");
+		} catch(NullPointerException exc) {
+			throw new ChameleonProgrammerException("No directory named 'api' is found to load the API.");
+		}
 		List<File> files = LanguageMgt.allFiles(directory, filter);
 		System.out.println("Loading "+files.size()+" API files.");	
 		factory.initializeBase(files);

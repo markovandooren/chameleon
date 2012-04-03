@@ -33,6 +33,9 @@ public class NamedTargetExpression extends TargetedExpression implements CrossRe
   public NamedTargetExpression(String identifier) {
   	_signature = new SimpleNameSignature(identifier);
   	setName(identifier);
+  	if(identifier.equals("teamB") || identifier.equals("teamA") || identifier.equals("no")) {
+  		System.out.println("debug");
+  	}
 	}
 
   public NamedTargetExpression(String identifier, CrossReferenceTarget target) {

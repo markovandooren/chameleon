@@ -2,14 +2,11 @@ package chameleon.eclipse.presentation.autocompletion;
 
 import java.util.Comparator;
 
-import org.rejuse.predicate.SafePredicate;
-
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.eclipse.ChameleonEditorPlugin;
 import chameleon.eclipse.editors.preferences.ChameleonEditorPreferencePage;
 import chameleon.eclipse.presentation.treeview.ChameleonLabelProvider;
-import chameleon.oo.type.Type;
 
 /**
  * Used to sort the results of the auto-completion.
@@ -24,7 +21,7 @@ import chameleon.oo.type.Type;
 public class AutoCompletionProposalsComparator implements Comparator<Element> {
 
 	protected String nameStart;
-	protected SafePredicate<Type> typePredicate;
+//	protected SafePredicate<Type> typePredicate;
 	protected ChameleonLabelProvider labelProvider;
 	
 	
@@ -37,9 +34,9 @@ public class AutoCompletionProposalsComparator implements Comparator<Element> {
 	 * @param typePredicate 
 	 * @param language the language we are currently working in
 	 */
-	public AutoCompletionProposalsComparator(String nameStart, SafePredicate<Type> typePredicate, Language language) {
+	public AutoCompletionProposalsComparator(String nameStart, Language language) {
 		this.nameStart = nameStart;
-		this.typePredicate = typePredicate;
+//		this.typePredicate = typePredicate;
 		labelProvider = new ChameleonLabelProvider(language, true, true, false);
 	}
 

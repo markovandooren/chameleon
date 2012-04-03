@@ -41,18 +41,22 @@ public class TypeCatchClausePointcutExpression extends CatchClausePointcutExpres
 		setAsParent(_subtypeMarker, marker);
 	}
 	
-	@Override
-	public MatchResult match(Statement element) throws LookupException {	
-		if (!super.matches(element).isMatch())
-			return MatchResult.noMatch();
-		
-		// Currently not using the sub type marker for our checks...
-		if (!((CatchClause) element.parent()).getExceptionParameter().getType().assignableTo(exceptionType().getType()))
-			return MatchResult.noMatch();
-		
-		return new MatchResult(this, element);
-	}
+//	@Override
+//	public MatchResult match(Statement element) throws LookupException {	
+////		if (!super.matches(element).isMatch())
+////			return MatchResult.noMatch();
+////		
+////		// Currently not using the sub type marker for our checks...
+//		if (!((CatchClause) element.parent()).getExceptionParameter().getType().assignableTo(exceptionType().getType()))
+//			return MatchResult.noMatch();
+//		
+//		return new MatchResult(this, element);
+//	}
 
+	protected boolean doesMatch(Statement joinpoint) throws LookupException {
+		return super.doesMatch(joinpoint) && ((CatchClause) joinpoint.parent()).getExceptionParameter().getType().assignableTo(exceptionType().getType());
+	}
+	
 	@Override
 	public List<? extends Element> children() {
 		List<Element> result = new ArrayList<Element>();

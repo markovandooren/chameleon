@@ -2,6 +2,9 @@ package chameleon.aspect.core.weave;
 
 import java.util.Iterator;
 
+import org.rejuse.association.Association;
+import org.rejuse.association.SingleAssociation;
+
 import chameleon.aspect.core.model.advice.Advice;
 import chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import chameleon.aspect.core.weave.infrastructure.AdviceInfrastructureFactory;
@@ -29,7 +32,7 @@ import chameleon.core.lookup.LookupException;
  * 	@param <T>	The type of the joinpoint
  * 	@param <U>	The type of the result
  */
-public class JoinPointWeaver<T extends Element, U> {
+public class JoinPointWeaver<T extends Element, U extends Element> {
 	/**
 	 * 	The weaving provider
 	 */
@@ -103,14 +106,19 @@ public class JoinPointWeaver<T extends Element, U> {
 	 * 	
 	 * 	@throws LookupException	FIXME: check this
 	 */
-	public U weave() throws LookupException {
+	public void weave() throws LookupException {
+
 		// Get the weaving result
 		U result = getJoinPointTransformer().transform();
 		
 		// Generate the advice infrastructure.
 		getAdviceInfrastructureFactory().transform(getAdvice(), getJoinpoint());
 
-		return result;
+		T joinpointShadow = getJoinpoint().getJoinpoint();
+		SingleAssociation parentLink = joinpointShadow.parentLink();
+		parentLink.getOtherRelation().replace(parentLink, (Association)result.parentLink());
+
+//		return result;
 //		if (_next != null)
 //			_next.weave();
 	}

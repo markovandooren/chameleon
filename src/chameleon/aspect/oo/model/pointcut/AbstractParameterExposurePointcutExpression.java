@@ -20,16 +20,14 @@ public abstract class AbstractParameterExposurePointcutExpression extends Abstra
 			return -1;	
 		
 		for (int i = 0; i < parameters().size(); i++) {
-			try {
-				if (parameters().get(i).getElement() instanceof FormalParameter) {
-					FormalParameter param = (FormalParameter) parameters().get(i).getElement();
-					
-					if (param.signature().name().equals(fp.signature().name()) && param.getType().sameAs(fp.getType()))
+					if (parameters().get(i).signature().name().equals(fp.signature().name()))
 						return i;
-				}
-			} catch (LookupException e) {
-				// Ignore
-			}
+//				if (parameters().get(i).getElement() instanceof FormalParameter) {
+//					FormalParameter param = (FormalParameter) parameters().get(i).getElement();
+//					
+//					if (param.signature().name().equals(fp.signature().name()) && param.getType().sameAs(fp.getType()))
+//						return i;
+//				}
 		}
 		
 		return -1;

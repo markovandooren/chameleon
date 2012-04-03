@@ -13,7 +13,7 @@ import chameleon.core.lookup.LookupException;
  *
  * 	@param <T>	The type of join point. This extends Element.
  */
-public interface JoinPointTransformer<T extends Element,U> {
+public interface JoinPointTransformer<T extends Element,U extends Element> {
 	
 	public JoinPointWeaver<T,U> joinPointWeaver();
 	

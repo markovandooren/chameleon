@@ -10,7 +10,7 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.exception.ChameleonProgrammerException;
 
-public abstract class AbstractJoinPointTransformerSupportingRuntimeTransformation<T extends Element,U> extends AbstractJoinPointTransformer<T,U> implements RuntimeTransformationProvider<T> {
+public abstract class AbstractJoinPointTransformerSupportingRuntimeTransformation<T extends Element,U extends Element> extends AbstractJoinPointTransformer<T,U> implements RuntimeTransformationProvider<T> {
 	/**
 	 * 	{@inheritDoc}
 	 * @throws LookupException 
