@@ -100,7 +100,7 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 	  UnsafeAction<File,Exception> unsafeAction = new UnsafeAction<File,Exception>() {
 		public void actuallyPerform(File file) throws IOException, ParseException {
 					counter.increase();
-					System.out.println(counter.get()+" of "+size);
+//					System.out.println(counter.get()+" of "+size);
   			  addToModel(file);
 		} 
 	  };

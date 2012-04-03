@@ -33,6 +33,10 @@ import chameleon.exception.ChameleonProgrammerException;
  */
 public class NamespacePart extends ElementImpl implements DeclarationContainer {
 
+  static {
+    excludeFieldName(NamespacePart.class,"_namespaceLink");
+  }
+  
 	private final class DefaultNamespaceSelector implements LookupStrategySelector {
 		public LookupStrategy strategy() throws LookupException {
 			// 5 SEARCH IN DEFAULT NAMESPACE

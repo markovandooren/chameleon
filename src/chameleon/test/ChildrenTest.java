@@ -114,6 +114,7 @@ public class ChildrenTest extends ModelTest {
 		} catch(AssertionError err) {
 			reflchildren = reflectiveChildren(element);
 		}
+//		assertEquals(msg,reflchildren,children);
 		//assertTrue(msg,reflchildren.containsAll(implchildren) && implchildren.containsAll(reflchildren));
 	}
 
