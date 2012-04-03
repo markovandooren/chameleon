@@ -26,6 +26,8 @@ import chameleon.core.language.Language;
 import chameleon.core.language.WrongLanguageException;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
+import chameleon.core.namespace.Namespace;
+import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.tag.Tag;
 import chameleon.core.validation.BasicProblem;
@@ -1040,6 +1042,16 @@ public abstract class ElementImpl implements Element {
     	}
     }
     
+  	public Namespace getNamespace() {
+  		NamespacePart ancestor = nearestAncestor(NamespacePart.class);
+  		if(ancestor != null) {
+  		  return ancestor.namespace();
+  		} else {
+  			return null;
+  		}
+  	}
+  	
+
 //    public Iterator<Element> depthFirstIterator() {
 //    	return new Iterator<Element>() {
 //

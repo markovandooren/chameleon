@@ -15,6 +15,7 @@ import chameleon.core.language.Language;
 import chameleon.core.language.WrongLanguageException;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
+import chameleon.core.namespace.Namespace;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.tag.Tag;
 import chameleon.core.validation.VerificationResult;
@@ -387,12 +388,13 @@ public interface Element {
     
     
     // TODO: documentation
-	public <T extends Element> boolean hasDescendant(Class<T> c);
+	  public <T extends Element> boolean hasDescendant(Class<T> c);
 
-	// TODO: documentation
-	public <T extends Element> boolean hasDescendant(Class<T> c, SafePredicate<T> predicate);
+	  // TODO: documentation
+	  public <T extends Element> boolean hasDescendant(Class<T> c, SafePredicate<T> predicate);
 
-    
+  
+	  
     /**
      * Return the descendants of the given type that are themselves no descendants of an element of the given type. In other words,
      * do a deep search for elements of the given type, but if you have found one, don't search its descendants.
@@ -1148,6 +1150,8 @@ public interface Element {
      @*/
     public abstract boolean uniSameAs(Element other) throws LookupException;
     
+  	public Namespace getNamespace();
+
     /**
      * Flush any caching this element may have.
      * This method flushes the local cache using "flushLocalCache()" and then

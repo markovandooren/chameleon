@@ -13,7 +13,6 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.statement.CheckedExceptionList;
@@ -131,7 +130,7 @@ public class CatchClause extends Clause implements VariableContainer {
 //    return result;
 //  }
 
-	public NamespaceElement variableScopeElement() {
+	public Element variableScopeElement() {
 		return this;
 	}
 

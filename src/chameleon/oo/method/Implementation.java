@@ -1,14 +1,14 @@
 package chameleon.oo.method;
 
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.oo.statement.Block;
 
 /**
  * @author Marko van Dooren
  */
 
-public abstract class Implementation extends NamespaceElementImpl {
+public abstract class Implementation extends ElementImpl {
 
   public Implementation() {
     }

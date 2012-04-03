@@ -8,11 +8,10 @@ import org.rejuse.java.collections.RobustVisitor;
 import org.rejuse.java.collections.Visitor;
 
 import chameleon.core.declaration.Declaration;
-import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.statement.CheckedExceptionList;
@@ -25,7 +24,7 @@ import chameleon.oo.statement.Statement;
  * 
  * @author Marko van Dooren
  */
-public class StatementExprList extends NamespaceElementImpl implements ForInit, ExceptionSource {
+public class StatementExprList extends ElementImpl implements ForInit, ExceptionSource {
 
 	public StatementExprList() {
 	}

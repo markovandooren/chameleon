@@ -14,11 +14,11 @@ import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.LookupStrategyFactory;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
@@ -28,7 +28,7 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
 import chameleon.util.Util;
 
-public class Aspect extends NamespaceElementImpl implements DeclarationContainer, Declaration {
+public class Aspect extends ElementImpl implements DeclarationContainer, Declaration {
 	
 	public Aspect(String name) {
 		this(new SimpleNameSignature(name));

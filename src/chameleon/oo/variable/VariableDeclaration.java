@@ -9,12 +9,12 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LexicalLookupStrategy;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -23,7 +23,7 @@ import chameleon.oo.expression.Expression;
 import chameleon.oo.type.Type;
 import chameleon.util.Util;
 
-public class VariableDeclaration extends NamespaceElementImpl implements DeclarationContainer {
+public class VariableDeclaration extends ElementImpl implements DeclarationContainer {
 
 	public VariableDeclaration(String name) {
 		this(new SimpleNameSignature(name), null);

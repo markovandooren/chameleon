@@ -4,9 +4,6 @@ import java.util.List;
 
 import chameleon.core.Config;
 import chameleon.core.declaration.Signature;
-import chameleon.core.lookup.LookupException;
-import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;

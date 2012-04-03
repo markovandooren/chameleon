@@ -4,17 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.rejuse.predicate.Not;
 import org.rejuse.predicate.SafePredicate;
-import org.rejuse.predicate.UnsafePredicate;
 
 import chameleon.core.compilationunit.CompilationUnit;
 import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
-import chameleon.oo.variable.FormalParameter;
 
 /**
  * 	An abstract class with a default implementation for most methods of a pointcut expression.
@@ -22,7 +19,7 @@ import chameleon.oo.variable.FormalParameter;
  * 	@author Jens De Temmerman
  *  @author Marko van Dooren
  */
-public abstract class AbstractPointcutExpression<J extends Element> extends NamespaceElementImpl implements PointcutExpression<J> {
+public abstract class AbstractPointcutExpression<J extends Element> extends ElementImpl implements PointcutExpression<J> {
 	/**
 	 *  {@inheritDoc}
 	 */

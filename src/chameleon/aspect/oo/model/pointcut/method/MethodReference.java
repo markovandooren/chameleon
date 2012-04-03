@@ -8,8 +8,8 @@ import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.QualifiedName;
 import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -27,7 +27,7 @@ import chameleon.util.Util;
  * 	@author Jens De Temmerman
  *  @author Marko van Dooren
  */
-public class MethodReference extends NamespaceElementImpl {
+public class MethodReference extends ElementImpl {
 	
 	public MethodReference(QualifiedName fqn, TypeReference type, String typeNameWithWC) {
 		setTypeNameWithWC(typeNameWithWC);

@@ -12,6 +12,7 @@ import org.rejuse.predicate.TypePredicate;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.language.Language;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LocalLookupStrategy;
@@ -20,7 +21,6 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.lookup.LookupStrategySelector;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
@@ -31,7 +31,7 @@ import chameleon.exception.ChameleonProgrammerException;
  * @author Marko van Dooren
  * @author Tim Laeremans
  */
-public class NamespacePart extends NamespaceElementImpl implements DeclarationContainer {
+public class NamespacePart extends ElementImpl implements DeclarationContainer {
 
 	private final class DefaultNamespaceSelector implements LookupStrategySelector {
 		public LookupStrategy strategy() throws LookupException {

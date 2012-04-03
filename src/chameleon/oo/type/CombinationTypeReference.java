@@ -6,11 +6,11 @@ import java.util.List;
 import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElementImpl;
 
-public abstract class CombinationTypeReference extends NamespaceElementImpl implements TypeReference {
+public abstract class CombinationTypeReference extends ElementImpl implements TypeReference {
 
 	public abstract CombinationTypeReference clone();
 

@@ -1,6 +1,6 @@
 package chameleon.support.statement;
 
-import chameleon.core.namespace.NamespaceElementImpl;
+import chameleon.core.element.ElementImpl;
 
 /**
  * An abstract class of labels for a switch statement.
@@ -8,7 +8,7 @@ import chameleon.core.namespace.NamespaceElementImpl;
  * @author Marko van Dooren
  */
 
-public abstract class SwitchLabel extends NamespaceElementImpl {
+public abstract class SwitchLabel extends ElementImpl {
 
   public SwitchLabel() {
 	}

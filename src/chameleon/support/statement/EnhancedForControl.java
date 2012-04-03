@@ -9,8 +9,6 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespace.NamespaceElement;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
@@ -61,8 +59,8 @@ public class EnhancedForControl extends ForControl {
     setAsParent(_expression,expression);
   }
 
-	public NamespaceElement variableScopeElement() {
-		return nearestAncestor(NamespaceElement.class);
+	public Element variableScopeElement() {
+		return nearestAncestor(Element.class);
 	}
 
 	public List<LocalVariable> declarations() throws LookupException {

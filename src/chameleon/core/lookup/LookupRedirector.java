@@ -6,12 +6,12 @@ import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
-import chameleon.core.namespace.NamespaceElementImpl;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.util.Util;
 
-public class LookupRedirector extends NamespaceElementImpl implements Stub {
+public class LookupRedirector extends ElementImpl implements Stub {
 
 	public LookupRedirector(Element contextElement) {
 		setContextElement(contextElement);

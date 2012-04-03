@@ -6,14 +6,14 @@ import org.apache.log4j.Logger;
 import org.rejuse.predicate.UnsafePredicate;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElementImpl;
 
 /**
  * @author Marko van Dooren
  */
-public abstract class Import extends NamespaceElementImpl {
+public abstract class Import extends ElementImpl {
 
   public Import() {
 	}

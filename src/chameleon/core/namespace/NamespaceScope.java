@@ -22,7 +22,7 @@ public class NamespaceScope extends Scope {
   }
   
 	public boolean contains(Element element) {
-		return (element instanceof NamespaceElement) && (((NamespaceElement)element).getNamespace().equals(getNamespace()));
+		return  element.getNamespace().equals(getNamespace());
 	}
   
  /*@

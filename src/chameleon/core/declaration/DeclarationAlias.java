@@ -6,16 +6,16 @@ import java.util.List;
 import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.core.scope.Scope;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ModelException;
 
-public class DeclarationAlias extends NamespaceElementImpl implements Declaration {
+public class DeclarationAlias extends ElementImpl implements Declaration {
 
 	public DeclarationAlias(Signature signature, Declaration declaration) {
 		setSignature(signature);

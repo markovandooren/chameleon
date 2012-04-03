@@ -6,16 +6,15 @@ import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespace.NamespaceElementImpl;
-import chameleon.core.reference.CrossReferenceWithName;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.util.Util;
 
-public abstract class NonLocalTypeReference extends NamespaceElementImpl implements TypeReference {
+public abstract class NonLocalTypeReference extends ElementImpl implements TypeReference {
 
 	public NonLocalTypeReference(TypeReference tref) {
 	   this(tref,tref.parent());

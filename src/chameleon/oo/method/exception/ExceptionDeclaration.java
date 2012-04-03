@@ -2,15 +2,15 @@ package chameleon.oo.method.exception;
 
 import java.util.Set;
 
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.oo.expression.MethodInvocation;
 
 /**
  * @author Marko van Dooren
  */
 
-public abstract class ExceptionDeclaration extends NamespaceElementImpl {
+public abstract class ExceptionDeclaration extends ElementImpl {
 
   public ExceptionDeclaration() {
 	}

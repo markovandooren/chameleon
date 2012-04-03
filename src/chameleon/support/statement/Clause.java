@@ -2,18 +2,16 @@ package chameleon.support.statement;
 
 import org.rejuse.association.SingleAssociation;
 
-import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.oo.statement.CheckedExceptionList;
 import chameleon.oo.statement.ExceptionSource;
 import chameleon.oo.statement.Statement;
-import chameleon.oo.statement.StatementImpl;
 
 /**
  * @author Marko van Dooren
  */
-public abstract class Clause extends NamespaceElementImpl implements ExceptionSource {
+public abstract class Clause extends ElementImpl implements ExceptionSource {
 
   public Clause(Statement statement) {
     setStatement(statement);

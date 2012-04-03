@@ -2,9 +2,9 @@ package chameleon.oo.type;
 
 import java.util.List;
 
+import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.modifier.ElementWithModifiers;
-import chameleon.core.namespace.NamespaceElement;
 import chameleon.oo.member.Member;
 import chameleon.oo.statement.CheckedExceptionList;
 
@@ -13,7 +13,7 @@ import chameleon.oo.statement.CheckedExceptionList;
  * 
  * @author Marko van Dooren
  */
-public interface TypeElement extends NamespaceElement, ElementWithModifiers {
+public interface TypeElement extends ElementWithModifiers {
 
 	public abstract TypeElement clone();
 

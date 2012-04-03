@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import javax.lang.model.type.NullType;
 
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
@@ -12,11 +11,10 @@ import org.rejuse.association.SingleAssociation;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespace.NamespaceElement;
-import chameleon.core.namespace.NamespaceElementImpl;
 import chameleon.exception.ModelException;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.generics.TypeParameter;
@@ -33,7 +31,7 @@ import chameleon.util.Util;
  * @param <P>
  * @param <S>
  */
-public abstract class DeclarationWithParametersHeader extends NamespaceElementImpl implements VariableContainer { //extends Signature<E, P> 
+public abstract class DeclarationWithParametersHeader extends ElementImpl implements VariableContainer { //extends Signature<E, P> 
   
   public DeclarationWithParametersHeader clone() {
   	DeclarationWithParametersHeader result = cloneThis();
@@ -238,8 +236,8 @@ public abstract class DeclarationWithParametersHeader extends NamespaceElementIm
   	return result;
   }
 
-  public NamespaceElement variableScopeElement() {
-  	return nearestAncestor(NamespaceElement.class);
+  public Element variableScopeElement() {
+  	return nearestAncestor(Element.class);
   }
   
 //  public LookupStrategy lexicalLookupStrategy(Element element) {
