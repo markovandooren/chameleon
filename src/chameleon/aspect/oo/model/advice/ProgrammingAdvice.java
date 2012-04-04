@@ -29,10 +29,6 @@ public abstract class ProgrammingAdvice extends Advice<Block> implements Declara
 		
 	}
 	
-	@Override
-	public LookupStrategy localStrategy() throws LookupException {
-		return localLookupStrategy();
-	}
 	private SingleAssociation<ProgrammingAdvice, TypeReference> _returnType = new SingleAssociation<ProgrammingAdvice, TypeReference>(this);
 
 	protected TypeReference returnType() {
