@@ -27,17 +27,6 @@ public class FinallyClause extends Clause {
     return new FinallyClause(statement().clone());
   }
 
- /*@
-   @ also public behavior
-   @
-   @ post getExpression() != null ==> \result.contains(getExpression());
-   @ post \result.size() == 1;
-   @*/
-  public List<Element> children() {
-    return Util.createNonNullList(statement());
-  }
-
-
 	@Override
 	public VerificationResult verifySelf() {
 		return Valid.create();

@@ -46,12 +46,7 @@ public class DirectImport<D extends Declaration> extends Import {
   
   private Class<D> _kind;
   
-  public List<Element> children() {
-    return Util.createNonNullList(crossReference());
-  }
-
 	private SingleAssociation<DirectImport, CrossReference<D>> _typeReference = new SingleAssociation<DirectImport, CrossReference<D>>(this);
-
   
   public CrossReference<D> crossReference() {
     return _typeReference.getOtherEnd();

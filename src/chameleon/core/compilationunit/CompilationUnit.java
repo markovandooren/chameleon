@@ -43,10 +43,6 @@ public class CompilationUnit extends ElementImpl {
 	 * Children *
 	 ************/
 
-	public List<? extends Element> children() {
-		return namespaceParts();
-	}
-
 	/**
 	 * NAMESPACEPARTS
 	 */

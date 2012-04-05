@@ -99,40 +99,6 @@ public abstract class MethodInvocation<D extends Method>
 		return crossReference().getActualParameterTypes();
 	}
 
-	/*
-	 * @
-	 * 
-	 * @ also public behavior
-	 * 
-	 * @
-	 * 
-	 * @ post \result.contains(actualArgumentList());
-	 * 
-	 * @ post getTarget() != null ==> \result.contains(getTarget());
-	 * 
-	 * @
-	 */
-	public List<Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		Util.addNonNull(crossReference(), result);
-		return result;
-	}
-
-	// public Set getDirectExceptions() throws NotResolvedException {
-	// Set result = getMethodExceptions();
-	// Type npe =
-	// getLanguage().getNullInvocationException(getPackage().getDefaultPackage());
-	// if(npe != null) {
-	// result.add(npe);
-	// }
-	// result.addAll(getTarget().getDirectExceptions());
-	// Iterator iter = getActualParameters().iterator();
-	// while(iter.hasNext()) {
-	// result.addAll(((Expression)iter.next()).getDirectExceptions());
-	// }
-	// return result;
-	// }
-
 	public D getElement() throws LookupException {
 		return (D) getElement(selector());
 	}

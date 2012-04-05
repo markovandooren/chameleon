@@ -11,11 +11,6 @@ import chameleon.core.validation.VerificationResult;
 public class SubtypeMarker extends ElementImpl {
 
 	@Override
-	public List<? extends Element> children() {
-		return Collections.emptyList();
-	}
-
-	@Override
 	public SubtypeMarker clone() {
 		return new SubtypeMarker();
 	}

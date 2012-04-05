@@ -65,16 +65,6 @@ public class StaticInitializer extends TypeElementImpl implements ExceptionSourc
  /*@
    @ also public behavior
    @
-   @ post getBlock() != null ==> \result.contains(getBlock());
-   @ post \result.size() == 1;
-   @*/
-  public List<Element> children() {
-    return Util.createNonNullList(getBlock());
-  }
-
- /*@
-   @ also public behavior
-   @
    @ post \result == getBlock().getCEL();
    @*/
   public CheckedExceptionList getCEL() throws LookupException {

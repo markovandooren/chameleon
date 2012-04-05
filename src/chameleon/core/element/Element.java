@@ -3,6 +3,7 @@ package chameleon.core.element;
 import java.util.Collection;
 import java.util.List;
 
+import org.rejuse.association.Association;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.Predicate;
@@ -69,6 +70,19 @@ public interface Element {
      @ post (\forall Element e; \old(this.contains(e)); e.disconnected());
      @*/
     public void disconnect();
+    
+    /**
+     * Return the objects representing the associations with the lexical children of this element.
+     * The default implementation uses reflection to obtain the list of associations. 
+     * If a language construct uses additional association objects that are not part of the lexical structure,
+     * they should be excluded using the static excludeFieldName method in ElementImpl. 
+     */
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @*/
+    public List<Association<Element,? extends Element>> associations();
     
     /**
      * Check if this element is disconnected. Usually this is true if the

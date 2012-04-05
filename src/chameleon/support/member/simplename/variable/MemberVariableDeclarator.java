@@ -37,13 +37,6 @@ public class MemberVariableDeclarator extends TypeElementImpl implements TypeEle
 		setTypeReference(tref);
 	}
 	
-	public List<Element> children() {
-		List<Element> result = super.children();
-		result.addAll(variableDeclarations());
-		Util.addNonNull(typeReference(),result);
-		return result;
-	}
-	
 	public List<VariableDeclaration> variableDeclarations() {
 		return _declarations.getOtherEnds();
 	}

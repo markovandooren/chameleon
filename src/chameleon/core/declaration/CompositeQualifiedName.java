@@ -66,10 +66,6 @@ public class CompositeQualifiedName extends QualifiedName {
 		return Valid.create();//new BasicProblem(this, "TODO: implement verifySelf of FullyQualifiedName");
 	}
 
-	public List<? extends Element> children() {
-		return signatures();
-	}
-
 	public QualifiedName popped() {
 		CompositeQualifiedName result = clone();
 		result.remove(result.lastSignature());

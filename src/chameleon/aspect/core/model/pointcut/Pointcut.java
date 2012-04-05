@@ -76,13 +76,6 @@ public abstract class Pointcut extends ElementImpl implements Declaration {
 	}
 	
 	@Override
-	public List<Element> children() {
-		List<Element> children = new ArrayList<Element>();
-		Util.addNonNull(expression(), children);
-		return children;
-	}
-	
-	@Override
 	public Declaration selectionDeclaration() throws LookupException {
 		return this;
 	}

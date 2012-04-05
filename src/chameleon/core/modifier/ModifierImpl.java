@@ -33,15 +33,6 @@ public abstract class ModifierImpl extends ElementImpl implements Modifier {
   public abstract ModifierImpl clone();
 
   /**
-   * By default, a modifier has no children, but subclasses are allowed to
-   * change this behavior. Therefore, you cannot rely on children() returning
-   * an empty set.
-   */
-  public List<? extends Element> children() {
-    return new ArrayList<Element>();
-  }
-
-  /**
    * Convenience method for creating an empty propertyset
    */
   protected PropertySet<Element,ChameleonProperty> createSet() {

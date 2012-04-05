@@ -39,12 +39,6 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 		setSuperClassReference(ref);
 	}
 	
-	public List<Element> children() {
-		List<Element> result = super.children();
-		Util.addNonNull(superClassReference(),result);
-		return result;
-	}
-	
 	public Type superElement() throws LookupException {
 		return superClass();
 	}

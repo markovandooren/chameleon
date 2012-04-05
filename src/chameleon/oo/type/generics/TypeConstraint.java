@@ -49,10 +49,6 @@ public abstract class TypeConstraint extends ElementImpl {
 	
 	private SingleAssociation<TypeConstraint,TypeReference> _types = new SingleAssociation<TypeConstraint, TypeReference>(this);
 
-	public List<Element> children() {
-		return Util.createNonNullList(typeReference());
-	} 
-	
 	@Override
 	public TypeConstraint clone() {
 		TypeConstraint result = cloneThis();

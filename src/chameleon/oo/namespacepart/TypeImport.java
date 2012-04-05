@@ -6,7 +6,6 @@ import java.util.List;
 import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespacepart.Import;
@@ -14,7 +13,6 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
-import chameleon.util.Util;
 
 /**
  * @author Marko van Dooren
@@ -25,13 +23,8 @@ public class TypeImport extends Import {
     setTypeReference(ref);
   }
   
-  public List<Element> children() {
-    return Util.createNonNullList(getTypeReference());
-  }
-
 	private SingleAssociation<TypeImport, TypeReference> _typeReference = new SingleAssociation<TypeImport, TypeReference>(this);
 
-  
   public TypeReference getTypeReference() {
     return (TypeReference)_typeReference.getOtherEnd();
   }

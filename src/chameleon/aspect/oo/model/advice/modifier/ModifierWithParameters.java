@@ -81,16 +81,6 @@ public abstract class ModifierWithParameters extends ModifierImpl implements Dec
 		return selector.selection(declarations());
 	}
 
-	/**
-	 * 	{@inheritDoc}
-	 */
-	@Override
-	public List<? extends Element> children() {
-		List<? extends Element> children = super.children();
-		Util.addNonNull(parameter(), children);
-		return children;
-	}
-
 	@Override
 	public ModifierWithParameters clone() {
 		FormalParameter exceptionParameterClone = null;

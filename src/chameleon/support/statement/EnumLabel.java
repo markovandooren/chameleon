@@ -32,10 +32,6 @@ public class EnumLabel extends SwitchLabel implements CrossReference<Variable>{
 		return new EnumLabel(name());
 	}
 
-	public List<? extends Element> children() {
-		return new ArrayList<Element>();
-	}
-	
 	public String name() {
 		return _signature.name();
 	}

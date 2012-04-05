@@ -44,10 +44,6 @@ public class CaseLabel extends SwitchLabel {
     return new CaseLabel(getExpression().clone());
   }
 
-  public List<Element> children() {
-    return Util.createNonNullList(getExpression());
-  }
-
 	@Override
 	public VerificationResult verifySelf() {
 		return checkNull(getExpression(), "The case label has no expression", Valid.create());

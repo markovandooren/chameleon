@@ -41,12 +41,6 @@ public class NamedPointcutExpression extends AbstractPointcutExpression<Element>
 	}
 
 	@Override
-	public List<? extends Element> children() {
-		return Util.createNonNullList(pointcutReference());
-	}
-
-
-	@Override
 	public NamedPointcutExpression clone() {
 		NamedPointcutExpression clone = new NamedPointcutExpression();
 		

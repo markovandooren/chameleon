@@ -1,6 +1,5 @@
 package chameleon.aspect.core.model.advice;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.rejuse.association.SingleAssociation;
@@ -16,7 +15,6 @@ import chameleon.core.modifier.Modifier;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.type.TypeReference;
-import chameleon.util.Util;
 
 public class Advice<B extends Element> extends ElementWithModifiersImpl {
 
@@ -58,17 +56,6 @@ public class Advice<B extends Element> extends ElementWithModifiersImpl {
 
 	public void setPointcutExpression(PointcutExpression<?> pointcutref) {
 		setAsParent(_pointcutExpression, pointcutref);
-	}
-
-	@Override
-	public List<Element> children() {
-		List<Element> result = new ArrayList<Element>();
-
-		Util.addNonNull(body(), result);
-		Util.addNonNull(pointcutExpression(), result);
-		result.addAll(modifiers());
-
-		return result;
 	}
 
 	@Override

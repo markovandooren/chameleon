@@ -54,7 +54,12 @@ public abstract class VariableImpl extends ElementImpl implements Variable {
     return _signature.getOtherEnd();
   }
   
-  private SingleAssociation<VariableImpl, SimpleNameSignature> _signature = new SingleAssociation<VariableImpl, SimpleNameSignature>(this);
+	@Override
+	public String name() {
+		return signature().name();
+	}
+
+	private SingleAssociation<VariableImpl, SimpleNameSignature> _signature = new SingleAssociation<VariableImpl, SimpleNameSignature>(this);
 
 	@Override
 	public VerificationResult verifySelf() {

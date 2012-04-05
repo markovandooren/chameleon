@@ -26,11 +26,6 @@ public class StubDeclarationContainer extends ElementImpl implements Declaration
 	}
 	
 	@Override
-	public List<? extends Element> children() {
-		return declarations();
-	}
-
-	@Override
 	public List<? extends Declaration> declarations() {
 		return _declarations.getOtherEnds();
 	}

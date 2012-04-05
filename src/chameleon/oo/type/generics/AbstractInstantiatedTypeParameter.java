@@ -56,10 +56,6 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 		return new TypeParameterSubstitution(this, crossReferences);
 	}
 
-	public List<Element> children() {
-		return new ArrayList<Element>();
-	}
-	
 	private void setArgument(ActualTypeArgument type) {
 		_argument = type;
 	}

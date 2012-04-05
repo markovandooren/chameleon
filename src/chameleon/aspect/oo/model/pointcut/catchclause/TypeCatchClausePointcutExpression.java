@@ -57,17 +57,7 @@ public class TypeCatchClausePointcutExpression extends CatchClausePointcutExpres
 		return super.doesMatch(joinpoint) && ((CatchClause) joinpoint.parent()).getExceptionParameter().getType().assignableTo(exceptionType().getType());
 	}
 	
-	@Override
-	public List<? extends Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		
-		Util.addNonNull(exceptionType(), result);
-		Util.addNonNull(subtypeMarker(), result);
-		
-		return result;
-	}
-
-	@Override
+  @Override
 	public TypeCatchClausePointcutExpression clone() {
 		TypeCatchClausePointcutExpression clone = new TypeCatchClausePointcutExpression();
 		

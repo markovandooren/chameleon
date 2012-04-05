@@ -116,10 +116,6 @@ public class NamedTargetExpression extends TargetedExpression implements CrossRe
     return result;
 	}
 
-  public List<? extends Element> children() {
-    return Util.createNonNullList(getTarget());
-  }
-
 	public Declaration getDeclarator() throws LookupException {
 		return getElement(new DeclaratorSelector(selector()));
 	}

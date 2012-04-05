@@ -34,11 +34,6 @@ public class ProceedCall extends Expression {
 	}
 
 	@Override
-	public List<? extends Element> children() {
-		return getActualParameters();
-	}
-
-	@Override
 	protected Type actualType() throws LookupException {
 		ProgrammingAdvice parentAdvice = nearestAncestor(ProgrammingAdvice.class);
 			

@@ -78,22 +78,6 @@ public abstract class RegularVariable extends VariableImpl implements ExceptionS
     }
   }
 
- /*@
-   @ also public behavior
-   @
-   @ post \result.containsAll(modifiers());
-   @ post getTypeReference() != null ==> \result.contains(getTypeReference());
-   @ post getInitialization() != null ==> \result.contains(getInitialization());
-   @ post signature() != null ==> \result.contains(signature());
-   @*/
-  public List<Element> children() {
-    List result = new ArrayList<Element>();
-    Util.addNonNull(getInitialization(), result);
-    result.addAll(modifiers());
-    Util.addNonNull(signature(), result);
-    Util.addNonNull(getTypeReference(), result);
-    return result;
-  }
 	/*************
 	 * MODIFIERS *
 	 *************/

@@ -36,10 +36,6 @@ public class UsingAlias extends Import {
 		setIdentifier(identifier);
 	}
 
-	public List<Element> children() {
-		return Util.createNonNullList(getCrossReference());
-	}
-
 	private String _identifier;
 	 
 	/*@

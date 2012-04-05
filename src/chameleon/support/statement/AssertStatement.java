@@ -38,14 +38,6 @@ public class AssertStatement extends ExpressionContainingStatement {
     setAsParent(_messageExpression,expression);
   }
 
-  public List<Element> children() {
-  	List<Element> result = super.children();
-  	if(messageExpression() != null) {
-  		result.add(messageExpression());
-  	}
-  	return result;
-  }
-  
   @Override
   public VerificationResult verifySelf() {
   	VerificationResult result = super.verifySelf();

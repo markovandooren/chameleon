@@ -33,10 +33,6 @@ public class LabeledGotoStatement extends GotoStatement{
 		return new LabeledGotoStatement(getLabel());
 	}
 
-	public List<Element> children() {
-		return new ArrayList<Element>();
-	}
-
 	@Override
 	public VerificationResult verifySelf() {
 		return checkNull(getLabel(), "Missing label", Valid.create());

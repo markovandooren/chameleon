@@ -36,10 +36,6 @@ public class FilledArrayIndex extends ArrayIndex {
         return _expressions.getOtherEnds();
 	}
 	
-	public List<Expression> children() {
-		return getIndices();
-	}
-
 	@Override public FilledArrayIndex clone() {
         FilledArrayIndex result = new FilledArrayIndex();
         for (Expression e : getIndices()) {

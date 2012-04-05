@@ -306,15 +306,6 @@ public interface Type extends ExceptionSource, DeclarationContainer, Declaration
 
 	public Type clone();
 
-	/*@
-	 @ also public behavior
-	 @
-	 @ post \result.containsAll(getSuperTypeReferences());
-	 @ post \result.containsAll(getMembers());
-	 @ post \result.containsAll(getModifiers());
-	 @*/
-	public List<Element> children();
-
 	/**
 	 * DO NOT CONFUSE THIS METHOD WITH localMembers. This method does not
 	 * transform type elements into members.

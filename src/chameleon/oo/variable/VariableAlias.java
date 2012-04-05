@@ -134,10 +134,6 @@ public class VariableAlias extends VariableImpl implements MemberVariable {
 		return aliasedVariable().targetContext();
 	}
 
-	public List<? extends Element> children() {
-    return aliasedVariable().children();
-	}
-
 	public MemberVariable alias(SimpleNameSignature signature) {
 		return new VariableAlias(signature,this);
 	}

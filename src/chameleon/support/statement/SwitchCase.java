@@ -130,18 +130,6 @@ public class SwitchCase extends ElementImpl implements StatementListContainer, E
     return statements().indexOf(statement) + 1;
   }
 
- /*@
-   @ also public behavior
-   @
-   @ post \result.containsAll(getStatements());
-   @ post \result.containsAll(getLabels());
-   @*/
-  public List<Element> children() {
-    List result = statements();
-    result.add(getLabel());
-    return result;
-  }
-  
 	public List<Statement> statementsAfter(Statement statement) {
 		List<Statement> statements = statements(); 
 		int index = statements.indexOf(statement);

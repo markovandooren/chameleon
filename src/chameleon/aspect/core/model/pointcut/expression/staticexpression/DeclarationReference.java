@@ -21,11 +21,6 @@ public class DeclarationReference extends ElementImpl {
 	}
 	
 	@Override
-	public List<? extends Element> children() {
-		return Collections.emptyList();
-	}
-
-	@Override
 	public DeclarationReference clone() {
 		return new DeclarationReference(_reference);
 	}

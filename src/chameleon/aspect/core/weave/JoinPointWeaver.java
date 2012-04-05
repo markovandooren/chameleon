@@ -106,7 +106,7 @@ public class JoinPointWeaver<T extends Element, U extends Element> {
 	 * 	
 	 * 	@throws LookupException	FIXME: check this
 	 */
-	public void weave() throws LookupException {
+	public U weave() throws LookupException {
 
 		// Get the weaving result
 		U result = getJoinPointTransformer().transform();
@@ -118,7 +118,7 @@ public class JoinPointWeaver<T extends Element, U extends Element> {
 		SingleAssociation parentLink = joinpointShadow.parentLink();
 		parentLink.getOtherRelation().replace(parentLink, (Association)result.parentLink());
 
-//		return result;
+		return result;
 //		if (_next != null)
 //			_next.weave();
 	}

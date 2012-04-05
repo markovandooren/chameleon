@@ -91,9 +91,4 @@ public abstract class ElementReference<D extends Declaration> extends CrossRefer
     		_cache = new SoftReference<D>(value);
     	}
   }
-  
-  public List<Element> children() {
-  	return Util.createNonNullList(signature());
-  }
-  
 }

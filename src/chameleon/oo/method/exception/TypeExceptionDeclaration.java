@@ -96,14 +96,8 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration {
     return new TypeExceptionDeclaration(getTypeReference().clone());
   }
 
-  
-
   public boolean hasValidAccessibility() throws LookupException {
     return true; 
-  }
-
-  public List children() {
-    return Util.createNonNullList(getTypeReference());
   }
 
 	@Override

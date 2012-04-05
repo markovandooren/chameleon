@@ -36,19 +36,6 @@ public abstract class ElementWithModifiersImpl extends ElementImpl implements El
   }
 
   /**
-   * The children of an element with modifiers contains its modifiers.
-   */
- /*@
-   @ also public behavior
-   @
-   @ post \result.containsAll(modifiers());
-   @*/
-  @Override
-  public List<Element> children() {
-  	return (List)modifiers();
-  }
-  
-  /**
    * Add the given modifier to this element.
    * @param modifier The modifier to be added.
    */

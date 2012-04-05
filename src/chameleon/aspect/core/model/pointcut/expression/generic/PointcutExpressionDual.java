@@ -46,19 +46,6 @@ public abstract class PointcutExpressionDual<J extends Element> extends Abstract
 	}
 
 	@Override
-	public List<? extends Element> children() {
-		List<PointcutExpression> children = new ArrayList<PointcutExpression>();
-		
-		if (expression1() != null)
-			children.add(expression1());
-		
-		if (expression2() != null)
-			children.add(expression2());
-		
-		return children;
-	}
-
-	@Override
 	public VerificationResult verifySelf() {
 		VerificationResult result = super.verifySelf();
 		

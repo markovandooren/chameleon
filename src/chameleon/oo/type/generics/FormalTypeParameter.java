@@ -67,13 +67,6 @@ public class FormalTypeParameter extends TypeParameter {
 		return new LazyTypeAlias(signature().clone(), this);
 	}
 	
-	public List<Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		result.add(signature());
-		result.addAll(constraints());
-		return result;
-	}
-	
 	private OrderedMultiAssociation<FormalTypeParameter,TypeConstraint> _typeConstraints = new OrderedMultiAssociation<FormalTypeParameter,TypeConstraint>(this);
 	
 	public List<TypeConstraint> constraints() {

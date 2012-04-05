@@ -44,16 +44,6 @@ public class FieldReadPointcutExpression extends AbstractPointcutExpression<Name
 	}
 
 	
-	@Override
-	public List<? extends Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		
-		Util.addNonNull(fieldReference(), result);
-		Util.addNonNull(typeReference(), result);
-		
-		return result;
-	}
-
 	/**
 	 * 	{@inheritDoc}
 	 * 

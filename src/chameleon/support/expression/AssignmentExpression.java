@@ -67,12 +67,6 @@ public class AssignmentExpression extends Expression {
     return new AssignmentExpression(getVariable().clone(), getValue().clone());
   }
 
-  public List<Element> children() {
-    List<Element> result = Util.createNonNullList(getVariable());
-    Util.addNonNull(getValue(), result);
-    return result;
-  }
-
   public Set<Type> getDirectExceptions() throws LookupException {
     return new HashSet<Type>();
   }

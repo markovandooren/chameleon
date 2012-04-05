@@ -57,15 +57,6 @@ public class LocalClassStatement extends StatementImpl implements DeclarationCon
 		return new LocalClassStatement(getType().clone());
 	}
 
-	/*@
-	 @ also public behavior
-	 @
-	 @ post getType() != null ==> \result.contains(getType());
-	 @*/
-	public List children() {
-		return Util.createNonNullList(getType());
-	}
-
 	public Scope getTypeAccessibilityDomain() throws LookupException {
 		if (parent() instanceof StatementListContainer) {
 			return new StatementListScope((StatementListContainer) parent(), this);

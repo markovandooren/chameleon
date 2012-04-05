@@ -111,10 +111,6 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 			return selector.selection(declarations());
 		}
 
-		public List<? extends Element> children() {
-			return parameters();
-		}
-		
 		private OrderedMultiAssociation<Stub, TypeParameter> _parameters = new OrderedMultiAssociation<Stub, TypeParameter>(this);
 		
 		private List<TypeParameter> parameters() {

@@ -21,7 +21,6 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.member.Member;
 import chameleon.oo.type.generics.TypeParameterBlock;
 import chameleon.oo.type.inheritance.InheritanceRelation;
-import chameleon.util.Util;
 
 public abstract class TypeWithBody extends AbstractType {
 
@@ -32,13 +31,6 @@ public abstract class TypeWithBody extends AbstractType {
 		return _inheritanceRelations.getOtherEnds();
 	}
 	
-	public List<Element> children() {
-		List<Element> result = super.children();
-		result.addAll(parameterBlocks());
-		Util.addNonNull(body(), result);
-		return result;
-	}
-
 	public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
 		List<ParameterBlock> parameterBlocks = parameterBlocks();
 		if(parameterBlocks.contains(element)) { // || element.isDerived()

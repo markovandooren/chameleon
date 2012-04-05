@@ -23,10 +23,6 @@ public class EmptyTypeElement extends TypeElementImpl {
 		return new ArrayList<Member>();
 	}
 
-	public List<Element> children() {
-		return new ArrayList<Element>();
-	}
-
 	@Override
 	public VerificationResult verifySelf() {
 		return Valid.create();

@@ -29,13 +29,6 @@ public abstract class LiteralWithTypeReference extends Literal {
     setTypeReference(ref);
   }
   
-  public List<Element> children() {
-  	List<Element> result = super.children();
-  	Util.addNonNull(getTypeReference(), result);
-  	return result;
-  }
-
-
 	/**
 	 * TARGET
 	 */

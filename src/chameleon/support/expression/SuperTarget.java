@@ -43,10 +43,6 @@ public class SuperTarget extends ElementImpl implements CrossReferenceTarget {
     setAsParent(_target,target);
   }
 
-  public List<Element> children() {
-  	return Util.createNonNullList(getTarget());
-  }
-
   public SuperTarget clone() {
     SuperTarget result = new SuperTarget();
     if(getTarget() != null) {

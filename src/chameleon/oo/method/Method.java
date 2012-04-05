@@ -432,23 +432,6 @@ public abstract class Method extends MemberImpl implements DeclarationContainer,
 //	}
 
 
-	/*@
-	 @ public behavior
-	 @
-	 @ post \result.containsAll(modifiers());
-	 @ post implementation() != null ==> \result.contains(implementation());
-	 @ post header() != null ==> \result.contains(header());
-	 @ post getExceptionClause() != null ==> \result.contains(getExceptionClause());
-	 @ post getReturnTypeReference() != null ==> \result.contains(getReturnTypeReference());
-	 @*/
-	public List<Element> children() {
-		List<Element> result = super.children();
-		Util.addNonNull(implementation(),result);
-		Util.addNonNull(header(),result);
-		Util.addNonNull(getExceptionClause(), result);
-		return result;
-	}
-
 	/**
 	 * Return the body of this method.
 	 */

@@ -29,12 +29,6 @@ public abstract class FixedSignatureMember extends MemberImpl {
   	}
   }
   
-  public List<Element> children() {
-    List<Element> result = super.children();
-    Util.addNonNull(signature(), result);
-    return result;
-  }
-  
   /**
    * Return the signature of this member.
    */

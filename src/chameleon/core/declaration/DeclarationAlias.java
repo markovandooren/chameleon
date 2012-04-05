@@ -71,10 +71,6 @@ public class DeclarationAlias extends ElementImpl implements Declaration {
 		return aliasedDeclaration();
 	}
 
-	public List<? extends Element> children() {
-		return new ArrayList<Element>();
-	}
-	
 	public void setSignature(Signature signature) {
 		setAsParent(_signature, signature);
 	}
@@ -103,5 +99,10 @@ public class DeclarationAlias extends ElementImpl implements Declaration {
 	@Override
 	public LookupStrategy targetContext() throws LookupException {
 		return aliasedDeclaration().targetContext();
+	}
+
+	@Override
+	public String name() {
+		return signature().name();
 	}
 }

@@ -86,18 +86,6 @@ public class EmptyArrayIndex extends ArrayIndex {
 		return _dimensions;
 	}
 
-	/**
-	 * An empty array index has no children.
-	 */
-	public List<Element> children() {
-		return new ArrayList();
-	}
-	
-//	public boolean equals(Object other){
-//		return (other instanceof EmptyArrayIndex) &&
-//				((EmptyArrayIndex)other).getDimension() == getDimension();
-//	}
-	
 	public EmptyArrayIndex clone(){
 		return new EmptyArrayIndex(getDimension());
 	}

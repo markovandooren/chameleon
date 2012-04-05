@@ -91,18 +91,6 @@ public class CatchClause extends Clause implements VariableContainer {
     }
   }
 
- /*@
-   @ also public behavior
-   @
-   @ post getStatement() != null ==> \result.contains(getStatement());
-   @ post getExceptionParameter() != null ==> \result.contains(getExceptionParameter());
-   @*/
-  public List children() {
-    List result = Util.createNonNullList(getExceptionParameter());
-    Util.addNonNull(statement(), result);
-    return result;
-  }
-  
   public List<? extends Variable> declarations() {
     List<Variable> result = new ArrayList<Variable>();
     result.add(getExceptionParameter());

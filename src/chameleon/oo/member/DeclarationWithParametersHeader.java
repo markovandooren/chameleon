@@ -58,23 +58,6 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
   protected abstract DeclarationWithParametersHeader cloneThis();
   
   /**
-   * The children of a method header are its formal parameters and the type parameter block.
-   */
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @ post \result.containsAll(formalParameters());
-   @ post parameterBlock() != null ==> \result.contains(parameterBlock());
-   @*/
-  public List<Element> children() {
-  	List<Element> result = new ArrayList<Element>();
-  	result.addAll(formalParameters());
-  	Util.addNonNull(parameterBlock(), result);
-  	return result;
-  }
-  
-  /**
    * The name of a method header is the name of its signature.
    */
  /*@

@@ -141,16 +141,6 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
     }
   }
 
- /*@
-   @ public behavior
-   @
-   @ post \result.equals(getDeclarations());
-   @*/
-  public List<? extends Element> children() {
-    return exceptionDeclarations();
-  }
-
-
 	@Override
 	public VerificationResult verifySelf() {
 		return Valid.create();

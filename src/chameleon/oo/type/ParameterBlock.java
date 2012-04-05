@@ -25,10 +25,6 @@ public class ParameterBlock<T extends Parameter> extends ElementImpl {
 	
 	private Class<T> _parameterType;
 	
-	public List<? extends Element> children() {
-		return parameters();
-	}
-
 	private OrderedMultiAssociation<ParameterBlock<T>, T> _parameters = new OrderedMultiAssociation<ParameterBlock<T>, T>(this);
 	
 	public List<T> parameters() {

@@ -95,10 +95,6 @@ public class SimpleNameDeclarationWithParametersSignature extends DeclarationWit
 		return result;
 	}
 
-	public List<? extends Element> children() {
-		return typeReferences();
-	}
-
 	@Override
 	public VerificationResult verifySelf() {
 		VerificationResult result = Valid.create();

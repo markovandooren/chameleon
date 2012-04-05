@@ -77,15 +77,6 @@ public class Aspect extends ElementImpl implements DeclarationContainer, Declara
 		setAsParent(_advices, e);
 	}
 
-	@Override
-	public List<Element> children() {
-		List<Element> children = new ArrayList<Element>();
-		children.addAll(pointcuts());
-		children.addAll(advices());
-		Util.addNonNull(signature(), children);
-		return children;
-	}
-
 	public Aspect clone() {
 		Aspect clone = new Aspect(signature() == null ? null : signature().clone());
 		

@@ -67,14 +67,6 @@ public abstract class ProgrammingAdvice extends Advice<Block> implements Declara
 	}
 
   @Override
-  public List<Element> children() {
-  	List<Element> result = super.children();
-		result.addAll(formalParameters());
-		Util.addNonNull(returnType(), result);
-  	return result;
-  }
-  
-  @Override
   public ProgrammingAdvice clone() {
   	ProgrammingAdvice result = (ProgrammingAdvice) super.clone();
   	for(FormalParameter param: formalParameters()) {

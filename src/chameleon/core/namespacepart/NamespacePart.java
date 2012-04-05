@@ -242,13 +242,6 @@ public class NamespacePart extends ElementImpl implements DeclarationContainer {
 	
 	private OrderedMultiAssociation<NamespacePart, NamespacePart> _subNamespaceParts = new OrderedMultiAssociation<NamespacePart, NamespacePart>(this);
 
-	public List<Element> children() {
-		List result = declarations(); // can't specify type parameter without having to clone types(). don't like it.
-		result.addAll(namespaceParts());
-		result.addAll(imports());
-		return result;
-	}
-	
 	public List<Declaration> declarations() {
       return _types.getOtherEnds();
 	}

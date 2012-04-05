@@ -13,6 +13,7 @@ public class FixedThreadExecutor {
 	protected int _availableProcessors;
 
 	public int availableProcessors() {
+		if(SINGLE_THREADED) {return 1;}
 		return _availableProcessors;
 	}
 
@@ -21,5 +22,7 @@ public class FixedThreadExecutor {
 	public ExecutorService executor() {
 		return _executor;
 	}
+	
+	private final static boolean SINGLE_THREADED=true;
 
 }

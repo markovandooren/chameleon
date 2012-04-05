@@ -33,10 +33,6 @@ public class LookupRedirector extends ElementImpl implements Stub {
 		return Valid.create();
 	}
 
-	public List<? extends Element> children() {
-		return Util.createNonNullList(child());
-	}
-	
 	public Element contextElement() {
 		return _context;
 	}

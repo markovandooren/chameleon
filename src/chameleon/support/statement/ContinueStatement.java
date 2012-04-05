@@ -23,10 +23,6 @@ public class ContinueStatement extends JumpStatement {
     return new ContinueStatement(getLabel());
   }
 
-  public List children() {
-    return new ArrayList();
-  }
-
 	@Override
 	public VerificationResult verifySelf() {
 		IterationStatement ancestor = nearestAncestor(IterationStatement.class);

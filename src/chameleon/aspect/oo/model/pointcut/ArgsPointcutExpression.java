@@ -25,11 +25,6 @@ public class ArgsPointcutExpression extends AbstractParameterExposurePointcutExp
 	}
 
 	@Override
-	public List<? extends Element> children() {
-		return parameters();
-	}
-
-	@Override
 	public ArgsPointcutExpression clone() {
 		ArgsPointcutExpression clone = new ArgsPointcutExpression();
 		

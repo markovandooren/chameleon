@@ -41,10 +41,6 @@ public abstract class ExpressionContainingStatement extends StatementImpl {
     setAsParent(_expression,expression);
   }
 
-  public List<Element> children() {
-    return Util.createNonNullList(getExpression());
-  }
-
   @Override
   /**
    * The default behavior is to report a problem if the expression is missing. Subclasses

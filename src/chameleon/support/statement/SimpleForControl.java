@@ -76,14 +76,6 @@ public class SimpleForControl extends ForControl {
     return new SimpleForControl(init, cond, update);
   }
 
-	public List<? extends Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		Util.addNonNull(condition(), result);
-		Util.addNonNull(update(), result);
-		Util.addNonNull(getForInit(), result);
-		return result;
-	}
-
 	/**
 	 * EXPRESSION
 	 */

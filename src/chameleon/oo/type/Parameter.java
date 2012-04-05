@@ -38,6 +38,11 @@ public abstract class Parameter extends ElementImpl implements Declaration {
     return _signature.getOtherEnd();
   }
   
-  private SingleAssociation<Parameter, SimpleNameSignature> _signature = new SingleAssociation<Parameter, SimpleNameSignature>(this);
+	@Override
+	public String name() {
+		return signature().name();
+	}
+
+	private SingleAssociation<Parameter, SimpleNameSignature> _signature = new SingleAssociation<Parameter, SimpleNameSignature>(this);
 
 }

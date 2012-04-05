@@ -66,13 +66,6 @@ public class IfThenElseStatement extends ExpressionContainingStatement {
     return new IfThenElseStatement(getExpression().clone(), ifStatement, elseStatement);
   }
 
-  public List<Element> children() {
-    List<Element> result = Util.createNonNullList(getExpression());
-    Util.addNonNull(getIfStatement(), result);
-    Util.addNonNull(getElseStatement(), result);
-    return result;
-  }
-  
   @Override
   public VerificationResult verifySelf() {
   	VerificationResult result = super.verifySelf();

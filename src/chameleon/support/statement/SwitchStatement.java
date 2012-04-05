@@ -57,12 +57,6 @@ public class SwitchStatement extends ExpressionContainingStatement {
     return result;
   }
 
-  public List<Element> children() {
-    List result = Util.createNonNullList(getExpression());
-    result.addAll(getSwitchCases());
-    return result;
-  }
-  
   @Override
   public VerificationResult verifySelf() {
   	VerificationResult result = super.verifySelf();

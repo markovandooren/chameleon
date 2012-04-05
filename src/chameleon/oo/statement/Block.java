@@ -71,10 +71,6 @@ public class Block extends StatementImpl implements StatementListContainer {
   	}
   }
 
-  public List<? extends Element> children() {
-    return statements();
-  }
-
   public int getIndexOf(Statement statement) {
     return statements().indexOf(statement) + 1;
   }

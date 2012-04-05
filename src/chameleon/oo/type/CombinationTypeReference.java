@@ -28,10 +28,6 @@ public abstract class CombinationTypeReference extends ElementImpl implements Ty
 		return _types.elementAt(baseOneIndex);
 	}
 	
-	public List<Element> children() {
-		return new ArrayList<Element>(typeReferences());
-	}
-
 	public Type getType() throws LookupException {
 		return getElement();
 	}

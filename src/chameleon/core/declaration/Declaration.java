@@ -33,6 +33,16 @@ public interface Declaration extends Element {
    @ post \result != null;
    @*/
   public Signature signature();
+
+  /**
+   * Return the name of this declaration.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post \result == signature().name();
+   @*/
+  public String name();
   
   /**
    * Change the signature of this declaration to the given declaration.

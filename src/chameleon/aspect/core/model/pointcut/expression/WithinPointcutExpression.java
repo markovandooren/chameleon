@@ -21,11 +21,6 @@ public class WithinPointcutExpression extends DeclarationPointcutExpression<Elem
 	}
 
 	@Override
-	public List<? extends Element> children() {
-		return new ArrayList<Element>();
-	}
-
-	@Override
 	public WithinPointcutExpression clone() {
 		return new WithinPointcutExpression(pattern().clone(), type());
 	}

@@ -73,10 +73,6 @@ public class DeclarationContainerAlias extends ElementImpl implements Declaratio
 		return selector.selection(declarations());
 	}
 
-	public List<? extends Element> children() {
-		return _elements.getOtherEnds();
-	}
-
 	private OrderedMultiAssociation<DeclarationContainerAlias, Declaration> _elements = new OrderedMultiAssociation<DeclarationContainerAlias, Declaration>(this);
 
 	public void add(Declaration element) {

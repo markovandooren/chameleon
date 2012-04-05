@@ -78,13 +78,6 @@ public class TryStatement extends StatementContainingStatement {
     return result;
   }
   
-  public List children() {
-    List result = Util.createNonNullList(getStatement());
-    result.addAll(getCatchClauses());
-    Util.addNonNull(getFinallyClause(), result);
-    return result;
-  }
-  
   /**
    * Check whether or not all catch clauses of this try statement are valid.
    */

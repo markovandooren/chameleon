@@ -41,12 +41,6 @@ public abstract class ExprTypeRefContainingExpression extends Expression {
     setAsParent(_typeReference,type);
   }
 
-  public List<Element> children() {
-  	List<Element> result = Util.createNonNullList(getExpression());
-  	Util.addNonNull(getTypeReference(), result);
-    return result;
-  }
-  
 	@Override
 	public VerificationResult verifySelf() {
 		VerificationResult result = Valid.create();

@@ -66,16 +66,6 @@ public class WithinTypePointcutExpression<E extends WithinTypePointcutExpression
 	}
 
 	@Override
-	public List<? extends Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		
-		Util.addNonNull(typeReference(), result);
-		Util.addNonNull(subtypeMarker(), result);
-		
-		return result;
-	}
-
-	@Override
 	public E clone() {
 		WithinTypePointcutExpression<E> clone = new WithinTypePointcutExpression<E>();
 		clone.setSubtypeMarker(Util.cloneOrNull(subtypeMarker()));

@@ -46,4 +46,9 @@ public class PointcutWithName extends Pointcut {
 		throw new LookupException("Requesting the target context of a pointcut.");
 	}
 
+	@Override
+	public String name() {
+		return signature().name();
+	}
+
 }

@@ -179,15 +179,6 @@ public class MethodReference extends ElementImpl {
 		return _typeRef.getOtherEnd();
 	}
 
-
-	@Override
-	public List<? extends Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		Util.addNonNull(fqn(), result);
-		Util.addNonNull(type(), result);
-		return result;
-	}
-
 	@Override
 	public MethodReference clone() {
 		TypeReference typeClone = null;

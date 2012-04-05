@@ -86,15 +86,6 @@ public class SignatureMethodInvocationPointcutExpression extends MethodInvocatio
 	}
 
 	@Override
-	public List<? extends Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		
-		Util.addNonNull(methodReference(), result);
-		
-		return result;
-	}
-
-	@Override
 	public SignatureMethodInvocationPointcutExpression clone() {
 		return new SignatureMethodInvocationPointcutExpression(methodReference().clone()); 
 	}

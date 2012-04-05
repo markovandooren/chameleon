@@ -95,17 +95,6 @@ public abstract class ElementReferenceWithTarget<R extends Declaration> extends 
 	/*@
 	  @ also public behavior
 	  @
-	  @ post \result == Util.createNonNullList(getTarget());
-	  @*/
-	 public List<Element> children() {
-		 List<Element> result = super.children();
-		 Util.addNonNull(getTarget(), result);
-		 return result;
-	 }
-
-	/*@
-	  @ also public behavior
-	  @
 	  @ post getTarget() == null ==> \result == getContext(this).findPackageOrType(getName());
 	  @ post getTarget() != null ==> (
 	  @     (getTarget().getPackageOrType() == null ==> \result == null) &&

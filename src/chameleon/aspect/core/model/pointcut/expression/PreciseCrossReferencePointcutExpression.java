@@ -31,9 +31,4 @@ public class PreciseCrossReferencePointcutExpression extends CrossReferencePoint
 		setAsParent(_typeReference, reference);
 	}
 	
-	@Override
-	public List<? extends Element> children() {
-		return Util.createNonNullList(crossReference());
-	}
-
 }

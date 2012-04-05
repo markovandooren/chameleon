@@ -157,27 +157,6 @@ public class CrossReferenceWithArguments extends ElementImpl {
 	// return result;
 	// }
 
-	/*
-	 * @
-	 * 
-	 * @ also public behavior
-	 * 
-	 * @
-	 * 
-	 * @ post \result.contains(actualArgumentList());
-	 * 
-	 * @ post getTarget() != null ==> \result.contains(getTarget());
-	 * 
-	 * @
-	 */
-	public List<Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		result.addAll(getActualParameters());
-		result.addAll(typeArguments());
-		Util.addNonNull(getTarget(), result);
-		return result;
-	}
-
 	// public Set getDirectExceptions() throws NotResolvedException {
 	// Set result = getMethodExceptions();
 	// Type npe =

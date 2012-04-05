@@ -1,31 +1,20 @@
 package chameleon.aspect.oo.model.pointcut.method;
 
-import java.util.ArrayList;
 import java.util.List;
-
 
 import org.rejuse.association.SingleAssociation;
 
 import chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import chameleon.aspect.oo.model.pointcut.MethodInvocationPointcutExpression;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.modifier.Modifier;
 import chameleon.oo.expression.MethodInvocation;
 import chameleon.oo.method.Method;
 import chameleon.oo.modifier.AnnotationModifier;
-import chameleon.util.Util;
 
 public class AnnotatedMethodInvocationExpression extends MethodInvocationPointcutExpression {
 
 	private SingleAssociation<AnnotatedMethodInvocationExpression, AnnotationReference> _reference = new SingleAssociation<AnnotatedMethodInvocationExpression, AnnotationReference>(this); 
-	
-	@Override
-	public List<? extends Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		Util.addNonNull(reference(), result);
-		return result;
-	}
 	
 	public AnnotationReference reference() {
 		return _reference.getOtherEnd();

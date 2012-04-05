@@ -45,14 +45,6 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
 		setTypeReference(tref);
 	}
 
-	public List<Element> children() {
-			List<Element> result = new ArrayList<Element>();
-			result.addAll(variableDeclarations());
-			Util.addNonNull(typeReference(), result);
-			result.addAll(modifiers());
-			return result;
-	}
-
 	@Override
 	public LocalVariableDeclarator clone() {
 		LocalVariableDeclarator result = new LocalVariableDeclarator(typeReference().clone());

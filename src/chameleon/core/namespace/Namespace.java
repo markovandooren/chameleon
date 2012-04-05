@@ -277,30 +277,6 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
 		 * CONTEXT *
 		 ***********/
 		
-//	public AccessibilityDomain getAccessibilityDomain() {
-//		return new All();
-//	}
-
-	 /*@
-	   @ also public behavior
-	   @
-	   @ post \result.containsAll(getSubNamespaces());
-	   @ post \result.containsAll(getCompilationUnits());
-	   @*/
-	  public List<Element> children() {
-	    List<Element> result = new ArrayList<Element>();
-	    Util.addNonNull(signature(), result);
-      result.addAll(getSubNamespaces());
-	    result.addAll(getNamespaceParts());
-	    return result;
-	  }
-
-
-//    @Override
-//    public Namespace clone() {
-//      return new Namespace(signature().clone());
-//    }
-
 	public LocalLookupStrategy targetContext() {
 		return language().lookupFactory().createTargetLookupStrategy(this);
 	}

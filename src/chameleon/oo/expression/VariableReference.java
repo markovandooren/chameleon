@@ -117,10 +117,6 @@ public class VariableReference extends Expression implements Assignable, CrossRe
     return result;
   }
   
-  public List<? extends Element> children() {
-    return Util.createNonNullList(getTarget());
-  }
-
   public Variable getElement() throws LookupException {
   	return getElement(selector());
   }

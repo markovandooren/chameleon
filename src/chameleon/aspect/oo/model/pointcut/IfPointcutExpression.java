@@ -29,11 +29,6 @@ public class IfPointcutExpression extends AbstractDynamicPointcutExpression impl
 	}
 	
 	@Override
-	public List<? extends Element> children() {
-		return Util.createNonNullList(expression());
-	}
-
-	@Override
 	public IfPointcutExpression clone() {
 		Expression clonedExpression = null;
 		if (expression() != null)

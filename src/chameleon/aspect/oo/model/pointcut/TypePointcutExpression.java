@@ -41,11 +41,6 @@ public abstract class TypePointcutExpression extends AbstractParameterExposurePo
 
 	
 	@Override
-	public List<? extends Element> children() {
-		return Util.createNonNullList(parameter());
-	}
-	
-	@Override
 	public List<NamedTargetExpression> parameters() {
 		return Collections.singletonList(parameter());
 	}

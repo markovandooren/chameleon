@@ -660,19 +660,6 @@ public abstract class AbstractType extends FixedSignatureMember implements Type 
     
     public abstract AbstractType clone();
 
-   /*@
-     @ also public behavior
-     @
-     @ post \result.containsAll(getSuperTypeReferences());
-     @ post \result.containsAll(getMembers());
-     @ post \result.containsAll(getModifiers());
-     @*/
-    public List<Element> children() {
-        List<Element> result = super.children();
-        result.addAll(nonMemberInheritanceRelations());
-        return result;
-    }
-
     public abstract List<? extends TypeElement> directlyDeclaredElements();
 
   	public <T extends TypeElement> List<T> directlyDeclaredElements(Class<T> kind) {

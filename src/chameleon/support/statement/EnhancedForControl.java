@@ -38,13 +38,6 @@ public class EnhancedForControl extends ForControl {
 		return new EnhancedForControl(variableDeclarator().clone(),collection().clone());
 	}
 
-	public List<Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		Util.addNonNull(collection(), result);
-		Util.addNonNull(variableDeclarator(), result);
-		return result;
-	}
-
 	/**
 	 * EXPRESSION
 	 */

@@ -29,16 +29,6 @@ public abstract class PointcutExpressionSingle<J extends Element> extends Abstra
 	}
 	
 	@Override
-	public List<? extends Element> children() {
-		List<PointcutExpression> children = new ArrayList<PointcutExpression>();
-		
-		if (expression() != null)
-			children.add(expression());
-		
-		return children;
-	}
-
-	@Override
 	public VerificationResult verifySelf() {
 		VerificationResult result = super.verifySelf();
 		

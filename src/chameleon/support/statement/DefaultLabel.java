@@ -19,10 +19,6 @@ public class DefaultLabel extends SwitchLabel {
     return new DefaultLabel();
   }
   
-  public List<Element> children() {
-    return new ArrayList<Element>();
-  }
-
 	@Override
 	public VerificationResult verifySelf() {
 		return Valid.create();

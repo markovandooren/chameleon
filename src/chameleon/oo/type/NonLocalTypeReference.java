@@ -87,10 +87,6 @@ public abstract class NonLocalTypeReference extends ElementImpl implements TypeR
 		return actualReference().getDeclarator();
 	}
 
-	public List<? extends Element> children() {
-		return Util.createNonNullList(actualReference());
-	}
-	
 	@Override
 	public LookupStrategy targetContext() throws LookupException {
 		return getElement().targetContext();

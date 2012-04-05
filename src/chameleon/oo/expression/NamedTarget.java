@@ -75,11 +75,6 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
     setAsParent(_target,target);
   }
 
-  public List<Element> children() {
-  	return Util.createNonNullList(getTarget());
-  }
-
-  
   private SoftReference<TargetDeclaration> _cache;
   
   @Override

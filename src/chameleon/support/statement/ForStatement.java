@@ -49,13 +49,6 @@ public class ForStatement extends IterationStatement implements DeclarationConta
   
   private SingleAssociation<ForStatement,ForControl> _control = new SingleAssociation<ForStatement, ForControl>(this); 
 
-
-  public List<Element> children() {
-  	List<Element> result = Util.createNonNullList(forControl());
-  	Util.addNonNull(getStatement(),result);
-  	return result;
-  }
-
 	@Override
 	public ForStatement clone() {
 		return new ForStatement(forControl().clone(), getStatement().clone());

@@ -193,10 +193,6 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
     return result;
 	}
 
-	public List<? extends Element> children() {
-		return new ArrayList<Element>(elements());
-	}
-
 //	public LookupStrategy lexicalLookupStrategy(Element element) {
 //		return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
 //	}

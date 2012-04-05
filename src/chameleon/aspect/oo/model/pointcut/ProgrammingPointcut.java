@@ -90,16 +90,14 @@ public class ProgrammingPointcut extends Pointcut implements DeclarationContaine
   	return result;
   }
   
-  @Override
-  public List<Element> children() {
-  	List<Element> result = super.children();
-		Util.addNonNull(header(), result);
-		return result;
-  }
-  
 	@Override
 	public SimpleNameDeclarationWithParametersSignature signature() {
 		return header().signature();
+	}
+
+	@Override
+	public String name() {
+		return signature().name();
 	}
 
 	@Override

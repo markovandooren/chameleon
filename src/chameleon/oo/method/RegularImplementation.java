@@ -78,16 +78,6 @@ public class RegularImplementation extends Implementation  {
 //    }
   }
 
- /*@
-   @ also public behavior
-   @
-   @ post \result.contains(getBody());
-   @ post \result.size() == 1;
-   @*/
-  public List<Element> children() {
-    return Util.createNonNullList(getBody());
-  }
-
 	@Override
 	public VerificationResult verifySelf() {
 		return Valid.create();

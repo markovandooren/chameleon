@@ -7,7 +7,6 @@ import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.Namespace;
@@ -24,12 +23,6 @@ public class DemandImport extends Import {
   public DemandImport(ElementReference<? extends Namespace> ref) {
     setNamespaceReference( (ElementReference<? extends Namespace>) ref);
   }
-
-  
-  public List<Element> children() {
-    return Util.createNonNullList(namespaceReference());
-  }
-
   
 	private SingleAssociation<DemandImport,ElementReference<? extends Namespace>> _packageOrType = new SingleAssociation<DemandImport,ElementReference<? extends Namespace>>(this);
 

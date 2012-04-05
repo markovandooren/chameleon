@@ -2,7 +2,6 @@ package chameleon.core.reference;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
-import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 
 /**

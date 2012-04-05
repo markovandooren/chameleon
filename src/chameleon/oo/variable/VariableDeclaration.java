@@ -65,14 +65,6 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
 	  
 	  private SingleAssociation<VariableDeclaration, SimpleNameSignature> _signature = new SingleAssociation<VariableDeclaration, SimpleNameSignature>(this);
 
-
-	public List<Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		Util.addNonNull(initialization(), result);
-		result.add(signature());
-		return result;
-	}
-
 	/**
 	 * EXPRESSION
 	 */

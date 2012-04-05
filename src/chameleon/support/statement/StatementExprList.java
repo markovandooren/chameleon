@@ -117,14 +117,6 @@ public class StatementExprList extends ElementImpl implements ForInit, Exception
     return statements().size();
   }
 
- /*@
-   @ also public behavior
-   @
-   @ post \result.equals(getStatements());
-   @*/
-  public List<StatementExpression> children() {
-    return statements();
-  }
 	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
 	}

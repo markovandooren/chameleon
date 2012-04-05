@@ -18,12 +18,6 @@ public abstract class ActualTypeArgumentWithTypeReference extends ActualTypeArgu
 		setTypeReference(ref);
 	}
 	
-	public List<? extends Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		result.add(typeReference());
-		return result;
-	}
-
 	public TypeReference typeReference() {
 		return _type.getOtherEnd();
 	}
