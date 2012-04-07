@@ -1,11 +1,9 @@
 package chameleon.support.expression;
 
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.validation.BasicProblem;
-import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
+import chameleon.util.association.Single;
 
 public abstract class TernaryExpression extends BinaryExpression {
 
@@ -17,14 +15,14 @@ public abstract class TernaryExpression extends BinaryExpression {
 	/**
 	 * THIRD
 	 */
-	private SingleAssociation<TernaryExpression,Expression> _third = new SingleAssociation<TernaryExpression,Expression>(this);
+	private Single<Expression> _third = new Single<Expression>(this);
 
   public Expression getThird() {
     return _third.getOtherEnd();
   }
 
   public void setThird(Expression expression) {
-  	setAsParent(_third,expression);
+  	set(_third,expression);
   }
 
 	@Override

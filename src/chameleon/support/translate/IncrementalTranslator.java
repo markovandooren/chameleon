@@ -75,9 +75,9 @@ public abstract class  IncrementalTranslator<S extends Language, T extends Langu
 	protected void store(CompilationUnit compilationUnit, CompilationUnit generated, Map<CompilationUnit,CompilationUnit> storage) throws LookupException {
 		CompilationUnit old = storage.get(compilationUnit);
 		if(old != null) {
-			if(generated != old) {
-				old.namespacePart(1).getNamespaceLink().unlock();
-			}
+//			if(generated != old) {
+//				old.namespacePart(1).getNamespaceLink().unlock();
+//			}
 			old.disconnect();
 		}
 		// connect the namespacepart of the clone compilation unit

@@ -1,14 +1,8 @@
 package chameleon.aspect.core.model.pointcut;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.aspect.core.model.aspect.Aspect;
 import chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
 import chameleon.core.declaration.Declaration;
-import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.property.ChameleonProperty;
@@ -19,7 +13,7 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  *
@@ -48,14 +42,14 @@ public abstract class Pointcut extends ElementImpl implements Declaration {
 		
 	}
 	
-	private SingleAssociation<Pointcut, PointcutExpression<?>> _expression = new SingleAssociation<Pointcut, PointcutExpression<?>>(this);
+	private Single<PointcutExpression<?>> _expression = new Single<PointcutExpression<?>>(this);
 	
 	public PointcutExpression<?> expression() {
 		return _expression.getOtherEnd();
 	}
 	
 	protected void setExpression(PointcutExpression<?> expression) {
-		setAsParent(_expression, expression);
+		set(_expression, expression);
 	}
 	
 	public Pointcut clone() {

@@ -67,8 +67,6 @@ public class LexicalLookupStrategy extends LookupStrategy {
   
   private LookupStrategy _localContext;
   
-  
-  
 	/**
 	 * Return the parent context of this context.
 	 * @throws LookupException 
@@ -77,12 +75,11 @@ public class LexicalLookupStrategy extends LookupStrategy {
 		return selector().strategy();
 	}
 
-	public <T extends Declaration> T lookUp(DeclarationSelector<T> selector) throws LookupException {
-			T tmp = localContext().lookUp(selector);
-			if(tmp != null) {
-			  return tmp;
-			} else {
-			  return nextStrategy().lookUp(selector);
-			}
+	public <D extends Declaration> void lookUp(Collector<D> proceed) throws LookupException {
+		localContext().lookUp(proceed);
+		if(proceed.willProceed()) {
+			// Do not compute nextStrategy() if the collector will not proceed.
+			proceed.proceed(nextStrategy());
+		}
 	}
 }

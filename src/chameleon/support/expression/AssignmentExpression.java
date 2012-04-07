@@ -1,21 +1,16 @@
 package chameleon.support.expression;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
-import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
-import chameleon.oo.expression.Assignable;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.type.Type;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -35,7 +30,7 @@ public class AssignmentExpression extends Expression {
 	/**
 	 * VARIABLE
 	 */
-	private SingleAssociation<AssignmentExpression,Expression> _variable = new SingleAssociation<AssignmentExpression,Expression>(this);
+	private Single<Expression> _variable = new Single<Expression>(this);
 
 
   public Expression getVariable() {
@@ -43,20 +38,20 @@ public class AssignmentExpression extends Expression {
   }
 
   public void setVariable(Expression var) {
-  	setAsParent(_variable,var);
+  	set(_variable,var);
   }
 
 	/**
 	 * VALUE
 	 */
-	private SingleAssociation<AssignmentExpression,Expression> _value = new SingleAssociation<AssignmentExpression,Expression>(this);
+	private Single<Expression> _value = new Single<Expression>(this);
 
   public Expression getValue() {
     return (Expression)_value.getOtherEnd();
   }
 
   public void setValue(Expression expression) {
-  	setAsParent(_value,expression);
+  	set(_value,expression);
   }
 
   protected Type actualType() throws LookupException {

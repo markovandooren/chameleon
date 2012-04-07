@@ -1,13 +1,8 @@
 package chameleon.aspect.core.model.pointcut.expression;
 
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.aspect.core.model.pointcut.pattern.CrossReferencePattern;
-import chameleon.core.element.Element;
 import chameleon.core.reference.CrossReference;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 public class PreciseCrossReferencePointcutExpression extends CrossReferencePointcutExpression {
 
@@ -21,14 +16,14 @@ public class PreciseCrossReferencePointcutExpression extends CrossReferencePoint
 		setCrossReference(crossRef);
 	}
 
-	private SingleAssociation<PreciseCrossReferencePointcutExpression, CrossReference> _typeReference = new SingleAssociation<PreciseCrossReferencePointcutExpression, CrossReference>(this);
+	private Single<CrossReference> _typeReference = new Single<CrossReference>(this);
 	
 	public CrossReference crossReference() {
 		return _typeReference.getOtherEnd();
 	}
 	
 	private void setCrossReference(CrossReference reference) {
-		setAsParent(_typeReference, reference);
+		set(_typeReference, reference);
 	}
 	
 }

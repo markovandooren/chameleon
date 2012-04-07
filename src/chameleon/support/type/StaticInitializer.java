@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.rejuse.association.SingleAssociation;
 
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -15,7 +14,7 @@ import chameleon.oo.statement.CheckedExceptionList;
 import chameleon.oo.statement.ExceptionSource;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeElementImpl;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -47,10 +46,10 @@ public class StaticInitializer extends TypeElementImpl implements ExceptionSourc
   }
 
 
-  private SingleAssociation<StaticInitializer,Block> _blockLink = new SingleAssociation<StaticInitializer,Block>(this);
+  private Single<Block> _blockLink = new Single<Block>(this);
 
   public void setBlock(Block block) {
-    setAsParent(_blockLink,block);
+    set(_blockLink,block);
   }
 
   /**

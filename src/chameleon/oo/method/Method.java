@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.SingleAssociation;
 import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.AbstractPredicate;
 
@@ -36,7 +35,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.oo.type.generics.TypeParameter;
 import chameleon.oo.variable.FormalParameter;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * A class of methods.
@@ -154,7 +153,7 @@ public abstract class Method extends MemberImpl implements DeclarationContainer,
 	 * @param header
 	 */
 	public void setHeader(MethodHeader header) {
-	  setAsParent(_header,header);
+	  set(_header,header);
 	}
 	  
 	  /**
@@ -164,7 +163,7 @@ public abstract class Method extends MemberImpl implements DeclarationContainer,
 	    return _header.getOtherEnd();
 	  }
 	  
-	  private SingleAssociation<Method, MethodHeader> _header = new SingleAssociation<Method, MethodHeader>(this);
+	  private Single<MethodHeader> _header = new Single<MethodHeader>(this,true);
 	
 	/******************
 	 * IMPLEMENTATION *

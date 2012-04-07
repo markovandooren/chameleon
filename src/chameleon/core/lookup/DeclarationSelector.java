@@ -127,5 +127,9 @@ public abstract class DeclarationSelector<D extends Declaration> {
 	public boolean usesSelectionName() {
 		return true;
 	}
+	
+	public boolean usesSelectionNameOnly() {
+		return usesSelectionName();
+	}
 
 }

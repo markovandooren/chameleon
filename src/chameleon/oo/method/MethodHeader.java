@@ -1,9 +1,8 @@
 package chameleon.oo.method;
 
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.oo.member.DeclarationWithParametersHeader;
 import chameleon.oo.type.TypeReference;
+import chameleon.util.association.Single;
 
 public abstract class MethodHeader extends DeclarationWithParametersHeader {
 
@@ -13,14 +12,14 @@ public abstract class MethodHeader extends DeclarationWithParametersHeader {
 	
 //	public abstract MethodHeader clone();
 	
-	private SingleAssociation<MethodHeader,TypeReference> _typeReference = new SingleAssociation<MethodHeader,TypeReference>(this);
+	private Single<TypeReference> _typeReference = new Single<TypeReference>(this);
 
 	public TypeReference returnTypeReference() {
 		return _typeReference.getOtherEnd();
 	}
 
 	public void setReturnTypeReference(TypeReference type) {
-		setAsParent(_typeReference,type);
+		set(_typeReference,type);
 	}
 
 }

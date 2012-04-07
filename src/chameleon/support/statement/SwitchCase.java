@@ -3,11 +3,9 @@ package chameleon.support.statement;
 import java.util.List;
 
 import org.rejuse.association.OrderedMultiAssociation;
-import org.rejuse.association.SingleAssociation;
 import org.rejuse.java.collections.RobustVisitor;
 import org.rejuse.java.collections.Visitor;
 
-import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.validation.Valid;
@@ -16,6 +14,8 @@ import chameleon.oo.statement.CheckedExceptionList;
 import chameleon.oo.statement.ExceptionSource;
 import chameleon.oo.statement.Statement;
 import chameleon.oo.statement.StatementListContainer;
+import chameleon.util.association.Multi;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -32,7 +32,7 @@ public class SwitchCase extends ElementImpl implements StatementListContainer, E
 	/**
 	 * STATEMENTS
 	 */
-	private OrderedMultiAssociation<SwitchCase,Statement> _statements = new OrderedMultiAssociation<SwitchCase,Statement>(this);
+	private Multi<Statement> _statements = new Multi<Statement>(this);
 
 
   public OrderedMultiAssociation getStatementsLink() {
@@ -54,10 +54,10 @@ public class SwitchCase extends ElementImpl implements StatementListContainer, E
 	/**
 	 * LABELS
 	 */
-	private SingleAssociation<SwitchCase,SwitchLabel> _labels = new SingleAssociation<SwitchCase,SwitchLabel>(this);
+	private Single<SwitchLabel> _labels = new Single<SwitchLabel>(this);
 
   public void setLabel(SwitchLabel label) {
-  	setAsParent(_labels,label);
+  	set(_labels,label);
   }
 
   public SwitchLabel getLabel() {

@@ -1,16 +1,13 @@
 package chameleon.core.reference;
 
 import java.lang.ref.SoftReference;
-import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
-import chameleon.core.element.Element;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * 
@@ -41,7 +38,7 @@ public abstract class ElementReference<D extends Declaration> extends CrossRefer
 		setSignature(signature);
 	}
 	
-  private SingleAssociation<ElementReference<D>,Signature> _signature = new SingleAssociation<ElementReference<D>,Signature>(this);
+  private Single<Signature> _signature = new Single<Signature>(this);
 
   /**
    * Return the signature of this element reference.
@@ -62,7 +59,7 @@ public abstract class ElementReference<D extends Declaration> extends CrossRefer
    @ post getName() == name;
    @*/
   public void setSignature(Signature signature) {
-  	setAsParent(_signature, signature);
+  	set(_signature, signature);
   }
   
 	@Override

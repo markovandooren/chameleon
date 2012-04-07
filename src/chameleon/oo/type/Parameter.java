@@ -1,13 +1,12 @@
 package chameleon.oo.type;
 
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
 import chameleon.exception.ChameleonProgrammerException;
+import chameleon.util.association.Single;
 
 public abstract class Parameter extends ElementImpl implements Declaration {
 	
@@ -25,7 +24,7 @@ public abstract class Parameter extends ElementImpl implements Declaration {
 	
 	public void setSignature(Signature signature) {
   	if(signature instanceof SimpleNameSignature || signature == null) {
-  		setAsParent(_signature,(SimpleNameSignature)signature);
+  		set(_signature,(SimpleNameSignature)signature);
   	} else {
   		throw new ChameleonProgrammerException("Setting wrong type of signature. Provided: "+(signature == null ? null :signature.getClass().getName())+" Expected SimpleNameSignature");
   	}
@@ -43,6 +42,6 @@ public abstract class Parameter extends ElementImpl implements Declaration {
 		return signature().name();
 	}
 
-	private SingleAssociation<Parameter, SimpleNameSignature> _signature = new SingleAssociation<Parameter, SimpleNameSignature>(this);
+	private Single<SimpleNameSignature> _signature = new Single<SimpleNameSignature>(this,true);
 
 }

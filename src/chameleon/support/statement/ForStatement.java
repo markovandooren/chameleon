@@ -2,19 +2,15 @@ package chameleon.support.statement;
 
 import java.util.List;
 
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LexicalLookupStrategy;
-import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.oo.statement.Statement;
-import chameleon.oo.variable.Variable;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -44,10 +40,10 @@ public class ForStatement extends IterationStatement implements DeclarationConta
   }
   
   public void setForControl(ForControl control) {
-  	setAsParent(_control,control);
+  	set(_control,control);
   }
   
-  private SingleAssociation<ForStatement,ForControl> _control = new SingleAssociation<ForStatement, ForControl>(this); 
+  private Single<ForControl> _control = new Single<ForControl>(this); 
 
 	@Override
 	public ForStatement clone() {

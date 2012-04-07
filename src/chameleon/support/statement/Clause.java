@@ -1,12 +1,11 @@
 package chameleon.support.statement;
 
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.statement.CheckedExceptionList;
 import chameleon.oo.statement.ExceptionSource;
 import chameleon.oo.statement.Statement;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -20,10 +19,10 @@ public abstract class Clause extends ElementImpl implements ExceptionSource {
 	/**
 	 * Statement
 	 */
-	private SingleAssociation<Clause,Statement> _statement = new SingleAssociation<Clause,Statement>(this);
+	private Single<Statement> _statement = new Single<Statement>(this,true);
 
   public void setStatement(Statement statement) {
-    setAsParent(_statement,statement);
+    set(_statement,statement);
   }
 
   public void removeStatement() {

@@ -2,21 +2,20 @@ package chameleon.aspect.oo.model.pointcut;
 
 import java.util.List;
 
-import org.rejuse.association.OrderedMultiAssociation;
-
 import chameleon.core.element.Element;
 import chameleon.oo.expression.NamedTargetExpression;
+import chameleon.util.association.Multi;
 
 public class ArgsPointcutExpression extends AbstractParameterExposurePointcutExpression implements RuntimePointcutExpression<Element> {
 	
-	private OrderedMultiAssociation<ArgsPointcutExpression, NamedTargetExpression> _parameters = new OrderedMultiAssociation<ArgsPointcutExpression, NamedTargetExpression>(this);
+	private Multi<NamedTargetExpression> _parameters = new Multi<NamedTargetExpression>(this);
 	
 	public List<NamedTargetExpression> parameters() {
 		return _parameters.getOtherEnds();
 	}
 	
 	public void add(NamedTargetExpression parameter) {
-		setAsParent(_parameters, parameter);
+		add(_parameters, parameter);
 	}
 	
 	public void addAll(List<NamedTargetExpression> parameters) {

@@ -1,18 +1,12 @@
 package chameleon.support.statement;
 
 
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
-
-import chameleon.core.element.Element;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.statement.StatementImpl;
-import chameleon.oo.type.TypeReference;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -30,7 +24,7 @@ public abstract class ExpressionContainingStatement extends StatementImpl {
 	/**
 	 * EXPRESSION
 	 */
-	private SingleAssociation<ExpressionContainingStatement,Expression> _expression = new SingleAssociation<ExpressionContainingStatement,Expression>(this);
+	private Single<Expression> _expression = new Single<Expression>(this);
 
   
   public Expression getExpression() {
@@ -38,7 +32,7 @@ public abstract class ExpressionContainingStatement extends StatementImpl {
   }
   
   public void setExpression(Expression expression) {
-    setAsParent(_expression,expression);
+    set(_expression,expression);
   }
 
   @Override

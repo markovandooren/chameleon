@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.rejuse.association.Association;
-import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
@@ -16,6 +15,7 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.type.ParameterBlock;
+import chameleon.util.association.Multi;
 
 /**
  * WARNING! If you use a parameter block as an subelement of a class X, then you must add
@@ -111,7 +111,7 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 			return selector.selection(declarations());
 		}
 
-		private OrderedMultiAssociation<Stub, TypeParameter> _parameters = new OrderedMultiAssociation<Stub, TypeParameter>(this);
+		private Multi<TypeParameter> _parameters = new Multi<TypeParameter>(this);
 		
 		private List<TypeParameter> parameters() {
 			return _parameters.getOtherEnds();

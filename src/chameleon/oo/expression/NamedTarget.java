@@ -2,29 +2,27 @@ package chameleon.oo.expression;
 
 import java.lang.ref.SoftReference;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
-import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
-import chameleon.core.element.Element;
+import chameleon.core.lookup.DeclarationCollector;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.SelectorWithoutOrder;
 import chameleon.core.reference.CrossReferenceImpl;
+import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.core.reference.CrossReferenceWithName;
 import chameleon.core.reference.CrossReferenceWithTarget;
-import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.statement.CheckedExceptionList;
 import chameleon.util.Util;
+import chameleon.util.association.Single;
 public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implements CrossReferenceTarget, CrossReferenceWithTarget<TargetDeclaration>, CrossReferenceWithName<TargetDeclaration> {
 
 	/**
@@ -65,14 +63,14 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
 	/**
 	 * TARGET
 	 */
-	private SingleAssociation<CrossReferenceTarget,CrossReferenceTarget> _target = new SingleAssociation<CrossReferenceTarget,CrossReferenceTarget>(this);
+	private Single<CrossReferenceTarget> _target = new Single<CrossReferenceTarget>(this);
 
   public CrossReferenceTarget getTarget() {
     return _target.getOtherEnd();
   }
 
   public void setTarget(CrossReferenceTarget target) {
-    setAsParent(_target,target);
+    set(_target,target);
   }
 
   private SoftReference<TargetDeclaration> _cache;
@@ -118,27 +116,29 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
 	   	return result;
 	  }
 
+		DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
 	  CrossReferenceTarget target = getTarget();
     if(target != null) {
-      result = target.targetContext().lookUp(selector);//findElement(getName());
+      target.targetContext().lookUp(collector);
     } else {
-      result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
+      lexicalLookupStrategy().lookUp(collector);
     }
-    if(result != null) {
-	  	//OPTIMISATION
+    result = collector.result();
+//    if(result != null) {
+//	  	//OPTIMISATION
 	  	if(cache) {
 	  		setCache((TargetDeclaration) result);
 	  	}
       return result;
-    } else {
-    	// repeat for debugging purposes
-      if(target != null) {
-        result = target.targetContext().lookUp(selector);//findElement(getName());
-      } else {
-        result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
-      }
-    	throw new LookupException("Lookup of named target with name: "+name()+" returned null.");
-    }
+//    } else {
+//    	// repeat for debugging purposes
+//      if(target != null) {
+//        result = target.targetContext().lookUp(selector);//findElement(getName());
+//      } else {
+//        result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
+//      }
+//    	throw new LookupException("Lookup of named target with name: "+name()+" returned null.");
+//    }
   }
   
   public DeclarationSelector<TargetDeclaration> selector() {

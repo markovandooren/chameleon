@@ -1,11 +1,6 @@
 package chameleon.support.statement;
 
 
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
-
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.VerificationResult;
@@ -13,7 +8,7 @@ import chameleon.oo.expression.Expression;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.statement.Statement;
 import chameleon.oo.type.Type;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -29,11 +24,11 @@ public class IfThenElseStatement extends ExpressionContainingStatement {
 	/**
 	 * IF STATEMENT
 	 */
-	private SingleAssociation<IfThenElseStatement,Statement> _ifStatement = new SingleAssociation<IfThenElseStatement,Statement>(this);
+	private Single<Statement> _ifStatement = new Single<Statement>(this);
 
 
   public void setIfStatement(Statement statement) {
-  	setAsParent(_ifStatement, statement);
+  	set(_ifStatement, statement);
   }
 
   public Statement getIfStatement() {
@@ -43,10 +38,10 @@ public class IfThenElseStatement extends ExpressionContainingStatement {
 	/**
 	 * ELSE STATEMENT
 	 */
-	private SingleAssociation<IfThenElseStatement,Statement> _elseStatement = new SingleAssociation<IfThenElseStatement,Statement>(this);
+	private Single<Statement> _elseStatement = new Single<Statement>(this);
 
   public void setElseStatement(Statement statement) {
-    setAsParent(_elseStatement, statement);
+    set(_elseStatement, statement);
   }
 
   public Statement getElseStatement() {

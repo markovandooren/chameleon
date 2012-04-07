@@ -1,9 +1,5 @@
 package chameleon.oo.type;
 
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
@@ -12,7 +8,7 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.language.ObjectOrientedLanguage;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 public abstract class NonLocalTypeReference extends ElementImpl implements TypeReference {
 
@@ -32,10 +28,10 @@ public abstract class NonLocalTypeReference extends ElementImpl implements TypeR
 	}
 
 	public void setActualReference(TypeReference actual) {
-		setAsParent(_actual, actual);
+		set(_actual, actual);
 	}
 
-	private SingleAssociation<NonLocalTypeReference, TypeReference> _actual = new SingleAssociation<NonLocalTypeReference, TypeReference>(this);
+	private Single<TypeReference> _actual = new Single<TypeReference>(this);
 
 	@Override
 	public LookupStrategy lexicalLookupStrategy() throws LookupException {

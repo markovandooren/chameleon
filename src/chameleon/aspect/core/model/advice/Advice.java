@@ -2,8 +2,6 @@ package chameleon.aspect.core.model.advice;
 
 import java.util.List;
 
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.aspect.core.model.aspect.Aspect;
 import chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
@@ -15,6 +13,7 @@ import chameleon.core.modifier.Modifier;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.type.TypeReference;
+import chameleon.util.association.Single;
 
 public class Advice<B extends Element> extends ElementWithModifiersImpl {
 
@@ -25,15 +24,15 @@ public class Advice<B extends Element> extends ElementWithModifiersImpl {
 		setBody(body);
 	}
 
-	private SingleAssociation<Advice<B>, B> _body = new SingleAssociation<Advice<B>, B>(this);
-	private SingleAssociation<Advice<B>, PointcutExpression<?>> _pointcutExpression = new SingleAssociation<Advice<B>, PointcutExpression<?>>(this);
+	private Single<B> _body = new Single<B>(this);
+	private Single<PointcutExpression<?>> _pointcutExpression = new Single<PointcutExpression<?>>(this);
 
 	public B body() {
 		return _body.getOtherEnd();
 	}
 
 	public void setBody(B element) {
-		setAsParent(_body, element);
+		set(_body, element);
 	}
 
 	/**
@@ -55,7 +54,7 @@ public class Advice<B extends Element> extends ElementWithModifiersImpl {
 	}
 
 	public void setPointcutExpression(PointcutExpression<?> pointcutref) {
-		setAsParent(_pointcutExpression, pointcutref);
+		set(_pointcutExpression, pointcutref);
 	}
 
 	@Override

@@ -2,8 +2,6 @@ package chameleon.aspect.oo.model.advice.modifier;
 
 import java.util.List;
 
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.element.Element;
@@ -13,6 +11,7 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.modifier.ModifierImpl;
 import chameleon.oo.variable.FormalParameter;
 import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * 
@@ -23,7 +22,7 @@ public abstract class ModifierWithParameters extends ModifierImpl implements Dec
 	/**
 	 * 	The return parameter
 	 */
-	private SingleAssociation<ModifierWithParameters, FormalParameter> _parameter = new SingleAssociation<ModifierWithParameters, FormalParameter>(this);
+	private Single<FormalParameter> _parameter = new Single<FormalParameter>(this);
 
 	public ModifierWithParameters() {
 		super();
@@ -45,7 +44,7 @@ public abstract class ModifierWithParameters extends ModifierImpl implements Dec
 	 * 			The return parameter
 	 */
 	public void setParameter(FormalParameter parameter) {
-		setAsParent(_parameter, parameter);
+		set(_parameter, parameter);
 	}
 
 	/**

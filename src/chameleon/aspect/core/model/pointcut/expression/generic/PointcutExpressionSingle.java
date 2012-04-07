@@ -3,17 +3,16 @@ package chameleon.aspect.core.model.pointcut.expression.generic;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.aspect.core.model.pointcut.expression.AbstractPointcutExpression;
 import chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
 import chameleon.core.element.Element;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.VerificationResult;
+import chameleon.util.association.Single;
 
 
 public abstract class PointcutExpressionSingle<J extends Element> extends AbstractPointcutExpression<J> {
-	private SingleAssociation<PointcutExpressionSingle, PointcutExpression> _expression = new SingleAssociation<PointcutExpressionSingle, PointcutExpression>(this);;
+	private Single<PointcutExpression> _expression = new Single<PointcutExpression>(this);;
 
 	public PointcutExpressionSingle(PointcutExpression expression) {
 		super();
@@ -25,7 +24,7 @@ public abstract class PointcutExpressionSingle<J extends Element> extends Abstra
 	}
 
 	private void setExpression(PointcutExpression expression) {
-		setAsParent(_expression, expression);
+		set(_expression, expression);
 	}
 	
 	@Override

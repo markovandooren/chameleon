@@ -4,13 +4,10 @@ import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.OrderedMultiAssociation;
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
-import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
+import chameleon.core.lookup.DeclarationCollector;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.DeclaratorSelector;
 import chameleon.core.lookup.LookupException;
@@ -20,7 +17,8 @@ import chameleon.oo.expression.Expression;
 import chameleon.oo.expression.MethodInvocation;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.generics.ActualTypeArgument;
-import chameleon.util.Util;
+import chameleon.util.association.Multi;
+import chameleon.util.association.Single;
 
 public class CrossReferenceWithArguments extends ElementImpl {
 	
@@ -31,7 +29,7 @@ public class CrossReferenceWithArguments extends ElementImpl {
 	/**
 	 * TARGET
 	 */
-	private SingleAssociation<CrossReferenceWithArguments, CrossReferenceTarget> _target = new SingleAssociation<CrossReferenceWithArguments, CrossReferenceTarget>(
+	private Single<CrossReferenceTarget> _target = new Single<CrossReferenceTarget>(
 			this);
 
 	public CrossReferenceTarget getTarget() {
@@ -39,7 +37,7 @@ public class CrossReferenceWithArguments extends ElementImpl {
 	}
 
 	public void setTarget(CrossReferenceTarget target) {
-		setAsParent(_target,target);
+		set(_target,target);
 	}
 
 	public DeclarationSelector<Declaration> selector() throws LookupException {
@@ -49,11 +47,10 @@ public class CrossReferenceWithArguments extends ElementImpl {
 	/*********************
 	 * ACTUAL PARAMETERS *
 	 *********************/
-	private OrderedMultiAssociation<CrossReferenceWithArguments, Expression> _parameters = new OrderedMultiAssociation<CrossReferenceWithArguments, Expression>(
-			this);
+	private Multi<Expression> _parameters = new Multi<Expression>(this);
 
 	public void addArgument(Expression parameter) {
-		setAsParent(_parameters, parameter);
+		add(_parameters, parameter);
 	}
 
 	public void addAllArguments(List<? extends Expression> parameters) {
@@ -229,8 +226,7 @@ public class CrossReferenceWithArguments extends ElementImpl {
 	 * @
 	 */
 	// public abstract D getMethod() throws MetamodelException;
-	public <X extends Declaration> X getElement(DeclarationSelector<X> selector)
-			throws LookupException {
+	public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
 		X result = null;
 
 		// OPTIMISATION
@@ -242,28 +238,30 @@ public class CrossReferenceWithArguments extends ElementImpl {
 			return result;
 		}
 
+		DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
 		CrossReferenceTarget target = getTarget();
 		if (target == null) {
-			result = lexicalLookupStrategy().lookUp(selector);
+			lexicalLookupStrategy().lookUp(collector);
 		} else {
-			result = target.targetContext().lookUp(selector);
+			target.targetContext().lookUp(collector);
 		}
-		if (result != null) {
-			// OPTIMISATION
+		result = collector.result();
+//		if (result != null) {
+//			// OPTIMISATION
 			if (cache) {
 				setCache((Declaration) result);
 			}
 			return result;
-		} else {
-			// repeat lookup for debugging purposes.
-			// Config.setCaching(false);
-			if (target == null) {
-				result = lexicalLookupStrategy().lookUp(selector);
-			} else {
-				result = target.targetContext().lookUp(selector);
-			}
-			throw new LookupException("Method returned by invocation is null");
-		}
+//		} else {
+//			// repeat lookup for debugging purposes.
+//			// Config.setCaching(false);
+//			if (target == null) {
+//				result = lexicalLookupStrategy().lookUp(selector);
+//			} else {
+//				result = target.targetContext().lookUp(selector);
+//			}
+//			throw new LookupException("Method returned by invocation is null");
+//		}
 	}
 
 	public CrossReferenceWithArguments clone() {
@@ -312,8 +310,7 @@ public class CrossReferenceWithArguments extends ElementImpl {
 		remove(_genericArguments,arg);
 	}
 
-	private OrderedMultiAssociation<CrossReferenceWithArguments, ActualTypeArgument> _genericArguments = new OrderedMultiAssociation<CrossReferenceWithArguments, ActualTypeArgument>(
-			this);
+	private Multi<ActualTypeArgument> _genericArguments = new Multi<ActualTypeArgument>(this);
 
 	@Override
 	public VerificationResult verifySelf() {

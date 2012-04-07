@@ -1,15 +1,12 @@
 package chameleon.oo.expression;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
-import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.element.Element;
+import chameleon.core.lookup.DeclarationCollector;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.DeclaratorSelector;
 import chameleon.core.lookup.LookupException;
@@ -24,6 +21,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.variable.Variable;
 import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -75,14 +73,14 @@ public class VariableReference extends Expression implements Assignable, CrossRe
 	/**
 	 * TARGET
 	 */
-	private SingleAssociation<VariableReference,CrossReferenceTarget> _target = new SingleAssociation<VariableReference,CrossReferenceTarget>(this);
+	private Single<CrossReferenceTarget> _target = new Single<CrossReferenceTarget>(this);
 
   public CrossReferenceTarget getTarget() {
     return _target.getOtherEnd();
   }
 
   public void setTarget(CrossReferenceTarget target) {
-  	setAsParent(_target,target);
+  	set(_target,target);
   }
 
   public Variable getVariable() throws LookupException {
@@ -127,24 +125,25 @@ public class VariableReference extends Expression implements Assignable, CrossRe
   
   @SuppressWarnings("unchecked")
   public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
+		DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
     CrossReferenceTarget target = getTarget();
     X result;
     if(target != null) {
-      result = target.targetContext().lookUp(selector);//findElement(getName());
+      target.targetContext().lookUp(collector);//findElement(getName());
     } else {
-      result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
+      lexicalLookupStrategy().lookUp(collector);//findElement(getName());
     }
-    if(result != null) {
-      return result;
-    } else {
-    	// repeat for debugging purposes
-      if(target != null) {
-        result = target.targetContext().lookUp(selector);//findElement(getName());
-      } else {
-        result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
-      }
-    	throw new LookupException("Lookup of named target with name: "+name()+" returned null.");
-    }
+//    if(result != null) {
+      return collector.result();
+//    } else {
+//    	// repeat for debugging purposes
+//      if(target != null) {
+//        result = target.targetContext().lookUp(selector);//findElement(getName());
+//      } else {
+//        result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
+//      }
+//    	throw new LookupException("Lookup of named target with name: "+name()+" returned null.");
+//    }
   }
 
 	public DeclarationSelector<Variable> selector() {

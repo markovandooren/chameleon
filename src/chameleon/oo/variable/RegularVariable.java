@@ -1,11 +1,8 @@
 package chameleon.oo.variable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.rejuse.association.Association;
-import org.rejuse.association.OrderedMultiAssociation;
-import org.rejuse.association.SingleAssociation;
 import org.rejuse.java.collections.Visitor;
 import org.rejuse.property.PropertySet;
 
@@ -22,7 +19,8 @@ import chameleon.oo.statement.CheckedExceptionList;
 import chameleon.oo.statement.ExceptionSource;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
-import chameleon.util.Util;
+import chameleon.util.association.Multi;
+import chameleon.util.association.Single;
 
 public abstract class RegularVariable extends VariableImpl implements ExceptionSource {
 
@@ -35,7 +33,7 @@ public abstract class RegularVariable extends VariableImpl implements ExceptionS
 	/**
 	 * TYPE
 	 */
-	private SingleAssociation<Variable,TypeReference> _typeReference = new SingleAssociation<Variable,TypeReference>(this);
+	private Single<TypeReference> _typeReference = new Single<TypeReference>(this);
 
 
   public TypeReference getTypeReference() {
@@ -43,21 +41,21 @@ public abstract class RegularVariable extends VariableImpl implements ExceptionS
   }
 
   public void setTypeReference(TypeReference type) {
-    setAsParent(_typeReference,type);
+    set(_typeReference,type);
   }
 
 	/**
 	 * INITIALIZATION EXPRESSION 
 	 */
   
-	private SingleAssociation<RegularVariable,Expression> _init = new SingleAssociation<RegularVariable,Expression>(this);
+	private Single<Expression> _init = new Single<Expression>(this,false);
 
 	public Expression getInitialization() {
     return _init.getOtherEnd();
   }
   
   public void setInitialization(Expression expr) {
-    setAsParent(_init,expr);
+    set(_init,expr);
   }
   
   public CheckedExceptionList getCEL() throws LookupException {
@@ -82,7 +80,7 @@ public abstract class RegularVariable extends VariableImpl implements ExceptionS
 	 * MODIFIERS *
 	 *************/
 	
-	private OrderedMultiAssociation<Variable, Modifier> _modifiers = new OrderedMultiAssociation<Variable, Modifier>(this);
+	private Multi<Modifier> _modifiers = new Multi<Modifier>(this);
 
 	public List<Modifier> modifiers() {
 		return _modifiers.getOtherEnds();

@@ -3,7 +3,6 @@ package chameleon.oo.variable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.SingleAssociation;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertyMutex;
 
@@ -18,6 +17,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
 import chameleon.oo.type.Type;
+import chameleon.util.association.Single;
 
 public abstract class VariableImpl extends ElementImpl implements Variable {
 	
@@ -41,7 +41,7 @@ public abstract class VariableImpl extends ElementImpl implements Variable {
 
   public void setSignature(Signature signature) {
   	if(signature instanceof SimpleNameSignature || signature == null) {
-  		setAsParent(_signature, (SimpleNameSignature)signature);
+  		set(_signature, (SimpleNameSignature)signature);
   	} else {
   		throw new ChameleonProgrammerException("Setting wrong type of signature. Provided: "+(signature == null ? null :signature.getClass().getName())+" Expected SimpleNameSignature");
   	}
@@ -59,7 +59,7 @@ public abstract class VariableImpl extends ElementImpl implements Variable {
 		return signature().name();
 	}
 
-	private SingleAssociation<VariableImpl, SimpleNameSignature> _signature = new SingleAssociation<VariableImpl, SimpleNameSignature>(this);
+	private Single<SimpleNameSignature> _signature = new Single<SimpleNameSignature>(this);
 
 	@Override
 	public VerificationResult verifySelf() {

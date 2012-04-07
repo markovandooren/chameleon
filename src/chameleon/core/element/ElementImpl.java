@@ -1058,7 +1058,7 @@ public abstract class ElementImpl implements Element {
      @ post (element != null) ==> (element.parent() == association.getObject() && association.getOtherEnd() == element);
      @ post (element == null) ==> association.getOtherEnd() == null;
      @*/
-	 protected <T extends Element> void setAsParent(SingleAssociation<? extends Element, ? super T> association, T element) {
+	 protected <T extends Element> void set(SingleAssociation<? extends Element, ? super T> association, T element) {
 		 if(element != null) {
 			 association.connectTo((Association) element.parentLink());
 		 } else {
@@ -1080,7 +1080,7 @@ public abstract class ElementImpl implements Element {
      @
      @ post (element != null) ==> (element.parent() == association.getObject() && association.contains(element.parentLink());
      @*/
-	 protected <T extends Element> void setAsParent(AbstractMultiAssociation<? extends Element, ? super T> association, T element) {
+	 protected <T extends Element> void add(AbstractMultiAssociation<? extends Element, ? super T> association, T element) {
 		 if(element != null) {
 			 association.add((Association)element.parentLink());
 		 }

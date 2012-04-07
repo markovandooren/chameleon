@@ -1,9 +1,6 @@
 package chameleon.oo.type.generics;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
@@ -15,6 +12,7 @@ import chameleon.oo.type.IntersectionTypeReference;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Pair;
+import chameleon.util.association.Multi;
 
 /**
  * This class represents generic parameters as used in Java and C#.
@@ -67,7 +65,7 @@ public class FormalTypeParameter extends TypeParameter {
 		return new LazyTypeAlias(signature().clone(), this);
 	}
 	
-	private OrderedMultiAssociation<FormalTypeParameter,TypeConstraint> _typeConstraints = new OrderedMultiAssociation<FormalTypeParameter,TypeConstraint>(this);
+	private Multi<TypeConstraint> _typeConstraints = new Multi<TypeConstraint>(this);
 	
 	public List<TypeConstraint> constraints() {
 		return _typeConstraints.getOtherEnds();

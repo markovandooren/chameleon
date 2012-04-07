@@ -1,12 +1,9 @@
 package chameleon.support.statement;
 
-import org.rejuse.association.SingleAssociation;
-
-import chameleon.core.element.Element;
-import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.statement.Statement;
+import chameleon.util.association.Single;
 
 public abstract class IterationStatementWithExpression extends IterationStatement {
 	
@@ -20,7 +17,7 @@ public abstract class IterationStatementWithExpression extends IterationStatemen
 	/**
 	 * EXPRESSION
 	 */
-	private SingleAssociation<IterationStatementWithExpression,Expression> _expression = new SingleAssociation<IterationStatementWithExpression,Expression>(this);
+	private Single<Expression> _expression = new Single<Expression>(this);
 
   
   public Expression condition() {
@@ -28,7 +25,7 @@ public abstract class IterationStatementWithExpression extends IterationStatemen
   }
   
   public void setCondition(Expression expression) {
-    setAsParent(_expression,expression);
+    set(_expression,expression);
   }
 
 	@Override

@@ -1,11 +1,9 @@
 package chameleon.aspect.core.model.aspect;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.rejuse.association.MultiAssociation;
 import org.rejuse.association.OrderedMultiAssociation;
-import org.rejuse.association.SingleAssociation;
 
 import chameleon.aspect.core.model.advice.Advice;
 import chameleon.aspect.core.model.pointcut.Pointcut;
@@ -26,7 +24,8 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
-import chameleon.util.Util;
+import chameleon.util.association.Multi;
+import chameleon.util.association.Single;
 
 public class Aspect extends ElementImpl implements DeclarationContainer, Declaration {
 	
@@ -49,14 +48,10 @@ public class Aspect extends ElementImpl implements DeclarationContainer, Declara
 		return _pointcuts.getOtherEnds();
 	}
 	
-	private OrderedMultiAssociation<Aspect, Pointcut> _pointcuts = new OrderedMultiAssociation<Aspect, Pointcut>(this);
-	
-	public OrderedMultiAssociation<Aspect, Pointcut> pointcutLink() {
-		return _pointcuts;
-	}
+	private Multi<Pointcut> _pointcuts = new Multi<Pointcut>(this);
 	
 	public void addPointcut(Pointcut e) {
-		setAsParent(_pointcuts, e);
+		add(_pointcuts, e);
 	}
 
 	
@@ -67,14 +62,10 @@ public class Aspect extends ElementImpl implements DeclarationContainer, Declara
 		return _advices.getOtherEnds();
 	}
 	
-	private MultiAssociation<Aspect, Advice> _advices = new MultiAssociation<Aspect, Advice>(this);
-	
-	public MultiAssociation<Aspect, Advice> adviceLink() {
-		return _advices;
-	}
+	private Multi<Advice> _advices = new Multi<Advice>(this);
 	
 	public void addAdvice(Advice e) {
-		setAsParent(_advices, e);
+		add(_advices, e);
 	}
 
 	public Aspect clone() {
@@ -130,7 +121,7 @@ public class Aspect extends ElementImpl implements DeclarationContainer, Declara
 		return localLookupStrategy();
 	}
 	
-	private SingleAssociation<Aspect, SimpleNameSignature> _signature = new SingleAssociation<Aspect, SimpleNameSignature>(this);
+	private Single<SimpleNameSignature> _signature = new Single<SimpleNameSignature>(this);
 
 	@Override
 	public SimpleNameSignature signature() {
@@ -142,7 +133,7 @@ public class Aspect extends ElementImpl implements DeclarationContainer, Declara
 		if (!(signature instanceof SimpleNameSignature))
 			throw new ChameleonProgrammerException("Exptected simpleNameSignature, got " + signature);
 		
-		setAsParent(_signature, (SimpleNameSignature) signature);
+		set(_signature, (SimpleNameSignature) signature);
 	}
 
 

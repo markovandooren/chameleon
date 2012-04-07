@@ -3,12 +3,8 @@ package chameleon.support.member.simplename.variable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.OrderedMultiAssociation;
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
@@ -25,7 +21,8 @@ import chameleon.oo.variable.MemberVariable;
 import chameleon.oo.variable.RegularMemberVariable;
 import chameleon.oo.variable.VariableDeclaration;
 import chameleon.oo.variable.VariableDeclarator;
-import chameleon.util.Util;
+import chameleon.util.association.Multi;
+import chameleon.util.association.Single;
 
 public class MemberVariableDeclarator extends TypeElementImpl implements TypeElement, VariableDeclarator {
 
@@ -49,7 +46,7 @@ public class MemberVariableDeclarator extends TypeElementImpl implements TypeEle
 		remove(_declarations,declaration);
 	}
 	
-	private OrderedMultiAssociation<MemberVariableDeclarator, VariableDeclaration> _declarations = new OrderedMultiAssociation<MemberVariableDeclarator, VariableDeclaration>(this);
+	private Multi<VariableDeclaration> _declarations = new Multi<VariableDeclaration>(this);
 
 	public MemberVariable createVariable(SimpleNameSignature signature, Expression expression) {
 		MemberVariable result = new RegularMemberVariable(signature, typeReference().clone(),expression);
@@ -82,7 +79,7 @@ public class MemberVariableDeclarator extends TypeElementImpl implements TypeEle
 	/**
 	 * TYPE
 	 */
-	private SingleAssociation<MemberVariableDeclarator,TypeReference> _typeReference = new SingleAssociation<MemberVariableDeclarator,TypeReference>(this);
+	private Single<TypeReference> _typeReference = new Single<TypeReference>(this);
 
   public Type type() throws LookupException {
   	return typeReference().getType();
@@ -93,7 +90,7 @@ public class MemberVariableDeclarator extends TypeElementImpl implements TypeEle
   }
 
   public void setTypeReference(TypeReference type) {
-    setAsParent(_typeReference,type);
+    set(_typeReference,type);
   }
 
 	public List<? extends Declaration> declarations() throws LookupException {

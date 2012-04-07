@@ -3,10 +3,9 @@ package chameleon.core.namespacepart;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
+import chameleon.core.lookup.DeclarationCollector;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.Namespace;
@@ -14,6 +13,7 @@ import chameleon.core.reference.ElementReference;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -24,7 +24,7 @@ public class DemandImport extends Import {
     setNamespaceReference( (ElementReference<? extends Namespace>) ref);
   }
   
-	private SingleAssociation<DemandImport,ElementReference<? extends Namespace>> _packageOrType = new SingleAssociation<DemandImport,ElementReference<? extends Namespace>>(this);
+	private Single<ElementReference<? extends Namespace>> _packageOrType = new Single<ElementReference<? extends Namespace>>(this);
 
   
   public ElementReference<? extends Namespace> namespaceReference() {
@@ -32,7 +32,7 @@ public class DemandImport extends Import {
   }
   
   public void setNamespaceReference(ElementReference<? extends Namespace> ref) {
-  	setAsParent(_packageOrType,ref);
+  	set(_packageOrType,ref);
   }
   
   public DeclarationContainer declarationContainer() throws LookupException {
@@ -59,9 +59,13 @@ public class DemandImport extends Import {
 
 	@Override
 	public <D extends Declaration> List<D> demandImports(DeclarationSelector<D> selector) throws LookupException {
-		D selected = declarationContainer().localStrategy().lookUp(selector);
+		DeclarationCollector<D> collector = new DeclarationCollector<D>(selector);
+		declarationContainer().localStrategy().lookUp(collector);
 		List<D> result = new ArrayList<D>();
-		Util.addNonNull(selected, result);
+		if(! collector.willProceed()) { 
+		  D selected = collector.result();
+		  Util.addNonNull(selected, result);
+		}
 		return result;
 	}
 

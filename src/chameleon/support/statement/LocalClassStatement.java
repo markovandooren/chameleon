@@ -21,7 +21,7 @@ import chameleon.oo.statement.StatementListContainer;
 import chameleon.oo.statement.StatementListScope;
 import chameleon.oo.type.Type;
 import chameleon.support.property.accessibility.HierarchyScope;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -39,18 +39,14 @@ public class LocalClassStatement extends StatementImpl implements DeclarationCon
    * CLASS *
    *********/
 
-	private SingleAssociation<LocalClassStatement,Type> _type = new SingleAssociation<LocalClassStatement,Type>(this);
+	private Single<Type> _type = new Single<Type>(this);
 
 	public void setType(Type type) {
-		setAsParent(_type, type);
+		set(_type, type);
   }
 
   public Type getType() {
     return _type.getOtherEnd();
-  }
-
-  public SingleAssociation<LocalClassStatement,Type> getTypesLink() {
-    return _type;
   }
 
 	public LocalClassStatement clone() {

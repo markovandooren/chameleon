@@ -3,7 +3,6 @@ package chameleon.support.statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.java.collections.RobustVisitor;
 import org.rejuse.java.collections.Visitor;
 
@@ -17,6 +16,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.oo.statement.CheckedExceptionList;
 import chameleon.oo.statement.ExceptionSource;
 import chameleon.oo.statement.Statement;
+import chameleon.util.association.Multi;
 
 /**
  * A list of statement expressions as used in the initialization clause of a 
@@ -32,7 +32,7 @@ public class StatementExprList extends ElementImpl implements ForInit, Exception
 	/**
 	 * STATEMENT EXPRESSIONS
 	 */
-	private OrderedMultiAssociation<StatementExprList,StatementExpression> _statementExpressions = new OrderedMultiAssociation<StatementExprList,StatementExpression>(this);
+	private Multi<StatementExpression> _statementExpressions = new Multi<StatementExpression>(this);
 
   public void addStatement(StatementExpression statement) {
     add(_statementExpressions,statement);

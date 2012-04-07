@@ -1,15 +1,11 @@
 package chameleon.oo.type.generics;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.element.Element;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.type.TypeReference;
+import chameleon.util.association.Single;
 
 
 public abstract class ActualTypeArgumentWithTypeReference extends ActualTypeArgument {
@@ -23,10 +19,10 @@ public abstract class ActualTypeArgumentWithTypeReference extends ActualTypeArgu
 	}
 
 	public void setTypeReference(TypeReference ref) {
-		setAsParent(_type,ref);
+		set(_type,ref);
 	}
 
-	protected SingleAssociation<ActualTypeArgument,TypeReference> _type = new SingleAssociation<ActualTypeArgument,TypeReference>(this);
+	protected Single<TypeReference> _type = new Single<TypeReference>(this);
 
 	@Override
 	public VerificationResult verifySelf() {

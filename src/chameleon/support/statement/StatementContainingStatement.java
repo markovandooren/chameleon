@@ -1,12 +1,10 @@
 package chameleon.support.statement;
 
-import org.rejuse.association.SingleAssociation;
-
-import chameleon.core.element.Element;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.statement.Statement;
 import chameleon.oo.statement.StatementImpl;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -21,11 +19,11 @@ public abstract class StatementContainingStatement extends StatementImpl {
 	 * STATEMENT
 	 */
   
-	private SingleAssociation<StatementContainingStatement,Statement> _statement = new SingleAssociation<StatementContainingStatement,Statement>(this);
+	private Single<Statement> _statement = new Single<Statement>(this);
 
   
   public void setStatement(Statement statement) {
-    setAsParent(_statement,statement);
+    set(_statement,statement);
   }
   
   public void removeStatement() {

@@ -1,13 +1,8 @@
 package chameleon.aspect.oo.model.pointcut.method;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.QualifiedName;
-import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.validation.BasicProblem;
@@ -18,7 +13,7 @@ import chameleon.oo.method.Method;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.oo.variable.FormalParameter;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * 	Represents a reference to a method, used in a pointcut description. References to methods are always fully qualified and
@@ -159,20 +154,20 @@ public class MethodReference extends ElementImpl {
 	/**
 	 * 	The fully qualified name of the method
 	 */
-	private SingleAssociation<MethodReference, QualifiedName> _fqn = new SingleAssociation<MethodReference, QualifiedName>(this);
+	private Single<QualifiedName> _fqn = new Single<QualifiedName>(this);
 		
 	private void setFqn(QualifiedName fqn) {
-		setAsParent(_fqn, fqn);
+		set(_fqn, fqn);
 	}
 
 	public QualifiedName fqn() {
 		return _fqn.getOtherEnd();
 	}
 
-	private SingleAssociation<MethodReference, TypeReference> _typeRef = new SingleAssociation<MethodReference, TypeReference>(this);
+	private Single<TypeReference> _typeRef = new Single<TypeReference>(this);
 
 	private void setType(TypeReference type) {
-		setAsParent(_typeRef, type);
+		set(_typeRef, type);
 	}
 	
 	public TypeReference type() {

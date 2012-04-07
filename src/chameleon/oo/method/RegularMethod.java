@@ -1,12 +1,10 @@
 package chameleon.oo.method;
 
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.VerificationResult;
-import chameleon.oo.member.DeclarationWithParametersSignature;
 import chameleon.oo.method.exception.ExceptionClause;
 import chameleon.oo.type.TypeReference;
+import chameleon.util.association.Single;
 
 public abstract class RegularMethod extends Method {
 
@@ -23,20 +21,20 @@ public abstract class RegularMethod extends Method {
 		header().setReturnTypeReference(type);
 	}
 
-	private SingleAssociation<Method,Implementation> _implementationLink = new SingleAssociation<Method,Implementation>(this);
+	private Single<Implementation> _implementationLink = new Single<Implementation>(this);
 
 	public Implementation implementation() {
 		return _implementationLink.getOtherEnd();
 	}
 
 	public void setImplementation(Implementation implementation) {
-		setAsParent(_implementationLink,implementation);
+		set(_implementationLink,implementation);
 	}
 
   /**
    * EXCEPTION CLAUSE
    */
-  private SingleAssociation<RegularMethod,ExceptionClause> _exceptionClause = new SingleAssociation<RegularMethod,ExceptionClause>(this);
+  private Single<ExceptionClause> _exceptionClause = new Single<ExceptionClause>(this);
 
 
   public ExceptionClause getExceptionClause() {
@@ -44,7 +42,7 @@ public abstract class RegularMethod extends Method {
   }
 
   public void setExceptionClause(ExceptionClause clause) {
-    setAsParent(_exceptionClause,clause);
+    set(_exceptionClause,clause);
   }
   
 	@Override

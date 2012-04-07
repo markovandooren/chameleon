@@ -1,8 +1,7 @@
 package chameleon.support.expression;
 
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.oo.expression.Expression;
+import chameleon.util.association.Single;
 
 public abstract class ExpressionContainingExpression extends Expression {
 
@@ -14,7 +13,7 @@ public abstract class ExpressionContainingExpression extends Expression {
 	 * FIRST
 	 */
   
-	private SingleAssociation<ExpressionContainingExpression,Expression> _first = new SingleAssociation<ExpressionContainingExpression,Expression>(this);
+	private Single<Expression> _first = new Single<Expression>(this);
 
   /**
    * Return the first expression
@@ -32,7 +31,7 @@ public abstract class ExpressionContainingExpression extends Expression {
    @ post getFirst().equals(first); 
    @*/
   public void setExpression(Expression expression) {
-    setAsParent(_first,expression);
+    set(_first,expression);
   }
 
 

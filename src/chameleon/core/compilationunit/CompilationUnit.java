@@ -3,8 +3,6 @@ package chameleon.core.compilationunit;
 import java.util.Iterator;
 import java.util.List;
 
-import org.rejuse.association.OrderedMultiAssociation;
-
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.language.Language;
@@ -15,6 +13,7 @@ import chameleon.core.namespacepart.NamespacePart;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
+import chameleon.util.association.Multi;
 
 /**
  * A compilation unit represents a file in which elements of the program/model are defined.
@@ -67,7 +66,7 @@ public class CompilationUnit extends ElementImpl {
 		remove(_subNamespaceParts,pp);
 	}
 	
-	private OrderedMultiAssociation<CompilationUnit, NamespacePart> _subNamespaceParts = new OrderedMultiAssociation<CompilationUnit, NamespacePart>(this);
+	private Multi<NamespacePart> _subNamespaceParts = new Multi<NamespacePart>(this);
 
 
 	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {

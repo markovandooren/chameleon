@@ -4,16 +4,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.java.collections.RobustVisitor;
 import org.rejuse.predicate.AbstractPredicate;
 
-import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.MethodInvocation;
+import chameleon.util.association.Multi;
 
 /**
  * @author Marko van Dooren
@@ -98,7 +97,7 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
 	 * EXCEPTION DECLARATIONS
 	 */
 
-  private OrderedMultiAssociation<ExceptionClause,ExceptionDeclaration> _exceptionDeclarations = new OrderedMultiAssociation<ExceptionClause,ExceptionDeclaration>(this);
+  private Multi<ExceptionDeclaration> _exceptionDeclarations = new Multi<ExceptionDeclaration>(this);
 
   public void add(ExceptionDeclaration decl) {
     add(_exceptionDeclarations,decl);

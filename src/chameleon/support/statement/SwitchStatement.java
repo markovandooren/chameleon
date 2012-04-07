@@ -2,14 +2,12 @@ package chameleon.support.statement;
 
 import java.util.List;
 
-import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.java.collections.Visitor;
 
-import chameleon.core.element.Element;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
-import chameleon.util.Util;
+import chameleon.util.association.Multi;
 
 /**
  * @author Marko van Dooren
@@ -23,11 +21,7 @@ public class SwitchStatement extends ExpressionContainingStatement {
 	/**
 	 * SWITCH CASES
 	 */
-	private OrderedMultiAssociation<SwitchStatement,SwitchCase> _switchCases = new OrderedMultiAssociation<SwitchStatement,SwitchCase>(this);
-
-  public OrderedMultiAssociation<SwitchStatement,SwitchCase> getCasesLink() {
-    return _switchCases;
-  }
+	private Multi<SwitchCase> _switchCases = new Multi<SwitchCase>(this);
 
   public void addCase(SwitchCase switchCase) {
     add(_switchCases,switchCase);

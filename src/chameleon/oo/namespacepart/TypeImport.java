@@ -3,8 +3,6 @@ package chameleon.oo.namespacepart;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.declaration.Declaration;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
@@ -13,6 +11,7 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -23,14 +22,14 @@ public class TypeImport extends Import {
     setTypeReference(ref);
   }
   
-	private SingleAssociation<TypeImport, TypeReference> _typeReference = new SingleAssociation<TypeImport, TypeReference>(this);
+	private Single<TypeReference> _typeReference = new Single<TypeReference>(this);
 
   public TypeReference getTypeReference() {
     return (TypeReference)_typeReference.getOtherEnd();
   }
 
   public void setTypeReference(TypeReference reference) {
-  	setAsParent(_typeReference,reference);
+  	set(_typeReference,reference);
   }
   
   public Type type() throws LookupException {

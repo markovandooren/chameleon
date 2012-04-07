@@ -2,17 +2,16 @@ package chameleon.aspect.oo.model.advice;
 
 import java.util.List;
 
-import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.java.collections.Visitor;
 
 import chameleon.aspect.core.model.advice.Advice;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.type.Type;
+import chameleon.util.association.Multi;
 
 public class ProceedCall extends Expression {
 
@@ -77,11 +76,10 @@ public class ProceedCall extends Expression {
 		return result;
 	}
 
-	private OrderedMultiAssociation<ProceedCall, Expression> _parameters = new OrderedMultiAssociation<ProceedCall, Expression>(
-			this);
+	private Multi<Expression> _parameters = new Multi<Expression>(this);
 
 	public void addArgument(Expression parameter) {
-		setAsParent(_parameters, parameter);
+		add(_parameters, parameter);
 	}
 
 	public void addAllArguments(List<Expression> parameters) {

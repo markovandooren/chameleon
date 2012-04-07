@@ -1,10 +1,6 @@
 package chameleon.aspect.oo.model.pointcut;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
 
 import chameleon.aspect.core.model.pointcut.Pointcut;
 import chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
@@ -15,12 +11,11 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.member.SimpleNameDeclarationWithParametersHeader;
 import chameleon.oo.member.SimpleNameDeclarationWithParametersSignature;
 import chameleon.oo.variable.FormalParameter;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 public class ProgrammingPointcut extends Pointcut implements DeclarationContainer {
 
@@ -33,14 +28,14 @@ public class ProgrammingPointcut extends Pointcut implements DeclarationContaine
 		setHeader(header);
 	}
 
-	private SingleAssociation<Pointcut, SimpleNameDeclarationWithParametersHeader> _header = new SingleAssociation<Pointcut, SimpleNameDeclarationWithParametersHeader>(this);
+	private Single<SimpleNameDeclarationWithParametersHeader> _header = new Single<SimpleNameDeclarationWithParametersHeader>(this);
 	
 	public SimpleNameDeclarationWithParametersHeader header() {
 		return _header.getOtherEnd();
 	}
 	
 	protected void setHeader(SimpleNameDeclarationWithParametersHeader header) {
-		setAsParent(_header, header);
+		set(_header, header);
 	}
 	
   @Override

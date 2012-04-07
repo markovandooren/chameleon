@@ -2,24 +2,20 @@ package chameleon.aspect.core.model.pointcut.expression.generic;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import org.rejuse.association.SingleAssociation;
 
 import chameleon.aspect.core.model.pointcut.expression.AbstractPointcutExpression;
 import chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
-import chameleon.aspect.oo.model.pointcut.ParameterExposurePointcutExpression;
 import chameleon.aspect.oo.model.pointcut.RuntimePointcutExpression;
 import chameleon.core.element.Element;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.VerificationResult;
-import chameleon.oo.variable.FormalParameter;
+import chameleon.util.association.Single;
 
 
 public abstract class PointcutExpressionDual<J extends Element> extends AbstractPointcutExpression<J> implements RuntimePointcutExpression<J> {
 	
-	private SingleAssociation<PointcutExpressionDual, PointcutExpression<J>> _expression1 = new SingleAssociation<PointcutExpressionDual, PointcutExpression<J>>(this);
-	private SingleAssociation<PointcutExpressionDual, PointcutExpression<J>> _expression2 = new SingleAssociation<PointcutExpressionDual, PointcutExpression<J>>(this);
+	private Single<PointcutExpression<J>> _expression1 = new Single<PointcutExpression<J>>(this);
+	private Single<PointcutExpression<J>> _expression2 = new Single<PointcutExpression<J>>(this);
 
 	public PointcutExpressionDual(PointcutExpression expression1, PointcutExpression expression2) {
 		super();
@@ -38,11 +34,11 @@ public abstract class PointcutExpressionDual<J extends Element> extends Abstract
 	}
 	
 	protected void setExpression1(PointcutExpression<J> expression1) {
-		setAsParent(_expression1, expression1);
+		set(_expression1, expression1);
 	}
 
 	protected void setExpression2(PointcutExpression<J> expression2) {
-		setAsParent(_expression2, expression2);
+		set(_expression2, expression2);
 	}
 
 	@Override

@@ -1,32 +1,25 @@
 package chameleon.aspect.oo.model.pointcut.catchclause;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
-
-import chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import chameleon.aspect.oo.model.pointcut.SubtypeMarker;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.statement.Statement;
 import chameleon.oo.type.TypeReference;
 import chameleon.support.statement.CatchClause;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 public class TypeCatchClausePointcutExpression extends CatchClausePointcutExpression {
 	
-	private SingleAssociation<TypeCatchClausePointcutExpression, TypeReference> _exceptionType = new SingleAssociation<TypeCatchClausePointcutExpression, TypeReference>(this);
+	private Single<TypeReference> _exceptionType = new Single<TypeReference>(this);
 	
 	// TODO: check wanted behavior for subtypes
-	private SingleAssociation<TypeCatchClausePointcutExpression, SubtypeMarker> _subtypeMarker = new SingleAssociation<TypeCatchClausePointcutExpression, SubtypeMarker>(this);
+	private Single<SubtypeMarker> _subtypeMarker = new Single<SubtypeMarker>(this);
 	
 	public TypeReference exceptionType() {
 		return _exceptionType.getOtherEnd();
 	}
 	
 	public void setExceptionType(TypeReference exceptionType) {
-		setAsParent(_exceptionType, exceptionType);
+		set(_exceptionType, exceptionType);
 	}
 	
 	public SubtypeMarker subtypeMarker() {
@@ -38,7 +31,7 @@ public class TypeCatchClausePointcutExpression extends CatchClausePointcutExpres
 	}
 	
 	public void setSubtypeMarker(SubtypeMarker marker) {
-		setAsParent(_subtypeMarker, marker);
+		set(_subtypeMarker, marker);
 	}
 	
 //	@Override

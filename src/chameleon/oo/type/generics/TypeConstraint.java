@@ -40,7 +40,7 @@ public abstract class TypeConstraint extends ElementImpl {
 	public abstract Type lowerBound() throws LookupException;
 	
 	public void setTypeReference(TypeReference ref) {
-		setAsParent(_types,ref);
+		set(_types,ref);
 	}
 	
 	public TypeReference typeReference() {

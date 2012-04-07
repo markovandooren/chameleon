@@ -1,27 +1,21 @@
 package chameleon.aspect.oo.model.pointcut.method;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import chameleon.aspect.oo.model.pointcut.MethodInvocationPointcutExpression;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.expression.MethodInvocation;
 import chameleon.oo.type.Type;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 public class SignatureMethodInvocationPointcutExpression extends MethodInvocationPointcutExpression {
-	private SingleAssociation<SignatureMethodInvocationPointcutExpression, MethodReference> _methodReference = new SingleAssociation<SignatureMethodInvocationPointcutExpression, MethodReference>(this);
+	private Single<MethodReference> _methodReference = new Single<MethodReference>(this);
 	
 	public SignatureMethodInvocationPointcutExpression(MethodReference methodReference) {
 		setMethodReference(methodReference);
 	}
 
 	private void setMethodReference(MethodReference methodReference) {
-		setAsParent(_methodReference, methodReference);
+		set(_methodReference, methodReference);
 	}
 	
 	private MethodReference methodReference() {

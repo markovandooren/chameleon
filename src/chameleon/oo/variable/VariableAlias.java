@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.SafePredicate;
 import org.rejuse.property.PropertySet;
@@ -34,6 +33,7 @@ import chameleon.oo.statement.CheckedExceptionList;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
+import chameleon.util.association.Multi;
 
 public class VariableAlias extends VariableImpl implements MemberVariable {
 	
@@ -75,7 +75,7 @@ public class VariableAlias extends VariableImpl implements MemberVariable {
 		return aliasedVariable().is(property);
 	}
 
-	private OrderedMultiAssociation<Variable, Modifier> _modifiers = new OrderedMultiAssociation<Variable, Modifier>(this);
+	private Multi<Modifier> _modifiers = new Multi<Modifier>(this);
 
 	public void addModifier(Modifier modifier) {
 		add(_modifiers,modifier);
