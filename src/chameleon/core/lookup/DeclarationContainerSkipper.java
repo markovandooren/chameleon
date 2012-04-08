@@ -8,25 +8,25 @@ import chameleon.core.declaration.DeclarationContainer;
 
 public class DeclarationContainerSkipper<D extends Declaration> extends DeclarationCollector<D> {
 
-	private DeclarationCollector<D> _original;
+	private Collector<D> _original;
 	
 	private DeclarationContainer _skipped;
 	
-	public DeclarationContainerSkipper(DeclarationCollector<D> original, DeclarationContainer skipped) {
-		super(null, false);
+	public DeclarationContainerSkipper(Collector<D> original, DeclarationContainer skipped) {
+		super();
 		_original = original;
 		_skipped = skipped;
 	}
 
-//	@Override
-//	public void process(DeclarationContainer container) throws LookupException {
-//		if(! container.equals(_skipped)) {
-//			_original.process(container);
-//		}
-//	}
+	@Override
+	public void process(LocalLookupStrategy<?> local) throws LookupException {
+		if(! local.declarationContainer().sameAs(_skipped)) {
+			_original.process(local);
+		}
+	}
 	
 	@Override
-	public void proceed(LookupStrategy next) throws LookupException {
-		_original.proceed(next);
+	public void proceed(LexicalLookupStrategy current) throws LookupException {
+		_original.proceed(current);
 	}
 }

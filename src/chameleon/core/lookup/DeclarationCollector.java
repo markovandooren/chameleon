@@ -10,9 +10,7 @@ public class DeclarationCollector<D extends Declaration> extends Collector<D> {
 		super(selector);
 	}
 	
-	protected DeclarationCollector(DeclarationSelector<D> selector, boolean hack) {
-		super(selector);
-	}
+	protected DeclarationCollector(){}
 	
 	public void process(List<? extends Declaration> candidates) throws LookupException {
 		List<Declaration> tmp = (List<Declaration>) candidates;

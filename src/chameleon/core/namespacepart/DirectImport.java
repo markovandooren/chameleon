@@ -1,6 +1,7 @@
 package chameleon.core.namespacepart;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import chameleon.core.declaration.Declaration;
@@ -79,7 +80,7 @@ public class DirectImport<D extends Declaration> extends Import {
 
 	@Override
 	public <D extends Declaration> List<D> demandImports(DeclarationSelector<D> selector) throws LookupException {
-		return new ArrayList<D>();
+		return Collections.EMPTY_LIST;
 	}
 
 	@Override

@@ -80,7 +80,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @
    @ post \result != null;
    @*/
-  protected abstract Class<D> selectedClass();
+  public abstract Class<D> selectedClass();
   
   /**
    * Return the list of declarations in the given set that are selected.

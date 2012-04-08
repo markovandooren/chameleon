@@ -1,6 +1,7 @@
 package chameleon.oo.namespacepart;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import chameleon.core.declaration.Declaration;
@@ -61,7 +62,7 @@ public class TypeImport extends Import {
 
 	@Override
 	public <D extends Declaration> List<D> demandImports(DeclarationSelector<D> selector) throws LookupException {
-		return new ArrayList<D>();
+		return Collections.EMPTY_LIST;
 	}
 
 	@Override
@@ -70,20 +71,6 @@ public class TypeImport extends Import {
 		List<Declaration> tmp = new ArrayList<Declaration>();
 		tmp.add(type());
 		return selector.selection(tmp);
-//		D element = selector.selection(type());
-//		if(element != null) {
-//		  result.add(element);
-//		}
-//		return result;
 	}
 
-	@Override
-	public VerificationResult verifySelf() {
-		return Valid.create();
-	}
-  
-//	@Override
-//	public boolean importsSameAs(Import other) throws LookupException {
-//		return other instanceof TypeImport && ((TypeImport)other).type().sameAs(type());
-//	}
 }

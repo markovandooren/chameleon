@@ -72,7 +72,7 @@ public class LocalLookupStrategy<E extends DeclarationContainer> extends LookupS
    */
 	@Override
 	public <D extends Declaration> void lookUp(Collector<D> collector) throws LookupException {
-	  collector.process(declarations(collector.selector()));
+	  collector.process(this);
 	}
 
 }
