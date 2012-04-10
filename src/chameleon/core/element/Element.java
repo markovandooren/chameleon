@@ -18,7 +18,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.property.ChameleonProperty;
-import chameleon.core.tag.Tag;
+import chameleon.core.tag.Metadata;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ModelException;
 import chameleon.util.concurrent.Action;
@@ -543,29 +543,29 @@ public interface Element {
     public <T extends Element, X extends Exception> void apply(Class<T> c, UnsafeAction<T,X> action) throws X;
 
     /**
-     * Return the tag with the given name.
-     * @param name
-     *        The name under which the tag is registered.
+     * Return the metadata with the given key.
+     * @param key
+     *        The key under which the metadata is registered.
      */
    /*@
      @
      @*/
-    public Tag tag(String name);
+    public Metadata metadata(String key);
 
     /**
-     * Return all tags associated with this element.
+     * Return all metadata associated with this element.
      */
    /*@
      @ public behavior
      @
      @ post \result != null;
-     @ post (\forall Tag tag;; 
-     @        \result.contains(tag) == (\exists String s;; tag(s) == tag));
+     @ post (\forall Metadata data;; 
+     @        \result.contains(data) == (\exists String key;; metadata(key) == data));
      @*/
-    public Collection<Tag> tags();
+    public Collection<Metadata> metadata();
     
     /**
-     * Check whether or not a tag is registered under the given name
+     * Check whether or not metadata is registered under the given key
      * @param name
      *        The name to be checked
      * @return
@@ -573,65 +573,65 @@ public interface Element {
    /*@
      @ public behavior
      @
-     @ pre name != null;
+     @ pre key != null;
      @
-     @ post \result == (tag(name) != null);
+     @ post \result == (metadata(key) != null);
      @*/
-    public boolean hasTag(String name);
+    public boolean hasMetadata(String key);
 
     /**
-     * Register the given tag under the given name. 
+     * Register the given metadata under the given key. 
      * 
-     * If an element was already
-     * registered under the given name, that element will be unregistered and its
-     * element reference set to null such that the bidirectional association is kept consistent.
+     * If an element was already registered under the given key, 
+     * that element will be unregistered and its element reference set to null 
+     * such that the bidirectional association is kept consistent.
      * 
-     * @param tag
-     *        The tag to be registered
-     * @param name
-     *        The name under which the given tag must be registered,
+     * @param data
+     *        The data to be registered
+     * @param key
+     *        The key under which the given metadata must be registered,
      */
    /*@
      @ public behavior
      @
-     @ pre name != null;
-     @ pre tag != null;
+     @ pre key != null;
+     @ pre data != null;
      @
-     @ post tag(name) == tag;
+     @ post metadata(key) == data;
      @*/
-    public void setTag(Tag tag, String name);
+    public void setMetadata(Metadata data, String key);
 
     /**
-     * Remove the tag registered under the given name.
-     * @param name
-     *        The name of the tag to be removed.
+     * Remove the metadata registered under the given key.
+     * @param key
+     *        The key of the metadata to be removed.
      */
    /*@
      @ public behavior
      @
-     @ post tag(name) == null;
+     @ post tag(key) == null;
      @*/
-    public void removeTag(String name);
+    public void removeMetadata(String key);
     
     /**
-     * Remove all tags from this element
+     * Remove all metadata from this element
      */
    /*@
      @ public behavior
      @
-     @ post tags().isEmpty();
+     @ post metadata().isEmpty();
      @*/
-    public void removeAllTags();
+    public void removeAllMetadata();
 
     /**
-     * Check whether or not this element has tags.
+     * Check whether or not this element has metadata.
      */
    /*@
      @ public behavior
      @
-     @ post \result == ! tags().isEmpty();
+     @ post \result == ! metadata().isEmpty();
      @*/
-    public boolean hasTags();
+    public boolean hasMetadata();
     
     /**
      * Return the farthest ancestor.

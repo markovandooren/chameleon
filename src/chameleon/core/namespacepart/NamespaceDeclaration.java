@@ -32,21 +32,21 @@ import chameleon.util.association.Single;
  * @author Marko van Dooren
  * @author Tim Laeremans
  */
-public class NamespacePart extends ElementImpl implements DeclarationContainer {
+public class NamespaceDeclaration extends ElementImpl implements DeclarationContainer {
 
   static {
-    excludeFieldName(NamespacePart.class,"_namespaceLink");
+    excludeFieldName(NamespaceDeclaration.class,"_namespaceLink");
   }
   
 	private final class DefaultNamespaceSelector implements LookupStrategySelector {
 		public LookupStrategy strategy() throws LookupException {
 			// 5 SEARCH IN DEFAULT NAMESPACE
-			return NamespacePart.this.getDefaultNamespace().targetContext();
+			return NamespaceDeclaration.this.getDefaultNamespace().targetContext();
 		}
 	}
 
-	protected class ImportLocalDemandContext extends LocalLookupStrategy<NamespacePart> {
-	  public ImportLocalDemandContext(NamespacePart element) {
+	protected class ImportLocalDemandContext extends LocalLookupStrategy<NamespaceDeclaration> {
+	  public ImportLocalDemandContext(NamespaceDeclaration element) {
 			super(element);
 		}
 
@@ -65,8 +65,8 @@ public class NamespacePart extends ElementImpl implements DeclarationContainer {
 	  }
 	}
 	
-	protected class ImportLocalDirectContext extends LocalLookupStrategy<NamespacePart> {
-		private ImportLocalDirectContext(NamespacePart element) {
+	protected class ImportLocalDirectContext extends LocalLookupStrategy<NamespaceDeclaration> {
+		private ImportLocalDirectContext(NamespaceDeclaration element) {
 			super(element);
 		}
 
@@ -97,7 +97,7 @@ public class NamespacePart extends ElementImpl implements DeclarationContainer {
 			// 3 SEARCH IN CURRENT NAMESPACE
 			LookupStrategy currentNamespaceStrategy = namespace().localStrategy();
 			return language().lookupFactory().createLexicalLookupStrategy(
-					 currentNamespaceStrategy, NamespacePart.this, _demandImportStrategySelector)
+					 currentNamespaceStrategy, NamespaceDeclaration.this, _demandImportStrategySelector)
 			;
 		}
 	}
@@ -120,7 +120,7 @@ public class NamespacePart extends ElementImpl implements DeclarationContainer {
    @
    @ post getDeclaredNamespace() == namespace
    @*/ 
-	public NamespacePart(Namespace namespace) {
+	public NamespaceDeclaration(Namespace namespace) {
     setNamespace(namespace);
 	}
 	
@@ -184,22 +184,22 @@ public class NamespacePart extends ElementImpl implements DeclarationContainer {
 		return namespace().getFullyQualifiedName();
 	}
 
-	public NamespacePart getNearestNamespacePart() {
+	public NamespaceDeclaration getNearestNamespacePart() {
 		return this;
 	}
 	
 	/**
 	 * NAMESPACEPARTS
 	 */
-	public List<NamespacePart> namespaceParts() {
+	public List<NamespaceDeclaration> namespaceParts() {
 		return _subNamespaceParts.getOtherEnds();
 	}
 
-	public void addNamespacePart(NamespacePart pp) {
+	public void addNamespacePart(NamespaceDeclaration pp) {
 		add(_subNamespaceParts,pp);
 	}
 
-	public void removeNamespacePart(NamespacePart pp) {
+	public void removeNamespacePart(NamespaceDeclaration pp) {
 		remove(_subNamespaceParts,pp);
 	}
 
@@ -237,7 +237,7 @@ public class NamespacePart extends ElementImpl implements DeclarationContainer {
 		return super.disconnected() && namespace() != null;
 	}
 	
-	private Multi<NamespacePart> _subNamespaceParts = new Multi<NamespacePart>(this);
+	private Multi<NamespaceDeclaration> _subNamespaceParts = new Multi<NamespaceDeclaration>(this);
 
 	public List<Declaration> declarations() {
       return _types.getOtherEnds();
@@ -388,9 +388,9 @@ public class NamespacePart extends ElementImpl implements DeclarationContainer {
 	}
 
   @Override
-  public NamespacePart clone() {
-  	NamespacePart result = new NamespacePart(null);
-  	for(NamespacePart part: namespaceParts()) {
+  public NamespaceDeclaration clone() {
+  	NamespaceDeclaration result = new NamespaceDeclaration(null);
+  	for(NamespaceDeclaration part: namespaceParts()) {
   		result.addNamespacePart(part.clone());
   	}
   	for(Declaration declaration:declarations()) {

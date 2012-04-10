@@ -9,7 +9,7 @@ import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.namespacepart.NamespacePart;
+import chameleon.core.namespacepart.NamespaceDeclaration;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
@@ -23,9 +23,9 @@ import chameleon.util.association.Multi;
  * 
  * @author Marko van Dooren
  */
-public class CompilationUnit extends ElementImpl {
+public class Document extends ElementImpl {
 
-	public CompilationUnit() {
+	public Document() {
 		
 	}
 	
@@ -33,7 +33,7 @@ public class CompilationUnit extends ElementImpl {
    * Create a new compilation unit with the given namespace part.
    * @param namespacePart
    */
-	public CompilationUnit(NamespacePart defaultNamespacePart) {
+	public Document(NamespaceDeclaration defaultNamespacePart) {
     add(defaultNamespacePart);
 	}
 	
@@ -45,7 +45,7 @@ public class CompilationUnit extends ElementImpl {
 	/**
 	 * NAMESPACEPARTS
 	 */
-	public List<NamespacePart> namespaceParts() {
+	public List<NamespaceDeclaration> namespaceParts() {
 		return _subNamespaceParts.getOtherEnds();
 	}
 	
@@ -54,19 +54,19 @@ public class CompilationUnit extends ElementImpl {
 	 * @param index
 	 * @return
 	 */
-	public NamespacePart namespacePart(int index) {
+	public NamespaceDeclaration namespacePart(int index) {
 		return _subNamespaceParts.elementAt(index);
 	}
 
-	public void add(NamespacePart pp) {
+	public void add(NamespaceDeclaration pp) {
 		add(_subNamespaceParts,pp);
 	}
 
-	public void remove(NamespacePart pp) {
+	public void remove(NamespaceDeclaration pp) {
 		remove(_subNamespaceParts,pp);
 	}
 	
-	private Multi<NamespacePart> _subNamespaceParts = new Multi<NamespacePart>(this);
+	private Multi<NamespaceDeclaration> _subNamespaceParts = new Multi<NamespaceDeclaration>(this);
 
 
 	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
@@ -75,10 +75,10 @@ public class CompilationUnit extends ElementImpl {
 
 
 	public Language language() {
-		List<NamespacePart> parts = namespaceParts();
+		List<NamespaceDeclaration> parts = namespaceParts();
 		Language result = null;
 		if(parts.size() > 0) {
-	    NamespacePart firstNamespace = parts.get(0);
+	    NamespaceDeclaration firstNamespace = parts.get(0);
 	    if(firstNamespace != null) {
 		    result = firstNamespace.language();
 	    }
@@ -88,9 +88,9 @@ public class CompilationUnit extends ElementImpl {
 
 
   @Override
-  public CompilationUnit clone() {
-    CompilationUnit result = new CompilationUnit();
-    for(NamespacePart namespacePart: namespaceParts()) {
+  public Document clone() {
+    Document result = new Document();
+    for(NamespaceDeclaration namespacePart: namespaceParts()) {
     	result.add(namespacePart.clone());
     }
     return result;
@@ -101,15 +101,15 @@ public class CompilationUnit extends ElementImpl {
 		return Valid.create();
 	}
 
-	public CompilationUnit cloneTo(Language targetLanguage) throws LookupException {
-		CompilationUnit clone = clone();
-		List<NamespacePart> originalNamespaceParts = namespaceParts();
-		List<NamespacePart> newNamespaceParts = clone.namespaceParts();
-		Iterator<NamespacePart> originalIterator = originalNamespaceParts.iterator();
-		Iterator<NamespacePart> newIterator = newNamespaceParts.iterator();
+	public Document cloneTo(Language targetLanguage) throws LookupException {
+		Document clone = clone();
+		List<NamespaceDeclaration> originalNamespaceParts = namespaceParts();
+		List<NamespaceDeclaration> newNamespaceParts = clone.namespaceParts();
+		Iterator<NamespaceDeclaration> originalIterator = originalNamespaceParts.iterator();
+		Iterator<NamespaceDeclaration> newIterator = newNamespaceParts.iterator();
 		while(originalIterator.hasNext()) {
-			NamespacePart originalNamespacePart = originalIterator.next();
-			NamespacePart newNamespacePart = newIterator.next();
+			NamespaceDeclaration originalNamespacePart = originalIterator.next();
+			NamespaceDeclaration newNamespacePart = newIterator.next();
 			Namespace originalNamespace = originalNamespacePart.namespace();
 			String fqn = originalNamespace.getFullyQualifiedName();
 			Namespace newNamespace = targetLanguage.defaultNamespace().getOrCreateNamespace(fqn);

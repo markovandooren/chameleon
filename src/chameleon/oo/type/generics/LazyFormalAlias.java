@@ -5,12 +5,11 @@ package chameleon.oo.type.generics;
 
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.lookup.LookupException;
-import chameleon.oo.type.ConstructedType;
 import chameleon.oo.type.Type;
 
-public class LazyTypeAlias extends ConstructedType {
+public class LazyFormalAlias extends FormalParameterType {
 
-	public LazyTypeAlias(SimpleNameSignature sig, FormalTypeParameter param) {
+	public LazyFormalAlias(SimpleNameSignature sig, FormalTypeParameter param) {
 		super(sig,null,param);
 	}
 	

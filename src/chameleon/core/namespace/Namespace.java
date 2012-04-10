@@ -21,7 +21,7 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespacepart.NamespacePart;
+import chameleon.core.namespacepart.NamespaceDeclaration;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.member.Member;
 
@@ -149,7 +149,7 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
    @
    @ post getNamespaceParts().contains(namespacepart);
    @*/
-	public abstract void addNamespacePart(NamespacePart namespacePart);
+	public abstract void addNamespacePart(NamespaceDeclaration namespacePart);
 
 	/**
 	 * Return all namespace parts attached to this namespace.
@@ -159,7 +159,7 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
    @
    @ post \result != null;
    @*/
-	public abstract List<NamespacePart> getNamespaceParts();
+	public abstract List<NamespaceDeclaration> getNamespaceParts();
 
 	/**
 	 * Return the root namespace of this metamodel instance.
@@ -291,7 +291,7 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
 	public List<Declaration> declarations() {
 		List<Declaration> result = new ArrayList<Declaration>();
 		result.addAll(getSubNamespaces());
-		for(NamespacePart part: getNamespaceParts()) {
+		for(NamespaceDeclaration part: getNamespaceParts()) {
 			result.addAll(part.declarations());
 		}
 		return result;

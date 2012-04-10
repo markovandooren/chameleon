@@ -95,4 +95,16 @@ public class Config {
 	public static void setCacheDeclarations(boolean value) {
 		CACHE_DECLARATIONS = value;
 	}
+	
+	public static boolean singleThreaded() {
+		return SINGLE_THREADED;
+	}
+	
+	public static void setSingleThreaded(boolean value) {
+		SINGLE_THREADED = value;
+	}
+	
+	private static boolean SINGLE_THREADED=true;
+
+
 }

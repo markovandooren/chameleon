@@ -10,7 +10,7 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespacepart.NamespacePart;
+import chameleon.core.namespacepart.NamespaceDeclaration;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.UniversalScope;
 import chameleon.core.validation.Valid;
@@ -53,18 +53,18 @@ public class RegularNamespace extends Namespace {
 	 * NAMESPACE PARTS *
 	 *******************/
 
-	private Multi<NamespacePart> _namespaceParts = new Multi<NamespacePart>(this);
+	private Multi<NamespaceDeclaration> _namespaceParts = new Multi<NamespaceDeclaration>(this);
 
 	public OrderedMultiAssociation getNamespacePartsLink(){
 		return _namespaceParts;
 	}
 
-	public synchronized void addNamespacePart(NamespacePart namespacePart){
+	public synchronized void addNamespacePart(NamespaceDeclaration namespacePart){
 		_namespaceParts.add((Association)namespacePart.namespaceLink());
 		flushLocalCache();
 	}
 
-	public List<NamespacePart> getNamespaceParts(){
+	public List<NamespaceDeclaration> getNamespaceParts(){
 		return _namespaceParts.getOtherEnds();
 	}
 
@@ -74,7 +74,7 @@ public class RegularNamespace extends Namespace {
 		for(Namespace sub:getSubNamespaces()) {
 			result.addNamespace(sub.clone());
 		}
-		for(NamespacePart part:getNamespaceParts()) {
+		for(NamespaceDeclaration part:getNamespaceParts()) {
 			result.addNamespacePart(part.clone());
 		}
 		return result;

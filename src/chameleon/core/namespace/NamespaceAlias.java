@@ -10,7 +10,7 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespacepart.NamespacePart;
+import chameleon.core.namespacepart.NamespaceDeclaration;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;
@@ -34,12 +34,12 @@ public class NamespaceAlias extends Namespace {
 	}
 
 	@Override
-	public void addNamespacePart(NamespacePart namespacePart) {
+	public void addNamespacePart(NamespaceDeclaration namespacePart) {
 		throw new ChameleonProgrammerException("Trying to add a namespace part to an aliased namespace");
 	}
 
 	@Override
-	public List<NamespacePart> getNamespaceParts() {
+	public List<NamespaceDeclaration> getNamespaceParts() {
 		return aliasedNamespace().getNamespaceParts();
 	}
 

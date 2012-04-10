@@ -7,7 +7,7 @@ import chameleon.core.element.Element;
  * 
  * @author Marko van Dooren
  */
-public interface Tag {
+public interface Metadata {
 
 	/**
 	 * Return the element to which this tag is attached.

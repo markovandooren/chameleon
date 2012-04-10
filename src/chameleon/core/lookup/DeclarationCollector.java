@@ -52,5 +52,10 @@ public class DeclarationCollector<D extends Declaration> extends Collector<D> {
 	}
 		
 	private List<D> _accumulator;
+
+	@Override
+	void storeCachedResult(List cached) {
+		_accumulator = cached;
+	}
 	
 }

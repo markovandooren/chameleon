@@ -55,10 +55,10 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.rejuse.predicate.SafePredicate;
 import org.rejuse.predicate.TypePredicate;
 
-import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.compilationunit.Document;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
-import chameleon.core.tag.Tag;
+import chameleon.core.tag.Metadata;
 import chameleon.eclipse.ChameleonEditorPlugin;
 import chameleon.eclipse.connector.EclipseEditorTag;
 import chameleon.eclipse.editors.actions.IChameleonEditorActionDefinitionIds;
@@ -524,19 +524,19 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 		boolean no_result = true;
 		boolean different_origin = true;
 		while(no_result && different_origin) {
-			if(element.hasTag(editorTagName)){
-				EclipseEditorTag tag = (EclipseEditorTag)element.tag(editorTagName);
+			if(element.hasMetadata(editorTagName)){
+				EclipseEditorTag tag = (EclipseEditorTag)element.metadata(editorTagName);
 				start = tag.getOffset();
 				length = tag.getLength();
 				no_result = false;
-			} else if(element.hasTag(EclipseEditorTag.ALL_TAG)){
-				EclipseEditorTag tag = (EclipseEditorTag)element.tag(EclipseEditorTag.ALL_TAG);
+			} else if(element.hasMetadata(EclipseEditorTag.ALL_TAG)){
+				EclipseEditorTag tag = (EclipseEditorTag)element.metadata(EclipseEditorTag.ALL_TAG);
 				start = tag.getOffset();
 				length = tag.getLength();
 				no_result = false;
 			} else {
-				Collection<Tag> editorTags = element.tags();  
-				new TypePredicate<Tag,EclipseEditorTag>(EclipseEditorTag.class).filter(editorTags);
+				Collection<Metadata> editorTags = element.metadata();  
+				new TypePredicate<Metadata,EclipseEditorTag>(EclipseEditorTag.class).filter(editorTags);
 				if(editorTags.isEmpty()) {
 					Element origin = element.origin();
 					if(origin != element) {
@@ -657,7 +657,7 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 		if(chamEditor != null){
 			try {
 				// check wheter the compilationunit of the element is opened in the active editor
-				final CompilationUnit elementCU = element.nearestAncestor(CompilationUnit.class);
+				final Document elementCU = element.nearestAncestor(Document.class);
 				if(elementCU==null){
 					chamEditor.resetHighlight(selectElement);
 					return false;
@@ -665,7 +665,7 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 				// if already opened in the active editor, highlight element
 //				IEditorPart activeEditor = Workbench.getInstance().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 				IEditorPart activeEditor = chamEditor.getSite().getPage().getActiveEditor();
-				if(activeEditor instanceof ChameleonEditor && elementCU.equals(((ChameleonEditor)activeEditor).getDocument().compilationUnit())){
+				if(activeEditor instanceof ChameleonEditor && elementCU.equals(((ChameleonEditor)activeEditor).getDocument().chameleonDocument())){
 					((ChameleonEditor)activeEditor).highLightElement(element, selectElement, editorTagToHighlight);
 					return true;
 				} else if(openOtherEditor){
@@ -752,7 +752,7 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 	/**
 	 * If an Chameleon-editor is opened with the given CompilationUnit, this chameleon editor is returned
 	 */
-	private static ChameleonEditor getOpenedEditorOfCompilationUnit(final CompilationUnit cu){
+	private static ChameleonEditor getOpenedEditorOfCompilationUnit(final Document cu){
 		// add all editors to a List:
 		Collection<ChameleonEditor> editors = getActiveChameleonEditors();
 		// filter out the one that has the same compilationunit as the given one
@@ -760,7 +760,7 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 			@Override
 			public boolean eval(ChameleonEditor editor) {
 				return(
-						editor.getDocument().compilationUnit().equals(cu)  
+						editor.getDocument().chameleonDocument().equals(cu)  
 				) ;
 			}
 		}.filter(editors);

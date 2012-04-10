@@ -25,7 +25,7 @@ public class CapturedTypeParameter extends FormalTypeParameter {
 
 	@Override
 	protected Type createLazyAlias() {
-		return new AbstractInstantiatedTypeParameter.LazyTypeAlias(signature().clone(), this);
+		return new LazyInstantiatedAlias(signature().clone(), this);
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class CapturedTypeParameter extends FormalTypeParameter {
 //			System.out.println("Creating selection type of " + x);
 //		}
 		if(_selectionTypeCache == null) {
-		  _selectionTypeCache = new ActualType(signature().clone(), upperBound(),this);
+		  _selectionTypeCache = new InstantiatedParameterType(signature().clone(), upperBound(),this);
 		}
 		return _selectionTypeCache;
 	}

@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 
-import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.compilationunit.Document;
 import chameleon.core.language.Language;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Invalid;
@@ -100,7 +100,7 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 		
 		// First collect all the compilation units. If we pass them in one call to
 		// the build method, the progress monitor works without writing additional code.
-		final List<CompilationUnit> cus = new ArrayList<CompilationUnit>();
+		final List<Document> cus = new ArrayList<Document>();
 		delta.accept(new ChameleonResourceDeltaFileVisitor(chameleonNature()){
 		
 			@Override
@@ -113,7 +113,7 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 				ChameleonDocument doc = documentOf(delta);
 				System.out.println("build: changed "+delta.getProjectRelativePath());
 				if(doc != null) {
-					CompilationUnit cu = doc.compilationUnit();
+					Document cu = doc.chameleonDocument();
 					cus.add(cu);
 				}
 			}
@@ -139,12 +139,12 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 		return "Building project";
 	}
 	
-	protected void buildHelper(List<CompilationUnit> compilationUnits, final IProgressMonitor monitor) throws CoreException {
+	protected void buildHelper(List<Document> compilationUnits, final IProgressMonitor monitor) throws CoreException {
 		// We only know how many CUs we are going to build after we have verified them. Therefore, the progress bar is only updated for building,
 		// not for verifying. Not ideal, but currently no other way.
-		List<CompilationUnit> validCompilationUnits = new ArrayList<CompilationUnit>();
+		List<Document> validCompilationUnits = new ArrayList<Document>();
 		
-		for(CompilationUnit cu: compilationUnits) {
+		for(Document cu: compilationUnits) {
 			VerificationResult ver = checkVerificationErrors(cu);
 			if(ver == null) {
 				System.out.println("debug");
@@ -157,7 +157,7 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 		}
 		
 		boolean released = true;
-		List<CompilationUnit> projectCompilationUnits = nature().compilationUnits();
+		List<Document> projectCompilationUnits = nature().compilationUnits();
 		try {
 			int totalWork = builder().totalAmountOfWork(validCompilationUnits, projectCompilationUnits);
 			System.out.println(totalWork);
@@ -235,7 +235,7 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 		}
 	}*/
 	
-	public VerificationResult checkVerificationErrors(CompilationUnit cu) throws CoreException {
+	public VerificationResult checkVerificationErrors(Document cu) throws CoreException {
 		VerificationResult result = null;
 		ChameleonDocument document = chameleonNature().document(cu);
 		try {

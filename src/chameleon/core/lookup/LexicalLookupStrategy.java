@@ -75,8 +75,24 @@ public class LexicalLookupStrategy extends LookupStrategy {
 		return selector().strategy();
 	}
 
-	public <D extends Declaration> void lookUp(Collector<D> proceed) throws LookupException {
-		localContext().lookUp(proceed);
-		proceed.proceed(this);
+	public <D extends Declaration> void lookUp(Collector<D> collector) throws LookupException {
+		boolean hit = false;
+		if(_cache != null) {
+			hit = _cache.search(collector);
+		}
+		if(! hit) {
+			localContext().lookUp(collector);
+			collector.proceed(this);
+			if(_cache != null) {
+				_cache.store(collector);
+			}
+		}
 	}
+	
+	@Override
+	public void enableCache() {
+		_cache = new Cache();
+	}
+	
+	private Cache _cache;
 }

@@ -299,7 +299,7 @@ public class ChameleonLabelProvider implements ILabelProvider {
 		try {
 			if(element instanceof TypeElement){
 //				EclipseBootstrapper languageModel = LanguageMgt.getInstance().getLanguageModelID(getLanguage().name());
-				Syntax syntax = LanguageMgt.getInstance().getCodeWriter(getLanguage().name());
+				Syntax syntax = element.language().plugin(Syntax.class);
 				String code = syntax.toCode(element);
 				result = code;
 			} else {

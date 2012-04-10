@@ -10,7 +10,7 @@ import org.antlr.runtime.RecognizerSharedState;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.TokenStream;
 
-import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.compilationunit.Document;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.namespace.Namespace;
@@ -143,13 +143,13 @@ public abstract class ChameleonParser<L extends Language> extends Parser {
 	     return _root;
 	   }
 
-	   CompilationUnit _cu = new CompilationUnit();
+	   Document _cu = new Document();
 	   
-	   public CompilationUnit getCompilationUnit() {
+	   public Document getCompilationUnit() {
 	     return _cu;
 	   }
 	   
-	   public void setCompilationUnit(CompilationUnit compilationUnit) {
+	   public void setCompilationUnit(Document compilationUnit) {
 	    if(compilationUnit == null) {
 	      throw new IllegalArgumentException("The compilation unit cannot be null.");
 	    }

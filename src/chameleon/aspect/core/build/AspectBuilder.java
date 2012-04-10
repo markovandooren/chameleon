@@ -6,7 +6,7 @@ import java.util.List;
 
 import chameleon.aspect.core.model.language.AspectOrientedLanguage;
 import chameleon.aspect.core.weave.AspectWeaver;
-import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.compilationunit.Document;
 import chameleon.core.language.Language;
 import chameleon.exception.ModelException;
 import chameleon.plugin.Plugin;
@@ -60,16 +60,16 @@ public class AspectBuilder extends PluginImpl implements Builder {
 	}
 
 	@Override
-	public void build(List<CompilationUnit> compilationUnits, List<CompilationUnit> allProjectCompilationUnits,	BuildProgressHelper buildProgressHelper) throws ModelException, IOException {
-			Collection<CompilationUnit> cus = _translator.build(null,allProjectCompilationUnits, buildProgressHelper);
+	public void build(List<Document> compilationUnits, List<Document> allProjectCompilationUnits,	BuildProgressHelper buildProgressHelper) throws ModelException, IOException {
+			Collection<Document> cus = _translator.build(null,allProjectCompilationUnits, buildProgressHelper);
 			CompilationUnitWriter writer = targetLanguage().plugin(CompilationUnitWriter.class);
-			for (CompilationUnit translated : cus) {
+			for (Document translated : cus) {
 				writer.write(translated);
 			}
 	}
 
 	@Override
-	public int totalAmountOfWork(List<CompilationUnit> compilationUnits, List<CompilationUnit> allProjectCompilationUnits) {
+	public int totalAmountOfWork(List<Document> compilationUnits, List<Document> allProjectCompilationUnits) {
 		return allProjectCompilationUnits.size();
 	}
 }

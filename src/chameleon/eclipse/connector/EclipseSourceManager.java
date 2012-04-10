@@ -34,7 +34,7 @@ public class EclipseSourceManager extends PluginImpl implements SourceManager {
 	}
 
 	public String text(Element element) throws NoLocationException {
-		EclipseEditorTag location = (EclipseEditorTag) element.tag(EclipseEditorTag.ALL_TAG);
+		EclipseEditorTag location = (EclipseEditorTag) element.metadata(EclipseEditorTag.ALL_TAG);
 		if(location == null) {
 			throw new NoLocationException(element);
 		}

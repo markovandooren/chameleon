@@ -17,7 +17,7 @@ public abstract class SimpleNameCrossReferenceWithArgumentsSelector<D extends De
 		extends TwoPhaseDeclarationSelector<D> {
 	
 	@Override
-	public boolean usesSelectionNameOnly() {
+	public boolean canBeCached() {
 		return false;
 	}
 

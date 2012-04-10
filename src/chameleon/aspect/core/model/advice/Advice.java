@@ -5,7 +5,7 @@ import java.util.List;
 import chameleon.aspect.core.model.aspect.Aspect;
 import chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
-import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.compilationunit.Document;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.modifier.ElementWithModifiersImpl;
@@ -82,7 +82,7 @@ public class Advice<B extends Element> extends ElementWithModifiersImpl {
 		return result;
 	}
 
-	public List<MatchResult<? extends Element>> getJoinPoints(CompilationUnit compilationUnit) throws LookupException {
+	public List<MatchResult<? extends Element>> getJoinPoints(Document compilationUnit) throws LookupException {
 		//		return getExpandedPointcutExpression().joinpoints(compilationUnit);
 		return pointcutExpression().joinpoints(compilationUnit);
 	}

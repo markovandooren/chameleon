@@ -19,6 +19,7 @@ import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
+import chameleon.core.lookup.Cache;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
@@ -257,6 +258,7 @@ public abstract class AbstractType extends FixedSignatureMember implements Type 
 	    	  		return lexicalParametersLookupStrategy();
 						}
 					}); 
+				_lexicalMembersLookupStrategy.enableCache();
     		result = _lexicalMembersLookupStrategy;
     	}
     	return result;
@@ -705,7 +707,7 @@ public abstract class AbstractType extends FixedSignatureMember implements Type 
     	return (List<D>) members((DeclarationSelector<? extends Member>)selector);
     }
 
-  	protected void copyContents(Type from) {
+      	protected void copyContents(Type from) {
   		copyContents(from, false);
   	}
 

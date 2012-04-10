@@ -128,7 +128,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
 		return true;
 	}
 	
-	public boolean usesSelectionNameOnly() {
+	public boolean canBeCached() {
 		return usesSelectionName();
 	}
 

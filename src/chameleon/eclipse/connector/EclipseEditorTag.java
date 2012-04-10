@@ -8,7 +8,7 @@ import org.eclipse.jface.text.Position;
 import org.rejuse.predicate.SafePredicate;
 
 import chameleon.core.element.Element;
-import chameleon.core.tag.Tag;
+import chameleon.core.tag.Metadata;
 import chameleon.eclipse.editors.ChameleonDocument;
 import chameleon.exception.ChameleonProgrammerException;
 
@@ -23,7 +23,7 @@ import chameleon.exception.ChameleonProgrammerException;
  * @author Joeri Hendrickx 
  * @author Marko van Dooren
  */
-public class EclipseEditorTag extends Position implements Tag {
+public class EclipseEditorTag extends Position implements Metadata {
 
 	/**
 	 * Initialize a new Chameleon editor position with the given offset and length, and
@@ -80,12 +80,12 @@ public class EclipseEditorTag extends Position implements Tag {
   		// Set new pointer, backup old for removal.
   		_element = element;
   		// Remove from current element.
-  		if((_element != null) && (_element.tag(name) == this)){
-  			_element.removeTag(name);
+  		if((_element != null) && (_element.metadata(name) == this)){
+  			_element.removeMetadata(name);
   		}
   		// Add to new element.
-  		if((_element != null) && (_element.tag(name) != this)) {
-  		  _element.setTag(this, name);
+  		if((_element != null) && (_element.metadata(name) != this)) {
+  		  _element.setMetadata(this, name);
   		}
   	}
   	ChameleonDocument chameleonDocument = getDocument();

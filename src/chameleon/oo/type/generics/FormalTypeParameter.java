@@ -7,7 +7,6 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
-import chameleon.oo.type.ConstructedType;
 import chameleon.oo.type.IntersectionTypeReference;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
@@ -51,7 +50,7 @@ public class FormalTypeParameter extends TypeParameter {
 
 
 	protected Type createSelectionType() throws LookupException {
-		return new ConstructedType(signature().clone(),upperBound(),this);
+		return new FormalParameterType(signature().clone(),upperBound(),this);
 	}
 	
 	public Type resolveForRoundTrip() throws LookupException {
@@ -62,7 +61,7 @@ public class FormalTypeParameter extends TypeParameter {
 
 
 	protected Type createLazyAlias() {
-		return new LazyTypeAlias(signature().clone(), this);
+		return new LazyFormalAlias(signature().clone(), this);
 	}
 	
 	private Multi<TypeConstraint> _typeConstraints = new Multi<TypeConstraint>(this);

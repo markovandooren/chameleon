@@ -29,9 +29,9 @@ import chameleon.core.language.WrongLanguageException;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.namespacepart.NamespacePart;
+import chameleon.core.namespacepart.NamespaceDeclaration;
 import chameleon.core.property.ChameleonProperty;
-import chameleon.core.tag.Tag;
+import chameleon.core.tag.Metadata;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -77,9 +77,9 @@ public abstract class ElementImpl implements Element {
 	 ********/
 
 	// initialization of this Map is done lazily.
-	private Map<String, Tag> _tags;
+	private Map<String, Metadata> _tags;
 
-	public Tag tag(String name) {
+	public Metadata metadata(String name) {
 		if(_tags != null) {
 			return _tags.get(name);
 		} else {
@@ -88,9 +88,9 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 
-	public void removeTag(String name) {
+	public void removeMetadata(String name) {
 		if(_tags != null) {
-			Tag old = _tags.get(name);
+			Metadata old = _tags.get(name);
 			_tags.remove(name);
 			if((old != null) && (old.getElement() == this)){
 				old.setElement(null,name);
@@ -98,21 +98,21 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 
-	public void removeAllTags() {
+	public void removeAllMetadata() {
 		if(_tags != null) {
 			List<String> keySet = new ArrayList<String>(_tags.keySet());
 			for(String tagName: keySet) {
-				removeTag(tagName);
+				removeMetadata(tagName);
 			}
 		}
 	}
 
-	public void setTag(Tag decorator, String name) {
+	public void setMetadata(Metadata decorator, String name) {
 		//Lazy init of hashmap
 		if (_tags==null) {
-			_tags = new HashMap<String, Tag>();
+			_tags = new HashMap<String, Metadata>();
 		}
-		Tag old = _tags.get(name); 
+		Metadata old = _tags.get(name); 
 		if(old != decorator) {
 			if((decorator != null) && (decorator.getElement() != this)) {
 				decorator.setElement(this,name);
@@ -124,7 +124,7 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 
-	public Collection<Tag> tags() {
+	public Collection<Metadata> metadata() {
 		if(_tags == null) {
 			return new ArrayList();
 		} else {
@@ -132,7 +132,7 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 
-	public boolean hasTag(String name) {
+	public boolean hasMetadata(String name) {
 		if(_tags == null) {
 			return false;
 		} else {
@@ -140,7 +140,7 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 
-	public boolean hasTags() {
+	public boolean hasMetadata() {
 		if(_tags == null) {
 			return false;
 		} else {
@@ -334,7 +334,7 @@ public abstract class ElementImpl implements Element {
 
 	private List<Association<Element,? extends Element>> _associations;
 
-	public List<Association<Element,? extends Element>> associations() {
+	public synchronized List<Association<Element,? extends Element>> associations() {
 		if(_associations == null) {
 			_associations = new ArrayList<Association<Element,? extends Element>>();
 			Class<? extends Element>  currentClass = getClass();
@@ -1172,7 +1172,7 @@ public abstract class ElementImpl implements Element {
 	 }
 
 	 public Namespace getNamespace() {
-		 NamespacePart ancestor = nearestAncestor(NamespacePart.class);
+		 NamespaceDeclaration ancestor = nearestAncestor(NamespaceDeclaration.class);
 		 if(ancestor != null) {
 			 return ancestor.namespace();
 		 } else {

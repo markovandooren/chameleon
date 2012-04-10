@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.rejuse.predicate.SafePredicate;
 
-import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.compilationunit.Document;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
@@ -95,7 +95,7 @@ public abstract class AbstractPointcutExpression<J extends Element> extends Elem
 	 *	{@inheritDoc}
 	 */
 	@Override
-	public final List<MatchResult> joinpoints(CompilationUnit compilationUnit) throws LookupException {
+	public final List<MatchResult> joinpoints(Document compilationUnit) throws LookupException {
 		List<MatchResult> result = new ArrayList<MatchResult>();
 		List<? extends Element> joinPoints = compilationUnit.descendants(joinPointType());
 		for (Element joinPoint : joinPoints) {

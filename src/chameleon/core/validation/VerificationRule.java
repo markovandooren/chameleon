@@ -10,7 +10,7 @@ import chameleon.core.rule.Rule;
  *
  * @param <E>
  */
-public abstract class ValidityRule<E extends Element> extends Rule<ValidityRule, E> {
+public abstract class VerificationRule<E extends Element> extends Rule<VerificationRule, E> {
 
 	/**
 	 * Create a new validity rule for elements of the given type.
@@ -23,7 +23,7 @@ public abstract class ValidityRule<E extends Element> extends Rule<ValidityRule,
    @
    @ post elementType() == elementType;
    @*/
-	public ValidityRule(Class<E> elementType) {
+	public VerificationRule(Class<E> elementType) {
 		super(elementType);
 	}
 

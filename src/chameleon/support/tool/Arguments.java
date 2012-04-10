@@ -8,9 +8,9 @@ import java.util.Set;
 
 import org.rejuse.java.collections.Visitor;
 
-import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.compilationunit.Document;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.namespacepart.NamespacePart;
+import chameleon.core.namespacepart.NamespaceDeclaration;
 import chameleon.oo.method.Method;
 import chameleon.oo.type.Type;
 

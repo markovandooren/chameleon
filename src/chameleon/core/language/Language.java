@@ -17,7 +17,7 @@ import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.namespace.RootNamespace;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.property.PropertyRule;
-import chameleon.core.validation.ValidityRule;
+import chameleon.core.validation.VerificationRule;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.plugin.Plugin;
@@ -352,7 +352,7 @@ public interface Language extends PropertyUniverse<ChameleonProperty> {
    @
    @ post \result != null;
    @*/
-	public List<ValidityRule> validityRules();
+	public List<VerificationRule> validityRules();
 	
 	/**
 	 * Add a property rule to this language object.
@@ -365,7 +365,7 @@ public interface Language extends PropertyUniverse<ChameleonProperty> {
    @
    @ post propertyRules().contains(rule);
    @*/
-	public void addValidityRule(ValidityRule rule);
+	public void addValidityRule(VerificationRule rule);
 	
 	/**
 	 * Remove a property rule from this language object.
@@ -378,7 +378,7 @@ public interface Language extends PropertyUniverse<ChameleonProperty> {
    @
    @ post ! propertyRules().contains(rule);
    @*/
-	public void removeValidityRule(ValidityRule rule);
+	public void removeValidityRule(VerificationRule rule);
 	
 	public VerificationResult verify(Element element);
 	

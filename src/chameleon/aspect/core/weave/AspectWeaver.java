@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 import chameleon.aspect.core.model.advice.Advice;
 import chameleon.aspect.core.model.aspect.Aspect;
 import chameleon.aspect.core.model.pointcut.expression.MatchResult;
-import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.compilationunit.Document;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 
@@ -43,7 +43,7 @@ public abstract class AspectWeaver {
 	 * 			All other compilation units
 	 * 	@throws LookupException
 	 */
-	public List<JoinPointWeaver> weave(CompilationUnit compilationUnit, Collection<CompilationUnit> aspectCompilationUnits) throws LookupException {
+	public List<JoinPointWeaver> weave(Document compilationUnit, Collection<Document> aspectCompilationUnits) throws LookupException {
 //		if (!compilationUnit.hasDescendant(Aspect.class)) {
 			Map<Element, List<JoinPointWeaver>> weavingMap = getAllWeavers(compilationUnit, aspectCompilationUnits);
 			List<JoinPointWeaver> heads = new ArrayList<JoinPointWeaver>();
@@ -81,10 +81,10 @@ public abstract class AspectWeaver {
 	 * 	@return	The map of joinpoints to weaving encapsulators that handle this joinpoint
 	 * 	@throws LookupException
 	 */
-	private Map<Element, List<JoinPointWeaver>> getAllWeavers(CompilationUnit compilationUnit, Collection<CompilationUnit> aspectCompilationUnits) throws LookupException {
+	private Map<Element, List<JoinPointWeaver>> getAllWeavers(Document compilationUnit, Collection<Document> aspectCompilationUnits) throws LookupException {
 		// Get a list of all advices
 		List<Advice> advices = new ArrayList<Advice>();
-		for (CompilationUnit cu : aspectCompilationUnits) {
+		for (Document cu : aspectCompilationUnits) {
 			advices.addAll(cu.descendants(Advice.class));
 		}
 		

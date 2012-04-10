@@ -88,4 +88,8 @@ public abstract class LookupStrategy {
 	
 
 	public final static Logger logger = Logger.getLogger("lookup");
+	
+	public void enableCache() {
+		// Do nothing by default.
+	}
 }

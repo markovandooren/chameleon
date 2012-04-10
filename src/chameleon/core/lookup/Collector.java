@@ -44,4 +44,8 @@ public abstract class Collector<D extends Declaration> {
 
   protected abstract void process(List<? extends Declaration> candidates) throws LookupException;
 
+	abstract void storeCachedResult(List cached);
+	
+	abstract D result() throws LookupException;
+
 }

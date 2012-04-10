@@ -16,7 +16,7 @@ import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.namespacepart.NamespacePart;
+import chameleon.core.namespacepart.NamespaceDeclaration;
 import chameleon.eclipse.ChameleonEditorPlugin;
 import chameleon.eclipse.presentation.outline.ChameleonOutlineSelector;
 import chameleon.eclipse.presentation.treeview.DeclarationCategorizer;
@@ -60,8 +60,8 @@ public abstract class EclipseEditorExtension extends PluginImpl {
 		} else if (element instanceof Signature) {
 			return ((Signature)element).name();
 		}
-		else if (element instanceof NamespacePart) {
-			Namespace namespace = ((NamespacePart)element).namespace();
+		else if (element instanceof NamespaceDeclaration) {
+			Namespace namespace = ((NamespaceDeclaration)element).namespace();
 			if(namespace != null) {
 				result = namespace.getFullyQualifiedName();
 			} else {

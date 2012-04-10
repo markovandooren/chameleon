@@ -19,7 +19,7 @@ import org.antlr.runtime.RecognitionException;
 import org.rejuse.association.Association;
 import org.rejuse.io.DirectoryScanner;
 
-import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.compilationunit.Document;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.exception.ChameleonProgrammerException;
@@ -78,7 +78,7 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
     // reason the file can't be read.
     InputStream fileInputStream = new FileInputStream(file);
 
-		parse(fileInputStream, fileName, new CompilationUnit());
+		parse(fileInputStream, fileName, new Document());
 	
 	}
 
@@ -135,7 +135,7 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 //	
 //	}
 
-	public void addToModel(String source, CompilationUnit cu) throws ParseException {
+	public void addToModel(String source, Document cu) throws ParseException {
 	    String name = "document";
 	    InputStream inputStream = new StringBufferInputStream(source);
 	    try {
@@ -146,7 +146,7 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 			}
 	}
 
-	private void parse(InputStream inputStream, String fileName, CompilationUnit cu) throws IOException, ParseException {
+	private void parse(InputStream inputStream, String fileName, Document cu) throws IOException, ParseException {
 		try {
 			ChameleonParser parser = getParser(inputStream, fileName);
 			cu.disconnectChildren();
@@ -174,7 +174,7 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 	}
 
 	public void reParse(Element element) throws ParseException {
-		CompilationUnit compilationUnit = element.nearestAncestor(CompilationUnit.class);
+		Document compilationUnit = element.nearestAncestor(Document.class);
 		Language lang = element.language();
 		boolean done = false;
 		while((element != null) && (! done)){
@@ -197,7 +197,7 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 				Element old = element;
 				element = element.parent();
 				if(element == null) {
-					throw new ParseException(old.nearestAncestor(CompilationUnit.class));
+					throw new ParseException(old.nearestAncestor(Document.class));
 				}
 			}
 		}

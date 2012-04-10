@@ -48,5 +48,10 @@ public class DeclaratorSelector extends DeclarationSelector<Declaration>{
 	public List declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
 		return _selector.declarators(selectionCandidates);
 	}
+	
+	@Override
+	public boolean canBeCached() {
+		return false;
+	}
 
 }

@@ -34,14 +34,9 @@ public abstract class CrossReferenceImpl<D extends Declaration> extends ElementI
 	
 	@Override
 	public VerificationResult verifySelf() {
-		D referencedElement;
 		try {
-			referencedElement = getElement();
-			if(referencedElement != null) {
-				return Valid.create();
-			} else {
-				return new UnresolvableCrossReference(this);
-			}
+			return getElement() != null ?
+				Valid.create() : new UnresolvableCrossReference(this);
 		} catch(LookupException e) {
 			return new UnresolvableCrossReference(this, e.getMessage());
 		} catch(ChameleonProgrammerException e) {
