@@ -162,12 +162,6 @@ public abstract class EclipseEditorExtension extends PluginImpl {
 		return url;
 	}
 	
-	/**
-	 * Return the ID of this plugin.
-	 */
-	public abstract String pluginID();
-
-	
 	public ChameleonOutlineSelector createOutlineSelector() {
 		return new ChameleonOutlineSelector();
 	}

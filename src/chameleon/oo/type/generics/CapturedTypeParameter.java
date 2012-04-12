@@ -20,9 +20,15 @@ public class CapturedTypeParameter extends FormalTypeParameter {
 		for(TypeConstraint constraint: constraints()) {
 			result.addConstraint(constraint.clone());
 		}
+		for(NonLocalTypeReference nl: result.descendants(NonLocalTypeReference.class)) {
+			Element p = nl.lookupParent();
+			if(p == this || p.ancestors().contains(this)) {
+				nl.setLookupParent(result);
+			}
+		}
 		return result;
 	}
-
+	
 	@Override
 	protected Type createLazyAlias() {
 		return new LazyInstantiatedAlias(signature().clone(), this);
@@ -48,17 +54,17 @@ public class CapturedTypeParameter extends FormalTypeParameter {
 
 	private Type _selectionTypeCache;
 
-	@Override
-	public CapturedTypeParameter cloneForStub() throws LookupException {
-		CapturedTypeParameter result = clone();
-		for(NonLocalTypeReference nl: result.descendants(NonLocalTypeReference.class)) {
-			Element p = nl.lookupParent();
-			if(p.sameAs(this) || p.ancestors().contains(this)) {
-				nl.setLookupParent(result);
-			}
-		}
-		return result;
-	}
+//	@Override
+//	public CapturedTypeParameter cloneForStub() throws LookupException {
+//		CapturedTypeParameter result = clone();
+//		for(NonLocalTypeReference nl: result.descendants(NonLocalTypeReference.class)) {
+//			Element p = nl.lookupParent();
+//			if(p.sameAs(this) || p.ancestors().contains(this)) {
+//				nl.setLookupParent(result);
+//			}
+//		}
+//		return result;
+//	}
 
 //	@Override
 //	public boolean uniSameAs(Element other) throws LookupException {

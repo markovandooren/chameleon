@@ -18,10 +18,10 @@ public class DeclaratorSelector extends DeclarationSelector<Declaration>{
 		_selector = selector;
 	}
 	
-	@Override
-  public Declaration actualDeclaration(Declaration declarator) throws LookupException {
-  	return declarator;
-  }
+//	@Override
+//  public Declaration actualDeclaration(Declaration declarator) throws LookupException {
+//  	return declarator;
+//  }
 
   private DeclarationSelector _selector;
 

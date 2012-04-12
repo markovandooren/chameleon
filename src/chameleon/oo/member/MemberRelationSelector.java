@@ -64,11 +64,33 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
   	D result = null;
   	Declaration selectionDeclaration = declarator.selectionDeclaration();
   		if(selects(selectionDeclaration)) {
-  				result = actualDeclaration(declarator);
+  				result = (D) selectionDeclaration.actualDeclaration();
   		}
   	return result;
   }
 
+///**
+//* Select the actual declaration selected by this declaration selector.
+//* By default, this method returns declarator.selectionDeclaration()).actualDeclaration().
+//* 
+//* This method was introduced to allow the declarator to be returned instead (in DeclaratorSelector)
+//* without having to add lookup method everywhere that would do the same as the original
+//* lookup methods except for invoking a (currently non-existant) declarator() method instead
+//* of selection().
+//* 
+//* @param declarator
+//* @return
+//* @throws LookupException
+//*/
+//protected D actualDeclaration(Declaration declarator) throws LookupException {
+//	Declaration declaration = declarator.selectionDeclaration();
+//	Declaration actualDeclaration = declaration.actualDeclaration();
+//	if(selectedClass().isInstance(actualDeclaration)) {
+//		return (D) actualDeclaration;
+//	} else {
+//		throw new LookupException("The actual declaration is of type "+actualDeclaration.getClass().getName()+" but a declaration of type "+selectedClass().getName()+" was expected.");
+//	}
+//}
 
 	public boolean selects(Declaration declaration) throws LookupException {
 		return selects(declaration.signature(), declaration);
