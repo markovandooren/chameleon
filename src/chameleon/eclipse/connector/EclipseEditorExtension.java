@@ -22,12 +22,13 @@ import chameleon.eclipse.presentation.outline.ChameleonOutlineSelector;
 import chameleon.eclipse.presentation.treeview.DeclarationCategorizer;
 import chameleon.eclipse.presentation.treeview.IconProvider;
 import chameleon.exception.ModelException;
+import chameleon.plugin.Plugin;
 import chameleon.plugin.PluginImpl;
 
 /**
  * @author Marko van Dooren
  */
-public abstract class EclipseEditorExtension extends PluginImpl {
+public class EclipseEditorExtension extends PluginImpl {
 
 	public EclipseEditorExtension() {
 		_imageRegistry = ChameleonEditorPlugin.getDefault().getImageRegistry();
@@ -170,6 +171,11 @@ public abstract class EclipseEditorExtension extends PluginImpl {
 	
 	public ChameleonOutlineSelector outlineSelector() {
 		return _outlineSelector;
+	}
+
+	@Override
+	public Plugin clone() {
+		return new EclipseEditorExtension();
 	}
 	
 //  	public abstract ICompletionProposal completionProposal(Element element, ChameleonDocument document, int offset);
