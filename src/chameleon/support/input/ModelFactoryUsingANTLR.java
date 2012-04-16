@@ -81,6 +81,16 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 		parse(fileInputStream, fileName, new Document());
 	
 	}
+	
+	private boolean _debug;
+	
+	public void setDebug(boolean value) {
+		_debug = value;
+	}
+	
+	public boolean debug() {
+		return _debug;
+	}
 
 	public void addToModel(Collection<File> files) throws IOException, ParseException {
 		final int size = files.size();
@@ -100,7 +110,7 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 	  UnsafeAction<File,Exception> unsafeAction = new UnsafeAction<File,Exception>() {
 		public void actuallyPerform(File file) throws IOException, ParseException {
 					counter.increase();
-//					System.out.println(counter.get()+" of "+size);
+					if(_debug) {System.out.println(counter.get()+" of "+size+" :"+file.getAbsolutePath());};
   			  addToModel(file);
 		} 
 	  };

@@ -603,17 +603,23 @@ public abstract class AbstractType extends FixedSignatureMember implements Type 
       return result;
     }
     public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
-    	// 1) All defined members of the requested kind are added.
+    	// 1) perform local search
+    	boolean greedy = selector.canBeCached();
     	List<D> result = localMembers(selector);
-    	result.addAll(implicitMembers(selector));
-
-    	// 2) Fetch all potentially inherited members from all inheritance relations
-    	for (InheritanceRelation rel : inheritanceRelations()) {
-    		rel.accumulateInheritedMembers(selector, result);
+    	if(! greedy || result.isEmpty()) {
+    	  result.addAll(implicitMembers(selector));
     	}
-    	// The selector must still apply its order to the candidates.
-    	//selector.applyOrder(result);
-    	return selector.selection(result);
+    	// 2) process inheritance relations
+    	//    only if the selector isn't greed or
+    	//    there are not results.
+    	if(! greedy || result.isEmpty()) {
+    		for (InheritanceRelation rel : inheritanceRelations()) {
+    			rel.accumulateInheritedMembers(selector, result);
+    		}
+    		return selector.selection(result);
+    	} else {
+    	  return result;
+    	}
     }
     
     /* (non-Javadoc)

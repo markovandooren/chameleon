@@ -22,13 +22,6 @@ public abstract class Invalid extends VerificationResult {
 	/**
 	 * @return The message of this problem.
 	 */
-	public String toString() {
-		return message();
-	}
-
-	/**
-	 * @return The message of this problem.
-	 */
  /*@
    @ public behavior
    @

@@ -1,5 +1,6 @@
 package chameleon.core.validation;
 
+import chameleon.core.analysis.AnalysisResult;
 import chameleon.core.element.Element;
 
 /**
@@ -8,7 +9,7 @@ import chameleon.core.element.Element;
  * 
  * @author Marko van Dooren
  */
-public abstract class VerificationResult {
+public abstract class VerificationResult extends AnalysisResult {
 
 	/**
 	 * Combine this verification result with the given other verification result.

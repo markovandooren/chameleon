@@ -2,6 +2,7 @@ package chameleon.core.lookup;
 
 import java.util.List;
 
+import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 
 public class DeclarationCollector<D extends Declaration> extends Collector<D> {

@@ -2,19 +2,14 @@ package chameleon.support.tool;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.java.collections.Visitor;
-
-import chameleon.core.compilationunit.Document;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.namespacepart.NamespaceDeclaration;
-import chameleon.oo.method.Method;
 import chameleon.oo.type.Type;
 
 /**
+ * @author Marko van Dooren
  * @author Tim Laeremans
  */
 public class Arguments {

@@ -17,6 +17,10 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 
 public class RootNamespace extends RegularNamespace {
+  static {
+    excludeFieldName(RootNamespace.class,"_language");
+  }
+  
 // @FIXME
 // Create Model
 	
