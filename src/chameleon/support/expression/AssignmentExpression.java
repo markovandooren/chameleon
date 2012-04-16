@@ -1,21 +1,19 @@
 package chameleon.support.expression;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.SingleAssociation;
-
+import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.reference.CrossReferenceTarget;
+import chameleon.core.reference.CrossReference;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
-import chameleon.oo.expression.Assignable;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.type.Type;
-import chameleon.util.Util;
+import chameleon.oo.variable.Variable;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -27,50 +25,54 @@ public class AssignmentExpression extends Expression {
    * @param second
    */
   public AssignmentExpression(Expression var, Expression value) {
-    
-	  setVariable(var);
+	  setVariableExpression(var);
     setValue(value);
   }
 
 	/**
 	 * VARIABLE
 	 */
-	private SingleAssociation<AssignmentExpression,Expression> _variable = new SingleAssociation<AssignmentExpression,Expression>(this);
+	private Single<Expression> _variable = new Single<Expression>(this);
 
+	public Variable variable() throws LookupException {
+		Expression variableExpression = getVariableExpression();
+		if(variableExpression instanceof CrossReference) {
+			Declaration decl = ((CrossReference) variableExpression).getElement();
+			if(decl instanceof Variable) {
+				return (Variable) decl;
+			}
+			throw new LookupException("The left-hand side of the assignment resolves, but does not reference a variable.");
+		}
+		throw new LookupException("The left-hand side of the assignment is not a cross-reference.");
+	}
 
-  public Expression getVariable() {
+  public Expression getVariableExpression() {
     return _variable.getOtherEnd();
   }
 
-  public void setVariable(Expression var) {
-  	setAsParent(_variable,var);
+  public void setVariableExpression(Expression var) {
+  	set(_variable,var);
   }
 
 	/**
 	 * VALUE
 	 */
-	private SingleAssociation<AssignmentExpression,Expression> _value = new SingleAssociation<AssignmentExpression,Expression>(this);
+	private Single<Expression> _value = new Single<Expression>(this);
 
   public Expression getValue() {
     return (Expression)_value.getOtherEnd();
   }
 
   public void setValue(Expression expression) {
-  	setAsParent(_value,expression);
+  	set(_value,expression);
   }
 
   protected Type actualType() throws LookupException {
-    return getVariable().getType();
+    return getVariableExpression().getType();
   }
 
   public AssignmentExpression clone() {
-    return new AssignmentExpression(getVariable().clone(), getValue().clone());
-  }
-
-  public List<Element> children() {
-    List<Element> result = Util.createNonNullList(getVariable());
-    Util.addNonNull(getValue(), result);
-    return result;
+    return new AssignmentExpression(getVariableExpression().clone(), getValue().clone());
   }
 
   public Set<Type> getDirectExceptions() throws LookupException {
@@ -81,7 +83,7 @@ public class AssignmentExpression extends Expression {
 	public VerificationResult verifySelf() {
 		VerificationResult result = Valid.create();
 		try {
-			Expression var = getVariable();
+			Expression var = getVariableExpression();
 			if(var == null) {
 				result = result.and(new BasicProblem(this, "The assignment has no variable at the left-hand side"));
 			}

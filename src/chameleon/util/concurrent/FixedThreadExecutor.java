@@ -3,6 +3,8 @@ package chameleon.util.concurrent;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import chameleon.core.Config;
+
 public class FixedThreadExecutor {
 
 	public FixedThreadExecutor() {
@@ -13,6 +15,7 @@ public class FixedThreadExecutor {
 	protected int _availableProcessors;
 
 	public int availableProcessors() {
+		if(Config.singleThreaded()) {return 1;}
 		return _availableProcessors;
 	}
 
@@ -21,5 +24,5 @@ public class FixedThreadExecutor {
 	public ExecutorService executor() {
 		return _executor;
 	}
-
+	
 }

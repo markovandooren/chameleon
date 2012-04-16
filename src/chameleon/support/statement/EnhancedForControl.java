@@ -1,9 +1,6 @@
 package chameleon.support.statement;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
@@ -14,7 +11,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
 import chameleon.support.variable.LocalVariable;
 import chameleon.support.variable.LocalVariableDeclarator;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 public class EnhancedForControl extends ForControl {
 
@@ -28,27 +25,20 @@ public class EnhancedForControl extends ForControl {
 	}
 	
 	public void setVariableDeclarator(LocalVariableDeclarator variable) {
-		setAsParent(_variable,variable);
+		set(_variable,variable);
 	}
 	
-	private SingleAssociation<EnhancedForControl,LocalVariableDeclarator> _variable = new SingleAssociation<EnhancedForControl,LocalVariableDeclarator>(this);
+	private Single<LocalVariableDeclarator> _variable = new Single<LocalVariableDeclarator>(this);
 	
 	@Override
 	public EnhancedForControl clone() {
 		return new EnhancedForControl(variableDeclarator().clone(),collection().clone());
 	}
 
-	public List<Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		Util.addNonNull(collection(), result);
-		Util.addNonNull(variableDeclarator(), result);
-		return result;
-	}
-
 	/**
 	 * EXPRESSION
 	 */
-	private SingleAssociation<EnhancedForControl,Expression> _expression = new SingleAssociation<EnhancedForControl,Expression>(this);
+	private Single<Expression> _expression = new Single<Expression>(this);
 
   
   public Expression collection() {
@@ -56,7 +46,7 @@ public class EnhancedForControl extends ForControl {
   }
   
   public void setCollection(Expression expression) {
-    setAsParent(_expression,expression);
+    set(_expression,expression);
   }
 
 	public Element variableScopeElement() {

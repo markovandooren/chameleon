@@ -1,9 +1,5 @@
 package chameleon.aspect.oo.model.pointcut;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
 import org.rejuse.predicate.SafePredicate;
 
 import chameleon.aspect.core.model.pointcut.expression.MatchResult;
@@ -13,14 +9,15 @@ import chameleon.core.lookup.LookupException;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 public class WithinTypePointcutExpression<E extends WithinTypePointcutExpression<E>> extends WithinPointcutExpressionDeprecated {
 	
-	private SingleAssociation<WithinTypePointcutExpression<E>, TypeReference> _typeReference = new SingleAssociation<WithinTypePointcutExpression<E>, TypeReference>(this);
-	private SingleAssociation<WithinTypePointcutExpression<E>, SubtypeMarker> _subtypeMarker = new SingleAssociation<WithinTypePointcutExpression<E>, SubtypeMarker>(this);
+	private Single<TypeReference> _typeReference = new Single<TypeReference>(this);
+	private Single<SubtypeMarker> _subtypeMarker = new Single<SubtypeMarker>(this);
 
 	public void setSubtypeMarker(SubtypeMarker marker) {
-		setAsParent(_subtypeMarker, marker);
+		set(_subtypeMarker, marker);
 	}
 	
 	public boolean hasSubtypeMarker() {
@@ -36,7 +33,7 @@ public class WithinTypePointcutExpression<E extends WithinTypePointcutExpression
 	}
 	
 	public void setTypeReference(TypeReference typeReference) {
-		setAsParent(_typeReference, typeReference);
+		set(_typeReference, typeReference);
 	}
 
 	@Override
@@ -63,16 +60,6 @@ public class WithinTypePointcutExpression<E extends WithinTypePointcutExpression
 			return MatchResult.noMatch();
 		else
 			return new MatchResult<Element>(this, joinpoint);
-	}
-
-	@Override
-	public List<? extends Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		
-		Util.addNonNull(typeReference(), result);
-		Util.addNonNull(subtypeMarker(), result);
-		
-		return result;
 	}
 
 	@Override

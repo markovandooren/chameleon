@@ -32,9 +32,8 @@ public class ParentLookupStrategySelector implements LookupStrategySelector {
 		if(parent != null) {
 	    return parent.lexicalLookupStrategy(element);
 		} else {
-			throw new LookupException("Lookup wants to go to the parent element of a "+element.getClass() +" but it is null.");
+			return null;
 		}
-		
 	}
 
 }

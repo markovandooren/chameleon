@@ -3,7 +3,6 @@ package chameleon.core.modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
@@ -13,13 +12,14 @@ import chameleon.core.element.ElementImpl;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
+import chameleon.util.association.Multi;
 
 public abstract class ElementWithModifiersImpl extends ElementImpl implements ElementWithModifiers {
 
   /*************
    * MODIFIERS *
    *************/
-  private OrderedMultiAssociation<ElementWithModifiersImpl, Modifier> _modifiers = new OrderedMultiAssociation<ElementWithModifiersImpl, Modifier>(this);
+  private Multi<Modifier> _modifiers = new Multi<Modifier>(this);
 
   public abstract ElementWithModifiersImpl clone();
   
@@ -35,19 +35,6 @@ public abstract class ElementWithModifiersImpl extends ElementImpl implements El
     return _modifiers.getOtherEnds();
   }
 
-  /**
-   * The children of an element with modifiers contains its modifiers.
-   */
- /*@
-   @ also public behavior
-   @
-   @ post \result.containsAll(modifiers());
-   @*/
-  @Override
-  public List<Element> children() {
-  	return (List)modifiers();
-  }
-  
   /**
    * Add the given modifier to this element.
    * @param modifier The modifier to be added.

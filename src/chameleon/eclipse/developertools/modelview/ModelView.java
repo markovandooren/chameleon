@@ -27,7 +27,7 @@ import org.eclipse.ui.part.ViewPart;
 
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
-import chameleon.core.tag.Tag;
+import chameleon.core.tag.Metadata;
 import chameleon.eclipse.connector.EclipseEditorTag;
 import chameleon.eclipse.editors.ChameleonEditor;
 import chameleon.eclipse.presentation.treeview.ChameleonLabelProvider;
@@ -134,10 +134,10 @@ public class ModelView extends ViewPart {
 		public void run() {
 			ChameleonEditor editor = ChameleonEditor.getCurrentActiveEditor();
 			if(editor != null){
-				Language lang = editor.getDocument().compilationUnit().language();
+				Language lang = editor.getDocument().chameleonDocument().language();
 				drillDownAdapter.reset();
 				modelViewer.setLabelProvider(new ChameleonLabelProvider(lang, true, false, true));
-				modelViewer.setInput(editor.getDocument().compilationUnit());
+				modelViewer.setInput(editor.getDocument().chameleonDocument());
 			}
 		}
 	}
@@ -155,7 +155,7 @@ public class ModelView extends ViewPart {
 		public void run() {
 			ChameleonEditor editor = ChameleonEditor.getCurrentActiveEditor();
 			if(editor != null){
-				Language lang = editor.getDocument().compilationUnit().language();
+				Language lang = editor.getDocument().chameleonDocument().language();
 				drillDownAdapter.reset();
 				modelViewer.setLabelProvider(new ChameleonLabelProvider(lang, true, false, true));
 				modelViewer.setInput(editor.getDocument().getProjectNature().getModel());
@@ -170,8 +170,8 @@ public class ModelView extends ViewPart {
 			if(firstObject instanceof Element){
 				Element element = (Element) firstObject;
 				IMenuManager subMenuMgr = new MenuManager("Show editor tag in editor");
-				Collection<Tag> tags = element.tags();
-				for(Tag currentTag : tags){
+				Collection<Metadata> tags = element.metadata();
+				for(Metadata currentTag : tags){
 					if(currentTag instanceof EclipseEditorTag){
 						subMenuMgr.add(new ShowEditorTagAction(modelViewer, (EclipseEditorTag)currentTag));
 					}

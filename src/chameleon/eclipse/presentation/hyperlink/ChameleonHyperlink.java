@@ -7,7 +7,7 @@ package chameleon.eclipse.presentation.hyperlink;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 
-import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.compilationunit.Document;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.reference.CrossReference;
 import chameleon.eclipse.editors.ChameleonDocument;
@@ -88,7 +88,7 @@ public class ChameleonHyperlink implements IHyperlink {
 			if(refElement==null)
 				return INVALID_STATUS;
 			// check wheter the compilationUnit and the document are found:
-			CompilationUnit refCU = refElement.nearestAncestor(CompilationUnit.class);
+			Document refCU = refElement.nearestAncestor(Document.class);
 			ChameleonDocument refDoc = _document.getProjectNature().document(refCU);
 			if(refDoc != null){
 				return VALID_STATUS;

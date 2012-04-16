@@ -21,7 +21,7 @@ import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.modifier.ElementWithModifiers;
 import chameleon.core.modifier.Modifier;
-import chameleon.core.namespacepart.NamespacePart;
+import chameleon.core.namespacepart.NamespaceDeclaration;
 import chameleon.eclipse.ChameleonEditorPlugin;
 import chameleon.eclipse.connector.EclipseEditorExtension;
 import chameleon.eclipse.presentation.treeview.ChameleonLabelProvider;
@@ -108,7 +108,7 @@ public class Filters {
 			if(element instanceof Declaration){
 				try {
 					Declaration decl = (Declaration)element;
-					return decl.scope().contains(decl.nearestAncestor(NamespacePart.class).namespace());
+					return decl.scope().contains(decl.nearestAncestor(NamespaceDeclaration.class).namespace());
 				} catch (ModelException e) {
 					e.printStackTrace();
 					return false;

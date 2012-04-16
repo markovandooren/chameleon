@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import chameleon.core.Config;
 import chameleon.core.element.ElementImpl;
-import chameleon.core.namespacepart.NamespacePart;
+import chameleon.core.namespacepart.NamespaceDeclaration;
 import chameleon.core.reference.CrossReference;
 import chameleon.test.provider.BasicDescendantProvider;
 import chameleon.test.provider.BasicNamespaceProvider;
@@ -41,7 +41,7 @@ public abstract class CompositeTest {
 	public void testChildren() throws Exception {
 		ChildrenTest childrenTest = new ChildrenTest(modelProvider(), namespaceProvider());
 		childrenTest.excludeFieldName(ElementImpl.class, "_parentLink");
-		childrenTest.excludeFieldName(NamespacePart.class, "_namespaceLink");
+		childrenTest.excludeFieldName(NamespaceDeclaration.class, "_namespaceLink");
 		addExcludes(childrenTest);
 		childrenTest.testChildren();
 	}
@@ -68,7 +68,7 @@ public abstract class CompositeTest {
 	 */
 	@Test
 	public void testVerification() throws Exception {
-		new VerificationTest(modelProvider(), new BasicDescendantProvider<NamespacePart>(namespaceProvider(), NamespacePart.class)).testVerification();
+		new VerificationTest(modelProvider(), new BasicDescendantProvider<NamespaceDeclaration>(namespaceProvider(), NamespaceDeclaration.class)).testVerification();
 	}
 
 	/**

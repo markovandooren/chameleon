@@ -2,10 +2,7 @@ package chameleon.aspect.oo.model.pointcut;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-
-import org.rejuse.association.SingleAssociation;
 
 import chameleon.aspect.core.model.pointcut.Pointcut;
 import chameleon.aspect.core.model.pointcut.PointcutReference;
@@ -21,7 +18,7 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.expression.NamedTargetExpression;
 import chameleon.oo.variable.FormalParameter;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 import chameleon.util.concurrent.SafeAction;
 
 public class NamedPointcutExpression extends AbstractPointcutExpression<Element> implements CrossReference<Pointcut> {
@@ -30,21 +27,15 @@ public class NamedPointcutExpression extends AbstractPointcutExpression<Element>
 		
 	}
 	
-	private SingleAssociation<NamedPointcutExpression, PointcutReference> _pointcutReference = new SingleAssociation<NamedPointcutExpression, PointcutReference>(this);
+	private Single<PointcutReference> _pointcutReference = new Single<PointcutReference>(this);
 	
 	public void setPointcutReference(PointcutReference ref) {
-		setAsParent(_pointcutReference, ref);
+		set(_pointcutReference, ref);
 	}
 	
 	public PointcutReference pointcutReference() {
 		return _pointcutReference.getOtherEnd();
 	}
-
-	@Override
-	public List<? extends Element> children() {
-		return Util.createNonNullList(pointcutReference());
-	}
-
 
 	@Override
 	public NamedPointcutExpression clone() {

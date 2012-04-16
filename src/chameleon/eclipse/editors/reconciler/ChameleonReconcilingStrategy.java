@@ -182,10 +182,10 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 		
 						Element element = position.getElement();
 						
-						// B. reparsen element
+						// B. reparse element
 						
-						ModelFactory factory = getDocument().compilationUnit().language().plugin(ModelFactory.class);
-						String text = getDocument().get(position.getOffset(), position.getLength());
+						ModelFactory factory = language().plugin(ModelFactory.class);
+//						String text = getDocument().get(position.getOffset(), position.getLength());
 						factory.reParse(element);
 //						element.reParse(new DocumentEditorToolExtension(getDocument()),getDocument().modelFactory());
 						
@@ -215,6 +215,10 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 		//checkVerificationErrors();
 		fireModelUpdated();
 		
+	}
+
+	private Language language() {
+		return getDocument().chameleonDocument().language();
 	}
 	
 	public ChameleonProjectNature nature() {
@@ -412,7 +416,7 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 //	}
 	
 	public void reconcile(ChameleonDirtyRegion dirtyRegion, IRegion subRegion){
-		Language language = getDocument().compilationUnit().language();
+		Language language = language();
 		if(language != null) {
 			Namespace root = language.defaultNamespace();
 //			if(DEBUG) {

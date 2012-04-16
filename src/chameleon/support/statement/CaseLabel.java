@@ -1,15 +1,9 @@
 package chameleon.support.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
-
-import chameleon.core.element.Element;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -23,7 +17,7 @@ public class CaseLabel extends SwitchLabel {
 	/**
 	 * EXPRESSION
 	 */
-	private SingleAssociation<CaseLabel,Expression> _expression = new SingleAssociation<CaseLabel,Expression>(this);
+	private Single<Expression> _expression = new Single<Expression>(this,true);
 
   
   public Expression getExpression() {
@@ -31,7 +25,7 @@ public class CaseLabel extends SwitchLabel {
   }
   
   public void setExpression(Expression expression) {
-    setAsParent(_expression,expression);
+    set(_expression,expression);
   }
 
   public void removeExpression(Expression expr) {
@@ -42,10 +36,6 @@ public class CaseLabel extends SwitchLabel {
 
   public CaseLabel clone() {
     return new CaseLabel(getExpression().clone());
-  }
-
-  public List<Element> children() {
-    return Util.createNonNullList(getExpression());
   }
 
 	@Override

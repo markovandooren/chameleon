@@ -16,10 +16,4 @@ public class CaseGotoStatement extends ExpressionContainingStatement {
 	public CaseGotoStatement clone() {
 		return new CaseGotoStatement(getExpression().clone());
 	}
-
-	@Override
-	public List<Element> children() {
-		return Util.createNonNullList(getExpression());
-	}
-
 }

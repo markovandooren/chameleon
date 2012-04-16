@@ -2,7 +2,7 @@ package chameleon.core.tag;
 
 import chameleon.core.element.Element;
 
-public class TagImpl implements Tag {
+public class TagImpl implements Metadata {
 
 	private Element _element;
 	
@@ -16,12 +16,12 @@ public class TagImpl implements Tag {
   		Element old = _element;
   		_element = element;
   		// Remove from current element.
-  		if((_element != null) && (_element.tag(name) == this)){
-  			_element.removeTag(name);
+  		if((_element != null) && (_element.metadata(name) == this)){
+  			_element.removeMetadata(name);
   		}
   		// Add to new element.
-  		if((_element != null) && (_element.tag(name) != this)) {
-  		  _element.setTag(this, name);
+  		if((_element != null) && (_element.metadata(name) != this)) {
+  		  _element.setMetadata(this, name);
   		}
   	}
   }

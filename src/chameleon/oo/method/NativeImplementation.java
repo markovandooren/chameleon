@@ -22,10 +22,6 @@ public class NativeImplementation extends Implementation {
     return true;
   }
   
-  public List<Element> children() {
-    return new ArrayList<Element>();
-  }
-
   public Block getBody() {
     return null;
   }

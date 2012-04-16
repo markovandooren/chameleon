@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.rejuse.predicate.SafePredicate;
 
-import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.compilationunit.Document;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 
@@ -48,7 +48,7 @@ public interface PointcutExpression<J extends Element> extends Element {
 	 * 	
 	 * 	@throws LookupException TODO: check if this is necessary
 	 */
-	public List<MatchResult> joinpoints(CompilationUnit compilationUnit) throws LookupException;
+	public List<MatchResult> joinpoints(Document compilationUnit) throws LookupException;
 	
 	/**
 	 * 	Get the pointcut expression tree as a list, in post order

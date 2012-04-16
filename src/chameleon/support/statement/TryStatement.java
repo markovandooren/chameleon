@@ -4,16 +4,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.rejuse.association.OrderedMultiAssociation;
-import org.rejuse.association.SingleAssociation;
 import org.rejuse.java.collections.Visitor;
 import org.rejuse.predicate.AbstractPredicate;
 
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.statement.CheckedExceptionList;
 import chameleon.oo.statement.Statement;
-import chameleon.util.Util;
+import chameleon.util.association.Multi;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -27,12 +25,8 @@ public class TryStatement extends StatementContainingStatement {
 	/**
 	 * CATCH CLAUSES
 	 */
-	private OrderedMultiAssociation<TryStatement,CatchClause> _catchClausesLink = new OrderedMultiAssociation<TryStatement,CatchClause>(this);
+	private Multi<CatchClause> _catchClausesLink = new Multi<CatchClause>(this);
 
-
-  public OrderedMultiAssociation<TryStatement,CatchClause> getCatchClausesLink() {
-    return _catchClausesLink;
-  }
 
   public void addCatchClause(CatchClause catchClause) {
   	add(_catchClausesLink,catchClause);
@@ -55,14 +49,14 @@ public class TryStatement extends StatementContainingStatement {
 	/**
 	 * FINALLY
 	 */
-	private SingleAssociation _finally = new SingleAssociation(this);
+	private Single<FinallyClause> _finally = new Single<FinallyClause>(this);
 
   public FinallyClause getFinallyClause() {
     return (FinallyClause)_finally.getOtherEnd();
   }
 
   public void setFinallyClause(FinallyClause clause) {
-    setAsParent(_finally,clause);
+    set(_finally,clause);
   }
 
   public TryStatement clone() {
@@ -75,13 +69,6 @@ public class TryStatement extends StatementContainingStatement {
     if(getFinallyClause() != null) {
       result.setFinallyClause(getFinallyClause().clone());
     }
-    return result;
-  }
-  
-  public List children() {
-    List result = Util.createNonNullList(getStatement());
-    result.addAll(getCatchClauses());
-    Util.addNonNull(getFinallyClause(), result);
     return result;
   }
   

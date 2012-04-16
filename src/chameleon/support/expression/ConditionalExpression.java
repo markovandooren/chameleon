@@ -69,13 +69,6 @@ public class ConditionalExpression extends TernaryExpression {
     return new ConditionalExpression(getCondition().clone(), getFirst().clone(), getSecond().clone());
   }
 
-  public List<Element> children() {
-    List<Element> result = Util.createNonNullList(getCondition());
-    Util.addNonNull(getFirst(), result);
-    Util.addNonNull(getSecond(), result);
-    return result;
-  }
-
   public Set getDirectExceptions() throws LookupException {
     return new HashSet();
   }

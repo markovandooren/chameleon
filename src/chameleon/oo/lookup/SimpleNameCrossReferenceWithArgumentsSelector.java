@@ -8,7 +8,6 @@ import chameleon.core.declaration.Signature;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.TwoPhaseDeclarationSelector;
 import chameleon.core.relation.WeakPartialOrder;
-import chameleon.oo.member.DeclarationWithParametersHeader;
 import chameleon.oo.member.DeclarationWithParametersSignature;
 import chameleon.oo.member.MoreSpecificTypesOrder;
 import chameleon.oo.member.SimpleNameDeclarationWithParametersSignature;
@@ -16,6 +15,12 @@ import chameleon.oo.type.Type;
 
 public abstract class SimpleNameCrossReferenceWithArgumentsSelector<D extends Declaration>
 		extends TwoPhaseDeclarationSelector<D> {
+	
+	@Override
+	public boolean canBeCached() {
+		return false;
+	}
+
 	@Override
 	public boolean selectedRegardlessOfName(D declaration)
 			throws LookupException {

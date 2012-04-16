@@ -23,7 +23,7 @@ import chameleon.core.namespace.RootNamespace;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.property.PropertyRule;
 import chameleon.core.validation.Valid;
-import chameleon.core.validation.ValidityRule;
+import chameleon.core.validation.VerificationRule;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.plugin.Plugin;
@@ -632,7 +632,7 @@ public abstract class LanguageImpl implements Language {
 	   @
 	   @ post \result != null;
 	   @*/
-		public List<ValidityRule> validityRules() {
+		public List<VerificationRule> validityRules() {
 			return _validityRules.getOtherEnds();
 		}
 		
@@ -653,7 +653,7 @@ public abstract class LanguageImpl implements Language {
 	   @
 	   @ post propertyRules().contains(rule);
 	   @*/
-		public void addValidityRule(ValidityRule rule) {
+		public void addValidityRule(VerificationRule rule) {
 			if(rule == null) {
 				throw new ChameleonProgrammerException("adding a null validity rule to a language");
 			}
@@ -671,7 +671,7 @@ public abstract class LanguageImpl implements Language {
 	   @
 	   @ post ! propertyRules().contains(rule);
 	   @*/
-		public void removeValidityRule(ValidityRule rule) {
+		public void removeValidityRule(VerificationRule rule) {
 			if(rule == null) {
 				throw new ChameleonProgrammerException("removing a null validity rule to a language");
 			}
@@ -680,7 +680,7 @@ public abstract class LanguageImpl implements Language {
 		
 		public VerificationResult verify(Element element) {
 			VerificationResult result = Valid.create();
-			for(ValidityRule rule: validityRules()) {
+			for(VerificationRule rule: validityRules()) {
 				if(rule.elementType().isInstance(element)) {
 				  result = result.and(rule.verify(element));
 				}
@@ -688,7 +688,7 @@ public abstract class LanguageImpl implements Language {
 			return result;
 		}
 		
-		private OrderedMultiAssociation<Language,ValidityRule> _validityRules = new OrderedMultiAssociation<Language,ValidityRule>(this);
+		private OrderedMultiAssociation<Language,VerificationRule> _validityRules = new OrderedMultiAssociation<Language,VerificationRule>(this);
 		
 		
 		/**

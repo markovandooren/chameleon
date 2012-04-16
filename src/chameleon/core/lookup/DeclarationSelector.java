@@ -49,28 +49,28 @@ public abstract class DeclarationSelector<D extends Declaration> {
   }
 
   
-  /**
-   * Select the actual declaration selected by this declaration selector.
-   * By default, this method returns declarator.selectionDeclaration()).actualDeclaration().
-   * 
-   * This method was introduced to allow the declarator to be returned instead (in DeclaratorSelector)
-   * without having to add lookup method everywhere that would do the same as the original
-   * lookup methods except for invoking a (currently non-existant) declarator() method instead
-   * of selection().
-   * 
-   * @param declarator
-   * @return
-   * @throws LookupException
-   */
-  protected D actualDeclaration(Declaration declarator) throws LookupException {
-  	Declaration declaration = declarator.selectionDeclaration();
-		Declaration actualDeclaration = declaration.actualDeclaration();
-		if(selectedClass().isInstance(actualDeclaration)) {
-			return (D) actualDeclaration;
-		} else {
-			throw new LookupException("The actual declaration is of type "+actualDeclaration.getClass().getName()+" but a declaration of type "+selectedClass().getName()+" was expected.");
-		}
-  }
+//  /**
+//   * Select the actual declaration selected by this declaration selector.
+//   * By default, this method returns declarator.selectionDeclaration()).actualDeclaration().
+//   * 
+//   * This method was introduced to allow the declarator to be returned instead (in DeclaratorSelector)
+//   * without having to add lookup method everywhere that would do the same as the original
+//   * lookup methods except for invoking a (currently non-existant) declarator() method instead
+//   * of selection().
+//   * 
+//   * @param declarator
+//   * @return
+//   * @throws LookupException
+//   */
+//  protected D actualDeclaration(Declaration declarator) throws LookupException {
+//  	Declaration declaration = declarator.selectionDeclaration();
+//		Declaration actualDeclaration = declaration.actualDeclaration();
+//		if(selectedClass().isInstance(actualDeclaration)) {
+//			return (D) actualDeclaration;
+//		} else {
+//			throw new LookupException("The actual declaration is of type "+actualDeclaration.getClass().getName()+" but a declaration of type "+selectedClass().getName()+" was expected.");
+//		}
+//  }
   
   /**
    * Required because 'instanceof D' cannot be used due to type erasure.
@@ -80,7 +80,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    @
    @ post \result != null;
    @*/
-  protected abstract Class<D> selectedClass();
+  public abstract Class<D> selectedClass();
   
   /**
    * Return the list of declarations in the given set that are selected.
@@ -126,6 +126,10 @@ public abstract class DeclarationSelector<D extends Declaration> {
 	 */
 	public boolean usesSelectionName() {
 		return true;
+	}
+	
+	public boolean canBeCached() {
+		return usesSelectionName();
 	}
 
 }

@@ -21,10 +21,6 @@ public class EmptyStatement extends StatementImpl {
 		return new EmptyStatement();
 	}
 	
-	public List<Element> children() {
-		return new ArrayList();
-	}
-
 	@Override
 	public VerificationResult verifySelf() {
 		return Valid.create();

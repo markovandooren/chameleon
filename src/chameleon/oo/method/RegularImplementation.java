@@ -1,15 +1,10 @@
 package chameleon.oo.method;
 
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
-
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.statement.Block;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -23,10 +18,10 @@ public class RegularImplementation extends Implementation  {
 	/**
 	 * BODY
 	 */
-	private SingleAssociation<RegularImplementation,Block> _body = new SingleAssociation<RegularImplementation,Block>(this);
+	private Single<Block> _body = new Single<Block>(this);
 
   public void setBody(Block block) {
-    setAsParent(_body,block);
+    set(_body,block);
   }
 
   public Block getBody() {
@@ -76,16 +71,6 @@ public class RegularImplementation extends Implementation  {
 //      e.printStackTrace();
       throw new Error();
 //    }
-  }
-
- /*@
-   @ also public behavior
-   @
-   @ post \result.contains(getBody());
-   @ post \result.size() == 1;
-   @*/
-  public List<Element> children() {
-    return Util.createNonNullList(getBody());
   }
 
 	@Override

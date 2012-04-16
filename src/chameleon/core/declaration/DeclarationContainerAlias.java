@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.rejuse.association.OrderedMultiAssociation;
-
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
@@ -14,6 +12,7 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.util.association.Multi;
 
 public class DeclarationContainerAlias extends ElementImpl implements DeclarationContainer {
 
@@ -73,14 +72,10 @@ public class DeclarationContainerAlias extends ElementImpl implements Declaratio
 		return selector.selection(declarations());
 	}
 
-	public List<? extends Element> children() {
-		return _elements.getOtherEnds();
-	}
-
-	private OrderedMultiAssociation<DeclarationContainerAlias, Declaration> _elements = new OrderedMultiAssociation<DeclarationContainerAlias, Declaration>(this);
+	private Multi<Declaration> _elements = new Multi<Declaration>(this);
 
 	public void add(Declaration element) {
-	  setAsParent(_elements, element);
+	  add(_elements, element);
 	}
 	
 	public void addAll(Collection<Declaration> elements) {

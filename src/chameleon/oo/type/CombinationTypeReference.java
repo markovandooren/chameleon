@@ -1,20 +1,17 @@
 package chameleon.oo.type;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.OrderedMultiAssociation;
-
-import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
+import chameleon.util.association.Multi;
 
 public abstract class CombinationTypeReference extends ElementImpl implements TypeReference {
 
 	public abstract CombinationTypeReference clone();
 
-	private OrderedMultiAssociation<CombinationTypeReference,TypeReference> _types = new OrderedMultiAssociation<CombinationTypeReference, TypeReference>(this);
+	private Multi<TypeReference> _types = new Multi<TypeReference>(this);
 	
 	public CombinationTypeReference() {
 		super();
@@ -28,10 +25,6 @@ public abstract class CombinationTypeReference extends ElementImpl implements Ty
 		return _types.elementAt(baseOneIndex);
 	}
 	
-	public List<Element> children() {
-		return new ArrayList<Element>(typeReferences());
-	}
-
 	public Type getType() throws LookupException {
 		return getElement();
 	}

@@ -1,26 +1,29 @@
 package chameleon.core.namespace;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.predicate.SafePredicate;
 import org.rejuse.predicate.TypePredicate;
 
+import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
-import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespacepart.NamespacePart;
+import chameleon.core.namespacepart.NamespaceDeclaration;
 import chameleon.exception.ChameleonProgrammerException;
-import chameleon.util.Util;
+import chameleon.oo.member.Member;
 
 /**
  * <p>Namespaces are a completely logical structure. You do not explicitly create a namespace, but query it using
@@ -81,7 +84,7 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
 			throw new ChameleonProgrammerException("A namespace must have a simple name signature. The argument is of type "+
 		                                         (signature == null ? "null type" : signature.getClass().getName()));
 		}
-	  setAsParent(_signature,(SimpleNameSignature)signature);
+	  set(_signature,(SimpleNameSignature)signature);
 	}
 	
 	public void setName(String name) {
@@ -146,7 +149,7 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
    @
    @ post getNamespaceParts().contains(namespacepart);
    @*/
-	public abstract void addNamespacePart(NamespacePart namespacePart);
+	public abstract void addNamespacePart(NamespaceDeclaration namespacePart);
 
 	/**
 	 * Return all namespace parts attached to this namespace.
@@ -156,7 +159,7 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
    @
    @ post \result != null;
    @*/
-	public abstract List<NamespacePart> getNamespaceParts();
+	public abstract List<NamespaceDeclaration> getNamespaceParts();
 
 	/**
 	 * Return the root namespace of this metamodel instance.
@@ -277,30 +280,6 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
 		 * CONTEXT *
 		 ***********/
 		
-//	public AccessibilityDomain getAccessibilityDomain() {
-//		return new All();
-//	}
-
-	 /*@
-	   @ also public behavior
-	   @
-	   @ post \result.containsAll(getSubNamespaces());
-	   @ post \result.containsAll(getCompilationUnits());
-	   @*/
-	  public List<Element> children() {
-	    List<Element> result = new ArrayList<Element>();
-	    Util.addNonNull(signature(), result);
-      result.addAll(getSubNamespaces());
-	    result.addAll(getNamespaceParts());
-	    return result;
-	  }
-
-
-//    @Override
-//    public Namespace clone() {
-//      return new Namespace(signature().clone());
-//    }
-
 	public LocalLookupStrategy targetContext() {
 		return language().lookupFactory().createTargetLookupStrategy(this);
 	}
@@ -312,14 +291,74 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
 	public List<Declaration> declarations() {
 		List<Declaration> result = new ArrayList<Declaration>();
 		result.addAll(getSubNamespaces());
-    for(NamespacePart part: getNamespaceParts()) {
-    	result.addAll(part.declarations());
-    }
+		for(NamespaceDeclaration part: getNamespaceParts()) {
+			result.addAll(part.declarations());
+		}
 		return result;
 	}
 	
+	@Override
+	public synchronized void flushLocalCache() {
+		_declarationCache = null;
+	}
+	
+	private synchronized void ensureLocalCache() throws LookupException {
+		if(_declarationCache == null) {
+			List<Declaration> declarations = declarations();
+		  _declarationCache = new HashMap<String, List<Declaration>>();
+		  for(Declaration declaration: declarations) {
+		  	String name = declaration.signature().name();
+				List<Declaration> list = cachedDeclarations(name);
+		  	boolean newList = false;
+		  	if(list == null) {
+		  		list = new ArrayList<Declaration>();
+		  		newList = true;
+		  	}
+		  	// list != null
+		  	list.add(declaration);
+		  	if(newList) {
+		  		_declarationCache.put(name, list);
+		  	}
+		  }
+		}
+	}
+	
+	protected synchronized List<Declaration> cachedDeclarations(String name) {
+		if(_declarationCache != null) {
+		  return _declarationCache.get(name);
+		} else {
+			return null;
+		}
+	}
+	
+	protected synchronized void storeCache(String name, List<Declaration> declarations) {
+		if(_declarationCache == null) {
+			_declarationCache = new HashMap<String, List<Declaration>>();
+		}
+		_declarationCache.put(name, declarations);
+	}
+
+	private Map<String,List<Declaration>> _declarationCache;
+	
 	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
-		return selector.selection(declarations());
+//		return selector.selection(declarations());
+		if(selector.usesSelectionName()) {
+			List<? extends Declaration> list = null;
+			if(Config.cacheDeclarations()) {
+				ensureLocalCache();
+				synchronized(this) {
+				  list = _declarationCache.get(selector.selectionName(this));
+				}
+			} else {
+				list = declarations();
+			}
+			if(list == null) {
+				list = Collections.EMPTY_LIST;
+			}
+			return selector.selection(Collections.unmodifiableList(list));
+		} else {
+			return selector.selection(declarations());
+		}
 	}
 	
 	public <T extends Declaration> List<T> declarations(Class<T> kind) {

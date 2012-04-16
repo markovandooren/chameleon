@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.rejuse.predicate.SafePredicate;
 
-import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.compilationunit.Document;
 import chameleon.core.element.Element;
 import chameleon.eclipse.connector.EclipseEditorTag;
 import chameleon.eclipse.editors.ChameleonDocument;
@@ -181,7 +181,7 @@ public class ChameleonFormatterStrategy implements IFormattingStrategy {
 	 * @param element
 	 */
 	private int getElementDepth(Element element){
-		if(element instanceof CompilationUnit || element == null)
+		if(element instanceof Document || element == null)
 			return 0;
 		Element parent = element.parent();
 		if(isIndentElement(element)){

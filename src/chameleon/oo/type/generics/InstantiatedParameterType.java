@@ -15,9 +15,9 @@ import chameleon.oo.type.TypeIndirection;
 import chameleon.util.Pair;
 import chameleon.util.Util;
 
-public class ActualType extends TypeIndirection {
+public class InstantiatedParameterType extends TypeIndirection {
 
-		public ActualType(SimpleNameSignature sig, Type aliasedType, TypeParameter parameter) {
+		public InstantiatedParameterType(SimpleNameSignature sig, Type aliasedType, TypeParameter parameter) {
 			super(sig,aliasedType);
 			setParameter(parameter);
 		}
@@ -43,8 +43,8 @@ public class ActualType extends TypeIndirection {
     		}
     }
 		@Override
-		public ActualType clone() {
-			return new ActualType(signature().clone(), aliasedType(),parameter());
+		public InstantiatedParameterType clone() {
+			return new InstantiatedParameterType(signature().clone(), aliasedType(),parameter());
 		}
 		
 		@Override
@@ -55,8 +55,8 @@ public class ActualType extends TypeIndirection {
 		@Override
 		public boolean uniSameAs(Element element) throws LookupException {
 			boolean result = false;
-			if(element instanceof ActualType) {
-				result = parameter().sameAs(((ActualType)element).parameter());
+			if(element instanceof InstantiatedParameterType) {
+				result = parameter().sameAs(((InstantiatedParameterType)element).parameter());
 			} 
 			if(! result) {
 			  result = element.sameAs(aliasedType());
@@ -66,9 +66,9 @@ public class ActualType extends TypeIndirection {
 		
 		public boolean uniSameAs(Type element, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
 			boolean result = false;
-			if(element instanceof ActualType) {
+			if(element instanceof InstantiatedParameterType) {
 				TypeParameter mine = parameter();
-				TypeParameter others = ((ActualType)element).parameter();
+				TypeParameter others = ((InstantiatedParameterType)element).parameter();
 				result = mine.sameAs(others);
 				if(! result) {
 					for(Pair<TypeParameter, TypeParameter> pair: trace) {

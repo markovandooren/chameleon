@@ -1,17 +1,13 @@
 package chameleon.oo.expression;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.declaration.Declaration;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.core.reference.CrossReferenceWithArguments;
 import chameleon.core.reference.CrossReferenceWithTarget;
-import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.core.reference.UnresolvableCrossReference;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -20,7 +16,7 @@ import chameleon.oo.method.Method;
 import chameleon.oo.statement.CheckedExceptionList;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.generics.ActualTypeArgument;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -32,11 +28,10 @@ import chameleon.util.Util;
 public abstract class MethodInvocation<D extends Method>
 		extends TargetedExpression implements CrossReferenceWithTarget<D> {
 
-	private SingleAssociation<MethodInvocation<D>, CrossReferenceWithArguments> _crossReference = new SingleAssociation<MethodInvocation<D>, CrossReferenceWithArguments>(
-			this);
+	private Single<CrossReferenceWithArguments> _crossReference = new Single<CrossReferenceWithArguments>(this);
 
 	public MethodInvocation(CrossReferenceTarget target) {
-		setAsParent(_crossReference, new CrossReferenceWithArguments());
+		set(_crossReference, new CrossReferenceWithArguments());
 		setTarget(target);
 	}
 
@@ -98,40 +93,6 @@ public abstract class MethodInvocation<D extends Method>
 	public List<Type> getActualParameterTypes() throws LookupException {
 		return crossReference().getActualParameterTypes();
 	}
-
-	/*
-	 * @
-	 * 
-	 * @ also public behavior
-	 * 
-	 * @
-	 * 
-	 * @ post \result.contains(actualArgumentList());
-	 * 
-	 * @ post getTarget() != null ==> \result.contains(getTarget());
-	 * 
-	 * @
-	 */
-	public List<Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		Util.addNonNull(crossReference(), result);
-		return result;
-	}
-
-	// public Set getDirectExceptions() throws NotResolvedException {
-	// Set result = getMethodExceptions();
-	// Type npe =
-	// getLanguage().getNullInvocationException(getPackage().getDefaultPackage());
-	// if(npe != null) {
-	// result.add(npe);
-	// }
-	// result.addAll(getTarget().getDirectExceptions());
-	// Iterator iter = getActualParameters().iterator();
-	// while(iter.hasNext()) {
-	// result.addAll(((Expression)iter.next()).getDirectExceptions());
-	// }
-	// return result;
-	// }
 
 	public D getElement() throws LookupException {
 		return (D) getElement(selector());

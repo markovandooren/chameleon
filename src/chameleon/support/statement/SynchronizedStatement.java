@@ -19,10 +19,4 @@ public class SynchronizedStatement extends StatementExprStatement {
   public SynchronizedStatement clone() {
     return new SynchronizedStatement(expression().clone(), getStatement().clone());
   }
-
-  public List<Element> children() {
-    List<Element> result = Util.createNonNullList(expression());
-    Util.addNonNull(getStatement(), result);
-    return result;
-  }
 }

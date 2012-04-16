@@ -3,8 +3,6 @@ package chameleon.oo.member;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.OrderedMultiAssociation;
-
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
@@ -14,6 +12,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Util;
+import chameleon.util.association.Multi;
 
 public class SimpleNameDeclarationWithParametersSignature extends DeclarationWithParametersSignature {
 
@@ -64,7 +63,7 @@ public class SimpleNameDeclarationWithParametersSignature extends DeclarationWit
    return _parameterTypes.size();
   }  
 
-  private OrderedMultiAssociation<SimpleNameDeclarationWithParametersSignature,TypeReference> _parameterTypes = new OrderedMultiAssociation<SimpleNameDeclarationWithParametersSignature,TypeReference>(this);
+  private Multi<TypeReference> _parameterTypes = new Multi<TypeReference>(this);
 
   
   @Override
@@ -93,10 +92,6 @@ public class SimpleNameDeclarationWithParametersSignature extends DeclarationWit
   		result.add(ref.getType());
   	}
 		return result;
-	}
-
-	public List<? extends Element> children() {
-		return typeReferences();
 	}
 
 	@Override

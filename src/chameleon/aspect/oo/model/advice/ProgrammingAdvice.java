@@ -1,11 +1,7 @@
 package chameleon.aspect.oo.model.advice;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
-import org.rejuse.association.OrderedMultiAssociation;
-import org.rejuse.association.SingleAssociation;
 
 import chameleon.aspect.core.model.advice.Advice;
 import chameleon.core.declaration.Declaration;
@@ -15,13 +11,13 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.modifier.Modifier;
-import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.statement.Block;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.oo.variable.FormalParameter;
-import chameleon.util.Util;
+import chameleon.util.association.Multi;
+import chameleon.util.association.Single;
 
 public abstract class ProgrammingAdvice extends Advice<Block> implements DeclarationContainer {
 
@@ -29,7 +25,7 @@ public abstract class ProgrammingAdvice extends Advice<Block> implements Declara
 		
 	}
 	
-	private SingleAssociation<ProgrammingAdvice, TypeReference> _returnType = new SingleAssociation<ProgrammingAdvice, TypeReference>(this);
+	private Single<TypeReference> _returnType = new Single<TypeReference>(this);
 
 	protected TypeReference returnType() {
 		return _returnType.getOtherEnd();
@@ -38,7 +34,7 @@ public abstract class ProgrammingAdvice extends Advice<Block> implements Declara
 	public abstract Type actualReturnType() throws LookupException;
 
 	public void setReturnType(TypeReference returnType) {
-		setAsParent(_returnType, returnType);
+		set(_returnType, returnType);
 	}
 
 	public ProgrammingAdvice(TypeReference returnType) {
@@ -46,14 +42,14 @@ public abstract class ProgrammingAdvice extends Advice<Block> implements Declara
 	}
 
 
-	private OrderedMultiAssociation<ProgrammingAdvice, FormalParameter> _parameters = new OrderedMultiAssociation<ProgrammingAdvice, FormalParameter>(this);
+	private Multi<FormalParameter> _parameters = new Multi<FormalParameter>(this);
 
 	public List<FormalParameter> formalParameters() {
 		return _parameters.getOtherEnds();
 	}
 
 	public void addFormalParameter(FormalParameter param) {
-		setAsParent(_parameters, param);
+		add(_parameters, param);
 	}
 
 	public void addFormalParameters(List<FormalParameter> params) {
@@ -66,14 +62,6 @@ public abstract class ProgrammingAdvice extends Advice<Block> implements Declara
 		}
 	}
 
-  @Override
-  public List<Element> children() {
-  	List<Element> result = super.children();
-		result.addAll(formalParameters());
-		Util.addNonNull(returnType(), result);
-  	return result;
-  }
-  
   @Override
   public ProgrammingAdvice clone() {
   	ProgrammingAdvice result = (ProgrammingAdvice) super.clone();

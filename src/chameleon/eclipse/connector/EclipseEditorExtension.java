@@ -16,18 +16,19 @@ import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.namespacepart.NamespacePart;
+import chameleon.core.namespacepart.NamespaceDeclaration;
 import chameleon.eclipse.ChameleonEditorPlugin;
 import chameleon.eclipse.presentation.outline.ChameleonOutlineSelector;
 import chameleon.eclipse.presentation.treeview.DeclarationCategorizer;
 import chameleon.eclipse.presentation.treeview.IconProvider;
 import chameleon.exception.ModelException;
+import chameleon.plugin.Plugin;
 import chameleon.plugin.PluginImpl;
 
 /**
  * @author Marko van Dooren
  */
-public abstract class EclipseEditorExtension extends PluginImpl {
+public class EclipseEditorExtension extends PluginImpl {
 
 	public EclipseEditorExtension() {
 		_imageRegistry = ChameleonEditorPlugin.getDefault().getImageRegistry();
@@ -60,8 +61,8 @@ public abstract class EclipseEditorExtension extends PluginImpl {
 		} else if (element instanceof Signature) {
 			return ((Signature)element).name();
 		}
-		else if (element instanceof NamespacePart) {
-			Namespace namespace = ((NamespacePart)element).namespace();
+		else if (element instanceof NamespaceDeclaration) {
+			Namespace namespace = ((NamespaceDeclaration)element).namespace();
 			if(namespace != null) {
 				result = namespace.getFullyQualifiedName();
 			} else {
@@ -162,12 +163,6 @@ public abstract class EclipseEditorExtension extends PluginImpl {
 		return url;
 	}
 	
-	/**
-	 * Return the ID of this plugin.
-	 */
-	public abstract String pluginID();
-
-	
 	public ChameleonOutlineSelector createOutlineSelector() {
 		return new ChameleonOutlineSelector();
 	}
@@ -176,6 +171,11 @@ public abstract class EclipseEditorExtension extends PluginImpl {
 	
 	public ChameleonOutlineSelector outlineSelector() {
 		return _outlineSelector;
+	}
+
+	@Override
+	public Plugin clone() {
+		return new EclipseEditorExtension();
 	}
 	
 //  	public abstract ICompletionProposal completionProposal(Element element, ChameleonDocument document, int offset);

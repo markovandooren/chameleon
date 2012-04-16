@@ -3,11 +3,10 @@ package chameleon.core.declaration;
 import java.util.List;
 
 import org.rejuse.association.Association;
-import org.rejuse.association.OrderedMultiAssociation;
 
-import chameleon.core.element.Element;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.util.association.Multi;
 
 /**
  * A class of composite qualified names.
@@ -23,7 +22,7 @@ public class CompositeQualifiedName extends QualifiedName {
 	}
 	
 	public void append(Signature signature) {
-		setAsParent(_signatures, signature);
+		add(_signatures, signature);
 	}
 	
 	public void appendAll(List<Signature> signatures) {
@@ -42,7 +41,7 @@ public class CompositeQualifiedName extends QualifiedName {
 		remove(_signatures,signature);
 	}
 	
-	private OrderedMultiAssociation<QualifiedName, Signature> _signatures = new OrderedMultiAssociation<QualifiedName, Signature>(this);
+	private Multi<Signature> _signatures = new Multi<Signature>(this);
 
 	public Signature lastSignature() {
 		return _signatures.lastElement();
@@ -64,10 +63,6 @@ public class CompositeQualifiedName extends QualifiedName {
 	@Override
 	public VerificationResult verifySelf() {
 		return Valid.create();//new BasicProblem(this, "TODO: implement verifySelf of FullyQualifiedName");
-	}
-
-	public List<? extends Element> children() {
-		return signatures();
 	}
 
 	public QualifiedName popped() {

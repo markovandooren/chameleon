@@ -1,13 +1,8 @@
 package chameleon.oo.member;
 
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.declaration.Signature;
-import chameleon.core.element.Element;
 import chameleon.exception.ChameleonProgrammerException;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 public abstract class FixedSignatureMember extends MemberImpl {
 	
@@ -23,16 +18,10 @@ public abstract class FixedSignatureMember extends MemberImpl {
 	
   public void setSignature(Signature signature) {
   	if(signatureType().isInstance(signature) || signature == null) {
-  		setAsParent(_signature,signature);
+  		set(_signature,signature);
   	} else {
   		throw new ChameleonProgrammerException("Setting wrong type of signature. Provided: "+(signature == null ? null :signature.getClass().getName())+" Expected "+signatureType().getName());
   	}
-  }
-  
-  public List<Element> children() {
-    List<Element> result = super.children();
-    Util.addNonNull(signature(), result);
-    return result;
   }
   
   /**
@@ -42,6 +31,6 @@ public abstract class FixedSignatureMember extends MemberImpl {
     return _signature.getOtherEnd();
   }
   
-  private SingleAssociation<Member, Signature> _signature = new SingleAssociation<Member, Signature>(this);
+  private Single<Signature> _signature = new Single<Signature>(this);
 
 }

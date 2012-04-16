@@ -1,19 +1,10 @@
 package chameleon.support.expression;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
-
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.validation.BasicProblem;
-import chameleon.core.validation.Valid;
-import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Literal;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -29,17 +20,10 @@ public abstract class LiteralWithTypeReference extends Literal {
     setTypeReference(ref);
   }
   
-  public List<Element> children() {
-  	List<Element> result = super.children();
-  	Util.addNonNull(getTypeReference(), result);
-  	return result;
-  }
-
-
 	/**
 	 * TARGET
 	 */
-	private SingleAssociation<LiteralWithTypeReference,TypeReference> _typeReference = new SingleAssociation<LiteralWithTypeReference,TypeReference>(this);
+	private Single<TypeReference> _typeReference = new Single<TypeReference>(this);
 
   
   public TypeReference getTypeReference() {
@@ -47,7 +31,7 @@ public abstract class LiteralWithTypeReference extends Literal {
   }
   
   public void setTypeReference(TypeReference type) {
-    setAsParent(_typeReference,type);
+    set(_typeReference,type);
   }
   
   protected Type actualType() throws LookupException {

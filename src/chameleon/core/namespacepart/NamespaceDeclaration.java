@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.predicate.TypePredicate;
 
@@ -24,6 +23,8 @@ import chameleon.core.namespace.Namespace;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
+import chameleon.util.association.Multi;
+import chameleon.util.association.Single;
 /**
  * A namespace part adds its declarations to a namespace. Different namespace parts in different compilation units
  * can contribute to the same namespace.
@@ -31,21 +32,21 @@ import chameleon.exception.ChameleonProgrammerException;
  * @author Marko van Dooren
  * @author Tim Laeremans
  */
-public class NamespacePart extends ElementImpl implements DeclarationContainer {
+public class NamespaceDeclaration extends ElementImpl implements DeclarationContainer {
 
   static {
-    excludeFieldName(NamespacePart.class,"_namespaceLink");
+    excludeFieldName(NamespaceDeclaration.class,"_namespaceLink");
   }
   
 	private final class DefaultNamespaceSelector implements LookupStrategySelector {
 		public LookupStrategy strategy() throws LookupException {
 			// 5 SEARCH IN DEFAULT NAMESPACE
-			return NamespacePart.this.getDefaultNamespace().targetContext();
+			return NamespaceDeclaration.this.getDefaultNamespace().targetContext();
 		}
 	}
 
-	protected class ImportLocalDemandContext extends LocalLookupStrategy<NamespacePart> {
-	  public ImportLocalDemandContext(NamespacePart element) {
+	protected class ImportLocalDemandContext extends LocalLookupStrategy<NamespaceDeclaration> {
+	  public ImportLocalDemandContext(NamespaceDeclaration element) {
 			super(element);
 		}
 
@@ -64,8 +65,8 @@ public class NamespacePart extends ElementImpl implements DeclarationContainer {
 	  }
 	}
 	
-	protected class ImportLocalDirectContext extends LocalLookupStrategy<NamespacePart> {
-		private ImportLocalDirectContext(NamespacePart element) {
+	protected class ImportLocalDirectContext extends LocalLookupStrategy<NamespaceDeclaration> {
+		private ImportLocalDirectContext(NamespaceDeclaration element) {
 			super(element);
 		}
 
@@ -96,7 +97,7 @@ public class NamespacePart extends ElementImpl implements DeclarationContainer {
 			// 3 SEARCH IN CURRENT NAMESPACE
 			LookupStrategy currentNamespaceStrategy = namespace().localStrategy();
 			return language().lookupFactory().createLexicalLookupStrategy(
-					 currentNamespaceStrategy, NamespacePart.this, _demandImportStrategySelector)
+					 currentNamespaceStrategy, NamespaceDeclaration.this, _demandImportStrategySelector)
 			;
 		}
 	}
@@ -119,7 +120,7 @@ public class NamespacePart extends ElementImpl implements DeclarationContainer {
    @
    @ post getDeclaredNamespace() == namespace
    @*/ 
-	public NamespacePart(Namespace namespace) {
+	public NamespaceDeclaration(Namespace namespace) {
     setNamespace(namespace);
 	}
 	
@@ -183,29 +184,25 @@ public class NamespacePart extends ElementImpl implements DeclarationContainer {
 		return namespace().getFullyQualifiedName();
 	}
 
-	public NamespacePart getNearestNamespacePart() {
+	public NamespaceDeclaration getNearestNamespacePart() {
 		return this;
 	}
 	
 	/**
 	 * NAMESPACEPARTS
 	 */
-	public List<NamespacePart> namespaceParts() {
+	public List<NamespaceDeclaration> namespaceParts() {
 		return _subNamespaceParts.getOtherEnds();
 	}
 
-	public void addNamespacePart(NamespacePart pp) {
+	public void addNamespacePart(NamespaceDeclaration pp) {
 		add(_subNamespaceParts,pp);
 	}
 
-	public void removeNamespacePart(NamespacePart pp) {
+	public void removeNamespacePart(NamespaceDeclaration pp) {
 		remove(_subNamespaceParts,pp);
 	}
 
-	public OrderedMultiAssociation<NamespacePart, NamespacePart> getNamespacePartsLink() {
-		return _subNamespaceParts;
-	}
-	
 	/**
 	 * Recursively disconnect this namespace declaration and all descendant namespace declarations
 	 * from their namespaces. 
@@ -240,15 +237,8 @@ public class NamespacePart extends ElementImpl implements DeclarationContainer {
 		return super.disconnected() && namespace() != null;
 	}
 	
-	private OrderedMultiAssociation<NamespacePart, NamespacePart> _subNamespaceParts = new OrderedMultiAssociation<NamespacePart, NamespacePart>(this);
+	private Multi<NamespaceDeclaration> _subNamespaceParts = new Multi<NamespaceDeclaration>(this);
 
-	public List<Element> children() {
-		List result = declarations(); // can't specify type parameter without having to clone types(). don't like it.
-		result.addAll(namespaceParts());
-		result.addAll(imports());
-		return result;
-	}
-	
 	public List<Declaration> declarations() {
       return _types.getOtherEnds();
 	}
@@ -265,11 +255,7 @@ public class NamespacePart extends ElementImpl implements DeclarationContainer {
 	/*************
 	 * NAMESPACE *
 	 *************/
-	private SingleAssociation<NamespacePart, Namespace> _namespaceLink = new SingleAssociation<NamespacePart, Namespace>(this);
-
-	public SingleAssociation<NamespacePart, Namespace> getNamespaceLink() {
-		return _namespaceLink;
-	}
+	private Single<Namespace> _namespaceLink = new Single<Namespace>(this,true);
 
 	/**
 	 * Return the namespace to which this namespacepart adds declarations.
@@ -278,10 +264,13 @@ public class NamespacePart extends ElementImpl implements DeclarationContainer {
 	public Namespace namespace() {
 		return _namespaceLink.getOtherEnd();
 	}
+	
+	public Single<Namespace> namespaceLink() {
+		return _namespaceLink;
+	}
 
 	public void setNamespace(Namespace namespace) {
 		if (namespace != null) {
-//			showStackTrace("Adding namespace part to namespace "+namespace.getFullyQualifiedName());
 			namespace.addNamespacePart(this);
 		} else {
 			_namespaceLink.connectTo(null);
@@ -293,7 +282,7 @@ public class NamespacePart extends ElementImpl implements DeclarationContainer {
 	 * DEMAND IMPORTS *
 	 ******************/
 
-	private OrderedMultiAssociation<NamespacePart,Import> _imports = new OrderedMultiAssociation<NamespacePart,Import>(this);
+	private Multi<Import> _imports = new Multi<Import>(this);
 
 	public List<Import> imports() {
 		return _imports.getOtherEnds();
@@ -332,7 +321,7 @@ public class NamespacePart extends ElementImpl implements DeclarationContainer {
 	/****************
 	 * DECLARATIONS *
 	 ****************/
-	protected OrderedMultiAssociation<NamespacePart, Declaration> _types = new OrderedMultiAssociation<NamespacePart, Declaration>(this);
+	private Multi<Declaration> _types = new Multi<Declaration>(this);
 
 	/**
 	 * Add the given declaration to this namespace part.
@@ -399,9 +388,9 @@ public class NamespacePart extends ElementImpl implements DeclarationContainer {
 	}
 
   @Override
-  public NamespacePart clone() {
-  	NamespacePart result = new NamespacePart(null);
-  	for(NamespacePart part: namespaceParts()) {
+  public NamespaceDeclaration clone() {
+  	NamespaceDeclaration result = new NamespaceDeclaration(null);
+  	for(NamespaceDeclaration part: namespaceParts()) {
   		result.addNamespacePart(part.clone());
   	}
   	for(Declaration declaration:declarations()) {

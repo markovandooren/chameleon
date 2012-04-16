@@ -18,8 +18,4 @@ public class StatementExpression extends ExpressionContainingStatement {
   public StatementExpression clone() {
     return new StatementExpression(getExpression().clone());
   }
-
-  public List<Element> children() {
-    return Util.createNonNullList(getExpression());
-  }
 }

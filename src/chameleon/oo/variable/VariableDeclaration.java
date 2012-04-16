@@ -3,12 +3,9 @@ package chameleon.oo.variable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LexicalLookupStrategy;
@@ -21,7 +18,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.type.Type;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 public class VariableDeclaration extends ElementImpl implements DeclarationContainer {
 
@@ -53,7 +50,7 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
 	}
 
 	public void setSignature(SimpleNameSignature signature) {
-		setAsParent(_signature,signature);
+		set(_signature,signature);
 	}
 	  
 	  /**
@@ -63,20 +60,12 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
 	    return _signature.getOtherEnd();
 	  }
 	  
-	  private SingleAssociation<VariableDeclaration, SimpleNameSignature> _signature = new SingleAssociation<VariableDeclaration, SimpleNameSignature>(this);
-
-
-	public List<Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		Util.addNonNull(initialization(), result);
-		result.add(signature());
-		return result;
-	}
+	  private Single<SimpleNameSignature> _signature = new Single<SimpleNameSignature>(this);
 
 	/**
 	 * EXPRESSION
 	 */
-	private SingleAssociation<VariableDeclaration,Expression> _expression = new SingleAssociation<VariableDeclaration,Expression>(this);
+	private Single<Expression> _expression = new Single<Expression>(this);
 
   
   public Expression initialization() {
@@ -84,7 +73,7 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
   }
   
   public void setInitialization(Expression expression) {
-    setAsParent(_expression,expression);
+    set(_expression,expression);
   }
   
   public Variable variable() {

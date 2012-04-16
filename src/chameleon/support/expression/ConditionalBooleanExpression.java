@@ -33,11 +33,4 @@ public abstract class ConditionalBooleanExpression extends BinaryExpression {
     return new HashSet<Type>();
   }
   
-  public List<Element> children() {
-    List<Element> result = new ArrayList<Element>();
-    result.add(getFirst());
-    result.add(getSecond());
-    return result;
-  }
-  
 }

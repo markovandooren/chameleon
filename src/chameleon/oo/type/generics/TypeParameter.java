@@ -69,9 +69,9 @@ public abstract class TypeParameter extends Parameter {
 		return result;
 	}
 
-	public boolean canBeAssigned(ActualTypeArgument typeArgument) throws LookupException {
-		return lowerBound().subTypeOf(typeArgument.lowerBound()) && typeArgument.upperBound().subTypeOf(upperBound());
-	}
+//	public boolean canBeAssigned(ActualTypeArgument typeArgument) throws LookupException {
+//		return lowerBound().subTypeOf(typeArgument.lowerBound()) && typeArgument.upperBound().subTypeOf(upperBound());
+//	}
 	
 	public abstract Type upperBound() throws LookupException;
 	

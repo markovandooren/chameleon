@@ -20,11 +20,6 @@ public class ExactDeclarationPointcutExpression extends DeclarationPointcutExpre
 	}
 
 	@Override
-	public List<? extends Element> children() {
-		return new ArrayList<Element>();
-	}
-
-	@Override
 	public ExactDeclarationPointcutExpression clone() {
 		return new ExactDeclarationPointcutExpression(pattern().clone());
 	}

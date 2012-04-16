@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.rejuse.association.SingleAssociation;
 import org.rejuse.predicate.UnsafePredicate;
 
 import chameleon.core.declaration.Declaration;
@@ -21,7 +20,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.variable.FormalParameter;
 import chameleon.oo.variable.Variable;
 import chameleon.oo.variable.VariableContainer;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -37,14 +36,14 @@ public class CatchClause extends Clause implements VariableContainer {
    * EXCEPTION * 
    *************/
   
-	private SingleAssociation<CatchClause,FormalParameter> _exceptionLink = new SingleAssociation<CatchClause,FormalParameter>(this);
+	private Single<FormalParameter> _exceptionLink = new Single<FormalParameter>(this);
 
-	public SingleAssociation getExceptionLink() {
+	public Single getExceptionLink() {
     return _exceptionLink;
   }
   
   public void setException(FormalParameter exc) {
-    setAsParent(_exceptionLink,exc);
+    set(_exceptionLink,exc);
   }
   
   public FormalParameter getExceptionParameter() {
@@ -91,18 +90,6 @@ public class CatchClause extends Clause implements VariableContainer {
     }
   }
 
- /*@
-   @ also public behavior
-   @
-   @ post getStatement() != null ==> \result.contains(getStatement());
-   @ post getExceptionParameter() != null ==> \result.contains(getExceptionParameter());
-   @*/
-  public List children() {
-    List result = Util.createNonNullList(getExceptionParameter());
-    Util.addNonNull(statement(), result);
-    return result;
-  }
-  
   public List<? extends Variable> declarations() {
     List<Variable> result = new ArrayList<Variable>();
     result.add(getExceptionParameter());

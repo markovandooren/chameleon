@@ -3,9 +3,6 @@ package chameleon.support.variable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.OrderedMultiAssociation;
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
@@ -24,7 +21,8 @@ import chameleon.oo.variable.Variable;
 import chameleon.oo.variable.VariableDeclaration;
 import chameleon.oo.variable.VariableDeclarator;
 import chameleon.support.statement.ForInit;
-import chameleon.util.Util;
+import chameleon.util.association.Multi;
+import chameleon.util.association.Single;
 
 public class LocalVariableDeclarator extends StatementImpl implements VariableDeclarator, ForInit {
 
@@ -43,14 +41,6 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
 	
 	public LocalVariableDeclarator(TypeReference tref) {
 		setTypeReference(tref);
-	}
-
-	public List<Element> children() {
-			List<Element> result = new ArrayList<Element>();
-			result.addAll(variableDeclarations());
-			Util.addNonNull(typeReference(), result);
-			result.addAll(modifiers());
-			return result;
 	}
 
 	@Override
@@ -76,7 +66,7 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
 	/**
 	 * TYPE
 	 */
-	private SingleAssociation<LocalVariableDeclarator,TypeReference> _typeReference = new SingleAssociation<LocalVariableDeclarator,TypeReference>(this);
+	private Single<TypeReference> _typeReference = new Single<TypeReference>(this);
 
   public Type type() throws LookupException {
   	return typeReference().getType();
@@ -87,7 +77,7 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
   }
 
   public void setTypeReference(TypeReference type) {
-    setAsParent(_typeReference,type);
+    set(_typeReference,type);
   }
 
 	public List<VariableDeclaration> variableDeclarations() {
@@ -102,7 +92,7 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
 		remove(_declarations,declaration);
 	}
 	
-	private OrderedMultiAssociation<LocalVariableDeclarator, VariableDeclaration> _declarations = new OrderedMultiAssociation<LocalVariableDeclarator, VariableDeclaration>(this);
+	private Multi<VariableDeclaration> _declarations = new Multi<VariableDeclaration>(this);
 
 	
 	
@@ -112,7 +102,7 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
   /*************
    * MODIFIERS *
    *************/
-  private OrderedMultiAssociation<LocalVariableDeclarator, Modifier> _modifiers = new OrderedMultiAssociation<LocalVariableDeclarator, Modifier>(this);
+  private Multi<Modifier> _modifiers = new Multi<Modifier>(this);
 
 
   /**

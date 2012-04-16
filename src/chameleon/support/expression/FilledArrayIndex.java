@@ -2,11 +2,10 @@ package chameleon.support.expression;
 
 import java.util.List;
 
-import org.rejuse.association.OrderedMultiAssociation;
-
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
+import chameleon.util.association.Multi;
 
 /**
  * @author Marko van Dooren
@@ -22,7 +21,7 @@ public class FilledArrayIndex extends ArrayIndex {
 		addIndex(expr);
 	}
 
-	private OrderedMultiAssociation<FilledArrayIndex,Expression> _expressions = new OrderedMultiAssociation<FilledArrayIndex,Expression>(this);
+	private Multi<Expression> _expressions = new Multi<Expression>(this);
 
 	public void addIndex(Expression expr){
 		add(_expressions,expr);
@@ -36,10 +35,6 @@ public class FilledArrayIndex extends ArrayIndex {
         return _expressions.getOtherEnds();
 	}
 	
-	public List<Expression> children() {
-		return getIndices();
-	}
-
 	@Override public FilledArrayIndex clone() {
         FilledArrayIndex result = new FilledArrayIndex();
         for (Expression e : getIndices()) {

@@ -20,7 +20,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.BadPositionCategoryException;
 import org.eclipse.jface.text.DefaultPositionUpdater;
-import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.Position;
@@ -33,7 +32,7 @@ import org.rejuse.predicate.Predicate;
 import org.rejuse.predicate.SafePredicate;
 
 import chameleon.core.Config;
-import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.compilationunit.Document;
 import chameleon.core.language.Language;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.validation.BasicProblem;
@@ -56,10 +55,10 @@ import chameleon.input.ParseException;
  * the language the Document is used for.
  */
 
-public class ChameleonDocument extends Document {
+public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	
 	//The compilation unit of the document
-	private CompilationUnit _cu;
+	private Document _doc;
 	
 	// Marko: I am going to replace this by the project nature.
 	
@@ -95,7 +94,7 @@ public class ChameleonDocument extends Document {
 	public ChameleonDocument(ChameleonProjectNature projectNature, IFile file, IPath path){
 		super();
 		
-		setCompilationUnit(new CompilationUnit());
+		setCompilationUnit(new Document());
 		if(projectNature==null){
 			ChameleonEditorPlugin.showMessageBox("Illegal project", "This document is part of an illegal project. \nCheck if the project is a Chameleon Project.", SWT.ICON_ERROR);
 		}
@@ -188,8 +187,8 @@ public class ChameleonDocument extends Document {
 	 * @param cu
 	 * @pre cu must be effective
 	 */
-	public void setCompilationUnit(CompilationUnit cu) {
-		_cu = cu;
+	public void setCompilationUnit(Document cu) {
+		_doc = cu;
 	}
 	
 	
@@ -240,8 +239,16 @@ public class ChameleonDocument extends Document {
 	 * 
 	 * @return the compilation unit
 	 */
-	public CompilationUnit compilationUnit() {
-		return _cu;
+	public Document compilationUnit() {
+		return chameleonDocument();
+	}
+
+	/**
+	 * 
+	 * @return the compilation unit
+	 */
+	public Document chameleonDocument() {
+		return _doc;
 	}
 
 	/** 
@@ -371,7 +378,7 @@ public class ChameleonDocument extends Document {
 		}
 
 		// if this is not set, the document is new and has never been parsed before.
-		if (_cu == null) {
+		if (_doc == null) {
 			getProjectNature().addToModel(this);
 		} else {
 
@@ -715,9 +722,9 @@ public class ChameleonDocument extends Document {
 		String message = problem.message();
 		HashMap<String, Object> attributes = ChameleonPresentationReconciler.createProblemMarkerMap(message);
 		EclipseEditorTag positionTag = null;
-		positionTag = (EclipseEditorTag) problem.element().tag(EclipseEditorTag.NAME_TAG);
+		positionTag = (EclipseEditorTag) problem.element().metadata(EclipseEditorTag.NAME_TAG);
 		if(positionTag == null) {
-			positionTag = (EclipseEditorTag) problem.element().tag(EclipseEditorTag.ALL_TAG);
+			positionTag = (EclipseEditorTag) problem.element().metadata(EclipseEditorTag.ALL_TAG);
 		}
 		if(positionTag != null) {
 			int offset = positionTag.getOffset();

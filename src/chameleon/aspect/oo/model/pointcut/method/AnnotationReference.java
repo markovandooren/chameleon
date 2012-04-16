@@ -25,11 +25,6 @@ public class AnnotationReference extends ElementImpl {
 	}
 
 	@Override
-	public List<? extends Element> children() {
-		return Collections.emptyList();
-	}
-
-	@Override
 	public AnnotationReference clone() {
 		return new AnnotationReference(referencendName());
 	}

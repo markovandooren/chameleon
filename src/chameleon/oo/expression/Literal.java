@@ -44,15 +44,6 @@ public abstract class Literal extends Expression {
     return new HashSet<Type>();
   }
   
- /*@
-   @ also public behavior
-   @
-   @ post \result.isEmpty(); 
-   @*/
-  public List<Element> children() {
-    return new ArrayList();
-  }
-  
 	@Override
 	public VerificationResult verifySelf() {
 		VerificationResult result = Valid.create();

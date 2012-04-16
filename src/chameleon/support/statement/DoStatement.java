@@ -22,10 +22,4 @@ public class DoStatement extends IterationStatementWithExpression {
     return new DoStatement(condition().clone(), getStatement().clone());
   }
 
-  public List<Element> children() {
-    List<Element> result = Util.createNonNullList(condition());
-    Util.addNonNull(getStatement(), result);
-    return result;
-  }
-
 }

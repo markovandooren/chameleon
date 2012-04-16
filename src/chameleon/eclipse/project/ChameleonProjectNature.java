@@ -29,7 +29,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
-import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.compilationunit.Document;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.namespace.Namespace;
@@ -331,7 +331,7 @@ public class ChameleonProjectNature implements IProjectNature {
 		if(doc != null) {
 			doc.dumpPositions();
 			try {
-				modelFactory().addToModel(doc.get(), doc.compilationUnit());
+				modelFactory().addToModel(doc.get(), doc.chameleonDocument());
 			} catch (ParseException e) {
 				// FIXME Can we ignore this exception? Normally, the parse error markers should have been set.
 				e.printStackTrace();
@@ -456,9 +456,9 @@ public class ChameleonProjectNature implements IProjectNature {
 	 */
 	public ChameleonDocument document(Element element) {
 		if(element != null) {
-			CompilationUnit cu = element.nearestAncestorOrSelf(CompilationUnit.class);
+			Document cu = element.nearestAncestorOrSelf(Document.class);
 			for(ChameleonDocument doc : _documents) {
-				if(doc.compilationUnit().equals(cu)) {
+				if(doc.chameleonDocument().equals(cu)) {
 					return doc;
 				}
 			}
@@ -480,7 +480,7 @@ public class ChameleonProjectNature implements IProjectNature {
 	public void removeDocument(ChameleonDocument document){
 		if(document != null) {
 			_documents.remove(document);
-			document.compilationUnit().disconnect();
+			document.chameleonDocument().disconnect();
 		}
 	}
 
@@ -491,7 +491,7 @@ public class ChameleonProjectNature implements IProjectNature {
 	public void addModelElement(ChameleonDocument document, Element parent) {
 		_documents.add(document);
 		try {
-			modelFactory().addToModel(document.get(), document.compilationUnit());
+			modelFactory().addToModel(document.get(), document.chameleonDocument());
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} 
@@ -542,16 +542,16 @@ public class ChameleonProjectNature implements IProjectNature {
 		return null;
 	}
 
-	public List<CompilationUnit> compilationUnits() {
-		ArrayList<CompilationUnit> result = new ArrayList<CompilationUnit>();
+	public List<Document> compilationUnits() {
+		ArrayList<Document> result = new ArrayList<Document>();
 		for(ChameleonDocument document: documents()) {
-			result.add(document.compilationUnit());
+			result.add(document.chameleonDocument());
 		}
 		return result;
 	}
 
 	public void flushProjectCache() {
-		for(CompilationUnit compilationUnit: compilationUnits()) {
+		for(Document compilationUnit: compilationUnits()) {
 			compilationUnit.flushCache();
 		}
 		language().flushCache();

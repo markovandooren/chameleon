@@ -2,10 +2,7 @@ package chameleon.support.expression;
 
 import java.util.List;
 
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.declaration.TargetDeclaration;
-import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
@@ -16,7 +13,7 @@ import chameleon.oo.expression.NamedTarget;
 import chameleon.oo.statement.CheckedExceptionList;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.inheritance.InheritanceRelation;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -33,18 +30,14 @@ public class SuperTarget extends ElementImpl implements CrossReferenceTarget {
 	/**
 	 * TARGET
 	 */
-	private SingleAssociation<CrossReferenceTarget,CrossReferenceTarget> _target = new SingleAssociation<CrossReferenceTarget,CrossReferenceTarget>(this);
+	private Single<CrossReferenceTarget> _target = new Single<CrossReferenceTarget>(this,false);
 
   public CrossReferenceTarget getTarget() {
     return _target.getOtherEnd();
   }
 
   public void setTarget(CrossReferenceTarget target) {
-    setAsParent(_target,target);
-  }
-
-  public List<Element> children() {
-  	return Util.createNonNullList(getTarget());
+    set(_target,target);
   }
 
   public SuperTarget clone() {

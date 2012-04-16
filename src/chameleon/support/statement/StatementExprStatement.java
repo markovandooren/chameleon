@@ -1,10 +1,9 @@
 package chameleon.support.statement;
 
 
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.oo.expression.Expression;
 import chameleon.oo.statement.Statement;
+import chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
@@ -19,7 +18,7 @@ public abstract class StatementExprStatement extends StatementContainingStatemen
 	/**
 	 * EXPRESSION
 	 */
-	private SingleAssociation<StatementExprStatement,Expression> _expression = new SingleAssociation<StatementExprStatement,Expression>(this);
+	private Single<Expression> _expression = new Single<Expression>(this);
 
   
   public Expression expression() {
@@ -27,7 +26,7 @@ public abstract class StatementExprStatement extends StatementContainingStatemen
   }
   
   public void setExpression(Expression expression) {
-    setAsParent(_expression,expression);
+    set(_expression,expression);
   }
 
 }

@@ -1,15 +1,11 @@
 package chameleon.support.statement;
 
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
-
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.language.ObjectOrientedLanguage;
+import chameleon.util.association.Single;
 
 public class AssertStatement extends ExpressionContainingStatement {
 
@@ -27,7 +23,7 @@ public class AssertStatement extends ExpressionContainingStatement {
 	/**
 	 * EXPRESSION
 	 */
-	private SingleAssociation<AssertStatement,Expression> _messageExpression = new SingleAssociation<AssertStatement,Expression>(this);
+	private Single<Expression> _messageExpression = new Single<Expression>(this);
 
   
   public Expression messageExpression() {
@@ -35,17 +31,9 @@ public class AssertStatement extends ExpressionContainingStatement {
   }
   
   public void setMessageExpression(Expression expression) {
-    setAsParent(_messageExpression,expression);
+    set(_messageExpression,expression);
   }
 
-  public List<Element> children() {
-  	List<Element> result = super.children();
-  	if(messageExpression() != null) {
-  		result.add(messageExpression());
-  	}
-  	return result;
-  }
-  
   @Override
   public VerificationResult verifySelf() {
   	VerificationResult result = super.verifySelf();

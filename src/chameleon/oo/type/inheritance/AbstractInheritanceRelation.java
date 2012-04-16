@@ -1,20 +1,13 @@
 package chameleon.oo.type.inheritance;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.rejuse.association.SingleAssociation;
 import org.rejuse.logic.ternary.Ternary;
 
 import chameleon.core.declaration.Declaration;
-import chameleon.core.declaration.DeclarationAlias;
-import chameleon.core.declaration.DeclarationContainerAlias;
-import chameleon.core.declaration.Signature;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.modifier.ElementWithModifiersImpl;
@@ -23,7 +16,7 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.member.Member;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 public abstract class AbstractInheritanceRelation extends ElementWithModifiersImpl implements InheritanceRelation {
 	
@@ -37,12 +30,6 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 
 	public AbstractInheritanceRelation(TypeReference ref) {
 		setSuperClassReference(ref);
-	}
-	
-	public List<Element> children() {
-		List<Element> result = super.children();
-		Util.addNonNull(superClassReference(),result);
-		return result;
 	}
 	
 	public Type superElement() throws LookupException {
@@ -100,7 +87,7 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
    @ post superClassReference() == ref;
    @*/
 	public void setSuperClassReference(TypeReference ref) {
-		setAsParent(_superClass,ref);
+		set(_superClass,ref);
 	}
 	
 	/**
@@ -314,7 +301,7 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 //		//   1.a) WE NEED A TRICK CONTAINER (The superclass) IN WHICH THE PARAMETERS ARE SUBSTITUTED
 //	}
 	
-	private SingleAssociation<AbstractInheritanceRelation,TypeReference> _superClass = new SingleAssociation<AbstractInheritanceRelation, TypeReference>(this);
+	private Single<TypeReference> _superClass = new Single<TypeReference>(this);
 
 
 }

@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.rejuse.association.Association;
 import org.rejuse.association.AssociationListener;
-import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.Config;
@@ -22,6 +21,7 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.member.Member;
+import chameleon.util.association.Multi;
 
 public class ClassBody extends ElementImpl implements DeclarationContainer {
 
@@ -59,7 +59,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 		}
 	}
 	
-	private OrderedMultiAssociation<ClassBody, TypeElement> _elements = new OrderedMultiAssociation<ClassBody, TypeElement>(this);
+	private Multi<TypeElement> _elements = new Multi<TypeElement>(this);
 	
 		
 	private AssociationListener<TypeElement> _listener = new AssociationListener<TypeElement>() {
@@ -191,10 +191,6 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
       result.addAll(m.getIntroducedMembers());
     }
     return result;
-	}
-
-	public List<? extends Element> children() {
-		return new ArrayList<Element>(elements());
 	}
 
 //	public LookupStrategy lexicalLookupStrategy(Element element) {

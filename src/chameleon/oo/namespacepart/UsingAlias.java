@@ -3,8 +3,6 @@ package chameleon.oo.namespacepart;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
@@ -17,7 +15,7 @@ import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.type.Type;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * @author Tim Laeremans
@@ -34,10 +32,6 @@ public class UsingAlias extends Import {
 	public UsingAlias(String identifier, CrossReference ref) {
 		setNamespaceOrTypeReference(ref);
 		setIdentifier(identifier);
-	}
-
-	public List<Element> children() {
-		return Util.createNonNullList(getCrossReference());
 	}
 
 	private String _identifier;
@@ -58,7 +52,7 @@ public class UsingAlias extends Import {
 		this._identifier = identifier;
 	}
 
-	private SingleAssociation<UsingAlias,CrossReference> _packageOrType = new SingleAssociation<UsingAlias,CrossReference>(this);
+	private Single<CrossReference> _packageOrType = new Single<CrossReference>(this);
 
   
   public CrossReference getCrossReference() {
@@ -66,7 +60,7 @@ public class UsingAlias extends Import {
   }
   
   public void setNamespaceOrTypeReference(CrossReference ref) {
-  	setAsParent(_packageOrType,ref);
+  	set(_packageOrType,ref);
   }
 
 //	public Type getType(String name) throws MetamodelException {

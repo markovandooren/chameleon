@@ -20,12 +20,18 @@ public class CapturedTypeParameter extends FormalTypeParameter {
 		for(TypeConstraint constraint: constraints()) {
 			result.addConstraint(constraint.clone());
 		}
+		for(NonLocalTypeReference nl: result.descendants(NonLocalTypeReference.class)) {
+			Element p = nl.lookupParent();
+			if(p == this || p.ancestors().contains(this)) {
+				nl.setLookupParent(result);
+			}
+		}
 		return result;
 	}
-
+	
 	@Override
 	protected Type createLazyAlias() {
-		return new AbstractInstantiatedTypeParameter.LazyTypeAlias(signature().clone(), this);
+		return new LazyInstantiatedAlias(signature().clone(), this);
 	}
 
 	@Override
@@ -35,7 +41,7 @@ public class CapturedTypeParameter extends FormalTypeParameter {
 //			System.out.println("Creating selection type of " + x);
 //		}
 		if(_selectionTypeCache == null) {
-		  _selectionTypeCache = new ActualType(signature().clone(), upperBound(),this);
+		  _selectionTypeCache = new InstantiatedParameterType(signature().clone(), upperBound(),this);
 		}
 		return _selectionTypeCache;
 	}
@@ -48,17 +54,17 @@ public class CapturedTypeParameter extends FormalTypeParameter {
 
 	private Type _selectionTypeCache;
 
-	@Override
-	public CapturedTypeParameter cloneForStub() throws LookupException {
-		CapturedTypeParameter result = clone();
-		for(NonLocalTypeReference nl: result.descendants(NonLocalTypeReference.class)) {
-			Element p = nl.lookupParent();
-			if(p.sameAs(this) || p.ancestors().contains(this)) {
-				nl.setLookupParent(result);
-			}
-		}
-		return result;
-	}
+//	@Override
+//	public CapturedTypeParameter cloneForStub() throws LookupException {
+//		CapturedTypeParameter result = clone();
+//		for(NonLocalTypeReference nl: result.descendants(NonLocalTypeReference.class)) {
+//			Element p = nl.lookupParent();
+//			if(p.sameAs(this) || p.ancestors().contains(this)) {
+//				nl.setLookupParent(result);
+//			}
+//		}
+//		return result;
+//	}
 
 //	@Override
 //	public boolean uniSameAs(Element other) throws LookupException {

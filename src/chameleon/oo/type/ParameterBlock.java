@@ -3,15 +3,14 @@ package chameleon.oo.type;
 import java.util.List;
 
 import org.rejuse.association.Association;
-import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.declaration.Declaration;
-import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.util.association.Multi;
 
 public class ParameterBlock<T extends Parameter> extends ElementImpl {
 
@@ -25,11 +24,7 @@ public class ParameterBlock<T extends Parameter> extends ElementImpl {
 	
 	private Class<T> _parameterType;
 	
-	public List<? extends Element> children() {
-		return parameters();
-	}
-
-	private OrderedMultiAssociation<ParameterBlock<T>, T> _parameters = new OrderedMultiAssociation<ParameterBlock<T>, T>(this);
+	private Multi<T> _parameters = new Multi<T>(this);
 	
 	public List<T> parameters() {
 		return _parameters.getOtherEnds();

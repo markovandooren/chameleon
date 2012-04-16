@@ -52,10 +52,6 @@ public class SimpleNameSignature extends Signature {
     return new SimpleNameSignature(name());
 	}
 
-	public List<? extends Element> children() {
-		return new ArrayList<Element>();
-	}
-
 	@Override
 	public VerificationResult verifySelf() {
 		if(_name == null) {

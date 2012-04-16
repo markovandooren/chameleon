@@ -3,7 +3,6 @@ package chameleon.oo.statement;
 import java.util.List;
 
 import org.rejuse.association.Association;
-import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.java.collections.Visitor;
 
 import chameleon.core.element.Element;
@@ -12,6 +11,7 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
+import chameleon.util.association.Multi;
 
 /**
  * @author Marko van Dooren
@@ -23,11 +23,7 @@ public class Block extends StatementImpl implements StatementListContainer {
 	/**
 	 * STATEMENTS
 	 */
-	private OrderedMultiAssociation<Block,Statement> _statements = new OrderedMultiAssociation<Block,Statement>(this);
-
-  public OrderedMultiAssociation<Block,Statement> getStatementsLink() {
-    return _statements;
-  }
+	private Multi<Statement> _statements = new Multi<Statement>(this);
 
   public void addStatement(Statement statement) {
   	add(_statements,statement);
@@ -69,10 +65,6 @@ public class Block extends StatementImpl implements StatementListContainer {
   	for(Element child: children()) {
   		child.disconnect();
   	}
-  }
-
-  public List<? extends Element> children() {
-    return statements();
   }
 
   public int getIndexOf(Statement statement) {

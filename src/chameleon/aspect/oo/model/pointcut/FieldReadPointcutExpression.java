@@ -1,21 +1,15 @@
 package chameleon.aspect.oo.model.pointcut;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.aspect.core.model.pointcut.expression.AbstractPointcutExpression;
 import chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import chameleon.aspect.core.model.pointcut.expression.staticexpression.DeclarationReference;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.expression.NamedTargetExpression;
 import chameleon.oo.type.RegularType;
 import chameleon.oo.type.TypeReference;
 import chameleon.oo.variable.RegularMemberVariable;
 import chameleon.support.expression.AssignmentExpression;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 public class FieldReadPointcutExpression extends AbstractPointcutExpression<NamedTargetExpression> {
 
@@ -25,15 +19,15 @@ public class FieldReadPointcutExpression extends AbstractPointcutExpression<Name
 	}
 	
 	private void setTypeReference(TypeReference typeReference) {
-		setAsParent(_typeReference, typeReference);
+		set(_typeReference, typeReference);
 	}
 
 	private void setFieldReference(DeclarationReference reference) {
-		setAsParent(_fieldReference, reference);
+		set(_fieldReference, reference);
 	}
 
-	private SingleAssociation<FieldReadPointcutExpression, DeclarationReference> _fieldReference = new SingleAssociation<FieldReadPointcutExpression, DeclarationReference>(this);
-	private SingleAssociation<FieldReadPointcutExpression, TypeReference> _typeReference = new SingleAssociation<FieldReadPointcutExpression, TypeReference>(this);
+	private Single<DeclarationReference> _fieldReference = new Single<DeclarationReference>(this);
+	private Single<TypeReference> _typeReference = new Single<TypeReference>(this);
 	
 	public DeclarationReference fieldReference() {
 		return _fieldReference.getOtherEnd();
@@ -44,16 +38,6 @@ public class FieldReadPointcutExpression extends AbstractPointcutExpression<Name
 	}
 
 	
-	@Override
-	public List<? extends Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		
-		Util.addNonNull(fieldReference(), result);
-		Util.addNonNull(typeReference(), result);
-		
-		return result;
-	}
-
 	/**
 	 * 	{@inheritDoc}
 	 * 
@@ -85,7 +69,7 @@ public class FieldReadPointcutExpression extends AbstractPointcutExpression<Name
 		if (!(joinpoint.getElement() instanceof RegularMemberVariable))
 			return MatchResult.noMatch();
 		
-		if (joinpoint.parent() instanceof AssignmentExpression && ((AssignmentExpression) joinpoint.parent()).getVariable().sameAs(joinpoint))
+		if (joinpoint.parent() instanceof AssignmentExpression && ((AssignmentExpression) joinpoint.parent()).getVariableExpression().sameAs(joinpoint))
 				return MatchResult.noMatch();
 		
 		

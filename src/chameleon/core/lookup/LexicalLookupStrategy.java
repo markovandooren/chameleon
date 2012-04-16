@@ -67,8 +67,6 @@ public class LexicalLookupStrategy extends LookupStrategy {
   
   private LookupStrategy _localContext;
   
-  
-  
 	/**
 	 * Return the parent context of this context.
 	 * @throws LookupException 
@@ -77,12 +75,24 @@ public class LexicalLookupStrategy extends LookupStrategy {
 		return selector().strategy();
 	}
 
-	public <T extends Declaration> T lookUp(DeclarationSelector<T> selector) throws LookupException {
-			T tmp = localContext().lookUp(selector);
-			if(tmp != null) {
-			  return tmp;
-			} else {
-			  return nextStrategy().lookUp(selector);
+	public <D extends Declaration> void lookUp(Collector<D> collector) throws LookupException {
+		boolean hit = false;
+		if(_cache != null) {
+			hit = _cache.search(collector);
+		}
+		if(! hit) {
+			localContext().lookUp(collector);
+			collector.proceed(this);
+			if(_cache != null) {
+				_cache.store(collector);
 			}
+		}
 	}
+	
+	@Override
+	public void enableCache() {
+		_cache = new Cache();
+	}
+	
+	private Cache _cache;
 }

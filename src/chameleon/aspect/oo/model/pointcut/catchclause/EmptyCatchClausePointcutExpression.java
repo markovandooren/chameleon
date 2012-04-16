@@ -13,11 +13,6 @@ import chameleon.support.statement.EmptyStatement;
 public class EmptyCatchClausePointcutExpression extends CatchClausePointcutExpression {
 
 	@Override
-	public List<? extends Element> children() {
-		return Collections.emptyList();
-	}
-
-	@Override
 	public MatchResult match(Statement element) throws LookupException {
 		if (!super.matches(element).isMatch())
 			return MatchResult.noMatch();

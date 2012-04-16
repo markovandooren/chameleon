@@ -1,11 +1,10 @@
 package chameleon.support.expression;
 
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
+import chameleon.util.association.Single;
 
 
 /**
@@ -29,7 +28,7 @@ public abstract class BinaryExpression extends ExpressionContainingExpression {
 	/**
 	 * SECOND
 	 */
-	private SingleAssociation<BinaryExpression,Expression> _second = new SingleAssociation<BinaryExpression,Expression>(this);
+	private Single<Expression> _second = new Single<Expression>(this);
 
   
   /**
@@ -48,7 +47,7 @@ public abstract class BinaryExpression extends ExpressionContainingExpression {
    @ post getSecond().equals(second); 
    @*/
   public void setSecond(Expression expression) {
-    setAsParent(_second,expression);
+    set(_second,expression);
   }
  
 	@Override

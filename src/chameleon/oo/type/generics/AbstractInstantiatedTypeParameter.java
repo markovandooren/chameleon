@@ -7,7 +7,6 @@ import org.rejuse.association.Association;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.predicate.UnsafePredicate;
 
-import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.MissingSignature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
@@ -15,7 +14,6 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReference;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.type.Type;
-import chameleon.oo.type.TypeIndirection;
 import chameleon.oo.type.TypeReference;
 import chameleon.util.Pair;
 
@@ -56,10 +54,6 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 		return new TypeParameterSubstitution(this, crossReferences);
 	}
 
-	public List<Element> children() {
-		return new ArrayList<Element>();
-	}
-	
 	private void setArgument(ActualTypeArgument type) {
 		_argument = type;
 	}
@@ -72,7 +66,7 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 
 	public synchronized Type selectionDeclaration() throws LookupException {
 		if(_selectionTypeCache == null) {
-		  _selectionTypeCache = new ActualType(signature().clone(), argument().type(),this);
+		  _selectionTypeCache = new InstantiatedParameterType(signature().clone(), argument().type(),this);
 		}
 		return _selectionTypeCache;
 	}
@@ -89,47 +83,10 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 	@Override
 	public Type resolveForRoundTrip() throws LookupException {
 //		return this;
-  	Type result = new LazyTypeAlias(signature().clone(), this);
+  	Type result = new LazyInstantiatedAlias(signature().clone(), this);
   	result.setUniParent(parent());
   	return result;
 	}
-
-	public static class LazyTypeAlias extends TypeIndirection {
-
-		public LazyTypeAlias(SimpleNameSignature sig, TypeParameter param) {
-			super(sig,null);
-			_param = param;
-		}
-		
-		public Type aliasedType() {
-			try {
-				return parameter().upperBound();
-			} catch (LookupException e) {
-				throw new Error("LookupException while looking for aliasedType of a lazy alias",e);
-			}
-		}
-		
-		public TypeParameter parameter() {
-			return _param;
-		}
-		
-		private final TypeParameter _param;
-
-		@Override
-		public LazyTypeAlias clone() {
-			return new LazyTypeAlias((SimpleNameSignature) signature().clone(), _param);
-		}
-
-		public boolean uniSameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
-			return other == this;
-		}
-
-		public Declaration declarator() {
-			return parameter();
-		}
-		
-	}
-	
 
 	public TypeParameter capture(FormalTypeParameter formal, List<TypeConstraint> accumulator) {
 		return argument().capture(formal,accumulator);

@@ -5,9 +5,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.rejuse.association.OrderedMultiAssociation;
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
@@ -21,7 +18,8 @@ import chameleon.oo.type.generics.TypeParameter;
 import chameleon.oo.type.generics.TypeParameterBlock;
 import chameleon.oo.variable.FormalParameter;
 import chameleon.oo.variable.VariableContainer;
-import chameleon.util.Util;
+import chameleon.util.association.Multi;
+import chameleon.util.association.Single;
 /**
  * A class of objects representing method headers. A method header contains for example the name and parameters of a method.
  * 
@@ -56,23 +54,6 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
   public abstract DeclarationWithParametersHeader createFromSignature(Signature signature);
   
   protected abstract DeclarationWithParametersHeader cloneThis();
-  
-  /**
-   * The children of a method header are its formal parameters and the type parameter block.
-   */
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @ post \result.containsAll(formalParameters());
-   @ post parameterBlock() != null ==> \result.contains(parameterBlock());
-   @*/
-  public List<Element> children() {
-  	List<Element> result = new ArrayList<Element>();
-  	result.addAll(formalParameters());
-  	Util.addNonNull(parameterBlock(), result);
-  	return result;
-  }
   
   /**
    * The name of a method header is the name of its signature.
@@ -120,7 +101,7 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
   	return _parameters.elementAt(baseOneIndex);
   }
 
-  private OrderedMultiAssociation<DeclarationWithParametersHeader,FormalParameter> _parameters = new OrderedMultiAssociation<DeclarationWithParametersHeader,FormalParameter>(this);
+  private Multi<FormalParameter> _parameters = new Multi<FormalParameter>(this);
   
   /**
    * Return the type of the formal parameters of this signature.
@@ -244,7 +225,7 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
 //  	return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this),this);
 //  }
   
-	private SingleAssociation<DeclarationWithParametersHeader, TypeParameterBlock> _typeParameters = new SingleAssociation<DeclarationWithParametersHeader, TypeParameterBlock>(this);
+	private Single<TypeParameterBlock> _typeParameters = new Single<TypeParameterBlock>(this);
 	
 	public TypeParameterBlock parameterBlock() {
 		return _typeParameters.getOtherEnd();
@@ -277,7 +258,7 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
 		if(parameterBlock == null) {
 			// Lazy init.
 			parameterBlock = new TypeParameterBlock();
-			setAsParent(_typeParameters,parameterBlock);
+			set(_typeParameters,parameterBlock);
 		}
 		parameterBlock.add(parameter);
 	}

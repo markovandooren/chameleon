@@ -5,8 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.OrderedMultiAssociation;
-import org.rejuse.association.SingleAssociation;
 import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.declaration.Declaration;
@@ -21,24 +19,18 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.member.Member;
 import chameleon.oo.type.generics.TypeParameterBlock;
 import chameleon.oo.type.inheritance.InheritanceRelation;
-import chameleon.util.Util;
+import chameleon.util.association.Multi;
+import chameleon.util.association.Single;
 
 public abstract class TypeWithBody extends AbstractType {
 
-	protected SingleAssociation<Type, ClassBody> _body = new SingleAssociation<Type, ClassBody>(this);
+	protected Single<ClassBody> _body = new Single<ClassBody>(this);
 
 	
 	public List<InheritanceRelation> nonMemberInheritanceRelations() {
 		return _inheritanceRelations.getOtherEnds();
 	}
 	
-	public List<Element> children() {
-		List<Element> result = super.children();
-		result.addAll(parameterBlocks());
-		Util.addNonNull(body(), result);
-		return result;
-	}
-
 	public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
 		List<ParameterBlock> parameterBlocks = parameterBlocks();
 		if(parameterBlocks.contains(element)) { // || element.isDerived()
@@ -53,14 +45,14 @@ public abstract class TypeWithBody extends AbstractType {
 		}
 	}
 
-	private OrderedMultiAssociation<Type, InheritanceRelation> _inheritanceRelations = new OrderedMultiAssociation<Type, InheritanceRelation>(this);
+	private Multi<InheritanceRelation> _inheritanceRelations = new Multi<InheritanceRelation>(this);
 
 	public ClassBody body() {
 		return _body.getOtherEnd();
 	}
 
 	public void setBody(ClassBody body) {
-		setAsParent(_body,body);
+		set(_body,body);
 	}
 
 	public void add(TypeElement element) {
@@ -81,7 +73,7 @@ public abstract class TypeWithBody extends AbstractType {
 	   return body().members();
 	}
 
-	protected OrderedMultiAssociation<Type, ParameterBlock> _parameters = new OrderedMultiAssociation<Type, ParameterBlock>(this);
+	protected Multi<ParameterBlock> _parameters = new Multi<ParameterBlock>(this);
 
 	public void removeNonMemberInheritanceRelation(InheritanceRelation relation) {
 		remove(_inheritanceRelations,relation);
@@ -174,7 +166,7 @@ public abstract class TypeWithBody extends AbstractType {
 
 	public TypeWithBody(SimpleNameSignature sig) {
 		super(sig);
-		setAsParent(_body,new ClassBody());
+		set(_body,new ClassBody());
 		add(_parameters,new TypeParameterBlock());
 	}
 
@@ -218,7 +210,7 @@ public abstract class TypeWithBody extends AbstractType {
 		if(block != null && parameterBlock(block.parameterType()) != null) {
 			throw new ChameleonProgrammerException("There is already a parameter block containing the following kind of element "+block.parameterType().getName());
 		}
-		setAsParent(_parameters, block);
+		add(_parameters, block);
 	}
 
 	public Class<? extends Parameter> kindOf(ParameterBlock block) throws LookupException {

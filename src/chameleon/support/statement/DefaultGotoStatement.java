@@ -14,10 +14,6 @@ public class DefaultGotoStatement extends GotoStatement {
 		return new DefaultGotoStatement();
 	}
 
-	public List<Element> children() {
-		return new ArrayList<Element>();
-	}
-
 	@Override
 	public VerificationResult verifySelf() {
 		return Valid.create();

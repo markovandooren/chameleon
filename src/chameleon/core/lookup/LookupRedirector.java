@@ -1,15 +1,11 @@
 package chameleon.core.lookup;
 
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 public class LookupRedirector extends ElementImpl implements Stub {
 
@@ -33,10 +29,6 @@ public class LookupRedirector extends ElementImpl implements Stub {
 		return Valid.create();
 	}
 
-	public List<? extends Element> children() {
-		return Util.createNonNullList(child());
-	}
-	
 	public Element contextElement() {
 		return _context;
 	}
@@ -47,10 +39,10 @@ public class LookupRedirector extends ElementImpl implements Stub {
 	
 	private Element _context;
 
-	private SingleAssociation<LookupRedirector, Declaration> _element = new SingleAssociation<LookupRedirector, Declaration>(this);
+	private Single<Declaration> _element = new Single<Declaration>(this);
 
 	public void setChild(Declaration element) {
-		setAsParent(_element, element);
+		set(_element, element);
 	}
 	
 	public Declaration child() {

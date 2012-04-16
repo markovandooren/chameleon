@@ -1,38 +1,29 @@
 package chameleon.aspect.oo.model.pointcut;
 
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.language.ObjectOrientedLanguage;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 public class IfPointcutExpression extends AbstractDynamicPointcutExpression implements RuntimePointcutExpression<Element> {
 	
-	private SingleAssociation<IfPointcutExpression, Expression> _expression = new SingleAssociation<IfPointcutExpression, Expression>(this);
+	private Single<Expression> _expression = new Single<Expression>(this);
 
 	public IfPointcutExpression(Expression expression) {
 		setExpression(expression);
 	}
 
 	private void setExpression(Expression expression) {
-		setAsParent(_expression, expression);
+		set(_expression, expression);
 	}
 
 	public Expression expression() {
 		return _expression.getOtherEnd();
 	}
 	
-	@Override
-	public List<? extends Element> children() {
-		return Util.createNonNullList(expression());
-	}
-
 	@Override
 	public IfPointcutExpression clone() {
 		Expression clonedExpression = null;

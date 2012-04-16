@@ -1,11 +1,5 @@
 package chameleon.core.declaration;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.rejuse.association.SingleAssociation;
-
-import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
@@ -14,6 +8,7 @@ import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ModelException;
+import chameleon.util.association.Single;
 
 public class DeclarationAlias extends ElementImpl implements Declaration {
 
@@ -71,12 +66,8 @@ public class DeclarationAlias extends ElementImpl implements Declaration {
 		return aliasedDeclaration();
 	}
 
-	public List<? extends Element> children() {
-		return new ArrayList<Element>();
-	}
-	
 	public void setSignature(Signature signature) {
-		setAsParent(_signature, signature);
+		set(_signature, signature);
 	}
 	
 	public void setName(String name) {
@@ -87,7 +78,7 @@ public class DeclarationAlias extends ElementImpl implements Declaration {
 		return _signature.getOtherEnd();
 	}
 
-	private SingleAssociation<DeclarationAlias, Signature> _signature = new SingleAssociation<DeclarationAlias, Signature>(this); 
+	private Single<Signature> _signature = new Single<Signature>(this); 
 
 	private Declaration _aliasedDeclaration;
 
@@ -103,5 +94,10 @@ public class DeclarationAlias extends ElementImpl implements Declaration {
 	@Override
 	public LookupStrategy targetContext() throws LookupException {
 		return aliasedDeclaration().targetContext();
+	}
+
+	@Override
+	public String name() {
+		return signature().name();
 	}
 }

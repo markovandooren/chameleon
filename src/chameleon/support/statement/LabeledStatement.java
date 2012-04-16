@@ -33,10 +33,6 @@ public class LabeledStatement extends StatementContainingStatement {
     return new LabeledStatement(getLabel(), getStatement().clone());
   }
 
-  public List<Element> children() {
-    return Util.createNonNullList(getStatement());
-  }
-
 	@Override
 	public VerificationResult verifySelf() {
 		VerificationResult result = Valid.create();

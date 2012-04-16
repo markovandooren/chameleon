@@ -30,13 +30,18 @@ public abstract class EclipseBootstrapper {
 		registerFileExtensions();
 	}
 	
-	public EclipseBootstrapper(String name) {
+	public EclipseBootstrapper(String name,String languageVersion, String extension) {
 		this();
 		if(name == null) {
 			// Let's adopt Martin Rinard's vision and not make the tool crash. Really interesting vision.
 			name = "unknown language "+getClass().getPackage().getName(); 
 		}
 		_name = name;
+		if(languageVersion == null) {
+			languageVersion = "unspecified";
+		}
+		_languageVersion = languageVersion;
+		addExtension(extension);
 	}
 	
 	private String _name;
@@ -51,8 +56,13 @@ public abstract class EclipseBootstrapper {
 	/**
 	 * @return Version information of the supported language
 	 */
-	public abstract String getLanguageVersion();
+	public String getLanguageVersion() {
+		return _languageVersion;
+	}
 	
+	private String _languageVersion;
+
+
 	public List<String> fileExtensions() {
 		return new ArrayList<String>(_extensions);
 	}
@@ -67,24 +77,14 @@ public abstract class EclipseBootstrapper {
 	
 	private List<String> _extensions;
 	
-	public abstract void registerFileExtensions();
+	/**
+	 * Does nothing by default. If a single extension is used, it can be provided
+	 * via the constructor. If multiple extensions are used, overrides this method.
+	 */
+	public void registerFileExtensions() {
+		
+	}
 
-	
-//	/**
-//	 * @return Version information of the Language Model
-//	 */
-//	String getVersion();
-	
-	/**
-	 * @return General description of this language model
-	 */
-	public abstract String getDescription();
-	
-	/**
-	 * @return Licensing information for the language model
-	 */
-	public abstract String getLicense();
-	
 	/**
 	 * Create the language object, and attach at least the following extensions:
 	 * <ul>
@@ -96,11 +96,6 @@ public abstract class EclipseBootstrapper {
 	 * @throws ParseException
 	 */
 	public abstract Language createLanguage() throws IOException, ParseException;
-	
-	/**
-	 * @return the CodeWriter for this language
-	 */
-	public abstract Syntax getCodeWriter();
 	
 	// FIXME: must be a language/project extension (or move to editor extension)
 	/**

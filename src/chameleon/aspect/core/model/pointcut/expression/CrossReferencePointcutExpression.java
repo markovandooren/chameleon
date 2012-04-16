@@ -1,11 +1,7 @@
 package chameleon.aspect.core.model.pointcut.expression;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import chameleon.aspect.core.model.pointcut.pattern.DeclarationPattern;
 import chameleon.core.declaration.Declaration;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReference;
 
@@ -18,11 +14,6 @@ public class CrossReferencePointcutExpression extends DeclarationPointcutExpress
 	@Override
 	public Class<? extends CrossReference> joinPointType() throws LookupException {
 		return CrossReference.class; 
-	}
-
-	@Override
-	public List<? extends Element> children() {
-		return new ArrayList<Element>();
 	}
 
 	@Override

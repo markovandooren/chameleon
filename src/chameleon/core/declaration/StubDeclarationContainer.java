@@ -3,8 +3,6 @@ package chameleon.core.declaration;
 import java.util.Collection;
 import java.util.List;
 
-import org.rejuse.association.OrderedMultiAssociation;
-
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;
@@ -12,11 +10,12 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.util.association.Multi;
 
 public class StubDeclarationContainer extends ElementImpl implements DeclarationContainer {
 
 	public void add(Declaration declaration) {
-		setAsParent(_declarations, declaration);
+		add(_declarations, declaration);
 	}
 	
 	public void addAll(Collection<Declaration> declarations) {
@@ -26,16 +25,11 @@ public class StubDeclarationContainer extends ElementImpl implements Declaration
 	}
 	
 	@Override
-	public List<? extends Element> children() {
-		return declarations();
-	}
-
-	@Override
 	public List<? extends Declaration> declarations() {
 		return _declarations.getOtherEnds();
 	}
 	
-	private OrderedMultiAssociation<StubDeclarationContainer, Declaration> _declarations = new OrderedMultiAssociation<StubDeclarationContainer, Declaration>(this); 
+	private Multi<Declaration> _declarations = new Multi<Declaration>(this); 
 
 	@Override
 	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {

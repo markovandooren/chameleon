@@ -19,10 +19,4 @@ public class WhileStatement extends IterationStatementWithExpression {
   public WhileStatement clone() {
     return new WhileStatement(condition().clone(), getStatement().clone());
   }
-
-  public List<Element> children() {
-    List<Element> result = Util.createNonNullList(condition());
-    Util.addNonNull(getStatement(), result);
-    return result;
-  }
 }

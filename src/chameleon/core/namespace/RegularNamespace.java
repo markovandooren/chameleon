@@ -2,6 +2,7 @@ package chameleon.core.namespace;
 
 import java.util.List;
 
+import org.rejuse.association.Association;
 import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.declaration.Declaration;
@@ -9,12 +10,13 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespacepart.NamespacePart;
+import chameleon.core.namespacepart.NamespaceDeclaration;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.UniversalScope;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.util.Util;
+import chameleon.util.association.Multi;
 
 public class RegularNamespace extends Namespace {
 	
@@ -30,11 +32,12 @@ public class RegularNamespace extends Namespace {
 	/**
 	 * SUBNAMESPACES
 	 */
-	private OrderedMultiAssociation<Namespace,Namespace> _namespaces = new OrderedMultiAssociation<Namespace,Namespace>(this);
+	private Multi<Namespace> _namespaces = new Multi<Namespace>(this);
 
 
 	protected void addNamespace(Namespace namespace) {
 		add(_namespaces,namespace);
+		flushLocalCache();
 	}
 
 	/**
@@ -50,19 +53,18 @@ public class RegularNamespace extends Namespace {
 	 * NAMESPACE PARTS *
 	 *******************/
 
-	private OrderedMultiAssociation<Namespace,NamespacePart> _namespaceParts = new OrderedMultiAssociation<Namespace,NamespacePart>(this);
+	private Multi<NamespaceDeclaration> _namespaceParts = new Multi<NamespaceDeclaration>(this);
 
 	public OrderedMultiAssociation getNamespacePartsLink(){
 		return _namespaceParts;
 	}
 
-	public synchronized void addNamespacePart(NamespacePart namespacePart){
-		if(namespacePart != null) {
-		  namespacePart.getNamespaceLink().connectTo(_namespaceParts);
-		}
+	public synchronized void addNamespacePart(NamespaceDeclaration namespacePart){
+		_namespaceParts.add((Association)namespacePart.namespaceLink());
+		flushLocalCache();
 	}
 
-	public List<NamespacePart> getNamespaceParts(){
+	public List<NamespaceDeclaration> getNamespaceParts(){
 		return _namespaceParts.getOtherEnds();
 	}
 
@@ -72,7 +74,7 @@ public class RegularNamespace extends Namespace {
 		for(Namespace sub:getSubNamespaces()) {
 			result.addNamespace(sub.clone());
 		}
-		for(NamespacePart part:getNamespaceParts()) {
+		for(NamespaceDeclaration part:getNamespaceParts()) {
 			result.addNamespacePart(part.clone());
 		}
 		return result;

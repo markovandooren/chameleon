@@ -30,7 +30,7 @@ public class Valid extends VerificationResult {
    @
    @ post \result.equals("valid");
    @*/
-	public String toString() {
+	public String message() {
 		return "valid";
 	}
 

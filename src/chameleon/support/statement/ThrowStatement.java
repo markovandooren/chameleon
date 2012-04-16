@@ -34,16 +34,6 @@ public class ThrowStatement extends ExpressionContainingStatement {
     return new ThrowStatement(getExpression().clone());
   }
 
- /*@
-   @ also public behavior
-   @
-   @ post \result.contains(getExpression());
-   @ post \result.size() == 1;
-   @*/
-  public List children() {
-    return Util.createNonNullList(getExpression());
-  }
-
   public CheckedExceptionList getDirectCEL() throws LookupException {
 	    CheckedExceptionList cel = new CheckedExceptionList();
 	    Type type = getExpression().getType();

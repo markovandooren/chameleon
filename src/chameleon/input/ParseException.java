@@ -1,27 +1,27 @@
 package chameleon.input;
 
-import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.compilationunit.Document;
 
 public class ParseException extends Exception {
 
-	  public ParseException(CompilationUnit compilationUnit) {
+	  public ParseException(Document compilationUnit) {
 	  	this(null,null,compilationUnit);
 	  }
 	  
-	  public ParseException(String msg,CompilationUnit compilationUnit) {
+	  public ParseException(String msg,Document compilationUnit) {
 	  	this(msg,null,compilationUnit);
 	  }
-	  public ParseException(Exception exc,CompilationUnit compilationUnit) {
+	  public ParseException(Exception exc,Document compilationUnit) {
 	  	this(null,exc,compilationUnit);
 	  }
-	  public ParseException(String msg, Exception exc,CompilationUnit compilationUnit) {
+	  public ParseException(String msg, Exception exc,Document compilationUnit) {
 	  	super(msg, exc);
 	  	_compilationUnit = compilationUnit;
 	  }
 	  
-	  private CompilationUnit _compilationUnit;
+	  private Document _compilationUnit;
 	  
-	  public CompilationUnit compilationUnit() {
+	  public Document compilationUnit() {
 	  	return _compilationUnit;
 	  }
 }

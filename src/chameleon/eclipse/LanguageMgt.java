@@ -236,13 +236,6 @@ public class LanguageMgt {
 //        }
 //    }
 
-    public Syntax getCodeWriter(String language) {
-        try {
-            return languages.get(language).getCodeWriter();
-
-        } catch (NullPointerException e){ return null; }
-    }
-
     /**
      * @return the xml document in the directory of the chameleonEditor
      * @throws IOException

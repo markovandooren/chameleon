@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.compilationunit.Document;
 import chameleon.core.lookup.LookupException;
 import chameleon.exception.ModelException;
 import chameleon.plugin.PluginImpl;
@@ -33,7 +33,7 @@ public abstract class CompilationUnitWriter extends PluginImpl {
 
 	private File _outputDir;
 	
-	public File write(CompilationUnit cu) throws LookupException, ModelException, IOException {
+	public File write(Document cu) throws LookupException, ModelException, IOException {
 		Syntax writer = cu.language().plugin(Syntax.class);
 		if(writer != null) {
 			String fileName = fileName(cu);
@@ -54,8 +54,8 @@ public abstract class CompilationUnitWriter extends PluginImpl {
 		return null;
 	}
 	
-	public abstract String fileName(CompilationUnit compilationUnit) throws LookupException, ModelException;
+	public abstract String fileName(Document compilationUnit) throws LookupException, ModelException;
 
-	public abstract String packageFQN(CompilationUnit compilationUnit) throws LookupException, ModelException;
+	public abstract String packageFQN(Document compilationUnit) throws LookupException, ModelException;
 	
 }

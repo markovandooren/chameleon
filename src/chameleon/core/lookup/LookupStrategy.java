@@ -84,8 +84,12 @@ public abstract class LookupStrategy {
 	public LookupStrategy() {
 	}
 
-	public abstract <D extends Declaration> D lookUp(DeclarationSelector<D> selector) throws LookupException;
+	public abstract <D extends Declaration> void lookUp(Collector<D> selector) throws LookupException;
 	
 
 	public final static Logger logger = Logger.getLogger("lookup");
+	
+	public void enableCache() {
+		// Do nothing by default.
+	}
 }

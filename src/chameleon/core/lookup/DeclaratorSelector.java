@@ -18,10 +18,10 @@ public class DeclaratorSelector extends DeclarationSelector<Declaration>{
 		_selector = selector;
 	}
 	
-	@Override
-  public Declaration actualDeclaration(Declaration declarator) throws LookupException {
-  	return declarator;
-  }
+//	@Override
+//  public Declaration actualDeclaration(Declaration declarator) throws LookupException {
+//  	return declarator;
+//  }
 
   private DeclarationSelector _selector;
 
@@ -47,6 +47,11 @@ public class DeclaratorSelector extends DeclarationSelector<Declaration>{
 	@Override
 	public List declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
 		return _selector.declarators(selectionCandidates);
+	}
+	
+	@Override
+	public boolean canBeCached() {
+		return false;
 	}
 
 }

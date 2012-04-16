@@ -1,10 +1,8 @@
 package chameleon.oo.method.exception;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import org.rejuse.association.SingleAssociation;
 import org.rejuse.predicate.AbstractPredicate;
 
 import chameleon.core.element.Element;
@@ -16,7 +14,7 @@ import chameleon.oo.expression.MethodInvocation;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * A class for absolute exception declarations. An absolute exception declaration declares that a certain type of exception
@@ -48,14 +46,14 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration {
    * TYPE REFERENCE *
    ******************/
 
-	private SingleAssociation<TypeExceptionDeclaration,TypeReference> _typeReference = new SingleAssociation<TypeExceptionDeclaration,TypeReference>(this);
+	private Single<TypeReference> _typeReference = new Single<TypeReference>(this);
 
 	public TypeReference getTypeReference() {
     return _typeReference.getOtherEnd();
   }
   
   public void setTypeReference(TypeReference ref) {
-    setAsParent(_typeReference,ref);
+    set(_typeReference,ref);
   }
 
   /**
@@ -96,14 +94,8 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration {
     return new TypeExceptionDeclaration(getTypeReference().clone());
   }
 
-  
-
   public boolean hasValidAccessibility() throws LookupException {
     return true; 
-  }
-
-  public List children() {
-    return Util.createNonNullList(getTypeReference());
   }
 
 	@Override

@@ -3,13 +3,13 @@ package chameleon.core.namespace;
 
 import org.rejuse.association.SingleAssociation;
 
-import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.compilationunit.Document;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespacepart.NamespacePart;
+import chameleon.core.namespacepart.NamespaceDeclaration;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -17,6 +17,10 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 
 public class RootNamespace extends RegularNamespace {
+  static {
+    excludeFieldName(RootNamespace.class,"_language");
+  }
+  
 // @FIXME
 // Create Model
 	
@@ -48,9 +52,9 @@ public class RootNamespace extends RegularNamespace {
 	}
 
   public void setNullType(){
-	  NamespacePart pp = new NamespacePart(this);
+	  NamespaceDeclaration pp = new NamespaceDeclaration(this);
 	  pp.add(language(ObjectOrientedLanguage.class).getNullType());
-	  new CompilationUnit(pp);
+	  new Document(pp);
   }
   
   private SingleAssociation<RootNamespace,Language> _language = new SingleAssociation<RootNamespace,Language>(this);

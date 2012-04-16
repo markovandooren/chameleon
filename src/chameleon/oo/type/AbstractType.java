@@ -19,6 +19,7 @@ import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
+import chameleon.core.lookup.Cache;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
@@ -257,6 +258,7 @@ public abstract class AbstractType extends FixedSignatureMember implements Type 
 	    	  		return lexicalParametersLookupStrategy();
 						}
 					}); 
+				_lexicalMembersLookupStrategy.enableCache();
     		result = _lexicalMembersLookupStrategy;
     	}
     	return result;
@@ -601,17 +603,23 @@ public abstract class AbstractType extends FixedSignatureMember implements Type 
       return result;
     }
     public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
-    	// 1) All defined members of the requested kind are added.
+    	// 1) perform local search
+    	boolean greedy = selector.canBeCached();
     	List<D> result = localMembers(selector);
-    	result.addAll(implicitMembers(selector));
-
-    	// 2) Fetch all potentially inherited members from all inheritance relations
-    	for (InheritanceRelation rel : inheritanceRelations()) {
-    		rel.accumulateInheritedMembers(selector, result);
+    	if(! greedy || result.isEmpty()) {
+    	  result.addAll(implicitMembers(selector));
     	}
-    	// The selector must still apply its order to the candidates.
-    	//selector.applyOrder(result);
-    	return selector.selection(result);
+    	// 2) process inheritance relations
+    	//    only if the selector isn't greed or
+    	//    there are not results.
+    	if(! greedy || result.isEmpty()) {
+    		for (InheritanceRelation rel : inheritanceRelations()) {
+    			rel.accumulateInheritedMembers(selector, result);
+    		}
+    		return selector.selection(result);
+    	} else {
+    	  return result;
+    	}
     }
     
     /* (non-Javadoc)
@@ -660,19 +668,6 @@ public abstract class AbstractType extends FixedSignatureMember implements Type 
     
     public abstract AbstractType clone();
 
-   /*@
-     @ also public behavior
-     @
-     @ post \result.containsAll(getSuperTypeReferences());
-     @ post \result.containsAll(getMembers());
-     @ post \result.containsAll(getModifiers());
-     @*/
-    public List<Element> children() {
-        List<Element> result = super.children();
-        result.addAll(nonMemberInheritanceRelations());
-        return result;
-    }
-
     public abstract List<? extends TypeElement> directlyDeclaredElements();
 
   	public <T extends TypeElement> List<T> directlyDeclaredElements(Class<T> kind) {
@@ -718,7 +713,7 @@ public abstract class AbstractType extends FixedSignatureMember implements Type 
     	return (List<D>) members((DeclarationSelector<? extends Member>)selector);
     }
 
-  	protected void copyContents(Type from) {
+      	protected void copyContents(Type from) {
   		copyContents(from, false);
   	}
 

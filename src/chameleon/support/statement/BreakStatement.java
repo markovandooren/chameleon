@@ -24,10 +24,6 @@ public class BreakStatement extends JumpStatement {
     return new BreakStatement(getLabel());
   }
 
-  public List<Element> children() {
-    return new ArrayList();
-  }
-
 	@Override
 	public VerificationResult verifySelf() {
 		return Valid.create();

@@ -7,11 +7,11 @@ import org.eclipse.jface.text.BadLocationException;
 import org.rejuse.association.Association;
 import org.rejuse.association.SingleAssociation;
 
-import chameleon.core.compilationunit.CompilationUnit;
+import chameleon.core.compilationunit.Document;
 import chameleon.core.element.Element;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.reference.CrossReference;
-import chameleon.core.tag.Tag;
+import chameleon.core.tag.Metadata;
 import chameleon.eclipse.editors.ChameleonDocument;
 import chameleon.eclipse.editors.reconciler.ChameleonPresentationReconciler;
 import chameleon.eclipse.project.ChameleonProjectNature;
@@ -53,7 +53,7 @@ public class EclipseEditorInputProcessor extends ProcessorImpl implements InputP
 		return projectNature().document(element);
 	}
 
-	public void setLocation(Element element, int offset, int length, CompilationUnit compilationUnit) {
+	public void setLocation(Element element, int offset, int length, Document compilationUnit) {
 		if(element == null) {
 			//throw new ChameleonProgrammerException("Trying to set decorator to a null element.");
 		} else {
@@ -69,7 +69,7 @@ public class EclipseEditorInputProcessor extends ProcessorImpl implements InputP
 		}
 	}
 	
-	public void setLocation(Element element, int offset, int length, CompilationUnit compilationUnit, String tagType) {
+	public void setLocation(Element element, int offset, int length, Document compilationUnit, String tagType) {
 		if(element == null) {
 			throw new ChameleonProgrammerException("Trying to set decorator to a null element.");
 		}
@@ -79,11 +79,11 @@ public class EclipseEditorInputProcessor extends ProcessorImpl implements InputP
 	}
 
 
-	private void setSingleLocation(Element element, int offset, int length, CompilationUnit compilationUnit, String tagType) {
+	private void setSingleLocation(Element element, int offset, int length, Document compilationUnit, String tagType) {
 		ChameleonDocument doc = document(compilationUnit);
 		Element parent = element.parent();
 		SingleAssociation stub = new SingleAssociation(new Object());
-			if(! element.hasTag(tagType)) {
+			if(! element.hasMetadata(tagType)) {
 				SingleAssociation elementParentLink = element.parentLink();
 				Association parentLink = elementParentLink.getOtherRelation();
 				boolean cleanup = false;
@@ -132,8 +132,8 @@ public class EclipseEditorInputProcessor extends ProcessorImpl implements InputP
 	}
 
 	public void removeLocations(Element element) {
-		Collection<Tag> tags = element.tags(); 
-		for(Tag tag:tags) {
+		Collection<Metadata> tags = element.metadata(); 
+		for(Metadata tag:tags) {
 			if(tag instanceof EclipseEditorTag) {
 				((EclipseEditorTag) tag).disconnect();
 			}

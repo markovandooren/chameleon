@@ -1,4 +1,4 @@
-package chameleon.oo.type;
+package chameleon.oo.type.generics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +10,8 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
-import chameleon.oo.type.generics.FormalTypeParameter;
-import chameleon.oo.type.generics.TypeParameter;
+import chameleon.oo.type.Type;
+import chameleon.oo.type.TypeIndirection;
 import chameleon.util.Pair;
 
 /**
@@ -20,9 +20,9 @@ import chameleon.util.Pair;
  * 
  * @author Marko van Dooren
  */
-public class ConstructedType extends TypeIndirection {
+public class FormalParameterType extends TypeIndirection {
 
-	public ConstructedType(SimpleNameSignature sig, Type aliasedType, FormalTypeParameter param) {
+	public FormalParameterType(SimpleNameSignature sig, Type aliasedType, FormalTypeParameter param) {
 		super(sig, aliasedType);
 		if(param == null) {
 			throw new ChameleonProgrammerException("The formal type parameter corresponding to a constructed type cannot be null.");
@@ -34,7 +34,7 @@ public class ConstructedType extends TypeIndirection {
 	@Override
 	public boolean uniSameAs(Element type) throws LookupException {
 		return type == this || 
-		       ((type instanceof ConstructedType) && (((ConstructedType)type).parameter().sameAs(parameter())));
+		       ((type instanceof FormalParameterType) && (((FormalParameterType)type).parameter().sameAs(parameter())));
 	}
 	
 	@Override
@@ -63,8 +63,8 @@ public class ConstructedType extends TypeIndirection {
 	private final FormalTypeParameter _param;
 
 	@Override
-	public ConstructedType clone() {
-		return new ConstructedType((SimpleNameSignature) signature().clone(), aliasedType(), parameter());
+	public FormalParameterType clone() {
+		return new FormalParameterType((SimpleNameSignature) signature().clone(), aliasedType(), parameter());
 	}
 
 	@Override

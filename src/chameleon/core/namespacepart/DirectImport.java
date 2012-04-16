@@ -1,20 +1,16 @@
 package chameleon.core.namespacepart;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import org.rejuse.association.SingleAssociation;
-
 import chameleon.core.declaration.Declaration;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReference;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
-import chameleon.oo.type.Type;
-import chameleon.oo.type.TypeReference;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * An element that represent an import of a specific declaration. This can be for
@@ -46,19 +42,14 @@ public class DirectImport<D extends Declaration> extends Import {
   
   private Class<D> _kind;
   
-  public List<Element> children() {
-    return Util.createNonNullList(crossReference());
-  }
-
-	private SingleAssociation<DirectImport, CrossReference<D>> _typeReference = new SingleAssociation<DirectImport, CrossReference<D>>(this);
-
+	private Single<CrossReference<D>> _typeReference = new Single<CrossReference<D>>(this);
   
   public CrossReference<D> crossReference() {
     return _typeReference.getOtherEnd();
   }
 
   public void setCrossReference(CrossReference<D> reference) {
-  	setAsParent(_typeReference, reference);
+  	set(_typeReference, reference);
   }
   
   public D importedElement() throws LookupException {
@@ -89,7 +80,7 @@ public class DirectImport<D extends Declaration> extends Import {
 
 	@Override
 	public <D extends Declaration> List<D> demandImports(DeclarationSelector<D> selector) throws LookupException {
-		return new ArrayList<D>();
+		return Collections.EMPTY_LIST;
 	}
 
 	@Override

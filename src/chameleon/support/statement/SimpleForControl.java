@@ -6,15 +6,13 @@ import java.util.List;
 import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
-import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;
-import chameleon.oo.type.Type;
 import chameleon.oo.variable.Variable;
-import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 public class SimpleForControl extends ForControl {
 
@@ -27,15 +25,15 @@ public class SimpleForControl extends ForControl {
   /**
 	 * FOR INIT
 	 */
-	private SingleAssociation<SimpleForControl,ForInit> _forInit = new SingleAssociation<SimpleForControl,ForInit>(this);
+	private Single<ForInit> _forInit = new Single<ForInit>(this);
 
 
-  public SingleAssociation<SimpleForControl,ForInit> getInitLink() {
+  public Single<ForInit> getInitLink() {
     return _forInit;
   }
 
   public void setForInit(ForInit forInit) {
-    setAsParent(_forInit,forInit);
+    set(_forInit,forInit);
   }
 
   public ForInit getForInit() {
@@ -46,14 +44,10 @@ public class SimpleForControl extends ForControl {
 	 * UPDATE
 	 */
 
-  private SingleAssociation<SimpleForControl,StatementExprList> _update = new SingleAssociation<SimpleForControl,StatementExprList>(this);
-
-  public SingleAssociation<SimpleForControl,StatementExprList> getUpdateLink() {
-    return _update;
-  }
+  private Single<StatementExprList> _update = new Single<StatementExprList>(this);
 
   public void setUpdate(StatementExprList update) {
-  	setAsParent(_update,update);
+  	set(_update,update);
   }
 
   public StatementExprList update() {
@@ -76,18 +70,10 @@ public class SimpleForControl extends ForControl {
     return new SimpleForControl(init, cond, update);
   }
 
-	public List<? extends Element> children() {
-		List<Element> result = new ArrayList<Element>();
-		Util.addNonNull(condition(), result);
-		Util.addNonNull(update(), result);
-		Util.addNonNull(getForInit(), result);
-		return result;
-	}
-
 	/**
 	 * EXPRESSION
 	 */
-	private SingleAssociation<SimpleForControl,Expression> _expression = new SingleAssociation<SimpleForControl,Expression>(this);
+	private Single<Expression> _expression = new Single<Expression>(this);
 
   
   public Expression condition() {
@@ -95,7 +81,7 @@ public class SimpleForControl extends ForControl {
   }
   
   public void setExpression(Expression expression) {
-  	setAsParent(_expression,expression);
+  	set(_expression,expression);
   }
   
 	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
