@@ -1,6 +1,6 @@
 package chameleon.input;
 
-import chameleon.core.compilationunit.Document;
+import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.plugin.Processor;
 

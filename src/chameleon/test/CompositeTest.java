@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import chameleon.core.Config;
 import chameleon.core.element.ElementImpl;
-import chameleon.core.namespacepart.NamespaceDeclaration;
+import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.core.reference.CrossReference;
 import chameleon.test.provider.BasicDescendantProvider;
 import chameleon.test.provider.BasicNamespaceProvider;

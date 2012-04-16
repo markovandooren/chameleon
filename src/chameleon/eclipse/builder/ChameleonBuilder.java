@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 
-import chameleon.core.compilationunit.Document;
+import chameleon.core.document.Document;
 import chameleon.core.language.Language;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Invalid;

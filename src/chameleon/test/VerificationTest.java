@@ -7,9 +7,9 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import chameleon.core.compilationunit.Document;
+import chameleon.core.document.Document;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespacepart.NamespaceDeclaration;
+import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Invalid;
 import chameleon.core.validation.Valid;

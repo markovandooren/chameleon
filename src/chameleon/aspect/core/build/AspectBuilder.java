@@ -6,7 +6,7 @@ import java.util.List;
 
 import chameleon.aspect.core.model.language.AspectOrientedLanguage;
 import chameleon.aspect.core.weave.AspectWeaver;
-import chameleon.core.compilationunit.Document;
+import chameleon.core.document.Document;
 import chameleon.core.language.Language;
 import chameleon.exception.ModelException;
 import chameleon.plugin.Plugin;

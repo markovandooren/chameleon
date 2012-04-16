@@ -7,7 +7,7 @@ import org.eclipse.jface.text.BadLocationException;
 import org.rejuse.association.Association;
 import org.rejuse.association.SingleAssociation;
 
-import chameleon.core.compilationunit.Document;
+import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.reference.CrossReference;

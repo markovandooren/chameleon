@@ -7,8 +7,8 @@ package chameleon.eclipse.presentation.hyperlink;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 
-import chameleon.core.compilationunit.Document;
 import chameleon.core.declaration.Declaration;
+import chameleon.core.document.Document;
 import chameleon.core.reference.CrossReference;
 import chameleon.eclipse.editors.ChameleonDocument;
 import chameleon.eclipse.editors.ChameleonEditor;

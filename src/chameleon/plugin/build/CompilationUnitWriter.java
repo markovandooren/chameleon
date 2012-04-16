@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import chameleon.core.compilationunit.Document;
+import chameleon.core.document.Document;
 import chameleon.core.lookup.LookupException;
 import chameleon.exception.ModelException;
 import chameleon.plugin.PluginImpl;

@@ -1,6 +1,6 @@
 package chameleon.input;
 
-import chameleon.core.compilationunit.Document;
+import chameleon.core.document.Document;
 
 public class ParseException extends Exception {
 

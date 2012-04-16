@@ -16,7 +16,7 @@ import chameleon.core.declaration.Signature;
 import chameleon.core.element.Element;
 import chameleon.core.modifier.Modifier;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.namespacepart.NamespaceDeclaration;
+import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.eclipse.ChameleonEditorPlugin;
 import chameleon.eclipse.presentation.outline.ChameleonOutlineSelector;
 import chameleon.eclipse.presentation.treeview.DeclarationCategorizer;

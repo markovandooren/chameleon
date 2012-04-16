@@ -3,7 +3,7 @@ package chameleon.plugin.build;
 import java.io.IOException;
 import java.util.List;
 
-import chameleon.core.compilationunit.Document;
+import chameleon.core.document.Document;
 import chameleon.exception.ModelException;
 import chameleon.plugin.Plugin;
 

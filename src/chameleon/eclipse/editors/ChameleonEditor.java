@@ -55,7 +55,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.rejuse.predicate.SafePredicate;
 import org.rejuse.predicate.TypePredicate;
 
-import chameleon.core.compilationunit.Document;
+import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.tag.Metadata;

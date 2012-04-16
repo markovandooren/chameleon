@@ -10,10 +10,10 @@ import java.util.Set;
 
 import chameleon.aspect.core.model.aspect.Aspect;
 import chameleon.aspect.core.weave.AspectWeaver;
-import chameleon.core.compilationunit.Document;
+import chameleon.core.document.Document;
 import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
-import chameleon.core.namespacepart.NamespaceDeclaration;
+import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.plugin.build.BuildProgressHelper;
 
 //TODO extend van IncrementalJavaTranslator

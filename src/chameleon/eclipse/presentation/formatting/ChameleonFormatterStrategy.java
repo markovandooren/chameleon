@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.rejuse.predicate.SafePredicate;
 
-import chameleon.core.compilationunit.Document;
+import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.eclipse.connector.EclipseEditorTag;
 import chameleon.eclipse.editors.ChameleonDocument;

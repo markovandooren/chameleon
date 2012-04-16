@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 import chameleon.aspect.core.model.advice.Advice;
 import chameleon.aspect.core.model.aspect.Aspect;
 import chameleon.aspect.core.model.pointcut.expression.MatchResult;
-import chameleon.core.compilationunit.Document;
+import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 

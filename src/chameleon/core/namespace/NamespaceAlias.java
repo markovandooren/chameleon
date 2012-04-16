@@ -10,7 +10,7 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespacepart.NamespaceDeclaration;
+import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.scope.Scope;
 import chameleon.core.scope.ScopeProperty;

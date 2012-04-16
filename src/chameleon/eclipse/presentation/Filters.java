@@ -21,7 +21,7 @@ import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.modifier.ElementWithModifiers;
 import chameleon.core.modifier.Modifier;
-import chameleon.core.namespacepart.NamespaceDeclaration;
+import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.eclipse.ChameleonEditorPlugin;
 import chameleon.eclipse.connector.EclipseEditorExtension;
 import chameleon.eclipse.presentation.treeview.ChameleonLabelProvider;

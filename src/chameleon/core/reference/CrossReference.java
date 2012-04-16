@@ -41,12 +41,4 @@ public interface CrossReference<D extends Declaration> extends Element, CrossRef
 	 */
 	public Declaration getDeclarator() throws LookupException;
 
-	/**
-	 * Return the declaration selector that is responsible for selecting the declaration
-	 * referenced by this cross-reference.
-	 * 
-	 * @return
-	 */
-	// Not every cross reference uses a selector anymore.
-	//public DeclarationSelector<D> selector();
 }

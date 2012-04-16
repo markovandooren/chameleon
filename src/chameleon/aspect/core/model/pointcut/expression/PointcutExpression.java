@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.rejuse.predicate.SafePredicate;
 
-import chameleon.core.compilationunit.Document;
+import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 

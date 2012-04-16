@@ -21,7 +21,7 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespacepart.NamespaceDeclaration;
+import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.member.Member;
 

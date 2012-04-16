@@ -29,7 +29,7 @@ import chameleon.core.language.WrongLanguageException;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespace.Namespace;
-import chameleon.core.namespacepart.NamespaceDeclaration;
+import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.tag.Metadata;
 import chameleon.core.validation.BasicProblem;

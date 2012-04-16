@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 
-import chameleon.core.compilationunit.Document;
+import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.plugin.Plugin;
 

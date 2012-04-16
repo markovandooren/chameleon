@@ -19,7 +19,7 @@ import org.antlr.runtime.RecognitionException;
 import org.rejuse.association.Association;
 import org.rejuse.io.DirectoryScanner;
 
-import chameleon.core.compilationunit.Document;
+import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.exception.ChameleonProgrammerException;
@@ -160,7 +160,7 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 		try {
 			ChameleonParser parser = getParser(inputStream, fileName);
 			cu.disconnectChildren();
-			parser.setCompilationUnit(cu);
+			parser.setDocument(cu);
 			parser.compilationUnit();
 		} catch (RecognitionException e) {
 			throw new ParseException(e,cu);

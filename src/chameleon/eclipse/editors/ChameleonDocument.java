@@ -32,7 +32,7 @@ import org.rejuse.predicate.Predicate;
 import org.rejuse.predicate.SafePredicate;
 
 import chameleon.core.Config;
-import chameleon.core.compilationunit.Document;
+import chameleon.core.document.Document;
 import chameleon.core.language.Language;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.validation.BasicProblem;

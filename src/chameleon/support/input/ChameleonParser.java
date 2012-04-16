@@ -10,7 +10,7 @@ import org.antlr.runtime.RecognizerSharedState;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.TokenStream;
 
-import chameleon.core.compilationunit.Document;
+import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.namespace.Namespace;
@@ -49,7 +49,7 @@ public abstract class ChameleonParser<L extends Language> extends Parser {
 	         	int length = end.getStopIndex() - offset;
 	         	for(InputProcessor processor: inputProcessors()) {
 	         		//processor.setLocation(element, new Position2D(begin.getLine(), begin.getCharPositionInLine()), new Position2D(end.getLine(), end.getCharPositionInLine()));
-	         		processor.setLocation(element, offset, length, getCompilationUnit());
+	         		processor.setLocation(element, offset, length, getDocument());
 	         	}
 	         }
 	   }
@@ -67,7 +67,7 @@ public abstract class ChameleonParser<L extends Language> extends Parser {
 	         	int length = length(begin,end);
 	         	for(InputProcessor processor: processors) {
 	         		//processor.setLocation(element, new Position2D(begin.getLine(), begin.getCharPositionInLine()), new Position2D(end.getLine(), end.getCharPositionInLine()));
-	         		processor.setLocation(element, offset, length, getCompilationUnit(), tagType);
+	         		processor.setLocation(element, offset, length, getDocument(), tagType);
 	         	}
 	         }
 	   }
@@ -143,17 +143,17 @@ public abstract class ChameleonParser<L extends Language> extends Parser {
 	     return _root;
 	   }
 
-	   Document _cu = new Document();
+	   Document _document = new Document();
 	   
-	   public Document getCompilationUnit() {
-	     return _cu;
+	   public Document getDocument() {
+	     return _document;
 	   }
 	   
-	   public void setCompilationUnit(Document compilationUnit) {
-	    if(compilationUnit == null) {
+	   public void setDocument(Document document) {
+	    if(document == null) {
 	      throw new IllegalArgumentException("The compilation unit cannot be null.");
 	    }
-	     _cu = compilationUnit;
+	     _document = document;
 	   }
 	   
 	   @Override
@@ -164,7 +164,7 @@ public abstract class ChameleonParser<L extends Language> extends Parser {
 	   	 // Message construction copied from the super method. It is not available as a separate inspector.
 	   	 String message = getErrorMessage(exc, tokenNames);
        for(InputProcessor processor: inputProcessors()) {
-      	 processor.markParseError(offset, length, message, getCompilationUnit());
+      	 processor.markParseError(offset, length, message, getDocument());
        }
 	   }
 }
