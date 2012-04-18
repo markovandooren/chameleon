@@ -80,6 +80,15 @@ public class Block extends StatementImpl implements StatementListContainer {
 		return statements.subList(index, statements.size());
 	}
 
+	public List<Statement> statementsBefore(Statement statement) {
+		List<Statement> statements = statements(); 
+		int index = statements.indexOf(statement);
+		// returns a view on a clone of _statements (getStatements() clones the list).
+		// the view depends on the local variable, but since no other references exist
+		// this is not a problem.
+		return statements.subList(0,index);
+	}
+
  /*@
    @ public behavior
    @

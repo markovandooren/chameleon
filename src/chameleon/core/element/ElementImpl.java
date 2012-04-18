@@ -700,6 +700,21 @@ public abstract class ElementImpl implements Element {
 		}
 		return anc;
 	}
+	
+	public <T extends Element> T farthestAncestor(Class<T> c, SafePredicate<T> p) {
+		Element el = parent();
+		T anc = null;
+		while(el != null) {
+			while ((el != null) && ((! c.isInstance(el)) || !p.eval((T)el)) ){
+				el = el.parent();
+			}
+			if(el != null) {
+				anc = (T) el;
+				el = el.parent();
+			}
+		}
+		return anc;
+	}
 
 	public <T extends Element> T farthestAncestorOrSelf(Class<T> c) {
 		T result = farthestAncestor(c);
