@@ -3,6 +3,7 @@ package chameleon.core.project;
 import java.io.IOException;
 
 import chameleon.core.namespace.RootNamespace;
+import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.ParseException;
 
 /**
@@ -26,6 +27,9 @@ public abstract class InputSource {
    @ post defaultNamespace() == defaultNamespace;
    @*/
 	public InputSource(RootNamespace defaultNamespace) {
+		if(defaultNamespace == null) {
+			throw new ChameleonProgrammerException();
+		}
 		_defaultNamespace = defaultNamespace;
 	}
 
@@ -51,11 +55,11 @@ public abstract class InputSource {
 	 * If the method is call multiple times when the input source has not changed, then
 	 * calls made after the first time should have no "effect".
 	 * 
-	 * With effect, we mean that the <i>when ignoring object identity</i>, the model should
+	 * With effect, we mean that <i>when ignoring object identity</i>, the model should
 	 * remain the same. It is of course allowed to replace a Method with another Method that is 
 	 * structurally identical. Otherwise, it would be necessary to first read the input source
 	 * and only replace the original elements in the model if there is a structural change, which
-	 * is hard and expensive. 
+	 * is hard and expensive.
 	 */
 	public abstract void refresh() throws ParseException, IOException;
 }

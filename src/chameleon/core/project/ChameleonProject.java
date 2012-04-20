@@ -1,7 +1,6 @@
 package chameleon.core.project;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +10,6 @@ import chameleon.input.ParseException;
 /**
  * A class that represents the concept of a project. A project
  * keeps a collection of input sources and is an input source itself.
- * 
  * 
  * @author Marko van Dooren
  * @author Nelis Boucke
@@ -57,7 +55,9 @@ public abstract class ChameleonProject extends InputSource {
    @ post inputSources().contains(input);
    @*/
 	public void add(InputSource input) {
-		_inputSources.add(input);
+		if(isValid(input)) {
+		  _inputSources.add(input);
+		}
 	}
 	
 	/**
@@ -73,6 +73,10 @@ public abstract class ChameleonProject extends InputSource {
 	public void remove(InputSource input) {
 		_inputSources.remove(input);
 	}
+	
+	public boolean isValid(InputSource input) {
+		return input != null;
+	}
 
 	/**
 	 * Refresh the project. This performs a refresh on all 
@@ -84,7 +88,6 @@ public abstract class ChameleonProject extends InputSource {
 			input.refresh();
 		}
 	}
-	
 	
 
 }
