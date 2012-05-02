@@ -14,7 +14,7 @@ import chameleon.input.ParseException;
  * @author Marko van Dooren
  * @author Nelis Boucke
  */
-public abstract class ChameleonProject extends InputSource {
+public abstract class Project extends InputSource {
 	
 	/**
 	 * Create a new Chameleon project for the given default namespace.
@@ -26,7 +26,7 @@ public abstract class ChameleonProject extends InputSource {
    @
    @ post defaultNamespace() == defaultNamespace;
    @*/
-	public ChameleonProject(RootNamespace defaultNamespace) {
+	public Project(RootNamespace defaultNamespace) {
 		super(defaultNamespace);
 	}
 

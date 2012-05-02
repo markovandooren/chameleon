@@ -380,6 +380,16 @@ public interface Language extends PropertyUniverse<ChameleonProperty> {
    @*/
 	public void removeValidityRule(VerificationRule rule);
 	
+	/**
+	 * Verify the given element. 
+	 * 
+	 * This method verifies constraints on the element that are specific for the language.
+	 * One example is the validity of the name of an element. Different languages may have different
+	 * rules with respect to the validity of a name.
+	 * 
+	 * @param element
+	 * @return
+	 */
 	public VerificationResult verify(Element element);
 	
 	/**

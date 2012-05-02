@@ -1,6 +1,6 @@
 bin
 .DS_Store
-lib
+lib/*.jar
 dist
 scratchbook
 .classpath
