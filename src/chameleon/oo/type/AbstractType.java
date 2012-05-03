@@ -195,7 +195,7 @@ public abstract class AbstractType extends FixedSignatureMember implements Type 
 		 */
     
     
-    public LocalLookupStrategy targetContext() throws LookupException {
+    public LocalLookupStrategy<?> targetContext() throws LookupException {
     	Language language = language();
     	if(language != null) {
 			  return language.lookupFactory().createTargetLookupStrategy(this);

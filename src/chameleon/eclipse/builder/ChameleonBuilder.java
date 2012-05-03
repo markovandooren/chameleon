@@ -159,42 +159,45 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 		boolean released = true;
 		List<Document> projectCompilationUnits = nature().compilationUnits();
 		try {
-			int totalWork = builder().totalAmountOfWork(validCompilationUnits, projectCompilationUnits);
-			System.out.println(totalWork);
-			//monitor.setTaskName(buildName());
-			
-			monitor.beginTask(buildName(), totalWork);
-			monitor.subTask(buildName());
-			chameleonNature().acquire();
-			released = false;
-			chameleonNature().flushProjectCache();
-			
-			BuildProgressHelper helper = new BuildProgressHelper() {
-				
-				public void checkForCancellation()  {
-					try {
-						ChameleonBuilder.this.checkForCancellation(monitor);
-					} catch (CoreException e) {
-						// Wrap in RTE
-						throw new RuntimeException(e);
+			Builder builder = builder();
+			if(builder != null) {
+				int totalWork = builder.totalAmountOfWork(validCompilationUnits, projectCompilationUnits);
+				System.out.println(totalWork);
+				//monitor.setTaskName(buildName());
+
+				monitor.beginTask(buildName(), totalWork);
+				monitor.subTask(buildName());
+				chameleonNature().acquire();
+				released = false;
+				chameleonNature().flushProjectCache();
+
+				BuildProgressHelper helper = new BuildProgressHelper() {
+
+					public void checkForCancellation()  {
+						try {
+							ChameleonBuilder.this.checkForCancellation(monitor);
+						} catch (CoreException e) {
+							// Wrap in RTE
+							throw new RuntimeException(e);
+						}
 					}
+
+					public void addWorked(int n) {
+						monitor.worked(n);
+					}
+				};
+
+
+				try {
+					builder.build(validCompilationUnits, projectCompilationUnits, helper);
 				}
-				
-				public void addWorked(int n) {
-					monitor.worked(n);
+				catch (ModelException e) {
+					//TODO report error using a MARKER
+					e.printStackTrace();
+				} catch (IOException e) {
+					//TODO report error using a MARKER
+					e.printStackTrace();
 				}
-			};
-			
-			
-			try {
-				builder().build(validCompilationUnits, projectCompilationUnits, helper);
-			}
-			catch (ModelException e) {
-				//TODO report error using a MARKER
-				e.printStackTrace();
-			} catch (IOException e) {
-				//TODO report error using a MARKER
-				e.printStackTrace();
 			}
 		} 
 		catch(InterruptedException exc) 
