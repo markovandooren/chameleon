@@ -1,6 +1,7 @@
 package chameleon.oo.type;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import chameleon.core.declaration.Declaration;
@@ -9,7 +10,7 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.type.inheritance.AbstractInheritanceRelation;
 import chameleon.oo.type.inheritance.InheritanceRelation;
 
-public abstract class MultiType extends AbstractType {
+public abstract class MultiType extends ClassImpl {
 
 	public MultiType(SimpleNameSignature sig, List<Type> types) {
 		super(sig);
@@ -115,5 +116,16 @@ public abstract class MultiType extends AbstractType {
 		}
 		return result;
 	}
+
+	@Override
+	public List<InheritanceRelation> explicitNonMemberInheritanceRelations() {
+		return nonMemberInheritanceRelations();
+	}
+
+	@Override
+	public List<InheritanceRelation> implicitNonMemberInheritanceRelations() {
+		return Collections.EMPTY_LIST;
+	}
+
 
 }

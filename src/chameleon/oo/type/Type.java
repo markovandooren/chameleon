@@ -33,6 +33,10 @@ public interface Type extends ExceptionSource, DeclarationContainer, Declaration
 
 	public void accumulateAllSuperTypes(Set<Type> acc) throws LookupException;
 	
+	public abstract List<InheritanceRelation> explicitNonMemberInheritanceRelations();
+
+	public List<InheritanceRelation> implicitNonMemberInheritanceRelations();
+	
 	/********
 	 * NAME *
 	 ********/

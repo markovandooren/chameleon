@@ -1,6 +1,7 @@
 package chameleon.oo.type.generics;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import chameleon.core.declaration.Declaration;
@@ -10,7 +11,7 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.member.Member;
-import chameleon.oo.type.AbstractType;
+import chameleon.oo.type.ClassImpl;
 import chameleon.oo.type.Parameter;
 import chameleon.oo.type.ParameterBlock;
 import chameleon.oo.type.Type;
@@ -20,7 +21,7 @@ import chameleon.oo.type.inheritance.InheritanceRelation;
 import chameleon.util.Pair;
 import chameleon.util.Util;
 
-public abstract class WildCardType extends AbstractType {
+public abstract class WildCardType extends ClassImpl {
 
 	public WildCardType(SimpleNameSignature sig, Type upperBound, Type lowerBound) {
 		super(sig);
@@ -131,6 +132,12 @@ public abstract class WildCardType extends AbstractType {
 		return upperBound().nonMemberInheritanceRelations();
 	}
 
+  @Override
+  public List<InheritanceRelation> explicitNonMemberInheritanceRelations() {
+  	return nonMemberInheritanceRelations();
+  }
+
+	
 	public List<Type> getDirectSuperTypes() throws LookupException {
 //	return aliasedType().getDirectSuperTypes();
 	  return Util.createNonNullList(upperBound());
@@ -183,5 +190,11 @@ public abstract class WildCardType extends AbstractType {
 	public void removeParameterBlock(ParameterBlock block) {
 		throw new ChameleonProgrammerException("Trying to remove a parameter block to a type alias.");
 	}
+
+	@Override
+	public List<InheritanceRelation> implicitNonMemberInheritanceRelations() {
+		return Collections.EMPTY_LIST;
+	}
+	
 
 }

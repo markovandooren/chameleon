@@ -1,5 +1,6 @@
 package chameleon.oo.type;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -22,15 +23,30 @@ import chameleon.oo.type.inheritance.InheritanceRelation;
 import chameleon.util.association.Multi;
 import chameleon.util.association.Single;
 
-public abstract class TypeWithBody extends AbstractType {
+/**
+ * A class representing object-oriented classes that have a body with declarations.
+ * 
+ * @author Marko van Dooren
+ */
+public abstract class ClassWithBody extends ClassImpl {
 
 	protected Single<ClassBody> _body = new Single<ClassBody>(this);
 
 	
 	public List<InheritanceRelation> nonMemberInheritanceRelations() {
+		List<InheritanceRelation> result = explicitNonMemberInheritanceRelations();
+		addImplicitInheritanceRelations(result);
+		return result;
+	}
+	
+	public List<InheritanceRelation> explicitNonMemberInheritanceRelations() {
 		return _inheritanceRelations.getOtherEnds();
 	}
 	
+	public List<InheritanceRelation> implicitNonMemberInheritanceRelations() {
+		return Collections.EMPTY_LIST;
+	}
+
 	public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
 		List<ParameterBlock> parameterBlocks = parameterBlocks();
 		if(parameterBlocks.contains(element)) { // || element.isDerived()
@@ -79,9 +95,24 @@ public abstract class TypeWithBody extends AbstractType {
 		remove(_inheritanceRelations,relation);
 	}
 
+	/**
+	 * Return a list containing both the explicit and implicit inheritance relations.
+	 */
 	@Override
 	public List<InheritanceRelation> inheritanceRelations() throws LookupException {
-		return _inheritanceRelations.getOtherEnds();
+		return nonMemberInheritanceRelations();
+	}
+	
+	/**
+	 * Add any implicit inheritance relations of this class to the given list. By default,
+	 * no inheritance relations are added.
+	 * 
+	 * @param list The list of inheritance relations to which the implicit inheritance relations
+	 *             must be added
+	 * @throws LookupException
+	 */
+	protected void addImplicitInheritanceRelations(List<InheritanceRelation> list) {
+		list.addAll(implicitNonMemberInheritanceRelations());
 	}
 
 	@Override
@@ -164,7 +195,7 @@ public abstract class TypeWithBody extends AbstractType {
 		}
 	}
 
-	public TypeWithBody(SimpleNameSignature sig) {
+	public ClassWithBody(SimpleNameSignature sig) {
 		super(sig);
 		set(_body,new ClassBody());
 		add(_parameters,new TypeParameterBlock());

@@ -14,7 +14,7 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.member.Member;
 import chameleon.oo.type.inheritance.InheritanceRelation;
 
-public abstract class TypeIndirection extends AbstractType {
+public abstract class TypeIndirection extends ClassImpl {
 
 	public TypeIndirection(SimpleNameSignature sig, Type aliasedType) {
 		super(sig);
@@ -161,6 +161,16 @@ public abstract class TypeIndirection extends AbstractType {
 
 	public <P extends Parameter> ParameterBlock<P> parameterBlock(Class<P> kind) {
 		return aliasedType().parameterBlock(kind);
+	}
+
+	@Override
+	public List<InheritanceRelation> explicitNonMemberInheritanceRelations() {
+		return aliasedType().explicitNonMemberInheritanceRelations();
+	}
+
+	@Override
+	public List<InheritanceRelation> implicitNonMemberInheritanceRelations() {
+		return aliasedType().implicitNonMemberInheritanceRelations();
 	}
 
 

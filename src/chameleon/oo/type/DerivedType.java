@@ -10,10 +10,15 @@ import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.modifier.Modifier;
+import chameleon.core.tag.TagImpl;
+import chameleon.oo.expression.NamedTarget;
+import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.member.Member;
 import chameleon.oo.type.generics.ActualTypeArgument;
 import chameleon.oo.type.generics.InstantiatedTypeParameter;
 import chameleon.oo.type.generics.TypeParameter;
+import chameleon.oo.type.inheritance.InheritanceRelation;
+import chameleon.oo.type.inheritance.SubtypeRelation;
 import chameleon.util.Pair;
 
 
@@ -23,7 +28,7 @@ import chameleon.util.Pair;
  * 
  * @author Marko van Dooren
  */
-public class DerivedType extends TypeWithBody {
+public class DerivedType extends ClassWithBody {
 	
 	public DerivedType(List<ParameterSubstitution> parameters, Type baseType) {
 		this(baseType);
@@ -50,11 +55,40 @@ public class DerivedType extends TypeWithBody {
 		_baseType = baseType;
 		setOrigin(baseType);
 		copyInheritanceRelations(baseType, true);
+//		copyImplicitInheritanceRelations(baseType);
 		copyParameterBlocks(baseType, true);
-		setBody(new LazyClassBody(((TypeWithBody)baseType).body()));
+		setBody(new LazyClassBody(((ClassWithBody)baseType).body()));
 		copyImplicitMembers(baseType);
 	}
-	
+//	
+//	private void copyImplicitInheritanceRelations(Type original) {
+//		for(InheritanceRelation i: original.implicitNonMemberInheritanceRelations()) {
+//			InheritanceRelation clone = i.clone();
+//			addInheritanceRelation(clone);
+//		}
+//	}
+
+  @Override
+  public List<InheritanceRelation> implicitNonMemberInheritanceRelations() {
+    if(explicitNonMemberInheritanceRelations().isEmpty() && (! "Object".equals(name())) && (! getFullyQualifiedName().equals("java.lang.Object"))) {
+    	InheritanceRelation relation = new SubtypeRelation(language(ObjectOrientedLanguage.class).createTypeReference(new NamedTarget("java.lang"),"Object"));
+    	relation.setUniParent(this);
+    	relation.setMetadata(new TagImpl(), IMPLICIT_CHILD);
+    	List<InheritanceRelation> result = new ArrayList<InheritanceRelation>();
+    	result.add(relation);
+    	return result;
+    } else {
+    	return Collections.EMPTY_LIST;
+    }
+  }
+  
+  @Override
+  public boolean hasInheritanceRelation(InheritanceRelation relation) throws LookupException {
+  	return super.hasInheritanceRelation(relation) || relation.hasMetadata(IMPLICIT_CHILD);
+  }
+  
+  public final static String IMPLICIT_CHILD = "IMPLICIT CHILD";
+
 	/**
 	 * Create a derived type by filling in the type parameters with the given list of
 	 * actual type arguments.

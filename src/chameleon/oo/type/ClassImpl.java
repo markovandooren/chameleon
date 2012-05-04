@@ -50,7 +50,7 @@ import chameleon.util.Pair;
  *
  * @author Marko van Dooren
  */
-public abstract class AbstractType extends FixedSignatureMember implements Type {
+public abstract class ClassImpl extends FixedSignatureMember implements Type {
  
 	
 	public Class<SimpleNameSignature> signatureType() {
@@ -134,7 +134,7 @@ public abstract class AbstractType extends FixedSignatureMember implements Type 
      @ post signature() == sig;
      @ post parent() == null;
      @*/
-    public AbstractType(SimpleNameSignature sig) {
+    public ClassImpl(SimpleNameSignature sig) {
         setSignature(sig);
     }
     
@@ -219,7 +219,6 @@ public abstract class AbstractType extends FixedSignatureMember implements Type 
     		Element parent = parent();
     		if(parent != null) {
     			return lexicalParametersLookupStrategy();
-//    		  return parent().lexicalContext(this);
     		} else {
     			throw new LookupException("Parent of type is null when looking for the parent context of a type.");
     		}
@@ -513,6 +512,8 @@ public abstract class AbstractType extends FixedSignatureMember implements Type 
   	 * @return
   	 */
   	public abstract List<InheritanceRelation> nonMemberInheritanceRelations();
+  	
+  	public abstract List<InheritanceRelation> explicitNonMemberInheritanceRelations();
 //  	{
 //  		return inheritanceRelations();
 //  	}
@@ -666,7 +667,7 @@ public abstract class AbstractType extends FixedSignatureMember implements Type 
 
     private Map<Class,List> _membersCache;
     
-    public abstract AbstractType clone();
+    public abstract ClassImpl clone();
 
     public abstract List<? extends TypeElement> directlyDeclaredElements();
 
@@ -723,7 +724,8 @@ public abstract class AbstractType extends FixedSignatureMember implements Type 
   	}
 
 		protected void copyInheritanceRelations(Type from, boolean link) {
-			for(InheritanceRelation relation : from.nonMemberInheritanceRelations()) {
+			List<InheritanceRelation> relations = from.explicitNonMemberInheritanceRelations();
+			for(InheritanceRelation relation : relations) {
         InheritanceRelation clone = relation.clone();
         if(link) {
         	clone.setOrigin(relation);

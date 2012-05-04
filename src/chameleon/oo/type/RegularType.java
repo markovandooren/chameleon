@@ -7,7 +7,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.oo.type.generics.TypeParameter;
 import chameleon.util.Pair;
 
-public class RegularType extends TypeWithBody {
+public class RegularType extends ClassWithBody {
 
 	public RegularType(SimpleNameSignature sig) {
 		super(sig);
