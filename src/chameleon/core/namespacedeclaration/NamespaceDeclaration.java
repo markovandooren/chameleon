@@ -2,6 +2,7 @@ package chameleon.core.namespacedeclaration;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -52,8 +53,8 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	  @Override
 	  public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
 	    List<D> result = new ArrayList<D>();
-			List<Import> imports = imports();
-			ListIterator<Import> iter = imports.listIterator(imports.size());
+			List<? extends Import> imports = imports();
+			ListIterator<? extends Import> iter = imports.listIterator(imports.size());
 			// If the selector found a match, we stop.
 			// We must iterate in reverse.
 			while(result.isEmpty() && iter.hasPrevious()) {
@@ -72,8 +73,8 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		@Override
 		public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
 			List<D> result = new ArrayList<D>();
-			List<Import> imports = imports();
-			ListIterator<Import> iter = imports.listIterator(imports.size());
+			List<? extends Import> imports = imports();
+			ListIterator<? extends Import> iter = imports.listIterator(imports.size());
 			// If the selector found a match, we stop.
 			// We must iterate in reverse.
 			while(result.isEmpty() && iter.hasPrevious()) {
@@ -283,10 +284,20 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 
 	private Multi<Import> _imports = new Multi<Import>(this);
 
-	public List<Import> imports() {
+	public List<? extends Import> imports() {
+		List result = explicitImports();
+		result.addAll(implicitImports());
+		return result;
+	}
+	
+	public List<? extends Import> explicitImports() {
 		return _imports.getOtherEnds();
 	}
 
+	public List<? extends Import> implicitImports() {
+		return Collections.EMPTY_LIST;
+		
+	}
 	public void addImport(Import newImport) {
 		add(_imports,newImport);
 	}
@@ -300,7 +311,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	}
 	
 	public void removeDuplicateImports() throws LookupException {
-		List<Import> imports = imports();
+		List<? extends Import> imports = imports();
 		int nbImports = imports.size();
 		for(int i=0; i< nbImports;i++) {
 			Import outer = imports.get(i);
@@ -388,17 +399,21 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 
   @Override
   public NamespaceDeclaration clone() {
-  	NamespaceDeclaration result = new NamespaceDeclaration(null);
+  	NamespaceDeclaration result = cloneThis();
   	for(NamespaceDeclaration part: namespaceParts()) {
   		result.addNamespacePart(part.clone());
   	}
   	for(Declaration declaration:declarations()) {
   		result.add(declaration.clone());
   	}
-  	for(Import importt:imports()) {
+  	for(Import importt:explicitImports()) {
   		result.addImport(importt.clone());
   	}
   	return result;
+  }
+  
+  public NamespaceDeclaration cloneThis() {
+  	return new NamespaceDeclaration(null);
   }
 
 	private LookupStrategy _typeLocalContext;

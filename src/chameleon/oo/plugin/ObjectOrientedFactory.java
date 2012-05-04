@@ -1,6 +1,8 @@
 package chameleon.oo.plugin;
 
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.namespace.Namespace;
+import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.oo.type.RegularType;
 import chameleon.oo.type.Type;
 import chameleon.plugin.PluginImpl;
@@ -27,5 +29,21 @@ public abstract class ObjectOrientedFactory extends PluginImpl {
 		return new RegularType(signature);
 	}
 
+	/**
+	 * Create a new namespace declaration for the given namespace.
+	 *
+	 * @param ns The namespace in which the namespace declaration will add elements.
+	 * @return
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre ns != null;
+   @ post \result != null;
+   @ post \result.namespace() == ns;
+   @*/
+	public NamespaceDeclaration createNamespaceDeclaration(Namespace ns) {
+		return new NamespaceDeclaration(ns);
+	}
 
 }
