@@ -37,6 +37,7 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
+import chameleon.util.association.ChameleonAssociation;
 import chameleon.util.association.Single;
 import chameleon.util.concurrent.Action;
 import chameleon.util.concurrent.SafeAction;
@@ -313,7 +314,7 @@ public abstract class ElementImpl implements Element {
 
 	public List<Element> reflectiveChildren() {
 		List<Element> reflchildren = new ArrayList<Element>();
-		for (Association association : associations()) {
+		for (ChameleonAssociation association : associations()) {
 			reflchildren.addAll(association.getOtherEnds());
 		}
 		return reflchildren;
@@ -332,17 +333,17 @@ public abstract class ElementImpl implements Element {
 	}
 
 
-	private List<Association<Element,? extends Element>> _associations;
+	private List<ChameleonAssociation<?>> _associations;
 
-	public synchronized List<Association<Element,? extends Element>> associations() {
+	public synchronized List<ChameleonAssociation<?>> associations() {
 		if(_associations == null) {
-			_associations = new ArrayList<Association<Element,? extends Element>>();
+			_associations = new ArrayList<ChameleonAssociation<?>>();
 			Class<? extends Element>  currentClass = getClass();
 			List<Field> fields = getAllFieldsTillClass(currentClass);
 			for (Field field : fields) {
 				Object content = getFieldValue(field);
-				if(content instanceof Association){
-					_associations.add((Association<Element,? extends Element>) content);
+				if(content instanceof ChameleonAssociation){
+					_associations.add((ChameleonAssociation<?>) content);
 				}
 			}
 			((ArrayList)_associations).trimToSize();
@@ -1195,7 +1196,24 @@ public abstract class ElementImpl implements Element {
 		 }
 	 }
 
-
+	 /**
+	  * Clone the descendants of this element and make the clones the descendants of
+	  * the given element (which will typically be a clone of this element). Type
+	  * E must be the class of the current element; otherwise e does not have the
+	  * same associations as the current object.
+	  * @param e
+	  * @return
+	  */
+	 protected <E extends Element> E cloneDescendantsTo(E e) {
+		 List<ChameleonAssociation<?>> mine = associations();
+		 List<ChameleonAssociation<?>> others = associations();
+		 int size = mine.size();
+		 for(int i = 0; i < size; i++) {
+			 mine.get(i).cloneTo((ChameleonAssociation) others.get(i));
+		 }
+		 return e;
+	 }
+	 
 	 //    public Iterator<Element> depthFirstIterator() {
 	 //    	return new Iterator<Element>() {
 	 //

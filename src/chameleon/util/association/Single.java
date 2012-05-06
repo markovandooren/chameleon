@@ -8,7 +8,7 @@ import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public class Single<T extends Element> extends SingleAssociation<Element, T> {
+public class Single<T extends Element> extends SingleAssociation<Element, T> implements ChameleonAssociation<T> {
 
 	public Single(Element element) {
 		super(element);
@@ -56,11 +56,15 @@ public class Single<T extends Element> extends SingleAssociation<Element, T> {
 	
 	@Override
 	public T getOtherEnd() {
-		T result = super.getOtherEnd();
+		T result = explicitElement();
 		if(result == null) {
 			result = implicitElement();
 		}
 		return result;
+	}
+	
+	protected T explicitElement() {
+		return super.getOtherEnd();
 	}
 	
 	/**
@@ -76,11 +80,17 @@ public class Single<T extends Element> extends SingleAssociation<Element, T> {
 	 * Copy the contents of this association to the given other association.
 	 * @param other
 	 */
-	public void cloneTo(Single<T> other) {
-		T otherEnd = getOtherEnd();
+	public void cloneTo(ChameleonAssociation<T> o) {
+		Single<T> other = (Single<T>) o;
+		T otherEnd = explicitElement();
 		if(otherEnd != null) {
 			other.connectTo((Association) otherEnd.clone().parentLink());
 		}
+	}
+
+	@Override
+	public int size() {
+		return getOtherEnd() == null ? 0 : 1;
 	}
 	
 }

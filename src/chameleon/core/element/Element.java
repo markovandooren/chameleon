@@ -3,7 +3,6 @@ package chameleon.core.element;
 import java.util.Collection;
 import java.util.List;
 
-import org.rejuse.association.Association;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.Predicate;
@@ -21,6 +20,7 @@ import chameleon.core.property.ChameleonProperty;
 import chameleon.core.tag.Metadata;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ModelException;
+import chameleon.util.association.ChameleonAssociation;
 import chameleon.util.concurrent.Action;
 import chameleon.util.concurrent.SafeAction;
 import chameleon.util.concurrent.UnsafeAction;
@@ -82,7 +82,7 @@ public interface Element {
      @
      @ post \result != null;
      @*/
-    public List<Association<Element,? extends Element>> associations();
+    public List<ChameleonAssociation<?>> associations();
     
     /**
      * Check if this element is disconnected. Usually this is true if the

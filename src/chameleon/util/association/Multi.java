@@ -1,5 +1,9 @@
 package chameleon.util.association;
 
+import java.util.Collections;
+import java.util.List;
+
+import org.rejuse.association.Association;
 import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.element.Element;
@@ -7,7 +11,7 @@ import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
-public class Multi<T extends Element> extends OrderedMultiAssociation<Element, T> {
+public class Multi<T extends Element> extends OrderedMultiAssociation<Element, T> implements ChameleonAssociation<T> {
 
 	public Multi(Element element) {
 		super(element);
@@ -71,5 +75,28 @@ public class Multi<T extends Element> extends OrderedMultiAssociation<Element, T
 	}
 	
 	private String _role = "elements";
+
+	protected List<T> explicitElements() {
+		return super.getOtherEnds();
+	}
+	
+	protected List<T> implicitElements() {
+		return Collections.EMPTY_LIST;
+	}
+	
+	@Override
+	public List<T> getOtherEnds() {
+		List<T> result = explicitElements();
+		result.addAll(implicitElements());
+		return result;
+	}
+	
+	@Override
+	public void cloneTo(ChameleonAssociation<T> o) {
+		Multi<T> other = (Multi<T>) o;
+		for(T t: explicitElements()) {
+			other.add((Association)t.clone().parentLink());
+		}
+	}
 
 }
