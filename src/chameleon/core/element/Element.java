@@ -1164,7 +1164,13 @@ public interface Element {
      @*/
     public abstract boolean uniSameAs(Element other) throws LookupException;
     
-  	public Namespace getNamespace();
+    /**
+     * Return the namespace of this element.
+     * 
+     * By default, it returns the namespace of the nearest namespace declaration.
+     * @return
+     */
+  	public Namespace namespace();
 
     /**
      * Flush any caching this element may have.

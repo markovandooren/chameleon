@@ -1187,7 +1187,7 @@ public abstract class ElementImpl implements Element {
 		 }
 	 }
 
-	 public Namespace getNamespace() {
+	 public Namespace namespace() {
 		 NamespaceDeclaration ancestor = nearestAncestor(NamespaceDeclaration.class);
 		 if(ancestor != null) {
 			 return ancestor.namespace();

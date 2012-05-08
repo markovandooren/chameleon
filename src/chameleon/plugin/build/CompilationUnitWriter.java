@@ -10,6 +10,10 @@ import chameleon.exception.ModelException;
 import chameleon.plugin.PluginImpl;
 import chameleon.plugin.output.Syntax;
 
+/**
+ * A default class for writing the contents of a Document to a file.
+ * @author Marko van Dooren
+ */
 public abstract class CompilationUnitWriter extends PluginImpl {
 
 	String _extension;
@@ -33,19 +37,30 @@ public abstract class CompilationUnitWriter extends PluginImpl {
 
 	private File _outputDir;
 	
-	public File write(Document cu) throws LookupException, ModelException, IOException {
-		Syntax writer = cu.language().plugin(Syntax.class);
+	/**
+	 * Write the given document to a file. The Syntax plugin is used to translate the document
+	 * to a string. The fully qualified name of the namespace declaration is used to determine
+	 * the directory of the output file.
+	 * 
+	 * @param doc
+	 * @return
+	 * @throws LookupException
+	 * @throws ModelException
+	 * @throws IOException
+	 */
+	public File write(Document doc) throws LookupException, ModelException, IOException {
+		Syntax writer = doc.language().plugin(Syntax.class);
 		if(writer != null) {
-			String fileName = fileName(cu);
+			String fileName = fileName(doc);
 			if(fileName != null) {
-				String packageFQN = packageFQN(cu);
+				String packageFQN = packageFQN(doc);
 				String relDirName = packageFQN.replace('.', File.separatorChar);
 				File out = new File(outputDirName()+File.separatorChar + relDirName + File.separatorChar + fileName);
 				File parent = out.getParentFile();
 				parent.mkdirs();
 				out.createNewFile();
 				FileWriter fw = new FileWriter(out);
-				fw.write(toString(cu, writer));
+				fw.write(toString(doc, writer));
 				fw.close();
 				System.out.println("Wrote: "+out.getAbsolutePath());
 				return out;

@@ -168,7 +168,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
         if(nearest != null) {
         	prefix = nearest.getFullyQualifiedName();
         } else {
-          Namespace namespace = getNamespace();
+          Namespace namespace = namespace();
           if(namespace != null) {
 					  prefix = namespace.getFullyQualifiedName();
           } else {

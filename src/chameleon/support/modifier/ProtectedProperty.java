@@ -26,7 +26,7 @@ public class ProtectedProperty extends ScopeProperty {
 
 	public Scope scope(Element element) throws ModelException {
 		try {
-			return new HierarchyScope((Type) element).union(new NamespaceScope(element.getNamespace()));
+			return new HierarchyScope((Type) element).union(new NamespaceScope(element.namespace()));
 		} catch (ClassCastException exc) {
 			throw new ModelException("The given element is of the wrong type.");
 		}
