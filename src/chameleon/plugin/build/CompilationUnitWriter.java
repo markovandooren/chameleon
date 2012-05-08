@@ -45,13 +45,17 @@ public abstract class CompilationUnitWriter extends PluginImpl {
 				parent.mkdirs();
 				out.createNewFile();
 				FileWriter fw = new FileWriter(out);
-				fw.write(writer.toCode(cu));
+				fw.write(toString(cu, writer));
 				fw.close();
 				System.out.println("Wrote: "+out.getAbsolutePath());
 				return out;
 			}
 		} 
 		return null;
+	}
+
+	protected String toString(Document cu, Syntax writer) throws ModelException {
+		return writer.toCode(cu);
 	}
 	
 	public abstract String fileName(Document compilationUnit) throws LookupException, ModelException;
