@@ -14,17 +14,18 @@ import org.eclipse.ui.part.ViewPart;
 import chameleon.eclipse.presentation.treeview.TreeViewerActions;
 
 /**
- * This View will show all the methods invocating the current method
- * or all the methods the current method calls.
+ * This view will shows all references to the current declaration
+ * or all the declarations referenced by the current declaration.
  * 
+ * @author Marko van Dooren
  * @author Tim Vermeiren
  */
 public class CallHierarchyView extends ViewPart {
 	
-	private TreeViewer treeViewer;
+	private TreeViewer _treeViewer;
 
 	TreeViewer getTreeViewer(){
-		return treeViewer;
+		return _treeViewer;
 	}
 	
 	/**
@@ -32,23 +33,23 @@ public class CallHierarchyView extends ViewPart {
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		treeViewer = new TreeViewer(parent);
-		treeViewer.setAutoExpandLevel(2);
+		_treeViewer = new TreeViewer(parent);
+		_treeViewer.setAutoExpandLevel(2);
 		createActions();
 	}
 	
-	private OpenCallersHierarchyAction openCallersHierarchyAction;
-	private OpenCalleesHierarchyAction openCalleesHierarchyAction;
-	private MethodClickedListener methodClickedListener;
+	private OpenCallersHierarchyAction _openCallersHierarchyAction;
+	private OpenCalleesHierarchyAction _openCalleesHierarchyAction;
+	private MethodClickedListener _clickedListener;
 	
 	private void createActions(){
 		// create open call hierarchy action:
-		openCallersHierarchyAction = new OpenCallersHierarchyAction(this);
-		openCalleesHierarchyAction = new OpenCalleesHierarchyAction(this);
+		_openCallersHierarchyAction = new OpenCallersHierarchyAction(this);
+		_openCalleesHierarchyAction = new OpenCalleesHierarchyAction(this);
 		// add listeners:
-		methodClickedListener = new MethodClickedListener();
-		treeViewer.addSelectionChangedListener(methodClickedListener);
-		treeViewer.addDoubleClickListener(methodClickedListener);
+		_clickedListener = new MethodClickedListener();
+		_treeViewer.addSelectionChangedListener(_clickedListener);
+		_treeViewer.addDoubleClickListener(_clickedListener);
 		// add actions to menu:
 		createToolbar();
 		createMenu();
@@ -59,13 +60,12 @@ public class CallHierarchyView extends ViewPart {
 	 */
 	private void createToolbar() {
 		IToolBarManager mgr = getViewSite().getActionBars().getToolBarManager();
-		mgr.add(openCallersHierarchyAction);
-		mgr.add(openCalleesHierarchyAction);
+		mgr.add(_openCallersHierarchyAction);
+		mgr.add(_openCalleesHierarchyAction);
 		mgr.add(new Separator("Treeviewer actions"));
-		mgr.add(new TreeViewerActions.RefreshAction(treeViewer));
-		mgr.add(new TreeViewerActions.CollapseAllAction(treeViewer));
-		mgr.add(new TreeViewerActions.ClearViewerAction(treeViewer));
-		
+		mgr.add(new TreeViewerActions.RefreshAction(_treeViewer));
+		mgr.add(new TreeViewerActions.CollapseAllAction(_treeViewer));
+		mgr.add(new TreeViewerActions.ClearViewerAction(_treeViewer));
 	}
 	
 	/**
@@ -73,20 +73,18 @@ public class CallHierarchyView extends ViewPart {
 	 */
 	private void createMenu() {
 		IMenuManager mgr = getViewSite().getActionBars().getMenuManager();
-		mgr.add(openCallersHierarchyAction);
-		mgr.add(openCalleesHierarchyAction);
+		mgr.add(_openCallersHierarchyAction);
+		mgr.add(_openCalleesHierarchyAction);
 		mgr.add(new Separator("Treeviewer actions"));
-		mgr.add(new TreeViewerActions.RefreshAction(treeViewer));
-		mgr.add(new TreeViewerActions.CollapseAllAction(treeViewer));
-		mgr.add(new TreeViewerActions.ClearViewerAction(treeViewer));
-		
+		mgr.add(new TreeViewerActions.RefreshAction(_treeViewer));
+		mgr.add(new TreeViewerActions.CollapseAllAction(_treeViewer));
+		mgr.add(new TreeViewerActions.ClearViewerAction(_treeViewer));
 	}
 	
 	@Override
 	public void setFocus() {
-		treeViewer.getControl().setFocus();
+		_treeViewer.getControl().setFocus();
 	}
-
 	
 }
 

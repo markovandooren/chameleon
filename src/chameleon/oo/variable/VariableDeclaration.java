@@ -77,14 +77,25 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
   }
   
   public Variable variable() {
-  	Expression init = initialization();
-		Expression initClone = (init == null ? null : init.clone());
-		Variable result = ((VariableDeclarator)parent()).createVariable(signature().clone(),initClone);
-  	result.setUniParent(parent());
-  	result.setOrigin(this);
-  	transform(result);
+  	Variable result = _cache;
+  	if(result == null) {
+  		Expression init = initialization();
+  		Expression initClone = (init == null ? null : init.clone());
+  		result = ((VariableDeclarator)parent()).createVariable(signature().clone(),initClone);
+  		result.setUniParent(parent());
+  		result.setOrigin(this);
+  		transform(result);
+  		_cache = result;
+  	}
   	return result;
   }
+  
+  @Override
+  public synchronized void flushLocalCache() {
+  	_cache = null;
+  }
+  
+  private Variable _cache;
   
   protected void transform(Variable variable) {
   }

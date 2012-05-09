@@ -45,14 +45,15 @@ import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
 
 /**
+ * A document for the chameleon framework. The ChameleonDocument contains positions 
+ * and a positionUpdater. After initialisation, the ChameleonDocument contains a model, which depends on 
+ * the language the Document is used for.
+ * 
+ * @author Marko van Dooren
  * @author Jef Geerinckx
  * @author Manuel Van Wesemael 
  * @author Joeri Hendrickx 
- * 
- * A document for the chameleon framework. The ChameleonDocument contains positions 
- * and a positionUpdater.  
- * After initialisation, the ChameleonDocument contains a meta-model, which depends on 
- * the language the Document is used for.
+ * @author Tim Vermeiren
  */
 
 public class ChameleonDocument extends org.eclipse.jface.text.Document {
@@ -60,10 +61,6 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	//The compilation unit of the document
 	private Document _doc;
 	
-	// Marko: I am going to replace this by the project nature.
-	
-//	//The project where this document is found
-//	private IProject _project;
 	//manages the presentation
 	private PresentationManager _presentationManager;
 	//the path to the file of which this document is made
@@ -93,19 +90,19 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 */
 	public ChameleonDocument(ChameleonProjectNature projectNature, IFile file, IPath path){
 		super();
-		
+
 		setCompilationUnit(new Document());
 		if(projectNature==null){
 			ChameleonEditorPlugin.showMessageBox("Illegal project", "This document is part of an illegal project. \nCheck if the project is a Chameleon Project.", SWT.ICON_ERROR);
 		}
 
 		_parseErrors = new ArrayList<ParseException>();
-		
+
 		_projectNature = projectNature;
 		initialize();
-		
+
 		this._path=path;
-		
+
 		if (file!=null){ 		
 			try {
 				parseFile(file);
@@ -117,19 +114,19 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 				e.printStackTrace();
 			}
 		} else{
-		   IPath projPath = path.removeFirstSegments(1);	 
-		   file = projectNature.getProject().getFile(projPath);
-		   _name = file.getName();
-		   _relativePathName = projPath.toString();
-		   
+			IPath projPath = path.removeFirstSegments(1);	 
+			file = projectNature.getProject().getFile(projPath);
+			_name = file.getName();
+			_relativePathName = projPath.toString();
+
 		}
 		this._file = file;
-			}
-	
+	}
+
 	public IPath path() {
 		return _path;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -166,9 +163,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		}
 		// QUESTION: does this trigger the reconcilers?
 		set(tot);
-		
 	}
-
 
 	/*
 	 * The initialisation of the document. 
@@ -516,25 +511,11 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 			}
 			return result;
 		} catch (BadPositionCategoryException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
-		
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	/////////
-	/// COPIED FROM TIM'S LAST VERSION
-	/////////////
-	
-	
 	/**
 	 * Returns the smallest ReferenceEditorTag including the beginoffset of region.
 	 * Returns null if no appropriate editorTag found.
@@ -632,24 +613,6 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		}
 	}
 	
-//	/**
-//	 * Predicate that checks wheter an EditorTag has a given tagname
-//	 */
-//	public static class EditorTagHasNamePredicate extends SafePredicate<EclipseEditorTag>{
-//		private String tagName;
-//		/**
-//		 * @param 	tagName
-//		 * 			Must be a constant of EditorTagTypes
-//		 */
-//		public EditorTagHasNamePredicate(String tagName) {
-//			this.tagName = tagName;
-//		}
-//		@Override
-//		public boolean eval(EclipseEditorTag tag) {
-//			return tag.getName().equals(tagName);
-//		}
-//	}
-	
 	/**
 	 * Returns the word found in document including the given offset.
 	 * For testing purposes only. All word-characters (JavaIdentifierParts to be precise)
@@ -706,12 +669,15 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		}
 
 		if (start >= -1 && end > -1) {
-			if (start == offset && end == offset)
+			if (start == offset && end == offset) {
 				return new Region(offset, 0);
-			else if (start == offset)
+			}
+			else if (start == offset) {
 				return new Region(start, end - start);
-			else
+			}
+			else {
 				return new Region(start + 1, end - start - 1);
+			}
 		}
 
 		return null;
@@ -745,6 +711,18 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		}
 	}
 
+	public void addWarningMarker(Map<String, Object> attributes) {
+		try {
+			makeWarning(attributes);
+			MarkerUtilities.createMarker(getFile(),attributes,IMarker.PROBLEM);
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	protected void makeWarning(Map<String, Object> attributes) {
+		attributes.put(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
+	}
 
 	public void setProblemMarkerPosition(Map<String, Object> attributes, int offset, int length) {
 		int lineNumber;

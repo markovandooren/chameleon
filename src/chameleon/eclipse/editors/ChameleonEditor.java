@@ -632,7 +632,9 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 	 */
 	public static boolean showInEditor(Element element, boolean openOtherEditor, boolean openNewEditor, ChameleonEditor chamEditor, boolean selectElement, String editorTagToHighlight){
 		if(element==null){
-			chamEditor.resetHighlight(selectElement);
+			if(chamEditor != null) {
+				chamEditor.resetHighlight(selectElement);
+			}
 			return false;
 		}
 		Element origin = element.origin();

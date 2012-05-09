@@ -1,25 +1,21 @@
-/**
- * Created on 21-jun-07
- * @author Tim Vermeiren
- */
 package chameleon.eclipse.presentation.callhierarchy;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.rejuse.java.collections.Visitor;
 
+import chameleon.core.declaration.Declaration;
+import chameleon.core.reference.CrossReference;
 import chameleon.exception.ModelException;
-import chameleon.oo.expression.MethodInvocation;
-import chameleon.oo.method.Method;
 
 /**
  * Calculates all the methods that are called by a given method
  * 
  * @author Tim Vermeiren
- *
+ * @author Marko van Dooren
  */
 public class CalleesContentProvider implements ITreeContentProvider {
 
@@ -27,27 +23,24 @@ public class CalleesContentProvider implements ITreeContentProvider {
 	 * Calculates all the methods that are called by a given method
 	 */
 	public Object[] getChildren(Object inputObject) {
-		if (inputObject instanceof Method) {
-			Method method = (Method) inputObject;
+		if (inputObject instanceof Declaration) {
+			Declaration method = (Declaration) inputObject;
 			// get all the invocations of the given method:
-			List<MethodInvocation> invocations = method.descendants(MethodInvocation.class);
+			List<CrossReference> invocations = method.descendants(CrossReference.class);
 			// get all the methods of these invocations:
-			final List<Method> calledMethods = new ArrayList<Method>();
-			new Visitor<MethodInvocation>(){
-				@Override
-				public void visit(MethodInvocation invocation) {
-					try {
-						calledMethods.add(invocation.getElement());
-					} catch (ModelException e) {
-						e.printStackTrace();
-					}
+			final Set<Declaration> referencedDeclarations = new HashSet<Declaration>();
+			for(CrossReference<?> cref: invocations) {
+				try {
+					referencedDeclarations.add(cref.getElement());
+				} catch (ModelException e) {
+					e.printStackTrace();
 				}
-			}.applyTo(invocations);
+			}
 			// return result:
-			return calledMethods.toArray();
-		} else if(inputObject instanceof RootMethod){
-			Method method = ((RootMethod)inputObject).getMethod();
-			return new Object[]{method};
+			return referencedDeclarations.toArray();
+		} else if(inputObject instanceof RootDeclaration){
+			Declaration declaration = ((RootDeclaration)inputObject).getDeclaration();
+			return new Object[]{declaration};
 		}
 		return null;
 	}

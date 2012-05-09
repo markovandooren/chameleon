@@ -14,13 +14,13 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.rejuse.predicate.SafePredicate;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.language.Language;
 import chameleon.eclipse.connector.EclipseEditorTag;
 import chameleon.eclipse.editors.ChameleonDocument;
 import chameleon.eclipse.editors.ChameleonEditor;
 import chameleon.eclipse.presentation.treeview.ChameleonLabelProvider;
 import chameleon.eclipse.project.ChameleonProjectNature;
-import chameleon.oo.method.Method;
 
 /**
  * Will show the callers of the current method in the CallHierarchyView
@@ -53,8 +53,8 @@ public abstract class OpenCallHierarchyAction extends Action {
 			}
 		}
 		// set input method:
-		Method currentMethod = getCurrentMethod();
-		view.getTreeViewer().setInput(new RootMethod(currentMethod));
+		Declaration currentDeclaration = getCurrentDeclaration();
+		view.getTreeViewer().setInput(new RootDeclaration(currentDeclaration));
 
 	}
 	
@@ -63,7 +63,7 @@ public abstract class OpenCallHierarchyAction extends Action {
 	/**
 	 * Returns the method surrounding the cursor in the current active editor if any, null otherwise.
 	 */
-	protected Method getCurrentMethod() {
+	protected Declaration getCurrentDeclaration() {
 		ChameleonEditor editor = ChameleonEditor.getCurrentActiveEditor();
 		if(editor!=null){
 			ChameleonDocument doc = editor.getDocument();
@@ -74,18 +74,18 @@ public abstract class OpenCallHierarchyAction extends Action {
 					if (sel instanceof TextSelection) {
 						TextSelection textSel = (TextSelection) sel;
 						final int offset = textSel.getOffset();
-						// build a predicate that checks if the EditorTag includes the offset and is a method:
+						// build a predicate that checks if the EditorTag includes the offset and is a declaration:
 						SafePredicate<EclipseEditorTag> predicate = new SafePredicate<EclipseEditorTag>(){
 							@Override
 							public boolean eval(EclipseEditorTag editorTag) {
-								return editorTag.includes(offset) && (editorTag.getElement() instanceof Method);
+								return editorTag.includes(offset) && (editorTag.getElement() instanceof Declaration);
 							}
 						};
 						Collection<EclipseEditorTag> result = new TreeSet<EclipseEditorTag>(EclipseEditorTag.lengthComparator);
 						doc.getEditorTagsWithPredicate(predicate, result);
 						if(result.size()>0){
-							Method currentMethod = (Method)result.iterator().next().getElement();
-							return currentMethod;
+							Declaration currentDeclaration = (Declaration)result.iterator().next().getElement();
+							return currentDeclaration;
 						}
 					}
 				}

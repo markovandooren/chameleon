@@ -10,18 +10,17 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.eclipse.editors.ChameleonEditor;
-import chameleon.oo.method.Method;
 
 /**
- * This listener will check if a method in the Call Hierarchy View is (double)clicked
- * and if so it will open the method in the editor.
+ * This listener will check if a declaration in the Call Hierarchy View is (double)clicked
+ * and if so it will open the declaration in the editor.
  * 
  * @author Tim Vermeiren
- *
+ * @author Marko van Dooren
  */
-public class MethodClickedListener implements IDoubleClickListener,
-		ISelectionChangedListener {
+public class MethodClickedListener implements IDoubleClickListener, ISelectionChangedListener {
 
 	/**
 	 * This method will show the method selected in the Call Hierarchy in a ChameleonEditor
@@ -31,13 +30,13 @@ public class MethodClickedListener implements IDoubleClickListener,
 		if(event.getSelection() instanceof IStructuredSelection) {
 			IStructuredSelection selection = (IStructuredSelection)event.getSelection();
 			Object firstObject = selection.getFirstElement();
-			if(firstObject instanceof Method){
-				Method method = (Method)firstObject;
-				ChameleonEditor.showInEditor(method, false, false, null);
-			} else if(firstObject instanceof RootMethod){
-				Method method = ((RootMethod)firstObject).getMethod();
-				ChameleonEditor.showInEditor(method, false, false, null);
+			Declaration declaration = null;
+			if(firstObject instanceof Declaration){
+				declaration = (Declaration)firstObject;
+			} else if(firstObject instanceof RootDeclaration){
+				declaration = ((RootDeclaration)firstObject).getDeclaration();
 			}
+			ChameleonEditor.showInEditor(declaration, false, false, null);
 		}
 	}
 	
@@ -49,13 +48,13 @@ public class MethodClickedListener implements IDoubleClickListener,
 		if(event.getSelection() instanceof IStructuredSelection) {
 			IStructuredSelection selection = (IStructuredSelection)event.getSelection();
 			Object firstObject = selection.getFirstElement();
-			if(firstObject instanceof Method){
-				Method method = (Method)firstObject;
-				ChameleonEditor.showInEditor(method, true, true, null);
-			} else if(firstObject instanceof RootMethod){
-				Method method = ((RootMethod)firstObject).getMethod();
-				ChameleonEditor.showInEditor(method, true, true, null);
+			Declaration declaration = null;
+			if(firstObject instanceof Declaration){
+				declaration = (Declaration)firstObject;
+			} else if(firstObject instanceof RootDeclaration){
+				declaration = ((RootDeclaration)firstObject).getDeclaration();
 			}
+			ChameleonEditor.showInEditor(declaration, true, true, null);
 		}
 	}
 
