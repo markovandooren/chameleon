@@ -225,7 +225,7 @@ public class ChameleonProjectNature implements IProjectNature {
 							}
 							if(update) {
 								System.out.println("### UPDATING FILE IN MODEL ###");
-								//							xx must refresh the content of the document.
+								//	FIXME must refresh the content of the document.
 								IResource resource = delta.getResource();
 								if(resource instanceof IFile) {
 									try {
@@ -235,7 +235,6 @@ public class ChameleonProjectNature implements IProjectNature {
 										if (location != null) {
 											file = location.toFile();
 										}
-										;
 										byte[] bytes = new byte[(int) file.length()];
 										BufferedInputStream stream = new BufferedInputStream(new FileInputStream(file));
 										stream.read(bytes);
