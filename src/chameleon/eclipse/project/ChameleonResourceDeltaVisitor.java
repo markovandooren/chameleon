@@ -33,7 +33,7 @@ public abstract class ChameleonResourceDeltaVisitor implements IResourceDeltaVis
 				break;
 			case IResourceDelta.CHANGED :
 				int flags = delta.getFlags();
-				if((flags & IResourceDelta.MARKERS) == IResourceDelta.MARKERS) {
+				if(! ((flags & IResourceDelta.MARKERS) == IResourceDelta.MARKERS)) {
 				  handleChanged(delta);
 				}
 				break;
