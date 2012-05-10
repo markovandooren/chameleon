@@ -30,16 +30,35 @@ import chameleon.plugin.PluginImpl;
  */
 public class EclipseEditorExtension extends PluginImpl {
 
-	public EclipseEditorExtension() {
-		_imageRegistry = ChameleonEditorPlugin.getDefault().getImageRegistry();
+	public EclipseEditorExtension(String languageName) {
+		_languageName = languageName;
+		setImageRegistry(ChameleonEditorPlugin.getDefault().getImageRegistry());
 		initializeRegistry();
 		_outlineSelector = createOutlineSelector();
 	}
 	
 	private ImageRegistry _imageRegistry;
 	
+	protected void setImageRegistry(ImageRegistry imageRegistry) {
+		_imageRegistry = imageRegistry;
+	}
+	
 	public ImageRegistry imageRegistry() {
 		return _imageRegistry;
+	}
+	
+	protected String imageRegistryPrefix() {
+		return _languageName+"_";
+	}
+	
+	private String _languageName;
+	
+	public String languageName() {
+		return _languageName;
+	}
+	
+	protected String prefix(String name) {
+		return imageRegistryPrefix()+name;
 	}
 	
 	/**
@@ -136,7 +155,7 @@ public class EclipseEditorExtension extends PluginImpl {
 	 */
 	public void register(String fileName, String iconName, String pluginID) throws MalformedURLException {
 		Image image = createImage(fileName, pluginID);
-		imageRegistry().put(iconName, image);
+		imageRegistry().put(prefix(iconName), image);
 	}
 
 	/**
@@ -150,7 +169,7 @@ public class EclipseEditorExtension extends PluginImpl {
 	}
 	
 	public Image image(String iconName) {
-		return imageRegistry().get(iconName);
+		return imageRegistry().get(prefix(iconName));
 	}
 
 	/**
@@ -175,7 +194,7 @@ public class EclipseEditorExtension extends PluginImpl {
 
 	@Override
 	public Plugin clone() {
-		return new EclipseEditorExtension();
+		return new EclipseEditorExtension(_languageName);
 	}
 	
 //  	public abstract ICompletionProposal completionProposal(Element element, ChameleonDocument document, int offset);
