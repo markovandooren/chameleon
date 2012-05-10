@@ -4,15 +4,19 @@ import java.lang.ref.SoftReference;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.rejuse.association.AssociationListener;
+
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;
+import chameleon.core.element.Element;
+import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationCollector;
 import chameleon.core.lookup.DeclarationSelector;
-import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.SelectorWithoutOrder;
 import chameleon.core.reference.CrossReferenceImpl;
 import chameleon.core.reference.CrossReferenceTarget;
@@ -21,6 +25,7 @@ import chameleon.core.reference.CrossReferenceWithTarget;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.statement.CheckedExceptionList;
+import chameleon.util.CreationStackTrace;
 import chameleon.util.Util;
 import chameleon.util.association.Single;
 public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implements CrossReferenceTarget, CrossReferenceWithTarget<TargetDeclaration>, CrossReferenceWithName<TargetDeclaration> {
@@ -43,7 +48,7 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
     if(fqn != null) {
       setTarget(new NamedTarget(fqn)); 
     }
-    //setTargetContext(new NamedTargetContext());
+
   }
   
   /**
@@ -254,7 +259,7 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
 //    }
   }
 
-  public LocalLookupStrategy targetContext() throws LookupException {
+  public LookupStrategy targetContext() throws LookupException {
     return getElement().targetContext();
   }
 

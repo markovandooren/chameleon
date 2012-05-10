@@ -4,8 +4,8 @@ import java.util.List;
 
 import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.element.ElementImpl;
-import chameleon.core.lookup.LocalLookupStrategy;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -67,7 +67,7 @@ public class SuperTarget extends ElementImpl implements CrossReferenceTarget {
     }
   }
 
-  public LocalLookupStrategy targetContext() throws LookupException {
+  public LookupStrategy targetContext() throws LookupException {
     return getTargetDeclaration().targetContext();
   }
 
