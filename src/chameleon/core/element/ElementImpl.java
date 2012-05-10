@@ -1103,6 +1103,26 @@ public abstract class ElementImpl implements Element {
 	 }
 
 	 /**
+	  * Set the given AbstractMultiAssociation object (which is typically connected to 'this') as the parent of the given element.
+	  * @param <T>
+	  * @param association
+	  * @param element
+	  */
+	 /*@
+     @ public behavior
+     @
+     @ pre association != null;
+     @ pre (element != null) ==> (! element.isDerived());
+     @
+     @ post (element != null) ==> (element.parent() == association.getObject() && association.contains(element.parentLink());
+     @*/
+	 protected <T extends Element> void add(AbstractMultiAssociation<? extends Element, ? super T> association, Collection<T> elements) {
+		 for(T t: elements) {
+			 add(association,t);
+		 }
+	 }
+
+	 /**
 	  * Add the given element to the given association end.
 	  * 
 	  * @param association The association end to which the element must be added.
