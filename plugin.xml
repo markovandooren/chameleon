@@ -134,20 +134,33 @@
    
    <extension point="org.eclipse.ui.commands">
 	<command
-        name="formatting"
+        name="Auto-Formatting"
         description="Auto-Formatting"
         id="chameleon.eclipse.actions.format">
   </command>
   <command
-        name="hierarchy"
+        name="opensubhierarchy"
         description="Open Sub-Type hierarchy"
         id="chameleon.eclipse.actions.opensubhierarchy">
   </command>
   <command
-        name="hierarchy"
+        name="opensuperhierarchy"
         description="Open Super-Type hierarchy"
         id="chameleon.eclipse.actions.opensuperhierarchy">
   </command>
+  <command
+        name="renamedeclaration"
+        defaultHandler="chameleon.eclipse.refactoring.RefactoringHandler"
+        id="chameleon.eclipse.actions.refactoring.rename">
+  </command>
+  
+  </extension>
+  
+  <extension point="org.eclipse.ui.handlers">
+    <handler
+            class="chameleon.eclipse.refactoring.RefactoringHandler"
+            commandId="chameleon.eclipse.actions.refactoring.rename">
+    </handler>
   </extension>
 
   <!-- TODO: doesn't work yet: -->
