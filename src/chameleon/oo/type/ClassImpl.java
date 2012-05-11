@@ -836,9 +836,6 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 		@Override
 		public VerificationResult verifySelf() {
 			VerificationResult result = Valid.create(); 
-			if(signature() == null) {
-				result = result.and(new MissingSignature(this)); 
-			}
 			ObjectOrientedLanguage lang = language(ObjectOrientedLanguage.class);
 			if(isFalse(lang.ABSTRACT)) {
 				List<Member> members = null;

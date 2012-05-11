@@ -997,7 +997,16 @@ public abstract class ElementImpl implements Element {
 		 for(Element element:childrenAux()) {
 			 result = result.and(element.verify());
 		 }
+		 result = result.and(verifyAssociations());
 		 result = result.and(language().verify(this));
+		 return result;
+	 }
+	 
+	 protected VerificationResult verifyAssociations() {
+		 VerificationResult result = Valid.create();
+		 for(ChameleonAssociation<?> association: associations()) {
+			 result = result.and(association.verify());
+		 }
 		 return result;
 	 }
 

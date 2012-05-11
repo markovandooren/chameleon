@@ -11,6 +11,13 @@ import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 
+/**
+ * An n-ary ordered association end. Use objects of this class for n-ary relations between model elements.
+ * 
+ * @author Marko van Dooren
+ *
+ * @param <T> The type of the elements whose 'parent' association end can be connected to this association end.
+ */
 public class Multi<T extends Element> extends OrderedMultiAssociation<Element, T> implements ChameleonAssociation<T> {
 
 	public Multi(Element element) {
@@ -49,7 +56,7 @@ public class Multi<T extends Element> extends OrderedMultiAssociation<Element, T
 	private int _max;
 	
 	public boolean isConstrained() {
-		return _max < 1;
+		return _max > 0;
 	}
 	
 	public VerificationResult verify() {

@@ -31,6 +31,6 @@ public abstract class FixedSignatureMember extends MemberImpl {
     return _signature.getOtherEnd();
   }
   
-  private Single<Signature> _signature = new Single<Signature>(this);
+  private Single<Signature> _signature = new Single<Signature>(this,true);
 
 }

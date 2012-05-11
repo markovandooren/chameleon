@@ -15,7 +15,6 @@ import chameleon.core.lookup.DeclarationSelector;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.validation.BasicProblem;
-import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.member.Member;
 import chameleon.oo.type.generics.TypeParameterBlock;
@@ -30,7 +29,7 @@ import chameleon.util.association.Single;
  */
 public abstract class ClassWithBody extends ClassImpl {
 
-	protected Single<ClassBody> _body = new Single<ClassBody>(this);
+	protected Single<ClassBody> _body = new Single<ClassBody>(this,true);
 
 	
 	public List<InheritanceRelation> nonMemberInheritanceRelations() {
@@ -185,15 +184,15 @@ public abstract class ClassWithBody extends ClassImpl {
     return (List<T>)tmp;
 	}
 
-	@Override
-	public VerificationResult verifySelf() {
-		VerificationResult tmp = super.verifySelf();
-		if(body() != null) {
-		  return tmp;
-		} else {
-		  return tmp.and(new MissingClassBody(this));	
-		}
-	}
+//	@Override
+//	public VerificationResult verifySelf() {
+//		VerificationResult tmp = super.verifySelf();
+//		if(body() != null) {
+//		  return tmp;
+//		} else {
+//		  return tmp.and(new MissingClassBody(this));	
+//		}
+//	}
 
 	public ClassWithBody(SimpleNameSignature sig) {
 		super(sig);
