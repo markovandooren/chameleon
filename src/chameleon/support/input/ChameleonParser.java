@@ -17,9 +17,10 @@ import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.RootNamespace;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.InputProcessor;
+import chameleon.input.PositionMetadata;
 
 
-public abstract class ChameleonParser<L extends Language> extends Parser {
+public abstract class ChameleonParser<L extends Language> extends Parser implements PositionMetadata {
 	
 	 public ChameleonParser(TokenStream input, RecognizerSharedState state) {
 		super(input,state);
@@ -101,7 +102,6 @@ public abstract class ChameleonParser<L extends Language> extends Parser {
 	     }
 	   }
 	   
-	   //FIXME these strings should be constants.
 	   public void setName(Element element, Token token) {
 	  	 if(token != null) {
 	  	   setLocation(element, token ,NAME);
@@ -113,25 +113,19 @@ public abstract class ChameleonParser<L extends Language> extends Parser {
 	  	   setLocation(element, start , stop, NAME);
 	  	 }
 	   }
-	   
-	   public final static String NAME="__NAME";
-	   
+	   	   
 	   public void setKeyword(Element element, Token token) {
 	     if(token != null) {
 	       setLocation(element, token, token, KEYWORD);
 	     }
 	   }
 	   
-	   public final static String KEYWORD="__KEYWORD";
-
 	   public void setAllLocation(Element element, Token token) {
 	     if(token != null) {
-	       setLocation(element, token, token, "__ALL");
+	       setLocation(element, token, token, ALL);
 	     }
 	   }
 	   
-	   public final static String ALL="__ALL";
-
 	   Language _lang;
 	   
 	   public Language language() {
