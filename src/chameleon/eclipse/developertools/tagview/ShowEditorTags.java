@@ -13,6 +13,7 @@ import org.rejuse.predicate.True;
 
 import chameleon.eclipse.connector.EclipseEditorTag;
 import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.input.PositionMetadata;
 import chameleon.util.Util;
 
 /**
@@ -40,7 +41,7 @@ public class ShowEditorTags {
 		SafePredicate<EclipseEditorTag> otherConditions;
 		// filter all editor tags?
 		if(showOnlyAllChameleonEditorPositions){
-			otherConditions = new EclipseEditorTag.NamePredicate(EclipseEditorTag.ALL_TAG);
+			otherConditions = new EclipseEditorTag.NamePredicate(PositionMetadata.ALL);
 		} else {
 			otherConditions = new True<EclipseEditorTag>();
 		}

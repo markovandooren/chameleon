@@ -43,6 +43,7 @@ import chameleon.eclipse.presentation.PresentationManager;
 import chameleon.eclipse.project.ChameleonProjectNature;
 import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
+import chameleon.input.PositionMetadata;
 
 /**
  * A document for the chameleon framework. The ChameleonDocument contains positions 
@@ -501,7 +502,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 			for (Position position : positions) {
 				if(position instanceof EclipseEditorTag ){
 					EclipseEditorTag decorator = (EclipseEditorTag) position;
-					if(decorator.getName().equals(EclipseEditorTag.CROSSREFERENCE_TAG)){
+					if(decorator.getName().equals(PositionMetadata.CROSSREFERENCE)){
 						if(decorator.includes(region.getOffset()) && decorator.getLength()<minLength){
 							result = decorator;
 						}
@@ -534,7 +535,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		SafePredicate<EclipseEditorTag> predicate = new SafePredicate<EclipseEditorTag>(){
 			@Override
 			public boolean eval(EclipseEditorTag editorTag) {
-				return (editorTag.getName().equals(EclipseEditorTag.CROSSREFERENCE_TAG)) && editorTag.includes(offset);
+				return (editorTag.getName().equals(PositionMetadata.CROSSREFERENCE)) && editorTag.includes(offset);
 			}
 		};
 		Collection<EclipseEditorTag> tags = new TreeSet<EclipseEditorTag>(EclipseEditorTag.lengthComparator);
@@ -688,9 +689,9 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		String message = problem.message();
 		HashMap<String, Object> attributes = ChameleonPresentationReconciler.createProblemMarkerMap(message);
 		EclipseEditorTag positionTag = null;
-		positionTag = (EclipseEditorTag) problem.element().metadata(EclipseEditorTag.NAME_TAG);
+		positionTag = (EclipseEditorTag) problem.element().metadata(PositionMetadata.ALL);
 		if(positionTag == null) {
-			positionTag = (EclipseEditorTag) problem.element().metadata(EclipseEditorTag.ALL_TAG);
+			positionTag = (EclipseEditorTag) problem.element().metadata(PositionMetadata.ALL);
 		}
 		if(positionTag != null) {
 			int offset = positionTag.getOffset();

@@ -18,6 +18,7 @@ import chameleon.eclipse.project.ChameleonProjectNature;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.InputProcessor;
 import chameleon.input.ParseException;
+import chameleon.input.PositionMetadata;
 import chameleon.plugin.Processor;
 import chameleon.plugin.ProcessorImpl;
 
@@ -59,12 +60,12 @@ public class EclipseEditorInputProcessor extends ProcessorImpl implements InputP
 		} else {
 		// ECLIPSE NEEDS A +1 INCREMENT FOR THE LENGTH
 		length++;
-		setSingleLocation(element, offset, length, compilationUnit, EclipseEditorTag.ALL_TAG);
+		setSingleLocation(element, offset, length, compilationUnit, PositionMetadata.ALL);
 		if(element instanceof CrossReference) {
-			setSingleLocation(element, offset, length, compilationUnit, EclipseEditorTag.CROSSREFERENCE_TAG);
+			setSingleLocation(element, offset, length, compilationUnit, PositionMetadata.CROSSREFERENCE);
 		}
 		if(element instanceof Modifier) {
-			setSingleLocation(element, offset, length, compilationUnit, EclipseEditorTag.MODIFIER_TAG);
+			setSingleLocation(element, offset, length, compilationUnit, PositionMetadata.MODIFIER);
 		}
 		}
 	}

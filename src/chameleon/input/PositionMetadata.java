@@ -10,4 +10,6 @@ public interface PositionMetadata {
 
   public final static String ALL="__ALL";
 
+	public static final String CROSSREFERENCE= "__CROSS_REFERENCE";
+
 }

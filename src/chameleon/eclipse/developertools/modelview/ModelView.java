@@ -32,6 +32,7 @@ import chameleon.eclipse.connector.EclipseEditorTag;
 import chameleon.eclipse.editors.ChameleonEditor;
 import chameleon.eclipse.presentation.treeview.ChameleonLabelProvider;
 import chameleon.eclipse.presentation.treeview.TreeViewerActions;
+import chameleon.input.PositionMetadata;
 
 /**
  * This class contains a view intended to be used by Chameleon programmers. 
@@ -222,7 +223,7 @@ public class ModelView extends ViewPart {
 				if(selectedObject instanceof Element){
 					Element element = ((Element) selectedObject);
 					ChameleonEditor editor = ChameleonEditor.getCurrentActiveEditor();
-					boolean succeeded = ChameleonEditor.showInEditor(element, false, false, editor, true, EclipseEditorTag.ALL_TAG);
+					boolean succeeded = ChameleonEditor.showInEditor(element, false, false, editor, true, PositionMetadata.ALL);
 					// if no document of element found, just highlight the EditorTag in the current active editor:
 					// eg. Modifiers cannot be highlighted with showInEditor
 					if(!succeeded && editor != null){
@@ -245,7 +246,7 @@ public class ModelView extends ViewPart {
 				Object selectedObject = ((StructuredSelection)sel).getFirstElement();
 				if(selectedObject instanceof Element){
 					Element element = ((Element) selectedObject);
-					ChameleonEditor.showInEditor(element, true, true, null, true, EclipseEditorTag.ALL_TAG);
+					ChameleonEditor.showInEditor(element, true, true, null, true, PositionMetadata.ALL);
 				}
 			}
 		}

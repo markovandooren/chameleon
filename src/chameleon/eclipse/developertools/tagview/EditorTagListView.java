@@ -30,6 +30,7 @@ import chameleon.eclipse.connector.EclipseEditorTag;
 import chameleon.eclipse.editors.ChameleonDocument;
 import chameleon.eclipse.editors.ChameleonEditor;
 import chameleon.eclipse.presentation.treeview.ChameleonLabelProvider;
+import chameleon.input.PositionMetadata;
 
 /**
  * Shows the Editor Tags of the current Chameleon Document.
@@ -135,7 +136,7 @@ public class EditorTagListView extends ViewPart {
 
 	private class ShowAllEditorTagListAction extends PredicateShowEditorTagListAction {
 		public ShowAllEditorTagListAction() {
-			super("Show ALL-Editor Tags",new EclipseEditorTag.NamePredicate(EclipseEditorTag.ALL_TAG));
+			super("Show ALL-Editor Tags",new EclipseEditorTag.NamePredicate(PositionMetadata.ALL));
 		}
 	}
 

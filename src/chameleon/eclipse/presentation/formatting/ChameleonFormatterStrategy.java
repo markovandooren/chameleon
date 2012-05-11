@@ -20,6 +20,7 @@ import chameleon.core.element.Element;
 import chameleon.eclipse.connector.EclipseEditorTag;
 import chameleon.eclipse.editors.ChameleonDocument;
 import chameleon.eclipse.editors.ChameleonEditor;
+import chameleon.input.PositionMetadata;
 import chameleon.util.Util;
 
 /**
@@ -138,7 +139,7 @@ public class ChameleonFormatterStrategy implements IFormattingStrategy {
 		public boolean eval(EclipseEditorTag tag) {
 			try {
 				// consider only ALL-editorTags
-				if(!tag.getName().equals(EclipseEditorTag.ALL_TAG))
+				if(!tag.getName().equals(PositionMetadata.ALL))
 					return false;
 				// get editorTags surrounding this line
 				int editorTagStartingLineNumber = document.getLineOfOffset(tag.getOffset());

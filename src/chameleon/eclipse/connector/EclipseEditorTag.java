@@ -155,11 +155,10 @@ public class EclipseEditorTag extends Position implements Metadata {
 //	}
 	
 	/** Decorator spanning an entire element **/
-	public final static String ALL_TAG= "__ALL";
-	public static final String NAME_TAG = "__NAME";
-	public static final String CROSSREFERENCE_TAG = "__CROSS_REFERENCE";
-	public static final String KEYWORD_TAG = "__KEYWORD";
-	public static final String MODIFIER_TAG = "__MODIFIER";
+//	public final static String ALL_TAG= "__ALL";
+//	public static final String NAME_TAG = "__NAME";
+//	public static final String KEYWORD_TAG = "__KEYWORD";
+//	public static final String MODIFIER_TAG = "__MODIFIER";
 	
 	public String toString(){
 		return "Offset : "+getOffset()+"\tLength : "+getLength()+"\tElement : "+getElement();

@@ -68,6 +68,7 @@ import chameleon.eclipse.presentation.hierarchy.HierarchyView;
 import chameleon.eclipse.presentation.outline.ChameleonOutlinePage;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.ParseException;
+import chameleon.input.PositionMetadata;
 
 /**
  * @author Jef Geerinckx
@@ -500,7 +501,7 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 	 * 			for extra options
 	 */
 	public void highLightElement(Element element){
-		highLightElement(element, true, EclipseEditorTag.NAME_TAG);
+		highLightElement(element, true, PositionMetadata.NAME);
 	}
 
 	/**
@@ -529,8 +530,8 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 				start = tag.getOffset();
 				length = tag.getLength();
 				no_result = false;
-			} else if(element.hasMetadata(EclipseEditorTag.ALL_TAG)){
-				EclipseEditorTag tag = (EclipseEditorTag)element.metadata(EclipseEditorTag.ALL_TAG);
+			} else if(element.hasMetadata(PositionMetadata.ALL)){
+				EclipseEditorTag tag = (EclipseEditorTag)element.metadata(PositionMetadata.ALL);
 				start = tag.getOffset();
 				length = tag.getLength();
 				no_result = false;
@@ -611,7 +612,7 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 	 * @result	true if the element is shown, false when failed or (element is part of closed editor and openNewEditor == false)
 	 */
 	public static boolean showInEditor(Element element, boolean openOtherEditor, boolean openNewEditor, ChameleonEditor chamEditor){
-		return showInEditor(element, openOtherEditor, openNewEditor, chamEditor, true, EclipseEditorTag.NAME_TAG);
+		return showInEditor(element, openOtherEditor, openNewEditor, chamEditor, true, PositionMetadata.NAME);
 	}
 
 	/**
