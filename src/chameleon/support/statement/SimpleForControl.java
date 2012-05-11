@@ -84,10 +84,6 @@ public class SimpleForControl extends ForControl {
   	set(_expression,expression);
   }
   
-	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
-		return declarations();
-	}
-
 
 	public List<? extends Declaration> declarations() throws LookupException {
 		ForInit init = getForInit();
@@ -96,10 +92,6 @@ public class SimpleForControl extends ForControl {
 		} else {
 			return new ArrayList<Variable>();
 		}
-	}
-
-	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
-		return selector.selection(declarations());
 	}
 
 	@Override

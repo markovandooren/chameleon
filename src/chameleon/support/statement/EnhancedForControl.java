@@ -57,10 +57,6 @@ public class EnhancedForControl extends ForControl {
 		return variableDeclarator().variables();
 	}
 
-	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
-		return selector.selection(declarations());
-	}
-
 	@Override
 	public VerificationResult verifySelf() {
 		VerificationResult result = checkNull(variableDeclarator(), "An enhanced for control must declare a variable", Valid.create());
@@ -68,7 +64,4 @@ public class EnhancedForControl extends ForControl {
 		return result;
 	}
 
-	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
-		return declarations();
-	}
 }
