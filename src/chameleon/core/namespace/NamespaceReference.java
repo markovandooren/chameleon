@@ -3,11 +3,13 @@ package chameleon.core.namespace;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.core.reference.SpecificReference;
+import chameleon.util.CreationStackTrace;
 
 /**
  * @author marko
  */
 public class NamespaceReference extends SpecificReference<Namespace> {
+	
 
   public NamespaceReference(CrossReferenceTarget target, String name) {
     super(target, name, Namespace.class);

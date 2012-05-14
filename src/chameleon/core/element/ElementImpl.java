@@ -877,7 +877,7 @@ public abstract class ElementImpl implements Element {
 		 return property(new UnsafePredicate<ChameleonProperty,ModelException>() {
 			@Override
 			public boolean eval(ChameleonProperty property) throws ModelException
-				 {return property.mutex().equals(mutex);}
+				 {return mutex != null && mutex.equals(property.mutex());}
 		 });
 	 }
 	 
@@ -906,6 +906,9 @@ public abstract class ElementImpl implements Element {
 	 public <X extends Exception> ChameleonProperty property(UnsafePredicate<ChameleonProperty,X> predicate) throws ModelException, X {
 		 List<ChameleonProperty> properties = new ArrayList<ChameleonProperty>();
 		 for(ChameleonProperty p : properties().properties()) {
+			 if(p == null) {
+				 System.out.println("debug");
+			 }
 			 if(predicate.eval(p)) {
 				 properties.add(p);
 			 }
