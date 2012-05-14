@@ -10,8 +10,6 @@ import chameleon.util.CreationStackTrace;
  */
 public class InfixOperator extends Operator {
 
-	private CreationStackTrace _trace = new CreationStackTrace();
-
   public InfixOperator(MethodHeader header) {
     super(header);
   }
