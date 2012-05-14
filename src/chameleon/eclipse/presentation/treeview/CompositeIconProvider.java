@@ -7,13 +7,32 @@ import chameleon.core.element.Element;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
 
+/**
+ * A composite icon provider. Composite icon providers keep a list of 
+ * icon providers and used these to find the icon for a given name.
+ * The icon providers in the list are consulted in the order of the list.
+ * 
+ * @author Marko van Dooren
+ *
+ */
 public class CompositeIconProvider implements IconProvider {
 
 	
+	/**
+	 * Create an empty composite icon provider. 
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post providers().isEmpty();
+   @*/
 	public CompositeIconProvider() {
-		
 	}
-	
+
+	/**
+	 * Create a compositie icon provider with the given list of icon providers.
+	 * @param providers
+	 */
 	public CompositeIconProvider(IconProvider... providers) {
 		for(IconProvider provider:providers) {
 			add(provider);

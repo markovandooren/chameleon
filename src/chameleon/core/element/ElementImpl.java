@@ -873,19 +873,50 @@ public abstract class ElementImpl implements Element {
 
 	 private HashMap<ChameleonProperty,Ternary> _propertyCache;
 
-	 public ChameleonProperty property(PropertyMutex<ChameleonProperty> mutex) throws ModelException {
+	 public ChameleonProperty property(final PropertyMutex<ChameleonProperty> mutex) throws ModelException {
+		 return property(new UnsafePredicate<ChameleonProperty,ModelException>() {
+			@Override
+			public boolean eval(ChameleonProperty property) throws ModelException
+				 {return property.mutex().equals(mutex);}
+		 });
+	 }
+	 
+	 public ChameleonProperty implyingProperty(final ChameleonProperty implied) throws ModelException {
+		 return property(new UnsafePredicate<ChameleonProperty,ModelException>() {
+			@Override
+			public boolean eval(ChameleonProperty property) throws ModelException
+				 {return property.implies(implied);}
+		 });
+	 }
+	 
+	 public ChameleonProperty property(SafePredicate<ChameleonProperty> predicate) throws ModelException {
 		 List<ChameleonProperty> properties = new ArrayList<ChameleonProperty>();
 		 for(ChameleonProperty p : properties().properties()) {
-			 if(p.mutex() == mutex) {
+			 if(predicate.eval(p)) {
 				 properties.add(p);
 			 }
 		 }
 		 if(properties.size() == 1) {
 			 return properties.get(0);
 		 } else {
-			 throw new ModelException("Element of type " +getClass().getName()+ " has "+properties.size()+" properties for the mutex "+mutex);
+			 throw new ModelException("Element of type " +getClass().getName()+ " has "+properties.size()+" properties that satisfy the given condition.");
 		 }
 	 }
+
+	 public <X extends Exception> ChameleonProperty property(UnsafePredicate<ChameleonProperty,X> predicate) throws ModelException, X {
+		 List<ChameleonProperty> properties = new ArrayList<ChameleonProperty>();
+		 for(ChameleonProperty p : properties().properties()) {
+			 if(predicate.eval(p)) {
+				 properties.add(p);
+			 }
+		 }
+		 if(properties.size() == 1) {
+			 return properties.get(0);
+		 } else {
+			 throw new ModelException("Element of type " +getClass().getName()+ " has "+properties.size()+" properties that satisfy the given condition.");
+		 }
+	 }
+
 
 	 public boolean hasProperty(PropertyMutex<ChameleonProperty> mutex) throws ModelException {
 		 return properties().hasPropertyFor(mutex);

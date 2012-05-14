@@ -1056,16 +1056,53 @@ public interface Element {
      @
      @ pre mutex != null;
      @
-     @ post \result != null ==> properties().contains(\result);
-     @ post \result != null ==> \result.mutex() == mutex;
+     @ post properties().contains(\result);
+     @ post \result.mutex() == mutex;
      @ post (\num_of Property p; properties().contains(p);
-     @       p.mutex() == mutex) == 1 ==> \result != null;
+     @       p.mutex() == mutex) == 1;
      @
      @ signals ModelException (\num_of Property p; properties().contains(p);
      @       p.mutex() == mutex) != 1; 
      @*/
     public ChameleonProperty property(PropertyMutex<ChameleonProperty> mutex) throws ModelException;
     
+    /**
+     * Return the single property that implies the given property. If more than one property of this
+     * element implies the given property, an exception is thrown.
+     * 
+     * @param implied
+     * @return
+     * @throws ModelException
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre implied != null;
+     @
+     @ post properties().contains(\result);
+     @ post \result.implies(implied);
+     @ post (\num_of Property p; properties().contains(p);
+     @       p.implies(implied)) == 1;
+     @
+     @ signals ModelException (\num_of Property p; properties().contains(p);
+     @       p.implies(implied)) != 1; 
+     @*/
+    public ChameleonProperty implyingProperty(final ChameleonProperty implied) throws ModelException;
+    
+    /**
+     * Check whether this element has a property from the given property mutex.
+     * 
+     * @param mutex
+     * @return
+     * @throws ModelException
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre mutex != null;
+     @
+     @ post \result properties().hasPropertyFor(mutex);
+     @*/
     public boolean hasProperty(PropertyMutex<ChameleonProperty> mutex) throws ModelException;
     
     /**

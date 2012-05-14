@@ -155,7 +155,10 @@ public class EclipseEditorExtension extends PluginImpl {
 	 */
 	public void register(String fileName, String iconName, String pluginID) throws MalformedURLException {
 		Image image = createImage(fileName, pluginID);
-		imageRegistry().put(prefix(iconName), image);
+		String name = prefix(iconName);
+		if(imageRegistry().get(name) == null) {
+			imageRegistry().put(name, image);
+		}
 	}
 
 	/**
