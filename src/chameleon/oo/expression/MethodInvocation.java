@@ -12,6 +12,7 @@ import chameleon.core.reference.UnresolvableCrossReference;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
+import chameleon.oo.method.DeclarationWithParameters;
 import chameleon.oo.method.Method;
 import chameleon.oo.statement.CheckedExceptionList;
 import chameleon.oo.type.Type;
@@ -25,7 +26,7 @@ import chameleon.util.association.Single;
  *            The type of declaration invoked by this invocation.
  */
 
-public abstract class MethodInvocation<D extends Method>
+public abstract class MethodInvocation<D extends DeclarationWithParameters>
 		extends TargetedExpression implements CrossReferenceWithTarget<D> {
 
 	private Single<CrossReferenceWithArguments> _crossReference = new Single<CrossReferenceWithArguments>(this);

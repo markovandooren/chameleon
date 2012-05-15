@@ -4,6 +4,7 @@ import chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import chameleon.aspect.oo.model.pointcut.MethodInvocationPointcutExpression;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.expression.MethodInvocation;
+import chameleon.oo.method.Method;
 import chameleon.oo.type.Type;
 import chameleon.util.association.Single;
 
@@ -27,7 +28,7 @@ public class SignatureMethodInvocationPointcutExpression extends MethodInvocatio
 		// This might not be foolproof in all cases (inner classes etc), need further testing - TODO
 		Type definedType = (Type) joinpoint.getElement().nearestAncestor(Type.class);
 		
-		if (methodReference().matches(joinpoint.getElement(), definedType)) {
+		if (methodReference().matches((Method)joinpoint.getElement(), definedType)) {
 			return new MatchResult<MethodInvocation>(this, (MethodInvocation) joinpoint);
 		} else {
 			return MatchResult.noMatch();

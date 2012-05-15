@@ -25,7 +25,7 @@ public class AnnotatedMethodInvocationExpression extends MethodInvocationPointcu
 
 	@Override
 	public MatchResult match(MethodInvocation joinpoint) throws LookupException {		
-		Method target = joinpoint.getElement();
+		Method target = (Method) joinpoint.getElement();
 		List<Modifier> modifiers = target.modifiers();
 		
 		for (Modifier modifier : modifiers) {
