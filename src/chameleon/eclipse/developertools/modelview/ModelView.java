@@ -100,7 +100,7 @@ public class ModelView extends ViewPart {
 		modelViewer.getControl().setMenu(menu);
 
 		// Register menu for extension (other plugins might add items to this context menu!)
-		//getSite().registerContextMenu(mgr, modelViewer);
+		getSite().registerContextMenu(mgr, modelViewer);
 	}
 
 	protected void fillContextMenu(IMenuManager manager) {

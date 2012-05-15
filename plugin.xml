@@ -149,13 +149,33 @@
         id="chameleon.eclipse.actions.opensuperhierarchy">
   </command>
   <command
-        name="renamedeclaration"
-        defaultHandler="chameleon.eclipse.refactoring.RefactoringHandler"
+        name="Rename Declaration"
+        description="Rename Declaration"
         id="chameleon.eclipse.actions.refactoring.rename">
   </command>
   
   </extension>
   
+  <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.views.ContentOutline?after=additions">
+         <command
+               commandId="chameleon.eclipse.actions.refactoring.rename"
+               mnemonic="Johny"
+               tooltip="sharp">
+         </command>
+      </menuContribution>
+      <menuContribution
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <command
+               commandId="chameleon.eclipse.actions.refactoring.rename"
+               mnemonic="Johny"
+               tooltip="sharp">
+         </command>
+      </menuContribution>
+  </extension>
+      
   <extension point="org.eclipse.ui.handlers">
     <handler
             class="chameleon.eclipse.refactoring.RefactoringHandler"

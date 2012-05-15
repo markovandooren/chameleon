@@ -9,6 +9,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.DecoratingLabelProvider;
@@ -17,6 +18,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 
 import chameleon.core.element.Element;
@@ -132,7 +134,7 @@ public class ChameleonOutlinePage extends ContentOutlinePage {
 
 		// Add menu
 		//----------------------------
-		IMenuManager menuMgr = getSite().getActionBars().getMenuManager();
+/*		IMenuManager menuMgr = getSite().getActionBars().getMenuManager();
 		//menuMgr.setRemoveAllWhenShown(true);
 		createMenuActions(menuMgr);
 		menuMgr.addMenuListener(new IMenuListener(){
@@ -140,7 +142,21 @@ public class ChameleonOutlinePage extends ContentOutlinePage {
 				mgr.removeAll();
 				createMenuActions(mgr);
 			};
+		});*/
+		MenuManager menuMgr = new MenuManager();
+		menuMgr.setRemoveAllWhenShown(true);
+		createMenuActions(menuMgr);
+		menuMgr.addMenuListener(new IMenuListener(){
+			public void menuAboutToShow(IMenuManager mgr) {
+				mgr.removeAll();
+				createMenuActions(mgr);
+			};
 		});
+		
+		Menu menu = menuMgr.createContextMenu(_treeViewer.getControl());
+		_treeViewer.getControl().setMenu(menu);
+		
+		getSite().registerContextMenu("chameleonOutlineMenu", menuMgr, _treeViewer);
 
 		// Add Toolbar
 		//----------------------------
