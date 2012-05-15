@@ -35,6 +35,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.oo.type.generics.TypeParameter;
 import chameleon.oo.variable.FormalParameter;
+import chameleon.util.Util;
 import chameleon.util.association.Single;
 
 /**
@@ -50,7 +51,7 @@ import chameleon.util.association.Single;
  * @param <S>
  * @param <M>
  */
-public abstract class Method extends MemberImpl implements DeclarationContainer, Target, DeclarationWithType {
+public abstract class Method extends DeclarationWithParameters {
 
 	/**
 	 * Initialize a new method with the given header.
@@ -62,7 +63,7 @@ public abstract class Method extends MemberImpl implements DeclarationContainer,
    @ post header() == header;
    @*/ 
 	public Method(MethodHeader header) {
-		setHeader(header);
+		super(header);
 	}
 	
 	public Type declarationType() throws LookupException {
@@ -73,44 +74,6 @@ public abstract class Method extends MemberImpl implements DeclarationContainer,
 	  return implementation() != null && implementation().complete();
 	}
 
-	public List<FormalParameter> formalParameters() {
-		DeclarationWithParametersHeader header = header();
-	  if(header != null) {
-		  return header.formalParameters();
-	  } else {
-	  	return new ArrayList<FormalParameter>();
-	  }
-	}
-	
-	public List<Type> formalParameterTypes() throws LookupException {
-		DeclarationWithParametersHeader header = header();
-	  if(header != null) {
-		  return header.formalParameterTypes();
-	  } else {
-	  	return new ArrayList<Type>();
-	  }
-	}
-	
-	/**
-	 * The index starts at 1.
-	 */
-	public FormalParameter formalParameter(int index) {
-		return header().formalParameter(index);
-	}
-	
-	public FormalParameter lastFormalParameter() {
-		int nbFormalParameters = nbFormalParameters();
-		if(nbFormalParameters > 0) {
-		  return formalParameter(nbFormalParameters);
-		} else {
-			return null;
-		}
-	}
-	
-	public int nbFormalParameters() {
-		return header().nbFormalParameters();
-	}
-	
 	public List<TypeParameter> typeParameters() {
 	  return header().typeParameters();
 	}
@@ -122,49 +85,6 @@ public abstract class Method extends MemberImpl implements DeclarationContainer,
 		return header().typeParameter(index);
 	}
 
-	/**
-	 * Return a string representation for the name of the method. This is just a convenience method.
-	 * DO NOT USE IT TO IDENTIFY METHODS! The signature identifies a method, not just its name.
-	 * @return
-	 */
-	public String name() {
-		DeclarationWithParametersHeader header = header();
-		if(header != null) {
-		  return header.name();
-		} else {
-			return null;
-		}
-	}
-	
-	public DeclarationWithParametersSignature signature() {
-		return header().signature();
-	}
-	
-	public void setSignature(Signature signature) {
-		setHeader((MethodHeader) header().createFromSignature(signature));
-	}
-	
-	public void setName(String name) {
-		header().setName(name);
-	}
-	
-	/**
-	 * Set the header of this method.
-	 * @param header
-	 */
-	public void setHeader(MethodHeader header) {
-	  set(_header,header);
-	}
-	  
-	  /**
-	   * Return the signature of this member.
-	   */
-	  public MethodHeader header() {
-	    return _header.getOtherEnd();
-	  }
-	  
-	  private Single<MethodHeader> _header = new Single<MethodHeader>(this,true);
-	
 	/******************
 	 * IMPLEMENTATION *
 	 ******************/
@@ -174,19 +94,6 @@ public abstract class Method extends MemberImpl implements DeclarationContainer,
 	public abstract void setImplementation(Implementation implementation);
 
 	/****/
-
-	/*@
-	 @ also public behavior
-	 @
-	 @ // A method introduces itself as a method.
-	 @ post \result.contains(this);
-	 @ post \result.size() == 1;
-	 @*/
-	public List<Member> getIntroducedMembers() {
-		List<Member> result = new ArrayList<Member>();
-		result.add(this);
-		return result;
-	}
 
 	/********
 	 * MISC *
@@ -235,54 +142,6 @@ public abstract class Method extends MemberImpl implements DeclarationContainer,
 ////		return excs;
 //	}
 
-//	/*@
-//	  @ also public behavior
-//	  @
-//	  @ post \result == getType();
-//	  @*/
-//	public Type getNearestType() {
-//		return nearestAncestor(Type.class);
-//	}
-
-	/**********
-	 * ACCESS *
-	 **********/
-
-//	public boolean sameSignatureAs(Method other) throws MetamodelException {
-//		boolean result = other.getName().equals(getName());
-//		int nbParams = getNbParameters();
-//		result = result && (other.getNbParameters() == nbParams);
-//		if (result) {
-//			List mine = getParameters();
-//			List others = other.getParameters();
-//			for (int i = 0; result && (i < nbParams); i++) {
-//				if (!((FormalParameter)mine.get(i)).getType().equals(((FormalParameter)others.get(i)).getType())) {
-//					result = false;
-//				}
-//			}
-//		}
-//		return result;
-//	}
-
-//	/*@
-//	 @ also public behavior
-//	 @
-//	 @ post \result == ! isAbstract() &&
-//	 @                 (
-//	 @                   equals(method) ||
-//	 @                   (
-//	 @                     (method != null) &&
-//	 @                     method.isAbstract() &&
-//	 @                     !is(Static.PROTOTYPE) &&
-//	 @                     !method.is(Static.PROTOTYPE) &&
-//	 @                     sameSignatureAs(method)
-//	 @                   )
-//	 @                 );
-//	 @*/
-//	public final boolean canImplement(Method method) throws MetamodelException {
-//		return  (equals(method) || ((method != null) && !is(new Static()) && (! method.is(new Static())) && method.complete() && sameSignatureAs(method)));
-//	}
-	
 	/***************
 	 * RETURN TYPE *
 	 ***************/
@@ -306,7 +165,6 @@ public abstract class Method extends MemberImpl implements DeclarationContainer,
 			throw new LookupException("Return type reference of method is null");
 		}
 	}
-
 
 	public Method clone() {
 		final Method result = cloneThis();
@@ -423,14 +281,6 @@ public abstract class Method extends MemberImpl implements DeclarationContainer,
 		}
 	}
 
-//	/**
-//	 * @return
-//	 */
-//	public AccessibilityDomain getAccessibilityDomain() throws MetamodelException {
-//		return getParent().getTypeAccessibilityDomain().intersect(getAccessModifier().getAccessibilityDomain(getParent()));
-//	}
-
-
 	/**
 	 * Return the body of this method.
 	 */
@@ -458,143 +308,13 @@ public abstract class Method extends MemberImpl implements DeclarationContainer,
 		}
 		return result;
 	}
-
-  public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
-  	if(element == header()) {
-  		return parent().lexicalLookupStrategy(this);
-  	} else {
-  	  if(_lexical == null) {
-	      _lexical = language().lookupFactory().createLexicalLookupStrategy(localLookupStrategy(), this);
-  	  }
-  	  return _lexical;
-  	}
-  }
-  
-  public LookupStrategy localLookupStrategy() {
-  	if(_local == null) {
-  		_local = language().lookupFactory().createTargetLookupStrategy(this);
-  	}
-  	return _local;
-  }
-  
-  public LookupStrategy localStrategy() {
-  	return localLookupStrategy();
-  }
-  
-  private LookupStrategy _local;
-  
-  private LookupStrategy _lexical;
   
   public LocalLookupStrategy targetContext() throws LookupException {
-//  	return returnType().lexicalLookupStrategy();
   	return returnType().targetContext();
   }
   
-	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
-		return declarations();
-	}
-
-  public List<? extends Declaration> declarations() {
-  	return header().declarations();
-  }
-  
-  public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
-  	return header().declarations(selector);
-  }
-
-// /*@
-//	 @ public behavior
-//	 @
-//	 @ post (other == null) || (! is(Static.PROTOTYPE)) || (!other.is(Static.PROTOTYPE)) || (other.is(Final.PROTOTYPE)) || ! getContainingType().subTypeOf(other.getContainingType()) || ! sameSignatureAs(other)
-//	 @        ==> \result == false;
-//	 @*/
-//	public final boolean overrides(Member other) throws MetamodelException {
-//		boolean result;
-//	  if(other instanceof Method) {
-//	    assert other != null;
-//	    Method<? extends Method> method = (Method<? extends Method>) other;
-//	    Ternary temp = method.is(language().OVERRIDABLE);
-//	    boolean overridable;
-//	    if(temp == Ternary.TRUE) {
-//	      overridable = true;
-//	    } else if (temp == Ternary.FALSE) {
-//	      overridable = false;
-//	    } else {
-//	      throw new MetamodelException("The overridability of the other method could not be determined.");
-//	    }
-//	    result = overridable && sameSignatureAs(method) && getParent().subTypeOf(method.getParent()) && sameKind(method);
-//	  } else {
-//	    result = false;
-//	  }
-//	  return result; 
-//		
-//		//(other != null) && (! is(new Static())) && (!other.is(new Static())) && (!other.is(new Final())) && getParent().subTypeOf(other.getParent()) && sameSignatureAs(other) && sameKind(other);
-//	}
-
 	public abstract boolean sameKind(Method other);
 
-	@Override
-	public VerificationResult verifySelf() {
-		VerificationResult result = Valid.create();
-		if(header() == null) {
-			result = result.and(new BasicProblem(this, "This method has no header"));
-		}
-		return result;
-	}
-	
-	//TODO dees mag teruggezet worden als de metamodelfactory dat correct doet
-	//     NO IT CANNOT BE RESTORED! MOVE TO TOOL EXTENSION FOR EDITOR.
-//	@Override
-//	public void reParse(ChameleonDocument doc, IMetaModelFactory factory) {
-//		//Via codewriter doen.!!
-//		String language = doc.getLanguage();
-//		Syntax writer;
-//		try {
-//			String path = LanguageMgt.getInstance().getWriterPath(language);
-//			writer =  (Syntax)((Class) Class.forName(path)).newInstance();
-////			java.lang.reflect.Method methode = writer.getMethod("toCode",new Class[]{ElementImpl.class});
-////			String methodeCode = (String)methode.invoke(this,language);
-////			factory.replaceMethod(doc,methodeCode,this);
-//			factory.replaceMethod(doc,writer.toCode(this),this);
-//		} catch (RecognitionException e) {
-//
-//			e.printStackTrace();
-//		} catch (TokenStreamException e) {
-//
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//
-//			e.printStackTrace();
-//		} catch (MetamodelException e) {
-//
-//			e.printStackTrace();
-//		} catch (InstantiationException e1) {
-//
-//			e1.printStackTrace();
-//		} catch (IllegalAccessException e1) {
-//
-//			e1.printStackTrace();
-//		} catch (ClassNotFoundException e1) {
-//
-//			e1.printStackTrace();
-//		}catch (SecurityException e) {
-//
-//			e.printStackTrace();
-//		} catch (IllegalArgumentException e) {
-//
-//			e.printStackTrace();
-//		}
-//
-//	}
-
-//	public Method alias(S sig) {
-//		return new MethodAlias(sig,this);
-//	}
-	
-	public Declaration declarator() {
-		return this;
-	}
-	
 	/**
 	 * For debugging purposes because Eclipse detail formatters simply don't work.
 	 */
