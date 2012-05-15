@@ -31,8 +31,7 @@ public abstract class SimpleNameCrossReferenceWithArgumentsSelector<D extends De
 			if (sig.nbTypeReferences() == nbActualParameters()) {
 				List<Type> actuals = getActualParameterTypes();
 				List<Type> formals = sig.parameterTypes();
-				result = MoreSpecificTypesOrder.create().contains(actuals,
-						formals);
+				result = MoreSpecificTypesOrder.create().contains(actuals, formals);
 			} else {
 				result = false;
 			}
