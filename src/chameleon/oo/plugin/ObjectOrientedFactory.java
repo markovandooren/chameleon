@@ -3,9 +3,12 @@ package chameleon.oo.plugin;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespacedeclaration.NamespaceDeclaration;
+import chameleon.core.reference.CrossReferenceTarget;
+import chameleon.oo.expression.MethodInvocation;
 import chameleon.oo.type.RegularType;
 import chameleon.oo.type.Type;
 import chameleon.plugin.PluginImpl;
+import chameleon.support.member.simplename.method.RegularMethodInvocation;
 
 /**
  * A factory class for object oriented languages.
@@ -44,6 +47,17 @@ public abstract class ObjectOrientedFactory extends PluginImpl {
    @*/
 	public NamespaceDeclaration createNamespaceDeclaration(Namespace ns) {
 		return new NamespaceDeclaration(ns);
+	}
+	
+	/**
+	 * Create a new invocation based on the name of the invoked method and the target.
+	 *  
+	 * @param name
+	 * @param target
+	 * @return
+	 */
+	public MethodInvocation createInvocation(String name, CrossReferenceTarget target) {
+		return new RegularMethodInvocation(name, target);
 	}
 
 }
