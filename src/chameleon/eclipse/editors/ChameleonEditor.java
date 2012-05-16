@@ -291,36 +291,35 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 	 * @param positions
 	 * 		The new annotation positions
 	 */
-	public void updateFoldingStructure()
-	{
-		
-	    
-		List<Position> positions = getDocument().getFoldablePositions();
-		System.out.println("Found "+positions.size()+" foldable positions.");
-		chameleonAnnotations.clear();
-		
-		Annotation[] annotations = new Annotation[positions.size()];
-		//ChameleonAnnotation[] annotations = new ChameleonAnnotation[positions.size()];
-		HashMap<Annotation,Position> newAnnotations = new HashMap<Annotation,Position>();
-	   //HashMap<ChameleonAnnotation,Position> newAnnotations = new HashMap<ChameleonAnnotation,Position>();
-	   
-	   for(int i = 0; i < positions.size();i++)
-	   {
-		   //ChameleonAnnotation annotation = new ChameleonAnnotation( positions.get(i),false,false);
-		   ProjectionAnnotation annotation = new ProjectionAnnotation();
-		   Position position = positions.get(i);
-			 int offset =position.offset;
-		   int length = position.length;
-		   Position pos =new Position(offset,length);
-	     newAnnotations.put(annotation,pos );
-	     ChameleonAnnotation chamAnnotation = new ChameleonAnnotation(annotation,pos,false);
-	     chameleonAnnotations.add(chamAnnotation);
-	     annotations[i] = annotation;
-	   }
-		 if(annotationModel != null) {
-			 annotationModel.modifyAnnotations(oldAnnotations, newAnnotations,null);
-		 }
-		 oldAnnotations = annotations;
+	public void updateFoldingStructure() {
+		if(getDocument() != null) {  
+			List<Position> positions = getDocument().getFoldablePositions();
+			System.out.println("Found "+positions.size()+" foldable positions.");
+			chameleonAnnotations.clear();
+
+			Annotation[] annotations = new Annotation[positions.size()];
+			//ChameleonAnnotation[] annotations = new ChameleonAnnotation[positions.size()];
+			HashMap<Annotation,Position> newAnnotations = new HashMap<Annotation,Position>();
+			//HashMap<ChameleonAnnotation,Position> newAnnotations = new HashMap<ChameleonAnnotation,Position>();
+
+			for(int i = 0; i < positions.size();i++)
+			{
+				//ChameleonAnnotation annotation = new ChameleonAnnotation( positions.get(i),false,false);
+				ProjectionAnnotation annotation = new ProjectionAnnotation();
+				Position position = positions.get(i);
+				int offset =position.offset;
+				int length = position.length;
+				Position pos =new Position(offset,length);
+				newAnnotations.put(annotation,pos );
+				ChameleonAnnotation chamAnnotation = new ChameleonAnnotation(annotation,pos,false);
+				chameleonAnnotations.add(chamAnnotation);
+				annotations[i] = annotation;
+			}
+			if(annotationModel != null) {
+				annotationModel.modifyAnnotations(oldAnnotations, newAnnotations,null);
+			}
+			oldAnnotations = annotations;
+	  }
 	}
 	
 	/**

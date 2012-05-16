@@ -33,4 +33,10 @@ public abstract class FixedSignatureMember extends MemberImpl {
   
   private Single<Signature> _signature = new Single<Signature>(this,true);
 
+	@Override
+	public void setName(String name) {
+		signature().setName(name);
+	}
+
+
 }
