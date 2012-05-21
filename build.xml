@@ -22,6 +22,9 @@
   <property name="dist.jar" value="${dist}/jar"/>
   <property name="dist.local.jar" value="${dist.local}/jar"/>
   <property name="src" value="src"/>
+  <property name="build" value="build"/>
+  <property name="srcForDoc" value="${build}/src_for_doc"/>
+  <property name="api" value="${build}/api"/>
 
   <target name="bootstrap">
     <ivy:settings file="ivy/generic_ivy_settings.xml"/>
@@ -49,6 +52,7 @@
     <mkdir dir="${dist.jar}"/>
     <mkdir dir="${dist.local}"/>
     <mkdir dir="${dist.local.jar}"/>
+    <mkdir dir="${build}"/>
 
     <copy includeemptydirs="false" todir="${bin}">
       <fileset dir="${src}">
@@ -60,6 +64,129 @@
 
   <target name="clean">
     <delete dir="${dist}"/>
+    <delete dir="${build}"/>
+  </target>
+
+  <!--<target name="doc" depends="init">-->
+  <target name="prepdoc" depends="init">
+    <delete dir="${srcForDoc}"/>
+    <copy todir="${srcForDoc}">
+      <fileset dir="${src}"/>
+    </copy>
+  </target>
+
+  <target name="delSingleLineComments" depends="prepdoc">
+    <replaceregexp flags="g">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="//.*"/>
+      <substitution expression=""/>
+    </replaceregexp>
+  </target>
+
+  <target name="keywordResult" depends="delSingleLineComments">
+    <replaceregexp flags="g">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="\\result"/>
+      <substitution expression="&lt;b&gt; &#92;result&lt;/b&gt; "/>
+    </replaceregexp>
+  </target>
+
+  <target name="linkStart" depends="keywordResult">
+    <replaceregexp flags="g">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="\*/(\s)*/\*@"/>
+      <substitution expression="&lt;div&gt;"/>
+    </replaceregexp>
+  </target>
+
+  <target name="replaceStart" depends="linkStart">
+    <replaceregexp flags="g">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="/\*@"/>
+      <substitution expression="/** &lt;div&gt;"/>
+    </replaceregexp>
+  </target>
+
+  <target name="replaceEnd" depends="replaceStart">
+    <replaceregexp flags="g">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="@\*/"/>
+      <substitution expression="#!#!#!# &lt;/div&gt; */"/>
+    </replaceregexp>
+  </target>
+
+  <target name="placePreMarker" depends="replaceEnd">
+    <replaceregexp flags="gs" byLine="false">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="@\s*pre"/>
+      <substitution expression="#!#!#!# @ pre"/>
+    </replaceregexp>
+  </target>
+
+  <target name="placePostMarker" depends="placePreMarker">
+    <replaceregexp flags="gs" byLine="false">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="\s*@\s*post"/>
+      <substitution expression="#!#!#!# @ post"/>
+    </replaceregexp>
+  </target>
+
+  <target name="replacePost" depends="placePostMarker">
+    <replaceregexp flags="gs" byLine="false">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="@ post(.*?)#!#!#!#"/>
+      <substitution expression="&lt;font color=&quot;green&quot;&gt; &lt;pre&gt; &lt;b&gt; post &lt;/b&gt; \1 &lt;/pre&gt; &lt;/font&gt; &lt;br/&gt; ${line.separator}"/>
+    </replaceregexp>
+  </target>
+
+  <target name="cleanup" depends="replacePost">
+    <replaceregexp flags="gm" byLine="false">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="\s*@(\s*#!#!#!#\s*|\s+)"/>
+      <substitution expression=""/>
+    </replaceregexp>
+  </target>
+
+  <target name="doc" depends="cleanup">
+    <delete dir="${api}"/>
+    <javadoc
+      destdir="${api}"
+      author="true"
+      version="true"
+      use="true"
+      windowtitle="Chameleon API">
+
+      <fileset dir="${srcForDoc}" defaultexcludes="yes">
+        <include name="**/*.java"/>
+        <!-- <exclude name="com/dummy/test/doc-files/**"/> -->
+      </fileset>
+
+      <doctitle><![CDATA[<h1>Chameleon API documentation</h1>]]></doctitle>
+      <bottom><![CDATA[<i>Copyright &#169; 2001-2012 KU Leuven</i>]]></bottom>
+      <tag name="todo" scope="all" description="To do:"/>
+      <!-- <group title="Group 1 Packages" packages="com.dummy.test.a*"/>
+      <group title="Group 2 Packages" packages="com.dummy.test.b*:com.dummy.test.c*"/>-->
+      <!-- <link offline="true" href="http://download.oracle.com/javase/6/docs/api/" packagelistLoc="C:\tmp"/> -->
+      <link href="http://people.cs.kuleuven.be/marko.vandooren/chameleon/api/"/>
+    </javadoc>
   </target>
 
   <target name="compile" depends="init">
