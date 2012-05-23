@@ -19,32 +19,18 @@ public class Defined extends DynamicChameleonProperty {
     super(name, lang, mutex,Declaration.class);
   }
   
-  /**
-   * An object is defined if and only if it is a Definition, and
-   * it is complete. 
-   */
- /*@
-   @ behavior
-   @
-   @ post \result == (element instanceof Definition) && ((Definition)element).complete();
-   @*/
-  @Override public Ternary appliesTo(Element element) {
-		PropertySet<Element,ChameleonProperty> declared = element.declaredProperties();
-		Ternary result = declared.implies(this);
-		if(result == Ternary.UNKNOWN) {
-			if(element instanceof Declaration) {
-				if(result == Ternary.UNKNOWN) {
-					try {
-						result = ((Declaration)element).complete() ? Ternary.TRUE : Ternary.FALSE;
-					} catch (LookupException e) {
-						result = Ternary.UNKNOWN; //not required, but allows breakpoint 
-					}
-				}
-			} else {
-				result = Ternary.FALSE;
+  protected Ternary selfAppliesTo(Element element) {
+  	Ternary result;
+		if(element instanceof Declaration) {
+			try {
+				result = ((Declaration)element).complete() ? Ternary.TRUE : Ternary.FALSE;
+			} catch (LookupException e) {
+				result = Ternary.UNKNOWN; //not required, but allows breakpoint 
 			}
+		} else {
+			result = Ternary.FALSE;
 		}
-    return result;
+		return result;
   }
 
 }

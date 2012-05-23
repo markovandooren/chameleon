@@ -85,7 +85,47 @@
     </replaceregexp>
   </target>
 
-  <target name="keywordResult" depends="delSingleLineComments">
+  <target name="removeSpecHeader" depends="delSingleLineComments">
+    <replaceregexp flags="gm">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="^\s*@\s*public\s*behavior\s*$"/>
+      <substitution expression=""/>
+    </replaceregexp>
+  </target>
+
+  <target name="keywordOld" depends="removeSpecHeader">
+    <replaceregexp flags="g">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="\\old"/>
+      <substitution expression="&lt;b&gt;&#92;old&lt;/b&gt;"/>
+    </replaceregexp>
+  </target>
+
+  <target name="keywordExists" depends="keywordOld">
+    <replaceregexp flags="g">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="\\exists"/>
+      <substitution expression="&lt;b&gt;&#92;exists&lt;/b&gt;"/>
+    </replaceregexp>
+  </target>
+
+  <target name="keywordForAll" depends="keywordExists">
+    <replaceregexp flags="g">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="\\result"/>
+      <substitution expression="&lt;b&gt;&#92;result&lt;/b&gt;"/>
+    </replaceregexp>
+  </target>
+
+  <target name="keywordResult" depends="keywordForAll">
     <replaceregexp flags="g">
       <fileset dir="${srcForDoc}">
         <include name="**/*.java"/>
@@ -145,7 +185,17 @@
     </replaceregexp>
   </target>
 
-  <target name="replacePost" depends="placePostMarker">
+  <target name="replacePre" depends="placePostMarker">
+    <replaceregexp flags="gs" byLine="false">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="@ pre(.*?)#!#!#!#"/>
+      <substitution expression="&lt;font color=&quot;red&quot;&gt; &lt;pre&gt; &lt;b&gt; pre &lt;/b&gt; \1 &lt;/pre&gt; &lt;/font&gt; &lt;br/&gt; ${line.separator}"/>
+    </replaceregexp>
+  </target>
+
+  <target name="replacePost" depends="replacePre">
     <replaceregexp flags="gs" byLine="false">
       <fileset dir="${srcForDoc}">
         <include name="**/*.java"/>

@@ -7,6 +7,7 @@ import org.rejuse.logic.ternary.Ternary;
 import org.rejuse.predicate.SafePredicate;
 import org.rejuse.property.DynamicProperty;
 import org.rejuse.property.PropertyMutex;
+import org.rejuse.property.PropertySet;
 import org.rejuse.property.PropertyUniverse;
 
 import chameleon.core.element.Element;
@@ -30,6 +31,27 @@ public abstract class DynamicChameleonProperty extends DynamicProperty<Element,C
 	public DynamicChameleonProperty(String name, PropertyUniverse<ChameleonProperty> universe, Class<? extends Element> validElementType) {
 		this(name, universe, new PropertyMutex<ChameleonProperty>(), validElementType);
 	}
+
+	
+  /**
+   * An object is defined if and only if it is a Definition, and
+   * it is complete. 
+   */
+ /*@
+   @ behavior
+   @
+   @ post \result == (element instanceof Definition) && ((Definition)element).complete();
+   @*/
+  @Override public Ternary appliesTo(Element element) {
+		PropertySet<Element,ChameleonProperty> declared = element.declaredProperties();
+		Ternary result = declared.implies(this);
+		if(result == Ternary.UNKNOWN) {
+			result = selfAppliesTo(element);
+		}
+    return result;
+  }
+
+  protected abstract Ternary selfAppliesTo(Element element);
 
 	private final class InverseDynamicChameleonProperty extends InverseProperty<Element, ChameleonProperty> implements ChameleonProperty {
 		private InverseDynamicChameleonProperty(String name, PropertyUniverse<ChameleonProperty> universe,
