@@ -1,0 +1,67 @@
+<presentationmodel>
+	<stylerule element="*" decorator="__Name" description="Variable and Function Names">
+		<foreground>#0000A0</foreground>
+		<background>#FFFFFF</background>
+		<bold />
+	</stylerule>
+	
+	<stylerule element="chameleon.support.expression.RegularLiteral" decorator="__ALL" description="Literals">
+		<foreground>#0000FF</foreground>
+		<background>#FFFFFF</background>
+	</stylerule>	
+	
+	<stylerule element="chameleon.core.type.RegularType" decorator="__ALL" description="Classes">
+		<foldable/>
+	</stylerule>
+	<stylerule element="chameleon.support.member.simplename.method.NormalMethod" decorator="__ALL" description="Methods">
+		<foldable />
+	</stylerule>	
+	
+	<stylerule element="*" decorator="__MODIFIER" description="Modifier">
+		<foreground>#000000</foreground>
+		<background>#FFFFFF</background>
+		<italic />
+	</stylerule>
+	
+	<stylerule element="*" decorator="__KEYWORD"  description="Keywords">
+		<foreground>#820759</foreground>
+		<background>#FFFFFF</background>
+		<bold />
+	</stylerule>
+	<stylerule element="*" decorator="__CROSS_REFERENCE"  description="Cross References">
+		<foreground>#A000E0</foreground>
+		<background>#FFFFFF</background>
+		<bold />
+	</stylerule>		
+
+	<stylerule element="*" decorator="__PRIMITIVE"  description="Primitive Types">
+		<foreground>#A0A0E0</foreground>
+		<background>#FFFFFF</background>
+		<bold />
+	</stylerule>		
+
+	<outline>
+		<element default="visible" description="Classes">Type</element>
+		<element default="hidden" description="Compilation Units">CompilationUnit</element>
+		<element default="visible" description="Packages">NamespacePart</element>
+		<element default="visible" description="Variables">MemberVariable</element>
+		<element default="visible" description="Methods">RegularMethod</element>
+	</outline>
+	
+  <indentation>
+    <element default="false" description="Packages">NamespacePart</element>
+    <element default="true" description="Classes">JavaClass</element>
+    <element default="true" description="Inner Classes">JavaInnerClass</element>
+    <element default="true" description="Anonymous Inner Types">AnonymousInnerType</element>
+    <element default="true" description="Constructors">Constructor</element>
+    <element default="true" description="Methods">RegularMethod</element>
+    <element default="true" description="For Statement">ForStatement</element>
+    <element default="true" description="While Statement">WhileStatement</element>
+    <element default="true" description="Do Statement">DoStatement</element>
+    <element default="true" description="Try Statements">TryStatement</element>
+    <element default="true" description="Synchronized Statement">SynchronizedStatement</element>
+    <element default="true" description="If Then Else Statement">IfThenElseStatement</element>
+    <element default="true" description="Block">Block</element>
+  </indentation>
+	
+</presentationmodel>
