@@ -82,6 +82,7 @@ public abstract class LanguageImpl implements Language {
 		setName(name);
 		setLookupStrategyFactory(factory);
 		initializePropertyRules();
+		initializeValidityRules();
 		SCOPE_MUTEX = new PropertyMutex<ChameleonProperty>();
 	}
 	
