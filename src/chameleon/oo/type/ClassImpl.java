@@ -175,7 +175,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
           	prefix = null;
           }
         }
-        return prefix == null ? null : (prefix.equals("") ? "" : prefix+".")+getName();
+        return prefix == null ? null : (prefix.equals("") ? "" : prefix+".")+name();
     }
 
     public String toString() {
@@ -346,13 +346,6 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 	      return result;
     }
     
-
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#getType()
-		 */
-    public Type getType() {
-        return this;
-    }
 
   	/***********
   	 * MEMBERS *
@@ -677,24 +670,24 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
       return (List<T>)tmp;
   	}
 
-  	public CheckedExceptionList getCEL() throws LookupException {
-        CheckedExceptionList cel = new CheckedExceptionList();
-        for(TypeElement el : localMembers()) {
-        	cel.absorb(el.getCEL());
-        }
-        return cel;
-    }
+//  	public CheckedExceptionList getCEL() throws LookupException {
+//        CheckedExceptionList cel = new CheckedExceptionList();
+//        for(TypeElement el : localMembers()) {
+//        	cel.absorb(el.getCEL());
+//        }
+//        return cel;
+//    }
 
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#getAbsCEL()
-		 */
-    public CheckedExceptionList getAbsCEL() throws LookupException {
-      CheckedExceptionList cel = new CheckedExceptionList();
-      for(TypeElement el : localMembers()) {
-      	cel.absorb(el.getAbsCEL());
-      }
-      return cel;
-    }
+//    /* (non-Javadoc)
+//		 * @see chameleon.oo.type.Tajp#getAbsCEL()
+//		 */
+//    public CheckedExceptionList getAbsCEL() throws LookupException {
+//      CheckedExceptionList cel = new CheckedExceptionList();
+//      for(TypeElement el : localMembers()) {
+//      	cel.absorb(el.getAbsCEL());
+//      }
+//      return cel;
+//    }
 
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#declarations()

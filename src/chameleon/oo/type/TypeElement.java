@@ -2,11 +2,9 @@ package chameleon.oo.type;
 
 import java.util.List;
 
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.modifier.ElementWithModifiers;
 import chameleon.oo.member.Member;
-import chameleon.oo.statement.CheckedExceptionList;
 
 /**
  * A class of elements that can be direct children of a type.
@@ -30,8 +28,4 @@ public interface TypeElement extends ElementWithModifiers {
   
   public List<? extends Member> declaredMembers();
 
-  public abstract CheckedExceptionList getCEL() throws LookupException;
-	
-	public abstract CheckedExceptionList getAbsCEL() throws LookupException;
-    
 }

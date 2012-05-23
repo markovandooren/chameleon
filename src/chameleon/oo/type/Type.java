@@ -17,44 +17,19 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.member.Member;
 import chameleon.oo.member.MemberRelationSelector;
-import chameleon.oo.statement.CheckedExceptionList;
-import chameleon.oo.statement.ExceptionSource;
 import chameleon.oo.type.generics.TypeParameter;
 import chameleon.oo.type.inheritance.InheritanceRelation;
 import chameleon.util.Pair;
 
-public interface Type extends ExceptionSource, DeclarationContainer, DeclarationWithType, Member {
+public interface Type extends DeclarationContainer, DeclarationWithType, Member {
 
 	public Class<SimpleNameSignature> signatureType();
-
-	public Type declarationType();
-
-	public void flushLocalCache();
 
 	public void accumulateAllSuperTypes(Set<Type> acc) throws LookupException;
 	
 	public abstract List<InheritanceRelation> explicitNonMemberInheritanceRelations();
 
 	public List<InheritanceRelation> implicitNonMemberInheritanceRelations();
-	
-	/********
-	 * NAME *
-	 ********/
-
-	/*@
-	 @ public behavior
-	 @
-	 @ post \result != null;
-	 @*/
-	public String getName();
-
-	/**
-	 * Return a new for showing information to the user. For types,
-	 * this method tries to return the fully qualified name. If that fails,
-	 * it returns the name. Finally, if that fails as well, it returns the empty
-	 * string.
-	 */
-//	public String infoDisplayName();
 	
 	/**
 	 * Return the fully qualified name.
@@ -117,8 +92,6 @@ public interface Type extends ExceptionSource, DeclarationContainer, Declaration
 	/**********
 	 * ACCESS *
 	 **********/
-
-	public Type getType();
 
 	/**
 	 * Add the given element to this type.
@@ -324,9 +297,9 @@ public interface Type extends ExceptionSource, DeclarationContainer, Declaration
 	 * EXCEPTION SOURCE *
 	 ********************/
 
-	public CheckedExceptionList getCEL() throws LookupException;
-
-	public CheckedExceptionList getAbsCEL() throws LookupException;
+//	public CheckedExceptionList getCEL() throws LookupException;
+//
+//	public CheckedExceptionList getAbsCEL() throws LookupException;
 
 	public List<? extends Declaration> declarations() throws LookupException;
 

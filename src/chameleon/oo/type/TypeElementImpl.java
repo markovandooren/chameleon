@@ -6,14 +6,12 @@ import java.util.List;
 import org.rejuse.property.Property;
 import org.rejuse.property.PropertyMutex;
 
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.modifier.ElementWithModifiersImpl;
 import chameleon.core.modifier.Modifier;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
 import chameleon.oo.member.Member;
-import chameleon.oo.statement.CheckedExceptionList;
 
 /**
  * Support class for member-like elements that can be the direct children of a type.
@@ -23,13 +21,13 @@ import chameleon.oo.statement.CheckedExceptionList;
 public abstract class TypeElementImpl extends ElementWithModifiersImpl implements TypeElement {
   
 
-	public CheckedExceptionList getCEL() throws LookupException {
-	  return new CheckedExceptionList();	
-	}
-	
-	public CheckedExceptionList getAbsCEL() throws LookupException {
-		return new CheckedExceptionList();
-	}
+//	public CheckedExceptionList getCEL() throws LookupException {
+//	  return new CheckedExceptionList();	
+//	}
+//	
+//	public CheckedExceptionList getAbsCEL() throws LookupException {
+//		return new CheckedExceptionList();
+//	}
 
 	public abstract TypeElementImpl clone();
 
