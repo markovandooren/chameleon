@@ -25,7 +25,7 @@ import chameleon.plugin.output.Syntax;
  */
 public abstract class EclipseBootstrapper {
 
-	public EclipseBootstrapper() {
+	private EclipseBootstrapper() {
 		_extensions = new ArrayList<String>();
 		registerFileExtensions();
 	}

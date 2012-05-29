@@ -97,7 +97,7 @@ public abstract class ElementReferenceWithTarget<R extends Declaration> extends 
 	  @     (getTarget().getPackageOrType() == null ==> \result == 
 	  @         getTarget().getPackageOrType().getTargetContext().findPackageOrType(getName()));
 	  @*/
-	 protected <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
+	 public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
 	   X result = null;
 	   
 	   //OPTIMISATION
