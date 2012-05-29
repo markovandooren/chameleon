@@ -16,6 +16,9 @@ public class PrefixOperatorInvocation extends SimpleNameMethodInvocation<PrefixO
    */
   public PrefixOperatorInvocation(String name, CrossReferenceTarget target) {
     super(target, name);
+    if(target == null) {
+    	System.out.println("debug");
+    }
   }
 
   protected PrefixOperatorInvocation cloneInvocation(CrossReferenceTarget target) {
