@@ -618,7 +618,10 @@ public abstract class LanguageImpl implements Language {
 		 * Returns true if the given character is a valid character
 		 * for an identifier.
 		 */
-		public abstract boolean isValidIdentifierCharacter(char character);
+  	public boolean isValidIdentifierCharacter(char character) {
+  		return true;
+  	}
+
 		
 		
 		
