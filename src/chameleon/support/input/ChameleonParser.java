@@ -15,6 +15,7 @@ import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.RootNamespace;
+import chameleon.core.reference.CrossReference;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.InputProcessor;
 import chameleon.input.PositionMetadata;
@@ -43,18 +44,27 @@ public abstract class ChameleonParser<L extends Language> extends Parser impleme
 	   }
 
 	   public void setLocation(Element element, Token start, Token stop) {
-	     CommonToken begin = (CommonToken)start;
-	     CommonToken end = (CommonToken)stop;
-	         if(begin != null && end != null) {
-	         	int offset = begin.getStartIndex();
-	         	int length = end.getStopIndex() - offset;
-	         	for(InputProcessor processor: inputProcessors()) {
-	         		//processor.setLocation(element, new Position2D(begin.getLine(), begin.getCharPositionInLine()), new Position2D(end.getLine(), end.getCharPositionInLine()));
-	         		processor.setLocation(element, offset, length, getDocument());
-	         	}
-	         }
+	  	 if(element != null) {
+	  		 CommonToken begin = (CommonToken)start;
+	  		 CommonToken end = (CommonToken)stop;
+	  		 if(begin != null && end != null) {
+	  			 int offset = begin.getStartIndex();
+	  			 int length = end.getStopIndex() - offset;
+	  			 for(InputProcessor processor: inputProcessors()) {
+	  				 setLocation(element, offset, length, processor);
+	  			 }
+	  		 }
+	  	 }
 	   }
 
+		private void setLocation(Element element, int offset, int length, InputProcessor processor) {
+			Document document = getDocument();
+			processor.setLocation(element, offset, length, document,ALL);
+			if(element instanceof CrossReference && (! element.hasMetadata(PositionMetadata.CROSSREFERENCE))) {
+				processor.setLocation(element, offset, length, document, PositionMetadata.CROSSREFERENCE);
+			}
+		}
+	   
 		public List<InputProcessor> inputProcessors() {
 			return language().processors(InputProcessor.class);
 		}
@@ -120,6 +130,11 @@ public abstract class ChameleonParser<L extends Language> extends Parser impleme
 	     }
 	   }
 	   
+	   public void setCrossReference(Element element, Token start, Token stop) {
+	     if(start != null && stop != null) {
+	       setLocation(element, start, stop, CROSSREFERENCE);
+	     }
+	   }
 	   public void setAllLocation(Element element, Token token) {
 	     if(token != null) {
 	       setLocation(element, token, token, ALL);
