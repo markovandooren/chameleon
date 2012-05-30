@@ -82,9 +82,9 @@ public class CallersContentProvider implements ITreeContentProvider {
 	 */
 	private Collection<CrossReference> getInvocations() {
 		if(_cachedInvocations == null){
-			_cachedInvocations = new HashSet<CrossReference>(projectNature.getModel().descendants(CrossReference.class));
+			_cachedInvocations = projectNature.getModel().descendants(CrossReference.class);
 		}
-		return _cachedInvocations;
+		return new HashSet<CrossReference>(_cachedInvocations);
 	}
 
 	public Object getParent(Object inputObject) {
