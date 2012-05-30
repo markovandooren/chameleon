@@ -102,13 +102,12 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		_projectNature = projectNature;
 		initialize();
 
-		this._path=path;
+		_path=path;
 
 		if (file!=null){ 		
 			try {
-				parseFile(file);
 				_relativePathName = path.removeFirstSegments(1).toString();
-				_name = file.getName();
+				parseFile(file);
 			} catch (CoreException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -117,11 +116,10 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		} else{
 			IPath projPath = path.removeFirstSegments(1);	 
 			file = projectNature.getProject().getFile(projPath);
-			_name = file.getName();
 			_relativePathName = projPath.toString();
-
 		}
-		this._file = file;
+		_name = file.getName();
+		_file = file;
 	}
 
 	public IPath path() {
@@ -153,17 +151,29 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		return _path.toOSString().equals(cd._path.toOSString());
 	}
 	
-	//parses the given file
+	/**
+	 * Parses the given file. This is done to ensure that the document contents is set after
+	 * construction. In the editor, the set() method will be invoked again by the document provider when
+	 * an editor is created or activated. For now, however, the document provider is not used for reading
+	 * all files in the model (API files, and project files for which no editor is opened).
+	 * @param file
+	 * @throws CoreException
+	 * @throws IOException
+	 */
 	private void parseFile(IFile file) throws CoreException, IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(file.getContents()));
 		String nxt = "";
-		String tot = "";
+		StringBuilder builder = new StringBuilder();
+		builder.append(reader.readLine());
 		while (nxt!=null) {
 			nxt = reader.readLine();
-			if (nxt!=null) tot+="\n"+nxt;
+			if (nxt!=null) {
+				builder.append("\n");
+				builder.append(nxt);
+			}
 		}
 		// QUESTION: does this trigger the reconcilers?
-		set(tot);
+		set(builder.toString());
 	}
 
 	/*
