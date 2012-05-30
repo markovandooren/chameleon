@@ -2,6 +2,8 @@ package chameleon.core.declaration;
 
 import java.util.List;
 
+import org.rejuse.predicate.TypePredicate;
+
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.util.association.Multi;
@@ -43,7 +45,11 @@ public abstract class CommonDeclarationContainingDeclaration extends
 	}
 
 	@Override
-	public List<? extends Declaration> declarations() throws LookupException {
+	public List<? extends Declaration> declarations() {
 		return _declarations.getOtherEnds();
+	}
+	
+	public <D extends Declaration> List<D> declarations(Class<D> kind) {
+		return (List<D>) new TypePredicate(kind).filterReturn(declarations());
 	}
 }

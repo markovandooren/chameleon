@@ -13,11 +13,6 @@ import chameleon.plugin.Processor;
  */
 public interface InputProcessor extends Processor {
 
-	/**
-	 * Set the locations of the given element. The location is a range marked by the offset and the length of the element.
-	 */
-  public void setLocation(Element element, int offset, int length, Document compilationUnit);
-
   public void setLocation(Element element, int offset, int length, Document compilationUnit, String tagType);
   
   /**

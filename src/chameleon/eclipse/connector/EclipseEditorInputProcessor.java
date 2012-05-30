@@ -54,22 +54,6 @@ public class EclipseEditorInputProcessor extends ProcessorImpl implements InputP
 		return projectNature().document(element);
 	}
 
-	public void setLocation(Element element, int offset, int length, Document compilationUnit) {
-		if(element == null) {
-			//throw new ChameleonProgrammerException("Trying to set decorator to a null element.");
-		} else {
-		// ECLIPSE NEEDS A +1 INCREMENT FOR THE LENGTH
-		length++;
-		setSingleLocation(element, offset, length, compilationUnit, PositionMetadata.ALL);
-		if(element instanceof CrossReference) {
-			setSingleLocation(element, offset, length, compilationUnit, PositionMetadata.CROSSREFERENCE);
-		}
-		if(element instanceof Modifier) {
-			setSingleLocation(element, offset, length, compilationUnit, PositionMetadata.MODIFIER);
-		}
-		}
-	}
-	
 	public void setLocation(Element element, int offset, int length, Document compilationUnit, String tagType) {
 		if(element == null) {
 			throw new ChameleonProgrammerException("Trying to set decorator to a null element.");
@@ -80,33 +64,40 @@ public class EclipseEditorInputProcessor extends ProcessorImpl implements InputP
 	}
 
 
-	private void setSingleLocation(Element element, int offset, int length, Document compilationUnit, String tagType) {
-		ChameleonDocument doc = document(compilationUnit);
+	private void setSingleLocation(Element element, int offset, int length, Document document, String tagType) {
+		ChameleonDocument doc = document(document);
 		Element parent = element.parent();
+		// 1. Replace element with stub in the parent
+		// 2. Force the document to be an ancestors of the element
+		// 3. Add metadata
+		// 4. Replace stub with element in the parent to restore the original state
 		SingleAssociation stub = new SingleAssociation(new Object());
 			if(! element.hasMetadata(tagType)) {
-				SingleAssociation elementParentLink = element.parentLink();
-				Association parentLink = elementParentLink.getOtherRelation();
+				SingleAssociation parentLink = element.parentLink();
+				Association childLink = parentLink.getOtherRelation();
 				boolean cleanup = false;
-				if(element != compilationUnit) {
+				if(element != document) {
 					cleanup = true;
-					if(parentLink != null) {
-					  parentLink.replace(elementParentLink, stub);
+					if(childLink != null) {
+					  childLink.replace(parentLink, stub);
 					}
-					element.setUniParent(compilationUnit);
+					// 2: We force the document to be an ancestor of the element.
+					//    This is needed because adding the metadata requires additional
+					//    synchronisation with the eclipse ChameleonDocument that corresponds
+					//    to the Document
+					element.setUniParent(document);
 				}
 				EclipseEditorTag dec = new EclipseEditorTag(doc,offset,length,element,tagType);
 				if(cleanup) {
 					element.setUniParent(null);
-					if(parentLink != null) {
+					if(childLink != null) {
 						// The setUniParent(null) call above create a new parentLink for the element, so we
 						// must obtain a new reference.
-						elementParentLink = element.parentLink();
-						parentLink.replace(stub,elementParentLink);
+						parentLink = element.parentLink();
+						childLink.replace(stub,parentLink);
 					}
 				}
 			}
-//		}
 			if(element.parent() != parent) {
 				throw new ChameleonProgrammerException();
 			}
