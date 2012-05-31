@@ -13,6 +13,7 @@ import org.antlr.runtime.TokenStream;
 import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
+import chameleon.core.modifier.Modifier;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.RootNamespace;
 import chameleon.core.reference.CrossReference;
@@ -62,6 +63,9 @@ public abstract class ChameleonParser<L extends Language> extends Parser impleme
 			processor.setLocation(element, offset, length, document,ALL);
 			if(element instanceof CrossReference && (! element.hasMetadata(PositionMetadata.CROSSREFERENCE))) {
 				processor.setLocation(element, offset, length, document, PositionMetadata.CROSSREFERENCE);
+			}
+			if(element instanceof Modifier && (! element.hasMetadata(PositionMetadata.MODIFIER))) {
+				processor.setLocation(element, offset, length, document, PositionMetadata.MODIFIER);
 			}
 		}
 	   
