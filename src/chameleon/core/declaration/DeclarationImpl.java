@@ -26,6 +26,11 @@ public abstract class DeclarationImpl extends ElementImpl implements Declaration
 	public Declaration selectionDeclaration() throws LookupException {
 		return this;
 	}
+	
+	/**
+	 * Oracle, please fix the broken Java 7 compiler.
+	 */
+	public abstract DeclarationImpl clone();
 
 	@Override
 	public Declaration actualDeclaration() throws LookupException {

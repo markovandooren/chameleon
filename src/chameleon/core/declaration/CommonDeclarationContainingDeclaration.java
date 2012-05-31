@@ -1,9 +1,11 @@
 package chameleon.core.declaration;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.rejuse.predicate.TypePredicate;
 
+import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.util.association.Multi;
@@ -32,6 +34,9 @@ public abstract class CommonDeclarationContainingDeclaration extends
 		set(_signature,signature);
 	}
 	
+	public List<Element> childrenNotInScopeOfDeclarations() {
+		return Collections.EMPTY_LIST;
+	}
 
 	private Multi<Declaration> _declarations = new Multi<Declaration>(this);
 	
@@ -52,4 +57,18 @@ public abstract class CommonDeclarationContainingDeclaration extends
 	public <D extends Declaration> List<D> declarations(Class<D> kind) {
 		return (List<D>) new TypePredicate(kind).filterReturn(declarations());
 	}
+	
+	@Override
+	public abstract CommonDeclarationContainingDeclaration clone();
+	
+	@Override
+	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
+		if(childrenNotInScopeOfDeclarations().contains(child)) {
+			return parent().lexicalLookupStrategy(this);
+		} else {
+			return super.lexicalLookupStrategy(child);
+		}
+	}
+	
+
 }

@@ -1,5 +1,6 @@
 package chameleon.core.declaration;
 
+import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.scope.Scope;
@@ -19,6 +20,9 @@ public abstract class DeclarationContainingDeclarationImpl extends DeclarationCo
 		signature().setName(name);
 	}
 
+	@Override
+	public abstract DeclarationContainingDeclarationImpl clone();
+	
 	@Override
 	public Declaration selectionDeclaration() throws LookupException {
 		return this;
