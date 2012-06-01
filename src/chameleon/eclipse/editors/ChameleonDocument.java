@@ -216,20 +216,6 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 */
 	public ChameleonProjectNature getProjectNature(){
 		return _projectNature;
-//		try {
-//			IProjectNature nature = _project.getNature(ChameleonProjectNature.NATURE);
-//			return (ChameleonProjectNature) nature;
-//		}
-//		//TODO : Marko : why are all these exceptions caught here?
-//		catch (NullPointerException e) {
-//			return null;
-//		} 
-//		catch (CoreException e) {
-//			return null;
-//		}
-//		catch (ClassCastException e) {
-//			return null;
-//		}
 	}
 	
 	public Object getModel(){
@@ -701,7 +687,10 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		HashMap<String, Object> attributes = ChameleonPresentationReconciler.createProblemMarkerMap(message);
 		EclipseEditorTag positionTag = null;
 		Element element = problem.element();
-		positionTag = (EclipseEditorTag) element.metadata(PositionMetadata.ALL);
+		positionTag = (EclipseEditorTag) element.metadata(PositionMetadata.NAME);
+		if(positionTag == null) {
+			positionTag = (EclipseEditorTag) element.metadata(PositionMetadata.ALL);
+		}
 		if(positionTag == null && element.parent() != null) {
 			element = element.parent();
 			positionTag = (EclipseEditorTag) element.metadata(PositionMetadata.ALL);
