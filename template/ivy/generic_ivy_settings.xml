@@ -5,17 +5,10 @@
 			defaultResolver="chameleon"
 			defaultConflictManager="all" />		<!-- in order to get all revisions without any eviction -->
   <resolvers>
-    <filesystem name="local" m2compatible="true">
-      <ivy pattern="${ivy.local.dir}/[organisation]/[module]/ivys/ivy-[revision].xml"/>
-	  <artifact pattern="${ivy.local.dir}/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"/>
-    </filesystem>
     <url name="chameleon" m2compatible="true">
       <ivy pattern="${chameleon.repository.url}/[organisation]/[module]/ivys/ivy-[revision].xml"/>
 	  <artifact pattern="${chameleon.repository.url}/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"/>
     </url>
     <ibiblio name="maven" m2compatible="true" />
   </resolvers>
-  <modules>
-    <module organisation="distrinet.cs.kuleuven.be" name="rejuse-local" resolver="local"/>
-  </modules>
 </ivysettings>
