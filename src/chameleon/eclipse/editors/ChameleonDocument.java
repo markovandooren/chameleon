@@ -33,6 +33,7 @@ import org.rejuse.predicate.SafePredicate;
 
 import chameleon.core.Config;
 import chameleon.core.document.Document;
+import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.validation.BasicProblem;
@@ -215,20 +216,6 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 */
 	public ChameleonProjectNature getProjectNature(){
 		return _projectNature;
-//		try {
-//			IProjectNature nature = _project.getNature(ChameleonProjectNature.NATURE);
-//			return (ChameleonProjectNature) nature;
-//		}
-//		//TODO : Marko : why are all these exceptions caught here?
-//		catch (NullPointerException e) {
-//			return null;
-//		} 
-//		catch (CoreException e) {
-//			return null;
-//		}
-//		catch (ClassCastException e) {
-//			return null;
-//		}
 	}
 	
 	public Object getModel(){
@@ -699,9 +686,14 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		String message = problem.message();
 		HashMap<String, Object> attributes = ChameleonPresentationReconciler.createProblemMarkerMap(message);
 		EclipseEditorTag positionTag = null;
-		positionTag = (EclipseEditorTag) problem.element().metadata(PositionMetadata.ALL);
+		Element element = problem.element();
+		positionTag = (EclipseEditorTag) element.metadata(PositionMetadata.NAME);
 		if(positionTag == null) {
-			positionTag = (EclipseEditorTag) problem.element().metadata(PositionMetadata.ALL);
+			positionTag = (EclipseEditorTag) element.metadata(PositionMetadata.ALL);
+		}
+		if(positionTag == null && element.parent() != null) {
+			element = element.parent();
+			positionTag = (EclipseEditorTag) element.metadata(PositionMetadata.ALL);
 		}
 		if(positionTag != null) {
 			int offset = positionTag.getOffset();

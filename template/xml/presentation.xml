@@ -1,8 +1,7 @@
 <presentationmodel>
-	<stylerule element="*" decorator="__Name" description="Variable and Function Names">
-		<foreground>#0000A0</foreground>
+	<stylerule element="*" decorator="__Name" description="Declaration Names">
+		<foreground>#C20003</foreground>
 		<background>#FFFFFF</background>
-		<bold />
 	</stylerule>
 	
 	<stylerule element="chameleon.support.expression.RegularLiteral" decorator="__ALL" description="Literals">
@@ -18,32 +17,29 @@
 	</stylerule>	
 	
 	<stylerule element="*" decorator="__MODIFIER" description="Modifier">
-		<foreground>#000000</foreground>
+		<foreground>#000CA9</foreground>
 		<background>#FFFFFF</background>
 		<italic />
 	</stylerule>
 	
 	<stylerule element="*" decorator="__KEYWORD"  description="Keywords">
-		<foreground>#820759</foreground>
+		<foreground>#000CA9</foreground>
 		<background>#FFFFFF</background>
-		<bold />
 	</stylerule>
 	<stylerule element="*" decorator="__CROSS_REFERENCE"  description="Cross References">
-		<foreground>#A000E0</foreground>
+		<foreground>#000000</foreground>
 		<background>#FFFFFF</background>
-		<bold />
 	</stylerule>		
 
 	<stylerule element="*" decorator="__PRIMITIVE"  description="Primitive Types">
-		<foreground>#A0A0E0</foreground>
+		<foreground>#3786F7</foreground>
 		<background>#FFFFFF</background>
-		<bold />
 	</stylerule>		
 
 	<outline>
 		<element default="visible" description="Classes">Type</element>
-		<element default="hidden" description="Compilation Units">CompilationUnit</element>
-		<element default="visible" description="Packages">NamespacePart</element>
+		<element default="hidden" description="Documents">CompilationUnit</element>
+		<element default="visible" description="Packages">NamespaceDeclaration</element>
 		<element default="visible" description="Variables">MemberVariable</element>
 		<element default="visible" description="Methods">RegularMethod</element>
 	</outline>

@@ -25,6 +25,7 @@
   <property name="build" value="build"/>
   <property name="srcForDoc" value="${build}/src_for_doc"/>
   <property name="api" value="${build}/api"/>
+  <property name="template" value="template"/>
 
   <target name="bootstrap">
     <ivy:settings file="ivy/generic_ivy_settings.xml"/>
@@ -250,7 +251,10 @@
     <jar jarfile="${dist.local.jar}/chameleon-local.jar" basedir="${bin}"        includes="**"/>
   </target>
 
-  <target name="build" depends="jar">
+  <target name="build" depends="jar,make-template">
+  </target>
+
+  <target name="all" depends="build,doc">
   </target>
 
   <target name="build-version" depends="compile">
@@ -263,5 +267,11 @@
     <ivy:publish resolver="pubchameleon" pubrevision="${version}"             overwrite="true">
       <artifacts pattern="${dist.jar}/[artifact]-[revision].[ext]"/>
     </ivy:publish>
+  </target>
+
+  <target name="make-template">
+    <zip destfile="${dist}/template.zip">
+      <fileset dir="${template}" includes="**"/>
+    </zip>
   </target>
 </project>
