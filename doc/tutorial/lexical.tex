@@ -1,0 +1,58 @@
+\subsection{Defining the Lexical Structure}
+
+One of the most important structures in a language is its lexical structure. The lexical structure of a source file is vital for many operations such as performing name lookups. The \chameleon\ framework therefore provides an abstract view on the lexical structure with advanced methods for querying and modifying it.
+\begin{figure}
+ \includegraphics[width=\linewidth]{lexelement}
+\caption{Method for navigating the lexical structure.\label{fig:lexelement}}
+\end{figure}
+
+Figure~\ref{fig:lexelement} shows a part of the top interface \code{Element}, which must be implemented by every language construct. The \code{Element} interface defines many methods for navigating the lexical structure of a model. The basic methods are \code{parent} and \code{children}. More advanced methods such as searching for ancestors and descendant that satisfy a certain condition are built on top of these methods. The \code{disconnect} method removes an element from the model. Class \code{ElementImpl} provides a default implementation for most of these methods.
+
+\begin{figure}[b]
+ \includegraphics[width=\linewidth]{bidi}
+\caption{Associations for lexical and derived elements.\label{fig:association}}
+\end{figure}
+
+The association between an element and its parent is bidirectional. \chameleon\ provides utility classes to easily manage these associations, as illustrated in Fig~\ref{fig:association}. Instead of implementing the bidirectional associations using fields and method, we delegate this logic to \code{Association} objects. Every \code{Element} has a \code{Single} association object to connect it to its parent. Depending on the lexical structure of the construct, it also has a number of \code{Single} or \code{Multi} association objects to connect its children. The association between the \code{Association} objects and the model elements, as represented by the fat arrows, is fixed when the model element is constructed. Only the associations between the \code{Association} objects changes. An association object also defines the multiplicity of the association. This multiplicity is used when the correctness of a model is verified (e.g. type checking in programming languages), drastically reducing the amount a 
+verification code 
+that 
+must be written.
+
+Figure~\ref{implement} illustrates how the lexical structure of a method header could be implemented. Three association objects are used to implement the associations with the return type, the parameters, and the exception clause. The association with the return type reference is mandatory. Delegation methods are then written to modify and query the method header. The actual delegation is done in the \code{set}, \code{add}, and \code{remove} methods that are implemented in \code{ElementImpl}. These methods take care of selecting the parent association object of the argument, and correctly handle \code{null} references.
+
+\begin{figure}
+\begin{java}
+class MethodHeader {
+  // access modifiers omitted to save space
+  Single<TypeRef> ret = new Single<>(this,true);
+  Multi<FormalParameter> pars = new Multi<>(this);
+  Single<ExceptionClause> ec = new Single<>(this);
+
+  void setReturnType(TypeRef tref)
+    {connect(tref,ret);}
+
+  void addParameter(FormalParameter p)
+    {add(p,pars);}
+
+  void removeParameter(FormalParameter p)
+    {remove(p,pars);}
+
+  void setReturnType(ExceptionClause clause)
+    {connect(clause,ec);}
+} 
+\end{java}
+\caption{Implementing the lexical structure.\label{implement}}
+\end{figure}
+
+The \code{children} method in \code{ElementImpl} uses the \code{associations} method to obtain the \code{Association} objects, and aggregates the connected elements. The \code{associations} method itself uses reflection to obtain the association objects. If a language construct uses \code{Association} objects that are not part of the lexical structure, such as the association between a \code{NamespaceDeclaration} and a \code{Namespace}, it can indicate that the field must be excluded. The end result is that defining and verifying the lexical structure of language constructs requires very little code.
+
+While this approach increases memory use, our experience has shown that the use of this technique is very important. Over the years, \chameleon\ has been used in 17 master theses. We found that every single time a student implemented any bidirectional association directly instead of using the association classes, there was a bug in the implementation. In a number of cases, this resulted in errors that were very hard to trace back to the actual bug. The association objects guarantee that the bidirectional association are always consistent. In addition, association objects can be locked and event listeners can be registered to detect the erroneous removal or addition of elements.
+
+The last methods of \code{Element} with respect to the lexical structure are \code{clone} and \code{disconnect}. The \code{clone} method creates a deep clone of an element, but does not connect it to a parent element. The \code{disconnect} method ensures that an element and its descendants are completely removed from the model. These methods are typically used for transformations and for generating derived elements.
+
+\subsection{The Lexical Structure of Smalloy}
+
+In this section, we define the language constructs of Smalloy. For now, every class will extend ElementImpl. Later on, we will change the extends clauses to ensure that the language model is properly integrated in the Chameleon framework.
+\begin{java}
+ 
+\end{java}
