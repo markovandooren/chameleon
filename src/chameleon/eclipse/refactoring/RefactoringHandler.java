@@ -19,7 +19,7 @@ public class RefactoringHandler extends AbstractHandler {
 	}
 
 	public ChameleonEditor editor() {
-		return ChameleonEditor.getCurrentActiveEditor();
+		return ChameleonEditor.getActiveEditor();
 	}
 	
 }

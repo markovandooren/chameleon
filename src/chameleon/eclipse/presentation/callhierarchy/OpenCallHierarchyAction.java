@@ -38,20 +38,13 @@ public abstract class OpenCallHierarchyAction extends Action {
 
 	@Override
 	public void run() {
-		ChameleonEditor editor = ChameleonEditor.getCurrentActiveEditor();
-		if(editor!=null){
-			ChameleonDocument doc = editor.getDocument();
-			if(doc != null){
-				// set labelprovider
-				Language lang = doc.language();
-				if(lang != null){
-					view.getTreeViewer().setLabelProvider(new ChameleonLabelProvider(lang, true, true, false));
-				}
-				// set content provider
-				ChameleonProjectNature projNat = doc.getProjectNature();
-				view.getTreeViewer().setContentProvider(getContentProvider(projNat));
-			}
+		Language lang = ChameleonEditor.getActiveLanguage();
+		if(lang != null){
+			view.getTreeViewer().setLabelProvider(new ChameleonLabelProvider(lang, true, true, false));
 		}
+		// set content provider
+		ChameleonProjectNature projNat = doc.getProjectNature();
+		view.getTreeViewer().setContentProvider(getContentProvider(projNat));
 		// set input method:
 		Declaration currentDeclaration = getCurrentDeclaration();
 		view.getTreeViewer().setInput(new RootDeclaration(currentDeclaration));
@@ -64,7 +57,7 @@ public abstract class OpenCallHierarchyAction extends Action {
 	 * Returns the method surrounding the cursor in the current active editor if any, null otherwise.
 	 */
 	protected Declaration getCurrentDeclaration() {
-		ChameleonEditor editor = ChameleonEditor.getCurrentActiveEditor();
+		ChameleonEditor editor = ChameleonEditor.getActiveEditor();
 		if(editor!=null){
 			ChameleonDocument doc = editor.getDocument();
 			if(doc != null){

@@ -89,7 +89,7 @@ public class OpenTypeHierarchyAction extends Action implements IDoubleClickListe
 	@Override
 	public void run() {
 		Type rootType = getRootType();
-		ChameleonEditor editor = ChameleonEditor.getCurrentActiveEditor();
+		ChameleonEditor editor = ChameleonEditor.getActiveEditor();
 		setEditor(editor);
 		if(rootType != null && editor != null){
 			Language lang = editor.getDocument().language();
@@ -228,12 +228,12 @@ public class OpenTypeHierarchyAction extends Action implements IDoubleClickListe
 
 	protected ChameleonEditor getEditor(){
 		if(editor==null)
-			editor = ChameleonEditor.getCurrentActiveEditor();
+			editor = ChameleonEditor.getActiveEditor();
 		return editor;
 	}
 
 	protected ChameleonEditor getCurrentEditor(){
-		ChameleonEditor currEditor = ChameleonEditor.getCurrentActiveEditor();
+		ChameleonEditor currEditor = ChameleonEditor.getActiveEditor();
 		if(currEditor != null){
 			editor = currEditor;
 		}
