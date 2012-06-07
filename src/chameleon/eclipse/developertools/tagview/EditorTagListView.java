@@ -115,7 +115,7 @@ public class EditorTagListView extends ViewPart {
 
 		@Override
 		public void run() {
-			editor = ChameleonEditor.getCurrentActiveEditor();
+			editor = ChameleonEditor.getActiveEditor();
 			if(editor != null){
 				ChameleonDocument doc = editor.getDocument();
 				// set filter predicate to True
@@ -147,7 +147,7 @@ public class EditorTagListView extends ViewPart {
 		@Override
 		public void run() {
 			try {
-				editor = ChameleonEditor.getCurrentActiveEditor(); // can be null
+				editor = ChameleonEditor.getActiveEditor(); // can be null
 				if(editor!=null){
 				ChameleonDocument doc = editor.getDocument(); // can throw NullPointerException
 				int offset = ((TextSelection)editor.getSelectionProvider().getSelection()).getOffset(); // can throw ClassCastException or NullPointerException

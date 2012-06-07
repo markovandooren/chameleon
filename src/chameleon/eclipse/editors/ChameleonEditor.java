@@ -777,7 +777,7 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 	 * Returns the chameleonEditor (if any) of the currently active page
 	 * can return null!
 	 */
-	public static ChameleonEditor getCurrentActiveEditor(){
+	public static ChameleonEditor getActiveEditor(){
 		IWorkbenchWindow activeWorkbenchWindow = Workbench.getInstance().getActiveWorkbenchWindow();
 		if(activeWorkbenchWindow==null)
 			return null;
@@ -791,9 +791,14 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 		return null;
 	}
 
+	public static ChameleonDocument getActiveDocument(){
+		ChameleonEditor editor = getActiveEditor();
+		return editor == null ? null : editor.getDocument();
+	}
 
-
-
-	
+	public static Language getActiveLanguage() {
+		ChameleonDocument doc = getActiveDocument();
+		return doc == null ? null : doc.language();
+	}
 
 }

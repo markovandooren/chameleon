@@ -133,7 +133,7 @@ public class ModelView extends ViewPart {
 		}
 		@Override
 		public void run() {
-			ChameleonEditor editor = ChameleonEditor.getCurrentActiveEditor();
+			ChameleonEditor editor = ChameleonEditor.getActiveEditor();
 			if(editor != null){
 				Language lang = editor.getDocument().chameleonDocument().language();
 				drillDownAdapter.reset();
@@ -154,7 +154,7 @@ public class ModelView extends ViewPart {
 		}
 		@Override
 		public void run() {
-			ChameleonEditor editor = ChameleonEditor.getCurrentActiveEditor();
+			ChameleonEditor editor = ChameleonEditor.getActiveEditor();
 			if(editor != null){
 				Language lang = editor.getDocument().chameleonDocument().language();
 				drillDownAdapter.reset();
@@ -222,7 +222,7 @@ public class ModelView extends ViewPart {
 				Object selectedObject = ((StructuredSelection)sel).getFirstElement();
 				if(selectedObject instanceof Element){
 					Element element = ((Element) selectedObject);
-					ChameleonEditor editor = ChameleonEditor.getCurrentActiveEditor();
+					ChameleonEditor editor = ChameleonEditor.getActiveEditor();
 					boolean succeeded = ChameleonEditor.showInEditor(element, false, false, editor, true, PositionMetadata.ALL);
 					// if no document of element found, just highlight the EditorTag in the current active editor:
 					// eg. Modifiers cannot be highlighted with showInEditor

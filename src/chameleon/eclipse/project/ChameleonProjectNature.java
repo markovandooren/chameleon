@@ -531,7 +531,7 @@ public class ChameleonProjectNature implements IProjectNature {
 	 * @return
 	 */
 	public static Language getCurrentLanguage(){
-		ChameleonEditor editor = ChameleonEditor.getCurrentActiveEditor();
+		ChameleonEditor editor = ChameleonEditor.getActiveEditor();
 		if(editor!=null){
 			ChameleonDocument doc = editor.getDocument();
 			if(doc!= null) {

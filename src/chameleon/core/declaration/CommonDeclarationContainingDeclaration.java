@@ -8,6 +8,8 @@ import org.rejuse.predicate.TypePredicate;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
+import chameleon.core.validation.BasicProblem;
+import chameleon.core.validation.VerificationResult;
 import chameleon.util.association.Multi;
 import chameleon.util.association.Single;
 
@@ -70,5 +72,21 @@ public abstract class CommonDeclarationContainingDeclaration extends
 		}
 	}
 	
-
+  @Override
+  public VerificationResult verifySelf() {
+  	VerificationResult result = super.verifySelf();
+  	try {
+  	List<? extends Declaration> declarations = declarations();
+  	for(Declaration first: declarations) {
+  		for(Declaration second: declarations) {
+  			if(first != second && first.signature().sameAs(second.signature())) {
+  				result = result.and(new BasicProblem(first, "There is another declaration with the same signature defined in this container."));
+  			}
+  		}
+  	}
+  	} catch(LookupException exc) {
+  		// Do nothing. If the computation of declarations fail, some other verification rule should report a problem.
+  	}
+  	return result;
+  }
 }

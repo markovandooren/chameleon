@@ -64,7 +64,7 @@ public class EditorTagTextView extends ViewPart {
 		}
 		@Override
 		public void run() {
-			ChameleonEditor editor = ChameleonEditor.getCurrentActiveEditor();
+			ChameleonEditor editor = ChameleonEditor.getActiveEditor();
 			if(editor != null){
 				ChameleonDocument doc = editor.getDocument();
 				String editorTagText = ShowEditorTags.getChameleonEditorPositionsStringOfDocument(doc, doc.get(), showOnlyAllEditorTags);
