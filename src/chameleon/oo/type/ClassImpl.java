@@ -277,10 +277,10 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     
     protected LookupStrategy _lexicalParametersLookupStrategy;
     
-    protected LocalInheritanceLookupStrategy _localInheritanceLookupStrategy = new LocalInheritanceLookupStrategy(this);
+    protected LocalParameterBlockLookupStrategy _localInheritanceLookupStrategy = new LocalParameterBlockLookupStrategy(this);
     
-  	protected class LocalInheritanceLookupStrategy extends LocalLookupStrategy<Type> {
-  	  public LocalInheritanceLookupStrategy(Type element) {
+  	protected class LocalParameterBlockLookupStrategy extends LocalLookupStrategy<Type> {
+  	  public LocalParameterBlockLookupStrategy(Type element) {
   			super(element);
   		}
 
@@ -289,8 +289,8 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
   	  public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
 //  	    return selector.selection(parameters());
   			List<D> result = new ArrayList<D>();
-  			List<ParameterBlock> imports = parameterBlocks();
-  			Iterator<ParameterBlock> iter = imports.iterator();
+  			List<ParameterBlock> parameterBlocks = parameterBlocks();
+  			Iterator<ParameterBlock> iter = parameterBlocks.iterator();
   			// If the selector found a match, we stop.
   			// We must iterate in reverse.
   			while(result.isEmpty() && iter.hasNext()) {
