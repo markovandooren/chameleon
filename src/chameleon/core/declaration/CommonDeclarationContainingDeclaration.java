@@ -51,7 +51,7 @@ public abstract class CommonDeclarationContainingDeclaration extends
 		return language().lookupFactory().createLocalLookupStrategy(this);
 	}
 
-	public List<? extends Declaration> localDeclarations() throws LookupException {
+	public List<? extends Declaration> localDeclarations() {
 		return _declarations.getOtherEnds();
 	}
 	
