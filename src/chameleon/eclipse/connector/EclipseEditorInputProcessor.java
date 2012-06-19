@@ -105,22 +105,24 @@ public class EclipseEditorInputProcessor extends ProcessorImpl implements InputP
 
 	public void markParseError(int offset, int length, String message,Element element) {
 		ChameleonDocument document = document(element);
-		String header;
-		int lineNumber;
-		try {
-			lineNumber = document.getLineOfOffset(offset);
-			int offsetWithinLine = offset - document.getLineOffset(lineNumber);
-			lineNumber++;
-			offsetWithinLine++;
-			header = "line "+lineNumber+":"+(offsetWithinLine);
-		} catch (BadLocationException e) {
-			header = "cannot determine position of syntax error:";
-			lineNumber = 0;
+		if(document != null) {
+			String header;
+			int lineNumber;
+			try {
+				lineNumber = document.getLineOfOffset(offset);
+				int offsetWithinLine = offset - document.getLineOffset(lineNumber);
+				lineNumber++;
+				offsetWithinLine++;
+				header = "line "+lineNumber+":"+(offsetWithinLine);
+			} catch (BadLocationException e) {
+				header = "cannot determine position of syntax error:";
+				lineNumber = 0;
+			}
+			//FIXME don't like that all this static code is in ChameleonPresentationReconciler.
+			Map<String,Object> attributes = ChameleonPresentationReconciler.createProblemMarkerMap(header+" "+message);
+			document.setProblemMarkerPosition(attributes, offset, length);
+			document.addProblemMarker(attributes);
 		}
-		//FIXME don't like that all this static code is in ChameleonPresentationReconciler.
-		Map<String,Object> attributes = ChameleonPresentationReconciler.createProblemMarkerMap(header+" "+message);
-		document.setProblemMarkerPosition(attributes, offset, length);
-		document.addProblemMarker(attributes);
 	}
 
 	public void removeLocations(Element element) {
