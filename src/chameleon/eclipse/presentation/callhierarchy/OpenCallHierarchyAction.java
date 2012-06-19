@@ -42,6 +42,7 @@ public abstract class OpenCallHierarchyAction extends Action {
 		if(lang != null){
 			view.getTreeViewer().setLabelProvider(new ChameleonLabelProvider(lang, true, true, false));
 		}
+		ChameleonDocument doc = ChameleonEditor.getActiveDocument();
 		// set content provider
 		ChameleonProjectNature projNat = doc.getProjectNature();
 		view.getTreeViewer().setContentProvider(getContentProvider(projNat));

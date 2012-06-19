@@ -51,12 +51,16 @@ public abstract class CommonDeclarationContainingDeclaration extends
 		return language().lookupFactory().createLocalLookupStrategy(this);
 	}
 
-	@Override
-	public List<? extends Declaration> declarations() {
+	public List<? extends Declaration> localDeclarations() throws LookupException {
 		return _declarations.getOtherEnds();
 	}
 	
-	public <D extends Declaration> List<D> declarations(Class<D> kind) {
+	@Override
+	public List<? extends Declaration> declarations() throws LookupException {
+		return localDeclarations();
+	}
+
+	public <D extends Declaration> List<D> declarations(Class<D> kind) throws LookupException {
 		return (List<D>) new TypePredicate(kind).filterReturn(declarations());
 	}
 	
