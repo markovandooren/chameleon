@@ -24,6 +24,10 @@ public class FormalTypeParameter extends TypeParameter {
 		super(signature);
 	}
 	
+	public FormalTypeParameter(String name) {
+		this(new SimpleNameSignature(name));
+	}
+	
   
 	@Override
 	public FormalTypeParameter clone() {
