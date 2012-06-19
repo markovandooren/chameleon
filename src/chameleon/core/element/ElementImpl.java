@@ -1269,7 +1269,7 @@ public abstract class ElementImpl implements Element {
 	  */
 	 protected <E extends Element> E cloneDescendantsTo(E e) {
 		 List<ChameleonAssociation<?>> mine = associations();
-		 List<ChameleonAssociation<?>> others = associations();
+		 List<ChameleonAssociation<?>> others = e.associations();
 		 int size = mine.size();
 		 for(int i = 0; i < size; i++) {
 			 mine.get(i).cloneTo((ChameleonAssociation) others.get(i));
