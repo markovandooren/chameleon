@@ -1,7 +1,10 @@
 package chameleon.core.project;
 
 import java.io.IOException;
+import java.util.Map;
 
+import chameleon.core.declaration.Declaration;
+import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.RootNamespace;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.ParseException;
@@ -22,18 +25,18 @@ public abstract class InputSource {
  /*@
    @ public behavior
    @
-   @ pre defaultNamespace != null;
+   @ pre targetNamespace != null;
    @
-   @ post defaultNamespace() == defaultNamespace;
+   @ post targetNamespace() == defaultNamespace;
    @*/
-	public InputSource(RootNamespace defaultNamespace) {
-		if(defaultNamespace == null) {
+	public InputSource(RootNamespace targetNamespace) {
+		if(targetNamespace == null) {
 			throw new ChameleonProgrammerException();
 		}
-		_defaultNamespace = defaultNamespace;
+		_targetNamespace = targetNamespace;
 	}
 
-	private RootNamespace _defaultNamespace;
+	private Namespace _targetNamespace;
 	
 	/**
 	 * Return the root namespace in which the elements from this input
@@ -44,8 +47,8 @@ public abstract class InputSource {
    @
    @ post \result != null;
    @*/
-	public RootNamespace defaultNamespace() {
-		return _defaultNamespace;
+	public Namespace targetNamespace() {
+		return _targetNamespace;
 	}
 	
 	/**
@@ -56,10 +59,18 @@ public abstract class InputSource {
 	 * calls made after the first time should have no "effect".
 	 * 
 	 * With effect, we mean that <i>when ignoring object identity</i>, the model should
-	 * remain the same. It is of course allowed to replace a Method with another Method that is 
+	 * remain the same. It is of course allowed to replace for examplea Method with another Method that is 
 	 * structurally identical. Otherwise, it would be necessary to first read the input source
 	 * and only replace the original elements in the model if there is a structural change, which
 	 * is hard and expensive.
 	 */
 	public abstract void refresh() throws ParseException, IOException;
+	
+	/**
+	 * Return a map that contains the top level declarations that can be found in this input source.
+	 * The resulting map maps simple names onto the type of declaration.
+	 * 
+	 * @return
+	 */
+	public abstract Map<String, Class<? extends Declaration>> candidates();
 }
