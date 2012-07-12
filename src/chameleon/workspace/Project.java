@@ -1,11 +1,15 @@
-package chameleon.core.project;
+package chameleon.workspace;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import org.rejuse.association.MultiAssociation;
 
 import chameleon.core.namespace.RootNamespace;
 import chameleon.input.ParseException;
+import chameleon.util.association.Multi;
 
 /**
  * A class that represents the concept of a project. A project
@@ -89,5 +93,11 @@ public abstract class Project extends InputSource {
 		}
 	}
 	
-
+	public List<Project> dependencies() {
+		return _dependencies.getOtherEnds();
+	}
+	
+	private MultiAssociation<Project, Project> _dependencies = new MultiAssociation<Project, Project>(this);
+	
+  
 }

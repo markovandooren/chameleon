@@ -1,4 +1,4 @@
-package chameleon.core.project;
+package chameleon.workspace;
 
 import java.io.IOException;
 import java.util.Map;
