@@ -1,15 +1,17 @@
 package chameleon.workspace;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.rejuse.association.MultiAssociation;
+import org.rejuse.association.SingleAssociation;
 
+import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.RootNamespace;
 import chameleon.input.ParseException;
-import chameleon.util.association.Multi;
 
 /**
  * A class that represents the concept of a project. A project
@@ -28,12 +30,62 @@ public abstract class Project extends InputSource {
    @
    @ pre defaultNamespace != null;
    @
+   @ post name() == name;
    @ post defaultNamespace() == defaultNamespace;
    @*/
-	public Project(RootNamespace defaultNamespace) {
+	public Project(String name, RootNamespace defaultNamespace) {
 		super(defaultNamespace);
 	}
 
+	private SingleAssociation<Project, Workspace> _workspaceLink;
+	
+	SingleAssociation<Project, Workspace> workspaceLink() {
+		return _workspaceLink;
+	}
+	
+	public Workspace workspace() {
+		return _workspaceLink.getOtherEnd();
+	}
+	
+	public void setWorkspace(Workspace workspace) {
+		if(workspace != null) {
+			workspace.add(this);
+		} else {
+			_workspaceLink.connectTo(null);
+		}
+	}
+	
+	public String name() {
+		return _name;
+	}
+	
+	public void setName(String name) {
+		_name = name;
+	}
+	
+	private String _name;
+
+	private MultiAssociation<Project, ProjectReference> _projectDependencies;
+	
+	public List<ProjectReference> dependencyReferences() {
+		return _projectDependencies.getOtherEnds();
+	}
+	
+	public void add(ProjectReference projectReference) {
+		_projectDependencies.add(projectReference.projectLink());
+	}
+	
+	public void remove(ProjectReference projectReference) {
+		_projectDependencies.remove(projectReference.projectLink());
+	}
+
+	public List<Project> dependencies() throws LookupException {
+		List<Project> result = new ArrayList<Project>();
+		for(ProjectReference ref: dependencyReferences()) {
+			result.add(ref.getElement());
+		}
+		return result;
+	}
 	private Set<InputSource> _inputSources = new HashSet<InputSource>();
 
 	/**
@@ -93,11 +145,4 @@ public abstract class Project extends InputSource {
 		}
 	}
 	
-	public List<Project> dependencies() {
-		return _dependencies.getOtherEnds();
-	}
-	
-	private MultiAssociation<Project, Project> _dependencies = new MultiAssociation<Project, Project>(this);
-	
-  
 }
