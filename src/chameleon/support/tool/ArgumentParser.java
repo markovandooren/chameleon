@@ -20,6 +20,8 @@ import chameleon.input.ParseException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
+import chameleon.test.provider.DirectoryProjectBuilder;
+import chameleon.workspace.Project;
 
 /**
  * @author Tim Laeremans
@@ -33,8 +35,8 @@ public class ArgumentParser {
    @
    @ post getFactory() == factory;
    @*/
-  public ArgumentParser(ModelFactory factory, boolean output) {
-    _factory = factory;
+  public ArgumentParser(DirectoryProjectBuilder builder, boolean output) {
+  	_builder = builder;
     _output = output;
   }
   
@@ -46,8 +48,8 @@ public class ArgumentParser {
    @ post getFactory() == factory;
    @ post getOutput() == true;
    @*/
-  public ArgumentParser(ModelFactory factory) {
-   this(factory, true);
+  public ArgumentParser(DirectoryProjectBuilder builder) {
+   this(builder, true);
  }
  
   private boolean _output;
@@ -64,11 +66,11 @@ public class ArgumentParser {
    @
    @ post \result != null;
    @*/
-  public ModelFactory getFactory() {
-    return _factory;
+  public DirectoryProjectBuilder builder() {
+    return _builder;
   }
 
-	private ModelFactory _factory;
+	private DirectoryProjectBuilder _builder;
 
 	  /**
 	   * The first argument is structured as follows:
@@ -93,7 +95,7 @@ public class ArgumentParser {
       }
     }
     //System.out.println("Parsing "+files.size() +" files.");
-    _factory.addToModel(files);
+    builder().addToModel(files);
     Namespace mm = language().defaultNamespace();
     Set<Type> types = new HashSet<Type>();
     
@@ -138,7 +140,11 @@ public class ArgumentParser {
   }
 
 		private Language language() {
-			return _factory.language();
+			return project().language();
+		}
+		
+		protected Project project() {
+			return _builder.project();
 		}
   
 //  static class OutputParserFactory implements ILinkageFactory{

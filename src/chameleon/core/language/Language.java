@@ -324,13 +324,13 @@ public interface Language extends PropertyUniverse<ChameleonProperty> {
   /**
    * Set the default namespace.
    */
-  public void setDefaultNamespace(RootNamespace defaultNamespace);
+//  public void setDefaultNamespace(RootNamespace defaultNamespace);
 
   /**
    * Return the association object that represents that association with the
    * default (root) namespace.
    */
-  public Association defaultNamespaceLink();
+  public Association projectLink();
 
   /**
    * Return the factory for creating lookup strategies.

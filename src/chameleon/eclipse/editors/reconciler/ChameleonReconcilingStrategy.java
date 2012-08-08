@@ -186,7 +186,7 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 						
 						ModelFactory factory = language().plugin(ModelFactory.class);
 //						String text = getDocument().get(position.getOffset(), position.getLength());
-						factory.reParse(element);
+						factory.refresh(element);
 //						element.reParse(new DocumentEditorToolExtension(getDocument()),getDocument().modelFactory());
 						
 						

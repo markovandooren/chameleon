@@ -223,10 +223,10 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 //		return getProjectNature().getModel();
 	}
 	
-	public ModelFactory modelFactory(){
-		return getProjectNature().modelFactory();
-	}
-
+//	public ModelFactory projectFactory(){
+//		return getProjectNature().modelFactory();
+//	}
+//
 
 	/**
 	 * 
@@ -389,8 +389,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 			if(Config.debug()) {
 			  System.out.println("Re-add document to project");
 			}
-			Namespace root = getProjectNature().getModel();
-			getProjectNature().addModelElement(this, root);
+			getProjectNature().addModelElement(this);
 		}
 
 		System.out.println("Einde reparse");

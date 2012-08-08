@@ -9,7 +9,7 @@ import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.core.reference.CrossReference;
 import chameleon.test.provider.BasicDescendantProvider;
 import chameleon.test.provider.BasicNamespaceProvider;
-import chameleon.test.provider.ModelProvider;
+import chameleon.workspace.ProjectBuilder;
 
 public abstract class CompositeTest {
 
@@ -30,7 +30,7 @@ public abstract class CompositeTest {
 	 */
 	@Test
 	public void testClone() throws Exception {
-		new CloneAndChildTest(modelProvider(), namespaceProvider()).testClone();
+		new CloneAndChildTest(projectBuilder(), namespaceProvider()).testClone();
 	}
 
 	/**
@@ -39,7 +39,7 @@ public abstract class CompositeTest {
 	 */
 	@Test
 	public void testChildren() throws Exception {
-		ChildrenTest childrenTest = new ChildrenTest(modelProvider(), namespaceProvider());
+		ChildrenTest childrenTest = new ChildrenTest(projectBuilder(), namespaceProvider());
 		childrenTest.excludeFieldName(ElementImpl.class, "_parentLink");
 		childrenTest.excludeFieldName(NamespaceDeclaration.class, "_namespaceLink");
 		addExcludes(childrenTest);
@@ -60,7 +60,7 @@ public abstract class CompositeTest {
 	 */
 	@Test
 	public void testCrossReferences() throws Exception {
-		new CrossReferenceTest(modelProvider(), new BasicDescendantProvider<CrossReference>(namespaceProvider(), CrossReference.class)).testCrossReferences();
+		new CrossReferenceTest(projectBuilder(), new BasicDescendantProvider<CrossReference>(namespaceProvider(), CrossReference.class)).testCrossReferences();
 	}
 
 	/**
@@ -68,13 +68,13 @@ public abstract class CompositeTest {
 	 */
 	@Test
 	public void testVerification() throws Exception {
-		new VerificationTest(modelProvider(), new BasicDescendantProvider<NamespaceDeclaration>(namespaceProvider(), NamespaceDeclaration.class)).testVerification();
+		new VerificationTest(projectBuilder(), new BasicDescendantProvider<NamespaceDeclaration>(namespaceProvider(), NamespaceDeclaration.class)).testVerification();
 	}
 
 	/**
 	 * A provider for the model to be tested.
 	 */
-	public abstract ModelProvider modelProvider();
+	public abstract ProjectBuilder projectBuilder();
 
 	/**
 	 * A provider for the namespaces to be tested.

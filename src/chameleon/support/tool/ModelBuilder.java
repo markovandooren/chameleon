@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import chameleon.core.language.Language;
 import chameleon.core.namespace.Namespace;
 import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
-import chameleon.test.provider.BasicModelProvider;
 import chameleon.test.provider.BasicNamespaceProvider;
+import chameleon.test.provider.DirectoryProjectBuilder;
 import chameleon.test.provider.ElementProvider;
+import chameleon.workspace.Project;
 
 /**
  * A class for building models for a command line tool. The input arguments are used to create a model,
@@ -40,7 +40,7 @@ public class ModelBuilder {
    @ pre extension != null;
    @*/
 	public ModelBuilder(ModelFactory modelFactory, String[] arguments, String extension, boolean output, boolean base) throws ParseException, IOException {
-		_modelProvider = new BasicModelProvider(modelFactory, extension);
+		_projectBuilder = new DirectoryProjectBuilder(modelFactory, extension);
 		_output = output;
 		_base = base;
 		_arguments = Arrays.asList(arguments);
@@ -78,7 +78,7 @@ public class ModelBuilder {
      	int baseIndex = low-1;
 			String arg = argument(baseIndex+1);
 			if(! arg.startsWith("@") && ! arg.startsWith("#")&& ! arg.startsWith("%")) {
-     		_modelProvider.includeBase(arg);
+     		_projectBuilder.includeBase(arg);
       }
     }
     _namespaceProvider = new BasicNamespaceProvider();
@@ -87,28 +87,28 @@ public class ModelBuilder {
      	String arg = argument(i+1);
 			if(! arg.startsWith("@")) {
 				if(! arg.startsWith("#")&& ! arg.startsWith("%")) {
-					_modelProvider.includeCustom(arg);
+					_projectBuilder.includeCustom(arg);
 				}
       } else {
 				_namespaceProvider.addNamespace(arg.substring(1));
       }
     }
-    _language = _modelProvider.model();
+    _project = _projectBuilder.project();
 	}
 	
 	public ElementProvider<Namespace> namespaceProvider() {
 		return _namespaceProvider;
 	}
 	
-	public Language language() {
-		return _language;
+	public Project project() {
+		return _project;
 	}
 	
-	private Language _language;
+	private Project _project;
 	
 	private BasicNamespaceProvider _namespaceProvider;
 	
-	private BasicModelProvider _modelProvider;
+	private DirectoryProjectBuilder _projectBuilder;
 	
 	/**
 	 * Return whether an output directory is required.

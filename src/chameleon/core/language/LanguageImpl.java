@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.rejuse.association.Association;
 import org.rejuse.association.MultiAssociation;
@@ -15,7 +15,6 @@ import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
-import org.rejuse.property.PropertyUniverse;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupStrategyFactory;
@@ -23,11 +22,12 @@ import chameleon.core.namespace.RootNamespace;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.property.PropertyRule;
 import chameleon.core.validation.Valid;
-import chameleon.core.validation.VerificationRule;
 import chameleon.core.validation.VerificationResult;
+import chameleon.core.validation.VerificationRule;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.plugin.Plugin;
 import chameleon.plugin.Processor;
+import chameleon.workspace.Project;
 
 /**
  * A class representing a Chameleon language.
@@ -220,8 +220,12 @@ public abstract class LanguageImpl implements Language {
 	 * @return
 	 */
 	public RootNamespace defaultNamespace() {
-        return (RootNamespace)_default.getOtherEnd();
+        return project().namespace();
     }
+	
+	public Project project() {
+		return _default.getOtherEnd();
+	}
 
 	/**
 	 * A property mutex for the scope property.
@@ -591,16 +595,17 @@ public abstract class LanguageImpl implements Language {
      *                           DEFAULT NAMESPACE                            *
      **************************************************************************/
     
-    public void setDefaultNamespace(RootNamespace defaultNamespace) {
-        _default.connectTo(defaultNamespace.languageLink());
+    public void setProject(Project project) {
+        _default.connectTo(project.languageLink());
     }
 
-    private SingleAssociation<Language,RootNamespace> _default = new SingleAssociation<Language,RootNamespace>(this); //todo wegens setDefaultNamespace kan dit niet generisch worden gemaakt?
+    private SingleAssociation<Language,Project> _default = new SingleAssociation<Language,Project>(this); //todo wegens setDefaultNamespace kan dit niet generisch worden gemaakt?
 
     /**
      * @return
      */
-    public Association defaultNamespaceLink() {
+    @Override
+    public Association projectLink() {
         return _default;
     }
 

@@ -10,10 +10,9 @@ import java.util.List;
 import chameleon.core.language.Language;
 import chameleon.eclipse.LanguageMgt;
 import chameleon.exception.ChameleonProgrammerException;
-import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
 import chameleon.plugin.build.Builder;
-import chameleon.plugin.output.Syntax;
+import chameleon.test.provider.DirectoryProjectBuilder;
 
 /**
  * @author Joeri Hendrickx
@@ -106,7 +105,7 @@ public abstract class EclipseBootstrapper {
 		return null;
 	}
 	
-	protected void loadAPIFiles(String extension, String pluginId, ModelFactory factory) throws IOException, ParseException {
+	protected void loadAPIFiles(String extension, String pluginId, DirectoryProjectBuilder builder) throws IOException, ParseException {
 		FilenameFilter filter = LanguageMgt.fileNameFilter(extension);
 		URL directory;
 		try {
@@ -116,7 +115,7 @@ public abstract class EclipseBootstrapper {
 		}
 		List<File> files = LanguageMgt.allFiles(directory, filter);
 		System.out.println("Loading "+files.size()+" API files.");	
-		factory.initializeBase(files);
+		builder.initializeBase(files);
 	}
 
 }

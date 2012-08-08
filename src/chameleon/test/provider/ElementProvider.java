@@ -2,8 +2,7 @@ package chameleon.test.provider;
 
 import java.util.Collection;
 
-import chameleon.core.element.Element;
-import chameleon.core.language.Language;
+import chameleon.workspace.Project;
 
 /**
  * An element provider provides test data to a test class. It typically determines which elements
@@ -17,5 +16,5 @@ import chameleon.core.language.Language;
  */
 public interface ElementProvider<T> {
 
-	public Collection<T> elements(Language language);
+	public Collection<T> elements(Project project);
 }

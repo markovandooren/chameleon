@@ -15,6 +15,7 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
+import chameleon.workspace.Project;
 
 public class RootNamespace extends RegularNamespace {
   static {
@@ -27,9 +28,9 @@ public class RootNamespace extends RegularNamespace {
   /**
    * @param name
    */
-  public RootNamespace(SimpleNameSignature sig, Language language) {
+  public RootNamespace(SimpleNameSignature sig, Project project) {
     super(sig);
-    setLanguage(language); 
+    setProject(project); 
 //    NamespacePart primitiveNP = new NamespacePart(this);
 //    _primitiveNamespacePart.connectTo(primitiveNP.getNamespaceLink());
   }
@@ -40,13 +41,15 @@ public class RootNamespace extends RegularNamespace {
   public RootNamespace(SimpleNameSignature sig) {
   	this(sig,null);
   }
-
-  	public void setLanguage(Language language) {
-  	if(language != null) {
-      _language.connectTo(language.defaultNamespaceLink());
-  	}
-  }
   
+  /**
+   * @param name
+   */
+  public RootNamespace() {
+  	this(new SimpleNameSignature(""),null);
+  }
+
+
 	protected RootNamespace cloneThis() {
 		return new RootNamespace(signature().clone());
 	}
@@ -57,20 +60,29 @@ public class RootNamespace extends RegularNamespace {
 	  new Document(pp);
   }
   
-  private SingleAssociation<RootNamespace,Language> _language = new SingleAssociation<RootNamespace,Language>(this);
+  public void setProject(Project project) {
+  	if(project != null) {
+  		_language.connectTo(project.namespaceLink());
+  	}
+  }
+
+  public Language language() {
+    return project().language();
+  }
+  
+  public Project project() {
+    return _language.getOtherEnd();
+  }
+  
+  public SingleAssociation<RootNamespace,Project> projectLink() {
+  	return _language;
+  }
+	    
+  private SingleAssociation<RootNamespace,Project> _language = new SingleAssociation<RootNamespace,Project>(this);
 
   public Type getNullType() {
 	  return this.language(ObjectOrientedLanguage.class).getNullType();
   }
-  
-  public Language language() {
-    return _language.getOtherEnd();
-  }
-  
-  public SingleAssociation<RootNamespace,Language> languageLink() {
-  	return _language;
-  }
-	  
   
 	@Override
 	public VerificationResult verifySelf() {

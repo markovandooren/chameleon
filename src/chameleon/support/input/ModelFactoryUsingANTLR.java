@@ -22,6 +22,7 @@ import org.rejuse.io.DirectoryScanner;
 import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
+import chameleon.core.namespace.RootNamespace;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.InputProcessor;
 import chameleon.input.ModelFactory;
@@ -36,52 +37,8 @@ import chameleon.util.concurrent.UnsafeAction;
 
 public abstract class ModelFactoryUsingANTLR extends PluginImpl implements ModelFactory {
 
-	public void initializeBase(Collection<File> base) throws IOException, ParseException {
-		addToModel(base);
-//		if(language().defaultNamespace().getSubNamespaces().isEmpty()) {
-//			addToModel(base);
-//		}
-		initializePredefinedElements();
-	}
-	
-    public abstract ModelFactoryUsingANTLR clone();
+  public abstract ModelFactoryUsingANTLR clone();
 
-	protected abstract void initializePredefinedElements();
-
-	/**
-	 * Return the top of the metamodel when parsing the given file.
-	 *
-	 * @param files
-	 *            A set containing all .java files that should be parsed.
-	 * @pre The given set may not be null | files != null
-	 * @pre The given set may only contain effective files | for all o in files: |
-	 *      o instanceof File && | ! ((File)o).isDirectory()
-	 * @return The result will not be null | result != null
-	 * @return All given files will be parsed and inserted into the metamodel
-	 *
-	 * @throws TokenStreamException
-	 *             Something went wrong
-	 * @throws RecognitionException
-	 *             Something went wrong
-	 * @throws MalformedURLException
-	 *             Something went wrong
-	 * @throws FileNotFoundException
-	 *             Something went wrong
-	 * @throws RecognitionException 
-	 */
-	public void addToModel(File file) throws IOException, ParseException {
-    // The file name is used in the lexers and parser to
-    // give more informative error messages
-    String fileName = file.getName();
-
-    // The constructor throws an FileNotFoundException if for some
-    // reason the file can't be read.
-    InputStream fileInputStream = new FileInputStream(file);
-
-		parse(fileInputStream, fileName, new Document());
-	
-	}
-	
 	private boolean _debug;
 	
 	public void setDebug(boolean value) {
@@ -92,73 +49,21 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 		return _debug;
 	}
 
-	public void addToModel(Collection<File> files) throws IOException, ParseException {
-		final int size = files.size();
-		class Counter {
-			private int count;
-			
-			synchronized void increase() {
-				this.count++;
-			}
-			synchronized int get() {
-				return count;
-			}
-		}
-		final Counter counter = new Counter();
-		final BlockingQueue<File> fileQueue = new ArrayBlockingQueue<File>(files.size(), true, files);
-
-	  UnsafeAction<File,Exception> unsafeAction = new UnsafeAction<File,Exception>() {
-		public void actuallyPerform(File file) throws IOException, ParseException {
-					counter.increase();
-					if(_debug) {System.out.println(counter.get()+" of "+size+" :"+file.getAbsolutePath());};
-  			  addToModel(file);
-		} 
-	  };
-	  CallableFactory factory = new QueuePollingCallableFactory<File,Exception>(unsafeAction,fileQueue);
-	  try {
-	  	new FixedThreadCallableExecutor<Exception>(factory).run();
-	  } catch (IOException e) {
-	  	throw e;
-	  } catch (ParseException e) {
-	  	throw e;
-	  } catch (ExecutionException e) {
-	  	Throwable cause = e.getCause();
-			cause.printStackTrace();
-	  	if(cause instanceof IOException) {
-	  		throw (IOException)cause;
-	  	} else if(cause instanceof ParseException) {
-	  		throw (ParseException)cause;
-	  	} 
-	  } catch (Exception e) {
-	  	e.printStackTrace();
-	  }
-	}
 	
 	
-//  // Single threaded
-//	public void addToModel(Collection<File> files) throws IOException, ParseException {
-////	  int count = 0;
-//	  for (File file : files) {
-////	    System.out.println(++count + " Parsing "+ file.getAbsolutePath());
-//	  	addToModel(file);
-//	  }
-//	
-//	}
-
-	public void addToModel(String source, Document cu) throws ParseException {
-	    String name = "document";
-	    InputStream inputStream = new StringBufferInputStream(source);
-	    try {
-				parse(inputStream, name, cu);
-			} catch (IOException e) {
-				// cannot happen if we work with a String
-				throw new ChameleonProgrammerException("IOException while parsing a String.", e);
-			}
-	}
-
-	private void parse(InputStream inputStream, String fileName, Document cu) throws IOException, ParseException {
+	public void parse(String source, Document cu) throws ParseException {
+		InputStream inputStream = new StringBufferInputStream(source);
 		try {
-			ChameleonParser parser = getParser(inputStream, fileName);
+			parse(inputStream, cu);
+		} catch (IOException e) {
+			// cannot happen if we work with a String
+			throw new ChameleonProgrammerException("IOException while parsing a String.", e);
+		}
+	}
+
+	public void parse(InputStream inputStream, Document cu) throws IOException, ParseException {
+		try {
+			ChameleonParser parser = getParser(inputStream);
 			cu.disconnectChildren();
 			parser.setDocument(cu);
 			parser.compilationUnit();
@@ -167,7 +72,7 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 		}
 	}
 	
-	public abstract ChameleonParser getParser(InputStream inputStream, String fileName) throws IOException;
+	public abstract ChameleonParser getParser(InputStream inputStream) throws IOException;
 
 	/**
 	 * @param pathList		The directories to from where to load the cs-files
@@ -183,7 +88,7 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 	    return result;
 	}
 
-	public void reParse(Element element) throws ParseException {
+	public void refresh(Element element) throws ParseException {
 		Document compilationUnit = element.nearestAncestor(Document.class);
 		Language lang = element.language();
 		boolean done = false;
@@ -213,7 +118,13 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 		}
 	}
 	
-	private void clearPositions(Element element, Language lang) {
+	/**
+	 * Remove all positional metadata from the given element using the
+	 * input processors of the given language. 
+	 * @param element
+	 * @param lang
+	 */
+	protected void clearPositions(Element element, Language lang) {
    	for(InputProcessor processor: lang.processors(InputProcessor.class)) {
    		processor.removeLocations(element);
    	}

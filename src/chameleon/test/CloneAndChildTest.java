@@ -15,7 +15,8 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.Namespace;
 import chameleon.input.ParseException;
 import chameleon.test.provider.ElementProvider;
-import chameleon.test.provider.ModelProvider;
+import chameleon.workspace.ProjectException;
+import chameleon.workspace.ProjectBuilder;
 
 /**
  * A test class for the clone and children methods of elements. It test all elements
@@ -41,7 +42,7 @@ public class CloneAndChildTest extends ModelTest {
    @ post modelProvider() == provider;
    @ post namespaceProvider() == namespaceProvider;
    @*/
-	public CloneAndChildTest(ModelProvider provider, ElementProvider<Namespace> namespaceProvider) throws ParseException, IOException {
+	public CloneAndChildTest(ProjectBuilder provider, ElementProvider<Namespace> namespaceProvider) throws ProjectException {
 		super(provider);
 		_namespaceProvider = namespaceProvider;
 	}
@@ -54,7 +55,7 @@ public class CloneAndChildTest extends ModelTest {
 	
 	@Test
 	public void testClone() throws LookupException {
-		for(Namespace namespace: namespaceProvider().elements(language())) {
+		for(Namespace namespace: namespaceProvider().elements(project())) {
 			assertTrue(namespace != null);
 		  for(Element element : namespace.descendants()) {
 		  	test(element);

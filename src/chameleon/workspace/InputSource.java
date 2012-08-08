@@ -10,8 +10,8 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.ParseException;
 
 /**
- * A class representing sources from which a mode is built. These
- * can be file based, editor based,...
+ * A class representing a source from which a Document is built. These
+ * can be file based, editor based, ...
  * 
  * @author Marko van Dooren
  * @author Nelis Boucke

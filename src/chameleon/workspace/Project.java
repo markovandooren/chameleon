@@ -9,6 +9,7 @@ import java.util.Set;
 import org.rejuse.association.MultiAssociation;
 import org.rejuse.association.SingleAssociation;
 
+import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.RootNamespace;
 import chameleon.input.ParseException;
@@ -20,7 +21,7 @@ import chameleon.input.ParseException;
  * @author Marko van Dooren
  * @author Nelis Boucke
  */
-public abstract class Project extends InputSource {
+public class Project {
 	
 	/**
 	 * Create a new Chameleon project for the given default namespace.
@@ -28,13 +29,15 @@ public abstract class Project extends InputSource {
  /*@
    @ public behavior
    @
-   @ pre defaultNamespace != null;
+   @ pre name != null;
+   @ pre root != null;
    @
    @ post name() == name;
-   @ post defaultNamespace() == defaultNamespace;
+   @ post namespace() == root;
    @*/
-	public Project(String name, RootNamespace defaultNamespace) {
-		super(defaultNamespace);
+	public Project(String name, RootNamespace root) {
+		setName(name);
+		setNamespace(root);
 	}
 
 	private SingleAssociation<Project, Workspace> _workspaceLink;
@@ -86,6 +89,41 @@ public abstract class Project extends InputSource {
 		}
 		return result;
 	}
+	
+  public void setLanguage(Language language) {
+  	if(language != null) {
+  		_language.connectTo(language.projectLink());
+  	}
+  }
+
+  public Language language() {
+    return _language.getOtherEnd();
+  }
+  
+  public SingleAssociation<Project,Language> languageLink() {
+  	return _language;
+  }
+	    
+  private SingleAssociation<Project,Language> _language = new SingleAssociation<Project,Language>(this);
+
+	public RootNamespace namespace() {
+		return _namespace.getOtherEnd();
+	}
+	
+	public void setNamespace(RootNamespace namespace) {
+		if(namespace != null) {
+			_namespace.connectTo(namespace.projectLink());
+		} else {
+			_namespace.connectTo(null);
+		}
+	}
+	
+  public SingleAssociation<Project,RootNamespace> namespaceLink() {
+  	return _namespace;
+  }
+	
+	private SingleAssociation<Project,RootNamespace> _namespace = new SingleAssociation<Project,RootNamespace>(this);
+	
 	private Set<InputSource> _inputSources = new HashSet<InputSource>();
 
 	/**
@@ -138,11 +176,9 @@ public abstract class Project extends InputSource {
 	 * Refresh the project. This performs a refresh on all 
 	 * input sources.
 	 */
-	@Override
 	public void refresh() throws ParseException, IOException {
 		for(InputSource input: _inputSources) {
 			input.refresh();
 		}
 	}
-	
 }

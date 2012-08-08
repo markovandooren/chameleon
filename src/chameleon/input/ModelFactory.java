@@ -1,11 +1,11 @@
 package chameleon.input;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
+import java.io.InputStream;
 
 import chameleon.core.document.Document;
 import chameleon.core.element.Element;
+import chameleon.core.namespace.RootNamespace;
 import chameleon.plugin.Plugin;
 
 /**
@@ -18,26 +18,14 @@ import chameleon.plugin.Plugin;
  */
 public interface ModelFactory extends Plugin {
 
-	/**
-	 * Initialize the base infrastructure from the given collection of files.
-	 * A model will be created from the given files, and any predefined elements
-	 * will be added. 
-	 */
-	public void initializeBase(Collection<File> files) throws ParseException, IOException;
 	
-	/**
-	 * Add the content of the given collection of files to the model.
-	 */
-	public void addToModel(Collection<File> files) throws ParseException, IOException;
+	public void parse(String source, Document compilationUnit) throws ParseException;
 	
-	/**
-	 * Add the content of the given file to the current model.
-	 */
-	public void addToModel(File file) throws ParseException, IOException;
-	
-	public void addToModel(String source, Document compilationUnit) throws ParseException;
+	public void parse(InputStream inputStream, Document cu) throws IOException, ParseException;
 
-	public void reParse(Element element) throws ParseException;
+	public void refresh(Element element) throws ParseException;
+	
+	public void initializePredefinedElements(RootNamespace root);
 	
 	/**
 	 * Create a 'clone' of this model factory. The model factory will be attached to a fresh language instance.
