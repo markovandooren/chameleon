@@ -34,7 +34,7 @@ public interface Language extends PropertyUniverse<ChameleonProperty> {
    @
    @ post \result != null;
    @*/
-	public Language clone();
+//	public Language clone();
 	
 	/**
 	 * Return the name of this language.

@@ -9,7 +9,9 @@ import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.core.reference.CrossReference;
 import chameleon.test.provider.BasicDescendantProvider;
 import chameleon.test.provider.BasicNamespaceProvider;
+import chameleon.workspace.Project;
 import chameleon.workspace.ProjectBuilder;
+import chameleon.workspace.ProjectException;
 
 public abstract class CompositeTest {
 
@@ -30,7 +32,7 @@ public abstract class CompositeTest {
 	 */
 	@Test
 	public void testClone() throws Exception {
-		new CloneAndChildTest(projectBuilder(), namespaceProvider()).testClone();
+		new CloneAndChildTest(project(), namespaceProvider()).testClone();
 	}
 
 	/**
@@ -39,7 +41,7 @@ public abstract class CompositeTest {
 	 */
 	@Test
 	public void testChildren() throws Exception {
-		ChildrenTest childrenTest = new ChildrenTest(projectBuilder(), namespaceProvider());
+		ChildrenTest childrenTest = new ChildrenTest(project(), namespaceProvider());
 		childrenTest.excludeFieldName(ElementImpl.class, "_parentLink");
 		childrenTest.excludeFieldName(NamespaceDeclaration.class, "_namespaceLink");
 		addExcludes(childrenTest);
@@ -60,7 +62,7 @@ public abstract class CompositeTest {
 	 */
 	@Test
 	public void testCrossReferences() throws Exception {
-		new CrossReferenceTest(projectBuilder(), new BasicDescendantProvider<CrossReference>(namespaceProvider(), CrossReference.class)).testCrossReferences();
+		new CrossReferenceTest(project(), new BasicDescendantProvider<CrossReference>(namespaceProvider(), CrossReference.class)).testCrossReferences();
 	}
 
 	/**
@@ -68,14 +70,22 @@ public abstract class CompositeTest {
 	 */
 	@Test
 	public void testVerification() throws Exception {
-		new VerificationTest(projectBuilder(), new BasicDescendantProvider<NamespaceDeclaration>(namespaceProvider(), NamespaceDeclaration.class)).testVerification();
+		new VerificationTest(project(), new BasicDescendantProvider<NamespaceDeclaration>(namespaceProvider(), NamespaceDeclaration.class)).testVerification();
 	}
 
 	/**
 	 * A provider for the model to be tested.
+	 * @throws ProjectException 
 	 */
-	public abstract ProjectBuilder projectBuilder();
+	public abstract ProjectBuilder projectBuilder() throws ProjectException;
 
+	public Project project() throws ProjectException {
+		long start = System.nanoTime();
+		Project result = projectBuilder().project();
+		long stop = System.nanoTime();
+		System.out.println("Model input took "+(stop-start)/1000000+" milliseconds.");
+		return result;
+	}
 	/**
 	 * A provider for the namespaces to be tested.
 	 */

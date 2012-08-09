@@ -22,6 +22,7 @@ import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.test.provider.DirectoryProjectBuilder;
 import chameleon.workspace.Project;
+import chameleon.workspace.ProjectException;
 
 /**
  * @author Tim Laeremans
@@ -77,13 +78,14 @@ public class ArgumentParser {
 	   * outputDir?
 	   * inputDir+
 	   * @throws LookupException 
+	   * @throws ProjectException 
 	   * @packageName : recursive
 	   * #packageName : direct
 	   * %packageName : 
 	   * 
 	   * The extension argument is e.g. ".java"
 	   */
-  public Arguments parse(String[] args, String extension) throws ParseException, MalformedURLException, FileNotFoundException, IOException, LookupException {
+  public Arguments parse(String[] args, String extension) throws ParseException, MalformedURLException, FileNotFoundException, IOException, LookupException, ProjectException {
     int low = (getOutput() ? 1 : 0);
    // ArrayList al = new ArrayList();
     Set files = new HashSet();
@@ -96,7 +98,7 @@ public class ArgumentParser {
     }
     //System.out.println("Parsing "+files.size() +" files.");
     builder().addToModel(files);
-    Namespace mm = language().defaultNamespace();
+    Namespace mm = project().namespace();
     Set<Type> types = new HashSet<Type>();
     
     for(int i = low; i < args.length;i++) {
@@ -139,36 +141,11 @@ public class ArgumentParser {
     }
   }
 
-		private Language language() {
+		private Language language() throws ProjectException {
 			return project().language();
 		}
 		
-		protected Project project() {
+		protected Project project() throws ProjectException {
 			return _builder.project();
 		}
-  
-//  static class OutputParserFactory implements ILinkageFactory{
-//
-//	public ILinkage createLinkage(File file) {
-//		return new ILinkage(){
-//
-//			public IParseErrorHandler getParseErrorHandler() {
-//				return null;
-//			}
-//
-//			public String getSource() {
-//				return null;
-//			}
-//
-//			public void decoratePosition(int offset, int length, String dectype, Element el) {
-//			}
-//
-//			public int getLineOffset(int i) {
-//				return 0;
-//			}
-//
-//			public void addCompilationUnit(CompilationUnit cu) {
-//				
-//			}};
-//	}}
 }

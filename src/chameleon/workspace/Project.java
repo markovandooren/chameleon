@@ -35,9 +35,10 @@ public class Project {
    @ post name() == name;
    @ post namespace() == root;
    @*/
-	public Project(String name, RootNamespace root) {
+	public Project(String name, RootNamespace root, Language language) {
 		setName(name);
 		setNamespace(root);
+		setLanguage(language);
 	}
 
 	private SingleAssociation<Project, Workspace> _workspaceLink;
@@ -90,7 +91,7 @@ public class Project {
 		return result;
 	}
 	
-  public void setLanguage(Language language) {
+  private void setLanguage(Language language) {
   	if(language != null) {
   		_language.connectTo(language.projectLink());
   	}

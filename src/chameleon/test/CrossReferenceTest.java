@@ -17,12 +17,12 @@ import chameleon.util.concurrent.CallableFactory;
 import chameleon.util.concurrent.FixedThreadCallableExecutor;
 import chameleon.util.concurrent.QueuePollingCallableFactory;
 import chameleon.util.concurrent.UnsafeAction;
+import chameleon.workspace.Project;
 import chameleon.workspace.ProjectException;
-import chameleon.workspace.ProjectBuilder;
 
 public class CrossReferenceTest extends ModelTest {
 
-	public CrossReferenceTest(ProjectBuilder provider,ElementProvider<CrossReference> crossReferenceProvider) throws ProjectException {
+	public CrossReferenceTest(Project provider,ElementProvider<CrossReference> crossReferenceProvider) throws ProjectException {
 		super(provider);
 		_crossReferenceProvider = crossReferenceProvider;
 	}

@@ -27,8 +27,8 @@ import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.RootNamespace;
 import chameleon.input.ParseException;
 import chameleon.test.provider.ElementProvider;
+import chameleon.workspace.Project;
 import chameleon.workspace.ProjectException;
-import chameleon.workspace.ProjectBuilder;
 
 /**
  * A test class for the the children methods of elements, based on reflection.
@@ -52,7 +52,7 @@ public class ChildrenTest extends ModelTest {
    @ post modelProvider() == provider;
    @ post namespaceProvider() == namespaceProvider;
    @*/
-	public ChildrenTest(ProjectBuilder provider, ElementProvider<Namespace> namespaceProvider) throws ProjectException {
+	public ChildrenTest(Project provider, ElementProvider<Namespace> namespaceProvider) throws ProjectException {
 		super(provider);
 		_namespaceProvider = namespaceProvider;
 	}

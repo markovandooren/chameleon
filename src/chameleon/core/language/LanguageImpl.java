@@ -86,14 +86,14 @@ public abstract class LanguageImpl implements Language {
 		SCOPE_MUTEX = new PropertyMutex<ChameleonProperty>();
 	}
 	
-	public final Language clone() {
-		Language result = cloneThis();
-		result.clonePluginsFrom(this);
-		result.cloneProcessorsFrom(this);
-		return result;
-	}
+//	public final Language clone() {
+//		Language result = cloneThis();
+//		result.clonePluginsFrom(this);
+//		result.cloneProcessorsFrom(this);
+//		return result;
+//	}
 	
-	protected abstract Language cloneThis();
+//	protected abstract Language cloneThis();
 	
 	/**
 	 * Return the name of this language.

@@ -1,5 +1,9 @@
 package chameleon.workspace;
 
+import java.io.IOException;
+
+import chameleon.input.ParseException;
+
 
 
 /**
@@ -13,6 +17,8 @@ public interface ProjectBuilder {
 	 * Return the project built by this builder.
 	 * 
 	 * @throws ProjectException 
+	 * @throws ParseException 
+	 * @throws IOException 
 	 */
  /*@
    @ public behavior

@@ -54,12 +54,6 @@ public class RootNamespace extends RegularNamespace {
 		return new RootNamespace(signature().clone());
 	}
 
-  public void setNullType(){
-	  NamespaceDeclaration pp = new NamespaceDeclaration(this);
-	  pp.add(language(ObjectOrientedLanguage.class).getNullType());
-	  new Document(pp);
-  }
-  
   public void setProject(Project project) {
   	if(project != null) {
   		_language.connectTo(project.namespaceLink());

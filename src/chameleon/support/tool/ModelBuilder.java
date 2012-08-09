@@ -10,12 +10,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import chameleon.core.namespace.Namespace;
-import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
 import chameleon.test.provider.BasicNamespaceProvider;
 import chameleon.test.provider.DirectoryProjectBuilder;
 import chameleon.test.provider.ElementProvider;
 import chameleon.workspace.Project;
+import chameleon.workspace.ProjectException;
 
 /**
  * A class for building models for a command line tool. The input arguments are used to create a model,
@@ -31,6 +31,7 @@ public class ModelBuilder {
 	 * @param modelFactory The factory used to create the model based on the input files.
 	 * @param arguments The command line arguments provided in the format described in the class header.
 	 * @param extension The file extension of the files that must be read in the directories provided as arguments.
+	 * @throws ProjectException 
 	 */
  /*@
    @ public behavior
@@ -39,8 +40,8 @@ public class ModelBuilder {
    @ pre arguments != null;
    @ pre extension != null;
    @*/
-	public ModelBuilder(ModelFactory modelFactory, String[] arguments, String extension, boolean output, boolean base) throws ParseException, IOException {
-		_projectBuilder = new DirectoryProjectBuilder(modelFactory, extension);
+	public ModelBuilder(Project project, String[] arguments, String extension, boolean output, boolean base) throws ParseException, IOException, ProjectException {
+		_projectBuilder = new DirectoryProjectBuilder(project, extension);
 		_output = output;
 		_base = base;
 		_arguments = Arrays.asList(arguments);
@@ -59,7 +60,7 @@ public class ModelBuilder {
    * @throws IOException 
    * @throws ParseException 
    */
-	private void processArguments() throws ParseException, IOException {
+	private void processArguments() throws ProjectException {
 
 // FIXME Support this		
 //   * args[n] = fqn of package to read, let this start with "#" to NOT read the package recursively.

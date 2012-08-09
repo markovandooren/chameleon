@@ -22,8 +22,8 @@ import chameleon.util.concurrent.CallableFactory;
 import chameleon.util.concurrent.FixedThreadCallableExecutor;
 import chameleon.util.concurrent.QueuePollingCallableFactory;
 import chameleon.util.concurrent.UnsafeAction;
+import chameleon.workspace.Project;
 import chameleon.workspace.ProjectException;
-import chameleon.workspace.ProjectBuilder;
 
 /**
  * @author Marko van Dooren
@@ -44,7 +44,7 @@ public class ExpressionTest extends ModelTest {
    @ post baseRecursive();
    @ post customRecursive();
    @*/
-	public ExpressionTest(ProjectBuilder provider, ElementProvider<Type> typeProvider) throws ProjectException {
+	public ExpressionTest(Project provider, ElementProvider<Type> typeProvider) throws ProjectException {
 		super(provider);
 		_typeProvider = typeProvider;
 	}

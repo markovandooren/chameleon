@@ -17,8 +17,6 @@ import org.antlr.runtime.RecognitionException;
 import org.rejuse.io.DirectoryScanner;
 
 import chameleon.core.document.Document;
-import chameleon.core.language.Language;
-import chameleon.core.namespace.RootNamespace;
 import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
 import chameleon.util.concurrent.CallableFactory;
@@ -27,7 +25,13 @@ import chameleon.util.concurrent.QueuePollingCallableFactory;
 import chameleon.util.concurrent.UnsafeAction;
 import chameleon.workspace.Project;
 import chameleon.workspace.ProjectBuilder;
+import chameleon.workspace.ProjectException;
 
+/**
+ * A class for building projects that reside in a directory.
+ * 
+ * @author Marko van Dooren
+ */
 public class DirectoryProjectBuilder implements ProjectBuilder {
 	
 	/**
@@ -40,44 +44,27 @@ public class DirectoryProjectBuilder implements ProjectBuilder {
    @
    @ post factory() == factory;
    @*/
-	public DirectoryProjectBuilder(ModelFactory factory, String fileExtension) {
-		setFactory(factory);
+	public DirectoryProjectBuilder(Project project, String fileExtension) {
+		setProject(project);
 		setFileExtension(fileExtension);
 	}
 	
 	private Project _project;
 	
 	public Project project() {
-		return _project;
+//		try {
+//			initializeBase(baseFiles());
+//			addToModel(customFiles());
+			return _project;
+//		} catch (IOException e) {
+//			throw new ProjectException(e);
+//		} catch (ParseException e) {
+//			throw new ProjectException(e);
+//		}
 	}
 	
-	private ModelFactory _factory;
-	
-	/**
-	 * Return the model factory used by this provider to create models.
-	 * @return
-	 */
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @*/
-	public ModelFactory factory() {
-		return _factory;
-	}
-	
-	/**
-	 * Set the model factory.
-	 */
- /*@
-   @ public behavior
-   @
-   @ pre factory != null;
-   @
-   @ post factory() == factory;
-   @*/
-	protected void setFactory(ModelFactory factory) {
-		_factory = factory;
+	private void setProject(Project project) {
+		_project = project;
 	}
 	
 	private String _fileExtension;
@@ -111,22 +98,32 @@ public class DirectoryProjectBuilder implements ProjectBuilder {
 //    return factory.language();
 //	}
 	
-	protected Project createProject(String name, Language language) {
-		return new Project(name, new RootNamespace());
-	}
-	
 	/**
 	 * Add the given directory to the list of directories that contain the custom model.
 	 */
-  public void includeCustom(String dirName) {
-    _customFiles.add(dirName);
+  public void includeCustom(String dirName) throws ProjectException {
+  	try {
+  		addToModel(new DirectoryScanner().scan(dirName, fileExtension(), baseRecursive()));
+		} catch (IOException e) {
+			throw new ProjectException(e);
+		} catch (ParseException e) {
+			throw new ProjectException(e);
+		}
+  	//_customFiles.add(dirName);
   }
   
 	/**
 	 * Add the given directory to the list of directories that contain the base library for the language.
 	 */
-  public void includeBase(String dirName) {
-  	_baseFiles.add(dirName);
+  public void includeBase(String dirName) throws ProjectException {
+  	try {
+  		initializeBase(new DirectoryScanner().scan(dirName, fileExtension(), customRecursive()));
+		} catch (IOException e) {
+			throw new ProjectException(e);
+		} catch (ParseException e) {
+			throw new ProjectException(e);
+		}
+//  	_baseFiles.add(dirName);
   }
 
   /**
@@ -282,7 +279,6 @@ public class DirectoryProjectBuilder implements ProjectBuilder {
 	}
 	
 	private ModelFactory modelFactory() {
-		
+		return project().language().plugin(ModelFactory.class);
 	}
-
 }

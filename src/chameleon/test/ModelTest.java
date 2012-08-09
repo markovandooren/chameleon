@@ -44,24 +44,24 @@ public abstract class ModelTest extends TestSuite {
     @ post baseRecursive();
     @ post customRecursive();
 	  @*/
-	 public ModelTest(ProjectBuilder provider) throws ProjectException {
-     _provider = provider;
+	 public ModelTest(Project provider) throws ProjectException {
+     _project = provider;
      setUp();
 	 }
 	 
-	 /**
-	  * Return the model provider for this test.
-	  */
-	/*@
-	  @ public behavior
-	  @
-	  @ post \result != null;
-	  @*/
-	 public ProjectBuilder projectBuilder() {
-		 return _provider;
-	 }
-	 
-	 private ProjectBuilder _provider;
+//	 /**
+//	  * Return the model provider for this test.
+//	  */
+//	/*@
+//	  @ public behavior
+//	  @
+//	  @ post \result != null;
+//	  @*/
+//	 public Project projectBuilder() {
+//		 return _provider;
+//	 }
+//	 
+//	 private Project _provider;
 	
    /**
     * This method is invoked during setup to set the levels of the loggers.
@@ -92,10 +92,10 @@ public abstract class ModelTest extends TestSuite {
    @Before
    public void setUp() throws ProjectException {
     	setLogLevels();
-    	long start = System.nanoTime();
-    	_project = projectBuilder().project();
-    	long stop = System.nanoTime();
-    	System.out.println("Model input took "+(stop-start)/1000000+" milliseconds.");
+//    	long start = System.nanoTime();
+//    	_project = project();
+//    	long stop = System.nanoTime();
+//    	System.out.println("Model input took "+(stop-start)/1000000+" milliseconds.");
     }
     
    @After
