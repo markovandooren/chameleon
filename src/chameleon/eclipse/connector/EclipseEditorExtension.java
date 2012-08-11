@@ -1,5 +1,6 @@
 package chameleon.eclipse.connector;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -133,6 +134,10 @@ public class EclipseEditorExtension extends PluginImpl {
   //FIXME: filter based on properties!!!!
   public List<Modifier> getFilterModifiers() {
   	return new ArrayList<Modifier>();
+  }
+  
+  public File buildDirectory(File projectRoot) {
+  	return projectRoot;
   }
   
   /**

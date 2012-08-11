@@ -201,7 +201,7 @@ public class DirectoryProjectBuilder implements ProjectBuilder {
 	 */
 	public void initializeBase(Collection<File> base) throws IOException, ParseException {
 		addToModel(base);
-		modelFactory().initializePredefinedElements(project().namespace());
+		modelFactory().initializePredefinedElements();
 	}
 	
 	

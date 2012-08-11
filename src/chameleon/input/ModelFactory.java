@@ -25,7 +25,7 @@ public interface ModelFactory extends Plugin {
 
 	public void refresh(Element element) throws ParseException;
 	
-	public void initializePredefinedElements(RootNamespace root);
+	public void initializePredefinedElements();
 	
 	/**
 	 * Create a 'clone' of this model factory. The model factory will be attached to a fresh language instance.

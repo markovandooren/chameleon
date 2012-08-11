@@ -40,8 +40,8 @@ public class ModelBuilder {
    @ pre arguments != null;
    @ pre extension != null;
    @*/
-	public ModelBuilder(Project project, String[] arguments, String extension, boolean output, boolean base) throws ParseException, IOException, ProjectException {
-		_projectBuilder = new DirectoryProjectBuilder(project, extension);
+	public ModelBuilder(DirectoryProjectBuilder projectBuilder, String[] arguments, String extension, boolean output, boolean base) throws ParseException, IOException, ProjectException {
+		_projectBuilder = projectBuilder;
 		_output = output;
 		_base = base;
 		_arguments = Arrays.asList(arguments);

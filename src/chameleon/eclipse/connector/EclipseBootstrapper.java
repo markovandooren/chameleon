@@ -7,12 +7,18 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import chameleon.core.document.Document;
 import chameleon.core.language.Language;
 import chameleon.eclipse.LanguageMgt;
 import chameleon.exception.ChameleonProgrammerException;
+import chameleon.exception.ModelException;
 import chameleon.input.ParseException;
+import chameleon.plugin.Plugin;
+import chameleon.plugin.PluginImpl;
+import chameleon.plugin.build.BuildProgressHelper;
 import chameleon.plugin.build.Builder;
 import chameleon.test.provider.DirectoryProjectBuilder;
+import chameleon.workspace.Project;
 
 /**
  * @author Joeri Hendrickx
@@ -32,7 +38,7 @@ public abstract class EclipseBootstrapper {
 	public EclipseBootstrapper(String name,String languageVersion, String extension) {
 		this();
 		if(name == null) {
-			// Let's adopt Martin Rinard's vision and not make the tool crash. Really interesting vision.
+			// Let's adopt Martin Rinard's vision and not make the tool crash.
 			name = "unknown language "+getClass().getPackage().getName(); 
 		}
 		_name = name;
@@ -96,14 +102,7 @@ public abstract class EclipseBootstrapper {
 	 */
 	public abstract Language createLanguage() throws IOException, ParseException;
 	
-	// FIXME: must be a language/project extension (or move to editor extension)
-	/**
-	 * The resulting builder must be connected to a fresh language object. A syntax connector
-	 * must be attached to that language. The builder must be connected to that language.
-	 */
-	public Builder createBuilder(Language source, File projectDirectory) {
-		return null;
-	}
+
 	
 	protected void loadAPIFiles(String extension, String pluginId, DirectoryProjectBuilder builder) throws IOException, ParseException {
 		FilenameFilter filter = LanguageMgt.fileNameFilter(extension);

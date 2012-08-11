@@ -24,13 +24,14 @@ import chameleon.core.validation.Invalid;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.eclipse.ChameleonEditorPlugin;
-import chameleon.eclipse.LanguageMgt;
+import chameleon.eclipse.connector.EclipseEditorExtension;
 import chameleon.eclipse.editors.ChameleonDocument;
 import chameleon.eclipse.project.ChameleonProjectNature;
 import chameleon.eclipse.project.ChameleonResourceDeltaFileVisitor;
 import chameleon.exception.ModelException;
 import chameleon.plugin.build.BuildProgressHelper;
 import chameleon.plugin.build.Builder;
+import chameleon.plugin.build.NullBuilder;
 
 public class ChameleonBuilder extends IncrementalProjectBuilder {
 
@@ -39,23 +40,11 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 	}
 	
 	public Builder builder() {
-		return _builder;
-	}
-	
-	public void setupBuilder() throws CoreException {
-		if(_builder == null) {
-			ChameleonProjectNature nature = (ChameleonProjectNature)getProject().getNature(ChameleonProjectNature.NATURE);
-			_nature = nature;
-			Language language = nature.language();
-			IFile projectFile = getProject().getFile(".project");
-			IPath location = projectFile.getLocation();
-			File file = null;
-			if (location != null) {
-			   file = location.toFile().getParentFile();
-			}
-			//FIXME ACTUAL BUILDER MUST BE A CONNECTOR 
-			_builder = LanguageMgt.getInstance().createBuilder(language,file);
+		Builder result = nature().language().plugin(Builder.class);
+		if(result == null) {
+			return new NullBuilder();
 		}
+		return result;
 	}
 	
 	private ChameleonProjectNature _nature;
@@ -64,13 +53,12 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 		return _nature;
 	}
 	
-	private Builder _builder;
+//	private Builder _builder;
 	
 	public static final String BUILDER_ID = ChameleonEditorPlugin.PLUGIN_ID+".ChameleonBuilder";
 	
 	@Override
 	protected IProject[] build(int kind, Map arguments, IProgressMonitor monitor) throws CoreException {
-		setupBuilder();
 		if(kind == INCREMENTAL_BUILD || kind == AUTO_BUILD) {
 			return incrementalBuild(arguments, monitor);
 		} else {
@@ -157,7 +145,11 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 		}
 		
 		boolean released = true;
-		List<Document> projectCompilationUnits = nature().compilationUnits();
+		ChameleonProjectNature nature = nature();
+		File root = projectRoot(nature);
+		File output = chameleonNature().language().plugin(EclipseEditorExtension.class).buildDirectory(root);
+
+		List<Document> projectCompilationUnits = nature.compilationUnits();
 		try {
 			Builder builder = builder();
 			if(builder != null) {
@@ -189,7 +181,7 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 
 
 				try {
-					builder.build(validCompilationUnits, projectCompilationUnits, helper);
+					builder.build(validCompilationUnits, projectCompilationUnits, output, helper);
 				}
 				catch (ModelException e) {
 					//TODO report error using a MARKER
@@ -210,6 +202,16 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 			}
 			monitor.done();
 		}
+	}
+
+	private File projectRoot(ChameleonProjectNature nature) {
+		IFile projectFile = getProject().getFile(".project");
+		IPath location = projectFile.getLocation();
+		File file = null;
+		if (location != null) {
+			file = location.toFile().getParentFile();
+		}
+		return file;
 	}
 	
 	/*
