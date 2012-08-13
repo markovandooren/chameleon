@@ -18,7 +18,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 
 import chameleon.core.document.Document;
-import chameleon.core.language.Language;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Invalid;
 import chameleon.core.validation.Valid;
@@ -39,7 +38,8 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 		super();
 	}
 	
-	public Builder builder() {
+	public Builder builder() throws CoreException {
+		 _nature = (ChameleonProjectNature)getProject().getNature(ChameleonProjectNature.NATURE);
 		Builder result = nature().language().plugin(Builder.class);
 		if(result == null) {
 			return new NullBuilder();
@@ -143,15 +143,14 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 				validCompilationUnits.add(cu);
 			
 		}
-		
-		boolean released = true;
-		ChameleonProjectNature nature = nature();
-		File root = projectRoot(nature);
-		File output = chameleonNature().language().plugin(EclipseEditorExtension.class).buildDirectory(root);
 
-		List<Document> projectCompilationUnits = nature.compilationUnits();
+		boolean released = true;
 		try {
 			Builder builder = builder();
+			ChameleonProjectNature nature = nature();
+			File root = projectRoot(nature);
+			File output = chameleonNature().language().plugin(EclipseEditorExtension.class).buildDirectory(root);
+			List<Document> projectCompilationUnits = nature.compilationUnits();
 			if(builder != null) {
 				int totalWork = builder.totalAmountOfWork(validCompilationUnits, projectCompilationUnits);
 				System.out.println(totalWork);
