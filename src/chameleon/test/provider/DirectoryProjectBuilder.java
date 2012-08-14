@@ -44,23 +44,29 @@ public class DirectoryProjectBuilder implements ProjectBuilder {
    @
    @ post factory() == factory;
    @*/
-	public DirectoryProjectBuilder(Project project, String fileExtension) {
+	public DirectoryProjectBuilder(Project project, String fileExtension, File root) {
 		setProject(project);
 		setFileExtension(fileExtension);
+		setRoot(root);
+	}
+	
+	private File _root;
+	
+	public File root() {
+		return _root;
+	}
+	
+	private void setRoot(File root) {
+		if(root == null) {
+			throw new IllegalArgumentException();
+		}
+		_root = root;
 	}
 	
 	private Project _project;
 	
 	public Project project() {
-//		try {
-//			initializeBase(baseFiles());
-//			addToModel(customFiles());
-			return _project;
-//		} catch (IOException e) {
-//			throw new ProjectException(e);
-//		} catch (ParseException e) {
-//			throw new ProjectException(e);
-//		}
+		return _project;
 	}
 	
 	private void setProject(Project project) {

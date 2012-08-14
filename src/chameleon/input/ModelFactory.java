@@ -5,7 +5,6 @@ import java.io.InputStream;
 
 import chameleon.core.document.Document;
 import chameleon.core.element.Element;
-import chameleon.core.namespace.RootNamespace;
 import chameleon.plugin.Plugin;
 
 /**

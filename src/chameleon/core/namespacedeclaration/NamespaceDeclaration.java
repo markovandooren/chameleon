@@ -240,7 +240,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	private Multi<NamespaceDeclaration> _subNamespaceParts = new Multi<NamespaceDeclaration>(this);
 
 	public List<Declaration> declarations() {
-      return _types.getOtherEnds();
+      return _declarations.getOtherEnds();
 	}
 	
 	public <T extends Declaration> List<T> declarations(Class<T> kind) {
@@ -331,7 +331,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	/****************
 	 * DECLARATIONS *
 	 ****************/
-	private Multi<Declaration> _types = new Multi<Declaration>(this);
+	private Multi<Declaration> _declarations = new Multi<Declaration>(this);
 
 	/**
 	 * Add the given declaration to this namespace part.
@@ -344,7 +344,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
    @ post declarations().contains(declaration);
    @*/
 	public void add(Declaration declaration) {
-		add(_types,declaration);
+		add(_declarations,declaration);
 	}
 	
 	public void addAll(Collection<Declaration> declarations) {
@@ -364,7 +364,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
    @ post !declarations().contains(declaration);
    @*/
 	public void remove(Declaration declaration) {
-		remove(_types,declaration);
+		remove(_declarations,declaration);
 	}
 
 	/**

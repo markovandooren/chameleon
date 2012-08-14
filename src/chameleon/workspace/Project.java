@@ -173,13 +173,13 @@ public class Project {
 		return input != null;
 	}
 
-	/**
-	 * Refresh the project. This performs a refresh on all 
-	 * input sources.
-	 */
-	public void refresh() throws ParseException, IOException {
-		for(InputSource input: _inputSources) {
-			input.refresh();
-		}
-	}
+//	/**
+//	 * Refresh the project. This performs a refresh on all 
+//	 * input sources.
+//	 */
+//	public void refresh() throws ParseException, IOException {
+//		for(InputSource input: _inputSources) {
+//			input.refresh();
+//		}
+//	}
 }

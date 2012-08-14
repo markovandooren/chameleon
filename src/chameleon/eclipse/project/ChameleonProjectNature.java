@@ -487,7 +487,7 @@ public class ChameleonProjectNature implements IProjectNature {
 		return _language;
 	}
 
-	public void addModelElement(ChameleonDocument document) {
+	public void addDocument(ChameleonDocument document) {
 		_documents.add(document);
 		try {
 			modelFactory().parse(document.get(), document.chameleonDocument());

@@ -81,8 +81,8 @@ public class NamespaceAlias extends Namespace {
 	}
 
 	@Override
-	public Namespace getOrCreateNamespace(String name) throws LookupException {
-		return aliasedNamespace().getOrCreateNamespace(name);
+	public Namespace createNamespace(String name) {
+		return aliasedNamespace().createNamespace(name);
 	}
 
 	@Override

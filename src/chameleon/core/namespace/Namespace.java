@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.rejuse.association.SingleAssociation;
 import org.rejuse.predicate.SafePredicate;
 import org.rejuse.predicate.TypePredicate;
 
@@ -23,7 +22,8 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.exception.ChameleonProgrammerException;
-import chameleon.oo.member.Member;
+import chameleon.util.Util;
+import chameleon.util.association.Single;
 
 /**
  * <p>Namespaces are a completely logical structure. You do not explicitly create a namespace, but query it using
@@ -99,7 +99,7 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
 	    return _signature.getOtherEnd();
 	  }
 		  
-	  private SingleAssociation<Namespace, SimpleNameSignature> _signature = new SingleAssociation<Namespace, SimpleNameSignature>(this);
+	  private Single<SimpleNameSignature> _signature = new Single<SimpleNameSignature>(this,true);
 
 	  /**
 	   * The name of a namespace is the name of its signature.
@@ -209,8 +209,21 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
    @
    @ signals (LookupException) (* There are multiple subnamespaces with the given name. *) 
    @*/
-	public abstract Namespace getOrCreateNamespace(final String name) throws LookupException;
+	public synchronized Namespace getOrCreateNamespace(final String name) throws LookupException {
+		if ((name == null) || name.equals("")) {
+			return this;
+		}
+		final String current = Util.getFirstPart(name);
+		final String next = Util.getSecondPart(name); //rest
+		Namespace currentPackage = getSubNamespace(current);
+		if(currentPackage == null) {
+			currentPackage = createNamespace(current);
+		}
+		return currentPackage.getOrCreateNamespace(next);
+	}
 
+	protected abstract Namespace createNamespace(String name);
+	
 	/**
 	 * Return the direct subpackage with the given short name.
 	 *
@@ -268,7 +281,7 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
 //		return result;
 //	}
 
-	public <T extends Declaration> List<T> allDeclarations(Class<T> kind) {
+	public <T extends Declaration> List<T> allDeclarations(Class<T> kind) throws LookupException {
   	final List<T> result = declarations(kind);
   	for(Namespace ns:getSubNamespaces()) {
 		  result.addAll(ns.allDeclarations(kind));
@@ -288,7 +301,7 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
 		return language().lookupFactory().createLocalLookupStrategy(this);
 	}
 
-	public List<Declaration> declarations() {
+	public List<Declaration> declarations() throws LookupException {
 		List<Declaration> result = new ArrayList<Declaration>();
 		result.addAll(getSubNamespaces());
 		for(NamespaceDeclaration part: getNamespaceParts()) {
@@ -361,7 +374,7 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
 		}
 	}
 	
-	public <T extends Declaration> List<T> declarations(Class<T> kind) {
+	public <T extends Declaration> List<T> declarations(Class<T> kind) throws LookupException {
     return new TypePredicate<Declaration,T>(kind).filterReturn(declarations());
   }
 	
