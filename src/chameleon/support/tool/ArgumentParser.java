@@ -20,7 +20,7 @@ import chameleon.input.ParseException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
-import chameleon.test.provider.DirectoryProjectBuilder;
+import chameleon.workspace.DirectoryProjectBuilder;
 import chameleon.workspace.Project;
 import chameleon.workspace.ProjectException;
 

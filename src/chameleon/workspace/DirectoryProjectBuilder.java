@@ -1,4 +1,4 @@
-package chameleon.test.provider;
+package chameleon.workspace;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,16 +16,15 @@ import java.util.concurrent.ExecutionException;
 import org.antlr.runtime.RecognitionException;
 import org.rejuse.io.DirectoryScanner;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.document.Document;
+import chameleon.core.lookup.LookupException;
 import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
 import chameleon.util.concurrent.CallableFactory;
 import chameleon.util.concurrent.FixedThreadCallableExecutor;
 import chameleon.util.concurrent.QueuePollingCallableFactory;
 import chameleon.util.concurrent.UnsafeAction;
-import chameleon.workspace.Project;
-import chameleon.workspace.ProjectBuilder;
-import chameleon.workspace.ProjectException;
 
 /**
  * A class for building projects that reside in a directory.
@@ -44,10 +43,18 @@ public class DirectoryProjectBuilder implements ProjectBuilder {
    @
    @ post factory() == factory;
    @*/
-	public DirectoryProjectBuilder(Project project, String fileExtension, File root) {
+	public DirectoryProjectBuilder(Project project, String fileExtension, File root, FileInputSourceFactory factory) {
 		setProject(project);
 		setFileExtension(fileExtension);
 		setRoot(root);
+		setInputSourceFactory(factory);
+	}
+
+	private void setInputSourceFactory(FileInputSourceFactory factory) {
+		if(factory == null) {
+			throw new IllegalArgumentException("The given file input source factory is null.");
+		}
+		_inputSourceFactory = factory;
 	}
 	
 	private File _root;
@@ -57,10 +64,12 @@ public class DirectoryProjectBuilder implements ProjectBuilder {
 	}
 	
 	private void setRoot(File root) {
-		if(root == null) {
-			throw new IllegalArgumentException();
-		}
+//		if(root == null) {
+//			throw new IllegalArgumentException();
+//		}
 		_root = root;
+		
+		_inputSources = new ArrayList<InputSource>();
 	}
 	
 	private Project _project;
@@ -89,8 +98,11 @@ public class DirectoryProjectBuilder implements ProjectBuilder {
 		_fileExtension = fileExtension;
 	}
 	
-	
+	public FileInputSourceFactory inputSourceFactory() {
+		return _inputSourceFactory;
+	}
 
+	private FileInputSourceFactory _inputSourceFactory;
 //	/**
 //	 * Create a new model. The base files are processed, the predefined elements
 //	 * are added, and the custom files are processed.
@@ -118,19 +130,18 @@ public class DirectoryProjectBuilder implements ProjectBuilder {
   	//_customFiles.add(dirName);
   }
   
-	/**
-	 * Add the given directory to the list of directories that contain the base library for the language.
-	 */
-  public void includeBase(String dirName) throws ProjectException {
-  	try {
-  		initializeBase(new DirectoryScanner().scan(dirName, fileExtension(), customRecursive()));
-		} catch (IOException e) {
-			throw new ProjectException(e);
-		} catch (ParseException e) {
-			throw new ProjectException(e);
-		}
-//  	_baseFiles.add(dirName);
-  }
+//	/**
+//	 * Add the given directory to the list of directories that contain the base library for the language.
+//	 */
+//  public void includeBase(String dirName) throws ProjectException {
+//  	try {
+//  		initializeBase(new DirectoryScanner().scan(dirName, fileExtension(), customRecursive()));
+//		} catch (IOException e) {
+//			throw new ProjectException(e);
+//		} catch (ParseException e) {
+//			throw new ProjectException(e);
+//		}
+//  }
 
   /**
    * Return the collection of base files.
@@ -200,18 +211,16 @@ public class DirectoryProjectBuilder implements ProjectBuilder {
 
   private boolean _baseRecursive = true;
   
-	/**
-	 * Initialize the base infrastructure from the given collection of files.
-	 * A model will be created from the given files, and any predefined elements
-	 * will be added. 
-	 */
-	public void initializeBase(Collection<File> base) throws IOException, ParseException {
-		addToModel(base);
-		modelFactory().initializePredefinedElements();
-	}
+//	/**
+//	 * Initialize the base infrastructure from the given collection of files.
+//	 * A model will be created from the given files, and any predefined elements
+//	 * will be added. 
+//	 */
+//	public void initializeBase(Collection<File> base) throws IOException, ParseException {
+//		addToModel(base);
+//		modelFactory().initializePredefinedElements();
+//	}
 	
-	
-
 	public void addToModel(Collection<File> files) throws IOException, ParseException {
 		final int size = files.size();
 		class Counter {
@@ -276,15 +285,16 @@ public class DirectoryProjectBuilder implements ProjectBuilder {
 	 *             Something went wrong
 	 * @throws RecognitionException 
 	 */
-	public void addToModel(File file) throws IOException, ParseException {
-    // The constructor throws an FileNotFoundException if for some
-    // reason the file can't be read.
-    InputStream fileInputStream = new FileInputStream(file);
-
-		modelFactory().parse(fileInputStream, new Document());
+	private void addToModel(File file) throws IOException, ParseException {
+    InputSource source = inputSourceFactory().create(file);
+    _inputSources.add(source);
+    // FIXME: this call should disappear when lazy loading is added.
+    source.load();
 	}
 	
 	private ModelFactory modelFactory() {
 		return project().language().plugin(ModelFactory.class);
 	}
+	
+	private List<InputSource> _inputSources;
 }

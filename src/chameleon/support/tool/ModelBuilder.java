@@ -10,10 +10,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import chameleon.core.namespace.Namespace;
+import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
 import chameleon.test.provider.BasicNamespaceProvider;
-import chameleon.test.provider.DirectoryProjectBuilder;
 import chameleon.test.provider.ElementProvider;
+import chameleon.workspace.DirectoryProjectBuilder;
 import chameleon.workspace.Project;
 import chameleon.workspace.ProjectException;
 
@@ -28,7 +29,6 @@ public class ModelBuilder {
 	/**
 	 * Create a new model builder.
 	 * 
-	 * @param modelFactory The factory used to create the model based on the input files.
 	 * @param arguments The command line arguments provided in the format described in the class header.
 	 * @param extension The file extension of the files that must be read in the directories provided as arguments.
 	 * @throws ProjectException 
@@ -79,7 +79,9 @@ public class ModelBuilder {
      	int baseIndex = low-1;
 			String arg = argument(baseIndex+1);
 			if(! arg.startsWith("@") && ! arg.startsWith("#")&& ! arg.startsWith("%")) {
-     		_projectBuilder.includeBase(arg);
+				//FIXME this should be done by a reusable artefact.
+     		_projectBuilder.includeCustom(arg);
+     		_projectBuilder.project().language().plugin(ModelFactory.class).initializePredefinedElements();
       }
     }
     _namespaceProvider = new BasicNamespaceProvider();

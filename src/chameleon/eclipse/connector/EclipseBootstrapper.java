@@ -12,12 +12,13 @@ import chameleon.core.language.Language;
 import chameleon.eclipse.LanguageMgt;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
+import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
 import chameleon.plugin.Plugin;
 import chameleon.plugin.PluginImpl;
 import chameleon.plugin.build.BuildProgressHelper;
 import chameleon.plugin.build.Builder;
-import chameleon.test.provider.DirectoryProjectBuilder;
+import chameleon.workspace.DirectoryProjectBuilder;
 import chameleon.workspace.Project;
 
 /**
@@ -113,8 +114,10 @@ public abstract class EclipseBootstrapper {
 			throw new ChameleonProgrammerException("No directory named 'api' is found to load the API.");
 		}
 		List<File> files = LanguageMgt.allFiles(directory, filter);
-		System.out.println("Loading "+files.size()+" API files.");	
-		builder.initializeBase(files);
+		System.out.println("Loading "+files.size()+" API files.");
+		// FIXME: This should be done by a reusable artefact.
+		builder.addToModel(files);
+		builder.project().language().plugin(ModelFactory.class).initializePredefinedElements();
 	}
 
 }
