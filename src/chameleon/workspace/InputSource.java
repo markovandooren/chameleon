@@ -6,6 +6,7 @@ import java.util.List;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.document.Document;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.namespace.Namespace;
 import chameleon.input.ParseException;
 
 /**
@@ -73,7 +74,14 @@ public interface InputSource {
 	 */
 //	public abstract Map<String, Class<? extends Declaration>> candidates();
 	
-	public List<String> declarationNames();
+	/**
+	 * Return the list of name of declaration that are added to the given namespace, and
+	 * are visible when the namespace is used as a <b>target</b>. Declarations that are only visible lexically from
+	 * within the namespace are ignored.
+	 * @param ns
+	 * @return
+	 */
+	public List<String> targetDeclarationNames(Namespace ns);
 	
 	/**
 	 * Load the declarations with the given name into the model (if any) and return them in a list.
@@ -85,7 +93,7 @@ public interface InputSource {
 	 * @return
 	 * @throws LookupException 
 	 */
-	public abstract List<Declaration> declarations(String name) throws LookupException;
+	public abstract List<Declaration> targetDeclarations(String name) throws LookupException;
 	
 	/**
 	 * Load the entire source managed by this InputSource into the model.

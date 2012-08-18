@@ -17,44 +17,78 @@ import chameleon.workspace.InputSource;
 
 public class LazyNamespace extends RegularNamespace {
 
-	public LazyNamespace(SimpleNameSignature sig) {
+	protected LazyNamespace(SimpleNameSignature sig) {
 		super(sig);
 		_inputSources = new ArrayList<InputSource>();
 		_sourceMap = new HashMap<String, List<InputSource>>();
 	}
 	
-	public LazyNamespace(String name) {
+	protected LazyNamespace(String name) {
 		this(new SimpleNameSignature(name));
 	}
+	
+	@Override
+	protected Namespace createSubNamespace(String name) {
+		LazyNamespace result = new LazyNamespace(name);
+		addNamespace(result);
+		return result;
+	}
 
-	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
-		if(selector.usesSelectionName() && Config.cacheDeclarations()) {
-			List<? extends Declaration> list = null;
-			synchronized(this) {
-				list = fetchCandidatesFromCache(selector);
-			}
-			if(list == null) {
-				list = Collections.EMPTY_LIST;
-			}
-			return selector.selection(Collections.unmodifiableList(list));
-		} else {
-			return selector.selection(declarations());
+//	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
+//		if(selector.usesSelectionName() && Config.cacheDeclarations()) {
+//			List<? extends Declaration> list = null;
+//			synchronized(this) {
+//				list = fetchCandidatesFromCache(selector);
+//			}
+//			if(list == null) {
+//				list = Collections.EMPTY_LIST;
+//			}
+//			return selector.selection(Collections.unmodifiableList(list));
+//		} else {
+//			return selector.selection(declarations());
+//		}
+//	}
+	
+	@Override
+	protected synchronized void ensureLocalCache() throws LookupException {
+		if(_declarationCache == null) {
+			_declarationCache = new HashMap<String, List<Declaration>>();
 		}
 	}
 	
-	private List<? extends Declaration> fetchCandidatesFromCache(DeclarationSelector<?> selector) throws LookupException {
-		String name = selector.selectionName(this);
-		List<InputSource> sources = _sourceMap.get(name);
-		List<Declaration> candidates = new ArrayList<Declaration>();
-		for(InputSource source: sources) {
-			candidates.addAll(source.declarations(name));
+	@Override
+	protected synchronized List<Declaration> auxDeclarations(String name) throws LookupException {
+		// First check the declaration cache.
+		List<Declaration> candidates = super.auxDeclarations(name);
+		// If there was no cache, the input sources might have something
+		if(candidates == null) {
+			for(Namespace ns: getSubNamespaces()) {
+				if(ns.name().equals(name)) {
+					candidates = new ArrayList<Declaration>();
+					candidates.add(ns);
+					break;
+				}
+			}
+			List<InputSource> sources = _sourceMap.get(name);
+			if(sources != null) {
+				for(InputSource source: sources) {
+					if(candidates == null) {
+						candidates = new ArrayList<Declaration>();
+					}
+					candidates.addAll(source.targetDeclarations(name));
+				}
+			} 
+			if (candidates == null){
+				candidates = Collections.EMPTY_LIST;
+			}
+			storeCache(name, candidates);
 		}
 		return candidates;
 	}
 	
 	public void addInputSource(InputSource source) {
 		_inputSources.add(source);
-		for(String name: source.declarationNames()) {
+		for(String name: source.targetDeclarationNames(this)) {
 			List<InputSource> list = _sourceMap.get(name);
 			if(list == null) {
 				list = new ArrayList<InputSource>();

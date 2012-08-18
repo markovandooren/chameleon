@@ -340,15 +340,6 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		return getPresentationManager().getFoldedElementsFromModel();
 	}
 
-	private int nbNamespaceParts(Namespace ns) {
-		int result = ns.getNamespaceParts().size();
-		for(Namespace namespace:ns.getSubNamespaces()) {
-			result += nbNamespaceParts(namespace);
-		}
-		return result;
-	}
-	
-
 	/**
 	 * Reparse this document.
 	 * 

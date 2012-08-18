@@ -14,7 +14,8 @@ import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
 import chameleon.test.provider.BasicNamespaceProvider;
 import chameleon.test.provider.ElementProvider;
-import chameleon.workspace.DirectoryProjectBuilder;
+import chameleon.workspace.DirectoryLoader;
+import chameleon.workspace.FileInputSourceFactory;
 import chameleon.workspace.Project;
 import chameleon.workspace.ProjectException;
 
@@ -40,13 +41,20 @@ public class ModelBuilder {
    @ pre arguments != null;
    @ pre extension != null;
    @*/
-	public ModelBuilder(DirectoryProjectBuilder projectBuilder, String[] arguments, String extension, boolean output, boolean base) throws ParseException, IOException, ProjectException {
-		_projectBuilder = projectBuilder;
+	public ModelBuilder(Project project, String[] arguments, String extension, boolean output, boolean base, FileInputSourceFactory factory) throws ParseException, IOException, ProjectException {
 		_output = output;
 		_base = base;
 		_arguments = Arrays.asList(arguments);
+		_factory = factory;
+		_project = project;
 		processArguments();
 	}
+	
+	private FileInputSourceFactory factory() {
+		return _factory;
+	}
+	
+	private FileInputSourceFactory _factory;
 	
   /**
    * args[0] = path for the directory to write output IF output() == true
@@ -80,8 +88,9 @@ public class ModelBuilder {
 			String arg = argument(baseIndex+1);
 			if(! arg.startsWith("@") && ! arg.startsWith("#")&& ! arg.startsWith("%")) {
 				//FIXME this should be done by a reusable artefact.
-     		_projectBuilder.includeCustom(arg);
-     		_projectBuilder.project().language().plugin(ModelFactory.class).initializePredefinedElements();
+				File root = new File(arg);
+				new DirectoryLoader(project(), extension(), root, factory());
+     		project().language().plugin(ModelFactory.class).initializePredefinedElements();
       }
     }
     _namespaceProvider = new BasicNamespaceProvider();
@@ -90,13 +99,13 @@ public class ModelBuilder {
      	String arg = argument(i+1);
 			if(! arg.startsWith("@")) {
 				if(! arg.startsWith("#")&& ! arg.startsWith("%")) {
-					_projectBuilder.includeCustom(arg);
+					File root = new File(arg);
+					new DirectoryLoader(project(), extension(), root, factory());
 				}
       } else {
 				_namespaceProvider.addNamespace(arg.substring(1));
       }
     }
-    _project = _projectBuilder.project();
 	}
 	
 	public ElementProvider<Namespace> namespaceProvider() {
@@ -110,9 +119,7 @@ public class ModelBuilder {
 	private Project _project;
 	
 	private BasicNamespaceProvider _namespaceProvider;
-	
-	private DirectoryProjectBuilder _projectBuilder;
-	
+		
 	/**
 	 * Return whether an output directory is required.
 	 */

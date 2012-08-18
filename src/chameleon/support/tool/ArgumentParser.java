@@ -1,5 +1,6 @@
 package chameleon.support.tool;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -20,7 +21,8 @@ import chameleon.input.ParseException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
-import chameleon.workspace.DirectoryProjectBuilder;
+import chameleon.workspace.DirectoryLoader;
+import chameleon.workspace.FileInputSourceFactory;
 import chameleon.workspace.Project;
 import chameleon.workspace.ProjectException;
 
@@ -36,8 +38,8 @@ public class ArgumentParser {
    @
    @ post getFactory() == factory;
    @*/
-  public ArgumentParser(DirectoryProjectBuilder builder, boolean output) {
-  	_builder = builder;
+  public ArgumentParser(Project project, boolean output) {
+  	_project = project;
     _output = output;
   }
   
@@ -49,8 +51,8 @@ public class ArgumentParser {
    @ post getFactory() == factory;
    @ post getOutput() == true;
    @*/
-  public ArgumentParser(DirectoryProjectBuilder builder) {
-   this(builder, true);
+  public ArgumentParser(Project project) {
+   this(project, true);
  }
  
   private boolean _output;
@@ -62,16 +64,7 @@ public class ArgumentParser {
     return _output;
   }
   
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @*/
-  public DirectoryProjectBuilder builder() {
-    return _builder;
-  }
-
-	private DirectoryProjectBuilder _builder;
+	private Project _project;
 
 	  /**
 	   * The first argument is structured as follows:
@@ -85,19 +78,21 @@ public class ArgumentParser {
 	   * 
 	   * The extension argument is e.g. ".java"
 	   */
-  public Arguments parse(String[] args, String extension) throws ParseException, MalformedURLException, FileNotFoundException, IOException, LookupException, ProjectException {
+  public Arguments parse(String[] args, String extension, FileInputSourceFactory factory) throws ParseException, MalformedURLException, FileNotFoundException, IOException, LookupException, ProjectException {
     int low = (getOutput() ? 1 : 0);
    // ArrayList al = new ArrayList();
     Set files = new HashSet();
    // Set files = new FileSet();
     for(int i = low; i < args.length;i++) {
     	if(! args[i].startsWith("@") && ! args[i].startsWith("#")&& ! args[i].startsWith("%")) {
-        //files.include(new PatternPredicate(new File(args[i]), new FileNamePattern("**/*.csharp")));
     		files.addAll(new DirectoryScanner().scan(args[i],extension,true));
+    		File root = new File(args[i]);
+				new DirectoryLoader(project(), extension, root, factory);
       }
     }
+    project().language().plugin(ModelFactory.class).initializePredefinedElements();
     //System.out.println("Parsing "+files.size() +" files.");
-    builder().addToModel(files);
+//    builder().addToModel(files);
     Namespace mm = project().namespace();
     Set<Type> types = new HashSet<Type>();
     
@@ -146,6 +141,6 @@ public class ArgumentParser {
 		}
 		
 		protected Project project() throws ProjectException {
-			return _builder.project();
+			return _project;
 		}
 }

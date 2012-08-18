@@ -18,8 +18,10 @@ import chameleon.plugin.Plugin;
 import chameleon.plugin.PluginImpl;
 import chameleon.plugin.build.BuildProgressHelper;
 import chameleon.plugin.build.Builder;
-import chameleon.workspace.DirectoryProjectBuilder;
+import chameleon.workspace.DirectoryLoader;
+import chameleon.workspace.FileInputSourceFactory;
 import chameleon.workspace.Project;
+import chameleon.workspace.ProjectException;
 
 /**
  * @author Joeri Hendrickx
@@ -100,24 +102,23 @@ public abstract class EclipseBootstrapper {
 	 * @return
 	 * @throws IOException
 	 * @throws ParseException
+	 * @throws ProjectException 
 	 */
-	public abstract Language createLanguage() throws IOException, ParseException;
+	public abstract Language createLanguage() throws IOException, ParseException, ProjectException;
 	
 
 	
-	protected void loadAPIFiles(String extension, String pluginId, DirectoryProjectBuilder builder) throws IOException, ParseException {
-		FilenameFilter filter = LanguageMgt.fileNameFilter(extension);
+	protected void loadAPIFiles(String extension, String pluginId, Project project,FileInputSourceFactory factory) throws IOException, ParseException, ProjectException {
 		URL directory;
 		try {
 		  directory = LanguageMgt.pluginURL(pluginId, "api/");
 		} catch(NullPointerException exc) {
 			throw new ChameleonProgrammerException("No directory named 'api' is found to load the API.");
 		}
-		List<File> files = LanguageMgt.allFiles(directory, filter);
-		System.out.println("Loading "+files.size()+" API files.");
+		File root = new File(directory.getFile());
+		DirectoryLoader loader = new DirectoryLoader(project, extension, root, factory);
 		// FIXME: This should be done by a reusable artefact.
-		builder.addToModel(files);
-		builder.project().language().plugin(ModelFactory.class).initializePredefinedElements();
+		loader.project().language().plugin(ModelFactory.class).initializePredefinedElements();
 	}
 
 }

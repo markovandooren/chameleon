@@ -58,10 +58,6 @@ public class RegularNamespace extends Namespace {
 
 	private Multi<NamespaceDeclaration> _namespaceParts = new Multi<NamespaceDeclaration>(this);
 
-	public OrderedMultiAssociation getNamespacePartsLink(){
-		return _namespaceParts;
-	}
-
 	public synchronized void addNamespacePart(NamespaceDeclaration namespacePart){
 		_namespaceParts.add((Association)namespacePart.namespaceLink());
 		flushLocalCache();
@@ -105,8 +101,8 @@ public class RegularNamespace extends Namespace {
 	 @
 	 @ post \result != null;
 	 @*/
-	protected Namespace createNamespace(String name){
-	  Namespace result = language().plugin(NamespaceFactory.class).create(name);
+	protected Namespace createSubNamespace(String name){
+	  Namespace result = new RegularNamespace(name);
 	  addNamespace(result);
 		return result;
 	}

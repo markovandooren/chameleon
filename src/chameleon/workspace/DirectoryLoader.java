@@ -1,11 +1,12 @@
 package chameleon.workspace;
 
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -16,9 +17,6 @@ import java.util.concurrent.ExecutionException;
 import org.antlr.runtime.RecognitionException;
 import org.rejuse.io.DirectoryScanner;
 
-import chameleon.core.declaration.Declaration;
-import chameleon.core.document.Document;
-import chameleon.core.lookup.LookupException;
 import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
 import chameleon.util.concurrent.CallableFactory;
@@ -31,10 +29,11 @@ import chameleon.util.concurrent.UnsafeAction;
  * 
  * @author Marko van Dooren
  */
-public class DirectoryProjectBuilder implements ProjectBuilder {
+public class DirectoryLoader implements ProjectBuilder {
 	
 	/**
 	 * Create a new model provider with the given factory.
+	 * @throws ProjectException 
 	 */
  /*@
    @ public behavior
@@ -43,11 +42,12 @@ public class DirectoryProjectBuilder implements ProjectBuilder {
    @
    @ post factory() == factory;
    @*/
-	public DirectoryProjectBuilder(Project project, String fileExtension, File root, FileInputSourceFactory factory) {
+	public DirectoryLoader(Project project, String fileExtension, File root, FileInputSourceFactory factory) throws ProjectException {
 		setProject(project);
 		setFileExtension(fileExtension);
 		setRoot(root);
 		setInputSourceFactory(factory);
+		includeCustom(root.getAbsolutePath());
 	}
 
 	private void setInputSourceFactory(FileInputSourceFactory factory) {
@@ -103,84 +103,57 @@ public class DirectoryProjectBuilder implements ProjectBuilder {
 	}
 
 	private FileInputSourceFactory _inputSourceFactory;
-//	/**
-//	 * Create a new model. The base files are processed, the predefined elements
-//	 * are added, and the custom files are processed.
-//	 */
-//	public Project create() throws ProjectException {
-//		Project result = createProject(name(), language());
-//		// Create a clone, we don't want to accidentally add files to an existing model.
-//    ModelFactory factory = factory().language().clone().plugin(ModelFactory.class);
-//    factory.initializeBase(baseFiles());
-//    factory.addToModel(customFiles());
-//    return factory.language();
-//	}
+	
+	private void includeCustom(String rootDirName) throws ProjectException {
+  	File root = new File(rootDirName);
+  	includeCustom(root);
+	}
 	
 	/**
 	 * Add the given directory to the list of directories that contain the custom model.
+	 * @throws ParseException 
+	 * @throws IOException 
 	 */
-  public void includeCustom(String dirName) throws ProjectException {
-  	try {
-  		addToModel(new DirectoryScanner().scan(dirName, fileExtension(), baseRecursive()));
-		} catch (IOException e) {
-			throw new ProjectException(e);
-		} catch (ParseException e) {
-			throw new ProjectException(e);
-		}
-  	//_customFiles.add(dirName);
-  }
-  
-//	/**
-//	 * Add the given directory to the list of directories that contain the base library for the language.
-//	 */
-//  public void includeBase(String dirName) throws ProjectException {
+  private void includeCustom(File root) throws ProjectException {
+  	File[] files = root.listFiles(new FilenameFilter(){
+		
+			@Override
+			public boolean accept(File arg0, String arg1) {
+				return arg1.endsWith(fileExtension());
+			}
+		});
+  	File[] subdirs = root.listFiles(new FileFilter(){
+			@Override
+			public boolean accept(File pathname) {
+				return pathname.isDirectory();
+			}
+		});
+  	for(File file: files) {
+  		try {
+				addToModel(file);
+			} catch (IOException e) {
+				throw new ProjectException(e);
+			} catch (ParseException e) {
+				throw new ProjectException(e);
+			}
+  	}
+  	for(File subDir: subdirs) {
+  		// push dir
+  		inputSourceFactory().pushDirectory(subDir.getName());
+  		// recurse
+  		includeCustom(subDir);
+  		// pop dir
+  		inputSourceFactory().popDirectory();
+  	}
 //  	try {
-//  		initializeBase(new DirectoryScanner().scan(dirName, fileExtension(), customRecursive()));
+//  		addToModel(new DirectoryScanner().scan(dirName, fileExtension(), customRecursive()));
 //		} catch (IOException e) {
 //			throw new ProjectException(e);
 //		} catch (ParseException e) {
 //			throw new ProjectException(e);
 //		}
-//  }
-
-  /**
-   * Return the collection of base files.
-   */
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @ post ! \result.contains(null);
-   @*/
-  public Collection<File> customFiles() {
-    List<File> files = new ArrayList<File>();
-    for(String path: _customFiles) {
-      files.addAll(new DirectoryScanner().scan(path, fileExtension(), customRecursive()));
-    }
-    return files;
   }
-
-  /**
-   * Return the collection of base files.
-   */
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @ post ! \result.contains(null);
-   @*/
-  public Collection<File> baseFiles() {
-    List<File> files = new ArrayList<File>();
-    for(String path: _baseFiles) {
-      files.addAll(new DirectoryScanner().scan(path, fileExtension(), baseRecursive()));
-    }
-    return files;
-  }
-
-  private ArrayList<String> _customFiles = new ArrayList<String>();
-
-  private ArrayList<String> _baseFiles = new ArrayList<String>();
-
+  
   /**
    * Return whether the custom files will be scanned recursively.
    */
@@ -188,40 +161,9 @@ public class DirectoryProjectBuilder implements ProjectBuilder {
   	return _recursive;
   }
   
-  /**
-   * Return whether the custom files will be scanned recursively.
-   */
-  public boolean baseRecursive() {
-  	return _baseRecursive;
-  }
-  
-  /**
-	 * Return the symbol for separating directories from each other
-	 */
- /*@
-   @ public behavior
-   @
-   @ post \result == File.separator;
-   @*/
-	public String separator() {
-	  return File.separator;
-	}
-
   private boolean _recursive = true;
 
-  private boolean _baseRecursive = true;
-  
-//	/**
-//	 * Initialize the base infrastructure from the given collection of files.
-//	 * A model will be created from the given files, and any predefined elements
-//	 * will be added. 
-//	 */
-//	public void initializeBase(Collection<File> base) throws IOException, ParseException {
-//		addToModel(base);
-//		modelFactory().initializePredefinedElements();
-//	}
-	
-	public void addToModel(Collection<File> files) throws IOException, ParseException {
+	private void addToModel(Collection<File> files) throws IOException, ParseException {
 		final int size = files.size();
 		class Counter {
 			private int count;
@@ -236,14 +178,14 @@ public class DirectoryProjectBuilder implements ProjectBuilder {
 		final Counter counter = new Counter();
 		final BlockingQueue<File> fileQueue = new ArrayBlockingQueue<File>(files.size(), true, files);
 
-	  UnsafeAction<File,Exception> unsafeAction = new UnsafeAction<File,Exception>() {
-	  	private boolean _debug = false;
-		public void actuallyPerform(File file) throws IOException, ParseException {
-					counter.increase();
-					if(_debug) {System.out.println(counter.get()+" of "+size+" :"+file.getAbsolutePath());};
-  			  addToModel(file);
-		} 
-	  };
+		UnsafeAction<File,Exception> unsafeAction = new UnsafeAction<File,Exception>() {
+			private boolean _debug = false;
+			public void actuallyPerform(File file) throws IOException, ParseException {
+				counter.increase();
+				if(_debug) {System.out.println(counter.get()+" of "+size+" :"+file.getAbsolutePath());};
+				addToModel(file);
+			} 
+		};
 	  CallableFactory factory = new QueuePollingCallableFactory<File,Exception>(unsafeAction,fileQueue);
 	  try {
 	  	new FixedThreadCallableExecutor<Exception>(factory).run();
@@ -287,13 +229,9 @@ public class DirectoryProjectBuilder implements ProjectBuilder {
 	 */
 	private void addToModel(File file) throws IOException, ParseException {
     InputSource source = inputSourceFactory().create(file);
+    URI load = file.toURI();
+//    System.out.println(root().toURI().relativize(load));
     _inputSources.add(source);
-    // FIXME: this call should disappear when lazy loading is added.
-    source.load();
-	}
-	
-	private ModelFactory modelFactory() {
-		return project().language().plugin(ModelFactory.class);
 	}
 	
 	private List<InputSource> _inputSources;

@@ -1,8 +1,7 @@
 package chameleon.core.namespace;
 
-import chameleon.plugin.Plugin;
 
-public interface NamespaceFactory extends Plugin {
+public interface NamespaceFactory {
 
 	public Namespace create(String name);
 }

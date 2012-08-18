@@ -48,6 +48,8 @@ import chameleon.util.association.Single;
 
 public abstract class Namespace extends ElementImpl implements TargetDeclaration, DeclarationContainer {
 
+
+
 	public abstract Namespace clone();
 
 	//SPEED : use hashmap to store the subnamespaces and forbid
@@ -67,12 +69,12 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
 	 @
 	 @ post signature()==sig;
 	 @*/
-	public Namespace(SimpleNameSignature sig) {
+	protected Namespace(SimpleNameSignature sig) {
       setSignature(sig);
 	}
 
 
- /*@
+	/*@
    @ public behavior
    @
    @ pre signature != null;
@@ -217,12 +219,12 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
 		final String next = Util.getSecondPart(name); //rest
 		Namespace currentPackage = getSubNamespace(current);
 		if(currentPackage == null) {
-			currentPackage = createNamespace(current);
+			currentPackage = createSubNamespace(current);
 		}
 		return currentPackage.getOrCreateNamespace(next);
 	}
 
-	protected abstract Namespace createNamespace(String name);
+	protected abstract Namespace createSubNamespace(String name);
 	
 	/**
 	 * Return the direct subpackage with the given short name.
@@ -309,19 +311,19 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
 		}
 		return result;
 	}
-	
+
 	@Override
 	public synchronized void flushLocalCache() {
 		_declarationCache = null;
 	}
 	
-	private synchronized void ensureLocalCache() throws LookupException {
+	protected synchronized void ensureLocalCache() throws LookupException {
 		if(_declarationCache == null) {
 			List<Declaration> declarations = declarations();
 		  _declarationCache = new HashMap<String, List<Declaration>>();
 		  for(Declaration declaration: declarations) {
 		  	String name = declaration.signature().name();
-				List<Declaration> list = cachedDeclarations(name);
+				List<Declaration> list = auxDeclarations(name);
 		  	boolean newList = false;
 		  	if(list == null) {
 		  		list = new ArrayList<Declaration>();
@@ -336,7 +338,7 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
 		}
 	}
 	
-	protected synchronized List<Declaration> cachedDeclarations(String name) {
+	protected synchronized List<Declaration> auxDeclarations(String name) throws LookupException {
 		if(_declarationCache != null) {
 		  return _declarationCache.get(name);
 		} else {
@@ -351,7 +353,7 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
 		_declarationCache.put(name, declarations);
 	}
 
-	private Map<String,List<Declaration>> _declarationCache;
+	protected Map<String,List<Declaration>> _declarationCache;
 	
 	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
 //		return selector.selection(declarations());
@@ -360,7 +362,7 @@ public abstract class Namespace extends ElementImpl implements TargetDeclaration
 			if(Config.cacheDeclarations()) {
 				ensureLocalCache();
 				synchronized(this) {
-				  list = _declarationCache.get(selector.selectionName(this));
+				  list = auxDeclarations(selector.selectionName(this));
 				}
 			} else {
 				list = declarations();

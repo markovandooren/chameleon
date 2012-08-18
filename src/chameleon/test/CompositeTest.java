@@ -1,5 +1,7 @@
 package chameleon.test;
 
+import java.io.File;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,12 +20,6 @@ public abstract class CompositeTest {
 	@Before
 	public void setCaching() {
 	  Config.setCaching(true);
-//	  Config.setCacheDeclarations(false);
-//	  Config.setCacheElementProperties(false);
-//    Config.setCacheElementReferences(false);
-//	  Config.setCacheExpressionTypes(false);
-//	  Config.setCacheLanguage(false);
-//	  Config.setCacheSignatures(false);
 	}
 
 	/**
@@ -77,11 +73,11 @@ public abstract class CompositeTest {
 	 * A provider for the model to be tested.
 	 * @throws ProjectException 
 	 */
-	public abstract ProjectBuilder projectBuilder() throws ProjectException;
+	protected abstract Project makeProject() throws ProjectException;
 
 	public Project project() throws ProjectException {
 		long start = System.nanoTime();
-		Project result = projectBuilder().project();
+		Project result = makeProject();
 		long stop = System.nanoTime();
 		System.out.println("Model input took "+(stop-start)/1000000+" milliseconds.");
 		return result;
@@ -90,5 +86,18 @@ public abstract class CompositeTest {
 	 * A provider for the namespaces to be tested.
 	 */
 	public abstract BasicNamespaceProvider namespaceProvider();
+
+  /**
+	 * Return the symbol for separating directories from each other
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result == File.separator;
+   @*/
+	public String separator() {
+	  return File.separator;
+	}
+
 
 }

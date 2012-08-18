@@ -13,6 +13,7 @@ import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
+import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.workspace.Project;
@@ -22,14 +23,35 @@ public class RootNamespace extends RegularNamespace {
     excludeFieldName(RootNamespace.class,"_language");
   }
   
+	private NamespaceFactory _namespaceFactory;
+	
+	protected NamespaceFactory namespaceFactory() {
+		return _namespaceFactory;
+	}
+	
+	private void setNamespaceFactory(NamespaceFactory factory) {
+		if(factory == null) {
+			throw new ChameleonProgrammerException("Namespace factory cannot be null.");
+		}
+		_namespaceFactory = factory;
+	}
+	
+	@Override
+	protected Namespace createSubNamespace(String name) {
+		Namespace result = namespaceFactory().create(name);
+		addNamespace(result);
+		return result;
+	}
+
 // @FIXME
 // Create Model
 	
   /**
    * @param name
    */
-  public RootNamespace(SimpleNameSignature sig, Project project) {
+  protected RootNamespace(SimpleNameSignature sig, Project project,NamespaceFactory factory) {
     super(sig);
+    setNamespaceFactory(factory);
     setProject(project); 
 //    NamespacePart primitiveNP = new NamespacePart(this);
 //    _primitiveNamespacePart.connectTo(primitiveNP.getNamespaceLink());
@@ -38,20 +60,13 @@ public class RootNamespace extends RegularNamespace {
   /**
    * @param name
    */
-  public RootNamespace(SimpleNameSignature sig) {
-  	this(sig,null);
-  }
-  
-  /**
-   * @param name
-   */
-  public RootNamespace() {
-  	this(new SimpleNameSignature(""),null);
+  public RootNamespace(NamespaceFactory factory) {
+  	this(new SimpleNameSignature(""),null, factory);
   }
 
 
 	protected RootNamespace cloneThis() {
-		return new RootNamespace(signature().clone());
+		return new RootNamespace(signature().clone(),null, namespaceFactory());
 	}
 
   public void setProject(Project project) {
