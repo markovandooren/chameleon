@@ -37,16 +37,26 @@ public abstract class FileInputSource implements InputSource {
 	
 	@Override
 	public void load() throws IOException, ParseException {
-		InputStream fileInputStream;
-	  fileInputStream = new FileInputStream(file());
-	  if(_document == null) {
-		  _document = new Document();
-	  } else {
-	  	_document.disconnect();
-	  }
-		modelFactory().parse(fileInputStream, _document);
+		if(! _loaded) {
+			InputStream fileInputStream;
+			fileInputStream = new FileInputStream(file());
+			if(_document == null) {
+				_document = new Document();
+			} else {
+				_document.disconnect();
+			}
+			modelFactory().parse(fileInputStream, _document);
+			_loaded = true;
+		}
 	}
+	
+	private boolean _loaded = false;
 
+	public void refresh() throws IOException, ParseException {
+		_loaded = false;
+		load();
+	}
+	
 	private Document _document;
 	
 	public Document document() {

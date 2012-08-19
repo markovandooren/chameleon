@@ -93,7 +93,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	}
 
 	protected class CurrentNamespaceStrategySelector implements LookupStrategySelector {
-		public LookupStrategy strategy() {
+		public LookupStrategy strategy() throws LookupException {
 			// 3 SEARCH IN CURRENT NAMESPACE
 			LookupStrategy currentNamespaceStrategy = namespace().localStrategy();
 			return language().lookupFactory().createLexicalLookupStrategy(

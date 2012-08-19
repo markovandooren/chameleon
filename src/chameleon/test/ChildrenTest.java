@@ -127,15 +127,15 @@ public class ChildrenTest extends ModelTest {
 		for (Field field : fields) {
 			Object content = getFieldValue(field, element);
 			if(content != null) {
-				try{
-					Association<Element,Element> asso = (Association<Element,Element>) content;
-					List<Element> elms = asso.getOtherEnds();
-					for (Element child : elms) {
-						if(!child.getClass().equals(RootNamespace.class)){
-							reflchildren.add(child);
+					if(content instanceof Association) {
+						Association<Element,Element> asso = (Association<Element,Element>) content;
+						List<Element> elms = asso.getOtherEnds();
+						for (Element child : elms) {
+							if(!child.getClass().equals(RootNamespace.class)){
+								reflchildren.add(child);
+							}
 						}
 					}
-				}catch(ClassCastException exc){}
 			}
 		}
 		return reflchildren;

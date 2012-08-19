@@ -4,50 +4,31 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.element.LoadException;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.input.ParseException;
 import chameleon.workspace.InputSource;
+import chameleon.workspace.Project;
 
-public class LazyNamespace extends RegularNamespace implements InputSourceNamespace {
+public class LazyRootNamespace extends RootNamespace implements InputSourceNamespace {
 
-	protected LazyNamespace(SimpleNameSignature sig) {
-		super(sig);
-		_inputSources = new ArrayList<InputSource>();
-	}
-	
-	protected LazyNamespace(String name) {
-		this(new SimpleNameSignature(name));
-	}
-	
-	@Override
-	public Namespace createSubNamespace(String name) {
-		LazyNamespace result = new LazyNamespace(name);
-		addNamespace(result);
-		return result;
+	public LazyRootNamespace() {
+		super(new LazyNamespaceFactory());
 	}
 
-//	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
-//		if(selector.usesSelectionName() && Config.cacheDeclarations()) {
-//			List<? extends Declaration> list = null;
-//			synchronized(this) {
-//				list = fetchCandidatesFromCache(selector);
-//			}
-//			if(list == null) {
-//				list = Collections.EMPTY_LIST;
-//			}
-//			return selector.selection(Collections.unmodifiableList(list));
-//		} else {
-//			return selector.selection(declarations());
-//		}
-//	}
-	
+	public LazyRootNamespace(SimpleNameSignature sig, Project project) {
+		super(sig,project,new LazyNamespaceFactory());
+	}
+
 	@Override
 	protected synchronized void ensureLocalCache() throws LookupException {
 		if(_declarationCache == null) {
@@ -61,6 +42,7 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 		List<Declaration> candidates = super.auxDeclarations(name);
 		// If there was no cache, the input sources might have something
 		if(candidates == null) {
+			Set<Declaration> tmp;
 			for(Namespace ns: getSubNamespaces()) {
 				if(ns.name().equals(name)) {
 					candidates = new ArrayList<Declaration>();
@@ -68,18 +50,28 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 					break;
 				}
 			}
+			for(NamespaceDeclaration part: getNamespaceParts()) {
+				for(Declaration decl : part.declarations()) {
+					if(decl.name().equals(name)) {
+						if(candidates == null) {
+							candidates = new ArrayList<Declaration>();
+						}
+						candidates.add(decl);
+					}
+				}
+			}
+			if(candidates != null) {
+				tmp = new HashSet<Declaration>(candidates);
+			} else {
+				tmp = new HashSet<Declaration>();
+			}
 			List<InputSource> sources = _sourceMap.get(name);
 			if(sources != null) {
 				for(InputSource source: sources) {
-					if(candidates == null) {
-						candidates = new ArrayList<Declaration>();
-					}
-					candidates.addAll(source.targetDeclarations(name));
+					tmp.addAll(source.targetDeclarations(name));
 				}
 			} 
-			if (candidates == null){
-				candidates = Collections.EMPTY_LIST;
-			}
+			candidates = new ArrayList<Declaration>(tmp);
 			storeCache(name, candidates);
 		}
 		return candidates;
@@ -135,5 +127,6 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 	
 	private Map<String, List<InputSource>> _sourceMap = new HashMap<String, List<InputSource>>();
 
-	private List<InputSource> _inputSources;
+	private List<InputSource> _inputSources = new ArrayList<InputSource>();
+
 }

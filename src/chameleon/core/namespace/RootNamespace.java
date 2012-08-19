@@ -4,12 +4,10 @@ package chameleon.core.namespace;
 import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;
-import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -37,7 +35,7 @@ public class RootNamespace extends RegularNamespace {
 	}
 	
 	@Override
-	protected Namespace createSubNamespace(String name) {
+	public Namespace createSubNamespace(String name) {
 		Namespace result = namespaceFactory().create(name);
 		addNamespace(result);
 		return result;

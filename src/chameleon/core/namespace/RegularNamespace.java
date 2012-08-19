@@ -17,7 +17,7 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.util.association.Multi;
 
-public class RegularNamespace extends Namespace {
+public class RegularNamespace extends NamespaceImpl {
 	
 	public RegularNamespace(String name) {
 		this(new SimpleNameSignature(name));
@@ -101,7 +101,7 @@ public class RegularNamespace extends Namespace {
 	 @
 	 @ post \result != null;
 	 @*/
-	protected Namespace createSubNamespace(String name){
+	public Namespace createSubNamespace(String name){
 	  Namespace result = new RegularNamespace(name);
 	  addNamespace(result);
 		return result;
