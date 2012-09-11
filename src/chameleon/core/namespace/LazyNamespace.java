@@ -33,29 +33,15 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 		return result;
 	}
 
-//	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
-//		if(selector.usesSelectionName() && Config.cacheDeclarations()) {
-//			List<? extends Declaration> list = null;
-//			synchronized(this) {
-//				list = fetchCandidatesFromCache(selector);
-//			}
-//			if(list == null) {
-//				list = Collections.EMPTY_LIST;
-//			}
-//			return selector.selection(Collections.unmodifiableList(list));
-//		} else {
-//			return selector.selection(declarations());
-//		}
-//	}
-	
 	@Override
-	protected synchronized void ensureLocalCache() throws LookupException {
+	protected void initLocalCache() throws LookupException {
 		if(_declarationCache == null) {
 			_declarationCache = new HashMap<String, List<Declaration>>();
 		}
 	}
 	
 	@Override
+	// Only called in synchronized
 	protected synchronized List<Declaration> auxDeclarations(String name) throws LookupException {
 		// First check the declaration cache.
 		List<Declaration> candidates = super.auxDeclarations(name);

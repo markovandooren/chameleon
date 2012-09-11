@@ -285,8 +285,7 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	}
 
 	public List<Declaration> declarations() throws LookupException {
-		List<Declaration> result = new ArrayList<Declaration>();
-		result.addAll(getSubNamespaces());
+		List<Declaration> result = (List)getSubNamespaces();
 		for(NamespaceDeclaration part: getNamespaceParts()) {
 			result.addAll(part.declarations());
 		}
@@ -298,7 +297,7 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 		_declarationCache = null;
 	}
 	
-	protected synchronized void ensureLocalCache() throws LookupException {
+	protected void initLocalCache() throws LookupException {
 		if(_declarationCache == null) {
 			List<Declaration> declarations = declarations();
 		  _declarationCache = new HashMap<String, List<Declaration>>();
@@ -316,6 +315,15 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 		  		_declarationCache.put(name, list);
 		  	}
 		  }
+		}
+	}
+	
+	protected void updateLocalCacheNamespaceAdd(Namespace namespace) {
+		if(_declarationCache !=null) {
+				List<Declaration> decls = _declarationCache.get(namespace.name());
+				if(decls != null) {
+					decls.add(namespace);
+				}
 		}
 	}
 	
@@ -337,12 +345,12 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	protected Map<String,List<Declaration>> _declarationCache;
 	
 	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
-//		return selector.selection(declarations());
+//		System.out.println("Requesting declarations() of "+getFullyQualifiedName());
 		if(selector.usesSelectionName()) {
 			List<? extends Declaration> list = null;
 			if(Config.cacheDeclarations()) {
-				ensureLocalCache();
 				synchronized(this) {
+					initLocalCache();
 				  list = auxDeclarations(selector.selectionName(this));
 				}
 			} else {

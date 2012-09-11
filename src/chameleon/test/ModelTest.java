@@ -12,7 +12,7 @@ import org.junit.Before;
 import chameleon.input.ParseException;
 import chameleon.workspace.Project;
 import chameleon.workspace.ProjectException;
-import chameleon.workspace.ProjectBuilder;
+import chameleon.workspace.ProjectLoader;
 
 /**
  * The top level test class for Chameleon tests. This class provides the infrastructure
@@ -49,20 +49,6 @@ public abstract class ModelTest extends TestSuite {
      setUp();
 	 }
 	 
-//	 /**
-//	  * Return the model provider for this test.
-//	  */
-//	/*@
-//	  @ public behavior
-//	  @
-//	  @ post \result != null;
-//	  @*/
-//	 public Project projectBuilder() {
-//		 return _provider;
-//	 }
-//	 
-//	 private Project _provider;
-	
    /**
     * This method is invoked during setup to set the levels of the loggers.
     * It allows subclasses to easily changes those levels if tests fail, without
@@ -92,10 +78,6 @@ public abstract class ModelTest extends TestSuite {
    @Before
    public void setUp() throws ProjectException {
     	setLogLevels();
-//    	long start = System.nanoTime();
-//    	_project = project();
-//    	long stop = System.nanoTime();
-//    	System.out.println("Model input took "+(stop-start)/1000000+" milliseconds.");
     }
     
    @After

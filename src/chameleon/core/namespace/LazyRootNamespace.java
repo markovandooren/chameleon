@@ -30,7 +30,7 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 	}
 
 	@Override
-	protected synchronized void ensureLocalCache() throws LookupException {
+	protected synchronized void initLocalCache() throws LookupException {
 		if(_declarationCache == null) {
 			_declarationCache = new HashMap<String, List<Declaration>>();
 		}

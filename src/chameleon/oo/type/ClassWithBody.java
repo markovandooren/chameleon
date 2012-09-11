@@ -67,6 +67,9 @@ public abstract class ClassWithBody extends ClassImpl {
 	}
 
 	public void setBody(ClassBody body) {
+		if(body == null) {
+			throw new Error();
+		}
 		set(_body,body);
 	}
 

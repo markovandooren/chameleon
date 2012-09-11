@@ -208,5 +208,26 @@ public class UnionType extends MultiType {
 			return (types.size() == 1) && (types.iterator().next().sameAs(other,trace));
 		}
 	}
+	
+	@Override
+	public boolean auxSubTypeOf(Type other) throws LookupException {
+		List<Type> types = types();
+		int size = types.size();
+		boolean result = size > 0;
+		for(int i=0; result && i<size;i++) {
+			result = types.get(i).subTypeOf(other);
+		}
+		return result;
+	}
 
+	@Override
+	public boolean auxSuperTypeOf(Type type) throws LookupException {
+		List<Type> types = types();
+		int size = types.size();
+		boolean result = false;
+		for(int i=0; (!result) && i<size;i++) {
+			result = type.subTypeOf(types.get(i));
+		}
+		return result;
+	}
 }

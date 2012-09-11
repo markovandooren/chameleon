@@ -354,4 +354,6 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	 * @return
 	 */
 	public VerificationResult verifySubtypeOf(Type otherType, String meaningThisType, String meaningOtherType);
+
+	public boolean auxSuperTypeOf(Type type) throws LookupException;
 }

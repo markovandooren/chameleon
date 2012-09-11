@@ -792,6 +792,8 @@ public abstract class ElementImpl implements Element {
 		return result;
 	}
 
+	private Language _languageCache;
+
 	public <T extends Language> T language(Class<T> kind) {
 		if(kind == null) {
 			throw new ChameleonProgrammerException("The given language class is null.");
@@ -803,8 +805,6 @@ public abstract class ElementImpl implements Element {
 			throw new WrongLanguageException("The language of this model is of the wrong kind. Expected: "+kind.getName()+" but got: " +language.getClass().getName());
 		}
 	}
-
-	private Language _languageCache;
 
 	/**
 	 * @see Element#lexicalLookupStrategy(Element) 

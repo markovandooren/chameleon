@@ -29,7 +29,7 @@ import chameleon.util.concurrent.UnsafeAction;
  * 
  * @author Marko van Dooren
  */
-public class DirectoryLoader implements ProjectBuilder {
+public class DirectoryLoader implements ProjectLoader {
 	
 	/**
 	 * Create a new model provider with the given factory.
@@ -64,9 +64,9 @@ public class DirectoryLoader implements ProjectBuilder {
 	}
 	
 	private void setRoot(File root) {
-//		if(root == null) {
-//			throw new IllegalArgumentException();
-//		}
+		if(root == null) {
+			throw new IllegalArgumentException();
+		}
 		_root = root;
 		
 		_inputSources = new ArrayList<InputSource>();

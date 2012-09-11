@@ -3,7 +3,6 @@ package chameleon.core.namespace;
 import java.util.List;
 
 import org.rejuse.association.Association;
-import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
@@ -27,19 +26,18 @@ public class RegularNamespace extends NamespaceImpl {
 		super(sig);
 	}
 
-//	public RegularNamespace(SimpleNameSignature sig, RegularNamespace parent) {
-//		super(sig);
-//		parent.addNamespace(this);
-//	}
-//	
 	/**
 	 * SUBNAMESPACES
 	 */
 	private Multi<Namespace> _namespaces = new Multi<Namespace>(this);
 
 
-	protected void addNamespace(Namespace namespace) {
+	protected synchronized void addNamespace(Namespace namespace) {
 		add(_namespaces,namespace);
+		updateCacheNamespaceAdded(namespace);
+	}
+
+	protected void updateCacheNamespaceAdded(Namespace namespace) {
 		flushLocalCache();
 	}
 

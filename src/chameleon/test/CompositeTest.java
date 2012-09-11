@@ -12,7 +12,7 @@ import chameleon.core.reference.CrossReference;
 import chameleon.test.provider.BasicDescendantProvider;
 import chameleon.test.provider.BasicNamespaceProvider;
 import chameleon.workspace.Project;
-import chameleon.workspace.ProjectBuilder;
+import chameleon.workspace.ProjectLoader;
 import chameleon.workspace.ProjectException;
 
 public abstract class CompositeTest {
@@ -31,18 +31,19 @@ public abstract class CompositeTest {
 		new CloneAndChildTest(project(), namespaceProvider()).testClone();
 	}
 
-	/**
-	 * Test children for all elements in the namespaces provided
-	 * by the namespace provider.
-	 */
-	@Test
-	public void testChildren() throws Exception {
-		ChildrenTest childrenTest = new ChildrenTest(project(), namespaceProvider());
-		childrenTest.excludeFieldName(ElementImpl.class, "_parentLink");
-		childrenTest.excludeFieldName(NamespaceDeclaration.class, "_namespaceLink");
-		addExcludes(childrenTest);
-		childrenTest.testChildren();
-	}
+	// NO LONGER REQUIRED NOW children() is implemented with reflection (making the test identical to the implementation)
+//	/**
+//	 * Test children for all elements in the namespaces provided
+//	 * by the namespace provider.
+//	 */
+//	@Test
+//	public void testChildren() throws Exception {
+//		ChildrenTest childrenTest = new ChildrenTest(project(), namespaceProvider());
+//		childrenTest.excludeFieldName(ElementImpl.class, "_parentLink");
+//		childrenTest.excludeFieldName(NamespaceDeclaration.class, "_namespaceLink");
+//		addExcludes(childrenTest);
+//		childrenTest.testChildren();
+//	}
 	
 	/**
 	 * Exclude Association fields that should not be children. This method is invoked by
@@ -76,10 +77,10 @@ public abstract class CompositeTest {
 	protected abstract Project makeProject() throws ProjectException;
 
 	public Project project() throws ProjectException {
-		long start = System.nanoTime();
+//		long start = System.nanoTime();
 		Project result = makeProject();
-		long stop = System.nanoTime();
-		System.out.println("Model input took "+(stop-start)/1000000+" milliseconds.");
+//		long stop = System.nanoTime();
+//		System.out.println("Model input took "+(stop-start)/1000000+" milliseconds.");
 		return result;
 	}
 	/**
