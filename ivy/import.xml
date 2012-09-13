@@ -26,5 +26,8 @@
       <ivy:install organisation="org.antlr" module="antlr-runtime" revision="3.2"
                    from="maven" to="pubchameleon"
                    transitive="true" overwrite="true"/>
+      <ivy:install organisation="org.ow2.asm" module="asm" revision="4.0"
+                   from="asm" to="pubchameleon" 
+                   transitive="true" overwrite="true"/>
     </target>
 </project>

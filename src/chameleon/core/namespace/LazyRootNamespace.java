@@ -16,6 +16,7 @@ import chameleon.core.element.LoadException;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.input.ParseException;
+import chameleon.workspace.InputException;
 import chameleon.workspace.InputSource;
 import chameleon.workspace.Project;
 
@@ -94,10 +95,8 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 		for(InputSource source: inputSourcesView()) {
 			try {
 				source.load();
-			} catch (IOException e) {
+			} catch (InputException e) {
 				throw new LookupException("File open error",e);
-			} catch (ParseException e) {
-				throw new LookupException("File parse error",e);
 			}
 		}
 		return super.declarations();
@@ -108,10 +107,8 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 		for(InputSource source: inputSourcesView()) {
 			try {
 				source.load();
-			} catch (IOException e) {
+			} catch (InputException e) {
 				throw new LoadException("File open error",e);
-			} catch (ParseException e) {
-				throw new LoadException("File parse error",e);
 			}
 		}
 		return super.children();

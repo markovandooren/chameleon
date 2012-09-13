@@ -65,6 +65,13 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 		return this;
 	}
 	
+	@Override
+	public <P extends Parameter> void addAllParameters(Class<P> kind, Collection<P> parameters) {
+		for(P p: parameters) {
+			addParameter(kind, p);
+		}
+	}
+	
 	public SimpleNameSignature signature() {
 		return (SimpleNameSignature) super.signature();
 	}
@@ -607,6 +614,13 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     		return selector.selection(result);
     	} else {
     	  return result;
+    	}
+    }
+    
+    @Override
+    public void addAllInheritanceRelations(Collection<InheritanceRelation> relations) {
+    	for(InheritanceRelation rel: relations) {
+    		addInheritanceRelation(rel);
     	}
     }
     

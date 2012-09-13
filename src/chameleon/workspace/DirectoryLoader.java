@@ -131,9 +131,7 @@ public class DirectoryLoader implements ProjectLoader {
   	for(File file: files) {
   		try {
 				addToModel(file);
-			} catch (IOException e) {
-				throw new ProjectException(e);
-			} catch (ParseException e) {
+			} catch (InputException e) {
 				throw new ProjectException(e);
 			}
   	}
@@ -180,7 +178,7 @@ public class DirectoryLoader implements ProjectLoader {
 
 		UnsafeAction<File,Exception> unsafeAction = new UnsafeAction<File,Exception>() {
 			private boolean _debug = false;
-			public void actuallyPerform(File file) throws IOException, ParseException {
+			public void actuallyPerform(File file) throws InputException {
 				counter.increase();
 				if(_debug) {System.out.println(counter.get()+" of "+size+" :"+file.getAbsolutePath());};
 				addToModel(file);
@@ -227,9 +225,8 @@ public class DirectoryLoader implements ProjectLoader {
 	 *             Something went wrong
 	 * @throws RecognitionException 
 	 */
-	private void addToModel(File file) throws IOException, ParseException {
+	private void addToModel(File file) throws InputException {
     InputSource source = inputSourceFactory().create(file);
-    URI load = file.toURI();
 //    System.out.println(root().toURI().relativize(load));
     _inputSources.add(source);
 	}

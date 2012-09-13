@@ -1,6 +1,5 @@
 package chameleon.core.namespace;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -12,7 +11,8 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.element.LoadException;
 import chameleon.core.lookup.LookupException;
-import chameleon.input.ParseException;
+import chameleon.exception.ChameleonProgrammerException;
+import chameleon.workspace.InputException;
 import chameleon.workspace.InputSource;
 
 public class LazyNamespace extends RegularNamespace implements InputSourceNamespace {
@@ -73,7 +73,11 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 	
 	public void addInputSource(InputSource source) {
 		_inputSources.add(source);
-		for(String name: source.targetDeclarationNames(this)) {
+		List<String> targetDeclarationNames = source.targetDeclarationNames(this);
+		for(String name: targetDeclarationNames) {
+			if(name == null) {
+				throw new ChameleonProgrammerException("An input source uses null as a declaration name.");
+			}
 			List<InputSource> list = _sourceMap.get(name);
 			if(list == null) {
 				list = new ArrayList<InputSource>();
@@ -88,10 +92,8 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 		for(InputSource source: inputSourcesView()) {
 			try {
 				source.load();
-			} catch (IOException e) {
+			} catch (InputException e) {
 				throw new LookupException("File open error",e);
-			} catch (ParseException e) {
-				throw new LookupException("File parse error",e);
 			}
 		}
 		return super.declarations();
@@ -102,10 +104,8 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 		for(InputSource source: inputSourcesView()) {
 			try {
 				source.load();
-			} catch (IOException e) {
+			} catch (InputException e) {
 				throw new LoadException("File open error",e);
-			} catch (ParseException e) {
-				throw new LoadException("File parse error",e);
 			}
 		}
 		return super.children();

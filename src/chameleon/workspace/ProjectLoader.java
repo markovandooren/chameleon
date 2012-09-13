@@ -14,7 +14,7 @@ import chameleon.input.ParseException;
 public interface ProjectLoader {
 
 	/**
-	 * Return the project built by this builder.
+	 * Return the project populated by this builder.
 	 * 
 	 * @throws ProjectException 
 	 * @throws ParseException 

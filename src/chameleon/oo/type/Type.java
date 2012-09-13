@@ -78,6 +78,8 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	public <P extends Parameter> int nbTypeParameters(Class<P> kind);
 
 	public <P extends Parameter> void addParameter(Class<P> kind,P parameter);
+	
+	public <P extends Parameter> void addAllParameters(Class<P> kind,Collection<P> parameter);
 
 	public <P extends Parameter> void replaceParameter(Class<P> kind, P oldParameter, P newParameter);
 
@@ -204,8 +206,9 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	  @ pre relation != null;
 	  @ post inheritanceRelations().contains(relation);
 	  @*/
-	public void addInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException;
+	public void addInheritanceRelation(InheritanceRelation relation);
 
+	public void addAllInheritanceRelations(Collection<InheritanceRelation> relations);
 	/**
 	 * Remove the give given inheritance relation from this type.
 	 * @param type
