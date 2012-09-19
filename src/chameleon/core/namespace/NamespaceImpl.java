@@ -198,7 +198,7 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	 *
 	 * <p>If the namespace does not exist yet, it will be created.</p>
 	 *
-	 * @param name
+	 * @param qualifiedName
 	 *        The qualified name relative to this namespace
 	 */
  /*@
@@ -211,15 +211,15 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
    @
    @ signals (LookupException) (* There are multiple subnamespaces with the given name. *) 
    @*/
-	public Namespace getOrCreateNamespace(final String name) throws LookupException {
+	public Namespace getOrCreateNamespace(final String qualifiedName) throws LookupException {
 		Namespace currentPackage;
 		String next;
 		synchronized(this) {
-			if ((name == null) || name.equals("")) {
+			if ((qualifiedName == null) || qualifiedName.equals("")) {
 				return this;
 			}
-			String current = Util.getFirstPart(name);
-			next = Util.getSecondPart(name); //rest
+			String current = Util.getFirstPart(qualifiedName);
+			next = Util.getAllButFirstPart(qualifiedName); //rest
 			currentPackage = getSubNamespace(current);
 			if(currentPackage == null) {
 				currentPackage = createSubNamespace(current);
