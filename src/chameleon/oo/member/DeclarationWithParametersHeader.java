@@ -79,6 +79,10 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
     add(_parameters,arg);
   }
   
+  public void removeFormalParameter(FormalParameter arg) {
+    remove(_parameters,arg);
+  }
+  
   public void addFormalParameters(List<FormalParameter> parameters) {
 	if (parameters == null)
 		return;
