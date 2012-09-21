@@ -11,7 +11,6 @@ public class RegularType extends ClassWithBody {
 
 	public RegularType(SimpleNameSignature sig) {
 		super(sig);
-		sig.parentLink().lock();
 	}
 	
 	public RegularType(String name) {

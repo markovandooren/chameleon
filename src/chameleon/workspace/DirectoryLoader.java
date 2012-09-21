@@ -95,6 +95,9 @@ public class DirectoryLoader implements ProjectLoader {
 	 * Set the file extension for this model provider.
 	 */
 	public void setFileExtension(String fileExtension) {
+		if(fileExtension == null) {
+			throw new IllegalArgumentException();
+		}
 		_fileExtension = fileExtension;
 	}
 	

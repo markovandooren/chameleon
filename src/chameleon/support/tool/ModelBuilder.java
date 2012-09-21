@@ -47,6 +47,7 @@ public class ModelBuilder {
 		_arguments = Arrays.asList(arguments);
 		_factory = factory;
 		_project = project;
+		_extension = extension;
 		processArguments();
 	}
 	
