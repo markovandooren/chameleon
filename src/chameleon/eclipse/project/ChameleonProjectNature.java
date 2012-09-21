@@ -87,8 +87,11 @@ public class ChameleonProjectNature implements IProjectNature {
 //		return result;
 	}
 
+	/**
+	 * Set the language, and attach the source manager and the input processor.
+	 * @param language
+	 */
 	public void init(Language language){
-//		setMetaModelFactory(LanguageMgt.getInstance().getModelFactory(language));
 		if(language == null) {
 			throw new ChameleonProgrammerException("Cannot set the language of a Chameleon project nature to null.");
 		}
@@ -98,7 +101,9 @@ public class ChameleonProjectNature implements IProjectNature {
 	}
 	
 	/**
-	 * Configures this nature. to be called after initialisation.
+	 * Configure this nature. This method is called by Eclipse after initialisation.
+	 * We use it to create the Chameleon builder. FIXME: this also starts a new build job. I'm not
+	 * sure if that should happen.
 	 */
 	public void configure() throws CoreException {
 		System.out.println("Configuring Chameleon project nature.");
@@ -153,8 +158,8 @@ public class ChameleonProjectNature implements IProjectNature {
 	}
 
 	/**
-	 * A new project for this nature is set.
-	 * All documents (if any) are loaded and the according model is built.
+	 * A new project for this nature is set. Based on the chameleon project description file,
+	 * the project is initialized.
 	 */
 	public void setProject(IProject project) {
 		if(project != _project) {
@@ -162,7 +167,8 @@ public class ChameleonProjectNature implements IProjectNature {
 			this._project = project;
 			if(project != null) {
 				try {
-					BufferedReader f = new BufferedReader(new FileReader(new File(project.getLocation()+"/."+CHAMELEON_PROJECT_FILE_EXTENSION)));
+					IPath location = project.getLocation();
+					BufferedReader f = new BufferedReader(new FileReader(new File(location+"/."+CHAMELEON_PROJECT_FILE_EXTENSION)));
 					String lang = f.readLine();
 					f.close();
 					Language language = LanguageMgt.getInstance().createLanguage(lang);

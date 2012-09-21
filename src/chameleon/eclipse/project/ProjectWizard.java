@@ -213,11 +213,11 @@ public class ProjectWizard extends BasicNewProjectResourceWizard implements INew
 	public boolean performFinish() {
 		//project structuur aanmaken
 		//van het type chameleonproject
-		//taal moet gezet worden ergens => metamodelfactory
+		//taal moet gezet worden ergens => modelfactory
 		try {
 			Workspace workspace =(Workspace) ResourcesPlugin.getWorkspace();
 			IWorkspaceRoot workspaceRoot = workspace.getRoot();
-			//volgende geeft het probleem met de classcastexception in chameleondoucmentprovider
+			//volgende geeft het probleem met de classcastexception in chameleondocumentprovider
 			//workspace zet nl een project in zijn table, en niet een chameleonproject
 			IProject project = workspaceRoot.getProject(((ProjectDetailsPage)pages[1]).getProjectName());
 			IFile projfile = project.getFile("."+ChameleonProjectNature.CHAMELEON_PROJECT_FILE_EXTENSION);
