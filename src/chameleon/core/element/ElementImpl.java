@@ -423,12 +423,6 @@ public abstract class ElementImpl implements Element {
 		return result;
 	}
 
-	//      	List<Element> tmp = (List<Element>) reflectiveChildren();
-	//      	new TypePredicate<Element,T>(c).filter(tmp);
-	//        List<T> result = (List<T>)tmp;
-	//        for (Element e : reflectiveChildren()) {
-
-
 	public final <T extends Element> boolean hasDescendant(Class<T> c) {
 		List<Element> tmp = (List<Element>) children();
 		new TypePredicate<Element,T>(c).filter(tmp);
