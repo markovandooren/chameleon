@@ -7,6 +7,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+
 import chameleon.core.document.Document;
 import chameleon.core.language.Language;
 import chameleon.eclipse.LanguageMgt;
@@ -38,10 +42,9 @@ public abstract class EclipseBootstrapper {
 		registerFileExtensions();
 	}
 	
-	public EclipseBootstrapper(String name,String languageVersion, String extension) {
+	public EclipseBootstrapper(String name,String languageVersion, String extension, String pluginID) {
 		this();
 		if(name == null) {
-			// Let's adopt Martin Rinard's vision and not make the tool crash.
 			name = "unknown language "+getClass().getPackage().getName(); 
 		}
 		_name = name;
@@ -51,6 +54,12 @@ public abstract class EclipseBootstrapper {
 		_languageVersion = languageVersion;
 		addExtension(extension);
 	}
+	
+	public String pluginID() {
+		return _pluginID;
+	}
+	
+	private String _pluginID;
 	
 	private String _name;
 	
@@ -106,19 +115,22 @@ public abstract class EclipseBootstrapper {
 	 */
 	public abstract Language createLanguage() throws IOException, ParseException, ProjectException;
 	
-
+	protected URL pluginURL(String pluginID, String directory) throws IOException {
+		return FileLocator.toFileURL(FileLocator.find(
+  			Platform.getBundle(pluginID), new Path(directory), null));
+	}
 	
 	protected void loadAPIFiles(String extension, String pluginId, Project project,FileInputSourceFactory factory) throws IOException, ParseException, ProjectException {
 		URL directory;
 		try {
-		  directory = LanguageMgt.pluginURL(pluginId, "api/");
+		  directory = pluginURL(pluginId, "api/");
 		} catch(NullPointerException exc) {
 			throw new ChameleonProgrammerException("No directory named 'api' is found to load the API.");
 		}
 		File root = new File(directory.getFile());
-		DirectoryLoader loader = new DirectoryLoader(project, extension, root, factory);
+		project.addSource(new DirectoryLoader(extension, root, factory));
 		// FIXME: This should be done by a reusable artefact.
-		loader.project().language().plugin(ModelFactory.class).initializePredefinedElements();
+		project.language().plugin(ModelFactory.class).initializePredefinedElements();
 	}
 
 }

@@ -15,6 +15,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
 
 import org.antlr.runtime.RecognitionException;
+import org.rejuse.association.SingleAssociation;
 import org.rejuse.io.DirectoryScanner;
 
 import chameleon.input.ModelFactory;
@@ -42,12 +43,11 @@ public class DirectoryLoader implements ProjectLoader {
    @
    @ post factory() == factory;
    @*/
-	public DirectoryLoader(Project project, String fileExtension, File root, FileInputSourceFactory factory) throws ProjectException {
-		setProject(project);
+	public DirectoryLoader(String fileExtension, File root, FileInputSourceFactory factory) throws ProjectException {
 		setFileExtension(fileExtension);
 		setRoot(root);
 		setInputSourceFactory(factory);
-		includeCustom(root.getAbsolutePath());
+		includeCustom(root);
 	}
 
 	private void setInputSourceFactory(FileInputSourceFactory factory) {
@@ -72,14 +72,18 @@ public class DirectoryLoader implements ProjectLoader {
 		_inputSources = new ArrayList<InputSource>();
 	}
 	
-	private Project _project;
+	private SingleAssociation<DirectoryLoader,Project>  _projectLink = new SingleAssociation<DirectoryLoader, Project>(this);
 	
 	public Project project() {
-		return _project;
+		return _projectLink.getOtherEnd();
 	}
 	
 	private void setProject(Project project) {
-		_project = project;
+		project.addSource(this);
+	}
+	
+	public SingleAssociation<DirectoryLoader,Project> projectLink() {
+		return _projectLink;
 	}
 	
 	private String _fileExtension;
@@ -108,7 +112,10 @@ public class DirectoryLoader implements ProjectLoader {
 	private FileInputSourceFactory _inputSourceFactory;
 	
 	private void includeCustom(String rootDirName) throws ProjectException {
-  	File root = new File(rootDirName);
+		File root = new File(rootDirName);
+		if(! root.isAbsolute()) {
+			root = new File(project().root().getAbsolutePath()+File.separator+rootDirName);
+		}
   	includeCustom(root);
 	}
 	
@@ -131,20 +138,24 @@ public class DirectoryLoader implements ProjectLoader {
 				return pathname.isDirectory();
 			}
 		});
-  	for(File file: files) {
-  		try {
-				addToModel(file);
-			} catch (InputException e) {
-				throw new ProjectException(e);
-			}
+  	if(files != null) {
+  		for(File file: files) {
+  			try {
+  				addToModel(file);
+  			} catch (InputException e) {
+  				throw new ProjectException(e);
+  			}
+  		}
   	}
-  	for(File subDir: subdirs) {
-  		// push dir
-  		inputSourceFactory().pushDirectory(subDir.getName());
-  		// recurse
-  		includeCustom(subDir);
-  		// pop dir
-  		inputSourceFactory().popDirectory();
+  	if(subdirs != null) {
+  		for(File subDir: subdirs) {
+  			// push dir
+  			inputSourceFactory().pushDirectory(subDir.getName());
+  			// recurse
+  			includeCustom(subDir);
+  			// pop dir
+  			inputSourceFactory().popDirectory();
+  		}
   	}
 //  	try {
 //  		addToModel(new DirectoryScanner().scan(dirName, fileExtension(), customRecursive()));
@@ -230,7 +241,6 @@ public class DirectoryLoader implements ProjectLoader {
 	 */
 	private void addToModel(File file) throws InputException {
     InputSource source = inputSourceFactory().create(file);
-//    System.out.println(root().toURI().relativize(load));
     _inputSources.add(source);
 	}
 	

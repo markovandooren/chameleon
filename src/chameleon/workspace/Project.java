@@ -1,25 +1,24 @@
 package chameleon.workspace;
 
-import java.io.IOException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.rejuse.association.MultiAssociation;
+import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.RootNamespace;
-import chameleon.input.ParseException;
 
 /**
  * A class that represents the concept of a project. A project
  * keeps a collection of input sources and is an input source itself.
  * 
  * @author Marko van Dooren
- * @author Nelis Boucke
  */
 public class Project {
 	
@@ -35,13 +34,30 @@ public class Project {
    @ post name() == name;
    @ post namespace() == root;
    @*/
-	public Project(String name, RootNamespace root, Language language) {
+	public Project(String name, RootNamespace namespace, Language language, File root) {
 		setName(name);
-		setNamespace(root);
+		setNamespace(namespace);
 		setLanguage(language);
+		setRoot(root);
 	}
 
 	private SingleAssociation<Project, Workspace> _workspaceLink;
+	
+	public File root() {
+		return _root;
+	}
+	
+	private File _root;
+	
+	protected void setRoot(File file) {
+		if(file == null) {
+			throw new IllegalArgumentException("The root directory of a project should not be null");
+		}
+		if(file.isFile()) {
+			throw new IllegalArgumentException("The root directory of a project should not be a normal file");
+		}
+		_root = file;
+	}
 	
 	SingleAssociation<Project, Workspace> workspaceLink() {
 		return _workspaceLink;
@@ -171,6 +187,20 @@ public class Project {
 	
 	public boolean isValid(InputSource input) {
 		return input != null;
+	}
+	
+	private OrderedMultiAssociation<Project, ProjectLoader> _sourceLoaders = new OrderedMultiAssociation<>(this);
+
+	public void addSource(ProjectLoader loader) {
+		_sourceLoaders.add(loader.projectLink());
+	}
+	
+	public void removeSource(ProjectLoader loader) {
+		_sourceLoaders.remove(loader.projectLink());
+	}
+	
+	public List<ProjectLoader> sources() {
+		return _sourceLoaders.getOtherEnds();
 	}
 
 //	/**

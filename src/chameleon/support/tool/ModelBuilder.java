@@ -90,7 +90,7 @@ public class ModelBuilder {
 			if(! arg.startsWith("@") && ! arg.startsWith("#")&& ! arg.startsWith("%")) {
 				//FIXME this should be done by a reusable artefact.
 				File root = new File(arg);
-				new DirectoryLoader(project(), extension(), root, factory());
+				project().addSource(new DirectoryLoader(extension(), root, factory()));
      		project().language().plugin(ModelFactory.class).initializePredefinedElements();
       }
     }
@@ -101,7 +101,7 @@ public class ModelBuilder {
 			if(! arg.startsWith("@")) {
 				if(! arg.startsWith("#")&& ! arg.startsWith("%")) {
 					File root = new File(arg);
-					new DirectoryLoader(project(), extension(), root, factory());
+					project().addSource(new DirectoryLoader(extension(), root, factory()));
 				}
       } else {
 				_namespaceProvider.addNamespace(arg.substring(1));

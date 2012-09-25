@@ -2,6 +2,8 @@ package chameleon.workspace;
 
 import java.io.IOException;
 
+import org.rejuse.association.Association;
+
 import chameleon.input.ParseException;
 
 
@@ -26,5 +28,7 @@ public interface ProjectLoader {
    @ post \result != null;
    @*/
 	public Project project() throws ProjectException;
+
+	public Association<? extends ProjectLoader, ? super Project> projectLink();
 	
 }

@@ -87,7 +87,7 @@ public class ArgumentParser {
     	if(! args[i].startsWith("@") && ! args[i].startsWith("#")&& ! args[i].startsWith("%")) {
     		files.addAll(new DirectoryScanner().scan(args[i],extension,true));
     		File root = new File(args[i]);
-				new DirectoryLoader(project(), extension, root, factory);
+    		project().addSource(new DirectoryLoader(extension, root, factory));
       }
     }
     project().language().plugin(ModelFactory.class).initializePredefinedElements();

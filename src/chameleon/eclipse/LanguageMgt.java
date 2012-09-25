@@ -117,13 +117,6 @@ public class LanguageMgt {
 			return filter;
 		}
 
-		public static URL pluginURL(String pluginID, String directory) throws IOException {
-			URL url = FileLocator.toFileURL(FileLocator.find(
-    			Platform.getBundle(pluginID),
-    			new Path(directory), null));
-			return url;
-		}
-
 		private void addLanguage(EclipseBootstrapper bootstrapper) {
 			languages.put(bootstrapper.getLanguageName(), bootstrapper);
 		}
