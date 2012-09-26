@@ -26,19 +26,21 @@ import chameleon.util.concurrent.SafeAction;
 import chameleon.util.concurrent.UnsafeAction;
 
 /**
- * Element is the top interface for an element of a model.
+ * Element is the top interface for an element of a source model. Every lexical language construct (every
+ * construct that can be part of the "source code") must implement this interface. On top of that, every
+ * class for a language construct must encapsulate the semantics of that element. As a result, tools no
+ * longer have to contain the base semantics of a language, making it much easier to reuse the tool for
+ * models of a different language.
  * 
- * Every element can have a parent and children.
+ * Every Element provides functionality to navigate the lexical structure of the model through methods to access
+ * the children, descendants, and ancestors. The lexical structure can be navigated in any direction: from outer
+ * elements to inner elements or vice versa.
  * 
- * Every element can have tags associated with it. They are used to attach additional information
+ * The logical structures within a model are modeled indirectly, never through direct object references.  
+ * See the interface {@link chameleon.core.reference.CrossReference} for the explanation.
+ * 
+ * Every element can have metadata associated with it. They are used to attach additional information
  * to an element without modifying Chameleon.
- * 
- * <E> The type of the element (typically the subclass being defined).
- * 
- * As the client of a model, you can mostly ignore these parameters. Because Java
- * supports parametric polymorphism only through functional-style generic parameters,
- * we cannot hide them. They are almost exclusively there for internal purposes. With
- * type members, these problems would not occur.
  * 
  * @author Marko van Dooren
  * 
