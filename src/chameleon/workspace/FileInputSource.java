@@ -10,18 +10,13 @@ import chameleon.core.document.Document;
 import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
 
-public abstract class FileInputSource implements InputSource {
+public abstract class FileInputSource extends InputSourceImpl {
 
-	public FileInputSource(File file, ModelFactory factory) {
+	public FileInputSource(File file) {
 		if(file == null) {
 			throw new IllegalArgumentException();
 		}
-		if(factory == null) {
-			throw new IllegalArgumentException();
-		}
 		_file = file;
-		_factory = factory;
-
 	}
 	
 	private File _file;
@@ -30,41 +25,38 @@ public abstract class FileInputSource implements InputSource {
 		return _file;
 	}
 	
-	public ModelFactory modelFactory() {
-		return _factory;
-	}
-
-	private ModelFactory _factory;
-	
 	@Override
 	public void load() throws InputException {
-		if(! _loaded) {
+		if(! isLoaded()) {
 			InputStream fileInputStream;
 			try {
 				fileInputStream = new FileInputStream(file());
 			} catch (FileNotFoundException e1) {
 				throw new InputException(e1);
 			}
-			if(_document == null) {
-				_document = new Document();
+			if(document() == null) {
+				setDocument(new Document());
 			} else {
-				_document.disconnect();
+				document().disconnect();
 			}
 			try {
-				modelFactory().parse(fileInputStream, _document);
+				namespace().language().plugin(ModelFactory.class).parse(fileInputStream, document());
 			} catch (IOException | ParseException e) {
 				throw new InputException(e);
 			}
-			_loaded = true;
+			setLoaded(true);
 		}
 	}
 	
 	private boolean _loaded = false;
 
-//	public void refresh() throws IOException, ParseException {
-//		_loaded = false;
-//		load();
-//	}
+	protected boolean isLoaded() {
+		return _loaded;
+	}
+	
+	protected void setLoaded(boolean loaded) {
+		_loaded = loaded;
+	}
 	
 	private Document _document;
 	
@@ -72,4 +64,7 @@ public abstract class FileInputSource implements InputSource {
 		return _document;
 	}
 	
+	protected void setDocument(Document doc) {
+		_document = doc;
+	}
 }

@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.rejuse.association.OrderedMultiAssociation;
+
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
@@ -19,11 +21,19 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 
 	protected LazyNamespace(SimpleNameSignature sig) {
 		super(sig);
-		_inputSources = new ArrayList<InputSource>();
 	}
 	
 	protected LazyNamespace(String name) {
 		this(new SimpleNameSignature(name));
+	}
+	
+	@Override
+	protected RegularNamespace cloneThis() {
+		LazyNamespace result = new LazyNamespace(signature().clone());
+		for(InputSource source: inputSources()) {
+			result.addInputSource(source.clone());
+		}
+		return result;
 	}
 	
 	@Override
@@ -72,7 +82,7 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 	}
 	
 	public void addInputSource(InputSource source) {
-		_inputSources.add(source);
+		_inputSources.add(source.namespaceLink());
 		List<String> targetDeclarationNames = source.targetDeclarationNames(this);
 		for(String name: targetDeclarationNames) {
 			if(name == null) {
@@ -89,7 +99,7 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 	
 	@Override
 	public List<Declaration> declarations() throws LookupException {
-		for(InputSource source: inputSourcesView()) {
+		for(InputSource source: inputSources()) {
 			try {
 				source.load();
 			} catch (InputException e) {
@@ -101,7 +111,8 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 	
 	@Override
 	public List<? extends Element> children() {
-		for(InputSource source: inputSourcesView()) {
+		//SPEED add view to Association class.
+		for(InputSource source: inputSources()) {
 			try {
 				source.load();
 			} catch (InputException e) {
@@ -112,14 +123,10 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 	}
 	
 	public List<InputSource> inputSources() {
-		return new ArrayList<InputSource>(_inputSources);
-	}
-	
-	public List<InputSource> inputSourcesView() {
-		return Collections.unmodifiableList(_inputSources);
+		return _inputSources.getOtherEnds();
 	}
 	
 	private Map<String, List<InputSource>> _sourceMap = new HashMap<String, List<InputSource>>();
 
-	private List<InputSource> _inputSources;
+	private OrderedMultiAssociation<LazyNamespace,InputSource> _inputSources = new OrderedMultiAssociation<LazyNamespace, InputSource>(this);
 }

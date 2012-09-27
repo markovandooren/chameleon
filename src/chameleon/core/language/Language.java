@@ -17,11 +17,12 @@ import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.namespace.RootNamespace;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.property.PropertyRule;
-import chameleon.core.validation.VerificationRule;
 import chameleon.core.validation.VerificationResult;
+import chameleon.core.validation.VerificationRule;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.plugin.Plugin;
 import chameleon.plugin.Processor;
+import chameleon.workspace.Project;
 
 public interface Language extends PropertyUniverse<ChameleonProperty> {
 	
@@ -330,8 +331,9 @@ public interface Language extends PropertyUniverse<ChameleonProperty> {
    * Return the association object that represents that association with the
    * default (root) namespace.
    */
-  public Association projectLink();
-
+  public Association<Language, Project> projectLink();
+  
+  public Project project();
   /**
    * Return the factory for creating lookup strategies.
    */

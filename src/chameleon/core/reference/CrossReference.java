@@ -23,9 +23,9 @@ import chameleon.core.lookup.LookupException;
  * All logical structures are implemented in terms of cross-references. For example, a subclass relation will contain a
  * cross-reference that points to the superclass.
  * 
- * Note that the result of {@link getElement()} is not necessarily a part of the base model. For example a C# property also
+ * Note that the result of {@link #getElement()} is not necessarily a part of the base model. For example a C# property also
  * defines methods. These references will be found by the lookup mechanism, but they are not part of the base C# model. In
- * case of such generated elements, the {@link getDeclarator()} method will return the element that generated the referenced
+ * case of such generated elements, the {@link #getDeclarator()} method will return the element that generated the referenced
  * element.
  * 
  * @author Marko van Dooren
@@ -42,7 +42,7 @@ public interface CrossReference<D extends Declaration> extends Element, CrossRef
 	 * 
 	 * @throws LookupException
 	 * A LookupException is thrown if the model cannot guarantee to
-	 * find a correct result. This happens at some point during
+	 * find a correct result. This happens when at some point during
 	 * the lookup, a required element cannot be found, or if 
 	 * there are multiple equivalent candidates.
 	 */

@@ -1,6 +1,5 @@
 package chameleon.core.namespace;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,13 +8,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.rejuse.association.OrderedMultiAssociation;
+
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.element.LoadException;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespacedeclaration.NamespaceDeclaration;
-import chameleon.input.ParseException;
 import chameleon.workspace.InputException;
 import chameleon.workspace.InputSource;
 import chameleon.workspace.Project;
@@ -26,6 +26,16 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 		super(new LazyNamespaceFactory());
 	}
 
+	
+	@Override
+	protected RootNamespace cloneThis() {
+		LazyRootNamespace result = new LazyRootNamespace();
+		for(InputSource source: inputSources()) {
+			result.addInputSource(source.clone());
+		}
+		return result;
+	}
+	
 	public LazyRootNamespace(SimpleNameSignature sig, Project project) {
 		super(sig,project,new LazyNamespaceFactory());
 	}
@@ -79,7 +89,7 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 	}
 	
 	public void addInputSource(InputSource source) {
-		_inputSources.add(source);
+		_inputSources.add(source.namespaceLink());
 		for(String name: source.targetDeclarationNames(this)) {
 			List<InputSource> list = _sourceMap.get(name);
 			if(list == null) {
@@ -92,7 +102,7 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 	
 	@Override
 	public List<Declaration> declarations() throws LookupException {
-		for(InputSource source: inputSourcesView()) {
+		for(InputSource source: inputSources()) {
 			try {
 				source.load();
 			} catch (InputException e) {
@@ -104,7 +114,7 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 	
 	@Override
 	public List<? extends Element> children() {
-		for(InputSource source: inputSourcesView()) {
+		for(InputSource source: inputSources()) {
 			try {
 				source.load();
 			} catch (InputException e) {
@@ -115,15 +125,11 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 	}
 	
 	public List<InputSource> inputSources() {
-		return new ArrayList<InputSource>(_inputSources);
+		return _inputSources.getOtherEnds();
 	}
-	
-	public List<InputSource> inputSourcesView() {
-		return Collections.unmodifiableList(_inputSources);
-	}
-	
+		
 	private Map<String, List<InputSource>> _sourceMap = new HashMap<String, List<InputSource>>();
 
-	private List<InputSource> _inputSources = new ArrayList<InputSource>();
+	private OrderedMultiAssociation<LazyRootNamespace,InputSource> _inputSources = new OrderedMultiAssociation<LazyRootNamespace, InputSource>(this);
 
 }

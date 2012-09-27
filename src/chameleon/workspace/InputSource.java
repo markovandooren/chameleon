@@ -3,18 +3,21 @@ package chameleon.workspace;
 import java.io.IOException;
 import java.util.List;
 
+import org.rejuse.association.SingleAssociation;
+
 import chameleon.core.declaration.Declaration;
 import chameleon.core.lookup.LookupException;
+import chameleon.core.namespace.InputSourceNamespace;
 import chameleon.core.namespace.Namespace;
 import chameleon.input.ParseException;
 
 /**
  * A class representing a source from which a Document is built. These
- * can be file based, editor based, ...
+ * can be file based (text or binary), editor based, ...
  * 
  * @author Marko van Dooren
  */
-public interface InputSource {
+public interface InputSource extends Cloneable {
 	
 	/**
 	 * Return the list of name of declaration that are added to the given namespace, and
@@ -45,4 +48,15 @@ public interface InputSource {
 	 */
 	public void load() throws InputException;
 	
+	/**
+	 * Clone this input source.
+	 * @return
+	 */
+	public InputSource clone();
+	
+	/**
+	 * Return the association object that connects this input source to its namespace.
+	 * @return
+	 */
+	public SingleAssociation<InputSourceImpl, InputSourceNamespace> namespaceLink();
 }
