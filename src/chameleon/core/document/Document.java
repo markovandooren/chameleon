@@ -3,6 +3,8 @@ package chameleon.core.document;
 import java.util.Iterator;
 import java.util.List;
 
+import org.rejuse.association.SingleAssociation;
+
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.language.Language;
@@ -14,6 +16,7 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.util.association.Multi;
+import chameleon.workspace.InputSource;
 
 /**
  * A compilation unit represents a file in which elements of the program/model are defined.
@@ -117,5 +120,11 @@ public class Document extends ElementImpl {
 		}
 		return clone;
 	}
+	
+	public SingleAssociation<Document, InputSource> inputSourceLink() {
+		return _inputSource;
+	}
 
+	protected SingleAssociation<Document, InputSource> _inputSource = new SingleAssociation<>(this);
+	
  }

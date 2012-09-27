@@ -59,4 +59,5 @@ public interface InputSource extends Cloneable {
 	 * @return
 	 */
 	public SingleAssociation<InputSourceImpl, InputSourceNamespace> namespaceLink();
+	
 }

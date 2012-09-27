@@ -44,27 +44,17 @@ public abstract class FileInputSource extends InputSourceImpl {
 			} catch (IOException | ParseException e) {
 				throw new InputException(e);
 			}
-			setLoaded(true);
+//			setLoaded(true);
 		}
 	}
 	
-	private boolean _loaded = false;
-
-	protected boolean isLoaded() {
-		return _loaded;
-	}
-	
-	protected void setLoaded(boolean loaded) {
-		_loaded = loaded;
-	}
-	
-	private Document _document;
-	
-	public Document document() {
-		return _document;
-	}
-	
-	protected void setDocument(Document doc) {
-		_document = doc;
-	}
+//	private boolean _loaded = false;
+//
+//	protected boolean isLoaded() {
+//		return _loaded;
+//	}
+//	
+//	protected void setLoaded(boolean loaded) {
+//		_loaded = loaded;
+//	}
 }
