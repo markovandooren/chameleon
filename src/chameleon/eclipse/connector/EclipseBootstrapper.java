@@ -129,8 +129,8 @@ public abstract class EclipseBootstrapper {
 		}
 		File root = new File(directory.getFile());
 		project.addSource(new DirectoryLoader(extension, root, factory));
-		// FIXME: This should be done by a reusable artefact.
-		project.language().plugin(ModelFactory.class).initializePredefinedElements();
+//		// FIXME: This should be done by a reusable artefact.
+//		project.language().plugin(ModelFactory.class).initializePredefinedElements();
 	}
 
 }
