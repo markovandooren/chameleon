@@ -30,9 +30,6 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 	@Override
 	protected RootNamespace cloneThis() {
 		LazyRootNamespace result = new LazyRootNamespace();
-		for(InputSource source: inputSources()) {
-			result.addInputSource(source.clone());
-		}
 		return result;
 	}
 	

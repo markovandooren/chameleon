@@ -20,6 +20,7 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.lookup.LookupStrategySelector;
 import chameleon.core.namespace.Namespace;
+import chameleon.core.reference.SimpleReference;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
@@ -120,12 +121,18 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
    @
    @ post getDeclaredNamespace() == namespace
    @*/ 
-	public NamespaceDeclaration(Namespace namespace) {
-    setNamespace(namespace);
+	public NamespaceDeclaration(SimpleReference<Namespace> ref) {
+    setNamespaceReference(ref);
 	}
 	
+	public void setNamespaceReference(SimpleReference<Namespace> ref) {
+		set(_ref, ref);
+	}
+	
+	private Single<SimpleReference<Namespace>> _ref = new Single<>(this,true);
+	
 	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
-		if(imports().contains(child)) {
+		if(imports().contains(child) || child == namespaceReference()) {
 			return getDefaultNamespace().targetContext();
 		} else {
 			return getLexicalContext();
@@ -234,7 +241,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
    @*/
 	@Override
 	public boolean disconnected() {
-		return super.disconnected() && namespace() != null;
+		return super.disconnected() && namespaceLink().getOtherEnd() != null;
 	}
 	
 	private Multi<NamespaceDeclaration> _subNamespaceParts = new Multi<NamespaceDeclaration>(this);
@@ -260,9 +267,20 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	/**
 	 * Return the namespace to which this namespacepart adds declarations.
 	 * @return
+	 * @throws LookupException 
 	 */
 	public Namespace namespace() {
-		return _namespaceLink.getOtherEnd();
+		Namespace stored = _namespaceLink.getOtherEnd();
+		if(stored == null) {
+			//FIXME When multi-language support is added, this must change
+			stored = project().namespace().getOrCreateNamespace(namespaceReference().toString());
+			stored.addNamespacePart(this);
+		}
+		return stored;
+	}
+	
+	public SimpleReference<Namespace> namespaceReference() {
+		return _ref.getOtherEnd();
 	}
 	
 	public Single<Namespace> namespaceLink() {
@@ -378,8 +396,10 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	 */
 
 	public Language language(){
-		if(namespace() != null) {
-		  return namespace().language();
+		Namespace namespace = null;
+			namespace = namespace();
+		if(namespace != null) {
+		  return namespace.language();
 		} else {
 			return null;
 		}
@@ -393,7 +413,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
    @
    @ post \result = getDeclaredNamespace().getDefaultNamespace(); 
    @*/
-	public Namespace getDefaultNamespace() {
+	public Namespace getDefaultNamespace() throws LookupException {
 		return namespace().defaultNamespace();
 	}
 
@@ -413,7 +433,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
   }
   
   public NamespaceDeclaration cloneThis() {
-  	return new NamespaceDeclaration(null);
+  	return new NamespaceDeclaration(namespaceReference().clone());
   }
 
 	private LookupStrategy _typeLocalContext;

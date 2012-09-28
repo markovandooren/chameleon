@@ -5,6 +5,7 @@ import org.rejuse.association.SingleAssociation;
 import chameleon.core.document.Document;
 import chameleon.core.namespace.InputSourceNamespace;
 import chameleon.core.namespace.Namespace;
+import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 
 public abstract class InputSourceImpl implements InputSource {
 	
@@ -15,16 +16,12 @@ public abstract class InputSourceImpl implements InputSource {
 	protected void setNamespace(InputSourceNamespace ns) {
 		if(ns != null) {
 			if(_namespace == null) {
-				_namespace =  new SingleAssociation<InputSourceImpl, InputSourceNamespace>(this);
+				_namespace =  new SingleAssociation<InputSource, InputSourceNamespace>(this);
 			}
 			ns.addInputSource(this);
 			_uniNamespace = null;
 		}
 	}
-	
-	public abstract InputSourceImpl clone();
-	
-	
 	
 	public Namespace namespace() {
 		if(_namespace != null) {
@@ -41,19 +38,19 @@ public abstract class InputSourceImpl implements InputSource {
 		if(ns != null) {
 			_namespace = null;
 		} else if(_namespace == null) {
-			_namespace = new SingleAssociation<InputSourceImpl, InputSourceNamespace>(this);
+			_namespace = new SingleAssociation<InputSource, InputSourceNamespace>(this);
 		}
 		_uniNamespace = ns;
 	}
 	
 	private Namespace _uniNamespace;
 	
-	public SingleAssociation<InputSourceImpl, InputSourceNamespace> namespaceLink() {
+	public SingleAssociation<InputSource, InputSourceNamespace> namespaceLink() {
 		return _namespace;
 	}
 	
 	// This one is lazily initialized!
-	protected SingleAssociation<InputSourceImpl, InputSourceNamespace> _namespace;
+	protected SingleAssociation<InputSource, InputSourceNamespace> _namespace;
 
 	/**
 	 * Return the document that is managed by this input source.
@@ -75,5 +72,33 @@ public abstract class InputSourceImpl implements InputSource {
 		return document() != null;
 	}
 	
+	public final Document load() throws InputException {
+		if(! isLoaded()) {
+			doLoad();
+			Document result = document();
+			result.activate();
+			return result;
+		} else {
+			return document();
+		}
+	}
+	
+	protected abstract void doLoad() throws InputException;
+	
+	@Override
+	public Project project() {
+		return loader().project();
+	}
+	
 	protected SingleAssociation<InputSourceImpl, Document> _document = new SingleAssociation<InputSourceImpl, Document>(this);
+	
+	public ProjectLoader loader() {
+		return _loader.getOtherEnd();
+	}
+	
+	public SingleAssociation<InputSource, ProjectLoader> loaderLink() {
+		return _loader;
+	}
+	
+	protected SingleAssociation<InputSource, ProjectLoader> _loader = new SingleAssociation<InputSource, ProjectLoader>(this);
 }

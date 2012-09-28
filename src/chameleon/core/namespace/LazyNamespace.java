@@ -30,9 +30,6 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 	@Override
 	protected RegularNamespace cloneThis() {
 		LazyNamespace result = new LazyNamespace(signature().clone());
-		for(InputSource source: inputSources()) {
-			result.addInputSource(source.clone());
-		}
 		return result;
 	}
 	

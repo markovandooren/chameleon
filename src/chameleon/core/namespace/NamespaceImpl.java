@@ -94,40 +94,16 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	}
 
 		  
-	  /**
-	   * Return the signature of this member.
-	   */
 	  public SimpleNameSignature signature() {
 	    return _signature.getOtherEnd();
 	  }
 		  
 	  private Single<SimpleNameSignature> _signature = new Single<SimpleNameSignature>(this,true);
 
-	  /**
-	   * The name of a namespace is the name of its signature.
-	   */
-	 /*@
-	   @ public behavior
-	   @
-	   @ post \result == signature().getName();
-	   @*/
 	  public String name() {
 		  return signature().name();
 	  }
 	  
-	/**
-	 * Return the fully qualified name of this package. This is the concatenation of the
-	 * parent namespaces starting at the root. In between the names of two namespaces, a
-	 * "." character is placed.
-	 */
- /*@
-	 @ public behavior
-	 @
-	 @ post (getParent() == null) || getParent().getName().equals("") ==>
-	 @        \result == getName();
-	 @ post (getParent() != null) && (! getParent().getName().equals("")) ==>
-	 @        \result == getParent().getFullyQualifiedName() + "." + getName();
-	 @*/
 	public String getFullyQualifiedName() {
 		Namespace nearestAncestor = nearestAncestor(Namespace.class);
 		return ((parent() == null || nearestAncestor.name().equals("")) ? "" : nearestAncestor.getFullyQualifiedName() + ".") + name();
@@ -141,37 +117,6 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	 * PACKAGEPART
 	 **************/
 
-	/**
-	 * Add a namespace part to this namespace. A namespace part adds elements to its namespace.
-	 */
- /*@
-   @ public behavior
-   @
-   @ pre namespacepart != null;
-   @
-   @ post getNamespaceParts().contains(namespacepart);
-   @*/
-	public abstract void addNamespacePart(NamespaceDeclaration namespacePart);
-
-	/**
-	 * Return all namespace parts attached to this namespace.
-	 */
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @*/
-	public abstract List<NamespaceDeclaration> getNamespaceParts();
-
-	/**
-	 * Return the root namespace of this metamodel instance.
-	 */
- /*@
-	 @ public behavior
-	 @
-	 @ post getParent() != null ==> \result == getParent().defaultNamespace();
-	 @ post getParent() == null ==> \result == this;
-	 @*/
 	public Namespace defaultNamespace() {
 		if (parent() == null) {
 			return this;
@@ -191,28 +136,8 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
    @*/
 	public abstract List<Namespace> getSubNamespaces();
 
-	/**
-	 * <p>Return the namespace with the fullyqualified name that
-	 * equals the fqn of this namespace concatenated with the
-	 * given name.</p>
-	 *
-	 * <p>If the namespace does not exist yet, it will be created.</p>
-	 *
-	 * @param qualifiedName
-	 *        The qualified name relative to this namespace
-	 */
- /*@
-   @ public behavior
-   @
-   @ pre name != null;
-   @
-   @ post (! this == defaultNamespace()) ==> \result.getFullyQualifiedName().equals(getFullyQualifiedName() + "." + name);
-   @ post (this == defaultNamespace()) ==> \result.getFullyQualifiedName().equals(name);
-   @
-   @ signals (LookupException) (* There are multiple subnamespaces with the given name. *) 
-   @*/
-	public Namespace getOrCreateNamespace(final String qualifiedName) throws LookupException {
-		Namespace currentPackage;
+	public Namespace getOrCreateNamespace(final String qualifiedName) {
+		Namespace currentNamespace = null;
 		String next;
 		synchronized(this) {
 			if ((qualifiedName == null) || qualifiedName.equals("")) {
@@ -220,12 +145,16 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 			}
 			String current = Util.getFirstPart(qualifiedName);
 			next = Util.getAllButFirstPart(qualifiedName); //rest
-			currentPackage = getSubNamespace(current);
-			if(currentPackage == null) {
-				currentPackage = createSubNamespace(current);
+			try {
+				currentNamespace = getSubNamespace(current);
+			} catch (LookupException e) {
+				// currentNamespace == null
+			}
+			if(currentNamespace == null) {
+				currentNamespace = createSubNamespace(current);
 			}
 		}
-		return currentPackage.getOrCreateNamespace(next);
+		return currentNamespace.getOrCreateNamespace(next);
 	}
 
 	/**
@@ -262,12 +191,10 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 
 	}
 
-
-
-	public <T extends Declaration> List<T> allDeclarations(Class<T> kind) throws LookupException {
+	public <T extends Declaration> List<T> allDescendantDeclarations(Class<T> kind) throws LookupException {
   	final List<T> result = declarations(kind);
   	for(Namespace ns:getSubNamespaces()) {
-		  result.addAll(ns.allDeclarations(kind));
+		  result.addAll(ns.allDescendantDeclarations(kind));
   	}
  	  return result;
 	}

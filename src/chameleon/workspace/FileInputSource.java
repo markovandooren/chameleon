@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import chameleon.core.document.Document;
+import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
 
@@ -26,7 +27,7 @@ public abstract class FileInputSource extends InputSourceImpl {
 	}
 	
 	@Override
-	public void load() throws InputException {
+	public void doLoad() throws InputException {
 		if(! isLoaded()) {
 			InputStream fileInputStream;
 			try {
@@ -41,6 +42,7 @@ public abstract class FileInputSource extends InputSourceImpl {
 			}
 			try {
 				namespace().language().plugin(ModelFactory.class).parse(fileInputStream, document());
+				// Connect the namespace declarations in the document to the corresponding namespaces.
 			} catch (IOException | ParseException e) {
 				throw new InputException(e);
 			}

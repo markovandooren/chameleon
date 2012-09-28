@@ -30,7 +30,7 @@ import chameleon.util.concurrent.UnsafeAction;
  * 
  * @author Marko van Dooren
  */
-public class DirectoryLoader implements ProjectLoader {
+public class DirectoryLoader extends ProjectLoaderImpl {
 	
 	/**
 	 * Create a new model provider with the given factory.
@@ -68,23 +68,25 @@ public class DirectoryLoader implements ProjectLoader {
 			throw new IllegalArgumentException();
 		}
 		_root = root;
-		
-		_inputSources = new ArrayList<InputSource>();
 	}
 	
-	private SingleAssociation<DirectoryLoader,Project>  _projectLink = new SingleAssociation<DirectoryLoader, Project>(this);
-	
-	public Project project() {
-		return _projectLink.getOtherEnd();
-	}
-	
-	private void setProject(Project project) {
-		project.addSource(this);
-	}
-	
-	public SingleAssociation<DirectoryLoader,Project> projectLink() {
-		return _projectLink;
-	}
+//	private SingleAssociation<DirectoryLoader,Project>  _projectLink = new SingleAssociation<DirectoryLoader, Project>(this);
+//	
+//	public Project project() {
+//		return _projectLink.getOtherEnd();
+//	}
+//	
+//	private void setProject(Project project) {
+//		if(project != null) {
+//			project.addSource(this);
+//		} else {
+//			_projectLink.connectTo(null);
+//		}
+//	}
+//	
+//	public SingleAssociation<DirectoryLoader,Project> projectLink() {
+//		return _projectLink;
+//	}
 	
 	private String _fileExtension;
 
@@ -240,9 +242,8 @@ public class DirectoryLoader implements ProjectLoader {
 	 * @throws RecognitionException 
 	 */
 	private void addToModel(File file) throws InputException {
-    InputSource source = inputSourceFactory().create(file);
-    _inputSources.add(source);
+    addInputSource(inputSourceFactory().create(file));
 	}
 	
-	private List<InputSource> _inputSources;
+
 }

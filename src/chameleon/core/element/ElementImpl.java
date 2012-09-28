@@ -42,6 +42,7 @@ import chameleon.util.association.Single;
 import chameleon.util.concurrent.Action;
 import chameleon.util.concurrent.SafeAction;
 import chameleon.util.concurrent.UnsafeAction;
+import chameleon.workspace.Project;
 
 /**
  * @author Marko van Dooren
@@ -167,6 +168,15 @@ public abstract class ElementImpl implements Element {
 //		}
 //		return result;
 //	}
+	
+	public Project project() {
+		Element parent = parent();
+		if(parent != null) {
+			return parent.project();
+		} else {
+			return null;
+		}
+	}
 
 	/**********
 	 * PARENT *

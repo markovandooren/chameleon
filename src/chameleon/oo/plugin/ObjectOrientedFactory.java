@@ -4,6 +4,7 @@ import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.core.reference.CrossReferenceTarget;
+import chameleon.core.reference.SimpleReference;
 import chameleon.oo.expression.MethodInvocation;
 import chameleon.oo.method.Method;
 import chameleon.oo.method.MethodHeader;
@@ -51,8 +52,8 @@ public abstract class ObjectOrientedFactory extends PluginImpl {
    @ post \result != null;
    @ post \result.namespace() == ns;
    @*/
-	public NamespaceDeclaration createNamespaceDeclaration(Namespace ns) {
-		return new NamespaceDeclaration(ns);
+	public NamespaceDeclaration createNamespaceDeclaration(String fqn) {
+		return new NamespaceDeclaration(new SimpleReference<Namespace>(fqn, Namespace.class));
 	}
 	
 	/**

@@ -17,6 +17,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.util.association.Multi;
 import chameleon.workspace.InputSource;
+import chameleon.workspace.Project;
 
 /**
  * A compilation unit represents a file in which elements of the program/model are defined.
@@ -40,7 +41,16 @@ public class Document extends ElementImpl {
     add(defaultNamespacePart);
 	}
 	
-	
+	/**
+	 * Activate this document by letting all descendant namespace declarations
+	 * connect themselves to their corresponding namespace. This adds the content
+	 * of this document to the logical namespace structure of the project. 
+	 */
+	public void activate() {
+		for(NamespaceDeclaration nsd: descendants(NamespaceDeclaration.class)) {
+			nsd.namespace();
+		}
+	}
 	/************
 	 * Children *
 	 ************/
@@ -124,7 +134,16 @@ public class Document extends ElementImpl {
 	public SingleAssociation<Document, InputSource> inputSourceLink() {
 		return _inputSource;
 	}
+	
+	public InputSource inputSource() {
+		return _inputSource.getOtherEnd();
+	}
 
 	protected SingleAssociation<Document, InputSource> _inputSource = new SingleAssociation<>(this);
+	
+	@Override
+	public Project project() {
+		return inputSource().project();
+	}
 	
  }

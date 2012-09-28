@@ -101,7 +101,7 @@ public class ArgumentParser {
       	SimpleReference<Namespace> ref= new SimpleReference<Namespace>(new SimpleNameSignature(args[i].substring(1)),Namespace.class);
       	ref.setUniParent(mm);
       	Namespace ns = ref.getElement();
-        types.addAll(ns.allDeclarations(Type.class));
+        types.addAll(ns.allDescendantDeclarations(Type.class));
       }
     }
     for(int i = low; i < args.length;i++) {

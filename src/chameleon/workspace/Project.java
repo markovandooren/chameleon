@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.rejuse.association.Association;
 import org.rejuse.association.MultiAssociation;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
@@ -13,6 +14,7 @@ import org.rejuse.association.SingleAssociation;
 import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.RootNamespace;
+import chameleon.workspace.ProjectLoaderImpl.TunnelException;
 
 /**
  * A class that represents the concept of a project. A project
@@ -191,8 +193,17 @@ public class Project {
 	
 	private OrderedMultiAssociation<Project, ProjectLoader> _sourceLoaders = new OrderedMultiAssociation<>(this);
 
-	public void addSource(ProjectLoader loader) {
-		_sourceLoaders.add(loader.projectLink());
+	public void addSource(ProjectLoader loader) throws ProjectException {
+		if(loader != null) {
+			Association<? extends ProjectLoader, ? super Project> projectLink = loader.projectLink();
+			try {
+				_sourceLoaders.add(projectLink);
+			} catch(TunnelException exc) {
+				// Rollback
+				_sourceLoaders.remove(projectLink);
+				throw (ProjectException)exc.getCause();
+			}
+		}
 	}
 	
 	public void removeSource(ProjectLoader loader) {

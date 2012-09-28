@@ -27,7 +27,7 @@ public interface ProjectLoader {
    @
    @ post \result != null;
    @*/
-	public Project project() throws ProjectException;
+	public Project project();
 
 	public Association<? extends ProjectLoader, ? super Project> projectLink();
 	
