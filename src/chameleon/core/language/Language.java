@@ -27,7 +27,7 @@ import chameleon.workspace.Project;
 public interface Language extends PropertyUniverse<ChameleonProperty> {
 	
 	/**
-	 * Clone this language and recursively all of its namespaces and their contents.
+	 * Clone this language.
 	 * @return
 	 */
  /*@
@@ -35,7 +35,7 @@ public interface Language extends PropertyUniverse<ChameleonProperty> {
    @
    @ post \result != null;
    @*/
-//	public Language clone();
+	public Language clone();
 	
 	/**
 	 * Return the name of this language.

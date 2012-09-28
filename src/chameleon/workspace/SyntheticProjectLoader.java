@@ -1,6 +1,11 @@
 package chameleon.workspace;
 
 
-public class SyntheticProjectLoader extends ProjectLoaderImpl {
+public abstract class SyntheticProjectLoader extends ProjectLoaderImpl {
 	
+	public SyntheticProjectLoader() {
+		activate();
+	}
+	
+	protected abstract void activate();
 }

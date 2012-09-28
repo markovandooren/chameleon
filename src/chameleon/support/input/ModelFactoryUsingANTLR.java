@@ -72,7 +72,7 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 		}
 	}
 	
-	public abstract ChameleonParser getParser(InputStream inputStream) throws IOException;
+	protected abstract ChameleonParser getParser(InputStream inputStream) throws IOException;
 
 	/**
 	 * @param pathList		The directories to from where to load the cs-files

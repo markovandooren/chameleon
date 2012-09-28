@@ -63,6 +63,8 @@ public abstract class LanguageImpl implements Language {
 		this(name, new LookupStrategyFactory());
 	}
 	
+	public abstract Language clone();
+	
 	/**
 	 * Initialize a new language with the given name and lookup strategy factory.
 	 * 
