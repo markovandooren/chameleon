@@ -1,5 +1,7 @@
 package chameleon.test;
 
+import java.io.File;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,19 +11,15 @@ import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.core.reference.CrossReference;
 import chameleon.test.provider.BasicDescendantProvider;
 import chameleon.test.provider.BasicNamespaceProvider;
-import chameleon.test.provider.ModelProvider;
+import chameleon.workspace.Project;
+import chameleon.workspace.ProjectLoader;
+import chameleon.workspace.ProjectException;
 
 public abstract class CompositeTest {
 
 	@Before
 	public void setCaching() {
 	  Config.setCaching(true);
-//	  Config.setCacheDeclarations(false);
-//	  Config.setCacheElementProperties(false);
-//    Config.setCacheElementReferences(false);
-//	  Config.setCacheExpressionTypes(false);
-//	  Config.setCacheLanguage(false);
-//	  Config.setCacheSignatures(false);
 	}
 
 	/**
@@ -30,21 +28,22 @@ public abstract class CompositeTest {
 	 */
 	@Test
 	public void testClone() throws Exception {
-		new CloneAndChildTest(modelProvider(), namespaceProvider()).testClone();
+		new CloneAndChildTest(project(), namespaceProvider()).testClone();
 	}
 
-	/**
-	 * Test children for all elements in the namespaces provided
-	 * by the namespace provider.
-	 */
-	@Test
-	public void testChildren() throws Exception {
-		ChildrenTest childrenTest = new ChildrenTest(modelProvider(), namespaceProvider());
-		childrenTest.excludeFieldName(ElementImpl.class, "_parentLink");
-		childrenTest.excludeFieldName(NamespaceDeclaration.class, "_namespaceLink");
-		addExcludes(childrenTest);
-		childrenTest.testChildren();
-	}
+	// NO LONGER REQUIRED NOW children() is implemented with reflection (making the test identical to the implementation)
+//	/**
+//	 * Test children for all elements in the namespaces provided
+//	 * by the namespace provider.
+//	 */
+//	@Test
+//	public void testChildren() throws Exception {
+//		ChildrenTest childrenTest = new ChildrenTest(project(), namespaceProvider());
+//		childrenTest.excludeFieldName(ElementImpl.class, "_parentLink");
+//		childrenTest.excludeFieldName(NamespaceDeclaration.class, "_namespaceLink");
+//		addExcludes(childrenTest);
+//		childrenTest.testChildren();
+//	}
 	
 	/**
 	 * Exclude Association fields that should not be children. This method is invoked by
@@ -60,7 +59,7 @@ public abstract class CompositeTest {
 	 */
 	@Test
 	public void testCrossReferences() throws Exception {
-		new CrossReferenceTest(modelProvider(), new BasicDescendantProvider<CrossReference>(namespaceProvider(), CrossReference.class)).testCrossReferences();
+		new CrossReferenceTest(project(), new BasicDescendantProvider<CrossReference>(namespaceProvider(), CrossReference.class)).testCrossReferences();
 	}
 
 	/**
@@ -68,17 +67,38 @@ public abstract class CompositeTest {
 	 */
 	@Test
 	public void testVerification() throws Exception {
-		new VerificationTest(modelProvider(), new BasicDescendantProvider<NamespaceDeclaration>(namespaceProvider(), NamespaceDeclaration.class)).testVerification();
+		new VerificationTest(project(), new BasicDescendantProvider<NamespaceDeclaration>(namespaceProvider(), NamespaceDeclaration.class)).testVerification();
 	}
 
 	/**
 	 * A provider for the model to be tested.
+	 * @throws ProjectException 
 	 */
-	public abstract ModelProvider modelProvider();
+	protected abstract Project makeProject() throws ProjectException;
 
+	public Project project() throws ProjectException {
+//		long start = System.nanoTime();
+		Project result = makeProject();
+//		long stop = System.nanoTime();
+//		System.out.println("Model input took "+(stop-start)/1000000+" milliseconds.");
+		return result;
+	}
 	/**
 	 * A provider for the namespaces to be tested.
 	 */
 	public abstract BasicNamespaceProvider namespaceProvider();
+
+  /**
+	 * Return the symbol for separating directories from each other
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result == File.separator;
+   @*/
+	public String separator() {
+	  return File.separator;
+	}
+
 
 }

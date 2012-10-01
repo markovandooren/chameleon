@@ -227,7 +227,7 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
   @SuppressWarnings("unchecked")
   public Set getDirectExceptions() throws LookupException {
     Set result = new HashSet();
-    if(getTarget() != null || Util.getSecondPart(name()) != null) {
+    if(getTarget() != null) {
       Util.addNonNull(language(ObjectOrientedLanguage.class).getNullInvocationException(), result);
     }
     return result;

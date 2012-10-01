@@ -387,38 +387,50 @@ public abstract class ElementImpl implements Element {
 		return null;
 	}
 
-  public final List<? extends Element> children() {
+	/**
+	 * Do no override unless you know what you are doing!
+	 * 
+	 * This method uses the reflection mechanism, which saves a lot of
+	 * children() methods that would only compute the union of all the 
+	 * Association objects referenced by this element. If an association element
+	 * should not be included in the list of children, use the following code in the 
+	 * class (class name is "X", field name is "_f").
+	 * 
+	 * <pre>
+	 *   static {
+   *     excludeFieldName(X.class,"_f");
+   *   }
+	 * </pre>
+	 * 
+	 * This method currently is overridden only to provide support for lazy loading in
+	 * LazyNamespace.
+	 */
+  public List<? extends Element> children() {
   	return reflectiveChildren();
   }
 
 	public final <T extends Element> List<T> children(Class<T> c) {
-		List<Element> tmp = (List<Element>) childrenAux();
+		List<Element> tmp = (List<Element>) children();
 		new TypePredicate<Element,T>(c).filter(tmp);
 		return (List<T>)tmp;
 	}
 
 	public final <T extends Element> List<T> descendants(Class<T> c) {
 		List<T> result = children(c);
-		for (Element e : childrenAux()) {
+		for (Element e : children()) {
 			result.addAll(e.descendants(c));
 		}
 		return result;
 	}
 
-	//      	List<Element> tmp = (List<Element>) reflectiveChildren();
-	//      	new TypePredicate<Element,T>(c).filter(tmp);
-	//        List<T> result = (List<T>)tmp;
-	//        for (Element e : reflectiveChildren()) {
-
-
 	public final <T extends Element> boolean hasDescendant(Class<T> c) {
-		List<Element> tmp = (List<Element>) childrenAux();
+		List<Element> tmp = (List<Element>) children();
 		new TypePredicate<Element,T>(c).filter(tmp);
 
 		if (!tmp.isEmpty())
 			return true;
 
-		for (Element e : childrenAux()) {
+		for (Element e : children()) {
 			if (e.hasDescendant(c))
 				return true;
 		}
@@ -427,7 +439,7 @@ public abstract class ElementImpl implements Element {
 	}
 
 	public final <T extends Element> boolean hasDescendant(Class<T> c, SafePredicate<T> predicate) {
-		List<Element> tmp = (List<Element>) childrenAux();
+		List<Element> tmp = (List<Element>) children();
 		new TypePredicate<Element,T>(c).filter(tmp);
 		List<T> result = (List<T>)tmp;
 		predicate.filter(result);
@@ -435,7 +447,7 @@ public abstract class ElementImpl implements Element {
 		if (!result.isEmpty())
 			return true;
 
-		for (Element e : childrenAux()) {
+		for (Element e : children()) {
 			if (e.hasDescendant(c, predicate))
 				return true;
 		}
@@ -444,7 +456,7 @@ public abstract class ElementImpl implements Element {
 	}
 
 	public final <T extends Element> List<T> nearestDescendants(Class<T> c) {
-		List<? extends Element> tmp = childrenAux();
+		List<? extends Element> tmp = children();
 		List<T> result = new ArrayList<T>();
 		Iterator<? extends Element> iter = tmp.iterator();
 		while(iter.hasNext()) {
@@ -461,7 +473,7 @@ public abstract class ElementImpl implements Element {
 	}
 
 	public final List<Element> children(Predicate<Element> predicate) throws Exception {
-		List<? extends Element> tmp = childrenAux();
+		List<? extends Element> tmp = children();
 		predicate.filter(tmp);
 		return (List<Element>)tmp;
 	}
@@ -469,17 +481,17 @@ public abstract class ElementImpl implements Element {
 	public final List<Element> descendants(Predicate<Element> predicate) throws Exception {
 		// Do not compute all descendants, and apply predicate afterwards.
 		// That is way too expensive.
-		List<? extends Element> tmp = childrenAux();
+		List<? extends Element> tmp = children();
 		predicate.filter(tmp);
 		List<Element> result = (List<Element>)tmp;
-		for (Element e : childrenAux()) {
+		for (Element e : children()) {
 			result.addAll(e.descendants(predicate));
 		}
 		return result;
 	}
 
 	public final List<Element> children(SafePredicate<Element> predicate) {
-		List<? extends Element> tmp = childrenAux();
+		List<? extends Element> tmp = children();
 		predicate.filter(tmp);
 		return (List<Element>)tmp;
 	}
@@ -487,17 +499,17 @@ public abstract class ElementImpl implements Element {
 	public final List<Element> descendants(SafePredicate<Element> predicate) {
 		// Do not compute all descendants, and apply predicate afterwards.
 		// That is way too expensive.
-		List<? extends Element> tmp = childrenAux();
+		List<? extends Element> tmp = children();
 		predicate.filter(tmp);
 		List<Element> result = (List<Element>)tmp;
-		for (Element e : childrenAux()) {
+		for (Element e : children()) {
 			result.addAll(e.descendants(predicate));
 		}
 		return result;
 	}
 
 	public final <X extends Exception> List<Element> children(UnsafePredicate<Element,X> predicate) throws X {
-		List<? extends Element> tmp = childrenAux();
+		List<? extends Element> tmp = children();
 		predicate.filter(tmp);
 		return (List<Element>)tmp;
 	}
@@ -505,10 +517,10 @@ public abstract class ElementImpl implements Element {
 	public final <X extends Exception> List<Element> descendants(UnsafePredicate<Element,X> predicate) throws X {
 		// Do not compute all descendants, and apply predicate afterwards.
 		// That is way too expensive.
-		List<? extends Element> tmp = childrenAux();
+		List<? extends Element> tmp = children();
 		predicate.filter(tmp);
 		List<Element> result = (List<Element>)tmp;
-		for (Element e : childrenAux()) {
+		for (Element e : children()) {
 			result.addAll(e.descendants(predicate));
 		}
 		return result;
@@ -543,44 +555,40 @@ public abstract class ElementImpl implements Element {
 
 	public final <T extends Element> List<T> descendants(Class<T> c, ChameleonProperty property) {
 		List<T> result = children(c, property);
-		for (Element e : childrenAux()) {
+		for (Element e : children()) {
 			result.addAll(e.descendants(c, property));
 		}
 		return result;
 	}
 
-	private List<? extends Element> childrenAux() {
-		return reflectiveChildren();
-	}
-
 	public final <T extends Element> List<T> descendants(Class<T> c, Predicate<T> predicate) throws Exception {
-		List<Element> tmp = (List<Element>) childrenAux();
+		List<Element> tmp = (List<Element>) children();
 		new TypePredicate<Element,T>(c).filter(tmp);
 		List<T> result = (List<T>)tmp;
 		predicate.filter(result);
-		for (Element e : childrenAux()) {
+		for (Element e : children()) {
 			result.addAll(e.descendants(c, predicate));
 		}
 		return result;
 	}
 
 	public final <T extends Element> List<T> descendants(Class<T> c, SafePredicate<T> predicate) {
-		List<Element> tmp = (List<Element>) childrenAux();
+		List<Element> tmp = (List<Element>) children();
 		new TypePredicate<Element,T>(c).filter(tmp);
 		List<T> result = (List<T>)tmp;
 		predicate.filter(result);
-		for (Element e : childrenAux()) {
+		for (Element e : children()) {
 			result.addAll(e.descendants(c, predicate));
 		}
 		return result;
 	}
 
 	public final <T extends Element, X extends Exception> List<T> descendants(Class<T> c, UnsafePredicate<T,X> predicate) throws X {
-		List<Element> tmp = (List<Element>) childrenAux();
+		List<Element> tmp = (List<Element>) children();
 		new TypePredicate<Element,T>(c).filter(tmp);
 		List<T> result = (List<T>)tmp;
 		predicate.filter(result);
-		for (Element e : childrenAux()) {
+		for (Element e : children()) {
 			result.addAll(e.descendants(c, predicate));
 		}
 		return result;
@@ -590,7 +598,7 @@ public abstract class ElementImpl implements Element {
 		if(c.isInstance(this)) {
 			action.perform((T)this);
 		}
-		for (Element e : childrenAux()) {
+		for (Element e : children()) {
 			e.apply(c, action);
 		}
 	}
@@ -599,7 +607,7 @@ public abstract class ElementImpl implements Element {
 		if(c.isInstance(this)) {
 			action.perform((T)this);
 		}
-		for (Element e : childrenAux()) {
+		for (Element e : children()) {
 			e.apply(c, action);
 		}
 	}
@@ -608,7 +616,7 @@ public abstract class ElementImpl implements Element {
 		if(c.isInstance(this)) {
 			action.perform((T)this);
 		}
-		for (Element e : childrenAux()) {
+		for (Element e : children()) {
 			e.apply(c, action);
 		}
 	}
@@ -778,6 +786,8 @@ public abstract class ElementImpl implements Element {
 		return result;
 	}
 
+	private Language _languageCache;
+
 	public <T extends Language> T language(Class<T> kind) {
 		if(kind == null) {
 			throw new ChameleonProgrammerException("The given language class is null.");
@@ -789,8 +799,6 @@ public abstract class ElementImpl implements Element {
 			throw new WrongLanguageException("The language of this model is of the wrong kind. Expected: "+kind.getName()+" but got: " +language.getClass().getName());
 		}
 	}
-
-	private Language _languageCache;
 
 	/**
 	 * @see Element#lexicalLookupStrategy(Element) 
@@ -951,7 +959,7 @@ public abstract class ElementImpl implements Element {
 	 }
 
 	 public void disconnectChildren() {
-		 for(Element child:childrenAux()) {
+		 for(Element child:children()) {
 			 if(child != null) {
 				 child.disconnect();
 			 } else {
@@ -984,7 +992,7 @@ public abstract class ElementImpl implements Element {
 	 //    }
 
 	 public List<? extends Element> directDependencies() {
-		 return childrenAux();
+		 return children();
 	 }
 
 	 /**
@@ -1028,7 +1036,7 @@ public abstract class ElementImpl implements Element {
 		 }
 		 result = result.and(verifyProperties());
 		 result = result.and(verifyLoops());
-		 for(Element element:childrenAux()) {
+		 for(Element element:children()) {
 			 result = result.and(element.verify());
 		 }
 		 result = result.and(verifyAssociations());
@@ -1231,7 +1239,7 @@ public abstract class ElementImpl implements Element {
 	  */
 	 public void flushCache() {
 		 flushLocalCache();
-		 for(Element child:childrenAux()) {
+		 for(Element child:children()) {
 			 if(child != null) {
 				 child.flushCache();
 			 } else {

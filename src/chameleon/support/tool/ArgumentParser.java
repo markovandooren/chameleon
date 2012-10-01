@@ -1,5 +1,6 @@
 package chameleon.support.tool;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -20,6 +21,10 @@ import chameleon.input.ParseException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
+import chameleon.workspace.DirectoryLoader;
+import chameleon.workspace.FileInputSourceFactory;
+import chameleon.workspace.Project;
+import chameleon.workspace.ProjectException;
 
 /**
  * @author Tim Laeremans
@@ -33,8 +38,8 @@ public class ArgumentParser {
    @
    @ post getFactory() == factory;
    @*/
-  public ArgumentParser(ModelFactory factory, boolean output) {
-    _factory = factory;
+  public ArgumentParser(Project project, boolean output) {
+  	_project = project;
     _output = output;
   }
   
@@ -46,8 +51,8 @@ public class ArgumentParser {
    @ post getFactory() == factory;
    @ post getOutput() == true;
    @*/
-  public ArgumentParser(ModelFactory factory) {
-   this(factory, true);
+  public ArgumentParser(Project project) {
+   this(project, true);
  }
  
   private boolean _output;
@@ -59,42 +64,36 @@ public class ArgumentParser {
     return _output;
   }
   
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @*/
-  public ModelFactory getFactory() {
-    return _factory;
-  }
-
-	private ModelFactory _factory;
+	private Project _project;
 
 	  /**
 	   * The first argument is structured as follows:
 	   * outputDir?
 	   * inputDir+
 	   * @throws LookupException 
+	   * @throws ProjectException 
 	   * @packageName : recursive
 	   * #packageName : direct
 	   * %packageName : 
 	   * 
 	   * The extension argument is e.g. ".java"
 	   */
-  public Arguments parse(String[] args, String extension) throws ParseException, MalformedURLException, FileNotFoundException, IOException, LookupException {
+  public Arguments parse(String[] args, String extension, FileInputSourceFactory factory) throws ParseException, MalformedURLException, FileNotFoundException, IOException, LookupException, ProjectException {
     int low = (getOutput() ? 1 : 0);
    // ArrayList al = new ArrayList();
     Set files = new HashSet();
    // Set files = new FileSet();
     for(int i = low; i < args.length;i++) {
     	if(! args[i].startsWith("@") && ! args[i].startsWith("#")&& ! args[i].startsWith("%")) {
-        //files.include(new PatternPredicate(new File(args[i]), new FileNamePattern("**/*.csharp")));
     		files.addAll(new DirectoryScanner().scan(args[i],extension,true));
+    		File root = new File(args[i]);
+    		project().addSource(new DirectoryLoader(extension, root, factory));
       }
     }
+    project().language().plugin(ModelFactory.class).initializePredefinedElements();
     //System.out.println("Parsing "+files.size() +" files.");
-    _factory.addToModel(files);
-    Namespace mm = language().defaultNamespace();
+//    builder().addToModel(files);
+    Namespace mm = project().namespace();
     Set<Type> types = new HashSet<Type>();
     
     for(int i = low; i < args.length;i++) {
@@ -137,32 +136,11 @@ public class ArgumentParser {
     }
   }
 
-		private Language language() {
-			return _factory.language();
+		private Language language() throws ProjectException {
+			return project().language();
 		}
-  
-//  static class OutputParserFactory implements ILinkageFactory{
-//
-//	public ILinkage createLinkage(File file) {
-//		return new ILinkage(){
-//
-//			public IParseErrorHandler getParseErrorHandler() {
-//				return null;
-//			}
-//
-//			public String getSource() {
-//				return null;
-//			}
-//
-//			public void decoratePosition(int offset, int length, String dectype, Element el) {
-//			}
-//
-//			public int getLineOffset(int i) {
-//				return 0;
-//			}
-//
-//			public void addCompilationUnit(CompilationUnit cu) {
-//				
-//			}};
-//	}}
+		
+		protected Project project() throws ProjectException {
+			return _project;
+		}
 }

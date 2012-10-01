@@ -1,26 +1,20 @@
 package chameleon.test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
 
 import org.junit.Test;
 
-import chameleon.core.document.Document;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespacedeclaration.NamespaceDeclaration;
-import chameleon.core.validation.BasicProblem;
-import chameleon.core.validation.Invalid;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
-import chameleon.input.ParseException;
 import chameleon.test.provider.ElementProvider;
-import chameleon.test.provider.ModelProvider;
+import chameleon.workspace.Project;
+import chameleon.workspace.ProjectException;
 
 public class VerificationTest extends ModelTest {
 
-	public VerificationTest(ModelProvider provider,ElementProvider<NamespaceDeclaration> compilationUnitProvider) throws ParseException, IOException {
+	public VerificationTest(Project provider,ElementProvider<NamespaceDeclaration> compilationUnitProvider) throws ProjectException {
 		super(provider);
 		_elementProvider = compilationUnitProvider;
 	}
@@ -33,7 +27,7 @@ public class VerificationTest extends ModelTest {
 	
 	@Test
 	public void testVerification() throws LookupException {
-		for(NamespaceDeclaration element: elementProvider().elements(language())) {
+		for(NamespaceDeclaration element: elementProvider().elements(project())) {
 			VerificationResult result = element.verify();
 			assertTrue(result.toString() ,Valid.create() == result);
 		}

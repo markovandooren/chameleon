@@ -1,5 +1,6 @@
 package chameleon.plugin.build;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -9,6 +10,6 @@ import chameleon.plugin.Plugin;
 
 public interface Builder extends Plugin {
 
-	public void build(List<Document> compilationUnits, List<Document> allProjectCompilationUnits, BuildProgressHelper buildProgressHelper) throws ModelException, IOException;
+	public void build(List<Document> compilationUnits, List<Document> allProjectCompilationUnits, File outputDir, BuildProgressHelper buildProgressHelper) throws ModelException, IOException;
 	public int totalAmountOfWork(List<Document> compilationUnits, List<Document> allProjectCompilationUnits);
 }

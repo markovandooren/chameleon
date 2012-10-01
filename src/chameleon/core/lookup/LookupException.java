@@ -26,6 +26,10 @@ public class LookupException extends ModelException {
 		this(message,null,null);
 	}
 
+	public LookupException(String message, Exception exc) {
+		this(message,exc,null);
+	}
+
 	public LookupException(String message, CrossReference ref) {
 		this(message,null,null);
 		setCrossReference(ref);

@@ -43,9 +43,6 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
 			clonedExpression = expression.clone();
 		}
 		VariableDeclaration variableDeclaration = new VariableDeclaration(signature().clone(), clonedExpression);
-//		if(clonedExpression != null) {
-//			clonedExpression.parentLink().lock();
-//		}
 		return variableDeclaration;
 	}
 

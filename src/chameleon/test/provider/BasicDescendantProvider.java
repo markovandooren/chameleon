@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import chameleon.core.element.Element;
-import chameleon.core.language.Language;
+import chameleon.workspace.Project;
 
 /**
  * A class for searching elements of type E in the elements provided by a provider to the ancestor
@@ -43,10 +43,10 @@ public class BasicDescendantProvider<E extends Element> extends AbstractDescenda
    @ post (\forall Element ancestor; ancestorProvider().elements().contains(ancestor);
    @         \result.containsAll(ancestor.descendants(selectedType())));
   */
-	public Collection<E> elements(Language language) {
+	public Collection<E> elements(Project project) {
 		Collection<E> result = new ArrayList<E>();
 		Class<E> cls = elementType();
-		Collection<? extends Element> elements = ancestorProvider().elements(language);
+		Collection<? extends Element> elements = ancestorProvider().elements(project);
 		for(Element element: elements) {
 			result.addAll(element.descendants(cls));
 		}

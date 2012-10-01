@@ -20,7 +20,7 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 
-public class NamespaceAlias extends Namespace {
+public class NamespaceAlias extends NamespaceImpl {
 
 	public NamespaceAlias(SimpleNameSignature sig, Namespace aliasedNamespace) {
 		super(sig);
@@ -81,8 +81,8 @@ public class NamespaceAlias extends Namespace {
 	}
 
 	@Override
-	public Namespace getOrCreateNamespace(String name) throws LookupException {
-		return aliasedNamespace().getOrCreateNamespace(name);
+	public Namespace createSubNamespace(String name) {
+		return aliasedNamespace().createSubNamespace(name);
 	}
 
 	@Override

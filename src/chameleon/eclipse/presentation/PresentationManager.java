@@ -166,7 +166,7 @@ public class PresentationManager {
 	 * @return True when the decorator is folded in the editor. False otherwise
 	 */
 	private boolean isFolded(EclipseEditorTag decorator) {
-		//FIXME
+		//FIXME Student code
 		PresentationStyle presStyle = getPresentationModel().getRule(decorator.getElement().getClass().getName().toLowerCase(), decorator.getName());
 		if(presStyle != null && presStyle.isFolded())
 			return true;

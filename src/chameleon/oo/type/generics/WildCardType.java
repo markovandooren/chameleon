@@ -196,5 +196,13 @@ public abstract class WildCardType extends ClassImpl {
 		return Collections.EMPTY_LIST;
 	}
 	
-
+	@Override
+	public boolean auxSubTypeOf(Type other) throws LookupException {
+		return upperBound().subTypeOf(other);
+	}
+	
+	@Override
+	public boolean auxSuperTypeOf(Type type) throws LookupException {
+		return type.subTypeOf(lowerBound());
+	}
 }

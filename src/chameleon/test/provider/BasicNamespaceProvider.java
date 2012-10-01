@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.Namespace;
 import chameleon.util.Util;
+import chameleon.workspace.Project;
 
 	/**
 	 * A class for providing namespaces based on their fully qualified names. Both null and the empty string
@@ -72,11 +72,11 @@ import chameleon.util.Util;
 
 		private List<String> _namespaces = new ArrayList<String>();
 		
-		public Collection<Namespace> elements(Language language) {
+		public Collection<Namespace> elements(Project project) {
 			Collection<Namespace> result = new ArrayList<Namespace>();
 			try {
 				for(String fqn: _namespaces) {
-				  Util.addNonNull(namespace(fqn, language),result);
+				  Util.addNonNull(namespace(fqn, project),result);
 				}
 			} catch (LookupException e) {
 				e.printStackTrace();
@@ -84,8 +84,8 @@ import chameleon.util.Util;
 			return result;
 		}
 		
-		public Namespace namespace(String fqn, Language language) throws LookupException {
-			Namespace ns = language.defaultNamespace();
+		public Namespace namespace(String fqn, Project project) throws LookupException {
+			Namespace ns = project.namespace();
 			String head = Util.getFirstPart(fqn);
 			String tail = Util.getPartAfterFirstDot(fqn);
 			while (ns != null && head != null && ! head.equals("")) {

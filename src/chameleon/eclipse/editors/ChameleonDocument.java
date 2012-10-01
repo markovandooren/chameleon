@@ -223,10 +223,10 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 //		return getProjectNature().getModel();
 	}
 	
-	public ModelFactory modelFactory(){
-		return getProjectNature().modelFactory();
-	}
-
+//	public ModelFactory projectFactory(){
+//		return getProjectNature().modelFactory();
+//	}
+//
 
 	/**
 	 * 
@@ -340,15 +340,6 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		return getPresentationManager().getFoldedElementsFromModel();
 	}
 
-	private int nbNamespaceParts(Namespace ns) {
-		int result = ns.getNamespaceParts().size();
-		for(Namespace namespace:ns.getSubNamespaces()) {
-			result += nbNamespaceParts(namespace);
-		}
-		return result;
-	}
-	
-
 	/**
 	 * Reparse this document.
 	 * 
@@ -389,16 +380,16 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 			if(Config.debug()) {
 			  System.out.println("Re-add document to project");
 			}
-			Namespace root = getProjectNature().getModel();
-			getProjectNature().addModelElement(this, root);
+			getProjectNature().addDocument(this);
 		}
 
 		System.out.println("Einde reparse");
 	}
 
+	
 //	/**
-//	 * The textrepresentation for the viewer is changed to the presentation we get
-//	 * from our presenation manager. the presentation is done for the speciefied
+//	 * The text representation for the viewer is changed to the presentation we get
+//	 * from our presentation manager. the presentation is done for the specified
 //	 * offset & length that representation is now the last known one.
 //	 * 
 //	 * @param viewer

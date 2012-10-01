@@ -3,7 +3,6 @@ package chameleon.core.namespace;
 import java.util.List;
 
 import org.rejuse.association.Association;
-import org.rejuse.association.OrderedMultiAssociation;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
@@ -15,28 +14,30 @@ import chameleon.core.scope.Scope;
 import chameleon.core.scope.UniversalScope;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
-import chameleon.util.Util;
 import chameleon.util.association.Multi;
 
-public class RegularNamespace extends Namespace {
+public class RegularNamespace extends NamespaceImpl {
+	
+	public RegularNamespace(String name) {
+		this(new SimpleNameSignature(name));
+	}
 	
 	public RegularNamespace(SimpleNameSignature sig) {
 		super(sig);
 	}
 
-	public RegularNamespace(SimpleNameSignature sig, RegularNamespace parent) {
-		super(sig);
-		parent.addNamespace(this);
-	}
-	
 	/**
 	 * SUBNAMESPACES
 	 */
 	private Multi<Namespace> _namespaces = new Multi<Namespace>(this);
 
 
-	protected void addNamespace(Namespace namespace) {
+	protected synchronized void addNamespace(Namespace namespace) {
 		add(_namespaces,namespace);
+		updateCacheNamespaceAdded(namespace);
+	}
+
+	protected void updateCacheNamespaceAdded(Namespace namespace) {
 		flushLocalCache();
 	}
 
@@ -54,10 +55,6 @@ public class RegularNamespace extends Namespace {
 	 *******************/
 
 	private Multi<NamespaceDeclaration> _namespaceParts = new Multi<NamespaceDeclaration>(this);
-
-	public OrderedMultiAssociation getNamespacePartsLink(){
-		return _namespaceParts;
-	}
 
 	public synchronized void addNamespacePart(NamespaceDeclaration namespacePart){
 		_namespaceParts.add((Association)namespacePart.namespaceLink());
@@ -92,22 +89,6 @@ public class RegularNamespace extends Namespace {
   	return language().lookupFactory().createLexicalLookupStrategy(targetContext(), this);
   }
   
-	public synchronized Namespace getOrCreateNamespace(final String name) throws LookupException {
-		if ((name == null) || name.equals("")) {
-			return this;
-		}
-//		System.out.println("Before getting or creating namespace: "+name +" I have "+getSubNamespaces().size()+" sub namespaces.");
-		final String current = Util.getFirstPart(name);
-		final String next = Util.getSecondPart(name); //rest
-		Namespace currentPackage = getSubNamespace(current);
-		if(currentPackage == null) {
-//			System.out.println("Namespace "+getFullyQualifiedName() + " is creating sub namespace "+current);
-			currentPackage = createNamespace(current);
-		}
-//		System.out.println("After getting or creating namespace: "+name +" I have "+getSubNamespaces().size()+" sub namespaces.");
-		return currentPackage.getOrCreateNamespace(next);
-	}
-
 	/**
 	 * Create a new package with the given name
 	 * @param name
@@ -118,8 +99,10 @@ public class RegularNamespace extends Namespace {
 	 @
 	 @ post \result != null;
 	 @*/
-	protected Namespace createNamespace(String name){
-	  return new RegularNamespace(new SimpleNameSignature(name), this);
+	public Namespace createSubNamespace(String name){
+	  Namespace result = new RegularNamespace(name);
+	  addNamespace(result);
+		return result;
 	}
 
 	@Override

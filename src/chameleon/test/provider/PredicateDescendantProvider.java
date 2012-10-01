@@ -6,7 +6,7 @@ import java.util.Collection;
 import org.rejuse.predicate.SafePredicate;
 
 import chameleon.core.element.Element;
-import chameleon.core.language.Language;
+import chameleon.workspace.Project;
 
 /**
  * A class for provider descendants of type E that satisfy a given predicate,
@@ -42,11 +42,11 @@ public class PredicateDescendantProvider<E extends Element> extends AbstractDesc
 		return _predicate;
 	}
 	
-	public Collection<E> elements(Language language) {
+	public Collection<E> elements(Project project) {
 		Collection<E> result = new ArrayList();
 		Class<E> cls = elementType();
 		SafePredicate<E> predicate = predicate();
-		for(Element element: ancestorProvider().elements(language)) {
+		for(Element element: ancestorProvider().elements(project)) {
 			result.addAll(element.descendants(cls, predicate));
 		}
 		return result;

@@ -1,5 +1,6 @@
 package chameleon.aspect.core.build;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -60,11 +61,11 @@ public class AspectBuilder extends PluginImpl implements Builder {
 	}
 
 	@Override
-	public void build(List<Document> compilationUnits, List<Document> allProjectCompilationUnits,	BuildProgressHelper buildProgressHelper) throws ModelException, IOException {
+	public void build(List<Document> compilationUnits, List<Document> allProjectCompilationUnits,	File outputDir, BuildProgressHelper buildProgressHelper) throws ModelException, IOException {
 			Collection<Document> cus = _translator.build(null,allProjectCompilationUnits, buildProgressHelper);
 			CompilationUnitWriter writer = targetLanguage().plugin(CompilationUnitWriter.class);
 			for (Document translated : cus) {
-				writer.write(translated);
+				writer.write(translated,outputDir);
 			}
 	}
 

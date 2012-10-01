@@ -9,10 +9,10 @@ import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 
-import chameleon.core.language.Language;
 import chameleon.input.ParseException;
-import chameleon.oo.type.TypeReference;
-import chameleon.test.provider.ModelProvider;
+import chameleon.workspace.Project;
+import chameleon.workspace.ProjectException;
+import chameleon.workspace.ProjectLoader;
 
 /**
  * The top level test class for Chameleon tests. This class provides the infrastructure
@@ -44,25 +44,11 @@ public abstract class ModelTest extends TestSuite {
     @ post baseRecursive();
     @ post customRecursive();
 	  @*/
-	 public ModelTest(ModelProvider provider) throws ParseException, IOException {
-     _provider = provider;
+	 public ModelTest(Project provider) throws ProjectException {
+     _project = provider;
      setUp();
 	 }
 	 
-	 /**
-	  * Return the model provider for this test.
-	  */
-	/*@
-	  @ public behavior
-	  @
-	  @ post \result != null;
-	  @*/
-	 public ModelProvider modelProvider() {
-		 return _provider;
-	 }
-	 
-	 private ModelProvider _provider;
-	
    /**
     * This method is invoked during setup to set the levels of the loggers.
     * It allows subclasses to easily changes those levels if tests fail, without
@@ -90,17 +76,13 @@ public abstract class ModelTest extends TestSuite {
     @ post language() == provider().model();
     @*/
    @Before
-   public void setUp() throws ParseException, IOException {
+   public void setUp() throws ProjectException {
     	setLogLevels();
-    	long start = System.nanoTime();
-      _language = modelProvider().model();
-    	long stop = System.nanoTime();
-    	System.out.println("Model input took "+(stop-start)/1000000+" milliseconds.");
     }
     
    @After
    public void tearDown() {
-   	 _language = null;
+  	 _project = null;
    }
    
    /**
@@ -111,10 +93,10 @@ public abstract class ModelTest extends TestSuite {
     @
     @ post \result != null;
     @*/
-   public Language language() {
-   	 return _language;
+   public Project project() {
+   	 return _project;
    }
   
-   private Language _language;
+   private Project _project;
     
 }

@@ -5,10 +5,16 @@ import chameleon.core.namespace.Namespace;
 import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.core.reference.CrossReferenceTarget;
 import chameleon.oo.expression.MethodInvocation;
+import chameleon.oo.method.Method;
+import chameleon.oo.method.MethodHeader;
+import chameleon.oo.method.SimpleNameMethodHeader;
 import chameleon.oo.type.RegularType;
 import chameleon.oo.type.Type;
+import chameleon.oo.type.TypeReference;
 import chameleon.plugin.PluginImpl;
+import chameleon.support.member.simplename.method.NormalMethod;
 import chameleon.support.member.simplename.method.RegularMethodInvocation;
+import chameleon.support.modifier.Constructor;
 
 /**
  * A factory class for object oriented languages.
@@ -58,6 +64,19 @@ public abstract class ObjectOrientedFactory extends PluginImpl {
 	 */
 	public MethodInvocation createInvocation(String name, CrossReferenceTarget target) {
 		return new RegularMethodInvocation(name, target);
+	}
+
+	public Method createNormalMethod(String name, TypeReference returnType) {
+		return createNormalMethod(new SimpleNameMethodHeader(name, returnType));
+	}
+
+	public NormalMethod createNormalMethod(MethodHeader header) {
+		return new NormalMethod(header);
+	}
+
+	public Method transformToConstructor(Method m) {
+		m.addModifier(new Constructor());
+		return m;
 	}
 
 }

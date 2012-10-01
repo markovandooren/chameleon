@@ -99,4 +99,13 @@ public class InstantiatedParameterType extends TypeIndirection {
 			return parameter();
 		}
 		
+		@Override
+		public boolean auxSubTypeOf(Type other) throws LookupException {
+		  return aliasedType().subTypeOf(other);
+		}
+		
+		@Override
+		public boolean auxSuperTypeOf(Type type) throws LookupException {
+		  return type.subTypeOf(aliasedType());
+		}
 	}

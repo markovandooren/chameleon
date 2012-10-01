@@ -18,11 +18,12 @@ import chameleon.oo.expression.Expression;
 import chameleon.oo.type.Type;
 import chameleon.test.ModelTest;
 import chameleon.test.provider.ElementProvider;
-import chameleon.test.provider.ModelProvider;
 import chameleon.util.concurrent.CallableFactory;
 import chameleon.util.concurrent.FixedThreadCallableExecutor;
 import chameleon.util.concurrent.QueuePollingCallableFactory;
 import chameleon.util.concurrent.UnsafeAction;
+import chameleon.workspace.Project;
+import chameleon.workspace.ProjectException;
 
 /**
  * @author Marko van Dooren
@@ -43,7 +44,7 @@ public class ExpressionTest extends ModelTest {
    @ post baseRecursive();
    @ post customRecursive();
    @*/
-	public ExpressionTest(ModelProvider provider, ElementProvider<Type> typeProvider) throws ParseException, IOException {
+	public ExpressionTest(Project provider, ElementProvider<Type> typeProvider) throws ProjectException {
 		super(provider);
 		_typeProvider = typeProvider;
 	}
@@ -85,7 +86,7 @@ public class ExpressionTest extends ModelTest {
   
   @Test
   public void testExpressionTypes() throws Exception {
-	  Collection<Type> types = typeProvider().elements(language());
+	  Collection<Type> types = typeProvider().elements(project());
 	  final BlockingQueue<Type> typeQueue = new ArrayBlockingQueue<Type>(types.size(), true, types);
 	  CallableFactory factory = new QueuePollingCallableFactory(new UnsafeAction<Type,LookupException>() {
 	  	public void actuallyPerform(Type type) throws LookupException {

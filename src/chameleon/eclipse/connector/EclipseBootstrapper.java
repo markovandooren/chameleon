@@ -7,13 +7,25 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+
+import chameleon.core.document.Document;
 import chameleon.core.language.Language;
 import chameleon.eclipse.LanguageMgt;
 import chameleon.exception.ChameleonProgrammerException;
+import chameleon.exception.ModelException;
 import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
+import chameleon.plugin.Plugin;
+import chameleon.plugin.PluginImpl;
+import chameleon.plugin.build.BuildProgressHelper;
 import chameleon.plugin.build.Builder;
-import chameleon.plugin.output.Syntax;
+import chameleon.workspace.DirectoryLoader;
+import chameleon.workspace.FileInputSourceFactory;
+import chameleon.workspace.Project;
+import chameleon.workspace.ProjectException;
 
 /**
  * @author Joeri Hendrickx
@@ -30,10 +42,9 @@ public abstract class EclipseBootstrapper {
 		registerFileExtensions();
 	}
 	
-	public EclipseBootstrapper(String name,String languageVersion, String extension) {
+	public EclipseBootstrapper(String name,String languageVersion, String extension, String pluginID) {
 		this();
 		if(name == null) {
-			// Let's adopt Martin Rinard's vision and not make the tool crash. Really interesting vision.
 			name = "unknown language "+getClass().getPackage().getName(); 
 		}
 		_name = name;
@@ -43,6 +54,12 @@ public abstract class EclipseBootstrapper {
 		_languageVersion = languageVersion;
 		addExtension(extension);
 	}
+	
+	public String pluginID() {
+		return _pluginID;
+	}
+	
+	private String _pluginID;
 	
 	private String _name;
 	
@@ -94,29 +111,26 @@ public abstract class EclipseBootstrapper {
 	 * @return
 	 * @throws IOException
 	 * @throws ParseException
+	 * @throws ProjectException 
 	 */
-	public abstract Language createLanguage() throws IOException, ParseException;
+	public abstract Language createLanguage() throws IOException, ParseException, ProjectException;
 	
-	// FIXME: must be a language/project extension (or move to editor extension)
-	/**
-	 * The resulting builder must be connected to a fresh language object. A syntax connector
-	 * must be attached to that language. The builder must be connected to that language.
-	 */
-	public Builder createBuilder(Language source, File projectDirectory) {
-		return null;
+	protected URL pluginURL(String pluginID, String directory) throws IOException {
+		return FileLocator.toFileURL(FileLocator.find(
+  			Platform.getBundle(pluginID), new Path(directory), null));
 	}
 	
-	protected void loadAPIFiles(String extension, String pluginId, ModelFactory factory) throws IOException, ParseException {
-		FilenameFilter filter = LanguageMgt.fileNameFilter(extension);
+	protected void loadAPIFiles(String extension, String pluginId, Project project,FileInputSourceFactory factory) throws IOException, ParseException, ProjectException {
 		URL directory;
 		try {
-		  directory = LanguageMgt.pluginURL(pluginId, "api/");
+		  directory = pluginURL(pluginId, "api/");
 		} catch(NullPointerException exc) {
 			throw new ChameleonProgrammerException("No directory named 'api' is found to load the API.");
 		}
-		List<File> files = LanguageMgt.allFiles(directory, filter);
-		System.out.println("Loading "+files.size()+" API files.");	
-		factory.initializeBase(files);
+		File root = new File(directory.getFile());
+		project.addSource(new DirectoryLoader(extension, root, factory));
+		// FIXME: This should be done by a reusable artefact.
+		project.language().plugin(ModelFactory.class).initializePredefinedElements();
 	}
 
 }

@@ -22,20 +22,13 @@ public abstract class CompilationUnitWriter extends PluginImpl {
 		return _extension;
 	}
 	
-	public CompilationUnitWriter(File outputDir, String extension) {
-		_outputDir = outputDir;
+	public CompilationUnitWriter(String extension) {
 		_extension = extension;
 	}
 
-	public String outputDirName() {
-		return outputDir().getAbsolutePath();
+	public String outputDirName(File file) {
+		return file.getAbsolutePath();
 	}
-	
-	public File outputDir() {
-		return _outputDir;
-	}
-
-	private File _outputDir;
 	
 	/**
 	 * Write the given document to a file. The Syntax plugin is used to translate the document
@@ -48,14 +41,14 @@ public abstract class CompilationUnitWriter extends PluginImpl {
 	 * @throws ModelException
 	 * @throws IOException
 	 */
-	public File write(Document doc) throws LookupException, ModelException, IOException {
+	public File write(Document doc, File outputDir) throws LookupException, ModelException, IOException {
 		Syntax writer = doc.language().plugin(Syntax.class);
 		if(writer != null) {
 			String fileName = fileName(doc);
 			if(fileName != null) {
 				String packageFQN = packageFQN(doc);
 				String relDirName = packageFQN.replace('.', File.separatorChar);
-				File out = new File(outputDirName()+File.separatorChar + relDirName + File.separatorChar + fileName);
+				File out = new File(outputDirName(outputDir)+File.separatorChar + relDirName + File.separatorChar + fileName);
 				File parent = out.getParentFile();
 				parent.mkdirs();
 				out.createNewFile();

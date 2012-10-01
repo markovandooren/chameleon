@@ -104,7 +104,7 @@ public class Util {
     }
   }
 
-  public static String getSecondPart(String string) {
+  public static String getAllButFirstPart(String string) {
     if(string == null) {
       return null;
     }
@@ -238,7 +238,7 @@ public class Util {
   }
 
   public static List createNonNullList(Object object) {
-    List result = new ArrayList();
+    List result = new ArrayList(1);
     if(object != null) {
       result.add(object);
     }

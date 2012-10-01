@@ -9,13 +9,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import chameleon.core.language.Language;
 import chameleon.core.namespace.Namespace;
 import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
-import chameleon.test.provider.BasicModelProvider;
 import chameleon.test.provider.BasicNamespaceProvider;
 import chameleon.test.provider.ElementProvider;
+import chameleon.workspace.DirectoryLoader;
+import chameleon.workspace.FileInputSourceFactory;
+import chameleon.workspace.Project;
+import chameleon.workspace.ProjectException;
 
 /**
  * A class for building models for a command line tool. The input arguments are used to create a model,
@@ -28,9 +30,9 @@ public class ModelBuilder {
 	/**
 	 * Create a new model builder.
 	 * 
-	 * @param modelFactory The factory used to create the model based on the input files.
 	 * @param arguments The command line arguments provided in the format described in the class header.
 	 * @param extension The file extension of the files that must be read in the directories provided as arguments.
+	 * @throws ProjectException 
 	 */
  /*@
    @ public behavior
@@ -39,13 +41,21 @@ public class ModelBuilder {
    @ pre arguments != null;
    @ pre extension != null;
    @*/
-	public ModelBuilder(ModelFactory modelFactory, String[] arguments, String extension, boolean output, boolean base) throws ParseException, IOException {
-		_modelProvider = new BasicModelProvider(modelFactory, extension);
+	public ModelBuilder(Project project, String[] arguments, String extension, boolean output, boolean base, FileInputSourceFactory factory) throws ParseException, IOException, ProjectException {
 		_output = output;
 		_base = base;
 		_arguments = Arrays.asList(arguments);
+		_factory = factory;
+		_project = project;
+		_extension = extension;
 		processArguments();
 	}
+	
+	private FileInputSourceFactory factory() {
+		return _factory;
+	}
+	
+	private FileInputSourceFactory _factory;
 	
   /**
    * args[0] = path for the directory to write output IF output() == true
@@ -59,7 +69,7 @@ public class ModelBuilder {
    * @throws IOException 
    * @throws ParseException 
    */
-	private void processArguments() throws ParseException, IOException {
+	private void processArguments() throws ProjectException {
 
 // FIXME Support this		
 //   * args[n] = fqn of package to read, let this start with "#" to NOT read the package recursively.
@@ -78,7 +88,10 @@ public class ModelBuilder {
      	int baseIndex = low-1;
 			String arg = argument(baseIndex+1);
 			if(! arg.startsWith("@") && ! arg.startsWith("#")&& ! arg.startsWith("%")) {
-     		_modelProvider.includeBase(arg);
+				//FIXME this should be done by a reusable artefact.
+				File root = new File(arg);
+				project().addSource(new DirectoryLoader(extension(), root, factory()));
+     		project().language().plugin(ModelFactory.class).initializePredefinedElements();
       }
     }
     _namespaceProvider = new BasicNamespaceProvider();
@@ -87,29 +100,27 @@ public class ModelBuilder {
      	String arg = argument(i+1);
 			if(! arg.startsWith("@")) {
 				if(! arg.startsWith("#")&& ! arg.startsWith("%")) {
-					_modelProvider.includeCustom(arg);
+					File root = new File(arg);
+					project().addSource(new DirectoryLoader(extension(), root, factory()));
 				}
       } else {
 				_namespaceProvider.addNamespace(arg.substring(1));
       }
     }
-    _language = _modelProvider.model();
 	}
 	
 	public ElementProvider<Namespace> namespaceProvider() {
 		return _namespaceProvider;
 	}
 	
-	public Language language() {
-		return _language;
+	public Project project() {
+		return _project;
 	}
 	
-	private Language _language;
+	private Project _project;
 	
 	private BasicNamespaceProvider _namespaceProvider;
-	
-	private BasicModelProvider _modelProvider;
-	
+		
 	/**
 	 * Return whether an output directory is required.
 	 */

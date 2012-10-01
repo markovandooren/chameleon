@@ -65,6 +65,13 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 		return this;
 	}
 	
+	@Override
+	public <P extends Parameter> void addAllParameters(Class<P> kind, Collection<P> parameters) {
+		for(P p: parameters) {
+			addParameter(kind, p);
+		}
+	}
+	
 	public SimpleNameSignature signature() {
 		return (SimpleNameSignature) super.signature();
 	}
@@ -454,25 +461,21 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 
     
     //TODO: rename to properSubTypeOf
-    
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#subTypeOf(chameleon.oo.type.Type)
-		 */
+
     public boolean subTypeOf(Type other) throws LookupException {
+    	return sameAs(other) || auxSubTypeOf(other) || other.auxSuperTypeOf(this);
+    }
+    
+    @Override
+    public boolean auxSuperTypeOf(Type type) throws LookupException {
+    	return false;
+    }
+    
+    public boolean auxSubTypeOf(Type other) throws LookupException {
     	ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
 			WeakPartialOrder<Type> subtypeRelation = language.subtypeRelation();
 			return subtypeRelation.contains(this, other);
-//    	  Collection superTypes = getAllSuperTypes(); 
-//        return superTypes.contains(other);
     }
-    
-//    /* (non-Javadoc)
-//		 * @see chameleon.oo.type.Tajp#uniSameAs(chameleon.core.element.Element)
-//		 */
-//    @Override
-//    public boolean uniSameAs(Element other) throws LookupException {
-//    	return other == this;
-//    }
     
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#assignableTo(chameleon.oo.type.Type)
@@ -483,9 +486,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
      @ post \result == equals(other) || subTypeOf(other);
      @*/
     public boolean assignableTo(Type other) throws LookupException {
-    	boolean equal = sameAs(other);
-    	boolean subtype = subTypeOf(other);
-    	return (equal || subtype);
+    	return subTypeOf(other);
     }
 
     
@@ -613,6 +614,13 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     		return selector.selection(result);
     	} else {
     	  return result;
+    	}
+    }
+    
+    @Override
+    public void addAllInheritanceRelations(Collection<InheritanceRelation> relations) {
+    	for(InheritanceRelation rel: relations) {
+    		addInheritanceRelation(rel);
     	}
     }
     

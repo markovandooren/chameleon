@@ -27,7 +27,8 @@ import chameleon.core.namespace.Namespace;
 import chameleon.core.namespace.RootNamespace;
 import chameleon.input.ParseException;
 import chameleon.test.provider.ElementProvider;
-import chameleon.test.provider.ModelProvider;
+import chameleon.workspace.Project;
+import chameleon.workspace.ProjectException;
 
 /**
  * A test class for the the children methods of elements, based on reflection.
@@ -51,7 +52,7 @@ public class ChildrenTest extends ModelTest {
    @ post modelProvider() == provider;
    @ post namespaceProvider() == namespaceProvider;
    @*/
-	public ChildrenTest(ModelProvider provider, ElementProvider<Namespace> namespaceProvider) throws ParseException, IOException {
+	public ChildrenTest(Project provider, ElementProvider<Namespace> namespaceProvider) throws ProjectException {
 		super(provider);
 		_namespaceProvider = namespaceProvider;
 	}
@@ -79,7 +80,7 @@ public class ChildrenTest extends ModelTest {
 	
 	@Test
 	public void testChildren() throws LookupException {
-		for(Namespace namespace: namespaceProvider().elements(language())) {
+		for(Namespace namespace: namespaceProvider().elements(project())) {
 			assertTrue(namespace != null);
 		  for(Element element : namespace.descendants()) {
 		  	test(element);
@@ -126,15 +127,15 @@ public class ChildrenTest extends ModelTest {
 		for (Field field : fields) {
 			Object content = getFieldValue(field, element);
 			if(content != null) {
-				try{
-					Association<Element,Element> asso = (Association<Element,Element>) content;
-					List<Element> elms = asso.getOtherEnds();
-					for (Element child : elms) {
-						if(!child.getClass().equals(RootNamespace.class)){
-							reflchildren.add(child);
+					if(content instanceof Association) {
+						Association<Element,Element> asso = (Association<Element,Element>) content;
+						List<Element> elms = asso.getOtherEnds();
+						for (Element child : elms) {
+							if(!child.getClass().equals(RootNamespace.class)){
+								reflchildren.add(child);
+							}
 						}
 					}
-				}catch(ClassCastException exc){}
 			}
 		}
 		return reflchildren;
