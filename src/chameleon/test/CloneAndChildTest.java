@@ -55,7 +55,7 @@ public class CloneAndChildTest extends ModelTest {
 	
 	@Test
 	public void testClone() throws LookupException {
-		for(Namespace namespace: namespaceProvider().elements(project())) {
+		for(Namespace namespace: namespaceProvider().elements(view())) {
 			assertTrue(namespace != null);
 		  for(Element element : namespace.descendants()) {
 		  	test(element);

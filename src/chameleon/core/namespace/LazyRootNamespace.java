@@ -1,7 +1,6 @@
 package chameleon.core.namespace;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -18,7 +17,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.workspace.InputException;
 import chameleon.workspace.InputSource;
-import chameleon.workspace.Project;
+import chameleon.workspace.View;
 
 public class LazyRootNamespace extends RootNamespace implements InputSourceNamespace {
 
@@ -33,8 +32,8 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 		return result;
 	}
 	
-	public LazyRootNamespace(SimpleNameSignature sig, Project project) {
-		super(sig,project,new LazyNamespaceFactory());
+	public LazyRootNamespace(SimpleNameSignature sig, View view) {
+		super(sig,view,new LazyNamespaceFactory());
 	}
 
 	@Override

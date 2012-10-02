@@ -36,7 +36,7 @@ public class CrossReferenceTest extends ModelTest {
 	@Test
 	public void testCrossReferences() throws LookupException, InterruptedException, ExecutionException {
   	long startTime = System.nanoTime();
-		Collection<CrossReference> crossReferences = crossReferenceProvider().elements(project());
+		Collection<CrossReference> crossReferences = crossReferenceProvider().elements(view());
 		final BlockingQueue<CrossReference> queue = new ArrayBlockingQueue<CrossReference>(crossReferences.size(), true, crossReferences);
 		CallableFactory factory = new QueuePollingCallableFactory(new UnsafeAction<CrossReference,LookupException>() {
 			public void actuallyPerform(CrossReference cref) throws LookupException {

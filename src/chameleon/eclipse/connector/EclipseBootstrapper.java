@@ -1,7 +1,6 @@
 package chameleon.eclipse.connector;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -11,21 +10,13 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 
-import chameleon.core.document.Document;
 import chameleon.core.language.Language;
-import chameleon.eclipse.LanguageMgt;
 import chameleon.exception.ChameleonProgrammerException;
-import chameleon.exception.ModelException;
-import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
-import chameleon.plugin.Plugin;
-import chameleon.plugin.PluginImpl;
-import chameleon.plugin.build.BuildProgressHelper;
-import chameleon.plugin.build.Builder;
 import chameleon.workspace.DirectoryLoader;
 import chameleon.workspace.FileInputSourceFactory;
-import chameleon.workspace.Project;
 import chameleon.workspace.ProjectException;
+import chameleon.workspace.View;
 
 /**
  * @author Joeri Hendrickx
@@ -120,7 +111,7 @@ public abstract class EclipseBootstrapper {
   			Platform.getBundle(pluginID), new Path(directory), null));
 	}
 	
-	protected void loadAPIFiles(String extension, String pluginId, Project project,FileInputSourceFactory factory) throws IOException, ParseException, ProjectException {
+	protected void loadAPIFiles(String extension, String pluginId, View view, FileInputSourceFactory factory) throws IOException, ParseException, ProjectException {
 		URL directory;
 		try {
 		  directory = pluginURL(pluginId, "api/");
@@ -128,7 +119,7 @@ public abstract class EclipseBootstrapper {
 			throw new ChameleonProgrammerException("No directory named 'api' is found to load the API.");
 		}
 		File root = new File(directory.getFile());
-		project.addSource(new DirectoryLoader(extension, root, factory));
+		view.addSource(new DirectoryLoader(extension, root, factory));
 //		// FIXME: This should be done by a reusable artefact.
 //		project.language().plugin(ModelFactory.class).initializePredefinedElements();
 	}

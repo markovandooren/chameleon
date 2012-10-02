@@ -90,15 +90,19 @@ public abstract class InputSourceImpl implements InputSource {
 		return loader().project();
 	}
 	
+	public View view() {
+		return loader().view();
+	}
+	
 	protected SingleAssociation<InputSourceImpl, Document> _document = new SingleAssociation<InputSourceImpl, Document>(this);
 	
-	public ProjectLoader loader() {
+	public DocumentLoader loader() {
 		return _loader.getOtherEnd();
 	}
 	
-	public SingleAssociation<InputSource, ProjectLoader> loaderLink() {
+	public SingleAssociation<InputSource, DocumentLoader> loaderLink() {
 		return _loader;
 	}
 	
-	protected SingleAssociation<InputSource, ProjectLoader> _loader = new SingleAssociation<InputSource, ProjectLoader>(this);
+	protected SingleAssociation<InputSource, DocumentLoader> _loader = new SingleAssociation<InputSource, DocumentLoader>(this);
 }

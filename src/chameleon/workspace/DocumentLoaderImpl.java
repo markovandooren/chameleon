@@ -6,17 +6,17 @@ import org.rejuse.association.AssociationListener;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 
-public abstract class ProjectLoaderImpl implements ProjectLoader {
+public abstract class DocumentLoaderImpl implements DocumentLoader {
 
-	public ProjectLoaderImpl() {
-		_projectLink.addListener(new AssociationListener<Project>() {
+	public DocumentLoaderImpl() {
+		_projectLink.addListener(new AssociationListener<View>() {
 
 			// WARNING
 			
 			// WE TUNNEL THE EXCEPTION THROUGH THE ASSOCIATION CLASSES
 			// AND PERFORM THE ROLLBACK IN {@link Project#addSource(ProjectLoader)}
 			@Override
-			public void notifyElementAdded(Project element) {
+			public void notifyElementAdded(View element) {
 				try {
 					notifyProjectAdded(element);
 				} catch (ProjectException e) {
@@ -25,7 +25,7 @@ public abstract class ProjectLoaderImpl implements ProjectLoader {
 			}
 
 			@Override
-			public void notifyElementRemoved(Project element) {
+			public void notifyElementRemoved(View element) {
 				try {
 					notifyProjectRemoved(element);
 				} catch (ProjectException e) {
@@ -34,7 +34,7 @@ public abstract class ProjectLoaderImpl implements ProjectLoader {
 			}
 
 			@Override
-			public void notifyElementReplaced(Project oldElement, Project newElement) {
+			public void notifyElementReplaced(View oldElement, View newElement) {
 				try {
 					notifyProjectReplaced(oldElement, newElement);
 				} catch (ProjectException e) {
@@ -52,31 +52,33 @@ public abstract class ProjectLoaderImpl implements ProjectLoader {
 		
 	}
 	
-	protected void notifyProjectAdded(Project project) throws ProjectException {
+	protected void notifyProjectAdded(View project) throws ProjectException {
 		
 	}
 	
-	protected void notifyProjectRemoved(Project project) throws ProjectException {
+	protected void notifyProjectRemoved(View project) throws ProjectException {
 		
 	}
 
-	protected void notifyProjectReplaced(Project old, Project newProject) throws ProjectException {
+	protected void notifyProjectReplaced(View old, View newProject) throws ProjectException {
 		
 	}
 
-
+	private SingleAssociation<DocumentLoaderImpl, View> _projectLink = new SingleAssociation<DocumentLoaderImpl, View>(this);
 	
-	private SingleAssociation<ProjectLoaderImpl, Project> _projectLink = new SingleAssociation<ProjectLoaderImpl, Project>(this);
-	
-	public SingleAssociation<ProjectLoaderImpl, Project> projectLink() {
+	public SingleAssociation<DocumentLoaderImpl, View> viewLink() {
 		return _projectLink;
 	}
-
-	public Project project() {
+	
+	public View view() {
 		return _projectLink.getOtherEnd();
 	}
+	
+	public Project project() {
+		return view().project();
+	}
 
-	private OrderedMultiAssociation<ProjectLoaderImpl, InputSource> _inputSources = new OrderedMultiAssociation<ProjectLoaderImpl, InputSource>(this);
+	private OrderedMultiAssociation<DocumentLoaderImpl, InputSource> _inputSources = new OrderedMultiAssociation<DocumentLoaderImpl, InputSource>(this);
 	
 	public void addInputSource(InputSource source) {
 		if(source != null) {

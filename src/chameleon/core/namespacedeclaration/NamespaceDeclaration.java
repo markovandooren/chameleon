@@ -273,7 +273,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		Namespace stored = _namespaceLink.getOtherEnd();
 		if(stored == null) {
 			//FIXME When multi-language support is added, this must change
-			stored = project().namespace().getOrCreateNamespace(namespaceReference().toString());
+			stored = view().namespace().getOrCreateNamespace(namespaceReference().toString());
 			stored.addNamespacePart(this);
 		}
 		return stored;

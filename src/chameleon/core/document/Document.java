@@ -17,7 +17,7 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.util.association.Multi;
 import chameleon.workspace.InputSource;
-import chameleon.workspace.Project;
+import chameleon.workspace.View;
 
 /**
  * A compilation unit represents a file in which elements of the program/model are defined.
@@ -141,9 +141,14 @@ public class Document extends ElementImpl {
 
 	protected SingleAssociation<Document, InputSource> _inputSource = new SingleAssociation<>(this);
 	
-	@Override
-	public Project project() {
-		return inputSource().project();
+	@Override 
+	public View view() {
+		return inputSource().view();
 	}
+	
+//	@Override
+//	public Project project() {
+//		return inputSource().project();
+//	}
 	
  }

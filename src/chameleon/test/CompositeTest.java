@@ -12,7 +12,7 @@ import chameleon.core.reference.CrossReference;
 import chameleon.test.provider.BasicDescendantProvider;
 import chameleon.test.provider.BasicNamespaceProvider;
 import chameleon.workspace.Project;
-import chameleon.workspace.ProjectLoader;
+import chameleon.workspace.DocumentLoader;
 import chameleon.workspace.ProjectException;
 
 public abstract class CompositeTest {

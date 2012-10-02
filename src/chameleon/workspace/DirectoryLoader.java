@@ -30,7 +30,7 @@ import chameleon.util.concurrent.UnsafeAction;
  * 
  * @author Marko van Dooren
  */
-public class DirectoryLoader extends ProjectLoaderImpl {
+public class DirectoryLoader extends DocumentLoaderImpl {
 	
 	/**
 	 * Create a new model provider with the given factory.
@@ -43,11 +43,14 @@ public class DirectoryLoader extends ProjectLoaderImpl {
    @
    @ post factory() == factory;
    @*/
-	public DirectoryLoader(String fileExtension, File root, FileInputSourceFactory factory) throws ProjectException {
+	public DirectoryLoader(String fileExtension, File root, FileInputSourceFactory factory) {
 		setFileExtension(fileExtension);
 		setRoot(root);
 		setInputSourceFactory(factory);
-		includeCustom(root);
+	}
+	
+	protected void notifyProjectAdded(View project) throws ProjectException {
+		includeCustom(root());
 	}
 
 	private void setInputSourceFactory(FileInputSourceFactory factory) {
@@ -69,24 +72,6 @@ public class DirectoryLoader extends ProjectLoaderImpl {
 		}
 		_root = root;
 	}
-	
-//	private SingleAssociation<DirectoryLoader,Project>  _projectLink = new SingleAssociation<DirectoryLoader, Project>(this);
-//	
-//	public Project project() {
-//		return _projectLink.getOtherEnd();
-//	}
-//	
-//	private void setProject(Project project) {
-//		if(project != null) {
-//			project.addSource(this);
-//		} else {
-//			_projectLink.connectTo(null);
-//		}
-//	}
-//	
-//	public SingleAssociation<DirectoryLoader,Project> projectLink() {
-//		return _projectLink;
-//	}
 	
 	private String _fileExtension;
 
@@ -113,20 +98,18 @@ public class DirectoryLoader extends ProjectLoaderImpl {
 
 	private FileInputSourceFactory _inputSourceFactory;
 	
-	private void includeCustom(String rootDirName) throws ProjectException {
-		File root = new File(rootDirName);
-		if(! root.isAbsolute()) {
-			root = new File(project().root().getAbsolutePath()+File.separator+rootDirName);
-		}
-  	includeCustom(root);
-	}
 	
+	private void includeCustom(File root) throws ProjectException {
+		inputSourceFactory().initialize(view().namespace());
+		doIncludeCustom(root);
+	}
+
 	/**
 	 * Add the given directory to the list of directories that contain the custom model.
 	 * @throws ParseException 
 	 * @throws IOException 
 	 */
-  private void includeCustom(File root) throws ProjectException {
+  private void doIncludeCustom(File root) throws ProjectException {
   	File[] files = root.listFiles(new FilenameFilter(){
 		
 			@Override
@@ -154,7 +137,7 @@ public class DirectoryLoader extends ProjectLoaderImpl {
   			// push dir
   			inputSourceFactory().pushDirectory(subDir.getName());
   			// recurse
-  			includeCustom(subDir);
+  			doIncludeCustom(subDir);
   			// pop dir
   			inputSourceFactory().popDirectory();
   		}

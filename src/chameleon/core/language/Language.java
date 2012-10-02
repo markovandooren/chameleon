@@ -23,6 +23,7 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.plugin.Plugin;
 import chameleon.plugin.Processor;
 import chameleon.workspace.Project;
+import chameleon.workspace.View;
 
 public interface Language extends PropertyUniverse<ChameleonProperty> {
 	
@@ -331,7 +332,9 @@ public interface Language extends PropertyUniverse<ChameleonProperty> {
    * Return the association object that represents that association with the
    * default (root) namespace.
    */
-  public Association<Language, Project> projectLink();
+  public Association<Language, View> viewLink();
+  
+  public View view();
   
   public Project project();
   /**

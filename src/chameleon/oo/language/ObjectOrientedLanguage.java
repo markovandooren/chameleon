@@ -97,6 +97,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
   
   public abstract IntersectionTypeReference createIntersectionReference(TypeReference first, TypeReference second);
   
+  // NEEDS_NS
   public TypeReference createTypeReferenceInDefaultNamespace(String fqn) {
 	  TypeReference typeRef = createTypeReference(fqn);
 	  typeRef.setUniParent(defaultNamespace());
@@ -107,14 +108,21 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
   
   public abstract DerivedType createDerivedType(Type baseType, List<ActualTypeArgument> typeArguments) throws LookupException;
   
-	public Type getDefaultSuperClass() throws LookupException {
-		  TypeReference typeRef = createTypeReferenceInDefaultNamespace(getDefaultSuperClassFQN());
-	    Type result = typeRef.getType();
-	    if (result==null) {
-	        throw new LookupException("Default super class "+getDefaultSuperClassFQN()+" not found.");
-	    }
-	    return result;
+  // NEEDS_NS
+	public synchronized Type getDefaultSuperClass() throws LookupException {
+		Type result = _defaultSuperClass;
+		if(result == null) {
+			TypeReference typeRef = createTypeReferenceInDefaultNamespace(getDefaultSuperClassFQN());
+			result = typeRef.getType();
+			_defaultSuperClass = result;
+//			if (result==null) {
+//				throw new LookupException("Default super class "+getDefaultSuperClassFQN()+" not found.");
+//			}
+		}
+		return result;
 	}
+	
+	private Type _defaultSuperClass;
 
 	/**
 	 * Return the fully qualified name of the class that acts as the default

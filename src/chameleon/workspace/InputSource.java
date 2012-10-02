@@ -69,15 +69,17 @@ public interface InputSource {
 	public SingleAssociation<InputSource, InputSourceNamespace> namespaceLink();
 	
 	/**
-	 * Return the association object that connects this input source to its namespace.
+	 * Return the association object that connects this input source to the project loader that created it.
 	 * @return
 	 */
-	public SingleAssociation<InputSource, ProjectLoader> loaderLink();
+	public SingleAssociation<InputSource, DocumentLoader> loaderLink();
 	
 	/**
 	 * Return the project to which this input source belongs.
 	 * @return
 	 */
 	public Project project();
+	
+	public View view();
 	
 }

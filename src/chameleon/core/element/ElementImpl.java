@@ -43,6 +43,7 @@ import chameleon.util.concurrent.Action;
 import chameleon.util.concurrent.SafeAction;
 import chameleon.util.concurrent.UnsafeAction;
 import chameleon.workspace.Project;
+import chameleon.workspace.View;
 
 /**
  * @author Marko van Dooren
@@ -169,13 +170,19 @@ public abstract class ElementImpl implements Element {
 //		return result;
 //	}
 	
-	public Project project() {
+	@Override
+	public View view() {
 		Element parent = parent();
 		if(parent != null) {
-			return parent.project();
+			return parent.view();
 		} else {
 			return null;
 		}
+	}
+	
+	@Override
+	public final Project project() {
+		return view().project();
 	}
 
 	/**********

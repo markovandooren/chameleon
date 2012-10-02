@@ -28,6 +28,7 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.plugin.Plugin;
 import chameleon.plugin.Processor;
 import chameleon.workspace.Project;
+import chameleon.workspace.View;
 
 /**
  * A class representing a Chameleon language.
@@ -222,11 +223,15 @@ public abstract class LanguageImpl implements Language {
 	 * @return
 	 */
 	public RootNamespace defaultNamespace() {
-        return project().namespace();
+        return view().namespace();
     }
 	
 	public Project project() {
-		return _default.getOtherEnd();
+		return view().project();
+	}
+	
+	public View view() {
+		return _view.getOtherEnd();
 	}
 
 	/**
@@ -597,18 +602,18 @@ public abstract class LanguageImpl implements Language {
      *                           DEFAULT NAMESPACE                            *
      **************************************************************************/
     
-    public void setProject(Project project) {
-        _default.connectTo(project.languageLink());
+    public void setView(View view) {
+        _view.connectTo(view.languageLink());
     }
 
-    private SingleAssociation<Language,Project> _default = new SingleAssociation<Language,Project>(this); //todo wegens setDefaultNamespace kan dit niet generisch worden gemaakt?
+    private SingleAssociation<Language,View> _view = new SingleAssociation<Language,View>(this); //todo wegens setDefaultNamespace kan dit niet generisch worden gemaakt?
 
     /**
      * @return
      */
     @Override
-    public Association projectLink() {
-        return _default;
+    public SingleAssociation<Language,View> viewLink() {
+        return _view;
     }
 
     public LookupStrategyFactory lookupFactory() {

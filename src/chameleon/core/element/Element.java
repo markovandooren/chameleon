@@ -25,6 +25,7 @@ import chameleon.util.concurrent.Action;
 import chameleon.util.concurrent.SafeAction;
 import chameleon.util.concurrent.UnsafeAction;
 import chameleon.workspace.Project;
+import chameleon.workspace.View;
 
 /**
  * Element is the top interface for an element of a source model. Every lexical language construct (every
@@ -846,6 +847,8 @@ public interface Element {
     public Language language();
     
     public Project project();
+    
+    public View view();
     
     /**
      * Return the language of this element if it is of the wrong kind. Return null if this element is not

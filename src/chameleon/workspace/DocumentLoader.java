@@ -13,7 +13,7 @@ import chameleon.input.ParseException;
  * 
  * @author Marko van Dooren
  */
-public interface ProjectLoader {
+public interface DocumentLoader {
 
 	/**
 	 * Return the project populated by this builder.
@@ -29,6 +29,7 @@ public interface ProjectLoader {
    @*/
 	public Project project();
 
-	public Association<? extends ProjectLoader, ? super Project> projectLink();
+	public Association<? extends DocumentLoader, ? super View> viewLink();
 	
+	public View view();
 }
