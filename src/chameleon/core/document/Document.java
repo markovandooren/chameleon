@@ -15,6 +15,7 @@ import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
+import chameleon.util.CreationStackTrace;
 import chameleon.util.association.Multi;
 import chameleon.workspace.InputSource;
 import chameleon.workspace.View;
@@ -29,6 +30,8 @@ import chameleon.workspace.View;
  */
 public class Document extends ElementImpl {
 
+	private CreationStackTrace _trace = new CreationStackTrace();
+	
 	public Document() {
 		
 	}
@@ -114,7 +117,7 @@ public class Document extends ElementImpl {
 		return Valid.create();
 	}
 
-	public Document cloneTo(Language targetLanguage) throws LookupException {
+	public Document cloneTo(View view) throws LookupException {
 		Document clone = clone();
 		List<NamespaceDeclaration> originalNamespaceParts = namespaceParts();
 		List<NamespaceDeclaration> newNamespaceParts = clone.namespaceParts();
@@ -125,7 +128,7 @@ public class Document extends ElementImpl {
 			NamespaceDeclaration newNamespacePart = newIterator.next();
 			Namespace originalNamespace = originalNamespacePart.namespace();
 			String fqn = originalNamespace.getFullyQualifiedName();
-			Namespace newNamespace = targetLanguage.defaultNamespace().getOrCreateNamespace(fqn);
+			Namespace newNamespace = view.namespace().getOrCreateNamespace(fqn);
 			newNamespace.addNamespacePart(newNamespacePart);
 		}
 		return clone;

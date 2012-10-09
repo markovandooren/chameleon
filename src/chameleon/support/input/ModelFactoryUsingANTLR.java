@@ -1,19 +1,12 @@
 package chameleon.support.input;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringBufferInputStream;
-import java.net.MalformedURLException;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutionException;
 
 import org.antlr.runtime.RecognitionException;
 import org.rejuse.association.Association;
@@ -22,7 +15,6 @@ import org.rejuse.io.DirectoryScanner;
 import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
-import chameleon.core.namespace.RootNamespace;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.InputProcessor;
 import chameleon.input.ModelFactory;
@@ -30,13 +22,24 @@ import chameleon.input.NoLocationException;
 import chameleon.input.ParseException;
 import chameleon.input.SourceManager;
 import chameleon.plugin.PluginImpl;
-import chameleon.util.concurrent.CallableFactory;
-import chameleon.util.concurrent.FixedThreadCallableExecutor;
-import chameleon.util.concurrent.QueuePollingCallableFactory;
-import chameleon.util.concurrent.UnsafeAction;
+import chameleon.workspace.View;
 
 public abstract class ModelFactoryUsingANTLR extends PluginImpl implements ModelFactory {
 
+	public ModelFactoryUsingANTLR() {
+//		_view = view;
+	}
+	
+//	public View view() {
+//		return _view;
+//	}
+//	
+//	private View _view;
+//	
+//	public void setView(View view) {
+//		_view = view;
+//	}
+	
   public abstract ModelFactoryUsingANTLR clone();
 
 	private boolean _debug;
@@ -63,8 +66,9 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 
 	public void parse(InputStream inputStream, Document cu) throws IOException, ParseException {
 		try {
-			ChameleonParser parser = getParser(inputStream);
+			ChameleonParser parser = getParser(inputStream, cu.view());
 			cu.disconnectChildren();
+			//FIXME: this is crap. I set the document, and later on set the view, while they are (and must be) connected anyway
 			parser.setDocument(cu);
 			parser.compilationUnit();
 		} catch (RecognitionException e) {
@@ -72,7 +76,7 @@ public abstract class ModelFactoryUsingANTLR extends PluginImpl implements Model
 		}
 	}
 	
-	protected abstract ChameleonParser getParser(InputStream inputStream) throws IOException;
+	protected abstract ChameleonParser getParser(InputStream inputStream, View view) throws IOException;
 
 	/**
 	 * @param pathList		The directories to from where to load the cs-files

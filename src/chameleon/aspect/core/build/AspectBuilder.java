@@ -15,13 +15,15 @@ import chameleon.plugin.PluginImpl;
 import chameleon.plugin.build.BuildProgressHelper;
 import chameleon.plugin.build.Builder;
 import chameleon.plugin.build.CompilationUnitWriter;
+import chameleon.workspace.View;
 
 public class AspectBuilder extends PluginImpl implements Builder {
 	public AspectBuilder(AspectOrientedLanguage source, Language target, AspectWeaver weaver) {
 		this(weaver);
+		throw new Error("Sabotaged, this must be fixed");
 		// Set target first, since it is needed in setLanguage()
-		_target = target;
-		setLanguage(source, Builder.class);
+//		_target = target;
+//		setLanguage(source, Builder.class);
 		//FIXME we should clone this on a clone of this builder. Create baseClone() in Language?
 	}
 	
@@ -36,7 +38,8 @@ public class AspectBuilder extends PluginImpl implements Builder {
 	public <T extends Plugin> void setLanguage(Language lang, Class<T> pluginInterface) {
 		super.setLanguage(lang, pluginInterface);
 		Language target = _target;
-		_translator = new IncrementalAspectTranslator((AspectOrientedLanguage) lang, target, weaver());
+//		FIXME: next line commented out
+//		_translator = new IncrementalAspectTranslator((AspectOrientedLanguage) lang, target, weaver());
 	}
 
 	public AspectWeaver weaver() {
@@ -45,12 +48,12 @@ public class AspectBuilder extends PluginImpl implements Builder {
 	
 	private AspectWeaver _weaver;
 
-	public Language targetLanguage() {
-		return _translator.targetLanguage();
+	public View target() {
+		return _translator.target();
 	}
 
-	public Language sourceLanguage() {
-		return _translator.sourceLanguage();
+	public View source() {
+		return _translator.source();
 	}
 
 	private IncrementalAspectTranslator _translator;
@@ -63,7 +66,7 @@ public class AspectBuilder extends PluginImpl implements Builder {
 	@Override
 	public void build(List<Document> compilationUnits, List<Document> allProjectCompilationUnits,	File outputDir, BuildProgressHelper buildProgressHelper) throws ModelException, IOException {
 			Collection<Document> cus = _translator.build(null,allProjectCompilationUnits, buildProgressHelper);
-			CompilationUnitWriter writer = targetLanguage().plugin(CompilationUnitWriter.class);
+			CompilationUnitWriter writer = target().language().plugin(CompilationUnitWriter.class);
 			for (Document translated : cus) {
 				writer.write(translated,outputDir);
 			}

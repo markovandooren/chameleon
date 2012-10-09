@@ -3,6 +3,7 @@ package chameleon.oo.language;
 import java.util.List;
 
 import org.rejuse.association.SingleAssociation;
+import org.rejuse.junit.Revision;
 import org.rejuse.predicate.UnsafePredicate;
 
 import chameleon.core.declaration.Declaration;
@@ -12,6 +13,7 @@ import chameleon.core.element.Element;
 import chameleon.core.language.LanguageImpl;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategyFactory;
+import chameleon.core.namespace.Namespace;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.property.Defined;
 import chameleon.core.property.DynamicChameleonProperty;
@@ -54,12 +56,12 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	public final ChameleonProperty NATIVE;
 	public final ChameleonProperty INTERFACE;	
 
-	public ObjectOrientedLanguage(String name) {
-		this(name,null);
+	public ObjectOrientedLanguage(String name, Revision version) {
+		this(name,null,version);
 	}
 
-	public ObjectOrientedLanguage(String name, LookupStrategyFactory factory) {
-		super(name, factory);
+	public ObjectOrientedLanguage(String name, LookupStrategyFactory factory, Revision version) {
+		super(name, factory,version);
 		// 1) Create the properties.
   	INHERITABLE = new StaticChameleonProperty("inheritable",this,Declaration.class);
   	OVERRIDABLE = new StaticChameleonProperty("overridable",this,Declaration.class);
@@ -98,9 +100,9 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
   public abstract IntersectionTypeReference createIntersectionReference(TypeReference first, TypeReference second);
   
   // NEEDS_NS
-  public TypeReference createTypeReferenceInDefaultNamespace(String fqn) {
+  public TypeReference createTypeReferenceInNamespace(String fqn, Namespace namespace) {
 	  TypeReference typeRef = createTypeReference(fqn);
-	  typeRef.setUniParent(defaultNamespace());
+	  typeRef.setUniParent(namespace);
 	  return typeRef;
   }
   
@@ -109,10 +111,10 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
   public abstract DerivedType createDerivedType(Type baseType, List<ActualTypeArgument> typeArguments) throws LookupException;
   
   // NEEDS_NS
-	public synchronized Type getDefaultSuperClass() throws LookupException {
+	public synchronized Type getDefaultSuperClass(Namespace root) throws LookupException {
 		Type result = _defaultSuperClass;
 		if(result == null) {
-			TypeReference typeRef = createTypeReferenceInDefaultNamespace(getDefaultSuperClassFQN());
+			TypeReference typeRef = createTypeReferenceInNamespace(getDefaultSuperClassFQN(),root);
 			result = typeRef.getType();
 			_defaultSuperClass = result;
 //			if (result==null) {
@@ -135,7 +137,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	 *
 	 * @param defaultPackage The root package in which the exception type should be found.
 	 */
-	public abstract Type getNullInvocationException() throws LookupException;
+	public abstract Type getNullInvocationException(Namespace ns) throws LookupException;
 
 	/**
 	 * Return the exception representing the top class of non-fatal runtime exceptions. This doesn't include
@@ -143,7 +145,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	 *
 	 * @param defaultPackage The root package in which the exception type should be found.
 	 */
-	public abstract Type getUncheckedException() throws LookupException;
+	public abstract Type getUncheckedException(Namespace ns) throws LookupException;
 
 	/**
 	 * Check whether the given type is an exception.
@@ -157,7 +159,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 
 	public abstract boolean upperBoundNotHigherThan(Type first, Type second, List<Pair<Type, TypeParameter>> trace) throws LookupException;
 
-	public abstract Type getNullType();
+	public abstract Type getNullType(Namespace root);
 
 	/**
 	 * Return the relation that determines when a member overrides another
@@ -179,25 +181,25 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	 */
 	public abstract StrictPartialOrder<Member> implementsRelation();
 
-	public abstract Type voidType() throws LookupException;
+	public abstract Type voidType(Namespace ns) throws LookupException;
 
 	/**
 	 * Return the type that represents the boolean type in this language.
 	 */
-	public abstract Type booleanType() throws LookupException;
+	public abstract Type booleanType(Namespace ns) throws LookupException;
 
 	/**
 	 * Return the type that represents class cast exceptions in this language.
 	 */
-	public abstract Type classCastException() throws LookupException;
+	public abstract Type classCastException(Namespace ns) throws LookupException;
 
 	/**
 	 * Return the relation that determines when a member is equivalent to another.
 	 */
 	public abstract EquivalenceRelation<Member> equivalenceRelation();
 
-	public Type findType(String fqn) throws LookupException {
-		TypeReference ref = createTypeReferenceInDefaultNamespace(fqn);
+	public Type findType(String fqn, Namespace ns) throws LookupException {
+		TypeReference ref = createTypeReferenceInNamespace(fqn,ns);
 		return ref.getType();
 	}
 

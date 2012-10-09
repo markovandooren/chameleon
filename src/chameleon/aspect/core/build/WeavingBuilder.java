@@ -15,35 +15,36 @@ import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.plugin.build.BuildProgressHelper;
+import chameleon.workspace.View;
 
 //TODO extend van IncrementalJavaTranslator
 public class WeavingBuilder<S extends Language, T extends Language> {
 
-	public WeavingBuilder(S source, T target, AspectWeaver translator) {
-		_sourceLanguage = source;
-		_targetLanguage = target;
+	public WeavingBuilder(View source, View target, AspectWeaver translator) {
+		_source = source;
+		_target = target;
 		_translator = translator;
 	}
 	
 	private AspectWeaver _translator;
 
-	public S sourceLanguage() {
-		return _sourceLanguage;
+	public View source() {
+		return _source;
 	}
 	
-	private S _sourceLanguage;
+	private View _source;
 	
-	public T targetLanguage() {
-		return _targetLanguage;
+	public View target() {
+		return _target;
 	}
 	
-	private T _targetLanguage;
+	private View _target;
 	
 	private boolean _initialized = false;	
 	
 	private void initTargetLanguage() throws LookupException {
 		Set<Document> compilationUnits = new HashSet<Document>();
-		for(NamespaceDeclaration nsp: sourceLanguage().defaultNamespace().descendants(NamespaceDeclaration.class)) {
+		for(NamespaceDeclaration nsp: source().namespace().descendants(NamespaceDeclaration.class)) {
 			Document cu = nsp.nearestAncestor(Document.class);
 			if(cu != null) {
 				compilationUnits.add(cu);
@@ -102,7 +103,7 @@ public class WeavingBuilder<S extends Language, T extends Language> {
 	private Map<Document,Document> _implementationMap = new HashMap<Document,Document>();
 	
 	public Document implementationCompilationUnit(Document compilationUnit) throws LookupException {
-		Document clone = compilationUnit.cloneTo(targetLanguage());
+		Document clone = compilationUnit.cloneTo(target());
 		store(compilationUnit, clone,_implementationMap);
    
 		return clone;

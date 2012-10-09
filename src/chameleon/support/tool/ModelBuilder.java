@@ -10,10 +10,11 @@ import chameleon.core.namespace.Namespace;
 import chameleon.input.ParseException;
 import chameleon.test.provider.BasicNamespaceProvider;
 import chameleon.test.provider.ElementProvider;
+import chameleon.workspace.BootstrapProjectConfig;
 import chameleon.workspace.ConfigException;
+import chameleon.workspace.LanguageRepository;
 import chameleon.workspace.Project;
 import chameleon.workspace.ProjectException;
-import chameleon.workspace.ProjectFactory;
 
 /**
  * A class for building models for a command line tool. The input arguments are used to create a model,
@@ -38,12 +39,12 @@ public class ModelBuilder {
    @ pre arguments != null;
    @ pre extension != null;
    @*/
-	public ModelBuilder(ProjectFactory projectFactory, String[] arguments) throws ConfigException {
+	public ModelBuilder(String[] arguments, LanguageRepository repository) throws ConfigException {
 //		_output = output;
 //		_base = base;
 //		_arguments = Arrays.asList(arguments);
 //		_factory = factory;
-		_project = projectFactory.createProject(new File(arguments[0]));
+		_project = new BootstrapProjectConfig(new File(arguments[0]), repository).project();
 //		_extension = extension;
 		processArguments(arguments);
 	}

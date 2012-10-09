@@ -1,7 +1,9 @@
 package chameleon.eclipse.editors.preferences;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
@@ -27,6 +29,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.internal.WorkbenchMessages;
 
+import chameleon.core.language.Language;
 import chameleon.eclipse.ChameleonEditorPlugin;
 import chameleon.eclipse.LanguageMgt;
 import chameleon.eclipse.editors.ChameleonEditor;
@@ -252,13 +255,16 @@ public class ColoringPreferencePage extends FieldEditorPreferencePage implements
 	//reads the configuration for a specific language and gets it from the xml file
 	private HashMap<String, HashMap<Selector, PresentationStyle>> readConfigurables() {
 	    //lees eerst alle talen uit
-		String[] talen = LanguageMgt.getInstance().getLanguageStrings();
+		List<String> languages = new ArrayList<>();
+		for(Language lang: LanguageMgt.getInstance().workspace().languageRepository().languages()) {
+			languages.add(lang.name());
+		}
 		//haal van alle talen alle elementen op
-	    HashMap<String, HashMap<Selector, PresentationStyle>> result = obtainLanguageColorElements(talen);
+	    HashMap<String, HashMap<Selector, PresentationStyle>> result = obtainLanguageColorElements(languages);
 	    return result;
 	}
 
-	private HashMap<String, HashMap<Selector, PresentationStyle>> obtainLanguageColorElements(String[] talen) {
+	private HashMap<String, HashMap<Selector, PresentationStyle>> obtainLanguageColorElements(List<String> talen) {
 		HashMap<String, HashMap<Selector, PresentationStyle>> result = new HashMap<String, HashMap<Selector, PresentationStyle>>();
 		for(String taal: talen){
 			HashMap<Selector,PresentationStyle> taalResult = LanguageMgt.getInstance().getPresentationModel(taal).getRules();

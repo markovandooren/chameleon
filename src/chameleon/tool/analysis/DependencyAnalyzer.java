@@ -29,8 +29,8 @@ public class DependencyAnalyzer {
 			result = new TransitiveClosure<Declaration>() {
 
 				@Override
-				public Set<Declaration> getConnectedNodes(Declaration node) throws LookupException {
-					return directDependencies(node);
+				public void addConnectedNodes(Declaration node, Set<Declaration> accumulator) throws LookupException {
+					accumulator.addAll(directDependencies(node));
 				}
 			}.closureFromAll(result);
 		} catch (RuntimeException e) {

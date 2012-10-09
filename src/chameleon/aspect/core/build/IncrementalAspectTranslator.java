@@ -3,7 +3,6 @@ package chameleon.aspect.core.build;
 import java.util.ArrayList;
 import java.util.List;
 
-import chameleon.aspect.core.model.aspect.Aspect;
 import chameleon.aspect.core.model.language.AspectOrientedLanguage;
 import chameleon.aspect.core.weave.AspectWeaver;
 import chameleon.aspect.core.weave.JoinPointWeaver;
@@ -12,10 +11,11 @@ import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.plugin.build.BuildProgressHelper;
 import chameleon.support.translate.IncrementalTranslator;
+import chameleon.workspace.View;
 
 public class IncrementalAspectTranslator extends IncrementalTranslator<AspectOrientedLanguage, Language> {
 
-	public IncrementalAspectTranslator(AspectOrientedLanguage source, Language target, AspectWeaver weaver) {
+	public IncrementalAspectTranslator(View source, View target, AspectWeaver weaver) {
 		super(source, target);
 		_translator = weaver;
 	}

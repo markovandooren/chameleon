@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -20,7 +22,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import chameleon.support.modifier.Constructor;
 import chameleon.util.Util;
 
 public abstract class ConfigElement {
@@ -84,22 +85,32 @@ public abstract class ConfigElement {
 		String name = child.getNodeName();
 		Class childClass = getChildClass(name);
 		ConfigElement childConfig;
-		try {
-			@SuppressWarnings("unused")
-			boolean inner = childClass.isMemberClass();
-			if(inner) {
-//				java.lang.reflect.Constructor[] cs = childClass.getConstructors();
-				@SuppressWarnings("unchecked")
-				java.lang.reflect.Constructor ctor = childClass.getConstructors()[0];
-				childConfig = (ConfigElement) ctor.newInstance(this);
-			} else {
-				childConfig = (ConfigElement) childClass.getDeclaredConstructor().newInstance();
+		if(childClass != null) {
+			try {
+				@SuppressWarnings("unused")
+				boolean inner = childClass.isMemberClass();
+				if(inner) {
+					//				java.lang.reflect.Constructor[] cs = childClass.getConstructors();
+					@SuppressWarnings("unchecked")
+					java.lang.reflect.Constructor ctor = childClass.getConstructors()[0];
+					childConfig = (ConfigElement) ctor.newInstance(this);
+				} else {
+					childConfig = (ConfigElement) childClass.getDeclaredConstructor().newInstance();
+				}
+				childConfig.process(child);
+			} catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | InvocationTargetException e) {
+				// Ignore error to stop a single configuration file error from loading the entire project.
+				e.printStackTrace();
 			}
-			childConfig.process(child);
-		} catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | InvocationTargetException e) {
-			// Ignore error to stop a single configuration file error from loading the entire project.
-			e.printStackTrace();
+		} else {
+			_unprocessed.add(child);
 		}
+	}
+	
+	private List<Element> _unprocessed = new ArrayList<Element>();
+	
+	protected List<Element> unprocessedElements() {
+		return new ArrayList<Element>(_unprocessed);
 	}
 	
 	protected Class getChildClass(String childName) {

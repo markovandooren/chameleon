@@ -228,7 +228,7 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
   public Set getDirectExceptions() throws LookupException {
     Set result = new HashSet();
     if(getTarget() != null) {
-      Util.addNonNull(language(ObjectOrientedLanguage.class).getNullInvocationException(), result);
+      Util.addNonNull(language(ObjectOrientedLanguage.class).getNullInvocationException(view().namespace()), result);
     }
     return result;
   }

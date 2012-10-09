@@ -20,7 +20,7 @@ public class InstanceofExpression extends ExprTypeRefContainingExpression {
   }
 
   protected Type actualType() throws LookupException {
-    return language(ObjectOrientedLanguage.class).booleanType();
+    return language(ObjectOrientedLanguage.class).booleanType(view().namespace());
   }
 
   public InstanceofExpression clone() {

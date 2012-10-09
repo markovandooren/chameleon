@@ -15,10 +15,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
 
 import org.antlr.runtime.RecognitionException;
-import org.rejuse.association.SingleAssociation;
-import org.rejuse.io.DirectoryScanner;
 
-import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
 import chameleon.util.concurrent.CallableFactory;
 import chameleon.util.concurrent.FixedThreadCallableExecutor;
@@ -30,7 +27,7 @@ import chameleon.util.concurrent.UnsafeAction;
  * 
  * @author Marko van Dooren
  */
-public class DirectoryLoader extends DocumentLoaderImpl {
+public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 	
 	/**
 	 * Create a new model provider with the given factory.
@@ -225,8 +222,31 @@ public class DirectoryLoader extends DocumentLoaderImpl {
 	 * @throws RecognitionException 
 	 */
 	private void addToModel(File file) throws InputException {
-    addInputSource(inputSourceFactory().create(file));
+    addInputSource(inputSourceFactory().create(file,this));
+	}
+
+	@Override
+	public synchronized void tryToAdd(File file) throws InputException {
+		File relative = file.getParentFile();
+		List<String> names = new ArrayList<String>();
+		while(relative != null && (! relative.equals(_root))) {
+			names.add(relative.getName());
+			relative = relative.getParentFile();
+		}
+		if(relative != null) {
+			int size = names.size();
+			for(int i = size - 1; i >= 0; i--) {
+				_inputSourceFactory.pushDirectory(names.get(i));
+			}
+			_inputSourceFactory.doCreateInputSource(file);		
+			_inputSourceFactory.initialize(view().namespace());
+		} else {
+			throw new IllegalArgumentException("The given file is not in the root of this directory loader.");
+		}
 	}
 	
+//	public static void main(String[] args) {
+//		System.out.println(System.getProperty("java.home"));
+//	}
 
 }

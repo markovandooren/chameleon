@@ -8,6 +8,10 @@ import chameleon.core.lookup.LookupException;
 
 public class Workspace {
 
+	public Workspace(LanguageRepository repository) {
+		_repository = repository;
+	}
+	
 	private MultiAssociation<Workspace, Project> _projects;
 	
 	public List<Project> projects() {
@@ -21,6 +25,12 @@ public class Workspace {
 	public void remove(Project project) {
 		_projects.remove(project.workspaceLink());
 	}
+	
+	public LanguageRepository languageRepository() {
+		return _repository;
+	}
+	
+	private LanguageRepository _repository;
 
 	public Project getProject(String name) throws LookupException {
 		for(Project project: projects()) {

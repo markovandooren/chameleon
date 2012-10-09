@@ -19,6 +19,7 @@ import chameleon.eclipse.editors.ChameleonSourceViewerConfiguration;
 import chameleon.eclipse.project.ChameleonProjectNature;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.ModelFactory;
+import chameleon.workspace.View;
 
 
 /**
@@ -184,7 +185,7 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 						
 						// B. reparse element
 						
-						ModelFactory factory = language().plugin(ModelFactory.class);
+						ModelFactory factory = view().language().plugin(ModelFactory.class);
 //						String text = getDocument().get(position.getOffset(), position.getLength());
 						factory.refresh(element);
 //						element.reParse(new DocumentEditorToolExtension(getDocument()),getDocument().modelFactory());
@@ -217,8 +218,8 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 		
 	}
 
-	private Language language() {
-		return getDocument().chameleonDocument().language();
+	private View view() {
+		return getDocument().chameleonDocument().view();
 	}
 	
 	public ChameleonProjectNature nature() {
@@ -401,9 +402,9 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 	 * @param subRegion the sub region in the dirty region which should be reconciled 
 	 */
 	public void reconcile(ChameleonDirtyRegion dirtyRegion, IRegion subRegion){
-		Language language = language();
-		if(language != null) {
-			Namespace root = language.defaultNamespace();
+		View view = view();
+		if(view != null) {
+			Namespace root = view.namespace();
 //			if(DEBUG) {
 //				try {
 //					System.out.println("Number of elements in model: "+root.descendants(Element.class).size());

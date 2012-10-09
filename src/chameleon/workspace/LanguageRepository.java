@@ -1,7 +1,9 @@
 package chameleon.workspace;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,7 +14,7 @@ import chameleon.core.language.Language;
 public class LanguageRepository {
 
 	public Language get(String name, Revision revision) {
-		Map<Revision,Language> tmp = _languageMap.get(name);
+		Map<Revision,Language> tmp = _languageMap.get(name.toUpperCase());
 		if(tmp != null) {
 			Language result = tmp.get(revision);
 			if(result != null) {
@@ -24,6 +26,16 @@ public class LanguageRepository {
 		throw new IllegalArgumentException("No language with name "+name+" is registered.");
 	}
 	
+	public void add(Language lang) {
+		String name = lang.name();
+		Revision rev = lang.version();
+		Map<Revision,Language> m = _languageMap.get(name.toUpperCase());
+		if(m == null) {
+			m = new HashMap<Revision, Language>();
+			_languageMap.put(name.toUpperCase(), m);
+		}
+		m.put(rev, lang);
+	}
 	
 	/**
 	 * Return the default version of the language with the given name. When an
@@ -33,9 +45,10 @@ public class LanguageRepository {
 	 * @return
 	 */
 	public Language get(String name) {
-		Revision rev = _defaultRevisions.get(name);
+		String n = name.toUpperCase();
+		Revision rev = _defaultRevisions.get(n);
 		if(rev == null) {
-			Map<Revision, Language> tmp = _languageMap.get(name);
+			Map<Revision, Language> tmp = _languageMap.get(n);
 			// Doesn't want to compile with types in place.
 			Set revisions = tmp.keySet();
 			rev = Collections.max(revisions);
@@ -48,12 +61,20 @@ public class LanguageRepository {
 		if(version == null || languageName == null) {
 			throw new IllegalArgumentException();
 		}
-		_defaultRevisions.put(languageName, version);
+		_defaultRevisions.put(languageName.toUpperCase(), version);
 	}
 	
 	
 	public void clearDefaultVersion(String languageName) {
 		_defaultRevisions.remove(languageName);
+	}
+	
+	public List<Language> languages() {
+		List<Language> result = new ArrayList<Language>();
+		for(Map<Revision,Language> map: _languageMap.values()) {
+			result.addAll(map.values());
+		}
+		return result;
 	}
 	
 	private Map<String,Map<Revision,Language>> _languageMap = new HashMap<>();

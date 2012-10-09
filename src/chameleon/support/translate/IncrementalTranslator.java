@@ -14,15 +14,16 @@ import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.exception.ModelException;
 import chameleon.plugin.build.BuildProgressHelper;
+import chameleon.workspace.View;
 
 public abstract class  IncrementalTranslator<S extends Language, T extends Language> {
 	
-	public IncrementalTranslator(S source, T target) {
+	public IncrementalTranslator(View source, View target) {
 		if(source == null || target == null) {
 			throw new ChameleonProgrammerException();
 		}
-		_sourceLanguage = source;
-		_targetLanguage = target;
+		_source = source;
+		_target = target;
 	}
 	
 	private boolean _initialized=false;
@@ -34,7 +35,7 @@ public abstract class  IncrementalTranslator<S extends Language, T extends Langu
 		if ((! _initialized) || force) {
 			_implementationMap = new HashMap<Document,Document>();
 			Set<Document> compilationUnits = new HashSet<Document>();
-			for(NamespaceDeclaration nsp: sourceLanguage().defaultNamespace().descendants(NamespaceDeclaration.class)) {
+			for(NamespaceDeclaration nsp: source().namespace().descendants(NamespaceDeclaration.class)) {
 				Document cu = nsp.nearestAncestor(Document.class);
 				if(cu != null) {
 					compilationUnits.add(cu);
@@ -47,22 +48,22 @@ public abstract class  IncrementalTranslator<S extends Language, T extends Langu
 		}
 	}
 	
-	public S sourceLanguage() {
-		return _sourceLanguage;
+	public View source() {
+		return _source;
 	}
 	
-	private S _sourceLanguage;
+	private View _source;
 	
-	public T targetLanguage() {
-		return _targetLanguage;
+	public View target() {
+		return _target;
 	}
 	
-	private T _targetLanguage;
+	private View _target;
 	
 	private Map<Document,Document> _implementationMap = new HashMap<Document,Document>();
 
 	public Document implementationCompilationUnit(Document compilationUnit) throws LookupException {
-		Document clone = compilationUnit.cloneTo(targetLanguage());
+		Document clone = compilationUnit.cloneTo(target());
 		store(compilationUnit, clone,_implementationMap);
 		
 		return clone;

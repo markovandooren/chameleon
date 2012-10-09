@@ -104,7 +104,7 @@ public abstract class EclipseBootstrapper {
 	 * @throws ParseException
 	 * @throws ProjectException 
 	 */
-	public abstract Language createLanguage() throws IOException, ParseException, ProjectException;
+	public abstract Language createLanguage() throws ProjectException;
 	
 	protected URL pluginURL(String pluginID, String directory) throws IOException {
 		return FileLocator.toFileURL(FileLocator.find(

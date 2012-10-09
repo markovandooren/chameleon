@@ -110,7 +110,7 @@ public class NamedTargetExpression extends TargetedExpression implements CrossRe
 	public Set getDirectExceptions() throws LookupException {
     Set<Type> result = new HashSet<Type>();
     if(getTarget() != null) {
-      Util.addNonNull(language(ObjectOrientedLanguage.class).getNullInvocationException(), result);
+      Util.addNonNull(language(ObjectOrientedLanguage.class).getNullInvocationException(view().namespace()), result);
     }
     return result;
 	}

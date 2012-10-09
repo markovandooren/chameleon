@@ -6,15 +6,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.rejuse.association.Association;
 import org.rejuse.association.MultiAssociation;
+import org.rejuse.junit.Revision;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 import org.rejuse.property.PropertyUniverse;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupStrategyFactory;
-import chameleon.core.namespace.RootNamespace;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.property.PropertyRule;
 import chameleon.core.validation.VerificationResult;
@@ -22,8 +21,6 @@ import chameleon.core.validation.VerificationRule;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.plugin.Plugin;
 import chameleon.plugin.Processor;
-import chameleon.workspace.Project;
-import chameleon.workspace.View;
 
 public interface Language extends PropertyUniverse<ChameleonProperty> {
 	
@@ -37,6 +34,8 @@ public interface Language extends PropertyUniverse<ChameleonProperty> {
    @ post \result != null;
    @*/
 	public Language clone();
+	
+	public Revision version();
 	
 	/**
 	 * Return the name of this language.
@@ -123,7 +122,7 @@ public interface Language extends PropertyUniverse<ChameleonProperty> {
 	 * may need access to predefined elements, which are somewhere in the model.
 	 * @return
 	 */
-	public RootNamespace defaultNamespace();
+//	public RootNamespace defaultNamespace();
 
 	/**
 	 * A property mutex for the scope property.
@@ -332,11 +331,11 @@ public interface Language extends PropertyUniverse<ChameleonProperty> {
    * Return the association object that represents that association with the
    * default (root) namespace.
    */
-  public Association<Language, View> viewLink();
+//  public Association<Language, View> viewLink();
   
-  public View view();
+//  public View view();
   
-  public Project project();
+//  public Project project();
   /**
    * Return the factory for creating lookup strategies.
    */

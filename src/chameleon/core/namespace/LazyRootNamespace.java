@@ -84,7 +84,7 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 		return candidates;
 	}
 	
-	public void addInputSource(InputSource source) {
+	public void addInputSource(InputSource source) throws InputException {
 		_inputSources.add(source.namespaceLink());
 		for(String name: source.targetDeclarationNames(this)) {
 			List<InputSource> list = _sourceMap.get(name);

@@ -2,6 +2,7 @@ package chameleon.eclipse.project;
 
 import java.io.InputStream;
 import java.io.StringBufferInputStream;
+import java.util.ArrayList;
 
 import org.eclipse.core.internal.resources.Workspace;
 import org.eclipse.core.resources.ICommand;
@@ -29,6 +30,7 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 
+import chameleon.core.language.Language;
 import chameleon.eclipse.LanguageMgt;
 import chameleon.eclipse.builder.ChameleonBuilder;
 
@@ -74,9 +76,9 @@ public class ProjectWizard extends BasicNewProjectResourceWizard implements INew
 			optionList = new List(controlContainer, SWT.NONE);
 			optionList.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			
-			String[] lang = LanguageMgt.getInstance().getLanguageStrings();
-			for (int i = 0; i < lang.length; i++) {
-				optionList.add(lang[i]);
+			java.util.List<String> languages = new ArrayList<>();
+			for(Language lang: LanguageMgt.getInstance().workspace().languageRepository().languages()) {
+				optionList.add(lang.name());
 			}
 			optionList.setVisible(true);
 			

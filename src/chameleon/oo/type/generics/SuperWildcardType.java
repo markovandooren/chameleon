@@ -8,7 +8,7 @@ import chameleon.oo.type.Type;
 public class SuperWildcardType extends WildCardType {
 
 	public SuperWildcardType(Type lowerBound) throws LookupException {
-		super(new SimpleNameSignature("? super "+lowerBound.name()), lowerBound.language(ObjectOrientedLanguage.class).getDefaultSuperClass(), lowerBound);
+		super(new SimpleNameSignature("? super "+lowerBound.name()), lowerBound.language(ObjectOrientedLanguage.class).getDefaultSuperClass(lowerBound.view().namespace()), lowerBound);
 	}
 	
 	public Type bound() {

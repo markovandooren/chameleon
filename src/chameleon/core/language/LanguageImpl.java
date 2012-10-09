@@ -13,6 +13,7 @@ import org.rejuse.association.Association;
 import org.rejuse.association.MultiAssociation;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
+import org.rejuse.junit.Revision;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 
@@ -60,8 +61,8 @@ public abstract class LanguageImpl implements Language {
    @ post name().equals(name);
    @ post (* The lookup strategy factory is initialized to the default LookupStrategyFactory *);
    @*/
-	public LanguageImpl(String name) {
-		this(name, new LookupStrategyFactory());
+	public LanguageImpl(String name, Revision version) {
+		this(name, new LookupStrategyFactory(),version);
 	}
 	
 	public abstract Language clone();
@@ -81,13 +82,20 @@ public abstract class LanguageImpl implements Language {
    @ post name().equals(name);
    @ post lookupFactory() == factory;
    @*/
-	public LanguageImpl(String name, LookupStrategyFactory factory) {
+	public LanguageImpl(String name, LookupStrategyFactory factory, Revision version) {
 		setName(name);
 		setLookupStrategyFactory(factory);
 		initializePropertyRules();
 		initializeValidityRules();
 		SCOPE_MUTEX = new PropertyMutex<ChameleonProperty>();
+		_version = version;
 	}
+	
+	public Revision version() {
+		return _version;
+	}
+	
+	private Revision _version;
 	
 //	public final Language clone() {
 //		Language result = cloneThis();
@@ -217,22 +225,22 @@ public abstract class LanguageImpl implements Language {
 	 */
 	private String _name;
 
-	/**
-	 * Return the default namespace attached to this language. A language is always attached to a default namespace because a language
-	 * may need access to predefined elements, which are somewhere in the model.
-	 * @return
-	 */
-	public RootNamespace defaultNamespace() {
-        return view().namespace();
-    }
-	
-	public Project project() {
-		return view().project();
-	}
-	
-	public View view() {
-		return _view.getOtherEnd();
-	}
+//	/**
+//	 * Return the default namespace attached to this language. A language is always attached to a default namespace because a language
+//	 * may need access to predefined elements, which are somewhere in the model.
+//	 * @return
+//	 */
+//	public RootNamespace defaultNamespace() {
+//        return view().namespace();
+//    }
+//	
+//	public Project project() {
+//		return view().project();
+//	}
+//	
+//	public View view() {
+//		return _view.getOtherEnd();
+//	}
 
 	/**
 	 * A property mutex for the scope property.
@@ -602,19 +610,19 @@ public abstract class LanguageImpl implements Language {
      *                           DEFAULT NAMESPACE                            *
      **************************************************************************/
     
-    public void setView(View view) {
-        _view.connectTo(view.languageLink());
-    }
-
-    private SingleAssociation<Language,View> _view = new SingleAssociation<Language,View>(this); //todo wegens setDefaultNamespace kan dit niet generisch worden gemaakt?
-
-    /**
-     * @return
-     */
-    @Override
-    public SingleAssociation<Language,View> viewLink() {
-        return _view;
-    }
+//    public void setView(View view) {
+//        _view.connectTo(view.languageLink());
+//    }
+//
+//    private SingleAssociation<Language,View> _view = new SingleAssociation<Language,View>(this); //todo wegens setDefaultNamespace kan dit niet generisch worden gemaakt?
+//
+//    /**
+//     * @return
+//     */
+//    @Override
+//    public SingleAssociation<Language,View> viewLink() {
+//        return _view;
+//    }
 
     public LookupStrategyFactory lookupFactory() {
     	return _contextFactory;

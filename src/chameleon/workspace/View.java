@@ -5,9 +5,12 @@ import java.util.List;
 import org.rejuse.association.Association;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
+import org.rejuse.predicate.TypePredicate;
 
 import chameleon.core.language.Language;
+import chameleon.core.language.WrongLanguageException;
 import chameleon.core.namespace.RootNamespace;
+import chameleon.exception.ChameleonProgrammerException;
 import chameleon.workspace.DocumentLoaderImpl.TunnelException;
 
 public class View {
@@ -29,19 +32,29 @@ public class View {
 
   public void setLanguage(Language language) {
   	if(language != null) {
-  		_language.connectTo(language.viewLink());
+  		_language = language;
+  	} else {
+  		throw new IllegalArgumentException();
   	}
   }
 
   public Language language() {
-    return _language.getOtherEnd();
+    return _language;
   }
   
-  public SingleAssociation<View,Language> languageLink() {
-  	return _language;
-  }
+	public <T extends Language> T language(Class<T> kind) {
+		if(kind == null) {
+			throw new ChameleonProgrammerException("The given language class is null.");
+		}
+		Language language = language();
+		if(kind.isInstance(language) || language == null) {
+			return (T) language;
+		} else {
+			throw new WrongLanguageException("The language of this model is of the wrong kind. Expected: "+kind.getName()+" but got: " +language.getClass().getName());
+		}
+	}
 	    
-  private SingleAssociation<View,Language> _language = new SingleAssociation<View,Language>(this);
+  private Language _language;
 
 	public RootNamespace namespace() {
 		return _namespace.getOtherEnd();
@@ -123,8 +136,12 @@ public class View {
 		_sourceLoaders.remove(loader.viewLink());
 	}
 	
-	public List<DocumentLoader> sources() {
+	public List<DocumentLoader> sourceLoaders() {
 		return _sourceLoaders.getOtherEnds();
+	}
+	
+	public <T extends DocumentLoader> List<T> sourceLoaders(Class<T> kind) {
+		return (List<T>) new TypePredicate(kind).filterReturn(sourceLoaders());
 	}
 
 }

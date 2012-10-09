@@ -46,7 +46,7 @@ public class ClassCastExpression extends ExprTypeRefContainingExpression {
   }
 
   public Set<Type> getDirectExceptions() throws LookupException {
-    return Util.createNonNullSet(language(ObjectOrientedLanguage.class).classCastException());
+    return Util.createNonNullSet(language(ObjectOrientedLanguage.class).classCastException(view().namespace()));
   }
 
 }

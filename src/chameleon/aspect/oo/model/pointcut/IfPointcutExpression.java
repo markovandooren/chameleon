@@ -37,7 +37,7 @@ public class IfPointcutExpression extends AbstractDynamicPointcutExpression impl
 	public VerificationResult verifySelf() {
 		VerificationResult result = super.verifySelf();
 		try {
-			if (!expression().getType().sameAs(language(ObjectOrientedLanguage.class).booleanType()))
+			if (!expression().getType().sameAs(language(ObjectOrientedLanguage.class).booleanType(view().namespace())))
 				result = result.and(new BasicProblem(this, "An if-expression may only contain boolean expressions"));
 		} catch (LookupException e) {
 			result = result.and(new BasicProblem(this, "Exception during lookup "+e.getMessage()));

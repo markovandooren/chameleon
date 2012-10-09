@@ -32,7 +32,7 @@ public class SuperConstraint extends TypeConstraint {
 
 	@Override
 	public Type upperBound() throws LookupException {
-		return language(ObjectOrientedLanguage.class).getDefaultSuperClass();
+		return language(ObjectOrientedLanguage.class).getDefaultSuperClass(view().namespace());
 	}
 
 	@Override

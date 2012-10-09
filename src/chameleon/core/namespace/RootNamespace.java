@@ -93,7 +93,7 @@ public class RootNamespace extends RegularNamespace {
   private SingleAssociation<RootNamespace,View> _view = new SingleAssociation<RootNamespace,View>(this);
 
   public Type getNullType() {
-	  return this.language(ObjectOrientedLanguage.class).getNullType();
+	  return this.language(ObjectOrientedLanguage.class).getNullType(view().namespace());
   }
   
 	@Override

@@ -28,7 +28,7 @@ public class IntersectionType extends MultiType {
 		if(types.size() == 1) {
 			return types.get(0);
 		} else {
-			Namespace def = types.get(0).language().defaultNamespace();
+			Namespace def = types.get(0).view().namespace();
 			IntersectionType result = new IntersectionType(types);
 			result.setUniParent(def);
 			return result;

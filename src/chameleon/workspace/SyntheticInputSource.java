@@ -6,7 +6,6 @@ import java.util.List;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.document.Document;
-import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.InputSourceNamespace;
 import chameleon.core.namespace.Namespace;
@@ -15,11 +14,11 @@ import chameleon.oo.plugin.ObjectOrientedFactory;
 
 public class SyntheticInputSource extends InputSourceImpl {
 
-	public SyntheticInputSource(Declaration decl, String namespaceFQN, Language lang) {
+	public SyntheticInputSource(Declaration decl, String namespaceFQN, View view) throws InputException {
 		_declaration = decl;
-		InputSourceNamespace ns = (InputSourceNamespace) lang.defaultNamespace().getOrCreateNamespace(namespaceFQN);
+		InputSourceNamespace ns = (InputSourceNamespace) view.namespace().getOrCreateNamespace(namespaceFQN);
 		setNamespace(ns);
-		NamespaceDeclaration nsd = lang.plugin(ObjectOrientedFactory.class).createNamespaceDeclaration(namespaceFQN);
+		NamespaceDeclaration nsd = view.language().plugin(ObjectOrientedFactory.class).createNamespaceDeclaration(namespaceFQN);
 		nsd.add(decl);
 		Document doc = new Document();
 		doc.add(nsd);

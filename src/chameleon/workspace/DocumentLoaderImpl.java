@@ -1,5 +1,6 @@
 package chameleon.workspace;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.rejuse.association.AssociationListener;
@@ -40,6 +41,24 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 				} catch (ProjectException e) {
 					throw new TunnelException(e);
 				}
+			}
+		});
+		_inputSources.addListener(new AssociationListener<InputSource>() {
+
+			@Override
+			public void notifyElementAdded(InputSource element) {
+				notifyAdded(element);
+			}
+
+			@Override
+			public void notifyElementRemoved(InputSource element) {
+				notifyRemoved(element);
+			}
+
+			@Override
+			public void notifyElementReplaced(InputSource oldElement, InputSource newElement) {
+				notifyAdded(oldElement);
+				notifyRemoved(newElement);
 			}
 		});
 	}
@@ -93,6 +112,44 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	public void removeInputSource(InputSource source) {
 		if(source != null) {
 			_inputSources.remove(source.loaderLink());
+		}
+	}
+	
+	public void addListener(InputSourceListener listener) {
+		// The Association object will send the event and the attached listener
+		// will invoke notifyAdded(InputSource).
+		_listeners.add(listener);
+	}
+	
+	public void removeListener(InputSourceListener listener) {
+		// The Association object will send the event and the attached listener
+		// will invoke notifyRemoved(InputSource).
+		_listeners.remove(listener);
+	}
+
+	public List<InputSourceListener> inputSourceListeners() {
+		return new ArrayList<>(_listeners);
+	}
+
+	private List<InputSourceListener> _listeners = new ArrayList<>();
+	
+	private void notifyAdded(InputSource source) {
+		for(InputSourceListener listener: inputSourceListeners()) {
+			listener.notifyInputSourceAdded(source);
+		}
+	}
+	
+	private void notifyRemoved(InputSource source) {
+		for(InputSourceListener listener: inputSourceListeners()) {
+			listener.notifyInputSourceAdded(source);
+		}
+	}
+	
+	@Override
+	public void addAndSynchronizeListener(InputSourceListener listener) {
+		addListener(listener);
+		for(InputSource source: inputSources()) {
+			notifyAdded(source);
 		}
 	}
 }

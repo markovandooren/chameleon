@@ -7,7 +7,7 @@ import chameleon.oo.type.Type;
 public class ExtendsWildcardType extends WildCardType {
 
 	public ExtendsWildcardType(Type upperBound) {
-		super(new SimpleNameSignature("? extends "+upperBound.name()), upperBound,upperBound.language(ObjectOrientedLanguage.class).getNullType());
+		super(new SimpleNameSignature("? extends "+upperBound.name()), upperBound,upperBound.language(ObjectOrientedLanguage.class).getNullType(upperBound.view().namespace()));
 	}
 
 	public Type bound() {

@@ -20,6 +20,7 @@ import chameleon.core.reference.CrossReference;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.InputProcessor;
 import chameleon.input.PositionMetadata;
+import chameleon.workspace.View;
 
 
 public abstract class ChameleonParser<L extends Language> extends Parser implements PositionMetadata {
@@ -151,9 +152,16 @@ public abstract class ChameleonParser<L extends Language> extends Parser impleme
 	     return _lang;
 	   }
 	   
-	   public void setLanguage(L language) {
-	     _lang = language;
-	     _root = _lang.defaultNamespace();
+	   public void setView(View view) {
+	  	 _view = view;
+	     _lang = view.language();
+	     _root = view.namespace();
+	   }
+	   
+	   protected View _view;
+	   
+	   public View view() {
+	  	 return _view;
 	   }
 	   
 	   RootNamespace _root;

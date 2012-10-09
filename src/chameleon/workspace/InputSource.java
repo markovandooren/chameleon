@@ -26,8 +26,9 @@ public interface InputSource {
 	 * within the namespace are ignored.
 	 * @param ns
 	 * @return
+	 * @throws InputException 
 	 */
-	public List<String> targetDeclarationNames(Namespace ns);
+	public List<String> targetDeclarationNames(Namespace ns) throws InputException;
 	
 	/**
 	 * Load the declarations with the given name into the model (if any) and return them in a list.

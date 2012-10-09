@@ -84,7 +84,7 @@ public class FormalTypeParameter extends TypeParameter {
 		TypeReference result;
 		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
 		if(size == 0) {
-		  result = language.createTypeReferenceInDefaultNamespace(language.getDefaultSuperClassFQN());
+		  result = language.createTypeReferenceInNamespace(language.getDefaultSuperClassFQN(), view().namespace());
 		} else if(size == 1) {
 			result = constraints.get(0).upperBoundReference();
 		} else {
@@ -102,7 +102,7 @@ public class FormalTypeParameter extends TypeParameter {
 		Type result;
 		int size = constraints.size();
 		if(size == 0) {
-			result = language(ObjectOrientedLanguage.class).getDefaultSuperClass();
+			result = language(ObjectOrientedLanguage.class).getDefaultSuperClass(view().namespace());
 		} else {
 			result = constraints.get(0).upperBound();
 			for(int i = 1; i < size; i++) {
@@ -129,7 +129,7 @@ public class FormalTypeParameter extends TypeParameter {
 		Type result;
 		int size = constraints.size();
 		if(size == 0) {
-			result = language(ObjectOrientedLanguage.class).getNullType();
+			result = language(ObjectOrientedLanguage.class).getNullType(view().namespace());
 		} else {
 			result = constraints.get(0).lowerBound();
 			for(int i = 1; i < size; i++) {

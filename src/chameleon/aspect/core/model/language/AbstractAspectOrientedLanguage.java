@@ -1,5 +1,6 @@
 package chameleon.aspect.core.model.language;
 
+import org.rejuse.junit.Revision;
 import org.rejuse.property.PropertyMutex;
 
 import chameleon.aspect.core.model.advice.property.AfterProperty;
@@ -17,15 +18,15 @@ public abstract class AbstractAspectOrientedLanguage extends LanguageImpl implem
 	private final PropertyMutex<ChameleonProperty> ADVICETYPE_MUTEX = new PropertyMutex<ChameleonProperty>();;
 
 
-	public AbstractAspectOrientedLanguage(String name, LookupStrategyFactory factory) {
-		super(name,factory);
+	public AbstractAspectOrientedLanguage(String name, LookupStrategyFactory factory, Revision version) {
+		super(name,factory,version);
 		BEFORE = new BeforeProperty(this, ADVICETYPE_MUTEX);
 		AFTER = new AfterProperty(this, ADVICETYPE_MUTEX);
 		AROUND = new AroundProperty(this, ADVICETYPE_MUTEX);
 	}
 
-	public AbstractAspectOrientedLanguage(String name) {
-		this(name,new LookupStrategyFactory());
+	public AbstractAspectOrientedLanguage(String name, Revision version) {
+		this(name,new LookupStrategyFactory(), version);
 	}
 
 	@Override
