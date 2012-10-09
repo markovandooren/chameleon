@@ -125,6 +125,10 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
     setNamespaceReference(ref);
 	}
 	
+	public NamespaceDeclaration(String fqn) {
+		this(new SimpleReference<Namespace>(fqn,Namespace.class));
+	}
+	
 	public void setNamespaceReference(SimpleReference<Namespace> ref) {
 		set(_ref, ref);
 	}

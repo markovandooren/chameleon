@@ -40,12 +40,10 @@ public class ModelBuilder {
    @ pre extension != null;
    @*/
 	public ModelBuilder(String[] arguments, LanguageRepository repository) throws ConfigException {
-//		_output = output;
-//		_base = base;
-//		_arguments = Arrays.asList(arguments);
-//		_factory = factory;
-		_project = new BootstrapProjectConfig(new File(arguments[0]), repository).project();
-//		_extension = extension;
+		File projectXML = new File(arguments[0]);
+		BootstrapProjectConfig config = new BootstrapProjectConfig(projectXML.getParentFile(), repository);
+		config.readFromXML(projectXML);
+		_project = config.project();
 		processArguments(arguments);
 	}
 	

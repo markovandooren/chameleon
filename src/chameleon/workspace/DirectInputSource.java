@@ -12,9 +12,9 @@ import chameleon.core.namespace.Namespace;
 import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.oo.plugin.ObjectOrientedFactory;
 
-public class SyntheticInputSource extends InputSourceImpl {
+public class DirectInputSource extends InputSourceImpl {
 
-	public SyntheticInputSource(Declaration decl, String namespaceFQN, View view) throws InputException {
+	public DirectInputSource(Declaration decl, String namespaceFQN, View view) throws InputException {
 		_declaration = decl;
 		InputSourceNamespace ns = (InputSourceNamespace) view.namespace().getOrCreateNamespace(namespaceFQN);
 		setNamespace(ns);

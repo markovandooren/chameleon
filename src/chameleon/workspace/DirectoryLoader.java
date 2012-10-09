@@ -6,7 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -245,8 +247,12 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 		}
 	}
 	
-//	public static void main(String[] args) {
-//		System.out.println(System.getProperty("java.home"));
-//	}
+	public static void main(String[] args) throws URISyntaxException {
+		URL objectLocation = Object.class.getResource("/java/lang/Object.class");
+		String fileName = objectLocation.getFile();
+		File file = new File(fileName.substring(5,fileName.indexOf('!')));
+//		file = new File("/Users/marko");
+		System.out.println(file);
+	}
 
 }

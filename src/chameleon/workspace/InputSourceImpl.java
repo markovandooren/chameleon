@@ -1,10 +1,16 @@
 package chameleon.workspace;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.rejuse.association.SingleAssociation;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.document.Document;
+import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.InputSourceNamespace;
 import chameleon.core.namespace.Namespace;
+import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 
 public abstract class InputSourceImpl implements InputSource {
 	
@@ -84,4 +90,33 @@ public abstract class InputSourceImpl implements InputSource {
 	}
 	
 	protected SingleAssociation<InputSource, DocumentLoader> _loader = new SingleAssociation<InputSource, DocumentLoader>(this);
+	
+	@Override
+	public List<Declaration> targetDeclarations(String name) throws LookupException {
+		try {
+			load();
+		} catch (InputException e) {
+			throw new LookupException("Error opening file",e);
+		}
+		List<Declaration> children = (List)document().children(NamespaceDeclaration.class).get(0).children(Declaration.class);
+		List<Declaration> result = new ArrayList<Declaration>(1);
+		for(Declaration t: children) {
+			if(t.name().equals(name)) {
+				result.add(t);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public List<String> targetDeclarationNames(Namespace ns) throws InputException {
+		load();
+		List<Declaration> children = (List)document().children(NamespaceDeclaration.class).get(0).children(Declaration.class);
+		List<String> result = new ArrayList<String>();
+		for(Declaration t: children) {
+			result.add(t.name());
+		}
+		return result;
+	}
+
 }

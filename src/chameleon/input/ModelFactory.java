@@ -11,6 +11,8 @@ import chameleon.plugin.Plugin;
  * An interface for model factories. A model factory must be able to create
  * a model from a collection of files. In addition, it must add all predefined types
  * and operations.
+ *
+ * FIXME: rename this to Parser or SourceParser
  * 
  * A model factory is attached to a Language object as a Connector.
  * @author Marko van Dooren

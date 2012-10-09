@@ -12,7 +12,7 @@ public class Cache {
 	public boolean search(Collector<?> collector) throws LookupException {
 		boolean result = false;
 		DeclarationSelector<?> selector = collector.selector();
-		if(selector.canBeCached()) {
+		if(selector.isGreedy()) {
 			String selectionName = selector.selectionName(null);
 			Class selectedClass = selector.selectedClass();
 			List cached = get(selectionName, selectedClass);
@@ -27,7 +27,7 @@ public class Cache {
 	public void store(Collector<?> collector) throws LookupException {
 		if(! collector.willProceed()) {
 			DeclarationSelector<?> selector = collector.selector();
-			if(selector.canBeCached()) {
+			if(selector.isGreedy()) {
 				String selectionName = selector.selectionName(null);
 				Class selectedClass = selector.selectedClass();
 				Object result = collector.result();

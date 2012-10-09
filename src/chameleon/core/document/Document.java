@@ -1,10 +1,10 @@
 package chameleon.core.document;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.rejuse.association.SingleAssociation;
 
+import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.language.Language;
@@ -17,7 +17,11 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.util.CreationStackTrace;
 import chameleon.util.association.Multi;
+import chameleon.workspace.DocumentLoaderImpl;
+import chameleon.workspace.InputException;
 import chameleon.workspace.InputSource;
+import chameleon.workspace.InputSourceImpl;
+import chameleon.workspace.ProjectException;
 import chameleon.workspace.View;
 
 /**
@@ -117,20 +121,46 @@ public class Document extends ElementImpl {
 		return Valid.create();
 	}
 
-	public Document cloneTo(View view) throws LookupException {
-		Document clone = clone();
-		List<NamespaceDeclaration> originalNamespaceParts = namespaceParts();
-		List<NamespaceDeclaration> newNamespaceParts = clone.namespaceParts();
-		Iterator<NamespaceDeclaration> originalIterator = originalNamespaceParts.iterator();
-		Iterator<NamespaceDeclaration> newIterator = newNamespaceParts.iterator();
-		while(originalIterator.hasNext()) {
-			NamespaceDeclaration originalNamespacePart = originalIterator.next();
-			NamespaceDeclaration newNamespacePart = newIterator.next();
-			Namespace originalNamespace = originalNamespacePart.namespace();
-			String fqn = originalNamespace.getFullyQualifiedName();
-			Namespace newNamespace = view.namespace().getOrCreateNamespace(fqn);
-			newNamespace.addNamespacePart(newNamespacePart);
+	public static class FakeInputSource extends InputSourceImpl {
+
+		public FakeInputSource(Document document) {
+			setDocument(document);
 		}
+		
+		@Override
+		protected void doLoad() throws InputException {
+		}
+		
+	}
+	
+	public static class FakeDocumentLoader extends DocumentLoaderImpl {
+		
+	}
+	
+	@Deprecated
+	public Document cloneTo(View view) {
+		Document clone = clone();
+		InputSource is = new FakeInputSource(clone);
+		FakeDocumentLoader pl = new FakeDocumentLoader();
+		pl.addInputSource(is);
+		try {
+			view.addSource(pl);
+		} catch (ProjectException e) {
+			throw new ChameleonProgrammerException(e);
+		}
+		clone.activate();
+//		List<NamespaceDeclaration> originalNamespaceParts = namespaceParts();
+//		List<NamespaceDeclaration> newNamespaceParts = clone.namespaceParts();
+//		Iterator<NamespaceDeclaration> originalIterator = originalNamespaceParts.iterator();
+//		Iterator<NamespaceDeclaration> newIterator = newNamespaceParts.iterator();
+//		while(originalIterator.hasNext()) {
+//			NamespaceDeclaration originalNamespacePart = originalIterator.next();
+//			NamespaceDeclaration newNamespacePart = newIterator.next();
+//			Namespace originalNamespace = originalNamespacePart.namespace();
+//			String fqn = originalNamespace.getFullyQualifiedName();
+//			Namespace newNamespace = view.namespace().getOrCreateNamespace(fqn);
+//			newNamespace.addNamespacePart(newNamespacePart);
+//		}
 		return clone;
 	}
 	

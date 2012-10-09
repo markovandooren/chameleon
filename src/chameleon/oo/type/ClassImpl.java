@@ -599,7 +599,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     }
     public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
     	// 1) perform local search
-    	boolean greedy = selector.canBeCached();
+    	boolean greedy = selector.isGreedy();
     	List<D> result = localMembers(selector);
     	if(! greedy || result.isEmpty()) {
     	  result.addAll(implicitMembers(selector));
