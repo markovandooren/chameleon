@@ -21,10 +21,10 @@ import chameleon.input.ModelFactory;
 import chameleon.input.NoLocationException;
 import chameleon.input.ParseException;
 import chameleon.input.SourceManager;
-import chameleon.plugin.PluginImpl;
+import chameleon.plugin.LanguagePluginImpl;
 import chameleon.workspace.View;
 
-public abstract class ModelFactoryUsingANTLR extends PluginImpl implements ModelFactory {
+public abstract class ModelFactoryUsingANTLR extends LanguagePluginImpl implements ModelFactory {
 
 	public ModelFactoryUsingANTLR() {
 //		_view = view;

@@ -29,11 +29,11 @@ import chameleon.workspace.View;
 public abstract class EclipseBootstrapper {
 
 	private EclipseBootstrapper() {
-		_extensions = new ArrayList<String>();
-		registerFileExtensions();
+//		_extensions = new ArrayList<String>();
+//		registerFileExtensions();
 	}
 	
-	public EclipseBootstrapper(String name,String languageVersion, String extension, String pluginID) {
+	public EclipseBootstrapper(String name,String languageVersion, String pluginID) {
 		this();
 		if(name == null) {
 			name = "unknown language "+getClass().getPackage().getName(); 
@@ -43,7 +43,7 @@ public abstract class EclipseBootstrapper {
 			languageVersion = "unspecified";
 		}
 		_languageVersion = languageVersion;
-		addExtension(extension);
+//		addExtension(extension);
 	}
 	
 	public String pluginID() {
@@ -71,27 +71,27 @@ public abstract class EclipseBootstrapper {
 	private String _languageVersion;
 
 
-	public List<String> fileExtensions() {
-		return new ArrayList<String>(_extensions);
-	}
+//	public List<String> fileExtensions() {
+//		return new ArrayList<String>(_extensions);
+//	}
+//	
+//	protected void addExtension(String extension) {
+//		_extensions.add(extension);
+//	}
+//	
+//	protected void removeExtension(String extension) {
+//		_extensions.remove(extension);
+//	}
 	
-	protected void addExtension(String extension) {
-		_extensions.add(extension);
-	}
+//	private List<String> _extensions;
 	
-	protected void removeExtension(String extension) {
-		_extensions.remove(extension);
-	}
-	
-	private List<String> _extensions;
-	
-	/**
-	 * Does nothing by default. If a single extension is used, it can be provided
-	 * via the constructor. If multiple extensions are used, overrides this method.
-	 */
-	public void registerFileExtensions() {
-		
-	}
+//	/**
+//	 * Does nothing by default. If a single extension is used, it can be provided
+//	 * via the constructor. If multiple extensions are used, overrides this method.
+//	 */
+//	public void registerFileExtensions() {
+//		
+//	}
 
 	/**
 	 * Create the language object, and attach at least the following extensions:
@@ -111,17 +111,16 @@ public abstract class EclipseBootstrapper {
   			Platform.getBundle(pluginID), new Path(directory), null));
 	}
 	
-	protected void loadAPIFiles(String extension, String pluginId, View view, FileInputSourceFactory factory) throws IOException, ParseException, ProjectException {
-		URL directory;
-		try {
-		  directory = pluginURL(pluginId, "api/");
-		} catch(NullPointerException exc) {
-			throw new ChameleonProgrammerException("No directory named 'api' is found to load the API.");
-		}
-		File root = new File(directory.getFile());
-		view.addSource(new DirectoryLoader(extension, root, factory));
-//		// FIXME: This should be done by a reusable artefact.
-//		project.language().plugin(ModelFactory.class).initializePredefinedElements();
-	}
-
+//	protected void loadAPIFiles(String extension, String pluginId, View view, FileInputSourceFactory factory) throws IOException, ParseException, ProjectException {
+//		URL directory;
+//		try {
+//		  directory = pluginURL(pluginId, "api/");
+//		} catch(NullPointerException exc) {
+//			throw new ChameleonProgrammerException("No directory named 'api' is found to load the API.");
+//		}
+//		File root = new File(directory.getFile());
+//		view.addSource(new DirectoryLoader(extension, root, factory));
+////		// FIXME: This should be done by a reusable artefact.
+////		project.language().plugin(ModelFactory.class).initializePredefinedElements();
+//	}
 }

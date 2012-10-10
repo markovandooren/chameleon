@@ -7,14 +7,14 @@ import java.io.IOException;
 import chameleon.core.document.Document;
 import chameleon.core.lookup.LookupException;
 import chameleon.exception.ModelException;
-import chameleon.plugin.PluginImpl;
+import chameleon.plugin.LanguagePluginImpl;
 import chameleon.plugin.output.Syntax;
 
 /**
  * A default class for writing the contents of a Document to a file.
  * @author Marko van Dooren
  */
-public abstract class CompilationUnitWriter extends PluginImpl {
+public abstract class CompilationUnitWriter extends LanguagePluginImpl {
 
 	String _extension;
 

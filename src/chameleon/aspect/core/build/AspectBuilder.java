@@ -10,20 +10,19 @@ import chameleon.aspect.core.weave.AspectWeaver;
 import chameleon.core.document.Document;
 import chameleon.core.language.Language;
 import chameleon.exception.ModelException;
-import chameleon.plugin.Plugin;
-import chameleon.plugin.PluginImpl;
+import chameleon.plugin.ViewPlugin;
+import chameleon.plugin.ViewPluginImpl;
 import chameleon.plugin.build.BuildProgressHelper;
 import chameleon.plugin.build.Builder;
 import chameleon.plugin.build.CompilationUnitWriter;
 import chameleon.workspace.View;
 
-public class AspectBuilder extends PluginImpl implements Builder {
-	public AspectBuilder(AspectOrientedLanguage source, Language target, AspectWeaver weaver) {
+public class AspectBuilder extends ViewPluginImpl implements Builder {
+	public AspectBuilder(View source, View target, AspectWeaver weaver) {
 		this(weaver);
-		throw new Error("Sabotaged, this must be fixed");
 		// Set target first, since it is needed in setLanguage()
-//		_target = target;
-//		setLanguage(source, Builder.class);
+		_target = target;
+		setContainer(source, Builder.class);
 		//FIXME we should clone this on a clone of this builder. Create baseClone() in Language?
 	}
 	
@@ -32,14 +31,14 @@ public class AspectBuilder extends PluginImpl implements Builder {
 }
 
 	// We have to keep a redundant reference here because we cannot otherwise pass it to the incremental translator.
-	private Language _target;
+	private View _target;
 	
 	@Override
-	public <T extends Plugin> void setLanguage(Language lang, Class<T> pluginInterface) {
-		super.setLanguage(lang, pluginInterface);
-		Language target = _target;
+	public <T extends ViewPlugin> void setContainer(View view, Class<T> pluginInterface) {
+		super.setContainer(view, pluginInterface);
+		View target = _target;
 //		FIXME: next line commented out
-//		_translator = new IncrementalAspectTranslator((AspectOrientedLanguage) lang, target, weaver());
+		_translator = new IncrementalAspectTranslator(view, target, weaver());
 	}
 
 	public AspectWeaver weaver() {
@@ -59,7 +58,7 @@ public class AspectBuilder extends PluginImpl implements Builder {
 	private IncrementalAspectTranslator _translator;
 
 	@Override
-	public Plugin clone() {
+	public AspectBuilder clone() {
 		return new AspectBuilder(weaver());
 	}
 

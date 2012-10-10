@@ -2,7 +2,7 @@ package chameleon.plugin.output;
 
 import chameleon.core.element.Element;
 import chameleon.exception.ModelException;
-import chameleon.plugin.PluginImpl;
+import chameleon.plugin.LanguagePluginImpl;
 
 /**
  * A syntax plugin is used to transform model elements into a String according to the
@@ -15,7 +15,7 @@ import chameleon.plugin.PluginImpl;
  *       
  * @author Marko van Dooren
  */
-public abstract class Syntax extends PluginImpl {
+public abstract class Syntax extends LanguagePluginImpl {
 
   public abstract String toCode(Element element) throws ModelException;
 

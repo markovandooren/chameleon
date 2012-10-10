@@ -11,9 +11,12 @@ import chameleon.core.language.Language;
 import chameleon.core.language.WrongLanguageException;
 import chameleon.core.namespace.RootNamespace;
 import chameleon.exception.ChameleonProgrammerException;
+import chameleon.plugin.PluginContainer;
+import chameleon.plugin.PluginContainerImpl;
+import chameleon.plugin.ViewPlugin;
 import chameleon.workspace.DocumentLoaderImpl.TunnelException;
 
-public class View {
+public class View extends PluginContainerImpl<ViewPlugin> implements PluginContainer<ViewPlugin> {
 	
 	public View(RootNamespace namespace, Language language) {
 		setNamespace(namespace);
@@ -144,4 +147,9 @@ public class View {
 		return (List<T>) new TypePredicate(kind).filterReturn(sourceLoaders());
 	}
 
+	public void flushSourceCache() {
+		for(DocumentLoader loader: sourceLoaders()) {
+			loader.flushCache();
+		}
+	}
 }

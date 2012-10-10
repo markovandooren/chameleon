@@ -36,6 +36,7 @@ import chameleon.core.namespace.Namespace;
 import chameleon.eclipse.ChameleonEditorPlugin;
 import chameleon.eclipse.LanguageMgt;
 import chameleon.eclipse.builder.ChameleonBuilder;
+import chameleon.eclipse.connector.EclipseEditorExtension;
 import chameleon.eclipse.connector.EclipseEditorInputProcessor;
 import chameleon.eclipse.connector.EclipseSourceManager;
 import chameleon.eclipse.editors.ChameleonDocument;
@@ -77,7 +78,7 @@ public class ChameleonProjectNature implements IProjectNature {
 	private IProject _project;
 	
 	//the language of this nature
-	private Language _language;
+//	private Language _language;
 	
 	public static final String CHAMELEON_PROJECT_FILE_EXTENSION = "CHAMPROJECT";
 
@@ -89,7 +90,7 @@ public class ChameleonProjectNature implements IProjectNature {
 	public static final String NATURE = ChameleonEditorPlugin.PLUGIN_ID+".ChameleonNature";
 		
 	public PresentationModel presentationModel() {
-		return LanguageMgt.getInstance().getPresentationModel(_language.name());
+		return LanguageMgt.getInstance().getPresentationModel(view().language().name());
 	}
 
 	/**
@@ -105,8 +106,12 @@ public class ChameleonProjectNature implements IProjectNature {
 			Language language = view.language();
 			language.setPlugin(SourceManager.class, new EclipseSourceManager(this));
 			language.addProcessor(InputProcessor.class, new EclipseEditorInputProcessor(this));
+			// Let the editor extension initialize the view.
+			//FIXME this should not be done by IDE code. Need further improvements
+			language.plugin(EclipseEditorExtension.class).initialize(view);
 			//FIXME This will NOT work with language stacking, but for now it will do. Got more important things to do now.
-			_language = language;
+//			_language = language;
+			_view = view;
 		}
 	}
 	
@@ -343,7 +348,7 @@ public class ChameleonProjectNature implements IProjectNature {
 	 * @see chameleonEditor.editors.IChameleonDocument#getMetaModelFactory()
 	 */
 	public ModelFactory modelFactory() {
-		return language().plugin(ModelFactory.class);
+		return view().language().plugin(ModelFactory.class);
 	}
 
 
@@ -556,14 +561,22 @@ public class ChameleonProjectNature implements IProjectNature {
 		}
 	}
 
-	public Language language() {
-		return _language;
+//	public Language language() {
+//		return _language;
+//	}
+	
+	public View view() {
+		return _view;
 	}
+	
+	private View _view;
 
 	public void addDocument(ChameleonDocument document) {
 		_documents.add(document);
 		try {
-			modelFactory().parse(document.get(), document.chameleonDocument());
+			Document chameleonDocument = document.chameleonDocument();
+			chameleonDocument.language().plugin(ModelFactory.class).parse(document.get(), chameleonDocument);
+			//modelFactory().parse(document.get(), chameleonDocument);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} 
@@ -623,10 +636,10 @@ public class ChameleonProjectNature implements IProjectNature {
 	}
 
 	public void flushProjectCache() {
-		for(Document compilationUnit: compilationUnits()) {
-			compilationUnit.flushCache();
-		}
-		language().flushCache();
+//		for(Document compilationUnit: compilationUnits()) {
+//			compilationUnit.flushCache();
+//		}
+		view().flushSourceCache();
 	}
 	
 	public void acquire() throws InterruptedException {

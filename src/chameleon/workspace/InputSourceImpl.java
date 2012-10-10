@@ -119,4 +119,8 @@ public abstract class InputSourceImpl implements InputSource {
 		return result;
 	}
 
+	@Override
+	public void flushCache() {
+		document().flushCache();
+	}
 }

@@ -82,5 +82,7 @@ public interface InputSource {
 	public Project project();
 	
 	public View view();
+
+	public void flushCache();
 	
 }

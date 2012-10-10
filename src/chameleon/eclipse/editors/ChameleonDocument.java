@@ -291,7 +291,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	}
 
 	public Language language() {
-		return getProjectNature().language();
+		return getProjectNature().view().language();
 	}
 
 	/**

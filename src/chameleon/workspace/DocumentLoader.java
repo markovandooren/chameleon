@@ -54,4 +54,6 @@ public interface DocumentLoader {
 	 * @param listener
 	 */
 	public void addAndSynchronizeListener(InputSourceListener listener);
+
+	public void flushCache();
 }

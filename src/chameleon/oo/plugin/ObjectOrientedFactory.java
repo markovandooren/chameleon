@@ -12,7 +12,7 @@ import chameleon.oo.method.SimpleNameMethodHeader;
 import chameleon.oo.type.RegularType;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
-import chameleon.plugin.PluginImpl;
+import chameleon.plugin.LanguagePluginImpl;
 import chameleon.support.member.simplename.method.NormalMethod;
 import chameleon.support.member.simplename.method.RegularMethodInvocation;
 import chameleon.support.modifier.Constructor;
@@ -22,7 +22,7 @@ import chameleon.support.modifier.Constructor;
  * 
  * @author Marko van Dooren
  */
-public abstract class ObjectOrientedFactory extends PluginImpl {
+public abstract class ObjectOrientedFactory extends LanguagePluginImpl {
 
 	/**
 	 * Create a new basic lexical class with the given signature.

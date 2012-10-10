@@ -152,4 +152,11 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 			notifyAdded(source);
 		}
 	}
+	
+	@Override
+	public void flushCache() {
+		for(InputSource source:inputSources()) {
+			source.flushCache();
+		}
+	}
 }

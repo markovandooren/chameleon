@@ -19,7 +19,7 @@ import chameleon.core.language.Language;
  * 
  * @author Marko van Dooren
  */
-public interface Plugin extends Cloneable {
+public interface LanguagePlugin extends Plugin<Language, LanguagePlugin> {
 
 	  /**
 	   * Return the language to which this connector is connected.
@@ -35,12 +35,12 @@ public interface Plugin extends Cloneable {
      * @param lang
      * @param connectorInterface
      */
-    public <T extends Plugin> void setLanguage(Language lang, Class<T> pluginInterface);
+    public <T extends LanguagePlugin> void setLanguage(Language lang, Class<T> pluginInterface);
     
     /**
      * Clone this connector.
      * @return
      */
-    public Plugin clone();
+    public LanguagePlugin clone();
     
 }
