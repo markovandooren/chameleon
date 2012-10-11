@@ -2,6 +2,7 @@ package chameleon.oo.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -424,10 +425,6 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 
     public void accumulateAllSuperTypes(Set<Type> acc) throws LookupException {
     	List<Type> temp =getDirectSuperTypes();
-//    	acc.addAll(temp);
-//    	for(Type type:temp) {
-//    		  type.accumulateAllSuperTypes(acc);
-//    	}
     	for(Type type:temp) {
     		boolean add=true;
     		for(Type acced: acc) {
@@ -440,11 +437,6 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     			acc.add(type);
     		  type.accumulateAllSuperTypes(acc);
     		}
-    		
-//    		if(! acc.contains(type)) {
-//    			acc.add(type);
-//    		  type.accumulateAllSuperTypes(acc);
-//    		}
     	}
     }
     
@@ -456,9 +448,49 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     	Set<Type>  result = new HashSet<Type>(_superTypeCache);
     	return result;
     }
+
+    
+  	public synchronized Set<Type> getSelfAndAllSuperTypesView() throws LookupException {
+  		try {
+  			
+  			if(_superTypeCache == null) {
+  				_superTypeCache = new HashSet<Type>();
+  				newAccumulateSelfAndAllSuperTypes(_superTypeCache);
+  			}
+  			return Collections.unmodifiableSet(_superTypeCache);
+  			
+  		} catch(ChameleonProgrammerException exc) {
+  			if(exc.getCause() instanceof LookupException) {
+  				throw (LookupException) exc.getCause();
+  			} else {
+  				throw exc;
+  			}
+  		}
+  	}
+
+    
+    public void newAccumulateAllSuperTypes(Set<Type> acc) throws LookupException {
+    	List<Type> temp = getDirectSuperTypes();
+    	for(Type type:temp) {
+    		boolean add=true;
+    		for(Type acced: acc) {
+    			if(acced.baseType().sameAs(type.baseType())) {
+    				add=false;
+    				break;
+    			}
+    		}
+    		if(add) {
+    		  type.newAccumulateSelfAndAllSuperTypes(acc);
+    		}
+    	}
+    }
+    
+    public void newAccumulateSelfAndAllSuperTypes(Set<Type> acc) throws LookupException {
+    	acc.add(this);
+    	newAccumulateAllSuperTypes(acc);
+    }
     
     private Set<Type> _superTypeCache;
-
     
     //TODO: rename to properSubTypeOf
 

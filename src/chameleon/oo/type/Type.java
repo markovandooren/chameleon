@@ -26,6 +26,12 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	public Class<SimpleNameSignature> signatureType();
 
 	public void accumulateAllSuperTypes(Set<Type> acc) throws LookupException;
+
+	public void newAccumulateAllSuperTypes(Set<Type> acc) throws LookupException;
+
+	public void newAccumulateSelfAndAllSuperTypes(Set<Type> acc) throws LookupException;
+
+	public Set<Type> getSelfAndAllSuperTypesView() throws LookupException;
 	
 	public abstract List<InheritanceRelation> explicitNonMemberInheritanceRelations();
 

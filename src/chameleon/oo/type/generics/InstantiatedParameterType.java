@@ -28,6 +28,7 @@ public class InstantiatedParameterType extends TypeIndirection {
 			return Util.createNonNullList(aliasedType());
 		}
 
+		@Override
     public void accumulateAllSuperTypes(Set<Type> acc) throws LookupException {
     	Type aliased =aliasedType();
     		boolean add=true;
@@ -42,6 +43,23 @@ public class InstantiatedParameterType extends TypeIndirection {
     		  aliased.accumulateAllSuperTypes(acc);
     		}
     }
+    
+    
+		public void newAccumulateAllSuperTypes(Set<Type> acc) throws LookupException {
+			Type aliased =aliasedType();
+			boolean add=true;
+			for(Type acced: acc) {
+				if(acced == aliased) {
+					add=false;
+					break;
+				}
+			}
+			if(add) {
+				aliased.newAccumulateSelfAndAllSuperTypes(acc);
+			}
+		}
+
+    
 		@Override
 		public InstantiatedParameterType clone() {
 			return new InstantiatedParameterType(signature().clone(), aliasedType(),parameter());
