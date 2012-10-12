@@ -1271,7 +1271,8 @@ public abstract class ElementImpl implements Element {
 	 public synchronized void flushLocalCache() {
 		 //    	_languageCache = null;
 		 if(_propertyCache != null) {
-			 _propertyCache.clear();
+//			 _propertyCache.clear();
+			 _propertyCache = null;
 		 }
 	 }
 

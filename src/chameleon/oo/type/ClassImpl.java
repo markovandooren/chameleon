@@ -122,6 +122,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
   	super.flushLocalCache();
   	_declarationCache = null;
   	_membersCache = null;
+  	_superTypeCache = null;
   }
 
 	private synchronized void setDeclarationCache(List<? extends Declaration> cache) {
