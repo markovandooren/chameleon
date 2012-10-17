@@ -6,6 +6,7 @@ import java.util.List;
 import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.declaration.Declaration;
+import chameleon.core.document.Document;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.InputSourceNamespace;
 import chameleon.core.namespace.Namespace;
@@ -17,7 +18,7 @@ import chameleon.input.ParseException;
  * 
  * @author Marko van Dooren
  */
-public interface InputSource extends Cloneable {
+public interface InputSource {
 	
 	/**
 	 * Return the list of name of declaration that are added to the given namespace, and
@@ -25,8 +26,9 @@ public interface InputSource extends Cloneable {
 	 * within the namespace are ignored.
 	 * @param ns
 	 * @return
+	 * @throws InputException 
 	 */
-	public List<String> targetDeclarationNames(Namespace ns);
+	public List<String> targetDeclarationNames(Namespace ns) throws InputException;
 	
 	/**
 	 * Load the declarations with the given name into the model (if any) and return them in a list.
@@ -41,22 +43,46 @@ public interface InputSource extends Cloneable {
 	public abstract List<Declaration> targetDeclarations(String name) throws LookupException;
 	
 	/**
-	 * Load the entire source managed by this InputSource into the model.
+	 * Load the entire source managed by this InputSource into the model. 
+	 * <b>WARNING</b> The namespace declaration in the returned document
+	 * are not connected yet to the corresponding namespaces. The
+	 * {@link Document#activate()} method must be invoked afterwards in order
+	 * to use the document. The reason for this decision is that it is not
+	 * the reponsibility of the input source to decide how the returned document
+	 * will be used. It merely creates a document based on the underlying resource.
+	 * 
 	 * @throws LookupException 
 	 * @throws ParseException 
 	 * @throws IOException 
 	 */
-	public void load() throws InputException;
+	public Document load() throws InputException;
 	
-	/**
-	 * Clone this input source.
-	 * @return
-	 */
-	public InputSource clone();
+//	/**
+//	 * Clone this input source.
+//	 * @return
+//	 */
+//	public InputSource clone();
 	
 	/**
 	 * Return the association object that connects this input source to its namespace.
 	 * @return
 	 */
-	public SingleAssociation<InputSourceImpl, InputSourceNamespace> namespaceLink();
+	public SingleAssociation<InputSource, InputSourceNamespace> namespaceLink();
+	
+	/**
+	 * Return the association object that connects this input source to the project loader that created it.
+	 * @return
+	 */
+	public SingleAssociation<InputSource, DocumentLoader> loaderLink();
+	
+	/**
+	 * Return the project to which this input source belongs.
+	 * @return
+	 */
+	public Project project();
+	
+	public View view();
+
+	public void flushCache();
+	
 }

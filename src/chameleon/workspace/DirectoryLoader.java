@@ -6,7 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -15,10 +17,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
 
 import org.antlr.runtime.RecognitionException;
-import org.rejuse.association.SingleAssociation;
-import org.rejuse.io.DirectoryScanner;
 
-import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
 import chameleon.util.concurrent.CallableFactory;
 import chameleon.util.concurrent.FixedThreadCallableExecutor;
@@ -30,7 +29,7 @@ import chameleon.util.concurrent.UnsafeAction;
  * 
  * @author Marko van Dooren
  */
-public class DirectoryLoader implements ProjectLoader {
+public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 	
 	/**
 	 * Create a new model provider with the given factory.
@@ -43,11 +42,14 @@ public class DirectoryLoader implements ProjectLoader {
    @
    @ post factory() == factory;
    @*/
-	public DirectoryLoader(String fileExtension, File root, FileInputSourceFactory factory) throws ProjectException {
+	public DirectoryLoader(String fileExtension, File root, FileInputSourceFactory factory) {
 		setFileExtension(fileExtension);
 		setRoot(root);
 		setInputSourceFactory(factory);
-		includeCustom(root);
+	}
+	
+	protected void notifyProjectAdded(View project) throws ProjectException {
+		includeCustom(root());
 	}
 
 	private void setInputSourceFactory(FileInputSourceFactory factory) {
@@ -68,22 +70,6 @@ public class DirectoryLoader implements ProjectLoader {
 			throw new IllegalArgumentException();
 		}
 		_root = root;
-		
-		_inputSources = new ArrayList<InputSource>();
-	}
-	
-	private SingleAssociation<DirectoryLoader,Project>  _projectLink = new SingleAssociation<DirectoryLoader, Project>(this);
-	
-	public Project project() {
-		return _projectLink.getOtherEnd();
-	}
-	
-	private void setProject(Project project) {
-		project.addSource(this);
-	}
-	
-	public SingleAssociation<DirectoryLoader,Project> projectLink() {
-		return _projectLink;
 	}
 	
 	private String _fileExtension;
@@ -111,20 +97,18 @@ public class DirectoryLoader implements ProjectLoader {
 
 	private FileInputSourceFactory _inputSourceFactory;
 	
-	private void includeCustom(String rootDirName) throws ProjectException {
-		File root = new File(rootDirName);
-		if(! root.isAbsolute()) {
-			root = new File(project().root().getAbsolutePath()+File.separator+rootDirName);
-		}
-  	includeCustom(root);
-	}
 	
+	private void includeCustom(File root) throws ProjectException {
+		inputSourceFactory().initialize(view().namespace());
+		doIncludeCustom(root);
+	}
+
 	/**
 	 * Add the given directory to the list of directories that contain the custom model.
 	 * @throws ParseException 
 	 * @throws IOException 
 	 */
-  private void includeCustom(File root) throws ProjectException {
+  private void doIncludeCustom(File root) throws ProjectException {
   	File[] files = root.listFiles(new FilenameFilter(){
 		
 			@Override
@@ -152,7 +136,7 @@ public class DirectoryLoader implements ProjectLoader {
   			// push dir
   			inputSourceFactory().pushDirectory(subDir.getName());
   			// recurse
-  			includeCustom(subDir);
+  			doIncludeCustom(subDir);
   			// pop dir
   			inputSourceFactory().popDirectory();
   		}
@@ -240,9 +224,35 @@ public class DirectoryLoader implements ProjectLoader {
 	 * @throws RecognitionException 
 	 */
 	private void addToModel(File file) throws InputException {
-    InputSource source = inputSourceFactory().create(file);
-    _inputSources.add(source);
+    addInputSource(inputSourceFactory().create(file,this));
+	}
+
+	@Override
+	public synchronized void tryToAdd(File file) throws InputException {
+		File relative = file.getParentFile();
+		List<String> names = new ArrayList<String>();
+		while(relative != null && (! relative.equals(_root))) {
+			names.add(relative.getName());
+			relative = relative.getParentFile();
+		}
+		if(relative != null) {
+			int size = names.size();
+			for(int i = size - 1; i >= 0; i--) {
+				_inputSourceFactory.pushDirectory(names.get(i));
+			}
+			_inputSourceFactory.doCreateInputSource(file);		
+			_inputSourceFactory.initialize(view().namespace());
+		} else {
+			throw new IllegalArgumentException("The given file is not in the root of this directory loader.");
+		}
 	}
 	
-	private List<InputSource> _inputSources;
+	public static void main(String[] args) throws URISyntaxException {
+		URL objectLocation = Object.class.getResource("/java/lang/Object.class");
+		String fileName = objectLocation.getFile();
+		File file = new File(fileName.substring(5,fileName.indexOf('!')));
+//		file = new File("/Users/marko");
+		System.out.println(file);
+	}
+
 }

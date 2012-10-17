@@ -40,7 +40,7 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 	
 	public Builder builder() throws CoreException {
 		 _nature = (ChameleonProjectNature)getProject().getNature(ChameleonProjectNature.NATURE);
-		Builder result = nature().language().plugin(Builder.class);
+		Builder result = nature().view().plugin(Builder.class);
 		if(result == null) {
 			return new NullBuilder();
 		}
@@ -149,7 +149,7 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 			Builder builder = builder();
 			ChameleonProjectNature nature = nature();
 			File root = projectRoot(nature);
-			File output = chameleonNature().language().plugin(EclipseEditorExtension.class).buildDirectory(root);
+			File output = chameleonNature().view().language().plugin(EclipseEditorExtension.class).buildDirectory(root);
 			List<Document> projectCompilationUnits = nature.compilationUnits();
 			if(builder != null) {
 				int totalWork = builder.totalAmountOfWork(validCompilationUnits, projectCompilationUnits);

@@ -23,13 +23,13 @@ import chameleon.eclipse.presentation.outline.ChameleonOutlineSelector;
 import chameleon.eclipse.presentation.treeview.DeclarationCategorizer;
 import chameleon.eclipse.presentation.treeview.IconProvider;
 import chameleon.exception.ModelException;
-import chameleon.plugin.Plugin;
-import chameleon.plugin.PluginImpl;
+import chameleon.plugin.LanguagePluginImpl;
+import chameleon.workspace.View;
 
 /**
  * @author Marko van Dooren
  */
-public class EclipseEditorExtension extends PluginImpl {
+public class EclipseEditorExtension extends LanguagePluginImpl {
 
 	public EclipseEditorExtension(String languageName) {
 		_languageName = languageName;
@@ -201,10 +201,13 @@ public class EclipseEditorExtension extends PluginImpl {
 	}
 
 	@Override
-	public Plugin clone() {
+	public EclipseEditorExtension clone() {
 		return new EclipseEditorExtension(_languageName);
 	}
 	
 //  	public abstract ICompletionProposal completionProposal(Element element, ChameleonDocument document, int offset);
+
+	public void initialize(View view) {
+	}
 
 }

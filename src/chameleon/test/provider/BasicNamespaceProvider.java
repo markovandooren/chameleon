@@ -8,6 +8,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.Namespace;
 import chameleon.util.Util;
 import chameleon.workspace.Project;
+import chameleon.workspace.View;
 
 	/**
 	 * A class for providing namespaces based on their fully qualified names. Both null and the empty string
@@ -72,11 +73,11 @@ import chameleon.workspace.Project;
 
 		private List<String> _namespaces = new ArrayList<String>();
 		
-		public Collection<Namespace> elements(Project project) {
+		public Collection<Namespace> elements(View view) {
 			Collection<Namespace> result = new ArrayList<Namespace>();
 			try {
 				for(String fqn: _namespaces) {
-				  Util.addNonNull(namespace(fqn, project),result);
+				  Util.addNonNull(namespace(fqn, view),result);
 				}
 			} catch (LookupException e) {
 				e.printStackTrace();
@@ -84,8 +85,8 @@ import chameleon.workspace.Project;
 			return result;
 		}
 		
-		public Namespace namespace(String fqn, Project project) throws LookupException {
-			Namespace ns = project.namespace();
+		public Namespace namespace(String fqn, View view) throws LookupException {
+			Namespace ns = view.namespace();
 			String head = Util.getFirstPart(fqn);
 			String tail = Util.getPartAfterFirstDot(fqn);
 			while (ns != null && head != null && ! head.equals("")) {

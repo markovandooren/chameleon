@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
+import org.eclipse.core.internal.resources.ResourceException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -35,14 +36,12 @@ import chameleon.core.Config;
 import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
-import chameleon.core.namespace.Namespace;
 import chameleon.core.validation.BasicProblem;
 import chameleon.eclipse.ChameleonEditorPlugin;
 import chameleon.eclipse.connector.EclipseEditorTag;
 import chameleon.eclipse.editors.reconciler.ChameleonPresentationReconciler;
 import chameleon.eclipse.presentation.PresentationManager;
 import chameleon.eclipse.project.ChameleonProjectNature;
-import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
 import chameleon.input.PositionMetadata;
 
@@ -90,10 +89,10 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 * @param file 
 	 *
 	 */
-	public ChameleonDocument(ChameleonProjectNature projectNature, IFile file, IPath path){
+	public ChameleonDocument(ChameleonProjectNature projectNature, Document document, IFile file, IPath path){
 		super();
 
-		setCompilationUnit(new Document());
+		setCompilationUnit(document);
 		if(projectNature==null){
 			ChameleonEditorPlugin.showMessageBox("Illegal project", "This document is part of an illegal project. \nCheck if the project is a Chameleon Project.", SWT.ICON_ERROR);
 		}
@@ -162,6 +161,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 * @throws IOException
 	 */
 	private void parseFile(IFile file) throws CoreException, IOException {
+		try {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(file.getContents()));
 		String nxt = "";
 		StringBuilder builder = new StringBuilder();
@@ -175,6 +175,9 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		}
 		// QUESTION: does this trigger the reconcilers?
 		set(builder.toString());
+		} catch(ResourceException e) {
+			System.out.println("debug");
+		}
 	}
 
 	/*
@@ -293,7 +296,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	}
 
 	public Language language() {
-		return getProjectNature().language();
+		return getProjectNature().view().language();
 	}
 
 	/**

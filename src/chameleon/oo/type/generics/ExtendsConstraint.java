@@ -28,7 +28,7 @@ public class ExtendsConstraint extends TypeConstraint {
 
 	@Override
 	public Type lowerBound() throws LookupException {
-		return language(ObjectOrientedLanguage.class).getNullType();
+		return language(ObjectOrientedLanguage.class).getNullType(view().namespace());
 	}
 
 

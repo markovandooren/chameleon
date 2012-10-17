@@ -50,7 +50,7 @@ public class DeclaratorSelector extends DeclarationSelector<Declaration>{
 	}
 	
 	@Override
-	public boolean canBeCached() {
+	public boolean isGreedy() {
 		return false;
 	}
 

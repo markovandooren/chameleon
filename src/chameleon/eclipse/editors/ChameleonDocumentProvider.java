@@ -99,7 +99,8 @@ public class ChameleonDocumentProvider extends FileDocumentProvider {
 	 * creates a new Chameleon document that is empty in the sense that there is no text in it yet
 	 */
 	protected ChameleonDocument createEmptyChameleonDocument(ChameleonProjectNature nature, IPath path) {
-		return new ChameleonDocument(nature, null, path);
+		return null;
+//		return new ChameleonDocument(nature, null, path);
 	}
 	
 

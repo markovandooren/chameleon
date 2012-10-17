@@ -44,7 +44,7 @@ public class SuperWildcard extends ActualTypeArgumentWithTypeReference {
 
 	@Override
 	public Type upperBound() throws LookupException {
-		return baseType().language(ObjectOrientedLanguage.class).getDefaultSuperClass();
+		return baseType().language(ObjectOrientedLanguage.class).getDefaultSuperClass(view().namespace());
 	}
 
 	public Type baseType() throws LookupException {

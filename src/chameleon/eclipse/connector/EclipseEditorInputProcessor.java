@@ -66,12 +66,15 @@ public class EclipseEditorInputProcessor extends ProcessorImpl implements InputP
 
 	private void setSingleLocation(Element element, int offset, int length, Document document, String tagType) {
 		ChameleonDocument doc = document(document);
-		Element parent = element.parent();
-		// 1. Replace element with stub in the parent
-		// 2. Force the document to be an ancestors of the element
-		// 3. Add metadata
-		// 4. Replace stub with element in the parent to restore the original state
-		SingleAssociation stub = new SingleAssociation(new Object());
+		if(doc == null) {
+			System.out.println("debug");
+		} else {
+			Element parent = element.parent();
+			// 1. Replace element with stub in the parent
+			// 2. Force the document to be an ancestors of the element
+			// 3. Add metadata
+			// 4. Replace stub with element in the parent to restore the original state
+			SingleAssociation stub = new SingleAssociation(new Object());
 			if(! element.hasMetadata(tagType)) {
 				SingleAssociation parentLink = element.parentLink();
 				Association childLink = parentLink.getOtherRelation();
@@ -79,7 +82,7 @@ public class EclipseEditorInputProcessor extends ProcessorImpl implements InputP
 				if(element != document) {
 					cleanup = true;
 					if(childLink != null) {
-					  childLink.replace(parentLink, stub);
+						childLink.replace(parentLink, stub);
 					}
 					// 2: We force the document to be an ancestor of the element.
 					//    This is needed because adding the metadata requires additional
@@ -101,6 +104,7 @@ public class EclipseEditorInputProcessor extends ProcessorImpl implements InputP
 			if(element.parent() != parent) {
 				throw new ChameleonProgrammerException();
 			}
+		}
 	}
 
 	public void markParseError(int offset, int length, String message,Element element) {

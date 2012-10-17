@@ -1,36 +1,30 @@
 package chameleon.plugin;
 
-import chameleon.core.language.Language;
+public abstract class PluginImpl<C extends PluginContainer<P>, P extends Plugin> implements Plugin<C,P> {
 
-/**
- * @author Marko van Dooren
- */
-public abstract class PluginImpl implements Plugin {
+	public abstract PluginImpl<C, P> clone();
+	
+	@Override
+	public <T extends P> void setContainer(C container, Class<T> keyInterface) {
+  	if (container!=_container) {
+  		C old = _container;
+  		// 1) set _language
+  		_container = container;
+  		// 2) remove old backpointer
+  		if (old!=null) {
+  			old.removePlugin(keyInterface);
+  		}
+  		// 3) set new backpointer
+  		if (_container!=null) {
+  			_container.setPlugin(keyInterface, (T)this);
+  		}
+  	}
+	}
+	
+	private C _container;
 
-    private Language _language;
-
-    public Language language() {
-        return _language;
-    }
-
-    /**
-     * T MUST BE A SUPERTYPE OF THIS OBJECT!!!
-     */
-    public <T extends Plugin> void setLanguage(Language lang, Class<T> pluginInterface) {
-    	if (lang!=_language) {
-    		Language old = _language;
-    		// 1) set _language
-    		_language = lang;
-    		// 2) remove old backpointer
-    		if (old!=null) {
-    			old.removePlugin(pluginInterface);
-    		}
-    		// 3) set new backpointer
-    		if (_language!=null) {
-    			_language.setPlugin(pluginInterface, (T)this);
-    		}
-    	}
-    }
-
-    public abstract Plugin clone();
+	@Override
+  public C container() {
+      return _container;
+  }
 }

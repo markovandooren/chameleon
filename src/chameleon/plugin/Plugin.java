@@ -1,46 +1,28 @@
 package chameleon.plugin;
 
-import chameleon.core.language.Language;
+public interface Plugin<C extends PluginContainer<P>, P extends Plugin> extends Cloneable {
 
-/**
- * An interface for plugins that offer additional functionality to a tool. 
- * 
- * A tool sometimes needs functionality that cannot be provided in the language
- * module itself because it would introduce tool-specific code. Methods that offer
- * this functionality are placed in a specific Plugin interface.
- * To be able to use a particular language with that tool, that interface must be
- * implemented for that language, and an object of that plugin implementation must be added
- * to the language object of the model using the setPlugin method in Language. 
- * The tool requests the connector object using the getPlugin(PluginInterface.class) 
- * method in Language.
- * 
- * For each plugin interface, there is only one plugin implementation attached to a language.
- * If multiple 'plugins' can be added, you must use the Processor interface.
- * 
- * @author Marko van Dooren
- */
-public interface Plugin extends Cloneable {
+  /**
+   * Return the container to which this connector is connected.
+   */
+  public C container();
 
-	  /**
-	   * Return the language to which this connector is connected.
-	   */
-    public Language language();
-
-    /**
-     * Set the language to which this plugin is connected. The bidirectional
-     * relation is kept in a consistent state.
-     * 
-     * T, which represents the plugin interface, must be a super type of the type of this object.
-     * 
-     * @param lang
-     * @param connectorInterface
-     */
-    public <T extends Plugin> void setLanguage(Language lang, Class<T> pluginInterface);
-    
-    /**
-     * Clone this connector.
-     * @return
-     */
-    public Plugin clone();
-    
+  /**
+   * Set the container to which this plugin is connected. The bidirectional
+   * relation is kept in a consistent state.
+   * 
+   * T, which represents the plugin interface, must be a super type of the type of this object.
+   * It is used as the key.
+   * 
+   * @param container
+   * @param keyInterface
+   */
+  public <T extends P> void setContainer(C container, Class<T> keyInterface);
+  
+  /**
+   * Clone this connector.
+   * @return
+   */
+  public Plugin<C,P> clone();
+  
 }

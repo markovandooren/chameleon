@@ -27,7 +27,7 @@ public class VerificationTest extends ModelTest {
 	
 	@Test
 	public void testVerification() throws LookupException {
-		for(NamespaceDeclaration element: elementProvider().elements(project())) {
+		for(NamespaceDeclaration element: elementProvider().elements(view())) {
 			VerificationResult result = element.verify();
 			assertTrue(result.toString() ,Valid.create() == result);
 		}

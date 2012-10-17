@@ -19,7 +19,7 @@ public class NullLiteral extends Literal {
   }
 
   protected Type actualType() throws LookupException {
-	  return language(ObjectOrientedLanguage.class).getNullType();
+	  return language(ObjectOrientedLanguage.class).getNullType(view().namespace());
   }
 
   public NullLiteral clone() {

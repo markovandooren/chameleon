@@ -11,8 +11,9 @@ import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.core.reference.CrossReference;
 import chameleon.test.provider.BasicDescendantProvider;
 import chameleon.test.provider.BasicNamespaceProvider;
+import chameleon.workspace.ConfigException;
 import chameleon.workspace.Project;
-import chameleon.workspace.ProjectLoader;
+import chameleon.workspace.DocumentLoader;
 import chameleon.workspace.ProjectException;
 
 public abstract class CompositeTest {
@@ -73,10 +74,11 @@ public abstract class CompositeTest {
 	/**
 	 * A provider for the model to be tested.
 	 * @throws ProjectException 
+	 * @throws ConfigException 
 	 */
-	protected abstract Project makeProject() throws ProjectException;
+	protected abstract Project makeProject() throws ConfigException;
 
-	public Project project() throws ProjectException {
+	public Project project() throws ConfigException {
 //		long start = System.nanoTime();
 		Project result = makeProject();
 //		long stop = System.nanoTime();

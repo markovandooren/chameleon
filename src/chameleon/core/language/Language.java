@@ -6,28 +6,27 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.rejuse.association.Association;
 import org.rejuse.association.MultiAssociation;
+import org.rejuse.junit.Revision;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 import org.rejuse.property.PropertyUniverse;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupStrategyFactory;
-import chameleon.core.namespace.RootNamespace;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.property.PropertyRule;
 import chameleon.core.validation.VerificationResult;
 import chameleon.core.validation.VerificationRule;
 import chameleon.exception.ChameleonProgrammerException;
-import chameleon.plugin.Plugin;
+import chameleon.plugin.LanguagePlugin;
+import chameleon.plugin.PluginContainer;
 import chameleon.plugin.Processor;
-import chameleon.workspace.Project;
 
-public interface Language extends PropertyUniverse<ChameleonProperty> {
+public interface Language extends PropertyUniverse<ChameleonProperty>, PluginContainer<LanguagePlugin> {
 	
 	/**
-	 * Clone this language and recursively all of its namespaces and their contents.
+	 * Clone this language.
 	 * @return
 	 */
  /*@
@@ -36,6 +35,8 @@ public interface Language extends PropertyUniverse<ChameleonProperty> {
    @ post \result != null;
    @*/
 //	public Language clone();
+	
+	public Revision version();
 	
 	/**
 	 * Return the name of this language.
@@ -122,7 +123,7 @@ public interface Language extends PropertyUniverse<ChameleonProperty> {
 	 * may need access to predefined elements, which are somewhere in the model.
 	 * @return
 	 */
-	public RootNamespace defaultNamespace();
+//	public RootNamespace defaultNamespace();
 
 	/**
 	 * A property mutex for the scope property.
@@ -130,92 +131,50 @@ public interface Language extends PropertyUniverse<ChameleonProperty> {
 	public PropertyMutex<ChameleonProperty> SCOPE_MUTEX();
 
 
-  /**
-   * Return the connector corresponding to the given connector interface.
-   */
- /*@
-   @ public behavior
-   @
-   @ pre connectorInterface != null;
-   @*/
-  public <T extends Plugin> T plugin(Class<T> pluginInterface);
+//  /**
+//   * Return the connector corresponding to the given connector interface.
+//   */
+// /*@
+//   @ public behavior
+//   @
+//   @ pre connectorInterface != null;
+//   @*/
+//  public <T extends LanguagePlugin> T plugin(Class<T> pluginInterface);
 
-  /**
-   * Remove the plugin corresponding to the given plugin interface. The
-   * bidirectional relation is kept in a consistent state.
-   * 
-   * @param <T>
-   * @param pluginInterface
-   */
- /*@
-   @ public behavior
-   @
-   @ pre pluginInterface != null;
-   @
-   @ post plugin(pluginInterface) == null;
-   @*/
-  public <T extends Plugin> void removePlugin(Class<T> pluginInterface);
+//  /**
+//   * Remove the plugin corresponding to the given plugin interface. The
+//   * bidirectional relation is kept in a consistent state.
+//   * 
+//   * @param <T>
+//   * @param pluginInterface
+//   */
+// /*@
+//   @ public behavior
+//   @
+//   @ pre pluginInterface != null;
+//   @
+//   @ post plugin(pluginInterface) == null;
+//   @*/
+//  public <T extends LanguagePlugin> void removePlugin(Class<T> pluginInterface);
 
-  /**
-   * Set the plugin corresponding to the given plugin interface. The bidirectional relation is 
-   * kept in a consistent state.
-   * 
-   * @param <T>
-   * @param pluginInterface
-   * @param plugin
-   */
- /*@
-   @ public behavior
-   @
-   @ pre pluginInterface != null;
-   @ pre plugin != null;
-   @
-   @ post plugin(pluginInterface) == plugin; 
-   @*/
-  public <T extends Plugin> void setPlugin(Class<T> pluginInterface, T plugin);
+//  /**
+//   * Set the plugin corresponding to the given plugin interface. The bidirectional relation is 
+//   * kept in a consistent state.
+//   * 
+//   * @param <T>
+//   * @param pluginInterface
+//   * @param plugin
+//   */
+// /*@
+//   @ public behavior
+//   @
+//   @ pre pluginInterface != null;
+//   @ pre plugin != null;
+//   @
+//   @ post plugin(pluginInterface) == plugin; 
+//   @*/
+//  public <T extends LanguagePlugin> void setPlugin(Class<T> pluginInterface, T plugin);
   
-  public Set<Entry<Class<? extends Plugin>,Plugin>> pluginEntrySet();
-  
-	public <S extends Plugin> void clonePluginsFrom(Language from);
-
-  /**
-   * Return all plugins attached to this language object.
-   * @return
-   */
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @ post (\forall Plugin c; ; \result.contains(c) == 
-   @           (\exists Class<? extends Plugin> pluginInterface;; plugin(pluignInterface) == c)
-   @      ); 
-   @*/
-  public Collection<Plugin> plugins();
-  
-
-  /**
-   * Check if this language has a plugin for the given plugin type. Typically
-   * the type is an interface or abstract class for a specific tool.
-   */
- /*@
-   @ public behavior
-   @
-   @ pre connectorInterface != null;
-   @
-   @ post \result == connector(connectorInterface) != null;
-   @*/
-  public <T extends Plugin> boolean hasPlugin(Class<T> pluginInterface);
-
-  /**
-   * Check if this language object has any plugins.
-   */
- /*@
-   @ public behavior
-   @
-   @ post \result ==  
-   @*/
-  public boolean hasPlugins();
-
   /**************
    * PROCESSORS *
    **************/
@@ -331,9 +290,11 @@ public interface Language extends PropertyUniverse<ChameleonProperty> {
    * Return the association object that represents that association with the
    * default (root) namespace.
    */
-  public Association<Language, Project> projectLink();
+//  public Association<Language, View> viewLink();
   
-  public Project project();
+//  public View view();
+  
+//  public Project project();
   /**
    * Return the factory for creating lookup strategies.
    */

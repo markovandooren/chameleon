@@ -29,7 +29,7 @@ public class UnionType extends MultiType {
 		if(types.size() == 1) {
 			return types.get(0);
 		} else {
-			Namespace def = types.get(0).language().defaultNamespace();
+			Namespace def = types.get(0).view().namespace();
 			UnionType result = new UnionType(types);
 			result.setUniParent(def);
 			return result;
@@ -47,7 +47,7 @@ public class UnionType extends MultiType {
 	@Override
 	public List<Type> getDirectSuperTypes() throws LookupException {
 		ArrayList<Type> result = new ArrayList<Type>();
-		result.add(language(ObjectOrientedLanguage.class).getDefaultSuperClass());
+		result.add(language(ObjectOrientedLanguage.class).getDefaultSuperClass(view().namespace()));
 		return result;
 	}
 

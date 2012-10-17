@@ -12,7 +12,7 @@ import org.junit.Before;
 import chameleon.input.ParseException;
 import chameleon.workspace.Project;
 import chameleon.workspace.ProjectException;
-import chameleon.workspace.ProjectLoader;
+import chameleon.workspace.View;
 
 /**
  * The top level test class for Chameleon tests. This class provides the infrastructure
@@ -95,6 +95,10 @@ public abstract class ModelTest extends TestSuite {
     @*/
    public Project project() {
    	 return _project;
+   }
+   
+   public View view() {
+  	 return project().views().get(0);
    }
   
    private Project _project;

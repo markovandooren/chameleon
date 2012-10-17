@@ -110,7 +110,7 @@ public class VariableReference extends Expression implements Assignable, CrossRe
   public Set<Type> getDirectExceptions() throws LookupException {
     Set<Type> result = new HashSet<Type>();
     if(getTarget() != null) {
-      Util.addNonNull(language(ObjectOrientedLanguage.class).getNullInvocationException(), result);
+      Util.addNonNull(language(ObjectOrientedLanguage.class).getNullInvocationException(view().namespace()), result);
     }
     return result;
   }

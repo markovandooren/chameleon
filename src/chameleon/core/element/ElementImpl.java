@@ -42,6 +42,8 @@ import chameleon.util.association.Single;
 import chameleon.util.concurrent.Action;
 import chameleon.util.concurrent.SafeAction;
 import chameleon.util.concurrent.UnsafeAction;
+import chameleon.workspace.Project;
+import chameleon.workspace.View;
 
 /**
  * @author Marko van Dooren
@@ -167,6 +169,21 @@ public abstract class ElementImpl implements Element {
 //		}
 //		return result;
 //	}
+	
+	@Override
+	public View view() {
+		Element parent = parent();
+		if(parent != null) {
+			return parent.view();
+		} else {
+			return null;
+		}
+	}
+	
+	@Override
+	public final Project project() {
+		return view().project();
+	}
 
 	/**********
 	 * PARENT *
@@ -1254,7 +1271,8 @@ public abstract class ElementImpl implements Element {
 	 public synchronized void flushLocalCache() {
 		 //    	_languageCache = null;
 		 if(_propertyCache != null) {
-			 _propertyCache.clear();
+//			 _propertyCache.clear();
+			 _propertyCache = null;
 		 }
 	 }
 

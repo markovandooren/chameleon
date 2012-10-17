@@ -9,10 +9,10 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.NoLocationException;
 import chameleon.input.PositionMetadata;
 import chameleon.input.SourceManager;
-import chameleon.plugin.Plugin;
-import chameleon.plugin.PluginImpl;
+import chameleon.plugin.LanguagePlugin;
+import chameleon.plugin.LanguagePluginImpl;
 
-public class EclipseSourceManager extends PluginImpl implements SourceManager {
+public class EclipseSourceManager extends LanguagePluginImpl implements SourceManager {
 
 	public EclipseSourceManager(ChameleonProjectNature nature) {
 		setProjectNature(nature);
@@ -30,7 +30,7 @@ public class EclipseSourceManager extends PluginImpl implements SourceManager {
 	private ChameleonProjectNature _projectNature;
 
 	@Override
-	public Plugin clone() {
+	public EclipseSourceManager clone() {
 		return new EclipseSourceManager(null);
 	}
 

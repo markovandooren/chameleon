@@ -12,8 +12,8 @@
            uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
 
   <property environment="env"/>
-  <property name="target" value="1.6"/>
-  <property name="source" value="1.6"/>
+  <property name="target" value="1.7"/>
+  <property name="source" value="1.7"/>
   <property name="debuglevel" value="lines,vars,source"/>
   <property name="dist" value="dist"/>
   <property name="dist.local" value="dist/local"/>

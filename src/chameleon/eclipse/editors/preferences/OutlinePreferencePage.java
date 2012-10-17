@@ -2,6 +2,7 @@ package chameleon.eclipse.editors.preferences;
 
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -20,6 +21,7 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+import chameleon.core.language.Language;
 import chameleon.eclipse.ChameleonEditorPlugin;
 import chameleon.eclipse.LanguageMgt;
 import chameleon.eclipse.presentation.PresentationModel;
@@ -127,9 +129,13 @@ public class OutlinePreferencePage extends FieldEditorPreferencePage implements 
 	 */
 	private HashMap<String, List<String[]>> readPossibilities() {
 	    //lees eerst alle talen uit
-		String[] talen = LanguageMgt.getInstance().getLanguageStrings();
+		List<String> languages = new ArrayList<>();
+		for(Language lang: LanguageMgt.getInstance().workspace().languageRepository().languages()) {
+			languages.add(lang.name());
+		}
+		
 		//haal van alle talen alle elementen op
-	    HashMap<String, List<String[]>> result = obtainLanguageOutlineElements(talen);
+	    HashMap<String, List<String[]>> result = obtainLanguageOutlineElements(languages);
 	    return result;
 	}
 
@@ -137,7 +143,7 @@ public class OutlinePreferencePage extends FieldEditorPreferencePage implements 
 	 * obtain the language outline elements for a vector of languages
 	 * for each language, the corresponding xml file is read and elements are added 
 	 */
-	private HashMap<String, List<String[]>> obtainLanguageOutlineElements(String[] languages) {
+	private HashMap<String, List<String[]>> obtainLanguageOutlineElements(List<String> languages) {
 		HashMap<String, List<String[]>> result = new HashMap<String, List<String[]>>();
 		for(String language: languages){
 			List<String[]> languageResult = LanguageMgt.getInstance().getPresentationModel(language).getOutlineElements();

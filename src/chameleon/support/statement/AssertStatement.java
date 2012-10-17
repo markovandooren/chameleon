@@ -39,7 +39,7 @@ public class AssertStatement extends ExpressionContainingStatement {
   	VerificationResult result = super.verifySelf();
   	Expression expr = getExpression();
   	try {
-  	  if(expr != null && ! expr.getType().subTypeOf(language(ObjectOrientedLanguage.class).booleanType())) {
+  	  if(expr != null && ! expr.getType().subTypeOf(language(ObjectOrientedLanguage.class).booleanType(view().namespace()))) {
   		  result = result.and(new BasicProblem(this, "The condition is not a boolean."));
   	  }
   	} catch(LookupException exc) {

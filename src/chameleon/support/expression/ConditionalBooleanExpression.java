@@ -1,11 +1,8 @@
 package chameleon.support.expression;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.expression.Expression;
 import chameleon.oo.language.ObjectOrientedLanguage;
@@ -26,7 +23,7 @@ public abstract class ConditionalBooleanExpression extends BinaryExpression {
   }
   
   protected Type actualType() throws LookupException {
-    return language(ObjectOrientedLanguage.class).booleanType(); 
+    return language(ObjectOrientedLanguage.class).booleanType(view().namespace()); 
   }
   
   public Set<Type> getDirectExceptions() throws LookupException {

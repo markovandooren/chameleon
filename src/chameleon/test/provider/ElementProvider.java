@@ -2,7 +2,7 @@ package chameleon.test.provider;
 
 import java.util.Collection;
 
-import chameleon.workspace.Project;
+import chameleon.workspace.View;
 
 /**
  * An element provider provides test data to a test class. It typically determines which elements
@@ -16,5 +16,5 @@ import chameleon.workspace.Project;
  */
 public interface ElementProvider<T> {
 
-	public Collection<T> elements(Project project);
+	public Collection<T> elements(View view);
 }

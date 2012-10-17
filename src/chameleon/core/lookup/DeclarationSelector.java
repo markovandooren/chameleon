@@ -128,7 +128,17 @@ public abstract class DeclarationSelector<D extends Declaration> {
 		return true;
 	}
 	
-	public boolean canBeCached() {
+	/**
+	 * Return whether this selector will select the "first" match. With "first" we mean that for example in an inheritance
+	 * hierarchy, the selector is able to determine that a declaration in a class will be the final one, regardless of
+	 * the declarations in the superclasses. This is the case for any declaration whose signature consists only of a name,
+	 * such as fields and classes. This is <b>not</b> the case for methods.
+	 * 
+	 * This method allows a declaration container to stop the search when a declaration has been found without needlessly
+	 * continuing the search in e.g. super declaration containers.
+	 * @return
+	 */
+	public boolean isGreedy() {
 		return usesSelectionName();
 	}
 

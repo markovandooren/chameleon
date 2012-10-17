@@ -108,8 +108,6 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 		return _fOutlinePage;
 	}
 	
-	private HierarchyView _hierarchyView;
-
 	/**
 	 * Creates a new Editor that is properly configured
 	 * The correct document provider is set and the configuration is made
@@ -381,7 +379,8 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 	 * Returns the presentation Manager for the editor.
 	 */
 	public PresentationManager getPresentationManager() {
-		return getDocument().getPresentationManager();
+		ChameleonDocument document = getDocument();
+		return document == null ? null : document.getPresentationManager();
 	}
 
 	/**

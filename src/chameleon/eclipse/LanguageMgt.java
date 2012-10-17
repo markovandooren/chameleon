@@ -3,7 +3,6 @@ package chameleon.eclipse;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FilenameFilter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -11,24 +10,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 import chameleon.core.language.Language;
 import chameleon.eclipse.connector.EclipseBootstrapper;
 import chameleon.eclipse.presentation.PresentationModel;
-import chameleon.exception.ChameleonProgrammerException;
-import chameleon.plugin.build.Builder;
+import chameleon.workspace.LanguageRepository;
+import chameleon.workspace.ProjectException;
+import chameleon.workspace.Workspace;
 
 /**
  * @author Marko van Dooren
@@ -51,7 +42,7 @@ public class LanguageMgt {
     private Map<String, PresentationModel> presentationModels;
 
     // the languages names
-    private Map<String, EclipseBootstrapper> languages;
+//    private Map<String, EclipseBootstrapper> languages;
 
     /**
      * creates a new mapping for the languages & presenation models These are
@@ -60,11 +51,11 @@ public class LanguageMgt {
      */
     private LanguageMgt() {
     	presentationModels = new HashMap<String, PresentationModel>();
-    	languages = new HashMap<String, EclipseBootstrapper>();
+    	_workspace = new Workspace(new LanguageRepository());
     	try {
     		loadPlugins();
     	}
-    	catch (CoreException e) {
+    	catch (CoreException | ProjectException e) {
     		System.err.println("Couldn't load languages : "+e.getMessage());
     		e.printStackTrace();
     	}
@@ -75,7 +66,7 @@ public class LanguageMgt {
      * automatically loaded. For each language, the corresponding bootstrapper object is added as a value to the map of languages, 
      * with the language name as the key.
      */
-    private void loadPlugins() throws CoreException {
+    private void loadPlugins() throws CoreException, ProjectException {
     	IConfigurationElement[] config = Platform.getExtensionRegistry().getConfigurationElementsFor(LANGUAGE_EXTENSION_ID);
     	for (IConfigurationElement e : config) {
 				EclipseBootstrapper bootstrapper = (EclipseBootstrapper) e.createExecutableExtension("class");
@@ -109,16 +100,22 @@ public class LanguageMgt {
     	return files;
     }
 
-		public static FilenameFilter fileNameFilter(final String extension) {
-			FilenameFilter filter = new FilenameFilter(){
-    		public boolean accept(File dir, String name) {
-    			return name.endsWith(extension);
-    		}};
-			return filter;
-		}
+//		public static FilenameFilter fileNameFilter(final String extension) {
+//			FilenameFilter filter = new FilenameFilter(){
+//    		public boolean accept(File dir, String name) {
+//    			return name.endsWith(extension);
+//    		}};
+//			return filter;
+//		}
 
-		private void addLanguage(EclipseBootstrapper bootstrapper) {
-			languages.put(bootstrapper.getLanguageName(), bootstrapper);
+		private void addLanguage(EclipseBootstrapper bootstrapper) throws ProjectException {
+			workspace().languageRepository().add(bootstrapper.createLanguage());
+		}
+		
+		private Workspace _workspace;
+		
+		public Workspace workspace() {
+			return _workspace;
 		}
 
     /**
@@ -129,23 +126,23 @@ public class LanguageMgt {
         return instance;
     }
 
-    /**
-     * @return an array containing string representations of all the supported
-     *         languages of the chameleonEditor
-     */
-    public synchronized String[] getLanguageStrings() {
-        return languages.keySet().toArray(new String[0]);
-    }
+//    /**
+//     * @return an array containing string representations of all the supported
+//     *         languages of the chameleonEditor
+//     */
+//    public synchronized String[] getLanguageStrings() {
+//        return languages.keySet().toArray(new String[0]);
+//    }
 
-    public synchronized Language createLanguage(String name) {
-    	try {
-				return languages.get(name).createLanguage();
-			} catch (Exception e) {
-				// FIXME this should not be able to happen. Does splitting Language into Language and Model help? Don't think so.
-				e.printStackTrace();
-				throw new ChameleonProgrammerException(e);
-			}
-    }
+//    public synchronized Language createLanguage(String name) {
+//    	try {
+//				return languages.get(name).createLanguage();
+//			} catch (Exception e) {
+//				// FIXME this should not be able to happen. Does splitting Language into Language and Model help? Don't think so.
+//				e.printStackTrace();
+//				throw new ChameleonProgrammerException(e);
+//			}
+//    }
     
 //    /**
 //     * @return the xml document in the directory of the chameleonEditor
@@ -170,24 +167,28 @@ public class LanguageMgt {
      * The model is unique and is loaded when needed. when the language is not
      * supported, an empty model is loaded.
      */
-    public PresentationModel getPresentationModel(String languageString) {
-    	PresentationModel r = presentationModels.get(languageString);
+    public PresentationModel getPresentationModel(String name) {
+    	PresentationModel r = presentationModels.get(name);
     	if (r == null) {
-    		EclipseBootstrapper bootstrapper = languages.get(languageString);
+    		// The bootstrapper was apparently loaded by a separate class loader. I assume that
+    		// the language is as well.
+//    		EclipseBootstrapper bootstrapper = languages.get(languageString);
+    		Language lang = workspace().languageRepository().get(name);
     		String filename = "/xml/presentation.xml";
-    		InputStream stream = bootstrapper.getClass().getClassLoader().getResourceAsStream(filename);
-    		r = new PresentationModel(languageString, stream);
-    		presentationModels.put(languageString, r);
+    		// Why is that loaded by a separate class loader?
+    		InputStream stream = lang.getClass().getClassLoader().getResourceAsStream(filename);
+    		r = new PresentationModel(name, stream);
+    		presentationModels.put(name, r);
     	}
     	return r;
     }
 
-		public List<String> extensions(Language language) {
-			String name = language.name();
-			EclipseBootstrapper eclipseBootstrapper = languages.get(name);
-			return eclipseBootstrapper.fileExtensions();
-		}
-
+//		public List<String> extensions(Language language) {
+//			String name = language.name();
+//			EclipseBootstrapper eclipseBootstrapper = languages.get(name);
+//			return eclipseBootstrapper.fileExtensions();
+//		}
+//
 //		//FIXME BUILDER SHOULD BE CONNECTOR!!!
 //		public Builder createBuilder(Language language, File projectDir) {
 //			return languages.get(language.name()).createBuilder(language, projectDir);

@@ -15,6 +15,7 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.language.ObjectOrientedLanguage;
 import chameleon.oo.type.Type;
 import chameleon.workspace.Project;
+import chameleon.workspace.View;
 
 public class RootNamespace extends RegularNamespace {
   static {
@@ -47,10 +48,10 @@ public class RootNamespace extends RegularNamespace {
   /**
    * @param name
    */
-  protected RootNamespace(SimpleNameSignature sig, Project project,NamespaceFactory factory) {
+  protected RootNamespace(SimpleNameSignature sig, View view,NamespaceFactory factory) {
     super(sig);
     setNamespaceFactory(factory);
-    setProject(project); 
+    setView(view); 
 //    NamespacePart primitiveNP = new NamespacePart(this);
 //    _primitiveNamespacePart.connectTo(primitiveNP.getNamespaceLink());
   }
@@ -67,28 +68,32 @@ public class RootNamespace extends RegularNamespace {
 		return new RootNamespace(signature().clone(),null, namespaceFactory());
 	}
 
-  public void setProject(Project project) {
-  	if(project != null) {
-  		_language.connectTo(project.namespaceLink());
+  public void setView(View view) {
+  	if(view != null) {
+  		_view.connectTo(view.namespaceLink());
   	}
   }
 
   public Language language() {
-    return project().language();
+    return view().language();
   }
   
-  public Project project() {
-    return _language.getOtherEnd();
+//  public Project project() {
+//    return view().project();
+//  }
+  
+  public View view() {
+  	return _view.getOtherEnd();
   }
   
-  public SingleAssociation<RootNamespace,Project> projectLink() {
-  	return _language;
+  public SingleAssociation<RootNamespace,View> projectLink() {
+  	return _view;
   }
 	    
-  private SingleAssociation<RootNamespace,Project> _language = new SingleAssociation<RootNamespace,Project>(this);
+  private SingleAssociation<RootNamespace,View> _view = new SingleAssociation<RootNamespace,View>(this);
 
   public Type getNullType() {
-	  return this.language(ObjectOrientedLanguage.class).getNullType();
+	  return this.language(ObjectOrientedLanguage.class).getNullType(view().namespace());
   }
   
 	@Override

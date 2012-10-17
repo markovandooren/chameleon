@@ -29,7 +29,7 @@ public class ExtendsWildcard extends ActualTypeArgumentWithTypeReference {
 	@Override
 	public Type lowerBound() throws LookupException {
 		Type baseType = baseType();
-		return baseType.language(ObjectOrientedLanguage.class).getNullType();
+		return baseType.language(ObjectOrientedLanguage.class).getNullType(view().namespace());
 	}
 
 	@Override

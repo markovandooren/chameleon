@@ -6,10 +6,14 @@ import java.util.List;
 
 import chameleon.core.document.Document;
 import chameleon.exception.ModelException;
-import chameleon.plugin.Plugin;
-import chameleon.plugin.PluginImpl;
+import chameleon.plugin.ViewPluginImpl;
 
-public class NullBuilder extends PluginImpl implements Builder {
+public class NullBuilder extends ViewPluginImpl implements Builder {
+	
+	public NullBuilder() {
+		// Just here to be able to search where the default constructor is invoked.
+	}
+	
 	@Override
 	public void build(List<Document> compilationUnits, List<Document> allProjectCompilationUnits, File outputDir, BuildProgressHelper buildProgressHelper)
 			throws ModelException, IOException {
@@ -21,7 +25,7 @@ public class NullBuilder extends PluginImpl implements Builder {
 	}
 
 	@Override
-	public Plugin clone() {
+	public NullBuilder clone() {
 		return new NullBuilder();
 	}
 	
