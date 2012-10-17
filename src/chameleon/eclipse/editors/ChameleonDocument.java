@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
+import org.eclipse.core.internal.resources.ResourceException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -160,6 +161,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 * @throws IOException
 	 */
 	private void parseFile(IFile file) throws CoreException, IOException {
+		try {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(file.getContents()));
 		String nxt = "";
 		StringBuilder builder = new StringBuilder();
@@ -173,6 +175,9 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		}
 		// QUESTION: does this trigger the reconcilers?
 		set(builder.toString());
+		} catch(ResourceException e) {
+			System.out.println("debug");
+		}
 	}
 
 	/*

@@ -11,6 +11,7 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.InputSourceNamespace;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespacedeclaration.NamespaceDeclaration;
+import chameleon.util.CreationStackTrace;
 
 public abstract class InputSourceImpl implements InputSource {
 	
@@ -44,7 +45,7 @@ public abstract class InputSourceImpl implements InputSource {
 	public Document document() {
 		return _document.getOtherEnd();
 	}
-	
+		
 	protected void setDocument(Document doc) {
 		if(doc != null) {
 			_document.connectTo(doc.inputSourceLink());
@@ -62,6 +63,7 @@ public abstract class InputSourceImpl implements InputSource {
 			doLoad();
 			Document result = document();
 			result.activate();
+			notifyLoaded(result);
 			return result;
 		} else {
 			return document();
@@ -121,6 +123,36 @@ public abstract class InputSourceImpl implements InputSource {
 
 	@Override
 	public void flushCache() {
-		document().flushCache();
+		Document document = document();
+		if(document != null) {
+			document.flushCache();
+		}
 	}
+	
+	public void addLoadListener(DocumentLoadingListener listener) {
+		if(_listeners == null) {
+			_listeners = new ArrayList<DocumentLoadingListener>();
+		}
+		_listeners.add(listener);
+	}
+	
+	public void removeLoadListener(DocumentLoadingListener listener) {
+		if(_listeners != null) {
+			_listeners.remove(listener);
+		}
+	}
+	
+	protected void notifyLoaded(Document document) {
+		for(DocumentLoadingListener listener: _listeners) {
+			listener.notifyLoaded(document);
+		}
+	}
+	
+//	protected void notifyUnloaded(Document document) {
+//		for(DocumentLoadingListener listener: _listeners) {
+//			listener.notifyUnloaded(document);
+//		}
+//	}
+	
+	private List<DocumentLoadingListener> _listeners;
 }

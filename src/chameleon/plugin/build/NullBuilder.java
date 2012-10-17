@@ -9,6 +9,11 @@ import chameleon.exception.ModelException;
 import chameleon.plugin.ViewPluginImpl;
 
 public class NullBuilder extends ViewPluginImpl implements Builder {
+	
+	public NullBuilder() {
+		// Just here to be able to search where the default constructor is invoked.
+	}
+	
 	@Override
 	public void build(List<Document> compilationUnits, List<Document> allProjectCompilationUnits, File outputDir, BuildProgressHelper buildProgressHelper)
 			throws ModelException, IOException {

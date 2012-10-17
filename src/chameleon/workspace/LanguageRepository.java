@@ -51,7 +51,7 @@ public class LanguageRepository {
 			Map<Revision, Language> tmp = _languageMap.get(n);
 			// Doesn't want to compile with types in place.
 			Set revisions = tmp.keySet();
-			rev = Collections.max(revisions);
+			rev = (Revision)Collections.max(revisions); // Command line compiler requires the cast, Eclipse doesn't :|
 		}
 		// If rev == null, {@link LanguageRepository#get(String,Revision)} will throw an exception.
 		return get(name, rev);

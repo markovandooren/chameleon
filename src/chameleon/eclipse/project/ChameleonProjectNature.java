@@ -561,10 +561,6 @@ public class ChameleonProjectNature implements IProjectNature {
 		}
 	}
 
-//	public Language language() {
-//		return _language;
-//	}
-	
 	public View view() {
 		return _view;
 	}
@@ -575,7 +571,10 @@ public class ChameleonProjectNature implements IProjectNature {
 		_documents.add(document);
 		try {
 			Document chameleonDocument = document.chameleonDocument();
-			chameleonDocument.language().plugin(ModelFactory.class).parse(document.get(), chameleonDocument);
+			Language language = chameleonDocument.view().language();
+			ModelFactory plugin = language.plugin(ModelFactory.class);
+			plugin.parse(document.get(), chameleonDocument);
+			chameleonDocument.activate();
 			//modelFactory().parse(document.get(), chameleonDocument);
 		} catch (ParseException e) {
 			e.printStackTrace();

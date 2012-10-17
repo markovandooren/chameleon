@@ -66,7 +66,7 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 		this(name, new LookupStrategyFactory(),version);
 	}
 	
-	public abstract Language clone();
+//	public abstract Language clone();
 	
 	/**
 	 * Initialize a new language with the given name and lookup strategy factory.

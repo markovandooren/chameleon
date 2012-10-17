@@ -34,7 +34,7 @@ public interface Language extends PropertyUniverse<ChameleonProperty>, PluginCon
    @
    @ post \result != null;
    @*/
-	public Language clone();
+//	public Language clone();
 	
 	public Revision version();
 	

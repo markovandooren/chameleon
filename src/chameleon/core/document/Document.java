@@ -34,7 +34,7 @@ import chameleon.workspace.View;
  */
 public class Document extends ElementImpl {
 
-	private CreationStackTrace _trace = new CreationStackTrace();
+//	private CreationStackTrace _trace = new CreationStackTrace();
 	
 	public Document() {
 		
