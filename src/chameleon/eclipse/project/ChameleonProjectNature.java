@@ -224,7 +224,8 @@ public class ChameleonProjectNature implements IProjectNature {
 										File file = fileSource.file();
 										IWorkspace workspace= ResourcesPlugin.getWorkspace();
 										IPath location= Path.fromOSString(file.getAbsolutePath());
-										IFile ifile= workspace.getRoot().getFileForLocation(location); 										
+										IFile ifile= workspace.getRoot().getFileForLocation(location);
+										//FIXME Let the document listen to "the" input source
 										addToModel(new ChameleonDocument(ChameleonProjectNature.this,fileSource.document(),ifile,ifile.getFullPath()));
 									}
 								}

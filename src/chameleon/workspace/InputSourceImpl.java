@@ -143,8 +143,10 @@ public abstract class InputSourceImpl implements InputSource {
 	}
 	
 	protected void notifyLoaded(Document document) {
-		for(DocumentLoadingListener listener: _listeners) {
-			listener.notifyLoaded(document);
+		if(_listeners != null) {
+			for(DocumentLoadingListener listener: _listeners) {
+				listener.notifyLoaded(document);
+			}
 		}
 	}
 	
