@@ -94,7 +94,7 @@ public interface PluginContainer<P extends Plugin> {
 
   public Set<Entry<Class<? extends P>,P>> pluginEntrySet();
   
-	public <S extends P> void clonePluginsFrom(PluginContainer<P> from);
+	public void clonePluginsFrom(PluginContainer<P> from);
 
 
 }

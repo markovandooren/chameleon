@@ -38,7 +38,7 @@ public abstract class ConfigElement {
 		
 	}
 	
-	public void readFromXML(File xmlFile) throws ConfigException {
+	protected void readFromXML(File xmlFile) throws ConfigException {
 		DocumentBuilderFactory fac = DocumentBuilderFactory.newInstance();
 		try {
 			DocumentBuilder builder = fac.newDocumentBuilder();

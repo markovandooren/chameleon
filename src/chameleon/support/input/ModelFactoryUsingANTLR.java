@@ -94,18 +94,18 @@ public abstract class ModelFactoryUsingANTLR extends LanguagePluginImpl implemen
 
 	public void refresh(Element element) throws ParseException {
 		Document compilationUnit = element.nearestAncestor(Document.class);
-		Language lang = element.language();
+		View view = element.view();
 		boolean done = false;
 		while((element != null) && (! done)){
 			try {
-		    SourceManager manager = language().plugin(SourceManager.class);
+		    SourceManager manager = view.plugin(SourceManager.class);
 		    String text = manager.text(element);
 		    Element newElement = parse(element, text);
 		    if(newElement != null) {
 		      // Use raw type here, we can't really type check this.
 		      Association childLink = element.parentLink().getOtherRelation();
 		      childLink.replace(element.parentLink(), newElement.parentLink());
-		      clearPositions(element,lang);
+		      clearPositions(element,view);
 		      done = true;
 		      break;
 		    }
@@ -128,8 +128,8 @@ public abstract class ModelFactoryUsingANTLR extends LanguagePluginImpl implemen
 	 * @param element
 	 * @param lang
 	 */
-	protected void clearPositions(Element element, Language lang) {
-   	for(InputProcessor processor: lang.processors(InputProcessor.class)) {
+	protected void clearPositions(Element element, View view) {
+   	for(InputProcessor processor: view.processors(InputProcessor.class)) {
    		processor.removeLocations(element);
    	}
 	}

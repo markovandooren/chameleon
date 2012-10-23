@@ -71,7 +71,13 @@ public abstract class ChameleonParser<L extends Language> extends Parser impleme
 		}
 	   
 		public List<InputProcessor> inputProcessors() {
-			return language().processors(InputProcessor.class);
+			View view = view();
+			if(view != null) {
+				return view.processors(InputProcessor.class);
+			} else {
+				System.out.println("debug");
+				throw new IllegalStateException();
+			}
 		}
 
 	   public void setLocation(Element element, Token start, Token stop, String tagType) {

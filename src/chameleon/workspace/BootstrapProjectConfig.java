@@ -1,6 +1,8 @@
 package chameleon.workspace;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.rejuse.junit.BasicRevision;
 import org.rejuse.junit.Revision;
@@ -11,6 +13,19 @@ public class BootstrapProjectConfig extends ConfigElement {
 	public BootstrapProjectConfig(File root, LanguageRepository repository) {
 		_root = root;
 		_repository = repository;
+	}
+	
+	private List<ProjectInitialisationListener> _listeners = new ArrayList<>();
+	
+	public void addListener(ProjectInitialisationListener listener) {
+		if(listener == null) {
+			throw new IllegalArgumentException();
+		}
+		_listeners.add(listener);
+	}
+	
+	public void removeListener(ProjectInitialisationListener listener) {
+		_listeners.remove(listener);
 	}
 	
 	private File _root;
@@ -55,14 +70,18 @@ public class BootstrapProjectConfig extends ConfigElement {
 
 	@Override
 	protected void $after() throws ConfigException {
-		ConfigElement pc = _lang.plugin(ConfigLoader.class).createConfigElement(_lang, _projectName, _root);
+		ConfigElement pc = _lang.plugin(ConfigLoader.class).createConfigElement(_projectName, _root, _listener);
 		for(Element element: unprocessedElements()) {
 			pc.processChild(element);
 		}
-		_project = ((PConfig) pc).project();
+		_project = ((ProjectConfig) pc).project();
 	}
 	
-	public Project project() {
+	private ProjectInitialisationListener _listener;
+	
+	public Project project(File xmlFile, ProjectInitialisationListener listener) throws ConfigException {
+		_listener = listener;
+		readFromXML(xmlFile);
 		return _project;
 	}
 	

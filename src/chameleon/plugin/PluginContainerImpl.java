@@ -111,11 +111,11 @@ public class PluginContainerImpl<P extends Plugin> implements PluginContainer<P>
 	}
 
 	@Override
-	public <S extends P> void clonePluginsFrom(PluginContainer<P> from) {
+	public void clonePluginsFrom(PluginContainer<P> from) {
 		for(Entry<Class<? extends P>, P> entry: from.pluginEntrySet()) {
-			Class<S> key = (Class<S>) entry.getKey();
-			S value = (S) entry.getValue();
-			_plugins.put(key, (S)value.clone());
+			Class<P> key = (Class<P>) entry.getKey();
+			P value = (P) entry.getValue();
+			_plugins.put(key, (P)value.clone());
 		}
 	}
 

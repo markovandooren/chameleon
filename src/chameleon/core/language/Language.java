@@ -1,9 +1,7 @@
 package chameleon.core.language;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.rejuse.association.MultiAssociation;
@@ -20,10 +18,12 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.core.validation.VerificationRule;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.plugin.LanguagePlugin;
+import chameleon.plugin.LanguageProcessor;
 import chameleon.plugin.PluginContainer;
 import chameleon.plugin.Processor;
+import chameleon.plugin.ProcessorContainer;
 
-public interface Language extends PropertyUniverse<ChameleonProperty>, PluginContainer<LanguagePlugin> {
+public interface Language extends PropertyUniverse<ChameleonProperty>, PluginContainer<LanguagePlugin>, ProcessorContainer<LanguageProcessor> {
 	
 	/**
 	 * Clone this language.
@@ -179,62 +179,62 @@ public interface Language extends PropertyUniverse<ChameleonProperty>, PluginCon
    * PROCESSORS *
    **************/
   
-  /**
-   * Return the processors corresponding to the given processor interface.
-   */
- /*@
-   @ public behavior
-   @
-   @ post \result.equals(processorMap().get(connectorInterface));
-   @*/
-  public <T extends Processor> List<T> processors(Class<T> connectorInterface);
+//  /**
+//   * Return the processors corresponding to the given processor interface.
+//   */
+// /*@
+//   @ public behavior
+//   @
+//   @ post \result.equals(processorMap().get(connectorInterface));
+//   @*/
+//  public <T extends LanguageProcessor> List<T> processors(Class<T> connectorInterface);
+//
+//  /**
+//   * Remove the given processor. The
+//   * bidirection relation is kept in a consistent state.
+//   * 
+//   * @param <T>
+//   * @param connectorInterface
+//   */
+// /*@
+//   @ public behavior
+//   @
+//   @ pre connectorInterface != null;
+//   @ pre processor != null;
+//   @
+//   @ post !processor(connectorInterface).contains(processor); 
+//   @*/
+//  public <T extends LanguageProcessor> void removeProcessor(Class<T> connectorInterface, T processor);
+//
 
-  /**
-   * Remove the given processor. The
-   * bidirection relation is kept in a consistent state.
-   * 
-   * @param <T>
-   * @param connectorInterface
-   */
- /*@
-   @ public behavior
-   @
-   @ pre connectorInterface != null;
-   @ pre processor != null;
-   @
-   @ post !processor(connectorInterface).contains(processor); 
-   @*/
-  public <T extends Processor> void removeProcessor(Class<T> connectorInterface, T processor);
-
-
-  /**
-   * Add the given processor to the list of processors correponding to the given connector interface. 
-   * The bidirectional relation is kept in a consistent state.
-   * 
-   * @param <T>
-   * @param connectorInterface
-   * @param connector
-   */
- /*@
-   @ public behavior
-   @
-   @ pre connectorInterface != null;
-   @ pre processor != null;
-   @
-   @ post processor(connectorInterface).contains(processor); 
-   @*/
-  public <T extends Processor> void addProcessor(Class<T> connectorInterface, T processor);
-
-  /**
-   * Copy the processor mapping from the given language to this language.
-   */
- /*@
-   @ public behavior
-   @
-   @ post (\forall Class<? extends Processor> cls; from.processorMap().containsKey(cls);
-   @         processors(cls).containsAll(from.processorMap().valueSet());
-   @*/
-	public <S extends Processor> void cloneProcessorsFrom(Language from);
+//  /**
+//   * Add the given processor to the list of processors correponding to the given connector interface. 
+//   * The bidirectional relation is kept in a consistent state.
+//   * 
+//   * @param <T>
+//   * @param connectorInterface
+//   * @param connector
+//   */
+// /*@
+//   @ public behavior
+//   @
+//   @ pre connectorInterface != null;
+//   @ pre processor != null;
+//   @
+//   @ post processor(connectorInterface).contains(processor); 
+//   @*/
+//  public <T extends LanguageProcessor> void addProcessor(Class<T> connectorInterface, T processor);
+//
+//  /**
+//   * Copy the processor mapping from the given language to this language.
+//   */
+// /*@
+//   @ public behavior
+//   @
+//   @ post (\forall Class<? extends Processor> cls; from.processorMap().containsKey(cls);
+//   @         processors(cls).containsAll(from.processorMap().valueSet());
+//   @*/
+//	public <S extends Processor> void cloneProcessorsFrom(Language from);
 	
 	/**
 	 * Return the mapping of classes/interfaces to the processors of that kind.
@@ -244,7 +244,7 @@ public interface Language extends PropertyUniverse<ChameleonProperty>, PluginCon
    @
    @ post \result != null;
    @*/
-	public Map<Class<? extends Processor>, List<? extends Processor>> processorMap();
+	public Map<Class<? extends LanguageProcessor>, List<? extends LanguageProcessor>> processorMap();
 	
   /**************************************************************************
    *                                 PROPERTIES                             *

@@ -40,7 +40,6 @@ public class ChameleonDocumentProvider extends FileDocumentProvider {
 	 * @see org.eclipse.ui.texteditor.AbstractDocumentProvider#createDocument(java.lang.Object)
 	 */
 	protected IDocument createDocument(Object element) throws CoreException {
-		try {
 		IProject project = null;
 		ChameleonProjectNature nature = null;
 		IPath path=null;
@@ -69,31 +68,19 @@ public class ChameleonDocumentProvider extends FileDocumentProvider {
 		} else {
 			System.out.println("Document exists");
 		}
-		if (setDocumentContent(document, (IEditorInput) element, getEncoding(element))) {
+		if ((document != null) && setDocumentContent(document, (IEditorInput) element, getEncoding(element))) {
 			setupDocument(element, document);
 			_editor.documentChanged(document);
 		}
+		//FIXME I don't think the document provider should be in charge of notifying the project nature.
 		if(newDocument) {
-		  nature.addToModel(document);
-		} else {
+//		  nature.addToModel(document);
+		}
+		else {
 			nature.updateModel(document);
 		}
 		return document;
-		}
-		catch (Error t) {
-				throw t;
-		}
 	}
-	
-//	/*
-//	 * Creates a new Chameleon document according to the element that is given.
-//	 * The object also receives a meta model factor & content.
-//	 * @param element
-//	 * 		The element that is used to create the ChameleonDocument
-//	 */
-//	protected ChameleonDocument createChameleonDocument(Object element) throws CoreException {
-//
-//	}
 	
 	/*
 	 * creates a new Chameleon document that is empty in the sense that there is no text in it yet

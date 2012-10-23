@@ -1,11 +1,7 @@
 package chameleon.eclipse.project;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
@@ -18,7 +14,6 @@ import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -51,13 +46,13 @@ import chameleon.workspace.BootstrapProjectConfig;
 import chameleon.workspace.ConfigException;
 import chameleon.workspace.DocumentLoader;
 import chameleon.workspace.FileInputSource;
-import chameleon.workspace.FileLoader;
-import chameleon.workspace.InputException;
 import chameleon.workspace.InputSource;
 import chameleon.workspace.InputSourceListener;
 import chameleon.workspace.LanguageRepository;
 import chameleon.workspace.Project;
+import chameleon.workspace.ProjectInitialisationListener;
 import chameleon.workspace.View;
+import chameleon.workspace.ViewListener;
 
 /**
  * @author Manuel Van Wesemael 
@@ -69,8 +64,44 @@ import chameleon.workspace.View;
  * of the nature, the language of the project, and knows the project it is created for.
  */
 public class ChameleonProjectNature implements IProjectNature {
+	public class EclipseInputSourceListener implements InputSourceListener {
+		@Override
+		public void notifyInputSourceRemoved(InputSource source) {
+			if(source instanceof FileInputSource) {
+				FileInputSource fileSource = (FileInputSource) source;
+				File file = fileSource.file();
+				IPath location= Path.fromOSString(file.getAbsolutePath());
+				ChameleonDocument doc = documentOfPath(location);
+				_documents.remove(doc);
+				doc.destroy();
+			}
+		}
+
+		@Override
+		public void notifyInputSourceAdded(InputSource source) {
+			if(source instanceof FileInputSource) {
+				FileInputSource fileSource = (FileInputSource) source;
+				File file = fileSource.file();
+				IWorkspace workspace= ResourcesPlugin.getWorkspace();
+				IPath location= Path.fromOSString(file.getAbsolutePath());
+				IFile ifile= workspace.getRoot().getFileForLocation(location);
+				//FIXME Let the document listen to "the" input source
+				//      fileSource.document() is null when lazy loading is used and the document hasn't been needed yet.
+				addToModel(new ChameleonDocument(ChameleonProjectNature.this,fileSource.document(),ifile,ifile.getFullPath()));
+			}
+		}
+	}
+
 	public ChameleonProjectNature() {
-		_documents=new ArrayList<ChameleonDocument>();
+		_documents=new ArrayList<ChameleonDocument>() {
+			@Override
+			public boolean add(ChameleonDocument e) {
+				if(e == null) {
+					throw new IllegalArgumentException();
+				}
+				return super.add(e);
+			}
+		};
 		_repository = LanguageMgt.getInstance().workspace().languageRepository();
 	}
 	
@@ -92,28 +123,19 @@ public class ChameleonProjectNature implements IProjectNature {
 	public PresentationModel presentationModel() {
 		return LanguageMgt.getInstance().getPresentationModel(view().language().name());
 	}
-
-	/**
-	 * Set the language, and attach the source manager and the input processor.
-	 * @param language
-	 */
-	public void init(Project project){
-		if(project == null) {
-			throw new ChameleonProgrammerException("Cannot set the project of a Chameleon project nature to null.");
-		}
-		this._chameleonProject = project;
-		for(View view: project.views()) {
-			Language language = view.language();
-			language.setPlugin(SourceManager.class, new EclipseSourceManager(this));
-			language.addProcessor(InputProcessor.class, new EclipseEditorInputProcessor(this));
-			// Let the editor extension initialize the view.
-			//FIXME this should not be done by IDE code. Need further improvements
-			language.plugin(EclipseEditorExtension.class).initialize(view);
-			//FIXME This will NOT work with language stacking, but for now it will do. Got more important things to do now.
-//			_language = language;
-			_view = view;
-		}
-	}
+//
+//	/**
+//	 * Set the language, and attach the source manager and the input processor.
+//	 * @param language
+//	 */
+//	public void init(Project project){
+//		if(project == null) {
+//			throw new ChameleonProgrammerException("Cannot set the project of a Chameleon project nature to null.");
+//		}
+//		this._chameleonProject = project;
+////		for(View view: project.views()) {
+////		}
+//	}
 	
 	public Project chameleonProject() {
 		return _chameleonProject;
@@ -189,50 +211,35 @@ public class ChameleonProjectNature implements IProjectNature {
 			if(project != null) {
 				try {
 					IPath location = project.getLocation();
-//					BufferedReader f = new BufferedReader(new FileReader(new File(location+"/."+CHAMELEON_PROJECT_FILE_EXTENSION)));
-//					String lang = f.readLine();
-//					f.close();
-//					Language language = LanguageMgt.getInstance().createLanguage(lang);
 					File file = location.toFile();
+					final EclipseInputSourceListener listener = new EclipseInputSourceListener();
 					BootstrapProjectConfig bootstrapProjectConfig = new BootstrapProjectConfig(file, _repository);
-					bootstrapProjectConfig.readFromXML(new File(location+"/"+CHAMELEON_PROJECT_FILE));
-					init(bootstrapProjectConfig.project());
-//					loadDocuments();
+					_chameleonProject = bootstrapProjectConfig.project(new File(location+"/"+CHAMELEON_PROJECT_FILE), new ProjectInitialisationListener(){
+						@Override
+						public void viewAdded(View view) {
+							// Attach listeners for document loaders which attaches
+							// the listeners for the input sources.
+							view.addListener(new ViewListener(){
+								@Override
+								public void sourceLoaderAdded(DocumentLoader loader) {
+									loader.addAndSynchronizeListener(listener);
+								}
+							});
+							view.setPlugin(SourceManager.class, new EclipseSourceManager(ChameleonProjectNature.this));
+							//FIXME This should not be attached to a language, but to a view.
+							view.addProcessor(InputProcessor.class, new EclipseEditorInputProcessor(ChameleonProjectNature.this));
+							// Let the editor extension initialize the view.
+							//FIXME this should not be done by IDE code. Need further improvements
+							view.language().plugin(EclipseEditorExtension.class).initialize(view);
+							//FIXME This will NOT work with language stacking, but for now it will do. Got more important things to do now.
+//							_language = language;
+							_view = view;
+						}
+					});
 					_projectListener = new ProjectChangeListener(this);
 					getProject().getWorkspace().addResourceChangeListener(_projectListener, IResourceChangeEvent.POST_CHANGE);
 					// It should be sufficient to register the listener once for the entire project. Now we need a more
 					// complicated setup to deal with adding document loaders to a view.
-					for(View view: chameleonProject().views()) {
-						for(DocumentLoader loader: view.sourceLoaders()) {
-							loader.addAndSynchronizeListener(new InputSourceListener(){
-							
-								@Override
-								public void notifyInputSourceRemoved(InputSource source) {
-									if(source instanceof FileInputSource) {
-										FileInputSource fileSource = (FileInputSource) source;
-										File file = fileSource.file();
-										IPath location= Path.fromOSString(file.getAbsolutePath());
-										ChameleonDocument doc = documentOfPath(location);
-										_documents.remove(doc);
-									}
-								}
-							
-								@Override
-								public void notifyInputSourceAdded(InputSource source) {
-									if(source instanceof FileInputSource) {
-										FileInputSource fileSource = (FileInputSource) source;
-										File file = fileSource.file();
-										IWorkspace workspace= ResourcesPlugin.getWorkspace();
-										IPath location= Path.fromOSString(file.getAbsolutePath());
-										IFile ifile= workspace.getRoot().getFileForLocation(location);
-										//FIXME Let the document listen to "the" input source
-										addToModel(new ChameleonDocument(ChameleonProjectNature.this,fileSource.document(),ifile,ifile.getFullPath()));
-									}
-								}
-							});
-						}
-					}
-					//			updateAllModels();
 				} catch (ConfigException e) {
 					e.printStackTrace();
 					System.out.println("Error while loading the project");
@@ -247,139 +254,12 @@ public class ChameleonProjectNature implements IProjectNature {
 	
 	private IResourceChangeListener _projectListener;
 	
-	public class ProjectChangeListener implements IResourceChangeListener {
-		
-		public ProjectChangeListener(ChameleonProjectNature nature) {
-			_nature = nature;
-		}
-		
-		private ChameleonProjectNature _nature;
-		
-		public ChameleonProjectNature nature() {
-			return _nature;
-		}
-
-		public void resourceChanged(IResourceChangeEvent event) {
-			IResourceDelta delta = event.getDelta();
-			try {
-				//nature().getProject().build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-				delta.accept( new ChameleonResourceDeltaVisitor(nature()) {
-
-					@Override
-					public void handleAdded(IResourceDelta delta) throws CoreException {
-						System.out.println("### ADDING FILE TO MODEL ###");
-						IResource resource = delta.getResource();
-						// The appropriate source loader should be notified.
-						if(resource instanceof IFile) {
-							for(View view: nature().chameleonProject().views()) {
-								for(FileLoader loader: view.sourceLoaders(FileLoader.class)) {
-									try {
-										loader.tryToAdd(resource.getRawLocation().makeAbsolute().toFile());
-									} catch (InputException e) {
-										throw new IllegalArgumentException(e);
-									}
-								}
-							}
-//							nature().addResourceToModel(resource);
-							nature().flushProjectCache();
-						}
-					}
-
-					@Override
-					public void handleChanged(IResourceDelta delta) throws CoreException {
-						boolean update = true;
-						Collection<ChameleonEditor> editors = ChameleonEditor.getActiveChameleonEditors();
-						ChameleonDocument doc = documentOf(delta);
-						if(doc != null) {
-							for(ChameleonEditor editor: editors) {
-								if(editor.getDocument() == doc) {
-									update = false;
-									break;
-								}
-							}
-							if(update) {
-								System.out.println("### UPDATING FILE IN MODEL ###");
-								//	FIXME must refresh the content of the document.
-								IResource resource = delta.getResource();
-								if(resource instanceof IFile) {
-									try {
-										IFile youfile = (IFile) resource;
-										IPath location = youfile.getLocation();
-										File file = null;
-										if (location != null) {
-											file = location.toFile();
-										}
-										byte[] bytes = new byte[(int) file.length()];
-										BufferedInputStream stream = new BufferedInputStream(new FileInputStream(file));
-										stream.read(bytes);
-										doc.set(new String(bytes));
-										updateModel(doc);
-										nature().flushProjectCache();
-									} catch (IOException e) {
-										e.printStackTrace();
-									}
-								}
-							} else {
-								System.out.println("### FOUND EDITOR FOR FILE ###"+ delta.getResource());
-							}
-						}
-					}
-
-					@Override
-					public void handleRemoved(IResourceDelta delta) throws CoreException {
-						System.out.println("### REMOVING FILE FROM MODEL ###");
-						ChameleonDocument doc = documentOf(delta);
-						if(doc != null) {
-//							doc.compilationUnit().disconnect();
-							nature().removeDocument(doc);
-							nature().flushProjectCache();
-						}
-					}
-					
-				}
-				);
-			} catch (CoreException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 	/*
 	 *  (non-Javadoc)
 	 * @see chameleonEditor.editors.IChameleonDocument#getMetaModelFactory()
 	 */
 	public ModelFactory modelFactory() {
 		return view().language().plugin(ModelFactory.class);
-	}
-
-
-	
-	/**
-	 * Creates a new model for this document. If another model was set, anything of it is removed
-	 * and is replaced by the new model.
-	 */
-	public void updateAllModels() {
-
-			try {
-				for (ChameleonDocument doc : _documents) {
-					updateModel(doc);
-				}
-//				if (Config.DEBUG) {
-//					// DEBUG: This prints the size of the entire model so memory problems
-//					// can be detected. If there is a problem,
-//					// the number will keep getting bigger while the size of the source
-//					// files remains constant.
-//					ChameleonReconcilingStrategy.showSize(language().defaultNamespace());
-//					for (Iterator<ChameleonDocument> iter = _documents.iterator(); iter.hasNext();) {
-//						ChameleonDocument element = iter.next();
-//						System.out.println(element);
-//					}
-//				}
-			} catch (Exception exc) {
-				exc.printStackTrace();
-
-			}
-		
 	}
 
 	/**
@@ -409,7 +289,7 @@ public class ChameleonProjectNature implements IProjectNature {
 				// FIXME Can we ignore this exception? Normally, the parse error markers should have been set.
 				e.printStackTrace();
 			} finally {
-				flushProjectCache();
+				flushSourceCache();
 			}
 		}
 	}
@@ -569,6 +449,9 @@ public class ChameleonProjectNature implements IProjectNature {
 	private View _view;
 
 	public void addDocument(ChameleonDocument document) {
+		if(document == null) {
+			throw new IllegalArgumentException();
+		}
 		_documents.add(document);
 		try {
 			Document chameleonDocument = document.chameleonDocument();
@@ -635,10 +518,7 @@ public class ChameleonProjectNature implements IProjectNature {
 		return result;
 	}
 
-	public void flushProjectCache() {
-//		for(Document compilationUnit: compilationUnits()) {
-//			compilationUnit.flushCache();
-//		}
+	public void flushSourceCache() {
 		view().flushSourceCache();
 	}
 	

@@ -1,25 +1,19 @@
 package chameleon.core.language;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.rejuse.association.Association;
 import org.rejuse.association.MultiAssociation;
 import org.rejuse.association.OrderedMultiAssociation;
-import org.rejuse.association.SingleAssociation;
 import org.rejuse.junit.Revision;
 import org.rejuse.property.PropertyMutex;
 import org.rejuse.property.PropertySet;
 
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupStrategyFactory;
-import chameleon.core.namespace.RootNamespace;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.property.PropertyRule;
 import chameleon.core.validation.Valid;
@@ -27,10 +21,9 @@ import chameleon.core.validation.VerificationResult;
 import chameleon.core.validation.VerificationRule;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.plugin.LanguagePlugin;
+import chameleon.plugin.LanguageProcessor;
 import chameleon.plugin.PluginContainerImpl;
-import chameleon.plugin.Processor;
-import chameleon.workspace.Project;
-import chameleon.workspace.View;
+import chameleon.plugin.ProcessorContainer;
 
 /**
  * A class representing a Chameleon language.
@@ -252,64 +245,7 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 		return SCOPE_MUTEX;
 	}
 	
-	 /**************
-    * CONNECTORS *
-    **************/
-	
-
-    private static class ListMapWrapper<T> {
-      private Map<Class<? extends T>,List<? extends T>> _map = new HashMap<Class<? extends T>,List<? extends T>>();
-
-      public int size() {
-      	return _map.size();
-      }
-      
-      public Set<Class<? extends T>> keySet() {
-      	return _map.keySet();
-      }
-      
-      public Map<Class<? extends T>,List<? extends T>> map() {
-      	return new HashMap<Class<? extends T>,List<? extends T>>(_map);
-      }
-      
-      public <S extends T> List<S> get(Class<S> key) {
-      	List<S> processors = (List<S>)_map.get(key);
-      	if(processors == null) {
-      		return new ArrayList<S>();
-      	} else {
-          return new ArrayList<S>(processors);
-      	}
-      }
-      
-      public void addAll(Map<Class<? extends T>,List<? extends T>> map) {
-      	_map.putAll(map);
-      }
-
-      public <S extends T> void add(Class<S> key, S value) {
-      	  List<S> list = (List<S>)_map.get(key);
-      	  if(list == null) {
-      	  	list = new ArrayList<S>();
-      	  	_map.put(key, list);
-      	  }
-      	  list.add(value);
-      }
-
-      public <S extends T> void remove(Class<S> key, S value) {
-      	_map.get(key).remove(key);
-      }
-
-      public Collection<List<? extends T>> values() {
-          return _map.values();
-      }
-
-      public <S extends T> boolean containsKey(Class<S> key) {
-          return _map.containsKey(key);
-      }
-
-      public boolean isEmpty() {
-          return _map.isEmpty();
-      }
-  }
+	 
 
 
     //private Map<Class<? extends ToolExtension>,? extends ToolExtension> toolExtensions = new HashMap<Class<? extends ToolExtension>,ToolExtension>();
@@ -391,7 +327,7 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
      * PROCESSORS *
      **************/
     
-    private ListMapWrapper<Processor> _processors = new ListMapWrapper<Processor>();
+    private ListMapWrapper<LanguageProcessor> _processors = new ListMapWrapper<LanguageProcessor>();
 
     /**
      * Return the processors corresponding to the given processor interface.
@@ -401,7 +337,7 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
      @
      @ post \result.equals(processorMap().get(connectorInterface));
      @*/
-    public <T extends Processor> List<T> processors(Class<T> connectorInterface) {
+    public <T extends LanguageProcessor> List<T> processors(Class<T> connectorInterface) {
       return _processors.get(connectorInterface);
     }
 
@@ -420,10 +356,10 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
      @
      @ post !processor(connectorInterface).contains(processor); 
      @*/
-    public <T extends Processor> void removeProcessor(Class<T> connectorInterface, T processor) {
+    public <T extends LanguageProcessor> void removeProcessor(Class<T> connectorInterface, T processor) {
         List<T> list = _processors.get(connectorInterface);
         if (list!=null && list.contains(processor)) {
-            processor.setLanguage(null, connectorInterface);
+            processor.setContainer(null, connectorInterface);
             list.remove(processor);
         }
     }
@@ -445,12 +381,14 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
      @
      @ post processor(connectorInterface).contains(processor); 
      @*/
-    public <T extends Processor> void addProcessor(Class<T> connectorInterface, T processor) {
-      _processors.add(connectorInterface, processor);
-      if(processor.language() != this) {
-      	processor.setLanguage(this, connectorInterface);
+    @Override
+    public <K extends LanguageProcessor, V extends K> void addProcessor(Class<K> keyInterface, V processor) {
+      _processors.add(keyInterface, processor);
+      if(processor.container() != this) {
+      	processor.setContainer(this, keyInterface);
       }
     }
+
 
     /**
      * Copy the processor mapping from the given language to this language.
@@ -461,12 +399,13 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
      @ post (\forall Class<? extends Processor> cls; from.processorMap().containsKey(cls);
      @         processors(cls).containsAll(from.processorMap().valueSet());
      @*/
-  	public <S extends Processor> void cloneProcessorsFrom(Language from) {
-  		for(Entry<Class<? extends Processor>, List<? extends Processor>> entry: from.processorMap().entrySet()) {
-  			Class<S> key = (Class<S>) entry.getKey();
-				List<S> value = (List<S>) entry.getValue();
-				for(S processor: value) {
-				  _processors.add(key, (S)processor.clone());
+    @Override
+  	public void cloneProcessorsFrom(ProcessorContainer<LanguageProcessor> from) {
+  		for(Entry<Class<? extends LanguageProcessor>, List<? extends LanguageProcessor>> entry: from.processorMap().entrySet()) {
+  			Class<LanguageProcessor> key = (Class<LanguageProcessor>) entry.getKey();
+				List<LanguageProcessor> value = (List<LanguageProcessor>) entry.getValue();
+				for(LanguageProcessor processor: value) {
+				  _processors.add(key, (LanguageProcessor)processor.clone());
 				}
   		}
   	}
@@ -479,7 +418,7 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
      @
      @ post \result != null;
      @*/
-  	public Map<Class<? extends Processor>, List<? extends Processor>> processorMap() {
+  	public Map<Class<? extends LanguageProcessor>, List<? extends LanguageProcessor>> processorMap() {
   		return _processors.map();
   	}
   	

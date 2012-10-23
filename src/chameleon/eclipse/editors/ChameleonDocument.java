@@ -734,7 +734,18 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	  attributes.put(IMarker.LINE_NUMBER, lineNumber);
 	}
 
-
+	public void destroy() {
+		_doc = null;
+		_file = null;
+		_lastpresentation = null;
+		_name = null;
+		_parseErrorActionListener = null;
+		_parseErrors = null;
+		_path = null;
+		_presentationManager = null;
+		_projectNature = null;
+		_relativePathName = null;
+	}
 }
 
 

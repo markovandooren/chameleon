@@ -20,6 +20,8 @@ import chameleon.core.element.Element;
 import chameleon.eclipse.connector.EclipseEditorTag;
 import chameleon.eclipse.editors.ChameleonDocument;
 import chameleon.eclipse.editors.ChameleonEditor;
+import chameleon.eclipse.presentation.PresentationManager;
+import chameleon.eclipse.presentation.PresentationModel;
 import chameleon.input.PositionMetadata;
 import chameleon.util.Util;
 
@@ -35,12 +37,13 @@ public class ChameleonFormatterStrategy implements IFormattingStrategy {
 	
 	public ChameleonFormatterStrategy(ChameleonEditor editor) {
 		this.editor = editor;
-		try {
-			editor.getPresentationManager().getPresentationModel().initIndentElementsByDefaults();
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-		}
-		
+			PresentationManager presentationManager = editor.getPresentationManager();
+			if(presentationManager != null) {
+				PresentationModel presentationModel = presentationManager.getPresentationModel();
+				if(presentationModel != null) {
+					presentationModel.initIndentElementsByDefaults();
+				}
+			}
 	}
 	
 	/**

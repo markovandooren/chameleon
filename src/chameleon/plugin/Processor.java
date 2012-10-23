@@ -1,6 +1,5 @@
 package chameleon.plugin;
 
-import chameleon.core.language.Language;
 
 /**
  * An interface for classes that connect a language module to a tool, or tools to each other.
@@ -12,12 +11,12 @@ import chameleon.core.language.Language;
  * 
  * @author Marko van Dooren
  */
-public interface Processor extends Cloneable {
+public interface Processor<C extends ProcessorContainer<P>, P extends Processor> extends Cloneable {
 	
   /**
    * Return the language to which this processor is connected.
    */
-  public Language language();
+  public C container();
 
   /**
    * Set the language to which this processor is connected. The bidirectional
@@ -26,15 +25,15 @@ public interface Processor extends Cloneable {
    * T MUST BE A SUPERTYPE OF THIS OBJECT!!!
    * 
    * @param lang
-   * @param connectorInterface
+   * @param keyInterface
    */
-  public <T extends Processor> void setLanguage(Language lang, Class<T> connectorInterface);
+  public <T extends P> void setContainer(C container, Class<T> keyInterface);
   
   /**
    * Clone this processor.
    * @return
    */
-  public Processor clone();
+  public Processor<C,P> clone();
 
   
 }

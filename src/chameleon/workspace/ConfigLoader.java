@@ -7,5 +7,5 @@ import chameleon.plugin.LanguagePlugin;
 
 public interface ConfigLoader extends LanguagePlugin {
 
-	public ConfigElement createConfigElement(Language language, String projectName, File root) throws ConfigException;
+	public ConfigElement createConfigElement(String projectName, File root, ProjectInitialisationListener listener) throws ConfigException;
 }

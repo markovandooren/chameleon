@@ -9,10 +9,9 @@ import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.NoLocationException;
 import chameleon.input.PositionMetadata;
 import chameleon.input.SourceManager;
-import chameleon.plugin.LanguagePlugin;
-import chameleon.plugin.LanguagePluginImpl;
+import chameleon.plugin.ViewPluginImpl;
 
-public class EclipseSourceManager extends LanguagePluginImpl implements SourceManager {
+public class EclipseSourceManager extends ViewPluginImpl implements SourceManager {
 
 	public EclipseSourceManager(ChameleonProjectNature nature) {
 		setProjectNature(nature);

@@ -240,19 +240,35 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 			for(int i = size - 1; i >= 0; i--) {
 				_inputSourceFactory.pushDirectory(names.get(i));
 			}
-			_inputSourceFactory.doCreateInputSource(file);		
+			addInputSource(_inputSourceFactory.doCreateInputSource(file));		
 			_inputSourceFactory.initialize(view().namespace());
-		} else {
-			throw new IllegalArgumentException("The given file is not in the root of this directory loader.");
 		}
+		// Let's not throw an exception after all.
+//		else {
+//			throw new IllegalArgumentException("The given file is not in the root of this directory loader.");
+//		}
 	}
 	
-	public static void main(String[] args) throws URISyntaxException {
-		URL objectLocation = Object.class.getResource("/java/lang/Object.class");
-		String fileName = objectLocation.getFile();
-		File file = new File(fileName.substring(5,fileName.indexOf('!')));
-//		file = new File("/Users/marko");
-		System.out.println(file);
+	@Override
+	public synchronized void tryToRemove(File file) throws InputException {
+		FileInputSource toRemove = null;
+		for(InputSource source: inputSources()) {
+			FileInputSource fsource = ((FileInputSource)source);
+			if(fsource.file().equals(file)) {
+				toRemove = fsource; 
+				break;
+			}
+		}
+		removeInputSource(toRemove);
 	}
+	
+	
+//	public static void main(String[] args) throws URISyntaxException {
+//		URL objectLocation = Object.class.getResource("/java/lang/Object.class");
+//		String fileName = objectLocation.getFile();
+//		File file = new File(fileName.substring(5,fileName.indexOf('!')));
+////		file = new File("/Users/marko");
+//		System.out.println(file);
+//	}
 
 }

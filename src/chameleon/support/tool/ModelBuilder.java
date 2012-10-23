@@ -42,8 +42,7 @@ public class ModelBuilder {
 	public ModelBuilder(String[] arguments, LanguageRepository repository) throws ConfigException {
 		File projectXML = new File(arguments[0]);
 		BootstrapProjectConfig config = new BootstrapProjectConfig(projectXML.getParentFile(), repository);
-		config.readFromXML(projectXML);
-		_project = config.project();
+		_project = config.project(projectXML,null);
 		processArguments(arguments);
 	}
 	

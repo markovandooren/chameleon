@@ -160,7 +160,7 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 				monitor.subTask(buildName());
 				chameleonNature().acquire();
 				released = false;
-				chameleonNature().flushProjectCache();
+				chameleonNature().flushSourceCache();
 
 				BuildProgressHelper helper = new BuildProgressHelper() {
 

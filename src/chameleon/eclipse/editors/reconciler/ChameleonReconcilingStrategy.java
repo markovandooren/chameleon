@@ -212,7 +212,7 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 		clonePositions();
 		this._firstDR = true;
 		
-		nature().flushProjectCache();
+		nature().flushSourceCache();
 		//checkVerificationErrors();
 		fireModelUpdated();
 		

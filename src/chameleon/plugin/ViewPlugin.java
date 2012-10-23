@@ -4,6 +4,10 @@ import chameleon.workspace.View;
 
 public interface ViewPlugin extends Plugin<View, ViewPlugin> {
 	
+	/**
+	 * Return the view of this view plugin.
+	 * @return
+	 */
   public View view();
 
   /**

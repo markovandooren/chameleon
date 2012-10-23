@@ -364,8 +364,9 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 	 */
 	public Object getAdapter(Class required) {
 		if (IContentOutlinePage.class.equals(required)) {
-			if (_fOutlinePage == null) {
-				Language language = getDocument().language();
+			ChameleonDocument document = getDocument();
+			if (_fOutlinePage == null && document != null) {
+				Language language = document.language();
 				List<String> defaultAllowedOutlineElements = getPresentationManager().getDefaultOutlineElements();
 				List<String> allowedElements = getPresentationManager().getPresentationModel().getOutlineElementsSimple();
 				_fOutlinePage= new ChameleonOutlinePage(language, this, allowedElements, defaultAllowedOutlineElements);

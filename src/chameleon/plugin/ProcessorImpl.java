@@ -1,34 +1,34 @@
 package chameleon.plugin;
 
-import chameleon.core.language.Language;
 
 /**
  * Convenience super class for processors.
  * 
  * @author Marko van Dooren
  */
-public abstract class ProcessorImpl implements Processor {
+public abstract class ProcessorImpl<C extends ProcessorContainer<P>, P extends Processor> implements Processor<C,P> {
 
-  private Language _language;
+  private C _container;
 
-  public Language language() {
-      return _language;
+  public C container() {
+      return _container;
   }
 
   /**
    * T MUST BE A SUPERTYPE OF THIS OBJECT!!!
    */
-  public <T extends Processor> void setLanguage(Language lang, Class<T> connectorInterface) {
-    if (lang!=_language) {
+  @Override
+  public <T extends P> void setContainer(C container, Class<T> connectorInterface) {
+    if (container!=_container) {
     	  // 1) remove old backpointer
-        if (_language!=null) {
-            _language.removeProcessor(connectorInterface, (T)this);
+        if (_container!=null) {
+            _container.removeProcessor(connectorInterface, (T)this);
         }
         // 2) set _language
-        _language = lang;
+        _container = container;
         // 3) set new backpointer
-        if (_language!=null && ! language().processors(connectorInterface).contains(this)) {
-            _language.addProcessor(connectorInterface, (T)this);
+        if (_container!=null && ! container().processors(connectorInterface).contains(this)) {
+            _container.addProcessor(connectorInterface, (T)this);
         }
     }
   }
