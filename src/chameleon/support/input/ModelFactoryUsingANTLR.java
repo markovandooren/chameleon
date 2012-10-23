@@ -14,7 +14,6 @@ import org.rejuse.io.DirectoryScanner;
 
 import chameleon.core.document.Document;
 import chameleon.core.element.Element;
-import chameleon.core.language.Language;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.InputProcessor;
 import chameleon.input.ModelFactory;

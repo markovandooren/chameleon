@@ -1,5 +1,7 @@
 package chameleon.eclipse.editors.reconciler;
 
+import java.util.concurrent.Semaphore;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.Assert;
 import org.eclipse.jface.text.DocumentEvent;
@@ -45,6 +47,7 @@ import chameleon.eclipse.editors.ChameleonDocument;
  */
 abstract public class AbstractChameleonReconciler implements IReconciler {
 
+	private static int count=0;
 
 	/**
 	 * Background thread for the reconciling activity.
@@ -71,7 +74,9 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 			super(name);
 			setPriority(Thread.MIN_PRIORITY);
 			setDaemon(true);
+			number = ++count;
 		}
+		
 		
 		/**
 		 * Returns whether a reconciling strategy is active right now.
@@ -150,6 +155,18 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
             reconcilerReset();
 		}
 		
+		public void acquire() throws InterruptedException {
+			_semaphore.acquire();
+		}
+
+		public void release() {
+			_semaphore.release();
+		}
+		
+		private Semaphore _semaphore = new Semaphore(1);
+
+		public final int number;
+		
 		/**
 		 * The background activity. Waits until there is something in the
 		 * queue managing the changes that have been applied to the text viewer.
@@ -159,6 +176,8 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 		 * </p>
 		 */
 		public void run() {
+			
+			
 			
 			synchronized (fDirtyRegionQueue) {
 				try {
@@ -170,6 +189,13 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 			initialProcess();
 			
 			while (!fCanceled) {
+				// Wait if the reconciler is paused.
+				try {
+					System.out.println("### background thread " + AbstractChameleonReconciler.this.getClass().getName() + " requests lock "+number);
+					acquire();
+					System.out.println("### background thread " + AbstractChameleonReconciler.this.getClass().getName() + " has acquired lock "+number);
+				} catch (InterruptedException e) {
+				}
 				
 				synchronized (fDirtyRegionQueue) {
 					try {
@@ -177,16 +203,24 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 					} catch (InterruptedException x) {
 					}
 				}
-					
-				if (fCanceled)
+
+				if (fCanceled) {
+					System.out.println("### background thread " + AbstractChameleonReconciler.this.getClass().getName() + " releases lock "+number);
+					release();
 					break;
-					
-				if (!isDirty())
+				}
+				
+				if (!isDirty()) {
+					System.out.println("### background thread " + AbstractChameleonReconciler.this.getClass().getName() + " releases lock "+number);
+					release();
 					continue;
+				}
 					
 				synchronized (this) {
 					if (fReset) {
 						fReset= false;
+						System.out.println("### background thread " + AbstractChameleonReconciler.this.getClass().getName() + " releases lock "+number);
+						release();
 						continue;
 					}
 				}
@@ -214,6 +248,9 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 				}
 				
 				fIsActive= false;
+
+				System.out.println("### background thread " + AbstractChameleonReconciler.this.getClass().getName() + " releases lock "+number);
+				release();
 			}
 		}
 	}
@@ -270,8 +307,16 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 					if (_document != null && _document.getLength() > 0) {
 						DocumentEvent e= new DocumentEvent(_document, 0, _document.getLength(), null);
 						createDirtyRegion(e);
+						
+						//Cause the reconciling thread to pause until we have set up the new state
 						fThread.reset();
 						fThread.suspendCallerWhileDirty();
+						try {
+							System.out.println("### inputDocumentAboutToBeChanged requests lock" + fThread.number);
+							fThread.acquire();
+							System.out.println("### inputDocumentAboutToBeChanged has acquired lock" + fThread.number);
+						} catch (InterruptedException e1) {
+						}
 					}
 				}
 				
@@ -288,6 +333,8 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 				if (_document == null) {
 					return;
 				}
+				//FIXME Here the new document is set in the reconciler, but if the thread is executed after
+				// the aboutToChange method and this one, the strategy is in an invalid state.
 				reconcilerDocumentChanged((ChameleonDocument) _document);
 				
 				_document.addDocumentListener(this);
@@ -501,22 +548,22 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	protected void initialProcess() {
 	}
 	
-	/**
-	 * Forces the reconciler to reconcile the structure of the whole document.
-	 * Clients may extend this method.
-	 */
-	protected void forceReconciling() {
-		
-		if (_document != null) {
-			
-			if (fIsIncrementalReconciler) {
-				DocumentEvent e= new DocumentEvent(_document, 0, _document.getLength(), _document.get());
-				createDirtyRegion(e);
-			}
-			
-			startReconciling();
-		}
-	}
+//	/**
+//	 * Forces the reconciler to reconcile the structure of the whole document.
+//	 * Clients may extend this method.
+//	 */
+//	protected void forceReconciling() {
+//		
+//		if (_document != null) {
+//			
+//			if (fIsIncrementalReconciler) {
+//				DocumentEvent e= new DocumentEvent(_document, 0, _document.getLength(), _document.get());
+//				createDirtyRegion(e);
+//			}
+//			
+//			startReconciling();
+//		}
+//	}
 	
 	/**
 	 * Starts the reconciler to reconcile the queued dirty-regions.
@@ -537,6 +584,9 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 			}
 		} else {
 			fThread.reset();
+			System.out.println("### startReconciling releases lock" + fThread.number);
+			fThread.release();
+			System.out.println("### startReconciling has released lock"  + fThread.number);
 		}
 	}
     

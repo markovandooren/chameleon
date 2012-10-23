@@ -240,13 +240,10 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 			for(int i = size - 1; i >= 0; i--) {
 				_inputSourceFactory.pushDirectory(names.get(i));
 			}
-			addInputSource(_inputSourceFactory.doCreateInputSource(file));		
+//			addInputSource(_inputSourceFactory.doCreateInputSource(file));		
+			_inputSourceFactory.create(file,this);		
 			_inputSourceFactory.initialize(view().namespace());
 		}
-		// Let's not throw an exception after all.
-//		else {
-//			throw new IllegalArgumentException("The given file is not in the root of this directory loader.");
-//		}
 	}
 	
 	@Override

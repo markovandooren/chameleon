@@ -49,13 +49,13 @@ public class FileInputSource extends InputSourceImpl {
 			} catch (FileNotFoundException e1) {
 				throw new InputException(e1);
 			}
-			if(document() == null) {
+			if(rawDocument() == null) {
 				setDocument(new Document());
 			} else {
-				document().disconnect();
+				rawDocument().disconnect();
 			}
 			try {
-				namespace().language().plugin(ModelFactory.class).parse(fileInputStream, document());
+				namespace().language().plugin(ModelFactory.class).parse(fileInputStream, rawDocument());
 				// Connect the namespace declarations in the document to the corresponding namespaces.
 			} catch (IOException | ParseException e) {
 				throw new InputException(e);
