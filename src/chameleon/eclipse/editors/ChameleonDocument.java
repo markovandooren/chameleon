@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-import org.eclipse.core.internal.resources.ResourceException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -44,6 +43,8 @@ import chameleon.eclipse.presentation.PresentationManager;
 import chameleon.eclipse.project.ChameleonProjectNature;
 import chameleon.input.ParseException;
 import chameleon.input.PositionMetadata;
+import chameleon.workspace.InputException;
+import chameleon.workspace.InputSource;
 
 /**
  * A document for the chameleon framework. The ChameleonDocument contains positions 
@@ -60,7 +61,7 @@ import chameleon.input.PositionMetadata;
 public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	
 	//The compilation unit of the document
-	private Document _doc;
+	private InputSource _inputSource;
 	
 	//manages the presentation
 	private PresentationManager _presentationManager;
@@ -89,10 +90,8 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 * @param file 
 	 *
 	 */
-	public ChameleonDocument(ChameleonProjectNature projectNature, Document document, IFile file, IPath path){
-		super();
-
-		setCompilationUnit(document);
+	public ChameleonDocument(ChameleonProjectNature projectNature, InputSource source, IFile file, IPath path){
+		_inputSource = source;
 		if(projectNature==null){
 			ChameleonEditorPlugin.showMessageBox("Illegal project", "This document is part of an illegal project. \nCheck if the project is a Chameleon Project.", SWT.ICON_ERROR);
 		}
@@ -175,7 +174,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		}
 		// QUESTION: does this trigger the reconcilers?
 		set(builder.toString());
-		} catch(ResourceException e) {
+		} catch(CoreException e) {
 			System.out.println("debug");
 		}
 	}
@@ -191,15 +190,15 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	}
 
 
-	/**
-	 * Sets the compilation unit for this document
-	 * physically nothing changes !
-	 * @param cu
-	 * @pre cu must be effective
-	 */
-	public void setCompilationUnit(Document cu) {
-		_doc = cu;
-	}
+//	/**
+//	 * Sets the compilation unit for this document
+//	 * physically nothing changes !
+//	 * @param cu
+//	 * @pre cu must be effective
+//	 */
+//	public void setCompilationUnit(Document cu) {
+//		_doc = cu;
+//	}
 	
 	
 
@@ -244,7 +243,16 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 * @return the compilation unit
 	 */
 	public Document chameleonDocument() {
-		return _doc;
+		try {
+			return inputSource().load();
+		} catch (InputException e) {
+			//FIXME: properly handle this.
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public InputSource inputSource() {
+		return _inputSource;
 	}
 
 	/** 
@@ -365,7 +373,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		}
 
 		// if this is not set, the document is new and has never been parsed before.
-		if (_doc == null) {
+		if (chameleonDocument() == null) {
 			getProjectNature().addToModel(this);
 		} else {
 
@@ -735,7 +743,6 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	}
 
 	public void destroy() {
-		_doc = null;
 		_file = null;
 		_lastpresentation = null;
 		_name = null;

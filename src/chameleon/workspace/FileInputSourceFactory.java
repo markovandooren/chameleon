@@ -29,6 +29,7 @@ public class FileInputSourceFactory {
 	public InputSource create(File file, DirectoryLoader loader) throws InputException {
 		FileInputSource fileInputSource = doCreateInputSource(file);
 		loader.addInputSource(fileInputSource);
+//		fileInputSource.loaderLink().lock();
 		fileInputSource.setNamespace((InputSourceNamespace) currentNamespace());
 		return fileInputSource;
 	}

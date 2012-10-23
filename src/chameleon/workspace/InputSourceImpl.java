@@ -15,6 +15,8 @@ import chameleon.util.CreationStackTrace;
 
 public abstract class InputSourceImpl implements InputSource {
 	
+	private CreationStackTrace _trace = new CreationStackTrace();
+	
 	public InputSourceImpl() {
 	}
 	
@@ -25,6 +27,8 @@ public abstract class InputSourceImpl implements InputSource {
 	protected void setNamespace(InputSourceNamespace ns) throws InputException {
 		if(ns != null) {
 			ns.addInputSource(this);
+		} else {
+			System.out.println("debug");
 		}
 	}
 	
@@ -42,8 +46,12 @@ public abstract class InputSourceImpl implements InputSource {
 	 * Return the document that is managed by this input source.
 	 * @return
 	 */
-	public Document document() {
+	public Document rawDocument() {
 		return _document.getOtherEnd();
+	}
+	
+	public Document document() throws InputException {
+		return load();
 	}
 		
 	protected void setDocument(Document doc) {
@@ -55,18 +63,18 @@ public abstract class InputSourceImpl implements InputSource {
 	}
 	
 	public boolean isLoaded() {
-		return document() != null;
+		return _document.getOtherEnd() != null;
 	}
 	
 	public final Document load() throws InputException {
 		if(! isLoaded()) {
 			doLoad();
-			Document result = document();
+			Document result = rawDocument();
 			result.activate();
 			notifyLoaded(result);
 			return result;
 		} else {
-			return document();
+			return _document.getOtherEnd();
 		}
 	}
 	
@@ -78,7 +86,12 @@ public abstract class InputSourceImpl implements InputSource {
 	}
 	
 	public View view() {
-		return loader().view();
+		DocumentLoader loader = loader();
+		if(loader != null) {
+			return loader.view();
+		} else {
+			throw new IllegalArgumentException();
+		}
 	}
 	
 	protected SingleAssociation<InputSourceImpl, Document> _document = new SingleAssociation<InputSourceImpl, Document>(this);
@@ -100,7 +113,7 @@ public abstract class InputSourceImpl implements InputSource {
 		} catch (InputException e) {
 			throw new LookupException("Error opening file",e);
 		}
-		List<Declaration> children = (List)document().children(NamespaceDeclaration.class).get(0).children(Declaration.class);
+		List<Declaration> children = (List)rawDocument().children(NamespaceDeclaration.class).get(0).children(Declaration.class);
 		List<Declaration> result = new ArrayList<Declaration>(1);
 		for(Declaration t: children) {
 			if(t.name().equals(name)) {
@@ -113,7 +126,7 @@ public abstract class InputSourceImpl implements InputSource {
 	@Override
 	public List<String> targetDeclarationNames(Namespace ns) throws InputException {
 		load();
-		List<Declaration> children = (List)document().children(NamespaceDeclaration.class).get(0).children(Declaration.class);
+		List<Declaration> children = (List)rawDocument().children(NamespaceDeclaration.class).get(0).children(Declaration.class);
 		List<String> result = new ArrayList<String>();
 		for(Declaration t: children) {
 			result.add(t.name());
@@ -123,7 +136,7 @@ public abstract class InputSourceImpl implements InputSource {
 
 	@Override
 	public void flushCache() {
-		Document document = document();
+		Document document = rawDocument();
 		if(document != null) {
 			document.flushCache();
 		}

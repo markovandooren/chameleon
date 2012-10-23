@@ -87,7 +87,7 @@ public class ChameleonProjectNature implements IProjectNature {
 				IFile ifile= workspace.getRoot().getFileForLocation(location);
 				//FIXME Let the document listen to "the" input source
 				//      fileSource.document() is null when lazy loading is used and the document hasn't been needed yet.
-				addToModel(new ChameleonDocument(ChameleonProjectNature.this,fileSource.document(),ifile,ifile.getFullPath()));
+				addToModel(new ChameleonDocument(ChameleonProjectNature.this,fileSource,ifile,ifile.getFullPath()));
 			}
 		}
 	}
