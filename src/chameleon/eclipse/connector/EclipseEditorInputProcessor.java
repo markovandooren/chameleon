@@ -9,8 +9,6 @@ import org.rejuse.association.SingleAssociation;
 
 import chameleon.core.document.Document;
 import chameleon.core.element.Element;
-import chameleon.core.modifier.Modifier;
-import chameleon.core.reference.CrossReference;
 import chameleon.core.tag.Metadata;
 import chameleon.eclipse.editors.ChameleonDocument;
 import chameleon.eclipse.editors.reconciler.ChameleonPresentationReconciler;
@@ -18,11 +16,10 @@ import chameleon.eclipse.project.ChameleonProjectNature;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.InputProcessor;
 import chameleon.input.ParseException;
-import chameleon.input.PositionMetadata;
 import chameleon.plugin.Processor;
-import chameleon.plugin.ProcessorImpl;
+import chameleon.plugin.ViewProcessorImpl;
 
-public class EclipseEditorInputProcessor extends ProcessorImpl implements InputProcessor {
+public class EclipseEditorInputProcessor extends ViewProcessorImpl implements InputProcessor {
 
 	public EclipseEditorInputProcessor(ChameleonProjectNature nature) {
 		setProjectNature(nature);
@@ -39,7 +36,7 @@ public class EclipseEditorInputProcessor extends ProcessorImpl implements InputP
 	}
 	
 	@Override
-	public Processor clone() {
+	public EclipseEditorInputProcessor clone() {
 		return new EclipseEditorInputProcessor(null);
 	}
 

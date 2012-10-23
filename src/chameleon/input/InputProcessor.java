@@ -2,7 +2,7 @@ package chameleon.input;
 
 import chameleon.core.document.Document;
 import chameleon.core.element.Element;
-import chameleon.plugin.Processor;
+import chameleon.plugin.ViewProcessor;
 
 /**
  * An interface for processors used while reading a model from source files. These
@@ -11,7 +11,7 @@ import chameleon.plugin.Processor;
  * 
  * @author Marko van Dooren
  */
-public interface InputProcessor extends Processor {
+public interface InputProcessor extends ViewProcessor {
 
   public void setLocation(Element element, int offset, int length, Document compilationUnit, String tagType);
   

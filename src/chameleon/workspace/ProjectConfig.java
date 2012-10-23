@@ -2,9 +2,9 @@ package chameleon.workspace;
 
 import java.io.File;
 
-public class PConfig extends ConfigElement {
+public class ProjectConfig extends ConfigElement {
 
-	public PConfig(View view, FileInputSourceFactory factory, String projectName, File root) {
+	public ProjectConfig(View view, FileInputSourceFactory factory, String projectName, File root) {
 		_view = view;
 		_factory = factory;
     setProject(new chameleon.workspace.Project(projectName, view, root));
@@ -33,7 +33,7 @@ public class PConfig extends ConfigElement {
 	}
 	
 	public class SourcePath extends ConfigElement {
-		public class Source extends PConfig.Source {
+		public class Source extends ProjectConfig.Source {
 			protected void $after() throws ConfigException {
 				try {
 					view().addSource(new DirectoryLoader(_extension, file(_path), fileInputSourceFactory()));
@@ -48,7 +48,7 @@ public class PConfig extends ConfigElement {
 	
 	public class BinaryPath extends ConfigElement {
 		// Duplicate for now, but that will change when proper support for "binary" modules is added.
-		public class Source extends PConfig.Source {
+		public class Source extends ProjectConfig.Source {
 			protected void $after() throws ConfigException {
 				try {
 					view().addBinary(new DirectoryLoader(_extension, file(_path), fileInputSourceFactory()));

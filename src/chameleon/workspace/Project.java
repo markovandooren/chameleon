@@ -133,4 +133,47 @@ public class Project {
 //			input.refresh();
 //		}
 //	}
+
+	/**
+	 * Try to add the given file to the project. Each FileLoader in each view
+	 * will be given the opportunity to added the file.
+	 * 
+	 * FIXME: Can we avoid letting the Project know about files and FileLoader?
+	 * @param file
+	 */
+	public void tryToAdd(File file) {
+		for(View view: views()) {
+			for(FileLoader loader: view.sourceLoaders(FileLoader.class)) {
+				try {
+					loader.tryToAdd(file);
+				} catch (InputException e) {
+					throw new IllegalArgumentException(e);
+				}
+			}
+		}
+		flushSourceCache();
+	}
+	
+	public void tryToRemove(File file) {
+		for(View view: views()) {
+			for(FileLoader loader: view.sourceLoaders(FileLoader.class)) {
+				try {
+					loader.tryToRemove(file);
+				} catch (InputException e) {
+					throw new IllegalArgumentException(e);
+				}
+			}
+		}
+		flushSourceCache();
+	}
+	
+	/**
+	 * Flush all caches in the sources of this project. Each
+	 * view is sent a message to flush its caches.
+	 */
+	public void flushSourceCache() {
+		for(View view: views()) {
+			view.flushSourceCache();
+		}
+	}
 }

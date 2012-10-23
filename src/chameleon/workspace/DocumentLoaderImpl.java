@@ -72,15 +72,12 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	}
 	
 	protected void notifyProjectAdded(View project) throws ProjectException {
-		
 	}
 	
 	protected void notifyProjectRemoved(View project) throws ProjectException {
-		
 	}
 
 	protected void notifyProjectReplaced(View old, View newProject) throws ProjectException {
-		
 	}
 
 	private SingleAssociation<DocumentLoaderImpl, View> _projectLink = new SingleAssociation<DocumentLoaderImpl, View>(this);
@@ -100,6 +97,8 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	private OrderedMultiAssociation<DocumentLoaderImpl, InputSource> _inputSources = new OrderedMultiAssociation<DocumentLoaderImpl, InputSource>(this);
 	
 	public void addInputSource(InputSource source) {
+		// The Association object will send the event and the attached listener
+		// will invoke notifyAdded(InputSource).
 		if(source != null) {
 			_inputSources.add(source.loaderLink());
 		}
@@ -110,20 +109,18 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	}
 	
 	public void removeInputSource(InputSource source) {
+		// The Association object will send the event and the attached listener
+		// will invoke notifyRemoved(InputSource).
 		if(source != null) {
 			_inputSources.remove(source.loaderLink());
 		}
 	}
 	
 	public void addListener(InputSourceListener listener) {
-		// The Association object will send the event and the attached listener
-		// will invoke notifyAdded(InputSource).
 		_listeners.add(listener);
 	}
 	
 	public void removeListener(InputSourceListener listener) {
-		// The Association object will send the event and the attached listener
-		// will invoke notifyRemoved(InputSource).
 		_listeners.remove(listener);
 	}
 

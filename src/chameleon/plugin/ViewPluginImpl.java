@@ -15,6 +15,6 @@ public abstract class ViewPluginImpl extends PluginImpl<View, ViewPlugin> implem
 	}
 
 	@Override
-	public abstract PluginImpl<View, ViewPlugin> clone();
+	public abstract ViewPluginImpl clone();
 
 }
