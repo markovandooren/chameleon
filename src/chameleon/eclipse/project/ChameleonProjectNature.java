@@ -64,7 +64,21 @@ import chameleon.workspace.ViewListener;
  * of the nature, the language of the project, and knows the project it is created for.
  */
 public class ChameleonProjectNature implements IProjectNature {
+	/**
+	 * This listener synchronizes the list of ChameleonDocuments with the FileInputSources in the sourceLoaders
+	 * of the project.
+	 * @author Marko van Dooren
+	 *
+	 */
 	public class EclipseInputSourceListener implements InputSourceListener {
+		
+		/**
+		 * Explicit empty default constructor so we can see who invokes it.
+		 */
+		public EclipseInputSourceListener() {
+			
+		}
+		
 		@Override
 		public void notifyInputSourceRemoved(InputSource source) {
 			if(source instanceof FileInputSource) {
