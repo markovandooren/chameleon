@@ -110,25 +110,35 @@ public abstract class InputSourceImpl implements InputSource {
 		} catch (InputException e) {
 			throw new LookupException("Error opening file",e);
 		}
-		List<Declaration> children = (List)rawDocument().children(NamespaceDeclaration.class).get(0).children(Declaration.class);
-		List<Declaration> result = new ArrayList<Declaration>(1);
-		for(Declaration t: children) {
-			if(t.name().equals(name)) {
-				result.add(t);
+		NamespaceDeclaration namespaceDeclaration = rawDocument().children(NamespaceDeclaration.class).get(0);
+		if(namespaceDeclaration != null) {
+			List<Declaration> children = (List)namespaceDeclaration.children(Declaration.class);
+			List<Declaration> result = new ArrayList<Declaration>(1);
+			for(Declaration t: children) {
+				if(t.name().equals(name)) {
+					result.add(t);
+				}
 			}
+			return result;
+		} else {
+			throw new LookupException("No target declarations are defined in input source "+toString());
 		}
-		return result;
 	}
 
 	@Override
 	public List<String> targetDeclarationNames(Namespace ns) throws InputException {
 		load();
-		List<Declaration> children = (List)rawDocument().children(NamespaceDeclaration.class).get(0).children(Declaration.class);
-		List<String> result = new ArrayList<String>();
-		for(Declaration t: children) {
-			result.add(t.name());
+		NamespaceDeclaration namespaceDeclaration = rawDocument().children(NamespaceDeclaration.class).get(0);
+		if(namespaceDeclaration != null) {
+			List<Declaration> children = (List)namespaceDeclaration.children(Declaration.class);
+			List<String> result = new ArrayList<String>();
+			for(Declaration t: children) {
+				result.add(t.name());
+			}
+			return result;
+		} else {
+			throw new InputException("No target declarations are defined in input source "+toString());
 		}
-		return result;
 	}
 
 	@Override
@@ -167,4 +177,12 @@ public abstract class InputSourceImpl implements InputSource {
 //	}
 	
 	private List<DocumentLoadingListener> _listeners;
+	
+	@Override
+	public void destroy() {
+		_namespace.clear();
+		_loader.clear();
+		_document.clear();
+		_listeners = null;
+	}
 }

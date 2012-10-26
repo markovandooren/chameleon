@@ -80,9 +80,11 @@ public class ChameleonOutlineTree {
 	protected List<Element> getChildren(Element element) {
 		try {
 			Language language = element.language();
+			if(language != null) {
 			EclipseEditorExtension plugin = language.plugin(EclipseEditorExtension.class);
 			ChameleonOutlineSelector outlineSelector = plugin.outlineSelector();
 			return outlineSelector.outlineChildren(element);
+			}
 		} 
 		catch (ChameleonProgrammerException e) {
 			// simply stop processing if the declarations cannot be computed.
