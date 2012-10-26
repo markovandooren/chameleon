@@ -11,11 +11,8 @@ import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.InputSourceNamespace;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespacedeclaration.NamespaceDeclaration;
-import chameleon.util.CreationStackTrace;
 
 public abstract class InputSourceImpl implements InputSource {
-	
-	private CreationStackTrace _trace = new CreationStackTrace();
 	
 	public InputSourceImpl() {
 	}
