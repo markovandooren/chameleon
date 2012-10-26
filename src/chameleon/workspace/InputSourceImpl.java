@@ -167,4 +167,12 @@ public abstract class InputSourceImpl implements InputSource {
 //	}
 	
 	private List<DocumentLoadingListener> _listeners;
+	
+	@Override
+	public void destroy() {
+		_namespace.clear();
+		_loader.clear();
+		_document.clear();
+		_listeners = null;
+	}
 }

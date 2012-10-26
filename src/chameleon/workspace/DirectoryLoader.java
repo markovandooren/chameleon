@@ -256,7 +256,9 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 				break;
 			}
 		}
-		removeInputSource(toRemove);
+		if(toRemove != null) {
+			removeInputSource(toRemove);
+		}
 	}
 	
 	

@@ -84,5 +84,7 @@ public interface InputSource {
 	public View view();
 
 	public void flushCache();
+
+	public void destroy();
 	
 }

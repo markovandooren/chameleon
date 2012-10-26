@@ -114,6 +114,7 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		if(source != null) {
 			_inputSources.remove(source.loaderLink());
 		}
+		source.destroy();
 	}
 	
 	public void addListener(InputSourceListener listener) {
@@ -138,7 +139,7 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	
 	private void notifyRemoved(InputSource source) {
 		for(InputSourceListener listener: inputSourceListeners()) {
-			listener.notifyInputSourceAdded(source);
+			listener.notifyInputSourceRemoved(source);
 		}
 	}
 	

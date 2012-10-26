@@ -2,8 +2,6 @@ package chameleon.core.reference;
 
 import java.lang.ref.SoftReference;
 
-import org.apache.log4j.Logger;
-
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;
@@ -16,11 +14,11 @@ import chameleon.util.association.Single;
  */
 public abstract class ElementReference<D extends Declaration> extends CrossReferenceImpl<D> implements CrossReferenceWithName<D> {
 
-	private static Logger logger = Logger.getLogger("lookup.elementreference");
+//	private static Logger logger = Logger.getLogger("lookup.elementreference");
 	
-	public Logger lookupLogger() {
-		return logger;
-	}
+//	public Logger lookupLogger() {
+//		return logger;
+//	}
 	
 	public ElementReference() {
 	}

@@ -69,25 +69,32 @@ public class ChameleonProjectNature implements IProjectNature {
 		public void notifyInputSourceRemoved(InputSource source) {
 			if(source instanceof FileInputSource) {
 				FileInputSource fileSource = (FileInputSource) source;
-				File file = fileSource.file();
-				IPath location= Path.fromOSString(file.getAbsolutePath());
-				ChameleonDocument doc = documentOfPath(location);
+				ChameleonDocument doc = documentOfPath(toPath(fileSource));
 				_documents.remove(doc);
 				doc.destroy();
 			}
+		}
+
+		protected IPath toPath(FileInputSource fileSource) {
+			IFile ifile = toFile(fileSource);
+			return ifile.getFullPath();
+		}
+
+		protected IFile toFile(FileInputSource fileSource) {
+			File file = fileSource.file();
+			IWorkspace workspace= ResourcesPlugin.getWorkspace();
+			IPath location= Path.fromOSString(file.getAbsolutePath());
+			IFile ifile= workspace.getRoot().getFileForLocation(location);
+			return ifile;
 		}
 
 		@Override
 		public void notifyInputSourceAdded(InputSource source) {
 			if(source instanceof FileInputSource) {
 				FileInputSource fileSource = (FileInputSource) source;
-				File file = fileSource.file();
-				IWorkspace workspace= ResourcesPlugin.getWorkspace();
-				IPath location= Path.fromOSString(file.getAbsolutePath());
-				IFile ifile= workspace.getRoot().getFileForLocation(location);
 				//FIXME Let the document listen to "the" input source
 				//      fileSource.document() is null when lazy loading is used and the document hasn't been needed yet.
-				addToModel(new ChameleonDocument(ChameleonProjectNature.this,fileSource,ifile,ifile.getFullPath()));
+				addToModel(new ChameleonDocument(ChameleonProjectNature.this,fileSource,toFile(fileSource),toPath(fileSource)));
 			}
 		}
 	}
