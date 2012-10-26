@@ -53,7 +53,7 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	 * Background thread for the reconciling activity.
 	 */
 	class BackgroundThread extends Thread {
-		
+
 		/** Has the reconciler been canceled. */
 		private boolean fCanceled= false;
 		/** Has the reconciler been reset. */
@@ -62,7 +62,7 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 		private boolean fIsDirty= false;
 		/** Is a reconciling strategy active. */
 		private boolean fIsActive= false;
-		
+
 		/**
 		 * Creates a new background thread. The thread 
 		 * runs with minimal priority.
@@ -76,8 +76,8 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 			setDaemon(true);
 			number = ++count;
 		}
-		
-		
+
+
 		/**
 		 * Returns whether a reconciling strategy is active right now.
 		 *
@@ -86,7 +86,7 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 		public boolean isActive() {
 			return fIsActive;
 		}
-		
+
 		/**
 		 * Returns whether some changes need to be processed.
 		 * 
@@ -96,7 +96,7 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 		public synchronized boolean isDirty() {
 			return fIsDirty;
 		}
-		
+
 		/**
 		 * Cancels the background thread.
 		 */
@@ -109,7 +109,7 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 				fDirtyRegionQueue.notifyAll();
 			}
 		}
-		
+
 		/**
 		 * Suspends the caller of this method until this background thread has
 		 * emptied the dirty region queue.
@@ -128,33 +128,33 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 				}
 			} while (isDirty);
 		}
-		
+
 		/**
 		 * Reset the background thread as the text viewer has been changed,
 		 */
 		public void reset() {
-			
+
 			if (fDelay > 0) {
-				
+
 				synchronized (this) {
 					fIsDirty= true;
 					fReset= true;
 				}
-				
+
 			} else {
-				
+
 				synchronized (this) {
 					fIsDirty= true;
 				}
-				
+
 				synchronized (fDirtyRegionQueue) {
 					fDirtyRegionQueue.notifyAll();
 				}
 			}
-            
-            reconcilerReset();
+
+			reconcilerReset();
 		}
-		
+
 		public void acquire() throws InterruptedException {
 			_semaphore.acquire();
 		}
@@ -162,11 +162,11 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 		public void release() {
 			_semaphore.release();
 		}
-		
-		private Semaphore _semaphore = new Semaphore(1);
+
+		private Semaphore _semaphore = new Semaphore(1,true);
 
 		public final int number;
-		
+
 		/**
 		 * The background activity. Waits until there is something in the
 		 * queue managing the changes that have been applied to the text viewer.
@@ -176,158 +176,191 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 		 * </p>
 		 */
 		public void run() {
-			
-			
-			
+
+
+
 			synchronized (fDirtyRegionQueue) {
 				try {
 					fDirtyRegionQueue.wait(fDelay);
 				} catch (InterruptedException x) {
 				}
 			}
-			
-			initialProcess();
-			
-			while (!fCanceled) {
-				// Wait if the reconciler is paused.
-				try {
-					System.out.println("### background thread " + AbstractChameleonReconciler.this.getClass().getName() + " requests lock "+number);
-					acquire();
-					System.out.println("### background thread " + AbstractChameleonReconciler.this.getClass().getName() + " has acquired lock "+number);
-				} catch (InterruptedException e) {
-				}
-				
-				synchronized (fDirtyRegionQueue) {
-					try {
-						fDirtyRegionQueue.wait(fDelay);
-					} catch (InterruptedException x) {
-					}
-				}
 
-				if (fCanceled) {
-					System.out.println("### background thread " + AbstractChameleonReconciler.this.getClass().getName() + " releases lock "+number);
-					release();
-					break;
-				}
-				
-				if (!isDirty()) {
-					System.out.println("### background thread " + AbstractChameleonReconciler.this.getClass().getName() + " releases lock "+number);
-					release();
-					continue;
-				}
-					
-				synchronized (this) {
-					if (fReset) {
-						fReset= false;
-						System.out.println("### background thread " + AbstractChameleonReconciler.this.getClass().getName() + " releases lock "+number);
+			initialProcess();
+
+			try {
+				while (!fCanceled) {
+					// Wait if the reconciler is paused.
+					try {
+						//					System.out.println("### background thread " + AbstractChameleonReconciler.this.getClass().getName() + " requests lock "+number);
+						acquire();
+						//					System.out.println("### background thread " + AbstractChameleonReconciler.this.getClass().getName() + " has acquired lock "+number);
+					} catch (InterruptedException e) {
+					}
+
+					synchronized (fDirtyRegionQueue) {
+						try {
+							fDirtyRegionQueue.wait(fDelay);
+						} catch (InterruptedException x) {
+						}
+					}
+
+					if (fCanceled) {
+						//					System.out.println("### background thread " + AbstractChameleonReconciler.this.getClass().getName() + " releases lock "+number);
+						release();
+						break;
+					}
+
+					if (!isDirty()) {
+						//					System.out.println("### background thread " + AbstractChameleonReconciler.this.getClass().getName() + " releases lock "+number);
 						release();
 						continue;
 					}
-				}
-				
-				ChameleonDirtyRegion r= null;
-				synchronized (fDirtyRegionQueue) {
-					r= fDirtyRegionQueue.removeNextDirtyRegion();
-				}
-					
-				fIsActive= true;
-				
-				if (fProgressMonitor != null)
-					fProgressMonitor.setCanceled(false);
-					
-				process(r);
-				
-				synchronized (fDirtyRegionQueue) {
-					if (0 == fDirtyRegionQueue.getSize()) {
-						synchronized (this) {
-							fIsDirty= fProgressMonitor != null ? fProgressMonitor.isCanceled() : false;
-						}
-						reconciled();
-						fDirtyRegionQueue.notifyAll();
-					}
-				}
-				
-				fIsActive= false;
 
-				System.out.println("### background thread " + AbstractChameleonReconciler.this.getClass().getName() + " releases lock "+number);
+					synchronized (this) {
+						if (fReset) {
+							fReset= false;
+							//						System.out.println("### background thread " + AbstractChameleonReconciler.this.getClass().getName() + " releases lock "+number);
+							release();
+							continue;
+						}
+					}
+
+					ChameleonDirtyRegion r= null;
+					synchronized (fDirtyRegionQueue) {
+						r= fDirtyRegionQueue.removeNextDirtyRegion();
+					}
+
+					fIsActive= true;
+
+					if (fProgressMonitor != null)
+						fProgressMonitor.setCanceled(false);
+
+					process(r);
+
+					synchronized (fDirtyRegionQueue) {
+						if (0 == fDirtyRegionQueue.getSize()) {
+							synchronized (this) {
+								fIsDirty= fProgressMonitor != null ? fProgressMonitor.isCanceled() : false;
+							}
+							reconciled();
+							fDirtyRegionQueue.notifyAll();
+						}
+					}
+
+					fIsActive= false;
+
+					//				System.out.println("### background thread " + AbstractChameleonReconciler.this.getClass().getName() + " releases lock "+number);
+					release();
+				}
+			} catch(RuntimeException e) {
 				release();
+				throw e;
 			}
 		}
 	}
-	
+
 	/**
 	 * Internal document listener and text input listener.
 	 */
 	class Listener implements IDocumentListener, ITextInputListener {
-		
+
+		/**
+		 * Default constructor does nothing. Only here such that we can see
+		 * where the listener is constructed.
+		 */
 		public Listener() {
-			
+
 		}
-		
+
 		/*
 		 * @see IDocumentListener#documentAboutToBeChanged(DocumentEvent)
 		 */
 		public void documentAboutToBeChanged(DocumentEvent e) {
 			docAboutToBeChanged();
 		}
-		
+
 		/*
 		 * @see IDocumentListener#documentChanged(DocumentEvent)
 		 */
 		public void documentChanged(DocumentEvent e) {
-			
+
 			if (!fThread.isDirty()&& fThread.isAlive()) {
 				aboutToBeReconciled();
 			}
-			
+
 			if (fProgressMonitor != null && fThread.isActive()) {
 				fProgressMonitor.setCanceled(true);
 			}
-				
+
 			if (fIsIncrementalReconciler) {
 				createDirtyRegion(e);
 			}
-			
+
 			fThread.reset();
-			
+
 		}
-				
+
 		/*
 		 * @see ITextInputListener#inputDocumentAboutToBeChanged(IDocument, IDocument)
 		 */
 		public void inputDocumentAboutToBeChanged(IDocument oldInput, IDocument newInput) {
-			
+
+			//			if (oldInput == _document) {
+			//				
+			//				if (_document != null)
+			//					_document.removeDocumentListener(this);
+			//					
+			//				if (fIsIncrementalReconciler) {
+			//					fDirtyRegionQueue.purgeQueue();
+			//					if (_document != null && _document.getLength() > 0) {
+			//						DocumentEvent e= new DocumentEvent(_document, 0, _document.getLength(), null);
+			//						createDirtyRegion(e);
+			//						
+			//						//Cause the reconciling thread to pause until we have set up the new state
+			//						fThread.reset();
+			//						fThread.suspendCallerWhileDirty();
+			//						try {
+			//							System.out.println("### inputDocumentAboutToBeChanged requests lock" + fThread.number);
+			//							fThread.acquire();
+			//							System.out.println("### inputDocumentAboutToBeChanged has acquired lock" + fThread.number);
+			//						} catch (InterruptedException e1) {
+			//						}
+			//					}
+			//				}
+			//				
+			//				_document= null;
+			//			}
+		}
+
+		/*
+		 * @see ITextInputListener#inputDocumentChanged(IDocument, IDocument)
+		 */
+		public void inputDocumentChanged(IDocument oldInput, IDocument newInput) {
 			if (oldInput == _document) {
-				
+
 				if (_document != null)
 					_document.removeDocumentListener(this);
-					
+
 				if (fIsIncrementalReconciler) {
 					fDirtyRegionQueue.purgeQueue();
 					if (_document != null && _document.getLength() > 0) {
 						DocumentEvent e= new DocumentEvent(_document, 0, _document.getLength(), null);
 						createDirtyRegion(e);
-						
+
 						//Cause the reconciling thread to pause until we have set up the new state
 						fThread.reset();
 						fThread.suspendCallerWhileDirty();
 						try {
-							System.out.println("### inputDocumentAboutToBeChanged requests lock" + fThread.number);
+							//							System.out.println("### inputDocumentChanged requests lock" + fThread.number);
 							fThread.acquire();
-							System.out.println("### inputDocumentAboutToBeChanged has acquired lock" + fThread.number);
+							//							System.out.println("### inputDocumentChanged has acquired lock" + fThread.number);
 						} catch (InterruptedException e1) {
 						}
 					}
 				}
-				
 				_document= null;
 			}
-		}
-		
-		/*
-		 * @see ITextInputListener#inputDocumentChanged(IDocument, IDocument)
-		 */
-		public void inputDocumentChanged(IDocument oldInput, IDocument newInput) {
 			if(newInput instanceof ChameleonDocument) {
 				_document = (ChameleonDocument) newInput;
 				if (_document == null) {
@@ -336,13 +369,13 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 				//FIXME Here the new document is set in the reconciler, but if the thread is executed after
 				// the aboutToChange method and this one, the strategy is in an invalid state.
 				reconcilerDocumentChanged((ChameleonDocument) _document);
-				
+
 				_document.addDocumentListener(this);
 				startReconciling();
 			}
 		}			
 	}
-	
+
 	/** Queue to manage the changes applied to the text viewer. */
 	private DirtyRegionQueue fDirtyRegionQueue;
 	/** The background thread. */
@@ -360,8 +393,8 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	protected ChameleonDocument _document;
 	/** The text viewer */
 	protected ITextViewer _textViewer;
-	
-	
+
+
 	/**
 	 * Processes a dirty region. If the dirty region is <code>null</code> the whole
 	 * document is consider being dirty. The dirty region is partitioned by the
@@ -371,7 +404,7 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	 * @param dirtyRegion the dirty region to be processed
 	 */
 	abstract protected void process(ChameleonDirtyRegion dirtyRegion);
-	
+
 	/**
 	 * Hook called when the document whose contents should be reconciled
 	 * has been changed, i.e., the input document of the text viewer this
@@ -381,15 +414,15 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	 * @param newDocument the new reconciler document
 	 */
 	abstract protected void reconcilerDocumentChanged(ChameleonDocument newDocument);
-	
-	
+
+
 	/**
 	 * Creates a new reconciler without configuring it.
 	 */ 
 	protected AbstractChameleonReconciler() {
 		super();
 	}
-		
+
 	/**
 	 * Tells the reconciler how long it should wait for further text changes before
 	 * activating the appropriate reconciling strategies.
@@ -399,7 +432,7 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	public void setDelay(int delay) {
 		fDelay= delay;
 	}
-	
+
 	/**
 	 * Tells the reconciler whether any of the available reconciling strategies
 	 * is interested in getting detailed dirty region information or just in the
@@ -415,7 +448,7 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	public void setIsIncrementalReconciler(boolean isIncremental) {
 		fIsIncrementalReconciler= isIncremental;
 	}
-	
+
 	/**
 	 * Sets the progress monitor of this reconciler.
 	 * 
@@ -424,7 +457,7 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	public void setProgressMonitor(IProgressMonitor monitor) {
 		fProgressMonitor= monitor;
 	}
-	
+
 	/**
 	 * Returns whether any of the reconciling strategies is interested in
 	 * detailed dirty region information.
@@ -436,7 +469,7 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	protected boolean isIncrementalReconciler() {
 		return fIsIncrementalReconciler;
 	}
-	
+
 	/**
 	 * Returns the input document of the text viewer this reconciler is installed on.
 	 * 
@@ -445,7 +478,7 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	public IDocument getDocument() {
 		return _document;
 	}
-	
+
 	/**
 	 * Returns the text viewer this reconciler is installed on.
 	 * 
@@ -454,7 +487,7 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	protected ITextViewer getTextViewer() {
 		return _textViewer;
 	}
-	
+
 	/**
 	 * Returns the progress monitor of this reconciler.
 	 * 
@@ -463,68 +496,68 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	protected IProgressMonitor getProgressMonitor() {
 		return fProgressMonitor;
 	}
-	
+
 	/*
 	 * @see IReconciler#install(ITextViewer)
 	 */
 	public void install(ITextViewer textViewer) {
-		
+
 		Assert.isNotNull(textViewer);
 		synchronized (this) {
 			if (fThread != null)
 				return;
 			fThread= new BackgroundThread(getClass().getName());
 		}
-		
+
 		_textViewer= textViewer;
-		
+
 		fListener= new Listener();
 		_textViewer.addTextInputListener(fListener);
-		
+
 		fDirtyRegionQueue= new DirtyRegionQueue();
 	}
-	
+
 	/*
 	 * @see IReconciler#uninstall()
 	 */
 	public void uninstall() {
 		if (fListener != null) {
-			
+
 			_textViewer.removeTextInputListener(fListener);
 			if (_document != null) _document.removeDocumentListener(fListener);
 			fListener= null;
-			
-            synchronized (this) {
-                // http://dev.eclipse.org/bugs/show_bug.cgi?id=19135
-    			BackgroundThread bt= fThread;
-    			fThread= null;
-    			bt.cancel();
-            }
+
+			synchronized (this) {
+				// http://dev.eclipse.org/bugs/show_bug.cgi?id=19135
+				BackgroundThread bt= fThread;
+				fThread= null;
+				bt.cancel();
+			}
 		}
 	}
-		
+
 	/**
 	 * Creates a dirty region for a document event and adds it to the queue.
 	 *
 	 * @param e the document event for which to create a dirty region
 	 */
 	private void createDirtyRegion(DocumentEvent e) {
-		
+
 		if (e.getLength() == 0 && e.getText() != null) {
 			// Insert
 			fDirtyRegionQueue.addDirtyRegion(new ChameleonDirtyRegion(e.getOffset(), e.getText().length(), ChameleonDirtyRegion.INSERT, e.getText()));
-				
+
 		} else if (e.getText() == null || e.getText().length() == 0) {
 			// Remove
 			fDirtyRegionQueue.addDirtyRegion(new ChameleonDirtyRegion(e.getOffset(), e.getLength(), ChameleonDirtyRegion.REMOVE, null));
-				
+
 		} else {
 			// Replace (Remove + Insert)
 			fDirtyRegionQueue.addDirtyRegion(new ChameleonDirtyRegion(e.getOffset(), e.getLength(), ChameleonDirtyRegion.REMOVE, null));
 			fDirtyRegionQueue.addDirtyRegion(new ChameleonDirtyRegion(e.getOffset(), e.getText().length(), ChameleonDirtyRegion.INSERT, e.getText()));
 		}
 	}
-	
+
 	/**
 	 * Hook for subclasses which want to perform some
 	 * action as soon as reconciliation is needed.
@@ -537,8 +570,8 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	protected void aboutToBeReconciled() {
 
 	}
-	
-	
+
+
 	protected void reconciled() {}
 
 	/**
@@ -547,24 +580,24 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	 */
 	protected void initialProcess() {
 	}
-	
-//	/**
-//	 * Forces the reconciler to reconcile the structure of the whole document.
-//	 * Clients may extend this method.
-//	 */
-//	protected void forceReconciling() {
-//		
-//		if (_document != null) {
-//			
-//			if (fIsIncrementalReconciler) {
-//				DocumentEvent e= new DocumentEvent(_document, 0, _document.getLength(), _document.get());
-//				createDirtyRegion(e);
-//			}
-//			
-//			startReconciling();
-//		}
-//	}
-	
+
+	//	/**
+	//	 * Forces the reconciler to reconcile the structure of the whole document.
+	//	 * Clients may extend this method.
+	//	 */
+	//	protected void forceReconciling() {
+	//		
+	//		if (_document != null) {
+	//			
+	//			if (fIsIncrementalReconciler) {
+	//				DocumentEvent e= new DocumentEvent(_document, 0, _document.getLength(), _document.get());
+	//				createDirtyRegion(e);
+	//			}
+	//			
+	//			startReconciling();
+	//		}
+	//	}
+
 	/**
 	 * Starts the reconciler to reconcile the queued dirty-regions.
 	 * Clients may extend this method.
@@ -572,7 +605,7 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	protected synchronized void startReconciling() {
 		if (fThread == null)
 			return;
-			
+
 		if (!fThread.isAlive()) {
 			try {
 				fThread.start();
@@ -584,19 +617,19 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 			}
 		} else {
 			fThread.reset();
-			System.out.println("### startReconciling releases lock" + fThread.number);
+			//			System.out.println("### startReconciling releases lock" + fThread.number);
 			fThread.release();
-			System.out.println("### startReconciling has released lock"  + fThread.number);
+			//			System.out.println("### startReconciling has released lock"  + fThread.number);
 		}
 	}
-    
-    /**
-     * Hook that is called after the reconciler thread has been reset.
-     */
-    protected void reconcilerReset() {
-    }
-    
-    
-    protected void docAboutToBeChanged(){ }
-    
+
+	/**
+	 * Hook that is called after the reconciler thread has been reset.
+	 */
+	protected void reconcilerReset() {
+	}
+
+
+	protected void docAboutToBeChanged(){ }
+
 }

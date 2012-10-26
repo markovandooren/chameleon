@@ -73,6 +73,7 @@ public class ChameleonSourceViewerConfiguration extends SourceViewerConfiguratio
 							if(outlinePage != null) {
 								outlinePage.updateOutline();
 							}
+							// Why is this here?
 							_chameleonEditor.getDocument().getProjectNature().flushSourceCache();
 						}
 					} catch(NullPointerException exc) {
