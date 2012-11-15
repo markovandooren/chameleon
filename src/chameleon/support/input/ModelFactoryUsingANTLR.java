@@ -72,6 +72,8 @@ public abstract class ModelFactoryUsingANTLR extends LanguagePluginImpl implemen
 			parser.compilationUnit();
 		} catch (RecognitionException e) {
 			throw new ParseException(e,cu);
+		} catch (Throwable t) {
+			t.printStackTrace();
 		}
 	}
 	

@@ -112,19 +112,19 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
   
   // NEEDS_NS
 	public synchronized Type getDefaultSuperClass(Namespace root) throws LookupException {
-		Type result = _defaultSuperClass;
-		if(result == null) {
+//		Type result = _defaultSuperClass;
+//		if(result == null) {
 			TypeReference typeRef = createTypeReferenceInNamespace(getDefaultSuperClassFQN(),root);
-			result = typeRef.getType();
-			_defaultSuperClass = result;
+			Type result = typeRef.getType();
+//			_defaultSuperClass = result;
 //			if (result==null) {
 //				throw new LookupException("Default super class "+getDefaultSuperClassFQN()+" not found.");
 //			}
-		}
+//		}
 		return result;
 	}
 	
-	private Type _defaultSuperClass;
+//	private Type _defaultSuperClass;
 
 	/**
 	 * Return the fully qualified name of the class that acts as the default
