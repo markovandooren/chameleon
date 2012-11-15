@@ -14,6 +14,7 @@ import chameleon.eclipse.project.ChameleonProjectNature;
  * @author Jef Geerinckx
  * @author Manuel Van Wesemael 
  * @author Joeri Hendrickx 
+ * @author Marko van Dooren
  * 
  * Shared document provider specialized for ChameleonDocuments 
  *

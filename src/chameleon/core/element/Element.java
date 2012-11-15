@@ -26,6 +26,7 @@ import chameleon.util.concurrent.SafeAction;
 import chameleon.util.concurrent.UnsafeAction;
 import chameleon.workspace.Project;
 import chameleon.workspace.View;
+import chameleon.workspace.WrongViewException;
 
 /**
  * Element is the top interface for an element of a source model. Every lexical language construct (every
@@ -846,10 +847,6 @@ public interface Element {
      @*/
     public Language language();
     
-    public Project project();
-    
-    public View view();
-    
     /**
      * Return the language of this element if it is of the wrong kind. Return null if this element is not
      * connected to a complete model. Throws a WrongLanguageException is the
@@ -865,6 +862,49 @@ public interface Element {
      @ signals(WrongLanguageException) language() != null && ! kind.isInstance(language());
      @*/
     public <T extends Language> T language(Class<T> kind) throws WrongLanguageException;
+    
+    /**
+     * Return the project to which this element belongs. Return null if the element is not part of a project.
+     * @return
+     */
+   /*@
+     @ public behavior
+     @
+     @ post (view() == null) ==> (\result == null);
+     @ post (view() != null) ==> (\result == view().project());
+     @*/
+    public Project project();
+    
+    /**
+     * Return the view of this element. Return null if this element is not connected
+     * to a complete model. The call is delegated to the parent until is reaches the document
+     * which is always the outmost lexical element. From there, the call proceeds through the
+     * document loading infrastructure to obtain the view.
+     * @return
+     */
+   /*@
+     @ public behavior
+     @
+     @ post (parent() == null) ==> (\result == null);
+     @ post (parent() != null) ==> (\result == parent().view());
+     @*/
+    public View view();
+    
+    /**
+     * Return the view of this element if it is of the wrong kind. Return null if this element is not
+     * connected to a complete model. Throws a WrongViewException is the
+     * language is not of the correct type.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre kind != null;
+     @
+     @ post \result == view();
+     @
+     @ signals(WrongViewException) view() != null && ! kind.isInstance(view());
+     @*/
+    public <T extends View> T view(Class<T> kind) throws WrongViewException;
     
     /**
      * Return a deep clone of this element. The returned element has no parent. 

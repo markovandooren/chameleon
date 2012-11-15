@@ -61,10 +61,18 @@ public class BootstrapProjectConfig extends ConfigElement {
 		@Override
 		protected void $after() throws ConfigException {
 			if(_revision != null) {
-				_lang = _repository.get(_languageName, _revision); 
+				setModelElement(_repository.get(_languageName, _revision));
 			} else {
-				_lang = _repository.get(_languageName);
+				setModelElement(_repository.get(_languageName));
 			}
+			_lang = (chameleon.core.language.Language) modelElement();
+		}
+
+		@Override
+		protected void $update() {
+			chameleon.core.language.Language language = (chameleon.core.language.Language)modelElement();
+			_languageName = language.name();
+			_revision = language.version();
 		}
 	}
 
@@ -86,4 +94,9 @@ public class BootstrapProjectConfig extends ConfigElement {
 	}
 	
 	private Project _project;
+
+	@Override
+	protected void $update() {
+		// the bootstrapper should not be updated
+	}
 }

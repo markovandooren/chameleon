@@ -91,6 +91,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 *
 	 */
 	public ChameleonDocument(ChameleonProjectNature projectNature, InputSource source, IFile file, IPath path){
+		//FIXME now the text isn't loaded at the proper moment.
 		_inputSource = source;
 		if(projectNature==null){
 			ChameleonEditorPlugin.showMessageBox("Illegal project", "This document is part of an illegal project. \nCheck if the project is a Chameleon Project.", SWT.ICON_ERROR);
@@ -175,6 +176,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		// QUESTION: does this trigger the reconcilers?
 		set(builder.toString());
 		} catch(CoreException e) {
+			e.printStackTrace();
 			System.out.println("debug");
 		}
 	}
@@ -377,20 +379,16 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 			getProjectNature().addToModel(this);
 		} else {
 
-			// B. remove compilation unit from model tree
-			if(Config.debug()) {
-			  System.out.println("removing compilation unit from tree");
-			}
-			// C. remove Document from project
-			if(Config.debug()) {
-				System.out.println("Remove document from project");
-			}
+//			// B. remove Document from project
+//			if(Config.debug()) {
+//				System.out.println("Remove document from project");
+//			}
 			getProjectNature().removeDocument(this);
 
-			// D. Re-add Document to the project (wich will cause it to be parsed)
-			if(Config.debug()) {
-			  System.out.println("Re-add document to project");
-			}
+//			// C. Re-add Document to the project (wich will cause it to be parsed)
+//			if(Config.debug()) {
+//			  System.out.println("Re-add document to project");
+//			}
 			getProjectNature().addDocument(this);
 		}
 

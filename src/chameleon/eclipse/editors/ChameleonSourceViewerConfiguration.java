@@ -86,22 +86,22 @@ public class ChameleonSourceViewerConfiguration extends SourceViewerConfiguratio
 		}
 	}
 
-	private final class HierarchyMemberReconcilingListener implements ActionListener {
-		public void actionPerformed(ActionEvent arg0) {
-			Display.getDefault().asyncExec(new Runnable() {
-				public void run() {
-					ChameleonOutlinePage outlinePage = null;
-					if(_chameleonEditor != null) {
-						_chameleonEditor.outlinePage();
-					}
-					if(outlinePage != null) {
-					  outlinePage.updateOutline();
-					}
-				}
-			});	
-			
-		}
-	}
+//	private final class HierarchyMemberReconcilingListener implements ActionListener {
+//		public void actionPerformed(ActionEvent arg0) {
+//			Display.getDefault().asyncExec(new Runnable() {
+//				public void run() {
+//					ChameleonOutlinePage outlinePage = null;
+//					if(_chameleonEditor != null) {
+//						_chameleonEditor.outlinePage();
+//					}
+////					if(outlinePage != null) {
+////					  outlinePage.updateOutline();
+////					}
+//				}
+//			});	
+//			
+//		}
+//	}
 
 	/*
 	 * The strategy that is being used for this particular configuration

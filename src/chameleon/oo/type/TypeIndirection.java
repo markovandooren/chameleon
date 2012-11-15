@@ -86,6 +86,14 @@ public abstract class TypeIndirection extends ClassImpl {
     return filterProperties(myDefaultProperties(), aliasedType().defaultProperties());
   }
 	
+	/**
+	 * Return the default properties for this element.
+	 * @return
+	 */
+	protected PropertySet<Element,ChameleonProperty> myDefaultProperties() {
+		return language().defaultProperties(this);
+	}
+
   public PropertySet<Element,ChameleonProperty> declaredProperties() {
     return filterProperties(myDeclaredProperties(), aliasedType().declaredProperties());
   }

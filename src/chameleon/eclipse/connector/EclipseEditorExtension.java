@@ -159,7 +159,7 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
 	 * of this language module editor plugin..
 	 */
 	public void register(String fileName, String iconName, String pluginID) throws MalformedURLException {
-		Image image = createImage(fileName, pluginID);
+		Image image = loadIcon(fileName, pluginID);
 		String name = prefix(iconName);
 		if(imageRegistry().get(name) == null) {
 			imageRegistry().put(name, image);
@@ -170,10 +170,13 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
 	 * Create an image from the file in the icons directory of this language module editor plugin
 	 * that has the same name as the given name. 
 	 */
-	public Image createImage(String fileName, String pluginID) throws MalformedURLException {
+	public static Image loadIcon(String fileName, String pluginID) throws MalformedURLException {
+		return iconDescriptor(fileName, pluginID).createImage();
+	}
+	
+	public static ImageDescriptor iconDescriptor(String fileName, String pluginID) throws MalformedURLException {
 		URL url = icon(fileName, pluginID);
-		Image image = ImageDescriptor.createFromURL(url).createImage();
-		return image;
+		return ImageDescriptor.createFromURL(url);
 	}
 	
 	public Image image(String iconName) {
@@ -183,7 +186,7 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
 	/**
 	 * Return the URL for the icons directory of this language module editor plugin.
 	 */
-	public URL icon(String name, String pluginID) throws MalformedURLException {
+	public static URL icon(String name, String pluginID) throws MalformedURLException {
 		URL root = Platform.getBundle(pluginID).getEntry("/");
 		URL icons = new URL(root,"icons/");
 		URL url = new URL(icons, name);

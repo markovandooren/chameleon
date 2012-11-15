@@ -95,27 +95,29 @@ public abstract class ModelFactoryUsingANTLR extends LanguagePluginImpl implemen
 		Document compilationUnit = element.nearestAncestor(Document.class);
 		View view = element.view();
 		boolean done = false;
-		while((element != null) && (! done)){
-			try {
-		    SourceManager manager = view.plugin(SourceManager.class);
-		    String text = manager.text(element);
-		    Element newElement = parse(element, text);
-		    if(newElement != null) {
-		      // Use raw type here, we can't really type check this.
-		      Association childLink = element.parentLink().getOtherRelation();
-		      childLink.replace(element.parentLink(), newElement.parentLink());
-		      clearPositions(element,view);
-		      done = true;
-		      break;
-		    }
-			} catch(ParseException exc) {
-			} catch (NoLocationException e) {
-			}
-			if(! done) {
-				Element old = element;
-				element = element.parent();
-				if(element == null) {
-					throw new ParseException(old.nearestAncestor(Document.class));
+		if(view != null) {
+			SourceManager manager = view.plugin(SourceManager.class);
+			while((element != null) && (! done)){
+				try {
+					String text = manager.text(element);
+					Element newElement = parse(element, text);
+					if(newElement != null) {
+						// Use raw type here, we can't really type check this.
+						Association childLink = element.parentLink().getOtherRelation();
+						childLink.replace(element.parentLink(), newElement.parentLink());
+						clearPositions(element,view);
+						done = true;
+						break;
+					}
+				} catch(ParseException exc) {
+				} catch (NoLocationException e) {
+				}
+				if(! done) {
+					Element old = element;
+					element = element.parent();
+					if(element == null) {
+						throw new ParseException(old.nearestAncestor(Document.class));
+					}
 				}
 			}
 		}

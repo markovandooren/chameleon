@@ -8,10 +8,9 @@ Bundle-ClassPath: lib/log4j-1.2.16.jar,
  .,
  lib/antlr-runtime-3.2.jar,
  lib/stringtemplate-3.2.jar,
- dist/local/jar/chameleon-local.jar,
- lib/rejuse-1.0.3.jar
+ lib/rejuse-1.0.6.jar
 Bundle-Activator: chameleon.eclipse.ChameleonEditorPlugin
-Bundle-Vendor: K.U.Leuven
+Bundle-Vendor: KU Leuven
 Bundle-Localization: plugin
 Export-Package: chameleon.aspect.core.build,
  chameleon.aspect.core.model.advice,

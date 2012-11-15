@@ -42,13 +42,14 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
    @
    @ post factory() == factory;
    @*/
-	public DirectoryLoader(String fileExtension, File root, FileInputSourceFactory factory) {
+	public DirectoryLoader(String fileExtension, String root, FileInputSourceFactory factory) {
+		setPath(root);
 		setFileExtension(fileExtension);
-		setRoot(root);
 		setInputSourceFactory(factory);
 	}
 	
-	protected void notifyProjectAdded(View project) throws ProjectException {
+	protected void notifyProjectAdded(View view) throws ProjectException {
+		setRoot(file(path()));
 		includeCustom(root());
 	}
 
@@ -60,6 +61,19 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 	}
 	
 	private File _root;
+	
+	private String _path;
+	
+	public String path() {
+		return _path;
+	}
+	
+	private void setPath(String path) {
+		if(path == null) {
+			throw new IllegalArgumentException();
+		}
+		_path = path;
+	}
 	
 	public File root() {
 		return _root;

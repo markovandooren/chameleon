@@ -117,14 +117,6 @@ public abstract class ElementWithModifiersImpl extends ElementImpl implements El
     return result;
 	}
 
-	/**
-	 * Return the default properties for this element.
-	 * @return
-	 */
-	protected PropertySet<Element,ChameleonProperty> myDefaultProperties() {
-		return language().defaultProperties(this);
-	}
-	
 	public List<Modifier> modifiers(Property property) throws ModelException {
 		List<Modifier> result = new ArrayList<Modifier>();
 		for(Modifier modifier: modifiers()) {

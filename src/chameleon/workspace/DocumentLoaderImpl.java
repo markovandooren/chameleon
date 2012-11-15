@@ -1,5 +1,6 @@
 package chameleon.workspace;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,6 +100,7 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	public void addInputSource(InputSource source) {
 		// The Association object will send the event and the attached listener
 		// will invoke notifyAdded(InputSource).
+//		System.out.println("Adding "+source);
 		if(source != null) {
 			_inputSources.add(source.loaderLink());
 		}
@@ -157,4 +159,14 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 			source.flushCache();
 		}
 	}
+	
+	protected File file(String path) {
+		File root = new File(path);
+		if(!root.isAbsolute()) {
+			root = new File(project().root().getAbsolutePath()+File.separator+path);
+		}
+		return root;
+	}
+
+
 }

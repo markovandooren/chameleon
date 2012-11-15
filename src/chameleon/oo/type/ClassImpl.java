@@ -861,7 +861,8 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 
 		protected boolean mustBeOverridden(Member member) {
 			ObjectOrientedLanguage lang = language(ObjectOrientedLanguage.class);
-			return member.isFalse(lang.ABSTRACT) || member.isTrue(lang.CLASS);
+			// ! CLASS ==> ! ABSTRACT
+			return member.isTrue(lang.OVERRIDABLE) && member.isTrue(lang.INSTANCE) && member.isTrue(lang.ABSTRACT);
 		}
 		
 		/* (non-Javadoc)
@@ -882,8 +883,11 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 					Iterator<Member> iter = members.iterator();
 					while(iter.hasNext()) {
 						Member m = iter.next();
-						if(mustBeOverridden(m)) {
+						if(!mustBeOverridden(m)) {
 							iter.remove();
+						} else {
+							//DEBUG
+							mustBeOverridden(m);
 						}
 					}
 					if(! members.isEmpty()) {

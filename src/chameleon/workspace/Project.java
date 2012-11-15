@@ -2,19 +2,11 @@ package chameleon.workspace;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import org.rejuse.association.Association;
-import org.rejuse.association.MultiAssociation;
+import org.rejuse.association.AssociationListener;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
-
-import chameleon.core.language.Language;
-import chameleon.core.lookup.LookupException;
-import chameleon.core.namespace.RootNamespace;
-import chameleon.workspace.DocumentLoaderImpl.TunnelException;
 
 /**
  * A class that represents the concept of a project. A project
@@ -40,7 +32,45 @@ public class Project {
 		setName(name);
 		addView(view);
 		setRoot(root);
+		_views.addListener(new AssociationListener<View>() {
+
+			@Override
+			public void notifyElementAdded(View element) {
+				notifyViewAdded(element);
+			}
+
+			@Override
+			public void notifyElementRemoved(View element) {
+				notifyViewRemoved(element);
+			}
+		});
 	}
+	
+	protected void notifyViewAdded(View view) {
+		for(ProjectListener listener: _listeners) {
+			listener.viewAdded(view);
+		}
+	}
+	
+	protected void notifyViewRemoved(View view) {
+		for(ProjectListener listener: _listeners) {
+			listener.viewRemoved(view);
+		}
+	}
+	
+	public void addProjectListener(ProjectListener listener) {
+		if(listener == null) {
+			throw new IllegalArgumentException();
+		}
+		_listeners.add(listener);
+	}
+	
+	public void removeProjectListener(ProjectListener listener) {
+		_listeners.remove(listener);
+	}
+	
+	
+	private List<ProjectListener> _listeners = new ArrayList<>();
 	
 	public void addView(View view) {
 		if(view != null) {
@@ -65,10 +95,7 @@ public class Project {
 	private File _root;
 	
 	protected void setRoot(File file) {
-		if(file == null) {
-			throw new IllegalArgumentException("The root directory of a project should not be null");
-		}
-		if(file.isFile()) {
+		if(file != null && file.isFile()) {
 			throw new IllegalArgumentException("The root directory of a project should not be a normal file");
 		}
 		_root = file;

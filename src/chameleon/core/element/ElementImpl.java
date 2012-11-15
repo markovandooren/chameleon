@@ -44,6 +44,7 @@ import chameleon.util.concurrent.SafeAction;
 import chameleon.util.concurrent.UnsafeAction;
 import chameleon.workspace.Project;
 import chameleon.workspace.View;
+import chameleon.workspace.WrongViewException;
 
 /**
  * @author Marko van Dooren
@@ -180,6 +181,19 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 	
+	@Override
+	public <T extends View> T view(Class<T> kind) {
+		if(kind == null) {
+			throw new ChameleonProgrammerException("The given language class is null.");
+		}
+		View view = view();
+		if(kind.isInstance(view) || view == null) {
+			return (T) view;
+		} else {
+			throw new WrongViewException("The view of this element is of the wrong kind. Expected: "+kind.getName()+" but got: " +view.getClass().getName());
+		}
+	}
+
 	@Override
 	public final Project project() {
 		return view().project();
@@ -1269,11 +1283,7 @@ public abstract class ElementImpl implements Element {
 	  * Flush language cache and property cache.
 	  */
 	 public synchronized void flushLocalCache() {
-		 //    	_languageCache = null;
-		 if(_propertyCache != null) {
-//			 _propertyCache.clear();
-			 _propertyCache = null;
-		 }
+		 _propertyCache = null;
 	 }
 
 	 public Namespace namespace() {

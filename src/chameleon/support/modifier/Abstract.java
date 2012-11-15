@@ -30,7 +30,8 @@ public class Abstract extends ModifierImpl {
    @ post \result.size() == 2;
    @*/
   public PropertySet<Element,ChameleonProperty> impliedProperties() {
-    return createSet(language(ObjectOrientedLanguage.class).OVERRIDABLE,language(ObjectOrientedLanguage.class).DEFINED.inverse());
+//    return createSet(language(ObjectOrientedLanguage.class).OVERRIDABLE,language(ObjectOrientedLanguage.class).DEFINED.inverse());
+    return createSet(language(ObjectOrientedLanguage.class).DEFINED.inverse());
   }
   
 }

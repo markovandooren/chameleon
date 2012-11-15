@@ -60,7 +60,7 @@ public class ChameleonFormatterStrategy implements IFormattingStrategy {
 		if (sel == null || sel.isEmpty()) {
 			// if no valid selection, format the whole document
 			result = formatWholeDocument(editor.getDocument(), content);
-		} else {
+		} //else {
 //			// TODO: formatting of selection
 //			// get the region of the selection:
 //			int offset;
@@ -72,7 +72,7 @@ public class ChameleonFormatterStrategy implements IFormattingStrategy {
 //				offset = ((MarkSelection) sel).getOffset();
 //				length = ((MarkSelection) sel).getLength();
 //			}
-		}
+	//	}
 		return result;
 	}
 
