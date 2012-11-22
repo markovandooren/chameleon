@@ -87,7 +87,7 @@ public class ChameleonHyperlink implements IHyperlink {
 			Declaration refElement = getDeclarator();
 			if(refElement==null)
 				return INVALID_STATUS;
-			// check wheter the compilationUnit and the document are found:
+			// check whether the compilationUnit and the document are found:
 			Document refCU = refElement.nearestAncestor(Document.class);
 			ChameleonDocument refDoc = _document.getProjectNature().document(refCU);
 			if(refDoc != null){
@@ -109,58 +109,8 @@ public class ChameleonHyperlink implements IHyperlink {
 			if (referencedElement != null) {
 				ChameleonEditor.showInEditor(referencedElement, true, true, null);
 			}
-//				System.out.println("De link wordt geopend...");
-//				CompilationUnit cu = referencedElement.nearestAncestor(CompilationUnit.class);
-//				ChameleonDocument doc = document().getProjectNature().document(cu);
-//				if(doc == null) {
-//					System.out.println("Document of referenced object is null");
-//				}
-//
-//				IWorkbench wb = PlatformUI.getWorkbench();
-//				IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
-//				IWorkbenchPage page = win.getActivePage();
-//				IFile file = doc.getFile();
-//				
-//				//create Marker to jump immediately to the referenced element.
-//				ChameleonEditorPosition dec = (ChameleonEditorPosition) referencedElement.tag(ChameleonEditorPosition.ALL_TAG);
-//				IMarker marker = null;
-//				
-//				try {
-//					int lineNumber = 0;
-//					if(dec != null) {
-//						int offset = dec.getOffset();
-//						System.out.println("Offset: "+offset);
-//						lineNumber = doc.getLineOfOffset(offset);
-//					}
-////					 HashMap map = new HashMap();
-////					 map.put(IMarker.LINE_NUMBER, new Integer(lineNumber));
-//					 marker = file.createMarker(IMarker.TEXT);
-//					 marker.setAttribute(IMarker.LINE_NUMBER,lineNumber);
-//				} catch (BadLocationException exc) {
-//					System.out.println("Could not calculate line number of declaration of referenced element when opening a Chameleon hyperlink.");
-//					exc.printStackTrace();
-//				} catch (CoreException exc) {
-//					System.out.println("Could not create text marker for referenced element when opening a Chameleon hyperlink.");
-//					exc.printStackTrace();
-//				}
-//				// map.put(IWorkbenchPage.EDITOR_ID_ATTR,"org.eclipse.ui.DefaultTextEditor");
-//				// IMarker marker = file.createMarker(IMarker.TEXT);
-//				// marker.setAttributes(map);
-//				// page.openEditor(marker); //2.1 API
-//				try {
-//					if(marker == null) {
-//					  IDE.openEditor(page, file);
-//					} else {
-//						IDE.openEditor(page, marker);
-//					}
-//				} catch (PartInitException e) {
-//					e.printStackTrace();
-//				}
-//				// marker.delete();
-//			}
 		} catch (ModelException exc) {
-//			exc.printStackTrace();
-			System.out.println("Referenced element not found.");
+			// We don't do anything if the user decides to click on an unresolvable cross-reference.
 		}
 	}
 

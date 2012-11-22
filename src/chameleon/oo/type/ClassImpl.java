@@ -862,7 +862,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 		protected boolean mustBeOverridden(Member member) {
 			ObjectOrientedLanguage lang = language(ObjectOrientedLanguage.class);
 			// ! CLASS ==> ! ABSTRACT
-			return member.isTrue(lang.OVERRIDABLE) && member.isTrue(lang.INSTANCE) && member.isTrue(lang.ABSTRACT);
+			return member.isTrue(lang.OVERRIDABLE) && member.isTrue(lang.INSTANCE) && member.isFalse(lang.DEFINED);
 		}
 		
 		/* (non-Javadoc)
@@ -872,7 +872,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 		public VerificationResult verifySelf() {
 			VerificationResult result = Valid.create(); 
 			ObjectOrientedLanguage lang = language(ObjectOrientedLanguage.class);
-			if(isFalse(lang.ABSTRACT)) {
+			if(! isTrue(lang.ABSTRACT)) {
 				List<Member> members = null;
 				try {
 					members = members();

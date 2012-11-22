@@ -1061,18 +1061,22 @@ public abstract class ElementImpl implements Element {
 	 }
 
 	 public final VerificationResult verify() {
-		 VerificationResult result = verifySelf();
-		 if(result == null) {
-			 throw new ChameleonProgrammerException("The verifySelf method of "+getClass().getName()+" returned null.");
+		 try {
+			 VerificationResult result = verifySelf();
+			 if(result == null) {
+				 throw new ChameleonProgrammerException("The verifySelf method of "+getClass().getName()+" returned null.");
+			 }
+			 result = result.and(verifyProperties());
+			 result = result.and(verifyLoops());
+			 for(Element element:children()) {
+				 result = result.and(element.verify());
+			 }
+			 result = result.and(verifyAssociations());
+			 result = result.and(language().verify(this));
+			 return result;
+		 } catch(Exception exc) {
+			 return new BasicProblem(this, "Internal error during verification.");
 		 }
-		 result = result.and(verifyProperties());
-		 result = result.and(verifyLoops());
-		 for(Element element:children()) {
-			 result = result.and(element.verify());
-		 }
-		 result = result.and(verifyAssociations());
-		 result = result.and(language().verify(this));
-		 return result;
 	 }
 	 
 	 protected VerificationResult verifyAssociations() {

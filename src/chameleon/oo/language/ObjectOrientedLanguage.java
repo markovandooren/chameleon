@@ -69,7 +69,8 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
   	REFINABLE = new StaticChameleonProperty("refinable", this,Declaration.class);
   	DEFINED = new Defined("defined",this);
   	DEFINED.addValidElementType(Variable.class);
-  	ABSTRACT = DEFINED.inverse();
+//  	ABSTRACT = DEFINED.inverse();
+  	ABSTRACT = new StaticChameleonProperty("abstract", this, Declaration.class);
   	INSTANCE = new StaticChameleonProperty("instance",this,Declaration.class);
   	INSTANCE.addValidElementType(VariableDeclarator.class);
   	CLASS = INSTANCE.inverse();
@@ -86,7 +87,8 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
     OVERRIDABLE.addImplication(REFINABLE);
     EXTENSIBLE.addImplication(REFINABLE);
     NATIVE.addImplication(DEFINED);
-    INTERFACE.addImplication(DEFINED.inverse());
+    INTERFACE.addImplication(ABSTRACT);
+    ABSTRACT.addImplication(DEFINED.inverse());
 	}
 
   public abstract TypeReference createTypeReference(String fqn);

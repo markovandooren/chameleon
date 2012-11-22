@@ -12,6 +12,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.INewWizard;
@@ -51,6 +52,25 @@ public class ProjectWizard extends BasicNewProjectResourceWizard implements INew
 			setDefaultPageImageDescriptor(EclipseEditorExtension.iconDescriptor("chameleon.png", ChameleonEditorPlugin.PLUGIN_ID));
 		} catch (MalformedURLException e) {
 		}
+	}
+	
+	public String projectRootPath() {
+		return projectRoot().toString();
+	}
+
+	public IPath projectRoot() {
+		return project().getLocation();
+	}
+	
+	public IProject project() {
+		IProject projectHandle = _projectDetailsPage.getProjectHandle();
+		if(! projectHandle.exists()) {
+			try {
+				projectHandle.create(new NullProgressMonitor());
+			} catch (CoreException e) {
+			}
+		}
+		return projectHandle;
 	}
 
 	public void addPages() {

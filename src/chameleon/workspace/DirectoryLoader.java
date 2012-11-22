@@ -243,19 +243,28 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 
 	@Override
 	public synchronized void tryToAdd(File file) throws InputException {
-		File relative = file.getParentFile();
-		List<String> names = new ArrayList<String>();
-		while(relative != null && (! relative.equals(_root))) {
-			names.add(relative.getName());
-			relative = relative.getParentFile();
-		}
-		if(relative != null) {
-			int size = names.size();
-			for(int i = size - 1; i >= 0; i--) {
-				_inputSourceFactory.pushDirectory(names.get(i));
+		try {
+			if(file.getName().endsWith(fileExtension()) && ! file.isHidden()) {
+				File relative = file.getParentFile();
+				List<String> names = new ArrayList<String>();
+				while(relative != null && (! relative.equals(_root))) {
+					String relativeName = relative.getName();
+					if(new File(relativeName).isHidden()) {
+						return;
+					}
+					names.add(relativeName);
+					relative = relative.getParentFile();
+				}
+				if(relative != null) {
+					int size = names.size();
+					for(int i = size - 1; i >= 0; i--) {
+						_inputSourceFactory.pushDirectory(names.get(i));
+					}
+					_inputSourceFactory.create(file,this);		
+				}
 			}
-//			addInputSource(_inputSourceFactory.doCreateInputSource(file));		
-			_inputSourceFactory.create(file,this);		
+		}
+		finally {
 			_inputSourceFactory.initialize(view().namespace());
 		}
 	}

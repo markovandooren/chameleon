@@ -22,11 +22,7 @@ public abstract class InputSourceImpl implements InputSource {
 	}
 	
 	protected void setNamespace(InputSourceNamespace ns) throws InputException {
-		if(ns != null) {
-			ns.addInputSource(this);
-		} else {
-			System.out.println("debug");
-		}
+		ns.addInputSource(this);
 	}
 	
 	public Namespace namespace() {

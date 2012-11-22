@@ -1,13 +1,18 @@
 package chameleon.eclipse.project;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.MouseEvent;
@@ -25,6 +30,7 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import chameleon.eclipse.ChameleonEditorPlugin;
 import chameleon.eclipse.connector.EclipseEditorExtension;
+import chameleon.util.FileUtil;
 import chameleon.workspace.ProjectConfig;
 
 public class PathPage extends WizardPage implements IWizardPage {
@@ -83,6 +89,11 @@ public class PathPage extends WizardPage implements IWizardPage {
 		
 		
 	}
+	
+	private String relativePath(String path) {
+		String root = wizard().projectRootPath();
+		return FileUtil.relativePath(root, path);
+	}
 
 	private ProjectConfig projectConfig() {
 		return wizard().projectConfig();
@@ -107,6 +118,7 @@ public class PathPage extends WizardPage implements IWizardPage {
 		
 		_sourceTree = new Tree(sourceCanvas,SWT.BORDER);
 		GridData sourceTreeGridData = new GridData(GridData.FILL, GridData.FILL, true, true);
+		sourceTreeGridData.verticalSpan = 2;
 		_sourceTree.setLayoutData(sourceTreeGridData);
 		_sourceProjectRoot = new TreeItem(_sourceTree, 0);
 		_sourceProjectRoot.setText(INFORMATION, "project root");
@@ -119,32 +131,66 @@ public class PathPage extends WizardPage implements IWizardPage {
 		}
 		_sourceProjectRoot.setImage(image);
 		
-		Button directoryButton = new Button(sourceCanvas,SWT.PUSH);
-		directoryButton.setText("Add directory");
-		GridData directoryButtonGridData = new GridData(GridData.CENTER, GridData.BEGINNING, false, false);
-		directoryButton.setLayoutData(directoryButtonGridData);
-		directoryButton.addMouseListener(new org.eclipse.swt.events.MouseAdapter() {
+		Button addDirectoryButton = new Button(sourceCanvas,SWT.PUSH);
+		addDirectoryButton.setText("Add directory");
+		GridData directoryButtonGridData = new GridData(GridData.FILL, GridData.BEGINNING, false, false);
+		addDirectoryButton.setLayoutData(directoryButtonGridData);
+		addDirectoryButton.addMouseListener(new org.eclipse.swt.events.MouseAdapter() {
 				@Override
 				public void mouseDown(MouseEvent arg0) {
 					DirectoryDialog sourceDirectoryDialog = new DirectoryDialog(getShell());
 					sourceDirectoryDialog.setMessage("Select a source directory");
-					String directory = sourceDirectoryDialog.open();
-					addSourceLoader(directory);
-					// add to the UI or listen to config
+					sourceDirectoryDialog.setFilterPath(wizard().projectRootPath());
+					String absoluteDirectory = sourceDirectoryDialog.open();
+					if(absoluteDirectory != null) {
+						String directory = relativePath(absoluteDirectory);
+						if(directory.equals("")) {
+							directory = ".";
+						}
+						addSourceLoader(directory);
+					}
 				}
 		});
-		getControl().addFocusListener(new FocusListener(){
 		
-			@Override
-			public void focusLost(FocusEvent arg0) {
-			}
+		Button removeDirectoryButton = new Button(sourceCanvas,SWT.PUSH);
+		removeDirectoryButton.setText("Remove directory");
+		GridData removeDirectoryButtonGridData = new GridData(GridData.FILL, GridData.BEGINNING, false, false);
+		removeDirectoryButton.setLayoutData(removeDirectoryButtonGridData);
+		removeDirectoryButton.addMouseListener(new org.eclipse.swt.events.MouseAdapter() {
+				@Override
+				public void mouseDown(MouseEvent arg0) {
+					for(TreeItem selected:_sourceTree.getSelection()) {
+						// Only remove the item if it is not the project root.
+						if(selected != _sourceProjectRoot) {
+							selected.dispose();
+						}
+					}
+				}
+		});
 		
+		
+		
+		// When the tab is selected and the project has changed, we sync the tree
+		// with the configuration of the project.
+		getControl().addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
 				ProjectConfig projectConfig = wizard().projectConfig();
+				_sourceProjectRoot.removeAll();
 				if(projectConfig != _cached) {
+					_cached = projectConfig;
 					for(String directory:_sourcePaths) {
 						projectConfig.addSource(directory);
+						// This attaches the child to the tree
+						@SuppressWarnings("unused")
+						TreeItem child = new TreeItem(_sourceProjectRoot,0);
+					}
+					try {
+						IFolder f = wizard().project().getFolder("src");
+						f.create(false, true, new NullProgressMonitor());
+						addSourceLoader("src");
+					} catch (CoreException e) {
+						System.out.println("Could not create src directory");
 					}
 				}
 			}
@@ -158,6 +204,14 @@ public class PathPage extends WizardPage implements IWizardPage {
 			_sourcePaths.add(directory);
 			projectConfig().addSource(directory);
 		}
+		File file = new File(directory);
+		TreeItem child;
+		if(file.isAbsolute()) {
+			child = new TreeItem(_sourceTree,0);
+		} else {
+			child = new TreeItem(_sourceProjectRoot,0);
+		}
+		child.setText(directory);
 	}				
 
 	private Composite controlContainer;

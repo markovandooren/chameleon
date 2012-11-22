@@ -53,7 +53,9 @@ public class ProjectChangeListener implements IResourceChangeListener {
 						if(resource instanceof IFile) {
 							File file = resource.getRawLocation().makeAbsolute().toFile();
 							System.out.println("### ADDING FILE TO MODEL :"+file.getAbsolutePath());
-							nature().chameleonProject().tryToAdd(file);
+							if(file.isFile()) {
+								nature().chameleonProject().tryToAdd(file);
+							}
 						}
 					}
 
@@ -106,9 +108,12 @@ public class ProjectChangeListener implements IResourceChangeListener {
 					public void handleRemoved(IResourceDelta delta) throws CoreException {
 						IResource resource = delta.getResource();
 						if(resource instanceof IFile) {
-							File file = resource.getRawLocation().makeAbsolute().toFile();
-							System.out.println("### ADDING FILE TO MODEL :"+file.getAbsolutePath());
-							nature().chameleonProject().tryToRemove(file);
+							IPath rawLocation = resource.getRawLocation();
+							if(rawLocation != null) {
+								File file = rawLocation.makeAbsolute().toFile();
+								System.out.println("### ADDING FILE TO MODEL :"+file.getAbsolutePath());
+								nature().chameleonProject().tryToRemove(file);
+							}
 						}
 					}
 					
