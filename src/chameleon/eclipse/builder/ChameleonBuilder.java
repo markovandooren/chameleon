@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.ui.texteditor.MarkerUtilities;
 
 import chameleon.core.document.Document;
 import chameleon.core.validation.BasicProblem;
@@ -133,15 +134,15 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 		List<Document> validCompilationUnits = new ArrayList<Document>();
 		
 		for(Document cu: compilationUnits) {
-			VerificationResult ver = checkVerificationErrors(cu);
-			if(ver == null) {
-				System.out.println("debug");
-				checkVerificationErrors(cu);
+			IMarker[] problemMarkers = chameleonNature().document(cu).getFile().findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_ZERO);
+			// Only start verification if there are no parser errors.
+			if(problemMarkers.length == 0) {
+				VerificationResult ver = checkVerificationErrors(cu);
+				// Only build the document when there are no errors.
+				if(Valid.create().equals(ver)) {
+					validCompilationUnits.add(cu);
+				}
 			}
-			
-			if(Valid.create().equals(ver))
-				validCompilationUnits.add(cu);
-			
 		}
 
 		boolean released = true;
