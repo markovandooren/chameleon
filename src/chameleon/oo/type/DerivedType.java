@@ -69,20 +69,6 @@ public class DerivedType extends ClassWithBody {
 //	}
 
   @Override
-  public List<InheritanceRelation> implicitNonMemberInheritanceRelations() {
-    if(explicitNonMemberInheritanceRelations().isEmpty() && (! "Object".equals(name())) && (! getFullyQualifiedName().equals("java.lang.Object"))) {
-    	InheritanceRelation relation = new SubtypeRelation(language(ObjectOrientedLanguage.class).createTypeReference(new NamedTarget("java.lang"),"Object"));
-    	relation.setUniParent(this);
-    	relation.setMetadata(new TagImpl(), IMPLICIT_CHILD);
-    	List<InheritanceRelation> result = new ArrayList<InheritanceRelation>();
-    	result.add(relation);
-    	return result;
-    } else {
-    	return Collections.EMPTY_LIST;
-    }
-  }
-  
-  @Override
   public boolean hasInheritanceRelation(InheritanceRelation relation) throws LookupException {
   	return super.hasInheritanceRelation(relation) || relation.hasMetadata(IMPLICIT_CHILD);
   }

@@ -12,6 +12,7 @@ import chameleon.oo.method.SimpleNameMethodHeader;
 import chameleon.oo.type.RegularType;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
+import chameleon.oo.type.inheritance.InheritanceRelation;
 import chameleon.plugin.LanguagePluginImpl;
 import chameleon.support.member.simplename.method.NormalMethod;
 import chameleon.support.member.simplename.method.RegularMethodInvocation;
@@ -74,6 +75,8 @@ public abstract class ObjectOrientedFactory extends LanguagePluginImpl {
 	public NormalMethod createNormalMethod(MethodHeader header) {
 		return new NormalMethod(header);
 	}
+	
+	public abstract InheritanceRelation createDefaultInheritanceRelation(Type type);
 
 	public Method transformToConstructor(Method m) {
 		m.addModifier(new Constructor());
