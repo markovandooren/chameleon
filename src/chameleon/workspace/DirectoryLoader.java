@@ -43,8 +43,12 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
    @ post factory() == factory;
    @*/
 	public DirectoryLoader(String fileExtension, String root, FileInputSourceFactory factory) {
+		this(root, factory);
+		addFileExtension(fileExtension);
+	}
+	
+	public DirectoryLoader(String root, FileInputSourceFactory factory) {
 		setPath(root);
-		setFileExtension(fileExtension);
 		setInputSourceFactory(factory);
 	}
 	
@@ -86,23 +90,23 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 		_root = root;
 	}
 	
-	private String _fileExtension;
+	private List<String> _fileExtensions = new ArrayList<>();
 
-	/**
-	 * Return the extension of the files that will be read to create the model.
-	 */
-	public String fileExtension() {
-		return _fileExtension;
-	}
+//	/**
+//	 * Return the extension of the files that will be read to create the model.
+//	 */
+//	public String fileExtension() {
+//		return _fileExtension;
+//	}
 
 	/**
 	 * Set the file extension for this model provider.
 	 */
-	public void setFileExtension(String fileExtension) {
+	public void addFileExtension(String fileExtension) {
 		if(fileExtension == null) {
 			throw new IllegalArgumentException();
 		}
-		_fileExtension = fileExtension;
+		_fileExtensions.add(fileExtension);
 	}
 	
 	public FileInputSourceFactory inputSourceFactory() {
@@ -117,6 +121,29 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 		doIncludeCustom(root);
 	}
 
+	private boolean responsibleFor(String fileName) {
+		boolean result = false;
+		for(String ext: _fileExtensions) {
+			if(fileName.endsWith(ext)) {
+				result = true;
+				break;
+			}
+		}
+		return result;
+	}
+	
+	private boolean responsibleFor(File file) {
+		boolean result = false;
+		if(file != null) {
+			result = responsibleFor(file.getName());
+		}
+		return result;
+	}
+
+	public List<String> fileExtensions() {
+		return new ArrayList<String>(_fileExtensions);
+	}
+	
 	/**
 	 * Add the given directory to the list of directories that contain the custom model.
 	 * @throws ParseException 
@@ -126,8 +153,8 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
   	File[] files = root.listFiles(new FilenameFilter(){
 		
 			@Override
-			public boolean accept(File arg0, String arg1) {
-				return arg1.endsWith(fileExtension());
+			public boolean accept(File file, String extension) {
+				return responsibleFor(extension);
 			}
 		});
   	File[] subdirs = root.listFiles(new FileFilter(){
@@ -244,7 +271,7 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 	@Override
 	public synchronized void tryToAdd(File file) throws InputException {
 		try {
-			if(file.getName().endsWith(fileExtension()) && ! file.isHidden()) {
+			if(responsibleFor(file) && ! file.isHidden()) {
 				File relative = file.getParentFile();
 				List<String> names = new ArrayList<String>();
 				while(relative != null && (! relative.equals(_root))) {

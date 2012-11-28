@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
@@ -31,7 +33,6 @@ import org.eclipse.ui.texteditor.MarkerUtilities;
 import org.rejuse.predicate.Predicate;
 import org.rejuse.predicate.SafePredicate;
 
-import chameleon.core.Config;
 import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
@@ -42,6 +43,7 @@ import chameleon.eclipse.editors.reconciler.ChameleonPresentationReconciler;
 import chameleon.eclipse.presentation.PresentationManager;
 import chameleon.eclipse.project.ChameleonProjectNature;
 import chameleon.input.ParseException;
+import chameleon.input.ParseProblem;
 import chameleon.input.PositionMetadata;
 import chameleon.workspace.InputException;
 import chameleon.workspace.InputSource;
@@ -73,7 +75,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 //	//check whether presentation is going on by some reconciler
 //	private boolean _presenting;
 	//when the document contains language errors, they are stored here.
-	private List<ParseException> _parseErrors;	
+	private Set<ParseProblem> _parseErrors;	
 	//A listener for the time when the errors change
 	private ActionListener _parseErrorActionListener;
 	//The name of the document.
@@ -97,7 +99,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 			ChameleonEditorPlugin.showMessageBox("Illegal project", "This document is part of an illegal project. \nCheck if the project is a Chameleon Project.", SWT.ICON_ERROR);
 		}
 
-		_parseErrors = new ArrayList<ParseException>();
+		_parseErrors = new HashSet<>();
 
 		_projectNature = projectNature;
 		initialize();
@@ -359,17 +361,11 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 * The document is basically removed from the project and then added again.
 	 */
 	public void reParse() {
-
-		System.out.println("Starting reparse");
-
-		// to reparse an entire document
-
 		// A. remove all document positions & problem markers
-		System.out.println("DUMPING POSITIONS");
 		dumpPositions();
 		try {
-			getFile().deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_ZERO);
 			_parseErrors.clear();
+			getFile().deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_ZERO);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
@@ -380,19 +376,11 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		} else {
 
 //			// B. remove Document from project
-//			if(Config.debug()) {
-//				System.out.println("Remove document from project");
-//			}
 			getProjectNature().removeDocument(this);
 
 //			// C. Re-add Document to the project (wich will cause it to be parsed)
-//			if(Config.debug()) {
-//			  System.out.println("Re-add document to project");
-//			}
 			getProjectNature().addDocument(this);
 		}
-
-		System.out.println("Einde reparse");
 	}
 
 	
@@ -422,21 +410,16 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 * that error is handled here. It is added to the other existing errors.
 	 * @param exc
 	 */
-	public void handleParseError(ParseException exc) {
-//		if(!parseErrors.contains(exc))
-//				parseErrors.add(exc);
-		boolean alreadyPresent = false;
-		for (ParseException exception : _parseErrors) {
-			if (exception.toString().equals(exc.toString())) {
-				 alreadyPresent = true;
-			}
-		}
-		if(!alreadyPresent) {
-			_parseErrors.add(exc);
-		}
-		if (_parseErrorActionListener!=null) { 
-			_parseErrorActionListener.actionPerformed(null);
-		}
+	public void markParseError(ParseProblem problem) {
+		_parseErrors.add(problem);
+//		if (_parseErrorActionListener!=null) { 
+//			_parseErrorActionListener.actionPerformed(null);
+//		}
+
+		//FIXME don't like that all this static code is in ChameleonPresentationReconciler.
+		Map<String,Object> attributes = ChameleonPresentationReconciler.createProblemMarkerMap(problem.message());
+		setProblemMarkerPosition(attributes, problem.offset(), problem.length());
+		addProblemMarker(attributes);
 		
 	}
 
@@ -448,8 +431,8 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 * 
 	 * @return all the parse errors for this document
 	 */
-	public List<ParseException> getParseErrors() {
-		return new ArrayList<ParseException>(_parseErrors);
+	public Collection<ParseProblem> getParseErrors() {
+		return new ArrayList<ParseProblem>(_parseErrors);
 	}
 
 	/**
@@ -468,10 +451,9 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		return _file;
 	}
 
-	public void removeParseErrors() {
-		_parseErrors.clear();
-		
-	}
+//	public void removeParseErrors() {
+//		_parseErrors.clear();
+//	}
 
 	public String getRelativePathName() {
 		
@@ -597,7 +579,6 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 				if(position instanceof EclipseEditorTag ){
 					EclipseEditorTag editorTag = (EclipseEditorTag) position;
 					if(predicate.eval(editorTag)){
-//						System.out.println(count+" Found cross reference tag at offset: " +editorTag.getOffset()+"with length: "+editorTag.getLength());
 						result.add(editorTag);
 					}
 				}
@@ -701,7 +682,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 			setProblemMarkerPosition(attributes, offset, length);
 		} else {
 			attributes.put(IMarker.LINE_NUMBER, 1);
-			System.out.println("ERROR: element of type "+problem.element().getClass().getName()+" is invalid, but there is no position attached.");
+//			System.out.println("ERROR: element of type "+problem.element().getClass().getName()+" is invalid, but there is no position attached.");
 		}
 		addProblemMarker(attributes);
 	}

@@ -1,11 +1,9 @@
 package chameleon.eclipse.project;
 
-import java.io.InputStream;
-import java.io.StringBufferInputStream;
+import java.io.File;
 import java.net.MalformedURLException;
 
 import org.eclipse.core.resources.ICommand;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspace;
@@ -14,10 +12,10 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 
 import chameleon.core.language.Language;
@@ -26,8 +24,8 @@ import chameleon.eclipse.builder.ChameleonBuilder;
 import chameleon.eclipse.connector.EclipseEditorExtension;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.workspace.ConfigException;
-import chameleon.workspace.ConfigLoader;
 import chameleon.workspace.ProjectConfig;
+import chameleon.workspace.ProjectConfigurator;
 
 /**
  * @author Marko van Dooren
@@ -38,11 +36,14 @@ import chameleon.workspace.ProjectConfig;
  */
 public class ProjectWizard extends BasicNewProjectResourceWizard implements INewWizard {
 
+	/**
+	 * Fields for keeping track of the various pages.
+	 */
 	private LanguageSelectionPage _languageSelectionPage;
 	
-//	private ProjectDetailsPage _projectDetailsPage;
+	private ProjectDetailsPage _projectPage;
 	
-	private WizardNewProjectCreationPage _projectDetailsPage;
+//	private WizardNewProjectCreationPage _projectDetailsPage;
 	
 	private PathPage _pathPage;
 	
@@ -54,40 +55,56 @@ public class ProjectWizard extends BasicNewProjectResourceWizard implements INew
 		}
 	}
 	
-	public String projectRootPath() {
-		return projectRoot().toString();
-	}
-
-	public IPath projectRoot() {
-		return project().getLocation();
+	public IPath projectRootPath() {
+		return Path.fromOSString(_projectPage.projectPath());
 	}
 	
-	public IProject project() {
-		IProject projectHandle = _projectDetailsPage.getProjectHandle();
-		if(! projectHandle.exists()) {
-			try {
-				projectHandle.create(new NullProgressMonitor());
-			} catch (CoreException e) {
-			}
-		}
-		return projectHandle;
+	public IPath workspacePath() {
+		return ResourcesPlugin.getWorkspace().getRoot().getLocation();
+	}
+	
+	void setRoot(String root) {
+		File rootFile = new File(root);
+		projectConfig().setRoot(rootFile);
 	}
 
+//	public IPath projectRoot() {
+//		return project().getLocation();
+//	}
+//	
+//	public IProject project() {
+//		IProject projectHandle = _projectDetailsPage.getProjectHandle();
+//		Object x = projectHandle.getLocationURI();
+//		if(! projectHandle.exists()) {
+////			try {
+////				projectHandle.create(new NullProgressMonitor());
+////				projectHandle.close(new NullProgressMonitor());
+////			} catch (CoreException e) {
+////			}
+//		}
+//		return projectHandle;
+//	}
+
+	/**
+	 * Initialize the pages of this wizard and add them to this wizard.
+	 */
 	public void addPages() {
 		_languageSelectionPage = new LanguageSelectionPage("Language Selection",this);
 		_languageSelectionPage.setTitle("Language Selection");
 		_languageSelectionPage.setDescription("Select the language to use for this project");
 
-		_projectDetailsPage = new WizardNewProjectCreationPage("Project Details");
-		_projectDetailsPage.setTitle( "Project Details" );
-		_projectDetailsPage.setDescription( "Fill in a project title" );
+//		_projectDetailsPage = new WizardNewProjectCreationPage("Project Details");
+//		_projectDetailsPage.setTitle( "Project Details" );
+//		_projectDetailsPage.setDescription( "Fill in a project title" );
 
 		_pathPage = new PathPage(this);
 		_pathPage.setTitle( "Project Paths" );
 		_pathPage.setDescription( "Set the source and binary paths" );
 		
+		_projectPage = new ProjectDetailsPage("Project Details", this);
+		
 		addPage(_languageSelectionPage);
-		addPage(_projectDetailsPage);
+		addPage(_projectPage);
 		addPage(_pathPage);
 	}
 	
@@ -100,7 +117,7 @@ public class ProjectWizard extends BasicNewProjectResourceWizard implements INew
 	void createConfig(Language lang) {
 		if(_projectConfig == null || _projectConfig.language() != lang) {
 			try {
-				_projectConfig = lang.plugin(ConfigLoader.class).createConfigElement(projectName(), null, null);
+				_projectConfig = lang.plugin(ProjectConfigurator.class).createConfigElement(_projectPage.projectName(), null, null);
 			} catch (ConfigException e) {
 				throw new ChameleonProgrammerException(e);
 			}
@@ -108,32 +125,41 @@ public class ProjectWizard extends BasicNewProjectResourceWizard implements INew
 	}
 
 	public String projectName() {
-		return _projectDetailsPage.getProjectName();
+		return projectConfig().name();
 	}
-	/**
-	 * @see IWorkspaceRoot#getProject(String)
-	 */
-
-
+	
+	public void setName(String name) {
+		projectConfig().setName(name);
+	}
+	
 	public boolean performFinish() {
 		try {
+			_pathPage.complete();
 			IWorkspace workspace = ResourcesPlugin.getWorkspace();
 			IWorkspaceRoot workspaceRoot = workspace.getRoot();
 			String projectName = projectName();
 			IProject project = workspaceRoot.getProject(projectName);
-			IFile projfile = project.getFile("."+ChameleonProjectNature.CHAMELEON_PROJECT_FILE_EXTENSION);
-			IFile xmlFile = project.getFile("."+ChameleonProjectNature.CHAMELEON_PROJECT_FILE);
+//			IFile projfile = project.getFile("."+ChameleonProjectNature.CHAMELEON_PROJECT_FILE_EXTENSION);
+//			IFile xmlFile = project.getFile(ChameleonProjectNature.CHAMELEON_PROJECT_FILE);
+			File xmlFile = new File(projectDirectory().getAbsolutePath()+File.separator+ChameleonProjectNature.CHAMELEON_PROJECT_FILE);
+			try {
+				projectConfig().writeToXML(xmlFile);
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
 			if (!project.exists()) {
-				project.create(workspace.newProjectDescription(projectName),new NullProgressMonitor());
+				IProjectDescription newProjectDescription = workspace.newProjectDescription(projectName);
+//				newProjectDescription.setLocation(projectRootPath());
+				project.create(newProjectDescription,new NullProgressMonitor());
 			}
 
 			if(!project.isOpen()) {
 				project.open(new NullProgressMonitor());
 			}
 			
-			String name = projectLanguage().name();
-			InputStream in = new StringBufferInputStream(name);
-			projfile.create(in,true,null);
+//			String name = projectLanguage().name();
+//			InputStream in = new StringBufferInputStream(name);
+//			projfile.create(in,true,null);
 
 			IProjectDescription description = project.getDescription();
 			String[] natures = description.getNatureIds();
@@ -154,6 +180,10 @@ public class ProjectWizard extends BasicNewProjectResourceWizard implements INew
 			e.printStackTrace();
 		}
 		return true;
+	}
+	
+	public File projectDirectory() {
+		return _projectPage.projectDirectory();
 	}
 
 	protected Language projectLanguage() {

@@ -54,7 +54,7 @@ public abstract class ConfigElement {
 	private String _text;
 	
 	public String nodeName() {
-		return _reverseChildClassMap.get(getClass());
+		return Util.getLastPart(getClass().getName().replace('$', '.')).toLowerCase();
 	}
 	
 	protected void readFromXML(File xmlFile) throws ConfigException {
@@ -62,7 +62,7 @@ public abstract class ConfigElement {
 		try {
 			DocumentBuilder builder = fac.newDocumentBuilder();
 			Document doc = builder.parse(xmlFile);
-			read(doc.getDocumentElement()); 
+			read(doc.getDocumentElement());
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			throw new ConfigException(e);
 		}
@@ -85,8 +85,7 @@ public abstract class ConfigElement {
 		try {
 			transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			
-			StreamResult result =  new StreamResult(xmlFile);
+			StreamResult result = new StreamResult(xmlFile);
 			transformer.transform(source, result);
 		} catch (TransformerException e) {
 			throw new ConfigException(e);
@@ -94,7 +93,8 @@ public abstract class ConfigElement {
 	}
 	
 	protected Element toElement(Document doc) {
-		Element result = doc.createElement(nodeName());
+		Element result = wrap(doc.createElement(nodeName()),doc);
+		addImplicitChildren(result, doc);
 		String text = $getText();
 		if(text != null) {
 			result.setTextContent(text);
@@ -102,10 +102,12 @@ public abstract class ConfigElement {
 		// Add the attributes.
 		for(Method method: _attributeGetters) {
 			try {
-				Attr attr = doc.createAttribute(attributeKey(method.getName()));
+				String attributeName = attributeKey(method.getName());
+//				Attr attr = doc.createAttribute(attributeName);
 				String value = (String) method.invoke(this);
-				attr.setValue(value);
-				result.appendChild(attr);
+//				attr.setValue(value);
+				result.setAttribute(attributeName, value);
+//				result.appendChild(attr);
 			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 				e.printStackTrace();
 			}
@@ -117,6 +119,14 @@ public abstract class ConfigElement {
 		return result;
 	}
 	
+	protected Element wrap(Element original, Document doc) {
+		return original;
+	}
+	
+	protected void addImplicitChildren(Element result, Document doc) {
+		
+	}
+
 	private void read(Element node) throws ConfigException {
 		$before();
 		// 1. Set the text
@@ -155,31 +165,51 @@ public abstract class ConfigElement {
 		Class childClass = getChildClass(name);
 		if(childClass != null) {
 				ConfigElement childConfig = createChild(childClass);
-				addChild(childConfig);
+				addChild(childConfig); 
+				System.out.println("debug");
 				childConfig.read(child);
 		} else {
 			_unprocessed.add(child);
 		}
 	}
 
-	private <T extends ConfigElement> T createChild(Class<T> childClass) {
+	private <T extends ConfigElement> T createChild(Class<T> c) {
+		Class childClass = bind(c);
 		try {
-		T childConfig;
-		@SuppressWarnings("unused")
-		boolean inner = childClass.isMemberClass();
-		if(inner) {
-			//				java.lang.reflect.Constructor[] cs = childClass.getConstructors();
-			@SuppressWarnings("unchecked")
-			java.lang.reflect.Constructor ctor = childClass.getConstructors()[0];
+			T childConfig;
+			@SuppressWarnings("unused")
+			boolean inner = childClass.isMemberClass();
+			if(inner) {
+				//				java.lang.reflect.Constructor[] cs = childClass.getConstructors();
+				@SuppressWarnings("unchecked")
+				java.lang.reflect.Constructor ctor = childClass.getConstructors()[0];
 				childConfig = (T) ctor.newInstance(this);
-		} else {
-			childConfig = (T) childClass.getDeclaredConstructor().newInstance();
-		}
-		return childConfig;
+			} else {
+				childConfig = (T) childClass.getDeclaredConstructor().newInstance();
+			}
+			addChild(childConfig);
+			return childConfig;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	/**
+	 * Map class 'c' to the most specific inner class that is its subclass. If there
+	 * is more than one, an arbitrary class will be chosen (you should avoid this, though).
+	 * @param c
+	 * @return
+	 */
+	private Class bind(Class c) {
+		Class result = c;
+		Class[] classes = getClass().getClasses();
+		for(Class k: classes) {
+			if(result.isAssignableFrom(k)) {
+				result = k;
+			}
+		}
+		return result;
 	}
 	
 	private List<Element> _unprocessed = new ArrayList<Element>();
@@ -266,8 +296,10 @@ public abstract class ConfigElement {
 			String methodName = method.getName();
 			if(methodName.startsWith("get")) {
 				Type[] types = method.getGenericParameterTypes();
-				if(types.length == 0 && isString(method.getGenericReturnType().getClass())) {
-					if(_attributeMethodMap.containsValue(attributeKey(methodName))) {
+				Type genericReturnType = method.getGenericReturnType();
+				
+				if(types.length == 0 && genericReturnType.equals(String.class)) {
+					if(_attributeMethodMap.containsKey(attributeKey(methodName))) {
 						_attributeGetters.add(method);
 					}
 				}				
@@ -287,7 +319,10 @@ public abstract class ConfigElement {
 		try {
 			String name = attribute.getName();
 			String value = attribute.getValue();
-			attributeSetter(name).invoke(this, value);
+			Method attributeSetter = attributeSetter(name);
+			if(attributeSetter != null) {
+				attributeSetter.invoke(this, value);
+			}
 		} catch (IllegalAccessException | InvocationTargetException e) {
 		  // We ignore this to stop errors in a config file from preventing loading the configuration file. 
 			e.printStackTrace();
@@ -308,6 +343,7 @@ public abstract class ConfigElement {
 		ConfigElement element = childFor(object);
 		if(element == null) {
 			element = createChild(type);
+			
 			element.setModelElement(object);
 			addChild(element);
 		}

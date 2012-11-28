@@ -38,6 +38,6 @@ public interface InputProcessor extends ViewProcessor {
 	 * 
 	 * @param exc
 	 */
-	public void reportParseError(ParseException exc);
+//	public void reportParseError(ParseException exc);
 
 }

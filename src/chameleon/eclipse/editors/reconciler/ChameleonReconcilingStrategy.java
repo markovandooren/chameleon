@@ -3,6 +3,8 @@ package chameleon.eclipse.editors.reconciler;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.jface.text.BadPositionCategoryException;
 import org.eclipse.jface.text.IDocument;
@@ -12,8 +14,6 @@ import org.eclipse.jface.text.Position;
 import chameleon.core.Config;
 import chameleon.core.document.Document;
 import chameleon.core.element.Element;
-import chameleon.core.language.Language;
-import chameleon.core.namespace.Namespace;
 import chameleon.eclipse.connector.EclipseEditorTag;
 import chameleon.eclipse.editors.ChameleonDocument;
 import chameleon.eclipse.editors.ChameleonSourceViewerConfiguration;
@@ -44,8 +44,7 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 	 */
 	public ChameleonReconcilingStrategy(ChameleonSourceViewerConfiguration configuration){
 		_alreadyInit = false;
-		_firstDR = true;
-		this._configuration = configuration;
+		_configuration = configuration;
 	}
 	
 	/**
@@ -64,18 +63,15 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 		return _document;
 	}
 	
-	// checks if there are dirty regions ?
-	private boolean _firstDR;
-	
-	//check whether reconciling is initiated
+	// Check whether reconciling is initiated
 	private boolean _alreadyInit;
-	//the document to which this ReconcilingStrategy applies
+	// The document to which this ReconcilingStrategy applies
 	private ChameleonDocument _document;
-	//Vector containing clones of positions
-	private ArrayList<ClonedChameleonPosition> clonedPositions = new ArrayList<ClonedChameleonPosition>();
-	// Vector containing all the dirtyPositions in this document
-	private ArrayList<ClonedChameleonPosition> dirtyPositions = new ArrayList<ClonedChameleonPosition>();
-	//states whether the whole document is dirty
+	// List containing clones of positions
+	private ArrayList<ClonedChameleonPosition> _clonedPositions = new ArrayList<ClonedChameleonPosition>();
+	// List containing all the dirtyPositions in this document
+	private ArrayList<ClonedChameleonPosition> _dirtyPositions = new ArrayList<ClonedChameleonPosition>();
+	// States whether the whole document is dirty
 	private boolean _wholeDocumentDirty = false;
 
 	public boolean isWholeDocumentDirty() {
@@ -83,9 +79,6 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 	}
 	
 	private void setWholeDocumentDirty(boolean dirty) {
-		if(Config.debug()) {
-			System.out.println("Setting _wholeDocumentDirty to "+dirty);
-		}
 		_wholeDocumentDirty = dirty;
 	}
 	
@@ -117,7 +110,7 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 		EclipseEditorTag eP = null;
 		for(int i=0; i<positions.length; i++){
 			eP = (EclipseEditorTag)positions[i];
-			clonedPositions.add(cloneDecorator(eP));
+			_clonedPositions.add(cloneDecorator(eP));
 		}
 	}
 	
@@ -132,86 +125,44 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 	 * else it tries to process the smallest altered positions
 	 */
 	public void startReconciling(){
-		if(Config.debug()) {
-		  System.out.println("starting reconciling,in chameleonReconcilingStrategy");
-		}
-		clonedPositions.clear();
-//		if(DEBUG) {
-//		  try {
-//				System.out.println("Number of positions in document: "+getDocument().getPositions(EclipseEditorTag.CHAMELEON_CATEGORY).length);
-//			} catch (BadPositionCategoryException e) {
-//				e.printStackTrace();
-//			}
-//		}
-		
+		_clonedPositions.clear();
 		if(isWholeDocumentDirty()){
-			if(Config.debug()) {
-			  System.out.println("\n 2. verwerken hele document");
-			}
 			try{
 				parseWholeDocument(_document);
-				if(Config.debug()) {
-				  System.out.println("    verwerken hele document geslaagd!");
-				}
 			}catch(Exception err){
 				err.printStackTrace();
-				if(Config.debug()) {
-				  System.out.println("    verwerken hele document NIET geslaagd! ");
-				}
 			}
 		}
 		else{
-      if(Config.debug()) {
-			  System.out.println("\n 2. Verwerken kleinst gewijzigde posities");
-      }
 			removeCoveredPositions();
-			boolean[] status = new boolean[dirtyPositions.size()];		
-			for(int i=0; i<dirtyPositions.size(); i++){
-				status[i] = true;
-			}
-			Position[] positions = null;
-			for(int i=0; i<dirtyPositions.size(); i++){
-				if(status[i] == true){
-					ClonedChameleonPosition position = dirtyPositions.get(i);
-					//System.out.println("  verwerken positie --> offset: "+position2.getOffset()+" - lengte: "+position2.getLength()+" - element: "+position.getElement().getClass().getName());
-					try{
-						
-						// A. Verwijderen decorators van element
-						
-						getDocument().removePosition(EclipseEditorTag.CHAMELEON_CATEGORY,position);
-						// FIXME: positions is always null, making this call useless
-//						removeEmbeddedPos(position, positions, status);						
-		
-						Element element = position.getElement();
-						
-						// B. reparse element
-						
-						ModelFactory factory = view().language().plugin(ModelFactory.class);
-//						String text = getDocument().get(position.getOffset(), position.getLength());
-						factory.refresh(element);
-//						element.reParse(new DocumentEditorToolExtension(getDocument()),getDocument().modelFactory());
-						
-						
-						//System.out.println("  verwerken positie geslaagd\n");
-					}catch(Exception e){
-						//e.printStackTrace();
-						reparseEntireDocument(status, positions, i);
-					}
-					status[i] = false;
-				}
-			}
 			
+			// Keep track of the successfully reparsed elements. If there are multiple errors
+			// on the same element, we don't want to reparse it multiple times.
+			Set<Element> successfullyReparsed = new HashSet<>();
+			ModelFactory factory = view().language().plugin(ModelFactory.class);
+			try{
+				for(ClonedChameleonPosition position : _dirtyPositions) {
+					// A. Remove the position from the document
+					getDocument().removePosition(EclipseEditorTag.CHAMELEON_CATEGORY,position);
+
+					// B. reparse element
+					Element element = position.getElement();
+					if(! successfullyReparsed.contains(element)) {
+						factory.refresh(element);
+						successfullyReparsed.add(element);
+					}
+				}
+			} catch(Exception e){
+				reparseEntireDocument();
+			}
+
+		}
+		if(! getDocument().getParseErrors().isEmpty()) {
+			reparseEntireDocument();
 		}
 		
-		// voor test huidige posities even printen
-		//System.out.println("--------------------");
-		System.out.println("Einde synchronisatie");
-		//System.out.println("--------------------");
-		//System.out.println(" ==> Posities na synchronisatie");
-		//getDocument().printPositions(Decorator.CHAMELEON_CATEGORY);
-		dirtyPositions.clear();
+		_dirtyPositions.clear();
 		clonePositions();
-		this._firstDR = true;
 		
 		nature().flushSourceCache();
 		//checkVerificationErrors();
@@ -234,29 +185,25 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 		return getDocument().getProjectNature();
 	}
 
-	private void reparseEntireDocument(boolean[] status, Position[] positions, int i) {
+	/**
+	 * parses the whole document 
+	 */
+	private void parseWholeDocument(IDocument document) throws Exception{
+		getDocument().reParse();
+	}
+
+	private void reparseEntireDocument() { 
 		try{
-			if(Config.debug()) {
-			  System.out.println("Members verwerken mislukt. Proberen hele document verwerken");
-			}
-			parseWholeDocument(_document);
-			//System.out.println("  verwerken hele document geslaagd");
-			for(int n=0; n<dirtyPositions.size(); n++){
-				status[n] = false;
-			}
-		}catch(Exception err){
-			//System.out.println("  verwerken positie niet geslaagd");
-			//System.out.println("   => positie(s) en element verwijderd");
-			ClonedChameleonPosition pos = ((ClonedChameleonPosition) dirtyPositions.get(i));
-			try{
+			for(ClonedChameleonPosition pos: _dirtyPositions) {
 				pos.getElement().disconnect();
 				getDocument().removePosition(EclipseEditorTag.CHAMELEON_CATEGORY,pos);				
-				// FIXME: positions is always null, making this call useless
-//				removeEmbeddedPos(pos, positions, status);
-			}catch(Exception error){
-				error.printStackTrace();
-			}	
-			
+			}
+		}catch(Exception err){
+		}
+		try {
+			parseWholeDocument(_document);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -270,54 +217,46 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 		}
 	}
 
-	/*
-	 * 
-	 */
-	private void removeEmbeddedPos(ClonedChameleonPosition pos, Position[] positions, boolean[] status){
-		try{
-			ClonedChameleonPosition posB = null;
-			for(int i=0; i<positions.length; i++){
-				posB = (ClonedChameleonPosition)positions[i];
-				if(posB.getOffset()>pos.getOffset() && 
-				   (posB.getOffset()+posB.getLength())<(pos.getOffset()+pos.getLength())){
-					getDocument().removePosition(EclipseEditorTag.CHAMELEON_CATEGORY,posB);				
-					for(int n=0; n<status.length; n++){
-						if((dirtyPositions.get(n)) == posB){
-							status[n] = false;
-						}
-					}
-				}
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-	}
+//	/*
+//	 * 
+//	 */
+//	private void removeEmbeddedPos(ClonedChameleonPosition pos, Position[] positions, boolean[] status){
+//		try{
+//			ClonedChameleonPosition posB = null;
+//			for(int i=0; i<positions.length; i++){
+//				posB = (ClonedChameleonPosition)positions[i];
+//				if(posB.getOffset()>pos.getOffset() && 
+//				   (posB.getOffset()+posB.getLength())<(pos.getOffset()+pos.getLength())){
+//					getDocument().removePosition(EclipseEditorTag.CHAMELEON_CATEGORY,posB);				
+//					for(int n=0; n<status.length; n++){
+//						if((dirtyPositions.get(n)) == posB){
+//							status[n] = false;
+//						}
+//					}
+//				}
+//			}
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}
+//	}
 	
 	/*
 	 * 
 	 */
 	private void removeCoveredPositions(){
 		ClonedChameleonPosition posA, posB;
-		for(int i=0; i<dirtyPositions.size(); i++){
-			posA = dirtyPositions.get(i); 
-			for(int t=0; t<dirtyPositions.size(); t++){
-				posB = dirtyPositions.get(t);
+		for(int i=0; i<_dirtyPositions.size(); i++){
+			posA = _dirtyPositions.get(i); 
+			for(int t=0; t<_dirtyPositions.size(); t++){
+				posB = _dirtyPositions.get(t);
 				if(posB.getOffset()>posA.getOffset() && 
 				   (posB.getOffset()+posB.getLength())<(posA.getOffset()+posA.getLength())){
-					dirtyPositions.remove(posB);
+					_dirtyPositions.remove(posB);
 				}
 			}
 		}
 	}
 	
-	/*
-	 * parses the whole document 
-	 */
-	private void parseWholeDocument(IDocument document) throws Exception{
-		ChameleonDocument doc = this.getDocument();
-		doc.reParse();
-	}
-
 	
 	/**
 	 * Search in the list of cloned positions for the smallest decorator covering the dirty region
@@ -325,28 +264,13 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 	 * @param dR
 	 * @return
 	 */
-	private ClonedChameleonPosition getSmallestCoveringPos(ChameleonDirtyRegion dR){
-		ClonedChameleonPosition covPos = null;
-		for(ClonedChameleonPosition pos : clonedPositions) {
-			// if dirty region is completely in position ...
-			if(dR.getOffset()>pos.offset && dR.getOffset()<=(pos.getOffset()+pos.getLength()-1) && 
-					(dR.getOffset()+dR.getLength()-1)<(pos.getOffset()+pos.getLength()-1)){
-				if(covPos == null || pos.getLength()<covPos.getLength()) {
-					covPos = pos;
-				}
-			}
-		}
-		
-		return covPos;
-	}
-	
 	// reconstruct positions (via dirty region)
 	private void adaptClonedPositions(ChameleonDirtyRegion dR){
 		// dirty region of type _INSERT
 		ClonedChameleonPosition eP;
 		if(dR.getType()==ChameleonDirtyRegion.INSERT){
-			for(int j=0; j<clonedPositions.size(); j++){
-				eP = clonedPositions.get(j);
+			for(int j=0; j<_clonedPositions.size(); j++){
+				eP = _clonedPositions.get(j);
 				// offset dirty region before position (adjust offset position)
 				if(dR.getOffset()<=eP.offset){
 					eP.setOffset(eP.getOffset()+dR.getLength());
@@ -367,8 +291,8 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 			int endOffsetDR = dR.getOffset()+dR.getLength()-1;
 			int beginOffsetPos;
 			int endOffsetPos;
-			for(int j=0; j<clonedPositions.size(); j++){
-				eP = clonedPositions.get(j);
+			for(int j=0; j<_clonedPositions.size(); j++){
+				eP = _clonedPositions.get(j);
 				beginOffsetPos = eP.getOffset();
 				endOffsetPos = eP.getOffset()+eP.getLength()-1;
 				// dirty region completely in position (adjust length position)
@@ -412,31 +336,17 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 	public void reconcile(ChameleonDirtyRegion dirtyRegion, IRegion subRegion){
 		View view = view();
 		if(view != null) {
-//			Namespace root = view.namespace();
-//			System.out.println("reconciling dirtyregion & subregion,in chameleonReconcilingStrategy");
-//			if(_firstDR == true){
-//				System.out.println("Start synchronisatie");
-//				System.out.println(" 1. Verwerken vervuilde tekstgebieden");
-//			}
-
 			setWholeDocumentDirty(false);
-			_firstDR = false;
-			//System.out.println("   VERVUILD TEKSTGEBIED - offset: "+dirtyRegion.getOffset()+" - lengte: "+dirtyRegion.getLength()+ " - type: "+dirtyRegion.getType()/*+" tekst: "+dirtyRegion.getText()*/);
 
 			if(dirtyRegion.getType() == ChameleonDirtyRegion.INSERT){
-
 				adaptClonedPositions(dirtyRegion);
-
 			}
 
-			ClonedChameleonPosition coveringPos = getSmallestCoveringPos(dirtyRegion);
-
+			ClonedChameleonPosition coveringPos = dirtyRegion.getSmallestCoveringPos(_clonedPositions);
 			if(coveringPos != null){
-				//System.out.println("     => KLEINST GEWIJZIGDE POSITIE - offset: "+coveringPos.getOffset()+" - lengte: "+coveringPos.getLength()+" - element: "+coveringPos.getElement().getClass().getName());
-				addListDirtyPositions(coveringPos);
+				addDirtyPositions(coveringPos);
 			}
 			else{
-//				System.out.println("     => HELE DOCUMENT VERVUILD");
 				setWholeDocumentDirty(true);
 			}
 
@@ -446,9 +356,9 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 		}
 	}	
 
-	private void addListDirtyPositions(ClonedChameleonPosition position){
-		if(!dirtyPositions.contains(position)) {
-			dirtyPositions.add(position);
+	private void addDirtyPositions(ClonedChameleonPosition position){
+		if(!_dirtyPositions.contains(position)) {
+			_dirtyPositions.add(position);
 		}
 	}
 

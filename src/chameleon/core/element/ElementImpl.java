@@ -945,9 +945,6 @@ public abstract class ElementImpl implements Element {
 	 public <X extends Exception> ChameleonProperty property(UnsafePredicate<ChameleonProperty,X> predicate) throws ModelException, X {
 		 List<ChameleonProperty> properties = new ArrayList<ChameleonProperty>();
 		 for(ChameleonProperty p : properties().properties()) {
-			 if(p == null) {
-				 System.out.println("debug");
-			 }
 			 if(predicate.eval(p)) {
 				 properties.add(p);
 			 }

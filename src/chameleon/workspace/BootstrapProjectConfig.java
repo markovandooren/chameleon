@@ -78,7 +78,7 @@ public class BootstrapProjectConfig extends ConfigElement {
 
 	@Override
 	protected void $after() throws ConfigException {
-		ConfigElement pc = _lang.plugin(ConfigLoader.class).createConfigElement(_projectName, _root, _listener);
+		ConfigElement pc = _lang.plugin(ProjectConfigurator.class).createConfigElement(_projectName, _root, _listener);
 		for(Element element: unprocessedElements()) {
 			pc.processChild(element);
 		}

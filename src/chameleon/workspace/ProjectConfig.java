@@ -1,6 +1,10 @@
 package chameleon.workspace;
 
 import java.io.File;
+import java.util.List;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import chameleon.core.language.Language;
 import chameleon.exception.ChameleonProgrammerException;
@@ -10,20 +14,27 @@ import chameleon.exception.ChameleonProgrammerException;
  * a {@link BootstrapProjectConfig} object is created. The bootstrapper is given the root
  * directory of the project (the directory in which project.xml is found), and a {@link LanguageRepository}.
  * The bootstrapper reads the language from the XML file by reading the XML nodes, and looks up the corresponding {@link Language} object
- * in the language repository. The bootstrapper gets the {@link ConfigLoader} plugin via {@link Language#plugin(Class)} and
- * invokes {@link ConfigLoader#createConfigElement(String, File, ProjectInitialisationListener)} to create an object of 
+ * in the language repository. The bootstrapper gets the {@link ProjectConfigurator} plugin via {@link Language#plugin(Class)} and
+ * invokes {@link ProjectConfigurator#createConfigElement(String, File, ProjectInitialisationListener)} to create an object of 
  * the appropriate subclass of ProjectConfig. In the last step, the bootstrapper tells the project config to process the
  * non-language nodes in the configuration file (only the language node is used by the bootstrapper itself).
  *  
  * @author Marko van Dooren
  */
-public class ProjectConfig extends ConfigElement {
+public abstract class ProjectConfig extends ConfigElement {
 
 	@Override
 	public String nodeName() {
 		return "project";
 	}
 	
+	protected void addImplicitChildren(Element result, Document doc) {
+		Element lang = doc.createElement("language");
+		lang.setAttribute("name", view().language().name());
+		lang.setAttribute("version", view().language().version().toString());
+		result.appendChild(lang);
+	}
+
 	public ProjectConfig(View view, FileInputSourceFactory factory, String projectName, File root) {
 		_view = view;
 		_factory = factory;
@@ -32,16 +43,6 @@ public class ProjectConfig extends ConfigElement {
     //FIXME activate and fix this code when multi view support is added.
     //      I'd rather not do it before I know what I'm doing.
     project().addProjectListener(new ProjectListener() {
-    	@Override
-    	public void viewAdded(View view) {
-    		
-    	}
-    	
-    	@Override
-    	public void viewRemoved(View view) {
-    		
-    	}
-    	
     	@Override
     	public void nameChanged(String name) {
     		_name = name;
@@ -131,7 +132,7 @@ public class ProjectConfig extends ConfigElement {
 			
 			protected void $after() throws ConfigException {
 				try {
-					DirectoryLoader loader = new DirectoryLoader(_extension, _path, fileInputSourceFactory());
+					DirectoryLoader loader = createLoader(fileInputSourceFactory());
 					view().addSource(loader);
 					setModelElement(loader);
 				} catch (ProjectException e) {
@@ -140,12 +141,6 @@ public class ProjectConfig extends ConfigElement {
 			}
 
 		}
-
-//		public void $createChild(DocumentLoader loader) {
-//			Source s = new Source();
-//			addChild(s);
-//			s.$synch(loader);
-//		}
 
 		@Override
 		protected void $update() {
@@ -163,18 +158,13 @@ public class ProjectConfig extends ConfigElement {
 		public class Source extends ProjectConfig.Source {
 			protected void $after() throws ConfigException {
 				try {
-					view().addBinary(new DirectoryLoader(_extension, _path, fileInputSourceFactory()));
+					view().addBinary(createLoader(fileInputSourceFactory()));
 				} catch (ProjectException e) {
 					throw new ConfigException(e);
 				}
 			}
 			
 		}
-//		public void $createChild(DocumentLoader loader) {
-//			Source s = new Source();
-//			addChild(s);
-//			s.$synch(loader);
-//		}
 		
 	}
 	
@@ -187,33 +177,41 @@ public class ProjectConfig extends ConfigElement {
 	}
 	
 	
-	public static class Source extends ConfigElement {
+	public abstract class Source extends ConfigElement {
 		protected String _path;
 		
 		public void setRoot(String path) {
 			_path = path;
 		}
 		
-		protected String _extension;
-		
-		public void setExtension(String text) {
-			_extension = text;
+		public String getRoot() {
+			return _path;
 		}
-
+		
 		@Override
 		protected void $update() {
 			DirectoryLoader directoryLoader = (DirectoryLoader)modelElement();
 			_path = directoryLoader.path();
-			_extension = directoryLoader.fileExtension();
+//			_extension = directoryLoader.fileExtension();
 		}
 
+		protected DirectoryLoader createLoader(FileInputSourceFactory factory) {
+			DirectoryLoader loader = new DirectoryLoader(_path, factory);
+			for(String ext: sourceExtensions()) {
+				loader.addFileExtension(ext);
+			}
+			return loader;
+		}
 	}
 	
+	//FIXME Move this to the ProjectConfigurator
+	protected abstract List<String> sourceExtensions();
+
 	public void addSource(String path) {
 		SourcePath sourcePath = createOrGetChild(SourcePath.class);
-		SourcePath.Source element = sourcePath.new Source();
+		SourcePath.Source element = sourcePath.createOrGetChild(chameleon.workspace.ProjectConfig.SourcePath.Source.class);
 		element.setRoot(path);
-		addChild(element);
+//		addChild(element);
 	}
 
 	@Override

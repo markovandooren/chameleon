@@ -87,6 +87,9 @@ public class ExpressionTest extends ModelTest {
   @Test
   public void testExpressionTypes() throws Exception {
 	  Collection<Type> types = typeProvider().elements(view());
+//	  if(types.isEmpty()) {
+//	  	System.out.println("debug");
+//	  }
 	  final BlockingQueue<Type> typeQueue = new ArrayBlockingQueue<Type>(types.size(), true, types);
 	  CallableFactory factory = new QueuePollingCallableFactory(new UnsafeAction<Type,LookupException>() {
 	  	public void actuallyPerform(Type type) throws LookupException {

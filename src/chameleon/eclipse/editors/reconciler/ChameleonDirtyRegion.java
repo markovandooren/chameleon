@@ -3,7 +3,11 @@
  */
 package chameleon.eclipse.editors.reconciler;
 
+import java.util.List;
+
 import org.eclipse.jface.text.reconciler.DirtyRegion;
+
+import chameleon.eclipse.editors.reconciler.ChameleonReconcilingStrategy.ClonedChameleonPosition;
 
 /**
  * @author Jef Geerinckx
@@ -91,4 +95,21 @@ public class ChameleonDirtyRegion extends DirtyRegion/*implements ITypedRegion*/
 		fLength2= end - start;
 		fText2= (dr.fText2 == null ? fText2 : (fText2 == null) ? dr.fText2 : fText2 + dr.fText2);
 	}
+	
+	ClonedChameleonPosition getSmallestCoveringPos(List<ClonedChameleonPosition> clonedPositions){
+		ClonedChameleonPosition covPos = null;
+		for(ClonedChameleonPosition pos : clonedPositions) {
+			// if dirty region is completely in position ...
+			if(getOffset()>pos.offset && getOffset()<=(pos.getOffset()+pos.getLength()-1) && 
+					(getOffset()+getLength()-1)<(pos.getOffset()+pos.getLength()-1)){
+				if(covPos == null || pos.getLength()<covPos.getLength()) {
+					covPos = pos;
+				}
+			}
+		}
+		
+		return covPos;
+	}
+	
+
 }

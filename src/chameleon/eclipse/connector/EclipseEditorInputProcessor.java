@@ -16,6 +16,7 @@ import chameleon.eclipse.project.ChameleonProjectNature;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.InputProcessor;
 import chameleon.input.ParseException;
+import chameleon.input.ParseProblem;
 import chameleon.plugin.Processor;
 import chameleon.plugin.ViewProcessorImpl;
 
@@ -40,12 +41,12 @@ public class EclipseEditorInputProcessor extends ViewProcessorImpl implements In
 		return new EclipseEditorInputProcessor(null);
 	}
 
-	public void reportParseError(ParseException exc) {
-		ChameleonDocument doc = document(exc.compilationUnit());
-		if (doc!=null) {
-			doc.handleParseError(exc);
-		}
-	}
+//	public void reportParseError(ParseException exc) {
+//		ChameleonDocument doc = document(exc.compilationUnit());
+//		if (doc!=null) {
+//			doc.handleParseError(exc);
+//		}
+//	}
 
 	public ChameleonDocument document(Element element) {
 		return projectNature().document(element);
@@ -104,7 +105,7 @@ public class EclipseEditorInputProcessor extends ViewProcessorImpl implements In
 		}
 	}
 
-	public void markParseError(int offset, int length, String message,Element element) {
+	public void markParseError(int offset, int length, String message, Element element) {
 		ChameleonDocument document = document(element);
 		if(document != null) {
 			String header;
@@ -119,10 +120,8 @@ public class EclipseEditorInputProcessor extends ViewProcessorImpl implements In
 				header = "cannot determine position of syntax error:";
 				lineNumber = 0;
 			}
-			//FIXME don't like that all this static code is in ChameleonPresentationReconciler.
-			Map<String,Object> attributes = ChameleonPresentationReconciler.createProblemMarkerMap(header+" "+message);
-			document.setProblemMarkerPosition(attributes, offset, length);
-			document.addProblemMarker(attributes);
+			ParseProblem pb = new ParseProblem(element, header + " " + message, offset, length);
+			document.markParseError(pb);
 		}
 	}
 

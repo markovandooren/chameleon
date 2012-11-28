@@ -31,9 +31,6 @@ public class Cache {
 				String selectionName = selector.selectionName(null);
 				Class selectedClass = selector.selectedClass();
 				Object result = collector.result();
-				if(! selectedClass.isInstance(result)) {
-					System.out.println("debug");
-				}
 				List cache = Collections.singletonList(result);
 				put(selectionName, selectedClass,cache);
 			}

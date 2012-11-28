@@ -4,6 +4,6 @@
     <!-- <dependency org="junit" name="junit" rev="4.10"/>  --> <!-- Dep already received from rejuse. Only uncomment when absolutely necessary -->
     <dependency org="log4j" name="log4j" rev="1.2.16"/>
     <dependency org="org.antlr" name="antlr-runtime" rev="3.2"/>
-    <dependency org="distrinet.cs.kuleuven.be" name="rejuse" rev="1.0.6"/>
+    <dependency org="distrinet.cs.kuleuven.be" name="rejuse" rev="1.0.7"/>
   </dependencies>
 </ivy-module>

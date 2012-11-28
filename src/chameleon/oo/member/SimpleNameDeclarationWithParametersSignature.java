@@ -26,7 +26,10 @@ public class SimpleNameDeclarationWithParametersSignature extends DeclarationWit
   
   public void setName(String name) {
     _name = name;
-    _nameHash = _name.hashCode();
+    // Robustness check needed to deal with partially parsed code.
+    if(_name != null) {
+    	_nameHash = _name.hashCode();
+    }
   }
   
   public int nameHash() {
