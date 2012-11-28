@@ -7,8 +7,7 @@ Bundle-ClassPath: lib/log4j-1.2.16.jar,
  bin/.,
  .,
  lib/antlr-runtime-3.2.jar,
- lib/stringtemplate-3.2.jar,
- lib/rejuse-1.0.7.jar
+ lib/stringtemplate-3.2.jar
 Bundle-Activator: chameleon.eclipse.ChameleonEditorPlugin
 Bundle-Vendor: KU Leuven
 Bundle-Localization: plugin
@@ -182,40 +181,7 @@ Export-Package: chameleon.aspect.core.build,
  org.junit.runner.manipulation,
  org.junit.runner.notification,
  org.junit.runners,
- org.junit.runners.model,
- org.rejuse,
- org.rejuse.association,
- org.rejuse.association.test,
- org.rejuse.debug,
- org.rejuse.event,
- org.rejuse.event.test,
- org.rejuse.graph,
- org.rejuse.graph.test,
- org.rejuse.io,
- org.rejuse.io.fileset,
- org.rejuse.java.collections,
- org.rejuse.java.collections.test,
- org.rejuse.java.comparator,
- org.rejuse.java.io,
- org.rejuse.java.reflect,
- org.rejuse.java.reflect.test,
- org.rejuse.java.throwable,
- org.rejuse.java.throwable.test,
- org.rejuse.javax.swing,
- org.rejuse.junit,
- org.rejuse.logic.relation,
- org.rejuse.logic.ternary,
- org.rejuse.math,
- org.rejuse.math.matrix,
- org.rejuse.math.matrix.test,
- org.rejuse.metric,
- org.rejuse.metric.dimension,
- org.rejuse.metric.physicalquantity,
- org.rejuse.metric.test,
- org.rejuse.metric.unit,
- org.rejuse.predicate,
- org.rejuse.predicate.test,
- org.rejuse.property
+ org.junit.runners.model
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.jface.text,
@@ -223,7 +189,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.workbench.texteditor,
  org.eclipse.ui.views,
  org.eclipse.core.resources,
- org.eclipse.ui.ide
+ org.eclipse.ui.ide,
+ rejuse;bundle-version="1.0.0"
 Eclipse-BuddyPolicy: registered
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

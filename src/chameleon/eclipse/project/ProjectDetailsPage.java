@@ -156,6 +156,7 @@ public class ProjectDetailsPage extends WizardPage implements IWizardPage {
 			}
 
 		});
+		checkBox.setEnabled(false);
 	}
 
 	protected void syncName() {
