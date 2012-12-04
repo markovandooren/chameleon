@@ -25,10 +25,17 @@ import chameleon.workspace.ProjectException;
 import chameleon.workspace.View;
 
 /**
- * A compilation unit represents a file in which elements of the program/model are defined.
+ * <p>A document represents an artefact in which elements of the program/model are defined. This will typically correspond
+ * to a file.</p>
  * 
- * A compilation unit does not directly contain the source code elements. It contains the namespace parts that contain
- * the source code. 
+ * <p>A document does not directly contain the source code elements. It contains the namespace declarations ({@link NamespaceDeclaration}) 
+ * that contain the elements and associate them with a namespace. Namespace declarations can be nested. If a language
+ * does not explicitly mention a general namespace (such as Eiffel), a namespace declaration should be used that
+ * puts its contents in the root namespace.</p>
+ * 
+ * <p>Each document is linked to the {@link InputSource} that is responsible for populating the document. The
+ * document only connects itself to a model after invoking ({@link #activate()})! This is done automatically when
+ * a document is loaded by the lookup mechanism and when it is reparsed.</p>
  * 
  * @author Marko van Dooren
  */
@@ -36,21 +43,35 @@ public class Document extends ElementImpl {
 
 //	private CreationStackTrace _trace = new CreationStackTrace();
 	
+	/**
+	 * Create a new empty document. The document is not activated.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post children().isEmpty();
+   @*/
 	public Document() {
-		
 	}
 	
   /**
-   * Create a new compilation unit with the given namespace part.
+   * Create a new compilation unit with the given namespace declaration.
+   * The document is not activated.
    * @param namespacePart
    */
-	public Document(NamespaceDeclaration defaultNamespacePart) {
-    add(defaultNamespacePart);
+ /*@
+   @ public behavior
+   @
+   @ post children().size() == 1;
+   @ post children().contains(namespaceDeclaration);
+   @*/
+	public Document(NamespaceDeclaration namespaceDeclaration) {
+    add(namespaceDeclaration);
 	}
 	
 	/**
 	 * Activate this document by letting all descendant namespace declarations
-	 * connect themselves to their corresponding namespace. This adds the content
+	 * connect themselves to their corresponding namespace. This adds the contents
 	 * of this document to the logical namespace structure of the project. 
 	 */
 	public void activate() {
@@ -58,44 +79,73 @@ public class Document extends ElementImpl {
 			nsd.namespace();
 		}
 	}
+	
 	/************
 	 * Children *
 	 ************/
 
 	/**
-	 * NAMESPACEPARTS
+	 * Return the namespace declarations in this document.
 	 */
-	public List<NamespaceDeclaration> namespaceParts() {
+	public List<NamespaceDeclaration> namespaceDeclarations() {
 		return _subNamespaceParts.getOtherEnds();
 	}
 	
 	/**
 	 * Indices start at 1.
-	 * @param index
+	 * @param baseOneIndex
 	 * @return
 	 */
-	public NamespaceDeclaration namespacePart(int index) {
-		return _subNamespaceParts.elementAt(index);
+	public NamespaceDeclaration namespaceDeclaration(int baseOneIndex) {
+		return _subNamespaceParts.elementAt(baseOneIndex);
 	}
 
-	public void add(NamespaceDeclaration pp) {
-		add(_subNamespaceParts,pp);
+	/**
+	 * Add the given namespace declaration to this document.
+	 * @param namespaceDeclaration The namespace declaration to be added.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ ! \old(namespaceDeclarations().contains(namespaceDeclaration)) ==> 
+   @        namespaceDeclaration(namespaceDeclarations().size()) == namespaceDeclaration;
+   @ ! \old(namespaceDeclarations().contains(namespaceDeclaration) ==>
+   @        namespaceDeclarations().size() == \old(namespaceDeclarations().size()) + 1;
+   @*/
+	public void add(NamespaceDeclaration namespaceDeclaration) {
+		add(_subNamespaceParts,namespaceDeclaration);
 	}
 
-	public void remove(NamespaceDeclaration pp) {
-		remove(_subNamespaceParts,pp);
+	/**
+	 * Remove the given namespace declaration to this document.
+	 * @param namespaceDeclaration The namespace declaration to be added.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ ! namespaceDeclarations().contains(namespaceDeclaration);
+   @ ! \old(namespaceDeclarations().contains(namespaceDeclaration) ==>
+   @        namespaceDeclarations().size() == \old(namespaceDeclarations().size()) - 1;
+   @*/
+	public void remove(NamespaceDeclaration namespaceDeclaration) {
+		remove(_subNamespaceParts,namespaceDeclaration);
 	}
 	
 	private Multi<NamespaceDeclaration> _subNamespaceParts = new Multi<NamespaceDeclaration>(this);
 
 
+	/**
+	 * Normally a document should not be involved in the lookup process. The child namespace declarations
+	 * should redirect the lookup towards the general namespace.
+	 */
 	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
-		throw new ChameleonProgrammerException("A compilation unit should not be involved in the lookup");
+		throw new ChameleonProgrammerException("A document should not be involved in the lookup");
 	}
 
-
+  //TODO Document why this implementation differs from the default and does not go via
+	//     the input source.
 	public Language language() {
-		List<NamespaceDeclaration> parts = namespaceParts();
+		List<NamespaceDeclaration> parts = namespaceDeclarations();
 		Language result = null;
 		if(parts.size() > 0) {
 	    NamespaceDeclaration firstNamespace = parts.get(0);
@@ -110,7 +160,7 @@ public class Document extends ElementImpl {
   @Override
   public Document clone() {
     Document result = new Document();
-    for(NamespaceDeclaration namespacePart: namespaceParts()) {
+    for(NamespaceDeclaration namespacePart: namespaceDeclarations()) {
     	result.add(namespacePart.clone());
     }
     return result;
@@ -121,7 +171,7 @@ public class Document extends ElementImpl {
 		return Valid.create();
 	}
 
-	public static class FakeInputSource extends InputSourceImpl {
+	private static class FakeInputSource extends InputSourceImpl {
 
 		public FakeInputSource(Document document) {
 			setDocument(document);
@@ -133,7 +183,7 @@ public class Document extends ElementImpl {
 		
 	}
 	
-	public static class FakeDocumentLoader extends DocumentLoaderImpl {
+	private static class FakeDocumentLoader extends DocumentLoaderImpl {
 		
 	}
 	
@@ -149,18 +199,6 @@ public class Document extends ElementImpl {
 			throw new ChameleonProgrammerException(e);
 		}
 		clone.activate();
-//		List<NamespaceDeclaration> originalNamespaceParts = namespaceParts();
-//		List<NamespaceDeclaration> newNamespaceParts = clone.namespaceParts();
-//		Iterator<NamespaceDeclaration> originalIterator = originalNamespaceParts.iterator();
-//		Iterator<NamespaceDeclaration> newIterator = newNamespaceParts.iterator();
-//		while(originalIterator.hasNext()) {
-//			NamespaceDeclaration originalNamespacePart = originalIterator.next();
-//			NamespaceDeclaration newNamespacePart = newIterator.next();
-//			Namespace originalNamespace = originalNamespacePart.namespace();
-//			String fqn = originalNamespace.getFullyQualifiedName();
-//			Namespace newNamespace = view.namespace().getOrCreateNamespace(fqn);
-//			newNamespace.addNamespacePart(newNamespacePart);
-//		}
 		return clone;
 	}
 	
@@ -168,20 +206,26 @@ public class Document extends ElementImpl {
 		return _inputSource;
 	}
 	
+	/**
+	 * Return the input source that is responsible for loading the contents of this document.
+	 * @return
+	 */
 	public InputSource inputSource() {
 		return _inputSource.getOtherEnd();
 	}
 
 	protected SingleAssociation<Document, InputSource> _inputSource = new SingleAssociation<>(this);
 	
+	/**
+	 * The view of a document is the view to which its input source is connected.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result == inputSource().view();
+   @*/
 	@Override 
 	public View view() {
 		return inputSource().view();
 	}
-	
-//	@Override
-//	public Project project() {
-//		return inputSource().project();
-//	}
-	
- }
+}

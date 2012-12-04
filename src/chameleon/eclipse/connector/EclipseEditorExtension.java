@@ -136,6 +136,17 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
   	return new ArrayList<Modifier>();
   }
   
+  /**
+   * Return the directory in which the output of the builder must be written.
+   * 
+   * @param projectRoot The root directory of the project.
+   * @return
+   */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
   public File buildDirectory(File projectRoot) {
   	return projectRoot;
   }

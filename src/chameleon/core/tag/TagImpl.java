@@ -10,11 +10,23 @@ public class TagImpl implements Metadata {
   	return _element;
   }
   
+  private String name() {
+  	return _name;
+  }
+  
+  private String _name;
+  
+  public void disconnect() {
+  	if(_element != null) {
+  		_element.removeMetadata(name());
+  	}
+  }
+  
   public void setElement(Element element, String name) {
   	if(element != _element) {
   		// Set new pointer, backup old for removal.
-  		Element old = _element;
   		_element = element;
+  		_name = name;
   		// Remove from current element.
   		if((_element != null) && (_element.metadata(name) == this)){
   			_element.removeMetadata(name);

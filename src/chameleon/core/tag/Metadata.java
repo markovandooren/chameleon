@@ -16,5 +16,10 @@ public interface Metadata {
 	public Element getElement();
 	
 	public void setElement(Element element, String name);
+	
+	/**
+	 * Disconnect this metadata from its element.
+	 */
+	public void disconnect();
 
 }

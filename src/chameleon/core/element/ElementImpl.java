@@ -12,6 +12,7 @@ import java.util.Set;
 
 import org.rejuse.association.AbstractMultiAssociation;
 import org.rejuse.association.Association;
+import org.rejuse.association.IAssociation;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.logic.ternary.Ternary;
@@ -108,6 +109,26 @@ public abstract class ElementImpl implements Element {
 			for(String tagName: keySet) {
 				removeMetadata(tagName);
 			}
+		}
+	}
+	
+	public void freeze() {
+		for(Element element: children()) {
+			element.parentLink().lock();
+			element.freeze();
+		}
+		for(IAssociation association: associations()) {
+			association.lock();
+		}
+	}
+
+	public void unfreeze() {
+		for(Element element: children()) {
+			element.parentLink().unlock();
+			element.unfreeze();
+		}
+		for(IAssociation association: associations()) {
+			association.unlock();
 		}
 	}
 
@@ -305,6 +326,7 @@ public abstract class ElementImpl implements Element {
 		} else {
 			_parent = null;
 		}
+		removeAllMetadata();
 	}
 
 	/**

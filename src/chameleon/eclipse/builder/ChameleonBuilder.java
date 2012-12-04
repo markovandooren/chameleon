@@ -214,32 +214,6 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 		return file;
 	}
 	
-	/*
-	protected void build(List<CompilationUnit> compilationUnits, IProgressMonitor monitor) throws CoreException {
-		boolean released = true;
-		try {
-			int totalWork = compilationUnits.size();
-			monitor.setTaskName(buildName());
-			monitor.beginTask(buildName(), totalWork);
-			chameleonNature().acquire();
-			released = false;
-			chameleonNature().flushProjectCache();
-			int i = 0;
-			for(CompilationUnit cu: compilationUnits) {
-				checkForCancellation(monitor);
-				build(cu);
-				i++;
-				monitor.worked(1);
-			}
-		} catch(InterruptedException exc) {
-		} finally {
-			if(! released) {
-				chameleonNature().release();
-			}
-			monitor.done();
-		}
-	}*/
-	
 	public VerificationResult checkVerificationErrors(Document cu) throws CoreException {
 		VerificationResult result = null;
 		ChameleonDocument document = chameleonNature().document(cu);
@@ -256,25 +230,4 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 		return result;
 	}
 
-/*	private void build(CompilationUnit cu) throws CoreException {
-		Builder builder = builder();
-		List<CompilationUnit> compilationUnits = nature().compilationUnits();
-		if(builder != null) {
-			try {
-				VerificationResult ver = checkVerificationErrors(cu);
-				if(ver == null) {
-					System.out.println("debug");
-				}
-				if(ver.equals(Valid.create())) {
-					builder.build(cu,compilationUnits);
-				}
-			} catch (ModelException e) {
-				//TODO report error using a MARKER
-				e.printStackTrace();
-			} catch (IOException e) {
-				//TODO report error using a MARKER
-				e.printStackTrace();
-			}
-		}
-	}*/
 }

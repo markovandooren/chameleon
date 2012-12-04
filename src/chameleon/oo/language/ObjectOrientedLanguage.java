@@ -43,9 +43,6 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	public final ChameleonProperty EXTENSIBLE;
 	public final ChameleonProperty REFINABLE;
 	public final DynamicChameleonProperty DEFINED;
-	/**
-	 * The inverse of DEFINED.
-	 */
 	public final ChameleonProperty ABSTRACT;
 	public final StaticChameleonProperty INSTANCE;
 	public final ChameleonProperty CLASS;

@@ -107,35 +107,36 @@ public abstract class ModelFactoryUsingANTLR extends LanguagePluginImpl implemen
 						// Use raw type here, we can't really type check this.
 						Association childLink = element.parentLink().getOtherRelation();
 						childLink.replace(element.parentLink(), newElement.parentLink());
-						clearPositions(element,view);
+//						clearPositions(element,view);
 						done = true;
 						break;
 					}
 				} catch(ParseException exc) {
 				} catch (NoLocationException e) {
 				}
+				Element old = element;
 				if(! done) {
-					Element old = element;
 					element = element.parent();
 					if(element == null) {
 						throw new ParseException(old.nearestAncestor(Document.class));
 					}
 				}
+				old.disconnect();
 			}
 		}
 	}
 	
-	/**
-	 * Remove all positional metadata from the given element using the
-	 * input processors of the given language. 
-	 * @param element
-	 * @param lang
-	 */
-	protected void clearPositions(Element element, View view) {
-   	for(InputProcessor processor: view.processors(InputProcessor.class)) {
-   		processor.removeLocations(element);
-   	}
-	}
+//	/**
+//	 * Remove all positional metadata from the given element using the
+//	 * input processors of the given language. 
+//	 * @param element
+//	 * @param lang
+//	 */
+//	protected void clearPositions(Element element, View view) {
+//   	for(InputProcessor processor: view.processors(InputProcessor.class)) {
+//   		processor.removeLocations(element);
+//   	}
+//	}
 
 	protected abstract <P extends Element> Element parse(Element element, String text) throws ParseException;
 

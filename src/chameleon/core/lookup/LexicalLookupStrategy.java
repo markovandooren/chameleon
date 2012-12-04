@@ -94,5 +94,11 @@ public class LexicalLookupStrategy extends LookupStrategy {
 		_cache = new Cache();
 	}
 	
+	public void flushCache() {
+		if(_cache != null) {
+			enableCache();
+		}
+	}
+	
 	private Cache _cache;
 }

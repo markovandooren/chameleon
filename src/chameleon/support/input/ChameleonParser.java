@@ -75,7 +75,6 @@ public abstract class ChameleonParser<L extends Language> extends Parser impleme
 			if(view != null) {
 				return view.processors(InputProcessor.class);
 			} else {
-				System.out.println("debug");
 				throw new IllegalStateException();
 			}
 		}

@@ -125,6 +125,7 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 	 * else it tries to process the smallest altered positions
 	 */
 	public void startReconciling(){
+		try {
 		_clonedPositions.clear();
 		if(isWholeDocumentDirty()){
 			try{
@@ -143,7 +144,8 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 			try{
 				for(ClonedChameleonPosition position : _dirtyPositions) {
 					// A. Remove the position from the document
-					getDocument().removePosition(EclipseEditorTag.CHAMELEON_CATEGORY,position);
+					// TODO This should be done automatically when the element is removed from the model.
+//					getDocument().removePosition(EclipseEditorTag.CHAMELEON_CATEGORY,position);
 
 					// B. reparse element
 					Element element = position.getElement();
@@ -164,10 +166,10 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 		_dirtyPositions.clear();
 		clonePositions();
 		
-		nature().flushSourceCache();
-		//checkVerificationErrors();
-		fireModelUpdated();
-		
+		} finally {
+			nature().flushSourceCache();
+			fireModelUpdated();
+		}
 	}
 
 	private View view() {
@@ -194,6 +196,7 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 
 	private void reparseEntireDocument() { 
 		try{
+			//FIXME This does not flush the cache.
 			for(ClonedChameleonPosition pos: _dirtyPositions) {
 				pos.getElement().disconnect();
 				getDocument().removePosition(EclipseEditorTag.CHAMELEON_CATEGORY,pos);				

@@ -120,6 +120,9 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
   @Override
   public synchronized void flushLocalCache() {
   	super.flushLocalCache();
+		if(_lexicalMembersLookupStrategy != null) {
+			_lexicalMembersLookupStrategy.flushCache();
+		}
   	_declarationCache = null;
   	_membersCache = null;
   	_superTypeCache = null;

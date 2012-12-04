@@ -166,7 +166,6 @@ public abstract class ConfigElement {
 		if(childClass != null) {
 				ConfigElement childConfig = createChild(childClass);
 				addChild(childConfig); 
-				System.out.println("debug");
 				childConfig.read(child);
 		} else {
 			_unprocessed.add(child);

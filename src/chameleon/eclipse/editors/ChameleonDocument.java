@@ -179,7 +179,6 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		set(builder.toString());
 		} catch(CoreException e) {
 			e.printStackTrace();
-			System.out.println("debug");
 		}
 	}
 

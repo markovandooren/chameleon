@@ -9,12 +9,13 @@ import chameleon.oo.language.ObjectOrientedLanguage;
 
 
 /**
+ * The abstract modifier specifies that a declaration is not completely defined yet. 
+ * 
  * @author Marko van Dooren
  */
 public class Abstract extends ModifierImpl {
 
   public Abstract() {
-    
   }
 
 	@Override
@@ -25,13 +26,11 @@ public class Abstract extends ModifierImpl {
  /*@
    @ behavior
    @
-   @ post \result.contains(language().OVERRIDABLE);
-   @ post \result.contains(language().DEFINED.inverse());
-   @ post \result.size() == 2;
+   @ post \result.contains(language().ABSTRACT);
+   @ post \result.size() == 1;
    @*/
   public PropertySet<Element,ChameleonProperty> impliedProperties() {
-//    return createSet(language(ObjectOrientedLanguage.class).OVERRIDABLE,language(ObjectOrientedLanguage.class).DEFINED.inverse());
-    return createSet(language(ObjectOrientedLanguage.class).DEFINED.inverse());
+    return createSet(language(ObjectOrientedLanguage.class).ABSTRACT);
   }
   
 }

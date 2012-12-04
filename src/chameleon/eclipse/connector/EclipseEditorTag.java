@@ -55,6 +55,11 @@ public class EclipseEditorTag extends Position implements Metadata {
 	}
 	
 	public void disconnect() {
+		setElement(null,getName());
+	}
+	
+	public void shift(int shift) {
+		setOffset(getOffset() + shift);
 	}
 	
 	private ChameleonDocument _document;
@@ -88,13 +93,13 @@ public class EclipseEditorTag extends Position implements Metadata {
   		  _element.setMetadata(this, name);
   		}
   	}
-  	ChameleonDocument chameleonDocument = getDocument();
-		ChameleonDocument newDocument = chameleonDocument.getProjectNature().document(element);
+  	ChameleonDocument oldDocument = getDocument();
+		ChameleonDocument newDocument = oldDocument.getProjectNature().document(element);
 		_document = newDocument;
-		if(newDocument != chameleonDocument) {
+		if(newDocument != oldDocument) {
   		try {
-  			if(chameleonDocument != null) {
-  			  chameleonDocument.removePosition(EclipseEditorTag.CHAMELEON_CATEGORY,this);
+  			if(oldDocument != null) {
+  			  oldDocument.removePosition(EclipseEditorTag.CHAMELEON_CATEGORY,this);
   			}
   			if(newDocument != null) {
 				  newDocument.addPosition(EclipseEditorTag.CHAMELEON_CATEGORY,this);

@@ -41,13 +41,6 @@ public class EclipseEditorInputProcessor extends ViewProcessorImpl implements In
 		return new EclipseEditorInputProcessor(null);
 	}
 
-//	public void reportParseError(ParseException exc) {
-//		ChameleonDocument doc = document(exc.compilationUnit());
-//		if (doc!=null) {
-//			doc.handleParseError(exc);
-//		}
-//	}
-
 	public ChameleonDocument document(Element element) {
 		return projectNature().document(element);
 	}
@@ -64,9 +57,7 @@ public class EclipseEditorInputProcessor extends ViewProcessorImpl implements In
 
 	private void setSingleLocation(Element element, int offset, int length, Document document, String tagType) {
 		ChameleonDocument doc = document(document);
-		if(doc == null) {
-			System.out.println("debug");
-		} else {
+		if(doc != null) {
 			Element parent = element.parent();
 			// 1. Replace element with stub in the parent
 			// 2. Force the document to be an ancestors of the element
@@ -129,7 +120,7 @@ public class EclipseEditorInputProcessor extends ViewProcessorImpl implements In
 		Collection<Metadata> tags = element.metadata(); 
 		for(Metadata tag:tags) {
 			if(tag instanceof EclipseEditorTag) {
-				((EclipseEditorTag) tag).disconnect();
+				tag.disconnect();
 			}
 		}
 	}

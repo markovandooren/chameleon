@@ -65,6 +65,27 @@ public interface Element {
     public SingleAssociation<? extends Element,? extends Element> parentLink();
 
     /**
+     * <p>Freeze this element. This locks the parent links of all descendants.
+     * As a result, no descendant can be removed 
+     * and no additional descendant can be added anywhere in the subtree. A {@link org.rejuse.association.LockException}
+     * is thrown if such a modification is attempted.
+     * The parent link of this element, however, is not modified. If it was locked, it will be still be locked
+     * afterwards. If it was unlocked, it will be still be unlocked afterwards. </p> 
+     * 
+     * <p>This method is useful for debugging and for ensuring that e.g. predefined elements
+     * and elements that correspond to "binary" document cannot be modified by accident.</p> 
+     */
+    public void freeze();
+    
+    /**
+     * <p>Unfreeze this element. This means that descendants can again be removed 
+     * and added anywhere in the subtree.
+     * The parent link of this element, however, is not modified. If it was locked, it will be still be locked
+     * afterwards. If it was unlocked, it will be still be unlocked afterwards. </p> 
+     */
+    public void unfreeze();
+    
+    /**
      * Completely disconnect this element and all descendants from the parent.
      * This method also removes associations with any logical parents.
      */
