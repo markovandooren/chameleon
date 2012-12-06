@@ -2,11 +2,14 @@ package chameleon.eclipse.connector;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
@@ -31,6 +34,23 @@ import chameleon.workspace.View;
  */
 public class EclipseEditorExtension extends LanguagePluginImpl {
 
+	/**
+	 * Retrieves a URL to the file specified by path,
+	 * and relative to the root of the plugin with the specified pluginID.
+	 * 
+	 * @param pluginID String representing the ID of the plugin containing the requested file.
+	 * @param path Path relative to the plugin root of the requested file, in an org.eclipse.core.Path-compatible format.
+	 * @return A URL to that file.
+	 * @throws IOException The specified path can not be resolved.
+	 */
+	public URL getPluginFile(String pluginID, String path) throws IOException {
+		URL url = FileLocator.find(Platform.getBundle(pluginID), new Path(path), null);
+		if(url != null) {
+			return FileLocator.resolve(url);
+		}
+		return null;
+	}
+	
 	public EclipseEditorExtension(String languageName) {
 		_languageName = languageName;
 		setImageRegistry(ChameleonEditorPlugin.getDefault().getImageRegistry());
