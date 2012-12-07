@@ -45,13 +45,14 @@ public class EclipseEditorTag extends Position implements Metadata {
   	_document = document;
   	try {
 			_document.addPosition(EclipseEditorTag.CHAMELEON_CATEGORY,this);
+			setElement(element,name);
+			setName(name);
 		} catch (BadLocationException e) {
-			e.printStackTrace();
+			throw new IllegalArgumentException();
+//			e.printStackTrace();
 		} catch (BadPositionCategoryException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
-		setElement(element,name);
-		setName(name);
 	}
 	
 	public void disconnect() {

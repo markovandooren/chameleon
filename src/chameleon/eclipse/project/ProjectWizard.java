@@ -68,23 +68,6 @@ public class ProjectWizard extends BasicNewProjectResourceWizard implements INew
 		projectConfig().setRoot(rootFile);
 	}
 
-//	public IPath projectRoot() {
-//		return project().getLocation();
-//	}
-//	
-//	public IProject project() {
-//		IProject projectHandle = _projectDetailsPage.getProjectHandle();
-//		Object x = projectHandle.getLocationURI();
-//		if(! projectHandle.exists()) {
-////			try {
-////				projectHandle.create(new NullProgressMonitor());
-////				projectHandle.close(new NullProgressMonitor());
-////			} catch (CoreException e) {
-////			}
-//		}
-//		return projectHandle;
-//	}
-
 	/**
 	 * Initialize the pages of this wizard and add them to this wizard.
 	 */

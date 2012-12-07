@@ -79,7 +79,11 @@ public class EclipseEditorInputProcessor extends ViewProcessorImpl implements In
 					//    to the Document
 					element.setUniParent(document);
 				}
+				try {
 				EclipseEditorTag dec = new EclipseEditorTag(doc,offset,length,element,tagType);
+				} catch(IllegalArgumentException exc) {
+					// Setting the location failed. Ignore.
+				}
 				if(cleanup) {
 					element.setUniParent(null);
 					if(childLink != null) {

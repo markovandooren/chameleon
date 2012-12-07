@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project basedir="." default="build" name="Chameleon" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project basedir=".." default="build" name="Chameleon" xmlns:ivy="antlib:org.apache.ivy.ant">
   <property file="properties"/>
   <property file="default.properties"/>
 
@@ -22,7 +22,7 @@
   <property name="dist.jar" value="${dist}/jar"/>
   <property name="dist.local.jar" value="${dist.local}/jar"/>
   <property name="src" value="src"/>
-  <property name="build" value="build"/>
+  <property name="build" value="temp"/>
   <property name="srcForDoc" value="${build}/src_for_doc"/>
   <property name="api" value="${build}/api"/>
   <property name="template" value="template"/>

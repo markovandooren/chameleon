@@ -12,6 +12,7 @@ import java.util.Set;
 
 import org.rejuse.association.AbstractMultiAssociation;
 import org.rejuse.association.Association;
+import org.rejuse.association.AssociationListener;
 import org.rejuse.association.IAssociation;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
@@ -75,6 +76,32 @@ public abstract class ElementImpl implements Element {
 		//				}
 		//	  		
 		//	  	});
+	}
+	
+	/**
+	 * For debugging purposes. Invoke enableParentListening() to enable this functionality.
+	 */
+	protected void notifyParentSet(Element element) {}
+	protected void notifyParentRemoved(Element element) {}
+	protected void notifyParentReplaced(Element oldParent, Element newParent) {}
+	
+	protected void enableParentListening() {
+	 parentLink().addListener(new AssociationListener<Element>() {
+		@Override
+		public void notifyElementAdded(Element element) {
+			ElementImpl.this.notifyParentSet(element);
+		}
+
+		@Override
+		public void notifyElementRemoved(Element element) {
+			ElementImpl.this.notifyParentRemoved(element);
+		}
+
+		@Override
+		public void notifyElementReplaced(Element oldElement, Element newElement) {
+			ElementImpl.this.notifyParentReplaced(oldElement, newElement);
+		}
+	  });
 	}
 
 	/********
