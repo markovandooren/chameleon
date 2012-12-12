@@ -34,6 +34,15 @@ import chameleon.workspace.View;
  */
 public class EclipseEditorExtension extends LanguagePluginImpl {
 
+	public EclipseEditorExtension(String languageName) {
+		_languageName = languageName;
+		setImageRegistry(ChameleonEditorPlugin.getDefault().getImageRegistry());
+		initializeRegistry();
+		_outlineSelector = createOutlineSelector();
+	}
+	
+	private ImageRegistry _imageRegistry;
+	
 	/**
 	 * Retrieves a URL to the file specified by path,
 	 * and relative to the root of the plugin with the specified pluginID.
@@ -50,15 +59,6 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
 		}
 		return null;
 	}
-	
-	public EclipseEditorExtension(String languageName) {
-		_languageName = languageName;
-		setImageRegistry(ChameleonEditorPlugin.getDefault().getImageRegistry());
-		initializeRegistry();
-		_outlineSelector = createOutlineSelector();
-	}
-	
-	private ImageRegistry _imageRegistry;
 	
 	protected void setImageRegistry(ImageRegistry imageRegistry) {
 		_imageRegistry = imageRegistry;

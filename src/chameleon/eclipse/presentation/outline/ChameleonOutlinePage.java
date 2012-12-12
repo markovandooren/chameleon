@@ -282,7 +282,7 @@ public class ChameleonOutlinePage extends ContentOutlinePage {
 		try{
 			ChameleonOutlineTree newTree = new ChameleonOutlineTree(getTreeRootElement());
 			newTree.composeTree();
-			if((! newTree.isTainted()) || (_chameleonTree.isTainted() && _chameleonTree.size() < newTree.size())) {
+			if((! newTree.isTainted()) || (_chameleonTree == null || _chameleonTree.isTainted() && _chameleonTree.size() < newTree.size())) {
 				_chameleonTree = newTree;
 			}
 		}

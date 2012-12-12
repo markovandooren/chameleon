@@ -68,21 +68,23 @@ public class PresentationManager {
 		final TextPresentation pres = new TextPresentation();
 		try {
 			Position[] poss = document.getPositions(EclipseEditorTag.CHAMELEON_CATEGORY);
-			
-			for (int i = 0; i < poss.length; i++) {
-				EclipseEditorTag dec = (EclipseEditorTag) poss[i];
-				try {
-					// FIXME
-					StyleRange sr = getPresentationModel().map(dec.getOffset(), dec.getLength(), dec.getElement().getClass().getName().toLowerCase(), dec
-							.getName());
+			if(poss.length > 0) {
+				for (Position pos: poss) {
+					EclipseEditorTag tag = (EclipseEditorTag) pos;
+						// FIXME this is crap code, just pas the tag alright.
+						StyleRange sr = getPresentationModel().map(tag.getOffset(), tag.getLength(), tag.getElement().getClass().getName().toLowerCase(), tag
+								.getName());
 
-					if (sr != null) {
-						pres.mergeStyleRange(sr);
-					}
-				} catch (NullPointerException exc) {
-					throw exc;
+						if (sr != null) {
+							pres.mergeStyleRange(sr);
+						}
 				}
-				
+			} else {
+				// Prevent the syntax coloring from throwing an IndexOutOfBoundsException
+				// when the presentation style has no style range.
+				OptionalColor foreground = new OptionalColor("0,0,0");
+				OptionalColor background = new OptionalColor("255,255,255");
+				pres.addStyleRange(new StyleRange(0, 0, foreground.getColor(), background.getColor()));
 			}
 		} catch (BadPositionCategoryException e) {
 			e.printStackTrace();

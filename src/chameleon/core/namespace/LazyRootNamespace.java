@@ -50,6 +50,7 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 		// If there was no cache, the input sources might have something
 		if(candidates == null) {
 			Set<Declaration> tmp;
+			// 1. Search for a subnamespace with the given name.
 			for(Namespace ns: getSubNamespaces()) {
 				if(ns.name().equals(name)) {
 					candidates = new ArrayList<Declaration>();
@@ -57,7 +58,9 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 					break;
 				}
 			}
-			for(NamespaceDeclaration part: getNamespaceParts()) {
+
+			// 2. Search in the namespace declarations for a declaration with the given name.
+      for(NamespaceDeclaration part: getNamespaceParts()) {
 				for(Declaration decl : part.declarations()) {
 					if(decl.name().equals(name)) {
 						if(candidates == null) {

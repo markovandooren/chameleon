@@ -33,9 +33,10 @@ public class OptionalColor {
 			int b = Integer.valueOf(coded.substring(4,6),16);
 			return new Color(Display.getCurrent(),r,g,b);
 		}
-		int r = Integer.parseInt(coded.split(",")[0]);
-		int g = Integer.parseInt(coded.split(",")[1]);
-		int b = Integer.parseInt(coded.split(",")[2]);
+		String[] split = coded.split(",");
+		int r = Integer.parseInt(split[0]);
+		int g = Integer.parseInt(split[1]);
+		int b = Integer.parseInt(split[2]);
 		return new Color(Display.getCurrent(),r,g,b);
 	}
 

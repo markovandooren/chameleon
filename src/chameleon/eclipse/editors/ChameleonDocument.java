@@ -19,6 +19,10 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.BadPositionCategoryException;
 import org.eclipse.jface.text.DefaultPositionUpdater;
@@ -82,7 +86,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	private String _name;
 	//The file of which this document is made
 	private IFile _file;
-	private String _relativePathName;
+//	private String _relativePathName;
 
 	/**
 	 * creates a new ChameleonDocument & intializes it.
@@ -106,22 +110,22 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 
 		_path=path;
 
+		IPath relativePath = path.removeFirstSegments(1);
+//		_relativePathName = relativePath.toString();
 		if (file!=null){ 		
 			try {
-				_relativePathName = path.removeFirstSegments(1).toString();
-				parseFile(file);
+				_file = file;
+				parseFile();
 			} catch (CoreException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else{
-			IPath projPath = path.removeFirstSegments(1);	 
-			file = projectNature.getProject().getFile(projPath);
-			_relativePathName = projPath.toString();
+			file = projectNature.getProject().getFile(relativePath);
+			_file = file;
 		}
 		_name = file.getName();
-		_file = file;
 	}
 
 	public IPath path() {
@@ -162,24 +166,33 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 * @throws CoreException
 	 * @throws IOException
 	 */
-	private void parseFile(IFile file) throws CoreException, IOException {
-		try {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(file.getContents()));
-		String nxt = "";
-		StringBuilder builder = new StringBuilder();
-		builder.append(reader.readLine());
-		while (nxt!=null) {
-			nxt = reader.readLine();
-			if (nxt!=null) {
-				builder.append("\n");
-				builder.append(nxt);
+	private void parseFile() throws CoreException, IOException {
+		if(! _initialized) {
+			try {
+				BufferedReader reader = new BufferedReader(new InputStreamReader(_file.getContents()));
+				String nxt = "";
+				StringBuilder builder = new StringBuilder();
+				builder.append(reader.readLine());
+				while (nxt!=null) {
+					nxt = reader.readLine();
+					if (nxt!=null) {
+						builder.append("\n");
+						builder.append(nxt);
+					}
+				}
+				// QUESTION: does this trigger the reconcilers?
+				set(builder.toString());
+				_initialized = true;
+			} catch(CoreException e) {
+				e.printStackTrace();
 			}
 		}
-		// QUESTION: does this trigger the reconcilers?
-		set(builder.toString());
-		} catch(CoreException e) {
-			e.printStackTrace();
-		}
+	}
+	
+	private boolean _initialized;
+	
+	protected boolean initialized() {
+		return _initialized;
 	}
 
 	/*
@@ -247,8 +260,9 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 */
 	public Document chameleonDocument() {
 		try {
+			parseFile();
 			return inputSource().load();
-		} catch (InputException e) {
+		} catch (InputException | IOException | CoreException e) {
 			//FIXME: properly handle this.
 			throw new RuntimeException(e);
 		}
@@ -454,10 +468,9 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 //		_parseErrors.clear();
 //	}
 
-	public String getRelativePathName() {
-		
-		return _relativePathName;
-	}
+//	public String getRelativePathName() {
+//		return _relativePathName;
+//	}
 
 	/**
 	 * Returns the smallest ReferenceEditorTag including the beginoffset of region.
@@ -686,21 +699,43 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		addProblemMarker(attributes);
 	}
 
-	public void addProblemMarker(Map<String, Object> attributes) {
-		try {
-			MarkerUtilities.createMarker(getFile(),attributes,IMarker.PROBLEM);
-		} catch (CoreException e) {
-			e.printStackTrace();
+	private static class MarkerJob extends Job {
+		public MarkerJob(IFile file, Map<String, Object> attributes, String markerType) {
+			super("Adding problem marker");
+			_file = file;
+			_attributes = attributes;
+			_markerType = markerType;
 		}
+		
+		private Map<String, Object> _attributes;
+		
+		private IFile _file;
+
+		@Override
+		protected IStatus run(IProgressMonitor arg0) {
+			try {
+				MarkerUtilities.createMarker(_file,_attributes,_markerType);
+				return Status.OK_STATUS;
+			} catch (CoreException e) {
+				return Status.CANCEL_STATUS;
+			}
+		}
+		
+		private String _markerType;
+	}
+		
+	public void addProblemMarker(Map<String, Object> attributes) {
+		schedule(new MarkerJob(getFile(), attributes, IMarker.PROBLEM));
+	}
+
+	protected void schedule(Job problemMarkerJob) {
+		problemMarkerJob.setRule(getFile().getWorkspace().getRuleFactory().buildRule());
+		problemMarkerJob.schedule();
 	}
 
 	public void addWarningMarker(Map<String, Object> attributes) {
-		try {
-			makeWarning(attributes);
-			MarkerUtilities.createMarker(getFile(),attributes,IMarker.PROBLEM);
-		} catch (CoreException e) {
-			e.printStackTrace();
-		}
+		makeWarning(attributes);
+		schedule(new MarkerJob(getFile(), attributes, IMarker.PROBLEM));
 	}
 	
 	protected void makeWarning(Map<String, Object> attributes) {
@@ -729,7 +764,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		_path = null;
 		_presentationManager = null;
 		_projectNature = null;
-		_relativePathName = null;
+//		_relativePathName = null;
 	}
 }
 

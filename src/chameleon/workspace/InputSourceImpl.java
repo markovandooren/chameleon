@@ -1,6 +1,7 @@
 package chameleon.workspace;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.rejuse.association.SingleAssociation;
@@ -124,17 +125,25 @@ public abstract class InputSourceImpl implements InputSource {
 	@Override
 	public List<String> targetDeclarationNames(Namespace ns) throws InputException {
 		load();
-		NamespaceDeclaration namespaceDeclaration = rawDocument().children(NamespaceDeclaration.class).get(0);
-		if(namespaceDeclaration != null) {
-			List<Declaration> children = (List)namespaceDeclaration.children(Declaration.class);
-			List<String> result = new ArrayList<String>();
-			for(Declaration t: children) {
-				result.add(t.name());
+		List<NamespaceDeclaration> cs = rawDocument().children(NamespaceDeclaration.class);
+		if(! cs.isEmpty()) {
+			NamespaceDeclaration namespaceDeclaration = cs.get(0);
+			if(namespaceDeclaration != null) {
+				List<Declaration> children = (List)namespaceDeclaration.children(Declaration.class);
+				List<String> result = new ArrayList<String>();
+				for(Declaration t: children) {
+					result.add(t.name());
+				}
+				return result;
 			}
-			return result;
-		} else {
-			throw new InputException("No target declarations are defined in input source "+toString());
-		}
+		} 
+		// Lets make it robust and return an empty collection if there is no content. This typically
+		// indicates the addition of a file of a language that doesn't support lazy loading to a namespace.
+		// Since we load the file anyway, we know that it doesn't contain namespace declarations. If that
+		// changes, the document must have changed, and any loaded namespace declarations will be activated.
+		
+		//throw new InputException("No target declarations are defined in input source "+toString());
+		return Collections.EMPTY_LIST;
 	}
 
 	@Override
