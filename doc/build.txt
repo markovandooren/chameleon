@@ -1,0 +1,17 @@
+Chameleon uses Ivy to manage dependencies between projects. The repository layout consists of two repositories: the official Chameleon repository and a local repository on your own computer.
+
+1. The main Chameleon repository
+
+The main Chameleon repository contains the official builds. Revisions are denoted by major.minor.micro numbers. The ivy configuration files are stored in the ivy/ directory, which contains the following files.
+
+ * ivysettings.xml: this file contains the generic settings for the Ivy configuration. It specifies the location of the official Chameleon repository and the ibiblio repository.
+
+ * bootstrap.xml: this file contains a configuration to download a jar with ssh support in case you want to publish builds and your Ivy installation does not include ssh support. This file is only used by the bootstrap target in build.xml.
+
+ * publishsettings.xml: this file contains the configuration for publishing to the official Chameleon repository. Only core team members will use this file.
+
+ * ivy.default.properties: this file contains settings that are used in the xml files, such as the URL of the official Chameleon repository. DO NOT MODIFY THIS FILE.
+
+ * ivy.properties: YOU MUST CREATE THIS FILE. This file contains settings that determine the location of the Ivy cache directory on your computer and the location of the Ivy repository for your local builds (see section 2). The properties that you must set are those that are commented out at the bottom of ivy.default.properties. You can override any property in ivy.default.properties by setting it in ivy.properties. The ivy.properties file is loaded before ivy.default.properties and Ant does not modify a property once it is set. Therefore properties that have already been set by ivy.properties cannot be changed by ivy.default.properties.
+
+ * ivy.xml: this file describes the modules of this project and their dependencies.
