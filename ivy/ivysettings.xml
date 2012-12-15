@@ -1,10 +1,15 @@
 <ivysettings>
-  <include file="generic_ivy_settings.xml"/>
-  <properties file="version.properties"/>
+  <properties file="ivy.properties"/>
+  <properties file="ivy.default.properties"/>
+  <settings	defaultCache="${ivy.cache.dir}"	
+			defaultResolver="chameleon"
+			defaultConflictManager="all" />		<!-- in order to get all revisions without any eviction -->
   <resolvers>
-    <!--<sftp keyFile="${ssh.keyfile}" user="${pubchameleon.repository.user}" host="${pubchameleon.repository.host}" name="pubchameleon" m2compatible="true">
-          <ivy pattern="${pubchameleon.repository.dir}/[organisation]/[module]/ivys/ivy-[revision].xml"/>
-          <artifact pattern="${pubchameleon.repository.dir}/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"/>
-        </sftp>-->
-    </resolvers>
+    <url checkmodified="true" name="chameleon" m2compatible="true">
+      <ivy pattern="${chameleon.repository.url}/[organisation]/[module]/ivys/ivy-[revision].xml"/>
+	  <artifact pattern="${chameleon.repository.url}/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"/>
+    </url>
+    <ibiblio name="maven" m2compatible="true" />
+    <ibiblio name="asm" m2compatible="true" root="http://repository.ow2.org/nexus/content/repositories/releases"/>
+  </resolvers>
 </ivysettings>

@@ -26,7 +26,7 @@ public abstract class InputSourceImpl implements InputSource {
 		ns.addInputSource(this);
 	}
 	
-	public Namespace namespace() {
+	public InputSourceNamespace namespace() {
 		return _namespace.getOtherEnd();
 	}
 	
@@ -185,6 +185,9 @@ public abstract class InputSourceImpl implements InputSource {
 	
 	@Override
 	public void destroy() {
+		// This will break down the bidirectional association with the namespace
+		// the association end of the namespace will send an event to the namespace
+		// which will then remove this input source from its caches.
 		_namespace.clear();
 		_loader.clear();
 		_document.clear();

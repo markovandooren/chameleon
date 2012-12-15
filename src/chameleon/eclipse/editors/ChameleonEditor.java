@@ -10,12 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.text.DefaultInformationControl;
@@ -49,7 +44,6 @@ import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.ContentAssistAction;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
-import org.eclipse.ui.texteditor.MarkerUtilities;
 import org.eclipse.ui.texteditor.TextOperationAction;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import org.rejuse.predicate.SafePredicate;
@@ -66,8 +60,6 @@ import chameleon.eclipse.presentation.PresentationManager;
 import chameleon.eclipse.presentation.annotation.ChameleonAnnotation;
 import chameleon.eclipse.presentation.outline.ChameleonOutlinePage;
 import chameleon.exception.ChameleonProgrammerException;
-import chameleon.input.ParseException;
-import chameleon.input.ParseProblem;
 import chameleon.input.PositionMetadata;
 
 /**
@@ -149,10 +141,7 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 	 *
 	 */
 	private void initEditor(){
-		Logger.getRootLogger().setLevel(Level.FATAL);
-
 		chameleonAnnotations = new ArrayList<ChameleonAnnotation>(0);
-		
 	}
 		
 	/**

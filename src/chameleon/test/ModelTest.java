@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import junit.framework.TestSuite;
 
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 
@@ -22,15 +20,6 @@ import chameleon.workspace.View;
  */
 public abstract class ModelTest extends TestSuite {
 	
-	private static Logger _logger = Logger.getLogger("chameleon.test");
-	static {
-  	BasicConfigurator.configure();
-	}
-	
-	public static Logger getLogger() {
-		return _logger;
-	}
-
 	 /**
 	  * Create a new test that uses the given provider to create models
 	  * for testing.

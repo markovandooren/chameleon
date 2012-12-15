@@ -1,7 +1,5 @@
 package chameleon.core.lookup;
 
-import org.apache.log4j.Logger;
-
 import chameleon.core.declaration.Declaration;
 
 /**

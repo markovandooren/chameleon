@@ -2,7 +2,6 @@ package chameleon.core.namespacedeclaration;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.rejuse.predicate.UnsafePredicate;
 
 import chameleon.core.declaration.Declaration;
@@ -19,12 +18,6 @@ public abstract class Import extends ElementImpl {
 	}
   
   public abstract Import clone();
-  
-  private static Logger logger = Logger.getLogger("lookup.import");
-
-  protected Logger lookupLogger() {
-  	return logger;
-  }
   
 // THIS IS COVERED IN NAMESPACEPART
   

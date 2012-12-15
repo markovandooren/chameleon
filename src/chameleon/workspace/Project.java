@@ -8,6 +8,9 @@ import org.rejuse.association.AssociationListener;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 
+import chameleon.core.element.Element;
+import chameleon.util.Handler;
+
 /**
  * A class that represents the concept of a project. A project
  * keeps a collection of input sources and is an input source itself.
@@ -202,5 +205,13 @@ public class Project {
 		for(View view: views()) {
 			view.flushSourceCache();
 		}
+	}
+	
+	public <T extends Element> List<T> sourceElements(Class<T> kind, Handler handler) throws InputException {
+		List<T> result = new ArrayList<>();
+		for(View view: views()) {
+			result.addAll(view.sourceElements(kind, handler));
+		}
+		return result;
 	}
 }

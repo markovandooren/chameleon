@@ -125,5 +125,20 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 	
 	private Map<String, List<InputSource>> _sourceMap = new HashMap<String, List<InputSource>>();
 
-	private OrderedMultiAssociation<LazyNamespace,InputSource> _inputSources = new OrderedMultiAssociation<LazyNamespace, InputSource>(this);
+	private OrderedMultiAssociation<LazyNamespace,InputSource> _inputSources = new OrderedMultiAssociation<LazyNamespace, InputSource>(this) {
+		@Override
+		protected void fireElementRemoved(InputSource removedElement) {
+			List<String> obsoleteKeys = new ArrayList<>();
+			for(Map.Entry<String, List<InputSource>> entry: _sourceMap.entrySet()) {
+				List<InputSource> value = entry.getValue();
+				value.remove(removedElement);
+				if(value.isEmpty()) {
+					obsoleteKeys.add(entry.getKey());
+				}
+			}
+			for(String obsoleteKey: obsoleteKeys) {
+				_sourceMap.remove(obsoleteKey);
+			}
+		}
+	};
 }

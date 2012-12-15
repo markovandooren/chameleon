@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 
 import chameleon.core.lookup.LookupException;
@@ -53,18 +51,6 @@ public class ExpressionTest extends ModelTest {
   
   public ElementProvider<Type> typeProvider() {
   	return _typeProvider;
-  }
-  
-  private static Logger _expressionLogger = Logger.getLogger("chameleon.test.expression");
-  
-  public static Logger getExpressionLogger() {
-  	return _expressionLogger;
-  }
-
-  public void setLogLevels() {
-  	//Logger.getRootLogger().setLevel(Level.FATAL);
-  	getLogger().setLevel(Level.INFO);
-		//Logger.getLogger("chameleon.test.expression").setLevel(Level.FATAL);
   }
   
   public int nbThreads() {

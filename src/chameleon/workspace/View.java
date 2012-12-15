@@ -11,6 +11,8 @@ import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 import org.rejuse.predicate.TypePredicate;
 
+import chameleon.core.document.Document;
+import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.language.ListMapWrapper;
 import chameleon.core.language.WrongLanguageException;
@@ -21,6 +23,7 @@ import chameleon.plugin.PluginContainerImpl;
 import chameleon.plugin.ProcessorContainer;
 import chameleon.plugin.ViewPlugin;
 import chameleon.plugin.ViewProcessor;
+import chameleon.util.Handler;
 import chameleon.workspace.DocumentLoaderImpl.TunnelException;
 
 public class View extends PluginContainerImpl<ViewPlugin> implements PluginContainer<ViewPlugin>, ProcessorContainer<ViewProcessor> {
@@ -289,4 +292,22 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
 		return _processors.map();
 	}
 
+	public <T extends Element> List<T> sourceElements(Class<T> kind, Handler handler) throws InputException {
+		List<T> result = new ArrayList<>();
+		for(DocumentLoader loader: sourceLoaders()) {
+			try {
+			for(Document doc: loader.documents()) {
+				result.addAll(doc.descendants(kind));
+				if(kind.isInstance(doc)) {
+					result.add((T)doc);
+				}
+			}
+			} catch(InputException exc) {
+				if(handler != null) {
+					handler.handle(exc);
+				}
+			}
+		}
+		return result;
+	}
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.rejuse.logic.ternary.Ternary;
 
 import chameleon.core.declaration.Declaration;
@@ -19,12 +18,6 @@ import chameleon.oo.type.TypeReference;
 import chameleon.util.association.Single;
 
 public abstract class AbstractInheritanceRelation extends ElementWithModifiersImpl implements InheritanceRelation {
-	
-	private static Logger logger = Logger.getLogger("lookup.inheritance");
-	
-	public Logger lookupLogger() {
-		return logger;
-	}
 	
 	public abstract AbstractInheritanceRelation clone();
 

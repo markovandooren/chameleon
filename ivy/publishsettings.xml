@@ -1,0 +1,9 @@
+<ivysettings>
+  <include file="ivysettings.xml"/>
+  <resolvers>
+    <sftp keyFile="${ssh.keyfile}" user="${pubchameleon.repository.user}" host="${pubchameleon.repository.host}" name="pubchameleon" m2compatible="true">
+          <ivy pattern="${pubchameleon.repository.dir}/[organisation]/[module]/ivys/ivy-[revision].xml"/>
+          <artifact pattern="${pubchameleon.repository.dir}/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"/>
+        </sftp>
+    </resolvers>
+</ivysettings>

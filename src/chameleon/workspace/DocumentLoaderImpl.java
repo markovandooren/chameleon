@@ -8,6 +8,8 @@ import org.rejuse.association.AssociationListener;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 
+import chameleon.core.document.Document;
+
 public abstract class DocumentLoaderImpl implements DocumentLoader {
 
 	public DocumentLoaderImpl() {
@@ -106,8 +108,17 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		}
 	}
 
+	@Override
 	public List<InputSource> inputSources() {
 		return _inputSources.getOtherEnds();
+	}
+	
+	public List<Document> documents() throws InputException {
+		List<Document> result = new ArrayList<>();
+		for(InputSource source: inputSources()) {
+			result.add(source.load());
+		}
+		return result;
 	}
 	
 	public void removeInputSource(InputSource source) {

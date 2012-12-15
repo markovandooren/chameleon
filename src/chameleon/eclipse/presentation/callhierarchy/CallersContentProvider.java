@@ -7,6 +7,7 @@ package chameleon.eclipse.presentation.callhierarchy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -16,6 +17,8 @@ import chameleon.core.declaration.Declaration;
 import chameleon.core.reference.CrossReference;
 import chameleon.eclipse.project.ChameleonProjectNature;
 import chameleon.exception.ModelException;
+import chameleon.util.Handler;
+import chameleon.workspace.InputException;
 
 /**
  * A context provider that calculates all the declarations that contain
@@ -81,8 +84,14 @@ public class CallersContentProvider implements ITreeContentProvider {
 	 * 
 	 */
 	private Collection<CrossReference> getInvocations() {
+		List<CrossReference> result = new ArrayList<>();
 		if(_cachedInvocations == null){
-			_cachedInvocations = projectNature.getModel().descendants(CrossReference.class);
+			try {
+				_cachedInvocations = projectNature.chameleonProject().sourceElements(CrossReference.class, Handler.IGNORE);
+			} catch (InputException e) {
+				// We pass IGNORE, so this really shouldn't happen
+				throw new Error(e);
+			}
 		}
 		return new HashSet<CrossReference>(_cachedInvocations);
 	}

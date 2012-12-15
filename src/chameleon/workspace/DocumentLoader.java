@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.rejuse.association.Association;
 
+import chameleon.core.document.Document;
 import chameleon.input.ParseException;
 
 
@@ -33,6 +34,14 @@ public interface DocumentLoader {
 	public Association<? extends DocumentLoader, ? super View> viewLink();
 	
 	public View view();
+	
+	/**
+	 * Return the input sources that are managed by this document loader.
+	 * @return
+	 */
+	public List<InputSource> inputSources();
+	
+	public List<Document> documents() throws InputException;
 	
 	/**
 	 * Add the given listener. The added listener will only be notified

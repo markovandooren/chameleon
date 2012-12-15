@@ -102,17 +102,17 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
   	}
   }
   
-  public VerificationResult verifySubtypeOf(Type otherType, String meaningThisType, String meaningOtherType) {
+  public VerificationResult verifySubtypeOf(Type otherType, String meaningThisType, String meaningOtherType, Element cause) {
   	VerificationResult result = Valid.create();
   	String messageOther = meaningOtherType+" ("+otherType.infoName()+").";
   	String messageThis = meaningThisType + " (" + infoName() + ")";
 		try {
 			boolean subtype = subTypeOf(otherType);
 			if(! subtype) {
-					result = result.and(new BasicProblem(this, messageThis+" is not a subtype of " + messageOther));
+					result = result.and(new BasicProblem(cause, messageThis+" is not a subtype of " + messageOther));
 			}
 		} catch (Exception e) {
-				result = result.and(new BasicProblem(this, "Cannot determine if "+messageThis+" is a subtype of "+messageOther));
+				result = result.and(new BasicProblem(cause, "Cannot determine if "+messageThis+" is a subtype of "+messageOther));
 		}
   	return result;
   }

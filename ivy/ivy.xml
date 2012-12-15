@@ -1,9 +1,11 @@
 <ivy-module version="2.0">
   <info organisation="distrinet.cs.kuleuven.be" module="chameleon"/>
   <dependencies>
-    <!-- <dependency org="junit" name="junit" rev="4.10"/>  --> <!-- Dep already received from rejuse. Only uncomment when absolutely necessary -->
-    <dependency org="log4j" name="log4j" rev="1.2.16"/>
+    <!-- <dependency org="junit" name="junit" rev="4.10"/>  --> <!-- Dep already received from rejuse. -->
+    <!-- We don't use logging currently, so I just removed it for now -->
+    <!-- <dependency org="log4j" name="log4j" rev="1.2.16"/> -->
+    <!-- We don't automatically track the latest version of ANTLR because we had problems after 3.2 -->
     <dependency org="org.antlr" name="antlr-runtime" rev="3.2"/>
-    <dependency org="distrinet.cs.kuleuven.be" name="rejuse" rev="1.0.8"/>
+    <dependency org="distrinet.cs.kuleuven.be" name="rejuse" rev="latest.integration" revConstraint="latest.integration" />
   </dependencies>
 </ivy-module>
