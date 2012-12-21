@@ -79,7 +79,7 @@ public class LanguageSelectionPage extends WizardPage {
 	private final ProjectWizard _chameleonProjectWizard;
 	
 	private void createPageContent(){
-		_languages = new ArrayList<>();
+		_languages = new ArrayList<Language>();
 		optionList = new List(controlContainer, SWT.BORDER);
 
 		for(Language lang: LanguageMgt.getInstance().workspace().languageRepository().languages()) {

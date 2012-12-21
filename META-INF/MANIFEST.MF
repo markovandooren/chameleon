@@ -3,8 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Chameleon Eclipse Plugin
 Bundle-SymbolicName: be.chameleon.eclipse;singleton:=true
 Bundle-Version: 1.0.6
-Bundle-ClassPath: lib/log4j-1.2.16.jar,
- bin/.,
+Bundle-ClassPath: bin/.,
  .,
  lib/antlr-runtime-3.2.jar,
  lib/stringtemplate-3.2.jar
@@ -171,4 +170,4 @@ Require-Bundle: org.eclipse.ui,
  rejuse.distrinet.cs.kuleuven.be;bundle-version="1.0.10"
 Eclipse-BuddyPolicy: registered
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -139,7 +139,7 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 			
 			// Keep track of the successfully reparsed elements. If there are multiple errors
 			// on the same element, we don't want to reparse it multiple times.
-			Set<Element> successfullyReparsed = new HashSet<>();
+			Set<Element> successfullyReparsed = new HashSet<Element>();
 			ModelFactory factory = view().language().plugin(ModelFactory.class);
 			try{
 				for(ClonedChameleonPosition position : _dirtyPositions) {

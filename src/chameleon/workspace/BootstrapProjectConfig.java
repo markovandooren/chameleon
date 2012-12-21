@@ -15,7 +15,7 @@ public class BootstrapProjectConfig extends ConfigElement {
 		_repository = repository;
 	}
 	
-	private List<ProjectInitialisationListener> _listeners = new ArrayList<>();
+	private List<ProjectInitialisationListener> _listeners = new ArrayList<ProjectInitialisationListener>();
 	
 	public void addListener(ProjectInitialisationListener listener) {
 		if(listener == null) {

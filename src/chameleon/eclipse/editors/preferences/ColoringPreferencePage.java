@@ -255,7 +255,7 @@ public class ColoringPreferencePage extends FieldEditorPreferencePage implements
 	//reads the configuration for a specific language and gets it from the xml file
 	private HashMap<String, HashMap<Selector, PresentationStyle>> readConfigurables() {
 	    //lees eerst alle talen uit
-		List<String> languages = new ArrayList<>();
+		List<String> languages = new ArrayList<String>();
 		for(Language lang: LanguageMgt.getInstance().workspace().languageRepository().languages()) {
 			languages.add(lang.name());
 		}

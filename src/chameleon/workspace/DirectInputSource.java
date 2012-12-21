@@ -42,7 +42,7 @@ public class DirectInputSource extends InputSourceImpl {
 		Declaration decl = declaration();
 		List<Declaration> result;
 		if(decl.name().equals(name)) {
-			result = new ArrayList<>(1);
+			result = new ArrayList<Declaration>(1);
 			result.add(decl);
 		} else {
 			result = Collections.EMPTY_LIST;

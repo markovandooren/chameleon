@@ -178,9 +178,9 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
 		return _binaryLoaders.getOtherEnds();
 	}
 
-	private OrderedMultiAssociation<View, DocumentLoader> _binaryLoaders = new OrderedMultiAssociation<>(this);
+	private OrderedMultiAssociation<View, DocumentLoader> _binaryLoaders = new OrderedMultiAssociation<View, DocumentLoader>(this);
 
-	private OrderedMultiAssociation<View, DocumentLoader> _sourceLoaders = new OrderedMultiAssociation<>(this);
+	private OrderedMultiAssociation<View, DocumentLoader> _sourceLoaders = new OrderedMultiAssociation<View, DocumentLoader>(this);
 
 	private List<ViewListener> _listeners = new ArrayList<ViewListener>();
 	
@@ -293,7 +293,7 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
 	}
 
 	public <T extends Element> List<T> sourceElements(Class<T> kind, Handler handler) throws InputException {
-		List<T> result = new ArrayList<>();
+		List<T> result = new ArrayList<T>();
 		for(DocumentLoader loader: sourceLoaders()) {
 			try {
 			for(Document doc: loader.documents()) {

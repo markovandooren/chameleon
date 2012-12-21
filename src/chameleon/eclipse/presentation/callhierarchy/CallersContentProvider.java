@@ -84,7 +84,7 @@ public class CallersContentProvider implements ITreeContentProvider {
 	 * 
 	 */
 	private Collection<CrossReference> getInvocations() {
-		List<CrossReference> result = new ArrayList<>();
+		List<CrossReference> result = new ArrayList<CrossReference>();
 		if(_cachedInvocations == null){
 			try {
 				_cachedInvocations = projectNature.chameleonProject().sourceElements(CrossReference.class, Handler.IGNORE);

@@ -114,7 +114,7 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	}
 	
 	public List<Document> documents() throws InputException {
-		List<Document> result = new ArrayList<>();
+		List<Document> result = new ArrayList<Document>();
 		for(InputSource source: inputSources()) {
 			result.add(source.load());
 		}
@@ -139,10 +139,10 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	}
 
 	public List<InputSourceListener> inputSourceListeners() {
-		return new ArrayList<>(_listeners);
+		return new ArrayList<InputSourceListener>(_listeners);
 	}
 
-	private List<InputSourceListener> _listeners = new ArrayList<>();
+	private List<InputSourceListener> _listeners = new ArrayList<InputSourceListener>();
 	
 	private void notifyAdded(InputSource source) {
 		for(InputSourceListener listener: inputSourceListeners()) {

@@ -129,7 +129,7 @@ public class OutlinePreferencePage extends FieldEditorPreferencePage implements 
 	 */
 	private HashMap<String, List<String[]>> readPossibilities() {
 	    //lees eerst alle talen uit
-		List<String> languages = new ArrayList<>();
+		List<String> languages = new ArrayList<String>();
 		for(Language lang: LanguageMgt.getInstance().workspace().languageRepository().languages()) {
 			languages.add(lang.name());
 		}

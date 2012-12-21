@@ -1,4 +1,0 @@
-<ivysettings>
-  <include file="generic_ivy_settings.xml"/>
-  <properties file="version.properties"/>
-</ivysettings>

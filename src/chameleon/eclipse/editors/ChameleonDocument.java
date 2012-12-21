@@ -103,7 +103,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 			ChameleonEditorPlugin.showMessageBox("Illegal project", "This document is part of an illegal project. \nCheck if the project is a Chameleon Project.", SWT.ICON_ERROR);
 		}
 
-		_parseErrors = new HashSet<>();
+		_parseErrors = new HashSet<ParseProblem>();
 
 		_projectNature = projectNature;
 		initialize();
@@ -262,8 +262,13 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		try {
 			parseFile();
 			return inputSource().load();
-		} catch (InputException | IOException | CoreException e) {
+			// JAVA5
+		} catch (InputException e) {
 			//FIXME: properly handle this.
+			throw new RuntimeException(e);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} catch (CoreException e) {
 			throw new RuntimeException(e);
 		}
 	}

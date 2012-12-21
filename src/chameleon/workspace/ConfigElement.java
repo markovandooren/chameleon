@@ -63,7 +63,7 @@ public abstract class ConfigElement {
 			DocumentBuilder builder = fac.newDocumentBuilder();
 			Document doc = builder.parse(xmlFile);
 			read(doc.getDocumentElement());
-		} catch (ParserConfigurationException | SAXException | IOException e) {
+		} catch (Exception e) {
 			throw new ConfigException(e);
 		}
 	}
@@ -108,7 +108,7 @@ public abstract class ConfigElement {
 //				attr.setValue(value);
 				result.setAttribute(attributeName, value);
 //				result.appendChild(attr);
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -188,10 +188,10 @@ public abstract class ConfigElement {
 			}
 			addChild(childConfig);
 			return childConfig;
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-		}
+		} 
 	}
 	
 	/**
@@ -247,8 +247,8 @@ public abstract class ConfigElement {
 	 * because config files are typically small.
 	 */
 	private void initChildCache() {
-		_childClassMap = new HashMap<>();
-		_reverseChildClassMap = new HashMap<>();
+		_childClassMap = new HashMap<String, Class>();
+		_reverseChildClassMap = new HashMap<Class, String>();
 		for(Class c : getClass().getClasses()) {
 			String name = c.getName();
 			name = Util.getLastPart(name.replace('$', '.'));
@@ -274,7 +274,7 @@ public abstract class ConfigElement {
 	
 	protected void initAttributeCache() {
 		_attributeMethodMap = new HashMap<String, Method>();
-		_attributeGetters = new ArrayList<>();
+		_attributeGetters = new ArrayList<Method>();
 		Method[] methods = getClass().getMethods();
 		for(Method method: methods) {
 			String methodName = method.getName();
@@ -322,7 +322,10 @@ public abstract class ConfigElement {
 			if(attributeSetter != null) {
 				attributeSetter.invoke(this, value);
 			}
-		} catch (IllegalAccessException | InvocationTargetException e) {
+		} catch (IllegalAccessException e) {
+		  // We ignore this to stop errors in a config file from preventing loading the configuration file. 
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
 		  // We ignore this to stop errors in a config file from preventing loading the configuration file. 
 			e.printStackTrace();
 		}

@@ -214,7 +214,7 @@ public class Document extends ElementImpl {
 		return _inputSource.getOtherEnd();
 	}
 
-	protected SingleAssociation<Document, InputSource> _inputSource = new SingleAssociation<>(this);
+	protected SingleAssociation<Document, InputSource> _inputSource = new SingleAssociation<Document, InputSource>(this);
 	
 	/**
 	 * The view of a document is the view to which its input source is connected.

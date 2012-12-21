@@ -54,7 +54,7 @@ public class FileInputSource extends InputSourceImpl {
 			try {
 				namespace().language().plugin(ModelFactory.class).parse(fileInputStream, rawDocument());
 				// Connect the namespace declarations in the document to the corresponding namespaces.
-			} catch (IOException | ParseException e) {
+			} catch (Exception e) {
 				throw new InputException(e);
 			}
 		}

@@ -133,7 +133,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		set(_ref, ref);
 	}
 	
-	private Single<SimpleReference<Namespace>> _ref = new Single<>(this,true);
+	private Single<SimpleReference<Namespace>> _ref = new Single<SimpleReference<Namespace>>(this,true);
 	
 	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
 		if(imports().contains(child) || child == namespaceReference()) {

@@ -1,0 +1,14 @@
+Project structure
+
+build/ 
+  * Contains the build files for ant. These are in a subdirectory because Eclipse overwrites build.xml
+    without any warning (even if you select the preference that it should warn you) if you build an update site
+
+src/
+  * Contains the source files
+
+ivy/
+  * Contains the configuration files for Ivy
+
+lib/
+  * Contains the libraries that are downloaded by Ivy

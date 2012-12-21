@@ -55,7 +55,7 @@ public class LanguageMgt {
     	try {
     		loadPlugins();
     	}
-    	catch (CoreException | ProjectException e) {
+    	catch (Exception e) {
     		System.err.println("Couldn't load languages : "+e.getMessage());
     		e.printStackTrace();
     	}

@@ -77,7 +77,7 @@ public class LanguageRepository {
 		return result;
 	}
 	
-	private Map<String,Map<Revision,Language>> _languageMap = new HashMap<>();
+	private Map<String,Map<Revision,Language>> _languageMap = new HashMap<String,Map<Revision,Language>>();
 	
-	private Map<String, Revision> _defaultRevisions = new HashMap<>();
+	private Map<String, Revision> _defaultRevisions = new HashMap<String, Revision>();
 }

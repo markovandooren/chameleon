@@ -1,1 +1,0 @@
-This file is only here to ensure that the lib/ directory exists. Otherwise Ivy will cause build error.

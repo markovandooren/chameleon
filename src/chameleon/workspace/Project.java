@@ -73,7 +73,7 @@ public class Project {
 	}
 	
 	
-	private List<ProjectListener> _listeners = new ArrayList<>();
+	private List<ProjectListener> _listeners = new ArrayList<ProjectListener>();
 	
 	public void addView(View view) {
 		if(view != null) {
@@ -208,7 +208,7 @@ public class Project {
 	}
 	
 	public <T extends Element> List<T> sourceElements(Class<T> kind, Handler handler) throws InputException {
-		List<T> result = new ArrayList<>();
+		List<T> result = new ArrayList<T>();
 		for(View view: views()) {
 			result.addAll(view.sourceElements(kind, handler));
 		}

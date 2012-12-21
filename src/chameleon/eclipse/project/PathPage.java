@@ -146,7 +146,7 @@ public class PathPage extends WizardPage implements IWizardPage {
 		return wizard().projectConfig();
 	}
 
-	private List<String> _sourcePaths = new ArrayList<>();
+	private List<String> _sourcePaths = new ArrayList<String>();
 
 	/**
 	 * Create a tab to configure the source loaders of the project.

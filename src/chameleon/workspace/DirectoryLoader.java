@@ -90,7 +90,7 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 		_root = root;
 	}
 	
-	private List<String> _fileExtensions = new ArrayList<>();
+	private List<String> _fileExtensions = new ArrayList<String>();
 
 //	/**
 //	 * Return the extension of the files that will be read to create the model.
