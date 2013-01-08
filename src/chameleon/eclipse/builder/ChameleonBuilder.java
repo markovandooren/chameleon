@@ -1,7 +1,6 @@
 package chameleon.eclipse.builder;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +14,9 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
-import org.eclipse.ui.texteditor.MarkerUtilities;
+import org.eclipse.core.runtime.Status;
 
 import chameleon.core.document.Document;
 import chameleon.core.validation.BasicProblem;
@@ -28,10 +28,12 @@ import chameleon.eclipse.connector.EclipseEditorExtension;
 import chameleon.eclipse.editors.ChameleonDocument;
 import chameleon.eclipse.project.ChameleonProjectNature;
 import chameleon.eclipse.project.ChameleonResourceDeltaFileVisitor;
-import chameleon.exception.ModelException;
+import chameleon.plugin.build.BuildException;
 import chameleon.plugin.build.BuildProgressHelper;
 import chameleon.plugin.build.Builder;
 import chameleon.plugin.build.NullBuilder;
+import chameleon.workspace.InputException;
+import chameleon.workspace.View;
 
 public class ChameleonBuilder extends IncrementalProjectBuilder {
 
@@ -150,8 +152,14 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 			Builder builder = builder();
 			ChameleonProjectNature nature = nature();
 			File root = projectRoot(nature);
-			File output = chameleonNature().view().language().plugin(EclipseEditorExtension.class).buildDirectory(root);
-			List<Document> projectCompilationUnits = nature.compilationUnits();
+			View view = chameleonNature().view();
+			File output = view.language().plugin(EclipseEditorExtension.class).buildDirectory(root);
+			List<Document> projectCompilationUnits;
+			try {
+				projectCompilationUnits = view.sourceDocuments();
+			} catch (InputException e1) {
+				throw new CoreException(Status.CANCEL_STATUS);
+			}
 			if(builder != null) {
 				int totalWork = builder.totalAmountOfWork(validCompilationUnits, projectCompilationUnits);
 				System.out.println(totalWork);
@@ -181,20 +189,16 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 
 
 				try {
-					builder.build(validCompilationUnits, projectCompilationUnits, output, helper);
+					builder.build(validCompilationUnits, output, helper);
 				}
-				catch (ModelException e) {
-					//TODO report error using a MARKER
+				catch (BuildException e) {
 					e.printStackTrace();
-				} catch (IOException e) {
-					//TODO report error using a MARKER
-					e.printStackTrace();
-				}
+				} 
 			}
 		} 
 		catch(InterruptedException exc) 
 		{
-			
+			exc.printStackTrace();
 		}
 		finally {
 			if(! released) {

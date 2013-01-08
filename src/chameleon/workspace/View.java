@@ -236,6 +236,14 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
 		}
 	}
 	
+	public List<Document> sourceDocuments() throws InputException {
+		List<Document> result = new ArrayList<Document>();
+		for(DocumentLoader loader: sourceLoaders()) {
+			result.addAll(loader.documents());
+		}
+		return result;
+	}
+	
 	
   private ListMapWrapper<ViewProcessor> _processors = new ListMapWrapper<ViewProcessor>();
 

@@ -1,11 +1,9 @@
 package chameleon.plugin.build;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import chameleon.core.document.Document;
-import chameleon.exception.ModelException;
 import chameleon.plugin.ViewPluginImpl;
 
 public class NullBuilder extends ViewPluginImpl implements Builder {
@@ -15,8 +13,7 @@ public class NullBuilder extends ViewPluginImpl implements Builder {
 	}
 	
 	@Override
-	public void build(List<Document> compilationUnits, List<Document> allProjectCompilationUnits, File outputDir, BuildProgressHelper buildProgressHelper)
-			throws ModelException, IOException {
+	public void build(List<Document> compilationUnits, File outputDir, BuildProgressHelper buildProgressHelper) {
 	}
 
 	@Override

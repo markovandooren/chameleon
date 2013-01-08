@@ -12,12 +12,12 @@ import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import chameleon.exception.ChameleonProgrammerException;
-import chameleon.exception.ModelException;
+import chameleon.plugin.build.BuildException;
 import chameleon.plugin.build.BuildProgressHelper;
 import chameleon.workspace.View;
 
 public abstract class  IncrementalTranslator<S extends Language, T extends Language> {
-	
+
 	public IncrementalTranslator(View source, View target) {
 		if(source == null || target == null) {
 			throw new ChameleonProgrammerException();
@@ -88,5 +88,5 @@ public abstract class  IncrementalTranslator<S extends Language, T extends Langu
 		storage.put(compilationUnit, generated);
 	}
 	
-	public abstract Collection<Document> build(Document source, List<Document> allProjectCompilationUnits,	BuildProgressHelper buildProgressHelper) throws ModelException;
+	public abstract Collection<Document> build(Document source, BuildProgressHelper buildProgressHelper) throws BuildException;
 }

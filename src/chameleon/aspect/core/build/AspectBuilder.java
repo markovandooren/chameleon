@@ -5,13 +5,13 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
-import chameleon.aspect.core.model.language.AspectOrientedLanguage;
 import chameleon.aspect.core.weave.AspectWeaver;
 import chameleon.core.document.Document;
-import chameleon.core.language.Language;
+import chameleon.core.lookup.LookupException;
 import chameleon.exception.ModelException;
 import chameleon.plugin.ViewPlugin;
 import chameleon.plugin.ViewPluginImpl;
+import chameleon.plugin.build.BuildException;
 import chameleon.plugin.build.BuildProgressHelper;
 import chameleon.plugin.build.Builder;
 import chameleon.plugin.build.CompilationUnitWriter;
@@ -63,11 +63,19 @@ public class AspectBuilder extends ViewPluginImpl implements Builder {
 	}
 
 	@Override
-	public void build(List<Document> compilationUnits, List<Document> allProjectCompilationUnits,	File outputDir, BuildProgressHelper buildProgressHelper) throws ModelException, IOException {
-			Collection<Document> cus = _translator.build(null,allProjectCompilationUnits, buildProgressHelper);
+	public void build(List<Document> compilationUnits, File outputDir, BuildProgressHelper buildProgressHelper) throws BuildException {
+			Collection<Document> cus = _translator.build(null, buildProgressHelper);
 			CompilationUnitWriter writer = target().language().plugin(CompilationUnitWriter.class);
 			for (Document translated : cus) {
-				writer.write(translated,outputDir);
+				try {
+					writer.write(translated,outputDir);
+				} catch (LookupException e) {
+					throw new BuildException(e);
+				} catch (ModelException e) {
+					throw new BuildException(e);
+				} catch (IOException e) {
+					throw new BuildException(e);
+				}
 			}
 	}
 
