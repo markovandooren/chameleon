@@ -14,7 +14,7 @@ import chameleon.oo.plugin.ObjectOrientedFactory;
 
 public class DirectInputSource extends InputSourceImpl {
 
-	public DirectInputSource(Declaration decl, String namespaceFQN, View view) throws InputException {
+	public DirectInputSource(Declaration decl, String namespaceFQN, View view, DocumentLoaderImpl loader) throws InputException {
 		_declaration = decl;
 		InputSourceNamespace ns = (InputSourceNamespace) view.namespace().getOrCreateNamespace(namespaceFQN);
 		setNamespace(ns);
@@ -23,7 +23,8 @@ public class DirectInputSource extends InputSourceImpl {
 		Document doc = new Document();
 		doc.add(nsd);
 		setDocument(doc);
-		doc.namespace();
+		loader.addInputSource(this);
+		doc.activate();
 	}
 	
 	private Declaration _declaration;
