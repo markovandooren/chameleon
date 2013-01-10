@@ -17,6 +17,7 @@ import chameleon.oo.member.Member;
 import chameleon.oo.member.MemberImpl;
 import chameleon.oo.type.DeclarationWithType;
 import chameleon.oo.type.Type;
+import chameleon.oo.type.generics.TypeParameter;
 import chameleon.oo.variable.FormalParameter;
 import chameleon.util.Util;
 import chameleon.util.association.Single;
@@ -68,6 +69,19 @@ public abstract class DeclarationWithParameters extends MemberImpl implements De
 		public void setName(String name) {
 			header().setName(name);
 		}
+		
+		public List<TypeParameter> typeParameters() {
+		  return header().typeParameters();
+		}
+		
+		/**
+		 * Return the index-th type parameter. Indices start at 1.
+		 */
+		public TypeParameter typeParameter(int index) {
+			return header().typeParameter(index);
+		}
+
+
 		
 		/**
 		 * Return a string representation for the name of the method. This is just a convenience method.

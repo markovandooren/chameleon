@@ -31,21 +31,21 @@ import chameleon.util.concurrent.UnsafeAction;
  */
 public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 	
-	/**
-	 * Create a new model provider with the given factory.
-	 * @throws ProjectException 
-	 */
- /*@
-   @ public behavior
-   @
-   @ pre factory != null;
-   @
-   @ post factory() == factory;
-   @*/
-	public DirectoryLoader(String fileExtension, String root, FileInputSourceFactory factory) {
-		this(root, factory);
-		addFileExtension(fileExtension);
-	}
+//	/**
+//	 * Create a new model provider with the given factory.
+//	 * @throws ProjectException 
+//	 */
+// /*@
+//   @ public behavior
+//   @
+//   @ pre factory != null;
+//   @
+//   @ post factory() == factory;
+//   @*/
+//	public DirectoryLoader(String fileExtension, String root, FileInputSourceFactory factory) {
+//		this(root, factory);
+//		addFileExtension(fileExtension);
+//	}
 	
 	public DirectoryLoader(String root, FileInputSourceFactory factory) {
 		setPath(root);
@@ -151,7 +151,6 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 	 */
   private void doIncludeCustom(File root) throws ProjectException {
   	File[] files = root.listFiles(new FilenameFilter(){
-		
 			@Override
 			public boolean accept(File file, String extension) {
 				return responsibleFor(extension);

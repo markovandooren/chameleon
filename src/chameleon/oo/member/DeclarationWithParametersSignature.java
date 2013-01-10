@@ -6,7 +6,7 @@ import java.util.List;
 import chameleon.core.declaration.Signature;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.language.ObjectOrientedLanguage;
-import chameleon.oo.method.Method;
+import chameleon.oo.method.DeclarationWithParameters;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.oo.type.generics.ExtendsConstraint;
@@ -15,31 +15,6 @@ import chameleon.oo.type.generics.TypeParameter;
 import chameleon.oo.variable.FormalParameter;
 
 public abstract class DeclarationWithParametersSignature extends Signature {
-
-//	public String name() {
-//		return _name;
-//	}
-//	
-//	private String _name;
-//	
-//  /*********************
-//   * FORMAL PARAMETERS *
-//   *********************/
-//
-//  public List<TypeReference> typeReferences() {
-//    return _parameters.getOtherEnds();
-//  }
-//
-//
-//  public void add(TypeReference arg) {
-//    _parameters.add(arg.parentLink());
-//  }
-//
-//  public int getNbTypeReferences() {
-//    return _parameters.size();
-//  }
-//
-//  private OrderedReferenceSet<E,TypeReference> _parameters = new OrderedReferenceSet<E,TypeReference>((E) this);
 
 	public abstract DeclarationWithParametersSignature clone();
 	
@@ -58,7 +33,7 @@ public abstract class DeclarationWithParametersSignature extends Signature {
 
 	private boolean sameParameterBoundsAsAfter(DeclarationWithParametersSignature other) throws LookupException {
   	// substitute paramaters.
-  	Method method = (Method)other.nearestAncestor(Method.class);
+		DeclarationWithParameters method = other.nearestAncestor(DeclarationWithParameters.class);
   	DeclarationWithParametersHeader otherHeader = method.header();
   	int nbOtherFormalParameters = otherHeader.nbFormalParameters();
   	int nbMyFormalParameters = nbFormalParameters();
@@ -67,7 +42,7 @@ public abstract class DeclarationWithParametersSignature extends Signature {
   		DeclarationWithParametersHeader clonedHeader = otherHeader.clone();
   		clonedHeader.setUniParent(method);
   		List<TypeParameter> cloneTypeParameters = clonedHeader.typeParameters();
-  		List<TypeParameter> myTypeParameters = nearestAncestor(Method.class).typeParameters();
+  		List<TypeParameter> myTypeParameters = nearestAncestor(DeclarationWithParameters.class).typeParameters();
   		int size = myTypeParameters.size();
   		result = (size == cloneTypeParameters.size());
   		if(result) {

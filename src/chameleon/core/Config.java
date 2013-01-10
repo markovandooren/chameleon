@@ -1,5 +1,10 @@
 package chameleon.core;
 
+/**
+ * FIXME This static piece of .... should finally go.
+ * @author Marko van Dooren
+ *
+ */
 public class Config {
 
 	/**************************

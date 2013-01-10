@@ -1121,6 +1121,7 @@ public abstract class ElementImpl implements Element {
 			 result = result.and(language().verify(this));
 			 return result;
 		 } catch(Exception exc) {
+			 exc.printStackTrace();
 			 return new BasicProblem(this, "Internal error during verification.");
 		 }
 	 }

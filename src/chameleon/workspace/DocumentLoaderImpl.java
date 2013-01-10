@@ -74,6 +74,13 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		
 	}
 	
+	/**
+	 * This method is invoked when the loader is connected to a project. It should
+	 * then put the required objects in place to populate the project. The loader
+	 * is free to load the source files eagerly or lazily.
+	 * @param project
+	 * @throws ProjectException
+	 */
 	protected void notifyProjectAdded(View project) throws ProjectException {
 	}
 	

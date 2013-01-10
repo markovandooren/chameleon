@@ -74,17 +74,6 @@ public abstract class Method extends DeclarationWithParameters {
 	  return implementation() != null && implementation().complete();
 	}
 
-	public List<TypeParameter> typeParameters() {
-	  return header().typeParameters();
-	}
-	
-	/**
-	 * Return the index-th type parameter. Indices start at 1.
-	 */
-	public TypeParameter typeParameter(int index) {
-		return header().typeParameter(index);
-	}
-
 	/******************
 	 * IMPLEMENTATION *
 	 ******************/
