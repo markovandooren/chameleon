@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import chameleon.eclipse.ChameleonEditorPlugin;
 import chameleon.eclipse.connector.EclipseEditorExtension;
 import chameleon.util.FileUtil;
-import chameleon.workspace.ProjectConfig;
+import chameleon.workspace.ProjectConfiguration;
 
 public class PathPage extends WizardPage implements IWizardPage {
 
@@ -76,7 +76,7 @@ public class PathPage extends WizardPage implements IWizardPage {
 				_sourceProjectRoot.setText(wizard().projectName());
 
 
-				ProjectConfig projectConfig = wizard().projectConfig();
+				ProjectConfiguration projectConfig = wizard().projectConfig();
 				File file = wizard().projectDirectory();
 				String projectPathName = file == null ? null: file.toString();
 				if(file != null && ! projectPathName.equals(_cacheRoot)) {
@@ -142,7 +142,7 @@ public class PathPage extends WizardPage implements IWizardPage {
 		return FileUtil.relativePath(root, path);
 	}
 
-	private ProjectConfig projectConfig() {
+	private ProjectConfiguration projectConfig() {
 		return wizard().projectConfig();
 	}
 
@@ -244,7 +244,7 @@ public class PathPage extends WizardPage implements IWizardPage {
 		//		});
 	}
 
-	private ProjectConfig _cached;
+	private ProjectConfiguration _cached;
 
 	protected void addSourceLoader(String directory) {
 		if(directory != null) {

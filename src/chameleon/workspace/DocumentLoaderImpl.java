@@ -13,7 +13,7 @@ import chameleon.core.document.Document;
 public abstract class DocumentLoaderImpl implements DocumentLoader {
 
 	public DocumentLoaderImpl() {
-		_projectLink.addListener(new AssociationListener<View>() {
+		_viewLink.addListener(new AssociationListener<View>() {
 
 			// WARNING
 			
@@ -22,7 +22,7 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 			@Override
 			public void notifyElementAdded(View element) {
 				try {
-					notifyProjectAdded(element);
+					notifyViewAdded(element);
 				} catch (ProjectException e) {
 					throw new TunnelException(e);
 				}
@@ -81,7 +81,7 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	 * @param project
 	 * @throws ProjectException
 	 */
-	protected void notifyProjectAdded(View project) throws ProjectException {
+	protected void notifyViewAdded(View project) throws ProjectException {
 	}
 	
 	protected void notifyProjectRemoved(View project) throws ProjectException {
@@ -90,14 +90,14 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	protected void notifyProjectReplaced(View old, View newProject) throws ProjectException {
 	}
 
-	private SingleAssociation<DocumentLoaderImpl, View> _projectLink = new SingleAssociation<DocumentLoaderImpl, View>(this);
+	private SingleAssociation<DocumentLoaderImpl, View> _viewLink = new SingleAssociation<DocumentLoaderImpl, View>(this);
 	
 	public SingleAssociation<DocumentLoaderImpl, View> viewLink() {
-		return _projectLink;
+		return _viewLink;
 	}
 	
 	public View view() {
-		return _projectLink.getOtherEnd();
+		return _viewLink.getOtherEnd();
 	}
 	
 	public Project project() {
@@ -178,13 +178,5 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		}
 	}
 	
-	protected File file(String path) {
-		File root = new File(path);
-		if(!root.isAbsolute()) {
-			root = new File(project().root().getAbsolutePath()+File.separator+path);
-		}
-		return root;
-	}
-
 
 }

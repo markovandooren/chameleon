@@ -23,8 +23,9 @@ import chameleon.eclipse.ChameleonEditorPlugin;
 import chameleon.eclipse.builder.ChameleonBuilder;
 import chameleon.eclipse.connector.EclipseEditorExtension;
 import chameleon.exception.ChameleonProgrammerException;
+import chameleon.workspace.BootstrapProjectConfig;
 import chameleon.workspace.ConfigException;
-import chameleon.workspace.ProjectConfig;
+import chameleon.workspace.ProjectConfiguration;
 import chameleon.workspace.ProjectConfigurator;
 
 /**
@@ -91,16 +92,16 @@ public class ProjectWizard extends BasicNewProjectResourceWizard implements INew
 		addPage(_pathPage);
 	}
 	
-	private ProjectConfig _projectConfig;
+	private ProjectConfiguration _projectConfig;
 	
-	public ProjectConfig projectConfig() {
+	public ProjectConfiguration projectConfig() {
 		return _projectConfig;
 	}
 	
 	void createConfig(Language lang) {
 		if(_projectConfig == null || _projectConfig.language() != lang) {
 			try {
-				_projectConfig = lang.plugin(ProjectConfigurator.class).createConfigElement(_projectPage.projectName(), null, null);
+				_projectConfig = lang.plugin(ProjectConfigurator.class).createConfigElement(_projectPage.projectName(), null, null,new BootstrapProjectConfig.BaseLibraryConfiguration());
 			} catch (ConfigException e) {
 				throw new ChameleonProgrammerException(e);
 			}

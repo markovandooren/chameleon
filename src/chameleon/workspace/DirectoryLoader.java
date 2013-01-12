@@ -52,8 +52,8 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 		setInputSourceFactory(factory);
 	}
 	
-	protected void notifyProjectAdded(View view) throws ProjectException {
-		setRoot(file(path()));
+	protected void notifyViewAdded(View view) throws ProjectException {
+		setRoot(view.project().absoluteFile(path()));
 		includeCustom(root());
 	}
 

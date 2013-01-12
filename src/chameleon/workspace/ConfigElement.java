@@ -353,7 +353,7 @@ public abstract class ConfigElement {
 		return (T) element;
 	}
 	
-	protected abstract void $update();
+	protected void $update() {}
 	
 	public ConfigElement childFor(Object object) {
 		for(ConfigElement element: _children.getOtherEnds()) {

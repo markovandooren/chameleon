@@ -184,6 +184,10 @@ public class Project {
 		flushSourceCache();
 	}
 	
+	/**
+	 * Try to remove the given file from the project.
+	 * @param file
+	 */
 	public void tryToRemove(File file) {
 		for(View view: views()) {
 			for(FileLoader loader: view.sourceLoaders(FileLoader.class)) {
@@ -207,6 +211,23 @@ public class Project {
 		}
 	}
 	
+	/**
+	 * Return the source elements of the given kind. The given {@link Handler} is used to
+	 * deal with possible exceptions.
+	 *  
+	 * @param kind The type of source elements that is requested.
+	 * @param handler A handler to deal with exceptions.
+	 * @throws InputException
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre kind != null;
+   @ pre handler != null;
+   @
+   @ post \result != null;
+   @ post (\forall T t;; \result.contains(t) <==> (\exists View v;; v.sourceElements(kind,handler).contains(t)));
+   @*/
 	public <T extends Element> List<T> sourceElements(Class<T> kind, Handler handler) throws InputException {
 		List<T> result = new ArrayList<T>();
 		for(View view: views()) {
@@ -214,4 +235,51 @@ public class Project {
 		}
 		return result;
 	}
+	
+	/**
+	 * Return a path that is an absolute for the given path.
+	 * If the given path is already absolute, it is returned directly. 
+	 * Otherwise, the project root path is prefixed, along with {@link File.separator}.
+	 *  
+	 * @param path The path of the file for which an absolute file must be returned.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre path != null;
+   @
+   @ post \result != null;
+   @ post new File(path).isAbsolute() ==> \result == path;
+   @ post ! new File(path).isAbsolute() ==> \result.equals(
+   @   project().root().getAbsolutePath()+File.separator+path);
+   @*/
+	public String absolutePath(String path) {
+		File root = new File(path);
+		if(!root.isAbsolute()) {
+			return root().getAbsolutePath()+File.separator+path;
+		} else {
+			return path;
+		}
+	}
+
+	/**
+	 * Return a file whose path is absolute for the given path.
+	 * If the given path is already absolute, it is used directly
+	 * to create the resulting file. Otherwise, the project root
+	 * path is prefixed, along with {@link File.separator}.
+	 *  
+	 * @param path The path of the file for which an absolute file must be returned.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre path != null;
+   @ post \result != null;
+   @ post \result.getAbsolutePath().equals(absolutePath(path));
+   @*/
+	public File absoluteFile(String path) {
+		return new File(absolutePath(path));
+	}
+
+
 }
