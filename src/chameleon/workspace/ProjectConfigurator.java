@@ -1,6 +1,9 @@
 package chameleon.workspace;
 
 import java.io.File;
+import java.io.FilenameFilter;
+
+import org.rejuse.predicate.SafePredicate;
 
 import chameleon.core.language.Language;
 import chameleon.plugin.LanguagePlugin;
@@ -26,6 +29,7 @@ public interface ProjectConfigurator extends LanguagePlugin {
 	 *  
 	 * @param projectName The name of the project being loaded.
 	 * @param root The root directory of the project being loaded.
+	 * @param workspace The workspace of which the new project will become part.
 	 * @param listener A listener that reacts on changes in the ProjectConfig.
 	 * @param baseLibraryConfiguration An object the determines which base libraries must be loaded. In case
 	 *                                 of languages that build upon other languages and also define their own
@@ -39,9 +43,20 @@ public interface ProjectConfigurator extends LanguagePlugin {
    @
    @ post \result != null;
    @*/
-	public ProjectConfiguration createConfigElement(String projectName, File root, ProjectInitialisationListener listener, BaseLibraryConfiguration baseLibraryConfiguration) throws ConfigException;
+	public ProjectConfiguration createConfigElement(String projectName, File root, Workspace workspace, ProjectInitialisationListener listener, BaseLibraryConfiguration baseLibraryConfiguration) throws ConfigException;
 
-//	 * @param loadBaseLibrary A boolean that indicates whether the base library of the language
-//	 *                        must be loaded. This is typically only set to false when loading
-//	 *                        the base library itself.
+	/**
+	 * Return a predicate to select source files of the language based on the relative 
+	 * path with respect to its corresponding source root.
+	 * @return
+	 */
+	public SafePredicate<? super String> sourceFileFilter();
+
+	/**
+	 * Return a predicate to select binary files of the language based on the relative 
+	 * path with respect to its corresponding source root.
+	 * @return
+	 */
+	public SafePredicate<? super String> binaryFileFilter();
+	
 }

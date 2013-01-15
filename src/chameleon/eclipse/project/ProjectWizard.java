@@ -20,6 +20,7 @@ import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 
 import chameleon.core.language.Language;
 import chameleon.eclipse.ChameleonEditorPlugin;
+import chameleon.eclipse.LanguageMgt;
 import chameleon.eclipse.builder.ChameleonBuilder;
 import chameleon.eclipse.connector.EclipseEditorExtension;
 import chameleon.exception.ChameleonProgrammerException;
@@ -101,7 +102,7 @@ public class ProjectWizard extends BasicNewProjectResourceWizard implements INew
 	void createConfig(Language lang) {
 		if(_projectConfig == null || _projectConfig.language() != lang) {
 			try {
-				_projectConfig = lang.plugin(ProjectConfigurator.class).createConfigElement(_projectPage.projectName(), null, null,new BootstrapProjectConfig.BaseLibraryConfiguration());
+				_projectConfig = lang.plugin(ProjectConfigurator.class).createConfigElement(_projectPage.projectName(), null, LanguageMgt.getInstance().workspace(),null,new BootstrapProjectConfig.BaseLibraryConfiguration());
 			} catch (ConfigException e) {
 				throw new ChameleonProgrammerException(e);
 			}

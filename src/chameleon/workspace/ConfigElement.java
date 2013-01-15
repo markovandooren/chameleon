@@ -341,7 +341,7 @@ public abstract class ConfigElement {
 		return createChild(type);
 	}
 	
-	public <T extends ConfigElement> T createOrUpdateChild(Class<T> type, Object object)  {
+	public <T extends ConfigElement> T createOrUpdateChild(Class<T> type, Object object) throws ConfigException  {
 		ConfigElement element = childFor(object);
 		if(element == null) {
 			element = createChild(type);
@@ -353,7 +353,7 @@ public abstract class ConfigElement {
 		return (T) element;
 	}
 	
-	protected void $update() {}
+	protected void $update() throws ConfigException {}
 	
 	public ConfigElement childFor(Object object) {
 		for(ConfigElement element: _children.getOtherEnds()) {

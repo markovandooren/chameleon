@@ -53,6 +53,7 @@ import chameleon.workspace.Project;
 import chameleon.workspace.ProjectInitialisationListener;
 import chameleon.workspace.View;
 import chameleon.workspace.ViewListener;
+import chameleon.workspace.Workspace;
 
 /**
  * @author Manuel Van Wesemael 
@@ -123,7 +124,6 @@ public class ChameleonProjectNature implements IProjectNature {
 				return super.add(e);
 			}
 		};
-		_repository = LanguageMgt.getInstance().workspace().languageRepository();
 	}
 	
 	//the project this natures resides
@@ -234,7 +234,7 @@ public class ChameleonProjectNature implements IProjectNature {
 					IPath location = project.getLocation();
 					File file = location.toFile();
 					final EclipseInputSourceListener listener = new EclipseInputSourceListener();
-					BootstrapProjectConfig bootstrapProjectConfig = new BootstrapProjectConfig(file, _repository);
+					BootstrapProjectConfig bootstrapProjectConfig = new BootstrapProjectConfig(file, workspace());
 					_chameleonProject = bootstrapProjectConfig.project(new File(location+"/"+CHAMELEON_PROJECT_FILE), new ProjectInitialisationListener(){
 						@Override
 						public void viewAdded(View view) {
@@ -271,7 +271,12 @@ public class ChameleonProjectNature implements IProjectNature {
 		}
 	}
 	
-	private LanguageRepository _repository;
+	/*
+	 * TODO get rid of this static nonsense.
+	 */
+	protected Workspace workspace() {
+		return LanguageMgt.getInstance().workspace();
+	}
 	
 	private IResourceChangeListener _projectListener;
 	

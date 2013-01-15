@@ -5,9 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-import chameleon.core.document.Document;
 import chameleon.core.namespace.InputSourceNamespace;
-import chameleon.input.ModelFactory;
 
 public class FileInputSource extends StreamInputSource {
 

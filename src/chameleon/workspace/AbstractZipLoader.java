@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.rejuse.predicate.Predicate;
+import org.rejuse.predicate.SafePredicate;
+
 import chameleon.core.lookup.LookupException;
 import chameleon.util.Pair;
 import chameleon.util.Util;
@@ -26,11 +29,24 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
    @ pre path != null;
    @ post path() == path;
    @*/
-	public AbstractZipLoader(String path) {
+	public AbstractZipLoader(String path, SafePredicate<? super String> filter) {
+		setPath(path);
+		setFilter(filter);
+	}
+	
+	private void setPath(String path) {
 		_path = path;
 	}
 	
 	private String _path;
+	
+	private void setFilter(SafePredicate<? super String> filter) {
+		_filter = filter;
+	}
+	
+	private SafePredicate<? super String> _filter;
+	
+	
 	
 	/**
 	 * Return the path of the jar file from which elements must be loaded.
@@ -87,7 +103,7 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
   	while(entries.hasMoreElements()) {
   		ZipEntry entry = entries.nextElement();
   		String name = entry.getName();
-  		if(matches(name)) {
+  		if(_filter.eval(name)) {
   			String tmp = Util.getAllButLastPart(name).replace('/', '.').replace('$', '.');
   			if(! tmp.matches(".*\\.[0-9].*")) {
   				names.add(new Pair<Pair<String,String>, ZipEntry>(new Pair<String,String>(tmp,Util.getLastPart(Util.getAllButLastPart(name).replace('/', '.')).replace('$', '.')), entry));
@@ -95,28 +111,6 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
   		}
   	}
 		return names;
-	}
-	
-	protected boolean matches(String name) {
-		for(String extension: _fileExtension) {
-			if(name.endsWith(extension)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private List<String> _fileExtension = new ArrayList<String>();
-	
-	public List<String> fileExtension() {
-		return new ArrayList<String>(_fileExtension);
-	}
-	
-	public void addFileExtension(String extension) {
-		if(extension == null) {
-			throw new IllegalArgumentException();
-		}
-		_fileExtension.add(extension);
 	}
 	
 	protected void createInputSources() throws IOException, LookupException, InputException {

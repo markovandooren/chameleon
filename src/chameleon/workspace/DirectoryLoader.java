@@ -6,9 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -17,6 +14,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
 
 import org.antlr.runtime.RecognitionException;
+import org.rejuse.predicate.SafePredicate;
 
 import chameleon.input.ParseException;
 import chameleon.util.concurrent.CallableFactory;
@@ -47,10 +45,24 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 //		addFileExtension(fileExtension);
 //	}
 	
-	public DirectoryLoader(String root, FileInputSourceFactory factory) {
+	public DirectoryLoader(String root, FileInputSourceFactory factory,SafePredicate<? super String> filter) {
 		setPath(root);
 		setInputSourceFactory(factory);
+		setFilter(filter);
 	}
+	
+	protected void setFilter(SafePredicate<? super String> filter) {
+		if(filter == null) {
+			throw new IllegalArgumentException("The file name filter of a directory loader cannot be null");
+		}
+		_filter = filter;
+	}
+	
+	public SafePredicate<? super String> filter() {
+		return _filter;
+	}
+	
+	private SafePredicate<? super String> _filter;
 	
 	protected void notifyViewAdded(View view) throws ProjectException {
 		setRoot(view.project().absoluteFile(path()));
@@ -90,24 +102,6 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 		_root = root;
 	}
 	
-	private List<String> _fileExtensions = new ArrayList<String>();
-
-//	/**
-//	 * Return the extension of the files that will be read to create the model.
-//	 */
-//	public String fileExtension() {
-//		return _fileExtension;
-//	}
-
-	/**
-	 * Set the file extension for this model provider.
-	 */
-	public void addFileExtension(String fileExtension) {
-		if(fileExtension == null) {
-			throw new IllegalArgumentException();
-		}
-		_fileExtensions.add(fileExtension);
-	}
 	
 	public FileInputSourceFactory inputSourceFactory() {
 		return _inputSourceFactory;
@@ -121,29 +115,14 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 		doIncludeCustom(root);
 	}
 
-	private boolean responsibleFor(String fileName) {
-		boolean result = false;
-		for(String ext: _fileExtensions) {
-			if(fileName.endsWith(ext)) {
-				result = true;
-				break;
-			}
-		}
-		return result;
-	}
-	
 	private boolean responsibleFor(File file) {
 		boolean result = false;
 		if(file != null) {
-			result = responsibleFor(file.getName());
+			result = filter().eval(file.getName());
 		}
 		return result;
 	}
 
-	public List<String> fileExtensions() {
-		return new ArrayList<String>(_fileExtensions);
-	}
-	
 	/**
 	 * Add the given directory to the list of directories that contain the custom model.
 	 * @throws ParseException 
@@ -153,7 +132,7 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
   	File[] files = root.listFiles(new FilenameFilter(){
 			@Override
 			public boolean accept(File file, String extension) {
-				return responsibleFor(extension);
+				return filter().eval(extension);
 			}
 		});
   	File[] subdirs = root.listFiles(new FileFilter(){

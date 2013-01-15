@@ -7,14 +7,15 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.rejuse.predicate.SafePredicate;
+
 import chameleon.core.namespace.InputSourceNamespace;
 import chameleon.util.Pair;
 
 public class ZipLoader extends AbstractZipLoader {
 
-	public ZipLoader(String zipPath, String extension) {
-		super(zipPath);
-		addFileExtension(extension);
+	public ZipLoader(String zipPath, SafePredicate<? super String> filter) {
+		super(zipPath, filter);
 	}
 
 	@Override

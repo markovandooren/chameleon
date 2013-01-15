@@ -12,9 +12,9 @@ import org.w3c.dom.Element;
 
 public class BootstrapProjectConfig extends ConfigElement {
 	
-	public BootstrapProjectConfig(File root, LanguageRepository repository) {
+	public BootstrapProjectConfig(File root, Workspace workspace) {
 		_root = root;
-		_repository = repository;
+		_workspace = workspace;
 	}
 	
 	private List<ProjectInitialisationListener> _listeners = new ArrayList<ProjectInitialisationListener>();
@@ -42,7 +42,7 @@ public class BootstrapProjectConfig extends ConfigElement {
 		_projectName = text;
 	}
 	
-	private LanguageRepository _repository;
+	private Workspace _workspace;
 	
 	private chameleon.core.language.Language _lang;
 	
@@ -99,6 +99,10 @@ public class BootstrapProjectConfig extends ConfigElement {
 		}
 	}
 	
+	protected LanguageRepository languageRepository() {
+		return _workspace.languageRepository();
+	}
+	
 	public class Language extends ConfigElement {
 		
 		public void setName(String text) {
@@ -116,9 +120,9 @@ public class BootstrapProjectConfig extends ConfigElement {
 		@Override
 		protected void $after() throws ConfigException {
 			if(_revision != null) {
-				setModelElement(_repository.get(_languageName, _revision));
+				setModelElement(languageRepository().get(_languageName, _revision));
 			} else {
-				setModelElement(_repository.get(_languageName));
+				setModelElement(languageRepository().get(_languageName));
 			}
 			_lang = (chameleon.core.language.Language) modelElement();
 		}
@@ -133,7 +137,7 @@ public class BootstrapProjectConfig extends ConfigElement {
 
 	@Override
 	protected void $after() throws ConfigException {
-		ConfigElement pc = _lang.plugin(ProjectConfigurator.class).createConfigElement(_projectName, _root, _listener,_configuration);
+		ConfigElement pc = _lang.plugin(ProjectConfigurator.class).createConfigElement(_projectName, _root, _workspace,_listener,_configuration);
 		for(Element element: unprocessedElements()) {
 			pc.processChild(element);
 		}

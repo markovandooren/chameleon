@@ -3,11 +3,12 @@ package chameleon.workspace;
 import java.io.File;
 import java.util.List;
 
+import org.rejuse.predicate.SafePredicate;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import chameleon.core.language.Language;
-import chameleon.exception.ChameleonProgrammerException;
+import chameleon.workspace.ProjectConfiguration.SourcePath.Zip;
 
 /**
  * A ProjectConfig mirrors the configuration of a Chameleon project. To load a project,
@@ -23,31 +24,31 @@ import chameleon.exception.ChameleonProgrammerException;
  */
 public abstract class ProjectConfiguration extends ConfigElement {
 
-	/**
-	 * Create a new project configuration object. The new project configuration is
-	 * refers to the given view and uses the given file input source factory to
-	 * load files in source directories.
-	 * @param view
-	 * @param factory
-	 * @param projectName
-	 * @param root
-	 */
-	public ProjectConfiguration(View view, FileInputSourceFactory factory, String projectName, File root) {
-		this(projectName, root, view, factory);
-	}
-
-	/**
-	 * Create a new project configuration object for a project with the given name. 
-	 * The new project configuration refers to the given view and uses the given 
-	 * file input source factory to load files in source directories.
-	 * @param projectName
-	 * @param view
-	 * @param factory
-	 * @param root
-	 */
-	public ProjectConfiguration(String projectName, View view, FileInputSourceFactory factory, File root) {
-		this(projectName, root, view, factory);
-	}
+//	/**
+//	 * Create a new project configuration object. The new project configuration is
+//	 * refers to the given view and uses the given file input source factory to
+//	 * load files in source directories.
+//	 * @param view
+//	 * @param factory
+//	 * @param projectName
+//	 * @param root
+//	 */
+//	public ProjectConfiguration(View view, FileInputSourceFactory factory, String projectName, File root) {
+//		this(projectName, root, view, factory);
+//	}
+//
+//	/**
+//	 * Create a new project configuration object for a project with the given name. 
+//	 * The new project configuration refers to the given view and uses the given 
+//	 * file input source factory to load files in source directories.
+//	 * @param projectName
+//	 * @param view
+//	 * @param factory
+//	 * @param root
+//	 */
+//	public ProjectConfiguration(String projectName, View view, FileInputSourceFactory factory, File root) {
+//		this(projectName, root, view, factory);
+//	}
 
 	/**
 	 * Create a new project configuration object for a project with the given name
@@ -81,10 +82,11 @@ public abstract class ProjectConfiguration extends ConfigElement {
    @ post view() == view;
    @ post fileInputSourceFactory = factory;
    @*/
-	public ProjectConfiguration(String projectName, File root, View view, FileInputSourceFactory factory) {
+	public ProjectConfiguration(String projectName, File root, View view, Workspace workspace, FileInputSourceFactory factory) {
 		_view = view;
 		_factory = factory;
 		_name = projectName;
+		_workspace = workspace;
     setModelElement(new chameleon.workspace.Project(projectName, view, root));
     //FIXME fix this code when multi view support is added.
     //      I'd rather not do it before I know what I'm doing.
@@ -114,6 +116,12 @@ public abstract class ProjectConfiguration extends ConfigElement {
 				ProjectConfiguration.this.binaryLoaderRemoved(loader);
     	}
     });
+	}
+	
+	private Workspace _workspace;
+	
+	protected Workspace workspace() {
+		return _workspace;
 	}
 	
 	/**
@@ -165,10 +173,53 @@ public abstract class ProjectConfiguration extends ConfigElement {
 	public Language language() {
 		return ((Project)modelElement()).views().get(0).language();
 	}
+
+	/**
+	 * Return the language with the given name. This method
+	 * can be used to obtain a reference to the language
+	 * object (e.g. Java) when initializing a project
+	 * of a language (e.g. JLo) that extends that language. The
+	 * Java project configuration code needs access to the Java language
+	 * object to obtain e.g. the filters for the source and binary files.
+	 * 
+	 * TODO This method can probably be removed when stackable multi-view support
+	 * is added.
+	 * 
+	 * @param name The name of the requested language.
+	 * @return
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre name != null;
+   @ post \result == view().project().workspace().languageRepository().get(name);
+   @*/
+	protected Language language(String name) {
+		return workspace().languageRepository().get(name);
+	}
+
+
 	
+	/**
+	 * This method is called when a source loader is added to the project. The
+	 * method should add a config element that corresponds to the configuration
+	 * of the added source loader.
+	 * 
+	 * <b>Must be overridden when a new type of source loader must be supported</b> The
+	 * implementation in this class supports the loaders know by this class:
+	 * <ul>
+	 *   <li>{@link SourcePath.Zip}</li>
+	 *   <li>{@link SourcePath.Source}</li>
+	 * </ul>
+	 * @param loader
+	 */
 	protected void sourceLoaderAdded(DocumentLoader loader) {
 		SourcePath p = createOrGetChild(SourcePath.class);
-		p.createOrUpdateChild(SourcePath.Source.class, loader);
+		if(loader instanceof ZipLoader) {
+			p.createOrUpdateChild(SourcePath.Zip.class,loader);
+		} else {
+			p.createOrUpdateChild(SourcePath.Source.class, loader);
+		}
 	}
 
 	protected void sourceLoaderRemoved(DocumentLoader loader) {
@@ -176,9 +227,13 @@ public abstract class ProjectConfiguration extends ConfigElement {
 		p.removeChildFor(loader);
 	}
 
-	protected void binaryLoaderAdded(DocumentLoader loader) {
+	protected void binaryLoaderAdded(DocumentLoader loader) throws ConfigException {
 		BinaryPath p = createOrGetChild(BinaryPath.class);
-		p.createOrUpdateChild(BinaryPath.Source.class,loader);
+		if(loader instanceof ZipLoader) {
+			p.createOrUpdateChild(BinaryPath.Zip.class,loader);
+		} else {
+		  p.createOrUpdateChild(BinaryPath.Source.class,loader);
+		}
 	}
 
 	protected void binaryLoaderRemoved(DocumentLoader loader) {
@@ -277,21 +332,30 @@ public abstract class ProjectConfiguration extends ConfigElement {
 					throw new ConfigException(e);
 				}
 			}
-		}
+			
+			@Override
+			protected SafePredicate<? super String> fileNameFilter() {
+				return $configurator().sourceFileFilter();
+			}
 
-		@Override
-		protected void $update() {
-			throw new ChameleonProgrammerException("A source path has no model element.");
+		}
+		
+		public class Zip extends ZipArchive {
+			protected SafePredicate<? super String> filter() {
+				return $configurator().sourceFileFilter();
+			}
 		}
 	}
 	
 	public class BinaryPath extends ConfigElement {
 		
-		@Override
-		protected void $update() {
-			throw new ChameleonProgrammerException("A source path has no model element.");
-		}
-
+		/**
+		 * A configuration element that allows source code to be read from
+		 * files in a certain directory. The directory will be scanned 
+		 * recursively.
+		 * 
+		 * @author Marko van Dooren
+		 */
 		public class Source extends ProjectConfiguration.Source {
 			protected void $after() throws ConfigException {
 				try {
@@ -300,9 +364,23 @@ public abstract class ProjectConfiguration extends ConfigElement {
 					throw new ConfigException(e);
 				}
 			}
-			
+
+			@Override
+			protected SafePredicate<? super String> fileNameFilter() {
+				return $configurator().sourceFileFilter();
+			}
 		}
 		
+		/**
+		 * A configuration element that allows source code to be read from a zip file.
+		 * 
+		 * @author Marko van Dooren
+		 */
+		public class Zip extends ZipArchive {
+			protected SafePredicate<? super String> filter() {
+				return $configurator().binaryFileFilter();
+			}
+		}
 	}
 	
 	protected File file(String path) {
@@ -333,16 +411,46 @@ public abstract class ProjectConfiguration extends ConfigElement {
 		}
 
 		protected DirectoryLoader createLoader(FileInputSourceFactory factory) {
-			DirectoryLoader loader = new DirectoryLoader(_path, factory);
-			for(String ext: sourceExtensions()) {
-				loader.addFileExtension(ext);
-			}
-			return loader;
+			return new DirectoryLoader(_path, factory, fileNameFilter());
 		}
+		
+		protected abstract SafePredicate<? super String> fileNameFilter();
 	}
 	
-	//FIXME Move this to the ProjectConfigurator?
-	protected abstract List<String> sourceExtensions();
+	public abstract class Archive extends ConfigElement {
+		
+		protected String _path;
+		public void setFile(String path) {
+			_path = path;
+			pathChanged();
+		}
+		
+		public String getFile() {
+			return _path;
+		}
+		
+		@Override
+		protected void $update() throws ConfigException {
+			AbstractZipLoader directoryLoader = (AbstractZipLoader)modelElement();
+			//TODO: does this transform a relative path into an absolute path
+			_path = directoryLoader.path();
+		}
+		
+  	protected abstract void pathChanged() throws ConfigException;
+
+	}
+	
+	public abstract class ZipArchive extends Archive {
+  	protected void pathChanged() throws ConfigException {
+  		try {
+  			view().addBinary(new ZipLoader(_path,filter()));
+  		} catch (ProjectException e) {
+  			throw new ConfigException(e);
+  		}
+  	}
+
+		protected abstract SafePredicate<? super String> filter();
+	}
 
 	public void addSource(String path) {
 		SourcePath sourcePath = createOrGetChild(SourcePath.class);
@@ -353,5 +461,9 @@ public abstract class ProjectConfiguration extends ConfigElement {
 	@Override
 	protected void $update() {
 		_name = ((Project)modelElement()).name();
+	}
+
+	protected ProjectConfigurator $configurator() {
+		return language().plugin(ProjectConfigurator.class);
 	}
 }
