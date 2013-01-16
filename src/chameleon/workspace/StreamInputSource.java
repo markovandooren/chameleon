@@ -1,5 +1,8 @@
 package chameleon.workspace;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import chameleon.core.document.Document;
@@ -8,9 +11,23 @@ import chameleon.input.ModelFactory;
 
 public class StreamInputSource extends InputSourceImpl {
 
-	public StreamInputSource(InputStream stream) {
+	protected StreamInputSource(InputStream stream) {
 		setInputStream(stream);
 	}
+	
+	protected StreamInputSource(File file) throws InputException {
+		this(convert(file));
+	}
+	
+	protected static InputStream convert(File file) throws InputException {
+		try {
+			return new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			throw new InputException(e);
+		}
+	}
+	
+
 	
 	public StreamInputSource(InputStream stream, InputSourceNamespace namespace) throws InputException {
 		this(stream);

@@ -276,11 +276,11 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 	
 	@Override
 	public synchronized void tryToRemove(File file) throws InputException {
-		FileInputSource toRemove = null;
+		InputSource toRemove = null;
 		for(InputSource source: inputSources()) {
-			FileInputSource fsource = ((FileInputSource)source);
+			IFileInputSource fsource = ((IFileInputSource)source);
 			if(fsource.file().equals(file)) {
-				toRemove = fsource; 
+				toRemove = source; 
 				break;
 			}
 		}

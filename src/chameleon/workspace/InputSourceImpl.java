@@ -15,14 +15,14 @@ import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 
 public abstract class InputSourceImpl implements InputSource {
 	
-	public InputSourceImpl() {
+	protected InputSourceImpl() {
 	}
 	
 	public InputSourceImpl(InputSourceNamespace ns) throws InputException {
 		setNamespace(ns);
 	}
 	
-	protected void setNamespace(InputSourceNamespace ns) throws InputException {
+	public void setNamespace(InputSourceNamespace ns) throws InputException {
 		ns.addInputSource(this);
 	}
 	

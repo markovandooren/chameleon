@@ -26,15 +26,15 @@ public class FileInputSourceFactory {
 		return _currentNamespace;
 	}
 
-	public InputSource create(File file, DirectoryLoader loader) throws InputException {
-		FileInputSource fileInputSource = doCreateInputSource(file);
+	public IFileInputSource create(File file, DirectoryLoader loader) throws InputException {
+		IFileInputSource fileInputSource = doCreateInputSource(file);
 		loader.addInputSource(fileInputSource);
 //		fileInputSource.loaderLink().lock();
 		fileInputSource.setNamespace((InputSourceNamespace) currentNamespace());
 		return fileInputSource;
 	}
 
-	protected FileInputSource doCreateInputSource(File file) throws InputException {
+	protected IFileInputSource doCreateInputSource(File file) throws InputException {
 		return new FileInputSource(file);
 	}
 }

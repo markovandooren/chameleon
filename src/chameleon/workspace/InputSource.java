@@ -87,4 +87,6 @@ public interface InputSource {
 
 	public void destroy();
 	
+	public void setNamespace(InputSourceNamespace ns) throws InputException;
+	
 }

@@ -26,5 +26,15 @@ public class Pair<T1,T2> {
 	}
 
 	private T2 _second;
+	
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("(")
+		       .append(first().toString())
+		       .append(",")
+		       .append(second().toString())
+		       .append(")");
+		return builder.toString();
+	}
 
 }
