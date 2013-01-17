@@ -124,8 +124,6 @@ public class ProjectWizard extends BasicNewProjectResourceWizard implements INew
 			IWorkspaceRoot workspaceRoot = workspace.getRoot();
 			String projectName = projectName();
 			IProject project = workspaceRoot.getProject(projectName);
-//			IFile projfile = project.getFile("."+ChameleonProjectNature.CHAMELEON_PROJECT_FILE_EXTENSION);
-//			IFile xmlFile = project.getFile(ChameleonProjectNature.CHAMELEON_PROJECT_FILE);
 			File xmlFile = new File(projectDirectory().getAbsolutePath()+File.separator+ChameleonProjectNature.CHAMELEON_PROJECT_FILE);
 			try {
 				projectConfig().writeToXML(xmlFile);

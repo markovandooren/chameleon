@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.text.DefaultInformationControl;
@@ -782,6 +783,10 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 	public static ChameleonDocument getActiveDocument(){
 		ChameleonEditor editor = getActiveEditor();
 		return editor == null ? null : editor.getDocument();
+	}
+	
+	public static IProject getActiveEclipseProject() {
+		return getActiveDocument().getProjectNature().getProject();
 	}
 
 	public static Language getActiveLanguage() {
