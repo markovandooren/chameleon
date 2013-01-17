@@ -50,8 +50,13 @@ public class LanguageRepository {
 		if(rev == null) {
 			Map<Revision, Language> tmp = _languageMap.get(n);
 			// Doesn't want to compile with types in place.
-			Set revisions = tmp.keySet();
-			rev = (Revision)Collections.max(revisions); // Command line compiler requires the cast, Eclipse doesn't :|
+			if(tmp != null) {
+				Set revisions = tmp.keySet();
+				rev = (Revision)Collections.max(revisions); // Command line compiler requires the cast, Eclipse doesn't :|
+			}
+		}
+		if(name == null || rev == null) {
+			throw new IllegalArgumentException("No language with name "+name +" is registered in this chameleon workspace.");
 		}
 		// If rev == null, {@link LanguageRepository#get(String,Revision)} will throw an exception.
 		return get(name, rev);

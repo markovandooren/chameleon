@@ -37,7 +37,6 @@ import chameleon.eclipse.connector.EclipseSourceManager;
 import chameleon.eclipse.editors.ChameleonDocument;
 import chameleon.eclipse.editors.ChameleonEditor;
 import chameleon.eclipse.presentation.PresentationModel;
-import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.InputProcessor;
 import chameleon.input.ModelFactory;
 import chameleon.input.ParseException;
@@ -46,9 +45,9 @@ import chameleon.workspace.BootstrapProjectConfig;
 import chameleon.workspace.ConfigException;
 import chameleon.workspace.DocumentLoader;
 import chameleon.workspace.FileInputSource;
+import chameleon.workspace.IFileInputSource;
 import chameleon.workspace.InputSource;
 import chameleon.workspace.InputSourceListener;
-import chameleon.workspace.LanguageRepository;
 import chameleon.workspace.Project;
 import chameleon.workspace.ProjectInitialisationListener;
 import chameleon.workspace.View;
@@ -82,20 +81,20 @@ public class ChameleonProjectNature implements IProjectNature {
 		
 		@Override
 		public void notifyInputSourceRemoved(InputSource source) {
-			if(source instanceof FileInputSource) {
-				FileInputSource fileSource = (FileInputSource) source;
+			if(source instanceof IFileInputSource) {
+				IFileInputSource fileSource = (IFileInputSource) source;
 				ChameleonDocument doc = documentOfPath(toPath(fileSource));
 				_documents.remove(doc);
 				doc.destroy();
 			}
 		}
 
-		protected IPath toPath(FileInputSource fileSource) {
+		protected IPath toPath(IFileInputSource fileSource) {
 			IFile ifile = toFile(fileSource);
 			return ifile.getFullPath();
 		}
 
-		protected IFile toFile(FileInputSource fileSource) {
+		protected IFile toFile(IFileInputSource fileSource) {
 			File file = fileSource.file();
 			IWorkspace workspace= ResourcesPlugin.getWorkspace();
 			IPath location= Path.fromOSString(file.getAbsolutePath());
@@ -105,8 +104,8 @@ public class ChameleonProjectNature implements IProjectNature {
 
 		@Override
 		public void notifyInputSourceAdded(InputSource source) {
-			if(source instanceof FileInputSource) {
-				FileInputSource fileSource = (FileInputSource) source;
+			if(source instanceof IFileInputSource) {
+				IFileInputSource fileSource = (IFileInputSource) source;
 				//FIXME Let the document listen to "the" input source
 				//      fileSource.document() is null when lazy loading is used and the document hasn't been needed yet.
 				addToModel(new ChameleonDocument(ChameleonProjectNature.this,fileSource,toFile(fileSource),toPath(fileSource)));
