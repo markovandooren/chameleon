@@ -406,6 +406,7 @@ public class ChameleonProjectNature implements IProjectNature {
 	/**
 	 * Adds an extra chameleonDocument to this nature
 	 * @param document
+	 * @deprecated
 	 */
 	public void addToModel(ChameleonDocument document) {
 		//FIXME: why do we remove the 'same' document and add the new one if
@@ -419,8 +420,9 @@ public class ChameleonProjectNature implements IProjectNature {
 		if (same!=null) {
 			removeDocument(same);
 		}
-//		_documents.add(document);
-		addDocument(document);
+		_documents.add(document);
+		
+//		addDocument(document);
 		//FIXME why update? I think this can go because now the project nature
 		// sends an event to the appropriate document loader, which in turn
 		// sends an event back to add a ChameleonDocument for the document
