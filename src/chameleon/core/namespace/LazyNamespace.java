@@ -40,18 +40,19 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 		return result;
 	}
 
-	@Override
-	protected void initLocalCache() throws LookupException {
-		if(_declarationCache == null) {
-			_declarationCache = new HashMap<String, List<Declaration>>();
-		}
-	}
+//	@Override
+//	protected void initDirectCache() throws LookupException {
+//		if(_declarationCache == null) {
+//			_declarationCache = new HashMap<String, List<Declaration>>();
+//		}
+//	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	// Only called in synchronized
-	protected synchronized List<Declaration> auxDeclarations(String name) throws LookupException {
+	protected synchronized List<Declaration> searchDeclarations(String name) throws LookupException {
 		// First check the declaration cache.
-		List<Declaration> candidates = super.auxDeclarations(name);
+		List<Declaration> candidates = super.searchDeclarations(name);
 		// If there was no cache, the input sources might have something
 		if(candidates == null) {
 			for(Namespace ns: getSubNamespaces()) {
@@ -94,13 +95,18 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 		}
 	}
 	
+	/**
+	 * First, all input sources are loaded. This attaches all namespace declarations
+	 * to their corresponding namespace. After that, a super call is performed to
+	 * 
+	 */
 	@Override
 	public List<Declaration> declarations() throws LookupException {
 		for(InputSource source: inputSources()) {
 			try {
 				source.load();
 			} catch (InputException e) {
-				throw new LookupException("File open error",e);
+				throw new LookupException("An input exception occurred while loading an input source.",e);
 			}
 		}
 		return super.declarations();

@@ -212,6 +212,10 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	}
 
 	public List<Declaration> declarations() throws LookupException {
+		return directDeclarations();
+	}
+	
+	protected List<Declaration> directDeclarations() throws LookupException {
 		List<Declaration> result = (List)getSubNamespaces();
 		for(NamespaceDeclaration part: getNamespaceParts()) {
 			result.addAll(part.declarations());
@@ -219,28 +223,26 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 		return result;
 	}
 
+
 	@Override
 	public synchronized void flushLocalCache() {
 		_declarationCache = null;
 	}
 	
-	protected void initLocalCache() throws LookupException {
+	protected void initDirectCache() throws LookupException {
 		if(_declarationCache == null) {
-			List<Declaration> declarations = declarations();
-		  _declarationCache = new HashMap<String, List<Declaration>>();
-		  for(Declaration declaration: declarations) {
-		  	String name = declaration.signature().name();
-				List<Declaration> list = auxDeclarations(name);
-		  	boolean newList = false;
+			// We don't want to trigger loading of lazy input sources to
+			// build the cache of directly connected declarations.
+			_declarationCache = new HashMap<String, List<Declaration>>();
+		  for(Declaration declaration: directDeclarations()) {
+		  	String name = declaration.name();
+				List<Declaration> list = directDeclarations(name);
 		  	if(list == null) {
 		  		list = new ArrayList<Declaration>();
-		  		newList = true;
+		  		_declarationCache.put(name, list);
 		  	}
 		  	// list != null
 		  	list.add(declaration);
-		  	if(newList) {
-		  		_declarationCache.put(name, list);
-		  	}
 		  }
 		}
 	}
@@ -253,8 +255,11 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 				}
 		}
 	}
+	protected synchronized List<Declaration> searchDeclarations(String name) throws LookupException {
+		return directDeclarations(name);
+	}
 	
-	protected synchronized List<Declaration> auxDeclarations(String name) throws LookupException {
+	protected synchronized List<Declaration> directDeclarations(String name) throws LookupException {
 		if(_declarationCache != null) {
 		  return _declarationCache.get(name);
 		} else {
@@ -277,8 +282,8 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 			List<? extends Declaration> list = null;
 			if(Config.cacheDeclarations()) {
 				synchronized(this) {
-					initLocalCache();
-				  list = auxDeclarations(selector.selectionName(this));
+					initDirectCache();
+				  list = searchDeclarations(selector.selectionName(this));
 				}
 			} else {
 				list = declarations();

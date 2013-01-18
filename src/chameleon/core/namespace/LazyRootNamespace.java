@@ -37,16 +37,16 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 	}
 
 	@Override
-	protected synchronized void initLocalCache() throws LookupException {
+	protected synchronized void initDirectCache() throws LookupException {
 		if(_declarationCache == null) {
 			_declarationCache = new HashMap<String, List<Declaration>>();
 		}
 	}
 	
 	@Override
-	protected synchronized List<Declaration> auxDeclarations(String name) throws LookupException {
+	protected synchronized List<Declaration> searchDeclarations(String name) throws LookupException {
 		// First check the declaration cache.
-		List<Declaration> candidates = super.auxDeclarations(name);
+		List<Declaration> candidates = super.searchDeclarations(name);
 		// If there was no cache, the input sources might have something
 		if(candidates == null) {
 			Set<Declaration> tmp;
