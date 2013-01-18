@@ -15,13 +15,13 @@ public class ChameleonTextListener implements ITextListener  {
 
 	
 	//the document this listener listens to
-	private ChameleonDocument document;
+	private EclipseDocument document;
 	//the managers where the information of ht epresenation is get
 	//private PresentationManager presentationManager;
 	//the viewer of the document
 	private ITextViewer viewer;
 
-	public ChameleonTextListener(ChameleonDocument document/*, PresentationManager presentationManager*/, ITextViewer textviewer) {
+	public ChameleonTextListener(EclipseDocument document/*, PresentationManager presentationManager*/, ITextViewer textviewer) {
 		this.document = document;
 		//this.presentationManager = presentationManager;
 		this.viewer = textviewer;

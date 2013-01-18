@@ -11,7 +11,7 @@ import org.eclipse.swt.custom.StyleRange;
 
 import chameleon.core.element.Element;
 import chameleon.eclipse.connector.EclipseEditorTag;
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 
 
 /**
@@ -28,7 +28,7 @@ public class PresentationManager {
 	/*
 	 * The document where this presentationManager is used 
 	 */
-	private ChameleonDocument document;
+	private EclipseDocument document;
 	
 	/*
 	 * the presentation model used 
@@ -46,7 +46,7 @@ public class PresentationManager {
 	 * @throws IllegalArgumentException
 	 * 	 when model or document are not effective
 	 */
-	public PresentationManager(ChameleonDocument doc, PresentationModel model/*, ChameleonEditor editor*/) throws IllegalArgumentException{
+	public PresentationManager(EclipseDocument doc, PresentationModel model/*, ChameleonEditor editor*/) throws IllegalArgumentException{
 		if (model == null)
 			throw new IllegalArgumentException("model must be effective");
 		if (doc==null)

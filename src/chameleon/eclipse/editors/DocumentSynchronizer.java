@@ -18,9 +18,9 @@ import org.eclipse.jface.text.IDocument;
  */
 public class DocumentSynchronizer {
 	
-	private ChameleonDocument _document; // the document to sync
+	private EclipseDocument _document; // the document to sync
 	
-	public DocumentSynchronizer(ChameleonDocument document){
+	public DocumentSynchronizer(EclipseDocument document){
 		_document = document;
 	}
 	

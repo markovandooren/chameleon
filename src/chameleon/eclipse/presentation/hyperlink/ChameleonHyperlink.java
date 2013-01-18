@@ -10,7 +10,7 @@ import org.eclipse.jface.text.hyperlink.IHyperlink;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.document.Document;
 import chameleon.core.reference.CrossReference;
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.eclipse.editors.ChameleonEditor;
 import chameleon.exception.ModelException;
 
@@ -30,9 +30,9 @@ public class ChameleonHyperlink implements IHyperlink {
 	
 	IRegion _region;
 	
-	ChameleonDocument _document;
+	EclipseDocument _document;
 	
-	public ChameleonHyperlink(CrossReference element, IRegion region,ChameleonDocument document){
+	public ChameleonHyperlink(CrossReference element, IRegion region,EclipseDocument document){
 		_element = element;
 		_region = region;
 		_document = document;
@@ -42,7 +42,7 @@ public class ChameleonHyperlink implements IHyperlink {
 		return getReference().toString();
 	}
 	
-	public ChameleonDocument document() {
+	public EclipseDocument document() {
 		return _document;
 	}
 	
@@ -89,7 +89,7 @@ public class ChameleonHyperlink implements IHyperlink {
 				return INVALID_STATUS;
 			// check whether the compilationUnit and the document are found:
 			Document refCU = refElement.nearestAncestor(Document.class);
-			ChameleonDocument refDoc = _document.getProjectNature().document(refCU);
+			EclipseDocument refDoc = _document.getProjectNature().document(refCU);
 			if(refDoc != null){
 				return VALID_STATUS;
 			} else {

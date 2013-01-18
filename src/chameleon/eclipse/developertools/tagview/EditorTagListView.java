@@ -27,7 +27,7 @@ import org.rejuse.predicate.True;
 
 import chameleon.eclipse.ChameleonEditorPlugin;
 import chameleon.eclipse.connector.EclipseEditorTag;
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.eclipse.editors.ChameleonEditor;
 import chameleon.eclipse.presentation.treeview.ChameleonLabelProvider;
 import chameleon.input.PositionMetadata;
@@ -117,7 +117,7 @@ public class EditorTagListView extends ViewPart {
 		public void run() {
 			editor = ChameleonEditor.getActiveEditor();
 			if(editor != null){
-				ChameleonDocument doc = editor.getDocument();
+				EclipseDocument doc = editor.getDocument();
 				// set filter predicate to True
 				((EditorTagContentProvider)viewer.getContentProvider()).setFilter(_predicate);
 				viewer.setLabelProvider(new ChameleonLabelProvider(doc.language(), false, false, true));
@@ -149,7 +149,7 @@ public class EditorTagListView extends ViewPart {
 			try {
 				editor = ChameleonEditor.getActiveEditor(); // can be null
 				if(editor!=null){
-				ChameleonDocument doc = editor.getDocument(); // can throw NullPointerException
+				EclipseDocument doc = editor.getDocument(); // can throw NullPointerException
 				int offset = ((TextSelection)editor.getSelectionProvider().getSelection()).getOffset(); // can throw ClassCastException or NullPointerException
 				// set filter predicate to "only all-editor tags"
 				((EditorTagContentProvider)viewer.getContentProvider()).setFilter(new EclipseEditorTag.SurroundsOffsetPredicate(offset));

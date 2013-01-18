@@ -13,7 +13,7 @@ import org.eclipse.jface.text.reconciler.DirtyRegion;
 import org.eclipse.jface.text.reconciler.IReconciler;
 import org.eclipse.jface.text.reconciler.IReconcilingStrategy;
 
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 
 
 
@@ -361,14 +361,14 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 				}
 				_document= null;
 			}
-			if(newInput instanceof ChameleonDocument) {
-				_document = (ChameleonDocument) newInput;
+			if(newInput instanceof EclipseDocument) {
+				_document = (EclipseDocument) newInput;
 				if (_document == null) {
 					return;
 				}
 				//FIXME Here the new document is set in the reconciler, but if the thread is executed after
 				// the aboutToChange method and this one, the strategy is in an invalid state.
-				reconcilerDocumentChanged((ChameleonDocument) _document);
+				reconcilerDocumentChanged((EclipseDocument) _document);
 
 				_document.addDocumentListener(this);
 				startReconciling();
@@ -390,7 +390,7 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	private IProgressMonitor fProgressMonitor;
 
 	/** The text viewer's document. */
-	protected ChameleonDocument _document;
+	protected EclipseDocument _document;
 	/** The text viewer */
 	protected ITextViewer _textViewer;
 
@@ -413,7 +413,7 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	 * 
 	 * @param newDocument the new reconciler document
 	 */
-	abstract protected void reconcilerDocumentChanged(ChameleonDocument newDocument);
+	abstract protected void reconcilerDocumentChanged(EclipseDocument newDocument);
 
 
 	/**

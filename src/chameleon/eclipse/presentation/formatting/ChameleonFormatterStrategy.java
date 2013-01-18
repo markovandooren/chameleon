@@ -18,7 +18,7 @@ import org.rejuse.predicate.SafePredicate;
 import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.eclipse.connector.EclipseEditorTag;
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.eclipse.editors.ChameleonEditor;
 import chameleon.eclipse.presentation.PresentationManager;
 import chameleon.eclipse.presentation.PresentationModel;
@@ -83,7 +83,7 @@ public class ChameleonFormatterStrategy implements IFormattingStrategy {
 	 * @param document the current document
 	 * @param content the whole document as a string
 	 */
-	public String formatWholeDocument(ChameleonDocument document, String content) {
+	public String formatWholeDocument(EclipseDocument document, String content) {
 		String result = "";
 		String eol = null;
 		String tab = "\t";
@@ -117,7 +117,7 @@ public class ChameleonFormatterStrategy implements IFormattingStrategy {
 	 * @param identSteps the current number of indentation steps (of the previous line)
 	 * @return
 	 */
-	private int getNbIndentationStepsForLine(ChameleonDocument document, int lineNb){
+	private int getNbIndentationStepsForLine(EclipseDocument document, int lineNb){
 		SortedSet<EclipseEditorTag> editorTags = new TreeSet<EclipseEditorTag>(EclipseEditorTag.lengthComparator);
 		document.getEditorTagsWithPredicate( new AllEditorTagSurroundingLinePredicate(document, lineNb) , editorTags);
 		//document.getEditorTagsWithPredicate( new EditorTagAtLinePredicate(document, lineNb) , editorTags);
@@ -133,8 +133,8 @@ public class ChameleonFormatterStrategy implements IFormattingStrategy {
 	 */
 	public static class AllEditorTagSurroundingLinePredicate extends SafePredicate<EclipseEditorTag>{
 		private final int lineNb;
-		private final ChameleonDocument document;
-		public AllEditorTagSurroundingLinePredicate(ChameleonDocument document, int lineNb) {
+		private final EclipseDocument document;
+		public AllEditorTagSurroundingLinePredicate(EclipseDocument document, int lineNb) {
 			this.lineNb = lineNb;
 			this.document = document;
 		}
@@ -159,8 +159,8 @@ public class ChameleonFormatterStrategy implements IFormattingStrategy {
 	 */
 	public static class EditorTagAtLinePredicate extends SafePredicate<EclipseEditorTag>{
 		private final int lineNb;
-		private final ChameleonDocument document;
-		public EditorTagAtLinePredicate(ChameleonDocument document, int lineNb) {
+		private final EclipseDocument document;
+		public EditorTagAtLinePredicate(EclipseDocument document, int lineNb) {
 			this.lineNb = lineNb;
 			this.document = document;
 		}

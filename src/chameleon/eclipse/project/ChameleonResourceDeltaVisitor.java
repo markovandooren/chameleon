@@ -9,7 +9,7 @@ import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 
 public abstract class ChameleonResourceDeltaVisitor implements IResourceDeltaVisitor {
 	
@@ -47,10 +47,10 @@ public abstract class ChameleonResourceDeltaVisitor implements IResourceDeltaVis
 
 	public abstract void handleChanged(IResourceDelta delta) throws CoreException;
 
-	public ChameleonDocument documentOf(IResourceDelta delta) throws CoreException {
+	public EclipseDocument documentOf(IResourceDelta delta) throws CoreException {
 		IResource resource = delta.getResource();
 		IPath path = resource.getFullPath();
-		ChameleonDocument doc = nature().documentOfPath(path);
+		EclipseDocument doc = nature().documentOfPath(path);
 		return doc;
 	}
 

@@ -3,7 +3,7 @@ package chameleon.eclipse.editors.reconciler;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 
 
 /**
@@ -51,7 +51,7 @@ public interface IChameleonReconcilingStrategy {
 	 *
 	 * @param document the document on which this strategy will work
 	 */
-	void setDocument(ChameleonDocument document);
+	void setDocument(EclipseDocument document);
 	
 	/**
 	 * Activates incremental reconciling of the specified dirty region.
@@ -84,7 +84,7 @@ public interface IChameleonReconcilingStrategy {
 	 * 
 	 * @return the currently used Document
 	 */
-	public ChameleonDocument getDocument();
+	public EclipseDocument getDocument();
 	
 
 }

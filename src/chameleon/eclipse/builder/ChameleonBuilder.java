@@ -25,7 +25,7 @@ import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.eclipse.ChameleonEditorPlugin;
 import chameleon.eclipse.connector.EclipseEditorExtension;
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.eclipse.project.ChameleonProjectNature;
 import chameleon.eclipse.project.ChameleonResourceDeltaFileVisitor;
 import chameleon.plugin.build.BuildException;
@@ -101,10 +101,10 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 		
 			@Override
 			public void handleChanged(IResourceDelta delta) throws CoreException {
-				ChameleonDocument doc = documentOf(delta);
+				EclipseDocument doc = documentOf(delta);
 				System.out.println("build: changed "+delta.getProjectRelativePath());
 				if(doc != null) {
-					Document cu = doc.chameleonDocument();
+					Document cu = doc.document();
 					cus.add(cu);
 				}
 			}
@@ -229,7 +229,7 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 	
 	public VerificationResult checkVerificationErrors(Document cu) throws CoreException {
 		VerificationResult result = null;
-		ChameleonDocument document = chameleonNature().document(cu);
+		EclipseDocument document = chameleonNature().document(cu);
 		try {
 		  result = cu.verify();
 		} catch(Exception exc) {

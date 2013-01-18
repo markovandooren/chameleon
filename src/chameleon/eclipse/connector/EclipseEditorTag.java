@@ -9,7 +9,7 @@ import org.rejuse.predicate.SafePredicate;
 
 import chameleon.core.element.Element;
 import chameleon.core.tag.Metadata;
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.exception.ChameleonProgrammerException;
 
 /**
@@ -34,7 +34,7 @@ public class EclipseEditorTag extends Position implements Metadata {
 	 * @param element
 	 * @param name
 	 */
-	public EclipseEditorTag(ChameleonDocument document, int offset, int length, Element element, String name){
+	public EclipseEditorTag(EclipseDocument document, int offset, int length, Element element, String name){
 		super(Math.max(0,offset),Math.max(0,length));
   	if(element == null) {
   		throw new ChameleonProgrammerException("Initializing position tag with null element.");
@@ -63,9 +63,9 @@ public class EclipseEditorTag extends Position implements Metadata {
 		setOffset(getOffset() + shift);
 	}
 	
-	private ChameleonDocument _document;
+	private EclipseDocument _document;
 	
-	public ChameleonDocument getDocument() {
+	public EclipseDocument getDocument() {
 		return _document;
 	}
 
@@ -94,8 +94,8 @@ public class EclipseEditorTag extends Position implements Metadata {
   		  _element.setMetadata(this, name);
   		}
   	}
-  	ChameleonDocument oldDocument = getDocument();
-		ChameleonDocument newDocument = oldDocument.getProjectNature().document(element);
+  	EclipseDocument oldDocument = getDocument();
+		EclipseDocument newDocument = oldDocument.getProjectNature().document(element);
 		_document = newDocument;
 		if(newDocument != oldDocument) {
   		try {

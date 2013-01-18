@@ -64,7 +64,7 @@ import chameleon.workspace.InputSource;
  * @author Tim Vermeiren
  */
 
-public class ChameleonDocument extends org.eclipse.jface.text.Document {
+public class EclipseDocument extends org.eclipse.jface.text.Document {
 	
 	//The compilation unit of the document
 	private InputSource _inputSource;
@@ -80,8 +80,6 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 //	private boolean _presenting;
 	//when the document contains language errors, they are stored here.
 	private Set<ParseProblem> _parseErrors;	
-	//A listener for the time when the errors change
-	private ActionListener _parseErrorActionListener;
 	//The name of the document.
 	private String _name;
 	//The file of which this document is made
@@ -96,7 +94,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 * @param file 
 	 *
 	 */
-	public ChameleonDocument(ChameleonProjectNature projectNature, InputSource source, IFile file, IPath path){
+	public EclipseDocument(ChameleonProjectNature projectNature, InputSource source, IFile file, IPath path){
 		//FIXME now the text isn't loaded at the proper moment.
 		_inputSource = source;
 		if(projectNature==null){
@@ -153,7 +151,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 * @return
 	 * 	true if the paths are identical.
 	 */
-	public boolean isSameDocument(ChameleonDocument cd){
+	public boolean isSameDocument(EclipseDocument cd){
 		return _path.toOSString().equals(cd._path.toOSString());
 	}
 	
@@ -250,15 +248,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 * 
 	 * @return the compilation unit
 	 */
-	public Document compilationUnit() {
-		return chameleonDocument();
-	}
-
-	/**
-	 * 
-	 * @return the compilation unit
-	 */
-	public Document chameleonDocument() {
+	public Document document() {
 		try {
 			parseFile();
 			return inputSource().load();
@@ -389,7 +379,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		}
 
 		// if this is not set, the document is new and has never been parsed before.
-		if (chameleonDocument() == null) {
+		if (document() == null) {
 			getProjectNature().addToModel(this);
 		} else {
 
@@ -402,27 +392,6 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	}
 
 	
-//	/**
-//	 * The text representation for the viewer is changed to the presentation we get
-//	 * from our presentation manager. the presentation is done for the specified
-//	 * offset & length that representation is now the last known one.
-//	 * 
-//	 * @param viewer
-//	 * @param offset
-//	 * @param length
-//	 */
-//	public void doPresentation(final ITextViewer viewer, final int offset, final int length) {
-//		try{
-//			_lastpresentation = getPresentationManager().createTextPresentation();
-//			Display.getDefault().asyncExec(new Runnable() {
-//				public void run() {
-//					viewer.changeTextPresentation(_lastpresentation, true);
-//				}
-//			});	
-//		}catch (NullPointerException npe){}
-//		
-//	}
-
 	/**
 	 * A parse error has occured while making the model for the document;
 	 * that error is handled here. It is added to the other existing errors.
@@ -430,19 +399,12 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 */
 	public void markParseError(ParseProblem problem) {
 		_parseErrors.add(problem);
-//		if (_parseErrorActionListener!=null) { 
-//			_parseErrorActionListener.actionPerformed(null);
-//		}
 
 		//FIXME don't like that all this static code is in ChameleonPresentationReconciler.
 		Map<String,Object> attributes = ChameleonPresentationReconciler.createProblemMarkerMap(problem.message());
 		setProblemMarkerPosition(attributes, problem.offset(), problem.length());
 		addProblemMarker(attributes);
 		
-	}
-
-	public void setParseActionListener(ActionListener listener){
-		this._parseErrorActionListener = listener;
 	}
 
 	/**
@@ -453,14 +415,6 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		return new ArrayList<ParseProblem>(_parseErrors);
 	}
 
-	/**
-	 * 
-	 * @return the relative path of this document, starting from the project.
-	 */
-	public IPath getPath() {
-		return _path;
-	}
-
 	public String getName() {
 		return _name;
 	}
@@ -469,12 +423,39 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		return _file;
 	}
 
-//	public void removeParseErrors() {
-//		_parseErrors.clear();
-//	}
-
-//	public String getRelativePathName() {
-//		return _relativePathName;
+//	/**
+//	 * Returns the smallest ReferenceEditorTag including the beginoffset of region.
+//	 * Returns null if no appropriate editorTag found.
+//	 * 
+//	 * @param 	region
+//	 * 			a region in this document to search a surrounding editorTag from.
+//	 * @return	If not null returned, the returned editorTag is a reference editorTag
+//	 * 			| result == null || result.getName().equals(EditorTag.REFERENCE)
+//	 * @return  The returned editorTag (if any) surrounds the beginoffset of the specified region.
+//	 * 			| result == null || result.includes(region.getOffset())
+//	 */
+//	public EclipseEditorTag getReferencePositionAtRegion(IRegion region){
+//		try {
+//			Position[] positions = getPositions(EclipseEditorTag.CHAMELEON_CATEGORY);
+//			// Find smallest decorater including the specified region:
+//			int minLength = Integer.MAX_VALUE;
+//			EclipseEditorTag result = null;
+//			for (Position position : positions) {
+//				if(position instanceof EclipseEditorTag ){
+//					EclipseEditorTag decorator = (EclipseEditorTag) position;
+//					if(decorator.getName().equals(PositionMetadata.CROSSREFERENCE)){
+//						if(decorator.includes(region.getOffset()) && decorator.getLength()<minLength){
+//							result = decorator;
+//						}
+//					}
+//				}
+//					
+//			}
+//			return result;
+//		} catch (BadPositionCategoryException e) {
+//			e.printStackTrace();
+//			return null;
+//		}
 //	}
 
 	/**
@@ -487,43 +468,6 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 * 			| result == null || result.getName().equals(EditorTag.REFERENCE)
 	 * @return  The returned editorTag (if any) surrounds the beginoffset of the specified region.
 	 * 			| result == null || result.includes(region.getOffset())
-	 * @autor 	Tim Vermeiren
-	 */
-	public EclipseEditorTag getReferencePositionAtRegion(IRegion region){
-		try {
-			Position[] positions = getPositions(EclipseEditorTag.CHAMELEON_CATEGORY);
-			// Find smallest decorater including the specified region:
-			int minLength = Integer.MAX_VALUE;
-			EclipseEditorTag result = null;
-			for (Position position : positions) {
-				if(position instanceof EclipseEditorTag ){
-					EclipseEditorTag decorator = (EclipseEditorTag) position;
-					if(decorator.getName().equals(PositionMetadata.CROSSREFERENCE)){
-						if(decorator.includes(region.getOffset()) && decorator.getLength()<minLength){
-							result = decorator;
-						}
-					}
-				}
-					
-			}
-			return result;
-		} catch (BadPositionCategoryException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	/**
-	 * Returns the smallest ReferenceEditorTag including the beginoffset of region.
-	 * Returns null if no appropriate editorTag found.
-	 * 
-	 * @param 	region
-	 * 			a region in this document to search a surrounding editorTag from.
-	 * @return	If not null returned, the returned editorTag is a reference editorTag
-	 * 			| result == null || result.getName().equals(EditorTag.REFERENCE)
-	 * @return  The returned editorTag (if any) surrounds the beginoffset of the specified region.
-	 * 			| result == null || result.includes(region.getOffset())
-	 * @autor 	Tim Vermeiren
 	 */
 	public EclipseEditorTag getReferenceEditorTagAtRegion(IRegion region){
 		final int offset = region.getOffset();
@@ -550,7 +494,6 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 * 			the offset in this document to search a surrounding editorTag from.
 	 * @return  The returned editorTag (if any) surrounds the beginoffset of the specified region.
 	 * 			| result == null || result.includes(region.getOffset())
-	 * @autor 	Tim Vermeiren
 	 */
 	public EclipseEditorTag getSmallestEditorTagAtOffset(final int offset){
 		Collection<EclipseEditorTag> tags = getEditorTagsAtOffset(offset, EclipseEditorTag.lengthComparator);
@@ -566,7 +509,6 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 * 
 	 * @param offset
 	 * @param comparator
-	 * @autor Tim Vermeiren
 	 */
 	public Collection<EclipseEditorTag> getEditorTagsAtOffset(int offset, Comparator<EclipseEditorTag> comparator){
 		// build a predicate that checks if the EditorTag includes the offset:
@@ -586,7 +528,6 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 	 * 			| predicate.eval(result) == true
 	 * @post	If the predicate throws an exception the searching is just stopped and the already found
 	 * 			elements will be added to the result
-	 * @autor 	Tim Vermeiren
 	 */
 	public void getEditorTagsWithPredicate(Predicate<EclipseEditorTag> predicate, Collection<EclipseEditorTag> result){
 		try {
@@ -609,24 +550,24 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		}
 	}
 	
-	/**
-	 * Returns the word found in document including the given offset.
-	 * For testing purposes only. All word-characters (JavaIdentifierParts to be precise)
-	 * before and after the offset are included.
-	 * 
-	 * @param document
-	 * @param offset
-	 */
-	public  String findWord(int offset) {
-		IRegion wordRegion = findWordRegion(offset);
-		String word = null;
-		try {
-			word = this.get(wordRegion.getOffset(), wordRegion.getLength());
-		} catch (BadLocationException e) {
-			e.printStackTrace();
-		}
-		return word;
-	}
+//	/**
+//	 * Returns the word found in document including the given offset.
+//	 * For testing purposes only. All word-characters (JavaIdentifierParts to be precise)
+//	 * before and after the offset are included.
+//	 * 
+//	 * @param document
+//	 * @param offset
+//	 */
+//	public  String findWord(int offset) {
+//		IRegion wordRegion = findWordRegion(offset);
+//		String word = null;
+//		try {
+//			word = this.get(wordRegion.getOffset(), wordRegion.getLength());
+//		} catch (BadLocationException e) {
+//			e.printStackTrace();
+//		}
+//		return word;
+//	}
 
 	/**
 	 * Returns the region of the word in this document including the given offset.
@@ -747,7 +688,7 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		attributes.put(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
 	}
 
-	public void setProblemMarkerPosition(Map<String, Object> attributes, int offset, int length) {
+	protected void setProblemMarkerPosition(Map<String, Object> attributes, int offset, int length) {
 		int lineNumber;
 		try {
 			lineNumber = getLineOfOffset(offset);
@@ -764,12 +705,10 @@ public class ChameleonDocument extends org.eclipse.jface.text.Document {
 		_file = null;
 		_lastpresentation = null;
 		_name = null;
-		_parseErrorActionListener = null;
 		_parseErrors = null;
 		_path = null;
 		_presentationManager = null;
 		_projectNature = null;
-//		_relativePathName = null;
 	}
 }
 

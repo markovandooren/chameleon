@@ -6,7 +6,7 @@ import org.eclipse.swt.graphics.Image;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.eclipse.presentation.treeview.ChameleonLabelProvider;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.oo.method.RegularMethod;
@@ -25,7 +25,7 @@ public class CompletionProposalBuilder {
 	 * @param document the chameleondocument we're working in
 	 * @param offset the place in the document where the auto completion is called
 	 */
-	public static ICompletionProposal buildProposal(Element element, ChameleonDocument document, int offset){
+	public static ICompletionProposal buildProposal(Element element, EclipseDocument document, int offset){
 		if(element instanceof RegularMethod){
 			return  buildTemplateProposal((RegularMethod)element, document, offset);
 		} else if (element instanceof Declaration){
@@ -43,7 +43,7 @@ public class CompletionProposalBuilder {
 	 * @param document the chameleondocument we're working in
 	 * @param offset the place in the document where the auto completion is called
 	 */
-	public static ICompletionProposal buildProposal(Declaration element, ChameleonDocument document, int offset){
+	public static ICompletionProposal buildProposal(Declaration element, EclipseDocument document, int offset){
 		// get the elementName of the element (for completion)
 		ChameleonLabelProvider labelProvider = new ChameleonLabelProvider(element.language(), true, true, false);
 		String elementName = labelProvider.getLabel(element);
@@ -65,7 +65,7 @@ public class CompletionProposalBuilder {
 	 * @param document the chameleondocument we're working in
 	 * @param offset the place in the document where the auto completion is called
 	 */
-	public static ICompletionProposal buildTemplateProposal(RegularMethod method, ChameleonDocument document, int offset){
+	public static ICompletionProposal buildTemplateProposal(RegularMethod method, EclipseDocument document, int offset){
 		throw new ChameleonProgrammerException();
 //		// get the pattern from the ChameleonEditorExtention (parameters are template regions)
 //		EclipseEditorExtension ext = document.getProjectNature().getModel().language().plugin(EclipseEditorExtension.class);

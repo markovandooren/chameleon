@@ -12,7 +12,7 @@ import org.rejuse.predicate.SafePredicate;
 import org.rejuse.predicate.True;
 
 import chameleon.eclipse.connector.EclipseEditorTag;
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.input.PositionMetadata;
 import chameleon.util.Util;
 
@@ -37,7 +37,7 @@ public class ShowEditorTags {
 	 * @param	showOnlyAllChameleonEditorPositions
 	 * 			if true, only the ChameleonEditorPositions with name ChameleonEditorPositionTypes.ALL will be shown.
 	 */
-	public static String getChameleonEditorPositionsStringOfDocument(ChameleonDocument document, String content, boolean showOnlyAllChameleonEditorPositions) {
+	public static String getChameleonEditorPositionsStringOfDocument(EclipseDocument document, String content, boolean showOnlyAllChameleonEditorPositions) {
 		SafePredicate<EclipseEditorTag> otherConditions;
 		// filter all editor tags?
 		if(showOnlyAllChameleonEditorPositions){
@@ -58,7 +58,7 @@ public class ShowEditorTags {
 	 * @param 	content
 	 * 			default: document.get()
 	 */
-	public static String getChameleonEditorPositionsStringOfDocument(ChameleonDocument document, String content, SafePredicate<EclipseEditorTag> otherConditions) {
+	public static String getChameleonEditorPositionsStringOfDocument(EclipseDocument document, String content, SafePredicate<EclipseEditorTag> otherConditions) {
 		int[] positions = getPositions(document);
 		String result = "";
 		int currPos = positions[0];
@@ -107,7 +107,7 @@ public class ShowEditorTags {
 	 * @return an array of integers
 	 * 
 	 */
-	private static int[] getPositions(ChameleonDocument document){
+	private static int[] getPositions(EclipseDocument document){
 		try {
 			Position[] editorTags = document.getPositions(EclipseEditorTag.CHAMELEON_CATEGORY);
 			TreeSet<Integer> integers = new TreeSet<Integer>();

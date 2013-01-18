@@ -10,7 +10,7 @@ import org.rejuse.association.SingleAssociation;
 import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.core.tag.Metadata;
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.eclipse.editors.reconciler.ChameleonPresentationReconciler;
 import chameleon.eclipse.project.ChameleonProjectNature;
 import chameleon.exception.ChameleonProgrammerException;
@@ -41,7 +41,7 @@ public class EclipseEditorInputProcessor extends ViewProcessorImpl implements In
 		return new EclipseEditorInputProcessor(null);
 	}
 
-	public ChameleonDocument document(Element element) {
+	public EclipseDocument document(Element element) {
 		return projectNature().document(element);
 	}
 
@@ -56,7 +56,7 @@ public class EclipseEditorInputProcessor extends ViewProcessorImpl implements In
 
 
 	private void setSingleLocation(Element element, int offset, int length, Document document, String tagType) {
-		ChameleonDocument doc = document(document);
+		EclipseDocument doc = document(document);
 		if(doc != null) {
 			Element parent = element.parent();
 			// 1. Replace element with stub in the parent
@@ -101,7 +101,7 @@ public class EclipseEditorInputProcessor extends ViewProcessorImpl implements In
 	}
 
 	public void markParseError(int offset, int length, String message, Element element) {
-		ChameleonDocument document = document(element);
+		EclipseDocument document = document(element);
 		if(document != null) {
 			String header;
 			int lineNumber;

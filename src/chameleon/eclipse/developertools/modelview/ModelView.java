@@ -135,10 +135,10 @@ public class ModelView extends ViewPart {
 		public void run() {
 			ChameleonEditor editor = ChameleonEditor.getActiveEditor();
 			if(editor != null){
-				Language lang = editor.getDocument().chameleonDocument().language();
+				Language lang = editor.getDocument().document().language();
 				drillDownAdapter.reset();
 				modelViewer.setLabelProvider(new ChameleonLabelProvider(lang, true, false, true));
-				modelViewer.setInput(editor.getDocument().chameleonDocument());
+				modelViewer.setInput(editor.getDocument().document());
 			}
 		}
 	}
@@ -156,7 +156,7 @@ public class ModelView extends ViewPart {
 		public void run() {
 			ChameleonEditor editor = ChameleonEditor.getActiveEditor();
 			if(editor != null){
-				Language lang = editor.getDocument().chameleonDocument().language();
+				Language lang = editor.getDocument().document().language();
 				drillDownAdapter.reset();
 				modelViewer.setLabelProvider(new ChameleonLabelProvider(lang, true, false, true));
 				modelViewer.setInput(editor.getDocument().getProjectNature().getModel());

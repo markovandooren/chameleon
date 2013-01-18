@@ -25,7 +25,7 @@ import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.eclipse.ChameleonEditorPlugin;
 import chameleon.eclipse.connector.EclipseEditorTag;
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.eclipse.editors.ChameleonEditor;
 import chameleon.eclipse.presentation.treeview.ChameleonLabelProvider;
 import chameleon.exception.ChameleonProgrammerException;
@@ -129,7 +129,7 @@ public class OpenTypeHierarchyAction extends Action implements IDoubleClickListe
 			setEditor(editor);
 			if(editor != null ){
 				ChameleonEditor chamEditor = editor;
-				ChameleonDocument doc = chamEditor.getDocument();
+				EclipseDocument doc = chamEditor.getDocument();
 				ISelectionProvider selectionProvider = chamEditor.getSelectionProvider();
 				if(selectionProvider != null){
 					ISelection sel = selectionProvider.getSelection();
@@ -161,7 +161,7 @@ public class OpenTypeHierarchyAction extends Action implements IDoubleClickListe
 					}
 				}
 				// if no type(reference) surrounding selection found, get top type of compilation unit
-				return chamEditor.getDocument().chameleonDocument().descendants(Type.class).iterator().next();
+				return chamEditor.getDocument().document().descendants(Type.class).iterator().next();
 			}
 		} catch (ModelException e) {
 //			e.printStackTrace();

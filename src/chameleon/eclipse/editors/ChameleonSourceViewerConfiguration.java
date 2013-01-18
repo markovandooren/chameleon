@@ -149,7 +149,7 @@ public class ChameleonSourceViewerConfiguration extends SourceViewerConfiguratio
 	 * 		The sourceViewer used. may <u>not</u> be null
 	 */
 	public IReconciler getReconciler(ISourceViewer sourceViewer){
-		_chameleonReconcilingStrategy.setDocument((ChameleonDocument) sourceViewer.getDocument());	
+		_chameleonReconcilingStrategy.setDocument((EclipseDocument) sourceViewer.getDocument());	
 		return _reconciler;
 	}
 	
@@ -163,7 +163,7 @@ public class ChameleonSourceViewerConfiguration extends SourceViewerConfiguratio
 	 */
 //	 De getPresentationReconciler wordt het eerst opgeroepen bij het opstarten van eclipse
 	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
-		_chameleonReconcilingStrategy.setDocument((ChameleonDocument) sourceViewer.getDocument());
+		_chameleonReconcilingStrategy.setDocument((EclipseDocument) sourceViewer.getDocument());
 		return _presentationReconciler;
 	}
 	

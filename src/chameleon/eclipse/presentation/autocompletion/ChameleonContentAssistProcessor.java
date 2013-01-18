@@ -18,7 +18,7 @@ import chameleon.core.language.Language;
 import chameleon.core.lookup.LookupStrategy;
 import chameleon.eclipse.connector.EclipseEditorExtension;
 import chameleon.eclipse.connector.EclipseEditorTag;
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.exception.ModelException;
 import chameleon.oo.expression.MethodInvocation;
 
@@ -35,7 +35,7 @@ public class ChameleonContentAssistProcessor implements IContentAssistProcessor 
 
 	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset) {
 		offset--;
-		ChameleonDocument chamDoc = (ChameleonDocument)viewer.getDocument();
+		EclipseDocument chamDoc = (EclipseDocument)viewer.getDocument();
 		try {
 			IRegion wordRegion = chamDoc.findWordRegion(offset);
 			String nameStart = chamDoc.get(wordRegion.getOffset(), wordRegion.getLength());
@@ -94,11 +94,11 @@ public class ChameleonContentAssistProcessor implements IContentAssistProcessor 
 	public IContextInformation[] computeContextInformation(ITextViewer viewer, int offset) {
 		try {
 			offset--;
-			ChameleonDocument chamDoc = (ChameleonDocument)viewer.getDocument();
+			EclipseDocument chamDoc = (EclipseDocument)viewer.getDocument();
 			EclipseEditorTag dec = chamDoc.getSmallestEditorTagAtOffset(offset);
 			if(dec!=null){
 				Element element = dec.getElement();
-				Language language = ((ChameleonDocument)viewer.getDocument()).getProjectNature().getModel().language();
+				Language language = ((EclipseDocument)viewer.getDocument()).getProjectNature().getModel().language();
 				EclipseEditorExtension ext = language.plugin(EclipseEditorExtension.class);
 				String elementLabel = ext.getLabel(element);
 				if(element instanceof MethodInvocation){

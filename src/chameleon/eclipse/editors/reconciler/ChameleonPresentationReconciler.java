@@ -10,7 +10,7 @@ import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.presentation.IPresentationRepairer;
 import org.eclipse.jface.text.reconciler.IReconcilingStrategy;
 
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.eclipse.editors.ChameleonEditor;
 
 /**
@@ -95,8 +95,8 @@ public class ChameleonPresentationReconciler extends AbstractChameleonReconciler
 //	}
 	
 	@Override
-	public ChameleonDocument getDocument() {
-		return (ChameleonDocument)super.getDocument();
+	public EclipseDocument getDocument() {
+		return (EclipseDocument)super.getDocument();
 	}
 	
 	//FIXME move this to a sensible place.
@@ -110,7 +110,7 @@ public class ChameleonPresentationReconciler extends AbstractChameleonReconciler
 	//Do the coloring
 	private void doColoring(){
 		try {
-			((ChameleonDocument)this._document).doPresentation(_textViewer);
+			((EclipseDocument)this._document).doPresentation(_textViewer);
 		} catch (ClassCastException e){
 			e.printStackTrace();
 		}
@@ -130,7 +130,7 @@ public class ChameleonPresentationReconciler extends AbstractChameleonReconciler
 	 *  (non-Javadoc)
 	 * @see chameleonEditor.editors.reconciler.AbstractChameleonReconciler#reconcilerDocumentChanged(org.eclipse.jface.text.IDocument)
 	 */
-	protected void reconcilerDocumentChanged(ChameleonDocument newDocument) {
+	protected void reconcilerDocumentChanged(EclipseDocument newDocument) {
 	//	System.out.println("ChameleonPresentationReconciler.reconcilerDocumentChanged is opgeroepen");
 		_strategy.setDocument(newDocument);
 	}
@@ -159,7 +159,7 @@ public class ChameleonPresentationReconciler extends AbstractChameleonReconciler
 		doPresentation();
 
 		//FIXME als er elementen gefold zijn, en er wordt tekst bijgetypt, dan worden alle foldings ongedaan gemaakt
-		getEditor().fold(((ChameleonDocument)_document).getFoldedElementsFromModel());
+		getEditor().fold(((EclipseDocument)_document).getFoldedElementsFromModel());
 
 		
 
@@ -171,7 +171,7 @@ public class ChameleonPresentationReconciler extends AbstractChameleonReconciler
 	 */
 	public void reColor() {
 		try {
-			((ChameleonDocument)this._document).doPresentation(_textViewer);
+			((EclipseDocument)this._document).doPresentation(_textViewer);
 		} catch (ClassCastException e){}
 	}
 	

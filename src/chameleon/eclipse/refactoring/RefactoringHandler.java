@@ -4,7 +4,7 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.eclipse.editors.ChameleonEditor;
 
 public class RefactoringHandler extends AbstractHandler {
@@ -14,7 +14,7 @@ public class RefactoringHandler extends AbstractHandler {
 		return null;
 	}
 
-	public ChameleonDocument document() {
+	public EclipseDocument document() {
 		return editor().getDocument();
 	}
 

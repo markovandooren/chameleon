@@ -17,7 +17,7 @@ import org.rejuse.predicate.SafePredicate;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.language.Language;
 import chameleon.eclipse.connector.EclipseEditorTag;
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.eclipse.editors.ChameleonEditor;
 import chameleon.eclipse.presentation.treeview.ChameleonLabelProvider;
 import chameleon.eclipse.project.ChameleonProjectNature;
@@ -42,7 +42,7 @@ public abstract class OpenCallHierarchyAction extends Action {
 		if(lang != null){
 			view.getTreeViewer().setLabelProvider(new ChameleonLabelProvider(lang, true, true, false));
 		}
-		ChameleonDocument doc = ChameleonEditor.getActiveDocument();
+		EclipseDocument doc = ChameleonEditor.getActiveDocument();
 		// set content provider
 		ChameleonProjectNature projNat = doc.getProjectNature();
 		view.getTreeViewer().setContentProvider(getContentProvider(projNat));
@@ -60,7 +60,7 @@ public abstract class OpenCallHierarchyAction extends Action {
 	protected Declaration getCurrentDeclaration() {
 		ChameleonEditor editor = ChameleonEditor.getActiveEditor();
 		if(editor!=null){
-			ChameleonDocument doc = editor.getDocument();
+			EclipseDocument doc = editor.getDocument();
 			if(doc != null){
 				ISelectionProvider selectionProvider = editor.getSelectionProvider();
 				if(selectionProvider!=null){

@@ -15,7 +15,7 @@ import chameleon.core.Config;
 import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.eclipse.connector.EclipseEditorTag;
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.eclipse.editors.ChameleonSourceViewerConfiguration;
 import chameleon.eclipse.project.ChameleonProjectNature;
 import chameleon.exception.ChameleonProgrammerException;
@@ -52,21 +52,21 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 	 * @param document
 	 * 		The new document
 	 */
-	public void setDocument(ChameleonDocument document){	
+	public void setDocument(EclipseDocument document){	
 		_document = document;
 	}
 	
 	/**
 	 * @return the document for this ChameleonReconcilingStrategy
 	 */
-	public ChameleonDocument getDocument(){
+	public EclipseDocument getDocument(){
 		return _document;
 	}
 	
 	// Check whether reconciling is initiated
 	private boolean _alreadyInit;
 	// The document to which this ReconcilingStrategy applies
-	private ChameleonDocument _document;
+	private EclipseDocument _document;
 	// List containing clones of positions
 	private ArrayList<ClonedChameleonPosition> _clonedPositions = new ArrayList<ClonedChameleonPosition>();
 	// List containing all the dirtyPositions in this document
@@ -173,9 +173,9 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 	}
 
 	private View view() {
-		ChameleonDocument document = getDocument();
+		EclipseDocument document = getDocument();
 		if(document != null) {
-			Document chameleonDocument = document.chameleonDocument();
+			Document chameleonDocument = document.document();
 			if(chameleonDocument != null) {
 				return chameleonDocument.view();
 			}

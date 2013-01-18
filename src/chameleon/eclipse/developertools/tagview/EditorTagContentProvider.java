@@ -12,7 +12,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.rejuse.predicate.Predicate;
 
 import chameleon.eclipse.connector.EclipseEditorTag;
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 
 /**
  * Calculates the elements for the Editor Tag List View.
@@ -38,8 +38,8 @@ public class EditorTagContentProvider implements IStructuredContentProvider {
 	}
 
 	public Object[] getElements(Object inputObject) {
-		if(inputObject instanceof ChameleonDocument){
-			ChameleonDocument doc = (ChameleonDocument)inputObject;
+		if(inputObject instanceof EclipseDocument){
+			EclipseDocument doc = (EclipseDocument)inputObject;
 			Collection<EclipseEditorTag> tags = new TreeSet<EclipseEditorTag>(EclipseEditorTag.beginoffsetComparator);
 			doc.getEditorTagsWithPredicate(_filterPredicate, tags);
 			// set label of view:

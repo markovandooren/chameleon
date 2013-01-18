@@ -34,7 +34,7 @@ import chameleon.eclipse.builder.ChameleonBuilder;
 import chameleon.eclipse.connector.EclipseEditorExtension;
 import chameleon.eclipse.connector.EclipseEditorInputProcessor;
 import chameleon.eclipse.connector.EclipseSourceManager;
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.eclipse.editors.ChameleonEditor;
 import chameleon.eclipse.presentation.PresentationModel;
 import chameleon.input.InputProcessor;
@@ -83,8 +83,8 @@ public class ChameleonProjectNature implements IProjectNature {
 		public void notifyInputSourceRemoved(InputSource source) {
 			if(source instanceof IFileInputSource) {
 				IFileInputSource fileSource = (IFileInputSource) source;
-				ChameleonDocument doc = documentOfPath(toPath(fileSource));
-				_documents.remove(doc);
+				EclipseDocument doc = documentOfPath(toPath(fileSource));
+				_eclipseDocuments.remove(doc);
 				doc.destroy();
 			}
 		}
@@ -108,15 +108,15 @@ public class ChameleonProjectNature implements IProjectNature {
 				IFileInputSource fileSource = (IFileInputSource) source;
 				//FIXME Let the document listen to "the" input source
 				//      fileSource.document() is null when lazy loading is used and the document hasn't been needed yet.
-				addToModel(new ChameleonDocument(ChameleonProjectNature.this,fileSource,toFile(fileSource),toPath(fileSource)));
+				addToModel(new EclipseDocument(ChameleonProjectNature.this,fileSource,toFile(fileSource),toPath(fileSource)));
 			}
 		}
 	}
 
 	public ChameleonProjectNature() {
-		_documents=new ArrayList<ChameleonDocument>() {
+		_eclipseDocuments=new ArrayList<EclipseDocument>() {
 			@Override
-			public boolean add(ChameleonDocument e) {
+			public boolean add(EclipseDocument e) {
 				if(e == null) {
 					throw new IllegalArgumentException();
 				}
@@ -131,12 +131,10 @@ public class ChameleonProjectNature implements IProjectNature {
 	//the language of this nature
 //	private Language _language;
 	
-	public static final String CHAMELEON_PROJECT_FILE_EXTENSION = "CHAMPROJECT";
-
 	public static final String CHAMELEON_PROJECT_FILE = "project.xml";
 
 	//The elements in the model of this nature
-	private ArrayList<ChameleonDocument> _documents;
+	private ArrayList<EclipseDocument> _eclipseDocuments;
 	
 	public static final String NATURE = ChameleonEditorPlugin.PLUGIN_ID+".ChameleonNature";
 		
@@ -292,24 +290,11 @@ public class ChameleonProjectNature implements IProjectNature {
 	 * to replace the contents of the compilation unit associated with the document.
 	 * @param doc
 	 */
-	public void updateModel(ChameleonDocument doc) {
-		
-		// Removing the file markers is already done someplace else, and it gives a ResourceException
-		// when this method is ran via the project listener of this nature.
-		
-//		try {
-//			IFile file = doc.getFile();
-//			if(documentOfFile(file) != null) {
-//			  file.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_ZERO);
-//			}
-//			// getDocument().removeParseErrors();
-//		} catch (CoreException e) {
-//			e.printStackTrace();
-//		}
+	public void updateModel(EclipseDocument doc) {
 		if(doc != null) {
 			doc.dumpPositions();
 			try {
-				modelFactory().parse(doc.get(), doc.chameleonDocument());
+				modelFactory().parse(doc.get(), doc.document());
 			} catch (ParseException e) {
 				// FIXME Can we ignore this exception? Normally, the parse error markers should have been set.
 				e.printStackTrace();
@@ -317,33 +302,6 @@ public class ChameleonProjectNature implements IProjectNature {
 				flushSourceCache();
 			}
 		}
-	}
-
-//	/**
-//	 * Clear the list of documents, and loads all the project files with a project extension into the model.
-//	 */
-//	public void loadDocuments(){
-//		_documents.clear();
-//		IResource[] resources;
-//		try {
-//			resources = getProject().members();
-//			for (int i = 0; i < resources.length; i++) {
-//				IResource resource = resources[i];
-//				addResourceToModel(resource);
-//			}
-//		
-//		} catch (CoreException e) {
-//			e.printStackTrace();
-//		}
-//		
-//	}
-
-	/**
-	 * Check whether the given resource is the Chameleon project description file.
-	 */
-	protected boolean isChameleonProjectFile(IResource resource) {
-		String ext = extension(resource);
-		return ext != null && ext.equals(CHAMELEON_PROJECT_FILE_EXTENSION);
 	}
 
 	/**
@@ -357,42 +315,6 @@ public class ChameleonProjectNature implements IProjectNature {
 	protected String extension(IResource resource) {
 		return resource.getFullPath().getFileExtension();
 	}
-
-//	/**
-//	 * Adds another resource to the model. This can be either a file or a folder
-//	 * @param resource
-//	 */
-//	public void addResourceToModel(IResource resource) {
-////		List<String> extensions = LanguageMgt.getInstance().extensions(language());
-//		if (resource instanceof IFile)  {
-//			if(!(isEclipseProjectFile(resource) || (isChameleonProjectFile(resource)))) {
-//				IPath fullPath = resource.getFullPath();
-//				String fileExtension = fullPath.getFileExtension();
-//				if(extensions.contains(fileExtension)) {
-//					System.out.println("ADDING :: "+resource.getName());
-//					addToModel(new ChameleonDocument(this,(IFile)resource,resource.getFullPath()));
-//				}
-//			}
-//		}
-//		if (resource instanceof IFolder) {
-//			IFolder folder = (IFolder) resource ;
-//			IResource[] resources = null;
-//			try {
-//				resources = folder.members();
-//			} catch (CoreException e) {
-//				e.printStackTrace();
-//			}
-//			for (int i = 0; i < resources.length; i++) {
-//				IResource folderResource = resources[i];
-//				addResourceToModel(folderResource);
-//			}
-//			
-//		}
-//	}
-
-
-	
-
 
 	/**
 	 * @see chameleonEditor.editors.IChameleonDocument#getModel()
@@ -408,11 +330,11 @@ public class ChameleonProjectNature implements IProjectNature {
 	 * @param document
 	 * @deprecated
 	 */
-	public void addToModel(ChameleonDocument document) {
+	public void addToModel(EclipseDocument document) {
 		//FIXME: why do we remove the 'same' document and add the new one if
 		//       the document was already in the model?
-		ChameleonDocument same = null;
-		for (ChameleonDocument element: _documents) {
+		EclipseDocument same = null;
+		for (EclipseDocument element: _eclipseDocuments) {
 			if (element.isSameDocument(document)) {
 				same = element;
 			}
@@ -420,7 +342,7 @@ public class ChameleonProjectNature implements IProjectNature {
 		if (same!=null) {
 			removeDocument(same);
 		}
-		_documents.add(document);
+		_eclipseDocuments.add(document);
 		
 //		addDocument(document);
 		//FIXME why update? I think this can go because now the project nature
@@ -429,8 +351,8 @@ public class ChameleonProjectNature implements IProjectNature {
 //		updateModel(document);
 	}
 
-	public List<ChameleonDocument> documents(){
-		return new ArrayList<ChameleonDocument>(_documents);
+	public List<EclipseDocument> documents(){
+		return new ArrayList<EclipseDocument>(_eclipseDocuments);
 	}
 	
 	/**
@@ -440,10 +362,10 @@ public class ChameleonProjectNature implements IProjectNature {
 	 * @param element
 	 * @return
 	 */
-	public ChameleonDocument document(Element element) {
+	public EclipseDocument document(Element element) {
 		if(element != null) {
 			Document cu = element.nearestAncestorOrSelf(Document.class);
-			for(ChameleonDocument doc : _documents) {
+			for(EclipseDocument doc : _eclipseDocuments) {
 //				if(doc.chameleonDocument().equals(cu)) {
 				if(doc.inputSource().equals(cu.inputSource())) {
 					return doc;
@@ -464,10 +386,10 @@ public class ChameleonProjectNature implements IProjectNature {
    @ post ! documents().contains(document);
    @ post document != null ==> document.compilationUnit().disconnected();
    @*/
-	public void removeDocument(ChameleonDocument document){
+	public void removeDocument(EclipseDocument document){
 		if(document != null) {
-			_documents.remove(document);
-			document.chameleonDocument().disconnect();
+			_eclipseDocuments.remove(document);
+			document.document().disconnect();
 		}
 	}
 
@@ -477,13 +399,13 @@ public class ChameleonProjectNature implements IProjectNature {
 	
 	private View _view;
 
-	public void addDocument(ChameleonDocument document) {
+	public void addDocument(EclipseDocument document) {
 		if(document == null) {
 			throw new IllegalArgumentException();
 		}
-		_documents.add(document);
+		_eclipseDocuments.add(document);
 		try {
-			Document chameleonDocument = document.chameleonDocument();
+			Document chameleonDocument = document.document();
 			Language language = chameleonDocument.view().language();
 			ModelFactory plugin = language.plugin(ModelFactory.class);
 			plugin.parse(document.get(), chameleonDocument);
@@ -494,9 +416,9 @@ public class ChameleonProjectNature implements IProjectNature {
 		} 
 	}
 	
-	public ChameleonDocument documentOfPath(IPath path) {
-		ChameleonDocument result = null;
-		for(ChameleonDocument doc:_documents) {
+	public EclipseDocument documentOfPath(IPath path) {
+		EclipseDocument result = null;
+		for(EclipseDocument doc:_eclipseDocuments) {
 			if(doc.path().equals(path)) {
 				result = doc;
 				break;
@@ -510,11 +432,11 @@ public class ChameleonProjectNature implements IProjectNature {
 	 * @param file must be effective
 	 * @return returns null if no appropriate document found.
 	 */
-	public ChameleonDocument documentOfFile(IFile file){
+	public EclipseDocument documentOfFile(IFile file){
 		if(file == null) {
 			return null;
 		}
-		for(ChameleonDocument doc : _documents){
+		for(EclipseDocument doc : _eclipseDocuments){
 			if(file.equals(doc.getFile())){
 				return doc;
 			}
@@ -531,7 +453,7 @@ public class ChameleonProjectNature implements IProjectNature {
 	public static Language getCurrentLanguage(){
 		ChameleonEditor editor = ChameleonEditor.getActiveEditor();
 		if(editor!=null){
-			ChameleonDocument doc = editor.getDocument();
+			EclipseDocument doc = editor.getDocument();
 			if(doc!= null) {
 				return doc.language();
 			}
@@ -541,8 +463,8 @@ public class ChameleonProjectNature implements IProjectNature {
 
 	public List<Document> compilationUnits() {
 		ArrayList<Document> result = new ArrayList<Document>();
-		for(ChameleonDocument document: documents()) {
-			result.add(document.chameleonDocument());
+		for(EclipseDocument document: documents()) {
+			result.add(document.document());
 		}
 		return result;
 	}
@@ -562,7 +484,7 @@ public class ChameleonProjectNature implements IProjectNature {
 	private Semaphore _semaphore = new Semaphore(1);
 	
 	public void clearMarkers() throws CoreException {
-		for(ChameleonDocument document: _documents) {
+		for(EclipseDocument document: _eclipseDocuments) {
 			IFile file = document.getFile();
 			file.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_ZERO);
 		}

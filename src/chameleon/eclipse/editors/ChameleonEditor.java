@@ -72,7 +72,7 @@ import chameleon.input.PositionMetadata;
  * It supports features like : highlighting , code folding, ...
  * It updates the folding structure if asked. It also creates the outline view
  */
-public class ChameleonEditor extends TextEditor implements ActionListener {
+public class ChameleonEditor extends TextEditor {
 
 	//The support for folding in the editor. It arranges the projection of the foldable elements
 	private ProjectionSupport projectionSupport;
@@ -90,7 +90,7 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 	
 	
 	//The document that this editor uses.
-	private ChameleonDocument _document;
+	private EclipseDocument _document;
 	
   //FIXME: make this scalable wrt the number of views	
 	
@@ -354,7 +354,7 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 	 */
 	public Object getAdapter(Class required) {
 		if (IContentOutlinePage.class.equals(required)) {
-			ChameleonDocument document = getDocument();
+			EclipseDocument document = getDocument();
 			if (_fOutlinePage == null && document != null) {
 				Language language = document.language();
 				List<String> defaultAllowedOutlineElements = getPresentationManager().getDefaultOutlineElements();
@@ -370,7 +370,7 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 	 * Returns the presentation Manager for the editor.
 	 */
 	public PresentationManager getPresentationManager() {
-		ChameleonDocument document = getDocument();
+		EclipseDocument document = getDocument();
 		return document == null ? null : document.getPresentationManager();
 	}
 
@@ -378,7 +378,7 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 	 * 
 	 * @return the document from this editor
 	 */
-	public ChameleonDocument getDocument(){
+	public EclipseDocument getDocument(){
 		return _document;
 	}
 
@@ -389,7 +389,7 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 	 * Else when nothing manages the presentation, a new manager is made , together with a listener
 	 * @param document
 	 */
-	public void documentChanged(ChameleonDocument document) {
+	public void documentChanged(EclipseDocument document) {
 		if(document == null) {
 			throw new IllegalArgumentException();
 		}
@@ -399,10 +399,9 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 					"The editor will work in restricted mode. Thank you for reading this.", SWT.ICON_ERROR);		
 		} 
 		updateTextListener(document);
-		document.setParseActionListener(this);
 	}
 
-	private void updateTextListener(ChameleonDocument document) {
+	private void updateTextListener(EclipseDocument document) {
 		if(_projViewer != null && _listener != null) {
 			_projViewer.removeTextListener(_listener);
 		}
@@ -656,11 +655,11 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 				// if already opened in the active editor, highlight element
 //				IEditorPart activeEditor = Workbench.getInstance().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 				IEditorPart activeEditor = chamEditor.getSite().getPage().getActiveEditor();
-				if(activeEditor instanceof ChameleonEditor && elementCU.equals(((ChameleonEditor)activeEditor).getDocument().chameleonDocument())){
+				if(activeEditor instanceof ChameleonEditor && elementCU.equals(((ChameleonEditor)activeEditor).getDocument().document())){
 					((ChameleonEditor)activeEditor).highLightElement(element, selectElement, editorTagToHighlight);
 					return true;
 				} else if(openOtherEditor){
-					ChameleonDocument doc = chamEditor.getDocument().getProjectNature().document(elementCU);
+					EclipseDocument doc = chamEditor.getDocument().getProjectNature().document(elementCU);
 					if(doc!=null){
 						IFile file = doc.getFile();
 						// chamEditor is not the editor of element
@@ -751,7 +750,7 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 			@Override
 			public boolean eval(ChameleonEditor editor) {
 				return(
-						editor.getDocument().chameleonDocument().equals(cu)  
+						editor.getDocument().document().equals(cu)  
 				) ;
 			}
 		}.filter(editors);
@@ -780,7 +779,7 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 		return null;
 	}
 
-	public static ChameleonDocument getActiveDocument(){
+	public static EclipseDocument getActiveDocument(){
 		ChameleonEditor editor = getActiveEditor();
 		return editor == null ? null : editor.getDocument();
 	}
@@ -790,7 +789,7 @@ public class ChameleonEditor extends TextEditor implements ActionListener {
 	}
 
 	public static Language getActiveLanguage() {
-		ChameleonDocument doc = getActiveDocument();
+		EclipseDocument doc = getActiveDocument();
 		return doc == null ? null : doc.language();
 	}
 

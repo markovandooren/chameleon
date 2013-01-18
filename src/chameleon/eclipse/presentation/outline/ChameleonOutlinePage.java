@@ -303,7 +303,7 @@ public class ChameleonOutlinePage extends ContentOutlinePage {
 	 * returns the root element for the tree
 	 */
 	private Element getTreeRootElement() {
-		Element result = getEditor().getDocument().chameleonDocument();
+		Element result = getEditor().getDocument().document();
 		// if we don't want to show the root, and the root has one valid child, get this as root element
 		if(!_showRoot && result!=null && result.children()!=null && result.children().size()==1) {
 			result = result.children().iterator().next();

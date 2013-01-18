@@ -14,7 +14,7 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.eclipse.editors.ChameleonEditor;
 import chameleon.workspace.FileLoader;
 import chameleon.workspace.InputException;
@@ -63,7 +63,7 @@ public class ProjectChangeListener implements IResourceChangeListener {
 					public void handleChanged(IResourceDelta delta) throws CoreException {
 						boolean update = true;
 						Collection<ChameleonEditor> editors = ChameleonEditor.getActiveChameleonEditors();
-						ChameleonDocument doc = documentOf(delta);
+						EclipseDocument doc = documentOf(delta);
 						if(doc != null) {
 							for(ChameleonEditor editor: editors) {
 								if(editor.getDocument() == doc) {

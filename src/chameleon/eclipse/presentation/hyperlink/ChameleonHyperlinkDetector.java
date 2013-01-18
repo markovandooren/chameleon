@@ -13,7 +13,7 @@ import org.eclipse.jface.text.hyperlink.IHyperlinkDetector;
 import chameleon.core.element.Element;
 import chameleon.core.reference.CrossReference;
 import chameleon.eclipse.connector.EclipseEditorTag;
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 
 /**
  * This class will check for Hyperlinks in the ChameleonEditor.
@@ -35,9 +35,9 @@ public class ChameleonHyperlinkDetector implements IHyperlinkDetector {
 	 */
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer, IRegion region, boolean canShowMultipleHyperlinks) {
 		// Get the ChameleonDocument:
-		ChameleonDocument document;
+		EclipseDocument document;
 		try {
-			document = (ChameleonDocument) textViewer.getDocument();
+			document = (EclipseDocument) textViewer.getDocument();
 		} catch (ClassCastException e) {
 			e.printStackTrace();
 			return null;

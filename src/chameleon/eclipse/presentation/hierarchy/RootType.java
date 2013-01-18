@@ -6,7 +6,7 @@ package chameleon.eclipse.presentation.hierarchy;
 
 import org.eclipse.core.resources.IFile;
 
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.eclipse.editors.ChameleonEditor;
 import chameleon.eclipse.project.ChameleonProjectNature;
 import chameleon.exception.ModelException;
@@ -30,7 +30,7 @@ public class RootType implements HierarchyTreeNode {
 	public RootType(Type rootType, ChameleonEditor editor) {
 		this.rootTypeFqn = rootType.getFullyQualifiedName();
 		projectNature = editor.getDocument().getProjectNature();
-		ChameleonDocument elementDoc = projectNature.document(rootType);
+		EclipseDocument elementDoc = projectNature.document(rootType);
 		if(elementDoc != null){
 			this.docFile = elementDoc.getFile();
 		}
@@ -51,7 +51,7 @@ public class RootType implements HierarchyTreeNode {
 		}
 		// if not succeeded, try to get the element of the docFile
 		if(docFile!=null){
-			Type type = projectNature.documentOfFile(docFile).chameleonDocument().descendants(Type.class).iterator().next();
+			Type type = projectNature.documentOfFile(docFile).document().descendants(Type.class).iterator().next();
 			if(type != null){
 				_typeCache = type;
 				return new Object[]{new HierarchyTypeNode(type, projectNature, this)};

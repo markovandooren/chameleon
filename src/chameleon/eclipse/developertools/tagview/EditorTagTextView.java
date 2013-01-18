@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
 
 import chameleon.eclipse.ChameleonEditorPlugin;
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.eclipse.editors.ChameleonEditor;
 
 /**
@@ -66,7 +66,7 @@ public class EditorTagTextView extends ViewPart {
 		public void run() {
 			ChameleonEditor editor = ChameleonEditor.getActiveEditor();
 			if(editor != null){
-				ChameleonDocument doc = editor.getDocument();
+				EclipseDocument doc = editor.getDocument();
 				String editorTagText = ShowEditorTags.getChameleonEditorPositionsStringOfDocument(doc, doc.get(), showOnlyAllEditorTags);
 				text.setText(editorTagText);
 			}

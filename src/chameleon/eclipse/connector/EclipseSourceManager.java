@@ -3,7 +3,7 @@ package chameleon.eclipse.connector;
 import org.eclipse.jface.text.BadLocationException;
 
 import chameleon.core.element.Element;
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.eclipse.project.ChameleonProjectNature;
 import chameleon.exception.ChameleonProgrammerException;
 import chameleon.input.NoLocationException;
@@ -38,7 +38,7 @@ public class EclipseSourceManager extends ViewPluginImpl implements SourceManage
 		if(location == null) {
 			throw new NoLocationException(element);
 		}
-		ChameleonDocument document = projectNature().document(element);
+		EclipseDocument document = projectNature().document(element);
 		if(document == null) {
 			throw new ChameleonProgrammerException("No document found for element.");
 		} else {

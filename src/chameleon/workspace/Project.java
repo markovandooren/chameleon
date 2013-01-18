@@ -8,6 +8,7 @@ import org.rejuse.association.AssociationListener;
 import org.rejuse.association.OrderedMultiAssociation;
 import org.rejuse.association.SingleAssociation;
 
+import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.util.Handler;
 
@@ -234,6 +235,19 @@ public class Project {
 			result.addAll(view.sourceElements(kind, handler));
 		}
 		return result;
+	}
+	
+	/**
+	 * Return the source documents of this project.
+	 * @throws InputException
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result.equals(sourceElements(Document.class,Handler.PROPAGATE));
+   @*/
+	public List<Document> sourceDocuments() throws InputException {
+		return sourceElements(Document.class, Handler.PROPAGATE);
 	}
 	
 	/**

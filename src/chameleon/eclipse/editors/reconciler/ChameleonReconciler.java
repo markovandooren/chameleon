@@ -6,7 +6,7 @@ import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.reconciler.IReconcilingStrategy;
 import org.eclipse.jface.text.reconciler.IReconcilingStrategyExtension;
 
-import chameleon.eclipse.editors.ChameleonDocument;
+import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.eclipse.editors.ChameleonEditor;
 
 
@@ -82,7 +82,7 @@ public class ChameleonReconciler extends AbstractChameleonReconciler{
 	/*
 	 * @see AbstractReconciler#reconcilerDocumentChanged(IDocument)
 	 */
-	protected void reconcilerDocumentChanged(ChameleonDocument document) {
+	protected void reconcilerDocumentChanged(EclipseDocument document) {
 		fStrategy.setDocument(document);
 	}	
 		
