@@ -23,29 +23,53 @@ import chameleon.util.concurrent.QueuePollingCallableFactory;
 import chameleon.util.concurrent.UnsafeAction;
 
 /**
- * A class for building projects that reside in a directory.
+ * A class for recursively loading files from a directory.
  * 
  * @author Marko van Dooren
  */
 public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 	
-//	/**
-//	 * Create a new model provider with the given factory.
-//	 * @throws ProjectException 
-//	 */
-// /*@
-//   @ public behavior
-//   @
-//   @ pre factory != null;
-//   @
-//   @ post factory() == factory;
-//   @*/
-//	public DirectoryLoader(String fileExtension, String root, FileInputSourceFactory factory) {
-//		this(root, factory);
-//		addFileExtension(fileExtension);
-//	}
-	
-	public DirectoryLoader(String root, FileInputSourceFactory factory,SafePredicate<? super String> filter) {
+
+	/**
+	 * Create a new directory loader for the given root directory, input source factor,
+	 * file filter, and base loader setting.
+	 * 
+	 * @param root The path of the root directory from which elements must be loaded.
+	 * @param filter A filter that selects files in the zip file based on their paths.
+	 * @param isBaseLoader Indicates whether the loader is responsible for loading a base library.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre root != null;
+   @
+   @ post path() == root;
+   @ post filter() == filter;
+   @ post isBaseLoader() == isBaseLoader;
+   @*/
+	public DirectoryLoader(String root, SafePredicate<? super String> filter, FileInputSourceFactory factory) {
+		this(root, filter, false, factory);
+	}
+
+	/**
+	 * Create a new directory loader for the given root directory, input source factor,
+	 * file filter, and base loader setting.
+	 * 
+	 * @param root The path of the root directory from which elements must be loaded.
+	 * @param filter A filter that selects files in the zip file based on their paths.
+	 * @param isBaseLoader Indicates whether the loader is responsible for loading a base library.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre root != null;
+   @
+   @ post path() == root;
+   @ post filter() == filter;
+   @ post isBaseLoader() == isBaseLoader;
+   @*/
+	public DirectoryLoader(String root, SafePredicate<? super String> filter, boolean isBaseLoader, FileInputSourceFactory factory) {
+		super(isBaseLoader);
 		setPath(root);
 		setInputSourceFactory(factory);
 		setFilter(filter);

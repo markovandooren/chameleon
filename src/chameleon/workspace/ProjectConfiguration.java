@@ -226,8 +226,13 @@ public abstract class ProjectConfiguration extends ConfigElement {
 		SourcePath p = createOrGetChild(SourcePath.class);
 		p.removeChildFor(loader);
 	}
+	
+	protected final void binaryLoaderAdded(DocumentLoader loader) throws ConfigException {
+		if(!loader.isBaseLoader()) {
+		}
+	}
 
-	protected void binaryLoaderAdded(DocumentLoader loader) throws ConfigException {
+	protected void binaryNonBaseLoaderAdded(DocumentLoader loader) throws ConfigException {
 		BinaryPath p = createOrGetChild(BinaryPath.class);
 		if(loader instanceof ZipLoader) {
 			p.createOrUpdateChild(BinaryPath.Zip.class,loader);
@@ -411,7 +416,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 		}
 
 		protected DirectoryLoader createLoader(FileInputSourceFactory factory) {
-			return new DirectoryLoader(_path, factory, fileNameFilter());
+			return new DirectoryLoader(_path, fileNameFilter(),factory);
 		}
 		
 		protected abstract SafePredicate<? super String> fileNameFilter();

@@ -19,34 +19,51 @@ import chameleon.util.Util;
 public abstract class AbstractZipLoader extends DocumentLoaderImpl {
 
 	/**
-	 * Create a new jar loader for the jar with the given path.
+	 * Create a new zip loader for the jar with the given path, file filter, and base loader setting.
 	 * 
 	 * @param path The path of the jar file from which elements must be loaded.
+	 * @param filter A filter that selects files in the zip file based on their paths.
+	 * @param isBaseLoader Indicates whether the loader is responsible for loading a base library.
 	 */
  /*@
    @ public behavior
    @
    @ pre path != null;
+   @
    @ post path() == path;
+   @ post filter() == filter;
+   @ post isBaseLoader() == isBaseLoader;
    @*/
-	public AbstractZipLoader(String path, SafePredicate<? super String> filter) {
+	public AbstractZipLoader(String path, SafePredicate<? super String> filter, boolean isBaseLoader) {
 		setPath(path);
 		setFilter(filter);
 	}
 	
+	/**
+	 * Create a new jar loader for the jar with the given path and file filter. The loader
+	 * will not be responsible for loading a base library.
+	 * 
+	 * @param path The path of the jar file from which elements must be loaded.
+	 * @param filter A filter that selects files in the zip file based on their paths.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre path != null;
+   @
+   @ post path() == path;
+   @ post filter() == filter;
+   @ post isBaseLoader() == false;
+   @*/
+	public AbstractZipLoader(String path, SafePredicate<? super String> filter) {
+		this(path,filter,false);
+	}
+
 	private void setPath(String path) {
 		_path = path;
 	}
 	
 	private String _path;
-	
-	private void setFilter(SafePredicate<? super String> filter) {
-		_filter = filter;
-	}
-	
-	private SafePredicate<? super String> _filter;
-	
-	
 	
 	/**
 	 * Return the path of the jar file from which elements must be loaded.
@@ -59,6 +76,21 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
 	public String path() {
 		return _path;
 	}
+	
+	private void setFilter(SafePredicate<? super String> filter) {
+		_filter = filter;
+	}
+	
+	/**
+	 * Return the filter that determines which files are loaded from the zip loader based
+	 * on the paths of the files.
+	 * @return
+	 */
+	public SafePredicate<? super String> filter() {
+		return _filter;
+	}
+	
+	private SafePredicate<? super String> _filter;
 	
 	/**
 	 * Create a {@link ZipFile} object that represents the zip file
@@ -127,6 +159,12 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
 
 	protected abstract void processMap(ZipFile jar, List<Pair<Pair<String, String>, ZipEntry>> names) throws InputException;
 
+	/**
+	 * Return the fully qualified name of the namespace that corresponds to the directory name
+	 * of the given entry name.
+	 * @param entryName The name of the entry in the zip file.
+	 * @return The name of the directory of the entry name with the '/' characters replaced by '.' characters. 
+	 */
 	protected String namespaceFQN(String entryName) {
 		return Util.getAllButLastPart(Util.getAllButLastPart(entryName).replace('/', '.'));
 	}

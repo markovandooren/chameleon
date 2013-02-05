@@ -72,8 +72,19 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 	protected IProject[] fullBuild(Map arguments, IProgressMonitor monitor) throws CoreException {
 		System.out.println("RUNNING FULL BUILD!");
 		chameleonNature().clearMarkers();
-		buildHelper(arguments, chameleonNature().compilationUnits(), monitor);
+		try {
+			buildHelper(arguments, chameleonNature().chameleonProject().sourceDocuments(), monitor);
+		} catch (InputException e) {
+			throw new CoreException(new BuildStatus("Input error during full build.", e));
+		}
 		return new IProject[0];
+	}
+	
+	private static class BuildStatus extends Status {
+
+		public BuildStatus(String message, Throwable exception) {
+			super(IStatus.ERROR, ChameleonEditorPlugin.PLUGIN_ID, IStatus.ERROR,message, exception);
+		}
 	}
 
 	public ChameleonProjectNature chameleonNature() throws CoreException {
@@ -91,7 +102,7 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 		
 		// First collect all the compilation units. If we pass them in one call to
 		// the build method, the progress monitor works without writing additional code.
-		final List<Document> cus = new ArrayList<Document>();
+		final List<Document> _cus = new ArrayList<Document>();
 		delta.accept(new ChameleonResourceDeltaFileVisitor(chameleonNature()){
 		
 			@Override
@@ -101,11 +112,10 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 		
 			@Override
 			public void handleChanged(IResourceDelta delta) throws CoreException {
-				EclipseDocument doc = documentOf(delta);
+				Document doc = chameleonDocumentOf(delta);
 				System.out.println("build: changed "+delta.getProjectRelativePath());
 				if(doc != null) {
-					Document cu = doc.document();
-					cus.add(cu);
+					_cus.add(doc);
 				}
 			}
 
@@ -115,7 +125,7 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 			}
 		});
 
-		buildHelper(null,cus,monitor);
+		buildHelper(null,_cus,monitor);
 	}
 
 	private void checkForCancellation(IProgressMonitor monitor) throws CoreException {

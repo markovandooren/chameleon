@@ -65,12 +65,14 @@ public class ProjectChangeListener implements IResourceChangeListener {
 						Collection<ChameleonEditor> editors = ChameleonEditor.getActiveChameleonEditors();
 						EclipseDocument doc = documentOf(delta);
 						if(doc != null) {
+							// Check if an editor is open.
 							for(ChameleonEditor editor: editors) {
 								if(editor.getDocument() == doc) {
 									update = false;
 									break;
 								}
 							}
+							// Only update if no editor is open.
 							if(update) {
 								System.out.println("### UPDATING FILE IN MODEL ###");
 								//	FIXME must refresh the content of the document.

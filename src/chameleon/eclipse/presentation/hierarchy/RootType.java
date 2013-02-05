@@ -51,7 +51,7 @@ public class RootType implements HierarchyTreeNode {
 		}
 		// if not succeeded, try to get the element of the docFile
 		if(docFile!=null){
-			Type type = projectNature.documentOfFile(docFile).document().descendants(Type.class).iterator().next();
+			Type type = projectNature.chameleonDocumentOfFile(docFile).descendants(Type.class).iterator().next();
 			if(type != null){
 				_typeCache = type;
 				return new Object[]{new HierarchyTypeNode(type, projectNature, this)};
@@ -60,9 +60,11 @@ public class RootType implements HierarchyTreeNode {
 		// CHANGE show nothing if no type is found
 		return new Object[]{new HierarchyTypeNode(_typeCache, projectNature, this)};
 	}
-	
+
+	/**
+	 * Returns null because the root element has no parent.
+	 */
 	public HierarchyTreeNode getParent(){
-		// the root item has no parent:
 		return null;
 	}
 	

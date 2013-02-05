@@ -1,9 +1,11 @@
 package chameleon.workspace;
 
 
+//FIXME REMOVE CLASS
 public abstract class SyntheticProjectLoader extends DocumentLoaderImpl {
 	
 	public SyntheticProjectLoader() {
+		super(true);
 		activate();
 	}
 	

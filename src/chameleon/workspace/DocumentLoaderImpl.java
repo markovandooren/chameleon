@@ -1,6 +1,5 @@
 package chameleon.workspace;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +12,16 @@ import chameleon.core.document.Document;
 public abstract class DocumentLoaderImpl implements DocumentLoader {
 
 	public DocumentLoaderImpl() {
+		this(false);
+	}
+
+	/**
+	 * Create a new document loader with the given base loader setting.
+	 * 
+	 * @param isBaseLoader Set to 'true' if the new loader is responsible for loading a base library.
+	 */
+	public DocumentLoaderImpl(boolean isBaseLoader) {
+		_isBaseLoader = isBaseLoader;
 		_viewLink.addListener(new AssociationListener<View>() {
 
 			// WARNING
@@ -64,6 +73,15 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 				notifyRemoved(newElement);
 			}
 		});
+	}
+	
+	/**
+	 * Store whether this document loader is responsible for loading a base library.
+	 */
+	private boolean _isBaseLoader;
+	
+	public boolean isBaseLoader() {
+		return _isBaseLoader;
 	}
 	
 	static class TunnelException extends RuntimeException {

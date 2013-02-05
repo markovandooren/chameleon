@@ -351,10 +351,6 @@ public class ChameleonProjectNature implements IProjectNature {
 //		updateModel(document);
 	}
 
-	public List<EclipseDocument> documents(){
-		return new ArrayList<EclipseDocument>(_eclipseDocuments);
-	}
-	
 	/**
 	 * Return the Chameleon/Eclipse document for the compilation unit of the
 	 * given element.
@@ -427,18 +423,13 @@ public class ChameleonProjectNature implements IProjectNature {
 		return result;
 	}
 
-	/**
-	 * Returns the document with the given file
-	 * @param file must be effective
-	 * @return returns null if no appropriate document found.
-	 */
-	public EclipseDocument documentOfFile(IFile file){
+	public Document chameleonDocumentOfFile(IFile file) {
 		if(file == null) {
 			return null;
 		}
 		for(EclipseDocument doc : _eclipseDocuments){
 			if(file.equals(doc.getFile())){
-				return doc;
+				return doc.document();
 			}
 		}
 		return null;
@@ -459,14 +450,6 @@ public class ChameleonProjectNature implements IProjectNature {
 			}
 		}
 		return null;
-	}
-
-	public List<Document> compilationUnits() {
-		ArrayList<Document> result = new ArrayList<Document>();
-		for(EclipseDocument document: documents()) {
-			result.add(document.document());
-		}
-		return result;
 	}
 
 	public void flushSourceCache() {

@@ -64,5 +64,17 @@ public interface DocumentLoader {
 	 */
 	public void addAndSynchronizeListener(InputSourceListener listener);
 
+	/**
+	 * Return whether this document loader is reponsible for loading a base library.
+	 * A base library is a library that is shipped with a language, and is loaded by
+	 * default. It will therefore not be added to configuration files.
+	 * 
+	 * @return True if this document loaders loads a base libary. False otherwise.
+	 */
+	public boolean isBaseLoader();
+	
+	/**
+	 * Flush the cache of all documents loaded by this document loader.
+	 */
 	public void flushCache();
 }

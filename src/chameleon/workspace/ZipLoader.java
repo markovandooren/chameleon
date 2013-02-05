@@ -14,8 +14,44 @@ import chameleon.util.Pair;
 
 public class ZipLoader extends AbstractZipLoader {
 
+	/**
+	 * Create a new zip loader for the jar with the given path, file filter, and base loader setting.
+	 * 
+	 * @param path The path of the jar file from which elements must be loaded.
+	 * @param filter A filter that selects files in the zip file based on their paths.
+	 * @param isBaseLoader Indicates whether the loader is responsible for loading a base library.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre zipPath != null;
+   @
+   @ post path() == zipPath;
+   @ post filter() == filter;
+   @ post isBaseLoader() == isBaseLoader;
+   @*/
+	public ZipLoader(String zipPath, SafePredicate<? super String> filter, boolean isBaseLoader) {
+		super(zipPath, filter, isBaseLoader);
+	}
+
+	/**
+	 * Create a new zip loader for the jar with the given path, file filter, and base loader setting.
+	 * 
+	 * @param path The path of the jar file from which elements must be loaded.
+	 * @param filter A filter that selects files in the zip file based on their paths.
+	 * @param isBaseLoader Indicates whether the loader is responsible for loading a base library.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre zipPath != null;
+   @
+   @ post path() == zipPath;
+   @ post filter() == filter;
+   @ post isBaseLoader() == false;
+   @*/
 	public ZipLoader(String zipPath, SafePredicate<? super String> filter) {
-		super(zipPath, filter);
+		this(zipPath, filter, false);
 	}
 
 	@Override
