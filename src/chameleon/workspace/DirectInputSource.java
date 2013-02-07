@@ -6,11 +6,11 @@ import java.util.List;
 
 import chameleon.core.declaration.Declaration;
 import chameleon.core.document.Document;
+import chameleon.core.factory.Factory;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespace.InputSourceNamespace;
 import chameleon.core.namespace.Namespace;
 import chameleon.core.namespacedeclaration.NamespaceDeclaration;
-import chameleon.oo.plugin.ObjectOrientedFactory;
 
 public class DirectInputSource extends InputSourceImpl {
 
@@ -18,7 +18,7 @@ public class DirectInputSource extends InputSourceImpl {
 		_declaration = decl;
 		InputSourceNamespace ns = (InputSourceNamespace) view.namespace().getOrCreateNamespace(namespaceFQN);
 		setNamespace(ns);
-		NamespaceDeclaration nsd = view.language().plugin(ObjectOrientedFactory.class).createNamespaceDeclaration(namespaceFQN);
+		NamespaceDeclaration nsd = view.language().plugin(Factory.class).createNamespaceDeclaration(namespaceFQN);
 		nsd.add(decl);
 		Document doc = new Document();
 		doc.add(nsd);

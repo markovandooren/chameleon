@@ -1,10 +1,8 @@
 package chameleon.oo.plugin;
 
 import chameleon.core.declaration.SimpleNameSignature;
-import chameleon.core.namespace.Namespace;
-import chameleon.core.namespacedeclaration.NamespaceDeclaration;
+import chameleon.core.factory.Factory;
 import chameleon.core.reference.CrossReferenceTarget;
-import chameleon.core.reference.SimpleReference;
 import chameleon.oo.expression.MethodInvocation;
 import chameleon.oo.method.Method;
 import chameleon.oo.method.MethodHeader;
@@ -13,7 +11,6 @@ import chameleon.oo.type.RegularType;
 import chameleon.oo.type.Type;
 import chameleon.oo.type.TypeReference;
 import chameleon.oo.type.inheritance.InheritanceRelation;
-import chameleon.plugin.LanguagePluginImpl;
 import chameleon.support.member.simplename.method.NormalMethod;
 import chameleon.support.member.simplename.method.RegularMethodInvocation;
 import chameleon.support.modifier.Constructor;
@@ -23,7 +20,7 @@ import chameleon.support.modifier.Constructor;
  * 
  * @author Marko van Dooren
  */
-public abstract class ObjectOrientedFactory extends LanguagePluginImpl {
+public abstract class ObjectOrientedFactory extends Factory {
 
 	/**
 	 * Create a new basic lexical class with the given signature.
@@ -40,23 +37,6 @@ public abstract class ObjectOrientedFactory extends LanguagePluginImpl {
 		return new RegularType(signature);
 	}
 
-	/**
-	 * Create a new namespace declaration for the given namespace.
-	 *
-	 * @param ns The namespace in which the namespace declaration will add elements.
-	 * @return
-	 */
- /*@
-   @ public behavior
-   @
-   @ pre ns != null;
-   @ post \result != null;
-   @ post \result.namespace() == ns;
-   @*/
-	public NamespaceDeclaration createNamespaceDeclaration(String fqn) {
-		return new NamespaceDeclaration(new SimpleReference<Namespace>(fqn, Namespace.class));
-	}
-	
 	/**
 	 * Create a new invocation based on the name of the invoked method and the target.
 	 *  
