@@ -15,6 +15,18 @@ import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 public class DirectInputSource extends InputSourceImpl {
 
 	public DirectInputSource(Declaration decl, String namespaceFQN, View view, DocumentLoaderImpl loader) throws InputException {
+		if(decl == null) {
+			throw new IllegalArgumentException("The given declaration is null.");
+		}
+		if(namespaceFQN == null) {
+			throw new IllegalArgumentException("The given fully qualified name of a namespace is null.");
+		}
+		if(view == null) {
+			throw new IllegalArgumentException("The given view is null.");
+		}
+		if(loader == null) {
+			throw new IllegalArgumentException("The given document loader is null.");
+		}
 		_declaration = decl;
 		InputSourceNamespace ns = (InputSourceNamespace) view.namespace().getOrCreateNamespace(namespaceFQN);
 		setNamespace(ns);
