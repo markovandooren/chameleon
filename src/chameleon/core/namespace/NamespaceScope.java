@@ -21,7 +21,7 @@ public class NamespaceScope extends Scope {
     _namespace = ns;
   }
   
-	public boolean contains(Element element) {
+	public boolean contains(Element element) throws LookupException {
 		return  element.namespace().equals(getNamespace());
 	}
   

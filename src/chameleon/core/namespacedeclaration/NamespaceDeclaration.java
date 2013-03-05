@@ -20,6 +20,7 @@ import chameleon.core.lookup.LookupStrategy;
 import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.lookup.LookupStrategySelector;
 import chameleon.core.namespace.Namespace;
+import chameleon.core.reference.CrossReference;
 import chameleon.core.reference.SimpleReference;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
@@ -121,7 +122,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
    @
    @ post getDeclaredNamespace() == namespace
    @*/ 
-	public NamespaceDeclaration(SimpleReference<Namespace> ref) {
+	public NamespaceDeclaration(CrossReference<Namespace> ref) {
     setNamespaceReference(ref);
 	}
 	
@@ -129,11 +130,11 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		this(new SimpleReference<Namespace>(fqn,Namespace.class));
 	}
 	
-	public void setNamespaceReference(SimpleReference<Namespace> ref) {
+	public void setNamespaceReference(CrossReference<Namespace> ref) {
 		set(_ref, ref);
 	}
 	
-	private Single<SimpleReference<Namespace>> _ref = new Single<SimpleReference<Namespace>>(this,true);
+	private Single<CrossReference<Namespace>> _ref = new Single<CrossReference<Namespace>>(this,true);
 	
 	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
 		if(imports().contains(child) || child == namespaceReference()) {
@@ -277,13 +278,19 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		Namespace stored = _namespaceLink.getOtherEnd();
 		if(stored == null) {
 			//FIXME When multi-language support is added, this must change
-			stored = view().namespace().getOrCreateNamespace(namespaceReference().toString());
+//			stored = view().namespace().getOrCreateNamespace(namespaceReference().toString());
+			try {
+//				System.out.println("resolving "+namespaceReference().toString());
+				stored = namespaceReference().getElement();
+			} catch (LookupException e) {
+				throw new ChameleonProgrammerException(e);
+			}
 			stored.addNamespacePart(this);
 		}
 		return stored;
 	}
 	
-	public SimpleReference<Namespace> namespaceReference() {
+	public CrossReference<Namespace> namespaceReference() {
 		return _ref.getOtherEnd();
 	}
 	
@@ -418,7 +425,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
    @ post \result = getDeclaredNamespace().getDefaultNamespace(); 
    @*/
 	public Namespace getDefaultNamespace() throws LookupException {
-		return namespace().defaultNamespace();
+		return view().namespace();
 	}
 
   @Override

@@ -5,10 +5,11 @@ import java.util.List;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.SimpleNameSignature;
+import chameleon.core.declaration.TargetDeclaration;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.namespacedeclaration.NamespaceDeclaration;
 
-public interface Namespace extends Declaration, DeclarationContainer {
+public interface Namespace extends TargetDeclaration, DeclarationContainer {
 
 	/**
 	 * Return the fully qualified name of this package. This is the concatenation of the

@@ -30,7 +30,13 @@ public class DirectInputSource extends InputSourceImpl {
 		_declaration = decl;
 		InputSourceNamespace ns = (InputSourceNamespace) view.namespace().getOrCreateNamespace(namespaceFQN);
 		setNamespace(ns);
-		NamespaceDeclaration nsd = view.language().plugin(Factory.class).createNamespaceDeclaration(namespaceFQN);
+		Factory plugin = view.language().plugin(Factory.class);
+		NamespaceDeclaration nsd;
+		if(! "".equals(namespaceFQN)) {
+			nsd = plugin.createNamespaceDeclaration(namespaceFQN);
+		} else {
+			nsd = plugin.createRootNamespaceDeclaration();
+		}
 		nsd.add(decl);
 		Document doc = new Document();
 		doc.add(nsd);
