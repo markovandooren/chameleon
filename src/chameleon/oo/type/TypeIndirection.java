@@ -3,8 +3,7 @@ package chameleon.oo.type;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.property.PropertySet;
-
+import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;

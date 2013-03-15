@@ -3,10 +3,9 @@ package chameleon.core.declaration;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.property.Property;
-import org.rejuse.property.PropertyMutex;
-import org.rejuse.property.PropertySet;
-
+import be.kuleuven.cs.distrinet.rejuse.property.Property;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;

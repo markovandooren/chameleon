@@ -2,8 +2,7 @@ package chameleon.oo.expression;
 
 import java.lang.ref.SoftReference;
 
-import org.rejuse.java.collections.RobustVisitor;
-
+import be.kuleuven.cs.distrinet.rejuse.java.collections.RobustVisitor;
 import chameleon.core.Config;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LocalLookupStrategy;

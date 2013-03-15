@@ -7,8 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.java.collections.Visitor;
-
+import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
 import chameleon.oo.type.Type;
 
 /**

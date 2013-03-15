@@ -1,7 +1,6 @@
 package chameleon.core.comment;
 
-import org.rejuse.association.SingleAssociation;
-
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.util.association.Single;

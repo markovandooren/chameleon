@@ -3,10 +3,9 @@ package chameleon.oo.type.generics;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.Association;
-import org.rejuse.association.SingleAssociation;
-import org.rejuse.predicate.UnsafePredicate;
-
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import be.kuleuven.cs.distrinet.rejuse.predicate.UnsafePredicate;
 import chameleon.core.declaration.MissingSignature;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;

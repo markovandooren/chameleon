@@ -5,8 +5,8 @@ import java.util.Comparator;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.BadPositionCategoryException;
 import org.eclipse.jface.text.Position;
-import org.rejuse.predicate.SafePredicate;
 
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import chameleon.core.element.Element;
 import chameleon.core.tag.Metadata;
 import chameleon.eclipse.editors.EclipseDocument;

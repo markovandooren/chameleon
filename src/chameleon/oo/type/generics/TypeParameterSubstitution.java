@@ -3,9 +3,8 @@ package chameleon.oo.type.generics;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.association.Association;
-import org.rejuse.association.SingleAssociation;
-
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import chameleon.core.reference.CrossReference;
 import chameleon.oo.type.TypeReference;
 

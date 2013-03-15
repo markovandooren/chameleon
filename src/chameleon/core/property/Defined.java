@@ -1,9 +1,8 @@
 package chameleon.core.property;
 
-import org.rejuse.logic.ternary.Ternary;
-import org.rejuse.property.PropertyMutex;
-import org.rejuse.property.PropertySet;
-
+import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;

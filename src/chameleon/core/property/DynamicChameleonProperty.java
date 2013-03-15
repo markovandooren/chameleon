@@ -3,13 +3,12 @@ package chameleon.core.property;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.logic.ternary.Ternary;
-import org.rejuse.predicate.SafePredicate;
-import org.rejuse.property.DynamicProperty;
-import org.rejuse.property.PropertyMutex;
-import org.rejuse.property.PropertySet;
-import org.rejuse.property.PropertyUniverse;
-
+import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
+import be.kuleuven.cs.distrinet.rejuse.property.DynamicProperty;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertyUniverse;
 import chameleon.core.element.Element;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;

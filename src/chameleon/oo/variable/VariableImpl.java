@@ -3,9 +3,8 @@ package chameleon.oo.variable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.property.Property;
-import org.rejuse.property.PropertyMutex;
-
+import be.kuleuven.cs.distrinet.rejuse.property.Property;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import chameleon.core.declaration.MissingSignature;
 import chameleon.core.declaration.Signature;
 import chameleon.core.declaration.SimpleNameSignature;

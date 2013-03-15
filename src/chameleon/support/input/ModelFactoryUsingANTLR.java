@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.antlr.runtime.RecognitionException;
-import org.rejuse.association.Association;
-import org.rejuse.io.DirectoryScanner;
 
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import be.kuleuven.cs.distrinet.rejuse.io.DirectoryScanner;
 import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.exception.ChameleonProgrammerException;

@@ -2,9 +2,8 @@ package chameleon.aspect.core.weave;
 
 import java.util.Iterator;
 
-import org.rejuse.association.Association;
-import org.rejuse.association.SingleAssociation;
-
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import chameleon.aspect.core.model.advice.Advice;
 import chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import chameleon.aspect.core.weave.infrastructure.AdviceInfrastructureFactory;

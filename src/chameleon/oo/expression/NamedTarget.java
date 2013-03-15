@@ -4,8 +4,7 @@ import java.lang.ref.SoftReference;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.rejuse.association.AssociationListener;
-
+import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.Signature;

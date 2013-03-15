@@ -2,8 +2,7 @@ package chameleon.support.variable;
 
 import java.util.List;
 
-import org.rejuse.predicate.TypePredicate;
-
+import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;

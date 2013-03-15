@@ -2,9 +2,8 @@ package chameleon.oo.statement;
 
 import java.util.List;
 
-import org.rejuse.association.Association;
-import org.rejuse.java.collections.Visitor;
-
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;

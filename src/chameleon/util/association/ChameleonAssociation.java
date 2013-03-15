@@ -1,7 +1,6 @@
 package chameleon.util.association;
 
-import org.rejuse.association.IAssociation;
-
+import be.kuleuven.cs.distrinet.rejuse.association.IAssociation;
 import chameleon.core.element.Element;
 import chameleon.core.validation.VerificationResult;
 

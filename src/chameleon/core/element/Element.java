@@ -3,14 +3,13 @@ package chameleon.core.element;
 import java.util.Collection;
 import java.util.List;
 
-import org.rejuse.association.SingleAssociation;
-import org.rejuse.logic.ternary.Ternary;
-import org.rejuse.predicate.Predicate;
-import org.rejuse.predicate.SafePredicate;
-import org.rejuse.predicate.UnsafePredicate;
-import org.rejuse.property.PropertyMutex;
-import org.rejuse.property.PropertySet;
-
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.UnsafePredicate;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import chameleon.core.language.Language;
 import chameleon.core.language.WrongLanguageException;
 import chameleon.core.lookup.LookupException;
@@ -67,7 +66,7 @@ public interface Element {
     /**
      * <p>Freeze this element. This locks the parent links of all descendants.
      * As a result, no descendant can be removed 
-     * and no additional descendant can be added anywhere in the subtree. A {@link org.rejuse.association.LockException}
+     * and no additional descendant can be added anywhere in the subtree. A {@link be.kuleuven.cs.distrinet.rejuse.association.LockException}
      * is thrown if such a modification is attempted.
      * The parent link of this element, however, is not modified. If it was locked, it will be still be locked
      * afterwards. If it was unlocked, it will be still be unlocked afterwards. </p> 

@@ -6,9 +6,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.rejuse.logic.ternary.Ternary;
-import org.rejuse.predicate.UnsafePredicate;
-
+import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
+import be.kuleuven.cs.distrinet.rejuse.predicate.UnsafePredicate;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.DeclarationSelector;

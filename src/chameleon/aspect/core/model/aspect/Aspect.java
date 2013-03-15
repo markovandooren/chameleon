@@ -2,9 +2,8 @@ package chameleon.aspect.core.model.aspect;
 
 import java.util.List;
 
-import org.rejuse.association.MultiAssociation;
-import org.rejuse.association.OrderedMultiAssociation;
-
+import be.kuleuven.cs.distrinet.rejuse.association.MultiAssociation;
+import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 import chameleon.aspect.core.model.advice.Advice;
 import chameleon.aspect.core.model.pointcut.Pointcut;
 import chameleon.core.declaration.Declaration;

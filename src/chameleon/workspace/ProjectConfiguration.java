@@ -3,10 +3,10 @@ package chameleon.workspace;
 import java.io.File;
 import java.util.List;
 
-import org.rejuse.predicate.SafePredicate;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import chameleon.core.language.Language;
 import chameleon.workspace.ProjectConfiguration.SourcePath.Zip;
 

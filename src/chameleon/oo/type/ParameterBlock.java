@@ -2,8 +2,7 @@ package chameleon.oo.type;
 
 import java.util.List;
 
-import org.rejuse.association.Association;
-
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;

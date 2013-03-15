@@ -2,8 +2,7 @@ package chameleon.oo.method.exception;
 
 import java.util.Set;
 
-import org.rejuse.association.SingleAssociation;
-
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 

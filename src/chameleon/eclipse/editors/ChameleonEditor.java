@@ -47,9 +47,9 @@ import org.eclipse.ui.texteditor.ContentAssistAction;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.eclipse.ui.texteditor.TextOperationAction;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-import org.rejuse.predicate.SafePredicate;
-import org.rejuse.predicate.TypePredicate;
 
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;

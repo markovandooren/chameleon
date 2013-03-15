@@ -13,8 +13,8 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.formatter.IFormattingStrategy;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
-import org.rejuse.predicate.SafePredicate;
 
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.eclipse.connector.EclipseEditorTag;

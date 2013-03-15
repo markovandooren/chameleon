@@ -1,7 +1,6 @@
 package chameleon.tool.analysis;
 
-import org.rejuse.graph.Graph;
-
+import be.kuleuven.cs.distrinet.rejuse.graph.Graph;
 import chameleon.oo.method.Method;
 import chameleon.oo.type.Type;
 

@@ -2,8 +2,7 @@ package chameleon.core.scope;
 
 import java.util.Collection;
 
-import org.rejuse.predicate.AbstractPredicate;
-
+import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 

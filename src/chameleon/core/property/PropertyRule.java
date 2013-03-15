@@ -1,9 +1,8 @@
 package chameleon.core.property;
 
-import org.rejuse.association.SingleAssociation;
-import org.rejuse.property.Property;
-import org.rejuse.property.PropertySet;
-
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import be.kuleuven.cs.distrinet.rejuse.property.Property;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.language.WrongLanguageException;

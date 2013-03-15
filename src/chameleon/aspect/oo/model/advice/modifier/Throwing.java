@@ -1,7 +1,6 @@
 package chameleon.aspect.oo.model.advice.modifier;
 
-import org.rejuse.property.PropertySet;
-
+import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import chameleon.aspect.oo.model.advice.property.ThrowingProperty;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;

@@ -13,7 +13,7 @@ import chameleon.exception.ModelException;
  *
  * @param <E> The type of the elements in the order.
  */
-public abstract class StrictPartialOrder<E> extends org.rejuse.logic.relation.StrictPartialOrder<E> {
+public abstract class StrictPartialOrder<E> extends be.kuleuven.cs.distrinet.rejuse.logic.relation.StrictPartialOrder<E> {
   
   public abstract boolean contains(E first, E second) throws LookupException;
 

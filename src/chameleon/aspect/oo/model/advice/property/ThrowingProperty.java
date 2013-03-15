@@ -1,8 +1,7 @@
 package chameleon.aspect.oo.model.advice.property;
 
-import org.rejuse.property.PropertyMutex;
-import org.rejuse.property.PropertyUniverse;
-
+import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertyUniverse;
 import chameleon.aspect.core.model.advice.Advice;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.property.StaticChameleonProperty;

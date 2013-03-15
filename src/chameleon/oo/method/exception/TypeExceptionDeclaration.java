@@ -3,8 +3,7 @@ package chameleon.oo.method.exception;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.rejuse.predicate.AbstractPredicate;
-
+import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.validation.BasicProblem;

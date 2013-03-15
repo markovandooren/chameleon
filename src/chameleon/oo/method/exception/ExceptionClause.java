@@ -4,9 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.java.collections.RobustVisitor;
-import org.rejuse.predicate.AbstractPredicate;
-
+import be.kuleuven.cs.distrinet.rejuse.java.collections.RobustVisitor;
+import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.validation.Valid;

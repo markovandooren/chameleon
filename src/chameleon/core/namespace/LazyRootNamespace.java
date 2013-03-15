@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.rejuse.association.OrderedMultiAssociation;
-
+import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;

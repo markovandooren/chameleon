@@ -1,6 +1,6 @@
 package chameleon.core.comment;
 
-import org.rejuse.association.SingleAssociation;
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 /**
  * @author Marko van Dooren

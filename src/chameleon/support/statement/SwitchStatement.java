@@ -2,8 +2,7 @@ package chameleon.support.statement;
 
 import java.util.List;
 
-import org.rejuse.java.collections.Visitor;
-
+import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.VerificationResult;
 import chameleon.oo.expression.Expression;

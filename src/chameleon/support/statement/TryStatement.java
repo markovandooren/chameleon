@@ -3,10 +3,9 @@ package chameleon.support.statement;
 import java.util.Iterator;
 import java.util.List;
 
-import org.rejuse.association.OrderedMultiAssociation;
-import org.rejuse.java.collections.Visitor;
-import org.rejuse.predicate.AbstractPredicate;
-
+import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
+import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
+import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 import chameleon.core.lookup.LookupException;
 import chameleon.oo.statement.CheckedExceptionList;
 import chameleon.oo.statement.Statement;

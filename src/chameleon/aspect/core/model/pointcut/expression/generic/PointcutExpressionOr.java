@@ -1,7 +1,6 @@
 package chameleon.aspect.core.model.pointcut.expression.generic;
 
-import org.rejuse.predicate.SafePredicate;
-
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
 import chameleon.aspect.oo.model.pointcut.ParameterExposurePointcutExpression;

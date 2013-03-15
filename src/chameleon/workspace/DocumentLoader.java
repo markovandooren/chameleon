@@ -3,8 +3,7 @@ package chameleon.workspace;
 import java.io.IOException;
 import java.util.List;
 
-import org.rejuse.association.Association;
-
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import chameleon.core.document.Document;
 import chameleon.input.ParseException;
 

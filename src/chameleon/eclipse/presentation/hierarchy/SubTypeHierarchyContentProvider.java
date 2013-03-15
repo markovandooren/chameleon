@@ -8,8 +8,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.TreeSet;
 
-import org.rejuse.predicate.SafePredicate;
-
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import chameleon.core.namespace.Namespace;
 import chameleon.eclipse.project.ChameleonProjectNature;
 import chameleon.exception.ModelException;

@@ -4,9 +4,9 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.eclipse.jface.text.BadLocationException;
-import org.rejuse.association.Association;
-import org.rejuse.association.SingleAssociation;
 
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.core.tag.Metadata;

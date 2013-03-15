@@ -3,8 +3,7 @@ package chameleon.test.provider;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.rejuse.predicate.SafePredicate;
-
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import chameleon.core.element.Element;
 import chameleon.workspace.View;
 

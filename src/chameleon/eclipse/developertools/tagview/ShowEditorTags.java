@@ -6,11 +6,11 @@ import java.util.TreeSet;
 
 import org.eclipse.jface.text.BadPositionCategoryException;
 import org.eclipse.jface.text.Position;
-import org.rejuse.predicate.And;
-import org.rejuse.predicate.Predicate;
-import org.rejuse.predicate.SafePredicate;
-import org.rejuse.predicate.True;
 
+import be.kuleuven.cs.distrinet.rejuse.predicate.And;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.True;
 import chameleon.eclipse.connector.EclipseEditorTag;
 import chameleon.eclipse.editors.EclipseDocument;
 import chameleon.input.PositionMetadata;

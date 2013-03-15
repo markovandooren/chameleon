@@ -2,8 +2,7 @@ package chameleon.aspect.oo.weave.infrastructure;
 
 import java.util.List;
 
-import org.rejuse.association.Association;
-
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import chameleon.aspect.oo.model.advice.ProceedCall;
 import chameleon.oo.statement.Block;

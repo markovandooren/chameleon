@@ -3,8 +3,7 @@ package chameleon.oo.statement;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.rejuse.java.collections.RobustVisitor;
-
+import be.kuleuven.cs.distrinet.rejuse.java.collections.RobustVisitor;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.lookup.LookupStrategy;

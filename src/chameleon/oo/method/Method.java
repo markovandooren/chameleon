@@ -6,9 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.java.collections.Visitor;
-import org.rejuse.predicate.AbstractPredicate;
-
+import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
+import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;
 import chameleon.core.declaration.Signature;

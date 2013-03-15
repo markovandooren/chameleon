@@ -6,9 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.rejuse.junit.BasicRevision;
-import org.rejuse.junit.Revision;
 import org.w3c.dom.Element;
+
+import be.kuleuven.cs.distrinet.rejuse.junit.BasicRevision;
+import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
 
 public class BootstrapProjectConfig extends ConfigElement {
 	

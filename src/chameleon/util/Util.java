@@ -14,8 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.java.collections.Visitor;
-
+import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
 import chameleon.core.element.Element;
 import chameleon.oo.expression.Expression;
 

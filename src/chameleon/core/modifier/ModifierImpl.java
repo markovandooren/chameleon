@@ -3,10 +3,9 @@ package chameleon.core.modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.logic.ternary.Ternary;
-import org.rejuse.property.Property;
-import org.rejuse.property.PropertySet;
-
+import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
+import be.kuleuven.cs.distrinet.rejuse.property.Property;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.property.ChameleonProperty;

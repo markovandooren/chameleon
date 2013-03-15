@@ -1,7 +1,6 @@
 package chameleon.core.property;
 
-import org.rejuse.property.Property;
-
+import be.kuleuven.cs.distrinet.rejuse.property.Property;
 import chameleon.core.element.Element;
 import chameleon.core.validation.VerificationResult;
 

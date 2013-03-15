@@ -11,8 +11,8 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.rejuse.predicate.SafePredicate;
 
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.reference.CrossReference;
 import chameleon.eclipse.project.ChameleonProjectNature;

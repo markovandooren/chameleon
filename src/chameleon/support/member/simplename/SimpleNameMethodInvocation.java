@@ -2,8 +2,7 @@ package chameleon.support.member.simplename;
 
 import java.util.List;
 
-import org.rejuse.logic.ternary.Ternary;
-
+import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.reference.CrossReferenceWithName;
 import chameleon.core.reference.CrossReferenceTarget;

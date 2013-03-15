@@ -6,12 +6,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.rejuse.association.MultiAssociation;
-import org.rejuse.association.OrderedMultiAssociation;
-import org.rejuse.junit.Revision;
-import org.rejuse.property.PropertyMutex;
-import org.rejuse.property.PropertySet;
-
+import be.kuleuven.cs.distrinet.rejuse.association.MultiAssociation;
+import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
+import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import chameleon.core.element.Element;
 import chameleon.core.lookup.LookupStrategyFactory;
 import chameleon.core.property.ChameleonProperty;

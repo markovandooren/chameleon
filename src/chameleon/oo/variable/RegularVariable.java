@@ -2,10 +2,9 @@ package chameleon.oo.variable;
 
 import java.util.List;
 
-import org.rejuse.association.Association;
-import org.rejuse.java.collections.Visitor;
-import org.rejuse.property.PropertySet;
-
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;

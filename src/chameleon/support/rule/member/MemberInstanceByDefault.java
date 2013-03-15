@@ -1,7 +1,6 @@
 package chameleon.support.rule.member;
 
-import org.rejuse.property.PropertySet;
-
+import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import chameleon.core.element.Element;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.property.PropertyRule;

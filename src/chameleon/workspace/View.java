@@ -5,12 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.rejuse.association.Association;
-import org.rejuse.association.AssociationListener;
-import org.rejuse.association.OrderedMultiAssociation;
-import org.rejuse.association.SingleAssociation;
-import org.rejuse.predicate.TypePredicate;
-
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
+import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 import chameleon.core.document.Document;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;

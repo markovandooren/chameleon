@@ -3,9 +3,8 @@ package chameleon.support.statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.rejuse.java.collections.RobustVisitor;
-import org.rejuse.java.collections.Visitor;
-
+import be.kuleuven.cs.distrinet.rejuse.java.collections.RobustVisitor;
+import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;

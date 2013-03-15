@@ -1,8 +1,7 @@
 package chameleon.support.modifier;
 
-import org.rejuse.property.PropertyMutex;
-import org.rejuse.property.PropertyUniverse;
-
+import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertyUniverse;
 import chameleon.core.element.Element;
 import chameleon.core.property.ChameleonProperty;
 import chameleon.core.scope.Scope;

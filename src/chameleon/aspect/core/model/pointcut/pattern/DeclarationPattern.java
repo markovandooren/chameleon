@@ -1,7 +1,6 @@
 package chameleon.aspect.core.model.pointcut.pattern;
 
-import org.rejuse.predicate.UnsafePredicate;
-
+import be.kuleuven.cs.distrinet.rejuse.predicate.UnsafePredicate;
 import chameleon.aspect.core.model.pointcut.expression.AbstractPointcutExpression;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.lookup.LookupException;

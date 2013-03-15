@@ -1,9 +1,8 @@
 package chameleon.core.modifier;
 
-import org.rejuse.logic.ternary.Ternary;
-import org.rejuse.property.Property;
-import org.rejuse.property.PropertySet;
-
+import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
+import be.kuleuven.cs.distrinet.rejuse.property.Property;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import chameleon.core.element.Element;
 import chameleon.core.property.ChameleonProperty;
 

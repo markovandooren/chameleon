@@ -14,8 +14,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
 
 import org.antlr.runtime.RecognitionException;
-import org.rejuse.predicate.SafePredicate;
 
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import chameleon.input.ParseException;
 import chameleon.util.concurrent.CallableFactory;
 import chameleon.util.concurrent.FixedThreadCallableExecutor;

@@ -3,9 +3,8 @@ package chameleon.util.association;
 import java.util.Collections;
 import java.util.List;
 
-import org.rejuse.association.Association;
-import org.rejuse.association.OrderedMultiAssociation;
-
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 import chameleon.core.element.Element;
 import chameleon.core.validation.BasicProblem;
 import chameleon.core.validation.Valid;

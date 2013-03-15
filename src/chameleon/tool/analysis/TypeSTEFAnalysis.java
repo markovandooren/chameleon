@@ -5,10 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.rejuse.java.collections.IntegerAccumulator;
-import org.rejuse.java.collections.Visitor;
-import org.rejuse.predicate.SafePredicate;
-
+import be.kuleuven.cs.distrinet.rejuse.java.collections.IntegerAccumulator;
+import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import chameleon.oo.type.Type;
 
 /**

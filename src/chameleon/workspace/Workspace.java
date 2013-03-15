@@ -2,8 +2,7 @@ package chameleon.workspace;
 
 import java.util.List;
 
-import org.rejuse.association.MultiAssociation;
-
+import be.kuleuven.cs.distrinet.rejuse.association.MultiAssociation;
 import chameleon.core.lookup.LookupException;
 
 public class Workspace {

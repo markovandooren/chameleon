@@ -2,8 +2,7 @@ package chameleon.support.expression;
 
 import java.util.Set;
 
-import org.rejuse.association.AssociationListener;
-
+import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;

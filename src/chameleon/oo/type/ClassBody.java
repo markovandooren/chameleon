@@ -6,10 +6,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import org.rejuse.association.Association;
-import org.rejuse.association.AssociationListener;
-import org.rejuse.predicate.TypePredicate;
-
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
+import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 import chameleon.core.Config;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.DeclarationContainer;

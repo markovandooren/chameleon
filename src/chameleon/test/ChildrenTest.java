@@ -17,9 +17,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
-import org.rejuse.association.Association;
-import org.rejuse.predicate.SafePredicate;
 
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import chameleon.core.element.Element;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.LookupException;

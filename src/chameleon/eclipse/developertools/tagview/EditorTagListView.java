@@ -22,9 +22,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.part.ViewPart;
-import org.rejuse.predicate.Predicate;
-import org.rejuse.predicate.True;
 
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.True;
 import chameleon.eclipse.ChameleonEditorPlugin;
 import chameleon.eclipse.connector.EclipseEditorTag;
 import chameleon.eclipse.editors.EclipseDocument;

@@ -1,7 +1,6 @@
 package chameleon.core.rule;
 
-import org.rejuse.association.SingleAssociation;
-
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.language.WrongLanguageException;

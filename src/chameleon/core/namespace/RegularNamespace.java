@@ -2,8 +2,7 @@ package chameleon.core.namespace;
 
 import java.util.List;
 
-import org.rejuse.association.Association;
-
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.element.Element;

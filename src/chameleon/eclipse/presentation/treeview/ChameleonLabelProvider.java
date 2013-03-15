@@ -8,8 +8,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
-import org.rejuse.logic.ternary.Ternary;
 
+import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 import chameleon.core.element.Element;
 import chameleon.core.language.Language;
 import chameleon.core.modifier.ElementWithModifiers;

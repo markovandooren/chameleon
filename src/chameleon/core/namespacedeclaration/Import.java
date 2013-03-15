@@ -2,8 +2,7 @@ package chameleon.core.namespacedeclaration;
 
 import java.util.List;
 
-import org.rejuse.predicate.UnsafePredicate;
-
+import be.kuleuven.cs.distrinet.rejuse.predicate.UnsafePredicate;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.element.ElementImpl;
 import chameleon.core.lookup.DeclarationSelector;

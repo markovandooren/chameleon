@@ -9,8 +9,8 @@ import java.util.TreeSet;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.rejuse.predicate.Predicate;
 
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import chameleon.eclipse.connector.EclipseEditorTag;
 import chameleon.eclipse.editors.EclipseDocument;
 

@@ -3,8 +3,7 @@ package chameleon.workspace;
 import java.io.File;
 import java.io.FilenameFilter;
 
-import org.rejuse.predicate.SafePredicate;
-
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import chameleon.core.language.Language;
 import chameleon.plugin.LanguagePlugin;
 import chameleon.workspace.BootstrapProjectConfig.BaseLibraryConfiguration;

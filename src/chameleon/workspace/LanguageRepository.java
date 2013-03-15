@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.rejuse.junit.Revision;
-
+import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
 import chameleon.core.language.Language;
 
 public class LanguageRepository {

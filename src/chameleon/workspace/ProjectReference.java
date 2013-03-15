@@ -1,7 +1,6 @@
 package chameleon.workspace;
 
-import org.rejuse.association.SingleAssociation;
-
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import chameleon.core.lookup.LookupException;
 
 public class ProjectReference {

@@ -2,10 +2,9 @@ package chameleon.oo.language;
 
 import java.util.List;
 
-import org.rejuse.association.SingleAssociation;
-import org.rejuse.junit.Revision;
-import org.rejuse.predicate.UnsafePredicate;
-
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
+import be.kuleuven.cs.distrinet.rejuse.predicate.UnsafePredicate;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.declaration.SimpleNameSignature;
 import chameleon.core.declaration.TargetDeclaration;

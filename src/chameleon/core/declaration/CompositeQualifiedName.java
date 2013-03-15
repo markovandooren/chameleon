@@ -2,8 +2,7 @@ package chameleon.core.declaration;
 
 import java.util.List;
 
-import org.rejuse.association.Association;
-
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import chameleon.core.validation.Valid;
 import chameleon.core.validation.VerificationResult;
 import chameleon.util.association.Multi;

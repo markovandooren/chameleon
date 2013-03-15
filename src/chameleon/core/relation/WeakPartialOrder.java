@@ -5,7 +5,7 @@ import java.util.Collection;
 import chameleon.core.lookup.LookupException;
 import chameleon.exception.ModelException;
 
-public abstract class WeakPartialOrder<E> extends org.rejuse.logic.relation.WeakPartialOrder<E> {
+public abstract class WeakPartialOrder<E> extends be.kuleuven.cs.distrinet.rejuse.logic.relation.WeakPartialOrder<E> {
   
   public abstract boolean contains(E first, E second) throws LookupException;
 

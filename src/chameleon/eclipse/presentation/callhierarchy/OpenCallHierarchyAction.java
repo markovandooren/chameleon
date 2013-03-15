@@ -12,8 +12,8 @@ import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
-import org.rejuse.predicate.SafePredicate;
 
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import chameleon.core.declaration.Declaration;
 import chameleon.core.language.Language;
 import chameleon.eclipse.connector.EclipseEditorTag;

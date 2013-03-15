@@ -1,7 +1,6 @@
 package chameleon.aspect.core.model.advice.modifier;
 
-import org.rejuse.property.PropertySet;
-
+import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import chameleon.aspect.core.model.advice.property.AroundProperty;
 import chameleon.core.element.Element;
 import chameleon.core.modifier.Modifier;

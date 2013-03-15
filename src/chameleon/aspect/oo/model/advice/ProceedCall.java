@@ -2,8 +2,7 @@ package chameleon.aspect.oo.model.advice;
 
 import java.util.List;
 
-import org.rejuse.java.collections.Visitor;
-
+import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
 import chameleon.aspect.core.model.advice.Advice;
 import chameleon.core.lookup.LookupException;
 import chameleon.core.validation.BasicProblem;

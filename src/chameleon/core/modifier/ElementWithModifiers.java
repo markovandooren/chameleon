@@ -2,9 +2,8 @@ package chameleon.core.modifier;
 
 import java.util.List;
 
-import org.rejuse.property.Property;
-import org.rejuse.property.PropertyMutex;
-
+import be.kuleuven.cs.distrinet.rejuse.property.Property;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import chameleon.core.element.Element;
 import chameleon.exception.ModelException;
 

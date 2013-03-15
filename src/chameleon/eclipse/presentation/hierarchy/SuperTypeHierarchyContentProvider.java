@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.rejuse.java.collections.Visitor;
-
+import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
 import chameleon.core.declaration.Declaration;
 import chameleon.eclipse.project.ChameleonProjectNature;
 import chameleon.exception.ModelException;

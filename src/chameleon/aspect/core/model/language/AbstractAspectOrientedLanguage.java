@@ -1,8 +1,7 @@
 package chameleon.aspect.core.model.language;
 
-import org.rejuse.junit.Revision;
-import org.rejuse.property.PropertyMutex;
-
+import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import chameleon.aspect.core.model.advice.property.AfterProperty;
 import chameleon.aspect.core.model.advice.property.AroundProperty;
 import chameleon.aspect.core.model.advice.property.BeforeProperty;
