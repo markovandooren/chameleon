@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testrun name="AllTests" project="Jnome" tests="36" started="36" failures="0" errors="0" ignored="0">
+  <testsuite name="jnome.test.AllTests" time="227.132">
+    <testsuite name="jnome.test.TestRejuse" time="36.152">
+      <testcase name="testExpressions" classname="jnome.test.TestRejuse" time="18.33"/>
+      <testcase name="testVerification" classname="jnome.test.TestRejuse" time="0.0"/>
+      <testcase name="testClone" classname="jnome.test.TestRejuse" time="6.005"/>
+      <testcase name="testChildren" classname="jnome.test.TestRejuse" time="5.405"/>
+      <testcase name="testCrossReferences" classname="jnome.test.TestRejuse" time="6.412"/>
+    </testsuite>
+    <testsuite name="jnome.test.TestJnome" time="40.735">
+      <testcase name="testExpressions" classname="jnome.test.TestJnome" time="11.749"/>
+      <testcase name="testVerification" classname="jnome.test.TestJnome" time="0.001"/>
+      <testcase name="testClone" classname="jnome.test.TestJnome" time="10.277"/>
+      <testcase name="testChildren" classname="jnome.test.TestJnome" time="8.941"/>
+      <testcase name="testCrossReferences" classname="jnome.test.TestJnome" time="9.767"/>
+    </testsuite>
+    <testsuite name="jnome.test.TestAntlr" time="34.2">
+      <testcase name="testExpressions" classname="jnome.test.TestAntlr" time="11.549"/>
+      <testcase name="testVerification" classname="jnome.test.TestAntlr" time="0.0"/>
+      <testcase name="testClone" classname="jnome.test.TestAntlr" time="5.629"/>
+      <testcase name="testChildren" classname="jnome.test.TestAntlr" time="6.041"/>
+      <testcase name="testCrossReferences" classname="jnome.test.TestAntlr" time="10.981"/>
+    </testsuite>
+    <testsuite name="jnome.test.TestGenerics" time="13.595">
+      <testcase name="testGenerics" classname="jnome.test.TestGenerics" time="2.751"/>
+      <testcase name="testExpressions" classname="jnome.test.TestGenerics" time="2.49"/>
+      <testcase name="testVerification" classname="jnome.test.TestGenerics" time="0.0"/>
+      <testcase name="testClone" classname="jnome.test.TestGenerics" time="3.106"/>
+      <testcase name="testChildren" classname="jnome.test.TestGenerics" time="2.462"/>
+      <testcase name="testCrossReferences" classname="jnome.test.TestGenerics" time="2.786"/>
+    </testsuite>
+    <testsuite name="jnome.test.TestGenericRejuse" time="25.539">
+      <testcase name="testExpressions" classname="jnome.test.TestGenericRejuse" time="7.771"/>
+      <testcase name="testVerification" classname="jnome.test.TestGenericRejuse" time="0.001"/>
+      <testcase name="testClone" classname="jnome.test.TestGenericRejuse" time="4.738"/>
+      <testcase name="testChildren" classname="jnome.test.TestGenericRejuse" time="4.525"/>
+      <testcase name="testCrossReferences" classname="jnome.test.TestGenericRejuse" time="8.504"/>
+    </testsuite>
+    <testsuite name="jnome.test.TestChameleon" time="47.953">
+      <testcase name="testExpressions" classname="jnome.test.TestChameleon" time="17.977"/>
+      <testcase name="testVerification" classname="jnome.test.TestChameleon" time="0.001"/>
+      <testcase name="testClone" classname="jnome.test.TestChameleon" time="6.107"/>
+      <testcase name="testChildren" classname="jnome.test.TestChameleon" time="6.157"/>
+      <testcase name="testCrossReferences" classname="jnome.test.TestChameleon" time="17.71"/>
+    </testsuite>
+    <testsuite name="jnome.test.TestChameleonSupport" time="28.958">
+      <testcase name="testExpressions" classname="jnome.test.TestChameleonSupport" time="8.751"/>
+      <testcase name="testVerification" classname="jnome.test.TestChameleonSupport" time="0.0"/>
+      <testcase name="testClone" classname="jnome.test.TestChameleonSupport" time="5.352"/>
+      <testcase name="testChildren" classname="jnome.test.TestChameleonSupport" time="5.586"/>
+      <testcase name="testCrossReferences" classname="jnome.test.TestChameleonSupport" time="9.269"/>
+    </testsuite>
+  </testsuite>
+</testrun>
