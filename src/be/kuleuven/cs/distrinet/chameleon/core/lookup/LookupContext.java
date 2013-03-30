@@ -3,22 +3,22 @@ package be.kuleuven.cs.distrinet.chameleon.core.lookup;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 
 /**
- * This is the top class of lookup strategies. A LookupStrategy, together with a
- * DeclarationSelector, used to resolve cross-references such as type names, 
+ * This is the top class of lookup contexts. A LookupContext, together with a
+ * DeclarationSelector, is used to resolve cross-references such as type names, 
  * method invocations, and so forth.
  * 
  * The lookup is generalized such that implementing the lookup for a new kind of declaration
  * requires only the implementation of a declaration selector.
  * 
- * Terminology (type system folks, think 'context' when you read 'lookup strategy'):
+ * Terminology:
  * <ul>
  *    <li>Simple cross-reference: a cross-reference that is not explicitly declared relative to another
  *        cross-reference. For example a variable reference 'a' or method invocation 'f()'.</li>
- *    <li>Composition cross-reference: a cross-reference that is explicitly declared relative to another
+ *    <li>Composite cross-reference: a cross-reference that is explicitly declared relative to another
  *        cross-reference. For example a variable reference 'a.b' or method invocation 'a.f()'.</li>
  *    <li>Target: a cross-reference relative to which another cross-reference is declared.
  *        For example in 'a.b.c', 'a.b' is the target of 'c' and 'a' is the target of 'b'.</li>
- *    <li>Target lookup strategy: a local search strategy that search only in a specific element for declarations.
+ *    <li>Target lookup context: a local lookup context that contains the declarations within a specific element.
  *        For example if 'A' if the type of 'a' in 'a.b', then the lookup procedure must only
  *        search for 'b' in 'A', and not proceed to the parent of 'A' if no element is found (as
  *        described below).</li>
@@ -27,7 +27,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
  * The responsibilities are divided as follows:
  * 
  * <ol>
- *   <li>The lookup strategy decides in which places in the model to look for
+ *   <li>The lookup context decides in which places in the model to look for
  *       potential declarations.</li>
  *       <ol>
  *          <li><p>For simple cross-references, the search is performed in the lexical context. This
@@ -35,11 +35,11 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
  *          
  *          <p>By default, the lexicalLookupStrategy() method delegates to the parent element. If
  *          an element 'dc' is a DeclarationContainer, however, it must override the lexicalLookupStrategy()
- *          method. The method typically returns a LexicalLookupStrategy with references to two objects.
- *          First, a LocalLookupStrategy that is connected to 'dc'. Second, a LookupStrategySelector.
- *          The local lookup strategy will perform a local search. If no result is found, the selector is
- *          used to select a new lookupstrategy that will continue the search. In most cases, the selector
- *          will be a ParentLookupStrategySelector, which will continue with the lexical lookup strategy of
+ *          method. The method typically returns a LexicalLookupContext with references to two objects.
+ *          First, a LocalLookupContext that is connected to 'dc'. Second, a LookupStrategySelector.
+ *          The local lookup context will perform a local search. If no result is found, the selector is
+ *          used to select a new lookup Context that will continue the search. In most cases, the selector
+ *          will be a ParentLookupStrategySelector, which will continue with the lexical lookup context of
  *          the parent of 'dc'.</p>
  *          <p>A LocalLookupStrategy is connected to a DeclarationContainer, and uses the declarations(DeclarationSelector)
  *          method to perform a local search.</p>
@@ -77,9 +77,9 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
  * 
  * @author Marko van Dooren
  */
-public abstract class LookupStrategy {
+public abstract class LookupContext {
 
-	public LookupStrategy() {
+	public LookupContext() {
 	}
 
 	public abstract <D extends Declaration> void lookUp(Collector<D> selector) throws LookupException;

@@ -10,9 +10,9 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationCollector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclaratorSelector;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectorWithoutOrder;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.SpecificReference;
@@ -73,7 +73,7 @@ public class EnumLabel extends SwitchLabel implements CrossReference<Variable>{
 	}
 
 	@Override
-	public LookupStrategy targetContext() throws LookupException {
+	public LookupContext targetContext() throws LookupException {
 		throw new LookupException("Requesting the target context of an enum label.");
 	}
 	

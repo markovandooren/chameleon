@@ -9,9 +9,9 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
@@ -53,16 +53,16 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	 * LEXICAL CONTEXT 
 	 *******************/
 
-	public LocalLookupStrategy<?> targetContext() throws LookupException;
+	public LocalLookupContext<?> targetContext() throws LookupException;
 
-	public LookupStrategy localStrategy() throws LookupException;
+	public LookupContext localContext() throws LookupException;
 
 	/**
 	 * If the given element is an inheritance relation, the lookup must proceed to the parent. For other elements,
 	 * the context is a lexical context connected to the target context to perform a local search.
 	 * @throws LookupException 
 	 */
-	public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException;
+	public LookupContext lexicalLookupStrategy(Element element) throws LookupException;
 
 	public List<ParameterBlock> parameterBlocks();
 	

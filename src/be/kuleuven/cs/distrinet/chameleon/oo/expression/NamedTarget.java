@@ -15,7 +15,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationCollector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectorWithoutOrder;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
@@ -125,7 +125,7 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
     if(target != null) {
       target.targetContext().lookUp(collector);
     } else {
-      lexicalLookupStrategy().lookUp(collector);
+      lexicalContext().lookUp(collector);
     }
     result = collector.result();
 //    if(result != null) {
@@ -258,7 +258,7 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
 //    }
   }
 
-  public LookupStrategy targetContext() throws LookupException {
+  public LookupContext targetContext() throws LookupException {
     return getElement().targetContext();
   }
 

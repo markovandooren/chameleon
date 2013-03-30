@@ -3,7 +3,7 @@ package be.kuleuven.cs.distrinet.chameleon.oo.type;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 
@@ -59,7 +59,7 @@ public abstract class CombinationTypeReference extends ElementImpl implements Ty
 
 	public abstract String operatorName();
 	
-  public LocalLookupStrategy<?> targetContext() throws LookupException {
+  public LocalLookupContext<?> targetContext() throws LookupException {
   	return getElement().targetContext();
   }
 }

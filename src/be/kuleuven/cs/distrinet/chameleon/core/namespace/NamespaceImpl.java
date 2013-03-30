@@ -16,9 +16,9 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.TargetDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
@@ -202,11 +202,11 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 		 * CONTEXT *
 		 ***********/
 		
-	public LocalLookupStrategy targetContext() {
+	public LocalLookupContext targetContext() {
 		return language().lookupFactory().createTargetLookupStrategy(this);
 	}
 	
-	public LookupStrategy localStrategy() {
+	public LookupContext localContext() {
 		return language().lookupFactory().createLocalLookupStrategy(this);
 	}
 

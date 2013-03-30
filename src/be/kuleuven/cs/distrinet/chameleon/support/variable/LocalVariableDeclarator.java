@@ -8,7 +8,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.Modifier;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
@@ -174,7 +174,7 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
    @ post declarations().indexOf(Element) > 0) ==> 
    @      \result == declarations().elementAt(declarations().indexOf(element) - 1).lexicalContext();
    @*/
-	public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
+	public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
 		List<VariableDeclaration> declarations = variableDeclarations();
 		int index = declarations.indexOf(element);
 		if(index <= 0) {
@@ -187,7 +187,7 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
 	public int numberOfVariableDeclarations() {
 		return _declarations.size();
 	}
-	public LookupStrategy linearLookupStrategy() throws LookupException {
+	public LookupContext linearLookupStrategy() throws LookupException {
 		return variableDeclarations().get(numberOfVariableDeclarations()-1).linearContext();
 	}
 
@@ -198,7 +198,7 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
 	}
 
 	@Override
-	public LookupStrategy localStrategy() throws LookupException {
+	public LookupContext localContext() throws LookupException {
 		throw new ChameleonProgrammerException();
 	}
 

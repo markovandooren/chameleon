@@ -1,7 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.core.declaration;
 
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.Target;
 
 public interface TargetDeclaration extends Declaration, Target {
@@ -24,5 +24,5 @@ public interface TargetDeclaration extends Declaration, Target {
    *   2) in "typename.f", "f" must be looked up in the type represented by "typename"
    *   3) in "packagename.f", "f" must be looked up in the package represented by "package"
    */
-public LookupStrategy targetContext() throws LookupException;
+public LookupContext targetContext() throws LookupException;
 }

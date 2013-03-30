@@ -7,7 +7,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
@@ -56,25 +56,25 @@ public class StubDeclarationContainer extends ElementImpl implements Declaration
 	}
 
 	@Override
-	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
+	public LookupContext lexicalLookupStrategy(Element child) throws LookupException {
 		if(_lexical == null) {
 			_lexical = language().lookupFactory().createLexicalLookupStrategy(targetContext(), this);
 		}
 		return _lexical;
 	}
 	
-	public LookupStrategy targetContext() throws LookupException {
+	public LookupContext targetContext() throws LookupException {
 		if(_local == null) {
 			_local = language().lookupFactory().createLocalLookupStrategy(this);
 		}
 		return _local;
 	}
 
-	private LookupStrategy _local;
-	private LookupStrategy _lexical;
+	private LookupContext _local;
+	private LookupContext _lexical;
 
 	@Override
-	public LookupStrategy localStrategy() throws LookupException {
+	public LookupContext localContext() throws LookupException {
 		return targetContext();
 	}
 }

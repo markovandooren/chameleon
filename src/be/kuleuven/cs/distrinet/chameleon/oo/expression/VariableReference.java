@@ -131,7 +131,7 @@ public class VariableReference extends Expression implements Assignable, CrossRe
     if(target != null) {
       target.targetContext().lookUp(collector);//findElement(getName());
     } else {
-      lexicalLookupStrategy().lookUp(collector);//findElement(getName());
+      lexicalContext().lookUp(collector);//findElement(getName());
     }
 //    if(result != null) {
       return collector.result();

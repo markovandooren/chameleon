@@ -9,7 +9,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.MissingSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.LexicalScope;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.Scope;
@@ -106,7 +106,7 @@ public abstract class TypeParameter extends Parameter {
 		return signature().name();
 	}
 
-  public LocalLookupStrategy<?> targetContext() throws LookupException {
+  public LocalLookupContext<?> targetContext() throws LookupException {
   	return upperBound().targetContext();
   }
 

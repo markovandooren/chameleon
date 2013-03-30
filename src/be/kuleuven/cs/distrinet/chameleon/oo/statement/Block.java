@@ -6,7 +6,7 @@ import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
@@ -95,7 +95,7 @@ public class Block extends StatementImpl implements StatementListContainer {
    @ post getStatements().indexOf(Element) > 0) ==> 
    @      \result == getStatements().elementAt(getStatements().indexOf(element) - 1).lexicalContext();
    @*/
-	public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
+	public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
 		List<Statement> declarations = statements();
 		int index = declarations.indexOf(element);
 		if(index == 0) {

@@ -13,7 +13,7 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.core.language.WrongLanguageException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.tag.Metadata;
@@ -958,7 +958,7 @@ public interface Element {
      @
      @ post \result != null; 
      @*/
-    public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException;
+    public LookupContext lexicalLookupStrategy(Element child) throws LookupException;
     
     /**
      * Return the lexical context for this element.
@@ -970,7 +970,7 @@ public interface Element {
      @
      @ signals (MetamodelException) parent() == null; 
      @*/
-    public LookupStrategy lexicalLookupStrategy() throws LookupException;
+    public LookupContext lexicalContext() throws LookupException;
     
     /**
      * DO NOT USE THIS METHOD UNLESS YOU REALLY KNOW WHAT YOU ARE DOING!!!

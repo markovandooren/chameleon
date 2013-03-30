@@ -34,8 +34,7 @@ import be.kuleuven.cs.distrinet.chameleon.workspace.View;
  */
 public class EclipseEditorExtension extends LanguagePluginImpl {
 
-	public EclipseEditorExtension(String languageName) {
-		_languageName = languageName;
+	public EclipseEditorExtension() {
 		setImageRegistry(ChameleonEditorPlugin.getDefault().getImageRegistry());
 		initializeRegistry();
 		_outlineSelector = createOutlineSelector();
@@ -69,13 +68,13 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
 	}
 	
 	protected String imageRegistryPrefix() {
-		return _languageName+"_";
+		return languageName()+"_";
 	}
 	
-	private String _languageName;
+//	private String _languageName;
 	
 	public String languageName() {
-		return _languageName;
+		return language().name();
 	}
 	
 	protected String prefix(String name) {
@@ -236,7 +235,7 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
 
 	@Override
 	public EclipseEditorExtension clone() {
-		return new EclipseEditorExtension(_languageName);
+		return new EclipseEditorExtension();
 	}
 	
 //  	public abstract ICompletionProposal completionProposal(Element element, ChameleonDocument document, int offset);

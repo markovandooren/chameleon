@@ -9,7 +9,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.Modifier;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Block;
@@ -124,7 +124,7 @@ public abstract class ProgrammingAdvice extends Advice<Block> implements Declara
 	}
 	
 	@Override
-	public LookupStrategy localStrategy() throws LookupException {
+	public LookupContext localContext() throws LookupException {
 		return localLookupStrategy();
 	}
 
@@ -134,7 +134,7 @@ public abstract class ProgrammingAdvice extends Advice<Block> implements Declara
 	}
 
 	@Override
-	public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
+	public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
 		if (element.equals(pointcutExpression()) || element.equals(body())) {
 			if (_lexical == null) {
 				_lexical = language().lookupFactory().createLexicalLookupStrategy(localLookupStrategy(),this);
@@ -145,14 +145,14 @@ public abstract class ProgrammingAdvice extends Advice<Block> implements Declara
 		}
 	}
 
-	public LookupStrategy localLookupStrategy() {
+	public LookupContext localLookupStrategy() {
 		if (_local == null) {
 			_local = language().lookupFactory().createTargetLookupStrategy(this);
 		}
 		return _local;
 	}
 
-	private LookupStrategy _local;
+	private LookupContext _local;
 
-	private LookupStrategy _lexical;
+	private LookupContext _lexical;
 }

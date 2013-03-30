@@ -2,7 +2,7 @@ package be.kuleuven.cs.distrinet.chameleon.core.reference;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 
 /**
  * An invocation target is a "cross-reference" element to an element in which 
@@ -34,7 +34,7 @@ public interface CrossReferenceTarget extends Element {
 	 *   2) in "typename.f", "f" must be looked up in the type represented by "typename"
 	 *   3) in "packagename.f", "f" must be looked up in the package represented by "package"
 	 */
-	public abstract LookupStrategy targetContext() throws LookupException;
+	public abstract LookupContext targetContext() throws LookupException;
 
 
   public abstract CrossReferenceTarget clone();

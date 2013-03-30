@@ -11,7 +11,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.TargetDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.language.LanguageImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategyFactory;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContextFactory;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.property.Defined;
@@ -56,7 +56,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 		this(name,null,version);
 	}
 
-	public ObjectOrientedLanguage(String name, LookupStrategyFactory factory, Revision version) {
+	public ObjectOrientedLanguage(String name, LookupContextFactory factory, Revision version) {
 		super(name, factory,version);
 		// 1) Create the properties.
   	INHERITABLE = new StaticChameleonProperty("inheritable",this,Declaration.class);

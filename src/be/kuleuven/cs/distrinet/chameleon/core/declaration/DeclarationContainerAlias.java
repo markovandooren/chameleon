@@ -8,7 +8,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
@@ -41,7 +41,7 @@ public class DeclarationContainerAlias extends ElementImpl implements Declaratio
 	}
 
 	@Override
-	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
+	public LookupContext lexicalLookupStrategy(Element child) throws LookupException {
 		return parent().lexicalLookupStrategy(child);
 	}
 
@@ -108,8 +108,8 @@ public class DeclarationContainerAlias extends ElementImpl implements Declaratio
 
 
 	@Override
-	public LookupStrategy localStrategy() throws LookupException {
-		return ((DeclarationContainer)parent()).localStrategy();
+	public LookupContext localContext() throws LookupException {
+		return ((DeclarationContainer)parent()).localContext();
 	}
 	
 }

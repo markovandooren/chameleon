@@ -14,8 +14,8 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategyFactory;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContextFactory;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.Scope;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.ScopeProperty;
@@ -106,17 +106,17 @@ public class Aspect extends ElementImpl implements DeclarationContainer, Declara
 	}
 
 	@Override
-	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
+	public LookupContext lexicalLookupStrategy(Element child) throws LookupException {
 		return language().lookupFactory().createLexicalLookupStrategy(localLookupStrategy(), this);
 	}
 
-	private LookupStrategy localLookupStrategy() {
-		LookupStrategyFactory lookupFactory = language().lookupFactory();
+	private LookupContext localLookupStrategy() {
+		LookupContextFactory lookupFactory = language().lookupFactory();
 		return lookupFactory.createLocalLookupStrategy(this);
 	}
 	
 	@Override
-	public LookupStrategy localStrategy() throws LookupException {
+	public LookupContext localContext() throws LookupException {
 		return localLookupStrategy();
 	}
 	
@@ -176,7 +176,7 @@ public class Aspect extends ElementImpl implements DeclarationContainer, Declara
 	}
 
 	@Override
-	public LookupStrategy targetContext() throws LookupException {
+	public LookupContext targetContext() throws LookupException {
 		return localLookupStrategy();
 	}
 }

@@ -6,7 +6,7 @@ import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice.property.Afte
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice.property.AroundProperty;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice.property.BeforeProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.language.LanguageImpl;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategyFactory;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContextFactory;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 
 public abstract class AbstractAspectOrientedLanguage extends LanguageImpl implements AspectOrientedLanguage {
@@ -17,7 +17,7 @@ public abstract class AbstractAspectOrientedLanguage extends LanguageImpl implem
 	private final PropertyMutex<ChameleonProperty> ADVICETYPE_MUTEX = new PropertyMutex<ChameleonProperty>();;
 
 
-	public AbstractAspectOrientedLanguage(String name, LookupStrategyFactory factory, Revision version) {
+	public AbstractAspectOrientedLanguage(String name, LookupContextFactory factory, Revision version) {
 		super(name,factory,version);
 		BEFORE = new BeforeProperty(this, ADVICETYPE_MUTEX);
 		AFTER = new AfterProperty(this, ADVICETYPE_MUTEX);
@@ -25,7 +25,7 @@ public abstract class AbstractAspectOrientedLanguage extends LanguageImpl implem
 	}
 
 	public AbstractAspectOrientedLanguage(String name, Revision version) {
-		this(name,new LookupStrategyFactory(), version);
+		this(name,new LookupContextFactory(), version);
 	}
 
 	@Override

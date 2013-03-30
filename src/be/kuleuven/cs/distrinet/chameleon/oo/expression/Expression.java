@@ -5,7 +5,7 @@ import java.lang.ref.SoftReference;
 import be.kuleuven.cs.distrinet.rejuse.java.collections.RobustVisitor;
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.Target;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
@@ -57,7 +57,7 @@ public abstract class Expression extends ElementImpl implements CrossReferenceTa
 	/**
 	 * @see {@link Target#targetContext()}
 	 */
-  public LocalLookupStrategy<?> targetContext() throws LookupException {
+  public LocalLookupContext<?> targetContext() throws LookupException {
     return getType().targetContext();
   }
 

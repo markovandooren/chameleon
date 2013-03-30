@@ -8,10 +8,10 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategyFactory;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContextFactory;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.Scope;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
@@ -60,7 +60,7 @@ public class LocalClassStatement extends StatementImpl implements DeclarationCon
 		}
 	}
 
-	public LookupStrategyFactory getContextFactory() {
+	public LookupContextFactory getContextFactory() {
 		return language().lookupFactory();
 	}
 	
@@ -82,15 +82,15 @@ public class LocalClassStatement extends StatementImpl implements DeclarationCon
 //    return result;
 //  }
 
-  public LookupStrategy lexicalLookupStrategy(Element element) {
-  	return language().lookupFactory().createLexicalLookupStrategy(localStrategy(), this);
+  public LookupContext lexicalLookupStrategy(Element element) {
+  	return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
   }
 
-	public LocalLookupStrategy localStrategy() {
+	public LocalLookupContext localContext() {
 		return language().lookupFactory().createTargetLookupStrategy(this);
 	}
   
-  public LookupStrategy linearLookupStrategy() {
+  public LookupContext linearLookupStrategy() {
   	return lexicalLookupStrategy(getType());
   }
 

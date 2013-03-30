@@ -4,7 +4,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
@@ -34,11 +34,11 @@ public abstract class NonLocalTypeReference extends ElementImpl implements TypeR
 	private Single<TypeReference> _actual = new Single<TypeReference>(this);
 
 	@Override
-	public LookupStrategy lexicalLookupStrategy() throws LookupException {
+	public LookupContext lexicalContext() throws LookupException {
 		return lookupParent().lexicalLookupStrategy(this);
 	}
 
-  public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
+  public LookupContext lexicalLookupStrategy(Element child) throws LookupException {
 		return lookupParent().lexicalLookupStrategy(this);
   }
   
@@ -84,7 +84,7 @@ public abstract class NonLocalTypeReference extends ElementImpl implements TypeR
 	}
 
 	@Override
-	public LookupStrategy targetContext() throws LookupException {
+	public LookupContext targetContext() throws LookupException {
 		return getElement().targetContext();
 	}
 

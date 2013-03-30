@@ -241,7 +241,7 @@ public class CrossReferenceWithArguments extends ElementImpl {
 		DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
 		CrossReferenceTarget target = getTarget();
 		if (target == null) {
-			lexicalLookupStrategy().lookUp(collector);
+			lexicalContext().lookUp(collector);
 		} else {
 			target.targetContext().lookUp(collector);
 		}

@@ -10,7 +10,7 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyUniverse;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategyFactory;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContextFactory;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.property.PropertyRule;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
@@ -297,7 +297,7 @@ public interface Language extends PropertyUniverse<ChameleonProperty>, PluginCon
   /**
    * Return the factory for creating lookup strategies.
    */
-  public LookupStrategyFactory lookupFactory();
+  public LookupContextFactory lookupFactory();
   
   /**
 	 * Returns true if the given character is a valid character

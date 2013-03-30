@@ -195,5 +195,20 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		}
 	}
 	
-
+	/**
+	 * Returns 1 when o is null. Otherwise, the return value 
+	 * may differ. The default (non-binding) implementation is
+	 * to return 0.
+	 * 
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post o == null ==> \result == 1;
+   @*/
+	@Override
+	public int compareTo(DocumentLoader o) {
+		return o == null ? 1 : 0;
+	}
 }

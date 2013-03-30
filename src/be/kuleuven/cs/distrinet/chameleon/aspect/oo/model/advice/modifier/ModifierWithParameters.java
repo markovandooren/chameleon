@@ -7,7 +7,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.ModifierImpl;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.FormalParameter;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
@@ -95,11 +95,11 @@ public abstract class ModifierWithParameters extends ModifierImpl implements Dec
 	protected abstract ModifierWithParameters cloneThis();
 	
 	@Override
-	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
-		return language().lookupFactory().createLexicalLookupStrategy(localStrategy(), this);
+	public LookupContext lexicalLookupStrategy(Element child) throws LookupException {
+		return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
 	}
 
-	public LookupStrategy localStrategy() {
+	public LookupContext localContext() {
 		return language().lookupFactory().createLocalLookupStrategy(this);
 	}
 

@@ -5,8 +5,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
-import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
@@ -15,6 +16,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputSource;
+import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 
 public class LazyNamespace extends RegularNamespace implements InputSourceNamespace {
 
@@ -39,13 +41,6 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 		return result;
 	}
 
-//	@Override
-//	protected void initDirectCache() throws LookupException {
-//		if(_declarationCache == null) {
-//			_declarationCache = new HashMap<String, List<Declaration>>();
-//		}
-//	}
-	
 	@SuppressWarnings("unchecked")
 	@Override
 	// Only called in synchronized
@@ -61,7 +56,11 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 					break;
 				}
 			}
-			List<InputSource> sources = _sourceMap.get(name);
+//			List<InputSource> sources = _sourceMap.get(name);
+			Queue<InputSource> sources = _newSourceMap.get(name);
+//			if(((sources == null) != (queue == null)) || (sources != null && (! queue.containsAll(sources) || (!sources.containsAll(queue))))) {
+//				System.out.println("debug");
+//			}
 			if(sources != null) {
 				for(InputSource source: sources) {
 					if(candidates == null) {
@@ -85,12 +84,16 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 			if(name == null) {
 				throw new ChameleonProgrammerException("An input source uses null as a declaration name.");
 			}
-			List<InputSource> list = _sourceMap.get(name);
-			if(list == null) {
-				list = new ArrayList<InputSource>();
-				_sourceMap.put(name, list);
+//			List<InputSource> list = _sourceMap.get(name);
+			Queue<InputSource> queue = _newSourceMap.get(name);
+			if(queue == null) {
+//				list = new ArrayList<InputSource>();
+				queue = new PriorityQueue<InputSource>();
+//				_sourceMap.put(name, list);
+				_newSourceMap.put(name, queue);
 			}
-			list.add(source);
+//			list.add(source);
+			queue.add(source);
 		}
 	}
 	
@@ -128,21 +131,23 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 		return _inputSources.getOtherEnds();
 	}
 	
-	private Map<String, List<InputSource>> _sourceMap = new HashMap<String, List<InputSource>>();
+//	private Map<String, List<InputSource>> _sourceMap = new HashMap<String, List<InputSource>>();
+	private Map<String, Queue<InputSource>> _newSourceMap = new HashMap<String, Queue<InputSource>>();
 
 	private OrderedMultiAssociation<LazyNamespace,InputSource> _inputSources = new OrderedMultiAssociation<LazyNamespace, InputSource>(this) {
 		@Override
 		protected void fireElementRemoved(InputSource removedElement) {
 			List<String> obsoleteKeys = new ArrayList<String>();
-			for(Map.Entry<String, List<InputSource>> entry: _sourceMap.entrySet()) {
-				List<InputSource> value = entry.getValue();
+			for(Map.Entry<String, Queue<InputSource>> entry: _newSourceMap.entrySet()) {
+				Queue<InputSource> value = entry.getValue();
 				value.remove(removedElement);
 				if(value.isEmpty()) {
 					obsoleteKeys.add(entry.getKey());
 				}
 			}
 			for(String obsoleteKey: obsoleteKeys) {
-				_sourceMap.remove(obsoleteKey);
+//				_sourceMap.remove(obsoleteKey);
+				_newSourceMap.remove(obsoleteKey);
 			}
 		}
 	};

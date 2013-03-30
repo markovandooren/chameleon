@@ -120,7 +120,7 @@ public abstract class ElementReferenceWithTarget<R extends Declaration> extends 
 //	  	}
 	  }
 	  else {
-	  	lexicalLookupStrategy().lookUp(collector);
+	  	lexicalContext().lookUp(collector);
 	  }
 		result = collector.result();
 //	  if(result != null) {

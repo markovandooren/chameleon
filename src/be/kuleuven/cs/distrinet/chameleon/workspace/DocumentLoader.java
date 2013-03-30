@@ -14,7 +14,7 @@ import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
  * 
  * @author Marko van Dooren
  */
-public interface DocumentLoader {
+public interface DocumentLoader extends Comparable<DocumentLoader> {
 
 	/**
 	 * Return the project populated by this builder.

@@ -8,9 +8,9 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.UnsafePredicate;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.CheckedExceptionList;
@@ -100,11 +100,11 @@ public class CatchClause extends Clause implements VariableContainer {
 	}
 	
 	@Override
-	public LookupStrategy lexicalLookupStrategy(Element element) {
-		return language().lookupFactory().createLexicalLookupStrategy(localStrategy(), this);
+	public LookupContext lexicalLookupStrategy(Element element) {
+		return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
 	}
 
-	public LocalLookupStrategy localStrategy() {
+	public LocalLookupContext localContext() {
 		return language().lookupFactory().createTargetLookupStrategy(this);
 	}
 

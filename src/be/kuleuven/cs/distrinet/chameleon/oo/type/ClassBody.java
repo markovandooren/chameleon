@@ -16,7 +16,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.Member;
@@ -221,7 +221,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 	 * This method passes 'element' to the lexicalLookupStrategy method of the parent. It does this
 	 * such that the parent can override the lookup for specific members.
 	 */
-  public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
+  public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
   	// WE DO NOT USE 'this' such that a subclass of regular type can override the lookup for specific members.
   	return parent().lexicalLookupStrategy(element);
   }
@@ -231,8 +231,8 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 	}
 
 	@Override
-	public LookupStrategy localStrategy() throws LookupException {
-		return nearestAncestor(Type.class).localStrategy();
+	public LookupContext localContext() throws LookupException {
+		return nearestAncestor(Type.class).localContext();
 	}
 
 }

@@ -30,6 +30,6 @@ public interface Target extends Element {
      *   2) in "typename.f", "f" must be looked up in the type represented by "typename"
      *   3) in "packagename.f", "f" must be looked up in the package represented by "package"
      */
-	public LookupStrategy targetContext() throws LookupException;
+	public LookupContext targetContext() throws LookupException;
 
 }

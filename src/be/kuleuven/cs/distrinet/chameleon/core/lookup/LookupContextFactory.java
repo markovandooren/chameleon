@@ -8,7 +8,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
  * 
  * @author Marko van Dooren
  */
-public class LookupStrategyFactory {
+public class LookupContextFactory {
 
 	/**
 	 * A lexical lookup is used for an element that is not declared relative to another element 
@@ -30,8 +30,8 @@ public class LookupStrategyFactory {
 	 * 
 	 * @return
 	 */
-	public LookupStrategy createLexicalLookupStrategy(LookupStrategy local, Element element) {
-		return new LexicalLookupStrategy(local, element);
+	public LookupContext createLexicalLookupStrategy(LookupContext local, Element element) {
+		return new LexicalLookupContext(local, element);
 	}
 	
 	/**
@@ -54,16 +54,16 @@ public class LookupStrategyFactory {
 	 * 
 	 * @return
 	 */
-	public LookupStrategy createLexicalLookupStrategy(LookupStrategy local, Element element, LookupStrategySelector selector) {
-		return new LexicalLookupStrategy(local, selector);
+	public LookupContext createLexicalLookupStrategy(LookupContext local, Element element, LookupContextSelector selector) {
+		return new LexicalLookupContext(local, selector);
 	}
 	
-  public  LocalLookupStrategy createTargetLookupStrategy(DeclarationContainer element) {
-  	return new LocalLookupStrategy(element);
+  public  LocalLookupContext createTargetLookupStrategy(DeclarationContainer element) {
+  	return new LocalLookupContext(element);
   }
 
-  public  LookupStrategy createLocalLookupStrategy(DeclarationContainer element) {
-  	return new LocalLookupStrategy(element);
+  public  LookupContext createLocalLookupStrategy(DeclarationContainer element) {
+  	return new LocalLookupContext(element);
   }
   
 }

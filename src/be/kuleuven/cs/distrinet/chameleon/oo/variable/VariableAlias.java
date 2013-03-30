@@ -12,7 +12,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.Modifier;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
@@ -129,7 +129,7 @@ public class VariableAlias extends VariableImpl implements MemberVariable {
 		return this;
 	}
 
-	public LocalLookupStrategy targetContext() throws LookupException {
+	public LocalLookupContext targetContext() throws LookupException {
 		return aliasedVariable().targetContext();
 	}
 

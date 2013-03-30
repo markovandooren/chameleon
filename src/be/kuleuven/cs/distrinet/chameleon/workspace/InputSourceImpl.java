@@ -192,4 +192,18 @@ public abstract class InputSourceImpl implements InputSource {
 		_document.clear();
 		_listeners = null;
 	}
+	
+	/**
+	 * Compare this input source with the given other input source. An input source
+	 * that is bigger than another has priority
+	 */
+	public int compareTo(InputSource other) {
+		if(other == null) {
+			// I know that I should throw an exception,
+			// but I want to make it robust.
+			return 1;
+		} else {
+			return loader().compareTo(other.loader());
+		}
+	}
 }

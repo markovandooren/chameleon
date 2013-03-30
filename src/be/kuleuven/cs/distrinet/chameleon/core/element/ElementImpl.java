@@ -28,7 +28,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.core.language.WrongLanguageException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
@@ -882,14 +882,14 @@ public abstract class ElementImpl implements Element {
 	/**
 	 * @see Element#lexicalLookupStrategy(Element) 
 	 */
-	 public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
-		return lexicalLookupStrategy();
+	 public LookupContext lexicalLookupStrategy(Element child) throws LookupException {
+		return lexicalContext();
 	}
 
 	/**
-	 * @see Element#lexicalLookupStrategy() 
+	 * @see Element#lexicalContext() 
 	 */
-	 public LookupStrategy lexicalLookupStrategy() throws LookupException {
+	 public LookupContext lexicalContext() throws LookupException {
 		try {
 			return parent().lexicalLookupStrategy(this);
 		} catch(NullPointerException exc) {

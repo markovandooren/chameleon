@@ -6,7 +6,7 @@ import java.util.ListIterator;
 import be.kuleuven.cs.distrinet.rejuse.java.collections.RobustVisitor;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 
 /**
  * @author Marko van Dooren
@@ -117,7 +117,7 @@ public abstract class StatementImpl extends ElementImpl implements Statement {
    * @return
    * @throws LookupException
    */
-  public LookupStrategy linearLookupStrategy() throws LookupException {
-  	return lexicalLookupStrategy();
+  public LookupContext linearLookupStrategy() throws LookupException {
+  	return lexicalContext();
   }
 }

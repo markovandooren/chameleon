@@ -8,7 +8,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.Scope;
@@ -70,8 +70,8 @@ public class NamespaceAlias extends NamespaceImpl {
   	return result;
   }
   
-  public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
-  	return aliasedNamespace().lexicalLookupStrategy();
+  public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
+  	return aliasedNamespace().lexicalContext();
   }
 
 	@Override

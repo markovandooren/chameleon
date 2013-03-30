@@ -5,6 +5,11 @@ import java.util.List;
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 
+/**
+ * @author Marko van Dooren
+ *
+ * @param <D>
+ */
 public class DeclarationCollector<D extends Declaration> extends Collector<D> {
 
 	public DeclarationCollector(DeclarationSelector<D> selector) {

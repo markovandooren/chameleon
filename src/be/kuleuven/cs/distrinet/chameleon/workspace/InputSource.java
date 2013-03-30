@@ -15,9 +15,15 @@ import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
  * A class representing a source from which a Document is built. These
  * can be file based (text or binary), editor based, ...
  * 
+ * Each input source manages a single document. There may be multiple
+ * input sources for a single logical document. For example there
+ * may be a file input source and editor buffer input source for
+ * the same logical document. In this case, the {@link #compareTo(InputSource)} method
+ * is used to determine which input source has the highest priority.
+ * 
  * @author Marko van Dooren
  */
-public interface InputSource {
+public interface InputSource extends Comparable<InputSource> {
 	
 	/**
 	 * Return the list of name of declaration that are added to the given namespace, and
@@ -56,12 +62,6 @@ public interface InputSource {
 	 */
 	public Document load() throws InputException;
 	
-//	/**
-//	 * Clone this input source.
-//	 * @return
-//	 */
-//	public InputSource clone();
-	
 	/**
 	 * Return the association object that connects this input source to its namespace.
 	 * @return
@@ -76,16 +76,60 @@ public interface InputSource {
 	
 	/**
 	 * Return the project to which this input source belongs.
-	 * @return
 	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result == view().project();
+   @*/
 	public Project project();
 	
+	/**
+	 * Return the view to which this input source adds its document.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result == loader().view();
+   @*/
 	public View view();
 
+	/**
+	 * Flush the cache of the document that is managed by this input source.
+	 */
 	public void flushCache();
 
+	/**
+	 * Destroy this input source, and release any resources.
+	 */
 	public void destroy();
 	
-	public void setNamespace(InputSourceNamespace ns) throws InputException;
+	/**
+	 * Attach this input source to the given namespace. The input
+	 * source will load declarations that are in the given namespace.
+	 * 
+	 * @param namespace The namespace to which the input source must be attached.
+	 * @throws InputException If the document is loaded immediately, all exceptions
+	 *                        that are thrown during the loading will be propagated.
+	 */
+	public void setNamespace(InputSourceNamespace namespace) throws InputException;
 	
+	/**
+	 * Return the document loader that created this input source.
+	 * @return
+	 */
+	public DocumentLoader loader();
+	
+	/**
+	 * Determine the order of this input source compared
+	 * to a given other input source.
+	 * 
+	 * This method is used when there are multiple input
+	 * sources available to load the same declaration. For
+	 * example, if a file is opened in a text editor, the
+	 * declarations in the file can be loaded from both
+	 * the file and the editor buffer. 
+	 */
+	@Override
+	public int compareTo(InputSource o);
 }

@@ -86,7 +86,7 @@ public class DemandImport extends Import {
 
 	private <D extends Declaration> List<D> importedDeclarations(DeclarationSelector<D> selector) throws LookupException {
 		DeclarationCollector<D> collector = new DeclarationCollector<D>(selector);
-		declarationContainer().localStrategy().lookUp(collector);
+		declarationContainer().localContext().lookUp(collector);
 		List<D> result = new ArrayList<D>();
 		if(! collector.willProceed()) { 
 		  D selected = collector.result();

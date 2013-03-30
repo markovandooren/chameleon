@@ -7,7 +7,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 
 public abstract class ForControl extends ElementImpl implements DeclarationContainer {
 	
@@ -16,7 +16,7 @@ public abstract class ForControl extends ElementImpl implements DeclarationConta
 	public abstract ForControl clone();
 
 	@Override
-	public LookupStrategy localStrategy() throws LookupException {
+	public LookupContext localContext() throws LookupException {
 		return language().lookupFactory().createLocalLookupStrategy(this);
 	}
 	

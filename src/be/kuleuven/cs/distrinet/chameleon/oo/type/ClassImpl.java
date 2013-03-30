@@ -21,10 +21,10 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.Cache;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategySelector;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContextSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.Modifier;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
@@ -206,7 +206,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 		 */
     
     
-    public LocalLookupStrategy<?> targetContext() throws LookupException {
+    public LocalLookupContext<?> targetContext() throws LookupException {
     	Language language = language();
     	if(language != null) {
 			  return language.lookupFactory().createTargetLookupStrategy(this);
@@ -218,14 +218,14 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#localStrategy()
 		 */
-    public LookupStrategy localStrategy() throws LookupException {
+    public LookupContext localContext() throws LookupException {
     	return targetContext();
     }
     
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#lexicalLookupStrategy(chameleon.core.element.Element)
 		 */
-    public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
+    public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
     	if(element instanceof InheritanceRelation && hasInheritanceRelation((InheritanceRelation) element)) {
     		Element parent = parent();
     		if(parent != null) {
@@ -253,8 +253,8 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     	return inheritanceRelations().contains(relation);
     }
     
-    protected LookupStrategy lexicalMembersLookupStrategy() throws LookupException {
-    	LookupStrategy result = _lexicalMembersLookupStrategy;
+    protected LookupContext lexicalMembersLookupStrategy() throws LookupException {
+    	LookupContext result = _lexicalMembersLookupStrategy;
     	// Lazy initialization
     	if(result == null) {
     		Language language = language();
@@ -262,9 +262,9 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     			throw new LookupException("Parent of type "+signature().name()+" is null.");
     		}
 				_lexicalMembersLookupStrategy = language.lookupFactory().createLexicalLookupStrategy(targetContext(), this, 
-    			new LookupStrategySelector(){
+    			new LookupContextSelector(){
 					
-						public LookupStrategy strategy() throws LookupException {
+						public LookupContext strategy() throws LookupException {
 	    	  		return lexicalParametersLookupStrategy();
 						}
 					}); 
@@ -274,10 +274,10 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     	return result;
     }
     
-    protected LookupStrategy _lexicalMembersLookupStrategy;
+    protected LookupContext _lexicalMembersLookupStrategy;
     
-    protected LookupStrategy lexicalParametersLookupStrategy() {
-    	LookupStrategy result = _lexicalParametersLookupStrategy;
+    protected LookupContext lexicalParametersLookupStrategy() {
+    	LookupContext result = _lexicalParametersLookupStrategy;
     	// lazy initialization
     	if(result == null) {
     		_lexicalParametersLookupStrategy = language().lookupFactory().createLexicalLookupStrategy(_localInheritanceLookupStrategy, this);
@@ -286,11 +286,11 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     	return result;
     }
     
-    protected LookupStrategy _lexicalParametersLookupStrategy;
+    protected LookupContext _lexicalParametersLookupStrategy;
     
     protected LocalParameterBlockLookupStrategy _localInheritanceLookupStrategy = new LocalParameterBlockLookupStrategy(this);
     
-  	protected class LocalParameterBlockLookupStrategy extends LocalLookupStrategy<Type> {
+  	protected class LocalParameterBlockLookupStrategy extends LocalLookupContext<Type> {
   	  public LocalParameterBlockLookupStrategy(Type element) {
   			super(element);
   		}

@@ -166,7 +166,7 @@ public class NamedTargetExpression extends TargetedExpression implements CrossRe
     if(target != null) {
       target.targetContext().lookUp(collector);//findElement(getName());
     } else {
-      lexicalLookupStrategy().lookUp(collector);//findElement(getName());
+      lexicalContext().lookUp(collector);//findElement(getName());
     }
     result = collector.result(); 
 //    if(result != null) {

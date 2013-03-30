@@ -15,7 +15,7 @@ import org.eclipse.jface.text.contentassist.IContextInformationValidator;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorExtension;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorTag;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
@@ -43,7 +43,7 @@ public class ChameleonContentAssistProcessor implements IContentAssistProcessor 
 			if(dec != null){
 				Element el = dec.getElement();
 //					ContextElement element = (ContextElement)el;
-					LookupStrategy context;
+					LookupContext context;
 					// see if element has a target (e.g. car.getOwner())
 
 					//CHANGE COMMENTED OUT, NEEDS BETTER SOLUTION

@@ -6,9 +6,9 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LexicalLookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LexicalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Statement;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
@@ -18,11 +18,11 @@ import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 public class ForStatement extends IterationStatement implements DeclarationContainer {
 
 	@SuppressWarnings("unchecked")
-	public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
-		return new LexicalLookupStrategy(localStrategy(),this);
+	public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
+		return new LexicalLookupContext(localContext(),this);
 	}
 
-	public LookupStrategy localStrategy() {
+	public LookupContext localContext() {
 		return language().lookupFactory().createLocalLookupStrategy(this);
 	}
 	

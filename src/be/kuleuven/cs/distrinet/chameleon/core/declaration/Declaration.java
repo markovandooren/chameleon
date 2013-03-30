@@ -2,7 +2,7 @@ package be.kuleuven.cs.distrinet.chameleon.core.declaration;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.Scope;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 
@@ -153,5 +153,5 @@ public interface Declaration extends Element {
    *   2) in "typename.f", "f" must be looked up in the type represented by "typename"
    *   3) in "packagename.f", "f" must be looked up in the package represented by "package"
    */
-  public LookupStrategy targetContext() throws LookupException;
+  public LookupContext targetContext() throws LookupException;
 }

@@ -10,7 +10,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.SimpleNameDeclarationWithParametersHeader;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.SimpleNameDeclarationWithParametersSignature;
@@ -105,7 +105,7 @@ public class ProgrammingPointcut extends Pointcut implements DeclarationContaine
 		header().setName(name);
 	}
 
-	public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
+	public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
 		if (element == header()) {
 			return parent().lexicalLookupStrategy(this);
 		} else {
@@ -116,7 +116,7 @@ public class ProgrammingPointcut extends Pointcut implements DeclarationContaine
 		}
 	}
 
-	public LookupStrategy localLookupStrategy() {
+	public LookupContext localLookupStrategy() {
 		if (_local == null) {
 			_local = language().lookupFactory().createTargetLookupStrategy(this);
 		}
@@ -124,13 +124,13 @@ public class ProgrammingPointcut extends Pointcut implements DeclarationContaine
 	}
 	
 	@Override
-	public LookupStrategy localStrategy() throws LookupException {
+	public LookupContext localContext() throws LookupException {
 		return localLookupStrategy();
 	}
 
-	private LookupStrategy _local;
+	private LookupContext _local;
 
-	private LookupStrategy _lexical;
+	private LookupContext _lexical;
 
 	@Override
 	public List<? extends Declaration> declarations() throws LookupException {
@@ -149,7 +149,7 @@ public class ProgrammingPointcut extends Pointcut implements DeclarationContaine
 	}
 
 	@Override
-	public LookupStrategy targetContext() throws LookupException {
+	public LookupContext targetContext() throws LookupException {
 		throw new LookupException("Requesting the target context of a pointcut.");
 	}
 

@@ -1,7 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.variable;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.ElementWithModifiers;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
@@ -48,7 +48,7 @@ public interface Variable extends ElementWithModifiers, DeclarationWithType {
 
   public Variable clone();
 
-  public LocalLookupStrategy<?> targetContext() throws LookupException;
+  public LocalLookupContext<?> targetContext() throws LookupException;
 
 
   public Variable selectionDeclaration();

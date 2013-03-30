@@ -8,10 +8,10 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LexicalLookupStrategy;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LexicalLookupContext;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
@@ -107,8 +107,8 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
 	 * Return a standard lexical context that is attached to this variable declaration,
 	 * and to a target context which is also attached to this variable declaration.
 	 */
-	public LookupStrategy linearContext() throws LookupException {
-		return new LexicalLookupStrategy(new LocalLookupStrategy<VariableDeclaration>(this),this);
+	public LookupContext linearContext() throws LookupException {
+		return new LexicalLookupContext(new LocalLookupContext<VariableDeclaration>(this),this);
 	}
 
 	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
@@ -152,7 +152,7 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
 	}
 
 	@Override
-	public LookupStrategy localStrategy() throws LookupException {
+	public LookupContext localContext() throws LookupException {
 		throw new ChameleonProgrammerException();
 	}
 	// BUG shouldn't this override lexical strategy?

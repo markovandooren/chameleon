@@ -6,7 +6,7 @@ import java.util.List;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
@@ -46,7 +46,7 @@ public abstract class CommonDeclarationContainingDeclaration extends
 	}
 
 	@Override
-	public LookupStrategy targetContext() throws LookupException {
+	public LookupContext targetContext() throws LookupException {
 		return language().lookupFactory().createLocalLookupStrategy(this);
 	}
 
@@ -67,7 +67,7 @@ public abstract class CommonDeclarationContainingDeclaration extends
 	public abstract CommonDeclarationContainingDeclaration clone();
 	
 	@Override
-	public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
+	public LookupContext lexicalLookupStrategy(Element child) throws LookupException {
 		if(childrenNotInScopeOfDeclarations().contains(child)) {
 			return parent().lexicalLookupStrategy(this);
 		} else {

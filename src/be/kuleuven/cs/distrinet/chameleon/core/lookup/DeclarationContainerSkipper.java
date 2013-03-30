@@ -19,14 +19,14 @@ public class DeclarationContainerSkipper<D extends Declaration> extends Declarat
 	}
 
 	@Override
-	public void process(LocalLookupStrategy<?> local) throws LookupException {
+	public void process(LocalLookupContext<?> local) throws LookupException {
 		if(! local.declarationContainer().sameAs(_skipped)) {
 			_original.process(local);
 		}
 	}
 	
 	@Override
-	public void proceed(LexicalLookupStrategy current) throws LookupException {
+	public void proceed(LexicalLookupContext current) throws LookupException {
 		_original.proceed(current);
 	}
 }

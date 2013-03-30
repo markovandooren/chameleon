@@ -6,7 +6,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 
 public abstract class DeclarationContainerImpl extends ElementImpl implements DeclarationContainer {
 
@@ -21,12 +21,12 @@ public abstract class DeclarationContainerImpl extends ElementImpl implements De
 	}
 
 	@Override
-	public LookupStrategy localStrategy() throws LookupException {
+	public LookupContext localContext() throws LookupException {
 		return language().lookupFactory().createLocalLookupStrategy(this);
 	}
 
   @Override
-  public LookupStrategy lexicalLookupStrategy(Element child) throws LookupException {
-  	return language().lookupFactory().createLexicalLookupStrategy(localStrategy(), this);
+  public LookupContext lexicalLookupStrategy(Element child) throws LookupException {
+  	return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
   }
 }

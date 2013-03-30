@@ -12,7 +12,7 @@ import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategyFactory;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContextFactory;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.property.PropertyRule;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
@@ -55,7 +55,7 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
    @ post (* The lookup strategy factory is initialized to the default LookupStrategyFactory *);
    @*/
 	public LanguageImpl(String name, Revision version) {
-		this(name, new LookupStrategyFactory(),version);
+		this(name, new LookupContextFactory(),version);
 	}
 	
 //	public abstract Language clone();
@@ -75,7 +75,7 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
    @ post name().equals(name);
    @ post lookupFactory() == factory;
    @*/
-	public LanguageImpl(String name, LookupStrategyFactory factory, Revision version) {
+	public LanguageImpl(String name, LookupContextFactory factory, Revision version) {
 		setName(name);
 		setLookupStrategyFactory(factory);
 		initializePropertyRules();
@@ -482,15 +482,15 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 //        return _view;
 //    }
 
-    public LookupStrategyFactory lookupFactory() {
+    public LookupContextFactory lookupFactory() {
     	return _contextFactory;
     }
     
-    protected void setLookupStrategyFactory(LookupStrategyFactory factory) {
+    protected void setLookupStrategyFactory(LookupContextFactory factory) {
     	_contextFactory = factory;
     }
     
-    private LookupStrategyFactory _contextFactory;
+    private LookupContextFactory _contextFactory;
 
     /**
 		 * Returns true if the given character is a valid character

@@ -9,7 +9,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.Target;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.DeclarationWithParametersHeader;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.DeclarationWithParametersSignature;
@@ -146,7 +146,7 @@ public abstract class DeclarationWithParameters extends MemberImpl implements De
 			return (List)Util.createSingletonList(this);
 		}
 
-	  public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
+	  public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
 	  	if(element == header()) {
 	  		return parent().lexicalLookupStrategy(this);
 	  	} else {
@@ -157,20 +157,20 @@ public abstract class DeclarationWithParameters extends MemberImpl implements De
 	  	}
 	  }
 	  
-	  public LookupStrategy localLookupStrategy() {
+	  public LookupContext localLookupStrategy() {
 	  	if(_local == null) {
 	  		_local = language().lookupFactory().createTargetLookupStrategy(this);
 	  	}
 	  	return _local;
 	  }
 	  
-	  public LookupStrategy localStrategy() {
+	  public LookupContext localContext() {
 	  	return localLookupStrategy();
 	  }
 	  
-	  private LookupStrategy _local;
+	  private LookupContext _local;
 	  
-	  private LookupStrategy _lexical;
+	  private LookupContext _lexical;
 	  
 		public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 			return declarations();

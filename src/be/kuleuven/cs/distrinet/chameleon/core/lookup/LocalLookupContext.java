@@ -6,13 +6,13 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 
 /**
- * A lookup strategy for search declarations locally in a declaration container.
- * A local lookup strategy never delegates the search to other lookup strategies. If no
+ * A lookup context for search declarations locally in a declaration container.
+ * A local lookup context never delegates the search another lookup context. If no
  * element is found, it returns null.
  * 
  * @author Marko van Dooren
  */
-public class LocalLookupStrategy<E extends DeclarationContainer> extends LookupStrategy {
+public class LocalLookupContext<E extends DeclarationContainer> extends LookupContext {
 
 	/**
 	 * Create a new local lookup strategy that searches for declarations in the
@@ -25,7 +25,7 @@ public class LocalLookupStrategy<E extends DeclarationContainer> extends LookupS
    @
    @ post declarationContainer() == declarationContainer;
    @*/
-	public LocalLookupStrategy(E declarationContainer) {
+	public LocalLookupContext(E declarationContainer) {
 		_declarationContainer = declarationContainer;
 	}
 	/*

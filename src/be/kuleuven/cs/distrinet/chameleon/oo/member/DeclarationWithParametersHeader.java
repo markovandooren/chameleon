@@ -11,7 +11,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
@@ -172,7 +172,7 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
 	}
 
   @Override
-  public LookupStrategy lexicalLookupStrategy(Element element) throws LookupException {
+  public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
   	if(typeParameters().contains(element)) {
   		return parent().lexicalLookupStrategy(this);
   	}
@@ -181,14 +181,14 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
   	}
   }
 
-	protected LookupStrategy lexicalStrategy() {
+	protected LookupContext lexicalStrategy() {
 		if(_lexical == null) {
 			_lexical = language().lookupFactory().createLexicalLookupStrategy(localLookupStrategy(), this);
 		}
 		return _lexical;
 	}
   
-  public LookupStrategy localLookupStrategy() {
+  public LookupContext localLookupStrategy() {
   	if(_local == null) {
   		_local = language().lookupFactory().createTargetLookupStrategy(this);
   	}
@@ -196,15 +196,15 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
   }
   
 	@Override
-	public LookupStrategy localStrategy() throws LookupException {
+	public LookupContext localContext() throws LookupException {
 		return localLookupStrategy();
 	}
 
 
   
-  private LookupStrategy _local;
+  private LookupContext _local;
   
-  private LookupStrategy _lexical;
+  private LookupContext _lexical;
 
 	public boolean sameParameterTypesAs(DeclarationWithParametersHeader other) throws ModelException {
   	boolean result = false;

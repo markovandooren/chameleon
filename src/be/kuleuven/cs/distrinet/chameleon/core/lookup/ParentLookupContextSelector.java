@@ -5,9 +5,9 @@ package be.kuleuven.cs.distrinet.chameleon.core.lookup;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 
-public class ParentLookupStrategySelector implements LookupStrategySelector {
+public class ParentLookupContextSelector implements LookupContextSelector {
 	
-	public ParentLookupStrategySelector(Element element) {
+	public ParentLookupContextSelector(Element element) {
 		setElement(element);
 	}
 	
@@ -26,7 +26,7 @@ public class ParentLookupStrategySelector implements LookupStrategySelector {
 	 * Return the parent context of this context.
 	 * @throws LookupException 
 	 */
-	public LookupStrategy strategy() throws LookupException {
+	public LookupContext strategy() throws LookupException {
 		Element element = element();
 		Element parent = element.parent();
 		if(parent != null) {

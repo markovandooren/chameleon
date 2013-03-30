@@ -5,7 +5,7 @@ import java.util.List;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 
 /**
  * A general interface for elements that contain declarations. This interface allows the
@@ -14,9 +14,6 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupStrategy;
  * decide if the request element is defined by the current declaration container or not.
  * 
  * @author Marko van Dooren
- *
- * @param <E>
- * @param <P>
  */
 public interface DeclarationContainer extends Element {
   
@@ -34,15 +31,6 @@ public interface DeclarationContainer extends Element {
    @*/
   public List<? extends Declaration> declarations() throws LookupException;
   
-  /**
-   * Return the most specific single super type of all declarations in this declaration container.
-   * This method is used to speed up the lookup as follows. The declaration selector avoids invoking declarations() on
-   * a declaration container if the declarationClass() of the container and the selectedClass of the selector are both classes
-   * and do not intersect.
-   * @return
-   */
-//  public Class<? extends Declaration> declarationClass();
-
   /**
    * Return the declarations the are defined locally in this declaration container.
    * @return
@@ -73,6 +61,6 @@ public interface DeclarationContainer extends Element {
    @*/
   public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException;
 
-	public LookupStrategy localStrategy() throws LookupException;
+	public LookupContext localContext() throws LookupException;
   
 }
