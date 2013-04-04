@@ -134,6 +134,10 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 	}
 	
 	
+	protected ClassImpl() {
+		
+	}
+	
     /**
      * Initialize a new Type.
      */
@@ -146,7 +150,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
      @ post parent() == null;
      @*/
     public ClassImpl(SimpleNameSignature sig) {
-        setSignature(sig);
+        super(sig);
     }
     
 
@@ -750,7 +754,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     	return (List<D>) members((DeclarationSelector<? extends Member>)selector);
     }
 
-      	protected void copyContents(Type from) {
+    protected void copyContents(Type from) {
   		copyContents(from, false);
   	}
 

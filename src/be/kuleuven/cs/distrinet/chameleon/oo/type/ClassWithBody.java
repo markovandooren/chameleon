@@ -37,6 +37,9 @@ public abstract class ClassWithBody extends ClassImpl {
 		return result;
 	}
 	
+	@Override
+	public abstract ClassWithBody clone();
+	
 	public List<InheritanceRelation> explicitNonMemberInheritanceRelations() {
 		return _inheritanceRelations.getOtherEnds();
 	}
@@ -198,8 +201,16 @@ public abstract class ClassWithBody extends ClassImpl {
 
 	public ClassWithBody(SimpleNameSignature sig) {
 		super(sig);
+		init();
+	}
+
+	private void init() {
 		set(_body,new ClassBody());
 		add(_parameters,new TypeParameterBlock());
+	}
+	
+	public ClassWithBody() {
+		init();
 	}
 
 	public <P extends Parameter> void replaceAllParameters(Class<P> kind, List<P> newParameters) {

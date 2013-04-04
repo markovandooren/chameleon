@@ -17,6 +17,10 @@ public class RegularType extends ClassWithBody {
 		this(new SimpleNameSignature(name));
 	}
 	
+	protected RegularType() {
+		
+	}
+	
 	@Override
 	public RegularType clone() {
 		RegularType result = cloneThis();
