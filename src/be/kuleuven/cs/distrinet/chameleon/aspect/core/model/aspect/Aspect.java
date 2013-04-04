@@ -106,7 +106,7 @@ public class Aspect extends ElementImpl implements DeclarationContainer, Declara
 	}
 
 	@Override
-	public LookupContext lexicalLookupStrategy(Element child) throws LookupException {
+	public LookupContext lookupContext(Element child) throws LookupException {
 		return language().lookupFactory().createLexicalLookupStrategy(localLookupStrategy(), this);
 	}
 

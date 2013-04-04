@@ -134,14 +134,14 @@ public abstract class ProgrammingAdvice extends Advice<Block> implements Declara
 	}
 
 	@Override
-	public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
+	public LookupContext lookupContext(Element element) throws LookupException {
 		if (element.equals(pointcutExpression()) || element.equals(body())) {
 			if (_lexical == null) {
 				_lexical = language().lookupFactory().createLexicalLookupStrategy(localLookupStrategy(),this);
 			}
 			return _lexical;
 		} else {
-			return parent().lexicalLookupStrategy(this);
+			return parent().lookupContext(this);
 		}
 	}
 

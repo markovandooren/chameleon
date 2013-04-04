@@ -174,11 +174,11 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
    @ post declarations().indexOf(Element) > 0) ==> 
    @      \result == declarations().elementAt(declarations().indexOf(element) - 1).lexicalContext();
    @*/
-	public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
+	public LookupContext lookupContext(Element element) throws LookupException {
 		List<VariableDeclaration> declarations = variableDeclarations();
 		int index = declarations.indexOf(element);
 		if(index <= 0) {
-			return parent().lexicalLookupStrategy(this);
+			return parent().lookupContext(this);
 		} else {
 			return declarations.get(index-1).linearContext();
 		}

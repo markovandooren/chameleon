@@ -35,11 +35,11 @@ public abstract class NonLocalTypeReference extends ElementImpl implements TypeR
 
 	@Override
 	public LookupContext lexicalContext() throws LookupException {
-		return lookupParent().lexicalLookupStrategy(this);
+		return lookupParent().lookupContext(this);
 	}
 
-  public LookupContext lexicalLookupStrategy(Element child) throws LookupException {
-		return lookupParent().lexicalLookupStrategy(this);
+  public LookupContext lookupContext(Element child) throws LookupException {
+		return lookupParent().lookupContext(this);
   }
   
 	public void setLookupParent(Element newParent) {

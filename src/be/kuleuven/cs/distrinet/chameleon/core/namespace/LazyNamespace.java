@@ -17,6 +17,7 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputSource;
 import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
+import be.kuleuven.cs.distrinet.rejuse.logic.relation.ComparableOrder;
 
 public class LazyNamespace extends RegularNamespace implements InputSourceNamespace {
 
@@ -41,6 +42,8 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 		return result;
 	}
 
+	private ComparableOrder<InputSource> _comparableOrder = new ComparableOrder<InputSource>();
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	// Only called in synchronized
@@ -56,18 +59,22 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 					break;
 				}
 			}
-//			List<InputSource> sources = _sourceMap.get(name);
-			Queue<InputSource> sources = _newSourceMap.get(name);
-//			if(((sources == null) != (queue == null)) || (sources != null && (! queue.containsAll(sources) || (!sources.containsAll(queue))))) {
-//				System.out.println("debug");
-//			}
-			if(sources != null) {
-				for(InputSource source: sources) {
+			// inputSources is sorted: the element with the highest priority is in front.
+			Queue<InputSource> inputSources = _newSourceMap.get(name);
+			if(inputSources != null && ! inputSources.isEmpty()) {
+//				List<InputSource> sources = new ArrayList(inputSourceList);
+//				try {
+//					_comparableOrder.removeBiggerElements(sources);
+//				} catch (Exception e) {
+//					throw new ChameleonProgrammerException(e);
+//				}
+//				for(InputSource source: sources) {
 					if(candidates == null) {
 						candidates = new ArrayList<Declaration>();
 					}
-					candidates.addAll(source.targetDeclarations(name));
-				}
+//					candidates.addAll(source.targetDeclarations(name));
+//				}
+				candidates.addAll(inputSources.peek().targetDeclarations(name));
 			} 
 			if (candidates == null){
 				candidates = Collections.EMPTY_LIST;

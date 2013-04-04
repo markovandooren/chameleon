@@ -135,7 +135,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	
 	private Single<CrossReference<Namespace>> _ref = new Single<CrossReference<Namespace>>(this,true);
 	
-	public LookupContext lexicalLookupStrategy(Element child) throws LookupException {
+	public LookupContext lookupContext(Element child) throws LookupException {
 		if(imports().contains(child) || child == namespaceReference()) {
 			return getDefaultNamespace().targetContext();
 		} else {

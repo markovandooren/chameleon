@@ -30,10 +30,10 @@ public class LazyStreamInputSource extends StreamInputSource {
 	 *                        It must be mentioned, however, because we can't catch exceptions
 	 *                        from the super constructor call.
 	 */
-	public LazyStreamInputSource(InputStream stream, String declarationName, InputSourceNamespace ns) throws InputException {
+	public LazyStreamInputSource(InputStream stream, String declarationName, InputSourceNamespace ns, DocumentLoader loader) throws InputException {
 		// The super class cannot yet add the input source to the namespace because we cannot
 		// set the declaration name in advance (it is needed when the input source is added to the namespace).
-		super(stream);
+		super(stream,loader);
 		if(declarationName == null) {
 			throw new IllegalArgumentException();
 		}
@@ -41,8 +41,8 @@ public class LazyStreamInputSource extends StreamInputSource {
 		ns.addInputSource(this);
 	}
 	
-	public LazyStreamInputSource(File file, String declarationName, InputSourceNamespace ns) throws InputException {
-		this(convert(file),declarationName,ns);
+	public LazyStreamInputSource(File file, String declarationName, InputSourceNamespace ns, DocumentLoader loader) throws InputException {
+		this(convert(file),declarationName,ns,loader);
 	}
 	
 	private String _declarationName;
@@ -59,7 +59,7 @@ public class LazyStreamInputSource extends StreamInputSource {
 	@Override
 	public LazyStreamInputSource clone() {
 		try {
-			return new LazyStreamInputSource(inputStream(),_declarationName,null);
+			return new LazyStreamInputSource(inputStream(),_declarationName,null,null);
 		} catch (InputException e) {
 			throw new ChameleonProgrammerException(e);
 		}

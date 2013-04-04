@@ -30,7 +30,7 @@ public class ParentLookupContextSelector implements LookupContextSelector {
 		Element element = element();
 		Element parent = element.parent();
 		if(parent != null) {
-	    return parent.lexicalLookupStrategy(element);
+	    return parent.lookupContext(element);
 		} else {
 			return null;
 		}

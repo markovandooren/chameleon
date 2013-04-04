@@ -18,7 +18,7 @@ import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 public class ForStatement extends IterationStatement implements DeclarationContainer {
 
 	@SuppressWarnings("unchecked")
-	public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
+	public LookupContext lookupContext(Element element) throws LookupException {
 		return new LexicalLookupContext(localContext(),this);
 	}
 

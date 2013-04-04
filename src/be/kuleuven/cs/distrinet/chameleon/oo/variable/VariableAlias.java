@@ -105,14 +105,6 @@ public class VariableAlias extends VariableImpl implements MemberVariable {
 		return result;
 	}
 
-	private PropertySet<Element,ChameleonProperty> myDeclaredProperties() {
-		PropertySet<Element,ChameleonProperty> result = new PropertySet<Element,ChameleonProperty>();
-    for(Modifier modifier:modifiers()) {
-      result.addAll(modifier.impliedProperties().properties());
-    }
-    return result;
-	}
-
 	private PropertySet<Element,ChameleonProperty> myDefaultProperties() {
 		return language().defaultProperties(this);
 	}
@@ -121,9 +113,25 @@ public class VariableAlias extends VariableImpl implements MemberVariable {
     return filterProperties(myDefaultProperties(), aliasedVariable().defaultProperties());
   }
 	
+  public PropertySet<Element,ChameleonProperty> inherentProperties() {
+    return filterProperties(myInherentProperties(), aliasedVariable().inherentProperties());
+  }
+
+	protected PropertySet<Element,ChameleonProperty> myInherentProperties() {
+		return new PropertySet<Element,ChameleonProperty>();
+	}
   public PropertySet<Element,ChameleonProperty> declaredProperties() {
     return filterProperties(myDeclaredProperties(), aliasedVariable().declaredProperties());
   }
+
+	private PropertySet<Element,ChameleonProperty> myDeclaredProperties() {
+		PropertySet<Element,ChameleonProperty> result = new PropertySet<Element,ChameleonProperty>();
+    for(Modifier modifier:modifiers()) {
+      result.addAll(modifier.impliedProperties().properties());
+    }
+    return result;
+	}
+
 
   public Variable selectionDeclaration() {
 		return this;

@@ -105,16 +105,12 @@ public abstract class ElementWithModifiersImpl extends ElementImpl implements El
   }
 
   public PropertySet<Element,ChameleonProperty> declaredProperties() {
-    return myDeclaredProperties();
-  }
-
-	protected PropertySet<Element,ChameleonProperty> myDeclaredProperties() {
 		PropertySet<Element,ChameleonProperty> result = new PropertySet<Element,ChameleonProperty>();
     for(Modifier modifier:modifiers()) {
       result.addAll(modifier.impliedProperties().properties());
     }
     return result;
-	}
+  }
 
 	public List<Modifier> modifiers(Property property) throws ModelException {
 		List<Modifier> result = new ArrayList<Modifier>();

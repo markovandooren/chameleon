@@ -73,6 +73,20 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
 	public boolean isBaseLoader();
 	
 	/**
+	 * Add the given input source.
+	 * @param source
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre source != null;
+   @
+   @ post inputSources().contains(source);
+   @ post inputSources().containsAll(\old(inputSources()));
+   @*/
+	public void addInputSource(InputSource source);
+	
+	/**
 	 * Flush the cache of all documents loaded by this document loader.
 	 */
 	public void flushCache();

@@ -45,17 +45,17 @@ public abstract class ClassWithBody extends ClassImpl {
 		return Collections.EMPTY_LIST;
 	}
 
-	public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
+	public LookupContext lookupContext(Element element) throws LookupException {
 		List<ParameterBlock> parameterBlocks = parameterBlocks();
 		if(parameterBlocks.contains(element)) { // || element.isDerived()
 			int index = parameterBlocks.indexOf(element);
 			if(index <= 0) {
-			  return parent().lexicalLookupStrategy(this);
+			  return parent().lookupContext(this);
 			} else {
-				return parameterBlocks.get(index-1).lexicalLookupStrategy(element);
+				return parameterBlocks.get(index-1).lookupContext(element);
 			}
 		} else {
-			return super.lexicalLookupStrategy(element);
+			return super.lookupContext(element);
 		}
 	}
 
@@ -202,7 +202,7 @@ public abstract class ClassWithBody extends ClassImpl {
 		add(_parameters,new TypeParameterBlock());
 	}
 
-	public <P extends Parameter> void replaceAllParameter(Class<P> kind, List<P> newParameters) {
+	public <P extends Parameter> void replaceAllParameters(Class<P> kind, List<P> newParameters) {
 		int size = newParameters.size();
 		List<P> old = parameters(kind);
 		if(old.size() != size) {

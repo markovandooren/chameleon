@@ -82,7 +82,7 @@ public class LocalClassStatement extends StatementImpl implements DeclarationCon
 //    return result;
 //  }
 
-  public LookupContext lexicalLookupStrategy(Element element) {
+  public LookupContext lookupContext(Element element) {
   	return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
   }
 
@@ -91,7 +91,7 @@ public class LocalClassStatement extends StatementImpl implements DeclarationCon
 	}
   
   public LookupContext linearLookupStrategy() {
-  	return lexicalLookupStrategy(getType());
+  	return lookupContext(getType());
   }
 
 	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {

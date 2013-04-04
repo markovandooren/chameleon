@@ -105,9 +105,9 @@ public class ProgrammingPointcut extends Pointcut implements DeclarationContaine
 		header().setName(name);
 	}
 
-	public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
+	public LookupContext lookupContext(Element element) throws LookupException {
 		if (element == header()) {
-			return parent().lexicalLookupStrategy(this);
+			return parent().lookupContext(this);
 		} else {
 			if (_lexical == null) {
 				_lexical = language().lookupFactory().createLexicalLookupStrategy(localLookupStrategy(),this);

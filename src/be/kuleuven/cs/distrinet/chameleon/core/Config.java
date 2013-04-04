@@ -13,32 +13,32 @@ public class Config {
 	
 	private static boolean DEBUG=false;
 	
-	private static boolean CACHE_DECLARATIONS = false;
+	private static boolean CACHE_DECLARATIONS = true;
 
 	/**
 	 * Turn cache of element references on and off. Default is off.
 	 */
-	private static boolean CACHE_ELEMENT_REFERENCES = false;
+	private static boolean CACHE_ELEMENT_REFERENCES = true;
 	
 	/**
 	 * Turn cache of properties on and off. Default is off.
 	 */
-	private static boolean CACHE_ELEMENT_PROPERTIES = false;
+	private static boolean CACHE_ELEMENT_PROPERTIES = true;
 	
 	/**
 	 * Turn cache of expression types on and off. Default is off.
 	 */
-	private static boolean CACHE_EXPRESSION_TYPES = false;
+	private static boolean CACHE_EXPRESSION_TYPES = true;
 
 	/**
 	 * Turn cache of signatures on and off. Default is off.
 	 */
-	private static boolean CACHE_SIGNATURES = false;
+	private static boolean CACHE_SIGNATURES = true;
 
 	/**
 	 * Turn cache of language on and off. Default is off.
 	 */
-	private static boolean CACHE_LANGUAGE = false;
+	private static boolean CACHE_LANGUAGE = true;
 
 	public static boolean debug() {
 		return DEBUG;

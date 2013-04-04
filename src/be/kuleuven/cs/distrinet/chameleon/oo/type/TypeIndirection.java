@@ -93,8 +93,20 @@ public abstract class TypeIndirection extends ClassImpl {
 		return language().defaultProperties(this);
 	}
 
+	protected PropertySet<Element,ChameleonProperty> myInherentProperties() {
+		return new PropertySet<Element,ChameleonProperty>();
+	}
+
+  public PropertySet<Element,ChameleonProperty> inherentProperties() {
+    return filterProperties(myInherentProperties(), aliasedType().inherentProperties());
+  }
+
   public PropertySet<Element,ChameleonProperty> declaredProperties() {
     return filterProperties(myDeclaredProperties(), aliasedType().declaredProperties());
+  }
+  
+  public PropertySet<Element,ChameleonProperty> myDeclaredProperties() {
+  	return super.declaredProperties();
   }
 
   public void replace(TypeElement oldElement, TypeElement newElement) {
@@ -134,7 +146,7 @@ public abstract class TypeIndirection extends ClassImpl {
 		throw new ChameleonProgrammerException("Trying to replace a type parameter in a type alias.");
 	}
 
-	public <P extends Parameter> void replaceAllParameter(Class<P> kind,List<P> newParameters) {
+	public <P extends Parameter> void replaceAllParameters(Class<P> kind,List<P> newParameters) {
 		throw new ChameleonProgrammerException("Trying to replace type parameters in a type alias.");
 	}
 

@@ -146,16 +146,12 @@ public abstract class CommonDeclaration extends DeclarationImpl implements Eleme
   }
 
   public PropertySet<Element,ChameleonProperty> declaredProperties() {
-    return myDeclaredProperties();
-  }
-
-	protected PropertySet<Element,ChameleonProperty> myDeclaredProperties() {
 		PropertySet<Element,ChameleonProperty> result = new PropertySet<Element,ChameleonProperty>();
     for(Modifier modifier:modifiers()) {
       result.addAll(modifier.impliedProperties().properties());
     }
     return result;
-	}
+  }
 
 	/**
 	 * Return the default properties for this element.

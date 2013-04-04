@@ -880,9 +880,9 @@ public abstract class ElementImpl implements Element {
 	}
 
 	/**
-	 * @see Element#lexicalLookupStrategy(Element) 
+	 * @see Element#lookupContext(Element) 
 	 */
-	 public LookupContext lexicalLookupStrategy(Element child) throws LookupException {
+	 public LookupContext lookupContext(Element child) throws LookupException {
 		return lexicalContext();
 	}
 
@@ -891,7 +891,7 @@ public abstract class ElementImpl implements Element {
 	 */
 	 public LookupContext lexicalContext() throws LookupException {
 		try {
-			return parent().lexicalLookupStrategy(this);
+			return parent().lookupContext(this);
 		} catch(NullPointerException exc) {
 			if(parent() == null) {
 				throw new LookupException("Requesting the lexical context of an element without a parent: " +getClass().getName());
@@ -904,11 +904,16 @@ public abstract class ElementImpl implements Element {
 	 public PropertySet<Element,ChameleonProperty> properties() {
 		 PropertySet<Element,ChameleonProperty> result = declaredProperties();
 		 result.addAll(defaultProperties());
+		 result.addAll(inherentProperties());
 		 return result;
 	 }
 
 	 public PropertySet<Element,ChameleonProperty> defaultProperties() {
 		 return language().defaultProperties(this);
+	 }
+
+	 public PropertySet<Element,ChameleonProperty> inherentProperties() {
+		 return new PropertySet<Element,ChameleonProperty>();
 	 }
 
 	 public PropertySet<Element,ChameleonProperty> declaredProperties() {

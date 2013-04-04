@@ -56,7 +56,7 @@ public class StubDeclarationContainer extends ElementImpl implements Declaration
 	}
 
 	@Override
-	public LookupContext lexicalLookupStrategy(Element child) throws LookupException {
+	public LookupContext lookupContext(Element child) throws LookupException {
 		if(_lexical == null) {
 			_lexical = language().lookupFactory().createLexicalLookupStrategy(targetContext(), this);
 		}

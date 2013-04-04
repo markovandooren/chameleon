@@ -155,6 +155,7 @@ public abstract class RegularVariable extends VariableImpl implements ExceptionS
 //   return declared.implies(property);
 // }
 
+ // FIXME Code duplication from ElementWithModifiersImpl
  public PropertySet<Element,ChameleonProperty> declaredProperties() {
    PropertySet<Element,ChameleonProperty> result = new PropertySet<Element,ChameleonProperty>();
    for(Modifier modifier:modifiers()) {

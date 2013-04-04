@@ -62,7 +62,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	 * the context is a lexical context connected to the target context to perform a local search.
 	 * @throws LookupException 
 	 */
-	public LookupContext lexicalLookupStrategy(Element element) throws LookupException;
+	public LookupContext lookupContext(Element element) throws LookupException;
 
 	public List<ParameterBlock> parameterBlocks();
 	
@@ -89,7 +89,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 
 	public <P extends Parameter> void replaceParameter(Class<P> kind, P oldParameter, P newParameter);
 
-	public <P extends Parameter> void replaceAllParameter(Class<P> kind, List<P> newParameters);
+	public <P extends Parameter> void replaceAllParameters(Class<P> kind, List<P> newParameters);
 
 	/************************
 	 * BEING A TYPE ELEMENT *

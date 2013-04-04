@@ -27,14 +27,14 @@ public class FileInputSourceFactory {
 	}
 
 	public IFileInputSource create(File file, DirectoryLoader loader) throws InputException {
-		IFileInputSource fileInputSource = doCreateInputSource(file);
-		loader.addInputSource(fileInputSource);
+		IFileInputSource fileInputSource = doCreateInputSource(file,loader);
+//		loader.addInputSource(fileInputSource);
 //		fileInputSource.loaderLink().lock();
 		fileInputSource.setNamespace((InputSourceNamespace) currentNamespace());
 		return fileInputSource;
 	}
 
-	protected IFileInputSource doCreateInputSource(File file) throws InputException {
-		return new FileInputSource(file);
+	protected IFileInputSource doCreateInputSource(File file, DirectoryLoader loader) throws InputException {
+		return new FileInputSource(file,loader);
 	}
 }

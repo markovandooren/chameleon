@@ -67,11 +67,11 @@ public abstract class CommonDeclarationContainingDeclaration extends
 	public abstract CommonDeclarationContainingDeclaration clone();
 	
 	@Override
-	public LookupContext lexicalLookupStrategy(Element child) throws LookupException {
+	public LookupContext lookupContext(Element child) throws LookupException {
 		if(childrenNotInScopeOfDeclarations().contains(child)) {
-			return parent().lexicalLookupStrategy(this);
+			return parent().lookupContext(this);
 		} else {
-			return super.lexicalLookupStrategy(child);
+			return super.lookupContext(child);
 		}
 	}
 	

@@ -50,8 +50,8 @@ public class LookupRedirector extends ElementImpl implements Stub {
 	}
 
 	@Override
-	public LookupContext lexicalLookupStrategy(Element child) throws LookupException {
-		return contextElement().lexicalLookupStrategy(child);
+	public LookupContext lookupContext(Element child) throws LookupException {
+		return contextElement().lookupContext(child);
 	}
 
 	public Element generator() {

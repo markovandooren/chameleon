@@ -31,10 +31,10 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
  *       potential declarations.</li>
  *       <ol>
  *          <li><p>For simple cross-references, the search is performed in the lexical context. This
- *          context is defined by the lexicalLookupStrategy() method in Element.</p>
+ *          context is defined by the lookupContext() method in Element.</p>
  *          
- *          <p>By default, the lexicalLookupStrategy() method delegates to the parent element. If
- *          an element 'dc' is a DeclarationContainer, however, it must override the lexicalLookupStrategy()
+ *          <p>By default, the lookupContext() method delegates to the parent element. If
+ *          an element 'dc' is a DeclarationContainer, however, it must override the lookupContext()
  *          method. The method typically returns a LexicalLookupContext with references to two objects.
  *          First, a LocalLookupContext that is connected to 'dc'. Second, a LookupStrategySelector.
  *          The local lookup context will perform a local search. If no result is found, the selector is
@@ -50,7 +50,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
  *          </li>
  *       </ol>
  *    <li>DeclarationContainer elements mark where in the model declarations can be found by
- *        overriding the lexicalLookupStrategy() method. In addition, the determine which 
+ *        overriding the lookupContext() method. In addition, the determine which 
  *        declarations can be found at that place in its declarations() and declarations(DeclarationSelector) methods.
  *    </li>
  *    <li>A DeclarationSelector performs that actual filtering of declarations. A selector decides if a declaration
@@ -64,7 +64,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
  * <ol>
  *   <li>Make all elements that can be the result of a lookup implement Declaration.</li>
  *   <li>Make all elements that contain declarations implement DeclarationContainer, <em>and make
- *   them override the lexicalLookupStrategy() method</em>.
+ *   them override the lookupContext() method</em>.
  *   </li>
  *   <li>Define a class that represents a cross-reference to the kind of declaration that you created.
  *   Make this class implement the CrossReference interface. If your declarations are refered to simply

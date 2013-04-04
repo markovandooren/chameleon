@@ -95,7 +95,7 @@ public abstract class ModifierWithParameters extends ModifierImpl implements Dec
 	protected abstract ModifierWithParameters cloneThis();
 	
 	@Override
-	public LookupContext lexicalLookupStrategy(Element child) throws LookupException {
+	public LookupContext lookupContext(Element child) throws LookupException {
 		return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
 	}
 

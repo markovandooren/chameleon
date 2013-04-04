@@ -52,10 +52,10 @@ public class ChameleonContentAssistProcessor implements IContentAssistProcessor 
 //						if(target != null) {
 //							context = target.targetContext();
 //						} else {
-//							context = el.lexicalLookupStrategy();
+//							context = el.lookupContext();
 //						}
 //					} else {
-//						context = el.lexicalLookupStrategy();
+//						context = el.lookupContext();
 //					}
 					
 					

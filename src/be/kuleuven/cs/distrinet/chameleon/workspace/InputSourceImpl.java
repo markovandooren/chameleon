@@ -11,14 +11,24 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.InputSourceNamespace;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
+import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 
 public abstract class InputSourceImpl implements InputSource {
 	
-	protected InputSourceImpl() {
+	protected InputSourceImpl(DocumentLoader loader) {
+		setLoader(loader);
 	}
 	
-	public InputSourceImpl(InputSourceNamespace ns) throws InputException {
+	public InputSourceImpl(InputSourceNamespace ns, DocumentLoader loader) throws InputException {
+		this(loader);
 		setNamespace(ns);
+	}
+	
+	private void setLoader(DocumentLoader loader) {
+		if(loader == null) {
+			throw new ChameleonProgrammerException();
+		}
+		loader.addInputSource(this);
 	}
 	
 	public void setNamespace(InputSourceNamespace ns) throws InputException {

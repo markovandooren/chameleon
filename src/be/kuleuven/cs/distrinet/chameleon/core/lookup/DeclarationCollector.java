@@ -32,13 +32,13 @@ public class DeclarationCollector<D extends Declaration> extends Collector<D> {
 	
 	public D result() throws LookupException {
 		if(_accumulator == null) {
-			throw new LookupException("No result has been found");
+			throw new LookupException("No result has been found using selector "+selector().toString(),selector());
 		} else {
 			int size = _accumulator.size();
 			if(size == 1) {
 				return _accumulator.get(0);
 			} else {
-				throw new LookupException("Multiple matches found in using selector "+selector().toString(),selector());
+				throw new LookupException("Multiple matches found using selector "+selector().toString(),selector());
 			}
 		}
 	}

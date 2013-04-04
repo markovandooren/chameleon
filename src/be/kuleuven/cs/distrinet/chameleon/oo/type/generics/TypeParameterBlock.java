@@ -66,9 +66,9 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 		return selector.selection(declarations());
 	}
 	
-	public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
+	public LookupContext lookupContext(Element element) throws LookupException {
 		if(element instanceof Stub) {
-			return parent().lexicalLookupStrategy(this);
+			return parent().lookupContext(this);
 		} else {
 		  return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
 		}
@@ -89,7 +89,7 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 			return result;
 		}
 		
-		public LookupContext lexicalLookupStrategy(Element element) {
+		public LookupContext lookupContext(Element element) {
 			return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
 		}
 

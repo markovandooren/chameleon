@@ -256,7 +256,7 @@ public class CrossReferenceWithArguments extends ElementImpl {
 //			// repeat lookup for debugging purposes.
 //			// Config.setCaching(false);
 //			if (target == null) {
-//				result = lexicalLookupStrategy().lookUp(selector);
+//				result = lookupContext().lookUp(selector);
 //			} else {
 //				result = target.targetContext().lookUp(selector);
 //			}

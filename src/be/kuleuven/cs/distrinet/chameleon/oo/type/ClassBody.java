@@ -192,7 +192,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
     return result;
 	}
 
-//	public LookupStrategy lexicalLookupStrategy(Element element) {
+//	public LookupStrategy lookupContext(Element element) {
 //		return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
 //	}
 	
@@ -221,9 +221,9 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 	 * This method passes 'element' to the lexicalLookupStrategy method of the parent. It does this
 	 * such that the parent can override the lookup for specific members.
 	 */
-  public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
+  public LookupContext lookupContext(Element element) throws LookupException {
   	// WE DO NOT USE 'this' such that a subclass of regular type can override the lookup for specific members.
-  	return parent().lexicalLookupStrategy(element);
+  	return parent().lookupContext(element);
   }
 
 	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {

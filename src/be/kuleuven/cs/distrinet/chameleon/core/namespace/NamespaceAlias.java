@@ -59,7 +59,15 @@ public class NamespaceAlias extends NamespaceImpl {
   	return aliasedNamespace().declaredProperties();
   }
 	
-  public Scope scope() throws ModelException {
+  public PropertySet<Element,ChameleonProperty> inherentProperties() {
+    return filterProperties(myInherentProperties(), aliasedNamespace().inherentProperties());
+  }
+
+	protected PropertySet<Element,ChameleonProperty> myInherentProperties() {
+		return new PropertySet<Element,ChameleonProperty>();
+	}
+
+	public Scope scope() throws ModelException {
   	Scope result = null;
   	ChameleonProperty scopeProperty = property(language().SCOPE_MUTEX());
   	if(scopeProperty instanceof ScopeProperty) {
@@ -70,7 +78,7 @@ public class NamespaceAlias extends NamespaceImpl {
   	return result;
   }
   
-  public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
+  public LookupContext lookupContext(Element element) throws LookupException {
   	return aliasedNamespace().lexicalContext();
   }
 

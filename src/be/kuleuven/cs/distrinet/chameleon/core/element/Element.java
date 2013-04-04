@@ -958,7 +958,7 @@ public interface Element {
      @
      @ post \result != null; 
      @*/
-    public LookupContext lexicalLookupStrategy(Element child) throws LookupException;
+    public LookupContext lookupContext(Element child) throws LookupException;
     
     /**
      * Return the lexical context for this element.
@@ -1017,7 +1017,9 @@ public interface Element {
     public abstract PropertySet<Element,ChameleonProperty> properties();
         
     /**
-     * Return the default properties of this element.
+     * Return the default properties of this element. A default property
+     * is a property that an element has when no inherent or explicitly
+     * defined property contradicts that property.
      */
    /*@
      @ public behavior
@@ -1038,6 +1040,16 @@ public interface Element {
     public PropertySet<Element,ChameleonProperty> declaredProperties();
 
 
+    /**
+     * Return a the properties that are inherent to this element.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @*/
+    public PropertySet<Element,ChameleonProperty> inherentProperties();
+    
     /**
      * Check if this type element has the given property. 
      * 

@@ -135,7 +135,7 @@ public abstract class ElementReferenceWithTarget<R extends Declaration> extends 
 //	  	if(targetReference != null) {
 //	  		result = targetReference.targetContext().lookUp(selector);
 //	  	} else {
-//	  		result = lexicalLookupStrategy().lookUp(selector);
+//	  		result = lookupContext().lookUp(selector);
 //	  	}
 //	  	throw new LookupException("Cannot find namespace or type with name: "+signature(),this);
 //	  }

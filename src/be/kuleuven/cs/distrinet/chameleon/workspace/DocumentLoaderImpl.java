@@ -205,10 +205,10 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
  /*@
    @ public behavior
    @
-   @ post o == null ==> \result == 1;
+   @ post o == null ==> \result == -1;
    @*/
 	@Override
 	public int compareTo(DocumentLoader o) {
-		return o == null ? 1 : 0;
+		return o == null ? -1 : 0;
 	}
 }

@@ -2,26 +2,24 @@ package be.kuleuven.cs.distrinet.chameleon.core.document;
 
 import java.util.List;
 
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
-import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
-import be.kuleuven.cs.distrinet.chameleon.util.CreationStackTrace;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
+import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
 import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoaderImpl;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputSource;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputSourceImpl;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.View;
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 /**
  * <p>A document represents an artefact in which elements of the program/model are defined. This will typically correspond
@@ -137,7 +135,7 @@ public class Document extends ElementImpl {
 	 * Normally a document should not be involved in the lookup process. The child namespace declarations
 	 * should redirect the lookup towards the general namespace.
 	 */
-	public LookupContext lexicalLookupStrategy(Element child) throws LookupException {
+	public LookupContext lookupContext(Element child) throws LookupException {
 		throw new ChameleonProgrammerException("A document should not be involved in the lookup");
 	}
 
@@ -172,7 +170,8 @@ public class Document extends ElementImpl {
 
 	private static class FakeInputSource extends InputSourceImpl {
 
-		public FakeInputSource(Document document) {
+		public FakeInputSource(Document document, DocumentLoader loader) {
+			super(loader);
 			setDocument(document);
 		}
 		
@@ -189,9 +188,8 @@ public class Document extends ElementImpl {
 	@Deprecated
 	public Document cloneTo(View view) {
 		Document clone = clone();
-		InputSource is = new FakeInputSource(clone);
 		FakeDocumentLoader pl = new FakeDocumentLoader();
-		pl.addInputSource(is);
+		InputSource is = new FakeInputSource(clone,pl);
 		try {
 			view.addSource(pl);
 		} catch (ProjectException e) {

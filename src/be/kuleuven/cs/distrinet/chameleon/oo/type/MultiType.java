@@ -71,7 +71,7 @@ public abstract class MultiType extends ClassImpl {
 		throw new ChameleonProgrammerException("Trying to replace a type parameter in a union type.");
 	}
 
-	public <P extends Parameter> void replaceAllParameter(Class<P> kind, List<P> newParameters) {
+	public <P extends Parameter> void replaceAllParameters(Class<P> kind, List<P> newParameters) {
 		throw new ChameleonProgrammerException("Trying to replace type parameters in a union type.");
 	}
 

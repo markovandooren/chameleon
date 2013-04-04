@@ -14,7 +14,8 @@ import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDec
 
 public class DirectInputSource extends InputSourceImpl {
 
-	public DirectInputSource(Declaration decl, String namespaceFQN, View view, DocumentLoaderImpl loader) throws InputException {
+	public DirectInputSource(Declaration decl, String namespaceFQN, View view, DocumentLoader loader) throws InputException {
+		super(loader);
 		if(decl == null) {
 			throw new IllegalArgumentException("The given declaration is null.");
 		}
@@ -24,9 +25,9 @@ public class DirectInputSource extends InputSourceImpl {
 		if(view == null) {
 			throw new IllegalArgumentException("The given view is null.");
 		}
-		if(loader == null) {
-			throw new IllegalArgumentException("The given document loader is null.");
-		}
+//		if(loader == null) {
+//			throw new IllegalArgumentException("The given document loader is null.");
+//		}
 		_declaration = decl;
 		InputSourceNamespace ns = (InputSourceNamespace) view.namespace().getOrCreateNamespace(namespaceFQN);
 		setNamespace(ns);
@@ -41,7 +42,7 @@ public class DirectInputSource extends InputSourceImpl {
 		Document doc = new Document();
 		doc.add(nsd);
 		setDocument(doc);
-		loader.addInputSource(this);
+//		loader.addInputSource(this);
 		doc.activate();
 	}
 	

@@ -172,9 +172,9 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
 	}
 
   @Override
-  public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
+  public LookupContext lookupContext(Element element) throws LookupException {
   	if(typeParameters().contains(element)) {
-  		return parent().lexicalLookupStrategy(this);
+  		return parent().lookupContext(this);
   	}
   	else {
   		return lexicalStrategy();
@@ -225,7 +225,7 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
   	return nearestAncestor(Element.class);
   }
   
-//  public LookupStrategy lexicalLookupStrategy(Element element) {
+//  public LookupStrategy lookupContext(Element element) {
 //  	return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this),this);
 //  }
   

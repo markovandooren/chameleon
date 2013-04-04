@@ -41,8 +41,8 @@ public class DeclarationContainerAlias extends ElementImpl implements Declaratio
 	}
 
 	@Override
-	public LookupContext lexicalLookupStrategy(Element child) throws LookupException {
-		return parent().lexicalLookupStrategy(child);
+	public LookupContext lookupContext(Element child) throws LookupException {
+		return parent().lookupContext(child);
 	}
 
 

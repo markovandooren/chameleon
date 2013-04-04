@@ -223,9 +223,9 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     }
     
     /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#lexicalLookupStrategy(chameleon.core.element.Element)
+		 * @see chameleon.oo.type.Tajp#lookupContext(chameleon.core.element.Element)
 		 */
-    public LookupContext lexicalLookupStrategy(Element element) throws LookupException {
+    public LookupContext lookupContext(Element element) throws LookupException {
     	if(element instanceof InheritanceRelation && hasInheritanceRelation((InheritanceRelation) element)) {
     		Element parent = parent();
     		if(parent != null) {

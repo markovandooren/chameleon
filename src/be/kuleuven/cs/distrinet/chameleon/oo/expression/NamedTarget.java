@@ -139,7 +139,7 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
 //      if(target != null) {
 //        result = target.targetContext().lookUp(selector);//findElement(getName());
 //      } else {
-//        result = lexicalLookupStrategy().lookUp(selector);//findElement(getName());
+//        result = lookupContext().lookUp(selector);//findElement(getName());
 //      }
 //    	throw new LookupException("Lookup of named target with name: "+name()+" returned null.");
 //    }

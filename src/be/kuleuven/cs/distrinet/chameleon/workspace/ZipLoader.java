@@ -66,7 +66,6 @@ public class ZipLoader extends AbstractZipLoader {
 					InputStream inputStream = new BufferedInputStream(zipFile.getInputStream(entry));
 					InputSourceNamespace ns = (InputSourceNamespace) view().namespace().getOrCreateNamespace(packageFQN);
 					InputSource source = createInputSource(inputStream,qn,ns);
-					addInputSource(source);
 				} catch (IOException e) {
 					throw new InputException(e);
 				}
@@ -75,7 +74,7 @@ public class ZipLoader extends AbstractZipLoader {
 	}
 
 	private InputSource createInputSource(InputStream stream, String declarationName, InputSourceNamespace ns) throws InputException {
-		return new LazyStreamInputSource(stream,declarationName,ns);
+		return new LazyStreamInputSource(stream,declarationName,ns,this);
 	}
 
 }
