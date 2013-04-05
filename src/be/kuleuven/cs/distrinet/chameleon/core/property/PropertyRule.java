@@ -39,11 +39,11 @@ public abstract class PropertyRule<E extends Element> extends Rule<PropertyRule,
    @
    @ post \result == suggested.withoutContradictingProperties(declared);
    @*/
-	public PropertySet<Element,ChameleonProperty> properties(E element) {
+	public PropertySet<Element,ChameleonProperty> properties(E element, PropertySet<Element,ChameleonProperty> explicit) {
 		if(appliesTo(element)) {
 		  PropertySet<Element,ChameleonProperty> suggested = suggestedProperties(element);
-		  PropertySet<Element,ChameleonProperty> declared = element.declaredProperties();
-		  return suggested.withoutContradictingProperties(declared);
+//		   = element.declaredProperties();
+		  return suggested.withoutContradictingProperties(explicit);
 		} else {
 			return createSet();
 		}

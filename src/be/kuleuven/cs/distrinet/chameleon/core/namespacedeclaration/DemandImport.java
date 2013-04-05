@@ -25,28 +25,28 @@ import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
  */
 public class DemandImport extends Import {
   
-  public DemandImport(ElementReference<? extends Namespace> ref) {
-    setNamespaceReference( (ElementReference<? extends Namespace>) ref);
+  public DemandImport(ElementReference<? extends DeclarationContainer> ref) {
+  	setContainerReference(ref);
   }
   
-	private Single<ElementReference<? extends Namespace>> _packageOrType = new Single<ElementReference<? extends Namespace>>(this);
+	private Single<ElementReference<? extends DeclarationContainer>> _packageOrType = new Single<ElementReference<? extends DeclarationContainer>>(this);
 
   
-  public ElementReference<? extends Namespace> namespaceReference() {
+  public ElementReference<? extends DeclarationContainer> containerReference() {
     return _packageOrType.getOtherEnd();
   }
   
-  public void setNamespaceReference(ElementReference<? extends Namespace> ref) {
+  public void setContainerReference(ElementReference<? extends DeclarationContainer> ref) {
   	set(_packageOrType,ref);
   }
   
   public DeclarationContainer declarationContainer() throws LookupException {
-    return namespaceReference().getElement();
+    return containerReference().getElement();
   }
   
   @Override
   public DemandImport clone() {
-    return new DemandImport((ElementReference<? extends Namespace>) namespaceReference().clone());
+    return new DemandImport((ElementReference<? extends DeclarationContainer>) containerReference().clone());
   }
 
 
@@ -132,16 +132,7 @@ public class DemandImport extends Import {
 		return Valid.create();
 	}
 	
-	public Namespace importedNamespace() throws LookupException {
-		return namespaceReference().getElement();
-	}
-
 	public boolean importsSameAs(Import other) throws LookupException {
 		return super.importsSameAs(other);
 	}
-//	@Override
-//	public boolean importsSameAs(Import other) throws LookupException {
-//		return other instanceof DemandImport && ((DemandImport)other).importedNamespace().sameAs(importedNamespace());
-//	}
-//  
 }

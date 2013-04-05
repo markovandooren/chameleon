@@ -48,7 +48,7 @@ public class NamespaceAlias extends NamespaceImpl {
 	}
 
 	private PropertySet<Element,ChameleonProperty> myDefaultProperties() {
-		return language().defaultProperties(this);
+		return language().defaultProperties(this,this.explicitProperties());
 	}
 
   public PropertySet<Element,ChameleonProperty> defaultProperties() {

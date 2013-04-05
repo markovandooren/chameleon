@@ -128,13 +128,13 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
    @        \exists(PropertyRule rule; propertyRules().contains(rule);
    @           rule.properties(element).contains(p)));
    @*/
-	public PropertySet<Element,ChameleonProperty> defaultProperties(Element element) {
+	public PropertySet<Element,ChameleonProperty> defaultProperties(Element element,PropertySet<Element,ChameleonProperty> explicit) {
 		// FIXME: verify all dynamic properties? Check if result is TRUE or FALSE, and add property or
 		//       property.inverse() respectively.
 		PropertySet<Element,ChameleonProperty> result = new PropertySet<Element,ChameleonProperty>();
 		for(PropertyRule rule:propertyRules()) {
 			if(rule.elementType().isInstance(element)) {
-			  result.addAll(rule.properties(element));
+			  result.addAll(rule.properties(element,explicit));
 			}
 		}
 		return result;

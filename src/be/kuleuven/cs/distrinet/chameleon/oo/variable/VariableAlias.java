@@ -106,7 +106,7 @@ public class VariableAlias extends VariableImpl implements MemberVariable {
 	}
 
 	private PropertySet<Element,ChameleonProperty> myDefaultProperties() {
-		return language().defaultProperties(this);
+		return language().defaultProperties(this,explicitProperties());
 	}
 
   public PropertySet<Element,ChameleonProperty> defaultProperties() {

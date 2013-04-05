@@ -34,6 +34,7 @@ public class AssignmentExpression extends Expression {
 	 */
 	private Single<Expression> _variable = new Single<Expression>(this);
 
+	//FIXME This is wrong. It does not deal with arrays.
 	public Variable variable() throws LookupException {
 		Expression variableExpression = getVariableExpression();
 		if(variableExpression instanceof CrossReference) {

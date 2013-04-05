@@ -22,6 +22,12 @@ public interface DeclarationContainer extends Element {
    * The resulting collection contains the locally declared declarations and
    * those that this declaration container receives from other declaration
    * containers (e.g. through an inheritance relation).
+   *
+   * This method can be <b>very slow</b>. For example, when used on types/classes
+   * for a language with syntactic overloading, this method is a disaster. Fortunately,
+   * all lookup are done using {@link #declarations(DeclarationSelector)}. It is of course
+   * fine to use this metod in the implementation of {@link #declarations(DeclarationSelector)} for
+   * declaration containers that have an efficient {@link #declarations()} method (most of them).
    */
  /*@
    @ public behavior

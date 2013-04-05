@@ -90,7 +90,7 @@ public abstract class TypeIndirection extends ClassImpl {
 	 * @return
 	 */
 	protected PropertySet<Element,ChameleonProperty> myDefaultProperties() {
-		return language().defaultProperties(this);
+		return language().defaultProperties(this,explicitProperties());
 	}
 
 	protected PropertySet<Element,ChameleonProperty> myInherentProperties() {

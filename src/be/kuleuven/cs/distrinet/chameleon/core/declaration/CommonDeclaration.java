@@ -3,6 +3,7 @@ package be.kuleuven.cs.distrinet.chameleon.core.declaration;
 import java.util.ArrayList;
 import java.util.List;
 
+import be.kuleuven.cs.distrinet.rejuse.math.matrix.ExplicitShiftQRSchurDecomposer;
 import be.kuleuven.cs.distrinet.rejuse.property.Property;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
@@ -158,7 +159,7 @@ public abstract class CommonDeclaration extends DeclarationImpl implements Eleme
 	 * @return
 	 */
 	protected PropertySet<Element,ChameleonProperty> myDefaultProperties() {
-		return language().defaultProperties(this);
+		return language().defaultProperties(this, explicitProperties());
 	}
 	
 	public List<Modifier> modifiers(Property property) throws ModelException {

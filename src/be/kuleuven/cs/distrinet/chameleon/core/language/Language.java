@@ -64,7 +64,7 @@ public interface Language extends PropertyUniverse<ChameleonProperty>, PluginCon
    @        \exists(PropertyRule rule; propertyRules().contains(rule);
    @           rule.properties(element).contains(p)));
    @*/
-	public PropertySet<Element,ChameleonProperty> defaultProperties(Element element);
+	public PropertySet<Element,ChameleonProperty> defaultProperties(Element element, PropertySet<Element,ChameleonProperty> explicit);
 	
 	/**
 	 * Return the list of rule that determine the default properties of an element.

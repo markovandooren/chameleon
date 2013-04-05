@@ -902,14 +902,34 @@ public abstract class ElementImpl implements Element {
 	 }
 
 	 public PropertySet<Element,ChameleonProperty> properties() {
-		 PropertySet<Element,ChameleonProperty> result = declaredProperties();
-		 result.addAll(defaultProperties());
-		 result.addAll(inherentProperties());
+		 PropertySet<Element, ChameleonProperty> result = explicitProperties();
+		 result.addAll(defaultProperties(result));
 		 return result;
 	 }
 
+	/**
+	 * Return the set of explicit properties of this element. 
+	 * @return
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @ post \result.containsAll(declaredProperties());
+   @ post \result.containsAll(inherentProperties());
+   @*/
+	protected PropertySet<Element, ChameleonProperty> explicitProperties() {
+		PropertySet<Element,ChameleonProperty> result = declaredProperties();
+		 result.addAll(inherentProperties());
+		return result;
+	}
+
 	 public PropertySet<Element,ChameleonProperty> defaultProperties() {
-		 return language().defaultProperties(this);
+		 return defaultProperties(explicitProperties());
+	 }
+
+	 public PropertySet<Element,ChameleonProperty> defaultProperties(PropertySet<Element,ChameleonProperty> explicit) {
+		 return language().defaultProperties(this,explicit);
 	 }
 
 	 public PropertySet<Element,ChameleonProperty> inherentProperties() {
