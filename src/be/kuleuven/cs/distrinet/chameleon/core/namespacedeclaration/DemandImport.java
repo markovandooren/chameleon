@@ -55,7 +55,9 @@ public class DemandImport extends Import {
 		return (List<Declaration>) declarationContainer().declarations();
 	}
 
-
+	protected void filterImportedElements(List<Declaration> declarations ) throws LookupException {
+	}
+	
 	@Override
 	public List<Declaration> directImports() throws LookupException {
 		return new ArrayList<Declaration>();
