@@ -5,6 +5,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 /**
  * A class representing the status of a valid model.
  * 
+ * @pattern{name="flyweight"}
  * @author Marko van Dooren
  */
 public class Valid extends VerificationResult {
@@ -14,6 +15,9 @@ public class Valid extends VerificationResult {
 
 	/**
 	 * Create a new Valid object.
+	 * 
+	 * Performance: it uses the flyweight pattern since Valid is
+	 * just a value.
 	 */
 	public static Valid create() {
 		return _instance;
@@ -67,6 +71,9 @@ public class Valid extends VerificationResult {
 	}
 
 	
+	/**
+	 * Does nothing.
+	 */
 	@Override
 	public void setElement(Element element) {
 		// Do nothing

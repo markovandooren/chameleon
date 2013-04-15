@@ -11,6 +11,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.ExtendsConstraint;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.FormalTypeParameter;
+import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeConstraint;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.FormalParameter;
 
@@ -33,27 +34,25 @@ public abstract class DeclarationWithParametersSignature extends Signature {
 
 	private boolean sameParameterBoundsAsAfter(DeclarationWithParametersSignature other) throws LookupException {
   	// substitute paramaters.
-		DeclarationWithParameters method = other.nearestAncestor(DeclarationWithParameters.class);
-  	DeclarationWithParametersHeader otherHeader = method.header();
+		DeclarationWithParameters otherMethod = other.nearestAncestor(DeclarationWithParameters.class);
+  	DeclarationWithParametersHeader otherHeader = otherMethod.header();
+  	
   	int nbOtherFormalParameters = otherHeader.nbFormalParameters();
   	int nbMyFormalParameters = nbFormalParameters();
   	boolean result = nbOtherFormalParameters == nbMyFormalParameters;
+  	
   	if(result) {
-  		DeclarationWithParametersHeader clonedHeader = otherHeader.clone();
-  		clonedHeader.setUniParent(method);
-  		List<TypeParameter> cloneTypeParameters = clonedHeader.typeParameters();
+  		DeclarationWithParametersHeader clonedOtherHeader = otherHeader.clone();
+  		clonedOtherHeader.setUniParent(otherMethod);
+  		List<TypeParameter> cloneTypeParameters = clonedOtherHeader.typeParameters();
   		List<TypeParameter> myTypeParameters = nearestAncestor(DeclarationWithParameters.class).typeParameters();
-  		int size = myTypeParameters.size();
-  		result = (size == cloneTypeParameters.size());
+  		int nbMyTypeParameters = myTypeParameters.size();
+  		result = (nbMyTypeParameters == cloneTypeParameters.size());
   		if(result) {
   			// FIXME: part of this should be delegated to 'other' and a class Erased...Signature should be made
   			//        to avoid cloning when it is not necessary (and to clean up this bad code of course).
-  			List<FormalParameter> clonedFormalParameters = (List<FormalParameter>)clonedHeader.formalParameters();
-  			List<TypeReference> typeReferencesForComparison = other.typeReferences();
-  			for(int i=0; i < nbMyFormalParameters; i++) {
-  				clonedFormalParameters.get(i).setTypeReference(typeReferencesForComparison.get(i).clone());
-  			}
-  			for(int i=0; i < size; i++) {
+  			List<FormalParameter> clonedFormalParameters = (List<FormalParameter>)clonedOtherHeader.formalParameters();
+  			for(int i=0; i < nbMyTypeParameters; i++) {
   				TypeParameter myTypeParameter = myTypeParameters.get(i);
   				TypeParameter clonedTypeParameter = cloneTypeParameters.get(i);
   				TypeReference replacement = language(ObjectOrientedLanguage.class).createTypeReference(myTypeParameter.signature().name());
@@ -65,10 +64,14 @@ public abstract class DeclarationWithParametersSignature extends Signature {
   				}
 
   				// substitute in type bounds of the type parameters of the cloned header.
-  				for(TypeParameter typeParameter: (List<TypeParameter>)clonedHeader.typeParameters()) {
+  				List<TypeParameter> typeParameters = (List<TypeParameter>)clonedOtherHeader.typeParameters();
+					for(TypeParameter typeParameter: typeParameters) {
   					if(typeParameter instanceof FormalTypeParameter) {
   						FormalTypeParameter formal = (FormalTypeParameter) typeParameter;
-  						language(ObjectOrientedLanguage.class).replace(replacement, clonedTypeParameter, ((ExtendsConstraint)formal.constraints().get(0)).typeReference());
+  						List<TypeConstraint> constraints = formal.constraints(); 
+  						for(TypeConstraint constraint: constraints) {
+  							language(ObjectOrientedLanguage.class).replace(replacement, clonedTypeParameter, constraint.typeReference());
+  						}
   					}
   				}
   			}
@@ -76,7 +79,11 @@ public abstract class DeclarationWithParametersSignature extends Signature {
   			for(int i=0; result && i < nbMyFormalParameters; i++) {
   				result = clonedFormalParameters.get(i).getType().sameAs(myFormalParameterTypes.get(i));
   			}
-  			for(int i=0; result && i < size; i++) {
+  			for(int i=0; result && i < nbMyTypeParameters; i++) {
+  				// According to the language specification, the equality should be on the bounds, not just the upper bounds.
+  				// However, in Java, type parameters of a method can have only extends constraints.
+  				// FIXME Nevertheless, it would be better if TypeConstraint was a composite that could do
+  				//       the check for us.
   				result = cloneTypeParameters.get(i).upperBound().sameAs(myTypeParameters.get(i).upperBound());
   			}
   		}

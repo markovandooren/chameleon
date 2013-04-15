@@ -9,20 +9,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
  * 
  * @author Marko van Dooren
  */
-public abstract class VerificationResult extends AnalysisResult {
-
-	/**
-	 * Combine this verification result with the given other verification result.
-	 * The given verification result is not modified.
-	 */
- /*@
-   @ public behavior
-   @
-   @ pre other != null;
-   @
-   @ post \result != null;
-   @*/
-	public abstract VerificationResult and(VerificationResult other);
+public abstract class VerificationResult extends AnalysisResult<VerificationResult> {
 
 	/**
 	 * Combine this verification result with the given problem.
