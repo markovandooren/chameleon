@@ -6,6 +6,7 @@ import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import be.kuleuven.cs.distrinet.rejuse.io.FileUtils;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectConfiguration.SourcePath.Zip;
@@ -389,11 +390,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 	}
 	
 	protected File file(String path) {
-		File root = new File(path);
-		if(!root.isAbsolute()) {
-			root = new File(project().root().getAbsolutePath()+File.separator+path);
-		}
-		return root;
+		return FileUtils.absoluteFile(path, project().root());
 	}
 	
 	

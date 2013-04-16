@@ -26,8 +26,8 @@ import org.eclipse.swt.widgets.TreeItem;
 
 import be.kuleuven.cs.distrinet.chameleon.eclipse.ChameleonEditorPlugin;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorExtension;
-import be.kuleuven.cs.distrinet.chameleon.util.FileUtil;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectConfiguration;
+import be.kuleuven.cs.distrinet.rejuse.io.FileUtils;
 
 public class PathPage extends WizardPage implements IWizardPage {
 
@@ -139,7 +139,7 @@ public class PathPage extends WizardPage implements IWizardPage {
 
 	private String relativePath(String path) {
 		String root = wizard().projectRootPath().toString();
-		return FileUtil.relativePath(root, path);
+		return FileUtils.relativePath(root, path);
 	}
 
 	private ProjectConfiguration projectConfig() {
