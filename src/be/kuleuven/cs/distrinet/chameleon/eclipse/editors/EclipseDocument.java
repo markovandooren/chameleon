@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.editors;
 
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -35,22 +34,21 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.texteditor.MarkerUtilities;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.AtomicProblem;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.ChameleonEditorPlugin;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorTag;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.reconciler.ChameleonPresentationReconciler;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.PresentationManager;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature;
-import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
 import be.kuleuven.cs.distrinet.chameleon.input.ParseProblem;
 import be.kuleuven.cs.distrinet.chameleon.input.PositionMetadata;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputSource;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 /**
  * A document for the chameleon framework. The ChameleonDocument contains positions 
@@ -621,7 +619,7 @@ public class EclipseDocument extends org.eclipse.jface.text.Document {
 	}
 
 	
-	public void markError(BasicProblem problem) {
+	public void markError(AtomicProblem problem) {
 		String message = problem.message();
 		HashMap<String, Object> attributes = ChameleonPresentationReconciler.createProblemMarkerMap(message);
 		EclipseEditorTag positionTag = null;

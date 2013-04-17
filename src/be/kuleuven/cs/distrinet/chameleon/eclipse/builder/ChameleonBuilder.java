@@ -19,7 +19,7 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
 
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.AtomicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Invalid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
@@ -246,7 +246,7 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 			exc.printStackTrace();
 		}
 		if(result instanceof Invalid) {
-		  for(BasicProblem problem: ((Invalid)result).problems()) {
+		  for(AtomicProblem problem: ((Invalid)result).problems()) {
 			  document.markError(problem);
 		  }
 		}

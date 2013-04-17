@@ -47,7 +47,7 @@ public class CompositeProblem extends Invalid {
 		return result;
 	}
 
-	private List<BasicProblem> _problems = new ArrayList<BasicProblem>();
+	private List<AtomicProblem> _problems = new ArrayList<AtomicProblem>();
 	
 	/**
 	 * Return the problems indicated by this composite problem.
@@ -57,8 +57,8 @@ public class CompositeProblem extends Invalid {
    @
    @ post \result != null;
    @*/
-	public List<BasicProblem> problems() {
-		return new ArrayList<BasicProblem>(_problems);
+	public List<AtomicProblem> problems() {
+		return new ArrayList<AtomicProblem>(_problems);
 	}
 	
 	/**
@@ -73,7 +73,7 @@ public class CompositeProblem extends Invalid {
    @ post problems().contains(problem);
    @ post problems().size() == \old(problems().size()) + 1;
    @*/
-	public void add(BasicProblem problem) {
+	public void add(AtomicProblem problem) {
 		_problems.add(problem);
 	}
 	
@@ -89,8 +89,8 @@ public class CompositeProblem extends Invalid {
    @ post problems().containsAll(problems);
    @ post problems().size() == \old(problems().size()) + problems.size();
    @*/
-	public void addAll(List<? extends BasicProblem> problems) {
-		for(BasicProblem problem:problems) {
+	public void addAll(List<? extends AtomicProblem> problems) {
+		for(AtomicProblem problem:problems) {
 			add(problem);
 		}
 	}
@@ -102,7 +102,7 @@ public class CompositeProblem extends Invalid {
 	@Override
 	public String message() {
 		String result = "";
-		for (BasicProblem elem : problems()) {
+		for (AtomicProblem elem : problems()) {
 			result = result.concat("\n " + elem.message());
 		}
 		return result;

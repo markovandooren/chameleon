@@ -17,7 +17,7 @@ public abstract class Invalid extends VerificationResult {
    @
    @ post \result != null;
    @*/
-	public abstract List<BasicProblem> problems();
+	public abstract List<AtomicProblem> problems();
 
 	/**
 	 * @return The message of this problem.
