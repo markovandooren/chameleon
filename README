@@ -1,6 +1,5 @@
 Read the documentation of the common repository. It contains the shared project infrastructure for the projects.
 
-
 build/ 
   * Contains the build files for ant. These are in a subdirectory because Eclipse overwrites build.xml
     without any warning (even if you select the preference that it should warn you) if you build an update site
