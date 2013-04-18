@@ -1,9 +1,9 @@
 package be.kuleuven.cs.distrinet.chameleon.core.comment;
 
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 /**
  * @author Marko van Dooren

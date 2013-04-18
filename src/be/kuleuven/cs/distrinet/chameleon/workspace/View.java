@@ -5,11 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
-import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
-import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
-import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
@@ -24,6 +19,11 @@ import be.kuleuven.cs.distrinet.chameleon.plugin.ViewPlugin;
 import be.kuleuven.cs.distrinet.chameleon.plugin.ViewProcessor;
 import be.kuleuven.cs.distrinet.chameleon.util.Handler;
 import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoaderImpl.TunnelException;
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
+import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 
 public class View extends PluginContainerImpl<ViewPlugin> implements PluginContainer<ViewPlugin>, ProcessorContainer<ViewProcessor> {
 	

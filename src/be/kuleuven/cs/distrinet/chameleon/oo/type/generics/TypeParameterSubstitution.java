@@ -3,10 +3,10 @@ package be.kuleuven.cs.distrinet.chameleon.oo.type.generics;
 import java.util.ArrayList;
 import java.util.List;
 
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 public class TypeParameterSubstitution {
 

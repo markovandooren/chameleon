@@ -3,6 +3,21 @@ package be.kuleuven.cs.distrinet.chameleon.core.element;
 import java.util.Collection;
 import java.util.List;
 
+import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
+import be.kuleuven.cs.distrinet.chameleon.core.language.WrongLanguageException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
+import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
+import be.kuleuven.cs.distrinet.chameleon.core.tag.Metadata;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
+import be.kuleuven.cs.distrinet.chameleon.util.action.Action;
+import be.kuleuven.cs.distrinet.chameleon.util.action.SafeAction;
+import be.kuleuven.cs.distrinet.chameleon.util.association.ChameleonAssociation;
+import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
+import be.kuleuven.cs.distrinet.chameleon.workspace.View;
+import be.kuleuven.cs.distrinet.chameleon.workspace.WrongViewException;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
@@ -10,22 +25,6 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UnsafePredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
-import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
-import be.kuleuven.cs.distrinet.chameleon.core.language.WrongLanguageException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
-import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
-import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
-import be.kuleuven.cs.distrinet.chameleon.core.tag.Metadata;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
-import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
-import be.kuleuven.cs.distrinet.chameleon.util.association.ChameleonAssociation;
-import be.kuleuven.cs.distrinet.chameleon.util.concurrent.Action;
-import be.kuleuven.cs.distrinet.chameleon.util.concurrent.SafeAction;
-import be.kuleuven.cs.distrinet.chameleon.util.concurrent.UnsafeAction;
-import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
-import be.kuleuven.cs.distrinet.chameleon.workspace.View;
-import be.kuleuven.cs.distrinet.chameleon.workspace.WrongViewException;
 
 /**
  * Element is the top interface for an element of a source model. Every lexical language construct (every
@@ -553,19 +552,19 @@ public interface Element {
     /**
      * Recursively apply the given action to this element and all of its descendants, but only if they their type conforms to T.
      */
-    public <T extends Element> void apply(Class<T> c, Action<T> action) throws Exception;
+    public <T extends Element, E extends Exception> void apply(Action<T,E> action) throws E;
     
-    /**
-     * Recursively apply the given action to this element and all of its descendants, but only if they their type conforms to T.
-     */
-    public <T extends Element> void apply(Class<T> c, SafeAction<T> action);
-    
-    /**
-     * Recursively apply the given action to this element and all of its descendants, but only if they their type conforms to T.
-     * 
-     * The only checked exception that occurs are determined by type parameter X.
-     */
-    public <T extends Element, X extends Exception> void apply(Class<T> c, UnsafeAction<T,X> action) throws X;
+//    /**
+//     * Recursively apply the given action to this element and all of its descendants, but only if they their type conforms to T.
+//     */
+//    public <T extends Element> void apply(Class<T> c, SafeAction<T> action);
+//    
+//    /**
+//     * Recursively apply the given action to this element and all of its descendants, but only if they their type conforms to T.
+//     * 
+//     * The only checked exception that occurs are determined by type parameter X.
+//     */
+//    public <T extends Element, X extends Exception> void apply(Class<T> c, UnsafeAction<T,X> action) throws X;
 
     /**
      * Return the metadata with the given key.

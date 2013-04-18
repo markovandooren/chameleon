@@ -2,7 +2,6 @@ package be.kuleuven.cs.distrinet.chameleon.eclipse.project;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import org.eclipse.core.resources.ICommand;
@@ -34,8 +33,8 @@ import be.kuleuven.cs.distrinet.chameleon.eclipse.builder.ChameleonBuilder;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorExtension;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorInputProcessor;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseSourceManager;
-import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.ChameleonEditor;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.PresentationModel;
 import be.kuleuven.cs.distrinet.chameleon.input.InputProcessor;
 import be.kuleuven.cs.distrinet.chameleon.input.ModelFactory;
@@ -44,7 +43,6 @@ import be.kuleuven.cs.distrinet.chameleon.input.SourceManager;
 import be.kuleuven.cs.distrinet.chameleon.workspace.BootstrapProjectConfig;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ConfigException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
-import be.kuleuven.cs.distrinet.chameleon.workspace.FileInputSource;
 import be.kuleuven.cs.distrinet.chameleon.workspace.IFileInputSource;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputSource;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputSourceListener;

@@ -20,18 +20,18 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.ChameleonEditorPlugin;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorTag;
-import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.ChameleonEditor;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.treeview.ChameleonLabelProvider;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 /**
  * This class represents the action to open the super or subtype (==actionType in constructor) hierarchy.

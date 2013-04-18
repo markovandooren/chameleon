@@ -3,7 +3,6 @@ package be.kuleuven.cs.distrinet.chameleon.core.relation;
 import java.util.Collection;
 
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 
 /**
  * A class of strict partial orders for Chameleon. It duplicates quite a bit of

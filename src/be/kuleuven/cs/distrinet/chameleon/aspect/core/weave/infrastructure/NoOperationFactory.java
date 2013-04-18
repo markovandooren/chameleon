@@ -2,7 +2,6 @@ package be.kuleuven.cs.distrinet.chameleon.aspect.core.weave.infrastructure;
 
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice.Advice;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.MatchResult;
-import be.kuleuven.cs.distrinet.chameleon.aspect.core.weave.JoinPointWeaver;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 

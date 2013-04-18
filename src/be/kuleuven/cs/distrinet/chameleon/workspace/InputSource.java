@@ -3,13 +3,13 @@ package be.kuleuven.cs.distrinet.chameleon.workspace;
 import java.io.IOException;
 import java.util.List;
 
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.InputSourceNamespace;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 /**
  * A class representing a source from which a Document is built. These

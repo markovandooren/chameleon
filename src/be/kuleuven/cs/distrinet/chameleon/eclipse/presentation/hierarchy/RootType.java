@@ -6,8 +6,8 @@ package be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.hierarchy;
 
 import org.eclipse.core.resources.IFile;
 
-import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.ChameleonEditor;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;

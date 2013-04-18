@@ -3,15 +3,15 @@ package be.kuleuven.cs.distrinet.chameleon.core.property;
 import java.util.ArrayList;
 import java.util.List;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertyUniverse;
-import be.kuleuven.cs.distrinet.rejuse.property.StaticProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertyUniverse;
+import be.kuleuven.cs.distrinet.rejuse.property.StaticProperty;
 
 public class StaticChameleonProperty extends StaticProperty<Element,ChameleonProperty> implements ChameleonProperty {
 

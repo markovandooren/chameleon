@@ -2,8 +2,6 @@ package be.kuleuven.cs.distrinet.chameleon.aspect.core.model.aspect;
 
 import java.util.List;
 
-import be.kuleuven.cs.distrinet.rejuse.association.MultiAssociation;
-import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice.Advice;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.Pointcut;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
@@ -13,9 +11,9 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContextFactory;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.Scope;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.ScopeProperty;

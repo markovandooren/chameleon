@@ -2,7 +2,6 @@ package be.kuleuven.cs.distrinet.chameleon.core.lookup;
 
 import java.util.List;
 
-import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 
 /**

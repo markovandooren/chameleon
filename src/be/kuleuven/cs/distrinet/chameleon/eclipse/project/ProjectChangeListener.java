@@ -14,11 +14,8 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 
-import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.ChameleonEditor;
-import be.kuleuven.cs.distrinet.chameleon.workspace.FileLoader;
-import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
-import be.kuleuven.cs.distrinet.chameleon.workspace.View;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
 
 public class ProjectChangeListener implements IResourceChangeListener {
 

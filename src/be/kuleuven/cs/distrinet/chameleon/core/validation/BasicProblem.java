@@ -1,10 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.core.validation;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
-import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 
 /**
  * A class that represents a single problem in a model. To report multiple

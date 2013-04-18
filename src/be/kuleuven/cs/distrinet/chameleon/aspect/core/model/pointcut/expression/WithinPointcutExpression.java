@@ -1,8 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.pattern.DeclarationPattern;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;

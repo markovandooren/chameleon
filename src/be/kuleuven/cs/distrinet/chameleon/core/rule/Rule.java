@@ -1,10 +1,10 @@
 package be.kuleuven.cs.distrinet.chameleon.core.rule;
 
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.core.language.WrongLanguageException;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 /**
  * A class of rules that apply to a language. The semantics of the rules is not determined in this class.
  * 

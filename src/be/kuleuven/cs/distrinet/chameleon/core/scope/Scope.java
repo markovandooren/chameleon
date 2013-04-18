@@ -2,7 +2,6 @@ package be.kuleuven.cs.distrinet.chameleon.core.scope;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 
 /**
  * A class of scopes. They represent the region of code where a declaration can be referenced provided that it

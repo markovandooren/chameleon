@@ -3,7 +3,6 @@ package be.kuleuven.cs.distrinet.chameleon.core.relation;
 import java.util.Collection;
 
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 
 public abstract class WeakPartialOrder<E> extends be.kuleuven.cs.distrinet.rejuse.logic.relation.WeakPartialOrder<E> {
   

@@ -2,7 +2,6 @@ package be.kuleuven.cs.distrinet.chameleon.aspect.core.weave.sorter;
 
 import java.util.Comparator;
 
-import be.kuleuven.cs.distrinet.rejuse.property.Property;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice.Advice;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.weave.JoinPointWeaver;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;

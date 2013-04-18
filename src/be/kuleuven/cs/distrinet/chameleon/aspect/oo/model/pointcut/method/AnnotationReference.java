@@ -1,9 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.aspect.oo.model.pointcut.method;
 
-import java.util.Collections;
-import java.util.List;
-
-import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;

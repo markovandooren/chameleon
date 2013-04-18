@@ -10,9 +10,9 @@ import java.util.TreeSet;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorTag;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 /**
  * Calculates the elements for the Editor Tag List View.

@@ -10,8 +10,8 @@ import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.presentation.IPresentationRepairer;
 import org.eclipse.jface.text.reconciler.IReconcilingStrategy;
 
-import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.ChameleonEditor;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
 
 /**
  * @author Manuel Van Wesemael 

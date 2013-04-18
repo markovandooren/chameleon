@@ -15,12 +15,12 @@ import java.util.concurrent.ExecutionException;
 
 import org.antlr.runtime.RecognitionException;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
+import be.kuleuven.cs.distrinet.chameleon.util.action.Action;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.CallableFactory;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.FixedThreadCallableExecutor;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.QueuePollingCallableFactory;
-import be.kuleuven.cs.distrinet.chameleon.util.concurrent.UnsafeAction;
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 /**
  * A class for recursively loading files from a directory.
@@ -217,9 +217,9 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 		final Counter counter = new Counter();
 		final BlockingQueue<File> fileQueue = new ArrayBlockingQueue<File>(files.size(), true, files);
 
-		UnsafeAction<File,Exception> unsafeAction = new UnsafeAction<File,Exception>() {
+		Action<File,Exception> unsafeAction = new Action<File,Exception>(File.class) {
 			private boolean _debug = false;
-			public void actuallyPerform(File file) throws InputException {
+			public void perform(File file) throws InputException {
 				counter.increase();
 				if(_debug) {System.out.println(counter.get()+" of "+size+" :"+file.getAbsolutePath());};
 				addToModel(file);

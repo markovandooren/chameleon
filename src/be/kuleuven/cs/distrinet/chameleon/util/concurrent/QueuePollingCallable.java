@@ -1,7 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.util.concurrent;
 
 import java.util.Queue;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 
 public abstract class QueuePollingCallable<T>  extends QueuePollingExecutable<T> implements Callable<Object> {

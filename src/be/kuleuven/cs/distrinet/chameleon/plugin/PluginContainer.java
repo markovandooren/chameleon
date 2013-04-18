@@ -4,8 +4,6 @@ import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
-
 public interface PluginContainer<P extends Plugin> {
 
   /**

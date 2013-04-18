@@ -2,17 +2,19 @@ package be.kuleuven.cs.distrinet.chameleon.util.concurrent;
 
 import java.util.Queue;
 
-public class QueuePollingFactory<T> {
+import be.kuleuven.cs.distrinet.chameleon.util.action.Action;
 
-	public QueuePollingFactory(Action<T> action, Queue<T> queue) {
+public class QueuePollingFactory<T,E extends Exception> {
+
+	public QueuePollingFactory(Action<T,E> action, Queue<T> queue) {
 		_action = action;
 		_queue = queue;
 	}
 	
-	protected Action<T> _action;
+	protected Action<T,E> _action;
 	protected Queue<T> _queue;
 
-	public Action<T> action() {
+	public Action<T,E> action() {
 		return _action;
 	}
 

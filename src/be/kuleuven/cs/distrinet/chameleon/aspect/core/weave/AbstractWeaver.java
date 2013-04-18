@@ -6,7 +6,6 @@ import be.kuleuven.cs.distrinet.chameleon.aspect.core.weave.infrastructure.Advic
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.weave.transform.JoinPointTransformer;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 
 /**
  *	For general info about how the elementWeavers work, see Weaver.java 

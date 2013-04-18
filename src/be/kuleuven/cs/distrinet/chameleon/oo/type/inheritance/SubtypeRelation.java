@@ -2,7 +2,6 @@ package be.kuleuven.cs.distrinet.chameleon.oo.type.inheritance;
 
 import java.util.List;
 
-import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.Modifier;
@@ -14,6 +13,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.member.Member;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.MemberRelationSelector;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
+import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 
 public class SubtypeRelation extends AbstractInheritanceRelation {
 

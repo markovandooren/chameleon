@@ -1,12 +1,11 @@
 package be.kuleuven.cs.distrinet.chameleon.workspace;
 
 import java.io.File;
-import java.io.FilenameFilter;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.plugin.LanguagePlugin;
 import be.kuleuven.cs.distrinet.chameleon.workspace.BootstrapProjectConfig.BaseLibraryConfiguration;
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 /**
  * A class of plugins to create language specific project configurations.

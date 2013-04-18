@@ -3,15 +3,14 @@ package be.kuleuven.cs.distrinet.chameleon.util.concurrent;
 import java.util.Queue;
 import java.util.concurrent.Callable;
 
-public class QueuePollingCallableFactory<T,E extends Exception> extends QueuePollingFactory<T> implements CallableFactory {
+import be.kuleuven.cs.distrinet.chameleon.util.action.Action;
 
-	public QueuePollingCallableFactory(UnsafeAction<T,E> action, Queue<T> queue) {
+public class QueuePollingCallableFactory<T,E extends Exception> extends QueuePollingFactory<T,E> implements CallableFactory {
+
+	public QueuePollingCallableFactory(Action<T,E> action, Queue<T> queue) {
 		super(action,queue);
 	}
 
-	public UnsafeAction<T,E> action() {
-		return (UnsafeAction<T, E>) super.action();
-	}
 	@Override
 	public Callable<Object> createCallable() {
 		return new QueuePollingCallable<T>(queue()) {

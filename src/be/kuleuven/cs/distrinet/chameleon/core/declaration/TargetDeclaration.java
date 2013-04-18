@@ -1,7 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.core.declaration;
 
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.Target;
 
 public interface TargetDeclaration extends Declaration, Target {

@@ -1,24 +1,20 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.connector;
 
 import java.util.Collection;
-import java.util.Map;
 
 import org.eclipse.jface.text.BadLocationException;
 
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.tag.Metadata;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
-import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.reconciler.ChameleonPresentationReconciler;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.input.InputProcessor;
-import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
 import be.kuleuven.cs.distrinet.chameleon.input.ParseProblem;
-import be.kuleuven.cs.distrinet.chameleon.plugin.Processor;
 import be.kuleuven.cs.distrinet.chameleon.plugin.ViewProcessorImpl;
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 public class EclipseEditorInputProcessor extends ViewProcessorImpl implements InputProcessor {
 

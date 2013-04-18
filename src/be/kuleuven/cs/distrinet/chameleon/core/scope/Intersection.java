@@ -2,9 +2,9 @@ package be.kuleuven.cs.distrinet.chameleon.core.scope;
 
 import java.util.Collection;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 
 /**
  * @author marko

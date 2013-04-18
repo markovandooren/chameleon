@@ -1,9 +1,9 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.member;
 
-import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
+import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 
 public abstract class OverridesRelation<D extends Declaration> extends DeclarationComparator<D> {
 

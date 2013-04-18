@@ -10,7 +10,6 @@ import be.kuleuven.cs.distrinet.chameleon.oo.expression.NamedTargetExpression;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Block;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.VariableDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.support.statement.ReturnStatement;
-import be.kuleuven.cs.distrinet.chameleon.support.variable.LocalVariable;
 import be.kuleuven.cs.distrinet.chameleon.support.variable.LocalVariableDeclarator;
 
 public class AfterReturningExpression extends AdvisedExpressionFactory {

@@ -1,8 +1,8 @@
 package be.kuleuven.cs.distrinet.chameleon.tool.analysis;
 
-import be.kuleuven.cs.distrinet.rejuse.graph.Graph;
 import be.kuleuven.cs.distrinet.chameleon.oo.method.Method;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
+import be.kuleuven.cs.distrinet.rejuse.graph.Graph;
 
 /**
  * A class of objects representating the static flow of exceptions through a program.

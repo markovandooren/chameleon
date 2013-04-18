@@ -1,8 +1,8 @@
 package be.kuleuven.cs.distrinet.chameleon.core.reference;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 
 /**
  * An invocation target is a "cross-reference" element to an element in which 

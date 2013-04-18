@@ -1,12 +1,11 @@
 package be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.generic;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
-import be.kuleuven.cs.distrinet.chameleon.aspect.oo.model.pointcut.ParameterExposurePointcutExpression;
 import be.kuleuven.cs.distrinet.chameleon.aspect.oo.model.pointcut.RuntimePointcutExpression;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 public class PointcutExpressionOr extends PointcutExpressionDual<Element> implements RuntimePointcutExpression<Element> {
 

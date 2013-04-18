@@ -1,7 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.workspace;
 
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 public class ProjectReference {
 

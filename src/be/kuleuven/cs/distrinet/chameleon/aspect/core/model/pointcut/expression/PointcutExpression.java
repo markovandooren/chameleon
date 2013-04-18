@@ -2,10 +2,10 @@ package be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression
 
 import java.util.List;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 public interface PointcutExpression<J extends Element> extends Element {
 	

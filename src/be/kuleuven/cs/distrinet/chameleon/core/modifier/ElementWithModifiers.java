@@ -2,10 +2,10 @@ package be.kuleuven.cs.distrinet.chameleon.core.modifier;
 
 import java.util.List;
 
-import be.kuleuven.cs.distrinet.rejuse.property.Property;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
+import be.kuleuven.cs.distrinet.rejuse.property.Property;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 
 /**
  * This is a convenience class for element that can have modifiers. Elements of this class automatically use the modifiers

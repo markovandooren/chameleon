@@ -3,9 +3,9 @@ package be.kuleuven.cs.distrinet.chameleon.workspace;
 import java.io.IOException;
 import java.util.List;
 
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
 
 
 

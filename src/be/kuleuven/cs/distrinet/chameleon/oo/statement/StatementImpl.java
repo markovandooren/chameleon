@@ -3,10 +3,10 @@ package be.kuleuven.cs.distrinet.chameleon.oo.statement;
 import java.util.List;
 import java.util.ListIterator;
 
-import be.kuleuven.cs.distrinet.rejuse.java.collections.RobustVisitor;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.rejuse.java.collections.RobustVisitor;
 
 /**
  * @author Marko van Dooren

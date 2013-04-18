@@ -1,13 +1,13 @@
 package be.kuleuven.cs.distrinet.chameleon.aspect.core.model.language;
 
-import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice.property.AfterProperty;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice.property.AroundProperty;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice.property.BeforeProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.language.LanguageImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContextFactory;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
+import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 
 public abstract class AbstractAspectOrientedLanguage extends LanguageImpl implements AspectOrientedLanguage {
 

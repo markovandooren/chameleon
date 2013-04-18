@@ -4,11 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import be.kuleuven.cs.distrinet.rejuse.association.MultiAssociation;
-import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertyUniverse;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContextFactory;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
@@ -19,8 +14,12 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException
 import be.kuleuven.cs.distrinet.chameleon.plugin.LanguagePlugin;
 import be.kuleuven.cs.distrinet.chameleon.plugin.LanguageProcessor;
 import be.kuleuven.cs.distrinet.chameleon.plugin.PluginContainer;
-import be.kuleuven.cs.distrinet.chameleon.plugin.Processor;
 import be.kuleuven.cs.distrinet.chameleon.plugin.ProcessorContainer;
+import be.kuleuven.cs.distrinet.rejuse.association.MultiAssociation;
+import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertyUniverse;
 
 public interface Language extends PropertyUniverse<ChameleonProperty>, PluginContainer<LanguagePlugin>, ProcessorContainer<LanguageProcessor> {
 	

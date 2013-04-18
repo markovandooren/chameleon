@@ -1,15 +1,14 @@
 package be.kuleuven.cs.distrinet.chameleon.workspace;
 
 import java.io.File;
-import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
+import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectConfiguration.SourcePath;
 import be.kuleuven.cs.distrinet.rejuse.io.FileUtils;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
-import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
-import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectConfiguration.SourcePath.Zip;
 
 /**
  * A ProjectConfig mirrors the configuration of a Chameleon project. To load a project,

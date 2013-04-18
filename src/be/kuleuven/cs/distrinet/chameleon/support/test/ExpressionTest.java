@@ -16,10 +16,10 @@ import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.test.ModelTest;
 import be.kuleuven.cs.distrinet.chameleon.test.provider.ElementProvider;
+import be.kuleuven.cs.distrinet.chameleon.util.action.Action;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.CallableFactory;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.FixedThreadCallableExecutor;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.QueuePollingCallableFactory;
-import be.kuleuven.cs.distrinet.chameleon.util.concurrent.UnsafeAction;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectException;
 
@@ -77,8 +77,8 @@ public class ExpressionTest extends ModelTest {
 //	  	System.out.println("debug");
 //	  }
 	  final BlockingQueue<Type> typeQueue = new ArrayBlockingQueue<Type>(types.size(), true, types);
-	  CallableFactory factory = new QueuePollingCallableFactory(new UnsafeAction<Type,LookupException>() {
-	  	public void actuallyPerform(Type type) throws LookupException {
+	  CallableFactory factory = new QueuePollingCallableFactory(new Action<Type,LookupException>(Type.class) {
+	  	public void perform(Type type) throws LookupException {
 	  		String fullyQualifiedName = type.getFullyQualifiedName();
 //	  		getLogger().info("Actually Testing "+fullyQualifiedName);
 	  		processType(type);

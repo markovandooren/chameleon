@@ -3,10 +3,10 @@ package be.kuleuven.cs.distrinet.chameleon.workspace;
 import java.util.ArrayList;
 import java.util.List;
 
+import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
 import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
-import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 
 public abstract class DocumentLoaderImpl implements DocumentLoader {
 

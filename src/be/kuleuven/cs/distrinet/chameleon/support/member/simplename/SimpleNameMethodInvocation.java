@@ -2,15 +2,15 @@ package be.kuleuven.cs.distrinet.chameleon.support.member.simplename;
 
 import java.util.List;
 
-import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceWithName;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
+import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceWithName;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.MethodInvocation;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
 import be.kuleuven.cs.distrinet.chameleon.oo.lookup.SimpleNameCrossReferenceWithArgumentsSelector;
 import be.kuleuven.cs.distrinet.chameleon.oo.method.Method;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
+import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 
 public abstract class SimpleNameMethodInvocation<D extends Method> extends MethodInvocation<D> implements CrossReferenceWithName<D> {
 

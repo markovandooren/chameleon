@@ -25,7 +25,11 @@ public class CompositeProblem extends Invalid {
    @*/
 	@Override
 	public VerificationResult and(VerificationResult other) {
-		return other.andInvalid(this);
+		if(other != null) {
+			return other.andInvalid(this);
+		} else {
+			return this;
+		}
 	}
 	
 	/**

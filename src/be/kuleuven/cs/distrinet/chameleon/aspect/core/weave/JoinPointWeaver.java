@@ -2,14 +2,14 @@ package be.kuleuven.cs.distrinet.chameleon.aspect.core.weave;
 
 import java.util.Iterator;
 
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice.Advice;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.weave.infrastructure.AdviceInfrastructureFactory;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.weave.transform.JoinPointTransformer;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 /**
  * 	This class encapsulates everything needed to perform weaving:

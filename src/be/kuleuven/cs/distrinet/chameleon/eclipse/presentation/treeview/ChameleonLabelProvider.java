@@ -9,13 +9,11 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
-import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.ElementWithModifiers;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.Modifier;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.ChameleonEditorPlugin;
-import be.kuleuven.cs.distrinet.chameleon.eclipse.LanguageMgt;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorExtension;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorTag;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.hierarchy.HierarchyTypeNode;
@@ -27,6 +25,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.method.Method;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeElement;
 import be.kuleuven.cs.distrinet.chameleon.plugin.output.Syntax;
+import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 
 /**
  * @author Manuel Van Wesemael 

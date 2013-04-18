@@ -2,7 +2,6 @@ package be.kuleuven.cs.distrinet.chameleon.aspect.oo.weave.transform;
 
 import java.util.List;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
 import be.kuleuven.cs.distrinet.chameleon.aspect.oo.model.advice.weave.transform.runtime.AbstractCoordinator;
@@ -14,6 +13,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Block;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Statement;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.FormalParameter;
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 public abstract class ThreePhaseCoordinator<T extends Element> extends AbstractCoordinator<T> {
 

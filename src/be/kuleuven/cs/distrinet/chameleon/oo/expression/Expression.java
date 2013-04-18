@@ -2,7 +2,6 @@ package be.kuleuven.cs.distrinet.chameleon.oo.expression;
 
 import java.lang.ref.SoftReference;
 
-import be.kuleuven.cs.distrinet.rejuse.java.collections.RobustVisitor;
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
@@ -12,6 +11,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.CheckedExceptionList;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.ExceptionSource;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
+import be.kuleuven.cs.distrinet.rejuse.java.collections.RobustVisitor;
 
 /**
  * A class of elements representing expressions in a language. Each expression has a type.

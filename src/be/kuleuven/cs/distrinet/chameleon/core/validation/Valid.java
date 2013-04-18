@@ -51,7 +51,11 @@ public class Valid extends VerificationResult {
    @*/
 	@Override
 	public VerificationResult and(VerificationResult other) {
-		return other;
+		if(other != null) {
+			return other;
+		} else {
+			return this;
+		}
 	}
 
 	/**

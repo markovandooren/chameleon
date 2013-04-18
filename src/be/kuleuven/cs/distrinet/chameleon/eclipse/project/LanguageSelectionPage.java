@@ -2,7 +2,6 @@ package be.kuleuven.cs.distrinet.chameleon.eclipse.project;
 
 import java.util.ArrayList;
 
-import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;

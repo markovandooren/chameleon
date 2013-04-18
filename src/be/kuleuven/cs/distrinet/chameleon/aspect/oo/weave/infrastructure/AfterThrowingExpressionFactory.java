@@ -16,7 +16,6 @@ import be.kuleuven.cs.distrinet.chameleon.support.expression.InstanceofExpressio
 import be.kuleuven.cs.distrinet.chameleon.support.statement.CatchClause;
 import be.kuleuven.cs.distrinet.chameleon.support.statement.IfThenElseStatement;
 import be.kuleuven.cs.distrinet.chameleon.support.statement.ThrowStatement;
-import be.kuleuven.cs.distrinet.chameleon.support.variable.LocalVariable;
 import be.kuleuven.cs.distrinet.chameleon.support.variable.LocalVariableDeclarator;
 
 public class AfterThrowingExpressionFactory extends AdvisedExpressionFactory {

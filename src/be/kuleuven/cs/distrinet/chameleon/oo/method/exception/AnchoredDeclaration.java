@@ -2,9 +2,9 @@ package be.kuleuven.cs.distrinet.chameleon.oo.method.exception;
 
 import java.util.Set;
 
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 /**
  * @author Marko van Dooren

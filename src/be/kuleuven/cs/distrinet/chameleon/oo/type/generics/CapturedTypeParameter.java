@@ -3,7 +3,6 @@ package be.kuleuven.cs.distrinet.chameleon.oo.type.generics;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.oo.type.DerivedType;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.NonLocalTypeReference;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 

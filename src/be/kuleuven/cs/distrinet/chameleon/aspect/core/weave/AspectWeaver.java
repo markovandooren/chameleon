@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice.Advice;
-import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.aspect.Aspect;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;

@@ -10,6 +10,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import be.kuleuven.cs.distrinet.chameleon.core.Config;
+import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
+import be.kuleuven.cs.distrinet.chameleon.core.language.WrongLanguageException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
+import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
+import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
+import be.kuleuven.cs.distrinet.chameleon.core.tag.Metadata;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
+import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
+import be.kuleuven.cs.distrinet.chameleon.util.action.Action;
+import be.kuleuven.cs.distrinet.chameleon.util.association.ChameleonAssociation;
+import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
+import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
+import be.kuleuven.cs.distrinet.chameleon.workspace.View;
+import be.kuleuven.cs.distrinet.chameleon.workspace.WrongViewException;
 import be.kuleuven.cs.distrinet.rejuse.association.AbstractMultiAssociation;
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
@@ -24,28 +44,6 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.UnsafePredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.Conflict;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
-import be.kuleuven.cs.distrinet.chameleon.core.Config;
-import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
-import be.kuleuven.cs.distrinet.chameleon.core.language.WrongLanguageException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
-import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
-import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
-import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
-import be.kuleuven.cs.distrinet.chameleon.core.tag.Metadata;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
-import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
-import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
-import be.kuleuven.cs.distrinet.chameleon.util.association.ChameleonAssociation;
-import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
-import be.kuleuven.cs.distrinet.chameleon.util.concurrent.Action;
-import be.kuleuven.cs.distrinet.chameleon.util.concurrent.SafeAction;
-import be.kuleuven.cs.distrinet.chameleon.util.concurrent.UnsafeAction;
-import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
-import be.kuleuven.cs.distrinet.chameleon.workspace.View;
-import be.kuleuven.cs.distrinet.chameleon.workspace.WrongViewException;
 
 /**
  * @author Marko van Dooren
@@ -673,32 +671,32 @@ public abstract class ElementImpl implements Element {
 		return result;
 	}
 
-	public final <T extends Element> void apply(Class<T> c, Action<T> action) throws Exception {
-		if(c.isInstance(this)) {
+	public final <T extends Element, E extends Exception>  void apply(Action<T,E> action) throws E {
+		if(action.type().isInstance(this)) {
 			action.perform((T)this);
 		}
 		for (Element e : children()) {
-			e.apply(c, action);
+			e.apply(action);
 		}
 	}
 
-	public final <T extends Element> void apply(Class<T> c, SafeAction<T> action) {
-		if(c.isInstance(this)) {
-			action.perform((T)this);
-		}
-		for (Element e : children()) {
-			e.apply(c, action);
-		}
-	}
-
-	public final <T extends Element, X extends Exception> void apply(Class<T> c, UnsafeAction<T,X> action) throws X {
-		if(c.isInstance(this)) {
-			action.perform((T)this);
-		}
-		for (Element e : children()) {
-			e.apply(c, action);
-		}
-	}
+//	public final <T extends Element> void apply(Class<T> c, SafeAction<T> action) {
+//		if(c.isInstance(this)) {
+//			action.perform((T)this);
+//		}
+//		for (Element e : children()) {
+//			e.apply(c, action);
+//		}
+//	}
+//
+//	public final <T extends Element, X extends Exception> void apply(Class<T> c, UnsafeAction<T,X> action) throws X {
+//		if(c.isInstance(this)) {
+//			action.perform((T)this);
+//		}
+//		for (Element e : children()) {
+//			e.apply(c, action);
+//		}
+//	}
 
 	public final <T extends Element> List<T> ancestors(Class<T> c) {
 		List<T> result = new ArrayList<T>();

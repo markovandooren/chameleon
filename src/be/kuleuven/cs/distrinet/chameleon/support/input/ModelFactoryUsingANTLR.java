@@ -10,18 +10,17 @@ import java.util.Set;
 
 import org.antlr.runtime.RecognitionException;
 
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
-import be.kuleuven.cs.distrinet.rejuse.io.DirectoryScanner;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
-import be.kuleuven.cs.distrinet.chameleon.input.InputProcessor;
 import be.kuleuven.cs.distrinet.chameleon.input.ModelFactory;
 import be.kuleuven.cs.distrinet.chameleon.input.NoLocationException;
 import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
 import be.kuleuven.cs.distrinet.chameleon.input.SourceManager;
 import be.kuleuven.cs.distrinet.chameleon.plugin.LanguagePluginImpl;
 import be.kuleuven.cs.distrinet.chameleon.workspace.View;
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import be.kuleuven.cs.distrinet.rejuse.io.DirectoryScanner;
 
 public abstract class ModelFactoryUsingANTLR extends LanguagePluginImpl implements ModelFactory {
 

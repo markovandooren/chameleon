@@ -2,11 +2,11 @@ package be.kuleuven.cs.distrinet.chameleon.aspect.oo.weave.infrastructure;
 
 import java.util.List;
 
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import be.kuleuven.cs.distrinet.chameleon.aspect.oo.model.advice.ProceedCall;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Block;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Statement;
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
 
 public class AroundBlock extends AdvisedBlockFactory {
 	

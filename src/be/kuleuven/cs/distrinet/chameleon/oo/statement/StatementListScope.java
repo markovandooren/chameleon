@@ -5,7 +5,6 @@ import java.util.Iterator;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.LexicalScope;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.Scope;
-import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 
 /**
  * @author Marko van Dooren

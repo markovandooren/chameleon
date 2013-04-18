@@ -1,11 +1,9 @@
 package be.kuleuven.cs.distrinet.chameleon.plugin.build;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
-import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.plugin.ViewPlugin;
 
 public interface Builder extends ViewPlugin {

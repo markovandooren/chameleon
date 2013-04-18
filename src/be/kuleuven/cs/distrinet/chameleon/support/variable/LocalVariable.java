@@ -2,19 +2,16 @@ package be.kuleuven.cs.distrinet.chameleon.support.variable;
 
 import java.util.List;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
-import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.Scope;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Statement;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.StatementListContainer;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.StatementListScope;
-import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.RegularVariable;
-import be.kuleuven.cs.distrinet.chameleon.oo.variable.VariableContainer;
+import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 
 /**
  * @author Marko van Dooren

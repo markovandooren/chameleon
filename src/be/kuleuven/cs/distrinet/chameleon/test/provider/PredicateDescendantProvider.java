@@ -3,9 +3,9 @@ package be.kuleuven.cs.distrinet.chameleon.test.provider;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.workspace.View;
+import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 /**
  * A class for provider descendants of type E that satisfy a given predicate,

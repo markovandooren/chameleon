@@ -11,15 +11,15 @@ import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.NamedTargetExpression;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.FormalParameter;
+import be.kuleuven.cs.distrinet.chameleon.util.action.SafeAction;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
-import be.kuleuven.cs.distrinet.chameleon.util.concurrent.SafeAction;
 
 public class NamedPointcutExpression extends AbstractPointcutExpression<Element> implements CrossReference<Pointcut> {
 	
@@ -113,9 +113,9 @@ public class NamedPointcutExpression extends AbstractPointcutExpression<Element>
 
 	private void renameParameters(PointcutExpression<?> pointcutExpression, final Map<String, String> parameterNamesMap) {
 		 //((ParameterExposurePointcutExpression<?,?>) pointcutExpression).renameParameters(parameterNamesMap);
-		pointcutExpression.apply(ParameterExposurePointcutExpression.class, new SafeAction<ParameterExposurePointcutExpression>() {
+		pointcutExpression.apply(new SafeAction<ParameterExposurePointcutExpression>(ParameterExposurePointcutExpression.class) {
 			@Override
-			protected void actuallyPerform(ParameterExposurePointcutExpression t) throws Exception {
+			public void perform(ParameterExposurePointcutExpression t) {
 				t.renameParameters(parameterNamesMap);
 			}
 		});

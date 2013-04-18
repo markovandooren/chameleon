@@ -3,7 +3,6 @@ package be.kuleuven.cs.distrinet.chameleon.core.namespace;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.SpecificReference;
-import be.kuleuven.cs.distrinet.chameleon.util.CreationStackTrace;
 
 /**
  * @author marko

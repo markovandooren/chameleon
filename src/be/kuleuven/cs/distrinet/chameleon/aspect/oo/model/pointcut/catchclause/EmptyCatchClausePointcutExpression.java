@@ -1,10 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.aspect.oo.model.pointcut.catchclause;
 
-import java.util.Collections;
-import java.util.List;
-
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.MatchResult;
-import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Block;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Statement;

@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.aspect.oo.model.advice.modifier;
 
-import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import be.kuleuven.cs.distrinet.chameleon.aspect.oo.model.advice.property.ThrowingProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
@@ -9,6 +8,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.FormalParameter;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 
 /**
  * @author Jens De Temmerman

@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.TimeUnit;
 
 public class FixedThreadCallableExecutor<E extends Exception> extends FixedThreadExecutor {
 	public FixedThreadCallableExecutor(CallableFactory factory) {

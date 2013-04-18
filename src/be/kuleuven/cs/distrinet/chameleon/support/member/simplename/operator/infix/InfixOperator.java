@@ -3,7 +3,6 @@ package be.kuleuven.cs.distrinet.chameleon.support.member.simplename.operator.in
 import be.kuleuven.cs.distrinet.chameleon.oo.method.Method;
 import be.kuleuven.cs.distrinet.chameleon.oo.method.MethodHeader;
 import be.kuleuven.cs.distrinet.chameleon.support.member.simplename.operator.Operator;
-import be.kuleuven.cs.distrinet.chameleon.util.CreationStackTrace;
 
 /**
  * @author Marko van Dooren
