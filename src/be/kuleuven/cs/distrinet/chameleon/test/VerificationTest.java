@@ -7,7 +7,7 @@ import org.junit.Test;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.test.provider.ElementProvider;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectException;
@@ -28,7 +28,7 @@ public class VerificationTest extends ModelTest {
 	@Test
 	public void testVerification() throws LookupException {
 		for(NamespaceDeclaration element: elementProvider().elements(view())) {
-			VerificationResult result = element.verify();
+			Verification result = element.verify();
 			assertTrue(result.toString() ,Valid.create() == result);
 		}
 	}

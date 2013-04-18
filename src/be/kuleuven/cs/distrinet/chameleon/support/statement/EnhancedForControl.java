@@ -5,7 +5,7 @@ import java.util.List;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.support.variable.LocalVariable;
 import be.kuleuven.cs.distrinet.chameleon.support.variable.LocalVariableDeclarator;
@@ -56,8 +56,8 @@ public class EnhancedForControl extends ForControl {
 	}
 
 	@Override
-	public VerificationResult verifySelf() {
-		VerificationResult result = checkNull(variableDeclarator(), "An enhanced for control must declare a variable", Valid.create());
+	public Verification verifySelf() {
+		Verification result = checkNull(variableDeclarator(), "An enhanced for control must declare a variable", Valid.create());
 		result = checkNull(collection(), "An enhanced for control must indicate from which collection the variables must come.", result);
 		return result;
 	}

@@ -7,7 +7,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.MethodInvocation;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
@@ -98,7 +98,7 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration {
   }
 
 	@Override
-	public VerificationResult verifySelf() {
+	public Verification verifySelf() {
 		try {
 			boolean isException = language(ObjectOrientedLanguage.class).isException(getType());
 			if(isException) {

@@ -8,7 +8,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContextFactory;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.property.PropertyRule;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationRule;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.plugin.LanguagePlugin;
@@ -351,7 +351,7 @@ public interface Language extends PropertyUniverse<ChameleonProperty>, PluginCon
 	 * @param element
 	 * @return
 	 */
-	public VerificationResult verify(Element element);
+	public Verification verify(Element element);
 	
 	/**
 	 * Flush the caches kept by this language. Caches of model elements are flushed separately. 

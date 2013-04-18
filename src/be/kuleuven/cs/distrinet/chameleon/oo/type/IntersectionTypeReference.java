@@ -6,7 +6,7 @@ import java.util.List;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 
 public class IntersectionTypeReference extends CombinationTypeReference implements TypeReference {
 
@@ -40,7 +40,7 @@ public class IntersectionTypeReference extends CombinationTypeReference implemen
 	}
 
 	@Override
-	public VerificationResult verifySelf() {
+	public Verification verifySelf() {
 		return Valid.create();
 	}
 

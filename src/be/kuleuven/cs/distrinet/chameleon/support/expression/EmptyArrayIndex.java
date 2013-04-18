@@ -1,7 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.support.expression;
 
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 
 /**
@@ -87,7 +87,7 @@ public class EmptyArrayIndex extends ArrayIndex {
 	}
 
 	@Override
-	public VerificationResult verifySelf() {
+	public Verification verifySelf() {
 		return Valid.create();
 	}
 	

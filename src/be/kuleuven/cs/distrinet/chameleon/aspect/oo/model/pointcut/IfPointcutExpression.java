@@ -3,7 +3,7 @@ package be.kuleuven.cs.distrinet.chameleon.aspect.oo.model.pointcut;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
@@ -34,8 +34,8 @@ public class IfPointcutExpression extends AbstractDynamicPointcutExpression impl
 	}
 
 	@Override
-	public VerificationResult verifySelf() {
-		VerificationResult result = super.verifySelf();
+	public Verification verifySelf() {
+		Verification result = super.verifySelf();
 		try {
 			if (!expression().getType().sameAs(language(ObjectOrientedLanguage.class).booleanType(view().namespace())))
 				result = result.and(new BasicProblem(this, "An if-expression may only contain boolean expressions"));

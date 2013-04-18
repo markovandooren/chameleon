@@ -11,7 +11,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.SimpleNameDeclarationWithParametersHeader;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.SimpleNameDeclarationWithParametersSignature;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.FormalParameter;
@@ -65,8 +65,8 @@ public class ProgrammingPointcut extends Pointcut implements DeclarationContaine
 //	}
 	
   @Override
-  public VerificationResult verifySelf() {
-  	VerificationResult result = super.verifySelf();
+  public Verification verifySelf() {
+  	Verification result = super.verifySelf();
 //		List<FormalParameter> unresolved = unresolvedParameters();
 //		if (!unresolved.isEmpty()) {
 //			

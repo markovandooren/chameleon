@@ -6,7 +6,7 @@ import java.util.List;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
@@ -51,7 +51,7 @@ public class StaticChameleonProperty extends StaticProperty<Element,ChameleonPro
    @
    @ post ! (\exists Class<? extends Element> cls; validElementTypes().contains(cls); cls.isAssignableFrom(element.getClass()) ==> \result instanceof Invalid;
    @*/
-	public VerificationResult verify(Element element) {
+	public Verification verify(Element element) {
 		final Class<? extends Element> elementClass = element.getClass();
 		boolean validType = new SafePredicate<Class<? extends Element>>() {
 			@Override
@@ -107,7 +107,7 @@ public class StaticChameleonProperty extends StaticProperty<Element,ChameleonPro
 			throw new ChameleonProgrammerException("This method should not be invoked for an InverseProperty. Its inverse is passed as an argument to the constructor.");
 		}
 
-		public VerificationResult verify(Element element) {
+		public Verification verify(Element element) {
 			final Class<? extends Element> elementClass = element.getClass();
 			boolean validType = new SafePredicate<Class<? extends Element>>() {
 				@Override

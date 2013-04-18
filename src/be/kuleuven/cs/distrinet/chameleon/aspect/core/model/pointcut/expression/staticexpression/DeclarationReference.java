@@ -2,7 +2,7 @@ package be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 
 public class DeclarationReference extends ElementImpl {
 
@@ -22,7 +22,7 @@ public class DeclarationReference extends ElementImpl {
 	}
 
 	@Override
-	public VerificationResult verifySelf() {
+	public Verification verifySelf() {
 		return Valid.create();
 	}
 

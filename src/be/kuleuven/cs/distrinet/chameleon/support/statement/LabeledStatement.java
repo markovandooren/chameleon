@@ -2,7 +2,7 @@ package be.kuleuven.cs.distrinet.chameleon.support.statement;
 
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Statement;
 
 /**
@@ -30,8 +30,8 @@ public class LabeledStatement extends StatementContainingStatement {
   }
 
 	@Override
-	public VerificationResult verifySelf() {
-		VerificationResult result = Valid.create();
+	public Verification verifySelf() {
+		Verification result = Valid.create();
 		if(getLabel() == null) {
 			result = result.and(new BasicProblem(this,"The label is missing."));
 		}

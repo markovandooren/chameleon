@@ -1,7 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.support.expression;
 
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
@@ -26,8 +26,8 @@ public abstract class TernaryExpression extends BinaryExpression {
   }
 
 	@Override
-	public VerificationResult verifySelf() {
-		VerificationResult result = super.verifySelf();
+	public Verification verifySelf() {
+		Verification result = super.verifySelf();
     if(getThird() == null) {
     	result = result.and(new BasicProblem(this,"The expression has no third expression."));
     }

@@ -1,6 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.core.validation;
 
-import be.kuleuven.cs.distrinet.chameleon.core.analysis.AnalysisResult;
+import be.kuleuven.cs.distrinet.chameleon.core.analysis.Result;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 
 /**
@@ -9,7 +9,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
  * 
  * @author Marko van Dooren
  */
-public abstract class VerificationResult extends AnalysisResult<VerificationResult> {
+public abstract class Verification extends Result<Verification> {
 
 	/**
 	 * Combine this verification result with the given problem.
@@ -21,7 +21,7 @@ public abstract class VerificationResult extends AnalysisResult<VerificationResu
    @
    @ pre problem != null;
    @*/
-	protected abstract VerificationResult andInvalid(Invalid problem);
+	protected abstract Verification andInvalid(Invalid problem);
 	
 	/**
 	 * Change the element to which this verification result applies to the given element. If

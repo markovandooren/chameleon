@@ -3,7 +3,7 @@ package be.kuleuven.cs.distrinet.chameleon.aspect.oo.model.advice;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.support.statement.ReturnStatement;
@@ -18,8 +18,8 @@ public class AdviceReturnStatement extends ReturnStatement {
 	}
 
 	@Override
-	  public VerificationResult verifySelf() {
-	  	VerificationResult result = Valid.create();
+	  public Verification verifySelf() {
+	  	Verification result = Valid.create();
 	  	
 	  	try {
 	  		ProgrammingAdvice nearestAncestor = nearestAncestor(ProgrammingAdvice.class);

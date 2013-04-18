@@ -11,7 +11,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.ParameterBlock;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
@@ -131,7 +131,7 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 		}
 
 		@Override
-		public VerificationResult verifySelf() {
+		public Verification verifySelf() {
 			return Valid.create();
 		}
 
@@ -142,7 +142,7 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 	}
 
 	@Override
-	public VerificationResult verifySelf() {
+	public Verification verifySelf() {
 		return Valid.create();
 	}
 

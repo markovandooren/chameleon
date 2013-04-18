@@ -5,7 +5,7 @@ import java.util.Set;
 
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 
 
@@ -42,8 +42,8 @@ public abstract class Literal extends Expression {
   }
   
 	@Override
-	public VerificationResult verifySelf() {
-		VerificationResult result = Valid.create();
+	public Verification verifySelf() {
+		Verification result = Valid.create();
 		if(getValue() == null) {
 			result = result.and(new BasicProblem(this, "The value of the literal is missing."));
 		}

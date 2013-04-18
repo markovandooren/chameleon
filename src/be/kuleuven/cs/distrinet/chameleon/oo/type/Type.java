@@ -13,7 +13,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.Member;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.MemberRelationSelector;
@@ -326,7 +326,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 
 	public Type baseType();
 
-	public VerificationResult verifySelf();
+	public Verification verifySelf();
 
 	public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException;
 
@@ -362,7 +362,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	 * @param meaningOtherType
 	 * @return
 	 */
-	public VerificationResult verifySubtypeOf(Type otherType, String meaningThisType, String meaningOtherType, Element cause);
+	public Verification verifySubtypeOf(Type otherType, String meaningThisType, String meaningOtherType, Element cause);
 
 	public boolean auxSuperTypeOf(Type type) throws LookupException;
 }

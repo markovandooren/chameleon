@@ -38,6 +38,6 @@ public abstract class VerificationRule<E extends Element> extends Rule<Verificat
    @
    @ pre element != null;
    @*/
-	public abstract VerificationResult verify(E element);
+	public abstract Verification verify(E element);
 
 }

@@ -7,7 +7,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
@@ -76,8 +76,8 @@ public abstract class CommonDeclarationContainingDeclaration extends
 	}
 	
   @Override
-  public VerificationResult verifySelf() {
-  	VerificationResult result = super.verifySelf();
+  public Verification verifySelf() {
+  	Verification result = super.verifySelf();
   	try {
   	List<? extends Declaration> declarations = declarations();
   	for(Declaration first: declarations) {

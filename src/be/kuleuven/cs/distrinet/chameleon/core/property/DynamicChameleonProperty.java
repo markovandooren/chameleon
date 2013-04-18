@@ -6,7 +6,7 @@ import java.util.List;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.DynamicProperty;
@@ -62,7 +62,7 @@ public abstract class DynamicChameleonProperty extends DynamicProperty<Element,C
 		protected void createInverse(String name, PropertyUniverse<ChameleonProperty> universe) {
 		}
 
-		public VerificationResult verify(Element element) {
+		public Verification verify(Element element) {
 			return verifyAux(element, this);
 		}
 
@@ -77,12 +77,12 @@ public abstract class DynamicChameleonProperty extends DynamicProperty<Element,C
 		new InverseDynamicChameleonProperty("not "+name, universe, mutex(), this);
 	}
 
-	public VerificationResult verify(Element element) {
+	public Verification verify(Element element) {
 		return verifyAux(element,this);
 	}
 	
-	public VerificationResult verifyAux(Element element, DynamicProperty<Element,ChameleonProperty> property) {
-		VerificationResult result = Valid.create();
+	public Verification verifyAux(Element element, DynamicProperty<Element,ChameleonProperty> property) {
+		Verification result = Valid.create();
 
 		final Class<? extends Element> elementClass = element.getClass();
 		boolean validType = new SafePredicate<Class<? extends Element>>() {

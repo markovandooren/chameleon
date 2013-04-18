@@ -27,7 +27,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.relation.WeakPartialOrder;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.FixedSignatureMember;
@@ -98,8 +98,8 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
   	}
   }
   
-  public VerificationResult verifySubtypeOf(Type otherType, String meaningThisType, String meaningOtherType, Element cause) {
-  	VerificationResult result = Valid.create();
+  public Verification verifySubtypeOf(Type otherType, String meaningThisType, String meaningOtherType, Element cause) {
+  	Verification result = Valid.create();
   	String messageOther = meaningOtherType+" ("+otherType.infoName()+").";
   	String messageThis = meaningThisType + " (" + infoName() + ")";
 		try {
@@ -872,8 +872,8 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 		 * @see chameleon.oo.type.Tajp#verifySelf()
 		 */
 		@Override
-		public VerificationResult verifySelf() {
-			VerificationResult result = Valid.create(); 
+		public Verification verifySelf() {
+			Verification result = Valid.create(); 
 			ObjectOrientedLanguage lang = language(ObjectOrientedLanguage.class);
 			if(! isTrue(lang.ABSTRACT)) {
 				List<Member> members = null;

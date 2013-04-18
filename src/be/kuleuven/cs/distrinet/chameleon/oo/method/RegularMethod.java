@@ -1,7 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.method;
 
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.method.exception.ExceptionClause;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
@@ -46,8 +46,8 @@ public abstract class RegularMethod extends Method {
   }
   
 	@Override
-	public VerificationResult verifySelf() {
-		VerificationResult result = super.verifySelf();
+	public Verification verifySelf() {
+		Verification result = super.verifySelf();
 		if(returnTypeReference() == null) {
 			result = result.and(new BasicProblem(this, "Method "+name()+" has no return type."));
 		}

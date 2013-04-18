@@ -11,7 +11,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.Modifier;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Block;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
@@ -85,8 +85,8 @@ public abstract class ProgrammingAdvice extends Advice<Block> implements Declara
 //	}
 
   @Override
-  public VerificationResult verifySelf() {
-  	VerificationResult result = super.verifySelf();
+  public Verification verifySelf() {
+  	Verification result = super.verifySelf();
 //		List<FormalParameter> unresolved = unresolvedParameters();
 //		if (!unresolved.isEmpty()) {
 //

@@ -3,7 +3,7 @@ package be.kuleuven.cs.distrinet.chameleon.support.statement;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
@@ -51,8 +51,8 @@ public class SwitchStatement extends ExpressionContainingStatement {
   }
 
   @Override
-  public VerificationResult verifySelf() {
-  	VerificationResult result = super.verifySelf();
+  public Verification verifySelf() {
+  	Verification result = super.verifySelf();
   	List<DefaultLabel> cases = descendants(DefaultLabel.class);
   	if(cases.size() > 1) {
   		result = result.and(new BasicProblem(this,"A switch statement can contain only one default label."));

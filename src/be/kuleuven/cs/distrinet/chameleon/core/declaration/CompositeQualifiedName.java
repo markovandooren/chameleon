@@ -3,7 +3,7 @@ package be.kuleuven.cs.distrinet.chameleon.core.declaration;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 
@@ -60,7 +60,7 @@ public class CompositeQualifiedName extends QualifiedName {
 	}
 
 	@Override
-	public VerificationResult verifySelf() {
+	public Verification verifySelf() {
 		return Valid.create();//new BasicProblem(this, "TODO: implement verifySelf of FullyQualifiedName");
 	}
 

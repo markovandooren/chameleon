@@ -1,7 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.method;
 
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Block;
 
 /**
@@ -23,7 +23,7 @@ public class NativeImplementation extends Implementation {
   }
 
 	@Override
-	public VerificationResult verifySelf() {
+	public Verification verifySelf() {
 		return Valid.create();
 	}
 

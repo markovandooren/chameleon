@@ -1,7 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.core.analysis;
 
 
-public abstract class AnalysisResult<T extends AnalysisResult> {
+public abstract class Result<T extends Result> {
 	
 	/**
 	 * Return a message that describes the result of the analysis.

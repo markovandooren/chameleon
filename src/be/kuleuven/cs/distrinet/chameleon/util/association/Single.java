@@ -3,7 +3,7 @@ package be.kuleuven.cs.distrinet.chameleon.util.association;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
@@ -33,8 +33,8 @@ public class Single<T extends Element> extends SingleAssociation<Element, T> imp
 		return _mandatory;
 	}
 	
-	public VerificationResult verify() {
-		VerificationResult result = Valid.create();
+	public Verification verify() {
+		Verification result = Valid.create();
 		if(mandatory()) {
 			if(mandatory() && getOtherEnd() == null) {
 				result = result.and(new BasicProblem(getObject(), "One " + role() + " was expected, but none is defined."));

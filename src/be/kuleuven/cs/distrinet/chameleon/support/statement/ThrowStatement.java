@@ -4,7 +4,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
 import be.kuleuven.cs.distrinet.chameleon.oo.method.exception.TypeExceptionDeclaration;
@@ -41,7 +41,7 @@ public class ThrowStatement extends ExpressionContainingStatement {
 	  }
 
 	@Override
-	public VerificationResult verifySelf() {
+	public Verification verifySelf() {
 		try {
 		  Expression expr = getExpression();
 			if(expr != null && language(ObjectOrientedLanguage.class).isException(expr.getType())) {

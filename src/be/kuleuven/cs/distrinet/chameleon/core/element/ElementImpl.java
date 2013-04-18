@@ -21,7 +21,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.tag.Metadata;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.util.action.Action;
@@ -1128,9 +1128,9 @@ public abstract class ElementImpl implements Element {
 	 public void reactOnDescendantReplaced(Element oldElement, Element newElement) {
 	 }
 
-	 public final VerificationResult verify() {
+	 public final Verification verify() {
 		 try {
-			 VerificationResult result = verifySelf();
+			 Verification result = verifySelf();
 			 if(result == null) {
 				 throw new ChameleonProgrammerException("The verifySelf method of "+getClass().getName()+" returned null.");
 			 }
@@ -1148,16 +1148,16 @@ public abstract class ElementImpl implements Element {
 		 }
 	 }
 	 
-	 protected VerificationResult verifyAssociations() {
-		 VerificationResult result = Valid.create();
+	 protected Verification verifyAssociations() {
+		 Verification result = Valid.create();
 		 for(ChameleonAssociation<?> association: associations()) {
 			 result = result.and(association.verify());
 		 }
 		 return result;
 	 }
 
-	 public final VerificationResult verifyLoops() {
-		 VerificationResult result = Valid.create();
+	 public final Verification verifyLoops() {
+		 Verification result = Valid.create();
 		 Element e = parent();
 		 while(e != null) {
 			 if(e == this) {
@@ -1175,12 +1175,12 @@ public abstract class ElementImpl implements Element {
 	  * @return
 	  */
 	 //    public abstract VerificationResult verifySelf();
-	 public VerificationResult verifySelf() {
+	 public Verification verifySelf() {
 		 return Valid.create();
 	 }
 
-	 public final VerificationResult verifyProperties() {
-		 VerificationResult result = Valid.create();
+	 public final Verification verifyProperties() {
+		 Verification result = Valid.create();
 		 PropertySet<Element,ChameleonProperty> properties = properties();
 		 Collection<Conflict<ChameleonProperty>> conflicts = properties.conflicts();
 		 for(Conflict<ChameleonProperty> conflict: conflicts) {
@@ -1207,7 +1207,7 @@ public abstract class ElementImpl implements Element {
 
 	 }
 
-	 protected VerificationResult checkNull(Object element, String message, VerificationResult result) {
+	 protected Verification checkNull(Object element, String message, Verification result) {
 		 if(element == null) {
 			 result = result.and(new BasicProblem(this, message));
 		 }

@@ -24,7 +24,7 @@ public class CompositeProblem extends Invalid {
    @ post \result == other.andInvalid(this);
    @*/
 	@Override
-	public VerificationResult and(VerificationResult other) {
+	public Verification and(Verification other) {
 		if(other != null) {
 			return other.andInvalid(this);
 		} else {
@@ -44,7 +44,7 @@ public class CompositeProblem extends Invalid {
    @ post (\forall BasicProblem p; ; \result.contains(p) <==> problems().contains(p) || problem.problems().contains(p));
    @*/
 	@Override
-	protected VerificationResult andInvalid(Invalid problem) {
+	protected Verification andInvalid(Invalid problem) {
 		CompositeProblem result = new CompositeProblem();
 		result.addAll(problems());
 		result.addAll(problem.problems());
@@ -105,17 +105,22 @@ public class CompositeProblem extends Invalid {
 	 */
 	@Override
 	public String message() {
-		String result = "";
+		StringBuilder builder = new StringBuilder();
 		for (AtomicProblem elem : problems()) {
-			result = result.concat("\n " + elem.message());
+			builder.append(elem.message() +"\n");
 		}
-		return result;
+		return builder.toString();
 	}
 
 	@Override
 	public void setElement(Element element) {
-		for(VerificationResult problem:problems()) {
+		for(Verification problem:problems()) {
 			problem.setElement(element);
 		}
+	}
+
+	@Override
+	public int nbProblems() {
+		return _problems.size();
 	}
 }

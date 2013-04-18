@@ -22,7 +22,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.AtomicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Invalid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.ChameleonEditorPlugin;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorExtension;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
@@ -160,7 +160,7 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 			IMarker[] problemMarkers = chameleonNature().document(cu).getFile().findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_ZERO);
 			// Only start verification if there are no parser errors.
 			if(problemMarkers.length == 0) {
-				VerificationResult ver = checkVerificationErrors(cu);
+				Verification ver = checkVerificationErrors(cu);
 				// Only build the document when there are no errors.
 				if(Valid.create().equals(ver)) {
 					validCompilationUnits.add(cu);
@@ -237,8 +237,8 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 		return file;
 	}
 	
-	public VerificationResult checkVerificationErrors(Document cu) throws CoreException {
-		VerificationResult result = null;
+	public Verification checkVerificationErrors(Document cu) throws CoreException {
+		Verification result = null;
 		EclipseDocument document = chameleonNature().document(cu);
 		try {
 		  result = cu.verify();

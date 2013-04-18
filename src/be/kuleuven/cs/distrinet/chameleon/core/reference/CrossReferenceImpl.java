@@ -7,7 +7,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclaratorSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 
 public abstract class CrossReferenceImpl<D extends Declaration> extends ElementImpl implements CrossReference<D> {
@@ -33,7 +33,7 @@ public abstract class CrossReferenceImpl<D extends Declaration> extends ElementI
 	protected abstract <X extends Declaration > X getElement(DeclarationSelector<X> selector) throws LookupException;
 	
 	@Override
-	public VerificationResult verifySelf() {
+	public Verification verifySelf() {
 		try {
 			return getElement() != null ?
 				Valid.create() : new UnresolvableCrossReference(this);

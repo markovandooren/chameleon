@@ -5,6 +5,7 @@ import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 
 public abstract class AtomicProblem extends Invalid {
 	
@@ -53,7 +54,7 @@ public abstract class AtomicProblem extends Invalid {
 	}
 
 	@Override
-	public VerificationResult and(VerificationResult other) {
+	public Verification and(Verification other) {
 		if(other != null) {
 			return other.andInvalid(this);
 		} else {
@@ -62,7 +63,7 @@ public abstract class AtomicProblem extends Invalid {
 	}
 
 	@Override
-	protected VerificationResult andInvalid(Invalid compositeProblem) {
+	protected Verification andInvalid(Invalid compositeProblem) {
 		CompositeProblem result = new CompositeProblem();
 		result.addAll(compositeProblem.problems());
 		result.add(this);
@@ -71,9 +72,16 @@ public abstract class AtomicProblem extends Invalid {
 
 	@Override
 	public List<AtomicProblem> problems() {
-		List<AtomicProblem> result = new ArrayList<AtomicProblem>();
-		result.add(this);
-		return result;
+		return Util.createNonNullList(this);
 	}
+
+	/**
+	 * Returns 1.
+	 */
+	@Override
+	public int nbProblems() {
+		return 1;
+	}
+
 
 }

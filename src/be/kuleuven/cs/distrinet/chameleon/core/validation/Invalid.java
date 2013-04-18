@@ -7,10 +7,10 @@ import java.util.List;
  * 
  * @author Marko van Dooren, Nelis Boucke
  */
-public abstract class Invalid extends VerificationResult {
+public abstract class Invalid extends Verification {
 
 	/**
-	 * Return the basic problems that make up this invalid verification result.
+	 * Return the atomic problems that make up this invalid verification result.
 	 */
  /*@
    @ public behavior
@@ -19,6 +19,16 @@ public abstract class Invalid extends VerificationResult {
    @*/
 	public abstract List<AtomicProblem> problems();
 
+	/**
+	 * Return the number of atomic problems.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result == problems().size();
+   @*/
+	public abstract int nbProblems();
+	
 	/**
 	 * @return The message of this problem.
 	 */

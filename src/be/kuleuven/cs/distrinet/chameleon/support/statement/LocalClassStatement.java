@@ -13,7 +13,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContextFactory;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.Scope;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.StatementImpl;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.StatementListContainer;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.StatementListScope;
@@ -98,7 +98,7 @@ public class LocalClassStatement extends StatementImpl implements DeclarationCon
 	}
 
 	@Override
-	public VerificationResult verifySelf() {
+	public Verification verifySelf() {
 		return checkNull(getType(), "The type declaration statement does not declare a type.", Valid.create());
 	}
 }

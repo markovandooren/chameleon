@@ -7,7 +7,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
@@ -99,8 +99,8 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 	}
 	
 	@Override
-	public VerificationResult verifySelf() {
-		VerificationResult tmp = super.verifySelf();
+	public Verification verifySelf() {
+		Verification tmp = super.verifySelf();
 		if(argument() != null) {
 		  return tmp;
 		} else {

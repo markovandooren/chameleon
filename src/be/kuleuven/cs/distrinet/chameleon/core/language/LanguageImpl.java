@@ -11,7 +11,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContextFactory;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.property.PropertyRule;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationRule;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.plugin.LanguagePlugin;
@@ -560,8 +560,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 			_validityRules.remove(rule.languageLink());
 		} 
 		
-		public VerificationResult verify(Element element) {
-			VerificationResult result = Valid.create();
+		public Verification verify(Element element) {
+			Verification result = Valid.create();
 			for(VerificationRule rule: validityRules()) {
 				if(rule.elementType().isInstance(element)) {
 				  result = result.and(rule.verify(element));

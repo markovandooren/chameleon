@@ -6,7 +6,7 @@ import java.util.List;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 
@@ -58,8 +58,8 @@ public class Multi<T extends Element> extends OrderedMultiAssociation<Element, T
 		return _max > 0;
 	}
 	
-	public VerificationResult verify() {
-		VerificationResult result = Valid.create();
+	public Verification verify() {
+		Verification result = Valid.create();
 		if(isConstrained()) {
 			int size = size();
 			if(size < min()) {

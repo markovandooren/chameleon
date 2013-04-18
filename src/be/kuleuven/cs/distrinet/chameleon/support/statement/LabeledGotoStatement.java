@@ -1,7 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.support.statement;
 
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 
 public class LabeledGotoStatement extends GotoStatement{
 
@@ -30,7 +30,7 @@ public class LabeledGotoStatement extends GotoStatement{
 	}
 
 	@Override
-	public VerificationResult verifySelf() {
+	public Verification verifySelf() {
 		return checkNull(getLabel(), "Missing label", Valid.create());
 	}
 }

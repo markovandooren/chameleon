@@ -3,7 +3,7 @@ package be.kuleuven.cs.distrinet.chameleon.support.statement;
 
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Statement;
@@ -62,8 +62,8 @@ public class IfThenElseStatement extends ExpressionContainingStatement {
   }
 
   @Override
-  public VerificationResult verifySelf() {
-  	VerificationResult result = super.verifySelf();
+  public Verification verifySelf() {
+  	Verification result = super.verifySelf();
   	try {
 			Type expressionType = getExpression().getType();
 			if(! expressionType.subTypeOf(language(ObjectOrientedLanguage.class).booleanType(view().namespace()))) {

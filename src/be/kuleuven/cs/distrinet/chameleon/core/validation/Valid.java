@@ -8,7 +8,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
  * @pattern{name="flyweight"}
  * @author Marko van Dooren
  */
-public class Valid extends VerificationResult {
+public class Valid extends Verification {
 	
 	private Valid() {
 	}
@@ -50,7 +50,7 @@ public class Valid extends VerificationResult {
    @ post \result == other;
    @*/
 	@Override
-	public VerificationResult and(VerificationResult other) {
+	public Verification and(Verification other) {
 		if(other != null) {
 			return other;
 		} else {
@@ -70,7 +70,7 @@ public class Valid extends VerificationResult {
    @ post \result == problem;
    @*/
 	@Override
-	protected VerificationResult andInvalid(Invalid problem) {
+	protected Verification andInvalid(Invalid problem) {
 		return problem;
 	}
 

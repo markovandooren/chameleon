@@ -5,7 +5,7 @@ import java.util.List;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.CheckedExceptionList;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.ExceptionSource;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Statement;
@@ -139,7 +139,7 @@ public class SwitchCase extends ElementImpl implements StatementListContainer, E
 	}
 
 	@Override
-	public VerificationResult verifySelf() {
+	public Verification verifySelf() {
 		return checkNull(getLabel(), "The label is missing", Valid.create());
 	}
 

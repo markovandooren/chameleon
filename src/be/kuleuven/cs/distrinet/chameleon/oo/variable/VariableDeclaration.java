@@ -14,7 +14,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
@@ -116,8 +116,8 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
 	}
 
 	@Override
-	public VerificationResult verifySelf() {
-		VerificationResult result = checkNull(signature(), "The variable declaration has no signature", Valid.create());
+	public Verification verifySelf() {
+		Verification result = checkNull(signature(), "The variable declaration has no signature", Valid.create());
 		Expression initialization = initialization();
 		if(initialization != null) {
 			Type initType = null;

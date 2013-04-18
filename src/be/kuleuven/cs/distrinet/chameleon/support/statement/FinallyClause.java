@@ -1,7 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.support.statement;
 
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Statement;
 
 /**
@@ -24,7 +24,7 @@ public class FinallyClause extends Clause {
   }
 
 	@Override
-	public VerificationResult verifySelf() {
+	public Verification verifySelf() {
 		return Valid.create();
 	}
 }

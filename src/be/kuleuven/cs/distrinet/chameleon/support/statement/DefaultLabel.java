@@ -1,7 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.support.statement;
 
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
-import be.kuleuven.cs.distrinet.chameleon.core.validation.VerificationResult;
+import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 
 /**
  * @author Marko van Dooren
@@ -16,7 +16,7 @@ public class DefaultLabel extends SwitchLabel {
   }
   
 	@Override
-	public VerificationResult verifySelf() {
+	public Verification verifySelf() {
 		return Valid.create();
 	}
 }

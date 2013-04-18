@@ -1,4 +1,4 @@
-package be.kuleuven.cs.distrinet.chameleon.core.element;
+package be.kuleuven.cs.distrinet.chameleon.core.namespace;
 
 public class LoadException extends RuntimeException {
 
