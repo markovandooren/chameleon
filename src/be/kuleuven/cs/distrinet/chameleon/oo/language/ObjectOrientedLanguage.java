@@ -51,6 +51,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	public final ChameleonProperty VALUE_TYPE;
 	public final ChameleonProperty NATIVE;
 	public final ChameleonProperty INTERFACE;	
+	public final ChameleonProperty FINAL;
 
 	public ObjectOrientedLanguage(String name, Revision version) {
 		this(name,null,version);
@@ -77,8 +78,10 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
   	VALUE_TYPE = REFERENCE_TYPE.inverse();
   	NATIVE = new StaticChameleonProperty("native", this, Type.class);
 		INTERFACE = new StaticChameleonProperty("interface", this, Type.class);
-
+    FINAL = new StaticChameleonProperty("final", this, Declaration.class);
   	//2) Add relations between the properties.
+    FINAL.addImplication(REFINABLE.inverse());
+    FINAL.addImplication(DEFINED);
     OVERRIDABLE.addImplication(INHERITABLE);
     OVERRIDABLE.addImplication(REFINABLE);
     EXTENSIBLE.addImplication(REFINABLE);
