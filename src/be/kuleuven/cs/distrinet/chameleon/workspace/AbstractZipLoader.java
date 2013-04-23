@@ -1,5 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.workspace;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,8 +33,8 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
    @ post filter() == filter;
    @ post isBaseLoader() == isBaseLoader;
    @*/
-	public AbstractZipLoader(String path, SafePredicate<? super String> filter, boolean isBaseLoader) {
-		setPath(path);
+	public AbstractZipLoader(ZipFile zipFile, SafePredicate<? super String> filter, boolean isBaseLoader) {
+		setPath(zipFile);
 		setFilter(filter);
 	}
 	
@@ -53,15 +54,15 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
    @ post filter() == filter;
    @ post isBaseLoader() == false;
    @*/
-	public AbstractZipLoader(String path, SafePredicate<? super String> filter) {
-		this(path,filter,false);
+	public AbstractZipLoader(ZipFile zipFile, SafePredicate<? super String> filter) {
+		this(zipFile,filter,false);
 	}
 
-	private void setPath(String path) {
-		_path = path;
+	private void setPath(ZipFile file) {
+		_zipFile = file;
 	}
 	
-	private String _path;
+	private ZipFile _zipFile;
 	
 	/**
 	 * Return the path of the jar file from which elements must be loaded.
@@ -71,8 +72,8 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
    @
    @ post result != null;
    @*/
-	public String path() {
-		return _path;
+	public ZipFile file() {
+		return _zipFile;
 	}
 	
 	private void setFilter(SafePredicate<? super String> filter) {
@@ -103,8 +104,8 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
    @ post \result != null;
    @ post \result.getAbsolutePath().equals(project().absolutePath(path()));
    @*/
-	protected ZipFile createZipFile() throws IOException {
-		return new ZipFile(project().absolutePath(_path));
+	protected ZipFile zipFile() throws IOException {
+		return _zipFile;
 	}
 
 	@Override
@@ -144,7 +145,7 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
 	}
 	
 	protected void createInputSources() throws IOException, LookupException, InputException {
-		ZipFile jar = createZipFile();
+		ZipFile jar = zipFile();
   	List<Pair<Pair<String, String>, ZipEntry>> names = createNameMap(jar);
   	// The entries must be sorted first such that if an inner class in processed, its outer
   	// class will have been processed first.

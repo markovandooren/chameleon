@@ -1,12 +1,13 @@
 package be.kuleuven.cs.distrinet.chameleon.workspace;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.zip.ZipFile;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
-import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectConfiguration.SourcePath;
 import be.kuleuven.cs.distrinet.rejuse.io.FileUtils;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
@@ -420,21 +421,21 @@ public abstract class ProjectConfiguration extends ConfigElement {
 	
 	public abstract class Archive extends ConfigElement {
 		
-		protected String _path;
+		protected File _path;
 		public void setFile(String path) {
-			_path = path;
+			_path = new File(path);
 			pathChanged();
 		}
 		
 		public String getFile() {
-			return _path;
+			return _path.getPath();
 		}
 		
 		@Override
 		protected void $update() throws ConfigException {
-			AbstractZipLoader directoryLoader = (AbstractZipLoader)modelElement();
+			AbstractZipLoader zipLoader = (AbstractZipLoader)modelElement();
 			//TODO: does this transform a relative path into an absolute path
-			_path = directoryLoader.path();
+			_path = new File(zipLoader.file().getName());
 		}
 		
   	protected abstract void pathChanged() throws ConfigException;
@@ -444,8 +445,8 @@ public abstract class ProjectConfiguration extends ConfigElement {
 	public abstract class ZipArchive extends Archive {
   	protected void pathChanged() throws ConfigException {
   		try {
-  			view().addBinary(new ZipLoader(_path,filter()));
-  		} catch (ProjectException e) {
+  			view().addBinary(new ZipLoader(new ZipFile(project().absoluteFile(_path)),filter()));
+  		} catch (ProjectException | IOException e) {
   			throw new ConfigException(e);
   		}
   	}

@@ -29,8 +29,8 @@ public class ZipLoader extends AbstractZipLoader {
    @ post filter() == filter;
    @ post isBaseLoader() == isBaseLoader;
    @*/
-	public ZipLoader(String zipPath, SafePredicate<? super String> filter, boolean isBaseLoader) {
-		super(zipPath, filter, isBaseLoader);
+	public ZipLoader(ZipFile zipFile, SafePredicate<? super String> filter, boolean isBaseLoader) {
+		super(zipFile, filter, isBaseLoader);
 	}
 
 	/**
@@ -49,8 +49,8 @@ public class ZipLoader extends AbstractZipLoader {
    @ post filter() == filter;
    @ post isBaseLoader() == false;
    @*/
-	public ZipLoader(String zipPath, SafePredicate<? super String> filter) {
-		this(zipPath, filter, false);
+	public ZipLoader(ZipFile zipFile, SafePredicate<? super String> filter) {
+		this(zipFile, filter, false);
 	}
 
 	@Override

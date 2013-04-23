@@ -294,5 +294,12 @@ public class Project {
 		return new File(absolutePath(path));
 	}
 
+	public File absoluteFile(File file) {
+		if(! file.isAbsolute()) {
+			return new File(root().getAbsoluteFile(),file.getPath());
+		} else {
+			return file;
+		}
+	}
 
 }
