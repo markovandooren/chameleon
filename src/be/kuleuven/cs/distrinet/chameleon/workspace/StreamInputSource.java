@@ -1,5 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.workspace;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,7 +23,7 @@ public class StreamInputSource extends InputSourceImpl {
 	
 	protected static InputStream convert(File file) throws InputException {
 		try {
-			return new FileInputStream(file);
+			return new BufferedInputStream(new FileInputStream(file),16384);
 		} catch (FileNotFoundException e) {
 			throw new InputException(e);
 		}
