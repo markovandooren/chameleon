@@ -11,6 +11,6 @@ public abstract class ArrayIndex extends ElementImpl {
         super();
     }
 
-    public abstract ArrayIndex clone();
+//    public abstract ArrayIndex clone();
     
 }

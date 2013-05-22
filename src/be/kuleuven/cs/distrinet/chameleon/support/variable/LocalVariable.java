@@ -22,12 +22,8 @@ public class LocalVariable extends RegularVariable {
     super(sig, type, init);
   }
 
-  protected LocalVariable cloneThis() {
-    Expression expr = null;
-    if(getInitialization() != null) {
-      expr = getInitialization().clone();
-    }
-    return new LocalVariable(signature().clone(), (TypeReference)getTypeReference().clone(), expr);
+  protected LocalVariable cloneSelf() {
+    return new LocalVariable(null, null,null);
   }
 
   public Scope scope() throws LookupException {

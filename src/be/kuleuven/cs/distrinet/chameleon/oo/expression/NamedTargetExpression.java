@@ -31,13 +31,15 @@ public class NamedTargetExpression extends TargetedExpression implements CrossRe
 
   public NamedTargetExpression(String identifier) {
   	_signature = new SimpleNameSignature(identifier);
-  	setName(identifier);
 	}
-
+  
   public NamedTargetExpression(String identifier, CrossReferenceTarget target) {
   	this(identifier);
 	  setTarget(target);
 	}
+  
+  private NamedTargetExpression() {
+  }
 
   /********
    * NAME *
@@ -88,12 +90,8 @@ public class NamedTargetExpression extends TargetedExpression implements CrossRe
 
 
 	@Override
-	public NamedTargetExpression clone() {
-    CrossReferenceTarget target = null;
-    if(getTarget() != null) {
-      target = getTarget().clone();
-    }
-    return new NamedTargetExpression(name(), target);
+	public NamedTargetExpression cloneSelf() {
+    return new NamedTargetExpression();
 	}
 
 	@Override

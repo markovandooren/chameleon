@@ -24,7 +24,7 @@ public class RootNamespaceReference extends ElementImpl implements CrossReferenc
 	}
 
 	@Override
-	public RootNamespaceReference clone() {
+	protected RootNamespaceReference cloneSelf() {
 		return new RootNamespaceReference();
 	}
 	

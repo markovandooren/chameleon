@@ -14,7 +14,7 @@ public class Around<E extends Around<E>> extends ModifierImpl {
 	}
 
 	@Override
-	public E clone() {
+	protected E cloneSelf() {
 		return (E) new Around<E>();
 	}
 

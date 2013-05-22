@@ -29,8 +29,8 @@ public class EnhancedForControl extends ForControl {
 	private Single<LocalVariableDeclarator> _variable = new Single<LocalVariableDeclarator>(this);
 	
 	@Override
-	public EnhancedForControl clone() {
-		return new EnhancedForControl(variableDeclarator().clone(),collection().clone());
+	protected EnhancedForControl cloneSelf() {
+		return new EnhancedForControl(null,null);
 	}
 
 	/**

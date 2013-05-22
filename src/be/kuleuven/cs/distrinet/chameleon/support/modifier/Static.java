@@ -16,7 +16,7 @@ public class Static extends ModifierImpl {
 	}
 
 	@Override
-	public Static clone() {
+	protected Static cloneSelf() {
 		return new Static();
 	}
 	 /*@

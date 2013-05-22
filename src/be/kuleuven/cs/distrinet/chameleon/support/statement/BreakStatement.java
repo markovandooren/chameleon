@@ -16,7 +16,7 @@ public class BreakStatement extends JumpStatement {
     super(label);
   }
 
-  public BreakStatement clone() {
+  public BreakStatement cloneSelf() {
     return new BreakStatement(getLabel());
   }
 

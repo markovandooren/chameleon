@@ -19,8 +19,8 @@ public abstract class DeclarationContainingDeclarationImpl extends DeclarationCo
 		signature().setName(name);
 	}
 
-	@Override
-	public abstract DeclarationContainingDeclarationImpl clone();
+//	@Override
+//	public abstract DeclarationContainingDeclarationImpl clone();
 	
 	@Override
 	public Declaration selectionDeclaration() throws LookupException {

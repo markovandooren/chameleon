@@ -14,7 +14,7 @@ public class After extends ModifierImpl {
 	}
 
 	@Override
-	public After clone() {
+	protected After cloneSelf() {
 		return new After();
 	}
 }

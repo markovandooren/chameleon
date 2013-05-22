@@ -18,7 +18,7 @@ public class Abstract extends ModifierImpl {
   }
 
 	@Override
-	public Abstract clone() {
+	public Abstract cloneSelf() {
 		return new Abstract();
 	}
 

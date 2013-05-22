@@ -69,7 +69,7 @@ public class UnionType extends MultiType {
 	}
 	
 	@Override
-	public UnionType clone() {
+	public UnionType cloneSelf() {
 		return new UnionType(types(), false);
 	}
 
@@ -169,7 +169,7 @@ public class UnionType extends MultiType {
 
 	@Override
 	public Type unionDoubleDispatch(UnionType type) throws LookupException {
-		UnionType result = clone();
+		UnionType result = clone(this);
 		result.addAll(type);
 		return type;
 	}

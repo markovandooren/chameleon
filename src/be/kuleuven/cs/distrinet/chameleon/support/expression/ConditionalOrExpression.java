@@ -16,10 +16,8 @@ public class ConditionalOrExpression extends ConditionalBooleanExpression {
     super(first, second);
   }
   
-  public ConditionalOrExpression clone() {
-    Expression first = getFirst().clone();
-    Expression second = getSecond().clone();
-    return new ConditionalOrExpression(first, second);
+  protected ConditionalOrExpression cloneSelf() {
+    return new ConditionalOrExpression(null,null);
   }
 
 }

@@ -26,15 +26,15 @@ public class DeclarationContainerAlias extends ElementImpl implements Declaratio
 	}
 	
 	@Override
-	public DeclarationContainerAlias clone() {
+	public DeclarationContainerAlias cloneSelf() {
 		DeclarationContainerAlias result = new DeclarationContainerAlias();
 		for(Declaration declaration: declarations()) {
-			Declaration clone = declaration.clone();
+			Declaration clone = clone(declaration);
 			clone.setOrigin(declaration.origin());
 			result.add(clone);
 		}
 		for(DeclarationContainerAlias alias: superContainers()) {
-			result.addSuperContainer(alias.clone());
+			result.addSuperContainer(clone(alias));
 		}
 		result.setUniParent(parent());
 		return result;

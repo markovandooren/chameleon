@@ -13,7 +13,7 @@ public abstract class ForControl extends ElementImpl implements DeclarationConta
 	
 //	public abstract List<? extends Variable> declarations() throws LookupException;
 	
-	public abstract ForControl clone();
+//	public abstract ForControl clone();
 
 	@Override
 	public LookupContext localContext() throws LookupException {

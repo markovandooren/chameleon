@@ -23,7 +23,7 @@ public abstract class ElementReference<D extends Declaration> extends CrossRefer
 	public ElementReference() {
 	}
 	
-	public abstract ElementReference<D> clone();
+//	public abstract ElementReference<D> clone();
 
 	/*@
    @ public behavior

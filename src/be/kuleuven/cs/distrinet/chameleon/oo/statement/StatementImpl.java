@@ -18,7 +18,7 @@ public abstract class StatementImpl extends ElementImpl implements Statement {
   protected StatementImpl() {
   }
 
-  public abstract StatementImpl clone();
+//  public abstract StatementImpl clone();
 
   public CheckedExceptionList getCEL() throws LookupException {
     final CheckedExceptionList cel = getDirectCEL();

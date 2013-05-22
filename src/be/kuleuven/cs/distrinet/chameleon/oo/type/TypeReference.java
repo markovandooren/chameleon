@@ -12,7 +12,7 @@ public interface TypeReference extends CrossReference<Type> {
 	
 	public Type getElement() throws LookupException;
 	
-	public TypeReference clone();
+//	public TypeReference clone();
 
 	public TypeReference intersection(TypeReference other);
 	

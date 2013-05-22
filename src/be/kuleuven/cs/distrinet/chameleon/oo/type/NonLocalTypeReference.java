@@ -21,8 +21,6 @@ public abstract class NonLocalTypeReference extends ElementImpl implements TypeR
 			setLookupParent(lookupParent);
 		}
 	
-	public abstract NonLocalTypeReference clone();
-	
 	public TypeReference actualReference() {
 		return _actual.getOtherEnd();
 	}
@@ -70,12 +68,12 @@ public abstract class NonLocalTypeReference extends ElementImpl implements TypeR
 	}
 
 	public TypeReference intersectionDoubleDispatch(TypeReference other) {
-		return language(ObjectOrientedLanguage.class).createIntersectionReference(clone(), other.clone());
+		return language(ObjectOrientedLanguage.class).createIntersectionReference(clone(this), clone(other));
 	}
 
 	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference other) {
-		IntersectionTypeReference result = other.clone();
-		result.add(clone());
+		IntersectionTypeReference result = clone(other);
+		result.add(clone(this));
 		return result;
 	}
 

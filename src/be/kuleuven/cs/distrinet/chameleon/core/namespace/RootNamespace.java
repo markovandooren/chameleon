@@ -62,8 +62,8 @@ public class RootNamespace extends RegularNamespace {
   }
 
 
-	protected RootNamespace cloneThis() {
-		return new RootNamespace(signature().clone(),null, namespaceFactory());
+	protected RootNamespace cloneSelf() {
+		return new RootNamespace(null,null, namespaceFactory());
 	}
 
   public void setView(View view) {

@@ -26,8 +26,8 @@ public class PostfixOperatorInvocation extends SimpleNameMethodInvocation<Postfi
 		super(target, name);
 	}
 
-  protected PostfixOperatorInvocation cloneInvocation(CrossReferenceTarget target) {
-    return new PostfixOperatorInvocation(name(), target);
+  protected PostfixOperatorInvocation cloneSelf() {
+    return new PostfixOperatorInvocation(name(), null);
   }
   
   @Override

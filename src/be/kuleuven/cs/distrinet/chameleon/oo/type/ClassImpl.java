@@ -704,8 +704,6 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 
     private Map<Class,List> _membersCache;
     
-    public abstract ClassImpl clone();
-
     public abstract List<? extends TypeElement> directlyDeclaredElements();
 
   	public <T extends TypeElement> List<T> directlyDeclaredElements(Class<T> kind) {
@@ -763,7 +761,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 		protected void copyInheritanceRelations(Type from, boolean link) {
 			List<InheritanceRelation> relations = from.explicitNonMemberInheritanceRelations();
 			for(InheritanceRelation relation : relations) {
-        InheritanceRelation clone = relation.clone();
+        InheritanceRelation clone = clone(relation);
         if(link) {
         	clone.setOrigin(relation);
         }
@@ -779,7 +777,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 
 		private void copyTypeElements(Type from, boolean link) {
 			for(TypeElement el : from.directlyDeclaredElements()) {
-        TypeElement clone = el.clone();
+        TypeElement clone = clone(el);
         if(link) {
         	clone.setOrigin(el);
         }
@@ -792,7 +790,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
       	removeParameterBlock(par);
       }
       for(ParameterBlock par : from.parameterBlocks()) {
-      	ParameterBlock clone = par.clone();
+      	ParameterBlock clone = clone(par);
         if(link) {
         	clone.setOrigin(par);
         }
@@ -802,7 +800,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 
 		protected void copyModifiers(Type from, boolean link) {
 			for(Modifier mod : from.modifiers()) {
-      	Modifier clone = mod.clone();
+      	Modifier clone = clone(mod);
         if(link) {
         	clone.setOrigin(mod);
         }
@@ -831,7 +829,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
   	}
 
   	public Type intersectionDoubleDispatch(IntersectionType type) throws LookupException {
-  		IntersectionType result = type.clone();
+  		IntersectionType result = clone(type);
   		result.addType(type);
   		return result;
   	}
@@ -847,7 +845,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
   	}
   	
   	public Type unionDoubleDispatch(UnionType type) throws LookupException {
-  		UnionType result = type.clone();
+  		UnionType result = clone(type);
   		result.addType(type);
   		return result;
   	}

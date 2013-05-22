@@ -25,7 +25,7 @@ public class Public extends ModifierImpl {
 //  }
 
 	@Override
-	public Public clone() {
+	protected Public cloneSelf() {
 		return new Public();
 	}
 

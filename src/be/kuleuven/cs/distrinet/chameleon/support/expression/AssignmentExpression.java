@@ -72,8 +72,8 @@ public class AssignmentExpression extends Expression {
     return getVariableExpression().getType();
   }
 
-  public AssignmentExpression clone() {
-    return new AssignmentExpression(getVariableExpression().clone(), getValue().clone());
+  protected AssignmentExpression cloneSelf() {
+    return new AssignmentExpression(null,null);
   }
 
   public Set<Type> getDirectExceptions() throws LookupException {

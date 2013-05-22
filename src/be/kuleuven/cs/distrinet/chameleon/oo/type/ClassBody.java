@@ -44,12 +44,8 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 	}
 	
 	@Override
-	public ClassBody clone() {
-		ClassBody result = new ClassBody();
-		for(TypeElement element: elements()) {
-			result.add(element.clone());
-		}
-		return result;
+	public ClassBody cloneSelf() {
+		return new ClassBody();
 	}
 
 	public void addAll(Collection<? extends TypeElement> elements) {

@@ -73,9 +73,6 @@ public abstract class Expression extends ElementImpl implements CrossReferenceTa
     // Do nothing by default.
   }
 
-  public abstract Expression clone();
-
-  
 //  /**
 //   * See superclass.
 //   */

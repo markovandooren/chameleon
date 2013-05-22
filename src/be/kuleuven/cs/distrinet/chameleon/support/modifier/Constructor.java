@@ -18,7 +18,7 @@ public class Constructor extends ModifierImpl {
 	  }
 
 		@Override
-		public Constructor clone() {
+		protected Constructor cloneSelf() {
 			return new Constructor();
 		}
 

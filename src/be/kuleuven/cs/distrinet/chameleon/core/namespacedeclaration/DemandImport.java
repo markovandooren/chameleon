@@ -40,8 +40,8 @@ public class DemandImport extends Import {
   }
   
   @Override
-  public DemandImport clone() {
-    return new DemandImport((ElementReference<? extends DeclarationContainer>) containerReference().clone());
+  protected DemandImport cloneSelf() {
+    return new DemandImport(null);
   }
 
 

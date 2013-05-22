@@ -65,20 +65,8 @@ public class Aspect extends ElementImpl implements DeclarationContainer, Declara
 		add(_advices, e);
 	}
 
-	public Aspect clone() {
-		Aspect clone = new Aspect(signature() == null ? null : signature().clone());
-		
-		for (Pointcut pc : pointcuts()) {
-			Pointcut pcClone = pc.clone();
-			clone.addPointcut(pcClone);
-		}
-		
-		for (Advice ac : advices()) {
-			Advice adviceClone = ac.clone();
-			clone.addAdvice(adviceClone);
-		}
-		
-		return clone;
+	public Aspect cloneSelf() {
+		return new Aspect((SimpleNameSignature)null);
 	}
 
 	@Override

@@ -21,7 +21,7 @@ public class AnnotationReference extends ElementImpl {
 	}
 
 	@Override
-	public AnnotationReference clone() {
+	public AnnotationReference cloneSelf() {
 		return new AnnotationReference(referencendName());
 	}
 

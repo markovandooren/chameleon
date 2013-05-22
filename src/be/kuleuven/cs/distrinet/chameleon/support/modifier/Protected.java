@@ -17,7 +17,7 @@ public class Protected extends ModifierImpl {
   }
   
 	@Override
-	public Protected clone() {
+	protected Protected cloneSelf() {
 		return new Protected();
 	}
 

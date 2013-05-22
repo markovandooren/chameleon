@@ -9,7 +9,7 @@ import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 
 public abstract class CombinationTypeReference extends ElementImpl implements TypeReference {
 
-	public abstract CombinationTypeReference clone();
+//	public abstract CombinationTypeReference clone();
 
 	private Multi<TypeReference> _types = new Multi<TypeReference>(this);
 	

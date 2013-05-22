@@ -51,20 +51,8 @@ public class SimpleForControl extends ForControl {
     return _update.getOtherEnd();
   }
 
-  public SimpleForControl clone() {
-    Expression cond = null;
-    if(condition() != null) {
-      cond = condition().clone();
-    }
-    ForInit init = null;
-    if(getForInit() != null) {
-      init = (ForInit)getForInit().clone();
-    }
-    StatementExprList update = null;
-    if(update() != null) {
-      update = update().clone();
-    }
-    return new SimpleForControl(init, cond, update);
+  protected SimpleForControl cloneSelf() {
+    return new SimpleForControl(null, null, null);
   }
 
 	/**

@@ -42,12 +42,8 @@ public class StubDeclarationContainer extends ElementImpl implements Declaration
 	}
 
 	@Override
-	public StubDeclarationContainer clone() {
-		StubDeclarationContainer result = new StubDeclarationContainer();
-		for(Declaration declaration: declarations()) {
-			result.add(declaration.clone());
-		}
-		return result;
+	public StubDeclarationContainer cloneSelf() {
+		return new StubDeclarationContainer();
 	}
 
 	@Override

@@ -16,7 +16,7 @@ public class Final extends ModifierImpl {
   }
 
 	@Override
-	public Final clone() {
+	protected Final cloneSelf() {
 		return new Final();
 	}
 

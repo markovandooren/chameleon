@@ -21,8 +21,6 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeElementImpl;
 
 public abstract class MemberImpl extends TypeElementImpl implements Member {
 
-	public abstract MemberImpl clone();
-	
   /**
    * Return the signature of this member.
    */

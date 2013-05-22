@@ -28,8 +28,8 @@ public class PointcutExpressionNot extends PointcutExpressionSingle<Element> imp
 	
 
 	@Override
-	public PointcutExpressionNot clone() {
-		return new PointcutExpressionNot(expression().clone());
+	public PointcutExpressionNot cloneSelf() {
+		return new PointcutExpressionNot(expression());
 	}
 	
 	/**

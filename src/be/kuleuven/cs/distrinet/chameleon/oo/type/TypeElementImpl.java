@@ -28,8 +28,6 @@ public abstract class TypeElementImpl extends ElementWithModifiersImpl implement
 //		return new CheckedExceptionList();
 //	}
 
-	public abstract TypeElementImpl clone();
-
 	public List<? extends Member> declaredMembers() {
     try {
 			return getIntroducedMembers();

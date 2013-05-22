@@ -20,7 +20,7 @@ public abstract class CrossReferenceImpl<D extends Declaration> extends ElementI
 	 */
 	public abstract DeclarationSelector<D> selector();
 
-	public abstract CrossReferenceImpl<D> clone();
+//	public abstract CrossReferenceImpl<D> clone();
 
 	public D getElement() throws LookupException {
 		return getElement(selector());

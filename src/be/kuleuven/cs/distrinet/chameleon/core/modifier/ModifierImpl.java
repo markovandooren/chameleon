@@ -24,11 +24,6 @@ public abstract class ModifierImpl extends ElementImpl implements Modifier {
   }
  
   /**
-   * Clone this modifier.
-   */
-  public abstract ModifierImpl clone();
-
-  /**
    * Convenience method for creating an empty propertyset
    */
   protected PropertySet<Element,ChameleonProperty> createSet() {

@@ -16,8 +16,8 @@ public class ExactDeclarationPointcutExpression extends DeclarationPointcutExpre
 	}
 
 	@Override
-	public ExactDeclarationPointcutExpression clone() {
-		return new ExactDeclarationPointcutExpression(pattern().clone());
+	public ExactDeclarationPointcutExpression cloneSelf() {
+		return new ExactDeclarationPointcutExpression(null);
 	}
 
 	@Override

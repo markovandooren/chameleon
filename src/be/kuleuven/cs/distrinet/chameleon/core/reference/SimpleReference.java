@@ -32,8 +32,8 @@ public class SimpleReference<D extends Declaration> extends SpecificReference<D>
 	 * YOU MUST OVERRIDE THIS METHOD IF YOU SUBCLASS THIS CLASS!
 	 */
 	@Override
-	public SimpleReference<D> clone() {
-	   return new SimpleReference<D>((getTarget() == null ? null : getTarget().clone()), (SimpleNameSignature)signature().clone(), specificType());
+	protected SimpleReference<D> cloneSelf() {
+	   return new SimpleReference<D>(null, (SimpleNameSignature)null, specificType());
 	}
 
 

@@ -13,7 +13,7 @@ public class Enum extends ModifierImpl {
 	  }
 
 		@Override
-		public Enum clone() {
+		protected Enum cloneSelf() {
 			return new Enum();
 		}
 

@@ -32,8 +32,8 @@ public class TypeAlias extends TypeIndirection {
 	/**
 	 * OVERRIDE IN SUBCLASSES !!!!
 	 */
-	public TypeAlias clone() {
-		return new TypeAlias(signature().clone(), aliasedType());
+	public TypeAlias cloneSelf() {
+		return new TypeAlias(null, aliasedType());
 	}
 
 	public boolean uniSameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {

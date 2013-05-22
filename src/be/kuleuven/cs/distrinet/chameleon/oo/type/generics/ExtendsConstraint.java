@@ -21,7 +21,7 @@ public class ExtendsConstraint extends TypeConstraint {
 
 
 	@Override
-	public ExtendsConstraint cloneThis() {
+	protected ExtendsConstraint cloneSelf() {
 		return new ExtendsConstraint();
 	}
 

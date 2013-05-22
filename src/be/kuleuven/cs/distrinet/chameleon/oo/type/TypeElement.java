@@ -13,8 +13,6 @@ import be.kuleuven.cs.distrinet.chameleon.oo.member.Member;
  */
 public interface TypeElement extends ElementWithModifiers {
 
-	public abstract TypeElement clone();
-
   /**
    * Return the set of members introduced into the parent type (if any) of this type element.
    * @throws LookupException 

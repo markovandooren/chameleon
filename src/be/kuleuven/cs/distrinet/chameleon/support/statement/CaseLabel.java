@@ -34,8 +34,8 @@ public class CaseLabel extends SwitchLabel {
     }
   }
 
-  public CaseLabel clone() {
-    return new CaseLabel(getExpression().clone());
+  protected CaseLabel cloneSelf() {
+    return new CaseLabel(null);
   }
 
 	@Override

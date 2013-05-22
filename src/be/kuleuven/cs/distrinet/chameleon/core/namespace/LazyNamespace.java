@@ -29,9 +29,8 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 	}
 	
 	@Override
-	protected RegularNamespace cloneThis() {
-		LazyNamespace result = new LazyNamespace(signature().clone());
-		return result;
+	protected RegularNamespace cloneSelf() {
+		return new LazyNamespace((SimpleNameSignature)null);
 	}
 	
 	@Override

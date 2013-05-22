@@ -25,9 +25,8 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 
 	
 	@Override
-	protected RootNamespace cloneThis() {
-		LazyRootNamespace result = new LazyRootNamespace();
-		return result;
+	protected RootNamespace cloneSelf() {
+		return new LazyRootNamespace();
 	}
 	
 	public LazyRootNamespace(SimpleNameSignature sig, View view) {

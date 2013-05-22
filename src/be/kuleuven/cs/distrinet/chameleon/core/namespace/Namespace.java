@@ -72,8 +72,6 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer {
    @*/
 	public <T extends Declaration> List<T> allDescendantDeclarations(Class<T> kind) throws LookupException;
 	
-	public Namespace clone();
-	
   /**
    * The name of a namespace is the name of its signature.
    */

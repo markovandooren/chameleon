@@ -33,19 +33,34 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
  * longer have to contain the base semantics of a language, making it much easier to reuse the tool for
  * models of a different language.
  * 
- * Every Element provides functionality to navigate the lexical structure of the model through methods to access
+ * <h3>The Lexical Structure</h3>
+ * Every Element provides many methods to navigate the lexical structure of the model through methods to access
  * the children, descendants, and ancestors. The lexical structure can be navigated in any direction: from outer
- * elements to inner elements or vice versa.
+ * elements to inner elements or vice versa. By default, the {@link ElementImpl#children()} method collects all 
+ * objects referenced by ChameleonAssociation fields. 
  * 
- * The logical structures within a model are modeled indirectly, never through direct object references.  
+ * 
+ * If a one of these fields does not reference lexical children, 
+ * you can exclude it by writing the following code. Suppose that <code>C</code> is the name of the class that 
+ * contains the field.
+ * 
+ * <code>
+ * class C ... {
+ *   Association _fieldName;
+ *   
+ *   static {
+ *     excludeFieldName(C.class, "_fieldName");
+ *   }
+ * }
+ * </code>
+ * 
+ * The logical structures within a model are typically modeled indirectly, instead of through direct object references.  
  * See the interface {@link chameleon.core.reference.CrossReference} for the explanation.
  * 
  * Every element can have metadata associated with it. They are used to attach additional information
- * to an element without modifying Chameleon.
+ * to an element without adding dependencies to Chameleon.
  * 
  * @author Marko van Dooren
- * 
- * @opt all
  */
 public interface Element {
 

@@ -56,7 +56,7 @@ public abstract class CommonDeclaration extends DeclarationImpl implements Eleme
 		throw new LookupException("A goal does not contain declarations.");
 	}
 
-	public abstract CommonDeclaration clone();
+//	public abstract CommonDeclaration clone();
 	
   /*************
    * MODIFIERS *

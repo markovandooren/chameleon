@@ -51,7 +51,7 @@ public class IntersectionType extends MultiType {
 	}
 
 	public Type intersectionDoubleDispatch(IntersectionType type) throws LookupException {
-		IntersectionType result = clone();
+		IntersectionType result = clone(this);
 		result.addAll(type);
 		return type;
 	}
@@ -89,7 +89,7 @@ public class IntersectionType extends MultiType {
 	}
 	
 	@Override
-	public IntersectionType clone() {
+	protected IntersectionType cloneSelf() {
 		return new IntersectionType(types(), false);
 	}
 

@@ -23,7 +23,7 @@ public abstract class PointcutExpressionDual<J extends Element> extends Abstract
 		setExpression2(expression2);
 	}
 
-	public abstract PointcutExpressionDual<J> clone();
+//	public abstract PointcutExpressionDual<J> clone();
 	
 	public PointcutExpression<J> expression1() {
 		return _expression1.getOtherEnd();

@@ -25,12 +25,6 @@ public interface Modifier extends Element {
   public PropertySet<Element,ChameleonProperty> impliedProperties();
   
   /**
-   * Return a clone of this modifier.
-   * @return
-   */
-  public Modifier clone();
-
-  /**
    * Check if this modifier implies the given property. The result is a ternary value.
    */
  /*@

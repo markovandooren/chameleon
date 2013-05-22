@@ -35,12 +35,8 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 	}
 	
 	@Override
-	public TypeParameterBlock cloneThis() {
-		TypeParameterBlock result = new TypeParameterBlock();
-//		for(TypeParameter<?> parameter: parameters()) {
-//			result.add(parameter.clone());
-//		}
-		return result;
+	public TypeParameterBlock cloneSelf() {
+		return new TypeParameterBlock();
 	}
 
 
@@ -81,12 +77,8 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 	public static class Stub extends ElementImpl implements DeclarationContainer{
 
 		@Override
-		public Stub clone() {
-			Stub result = new Stub();
-			for(TypeParameter parameter: parameters()) {
-				result.add((TypeParameter) parameter.clone());
-			}
-			return result;
+		public Stub cloneSelf() {
+			return new Stub();
 		}
 		
 		public LookupContext lookupContext(Element element) {

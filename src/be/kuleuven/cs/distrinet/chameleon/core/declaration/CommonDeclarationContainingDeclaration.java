@@ -63,8 +63,8 @@ public abstract class CommonDeclarationContainingDeclaration extends
 		return (List<D>) new TypePredicate(kind).filterReturn(declarations());
 	}
 	
-	@Override
-	public abstract CommonDeclarationContainingDeclaration clone();
+//	@Override
+//	public abstract CommonDeclarationContainingDeclaration clone();
 	
 	@Override
 	public LookupContext lookupContext(Element child) throws LookupException {

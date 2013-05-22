@@ -22,6 +22,11 @@ import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
  * @author Marko van Dooren
  */
 public class Util {
+	
+	public static <T extends Element> T clone(T t) {
+		return (T)t.clone();
+	}
+	
   public static String concat(List list) {
     if (list.size() > 0) {
       //    Object first = list.get(0);

@@ -194,13 +194,8 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
 //    return false;
 //  }
 
-  public NamedTarget clone() {
-    NamedTarget result = new NamedTarget(name());
-    CrossReferenceTarget target = getTarget();
-		if(target!= null) {
-      result.setTarget(target.clone());
-    }
-    return result;
+  protected NamedTarget cloneSelf() {
+    return new NamedTarget(name());
   }
   
 //  public void prefix(InvocationTarget target) throws LookupException {

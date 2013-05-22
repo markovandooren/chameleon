@@ -37,6 +37,6 @@ public interface CrossReferenceTarget extends Element {
 	public abstract LookupContext targetContext() throws LookupException;
 
 
-  public abstract CrossReferenceTarget clone();
+//  public abstract CrossReferenceTarget clone();
   
 }

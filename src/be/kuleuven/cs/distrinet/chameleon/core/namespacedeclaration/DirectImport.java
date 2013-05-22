@@ -62,8 +62,8 @@ public class DirectImport<D extends Declaration> extends Import {
   }
 
   @Override
-  public DirectImport<D> clone() {
-    return new DirectImport<D>((CrossReference<D>)crossReference().clone(),kind());
+  protected DirectImport<D> cloneSelf() {
+    return new DirectImport<D>(null,kind());
   }
 
 	@Override

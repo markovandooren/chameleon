@@ -5,7 +5,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.SpecificReference;
 
 /**
- * @author marko
+ * @author Marko van Dooren
  */
 public class NamespaceReference extends SpecificReference<Namespace> {
 	
@@ -22,8 +22,8 @@ public class NamespaceReference extends SpecificReference<Namespace> {
     super(qn, Namespace.class);
   }
 
-  public NamespaceReference clone() {
-    return new NamespaceReference((getTarget() == null ? null : getTarget().clone()),(SimpleNameSignature)signature().clone());
+  protected NamespaceReference cloneSelf() {
+    return new NamespaceReference(null,(SimpleNameSignature)null);
   }
 
   

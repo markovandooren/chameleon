@@ -12,7 +12,7 @@ public class AnnotationModifier extends ModifierImpl {
 	}
 	
 	@Override
-	public AnnotationModifier clone() {
+	protected AnnotationModifier cloneSelf() {
 		return new AnnotationModifier(name());
 	}
 

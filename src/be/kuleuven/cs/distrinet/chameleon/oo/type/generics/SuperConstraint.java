@@ -21,7 +21,7 @@ public class SuperConstraint extends TypeConstraint {
 	}
 
 	@Override
-	public SuperConstraint cloneThis() {
+	protected SuperConstraint cloneSelf() {
 		return new SuperConstraint();
 	}
 

@@ -24,8 +24,8 @@ public class InfixOperatorInvocation extends SimpleNameMethodInvocation<InfixOpe
     return (InfixOperator)getElement();
   }
 
-  protected InfixOperatorInvocation cloneInvocation(CrossReferenceTarget target) {
-    return new InfixOperatorInvocation(name(), target);
+  protected InfixOperatorInvocation cloneSelf() {
+    return new InfixOperatorInvocation(name(), null);
   }
 
   @Override

@@ -10,9 +10,9 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 
 public abstract class SwitchLabel extends ElementImpl {
 
-  public SwitchLabel() {
-	}
-
-  public abstract SwitchLabel clone();
+//  public SwitchLabel() {
+//	}
+//
+//  public abstract SwitchLabel clone();
 
 }

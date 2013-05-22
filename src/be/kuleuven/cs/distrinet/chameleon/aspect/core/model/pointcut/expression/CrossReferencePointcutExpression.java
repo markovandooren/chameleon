@@ -17,8 +17,8 @@ public class CrossReferencePointcutExpression extends DeclarationPointcutExpress
 	}
 
 	@Override
-	public CrossReferencePointcutExpression clone() {
-		return new CrossReferencePointcutExpression(pattern().clone());
+	protected CrossReferencePointcutExpression cloneSelf() {
+		return new CrossReferencePointcutExpression(null);
 	}
 
 	protected Declaration declaration(CrossReference joinpoint) throws LookupException {

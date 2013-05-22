@@ -44,19 +44,12 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
 	}
 
 	@Override
-	public LocalVariableDeclarator clone() {
-		LocalVariableDeclarator result = new LocalVariableDeclarator(typeReference().clone());
-		for(VariableDeclaration declaration: variableDeclarations()) {
-			result.add(declaration.clone());
-		}
-		for(Modifier mod: modifiers()) {
-			result.addModifier(mod.clone());
-		}
-		return result;
+	protected LocalVariableDeclarator cloneSelf() {
+		return new LocalVariableDeclarator(null);
 	}
 
 	public LocalVariable createVariable(SimpleNameSignature signature, Expression expression) {
-		LocalVariable result = new LocalVariable(signature, typeReference().clone(),expression);
+		LocalVariable result = new LocalVariable(signature, clone(typeReference()),expression);
 		for(Modifier mod: modifiers()) {
 			result.addModifier(mod.clone());
 		}

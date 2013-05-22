@@ -49,8 +49,8 @@ public class PointcutExpressionOr extends PointcutExpressionDual<Element> implem
 	}
 
 	@Override
-	public PointcutExpressionOr clone() {
-		return new PointcutExpressionOr(expression1().clone(), expression2().clone());
+	protected PointcutExpressionOr cloneSelf() {
+		return new PointcutExpressionOr(null,null);
 	}
 
 	@Override

@@ -19,8 +19,8 @@ public class LookupRedirector extends ElementImpl implements Stub {
 	}
 	
 	@Override
-	public LookupRedirector clone() {
-		LookupRedirector result = new LookupRedirector(contextElement(), child().clone());
+	protected LookupRedirector cloneSelf() {
+		LookupRedirector result = new LookupRedirector(contextElement(), null);
 		return result;
 	}
 

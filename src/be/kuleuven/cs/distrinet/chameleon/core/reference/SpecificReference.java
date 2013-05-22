@@ -8,6 +8,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectorWithoutOrder;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 
 public class SpecificReference<D extends Declaration> extends ElementReferenceWithTarget<D> {
 
@@ -35,7 +36,7 @@ public class SpecificReference<D extends Declaration> extends ElementReferenceWi
 	}
 	
 	public SpecificReference(QualifiedName name, Class<D> specificClass) {
-		this(targetOf(name, specificClass), name.lastSignature().clone(), specificClass);
+		this(targetOf(name, specificClass), Util.clone(name.lastSignature()), specificClass);
 	}
 	
 	public static <DD extends Declaration> CrossReference targetOf(QualifiedName name, Class<DD> specificClass) {
@@ -43,7 +44,7 @@ public class SpecificReference<D extends Declaration> extends ElementReferenceWi
 		List<Signature> signatures = name.signatures();
 		int size = signatures.size();
 		for(int i = 0; i < size-1; i++) {
-			current = new SpecificReference<DD>(current, signatures.get(i).clone(), specificClass);
+			current = new SpecificReference<DD>(current, Util.clone(signatures.get(i)), specificClass);
 		}
 		return current;
 	}
@@ -52,8 +53,8 @@ public class SpecificReference<D extends Declaration> extends ElementReferenceWi
 	 * YOU MUST OVERRIDE THIS METHOD IF YOU SUBCLASS THIS CLASS!
 	 */
 	@Override
-	public SpecificReference clone() {
-	   return new SpecificReference((getTarget() == null ? null : getTarget().clone()), signature().clone(), _specificClass);
+	protected SpecificReference cloneSelf() {
+	   return new SpecificReference(null, (Signature)null, _specificClass);
 	}
 
 	private DeclarationSelector<D> _selector;

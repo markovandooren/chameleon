@@ -24,12 +24,7 @@ public class ArgsPointcutExpression extends AbstractParameterExposurePointcutExp
 	}
 
 	@Override
-	public ArgsPointcutExpression clone() {
-		ArgsPointcutExpression clone = new ArgsPointcutExpression();
-		
-		for (NamedTargetExpression type : parameters())
-			clone.add(type.clone());
-		
-		return clone;
+	public ArgsPointcutExpression cloneSelf() {
+		return new ArgsPointcutExpression();
 	}	
 }

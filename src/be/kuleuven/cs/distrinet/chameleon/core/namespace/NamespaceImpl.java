@@ -47,10 +47,6 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 
 public abstract class NamespaceImpl extends ElementImpl implements TargetDeclaration, DeclarationContainer, Namespace {
 
-
-
-	public abstract Namespace clone();
-
 	//SPEED : use hashmap to store the subnamespaces and forbid
 	//        adding multiple namespaces with the same name. That is
 	//        never useful anyway.

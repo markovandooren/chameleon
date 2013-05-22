@@ -17,7 +17,7 @@ public class Destructor extends ModifierImpl {
 	}
 
 	@Override
-	public Destructor clone() {
+	protected Destructor cloneSelf() {
 		return new Destructor();
 	}
 

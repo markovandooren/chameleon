@@ -175,12 +175,8 @@ public class MethodReference extends ElementImpl {
 	}
 
 	@Override
-	public MethodReference clone() {
-		TypeReference typeClone = null;
-		if (type() != null)
-			typeClone = type().clone();
-		
-		return new MethodReference((QualifiedName) fqn().clone(), typeClone, typeNameWithWC);
+	protected MethodReference cloneSelf() {
+		return new MethodReference(null, null, typeNameWithWC);
 	}
 
 	@Override

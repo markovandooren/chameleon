@@ -19,7 +19,7 @@ public abstract class ActualTypeArgument extends ElementImpl {
 	public ActualTypeArgument() {
 	}
 	
-	public abstract ActualTypeArgument clone();
+//	public abstract ActualTypeArgument clone();
 	
 	public abstract Type type() throws LookupException;
 	

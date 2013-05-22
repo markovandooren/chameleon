@@ -20,7 +20,7 @@ public abstract class ElementWithModifiersImpl extends ElementImpl implements El
    *************/
   private Multi<Modifier> _modifiers = new Multi<Modifier>(this);
 
-  public abstract ElementWithModifiersImpl clone();
+//  public abstract ElementWithModifiersImpl clone();
   
   /**
    * Return the list of modifiers of this member.

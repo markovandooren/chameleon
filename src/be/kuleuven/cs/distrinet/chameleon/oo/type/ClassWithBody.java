@@ -37,9 +37,6 @@ public abstract class ClassWithBody extends ClassImpl {
 		return result;
 	}
 	
-	@Override
-	public abstract ClassWithBody clone();
-	
 	public List<InheritanceRelation> explicitNonMemberInheritanceRelations() {
 		return _inheritanceRelations.getOtherEnds();
 	}

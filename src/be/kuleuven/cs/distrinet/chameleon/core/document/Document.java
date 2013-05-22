@@ -155,12 +155,8 @@ public class Document extends ElementImpl {
 
 
   @Override
-  public Document clone() {
-    Document result = new Document();
-    for(NamespaceDeclaration namespacePart: namespaceDeclarations()) {
-    	result.add(namespacePart.clone());
-    }
-    return result;
+  protected Document cloneSelf() {
+    return new Document();
   }
 
 	@Override
@@ -187,7 +183,7 @@ public class Document extends ElementImpl {
 	
 	@Deprecated
 	public Document cloneTo(View view) {
-		Document clone = clone();
+		Document clone = clone(this);
 		FakeDocumentLoader pl = new FakeDocumentLoader();
 		InputSource is = new FakeInputSource(clone,pl);
 		try {

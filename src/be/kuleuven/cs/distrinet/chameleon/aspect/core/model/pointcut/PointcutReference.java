@@ -97,20 +97,8 @@ public class PointcutReference extends CrossReferenceWithArguments implements Cr
 	}
 
 	@Override
-	public PointcutReference clone() {
-		CrossReferenceTarget target = null;
-		if (getTarget() != null) {
-			target = getTarget().clone();
-		}
-		PointcutReference result = new PointcutReference(name());
-		result.setTarget(target);
-		for (Expression element : getActualParameters()) {
-			result.addArgument(element.clone());
-		}
-		for (ActualTypeArgument arg : typeArguments()) {
-			result.addArgument(arg.clone());
-		}
-		return result;
+	protected PointcutReference cloneSelf() {
+		return new PointcutReference(name());
 	}
 
 	@Override

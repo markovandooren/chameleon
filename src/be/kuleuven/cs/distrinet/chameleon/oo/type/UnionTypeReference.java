@@ -33,12 +33,8 @@ public class UnionTypeReference extends CombinationTypeReference {
 	}
 
 	@Override
-	public UnionTypeReference clone() {
-		List<TypeReference> trefs = new ArrayList<TypeReference>();
-		for(TypeReference tref: typeReferences()) {
-			trefs.add(tref.clone());
-		}
-		return new UnionTypeReference(trefs);
+	public UnionTypeReference cloneSelf() {
+		return new UnionTypeReference();
 	}
 
 	@Override
@@ -51,14 +47,14 @@ public class UnionTypeReference extends CombinationTypeReference {
 	}
 
 	public TypeReference intersectionDoubleDispatch(TypeReference other) {
-		UnionTypeReference result = clone();
-		result.add(other.clone());
+		UnionTypeReference result = clone(this);
+		result.add(clone(other));
 		return result;	
 	}
 
 	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference other) {
-		IntersectionTypeReference result = other.clone();
-		result.add(clone());
+		IntersectionTypeReference result = clone(other);
+		result.add(clone(this));
 		return result;
 	}
 

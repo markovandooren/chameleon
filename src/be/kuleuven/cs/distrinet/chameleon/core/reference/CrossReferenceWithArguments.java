@@ -6,6 +6,7 @@ import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
+import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationCollector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
@@ -264,20 +265,8 @@ public class CrossReferenceWithArguments extends ElementImpl {
 //		}
 	}
 
-	public CrossReferenceWithArguments clone() {
-		CrossReferenceTarget target = null;
-		if (getTarget() != null) {
-			target = getTarget().clone();
-		}
-		final CrossReferenceWithArguments result = new CrossReferenceWithArguments();
-		result.setTarget(target);
-		for (Expression element : getActualParameters()) {
-			result.addArgument(element.clone());
-		}
-		for (ActualTypeArgument arg : typeArguments()) {
-			result.addArgument(arg.clone());
-		}
-		return result;
+	protected CrossReferenceWithArguments cloneSelf() {
+		return new CrossReferenceWithArguments();
 	}
 
 	// public void substituteParameter(String name, Expression expr) throws

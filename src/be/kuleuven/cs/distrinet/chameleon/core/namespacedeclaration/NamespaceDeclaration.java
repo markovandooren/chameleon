@@ -426,24 +426,9 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	public Namespace getDefaultNamespace() throws LookupException {
 		return view().namespace();
 	}
-
-  @Override
-  public NamespaceDeclaration clone() {
-  	NamespaceDeclaration result = cloneThis();
-  	for(NamespaceDeclaration part: namespaceParts()) {
-  		result.addNamespacePart(part.clone());
-  	}
-  	for(Declaration declaration:declarations()) {
-  		result.add(declaration.clone());
-  	}
-  	for(Import importt:explicitImports()) {
-  		result.addImport(importt.clone());
-  	}
-  	return result;
-  }
   
-  public NamespaceDeclaration cloneThis() {
-  	return new NamespaceDeclaration(namespaceReference().clone());
+  public NamespaceDeclaration cloneSelf() {
+  	return new NamespaceDeclaration((CrossReference)null);
   }
 
 	private LookupContext _typeLocalContext;

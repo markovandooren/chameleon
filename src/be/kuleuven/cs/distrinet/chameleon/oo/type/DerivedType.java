@@ -96,7 +96,7 @@ public class DerivedType extends ClassWithBody {
 			ActualTypeArgument argument = argumentsIterator.next();
 			// The next call does not change the parent of 'argument'. It is stored in InstantiatedTypeParameter
 			// using a regular reference.
-			InstantiatedTypeParameter instantiated = new InstantiatedTypeParameter(parameter.signature().clone(), argument);
+			InstantiatedTypeParameter instantiated = new InstantiatedTypeParameter(clone(parameter.signature()), argument);
 			replaceParameter(TypeParameter.class,parameter, instantiated);
 		}
 	}
@@ -105,7 +105,7 @@ public class DerivedType extends ClassWithBody {
 		_implicitMembers = new ArrayList<Member>();
 		List<Member> implicits = original.implicitMembers();
 		for(Member m: implicits) {
-			Member clone = m.clone();
+			Member clone = clone(m);
 			clone.setUniParent(body());
 			_implicitMembers.add(clone);
 		}
@@ -183,8 +183,13 @@ public class DerivedType extends ClassWithBody {
 		return _baseType.baseType();
 	}
 
+	/**
+	 * Here we override clone because we need to perform parameter substitution.
+	 */
 	@Override
 	public DerivedType clone() {
+		// I might use the standard mechanism here later, but I first want to make
+		// the switch for the regular elements before I touch generics code. 
 		return new DerivedType(clonedParameters(),baseType());
 	}
 
@@ -193,7 +198,7 @@ public class DerivedType extends ClassWithBody {
 		for(ParameterBlock<?> block: parameterBlocks()) {
 			List<Parameter> list = new ArrayList<Parameter>();
 			for(Parameter par: block.parameters()) {
-				list.add(par.clone());
+				list.add(clone(par));
 			}
 			args.add(new ParameterSubstitution(block.parameterType(), list)); 
 		}

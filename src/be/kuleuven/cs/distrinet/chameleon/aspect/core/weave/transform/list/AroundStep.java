@@ -6,13 +6,14 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 
 public class AroundStep<P extends Element,T extends Element> extends AdvisedListFactory<P,T> {
 
 	@Override
 	public T transform() throws LookupException {
 		ListTransformer<P, ?, T> transformer = transformer();
-		Advice<?> clonedAdvice = advice().clone();
+		Advice<?> clonedAdvice = Util.clone(advice());
 		
 		T next = transformer.nextList();
 		int count = 0;

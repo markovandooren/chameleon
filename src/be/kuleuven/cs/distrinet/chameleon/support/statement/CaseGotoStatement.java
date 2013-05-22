@@ -9,7 +9,7 @@ public class CaseGotoStatement extends ExpressionContainingStatement {
 	}
 	
 	@Override
-	public CaseGotoStatement clone() {
-		return new CaseGotoStatement(getExpression().clone());
+	protected CaseGotoStatement cloneSelf() {
+		return new CaseGotoStatement(null);
 	}
 }

@@ -18,8 +18,8 @@ public class WithinPointcutExpression extends DeclarationPointcutExpression<Elem
 	}
 
 	@Override
-	public WithinPointcutExpression clone() {
-		return new WithinPointcutExpression(pattern().clone(), type());
+	protected WithinPointcutExpression cloneSelf() {
+		return new WithinPointcutExpression(null, type());
 	}
 
 	@Override

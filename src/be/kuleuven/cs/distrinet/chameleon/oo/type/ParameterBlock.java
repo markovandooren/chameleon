@@ -54,16 +54,7 @@ public class ParameterBlock<T extends Parameter> extends ElementImpl {
 		}
 	}
 
-	@Override
-	public ParameterBlock<T> clone() {
-		ParameterBlock<T> result = cloneThis();
-		for(T parameter: parameters()) {
-			result.add((T)parameter.clone());
-		}
-		return result;
-	}
-
-	public ParameterBlock<T> cloneThis() {
+	protected ParameterBlock<T> cloneSelf() {
 		return new ParameterBlock<T>(parameterType());
 	}
 

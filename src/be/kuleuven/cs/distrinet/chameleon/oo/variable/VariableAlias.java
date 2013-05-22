@@ -49,8 +49,8 @@ public class VariableAlias extends VariableImpl implements MemberVariable {
 	private final MemberVariable _aliasedVariable;
 
 	@Override
-	public VariableAlias clone() {
-		return new VariableAlias(signature().clone(),aliasedVariable());
+	protected VariableAlias cloneSelf() {
+		return new VariableAlias(null,aliasedVariable());
 	}
 
 	public TypeReference getTypeReference() {

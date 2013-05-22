@@ -21,15 +21,8 @@ public class RegularType extends ClassWithBody {
 		
 	}
 	
-	@Override
-	public RegularType clone() {
-		RegularType result = cloneThis();
-		result.copyContents(this);
-		return result;
-	}
-
-	protected RegularType cloneThis() {
-		return new RegularType(signature().clone());
+	protected RegularType cloneSelf() {
+		return new RegularType((SimpleNameSignature)null);
 	}
 
 	@Override

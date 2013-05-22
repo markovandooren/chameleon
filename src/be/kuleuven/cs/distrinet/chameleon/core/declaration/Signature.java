@@ -11,8 +11,6 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException
  */
 public abstract class Signature extends QualifiedName {
 
-  public abstract Signature clone();
-  
   /**
    * Return a string representation of the name of this signature. For methods, e.g., the arguments
    * are not included.

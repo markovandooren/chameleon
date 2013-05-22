@@ -16,14 +16,6 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeElement;
 public interface Member extends TypeElement, Declaration {
   
   
-//  /**
-//   * Set the signature of this member.
-//   * @param signature
-//   */
-//  public void setSignature(S signature);
-
-  public abstract Member clone();
-	
   /**
    * Check whether this member overrides the given member.
    */

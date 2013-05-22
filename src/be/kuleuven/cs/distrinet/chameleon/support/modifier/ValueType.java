@@ -17,7 +17,7 @@ public class ValueType extends ModifierImpl {
 	}
 
 	@Override
-	public ValueType clone() {
+	protected ValueType cloneSelf() {
 		return new ValueType();
 	}
 

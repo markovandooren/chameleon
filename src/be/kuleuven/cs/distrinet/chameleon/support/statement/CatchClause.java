@@ -67,8 +67,8 @@ public class CatchClause extends Clause implements VariableContainer {
 //  	}
 //  }
 
-  public CatchClause clone() {
-    return new CatchClause((FormalParameter)getExceptionParameter().clone(), statement().clone());
+  public CatchClause cloneSelf() {
+    return new CatchClause(null, null);
   }
 
   /**

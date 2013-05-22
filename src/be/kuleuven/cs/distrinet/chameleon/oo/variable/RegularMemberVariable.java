@@ -87,20 +87,9 @@ public class RegularMemberVariable extends RegularVariable implements MemberVari
 //    return found;
 //  }
 
-  /**
-   * ONLY HERE BECAUSE JAVA IS ANNOYING.
-   */
-  @Override
-  public RegularMemberVariable clone() {
-  	return (RegularMemberVariable) super.clone();
-  }
-  
-  protected RegularMemberVariable cloneThis() {
-    Expression expr = null;
-    if(getInitialization() != null) {
-      expr = getInitialization().clone();
-    }
-    return new RegularMemberVariable(signature().clone(), (TypeReference)getTypeReference().clone(), expr);
+
+  protected RegularMemberVariable cloneSelf() {
+    return new RegularMemberVariable(null,null,null);
   }
 	  
   public List<Member> getIntroducedMembers() {

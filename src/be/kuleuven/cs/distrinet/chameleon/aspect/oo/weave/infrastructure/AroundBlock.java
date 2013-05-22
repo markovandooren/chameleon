@@ -6,6 +6,7 @@ import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.
 import be.kuleuven.cs.distrinet.chameleon.aspect.oo.model.advice.ProceedCall;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Block;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Statement;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 
 public class AroundBlock extends AdvisedBlockFactory {
@@ -14,8 +15,8 @@ public class AroundBlock extends AdvisedBlockFactory {
 
 	@Override
 	public Block weave(MatchResult<Block> joinpoint, Block adviceBlock) {
-		Block adviceResultBlock = adviceBlock.clone();
-		Block originalCode = joinpoint.getJoinpoint().clone();
+		Block adviceResultBlock = Util.clone(adviceBlock);
+		Block originalCode = Util.clone(joinpoint.getJoinpoint());
 		
 		List<ProceedCall> descendants = (List<ProceedCall>) adviceResultBlock.descendants(ProceedCall.class);
 

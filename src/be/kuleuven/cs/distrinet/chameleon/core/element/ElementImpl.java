@@ -199,22 +199,45 @@ public abstract class ElementImpl implements Element {
 	
 //	protected abstract Element cloneSelf();
 	
-	public abstract Element clone();
+	public final <T extends Element> T clone(T element) {
+		T result = (T) element.clone();
+		if(! element.getClass().isInstance(result)) {
+			throw new CloneException("The clone of a "+element.getClass().getName()+ " is a "+result.getClass().getName());
+		}
+		return result;
+	}
 	
-//	public final Element clone() {
-//		Element result = cloneSelf();
-//		Iterator<Association<Element, ? extends Element>> mine = associations().iterator();
-//		Iterator<Association<Element, ? extends Element>> others = result.associations().iterator();
-//		while(mine.hasNext()) {
-//			Association<Element, ? extends Element> m = mine.next();
-//			Association<Element, ? extends Element> o = others.next();
-//			for(Element myElement: m.getOtherEnds()) {
-//				Element clone = myElement.clone();
-//				o. hmmm
-//			}
-//		}
-//		return result;
-//	}
+	public final Element clone() {
+		return map(new Processor(){
+		
+				@Override
+				public void process(Element original, Element clone) {
+					
+				}
+		});
+	}
+	
+	private abstract static class Processor {
+		public abstract void process(Element original, Element clone);
+	}
+	
+	public final Element map(Processor mapper) {
+		Element result = cloneSelf();
+		Iterator<ChameleonAssociation<? extends Element>> mine = associations().iterator();
+		Iterator<ChameleonAssociation<? extends Element>> others = result.associations().iterator();
+		while(mine.hasNext()) {
+			ChameleonAssociation<? extends Element> m = mine.next();
+			ChameleonAssociation<? extends Element> o = others.next();
+			for(Element myElement: m.getOtherEnds()) {
+				Element clone = myElement.clone();
+				clone.parentLink().connectTo((Association)o);
+			}
+		}
+		mapper.process(this, result);
+		return result;
+	}
+	
+	protected abstract Element cloneSelf();
 	
 	@Override
 	public View view() {
@@ -373,6 +396,12 @@ public abstract class ElementImpl implements Element {
 		return descendants(Element.class);
 	}
 
+	/**
+	 * Exclude the given field name of the given class from the lexical associations.
+	 * 
+	 * @param type
+	 * @param fieldName
+	 */
 	public static void excludeFieldName(Class<? extends Element> type, String fieldName) {
 		List<String> list = _excludedFieldNames.get(type);
 		if(list == null) {

@@ -22,13 +22,6 @@ public class FormalParameter extends RegularVariable {
 		this(new SimpleNameSignature(string), tref);
 	}
 
-  /**
-   * ONLY HERE BECAUSE OF JAVA TYPECHECKING
-   */
-  @Override
-  public FormalParameter clone() {
-  	return (FormalParameter) super.clone();
-  }
 	/**
    * @param parameter
    * @return
@@ -47,8 +40,8 @@ public class FormalParameter extends RegularVariable {
     return result; 
   }
 
-  public FormalParameter cloneThis() {
-    return new FormalParameter(signature().clone(), (TypeReference)getTypeReference().clone());
+  protected FormalParameter cloneSelf() {
+    return new FormalParameter((SimpleNameSignature)null, null);
   }
   
 	public Scope scope() throws ModelException {

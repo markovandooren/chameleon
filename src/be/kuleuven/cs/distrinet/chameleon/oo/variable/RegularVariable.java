@@ -135,26 +135,6 @@ public abstract class RegularVariable extends VariableImpl implements ExceptionS
     }
   }
 
- public RegularVariable clone() {
-   final RegularVariable result = cloneThis();
-   new Visitor<Modifier>() {
-     public void visit(Modifier element) {
-       result.addModifier(element.clone());
-     }
-   }.applyTo(modifiers());
-   return result;
- }
-
- protected abstract RegularVariable cloneThis();
-
-// public Ternary is(Property<Element> property) {
-//   PropertySet<Element> declared = declaredProperties();
-//   if((property).appliesTo(this)) {
-//     declared.add(property);
-//   }
-//   return declared.implies(property);
-// }
-
  // FIXME Code duplication from ElementWithModifiersImpl
  public PropertySet<Element,ChameleonProperty> declaredProperties() {
    PropertySet<Element,ChameleonProperty> result = new PropertySet<Element,ChameleonProperty>();

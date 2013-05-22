@@ -49,7 +49,7 @@ public class SimpleNameSignature extends Signature {
   }
 
 	@Override
-	public SimpleNameSignature clone() {
+	public SimpleNameSignature cloneSelf() {
     return new SimpleNameSignature(name());
 	}
 

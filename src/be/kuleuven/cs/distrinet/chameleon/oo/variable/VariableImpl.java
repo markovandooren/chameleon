@@ -20,8 +20,6 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 
 public abstract class VariableImpl extends ElementImpl implements Variable {
 	
-	public abstract VariableImpl clone();
-
 	public VariableImpl(SimpleNameSignature signature) {
 		setSignature(signature);
 	}

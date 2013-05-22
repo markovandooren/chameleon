@@ -28,7 +28,7 @@ public class SimpleNameDeclarationWithParametersHeader extends DeclarationWithPa
   private String _name;
 
 	@Override
-	public SimpleNameDeclarationWithParametersHeader cloneThis() {
+	public SimpleNameDeclarationWithParametersHeader cloneSelf() {
 		return new SimpleNameDeclarationWithParametersHeader(getName());
 	}
 
@@ -55,7 +55,7 @@ public class SimpleNameDeclarationWithParametersHeader extends DeclarationWithPa
 			};
 			result.setUniParent(parent());
 			for(FormalParameter param: formalParameters()) {
-				result.add(param.getTypeReference().clone());
+				result.add(clone(param.getTypeReference()));
 			}
 			if(cacheSignatures) {
 				_signatureCache = result;
@@ -94,7 +94,7 @@ public class SimpleNameDeclarationWithParametersHeader extends DeclarationWithPa
 				result.setName(sig.name());
 				params = result.formalParameters();
 				for(int i=0; i <size; i++) {
-					params.get(i).setTypeReference(typeReferences.get(i).clone());
+					params.get(i).setTypeReference(clone(typeReferences.get(i)));
 				}
 			}
 			return result;

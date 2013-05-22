@@ -49,16 +49,8 @@ public class IfThenElseStatement extends ExpressionContainingStatement {
   }
 
 
-  public IfThenElseStatement clone() {
-    Statement ifStatement = null;
-    if(getIfStatement() != null) {
-      ifStatement = getIfStatement().clone();
-    }
-    Statement elseStatement = null;
-    if(getElseStatement() != null) {
-      elseStatement = getElseStatement().clone();
-    }
-    return new IfThenElseStatement(getExpression().clone(), ifStatement, elseStatement);
+  protected IfThenElseStatement cloneSelf() {
+    return new IfThenElseStatement(null,null,null);
   }
 
   @Override

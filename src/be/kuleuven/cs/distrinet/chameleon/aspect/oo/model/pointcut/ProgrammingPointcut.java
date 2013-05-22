@@ -39,15 +39,8 @@ public class ProgrammingPointcut extends Pointcut implements DeclarationContaine
 	}
 	
   @Override
-  public ProgrammingPointcut clone() {
-  	ProgrammingPointcut clone = (ProgrammingPointcut) super.clone();
-		clone.setHeader((SimpleNameDeclarationWithParametersHeader) header().clone());
-		return clone;
-  }
-  
-  @Override
-  protected ProgrammingPointcut cloneThis() {
-  	return new ProgrammingPointcut((SimpleNameDeclarationWithParametersHeader) header().clone(), expression().clone());
+  protected ProgrammingPointcut cloneSelf() {
+  	return new ProgrammingPointcut(null, null);
   }
   
 	public List<FormalParameter> parameters() {

@@ -16,8 +16,6 @@ public abstract class Parameter extends ElementImpl implements Declaration {
 	
 	public abstract Declaration selectionDeclaration() throws LookupException;
 	
-	public abstract Parameter clone();
-	
 	public void setName(String name) {
 		setSignature(new SimpleNameSignature(name));
 	}

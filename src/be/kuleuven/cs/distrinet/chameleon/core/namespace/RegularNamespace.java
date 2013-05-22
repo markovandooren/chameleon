@@ -64,20 +64,8 @@ public class RegularNamespace extends NamespaceImpl {
 		return _namespaceParts.getOtherEnds();
 	}
 
-	@Override
-	public RegularNamespace clone() {
-		RegularNamespace result = cloneThis();
-		for(Namespace sub:getSubNamespaces()) {
-			result.addNamespace(sub.clone());
-		}
-		for(NamespaceDeclaration part:getNamespaceParts()) {
-			result.addNamespacePart(part.clone());
-		}
-		return result;
-	}
-	
-	protected RegularNamespace cloneThis() {
-		return new RegularNamespace(signature().clone());
+	protected RegularNamespace cloneSelf() {
+		return new RegularNamespace((SimpleNameSignature)null);
 	}
 	
 	public Scope scope() {

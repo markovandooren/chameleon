@@ -286,12 +286,6 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	 */
 	public <M extends Member> List<M> members(final Class<M> kind) throws LookupException;
 
-	/****************
-	 * CONSTRUCTORS *
-	 ****************/
-
-	public Type clone();
-
 	/**
 	 * DO NOT CONFUSE THIS METHOD WITH localMembers. This method does not
 	 * transform type elements into members.

@@ -14,8 +14,8 @@ public class SuperWildcard extends ActualTypeArgumentWithTypeReference {
 	}
 
 	@Override
-	public SuperWildcard clone() {
-		return new SuperWildcard(typeReference().clone());
+	protected SuperWildcard cloneSelf() {
+		return new SuperWildcard(null);
 	}
 
 //	@Override
@@ -69,7 +69,7 @@ public class SuperWildcard extends ActualTypeArgumentWithTypeReference {
 			newParameter.addConstraint(clone);
 			accumulator.add(clone);
 		}
-		newParameter.addConstraint(cloneAndResetTypeReference(new SuperConstraint(typeReference().clone()),this));
+		newParameter.addConstraint(cloneAndResetTypeReference(new SuperConstraint(clone(typeReference())),this));
 		
     return newParameter;
 	}

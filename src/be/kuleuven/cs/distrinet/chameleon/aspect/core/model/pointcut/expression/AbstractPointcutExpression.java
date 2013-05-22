@@ -28,12 +28,6 @@ public abstract class AbstractPointcutExpression<J extends Element> extends Elem
 	}
 	
 	/**
-	 *  {@inheritDoc}
-	 */
-	@Override
-	public abstract AbstractPointcutExpression clone();
-		
-	/**
 	 * 	{@inheritDoc}
 	 */
 	@Override
@@ -68,7 +62,7 @@ public abstract class AbstractPointcutExpression<J extends Element> extends Elem
 	public PointcutExpression<?> without(SafePredicate<PointcutExpression<?>> filter) {
 		PointcutExpression<?> result = null;
 		if (!filter.eval(this)) {
-			result = clone();
+			result = clone(this);
 			result.setOrigin(origin());
 		}
 		return result;

@@ -14,7 +14,7 @@ public class EqualityConstraint extends TypeConstraint {
 	}
 
 	@Override
-	public EqualityConstraint cloneThis() {
+	protected EqualityConstraint cloneSelf() {
 		return new EqualityConstraint();
 	}
 

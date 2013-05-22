@@ -18,7 +18,7 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
  */
 public interface ElementWithModifiers extends Element {
 
-	public ElementWithModifiers clone();
+//	public ElementWithModifiers clone();
 
 	/**
 	 * Return the modifiers of this type element.

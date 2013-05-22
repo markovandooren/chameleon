@@ -50,14 +50,8 @@ public class Block extends StatementImpl implements StatementListContainer {
   	return _statements.elementAt(baseOneIndex);
   }
 
-  public Block clone() {
-    final Block result = new Block();
-    new Visitor<Statement>() {
-      public void visit(Statement element) {
-        result.addStatement(element.clone());
-      }
-    }.applyTo(statements());
-    return result;
+  public Block cloneSelf() {
+    return new Block();
   }
   
   public void clear() {
@@ -115,7 +109,7 @@ public class Block extends StatementImpl implements StatementListContainer {
 	public void addBlock(Block block) {
 		if (block != null) {
 			for (Statement st : block.statements()) {
-				addStatement(st.clone());
+				addStatement(clone(st));
 			}
 		}
 	}

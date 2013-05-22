@@ -140,44 +140,6 @@ public abstract class MethodInvocation<D extends DeclarationWithParameters>
 		crossReference().setCache(value);
 	}
 
-	/**
-	 * Return a clone of this invocation without target or parameters.
-	 */
-	/*
-	 * @
-	 * 
-	 * @ protected behavior
-	 * 
-	 * @
-	 * 
-	 * @ post \result != null;
-	 * 
-	 * @
-	 */
-	protected abstract MethodInvocation cloneInvocation(CrossReferenceTarget target);
-
-	public MethodInvocation clone() {
-		CrossReferenceTarget target = null;
-		if (getTarget() != null) {
-			target = getTarget().clone();
-		}
-		MethodInvocation result = cloneInvocation(target);
-		for (Expression element : getActualParameters()) {
-			result.addArgument(element.clone());
-		}
-		for (ActualTypeArgument arg : typeArguments()) {
-			result.addArgument(arg.clone());
-		}
-		return result;
-	}
-
-	// public void substituteParameter(String name, Expression expr) throws
-	// MetamodelException {
-	// if(getTarget()!= null) {
-	// getTarget().substituteParameter(name, expr);
-	// }
-	// }
-
 	public CheckedExceptionList getDirectCEL() throws LookupException {
 		throw new Error();
 	}

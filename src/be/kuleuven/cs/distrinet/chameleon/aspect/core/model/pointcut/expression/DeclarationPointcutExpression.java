@@ -11,8 +11,8 @@ public abstract class DeclarationPointcutExpression<J extends Element> extends A
 		this._pattern = pattern;
 	}
 
-	@Override
-	public abstract DeclarationPointcutExpression<J> clone();
+//	@Override
+//	public abstract DeclarationPointcutExpression<J> clone();
 
 	private DeclarationPattern _pattern;
 	

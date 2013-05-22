@@ -45,14 +45,7 @@ public abstract class TypeConstraint extends ElementImpl {
 	
 	private SingleAssociation<TypeConstraint,TypeReference> _types = new SingleAssociation<TypeConstraint, TypeReference>(this);
 
-	@Override
-	public TypeConstraint clone() {
-		TypeConstraint result = cloneThis();
-		result.setTypeReference(typeReference().clone());
-		return result;
-	}
-	
-	public abstract TypeConstraint cloneThis();
+//	public abstract TypeConstraint cloneThis();
 
 	public Type bound() throws LookupException {
 		return typeReference().getElement();

@@ -17,7 +17,7 @@ public class DeclarationReference extends ElementImpl {
 	}
 	
 	@Override
-	public DeclarationReference clone() {
+	public DeclarationReference cloneSelf() {
 		return new DeclarationReference(_reference);
 	}
 

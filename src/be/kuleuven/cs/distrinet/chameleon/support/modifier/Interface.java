@@ -13,7 +13,7 @@ public class Interface extends ModifierImpl {
 	  }
 
 		@Override
-		public Interface clone() {
+		protected Interface cloneSelf() {
 			return new Interface();
 		}
 

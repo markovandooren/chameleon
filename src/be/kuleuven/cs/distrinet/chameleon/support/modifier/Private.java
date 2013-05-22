@@ -16,7 +16,7 @@ public class Private extends ModifierImpl {
   }
   
 	@Override
-	public Private clone() {
+	protected Private cloneSelf() {
 		return new Private();
 	}
 

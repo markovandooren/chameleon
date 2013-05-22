@@ -41,8 +41,8 @@ public class TypeImport extends Import {
   }
 
   @Override
-  public TypeImport clone() {
-    return new TypeImport(getTypeReference().clone());
+  protected TypeImport cloneSelf() {
+    return new TypeImport(null);
   }
 
 	@Override

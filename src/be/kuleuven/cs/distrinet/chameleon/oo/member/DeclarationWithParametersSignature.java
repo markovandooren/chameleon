@@ -16,8 +16,6 @@ import be.kuleuven.cs.distrinet.chameleon.oo.variable.FormalParameter;
 
 public abstract class DeclarationWithParametersSignature extends Signature {
 
-	public abstract DeclarationWithParametersSignature clone();
-	
 	public abstract String name();
 	
 	public abstract int nbFormalParameters();
@@ -41,7 +39,7 @@ public abstract class DeclarationWithParametersSignature extends Signature {
   	boolean result = nbOtherFormalParameters == nbMyFormalParameters;
   	
   	if(result) {
-  		DeclarationWithParametersHeader clonedOtherHeader = otherHeader.clone();
+  		DeclarationWithParametersHeader clonedOtherHeader = clone(otherHeader);
   		clonedOtherHeader.setUniParent(otherMethod);
   		List<TypeParameter> cloneTypeParameters = clonedOtherHeader.typeParameters();
   		List<TypeParameter> myTypeParameters = nearestAncestor(DeclarationWithParameters.class).typeParameters();

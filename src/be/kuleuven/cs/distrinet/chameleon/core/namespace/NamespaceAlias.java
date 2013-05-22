@@ -41,8 +41,8 @@ public class NamespaceAlias extends NamespaceImpl {
 	}
 
 	@Override
-	public Namespace clone() {
-		return new NamespaceAlias(signature().clone(),aliasedNamespace());
+	protected Namespace cloneSelf() {
+		return new NamespaceAlias(null,aliasedNamespace());
 	}
 
 	private PropertySet<Element,ChameleonProperty> myDefaultProperties() {

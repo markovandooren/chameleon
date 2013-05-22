@@ -9,7 +9,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 public interface PointcutExpression<J extends Element> extends Element {
 	
-	public PointcutExpression<J> clone();
+//	public PointcutExpression<J> clone();
 	
 	/**
 	 * 	Get this pointcut-expression tree but filter according to the given predicate

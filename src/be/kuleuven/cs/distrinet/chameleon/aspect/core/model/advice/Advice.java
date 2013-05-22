@@ -57,21 +57,7 @@ public class Advice<B extends Element> extends ElementWithModifiersImpl {
 		set(_pointcutExpression, pointcutref);
 	}
 
-	@Override
-	public Advice clone() {
-		TypeReference returnTypeClone = null;
-		Advice clone = cloneThis();
-		PointcutExpression pointcutExpression = pointcutExpression();
-		clone.setPointcutExpression((pointcutExpression == null ? null : (PointcutExpression) pointcutExpression.clone()));
-		B body = body();
-		clone.setBody(body == null ?  null : body.clone());
-		for (Modifier m : modifiers()) {
-			clone.addModifier(m.clone());
-		}
-		return clone;
-	}
-
-	protected Advice cloneThis() {
+	protected Advice cloneSelf() {
 		return new Advice();
 	}
 

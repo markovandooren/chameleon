@@ -4,7 +4,6 @@ import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.modifier.Modifier;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
@@ -21,18 +20,8 @@ public class SubtypeRelation extends AbstractInheritanceRelation {
 		super(ref);
 	}
 
-	@Override
-	public SubtypeRelation clone() {
-		SubtypeRelation result = cloneThis();
-//		result.setOrigin(this);
-		for(Modifier modifier:modifiers()) {
-			result.addModifier(modifier.clone());
-		}
-		return result;
-	}
-	
-	protected SubtypeRelation cloneThis() {
-		return new SubtypeRelation(superClassReference().clone());
+	protected SubtypeRelation cloneSelf() {
+		return new SubtypeRelation(null);
 	}
 
 	@Override

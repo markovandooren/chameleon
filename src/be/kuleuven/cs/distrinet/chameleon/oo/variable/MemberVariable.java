@@ -7,6 +7,4 @@ public interface MemberVariable extends Variable, Member {
 
   public MemberRelationSelector<Member> aliasSelector();
 
-  public abstract MemberVariable clone();
-	
 }

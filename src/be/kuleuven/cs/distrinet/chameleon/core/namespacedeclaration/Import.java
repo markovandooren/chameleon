@@ -16,8 +16,6 @@ public abstract class Import extends ElementImpl {
   public Import() {
 	}
   
-  public abstract Import clone();
-  
 // THIS IS COVERED IN NAMESPACEPART
   
   public abstract List<Declaration> directImports() throws LookupException;

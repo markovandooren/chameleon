@@ -18,8 +18,6 @@ import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 
 public abstract class AbstractInheritanceRelation extends ElementWithModifiersImpl implements InheritanceRelation {
 	
-	public abstract AbstractInheritanceRelation clone();
-
 	public AbstractInheritanceRelation(TypeReference ref) {
 		setSuperClassReference(ref);
 	}

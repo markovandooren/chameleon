@@ -47,12 +47,8 @@ public class CompositeQualifiedName extends QualifiedName {
 	}
 	
 	@Override
-	public CompositeQualifiedName clone() {
-		CompositeQualifiedName result = new CompositeQualifiedName();
-		for(Signature signature: signatures()) {
-			result.append(signature.clone());
-		}
-		return result;
+	protected CompositeQualifiedName cloneSelf() {
+		return new CompositeQualifiedName();
 	}
 	
 	public int length() {
@@ -65,7 +61,7 @@ public class CompositeQualifiedName extends QualifiedName {
 	}
 
 	public QualifiedName popped() {
-		CompositeQualifiedName result = clone();
+		CompositeQualifiedName result = clone(this);
 		result.remove(result.lastSignature());
 		return result;
 	}

@@ -19,8 +19,8 @@ public class BasicTypeArgument extends ActualTypeArgumentWithTypeReference {
 	}
 
 	@Override
-	public BasicTypeArgument clone() {
-		return new BasicTypeArgument(typeReference().clone());
+	protected BasicTypeArgument cloneSelf() {
+		return new BasicTypeArgument(null);
 	}
 
  /*@

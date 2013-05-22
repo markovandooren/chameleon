@@ -18,8 +18,8 @@ public class DeclarationAlias extends ElementImpl implements Declaration {
 	}
 	
 	@Override
-	public DeclarationAlias clone() {
-		return new DeclarationAlias(signature().clone(), aliasedDeclaration());
+	public DeclarationAlias cloneSelf() {
+		return new DeclarationAlias(null, aliasedDeclaration());
 	}
 
 	@Override

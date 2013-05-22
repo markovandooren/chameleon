@@ -39,9 +39,7 @@ public class AnnotatedMethodInvocationExpression extends MethodInvocationPointcu
 	}
 
 	@Override
-	public AnnotatedMethodInvocationExpression clone() {
-		AnnotatedMethodInvocationExpression clone = new AnnotatedMethodInvocationExpression();
-		clone.setReference(reference().clone());
-		return clone;
+	public AnnotatedMethodInvocationExpression cloneSelf() {
+		return new AnnotatedMethodInvocationExpression();
 	}
 }

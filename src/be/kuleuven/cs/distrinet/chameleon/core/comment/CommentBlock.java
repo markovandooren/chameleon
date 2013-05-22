@@ -33,7 +33,7 @@ public class CommentBlock extends ElementImpl {
   }
 
 	@Override
-	public Element clone() {
+	public Element cloneSelf() {
 		return new CommentBlock(getContent());
 	}
 }

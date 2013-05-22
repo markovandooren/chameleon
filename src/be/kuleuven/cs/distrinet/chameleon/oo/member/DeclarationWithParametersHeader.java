@@ -31,17 +31,6 @@ import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
  */
 public abstract class DeclarationWithParametersHeader extends ElementImpl implements VariableContainer { //extends Signature<E, P> 
   
-  public DeclarationWithParametersHeader clone() {
-  	DeclarationWithParametersHeader result = cloneThis();
-    for(FormalParameter param:formalParameters()) {
-      result.addFormalParameter((FormalParameter) param.clone());
-    }
-    for(TypeParameter param:typeParameters()) {
-    	result.addTypeParameter((TypeParameter) param.clone());
-    }
-    return result;
-  }
-
   /**
    * Return the signature of the method of this method header. The signature is generated based on
    * the information in the header.
@@ -53,7 +42,7 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
   
   public abstract DeclarationWithParametersHeader createFromSignature(Signature signature);
   
-  protected abstract DeclarationWithParametersHeader cloneThis();
+//  protected abstract DeclarationWithParametersHeader cloneThis();
   
   /**
    * The name of a method header is the name of its signature.

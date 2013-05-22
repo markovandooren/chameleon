@@ -16,8 +16,8 @@ public class AssertStatement extends ExpressionContainingStatement {
     super(expression);
   }
 
-  public AssertStatement clone() {
-    return new AssertStatement(getExpression().clone());
+  protected AssertStatement cloneSelf() {
+    return new AssertStatement(null);
   }
 
 	/**

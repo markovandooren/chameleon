@@ -18,7 +18,7 @@ public class Native extends ModifierImpl {
   }
 
 	@Override
-	public Native clone() {
+	protected Native cloneSelf() {
 		return new Native();
 	}
 	

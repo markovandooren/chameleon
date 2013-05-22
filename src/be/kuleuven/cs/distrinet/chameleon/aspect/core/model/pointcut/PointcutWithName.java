@@ -36,8 +36,8 @@ public class PointcutWithName extends Pointcut {
 	}
 
 	@Override
-	protected PointcutWithName cloneThis() {
-		return new PointcutWithName(signature().clone(),expression());
+	protected PointcutWithName cloneSelf() {
+		return new PointcutWithName(null,null);
 	}
 
 	@Override

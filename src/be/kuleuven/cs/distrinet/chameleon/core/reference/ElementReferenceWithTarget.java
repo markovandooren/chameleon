@@ -150,7 +150,7 @@ public abstract class ElementReferenceWithTarget<R extends Declaration> extends 
 	  @ post \result.getName() == getName();
 	  @ post (* \result.getTarget() is a clone of getTarget() *);
 	  @*/
-	 public abstract ElementReferenceWithTarget<R> clone() ;
+//	 public abstract ElementReferenceWithTarget<R> clone() ;
 	 
 	 public String toString() {
 		 return (getTarget() == null ? "" : getTarget().toString()+".")+signature().toString();

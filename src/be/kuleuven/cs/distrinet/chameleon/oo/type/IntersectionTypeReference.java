@@ -31,12 +31,8 @@ public class IntersectionTypeReference extends CombinationTypeReference implemen
 	}
 
 	@Override
-	public IntersectionTypeReference clone() {
-		List<TypeReference> trefs = new ArrayList<TypeReference>();
-		for(TypeReference tref: typeReferences()) {
-			trefs.add(tref.clone());
-		}
-		return new IntersectionTypeReference(trefs);
+	public IntersectionTypeReference cloneSelf() {
+		return new IntersectionTypeReference();
 	}
 
 	@Override
@@ -49,15 +45,15 @@ public class IntersectionTypeReference extends CombinationTypeReference implemen
 	}
 
 	public TypeReference intersectionDoubleDispatch(TypeReference other) {
-		IntersectionTypeReference result = clone();
-		result.add(other.clone());
+		IntersectionTypeReference result = clone(this);
+		result.add(clone(other));
 		return result;	
 	}
 
 	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference other) {
-		IntersectionTypeReference result = clone();
+		IntersectionTypeReference result = clone(this);
 		for(TypeReference tref: other.typeReferences()) {
-		  result.add(tref.clone());
+		  result.add(clone(tref));
 		}
 		return result;	
 	}

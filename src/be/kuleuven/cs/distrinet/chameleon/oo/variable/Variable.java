@@ -36,18 +36,6 @@ public interface Variable extends ElementWithModifiers, DeclarationWithType {
 
 
 
-	/*************
-	 * MODIFIERS *
-	 *************/
-	
-//	public List<Modifier> modifiers();
-//
-//	public void addModifier(Modifier modifier);
-//
-//	public void removeModifier(Modifier modifier);
-
-  public Variable clone();
-
   public LocalLookupContext<?> targetContext() throws LookupException;
 
 

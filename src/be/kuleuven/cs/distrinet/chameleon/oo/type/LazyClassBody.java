@@ -77,7 +77,7 @@ public class LazyClassBody extends ClassBody {
 					clone = caseElementFromStub(selectionName, declarationFromBaseType, (TypeElementStub) parent);
 				} else {
 					if(! declarationFromBaseType.isTrue(language.CLASS)) {
-					  clone = declarationFromBaseType.clone();
+					  clone = clone(declarationFromBaseType);
 					  super.add((TypeElement) clone); //FIX ME there should be a separate stub for type elements.
 					  clone.setOrigin(declarationFromBaseType);
 					} else {
@@ -95,7 +95,7 @@ public class LazyClassBody extends ClassBody {
 	private Declaration caseElementFromStub(String selectionName, Declaration declarationFromBaseType, TypeElementStub stub) throws LookupException {
 		Declaration clone = null;
 		// 1. Clone the declaration 
-		Declaration declClone = declarationFromBaseType.clone();
+		Declaration declClone = clone(declarationFromBaseType);
 		// 2. Substitute the type parameters with those of the surrounding DerivedType.
 		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
 		List<TypeParameter> typeParameters = original().nearestAncestor(Type.class).parameters(TypeParameter.class);
@@ -122,7 +122,7 @@ public class LazyClassBody extends ClassBody {
 		}
 		// 5. If the generator had not yet been cloned before, we do it now.
 		if(newGenerator == null) {
-			newGenerator = generator.clone();
+			newGenerator = clone(generator);
 			newGenerator.setOrigin(generator);
 			super.add(newGenerator);
 		}
@@ -185,7 +185,7 @@ public class LazyClassBody extends ClassBody {
 				}
 				if(clonedElement == null) {
 					if(! element.isTrue(clazz)) {
-						clonedElement = element.clone();
+						clonedElement = clone(element);
 						super.add(clonedElement);
 					} else {
 						_statics.add(element);
@@ -255,9 +255,8 @@ public class LazyClassBody extends ClassBody {
 	}
 
 	@Override
-	public LazyClassBody clone() {
-		LazyClassBody result = new LazyClassBody(original());
-		return result;
+	public LazyClassBody cloneSelf() {
+		return new LazyClassBody(original());
 	}
 
 }

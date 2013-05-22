@@ -51,15 +51,7 @@ public class TypeCatchClausePointcutExpression extends CatchClausePointcutExpres
 	}
 	
   @Override
-	public TypeCatchClausePointcutExpression clone() {
-		TypeCatchClausePointcutExpression clone = new TypeCatchClausePointcutExpression();
-		
-		if (exceptionType() != null)
-			clone.setExceptionType(exceptionType().clone());
-		
-		if (subtypeMarker() != null)
-			clone.setSubtypeMarker(subtypeMarker().clone());
-		
-		return clone;
+  protected TypeCatchClausePointcutExpression cloneSelf() {
+		return new TypeCatchClausePointcutExpression();
 	}
 }

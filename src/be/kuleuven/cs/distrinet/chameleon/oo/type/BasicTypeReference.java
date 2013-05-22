@@ -27,8 +27,8 @@ public class BasicTypeReference extends SpecificReference<Type> implements TypeR
   	return getElement();
   }
 
-  public BasicTypeReference clone() {
-    return new BasicTypeReference((getTarget() == null ? null : getTarget().clone()),(SimpleNameSignature)signature().clone());
+  public BasicTypeReference cloneSelf() {
+    return new BasicTypeReference(null,(SimpleNameSignature)null);
   }
 
 	public TypeReference intersection(TypeReference other) {
@@ -36,12 +36,12 @@ public class BasicTypeReference extends SpecificReference<Type> implements TypeR
 	}
 
 	public TypeReference intersectionDoubleDispatch(TypeReference other) {
-		return language(ObjectOrientedLanguage.class).createIntersectionReference(clone(), other.clone());
+		return language(ObjectOrientedLanguage.class).createIntersectionReference(clone(this), clone(other));
 	}
 
 	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference other) {
-		IntersectionTypeReference result = other.clone();
-		result.add(clone());
+		IntersectionTypeReference result = clone(other);
+		result.add(clone(this));
 		return result;
 	}
 

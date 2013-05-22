@@ -21,7 +21,7 @@ public class SimpleNameMethodHeader extends MethodHeader {
 	//FIXME LARGELY COPIED FROM SimpleNameDeclarationWithParametersHeader.
 	//      Better solution is to use a SimpleNameDeclarationWithParametersHeader as a subobject, but
 	//      I don't want to increase memory consumption further until we have lazy class loading. A
-	//      tool that uses too much memory is completely useless.
+	//      tool that uses too much memory and starts to swap is completely useless.
 
 	public SimpleNameMethodHeader(String name, TypeReference returnType) {
 		super(returnType);
@@ -39,8 +39,8 @@ public class SimpleNameMethodHeader extends MethodHeader {
   private String _name;
 
 	@Override
-	public SimpleNameMethodHeader cloneThis() {
-		return new SimpleNameMethodHeader(getName(), returnTypeReference().clone());
+	public SimpleNameMethodHeader cloneSelf() {
+		return new SimpleNameMethodHeader(getName(), null);
 	}
 
 	private SimpleNameDeclarationWithParametersSignature _signatureCache;
@@ -64,7 +64,7 @@ public class SimpleNameMethodHeader extends MethodHeader {
 			};
 			result.setUniParent(parent());
 			for(FormalParameter param: formalParameters()) {
-				result.add(param.getTypeReference().clone());
+				result.add(clone(param.getTypeReference()));
 			}
 			if(cacheSignatures) {
 				_signatureCache = result;
@@ -103,7 +103,7 @@ public class SimpleNameMethodHeader extends MethodHeader {
 				result.setName(sig.name());
 				params = result.formalParameters();
 				for(int i=0; i <size; i++) {
-					params.get(i).setTypeReference(typeReferences.get(i).clone());
+					params.get(i).setTypeReference(clone(typeReferences.get(i)));
 				}
 			}
 			return result;

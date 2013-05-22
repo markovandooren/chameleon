@@ -61,7 +61,7 @@ public interface Declaration extends Element {
    @*/
   public void setName(String name);
   
-  public Declaration clone();
+//  public Declaration clone();
   
   /**
    * Because some declarations, such as formal generic parameters, are stubs for other declarations,

@@ -23,8 +23,6 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
  */
 public interface InheritanceRelation extends Element {
 	
-	public InheritanceRelation clone();
-
 	public Declaration superElement() throws LookupException;
 	
 	public TypeReference superClassReference();

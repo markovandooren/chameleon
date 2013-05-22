@@ -25,8 +25,8 @@ public class PointcutExpressionAnd extends PointcutExpressionDual<Element> {
 	}
 
 	@Override
-	public PointcutExpressionAnd clone() {
-		return new PointcutExpressionAnd(expression1().clone(), expression2().clone());
+	protected PointcutExpressionAnd cloneSelf() {
+		return new PointcutExpressionAnd(null, null);
 	}
 
 	@Override

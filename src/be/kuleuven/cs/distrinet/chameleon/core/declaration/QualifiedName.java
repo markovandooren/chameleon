@@ -35,17 +35,17 @@ public abstract class QualifiedName extends ElementImpl {
      @*/
 	public abstract Signature lastSignature();
 	
-	/**
-	 * Return a clone of this qualified name.
-	 */
-   /*@
-     @ public behavior
-     @
-     @ post \fresh(\result);
-     @ post \result.length() == length();
-     @ post (\forall int i; i >= 1 && i <= length(); \result.signatureAt(i).sameAs(signatureAt(i)));
-     @*/
-	public abstract QualifiedName clone();
+//	/**
+//	 * Return a clone of this qualified name.
+//	 */
+//   /*@
+//     @ public behavior
+//     @
+//     @ post \fresh(\result);
+//     @ post \result.length() == length();
+//     @ post (\forall int i; i >= 1 && i <= length(); \result.signatureAt(i).sameAs(signatureAt(i)));
+//     @*/
+//	public abstract QualifiedName clone();
 	
 	/**
 	 * Return the length of this qualified name.
@@ -86,7 +86,7 @@ public abstract class QualifiedName extends ElementImpl {
 		List<Signature> signatures = signatures();
 		int length = signatures.size();
 		for(int i=0; i< length-1; i++) {
-			result.append(signatures.get(i).clone());
+			result.append(clone(signatures.get(i)));
 		}
 		return result;
 	}

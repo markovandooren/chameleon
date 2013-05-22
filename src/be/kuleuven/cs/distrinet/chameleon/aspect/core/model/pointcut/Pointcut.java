@@ -52,13 +52,7 @@ public abstract class Pointcut extends ElementImpl implements Declaration {
 		set(_expression, expression);
 	}
 	
-	public Pointcut clone() {
-		Pointcut clone = cloneThis();
-		clone.setExpression((PointcutExpression) expression().clone());
-		return clone;
-	}
-	
-	protected abstract Pointcut cloneThis();
+	protected abstract Pointcut cloneSelf();
 	
 	@Override
 	public Verification verifySelf() {

@@ -31,9 +31,8 @@ public class RegularMethodInvocation extends SimpleNameMethodInvocation<NormalMe
    * MISC *
    ********/
   
-  protected RegularMethodInvocation cloneInvocation(CrossReferenceTarget target) {
-  	//target is already cloned.
-    return new RegularMethodInvocation(name(), target);
+  protected RegularMethodInvocation cloneSelf() {
+    return new RegularMethodInvocation(name(), null);
   }
 
 

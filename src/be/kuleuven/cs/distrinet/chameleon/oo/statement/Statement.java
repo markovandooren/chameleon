@@ -8,7 +8,7 @@ public interface Statement extends Element, ExceptionSource {
 
 	public boolean before(Statement other);
 	
-	public Statement clone();
+//	public Statement clone();
 	
 	public LookupContext linearLookupStrategy() throws LookupException;
 	

@@ -36,14 +36,8 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
 	}
 	
 	@Override
-	public VariableDeclaration clone() {
-		Expression expression = initialization();
-		Expression clonedExpression = null;
-		if(expression != null) {
-			clonedExpression = expression.clone();
-		}
-		VariableDeclaration variableDeclaration = new VariableDeclaration(signature().clone(), clonedExpression);
-		return variableDeclaration;
+	protected VariableDeclaration cloneSelf() {
+		return new VariableDeclaration((SimpleNameSignature)null, null);
 	}
 
 	public void setSignature(SimpleNameSignature signature) {
@@ -77,8 +71,8 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
   	Variable result = _cache;
   	if(result == null) {
   		Expression init = initialization();
-  		Expression initClone = (init == null ? null : init.clone());
-  		result = ((VariableDeclarator)parent()).createVariable(signature().clone(),initClone);
+  		Expression initClone = (init == null ? null : clone(init));
+  		result = ((VariableDeclarator)parent()).createVariable(clone(signature()),initClone);
   		result.setUniParent(parent());
   		result.setOrigin(this);
   		transform(result);

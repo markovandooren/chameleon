@@ -14,7 +14,7 @@ public class Before<E extends Before<E>> extends ModifierImpl {
 	}
 
 	@Override
-	public E clone() {
+	protected E cloneSelf() {
 		return (E) new Before<E>();
 	}
 
