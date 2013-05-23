@@ -33,6 +33,7 @@ import be.kuleuven.cs.distrinet.chameleon.plugin.build.BuildProgressHelper;
 import be.kuleuven.cs.distrinet.chameleon.plugin.build.Builder;
 import be.kuleuven.cs.distrinet.chameleon.plugin.build.NullBuilder;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
+import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.chameleon.workspace.View;
 
 public class ChameleonBuilder extends IncrementalProjectBuilder {
@@ -73,7 +74,8 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 		System.out.println("RUNNING FULL BUILD!");
 		chameleonNature().clearMarkers();
 		try {
-			buildHelper(arguments, chameleonNature().chameleonProject().sourceDocuments(), monitor);
+			Project chameleonProject = chameleonNature().chameleonProject();
+			buildHelper(arguments, chameleonProject.sourceDocuments(), monitor);
 		} catch (InputException e) {
 			throw new CoreException(new BuildStatus("Input error during full build.", e));
 		}

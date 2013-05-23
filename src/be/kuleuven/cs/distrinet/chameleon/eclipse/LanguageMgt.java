@@ -45,7 +45,7 @@ public class LanguageMgt {
 //    private Map<String, EclipseBootstrapper> languages;
 
     /**
-     * creates a new mapping for the languages & presenation models These are
+     * creates a new mapping for the languages & presentation models These are
      * instantiated from the XML file
      *
      */
