@@ -30,7 +30,7 @@ import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 public class NamedTargetExpression extends TargetedExpression implements CrossReferenceWithName<DeclarationWithType>, CrossReferenceWithTarget<DeclarationWithType> {
 
   public NamedTargetExpression(String identifier) {
-  	_signature = new SimpleNameSignature(identifier);
+  	setSignature(new SimpleNameSignature(identifier));
 	}
   
   public NamedTargetExpression(String identifier, CrossReferenceTarget target) {
@@ -54,22 +54,18 @@ public class NamedTargetExpression extends TargetedExpression implements CrossRe
   }
 
   public void setName(String name) {
-    _signature.setName(name);
+    signature().setName(name);
   }
 
 	public void setSignature(Signature signature) {
-		if(signature instanceof SimpleNameSignature) {
-			_signature = (SimpleNameSignature) signature;
-		} else {
-			throw new ChameleonProgrammerException();
-		}
+		set(_signature, signature);
 	}
 
-	public SimpleNameSignature signature() {
-		return _signature;
+	public Signature signature() {
+		return _signature.getOtherEnd();
 	}
 
-	private SimpleNameSignature _signature;
+	private Single<Signature> _signature = new Single<Signature>(this);
 
 	/**
 	 * TARGET
@@ -189,8 +185,8 @@ public class NamedTargetExpression extends TargetedExpression implements CrossRe
 	}
 	
 	private DeclarationSelector<DeclarationWithType> _selector = new SelectorWithoutOrder<DeclarationWithType>(DeclarationWithType.class) {
-		public SimpleNameSignature signature() {
-			return NamedTargetExpression.this._signature;
+		public Signature signature() {
+			return NamedTargetExpression.this.signature();
 		}
 	};
 

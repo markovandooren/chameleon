@@ -8,6 +8,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
 public abstract class NonLocalTypeReference extends ElementImpl implements TypeReference {
@@ -17,6 +18,7 @@ public abstract class NonLocalTypeReference extends ElementImpl implements TypeR
 		}
 		
 		public NonLocalTypeReference(TypeReference tref, Element lookupParent) {
+			Util.debug(tref == null);
 		  setActualReference(tref);
 			setLookupParent(lookupParent);
 		}

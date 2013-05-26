@@ -28,9 +28,12 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 		this(new SimpleNameSignature(name));
 	}
 	
+	protected LazyNamespace() {
+	}
+
 	@Override
 	protected RegularNamespace cloneSelf() {
-		return new LazyNamespace((SimpleNameSignature)null);
+		return new LazyNamespace();
 	}
 	
 	@Override

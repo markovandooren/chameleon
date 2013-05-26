@@ -8,6 +8,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
+import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 public abstract class TypeConstraint extends ElementImpl {
@@ -43,7 +44,7 @@ public abstract class TypeConstraint extends ElementImpl {
 		return _types.getOtherEnd();
 	}
 	
-	private SingleAssociation<TypeConstraint,TypeReference> _types = new SingleAssociation<TypeConstraint, TypeReference>(this);
+	private Single<TypeReference> _types = new Single<TypeReference>(this);
 
 //	public abstract TypeConstraint cloneThis();
 

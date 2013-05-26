@@ -206,7 +206,7 @@ public abstract class ClassWithBody extends ClassImpl {
 		add(_parameters,new TypeParameterBlock());
 	}
 	
-	public ClassWithBody() {
+	protected ClassWithBody() {
 		init();
 	}
 

@@ -25,6 +25,8 @@ public class RegularNamespace extends NamespaceImpl {
 		super(sig);
 	}
 
+	protected RegularNamespace() {
+	}
 	/**
 	 * SUBNAMESPACES
 	 */
@@ -65,7 +67,7 @@ public class RegularNamespace extends NamespaceImpl {
 	}
 
 	protected RegularNamespace cloneSelf() {
-		return new RegularNamespace((SimpleNameSignature)null);
+		return new RegularNamespace();
 	}
 	
 	public Scope scope() {

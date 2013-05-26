@@ -18,11 +18,13 @@ public class RegularType extends ClassWithBody {
 	}
 	
 	protected RegularType() {
-		
 	}
 	
 	protected RegularType cloneSelf() {
-		return new RegularType((SimpleNameSignature)null);
+		RegularType result = new RegularType(clone(signature()));
+		result.setSignature(null);
+		result.parameterBlock(TypeParameter.class).disconnect();
+		return result;
 	}
 
 	@Override

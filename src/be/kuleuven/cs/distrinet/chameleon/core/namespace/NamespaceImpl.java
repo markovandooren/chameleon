@@ -67,6 +67,10 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	protected NamespaceImpl(SimpleNameSignature sig) {
       setSignature(sig);
 	}
+	
+	protected NamespaceImpl() {
+		
+	}
 
 
 	/*@

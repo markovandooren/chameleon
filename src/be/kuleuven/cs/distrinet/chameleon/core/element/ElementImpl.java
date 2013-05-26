@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -451,7 +452,7 @@ public abstract class ElementImpl implements Element {
 			}
 			((ArrayList)_associations).trimToSize();
 		}
-		return _associations;
+		return Collections.unmodifiableList(_associations);
 	}
 
 	private static void addAllFieldsTillClass(final Class currentClass, Collection<Field> accumulator){
