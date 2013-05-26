@@ -24,7 +24,7 @@ import be.kuleuven.cs.distrinet.chameleon.eclipse.LanguageMgt;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.builder.ChameleonBuilder;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorExtension;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
-import be.kuleuven.cs.distrinet.chameleon.workspace.BootstrapProjectConfig;
+import be.kuleuven.cs.distrinet.chameleon.workspace.BaseLibraryConfiguration;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ConfigException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectConfiguration;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectConfigurator;
@@ -102,7 +102,12 @@ public class ProjectWizard extends BasicNewProjectResourceWizard implements INew
 	void createConfig(Language lang) {
 		if(_projectConfig == null || _projectConfig.language() != lang) {
 			try {
-				_projectConfig = lang.plugin(ProjectConfigurator.class).createConfigElement(_projectPage.projectName(), null, LanguageMgt.getInstance().workspace(),null,new BootstrapProjectConfig.BaseLibraryConfiguration());
+				_projectConfig = lang.plugin(ProjectConfigurator.class)
+						                 .createConfigElement(_projectPage.projectName(), 
+						                		                  null, 
+						                		                  LanguageMgt.getInstance().workspace(),
+						                		                  null, 
+						                		                  new BaseLibraryConfiguration(LanguageMgt.getInstance().workspace()));
 			} catch (ConfigException e) {
 				throw new ChameleonProgrammerException(e);
 			}

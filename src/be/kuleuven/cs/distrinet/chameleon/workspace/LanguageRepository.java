@@ -40,6 +40,9 @@ public class LanguageRepository {
 	 * Return the default version of the language with the given name. When an
 	 * explicit default version is set, that version is returned. Otherwise, the
 	 * highest version (as defined by {@link Revision#compareTo(Revision)}) is returned.
+	 * 
+	 * The method is case insensitive with respect to the language name.
+	 * 
 	 * @param name
 	 * @return
 	 */

@@ -2,9 +2,7 @@ package be.kuleuven.cs.distrinet.chameleon.workspace;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.w3c.dom.Element;
 
@@ -16,6 +14,7 @@ public class BootstrapProjectConfig extends ConfigElement {
 	public BootstrapProjectConfig(File root, Workspace workspace) {
 		_root = root;
 		_workspace = workspace;
+		_configuration = new BaseLibraryConfiguration(workspace);
 	}
 	
 	private List<ProjectInitialisationListener> _listeners = new ArrayList<ProjectInitialisationListener>();
@@ -61,26 +60,7 @@ public class BootstrapProjectConfig extends ConfigElement {
 //		
 //	}
 	
-	private BaseLibraryConfiguration _configuration = new BaseLibraryConfiguration();
-	
-	public static class BaseLibraryConfiguration {
-	
-	  private Map<String, Boolean> _baseLibraryMap = new HashMap<String, Boolean>();
-	  
-	  public boolean mustLoad(String language) {
-	  	Boolean tmp = _baseLibraryMap.get(language.toLowerCase());
-	  	if(tmp == null) {
-	  		return true;
-	  	} else {
-	  		return tmp;
-	  	}
-	  }
-	  
-	  public void put(String language, boolean load) {
-	  	_baseLibraryMap.put(language.toLowerCase(), load);
-	  }
-	}
-	
+	private final BaseLibraryConfiguration _configuration;
 	
 	public class BaseLibraries extends ConfigElement {
 		public class Library extends ConfigElement {
