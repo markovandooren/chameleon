@@ -62,7 +62,7 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 
 	public synchronized Type selectionDeclaration() throws LookupException {
 		if(_selectionTypeCache == null) {
-		  _selectionTypeCache = new InstantiatedParameterType(signature().clone(), argument().type(),this);
+		  _selectionTypeCache = new InstantiatedParameterType(clone(signature()), argument().type(),this);
 		}
 		return _selectionTypeCache;
 	}
@@ -79,7 +79,7 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 	@Override
 	public Type resolveForRoundTrip() throws LookupException {
 //		return this;
-  	Type result = new LazyInstantiatedAlias(signature().clone(), this);
+  	Type result = new LazyInstantiatedAlias(clone(signature()), this);
   	result.setUniParent(parent());
   	return result;
 	}

@@ -11,6 +11,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.statement.Block;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.VariableDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.support.statement.ReturnStatement;
 import be.kuleuven.cs.distrinet.chameleon.support.variable.LocalVariableDeclarator;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 
 public class AfterReturningExpression extends AdvisedExpressionFactory {
 	
@@ -52,7 +53,7 @@ public class AfterReturningExpression extends AdvisedExpressionFactory {
 		/*
 		 *	Add the advice-body itself 
 		 */
-		adviceBody.addBlock(advice.body().clone());
+		adviceBody.addBlock(Util.clone(advice.body()));
 		
 		/*
 		 * 	Add the return statement

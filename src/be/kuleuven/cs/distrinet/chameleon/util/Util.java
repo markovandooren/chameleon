@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import be.kuleuven.cs.distrinet.chameleon.core.element.CloneException;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
@@ -23,8 +24,12 @@ import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
  */
 public class Util {
 	
-	public static <T extends Element> T clone(T t) {
-		return (T)t.clone();
+	public static <T extends Element> T clone(T element) {
+		T result = (T) element.clone();
+		if(! element.getClass().isInstance(result)) {
+			throw new CloneException("The clone of a "+element.getClass().getName()+ " is a "+result.getClass().getName());
+		}
+		return result;
 	}
 	
   public static String concat(List list) {

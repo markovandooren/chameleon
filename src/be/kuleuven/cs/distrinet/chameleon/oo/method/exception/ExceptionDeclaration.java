@@ -18,8 +18,6 @@ public abstract class ExceptionDeclaration extends ElementImpl {
 
   public abstract boolean compatibleWith(ExceptionClause clause) throws LookupException;
 
-  public abstract ExceptionDeclaration clone();
-
   public abstract Set getExceptionTypes(MethodInvocation invocation) throws LookupException;
 
 	/**

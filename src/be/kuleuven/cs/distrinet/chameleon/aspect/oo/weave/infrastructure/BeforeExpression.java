@@ -4,6 +4,7 @@ import be.kuleuven.cs.distrinet.chameleon.aspect.oo.weave.factory.OOFactory;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Block;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 
 public class BeforeExpression extends AdvisedExpressionFactory {
 
@@ -21,7 +22,7 @@ public class BeforeExpression extends AdvisedExpressionFactory {
 		 *	Add the advice-body itself 
 		 */
 		ExpressionInfrastructureFactory factory = factory();
-		adviceBody.addBlock(factory.getAdvice().body().clone());
+		adviceBody.addBlock(Util.clone(factory.getAdvice().body()));
 		
 		/*
 		 * 	Add the return statement

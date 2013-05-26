@@ -61,8 +61,8 @@ public class ConditionalExpression extends TernaryExpression {
     }
   }
 
-  public ConditionalExpression clone() {
-    return new ConditionalExpression(getCondition().clone(), getFirst().clone(), getSecond().clone());
+  protected ConditionalExpression cloneSelf() {
+    return new ConditionalExpression(null, null,null);
   }
 
   public Set getDirectExceptions() throws LookupException {

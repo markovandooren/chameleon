@@ -28,13 +28,8 @@ public class ThisLiteral extends LiteralWithTypeReference {
     }
   }
 
-  public ThisLiteral clone() {
-    ThisLiteral result = new ThisLiteral();
-    TypeReference tref = getTypeReference();
-    if(tref != null) {
-      result.setTypeReference(tref.clone());
-    }
-    return result;
+  protected ThisLiteral cloneSelf() {
+    return new ThisLiteral();
   }
 
 }

@@ -16,10 +16,8 @@ public class ConditionalAndExpression extends ConditionalBooleanExpression {
     super(first, second);
   }
 
-  public ConditionalAndExpression clone() {
-    Expression first = getFirst().clone();
-    Expression second = getSecond().clone();
-    return new ConditionalAndExpression(first, second);
+  protected ConditionalAndExpression cloneSelf() {
+    return new ConditionalAndExpression(null, null);
   }
   
 }

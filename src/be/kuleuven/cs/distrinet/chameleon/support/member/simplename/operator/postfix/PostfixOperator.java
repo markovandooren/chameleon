@@ -17,8 +17,8 @@ public class PostfixOperator extends Operator {
 	  	return(other instanceof PostfixOperator);
 	  }  
 
-  protected PostfixOperator cloneThis() {
-    return new PostfixOperator((MethodHeader) header().clone());
+  protected PostfixOperator cloneSelf() {
+    return new PostfixOperator(null);
   }
 
 }

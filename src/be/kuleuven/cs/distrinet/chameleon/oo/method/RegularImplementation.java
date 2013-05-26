@@ -28,8 +28,8 @@ public class RegularImplementation extends Implementation  {
     return _body.getOtherEnd();
   }
 
-  public RegularImplementation clone() {
-    return new RegularImplementation(getBody().clone());
+  protected RegularImplementation cloneSelf() {
+    return new RegularImplementation(null);
   }
 
   public boolean compatible() throws LookupException {

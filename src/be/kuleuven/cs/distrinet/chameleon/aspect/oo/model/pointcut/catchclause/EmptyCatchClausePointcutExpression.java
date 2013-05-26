@@ -25,7 +25,7 @@ public class EmptyCatchClausePointcutExpression extends CatchClausePointcutExpre
 	}
 
 	@Override
-	public EmptyCatchClausePointcutExpression clone() {
+	protected EmptyCatchClausePointcutExpression cloneSelf() {
 		return new EmptyCatchClausePointcutExpression();
 	}
 }

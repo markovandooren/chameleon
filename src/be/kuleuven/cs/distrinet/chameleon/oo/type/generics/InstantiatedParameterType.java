@@ -61,8 +61,8 @@ public class InstantiatedParameterType extends TypeIndirection {
 
     
 		@Override
-		public InstantiatedParameterType clone() {
-			return new InstantiatedParameterType(signature().clone(), aliasedType(),parameter());
+		public InstantiatedParameterType cloneSelf() {
+			return new InstantiatedParameterType(null, aliasedType(),parameter());
 		}
 		
 		@Override

@@ -27,8 +27,8 @@ public class ThrowStatement extends ExpressionContainingStatement {
     super(expression);
   }
 
-  public ThrowStatement clone() {
-    return new ThrowStatement(getExpression().clone());
+  protected ThrowStatement cloneSelf() {
+    return new ThrowStatement(null);
   }
 
   public CheckedExceptionList getDirectCEL() throws LookupException {

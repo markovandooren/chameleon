@@ -3,6 +3,7 @@ package be.kuleuven.cs.distrinet.chameleon.aspect.oo.weave.infrastructure;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Block;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Statement;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 
 public class AfterExpression extends AdvisedExpressionFactory {
 
@@ -27,7 +28,7 @@ public class AfterExpression extends AdvisedExpressionFactory {
 	}
 
 	protected Statement createTryStatement(Block tryBody) throws LookupException {
-		return ooFactory().createTryFinally(tryBody, factory().getAdvice().body().clone());
+		return ooFactory().createTryFinally(tryBody, Util.clone(factory().getAdvice().body()));
 	}
 
 }

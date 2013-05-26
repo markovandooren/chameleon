@@ -10,7 +10,6 @@ import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
-import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
 
 public class ProceedCall extends Expression {
 
@@ -19,16 +18,8 @@ public class ProceedCall extends Expression {
 	}
 
 	@Override
-	public ProceedCall clone() {
-		final ProceedCall clone = new ProceedCall();
-		
-		new Visitor<Expression>() {
-			public void visit(Expression element) {
-				clone.addArgument(element.clone());
-			}
-		}.applyTo(getActualParameters());
-		
-		return clone;
+	public ProceedCall cloneSelf() {
+		return new ProceedCall();
 	}
 
 	@Override

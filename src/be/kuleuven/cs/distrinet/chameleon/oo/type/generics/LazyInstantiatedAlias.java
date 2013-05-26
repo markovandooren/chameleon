@@ -31,8 +31,8 @@ public class LazyInstantiatedAlias extends TypeIndirection {
 	private final TypeParameter _param;
 
 	@Override
-	public LazyInstantiatedAlias clone() {
-		return new LazyInstantiatedAlias((SimpleNameSignature) signature().clone(), _param);
+	public LazyInstantiatedAlias cloneSelf() {
+		return new LazyInstantiatedAlias(null, _param);
 	}
 
 	public boolean uniSameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {

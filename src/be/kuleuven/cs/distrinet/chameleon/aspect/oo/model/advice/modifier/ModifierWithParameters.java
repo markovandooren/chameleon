@@ -81,20 +81,6 @@ public abstract class ModifierWithParameters extends ModifierImpl implements Dec
 	}
 
 	@Override
-	public ModifierWithParameters clone() {
-		FormalParameter exceptionParameterClone = null;
-		
-		if (hasParameter())
-			exceptionParameterClone = parameter().clone();
-		ModifierWithParameters clone = cloneThis();
-		clone.setParameter(exceptionParameterClone);
-		
-		return clone;
-	}
-
-	protected abstract ModifierWithParameters cloneThis();
-	
-	@Override
 	public LookupContext lookupContext(Element child) throws LookupException {
 		return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
 	}

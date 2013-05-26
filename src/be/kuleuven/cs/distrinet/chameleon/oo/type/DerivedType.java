@@ -10,6 +10,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.Modifier;
+import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.Member;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.ActualTypeArgument;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.InstantiatedTypeParameter;
@@ -193,6 +194,10 @@ public class DerivedType extends ClassWithBody {
 		return new DerivedType(clonedParameters(),baseType());
 	}
 
+	protected Element cloneSelf() {
+		throw new ChameleonProgrammerException();
+	}
+	
 	protected List<ParameterSubstitution> clonedParameters() {
 		List<ParameterSubstitution> args = new ArrayList<ParameterSubstitution>();
 		for(ParameterBlock<?> block: parameterBlocks()) {

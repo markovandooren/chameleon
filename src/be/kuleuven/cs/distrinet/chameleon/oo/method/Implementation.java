@@ -14,11 +14,6 @@ public abstract class Implementation extends ElementImpl {
     }
 
   /**
-   * @return
-   */
-  public abstract Implementation clone();
-
-  /**
    * Check if the implementation exception clause of the method body 
    * conforms to the exception clause of the parent method.
    * @return

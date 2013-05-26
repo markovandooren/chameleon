@@ -23,8 +23,8 @@ public class InstanceofExpression extends ExprTypeRefContainingExpression {
     return language(ObjectOrientedLanguage.class).booleanType(view().namespace());
   }
 
-  public InstanceofExpression clone() {
-    return new InstanceofExpression(getExpression().clone(), (TypeReference)getTypeReference().clone());
+  protected InstanceofExpression cloneSelf() {
+    return new InstanceofExpression(null,null);
   }
 
   public Set<Type> getDirectExceptions() throws LookupException {

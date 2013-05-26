@@ -63,7 +63,7 @@ public class SuperWildcard extends ActualTypeArgumentWithTypeReference {
 
 	@Override
 	public TypeParameter capture(FormalTypeParameter formal, List<TypeConstraint> accumulator) {
-		CapturedTypeParameter newParameter = new CapturedTypeParameter(formal.signature().clone());
+		CapturedTypeParameter newParameter = new CapturedTypeParameter(clone(formal.signature()));
 		for(TypeConstraint constraint: formal.constraints()) {
 			TypeConstraint clone = cloneAndResetTypeReference(constraint,constraint);
 			newParameter.addConstraint(clone);

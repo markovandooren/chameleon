@@ -2,6 +2,7 @@ package be.kuleuven.cs.distrinet.chameleon.aspect.oo.weave.infrastructure;
 
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Block;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 
 public class AfterBlock extends SimpleBlockFactory {
 	
@@ -9,7 +10,7 @@ public class AfterBlock extends SimpleBlockFactory {
 
 	protected Block add(MatchResult<Block> joinpoint, Block advice) {
 		Block finalBlock = new Block();
-		finalBlock.addStatement(joinpoint.getJoinpoint().clone());
+		finalBlock.addStatement(Util.clone(joinpoint.getJoinpoint()));
 		finalBlock.addStatement(advice);
 		return finalBlock;
 	}

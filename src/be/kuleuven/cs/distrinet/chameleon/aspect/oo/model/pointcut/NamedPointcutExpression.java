@@ -38,13 +38,8 @@ public class NamedPointcutExpression extends AbstractPointcutExpression<Element>
 	}
 
 	@Override
-	public NamedPointcutExpression clone() {
-		NamedPointcutExpression clone = new NamedPointcutExpression();
-		
-		if (pointcutReference() != null)
-			clone.setPointcutReference(pointcutReference().clone());
-		
-		return clone;
+	protected NamedPointcutExpression cloneSelf() {
+		return new NamedPointcutExpression();
 	}
 
 	@Override
@@ -79,7 +74,7 @@ public class NamedPointcutExpression extends AbstractPointcutExpression<Element>
 		
 //		PointcutExpression<?> pointcutExpression = ((PointcutExpression<?>) getElement().expression()).expand();
 		Pointcut pointcut = getElement();
-		PointcutExpression<?> pointcutExpression = ((PointcutExpression<?>)pointcut.expression()).clone();
+		PointcutExpression<?> pointcutExpression = clone((PointcutExpression<?>)pointcut.expression());
 		pointcutExpression.setUniParent(pointcut);
 		
 		if (!pointcutReference().getActualParameters().isEmpty()) {

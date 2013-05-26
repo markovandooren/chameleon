@@ -22,7 +22,7 @@ public class Throwing extends ModifierWithParameters {
 		return createSet(language().property(ThrowingProperty.ID));
 	}
 
-	protected Throwing cloneThis() {
+	protected Throwing cloneSelf() {
 		return new Throwing();
 	}
 

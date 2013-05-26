@@ -54,10 +54,8 @@ public class StaticInitializer extends TypeElementImpl implements ExceptionSourc
   /**
    * @return
    */
-  public StaticInitializer clone() {
-  	Block block = getBlock();
-  	Block clone = (block == null ? null : block.clone());
-    return new StaticInitializer(clone);
+  protected StaticInitializer cloneSelf() {
+    return new StaticInitializer(null);
   }
 
  /*@

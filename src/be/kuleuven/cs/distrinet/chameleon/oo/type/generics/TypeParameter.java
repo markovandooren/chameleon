@@ -33,8 +33,6 @@ public abstract class TypeParameter extends Parameter {
 		super(signature);
 	}
 	
-	public abstract TypeParameter clone();
-
 	/**
 	 * Check whether this type parameter is equal to the other type parameter. 
 	 * 

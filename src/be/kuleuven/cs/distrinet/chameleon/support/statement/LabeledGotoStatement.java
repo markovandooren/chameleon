@@ -25,7 +25,7 @@ public class LabeledGotoStatement extends GotoStatement{
 	}
 
 	@Override
-	public LabeledGotoStatement clone() {
+	protected LabeledGotoStatement cloneSelf() {
 		return new LabeledGotoStatement(getLabel());
 	}
 

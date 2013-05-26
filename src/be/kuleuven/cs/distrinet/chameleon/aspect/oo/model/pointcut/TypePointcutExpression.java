@@ -15,8 +15,6 @@ public abstract class TypePointcutExpression extends AbstractParameterExposurePo
 		setParameter(parameter);
 	}
 	
-	public abstract TypePointcutExpression clone();
-
 	private Single<NamedTargetExpression> _parameter = new Single<NamedTargetExpression>(this);
 	
 	public NamedTargetExpression parameter() {

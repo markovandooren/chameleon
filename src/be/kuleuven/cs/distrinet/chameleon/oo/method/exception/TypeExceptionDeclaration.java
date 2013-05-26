@@ -89,8 +89,8 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration {
     }
   }
 
-  public TypeExceptionDeclaration clone() {
-    return new TypeExceptionDeclaration(getTypeReference().clone());
+  public TypeExceptionDeclaration cloneSelf() {
+    return new TypeExceptionDeclaration(null);
   }
 
   public boolean hasValidAccessibility() throws LookupException {

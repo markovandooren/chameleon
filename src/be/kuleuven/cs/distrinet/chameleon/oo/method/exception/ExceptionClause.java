@@ -114,12 +114,8 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
   /**
    * @return
    */
-  public ExceptionClause clone() {
-    ExceptionClause result = new ExceptionClause();
-    for(ExceptionDeclaration declaration: exceptionDeclarations()) {
-    	result.add(declaration.clone());
-    }
-    return result;
+  protected ExceptionClause cloneSelf() {
+    return new ExceptionClause();
   }
 
   public boolean hasValidAccessibility() throws LookupException {

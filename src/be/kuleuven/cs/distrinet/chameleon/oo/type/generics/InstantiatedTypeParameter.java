@@ -9,8 +9,8 @@ public class InstantiatedTypeParameter extends AbstractInstantiatedTypeParameter
 	}
 	
 	@Override
-	public InstantiatedTypeParameter clone() {
-		return new InstantiatedTypeParameter(signature().clone(),argument());
+	protected InstantiatedTypeParameter cloneSelf() {
+		return new InstantiatedTypeParameter(null,argument());
 	}
 
 	

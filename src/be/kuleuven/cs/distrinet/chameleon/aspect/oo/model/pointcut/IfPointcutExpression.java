@@ -25,12 +25,8 @@ public class IfPointcutExpression extends AbstractDynamicPointcutExpression impl
 	}
 	
 	@Override
-	public IfPointcutExpression clone() {
-		Expression clonedExpression = null;
-		if (expression() != null)
-			clonedExpression = expression().clone();
-		
-		return new IfPointcutExpression(clonedExpression);
+	public IfPointcutExpression cloneSelf() {
+		return new IfPointcutExpression(null);
 	}
 
 	@Override

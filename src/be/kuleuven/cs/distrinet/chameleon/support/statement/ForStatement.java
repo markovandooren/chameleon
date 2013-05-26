@@ -46,8 +46,8 @@ public class ForStatement extends IterationStatement implements DeclarationConta
   private Single<ForControl> _control = new Single<ForControl>(this); 
 
 	@Override
-	public ForStatement clone() {
-		return new ForStatement(forControl().clone(), getStatement().clone());
+	protected ForStatement cloneSelf() {
+		return new ForStatement(null,null);
 	}
 	
 	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {

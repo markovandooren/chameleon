@@ -14,8 +14,8 @@ public class PrefixOperator extends Operator {
   	return(other instanceof PrefixOperator);
   }
 
-  protected PrefixOperator cloneThis() {
-    return new PrefixOperator((MethodHeader) header().clone());
+  protected PrefixOperator cloneSelf() {
+    return new PrefixOperator(null);
   }
 
 }

@@ -91,12 +91,8 @@ public class VariableReference extends Expression implements Assignable, CrossRe
     return getVariable().getType();
   }
 
-  public VariableReference clone() {
-    CrossReferenceTarget target = null;
-    if(getTarget() != null) {
-      target = getTarget().clone();
-    }
-    return new VariableReference(name(), target);
+  public VariableReference cloneSelf() {
+    return new VariableReference(name(), null);
   }
 
 //  public void prefix(InvocationTarget target) throws LookupException {

@@ -30,6 +30,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.Variable;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.VariableDeclarator;
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UnsafePredicate;
@@ -217,7 +218,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 		}
 		
 		for(TypeReference cref: crefs) {
-			TypeReference clonedReplacement = replacement.clone();
+			TypeReference clonedReplacement = Util.clone(replacement);
 			TypeReference substitute = createNonLocalTypeReference(clonedReplacement, replacement.parent());
 			
 //			TypeReference substitute;

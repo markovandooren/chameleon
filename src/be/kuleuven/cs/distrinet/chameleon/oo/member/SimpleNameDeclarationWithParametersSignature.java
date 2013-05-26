@@ -70,12 +70,8 @@ public class SimpleNameDeclarationWithParametersSignature extends DeclarationWit
 
   
   @Override
-  public SimpleNameDeclarationWithParametersSignature clone() {
-  	SimpleNameDeclarationWithParametersSignature result = new SimpleNameDeclarationWithParametersSignature(name());
-  	for(TypeReference ref: typeReferences()) {
-  		result.add(ref.clone());
-  	}
-  	return result;
+  protected SimpleNameDeclarationWithParametersSignature cloneSelf() {
+  	return new SimpleNameDeclarationWithParametersSignature(name());
   }
 
   @Override

@@ -24,12 +24,8 @@ public class ReturnStatement extends ExpressionContainingStatement {
     super(expression);
   }
 
-  public ReturnStatement clone() {
-  	Expression childClone = getExpression();
-  	if(childClone != null) {
-  		childClone = childClone.clone();
-  	}
-    return new ReturnStatement(childClone);
+  protected ReturnStatement cloneSelf() {
+    return new ReturnStatement(null);
   }
   
   @Override

@@ -66,15 +66,8 @@ public class SwitchCase extends ElementImpl implements StatementListContainer, E
   /**
    * @return
    */
-  public SwitchCase clone() {
-    final SwitchCase result = new SwitchCase();
-    new Visitor<Statement>() {
-      public void visit(Statement element) {
-        result.addStatement(element.clone());
-      }
-    }.applyTo(statements());
-    result.setLabel(getLabel().clone());
-    return result;
+  protected SwitchCase cloneSelf() {
+    return new SwitchCase();
   }
 
   public CheckedExceptionList getCEL() throws LookupException {

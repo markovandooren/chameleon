@@ -87,17 +87,8 @@ public class FieldReadPointcutExpression extends AbstractPointcutExpression<Name
 	}
 
 	@Override
-	public FieldReadPointcutExpression clone() {
-		DeclarationReference fieldRefClone = null;
-		TypeReference typeRefClone = null;
-		
-		if (fieldReference() != null)
-			fieldRefClone = fieldReference().clone();
-		
-		if (typeReference() != null)
-			typeRefClone = typeReference().clone();
-		
-		return new FieldReadPointcutExpression(typeRefClone, fieldRefClone);
+	public FieldReadPointcutExpression cloneSelf() {
+		return new FieldReadPointcutExpression(null,null);
 	}
 
 	@Override

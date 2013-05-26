@@ -40,14 +40,8 @@ public class SwitchStatement extends ExpressionContainingStatement {
     return _switchCases.getOtherEnds();
   }
 
-  public SwitchStatement clone() {
-    final SwitchStatement result = new SwitchStatement(getExpression().clone());
-    new Visitor() {
-      public void visit(Object element) {
-        result.addCase(((SwitchCase)element).clone());
-      }
-    }.applyTo(getSwitchCases());
-    return result;
+  public SwitchStatement cloneSelf() {
+    return new SwitchStatement(null);
   }
 
   @Override

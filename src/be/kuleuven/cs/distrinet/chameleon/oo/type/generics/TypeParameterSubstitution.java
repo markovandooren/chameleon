@@ -5,6 +5,7 @@ import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
@@ -29,7 +30,7 @@ public class TypeParameterSubstitution {
 		for(CrossReference cref: _targets) {
 			SingleAssociation parentLink = cref.parentLink();
 			Association childLink = parentLink.getOtherRelation();
-			TypeReference namedTargetExpression = parameter().argument().substitutionReference().clone();
+			TypeReference namedTargetExpression = Util.clone(parameter().argument().substitutionReference());
 			childLink.replace(parentLink, namedTargetExpression.parentLink());
 		}
 	}

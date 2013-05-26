@@ -81,8 +81,8 @@ public class UsingAlias extends Import {
 	}
 
   @Override
-  public UsingAlias clone() {
-    return new UsingAlias(getIdentifier(),(CrossReference) getCrossReference().clone());
+  protected UsingAlias cloneSelf() {
+    return new UsingAlias(getIdentifier(),null);
   }
 
 	@Override

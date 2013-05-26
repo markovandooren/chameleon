@@ -7,7 +7,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 public class SubtypeMarker extends ElementImpl {
 
 	@Override
-	public SubtypeMarker clone() {
+	protected SubtypeMarker cloneSelf() {
 		return new SubtypeMarker();
 	}
 

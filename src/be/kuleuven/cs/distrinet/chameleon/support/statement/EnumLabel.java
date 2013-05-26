@@ -22,7 +22,7 @@ public class EnumLabel extends SwitchLabel implements CrossReference<Variable>{
 	}
 	
 	@Override
-	public EnumLabel clone() {
+	protected EnumLabel cloneSelf() {
 		return new EnumLabel(name());
 	}
 

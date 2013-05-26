@@ -10,7 +10,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.statement.Block;
 public class NativeImplementation extends Implementation {
 
 
-  public NativeImplementation clone() {
+	protected NativeImplementation cloneSelf() {
     return new NativeImplementation();
   }
 

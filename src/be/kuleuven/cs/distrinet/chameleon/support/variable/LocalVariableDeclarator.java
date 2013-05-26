@@ -51,7 +51,7 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
 	public LocalVariable createVariable(SimpleNameSignature signature, Expression expression) {
 		LocalVariable result = new LocalVariable(signature, clone(typeReference()),expression);
 		for(Modifier mod: modifiers()) {
-			result.addModifier(mod.clone());
+			result.addModifier(clone(mod));
 		}
     return result;
 	}

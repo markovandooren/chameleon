@@ -12,8 +12,8 @@ public class DoStatement extends IterationStatementWithExpression {
     super(statement, expression);
   }
 
-  public DoStatement clone() {
-    return new DoStatement(condition().clone(), getStatement().clone());
+  protected DoStatement cloneSelf() {
+    return new DoStatement(null, null);
   }
 
 }

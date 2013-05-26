@@ -31,7 +31,7 @@ public class IntersectionTypeReference extends CombinationTypeReference implemen
 	}
 
 	@Override
-	public IntersectionTypeReference cloneSelf() {
+	protected IntersectionTypeReference cloneSelf() {
 		return new IntersectionTypeReference();
 	}
 

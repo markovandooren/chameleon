@@ -62,18 +62,6 @@ public abstract class ProgrammingAdvice extends Advice<Block> implements Declara
 		}
 	}
 
-  @Override
-  public ProgrammingAdvice clone() {
-  	ProgrammingAdvice result = (ProgrammingAdvice) super.clone();
-  	for(FormalParameter param: formalParameters()) {
-  		result.addFormalParameter(param.clone());
-  	}
-		if (returnType() != null) {
-		  result.setReturnType(returnType().clone());
-		}
-  	return result;
-  }
-  
 //	private List<FormalParameter> unresolvedParameters() {
 //		List<FormalParameter> unresolved = new ArrayList<FormalParameter>();
 //

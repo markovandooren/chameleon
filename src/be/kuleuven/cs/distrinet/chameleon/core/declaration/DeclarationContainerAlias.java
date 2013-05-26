@@ -27,17 +27,7 @@ public class DeclarationContainerAlias extends ElementImpl implements Declaratio
 	
 	@Override
 	public DeclarationContainerAlias cloneSelf() {
-		DeclarationContainerAlias result = new DeclarationContainerAlias();
-		for(Declaration declaration: declarations()) {
-			Declaration clone = clone(declaration);
-			clone.setOrigin(declaration.origin());
-			result.add(clone);
-		}
-		for(DeclarationContainerAlias alias: superContainers()) {
-			result.addSuperContainer(clone(alias));
-		}
-		result.setUniParent(parent());
-		return result;
+		return new DeclarationContainerAlias();
 	}
 
 	@Override

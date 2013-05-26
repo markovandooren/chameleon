@@ -19,8 +19,8 @@ public class FinallyClause extends Clause {
   /**
    * @return
    */
-  public FinallyClause clone() {
-    return new FinallyClause(statement().clone());
+  protected FinallyClause cloneSelf() {
+    return new FinallyClause(null);
   }
 
 	@Override

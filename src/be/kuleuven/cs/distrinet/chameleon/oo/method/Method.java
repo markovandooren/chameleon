@@ -134,28 +134,6 @@ public abstract class Method extends DeclarationWithParameters {
 		}
 	}
 
-	public Method clone() {
-		final Method result = cloneThis();
-		// MODIFIERS
-		new Visitor<Modifier>() {
-			public void visit(Modifier element) {
-				result.addModifier(element.clone());
-			}
-		}.applyTo(modifiers());
-		// EXCEPTION CLAUSE
-		result.setExceptionClause(getExceptionClause().clone());
-		// HEADER
-		result.setHeader((MethodHeader)header().clone());
-		// IMPLEMENTATION
-		if(implementation() != null) {
-			result.setImplementation(implementation().clone());
-		}
-
-		return result;
-	}
-
-	protected abstract Method cloneThis();
-
 	/**
 	 * Check whether or not the implementation of this method is compatible with the exception clause
 	 * of this method.

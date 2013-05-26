@@ -49,23 +49,16 @@ public class MemberVariableDeclarator extends TypeElementImpl implements TypeEle
 	private Multi<VariableDeclaration> _declarations = new Multi<VariableDeclaration>(this);
 
 	public MemberVariable createVariable(SimpleNameSignature signature, Expression expression) {
-		MemberVariable result = new RegularMemberVariable(signature, typeReference().clone(),expression);
+		MemberVariable result = new RegularMemberVariable(signature, clone(typeReference()),expression);
 		for(Modifier mod: modifiers()) {
-			result.addModifier(mod.clone());
+			result.addModifier(clone(mod));
 		}
 		return result;
 	}
 
 	@Override
-	public MemberVariableDeclarator clone() {
-		MemberVariableDeclarator result = new MemberVariableDeclarator(typeReference().clone());
-		for(VariableDeclaration declaration: variableDeclarations()) {
-			result.add(declaration.clone());
-		}
-		for(Modifier mod: modifiers()) {
-			result.addModifier(mod.clone());
-		}
-		return result;
+  protected MemberVariableDeclarator cloneSelf() {
+		return new MemberVariableDeclarator(null);
 	}
 
 	public List<MemberVariable> getIntroducedMembers() {

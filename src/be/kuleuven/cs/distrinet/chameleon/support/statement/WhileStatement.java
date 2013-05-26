@@ -12,7 +12,7 @@ public class WhileStatement extends IterationStatementWithExpression {
     super(statement, expression);
   }
 
-  public WhileStatement clone() {
-    return new WhileStatement(condition().clone(), getStatement().clone());
+  public WhileStatement cloneSelf() {
+    return new WhileStatement(null, null);
   }
 }

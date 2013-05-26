@@ -45,17 +45,8 @@ public class StatementExprList extends ElementImpl implements ForInit, Exception
     return _statementExpressions.getOtherEnds();
   }
 
-  /**
-   * @FIXME why is this method here?
-   */
-  public StatementExprList clone() {
-    final StatementExprList result = new StatementExprList();
-    new Visitor<StatementExpression>() {
-      public void visit(StatementExpression element) {
-        result.addStatement(element.clone());
-      }
-    }.applyTo(statements());
-    return result;
+  public StatementExprList cloneSelf() {
+    return new StatementExprList();
   }
 
   public CheckedExceptionList getCEL() throws LookupException {

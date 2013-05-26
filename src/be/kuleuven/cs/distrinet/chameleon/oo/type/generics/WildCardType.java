@@ -66,7 +66,7 @@ public abstract class WildCardType extends ClassImpl {
 	}
 
 	@Override
-	public ExtendsWildcardType clone() {
+	public ExtendsWildcardType cloneSelf() {
 		return new ExtendsWildcardType(_upperBound);
 	}
 

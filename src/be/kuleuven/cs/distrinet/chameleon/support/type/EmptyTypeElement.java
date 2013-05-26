@@ -11,7 +11,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeElementImpl;
 public class EmptyTypeElement extends TypeElementImpl {
 
 	@Override
-	public EmptyTypeElement clone() {
+	protected EmptyTypeElement cloneSelf() {
 		return new EmptyTypeElement();
 	}
 

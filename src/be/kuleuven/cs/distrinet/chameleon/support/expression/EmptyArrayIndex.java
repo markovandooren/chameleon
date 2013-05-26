@@ -1,5 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.support.expression;
 
+import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
@@ -82,13 +83,17 @@ public class EmptyArrayIndex extends ArrayIndex {
 		return _dimensions;
 	}
 
-	public EmptyArrayIndex clone(){
+	protected EmptyArrayIndex cloneSelf(){
 		return new EmptyArrayIndex(getDimension());
 	}
 
 	@Override
 	public Verification verifySelf() {
-		return Valid.create();
+		Verification result = Valid.create();
+		if(getDimension() < 0) {
+			result = result.and(new BasicProblem(this, "The dimension of an array cannot be negative."));
+		}
+		return result;
 	}
 	
 }

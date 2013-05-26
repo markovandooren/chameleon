@@ -12,7 +12,7 @@ public class SynchronizedStatement extends StatementExprStatement {
     super(statement, expression);
   }
 
-  public SynchronizedStatement clone() {
-    return new SynchronizedStatement(expression().clone(), getStatement().clone());
+  protected SynchronizedStatement cloneSelf() {
+    return new SynchronizedStatement(null,null);
   }
 }

@@ -24,6 +24,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.util.action.Action;
 import be.kuleuven.cs.distrinet.chameleon.util.association.ChameleonAssociation;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
@@ -200,14 +201,10 @@ public abstract class ElementImpl implements Element {
 //	protected abstract Element cloneSelf();
 	
 	public final <T extends Element> T clone(T element) {
-		T result = (T) element.clone();
-		if(! element.getClass().isInstance(result)) {
-			throw new CloneException("The clone of a "+element.getClass().getName()+ " is a "+result.getClass().getName());
-		}
-		return result;
+		return Util.clone(element);
 	}
 	
-	public final Element clone() {
+	public Element clone() {
 		return map(new Processor(){
 		
 				@Override

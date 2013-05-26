@@ -46,11 +46,7 @@ public class AdviceReturnStatement extends ReturnStatement {
 	  	return result;
 	  }
 	  
-	  public AdviceReturnStatement clone() {
-		  	Expression childClone = getExpression();
-		  	if(childClone != null) {
-		  		childClone = childClone.clone();
-		  	}
-		    return new AdviceReturnStatement(childClone);
+	  protected AdviceReturnStatement cloneSelf() {
+		    return new AdviceReturnStatement(null);
 		  }
 }

@@ -21,8 +21,8 @@ public class ExtendsWildcard extends ActualTypeArgumentWithTypeReference {
 	}
 
 	@Override
-	public ExtendsWildcard clone() {
-		return new ExtendsWildcard(typeReference().clone());
+	protected ExtendsWildcard cloneSelf() {
+		return new ExtendsWildcard(null);
 	}
 
 	@Override
@@ -52,14 +52,14 @@ public class ExtendsWildcard extends ActualTypeArgumentWithTypeReference {
 
 	@Override
 	public TypeParameter capture(FormalTypeParameter formal, List<TypeConstraint> accumulator) {
-		CapturedTypeParameter newParameter = new CapturedTypeParameter(formal.signature().clone());
+		CapturedTypeParameter newParameter = new CapturedTypeParameter(clone(formal.signature()));
 		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
 		for(TypeConstraint constraint: formal.constraints()) {
 			TypeConstraint clone = cloneAndResetTypeReference(constraint,constraint);
 			newParameter.addConstraint(clone);
 			accumulator.add(clone);
 		}
-		newParameter.addConstraint(cloneAndResetTypeReference(new ExtendsConstraint(typeReference().clone()),this));
+		newParameter.addConstraint(cloneAndResetTypeReference(new ExtendsConstraint(clone(typeReference())),this));
     return newParameter;
 	}
 

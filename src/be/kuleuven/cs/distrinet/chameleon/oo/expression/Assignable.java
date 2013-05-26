@@ -14,5 +14,4 @@ public interface Assignable extends Element {
 
 	public Type getType() throws LookupException;
 
-  public Assignable clone();
 }

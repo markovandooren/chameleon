@@ -30,7 +30,7 @@ public class Returning extends ModifierWithParameters {
 	}
 
 	@Override
-	protected Returning cloneThis() {
+	protected Returning cloneSelf() {
 		return new Returning();
 	}
 }

@@ -47,8 +47,8 @@ public class LocalClassStatement extends StatementImpl implements DeclarationCon
     return _type.getOtherEnd();
   }
 
-	public LocalClassStatement clone() {
-		return new LocalClassStatement(getType().clone());
+	protected LocalClassStatement cloneSelf() {
+		return new LocalClassStatement(null);
 	}
 
 	public Scope getTypeAccessibilityDomain() throws LookupException {

@@ -81,8 +81,8 @@ public class SignatureMethodInvocationPointcutExpression extends MethodInvocatio
 	}
 
 	@Override
-	public SignatureMethodInvocationPointcutExpression clone() {
-		return new SignatureMethodInvocationPointcutExpression(methodReference().clone()); 
+	protected SignatureMethodInvocationPointcutExpression cloneSelf() {
+		return new SignatureMethodInvocationPointcutExpression(null); 
 	}
 
 }

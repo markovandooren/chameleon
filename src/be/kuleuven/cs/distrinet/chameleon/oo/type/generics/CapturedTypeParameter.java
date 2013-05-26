@@ -14,23 +14,13 @@ public class CapturedTypeParameter extends FormalTypeParameter {
 	}
 
 	@Override
-	public CapturedTypeParameter clone() {
-		CapturedTypeParameter result = new CapturedTypeParameter(signature().clone());
-		for(TypeConstraint constraint: constraints()) {
-			result.addConstraint(constraint.clone());
-		}
-		for(NonLocalTypeReference nl: result.descendants(NonLocalTypeReference.class)) {
-			Element p = nl.lookupParent();
-			if(p == this || p.ancestors().contains(this)) {
-				nl.setLookupParent(result);
-			}
-		}
-		return result;
+	protected CapturedTypeParameter cloneSelf() {
+		return new CapturedTypeParameter(null);
 	}
 	
 	@Override
 	protected Type createLazyAlias() {
-		return new LazyInstantiatedAlias(signature().clone(), this);
+		return new LazyInstantiatedAlias(clone(signature()), this);
 	}
 
 	@Override
@@ -40,7 +30,7 @@ public class CapturedTypeParameter extends FormalTypeParameter {
 //			System.out.println("Creating selection type of " + x);
 //		}
 		if(_selectionTypeCache == null) {
-		  _selectionTypeCache = new InstantiatedParameterType(signature().clone(), upperBound(),this);
+		  _selectionTypeCache = new InstantiatedParameterType(clone(signature()), upperBound(),this);
 		}
 		return _selectionTypeCache;
 	}

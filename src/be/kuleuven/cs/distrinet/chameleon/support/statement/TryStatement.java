@@ -57,17 +57,8 @@ public class TryStatement extends StatementContainingStatement {
     set(_finally,clause);
   }
 
-  public TryStatement clone() {
-    final TryStatement result = new TryStatement(getStatement().clone());
-    new Visitor<CatchClause>() {
-      public void visit(CatchClause element) {
-        result.addCatchClause(element.clone());
-      }
-    }.applyTo(getCatchClauses());
-    if(getFinallyClause() != null) {
-      result.setFinallyClause(getFinallyClause().clone());
-    }
-    return result;
+  protected TryStatement cloneSelf() {
+    return new TryStatement(null);
   }
   
   /**

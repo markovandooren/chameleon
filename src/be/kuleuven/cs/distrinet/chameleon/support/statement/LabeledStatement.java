@@ -25,8 +25,8 @@ public class LabeledStatement extends StatementContainingStatement {
     _label = label;
   }
 
-  public LabeledStatement clone() {
-    return new LabeledStatement(getLabel(), getStatement().clone());
+  protected LabeledStatement cloneSelf() {
+    return new LabeledStatement(getLabel(), null);
   }
 
 	@Override

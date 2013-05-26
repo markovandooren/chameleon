@@ -19,8 +19,8 @@ public class ConversionOperator extends Operator {
 		  return (other instanceof ConversionOperator);
 	}
 
-	  protected ConversionOperator cloneThis() {
-	    return new ConversionOperator((TypeReference)returnTypeReference().clone());
+	  protected ConversionOperator cloneSelf() {
+	    return new ConversionOperator(null);
 	  }
 
 }

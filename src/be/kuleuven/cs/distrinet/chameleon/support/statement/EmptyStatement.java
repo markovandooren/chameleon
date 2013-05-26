@@ -13,7 +13,7 @@ public class EmptyStatement extends StatementImpl {
 		
 	}
 	
-	public EmptyStatement clone() {
+	protected EmptyStatement cloneSelf() {
 		return new EmptyStatement();
 	}
 	

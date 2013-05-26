@@ -9,8 +9,7 @@ public class ThisTypePointcutExpression extends TypePointcutExpression {
 	}
 
 	@Override
-	public ThisTypePointcutExpression clone() {
-		ThisTypePointcutExpression clone = new ThisTypePointcutExpression(parameter().clone());		
-		return clone;
+	protected ThisTypePointcutExpression cloneSelf() {
+		return new ThisTypePointcutExpression(null);
 	}
 }

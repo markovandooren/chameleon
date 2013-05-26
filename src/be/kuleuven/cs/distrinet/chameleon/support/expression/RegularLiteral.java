@@ -12,8 +12,8 @@ public class RegularLiteral extends LiteralWithTypeReference {
     setTypeReference(type);
   }
 
-  public RegularLiteral clone() {
-    return new RegularLiteral((TypeReference)getTypeReference().clone(), getValue());
+  protected RegularLiteral cloneSelf() {
+    return new RegularLiteral(null, getValue());
   }
 
 

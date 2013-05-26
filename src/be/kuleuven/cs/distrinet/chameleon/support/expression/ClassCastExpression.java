@@ -35,9 +35,8 @@ public class ClassCastExpression extends ExprTypeRefContainingExpression {
     return result;
   }
 
-  public ClassCastExpression clone() {
-    ClassCastExpression classCastExpression = new ClassCastExpression((TypeReference)getTypeReference().clone(), getExpression().clone());
-		return classCastExpression;
+  public ClassCastExpression cloneSelf() {
+    return new ClassCastExpression(null, null);
   }
 
   public Set<Type> getDirectExceptions() throws LookupException {

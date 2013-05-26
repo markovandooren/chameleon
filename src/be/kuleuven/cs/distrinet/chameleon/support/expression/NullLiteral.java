@@ -22,7 +22,7 @@ public class NullLiteral extends Literal {
 	  return language(ObjectOrientedLanguage.class).getNullType(view().namespace());
   }
 
-  public NullLiteral clone() {
+  protected NullLiteral cloneSelf() {
     return new NullLiteral();
   }
 

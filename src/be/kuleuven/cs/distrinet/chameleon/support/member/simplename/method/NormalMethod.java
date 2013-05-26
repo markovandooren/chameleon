@@ -24,8 +24,8 @@ public class NormalMethod extends RegularMethod {
   	return(other instanceof NormalMethod);
   }  
 
-	protected NormalMethod cloneThis() {
-    return new NormalMethod((MethodHeader) header().clone());
+	protected NormalMethod cloneSelf() {
+    return new NormalMethod(null);
   }
 	
   public HidesRelation<? extends Member> hidesRelation() {

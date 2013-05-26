@@ -13,8 +13,8 @@ public class InfixOperator extends Operator {
     super(header);
   }
 
-  protected InfixOperator cloneThis() {
-    return new InfixOperator((MethodHeader) header().clone());
+  protected InfixOperator cloneSelf() {
+    return new InfixOperator(null);
   }
 
   public boolean sameKind(Method other) {

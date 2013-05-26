@@ -40,12 +40,8 @@ public class SuperTarget extends ElementImpl implements CrossReferenceTarget {
     set(_target,target);
   }
 
-  public SuperTarget clone() {
-    SuperTarget result = new SuperTarget();
-    if(getTarget() != null) {
-      result.setTarget(getTarget().clone());
-    }
-    return result;
+  public SuperTarget cloneSelf() {
+    return new SuperTarget();
   }
 
   public CheckedExceptionList getCEL() {

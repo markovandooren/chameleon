@@ -63,8 +63,8 @@ public class FormalParameterType extends TypeIndirection {
 	private final FormalTypeParameter _param;
 
 	@Override
-	public FormalParameterType clone() {
-		return new FormalParameterType((SimpleNameSignature) signature().clone(), aliasedType(), parameter());
+	public FormalParameterType cloneSelf() {
+		return new FormalParameterType(null, aliasedType(), parameter());
 	}
 
 	@Override

@@ -427,7 +427,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		return view().namespace();
 	}
   
-  public NamespaceDeclaration cloneSelf() {
+	protected NamespaceDeclaration cloneSelf() {
   	return new NamespaceDeclaration((CrossReference)null);
   }
 

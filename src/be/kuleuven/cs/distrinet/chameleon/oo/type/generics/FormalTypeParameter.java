@@ -30,12 +30,8 @@ public class FormalTypeParameter extends TypeParameter {
 	
   
 	@Override
-	public FormalTypeParameter clone() {
-		FormalTypeParameter result = new FormalTypeParameter(signature().clone());
-		for(TypeConstraint constraint: constraints()) {
-			result.addConstraint(constraint.clone());
-		}
-		return result;
+	protected FormalTypeParameter cloneSelf() {
+		return new FormalTypeParameter((SimpleNameSignature)null);
 	}
 	
 	/**
@@ -54,7 +50,7 @@ public class FormalTypeParameter extends TypeParameter {
 
 
 	protected Type createSelectionType() throws LookupException {
-		return new FormalParameterType(signature().clone(),upperBound(),this);
+		return new FormalParameterType(clone(signature()),upperBound(),this);
 	}
 	
 	public Type resolveForRoundTrip() throws LookupException {
@@ -65,7 +61,7 @@ public class FormalTypeParameter extends TypeParameter {
 
 
 	protected Type createLazyAlias() {
-		return new LazyFormalAlias(signature().clone(), this);
+		return new LazyFormalAlias(clone(signature()), this);
 	}
 	
 	private Multi<TypeConstraint> _typeConstraints = new Multi<TypeConstraint>(this);
