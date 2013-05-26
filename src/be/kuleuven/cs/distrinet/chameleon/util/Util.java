@@ -16,6 +16,7 @@ import java.util.Set;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.CloneException;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
+import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
 
@@ -32,11 +33,20 @@ public class Util {
 		return result;
 	}
 	
+	/**
+	 * Just a method to set a breakpoint during debugging.
+	 * Set the breakpoint on the statement inside the if statement.
+	 * The breakpoint will then be hit when the given value is true.
+	 */
+	public static void debug(boolean halt) {
+		if(halt) {
+			System.out.println("debug");
+		}
+	}
+	
   public static String concat(List list) {
     if (list.size() > 0) {
-      //    Object first = list.get(0);
-      //    list.remove(0);
-      final StringBuffer result = new StringBuffer();
+      final StringBuilder result = new StringBuilder();
       Iterator iter = list.iterator();
       while (iter.hasNext()) {
         result.append(iter.next().toString());
@@ -44,19 +54,16 @@ public class Util {
           result.append(".");
         }
       }
-      //    new Visitor() {
-      //      public void visit(Object o) {
-      //        result.append("."+o.toString());
-      //      }
-      //    }
-      //    .applyTo(list);
-
       return result.toString();
     } else {
       return "";
     }
   }
 
+  /**
+   * Clone a list of elements.
+   * @return
+   */
   public static <T extends Element> List<T> clone(List<T> original) {
   	List<T> result = new ArrayList<T>();
   	for(T t: original) {

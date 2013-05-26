@@ -25,6 +25,10 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 /**
  * A class for recursively loading files from a directory.
  * 
+ * A directory loader stores a path instead of a file object such
+ * that we can write a new configuration file whose paths are identical
+ * to the configuration file that was originally read.
+ * 
  * @author Marko van Dooren
  */
 public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {

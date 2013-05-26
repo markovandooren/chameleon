@@ -52,7 +52,7 @@ public abstract class ChameleonResourceDeltaVisitor implements IResourceDeltaVis
 		IResource resource = delta.getResource();
 		IPath path = resource.getFullPath();
 		EclipseDocument doc = nature().documentOfPath(path);
-		return doc.document();
+		return doc != null ? doc.document() : null;
 	}
 	
 	public EclipseDocument documentOf(IResourceDelta delta) throws CoreException {

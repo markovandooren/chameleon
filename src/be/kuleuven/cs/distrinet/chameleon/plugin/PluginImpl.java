@@ -18,7 +18,12 @@ public abstract class PluginImpl<C extends PluginContainer<P>, P extends Plugin>
   		if (_container!=null) {
   			_container.setPlugin(keyInterface, (T)this);
   		}
+  		containerConnected(old, container, keyInterface);
   	}
+	}
+	
+	protected <T extends P> void containerConnected(C oldContainer, C newContainer, Class<T> keyInterface) {
+		
 	}
 	
 	private C _container;

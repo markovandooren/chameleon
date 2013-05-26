@@ -17,6 +17,7 @@ import org.eclipse.swt.graphics.Image;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
+import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.Modifier;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
@@ -25,6 +26,7 @@ import be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.outline.Chameleon
 import be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.treeview.DeclarationCategorizer;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.treeview.IconProvider;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
+import be.kuleuven.cs.distrinet.chameleon.plugin.LanguagePlugin;
 import be.kuleuven.cs.distrinet.chameleon.plugin.LanguagePluginImpl;
 import be.kuleuven.cs.distrinet.chameleon.workspace.View;
 
@@ -35,8 +37,15 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
 
 	public EclipseEditorExtension() {
 		setImageRegistry(ChameleonEditorPlugin.getDefault().getImageRegistry());
-		initializeRegistry();
+//		initializeRegistry();
 		_outlineSelector = createOutlineSelector();
+	}
+	
+	@Override
+	protected <T extends LanguagePlugin> void containerConnected(Language oldContainer, Language newContainer, Class<T> keyInterface) {
+		if(newContainer != null) {
+			initializeRegistry();
+		}
 	}
 	
 	private ImageRegistry _imageRegistry;
