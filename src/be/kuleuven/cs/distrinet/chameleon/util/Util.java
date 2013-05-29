@@ -14,9 +14,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.element.CloneException;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
-import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
+import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
 
@@ -27,9 +28,18 @@ public class Util {
 	
 	public static <T extends Element> T clone(T element) {
 		T result = (T) element.clone();
-		if(! element.getClass().isInstance(result)) {
-			throw new CloneException("The clone of a "+element.getClass().getName()+ " is a "+result.getClass().getName());
-		}
+//		if(! element.getClass().isInstance(result)) {
+//			throw new CloneException("The clone of a "+element.getClass().getName()+ " is a "+result.getClass().getName());
+//		}
+//		if(Config.debug()) {
+//		List<? extends Element> originalChildren = element.children();
+//		int originalSize = originalChildren.size();
+//		List<? extends Element> cloneChildren = result.children();
+//		int resultSize = cloneChildren.size();
+//		if(originalSize != resultSize) {
+//			throw new ChameleonProgrammerException("The clone of an element of type "+element.getClass().getName()+ " with "+originalSize+ " chilren has "+resultSize+" children.");
+//		}
+		//		}
 		return result;
 	}
 	

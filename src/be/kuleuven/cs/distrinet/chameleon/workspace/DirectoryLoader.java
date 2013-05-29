@@ -92,9 +92,12 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 	
 	private SafePredicate<? super String> _filter;
 	
+	/**
+	 * This method is called when the directory loader is connected to a view.
+	 */
 	protected void notifyViewAdded(View view) throws ProjectException {
 		setRoot(view.project().absoluteFile(path()));
-		includeCustom(root());
+		includeCustom();
 	}
 
 	private void setInputSourceFactory(FileInputSourceFactory factory) {
@@ -108,6 +111,14 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 	
 	private String _path;
 	
+	/**
+	 * Return the path from which this directory loader loads files.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
 	public String path() {
 		return _path;
 	}
@@ -138,9 +149,9 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 	private FileInputSourceFactory _inputSourceFactory;
 	
 	
-	private void includeCustom(File root) throws ProjectException {
+	private void includeCustom() throws ProjectException {
 		inputSourceFactory().initialize(view().namespace());
-		doIncludeCustom(root);
+		doIncludeCustom(root());
 	}
 
 	private boolean responsibleFor(File file) {

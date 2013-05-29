@@ -215,7 +215,7 @@ public abstract class ElementImpl implements Element {
 		});
 	}
 	
-	private abstract static class Processor {
+	public abstract static class Processor {
 		public abstract void process(Element original, Element clone);
 	}
 	

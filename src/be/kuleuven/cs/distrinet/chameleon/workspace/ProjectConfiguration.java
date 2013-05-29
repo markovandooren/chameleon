@@ -25,32 +25,6 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
  */
 public abstract class ProjectConfiguration extends ConfigElement {
 
-//	/**
-//	 * Create a new project configuration object. The new project configuration is
-//	 * refers to the given view and uses the given file input source factory to
-//	 * load files in source directories.
-//	 * @param view
-//	 * @param factory
-//	 * @param projectName
-//	 * @param root
-//	 */
-//	public ProjectConfiguration(View view, FileInputSourceFactory factory, String projectName, File root) {
-//		this(projectName, root, view, factory);
-//	}
-//
-//	/**
-//	 * Create a new project configuration object for a project with the given name. 
-//	 * The new project configuration refers to the given view and uses the given 
-//	 * file input source factory to load files in source directories.
-//	 * @param projectName
-//	 * @param view
-//	 * @param factory
-//	 * @param root
-//	 */
-//	public ProjectConfiguration(String projectName, View view, FileInputSourceFactory factory, File root) {
-//		this(projectName, root, view, factory);
-//	}
-
 	/**
 	 * Create a new project configuration object for a project with the given name
 	 * and the given project root directory. A new {@link Project} object is created
@@ -83,12 +57,12 @@ public abstract class ProjectConfiguration extends ConfigElement {
    @ post view() == view;
    @ post fileInputSourceFactory = factory;
    @*/
-	public ProjectConfiguration(String projectName, File root, View view, Workspace workspace, FileInputSourceFactory factory) {
+	public ProjectConfiguration(View view, FileInputSourceFactory factory) {
 		_view = view;
 		_factory = factory;
-		_name = projectName;
-		_workspace = workspace;
-    setModelElement(new Project(projectName, view, root));
+		Project project = view.project();
+		_name = project.name();
+    setModelElement(project);
     //FIXME fix this code when multi view support is added.
     //      I'd rather not do it before I know what I'm doing.
     project().addProjectListener(new ProjectListener() {
@@ -119,10 +93,8 @@ public abstract class ProjectConfiguration extends ConfigElement {
     });
 	}
 	
-	private Workspace _workspace;
-	
 	protected Workspace workspace() {
-		return _workspace;
+		return view().project().workspace();
 	}
 	
 	/**

@@ -20,7 +20,26 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 public class Project {
 	
 	/**
-	 * Create a new Chameleon project for the given default namespace.
+	 * Create a new Chameleon project with the given name, root directory, and view.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre name != null;
+   @ pre root != null;
+   @ pre view != null;
+   @
+   @ post name() == name;
+   @ post root() == root;
+   @ post views().contains(view);
+   @*/
+	public Project(String name, File root, View view) {
+		this(name, root);
+		addView(view);
+	}
+	
+	/**
+	 * Create a new Chameleon project with the given name, and root directory.
 	 */
  /*@
    @ public behavior
@@ -29,11 +48,10 @@ public class Project {
    @ pre root != null;
    @
    @ post name() == name;
-   @ post namespace() == root;
+   @ post root() == root;
    @*/
-	public Project(String name, View view, File root) {
+	public Project(String name, File root) {
 		setName(name);
-		addView(view);
 		setRoot(root);
 		_views.addListener(new AssociationListener<View>() {
 
@@ -47,20 +65,36 @@ public class Project {
 				notifyViewRemoved(element);
 			}
 		});
+
 	}
 	
+	/**
+	 * Notify the project listeners that a view was added.
+	 * 
+	 * @param view The view that was added.
+	 */
 	protected void notifyViewAdded(View view) {
 		for(ProjectListener listener: _listeners) {
 			listener.viewAdded(view);
 		}
 	}
 	
+	/**
+	 * Notify the project listeners that a view was removed.
+	 * 
+	 * @param view The view that was removed.
+	 */
 	protected void notifyViewRemoved(View view) {
 		for(ProjectListener listener: _listeners) {
 			listener.viewRemoved(view);
 		}
 	}
 	
+	/**
+	 * Add the given project listener.
+	 * 
+	 * @param listener The listener to be added.
+	 */
 	public void addProjectListener(ProjectListener listener) {
 		if(listener == null) {
 			throw new IllegalArgumentException();
@@ -68,6 +102,11 @@ public class Project {
 		_listeners.add(listener);
 	}
 	
+	/**
+	 * Remove the given project listener.
+	 * 
+	 * @param listener The listener to be removed.
+	 */
 	public void removeProjectListener(ProjectListener listener) {
 		_listeners.remove(listener);
 	}
@@ -75,6 +114,21 @@ public class Project {
 	
 	private List<ProjectListener> _listeners = new ArrayList<ProjectListener>();
 	
+	/**
+	 * Add the given view to the project. The project listeners
+	 * will be notified afterwards.
+	 * 
+	 * @param view The view to be added.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre view != null;
+   @ pre ! views().contains(view);
+   @
+   @ post views().contains(view);
+   @ post views().size() == \old(views().size()) + 1;
+   @*/
 	public void addView(View view) {
 		if(view != null) {
 			_views.add(view.projectLink());
@@ -83,35 +137,73 @@ public class Project {
 		}
 	}
 	
+	/**
+	 * Return the views of this project.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
 	public List<View> views() {
 		return _views.getOtherEnds();
 	}
 	
 	private OrderedMultiAssociation<Project, View> _views = new OrderedMultiAssociation<Project, View>(this);
 
-	private SingleAssociation<Project, Workspace> _workspaceLink;
+	private SingleAssociation<Project, Workspace> _workspaceLink = new SingleAssociation<Project, Workspace>(this);
 	
+	/**
+	 * Return the root directory of the project. The root directory is
+	 * used to transform relative paths used in project files to
+	 * absolute paths. 
+	 */
 	public File root() {
 		return _root;
 	}
 	
 	private File _root;
 	
-	protected void setRoot(File file) {
-		if(file != null && file.isFile()) {
+	/**
+	 * Set the root directory of this project.
+	 * 
+	 * @param rootDirectory The new root directory of the project.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre rootDirectory != null;
+   @
+   @ post root() == rootDirectory;
+   @*/
+	protected void setRoot(File rootDirectory) {
+		if(rootDirectory != null && rootDirectory.isFile()) {
 			throw new IllegalArgumentException("The root directory of a project should not be a normal file");
 		}
-		_root = file;
+		_root = rootDirectory;
 	}
 	
 	SingleAssociation<Project, Workspace> workspaceLink() {
 		return _workspaceLink;
 	}
 	
+	/**
+	 * Return the workspace that contains this project.
+	 */
 	public Workspace workspace() {
 		return _workspaceLink.getOtherEnd();
 	}
-	
+
+	/**
+	 * Set the workspace that contains this project.
+	 * 
+	 * @param workspace The workspace that will contain this project.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post workspace() == workspace;
+   @*/
 	public void setWorkspace(Workspace workspace) {
 		if(workspace != null) {
 			workspace.add(this);
@@ -119,12 +211,28 @@ public class Project {
 			_workspaceLink.connectTo(null);
 		}
 	}
-	
+
+	/**
+	 * Return the name of this project.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ 
+   @*/
 	public String name() {
 		return _name;
 	}
 	
+	/**
+	 * Set the name of this project.
+	 * 
+	 * @param name The new name of this project.
+	 */
 	public void setName(String name) {
+		if(name == null) {
+			throw new IllegalArgumentException();
+		}
 		_name = name;
 	}
 	
@@ -166,10 +274,14 @@ public class Project {
 
 	/**
 	 * Try to add the given file to the project. Each FileLoader in each view
-	 * will be given the opportunity to added the file.
+	 * will be given the opportunity to add the file. The source caches
+	 * of the project are flushed afterwards.
 	 * 
 	 * FIXME: Can we avoid letting the Project know about files and FileLoader?
-	 * @param file
+	 *        Yes, but ideally we want to apply a closure to the view which in
+	 *        turn apply a closure to their loaders.
+	 *        
+	 * @param file The file to be added.
 	 */
 	public void tryToAdd(File file) {
 		for(View view: views()) {
@@ -186,7 +298,10 @@ public class Project {
 	
 	/**
 	 * Try to remove the given file from the project.
-	 * @param file
+	 * 
+	 * @param file The file to be removed. Each FileLoader in each view
+	 * will be given the opportunity to remove the file. The source caches
+	 * of the project are flushed afterwards.
 	 */
 	public void tryToRemove(File file) {
 		for(View view: views()) {
@@ -264,7 +379,7 @@ public class Project {
    @ post \result != null;
    @ post new File(path).isAbsolute() ==> \result == path;
    @ post ! new File(path).isAbsolute() ==> \result.equals(
-   @   project().root().getAbsolutePath()+File.separator+path);
+   @ project().root().getAbsolutePath()+File.separator+path);
    @*/
 	public String absolutePath(String path) {
 		File root = new File(path);
@@ -294,6 +409,20 @@ public class Project {
 		return new File(absolutePath(path));
 	}
 
+	/**
+	 * Return an absolute file for the given file.
+	 * If the given file is already absolute, it is returned directly.
+	 * Otherwise, the project root path is prefixed, along with {@link File.separator}.
+	 *  
+	 * @param file The file for which an absolute file must be returned.
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre file != null;
+   @ post \result != null;
+   @ post \result.getAbsolutePath().equals(absolutePath(file.getPath()));
+   @*/
 	public File absoluteFile(File file) {
 		if(! file.isAbsolute()) {
 			return new File(root().getAbsoluteFile(),file.getPath());
@@ -301,5 +430,4 @@ public class Project {
 			return file;
 		}
 	}
-
 }

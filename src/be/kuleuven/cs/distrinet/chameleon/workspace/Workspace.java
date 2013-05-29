@@ -11,7 +11,7 @@ public class Workspace {
 		_repository = repository;
 	}
 	
-	private MultiAssociation<Workspace, Project> _projects;
+	private MultiAssociation<Workspace, Project> _projects = new MultiAssociation<Workspace, Project>(this);
 	
 	public List<Project> projects() {
 		return _projects.getOtherEnds();

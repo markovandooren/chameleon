@@ -4,6 +4,7 @@ import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
+import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl.Processor;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
@@ -183,7 +184,14 @@ public class Document extends ElementImpl {
 	
 	@Deprecated
 	public Document cloneTo(View view) {
-		Document clone = clone(this);
+//		Document clone = clone(this);
+		Document clone = (Document) map(new Processor(){
+			
+			@Override
+			public void process(Element original, Element clone) {
+//				clone.setOrigin(original);
+			}
+	});
 		FakeDocumentLoader pl = new FakeDocumentLoader();
 		InputSource is = new FakeInputSource(clone,pl);
 		try {
