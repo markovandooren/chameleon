@@ -952,6 +952,8 @@ public interface Element {
      @*/
     public Element clone();
     
+    public Element clone(Mapper mapper);
+    
     /**
      * Return the lexical lookup context for the given child element. The
      * default behavior is to delegate the search to the parent.

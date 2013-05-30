@@ -206,32 +206,25 @@ public abstract class ElementImpl implements Element {
 	}
 	
 	public Element clone() {
-		return map(new Processor(){
-		
-				@Override
-				public void process(Element original, Element clone) {
-					
-				}
-		});
+		return clone(null);
 	}
 	
-	public abstract static class Processor {
-		public abstract void process(Element original, Element clone);
-	}
-	
-	public final Element map(Processor mapper) {
+	public final Element clone(Mapper mapper) {
 		Element result = cloneSelf();
-		Iterator<ChameleonAssociation<? extends Element>> mine = associations().iterator();
-		Iterator<ChameleonAssociation<? extends Element>> others = result.associations().iterator();
-		while(mine.hasNext()) {
-			ChameleonAssociation<? extends Element> m = mine.next();
-			ChameleonAssociation<? extends Element> o = others.next();
+		List<ChameleonAssociation<?>> mine = associations();
+		int size = mine.size();
+		List<ChameleonAssociation<?>> others = result.associations();
+		for(int i = 0; i<size;i++) {
+			ChameleonAssociation<? extends Element> m = mine.get(i);
+			ChameleonAssociation<? extends Element> o = others.get(i);
 			for(Element myElement: m.getOtherEnds()) {
-				Element clone = myElement.clone();
+				Element clone = myElement.clone(mapper);
 				clone.parentLink().connectTo((Association)o);
 			}
 		}
-		mapper.process(this, result);
+		if(mapper != null) {
+			mapper.process(this, result);
+		}
 		return result;
 	}
 	
