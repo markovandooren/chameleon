@@ -2,7 +2,7 @@ package be.kuleuven.cs.distrinet.chameleon.util.concurrent;
 
 import java.util.Queue;
 
-import be.kuleuven.cs.distrinet.chameleon.util.action.Action;
+import be.kuleuven.cs.distrinet.rejuse.action.Action;
 
 public class QueuePollingFactory<T,E extends Exception> {
 

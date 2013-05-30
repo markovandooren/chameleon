@@ -16,12 +16,12 @@ import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.test.ModelTest;
 import be.kuleuven.cs.distrinet.chameleon.test.provider.ElementProvider;
-import be.kuleuven.cs.distrinet.chameleon.util.action.Action;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.CallableFactory;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.FixedThreadCallableExecutor;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.QueuePollingCallableFactory;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectException;
+import be.kuleuven.cs.distrinet.rejuse.action.Action;
 
 /**
  * @author Marko van Dooren

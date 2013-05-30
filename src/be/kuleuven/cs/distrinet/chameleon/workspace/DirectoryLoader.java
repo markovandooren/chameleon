@@ -16,10 +16,10 @@ import java.util.concurrent.ExecutionException;
 import org.antlr.runtime.RecognitionException;
 
 import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
-import be.kuleuven.cs.distrinet.chameleon.util.action.Action;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.CallableFactory;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.FixedThreadCallableExecutor;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.QueuePollingCallableFactory;
+import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 /**

@@ -18,8 +18,8 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.NamedTargetExpression;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.FormalParameter;
-import be.kuleuven.cs.distrinet.chameleon.util.action.SafeAction;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
+import be.kuleuven.cs.distrinet.rejuse.action.SafeAction;
 
 public class NamedPointcutExpression extends AbstractPointcutExpression<Element> implements CrossReference<Pointcut> {
 	

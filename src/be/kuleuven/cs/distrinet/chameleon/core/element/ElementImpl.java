@@ -26,12 +26,13 @@ import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
-import be.kuleuven.cs.distrinet.chameleon.util.action.Action;
 import be.kuleuven.cs.distrinet.chameleon.util.association.ChameleonAssociation;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.chameleon.workspace.View;
 import be.kuleuven.cs.distrinet.chameleon.workspace.WrongViewException;
+import be.kuleuven.cs.distrinet.rejuse.action.Action;
+import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.association.AbstractMultiAssociation;
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
@@ -199,28 +200,29 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 	
-//	protected abstract Element cloneSelf();
-	
 	public final <T extends Element> T clone(T element) {
 		return Util.clone(element);
 	}
 	
 	public Element clone() {
-		return clone(null);
+		return clone((Mapper)null);
 	}
 	
-	public final Element clone(Mapper mapper) {
+	public final Element clone(final Mapper mapper) {
 		Element result = cloneSelf();
-		List<ChameleonAssociation<?>> mine = associations();
+		List<ChameleonAssociation<?>> mine = myAssociations();
 		int size = mine.size();
 		List<ChameleonAssociation<?>> others = result.associations();
 		for(int i = 0; i<size;i++) {
 			ChameleonAssociation<? extends Element> m = mine.get(i);
-			ChameleonAssociation<? extends Element> o = others.get(i);
-			for(Element myElement: m.getOtherEnds()) {
-				Element clone = myElement.clone(mapper);
-				clone.parentLink().connectTo((Association)o);
-			}
+			final ChameleonAssociation<? extends Element> o = others.get(i);
+			m.apply(new Action<Element,Nothing>(Element.class) {
+				@Override
+				public void perform(Element myElement) {
+					Element clone = myElement.clone(mapper);
+					clone.parentLink().connectTo((Association)o);
+				}
+			});
 		}
 		if(mapper != null) {
 			mapper.process(this, result);
@@ -433,6 +435,10 @@ public abstract class ElementImpl implements Element {
 	private List<ChameleonAssociation<?>> _associations;
 
 	public synchronized List<ChameleonAssociation<?>> associations() {
+		return Collections.unmodifiableList(myAssociations());
+	}
+
+	private synchronized List<ChameleonAssociation<?>> myAssociations() {
 		if(_associations == null) {
 			_associations = new ArrayList<ChameleonAssociation<?>>();
 			Class<? extends Element>  currentClass = getClass();
@@ -445,7 +451,7 @@ public abstract class ElementImpl implements Element {
 			}
 			((ArrayList)_associations).trimToSize();
 		}
-		return Collections.unmodifiableList(_associations);
+		return _associations;
 	}
 
 	private static void addAllFieldsTillClass(final Class currentClass, Collection<Field> accumulator){
