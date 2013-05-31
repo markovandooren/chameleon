@@ -442,8 +442,7 @@ public abstract class ElementImpl implements Element {
 	public synchronized List<ChameleonAssociation<?>> associations() {
 		if(_associations == null) {
 			_associations = new ArrayList<ChameleonAssociation<?>>();
-			Class<? extends Element>  currentClass = getClass();
-			List<Field> fields = getAllFieldsTillClass(currentClass);
+			List<Field> fields = getAllFieldsTillClass(getClass());
 			for (Field field : fields) {
 				Object content = getFieldValue(field);
 				if(content instanceof ChameleonAssociation){
