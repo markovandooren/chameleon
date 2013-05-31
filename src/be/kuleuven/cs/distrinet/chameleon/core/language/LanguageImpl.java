@@ -18,9 +18,12 @@ import be.kuleuven.cs.distrinet.chameleon.plugin.LanguagePlugin;
 import be.kuleuven.cs.distrinet.chameleon.plugin.LanguageProcessor;
 import be.kuleuven.cs.distrinet.chameleon.plugin.PluginContainerImpl;
 import be.kuleuven.cs.distrinet.chameleon.plugin.ProcessorContainer;
+import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
+import be.kuleuven.cs.distrinet.rejuse.action.SafeAction;
 import be.kuleuven.cs.distrinet.rejuse.association.MultiAssociation;
 import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
+import be.kuleuven.cs.distrinet.rejuse.property.Property;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 
@@ -59,6 +62,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 	}
 	
 //	public abstract Language clone();
+	
+	
 	
 	/**
 	 * Initialize a new language with the given name and lookup strategy factory.
@@ -577,7 +582,13 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 		 * Flush the caches kept by this language. Caches of model elements are flushed separately. The default behavior is to do nothing.
 		 */
 		public void flushCache() {
-			
+			_properties.apply(new SafeAction<Property>(Property.class) {
+
+				@Override
+				public void perform(Property object) throws Nothing {
+					object.flushLocalCache();
+				}
+			});
 		}
 
 }
