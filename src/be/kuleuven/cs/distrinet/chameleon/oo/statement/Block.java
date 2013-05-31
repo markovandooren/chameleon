@@ -22,7 +22,10 @@ public class Block extends StatementImpl implements StatementListContainer {
 	/**
 	 * STATEMENTS
 	 */
-	private Multi<Statement> _statements = new Multi<Statement>(this);
+	private Multi<Statement> _statements = new Multi<Statement>(this,"statements");
+	{
+		_statements.enableCache();
+	}
 
   public void addStatement(Statement statement) {
   	add(_statements,statement);

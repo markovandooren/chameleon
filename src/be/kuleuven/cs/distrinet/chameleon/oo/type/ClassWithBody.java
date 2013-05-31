@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableList;
+
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
@@ -28,13 +30,14 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
  */
 public abstract class ClassWithBody extends ClassImpl {
 
-	protected Single<ClassBody> _body = new Single<ClassBody>(this,true);
+	protected Single<ClassBody> _body = new Single<ClassBody>(this,true,"body");
 
 	
 	public List<InheritanceRelation> nonMemberInheritanceRelations() {
-		List<InheritanceRelation> result = explicitNonMemberInheritanceRelations();
-		addImplicitInheritanceRelations(result);
-		return result;
+		return ImmutableList.<InheritanceRelation>builder()
+				   .addAll(explicitNonMemberInheritanceRelations())
+				   .addAll(implicitNonMemberInheritanceRelations())
+				   .build();
 	}
 	
 	public List<InheritanceRelation> explicitNonMemberInheritanceRelations() {
@@ -59,7 +62,10 @@ public abstract class ClassWithBody extends ClassImpl {
 		}
 	}
 
-	private Multi<InheritanceRelation> _inheritanceRelations = new Multi<InheritanceRelation>(this);
+	private Multi<InheritanceRelation> _inheritanceRelations = new Multi<InheritanceRelation>(this,"inheritance relations");
+	{
+		_inheritanceRelations.enableCache();
+	}
 
 	public ClassBody body() {
 		return _body.getOtherEnd();
@@ -90,7 +96,10 @@ public abstract class ClassWithBody extends ClassImpl {
 	   return body().members();
 	}
 
-	protected Multi<ParameterBlock> _parameters = new Multi<ParameterBlock>(this);
+	protected Multi<ParameterBlock> _parameters = new Multi<ParameterBlock>(this,"parameter blocks");
+	{
+		_parameters.enableCache();
+	}
 
 	public void removeNonMemberInheritanceRelation(InheritanceRelation relation) {
 		remove(_inheritanceRelations,relation);
@@ -104,17 +113,17 @@ public abstract class ClassWithBody extends ClassImpl {
 		return nonMemberInheritanceRelations();
 	}
 	
-	/**
-	 * Add any implicit inheritance relations of this class to the given list. By default,
-	 * no inheritance relations are added.
-	 * 
-	 * @param list The list of inheritance relations to which the implicit inheritance relations
-	 *             must be added
-	 * @throws LookupException
-	 */
-	protected void addImplicitInheritanceRelations(List<InheritanceRelation> list) {
-		list.addAll(implicitNonMemberInheritanceRelations());
-	}
+//	/**
+//	 * Add any implicit inheritance relations of this class to the given list. By default,
+//	 * no inheritance relations are added.
+//	 * 
+//	 * @param list The list of inheritance relations to which the implicit inheritance relations
+//	 *             must be added
+//	 * @throws LookupException
+//	 */
+//	protected void addImplicitInheritanceRelations(List<InheritanceRelation> list) {
+//		list.addAll();
+//	}
 
 	@Override
 	public void addInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException {

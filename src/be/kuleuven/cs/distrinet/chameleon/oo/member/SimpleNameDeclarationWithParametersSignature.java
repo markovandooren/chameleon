@@ -66,7 +66,10 @@ public class SimpleNameDeclarationWithParametersSignature extends DeclarationWit
    return _parameterTypes.size();
   }  
 
-  private Multi<TypeReference> _parameterTypes = new Multi<TypeReference>(this);
+  private Multi<TypeReference> _parameterTypes = new Multi<TypeReference>(this,"parameter types");
+  {
+  	_parameterTypes.enableCache();
+  }
 
   
   @Override

@@ -13,12 +13,22 @@ public class Single<T extends Element> extends SingleAssociation<Element, T> imp
 		super(element);
 	}
 
+	public Single(Element element, String role) {
+		super(element);
+		setRole(role);
+	}
+
 	public Single(Element element, Association<? extends T, ? super Element> other) {
 		super(element, other);
 	}
 	
 	public Single(Element element, boolean mandatory) {
 		this(element);
+		_mandatory = mandatory;
+	}
+
+	public Single(Element element, boolean mandatory, String role) {
+		this(element, role);
 		_mandatory = mandatory;
 	}
 

@@ -59,7 +59,7 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
 	/**
 	 * TYPE
 	 */
-	private Single<TypeReference> _typeReference = new Single<TypeReference>(this);
+	private Single<TypeReference> _typeReference = new Single<TypeReference>(this, "type");
 
   public Type type() throws LookupException {
   	return typeReference().getType();
@@ -85,7 +85,10 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
 		remove(_declarations,declaration);
 	}
 	
-	private Multi<VariableDeclaration> _declarations = new Multi<VariableDeclaration>(this);
+	private Multi<VariableDeclaration> _declarations = new Multi<VariableDeclaration>(this, "variable declarations");
+	{
+		_declarations.enableCache();
+	}
 
 	
 	
@@ -95,7 +98,7 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
   /*************
    * MODIFIERS *
    *************/
-  private Multi<Modifier> _modifiers = new Multi<Modifier>(this);
+  private Multi<Modifier> _modifiers = new Multi<Modifier>(this, "modifiers");
 
 
   /**

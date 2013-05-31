@@ -64,14 +64,17 @@ public abstract class ElementImpl implements Element {
 		//	  	_parentLink.addListener(new AssociationListener<P>() {
 		//
 		//				public void notifyElementAdded(P element) {
+		//          super.notifyElementAdded(element);
 		//					notifyParent(ElementImpl.this);
 		//				}
 		//
 		//				public void notifyElementRemoved(P element) {
+		//          super.notifyElementRemoved(element);
 		//					notifyParent(ElementImpl.this);
 		//				}
 		//
 		//				public void notifyElementReplaced(P oldElement, P newElement) {
+		//          super.notifyElementReplaced(oldElement,newElement);
 		//					notifyParent(ElementImpl.this);
 		//				}
 		//	  		

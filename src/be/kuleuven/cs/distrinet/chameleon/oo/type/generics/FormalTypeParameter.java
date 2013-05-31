@@ -65,6 +65,9 @@ public class FormalTypeParameter extends TypeParameter {
 	}
 	
 	private Multi<TypeConstraint> _typeConstraints = new Multi<TypeConstraint>(this);
+	{
+		_typeConstraints.enableCache();
+	}
 	
 	public List<TypeConstraint> constraints() {
 		return _typeConstraints.getOtherEnds();

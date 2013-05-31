@@ -23,7 +23,10 @@ public class ParameterBlock<T extends Parameter> extends ElementImpl {
 	
 	private Class<T> _parameterType;
 	
-	private Multi<T> _parameters = new Multi<T>(this);
+	private Multi<T> _parameters = new Multi<T>(this, "parameters");
+	{
+		_parameters.enableCache();
+	}
 	
 	public List<T> parameters() {
 		return _parameters.getOtherEnds();

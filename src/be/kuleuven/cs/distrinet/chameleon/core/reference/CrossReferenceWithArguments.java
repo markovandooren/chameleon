@@ -48,7 +48,10 @@ public class CrossReferenceWithArguments extends ElementImpl {
 	/*********************
 	 * ACTUAL PARAMETERS *
 	 *********************/
-	private Multi<Expression> _parameters = new Multi<Expression>(this);
+	private Multi<Expression> _parameters = new Multi<Expression>(this,"arguments");
+	{
+		_parameters.enableCache();
+	}
 
 	public void addArgument(Expression parameter) {
 		add(_parameters, parameter);
@@ -299,7 +302,7 @@ public class CrossReferenceWithArguments extends ElementImpl {
 		remove(_genericArguments,arg);
 	}
 
-	private Multi<ActualTypeArgument> _genericArguments = new Multi<ActualTypeArgument>(this);
+	private Multi<ActualTypeArgument> _genericArguments = new Multi<ActualTypeArgument>(this,"type arguments");
 
 	@Override
 	public Verification verifySelf() {

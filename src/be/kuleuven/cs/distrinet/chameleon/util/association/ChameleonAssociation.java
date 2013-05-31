@@ -9,4 +9,7 @@ public interface ChameleonAssociation<T extends Element> extends IAssociation<El
 //	public void cloneTo(ChameleonAssociation<T> o);
 	
 	public Verification verify();
+	
+	public String role();
+	
 }

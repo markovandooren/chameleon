@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
@@ -133,7 +136,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		set(_ref, ref);
 	}
 	
-	private Single<CrossReference<Namespace>> _ref = new Single<CrossReference<Namespace>>(this,true);
+	private Single<CrossReference<Namespace>> _ref = new Single<CrossReference<Namespace>>(this,true,"namespace reference");
 	
 	public LookupContext lookupContext(Element child) throws LookupException {
 		if(imports().contains(child) || child == namespaceReference()) {
@@ -248,7 +251,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		return super.disconnected() && namespaceLink().getOtherEnd() != null;
 	}
 	
-	private Multi<NamespaceDeclaration> _subNamespaceParts = new Multi<NamespaceDeclaration>(this);
+	private Multi<NamespaceDeclaration> _subNamespaceParts = new Multi<NamespaceDeclaration>(this,"subnamespace parts");
 
 	public List<Declaration> declarations() {
       return _declarations.getOtherEnds();
@@ -310,12 +313,18 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	 * DEMAND IMPORTS *
 	 ******************/
 
-	private Multi<Import> _imports = new Multi<Import>(this);
+	private Multi<Import> _imports = new Multi<Import>(this,"imports");
+	{
+		_imports.enableCache();
+	}
 
-	public List<? extends Import> imports() {
-		List result = explicitImports();
-		result.addAll(implicitImports());
-		return result;
+	public List<Import> imports() {
+//		use guave list builder
+		return ImmutableList.<Import>builder()
+		  .addAll(explicitImports())
+		  .addAll(implicitImports())
+		  .build();
+
 	}
 	
 	public List<? extends Import> explicitImports() {
@@ -359,7 +368,10 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	/****************
 	 * DECLARATIONS *
 	 ****************/
-	private Multi<Declaration> _declarations = new Multi<Declaration>(this);
+	private Multi<Declaration> _declarations = new Multi<Declaration>(this, "declarations");
+	{
+		_declarations.enableCache();
+	}
 
 	/**
 	 * Add the given declaration to this namespace part.

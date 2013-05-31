@@ -12,7 +12,7 @@ public abstract class MethodHeader extends DeclarationWithParametersHeader {
 	
 //	public abstract MethodHeader clone();
 	
-	private Single<TypeReference> _typeReference = new Single<TypeReference>(this);
+	private Single<TypeReference> _typeReference = new Single<TypeReference>(this,"return type reference");
 
 	public TypeReference returnTypeReference() {
 		return _typeReference.getOtherEnd();

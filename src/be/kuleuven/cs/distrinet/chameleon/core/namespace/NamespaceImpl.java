@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
+
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
@@ -172,21 +175,25 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	 @*/
 	public Namespace getSubNamespace(final String name) throws LookupException {
 		List<Namespace> packages = getSubNamespaces();
-
-		new SafePredicate<Namespace>() {
-			public boolean eval(Namespace o) {
-				return o.name().equals(name);
+		for(Namespace n: packages) {
+			if(n.name().equals(name)) {
+				return n;
 			}
-		}.filter(packages);
-		if (packages.isEmpty()) {
+		}
+//		new SafePredicate<Namespace>() {
+//			public boolean eval(Namespace o) {
+//				return o.name().equals(name);
+//			}
+//		}.filter(packages);
+//		if (packages.isEmpty()) {
 			return null;
-		}
-		else if(packages.size() == 1){
-			return (Namespace)packages.iterator().next();
-		}
-		else {
-			throw new LookupException("Namespace "+getFullyQualifiedName()+ " contains "+packages.size()+" sub namespaces with name "+name);
-		}
+//		}
+//		else if(packages.size() == 1){
+//			return (Namespace)packages.iterator().next();
+//		}
+//		else {
+//			throw new LookupException("Namespace "+getFullyQualifiedName()+ " contains "+packages.size()+" sub namespaces with name "+name);
+//		}
 
 	}
 
@@ -215,11 +222,12 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	}
 	
 	protected List<Declaration> directDeclarations() throws LookupException {
-		List<Declaration> result = (List)getSubNamespaces();
+		Builder<Declaration> builder = ImmutableList.<Declaration>builder();
+		builder.addAll(getSubNamespaces());
 		for(NamespaceDeclaration part: getNamespaceParts()) {
-			result.addAll(part.declarations());
+			builder.addAll(part.declarations());
 		}
-		return result;
+		return builder.build();
 	}
 
 

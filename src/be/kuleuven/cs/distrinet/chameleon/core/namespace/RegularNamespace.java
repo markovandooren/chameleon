@@ -30,7 +30,10 @@ public class RegularNamespace extends NamespaceImpl {
 	/**
 	 * SUBNAMESPACES
 	 */
-	private Multi<Namespace> _namespaces = new Multi<Namespace>(this);
+	private Multi<Namespace> _namespaces = new Multi<Namespace>(this,"namespaces");
+	{
+		_namespaces.enableCache();
+	}
 
 
 	protected synchronized void addNamespace(Namespace namespace) {
@@ -55,7 +58,10 @@ public class RegularNamespace extends NamespaceImpl {
 	 * NAMESPACE PARTS *
 	 *******************/
 
-	private Multi<NamespaceDeclaration> _namespaceParts = new Multi<NamespaceDeclaration>(this);
+	private Multi<NamespaceDeclaration> _namespaceParts = new Multi<NamespaceDeclaration>(this,"namespace parts");
+	{
+		_namespaceParts.enableCache();
+	}
 
 	public synchronized void addNamespacePart(NamespaceDeclaration namespacePart){
 		_namespaceParts.add((Association)namespacePart.namespaceLink());

@@ -94,7 +94,10 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
   	return _parameters.elementAt(baseOneIndex);
   }
 
-  private Multi<FormalParameter> _parameters = new Multi<FormalParameter>(this);
+  private Multi<FormalParameter> _parameters = new Multi<FormalParameter>(this, "formal parameters");
+  {
+  	_parameters.enableCache();
+  }
   
   /**
    * Return the type of the formal parameters of this signature.
@@ -218,7 +221,7 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
 //  	return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this),this);
 //  }
   
-	private Single<TypeParameterBlock> _typeParameters = new Single<TypeParameterBlock>(this);
+	private Single<TypeParameterBlock> _typeParameters = new Single<TypeParameterBlock>(this,"type parameters");
 	
 	public TypeParameterBlock parameterBlock() {
 		return _typeParameters.getOtherEnd();

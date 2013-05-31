@@ -8,5 +8,6 @@
     <!--<dependency org="org.apache.ant" name="ant" rev="latest.integration"/>-->
     <dependency org="org.antlr" name="antlr-runtime" rev="3.2" conf="*->*,!sources,!javadoc"/>
     <dependency org="distrinet.cs.kuleuven.be" name="rejuse" rev="latest.integration" revConstraint="latest.integration" />
+    <dependency org="com.google.guava" name="guava" rev="latest.integration"/>
   </dependencies>
 </ivy-module>
