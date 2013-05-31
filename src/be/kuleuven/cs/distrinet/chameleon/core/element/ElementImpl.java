@@ -210,22 +210,24 @@ public abstract class ElementImpl implements Element {
 	public Element clone() {
 		return clone((Mapper)null);
 	}
-	
+
 	public final Element clone(final Mapper mapper) {
 		Element result = cloneSelf();
-		List<ChameleonAssociation<?>> mine = myAssociations();
-		int size = mine.size();
-		List<ChameleonAssociation<?>> others = result.associations();
-		for(int i = 0; i<size;i++) {
-			ChameleonAssociation<? extends Element> m = mine.get(i);
-			final ChameleonAssociation<? extends Element> o = others.get(i);
-			m.apply(new Action<Element,Nothing>(Element.class) {
-				@Override
-				public void perform(Element myElement) {
-					Element clone = myElement.clone(mapper);
-					clone.parentLink().connectTo((Association)o);
-				}
-			});
+		if(canHaveChildren()) {
+			List<ChameleonAssociation<?>> mine = myAssociations();
+			int size = mine.size();
+			List<ChameleonAssociation<?>> others = result.associations();
+			for(int i = 0; i<size;i++) {
+				ChameleonAssociation<? extends Element> m = mine.get(i);
+				final ChameleonAssociation<? extends Element> o = others.get(i);
+				m.apply(new Action<Element,Nothing>(Element.class) {
+					@Override
+					public void perform(Element myElement) {
+						Element clone = myElement.clone(mapper);
+						clone.parentLink().connectTo((Association)o);
+					}
+				});
+			}
 		}
 		if(mapper != null) {
 			mapper.process(this, result);
@@ -456,6 +458,12 @@ public abstract class ElementImpl implements Element {
 		}
 		return _associations;
 	}
+	
+	private boolean canHaveChildren() {
+		return ! getAllFieldsTillClass(getClass()).isEmpty();
+	}
+	
+
 
 	private static void addAllFieldsTillClass(final Class currentClass, Collection<Field> accumulator){
 		List<Field> fieldList = new ArrayList<Field>(Arrays.asList(currentClass.getDeclaredFields()));
