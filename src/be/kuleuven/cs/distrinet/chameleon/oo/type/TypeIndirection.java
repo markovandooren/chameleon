@@ -163,11 +163,6 @@ public abstract class TypeIndirection extends ClassImpl {
 	}
 
 
-	public Class<? extends Parameter> kindOf(ParameterBlock block) throws LookupException {
-		return aliasedType().kindOf(block);
-	}
-
-
 	public List<ParameterBlock> parameterBlocks() {
 		return aliasedType().parameterBlocks();
 	}

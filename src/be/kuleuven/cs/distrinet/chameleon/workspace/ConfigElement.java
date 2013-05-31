@@ -26,6 +26,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
+import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
+import be.kuleuven.cs.distrinet.rejuse.action.SafeAction;
 import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
@@ -370,9 +372,15 @@ public abstract class ConfigElement {
 	
 	public void disconnect() {
 		_parent.clear();
-		for(ConfigElement child: _children.getOtherEnds()) {
-			child.disconnect();
-		}
+		_children.apply(new SafeAction<ConfigElement>(ConfigElement.class) {
+			@Override
+			public void perform(ConfigElement object) throws Nothing {
+				object.disconnect();
+			}
+		});
+//		for(ConfigElement child: _children.getOtherEnds()) {
+//			child.disconnect();
+//		}
 	}
 	
 	private Object _modelElement;

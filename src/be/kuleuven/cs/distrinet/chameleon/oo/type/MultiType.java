@@ -86,10 +86,6 @@ public abstract class MultiType extends ClassImpl {
 		throw new ChameleonProgrammerException("Trying to add a parameter block to a union type.");
 	}
 
-	public Class<? extends Parameter> kindOf(ParameterBlock block) {
-		return null;
-	}
-
 	public <P extends Parameter> ParameterBlock<P> parameterBlock(Class<P> kind) {
 		return null;
 	}

@@ -411,17 +411,18 @@ public abstract class ElementImpl implements Element {
 		return _excludedFieldNames.get(type);
 	}
 
-	public List<Element> reflectiveChildren() {
+	private List<Element> reflectiveChildren() {
 		List<Element> reflchildren = new ArrayList<Element>();
 		for (ChameleonAssociation association : associations()) {
-			reflchildren.addAll(association.getOtherEnds());
+//			reflchildren.addAll(association.getOtherEnds());
+			association.addOtherEndsTo(reflchildren);
 		}
 		return reflchildren;
 	}
 
 	private static Map<Class, List<Field>> _fieldMap = new HashMap<Class, List<Field>>();
 
-	public static List<Field> getAllFieldsTillClass(Class currentClass){
+	private static List<Field> getAllFieldsTillClass(Class currentClass){
 		List<Field> result = _fieldMap.get(currentClass);
 		if(result == null) {
 			result = new ArrayList<Field>();
@@ -923,13 +924,21 @@ public abstract class ElementImpl implements Element {
 			}
 		}
 	 }
-
+	 
 	 public PropertySet<Element,ChameleonProperty> properties() {
-		 PropertySet<Element, ChameleonProperty> result = explicitProperties();
-		 result.addAll(defaultProperties(result));
-		 return result;
+		 return new PropertySet<>(internalProperties());
 	 }
 
+	 protected PropertySet<Element,ChameleonProperty> internalProperties() {
+		 if(_properties == null) {
+			 _properties = explicitProperties();
+			 _properties.addAll(defaultProperties(_properties));
+		 }
+		 return _properties;
+	 }
+
+	 private PropertySet<Element,ChameleonProperty> _properties;
+	 
 	/**
 	 * Return the set of explicit properties of this element. 
 	 * @return
@@ -987,17 +996,12 @@ public abstract class ElementImpl implements Element {
 		 if(result == null){
 			 result = property.appliesTo(this);
 			 if(result == Ternary.UNKNOWN) {
-				 // First get the declared properties.
-				 PropertySet<Element,ChameleonProperty> properties = properties();
-				 // Add the given property if it dynamically applies to this element.
-				 Ternary applies = property.appliesTo(this);
-				 if(applies == Ternary.TRUE) {
-					 properties.add(property);
-				 } else if(applies == Ternary.FALSE) {
-					 properties.add(property.inverse());
+				 // Check if the properties() set implies the given property.
+				 result = internalProperties().implies(property);
+				 if(Config.cacheElementProperties()) {
+					 _propertyCache.put(property, result);
 				 }
-				 // Check if the resulting property set implies the given property.
-				 result = properties.implies(property);
+			 } else {
 				 if(Config.cacheElementProperties()) {
 					 _propertyCache.put(property, result);
 				 }
@@ -1016,31 +1020,31 @@ public abstract class ElementImpl implements Element {
 		 });
 	 }
 	 
-	 public ChameleonProperty implyingProperty(final ChameleonProperty implied) throws ModelException {
-		 return property(new UnsafePredicate<ChameleonProperty,ModelException>() {
-			@Override
-			public boolean eval(ChameleonProperty property) throws ModelException
-				 {return property.implies(implied);}
-		 });
-	 }
+//	 public ChameleonProperty implyingProperty(final ChameleonProperty implied) throws ModelException {
+//		 return property(new UnsafePredicate<ChameleonProperty,ModelException>() {
+//			@Override
+//			public boolean eval(ChameleonProperty property) throws ModelException
+//				 {return property.implies(implied);}
+//		 });
+//	 }
 	 
-	 public ChameleonProperty property(SafePredicate<ChameleonProperty> predicate) throws ModelException {
-		 List<ChameleonProperty> properties = new ArrayList<ChameleonProperty>();
-		 for(ChameleonProperty p : properties().properties()) {
-			 if(predicate.eval(p)) {
-				 properties.add(p);
-			 }
-		 }
-		 if(properties.size() == 1) {
-			 return properties.get(0);
-		 } else {
-			 throw new ModelException("Element of type " +getClass().getName()+ " has "+properties.size()+" properties that satisfy the given condition.");
-		 }
-	 }
+//	 public ChameleonProperty property(SafePredicate<ChameleonProperty> predicate) throws ModelException {
+//		 List<ChameleonProperty> properties = new ArrayList<ChameleonProperty>();
+//		 for(ChameleonProperty p : properties().properties()) {
+//			 if(predicate.eval(p)) {
+//				 properties.add(p);
+//			 }
+//		 }
+//		 if(properties.size() == 1) {
+//			 return properties.get(0);
+//		 } else {
+//			 throw new ModelException("Element of type " +getClass().getName()+ " has "+properties.size()+" properties that satisfy the given condition.");
+//		 }
+//	 }
 
 	 public <X extends Exception> ChameleonProperty property(UnsafePredicate<ChameleonProperty,X> predicate) throws ModelException, X {
 		 List<ChameleonProperty> properties = new ArrayList<ChameleonProperty>();
-		 for(ChameleonProperty p : properties().properties()) {
+		 for(ChameleonProperty p : internalProperties().properties()) {
 			 if(predicate.eval(p)) {
 				 properties.add(p);
 			 }
@@ -1054,7 +1058,7 @@ public abstract class ElementImpl implements Element {
 
 
 	 public boolean hasProperty(PropertyMutex<ChameleonProperty> mutex) throws ModelException {
-		 return properties().hasPropertyFor(mutex);
+		 return internalProperties().hasPropertyFor(mutex);
 	 }
 
 	 /*@
@@ -1206,7 +1210,7 @@ public abstract class ElementImpl implements Element {
 
 	 public final Verification verifyProperties() {
 		 Verification result = Valid.create();
-		 PropertySet<Element,ChameleonProperty> properties = properties();
+		 PropertySet<Element,ChameleonProperty> properties = internalProperties();
 		 Collection<Conflict<ChameleonProperty>> conflicts = properties.conflicts();
 		 for(Conflict<ChameleonProperty> conflict: conflicts) {
 			 result = result.and(new ConflictProblem(this,conflict));
@@ -1393,23 +1397,23 @@ public abstract class ElementImpl implements Element {
 		 }
 	 }
 
-	 /**
-	  * Clone the descendants of this element and make the clones the descendants of
-	  * the given element (which will typically be a clone of this element). Type
-	  * E must be the class of the current element; otherwise e does not have the
-	  * same associations as the current object.
-	  * @param e
-	  * @return
-	  */
-	 protected <E extends Element> E cloneDescendantsTo(E e) {
-		 List<ChameleonAssociation<?>> mine = associations();
-		 List<ChameleonAssociation<?>> others = e.associations();
-		 int size = mine.size();
-		 for(int i = 0; i < size; i++) {
-			 mine.get(i).cloneTo((ChameleonAssociation) others.get(i));
-		 }
-		 return e;
-	 }
+//	 /**
+//	  * Clone the descendants of this element and make the clones the descendants of
+//	  * the given element (which will typically be a clone of this element). Type
+//	  * E must be the class of the current element; otherwise e does not have the
+//	  * same associations as the current object.
+//	  * @param e
+//	  * @return
+//	  */
+//	 protected <E extends Element> E cloneDescendantsTo(E e) {
+//		 List<ChameleonAssociation<?>> mine = associations();
+//		 List<ChameleonAssociation<?>> others = e.associations();
+//		 int size = mine.size();
+//		 for(int i = 0; i < size; i++) {
+//			 mine.get(i).cloneTo((ChameleonAssociation) others.get(i));
+//		 }
+//		 return e;
+//	 }
 	 
 	 //    public Iterator<Element> depthFirstIterator() {
 	 //    	return new Iterator<Element>() {

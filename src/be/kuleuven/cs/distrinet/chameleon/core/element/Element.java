@@ -301,7 +301,7 @@ public interface Element {
      @*/
     public List<? extends Element> children();
 
-    public List<? extends Element> reflectiveChildren();
+//    public List<? extends Element> reflectiveChildren();
     /**
      * Return all children of this element that are of the given type.
      */
@@ -1183,7 +1183,7 @@ public interface Element {
      @ signals ModelException (\num_of Property p; properties().contains(p);
      @       p.implies(implied)) != 1; 
      @*/
-    public ChameleonProperty implyingProperty(final ChameleonProperty implied) throws ModelException;
+//    public ChameleonProperty implyingProperty(final ChameleonProperty implied) throws ModelException;
     
     /**
      * Check whether this element has a property from the given property mutex.

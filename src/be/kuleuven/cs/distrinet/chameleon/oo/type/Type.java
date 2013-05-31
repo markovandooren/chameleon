@@ -72,8 +72,6 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	
 	public void removeParameterBlock(ParameterBlock block);
 	
-	public Class<? extends Parameter> kindOf(ParameterBlock block) throws LookupException;
-	
 	public <P extends Parameter> List<P> parameters(Class<P> kind);
 
 	/**

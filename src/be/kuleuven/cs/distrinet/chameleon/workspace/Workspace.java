@@ -1,6 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.workspace;
 
-import java.util.List;
+import java.util.Collection;
 
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.rejuse.association.MultiAssociation;
@@ -13,7 +13,7 @@ public class Workspace {
 	
 	private MultiAssociation<Workspace, Project> _projects = new MultiAssociation<Workspace, Project>(this);
 	
-	public List<Project> projects() {
+	public Collection<Project> projects() {
 		return _projects.getOtherEnds();
 	}
 	

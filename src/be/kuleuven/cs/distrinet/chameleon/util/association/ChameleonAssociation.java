@@ -6,7 +6,7 @@ import be.kuleuven.cs.distrinet.rejuse.association.IAssociation;
 
 public interface ChameleonAssociation<T extends Element> extends IAssociation<Element, T> {
 
-	public void cloneTo(ChameleonAssociation<T> o);
+//	public void cloneTo(ChameleonAssociation<T> o);
 	
 	public Verification verify();
 }

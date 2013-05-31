@@ -77,11 +77,7 @@ public abstract class CompositeTest {
 	protected abstract Project makeProject() throws ConfigException;
 
 	public Project project() throws ConfigException {
-//		long start = System.nanoTime();
-		Project result = makeProject();
-//		long stop = System.nanoTime();
-//		System.out.println("Model input took "+(stop-start)/1000000+" milliseconds.");
-		return result;
+		return makeProject();
 	}
 	/**
 	 * A provider for the namespaces to be tested.

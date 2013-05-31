@@ -1,13 +1,9 @@
 package be.kuleuven.cs.distrinet.chameleon.util.association;
 
-import java.util.Collections;
-import java.util.List;
-
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 
 /**
@@ -82,27 +78,27 @@ public class Multi<T extends Element> extends OrderedMultiAssociation<Element, T
 	
 	private String _role = "elements";
 
-	protected List<T> explicitElements() {
-		return super.getOtherEnds();
-	}
+//	protected List<T> explicitElements() {
+//		return super.getOtherEnds();
+//	}
+//	
+//	protected List<T> implicitElements() {
+//		return Collections.EMPTY_LIST;
+//	}
 	
-	protected List<T> implicitElements() {
-		return Collections.EMPTY_LIST;
-	}
+//	@Override
+//	public List<T> getOtherEnds() {
+//		List<T> result = explicitElements();
+//		result.addAll(implicitElements());
+//		return result;
+//	}
 	
-	@Override
-	public List<T> getOtherEnds() {
-		List<T> result = explicitElements();
-		result.addAll(implicitElements());
-		return result;
-	}
-	
-	@Override
-	public void cloneTo(ChameleonAssociation<T> o) {
-		Multi<T> other = (Multi<T>) o;
-		for(T t: explicitElements()) {
-			other.add((Association)t.clone().parentLink());
-		}
-	}
+//	@Override
+//	public void cloneTo(ChameleonAssociation<T> o) {
+//		Multi<T> other = (Multi<T>) o;
+//		for(T t: getOtherEnds()) {
+//			other.add((Association)t.clone().parentLink());
+//		}
+//	}
 
 }

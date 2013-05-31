@@ -174,10 +174,6 @@ public abstract class WildCardType extends ClassImpl {
 		throw new ChameleonProgrammerException("Trying to add a parameter block to a type alias.");
 	}
 
-	public Class<? extends Parameter> kindOf(ParameterBlock block) throws LookupException {
-		return null;
-	}
-
 	public <P extends Parameter> ParameterBlock<P> parameterBlock(Class<P> kind) {
 		return null;
 	}

@@ -129,8 +129,7 @@ public class ChildrenTest extends ModelTest {
 			if(content != null) {
 					if(content instanceof Association) {
 						Association<Element,Element> asso = (Association<Element,Element>) content;
-						List<Element> elms = asso.getOtherEnds();
-						for (Element child : elms) {
+						for (Element child : (List<Element>) asso.getOtherEnds()) {
 							if(!child.getClass().equals(RootNamespace.class)){
 								reflchildren.add(child);
 							}

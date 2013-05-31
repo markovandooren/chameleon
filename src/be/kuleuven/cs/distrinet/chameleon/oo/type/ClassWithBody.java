@@ -253,15 +253,6 @@ public abstract class ClassWithBody extends ClassImpl {
 		add(_parameters, block);
 	}
 
-	public Class<? extends Parameter> kindOf(ParameterBlock block) throws LookupException {
-		for(ParameterBlock p: parameterBlocks()) {
-			if(p.sameAs(block)) {
-				return p.parameterType();
-			}
-		}
-		return null;
-	}
-
 	public <P extends Parameter> ParameterBlock<P> parameterBlock(Class<P> kind) {
 		for(ParameterBlock p: parameterBlocks()) {
 			if(p.parameterType().equals(kind)) {
