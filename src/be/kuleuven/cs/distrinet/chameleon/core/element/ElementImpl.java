@@ -2,10 +2,10 @@ package be.kuleuven.cs.distrinet.chameleon.core.element;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +58,7 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
  */
 public abstract class ElementImpl implements Element {
 
-	private static Map<Class,List<String>> _excludedFieldNames = new HashMap<Class,List<String>>();
+	private static Map<Class,Set<String>> _excludedFieldNames = new HashMap<Class,Set<String>>();
 
 	public ElementImpl() {
 		//	  	_parentLink.addListener(new AssociationListener<P>() {
@@ -401,25 +401,24 @@ public abstract class ElementImpl implements Element {
 	 * @param fieldName
 	 */
 	public static void excludeFieldName(Class<? extends Element> type, String fieldName) {
-		List<String> list = _excludedFieldNames.get(type);
-		if(list == null) {
-			list = new ArrayList<String>();
-			_excludedFieldNames.put(type, list);
+		Set<String> set = _excludedFieldNames.get(type);
+		if(set == null) {
+			set = new HashSet<String>();
+			_excludedFieldNames.put(type, set);
 		}
-		list.add(fieldName);
+		set.add(fieldName);
 	}
 
 	static {
 		excludeFieldName(ElementImpl.class,"_parentLink");
 	}
-	private static List<String> excludedFieldNames(Class<? extends Element> type) {
+	private static Set<String> excludedFieldNames(Class<? extends Element> type) {
 		return _excludedFieldNames.get(type);
 	}
 
 	private List<Element> reflectiveChildren() {
 		List<Element> reflchildren = new ArrayList<Element>();
 		for (ChameleonAssociation association : associations()) {
-//			reflchildren.addAll(association.getOtherEnds());
 			association.addOtherEndsTo(reflchildren);
 		}
 		return reflchildren;
@@ -446,15 +445,12 @@ public abstract class ElementImpl implements Element {
 
 	private synchronized List<ChameleonAssociation<?>> myAssociations() {
 		if(_associations == null) {
-			_associations = new ArrayList<ChameleonAssociation<?>>();
 			List<Field> fields = getAllFieldsTillClass(getClass());
+			_associations = new ArrayList<ChameleonAssociation<?>>(fields.size());
 			for (Field field : fields) {
 				Object content = getFieldValue(field);
-				if(content instanceof ChameleonAssociation){
-					_associations.add((ChameleonAssociation<?>) content);
-				}
+				_associations.add((ChameleonAssociation<?>) content);
 			}
-			((ArrayList)_associations).trimToSize();
 		}
 		return _associations;
 	}
@@ -466,23 +462,14 @@ public abstract class ElementImpl implements Element {
 
 
 	private static void addAllFieldsTillClass(final Class currentClass, Collection<Field> accumulator){
-		List<Field> fieldList = new ArrayList<Field>(Arrays.asList(currentClass.getDeclaredFields()));
-		new SafePredicate<Field>() {
-
-			@Override
-			public boolean eval(Field field) {
-				final String fieldName = field.getName();
-				return new SafePredicate<String>() {
-
-					@Override
-					public boolean eval(String excludedField) {
-						return !excludedField.equals(fieldName);
-					}
-
-				}.forall(_excludedFieldNames.get(currentClass));
+		Field[] fields = currentClass.getDeclaredFields();
+		for(Field field: fields) {
+			Set<String> set = _excludedFieldNames.get(currentClass);
+			boolean excluded = (set != null) && set.contains(field.getName());
+			if(! excluded && ChameleonAssociation.class.isAssignableFrom(field.getType())) {
+				accumulator.add(field);
 			}
-		}.filter(fieldList);
-		accumulator.addAll(fieldList);
+		}
 		if(currentClass != ElementImpl.class) {
 			Class superClass = currentClass.getSuperclass();
 			accumulator.addAll(getAllFieldsTillClass(superClass));

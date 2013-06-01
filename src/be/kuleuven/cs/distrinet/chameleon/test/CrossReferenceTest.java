@@ -2,12 +2,9 @@ package be.kuleuven.cs.distrinet.chameleon.test;
 
 import static junit.framework.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -45,15 +42,9 @@ public class CrossReferenceTest extends ModelTest {
 	public void testCrossReferences() throws LookupException, InterruptedException, ExecutionException {
   	long startTime = System.nanoTime();
 		Collection<CrossReference> crossReferences = crossReferenceProvider().elements(view());
-		final BlockingQueue<CrossReference> queue = new ArrayBlockingQueue<CrossReference>(crossReferences.size(), true, crossReferences);
-		CallableFactory factory = new QueuePollingCallableFactory(new Action<CrossReference,LookupException>(CrossReference.class) {
-			public void perform(CrossReference cref) throws LookupException {
-				Declaration declaration;
-			    declaration = cref.getElement();
-				assertTrue(declaration != null);
-			} 
-
-		},queue);
+		BlockingQueue<CrossReference> queue = new ArrayBlockingQueue<CrossReference>(crossReferences.size(), true, crossReferences);
+		Action<CrossReference,LookupException> action = createAction();
+		CallableFactory factory = new QueuePollingCallableFactory(action,queue);
 		new FixedThreadCallableExecutor<LookupException>(factory).run();
   	long endTime = System.nanoTime();
   	System.out.println("Testing took "+(endTime-startTime)/1000000+" milliseconds.");
@@ -74,6 +65,15 @@ public class CrossReferenceTest extends ModelTest {
 //  	}
   	
 //  	Association.cleanGetOtherEndsCache();
+	}
+
+	protected Action<CrossReference, LookupException> createAction() {
+		return new Action<CrossReference,LookupException>(CrossReference.class) {
+			public void perform(CrossReference cref) throws LookupException {
+				Declaration declaration = cref.getElement();
+				assertTrue(declaration != null);
+			} 
+		};
 	}
 	
 	private static class EntryComparator implements Comparator<Map.Entry<?,Integer>> {

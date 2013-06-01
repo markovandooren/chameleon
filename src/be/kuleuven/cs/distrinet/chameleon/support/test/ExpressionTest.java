@@ -63,8 +63,6 @@ public class ExpressionTest extends ModelTest {
 	  final BlockingQueue<Type> typeQueue = new ArrayBlockingQueue<Type>(types.size(), true, types);
 	  CallableFactory factory = new QueuePollingCallableFactory(new Action<Type,LookupException>(Type.class) {
 	  	public void perform(Type type) throws LookupException {
-	  		String fullyQualifiedName = type.getFullyQualifiedName();
-//	  		getLogger().info("Actually Testing "+fullyQualifiedName);
 	  		processType(type);
 	  	} 
 	  },typeQueue);
