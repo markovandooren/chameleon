@@ -3,7 +3,12 @@ package be.kuleuven.cs.distrinet.chameleon.workspace;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
+
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
+import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
+import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
 import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
@@ -138,11 +143,23 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	}
 	
 	public List<Document> documents() throws InputException {
-		List<Document> result = new ArrayList<Document>();
-		for(InputSource source: inputSources()) {
-			result.add(source.load());
+		if(_documentsCache == null) {
+			Builder<Document> builder = ImmutableList.<Document>builder();
+			for(InputSource source: inputSources()) {
+				builder.add(source.load());
+			}
+			_documentsCache = builder.build();
 		}
-		return result;
+		return _documentsCache;
+	}
+	
+	private List<Document> _documentsCache;
+	
+	@Override
+	public <E extends Exception> void apply(Action<? extends Element, E> action) throws E, InputException {
+		for(Document document: documents()) {
+			document.apply(action);
+		}
 	}
 	
 	public void removeInputSource(InputSource source) {
@@ -169,12 +186,14 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	private List<InputSourceListener> _listeners = new ArrayList<InputSourceListener>();
 	
 	private void notifyAdded(InputSource source) {
+		flushLocalCache();
 		for(InputSourceListener listener: inputSourceListeners()) {
 			listener.notifyInputSourceAdded(source);
 		}
 	}
 	
 	private void notifyRemoved(InputSource source) {
+		flushLocalCache();
 		for(InputSourceListener listener: inputSourceListeners()) {
 			listener.notifyInputSourceRemoved(source);
 		}
@@ -188,8 +207,13 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		}
 	}
 	
+	protected void flushLocalCache() {
+		_documentsCache = null;
+	}
+	
 	@Override
 	public void flushCache() {
+		flushLocalCache();
 		for(InputSource source:inputSources()) {
 			source.flushCache();
 		}

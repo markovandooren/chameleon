@@ -33,8 +33,8 @@ public abstract class ModelTest extends TestSuite {
     @ post baseRecursive();
     @ post customRecursive();
 	  @*/
-	 public ModelTest(Project provider) throws ProjectException {
-     _project = provider;
+	 public ModelTest(Project project) throws ProjectException {
+     _project = project;
      setUp();
 	 }
 	 

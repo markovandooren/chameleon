@@ -7,6 +7,7 @@ import java.util.List;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.util.Handler;
+import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
 import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
@@ -362,6 +363,12 @@ public class Project {
    @*/
 	public List<Document> sourceDocuments() throws InputException {
 		return sourceElements(Document.class, Handler.PROPAGATE);
+	}
+	
+	public <E extends Exception> void applyToSource(Action<? extends Element, E> action) throws E, InputException {
+		for(View view: views()) {
+			view.applyToSource(action);
+		}
 	}
 	
 	/**

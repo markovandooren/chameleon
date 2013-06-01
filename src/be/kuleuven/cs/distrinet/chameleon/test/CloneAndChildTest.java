@@ -3,7 +3,6 @@ package be.kuleuven.cs.distrinet.chameleon.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,8 +14,11 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
 import be.kuleuven.cs.distrinet.chameleon.test.provider.ElementProvider;
+import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectException;
+import be.kuleuven.cs.distrinet.rejuse.action.Action;
+import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 
 /**
  * A test class for the clone and children methods of elements. It test all elements
@@ -42,8 +44,8 @@ public class CloneAndChildTest extends ModelTest {
    @ post modelProvider() == provider;
    @ post namespaceProvider() == namespaceProvider;
    @*/
-	public CloneAndChildTest(Project provider, ElementProvider<Namespace> namespaceProvider) throws ProjectException {
-		super(provider);
+	public CloneAndChildTest(Project project, ElementProvider<Namespace> namespaceProvider) throws ProjectException {
+		super(project);
 		_namespaceProvider = namespaceProvider;
 	}
 	
@@ -54,13 +56,13 @@ public class CloneAndChildTest extends ModelTest {
 	}
 	
 	@Test
-	public void testClone() throws LookupException {
-		for(Namespace namespace: namespaceProvider().elements(view())) {
-			assertTrue(namespace != null);
-		  for(Element element : namespace.descendants()) {
-		  	test(element);
-		  }
-		}
+	public void testClone() throws LookupException, Nothing, InputException {
+		project().applyToSource(new Action<Element, Nothing>(Element.class) {
+			@Override
+			public void perform(Element object) throws Nothing {
+				test(object);
+			}
+		});
 	}
 
 	/**

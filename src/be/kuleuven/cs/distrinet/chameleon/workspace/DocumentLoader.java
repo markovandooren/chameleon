@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
+import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
+import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 
 
@@ -90,4 +92,13 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
 	 * Flush the cache of all documents loaded by this document loader.
 	 */
 	public void flushCache();
+	
+	/**
+	 * Apply the given action to all document that are loaded by this document loader.
+	 * @param action The action to be applied.
+	 * @throws E
+	 * @throws InputException 
+	 */
+	public <E extends Exception> void apply(Action<? extends Element, E> action) throws E, E, InputException;
+
 }

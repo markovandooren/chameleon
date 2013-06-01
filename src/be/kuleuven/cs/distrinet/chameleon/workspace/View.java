@@ -19,6 +19,7 @@ import be.kuleuven.cs.distrinet.chameleon.plugin.ViewPlugin;
 import be.kuleuven.cs.distrinet.chameleon.plugin.ViewProcessor;
 import be.kuleuven.cs.distrinet.chameleon.util.Handler;
 import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoaderImpl.TunnelException;
+import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
 import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
@@ -178,8 +179,14 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
 	}
 
 	private OrderedMultiAssociation<View, DocumentLoader> _binaryLoaders = new OrderedMultiAssociation<View, DocumentLoader>(this);
+	{
+		_binaryLoaders.enableCache();
+	}
 
 	private OrderedMultiAssociation<View, DocumentLoader> _sourceLoaders = new OrderedMultiAssociation<View, DocumentLoader>(this);
+	{
+		_sourceLoaders.enableCache();
+	}
 
 	private List<ViewListener> _listeners = new ArrayList<ViewListener>();
 	
@@ -317,4 +324,11 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
 		}
 		return result;
 	}
+	
+	public <E extends Exception> void applyToSource(Action<? extends Element, E> action) throws E, InputException {
+		for(DocumentLoader loader:sourceLoaders()) {
+			loader.apply(action);
+		}
+	}
+
 }
