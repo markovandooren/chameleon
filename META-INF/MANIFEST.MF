@@ -10,7 +10,8 @@ Bundle-ClassPath: bin/.,
 Bundle-Activator: be.kuleuven.cs.distrinet.chameleon.eclipse.ChameleonEditorPlugin
 Bundle-Vendor: KU Leuven
 Bundle-Localization: plugin
-Export-Package: be.kuleuven.cs.distrinet.chameleon.aspect.core.build,
+Export-Package: be.kuleuven.cs.distrinet.chameleon.analysis,
+ be.kuleuven.cs.distrinet.chameleon.aspect.core.build,
  be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice,
  be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice.modifier,
  be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice.property,
@@ -96,6 +97,7 @@ Export-Package: be.kuleuven.cs.distrinet.chameleon.aspect.core.build,
  be.kuleuven.cs.distrinet.chameleon.oo.type.generics,
  be.kuleuven.cs.distrinet.chameleon.oo.type.inheritance,
  be.kuleuven.cs.distrinet.chameleon.oo.variable,
+ be.kuleuven.cs.distrinet.chameleon.oo.view,
  be.kuleuven.cs.distrinet.chameleon.plugin,
  be.kuleuven.cs.distrinet.chameleon.plugin.build,
  be.kuleuven.cs.distrinet.chameleon.plugin.output,
