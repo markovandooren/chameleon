@@ -7,7 +7,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 
 
@@ -32,7 +32,7 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
    @*/
 	public Project project();
 
-	public Association<? extends DocumentLoader, ? super View> viewLink();
+	public SingleAssociation<? extends DocumentLoader, ? super View> viewLink();
 	
 	public View view();
 	
