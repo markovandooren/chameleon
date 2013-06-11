@@ -30,7 +30,7 @@ public class AnnotatedMethodInvocationExpression extends MethodInvocationPointcu
 		
 		for (Modifier modifier : modifiers) {
 			if (modifier instanceof AnnotationModifier) {
-				if (((AnnotationModifier) modifier).name().equals(reference().referencendName()))
+				if (((AnnotationModifier) modifier).typeReference().getElement().name().equals(reference().referencendName()))
 					return new MatchResult<MethodInvocation>(this, joinpoint);
 			}
 		}
