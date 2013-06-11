@@ -4,6 +4,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
@@ -13,6 +14,20 @@ public class Single<T extends Element> extends SingleAssociation<Element, T> imp
 		super(element);
 	}
 
+	public Single(Element element, Class<T> type) {
+		super(element);
+		_type = type;
+	}
+	
+	private Class<T> _type;
+
+	@Override
+	protected boolean isValidElement(Association<? extends T, ? super Element> relation) {
+		boolean result = super.isValidElement(relation) && ((_type == null || relation == null || _type.isInstance(relation.getObject())));
+//		Util.debug(! result);
+		return result;
+	}
+	
 	public Single(Element element, String role) {
 		super(element);
 		setRole(role);

@@ -18,7 +18,13 @@ public abstract class ElementWithModifiersImpl extends ElementImpl implements El
   /*************
    * MODIFIERS *
    *************/
-  private Multi<Modifier> _modifiers = new Multi<Modifier>(this);
+  private Multi<Modifier> _modifiers = new Multi<Modifier>(this) {
+  	//FIXME Tests fail when this is activated, even with the new init logic
+  	//      for _propertyCache in Element.
+//  	protected void fireElementAdded(Modifier addedElement) {flushLocalCache();};
+//  	protected void fireElementRemoved(Modifier addedElement) {flushLocalCache();};
+//  	protected void fireElementReplaced(Modifier oldElement, Modifier newElement) {flushLocalCache();};
+  };
 
 //  public abstract ElementWithModifiersImpl clone();
   

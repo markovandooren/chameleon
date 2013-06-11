@@ -184,14 +184,8 @@ public class Document extends ElementImpl {
 	
 	@Deprecated
 	public Document cloneTo(View view) {
-//		Document clone = clone(this);
-		Document clone = (Document) clone(new Mapper(){
-			
-			@Override
-			public void process(Element original, Element clone) {
-//				clone.setOrigin(original);
-			}
-	});
+		Document clone = clone(this);
+//		Document clone = (Document) clone();
 		FakeDocumentLoader pl = new FakeDocumentLoader();
 		InputSource is = new FakeInputSource(clone,pl);
 		try {
