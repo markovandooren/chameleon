@@ -204,14 +204,14 @@ public abstract class ElementImpl implements Element {
 	}
 	
 	public final <T extends Element> T clone(T element) {
-		return Util.clone(element);
+		return (T) element.clone();
 	}
 	
 	public Element clone() {
-		return clone((Mapper)null);
-	}
-
-	public final Element clone(final Mapper mapper) {
+//		return clone((Mapper)null);
+//	}
+//
+//	public final Element clone(final Mapper mapper) {
 		Element result = cloneSelf();
 		if(canHaveChildren()) {
 			List<ChameleonAssociation<?>> mine = myAssociations();
@@ -223,15 +223,15 @@ public abstract class ElementImpl implements Element {
 				m.apply(new Action<Element,Nothing>(Element.class) {
 					@Override
 					public void perform(Element myElement) {
-						Element clone = myElement.clone(mapper);
+						Element clone = myElement.clone();
 						clone.parentLink().connectTo((Association)o);
 					}
 				});
 			}
 		}
-		if(mapper != null) {
-			mapper.process(this, result);
-		}
+//		if(mapper != null) {
+//			mapper.process(this, result);
+//		}
 		return result;
 	}
 	
@@ -985,9 +985,7 @@ public abstract class ElementImpl implements Element {
 	 public synchronized Ternary is(ChameleonProperty property) {
 		 Ternary result = null;
 		 if(Config.cacheElementProperties()) {
-			 if(_propertyCache == null) {
-				 _propertyCache = new HashMap<ChameleonProperty,Ternary>();
-			 } else {
+			 if(_propertyCache != null) {
 				 result = _propertyCache.get(property);
 			 }
 		 }
@@ -997,10 +995,16 @@ public abstract class ElementImpl implements Element {
 				 // Check if the properties() set implies the given property.
 				 result = internalProperties().implies(property);
 				 if(Config.cacheElementProperties()) {
+					 if(_propertyCache == null) {
+						 _propertyCache = new HashMap<ChameleonProperty,Ternary>();
+					 }
 					 _propertyCache.put(property, result);
 				 }
 			 } else {
 				 if(Config.cacheElementProperties()) {
+					 if(_propertyCache == null) {
+						 _propertyCache = new HashMap<ChameleonProperty,Ternary>();
+					 }
 					 _propertyCache.put(property, result);
 				 }
 			 }
@@ -1384,8 +1388,9 @@ public abstract class ElementImpl implements Element {
 	  */
 	 public synchronized void flushLocalCache() {
 		 _propertyCache = null;
+		 _properties = null;
 	 }
-
+	 
 	 public Namespace namespace() {
 		 NamespaceDeclaration ancestor = nearestAncestor(NamespaceDeclaration.class);
 		 if(ancestor != null) {
