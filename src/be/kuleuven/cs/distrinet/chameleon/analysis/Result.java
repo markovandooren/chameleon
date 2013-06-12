@@ -1,4 +1,4 @@
-package be.kuleuven.cs.distrinet.chameleon.core.analysis;
+package be.kuleuven.cs.distrinet.chameleon.analysis;
 
 
 public abstract class Result<T extends Result> {

@@ -320,9 +320,11 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 
 	public List<Import> imports() {
 //		use guave list builder
+		List<? extends Import> implicitImports = implicitImports();
+		List<? extends Import> explicitImports = explicitImports();
 		return ImmutableList.<Import>builder()
-		  .addAll(explicitImports())
-		  .addAll(implicitImports())
+		  .addAll(explicitImports)
+		  .addAll(implicitImports)
 		  .build();
 
 	}

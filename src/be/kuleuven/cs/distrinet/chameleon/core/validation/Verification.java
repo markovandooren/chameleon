@@ -1,6 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.core.validation;
 
-import be.kuleuven.cs.distrinet.chameleon.core.analysis.Result;
+import be.kuleuven.cs.distrinet.chameleon.analysis.Result;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 
 /**

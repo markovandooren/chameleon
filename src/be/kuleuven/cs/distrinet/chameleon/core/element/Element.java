@@ -952,7 +952,7 @@ public interface Element {
      @*/
     public Element clone();
     
-    public Element clone(Mapper mapper);
+//    public Element clone(Mapper mapper);
     
     /**
      * Return the lexical lookup context for the given child element. The

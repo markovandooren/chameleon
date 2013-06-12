@@ -250,6 +250,12 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
 		return result;
 	}
 	
+	public boolean isSource(Element element) {
+		Document doc = element.nearestAncestorOrSelf(Document.class);
+		DocumentLoader loader = doc.inputSource().loader();
+		return loader.viewLink().getOtherRelation() == _sourceLoaders;
+	}
+	
 	
   private ListMapWrapper<ViewProcessor> _processors = new ListMapWrapper<ViewProcessor>();
 

@@ -3,27 +3,31 @@ package be.kuleuven.cs.distrinet.chameleon.oo.modifier;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.ModifierImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
+import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
+import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 
 public class AnnotationModifier extends ModifierImpl {
 
-	public AnnotationModifier(String name) {
-		setName(name);
+	public AnnotationModifier(TypeReference tref) {
+		setTypeReference(tref);
 	}
+	
+	private AnnotationModifier() {}
 	
 	@Override
 	protected AnnotationModifier cloneSelf() {
-		return new AnnotationModifier(name());
+		return new AnnotationModifier();
 	}
 
-	private String _name;
+	private Single<TypeReference> _typeReference = new Single<>(this);
 	
-	public String name() {
-		return _name;
+	public TypeReference typeReference() {
+		return _typeReference.getOtherEnd();
 	}
 	
-	public void setName(String name) {
-		_name = name;
+	public void setTypeReference(TypeReference tref) {
+		set(_typeReference,tref);
 	}
 
 	public PropertySet<Element, ChameleonProperty> impliedProperties() {
