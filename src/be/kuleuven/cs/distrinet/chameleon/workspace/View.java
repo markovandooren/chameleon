@@ -252,8 +252,12 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
 	
 	public boolean isSource(Element element) {
 		Document doc = element.nearestAncestorOrSelf(Document.class);
-		DocumentLoader loader = doc.inputSource().loader();
-		return loader.viewLink().getOtherRelation() == _sourceLoaders;
+		// Namespace are not in documents and thus cannot be source elements.
+		if(doc != null) {
+			DocumentLoader loader = doc.inputSource().loader();
+			return loader.viewLink().getOtherRelation() == _sourceLoaders;
+		}
+		return false;
 	}
 	
 	
