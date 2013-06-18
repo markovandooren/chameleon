@@ -13,6 +13,9 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.inheritance.InheritanceRelation;
 import be.kuleuven.cs.distrinet.chameleon.support.member.simplename.method.NormalMethod;
 import be.kuleuven.cs.distrinet.chameleon.support.member.simplename.method.RegularMethodInvocation;
+import be.kuleuven.cs.distrinet.chameleon.support.member.simplename.operator.infix.InfixOperatorInvocation;
+import be.kuleuven.cs.distrinet.chameleon.support.member.simplename.operator.postfix.PostfixOperatorInvocation;
+import be.kuleuven.cs.distrinet.chameleon.support.member.simplename.operator.prefix.PrefixOperatorInvocation;
 import be.kuleuven.cs.distrinet.chameleon.support.modifier.Constructor;
 
 /**
@@ -46,6 +49,18 @@ public abstract class ObjectOrientedFactory extends Factory {
 	 */
 	public MethodInvocation createInvocation(String name, CrossReferenceTarget target) {
 		return new RegularMethodInvocation(name, target);
+	}
+	
+	public MethodInvocation createInfixOperatorInvocation(String name, CrossReferenceTarget target) {
+		return new InfixOperatorInvocation(name, target);
+	}
+
+	public MethodInvocation createPrefixOperatorInvocation(String name, CrossReferenceTarget target) {
+		return new PrefixOperatorInvocation(name, target);
+	}
+
+	public MethodInvocation createPostfixOperatorInvocation(String name, CrossReferenceTarget target) {
+		return new PostfixOperatorInvocation(name, target);
 	}
 
 	public Method createNormalMethod(String name, TypeReference returnType) {
