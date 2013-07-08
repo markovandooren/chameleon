@@ -9,6 +9,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.Collector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
@@ -18,6 +19,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameterBlock;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.FormalParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.VariableContainer;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 /**
@@ -106,11 +108,11 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
    * @throws ModelException
    */
   public List<Type> formalParameterTypes() throws LookupException {
-    List<Type> result = new ArrayList<Type>();
-    for(FormalParameter param:formalParameters()) {
-      result.add(param.getType());
-    }
-    return result;
+  	List<Type> result = new ArrayList<Type>();
+  	for (FormalParameter param : formalParameters()) {
+  		result.add(param.getType());
+  	}
+  	return result;
   }
 
 //  /**
@@ -186,6 +188,22 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
   	}
   	return _local;
   }
+
+  // The old method should suffice. The target of a type reference in Java should not be a SpecificReference<TargetDeclaration> because
+  // that accepts a variable as well. If the variable does not match, we avoid the loop and still allow type anchors
+  //  because for a type anchor, you know that the path can start with a parameter, so there  SpecificReference<TargetDeclaration> will do.
+  
+//	public LookupContext localLookupStrategy() {
+//	  if(parameterBlock() != null) {
+//	  	return parameterBlock().localContext();
+//	  } else {
+//	  	return new LookupContext(){
+//				@Override
+//				public <D extends Declaration> void lookUp(Collector<D> selector) throws LookupException {
+//				}
+//			};
+//	  }
+//	}
   
 	@Override
 	public LookupContext localContext() throws LookupException {
@@ -234,6 +252,11 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
 	public List<TypeParameter> typeParameters() {
 		TypeParameterBlock parameterBlock = parameterBlock();
 		return (parameterBlock == null ? new ArrayList<TypeParameter>() :parameterBlock.parameters());
+	}
+	
+	public int nbTypeParameters() {
+		TypeParameterBlock parameterBlock = parameterBlock();
+		return (parameterBlock == null ? 0 : parameterBlock.nbTypeParameters());
 	}
 	
 	/**
