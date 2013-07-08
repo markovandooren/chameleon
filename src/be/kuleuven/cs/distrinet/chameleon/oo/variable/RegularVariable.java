@@ -15,6 +15,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.statement.CheckedExceptionList;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.ExceptionSource;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
+import be.kuleuven.cs.distrinet.chameleon.util.StackOverflowTracer;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
@@ -123,16 +124,15 @@ public abstract class RegularVariable extends VariableImpl implements ExceptionS
   public String getName() {
     return signature().name();
   }
-
+  
   public Type getType() throws LookupException {
-    Type result = getTypeReference().getElement();
-    if(result != null) {
-      return result;
-    }
-    else {
-      getTypeReference().getElement();
-      throw new LookupException("getType on regular variable returned null.");
-    }
+  	Type result = getTypeReference().getElement();
+  	if(result != null) {
+  		return result;
+  	}
+  	else {
+  		throw new LookupException("getType on regular variable returned null.");
+  	}
   }
 
  // FIXME Code duplication from ElementWithModifiersImpl
