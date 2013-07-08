@@ -17,4 +17,8 @@ public class LazyFileInputSource extends LazyStreamInputSource implements IFileI
 	
 	private File _file;
 
+  @Override
+  public String toString() {
+  	return "file: "+ _file.toString();
+  }
 }

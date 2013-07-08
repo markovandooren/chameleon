@@ -22,5 +22,8 @@ public class FileInputSource extends StreamInputSource implements IFileInputSour
 		setNamespace(ns);
 	}	
 	
-
+  @Override
+  public String toString() {
+  	return "file: "+ _file.toString();
+  }
 }
