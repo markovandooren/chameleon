@@ -3,13 +3,13 @@ package be.kuleuven.cs.distrinet.chameleon.oo.type;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
-import be.kuleuven.cs.distrinet.chameleon.core.reference.SpecificReference;
+import be.kuleuven.cs.distrinet.chameleon.core.reference.SimpleReference;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
 
 /**
  * @author Marko van Dooren
  */
-public class BasicTypeReference extends SpecificReference<Type> implements TypeReference {
+public class BasicTypeReference extends SimpleReference<Type> implements TypeReference {
 
   public BasicTypeReference(String fqn) {
     super(fqn, Type.class);

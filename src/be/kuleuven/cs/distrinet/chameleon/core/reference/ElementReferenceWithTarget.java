@@ -29,10 +29,10 @@ public abstract class ElementReferenceWithTarget<R extends Declaration> extends 
 			 return null;
 		 }
 		 //ElementReference<? extends ElementReference<?,? extends TargetDeclaration>, ? extends TargetDeclaration> target = new SpecificReference<SpecificReferece,TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
-		 SpecificReference<TargetDeclaration> target = new SpecificReference<TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
+		 SimpleReference<TargetDeclaration> target = new SimpleReference<TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
 		 qn = Util.getAllButFirstPart(qn);
 		 while(qn != null) {
-			 SpecificReference<TargetDeclaration> newTarget = new SpecificReference<TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
+			 SimpleReference<TargetDeclaration> newTarget = new SimpleReference<TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
 			 newTarget.setTarget(target);
 			 target = newTarget;
 			 qn = Util.getAllButFirstPart(qn);

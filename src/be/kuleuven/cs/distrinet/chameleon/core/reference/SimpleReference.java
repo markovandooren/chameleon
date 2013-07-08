@@ -1,21 +1,30 @@
 package be.kuleuven.cs.distrinet.chameleon.core.reference;
 
+import java.util.List;
+
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.QualifiedName;
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectorWithoutOrder;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 
-public class SimpleReference<D extends Declaration> extends SpecificReference<D> {
+public class SimpleReference<D extends Declaration> extends ElementReferenceWithTarget<D> {
 
+	private Class<D> _specificClass;
+	
 	public SimpleReference(CrossReferenceTarget target, String name, Class<D> specificClass) {
-		super(target,name,specificClass);
+		this(target, new SimpleNameSignature(name), specificClass);
 	}
 
-	public SimpleReference(CrossReferenceTarget  target, SimpleNameSignature signature, Class<D> specificClass) {
-		super(target,signature,specificClass);
+	public SimpleReference(CrossReferenceTarget  target, Signature signature, Class<D> specificClass) {
+		super(target, signature);
+		_specificClass = specificClass;
 	}
 
 	public SimpleReference(QualifiedName name, Class<D> specificClass) {
-		super(name, specificClass);
+		this(targetOf(name, specificClass), Util.clone(name.lastSignature()), specificClass);
 	}
 
 	/**
@@ -25,7 +34,8 @@ public class SimpleReference<D extends Declaration> extends SpecificReference<D>
 	 * @param specificClass
 	 */
 	public SimpleReference(String fqn, Class<D> specificClass) {
-		super(fqn, specificClass);
+		super(fqn);
+		_specificClass = specificClass;
 	}
 
 	/**
@@ -36,5 +46,32 @@ public class SimpleReference<D extends Declaration> extends SpecificReference<D>
 	   return new SimpleReference<D>(null, (SimpleNameSignature)null, specificType());
 	}
 
+	public static <DD extends Declaration> CrossReference targetOf(QualifiedName name, Class<DD> specificClass) {
+		SimpleReference current = null;
+		List<Signature> signatures = name.signatures();
+		int size = signatures.size();
+		for(int i = 0; i < size-1; i++) {
+			current = new SimpleReference<DD>(current, Util.clone(signatures.get(i)), specificClass);
+		}
+		return current;
+	}
+	
+	private DeclarationSelector<D> _selector;
+	
+	@Override
+	public DeclarationSelector<D> selector() {
+		if(_selector == null) {
+			_selector = new SelectorWithoutOrder<D>(_specificClass) {
+				public Signature signature() {
+					return SimpleReference.this.signature();
+				}
+			};
+		}
+		return _selector;
+	}
+	
+	public Class<D> specificType() {
+		return _specificClass;
+	}
 
 }

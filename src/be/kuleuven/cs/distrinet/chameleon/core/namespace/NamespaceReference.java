@@ -2,12 +2,12 @@ package be.kuleuven.cs.distrinet.chameleon.core.namespace;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
-import be.kuleuven.cs.distrinet.chameleon.core.reference.SpecificReference;
+import be.kuleuven.cs.distrinet.chameleon.core.reference.SimpleReference;
 
 /**
  * @author Marko van Dooren
  */
-public class NamespaceReference extends SpecificReference<Namespace> {
+public class NamespaceReference extends SimpleReference<Namespace> {
 	
 
   public NamespaceReference(CrossReferenceTarget target, String name) {
