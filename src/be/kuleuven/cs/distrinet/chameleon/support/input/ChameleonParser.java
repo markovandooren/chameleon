@@ -34,9 +34,9 @@ public abstract class ChameleonParser<L extends Language> extends Parser impleme
 		}
 
 	   public void check_null(Object o) {
-//	     if(o == null) {
-//	       throw new RuntimeException("Object returned by parsing rule is null.");
-//	     }
+	     if(o == null) {
+	       throw new RuntimeException("Object returned by parsing rule is null.");
+	     }
 	   }
 	   
 	   public void check_stack(Object s) {
