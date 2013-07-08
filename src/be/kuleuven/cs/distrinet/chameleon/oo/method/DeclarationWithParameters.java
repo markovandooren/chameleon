@@ -74,6 +74,10 @@ public abstract class DeclarationWithParameters extends MemberImpl implements De
 		  return header().typeParameters();
 		}
 		
+		public int nbTypeParameters() {
+			return header().nbTypeParameters();
+		}
+		
 		/**
 		 * Return the index-th type parameter. Indices start at 1.
 		 */
