@@ -3,7 +3,9 @@
  */
 package be.kuleuven.cs.distrinet.chameleon.core.lookup;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
@@ -136,5 +138,30 @@ public abstract class SelectorWithoutOrder<D extends Declaration> extends TwoPha
 
 	public String toString() {
 		return getClass().getName() +" class: "+selectedClass().getName()+" "+signature();
+	}
+	
+	/**
+	 * The cache used by a signature equality selector is:
+	 * 
+	 * Map<String,Declaration>
+	 */
+	@Override
+	protected void updateCache(Cache cache, D selection) {
+		Map<String,Declaration> map = (Map<String, Declaration>) cache.get(this);
+		if(map == null) {
+			map = new HashMap<String,Declaration>();
+			cache.put(this, map);
+		}
+		map.put(signature().name(), selection);
+	}
+	
+	@Override
+	protected D readCache(Cache cache) {
+		Map<String,Declaration> map = (Map<String, Declaration>) cache.get(this);
+		if(map != null) {
+			return (D) map.get(signature().name());
+		} else {
+			return null;
+		}
 	}
 }

@@ -74,11 +74,18 @@ public class Cache {
 //	private Map<String,Map<Class,List<? extends Declaration>>> _nameCache;
 
 	public synchronized void put(DeclarationSelector selector, Object object) {
+		if(_cache == null) {
+			_cache = new HashMap<Class,Object>();
+		}
 		_cache.put(selector.getClass(), object);
 	}
 	
 	public synchronized Object get(DeclarationSelector selector) {
-		return  _cache.get(selector.getClass());
+		if(_cache != null) {
+			return  _cache.get(selector.getClass());
+		} else {
+			return null;
+		}
 	}
 
 	/**
