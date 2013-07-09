@@ -59,6 +59,32 @@ public abstract class DeclarationSelector<D extends Declaration> {
   public abstract Class<D> selectedClass();
   
   /**
+   * Only called from within a @link{Cache} to store the cache of this selector.
+   * The declaration is best suited for knowing how its selections can be cached.
+   * For example, a selector that can select declarations of multiple types
+   * needs a different cache than a selector that can only select declarations
+   * of a single type. A generic caching scheme would be too inefficient in terms
+   * of object creation.
+   * 
+   * The default implementation does nothing.
+   * @param cache
+   */
+  protected void updateCache(Cache cache, D selection) {
+  	
+  }
+  
+  /**
+   * Only called from within a @link{Cache} to read the cache of this selector.
+   * 
+   * The default implementation returns null.
+   * @param cache
+   * @return
+   */
+  protected D readCache(Cache cache) {
+  	return null;
+  }
+  
+  /**
    * Return the list of declarations in the given set that are selected.
    * 
    * @param declarators

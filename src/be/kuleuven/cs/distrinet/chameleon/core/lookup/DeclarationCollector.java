@@ -16,16 +16,14 @@ public class DeclarationCollector<D extends Declaration> extends Collector<D> {
 	}
 	
 	protected DeclarationCollector(){}
-	
+	    
 	public void process(List<? extends Declaration> candidates) throws LookupException {
 		List<Declaration> tmp = (List<Declaration>) candidates;
-		List<D> t=(List<D>) tmp;
-		if(_accumulator != null) {
-    	tmp.addAll(_accumulator);
-    	t = selector().selection(tmp);
-    }
-		if(! t.isEmpty()) {
-			_accumulator = t;
+		int size = candidates.size();
+		if(size == 1) {
+			_accumulator = (D) candidates.get(0);
+		} else if(size > 1) {
+			throw new LookupException("Multiple matches found using selector "+selector().toString(),selector());	
 		}
 	}
 	
@@ -33,34 +31,19 @@ public class DeclarationCollector<D extends Declaration> extends Collector<D> {
 		if(_accumulator == null) {
 			throw new LookupException("No result has been found using selector "+selector().toString(),selector());
 		} else {
-			int size = _accumulator.size();
-			if(size == 1) {
-				return _accumulator.get(0);
-			} else {
-				throw new LookupException("Multiple matches found using selector "+selector().toString(),selector());
-			}
+			return _accumulator;
 		}
 	}
 	
-//  /**
-//   * Return the declarations of the given declaration container to which selection is applied.
-//   * This round-trip allows both the container and the selector to filter the candidates.
-//   * 
-//   * The default result is container.declarations(this), but clients cannot rely on that.
-//   */
-//  public void process(DeclarationContainer container) throws LookupException {
-//  	container.declarations(selector());
-//  }
-
 	public boolean willProceed() throws LookupException {
 		return _accumulator == null;
 	}
 		
-	private List<D> _accumulator;
+	private D _accumulator;
 
 	@Override
-	void storeCachedResult(List cached) {
-		_accumulator = cached;
+	void storeCachedResult(Declaration cached) {
+		_accumulator = (D) cached;
 	}
 	
 }
