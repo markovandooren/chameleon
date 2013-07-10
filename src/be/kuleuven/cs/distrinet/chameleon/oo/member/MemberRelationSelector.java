@@ -1,17 +1,13 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.member;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectorWithoutOrder.EqualityOrder;
-import be.kuleuven.cs.distrinet.chameleon.core.relation.WeakPartialOrder;
 
 public class MemberRelationSelector<D extends Declaration> extends DeclarationSelector<D> {
 
@@ -93,23 +89,16 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
 
 	@Override
 	public List<? extends Declaration> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
-  	Map<D,Declaration> tmp = new HashMap<D,Declaration>();
-  	List<D> Ds = new ArrayList<D>();
-  	Class<D> selectedClass = selectedClass();
+  	List<Declaration> result = new ArrayList<Declaration>();
   	for(Declaration selectionCandidate: selectionCandidates) {
   		if(selectedBasedOnName(selectionCandidate.signature())) {
   			Declaration selectionDeclaration = selectionCandidate.selectionDeclaration();
-  			if(selectedClass.isInstance(selectionDeclaration)) {
+  			if(_selectedClass.isInstance(selectionDeclaration)) {
   				if(selectedRegardlessOfName((D)selectionDeclaration)) {
-  					tmp.put((D) selectionDeclaration,selectionCandidate.declarator());
-  					Ds.add((D) selectionDeclaration);
+  					result.add(selectionCandidate.declarator());
   				}
   			}
   		} 
-  	}
-  	List<Declaration> result = new ArrayList<Declaration>();
-  	for(D d: Ds) {
-  		result.add(tmp.get(d));
   	}
   	return result;
 

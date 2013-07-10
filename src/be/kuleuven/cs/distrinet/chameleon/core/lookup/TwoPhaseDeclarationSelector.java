@@ -67,16 +67,6 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
   	return result;
   }
 
-//  protected D actualDeclaration(Declaration declarator) throws LookupException {
-//  	Declaration selectionDeclaration = declarator.selectionDeclaration();
-//		Declaration actualDeclaration = selectionDeclaration.actualDeclaration();
-//		if(selectedClass().isInstance(actualDeclaration)) {
-//			return (D) actualDeclaration;
-//		} else {
-//			throw new LookupException("The actual declaration is of type "+actualDeclaration.getClass().getName()+" but a declaration of type "+selectedClass().getName()+" was expected.");
-//		}
-//  }
-
   /**
    * Return the list of declarations in the given set that are selected.
    * 

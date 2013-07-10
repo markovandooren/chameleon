@@ -3,6 +3,7 @@
  */
 package be.kuleuven.cs.distrinet.chameleon.core.lookup;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.relation.WeakPartialOrder;
  *
  * @param <D> The type of the declaration that is selected by this selector.
  */
-public abstract class SelectorWithoutOrder<D extends Declaration> extends TwoPhaseDeclarationSelector<D> {
+public abstract class SelectorWithoutOrder<D extends Declaration> extends DeclarationSelector<D> {
 	
 	/**
 	 * Create a new selector that selects declarations of the type represented by the given class object.
@@ -51,31 +52,31 @@ public abstract class SelectorWithoutOrder<D extends Declaration> extends TwoPha
    @*/
 	public abstract Signature signature();
 	
-	/**
-	 * Determine whether the given declaration is selected regardless of its name. The name of the signature
-	 * must be ignored during this check. Other elements from a signature, such as the arguments types of a
-	 * method, still have to be checked.
-	 * 
-	 * The default implementation returns true.
-	 * 
-	 * DESIGN: the selection procedure is split in two with renaming in mind.
-	 */
- /*@
-   @ public behavior
-   @
-   @ pre declaration != null;
-   @*/
-	@Override
-	public boolean selectedRegardlessOfName(D declaration) throws LookupException {
-		return true;
-	}
+//	/**
+//	 * Determine whether the given declaration is selected regardless of its name. The name of the signature
+//	 * must be ignored during this check. Other elements from a signature, such as the arguments types of a
+//	 * method, still have to be checked.
+//	 * 
+//	 * The default implementation returns true.
+//	 * 
+//	 * DESIGN: the selection procedure is split in two with renaming in mind.
+//	 */
+// /*@
+//   @ public behavior
+//   @
+//   @ pre declaration != null;
+//   @*/
+//	@Override
+//	public boolean selectedRegardlessOfName(D declaration) throws LookupException {
+//		return true;
+//	}
 
-	/**
-	 * This method does nothing because this selector has no real order.
-	 */
-	@Override
-	protected void applyOrder(List<D> tmp) throws LookupException {
-	}
+//	/**
+//	 * This method does nothing because this selector has no real order.
+//	 */
+//	@Override
+//	protected void applyOrder(List<D> tmp) throws LookupException {
+//	}
 
 	private Class<D> _class;
 	
@@ -93,33 +94,28 @@ public abstract class SelectorWithoutOrder<D extends Declaration> extends TwoPha
 		return _class;
 	}
 	
-	/**
-	 * A class that represents a relation that only contains a pair of elements when they are equal.
-	 * 
-	 * @author Marko van Dooren
-	 *
-	 * @param <D> The type of the elements to which the relation applies.
-	 */
-	public static class EqualityOrder<D extends Element> extends WeakPartialOrder<D> {
-		
-		/**
-		 * Two elements are in the relation if they are equal.
-		 */
-	 /*@
-	   @ also public behavior
-	   @
-	   @ post \result == first.sameAs(second);
-	   @*/
-		@Override
-		public boolean contains(D first, D second) throws LookupException {
-			return first.sameAs(second);
-		}
-	}
-
-	@Override
-	public boolean selectedBasedOnName(Signature signature) throws LookupException {
-		return signature!=null && signature.sameAs(signature());
-	}
+//	/**
+//	 * A class that represents a relation that only contains a pair of elements when they are equal.
+//	 * 
+//	 * @author Marko van Dooren
+//	 *
+//	 * @param <D> The type of the elements to which the relation applies.
+//	 */
+//	public static class EqualityOrder<D extends Element> extends WeakPartialOrder<D> {
+//		
+//		/**
+//		 * Two elements are in the relation if they are equal.
+//		 */
+//	 /*@
+//	   @ also public behavior
+//	   @
+//	   @ post \result == first.sameAs(second);
+//	   @*/
+//		@Override
+//		public boolean contains(D first, D second) throws LookupException {
+//			return first.sameAs(second);
+//		}
+//	}
 
 	@Override
 	public String selectionName(DeclarationContainer container) {
@@ -154,4 +150,53 @@ public abstract class SelectorWithoutOrder<D extends Declaration> extends TwoPha
 			return null;
 		}
 	}
+
+  protected D selection(Declaration declarator) throws LookupException {
+  	// We first perform the checks on the selectionDeclaration, since a signature check may be
+  	// very expensive.
+  	D result = null;
+  	Signature signature = declarator.signature();
+		if(signature!=null && signature.sameAs(signature())) {
+  		Declaration selectionDeclaration = declarator.selectionDeclaration();
+  		if(_class.isInstance(selectionDeclaration)) {
+  			result = (D) selectionDeclaration.actualDeclaration();
+  		}
+  	}
+  	return result;
+  }
+  
+  @Override
+  public List<D> selection(List<? extends Declaration> declarators) throws LookupException {
+  	List<D> tmp = new ArrayList<D>();
+  	for(Declaration decl: declarators) {
+  		D e = selection(decl);
+  		if(e != null) {
+  			tmp.add(e);
+  		}
+  	}
+    return tmp;
+  }
+
+
+  /**
+   * Return the list of declarations in the given set that are selected.
+   * 
+   * @param selectionCandidates
+   *        The list containing the declarations that are checked for a match with {@link #selects(Signature)}}.
+   * @return
+   * @throws LookupException
+   */
+  public List<? extends Declaration> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
+  	List<Declaration> result = new ArrayList<Declaration>();
+  	for(Declaration selectionCandidate: selectionCandidates) {
+  		Signature signature = selectionCandidate.signature();
+			if(signature!=null && signature.sameAs(signature())) {
+  			Declaration selectionDeclaration = selectionCandidate.selectionDeclaration();
+  			if(_class.isInstance(selectionDeclaration)) {
+  				result.add(selectionCandidate.declarator());
+  			}
+  		} 
+  	}
+  	return result;
+  }
 }
