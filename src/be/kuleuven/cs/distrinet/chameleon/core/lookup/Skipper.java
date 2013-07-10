@@ -30,10 +30,10 @@ public class Skipper<D extends Declaration> extends DeclarationSelector<D> {
 		}
 	}
 
-	@Override
-	public WeakPartialOrder order() {
-		return _original.order();
-	}
+//	@Override
+//	public WeakPartialOrder order() {
+//		return _original.order();
+//	}
 
 //	@Override
 //	public boolean selectedBasedOnName(Signature signature) throws LookupException {

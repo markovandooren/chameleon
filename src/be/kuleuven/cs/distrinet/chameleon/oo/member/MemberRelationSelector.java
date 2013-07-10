@@ -54,7 +54,8 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
   			tmp.add(e);
   		}
   	}
-  	order().removeBiggerElements(tmp);
+  	//This is no order, so the following line can be removed.
+  	//order().removeBiggerElements(tmp);
     return tmp;
 	}
 	
@@ -68,29 +69,6 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
   		}
   	return result;
   }
-
-///**
-//* Select the actual declaration selected by this declaration selector.
-//* By default, this method returns declarator.selectionDeclaration()).actualDeclaration().
-//* 
-//* This method was introduced to allow the declarator to be returned instead (in DeclaratorSelector)
-//* without having to add lookup method everywhere that would do the same as the original
-//* lookup methods except for invoking a (currently non-existant) declarator() method instead
-//* of selection().
-//* 
-//* @param declarator
-//* @return
-//* @throws LookupException
-//*/
-//protected D actualDeclaration(Declaration declarator) throws LookupException {
-//	Declaration declaration = declarator.selectionDeclaration();
-//	Declaration actualDeclaration = declaration.actualDeclaration();
-//	if(selectedClass().isInstance(actualDeclaration)) {
-//		return (D) actualDeclaration;
-//	} else {
-//		throw new LookupException("The actual declaration is of type "+actualDeclaration.getClass().getName()+" but a declaration of type "+selectedClass().getName()+" was expected.");
-//	}
-//}
 
 	public boolean selects(Declaration declaration) throws LookupException {
 		return selects(declaration.signature(), declaration);
@@ -129,35 +107,12 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
   			}
   		} 
   	}
-  	order().removeBiggerElements(Ds);
   	List<Declaration> result = new ArrayList<Declaration>();
   	for(D d: Ds) {
   		result.add(tmp.get(d));
   	}
   	return result;
-//  	Map<D,Declaration> tmp = new HashMap<D,Declaration>();
-//  	List<D> Ds = new ArrayList<D>();
-//  	Class<D> selectedClass = selectedClass();
-//  	for(Declaration selectionCandidate: selectionCandidates) {
-//  		Declaration selectionDeclaration = selectionCandidate.selectionDeclaration();
-//  		if(selectedClass.isInstance(selectionDeclaration)) {
-//  			if(selects(selectionCandidate.signature())) {
-//  				tmp.put((D) selectionDeclaration,selectionCandidate.declarator());
-//  				Ds.add((D) selectionDeclaration);
-//  			}
-//  		} 
-//  	}
-//  	order().removeBiggerElements(Ds);
-//  	List<Declaration> result = new ArrayList<Declaration>();
-//  	for(D d: Ds) {
-//  		result.add(tmp.get(d));
-//  	}
-//  	return result;
-	}
 
-	@Override
-	public WeakPartialOrder<D> order() {
-		return new EqualityOrder<D>();
 	}
 
 }

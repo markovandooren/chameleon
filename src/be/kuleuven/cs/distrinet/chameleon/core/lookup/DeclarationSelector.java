@@ -104,20 +104,6 @@ public abstract class DeclarationSelector<D extends Declaration> {
    */
   public abstract List<? extends Declaration> declarators(List<? extends Declaration> selectionCandidates) throws LookupException;
 
-  /**
-   * Return the order used to sort the possible candidates. More specific elements should be smaller than less specific elements.
-   */
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @*/
-  protected abstract WeakPartialOrder<D> order();
-
-	protected void applyOrder(List<D> tmp) throws LookupException {
-		order().removeBiggerElements(tmp);
-	}
-
 	/**
 	 * If the selectionName() of this selector must match declaration.signature().name() when that declaration is selected,
 	 * then this method returns true. Otherwise, the method returns false. This method can be used for a String based preselection

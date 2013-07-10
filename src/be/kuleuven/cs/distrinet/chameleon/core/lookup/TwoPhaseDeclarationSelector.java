@@ -129,13 +129,15 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
   			}
   		} 
   	}
-  	order().removeBiggerElements(Ds);
+  	applyOrder(Ds);
   	List<Declaration> result = new ArrayList<Declaration>();
   	for(D d: Ds) {
   		result.add(tmp.get(d));
   	}
   	return result;
   }
+
+	protected abstract void applyOrder(List<D> tmp) throws LookupException;
 
   /**
    * Check if this selector selects the given declaration 

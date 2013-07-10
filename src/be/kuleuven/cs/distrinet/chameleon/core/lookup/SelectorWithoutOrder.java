@@ -77,16 +77,6 @@ public abstract class SelectorWithoutOrder<D extends Declaration> extends TwoPha
 	protected void applyOrder(List<D> tmp) throws LookupException {
 	}
 
-	/** 
-	 * The order of a selector without order is an equality order. This means that the
-	 * order only contains a pair of elements if they are equal. As a result, only "identical"
-	 * elemnets are filtered during sorting.
-	 */
-	@Override
-	public EqualityOrder<D> order() {
-		return new EqualityOrder<D>();
-	}
-
 	private Class<D> _class;
 	
 	/**
