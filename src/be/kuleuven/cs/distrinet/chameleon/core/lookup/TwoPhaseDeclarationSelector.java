@@ -143,6 +143,13 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
     return selection(declaration) != null;
   }
 
+  public abstract Class<D> selectedClass();
+  
+  @Override
+  public boolean canSelect(Class<? extends Declaration> type) {
+  	return selectedClass().isAssignableFrom(type);
+  }
+  
 	/**
 	 * Determine whether the declaration represented by the given signature is
 	 * selected based on the name of the signature.

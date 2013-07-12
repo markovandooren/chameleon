@@ -33,8 +33,8 @@ public class DeclaratorSelector extends DeclarationSelector<Declaration>{
 //	}
 
 	@Override
-	public Class selectedClass() {
-		return _selector.selectedClass();
+	public boolean canSelect(Class<? extends Declaration> type) {
+		return _selector.canSelect(type);
 	}
 
 	@Override

@@ -17,17 +17,10 @@ import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
  */
 public abstract class ElementReference<D extends Declaration> extends CrossReferenceImpl<D> implements CrossReferenceWithName<D>, CrossReferenceWithTarget<D> {
 
-//	private static Logger logger = Logger.getLogger("lookup.elementreference");
 	
-//	public Logger lookupLogger() {
-//		return logger;
-//	}
-	
-	public ElementReference() {
+	protected ElementReference() {
 	}
 	
-//	public abstract ElementReference<D> clone();
-
 	/*@
    @ public behavior
    @
@@ -38,7 +31,7 @@ public abstract class ElementReference<D extends Declaration> extends CrossRefer
 	public ElementReference(Signature signature) {
 		setSignature(signature);
 	}
-	
+
   private Single<Signature> _signature = new Single<Signature>(this);
 
   /**

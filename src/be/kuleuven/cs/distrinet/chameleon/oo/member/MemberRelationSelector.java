@@ -36,10 +36,14 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
 	
 	private D _declaration;
 
-	@Override
 	public Class<D> selectedClass() {
 		return _selectedClass;
 	}
+
+  @Override
+  public boolean canSelect(Class<? extends Declaration> type) {
+  	return selectedClass().isAssignableFrom(type);
+  }
 
 	@Override
 	public List<D> selection(List<? extends Declaration> declarators) throws LookupException {

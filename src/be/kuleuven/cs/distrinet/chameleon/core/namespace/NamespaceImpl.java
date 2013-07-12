@@ -301,7 +301,7 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 			List<D> result = selector.selection(Collections.unmodifiableList(list));
 			// If nothing was found and a namespace or more generic type is searched,
 			// the namespace is resolved and given to the selector.
-			if(result.isEmpty() && selector.selectedClass().isAssignableFrom(Namespace.class)) {
+			if(result.isEmpty() && selector.canSelect(Namespace.class)) {
 				result = selector.selection(Collections.singletonList(getOrCreateNamespace(selector.selectionName(this))));
 			}
 			return result;

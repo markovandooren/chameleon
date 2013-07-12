@@ -49,14 +49,17 @@ public abstract class DeclarationSelector<D extends Declaration> {
   }
   
   /**
-   * Required because 'instanceof D' cannot be used due to type erasure.
+   * Check whether the type of elements selected by this selector is a subtype
+   * of the given type. Note that due to multiple inheritance with interfaces
+   * this does not mean that the selector will never select an object of the
+   * given type. 
    */
  /*@
    @ public behavior
    @
    @ post \result != null;
    @*/
-  public abstract Class<D> selectedClass();
+  public abstract boolean canSelect(Class<? extends Declaration> type);
   
   /**
    * Only called from within a @link{Cache} to store the cache of this selector.

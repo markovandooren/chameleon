@@ -13,7 +13,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationCollector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclaratorSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectorWithoutOrder;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SimpleSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceWithName;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceWithTarget;
@@ -184,7 +184,7 @@ public class NamedTargetExpression extends TargetedExpression implements CrossRe
 		return _selector;
 	}
 	
-	private DeclarationSelector<DeclarationWithType> _selector = new SelectorWithoutOrder<DeclarationWithType>(DeclarationWithType.class) {
+	private DeclarationSelector<DeclarationWithType> _selector = new SimpleSelector<DeclarationWithType>(DeclarationWithType.class) {
 		public Signature signature() {
 			return NamedTargetExpression.this.signature();
 		}

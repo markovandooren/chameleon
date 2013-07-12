@@ -8,7 +8,8 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.TargetDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectorWithoutOrder;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SimpleSelector;
+import be.kuleuven.cs.distrinet.chameleon.util.CreationStackTrace;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
 
 public class SimpleReference<D extends Declaration> extends ElementReference<D> {
@@ -70,7 +71,7 @@ public class SimpleReference<D extends Declaration> extends ElementReference<D> 
 	@Override
 	public DeclarationSelector<D> selector() {
 		if(_selector == null) {
-			_selector = new SelectorWithoutOrder<D>(_specificClass) {
+			_selector = new SimpleSelector<D>(_specificClass) {
 				public Signature signature() {
 					return SimpleReference.this.signature();
 				}
