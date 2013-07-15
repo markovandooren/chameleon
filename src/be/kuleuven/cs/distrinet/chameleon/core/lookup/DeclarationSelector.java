@@ -49,14 +49,43 @@ public abstract class DeclarationSelector<D extends Declaration> {
   }
   
   /**
-   * Required because 'instanceof D' cannot be used due to type erasure.
+   * Check whether the type of elements selected by this selector is a subtype
+   * of the given type. Note that due to multiple inheritance with interfaces
+   * this does not mean that the selector will never select an object of the
+   * given type. 
    */
  /*@
    @ public behavior
    @
    @ post \result != null;
    @*/
-  public abstract Class<D> selectedClass();
+  public abstract boolean canSelect(Class<? extends Declaration> type);
+  
+  /**
+   * Only called from within a @link{Cache} to store the cache of this selector.
+   * The declaration is best suited for knowing how its selections can be cached.
+   * For example, a selector that can select declarations of multiple types
+   * needs a different cache than a selector that can only select declarations
+   * of a single type. A generic caching scheme would be too inefficient in terms
+   * of object creation.
+   * 
+   * The default implementation does nothing.
+   * @param cache
+   */
+  protected void updateCache(Cache cache, D selection) {
+  	
+  }
+  
+  /**
+   * Only called from within a @link{Cache} to read the cache of this selector.
+   * 
+   * The default implementation returns null.
+   * @param cache
+   * @return
+   */
+  protected D readCache(Cache cache) {
+  	return null;
+  }
   
   /**
    * Return the list of declarations in the given set that are selected.
@@ -77,20 +106,6 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * @throws LookupException
    */
   public abstract List<? extends Declaration> declarators(List<? extends Declaration> selectionCandidates) throws LookupException;
-
-  /**
-   * Return the order used to sort the possible candidates. More specific elements should be smaller than less specific elements.
-   */
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @*/
-  protected abstract WeakPartialOrder<D> order();
-
-	protected void applyOrder(List<D> tmp) throws LookupException {
-		order().removeBiggerElements(tmp);
-	}
 
 	/**
 	 * If the selectionName() of this selector must match declaration.signature().name() when that declaration is selected,

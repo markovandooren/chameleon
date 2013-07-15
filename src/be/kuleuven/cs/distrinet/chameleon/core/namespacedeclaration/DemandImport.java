@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.ui.internal.commands.ElementReference;
+
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationCollector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.reference.ElementReference;
+import be.kuleuven.cs.distrinet.chameleon.core.reference.SimpleReference;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
@@ -20,18 +22,18 @@ import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
  */
 public class DemandImport extends Import {
   
-  public DemandImport(ElementReference<? extends DeclarationContainer> ref) {
+  public DemandImport(SimpleReference<? extends DeclarationContainer> ref) {
   	setContainerReference(ref);
   }
   
-	private Single<ElementReference<? extends DeclarationContainer>> _packageOrType = new Single<ElementReference<? extends DeclarationContainer>>(this);
+	private Single<SimpleReference<? extends DeclarationContainer>> _packageOrType = new Single<SimpleReference<? extends DeclarationContainer>>(this);
 
   
-  public ElementReference<? extends DeclarationContainer> containerReference() {
+  public SimpleReference<? extends DeclarationContainer> containerReference() {
     return _packageOrType.getOtherEnd();
   }
   
-  public void setContainerReference(ElementReference<? extends DeclarationContainer> ref) {
+  public void setContainerReference(SimpleReference<? extends DeclarationContainer> ref) {
   	set(_packageOrType,ref);
   }
   

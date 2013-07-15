@@ -27,14 +27,14 @@ public class DeclaratorSelector extends DeclarationSelector<Declaration>{
   	return _selector.declarators(selectionCandidates);
   }
   
-	@Override
-	public WeakPartialOrder order() {
-		return _selector.order();
-	}
+//	@Override
+//	public WeakPartialOrder order() {
+//		return _selector.order();
+//	}
 
 	@Override
-	public Class selectedClass() {
-		return _selector.selectedClass();
+	public boolean canSelect(Class<? extends Declaration> type) {
+		return _selector.canSelect(type);
 	}
 
 	@Override

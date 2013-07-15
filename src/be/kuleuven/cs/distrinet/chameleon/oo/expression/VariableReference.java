@@ -10,7 +10,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationCollector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclaratorSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectorWithoutOrder;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SimpleSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.UnresolvableCrossReference;
@@ -143,7 +143,7 @@ public class VariableReference extends Expression implements Assignable, CrossRe
   }
 
 	public DeclarationSelector<Variable> selector() {
-		return new SelectorWithoutOrder<Variable>(Variable.class) {
+		return new SimpleSelector<Variable>(Variable.class) {
 			public Signature signature() {
 				return _signature;
 			}

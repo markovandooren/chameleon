@@ -35,8 +35,6 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
  */
 public interface CrossReference<D extends Declaration> extends Element, CrossReferenceTarget {
 	
-//	public CrossReference<D> clone();
-	
 	/**
 	 * Return the element referenced by this cross-reference. See {@link chameleon.core.lookup.LookupContext} to learn
 	 * how you can make sure that you cross-reference can reuse as much functionality from the Chameleon framework 

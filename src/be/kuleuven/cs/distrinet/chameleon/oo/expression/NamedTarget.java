@@ -13,7 +13,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationCollector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectorWithoutOrder;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SimpleSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceWithName;
@@ -143,7 +143,7 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
   
   public DeclarationSelector<TargetDeclaration> selector() {
   	if(_selector == null) {
-  		_selector = new SelectorWithoutOrder<TargetDeclaration>(TargetDeclaration.class) {
+  		_selector = new SimpleSelector<TargetDeclaration>(TargetDeclaration.class) {
   			public SimpleNameSignature signature() {
   				return NamedTarget.this._signature;
   			}

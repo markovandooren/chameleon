@@ -67,16 +67,6 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
   	return result;
   }
 
-//  protected D actualDeclaration(Declaration declarator) throws LookupException {
-//  	Declaration selectionDeclaration = declarator.selectionDeclaration();
-//		Declaration actualDeclaration = selectionDeclaration.actualDeclaration();
-//		if(selectedClass().isInstance(actualDeclaration)) {
-//			return (D) actualDeclaration;
-//		} else {
-//			throw new LookupException("The actual declaration is of type "+actualDeclaration.getClass().getName()+" but a declaration of type "+selectedClass().getName()+" was expected.");
-//		}
-//  }
-
   /**
    * Return the list of declarations in the given set that are selected.
    * 
@@ -129,13 +119,15 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
   			}
   		} 
   	}
-  	order().removeBiggerElements(Ds);
+  	applyOrder(Ds);
   	List<Declaration> result = new ArrayList<Declaration>();
   	for(D d: Ds) {
   		result.add(tmp.get(d));
   	}
   	return result;
   }
+
+	protected abstract void applyOrder(List<D> tmp) throws LookupException;
 
   /**
    * Check if this selector selects the given declaration 
@@ -151,6 +143,13 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
     return selection(declaration) != null;
   }
 
+  public abstract Class<D> selectedClass();
+  
+  @Override
+  public boolean canSelect(Class<? extends Declaration> type) {
+  	return selectedClass().isAssignableFrom(type);
+  }
+  
 	/**
 	 * Determine whether the declaration represented by the given signature is
 	 * selected based on the name of the signature.

@@ -58,6 +58,10 @@ public abstract class SimpleNameCrossReferenceWithArgumentsSelector<D extends De
 	}
 
 	@Override
+	protected void applyOrder(List<D> tmp) throws LookupException {
+		order().removeBiggerElements(tmp);
+	}
+	
 	public WeakPartialOrder<D> order() {
 		return new WeakPartialOrder<D>() {
 			@Override
