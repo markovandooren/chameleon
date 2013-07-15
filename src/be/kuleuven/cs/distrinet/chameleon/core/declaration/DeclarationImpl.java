@@ -56,4 +56,9 @@ public abstract class DeclarationImpl extends ElementImpl implements Declaration
 		return true;
 	}
 
+	@Override
+	public Declaration finalDeclaration() {
+		return this;
+	}
+
 }

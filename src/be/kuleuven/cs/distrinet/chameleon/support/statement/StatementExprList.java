@@ -8,6 +8,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.CheckedExceptionList;
@@ -15,7 +16,6 @@ import be.kuleuven.cs.distrinet.chameleon.oo.statement.ExceptionSource;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Statement;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.rejuse.java.collections.RobustVisitor;
-import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
 
 /**
  * A list of statement expressions as used in the initialization clause of a 
@@ -120,8 +120,8 @@ public class StatementExprList extends ElementImpl implements ForInit, Exception
 		return language().lookupFactory().createLocalLookupStrategy(this);
 	}
 	
-	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
-		return new ArrayList<D>();
+	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+		return new ArrayList<SelectionResult>();
 	}
 
 	@Override

@@ -100,4 +100,10 @@ public class DeclarationAlias extends ElementImpl implements Declaration {
 	public String name() {
 		return signature().name();
 	}
+	
+	@Override
+	public Declaration finalDeclaration() {
+		return this;
+	}
+
 }

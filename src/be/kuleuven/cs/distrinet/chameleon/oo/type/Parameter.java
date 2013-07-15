@@ -42,4 +42,9 @@ public abstract class Parameter extends ElementImpl implements Declaration {
 
 	private Single<SimpleNameSignature> _signature = new Single<SimpleNameSignature>(this,true);
 
+	@Override
+	public Declaration finalDeclaration() {
+		return this;
+	}
+
 }

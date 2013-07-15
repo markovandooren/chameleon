@@ -10,6 +10,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.Target;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.DeclarationWithParametersHeader;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.DeclarationWithParametersSignature;
@@ -184,7 +185,7 @@ public abstract class DeclarationWithParameters extends MemberImpl implements De
 	  	return header().declarations();
 	  }
 	  
-	  public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
+	  public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 	  	return header().declarations(selector);
 	  }
 

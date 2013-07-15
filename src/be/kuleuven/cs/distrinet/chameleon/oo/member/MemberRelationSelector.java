@@ -8,6 +8,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 
 public class MemberRelationSelector<D extends Declaration> extends DeclarationSelector<D> {
 
@@ -46,8 +47,8 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
   }
 
 	@Override
-	public List<D> selection(List<? extends Declaration> declarators) throws LookupException {
-  	List<D> tmp = new ArrayList<D>();
+	public List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException {
+  	List<? extends SelectionResult> tmp = new ArrayList<SelectionResult>();
   	for(Declaration decl: declarators) {
   		D e = selection(decl);
   		if(e != null) {
@@ -92,8 +93,8 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
 //	public abstract boolean selectedRegardlessOfName(D declaration) throws LookupException;
 
 	@Override
-	public List<? extends Declaration> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
-  	List<Declaration> result = new ArrayList<Declaration>();
+	public List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
+  	List<SelectionResult> result = new ArrayList<SelectionResult>();
   	for(Declaration selectionCandidate: selectionCandidates) {
   		if(selectedBasedOnName(selectionCandidate.signature())) {
   			Declaration selectionDeclaration = selectionCandidate.selectionDeclaration();

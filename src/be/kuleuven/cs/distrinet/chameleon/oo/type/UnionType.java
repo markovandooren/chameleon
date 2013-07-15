@@ -3,6 +3,7 @@ package be.kuleuven.cs.distrinet.chameleon.oo.type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
@@ -87,15 +89,16 @@ public class UnionType extends MultiType {
 	}
 	
 	@Override
-	public <D extends Member> List<D> localMembers(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Member> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException {
 		//FIXME: renaming and so on. Extend both types and perform automatic renaming?
 		//       what about conflicting member definitions?
-		List<D> result = new ArrayList<D>();
+		return Collections.EMPTY_LIST;
+		// List result = new ArrayList();
 //		for(Type type: types()) {
 //		  result.addAll(type.localMembers(selector));
 //		}
 //		removeConstructors(result);
-		return result;
+//		return result;
 	}
 	
 

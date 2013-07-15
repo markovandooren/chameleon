@@ -104,4 +104,10 @@ public abstract class Pointcut extends ElementImpl implements Declaration {
 	public boolean complete() throws LookupException {
 		return true;
 	}
+	
+	@Override
+	public Declaration finalDeclaration() {
+		return this;
+	}
+
 }

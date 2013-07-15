@@ -5,7 +5,6 @@ import java.util.List;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
-import be.kuleuven.cs.distrinet.chameleon.core.relation.WeakPartialOrder;
 
 /**
  * A class of objects that select declarations during lookup.
@@ -44,7 +43,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * 
    * The default result is container.declarations(this), but clients cannot rely on that.
    */
-  public List<D> declarations(DeclarationContainer container) throws LookupException {
+  public List<? extends SelectionResult> declarations(DeclarationContainer container) throws LookupException {
   	return container.declarations(this);
   }
   
@@ -95,7 +94,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * @return
    * @throws LookupException
    */
-  public abstract List<D> selection(List<? extends Declaration> declarators) throws LookupException;
+  public abstract List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException;
   
   /**
    * Return the list of declarations in the given set that are selected.
@@ -105,7 +104,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * @return
    * @throws LookupException
    */
-  public abstract List<? extends Declaration> declarators(List<? extends Declaration> selectionCandidates) throws LookupException;
+  public abstract List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException;
 
 	/**
 	 * If the selectionName() of this selector must match declaration.signature().name() when that declaration is selected,

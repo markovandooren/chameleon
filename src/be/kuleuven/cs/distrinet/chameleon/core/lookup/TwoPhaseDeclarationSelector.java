@@ -52,10 +52,10 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
    @ post \result == declaration | \result == null;
    @ post ! selectedClass().isInstance(declaration) ==> \result == null;
    @*/
-  protected D selection(Declaration declarator) throws LookupException {
+  protected SelectionResult selection(Declaration declarator) throws LookupException {
   	// We first perform the checks on the selectionDeclaration, since a signature check may be
   	// very expensive.
-  	D result = null;
+  	SelectionResult result = null;
   	if(selectedBasedOnName(declarator.signature())) {
   		Declaration selectionDeclaration = declarator.selectionDeclaration();
   		if(selectedClass().isInstance(selectionDeclaration)) {
@@ -84,10 +84,10 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
    @            selects(d) && 
    @            ! (\exists D other; set.contains(other); order().strictOrder().contains(other,d))));
    @*/
-  public List<D> selection(List<? extends Declaration> declarators) throws LookupException {
-  	List<D> tmp = new ArrayList<D>();
+  public List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException {
+  	List<SelectionResult> tmp = new ArrayList<SelectionResult>();
   	for(Declaration decl: declarators) {
-  		D e = selection(decl);
+  		SelectionResult e = selection(decl);
   		if(e != null) {
   			tmp.add(e);
   		}
@@ -104,9 +104,9 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
    * @return
    * @throws LookupException
    */
-  public List<? extends Declaration> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
+  public List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
   	Map<D,Declaration> tmp = new HashMap<D,Declaration>();
-  	List<D> Ds = new ArrayList<D>();
+  	List<SelectionResult> Ds = new ArrayList<SelectionResult>();
   	Class<D> selectedClass = selectedClass();
   	for(Declaration selectionCandidate: selectionCandidates) {
   		if(selectedBasedOnName(selectionCandidate.signature())) {
@@ -120,14 +120,14 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
   		} 
   	}
   	applyOrder(Ds);
-  	List<Declaration> result = new ArrayList<Declaration>();
+  	List<SelectionResult> result = new ArrayList<SelectionResult>();
   	for(D d: Ds) {
   		result.add(tmp.get(d));
   	}
   	return result;
   }
 
-	protected abstract void applyOrder(List<D> tmp) throws LookupException;
+	protected abstract void applyOrder(List<SelectionResult> tmp) throws LookupException;
 
   /**
    * Check if this selector selects the given declaration 

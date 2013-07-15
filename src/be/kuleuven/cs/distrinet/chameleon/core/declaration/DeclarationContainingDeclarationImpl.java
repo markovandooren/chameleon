@@ -53,4 +53,9 @@ public abstract class DeclarationContainingDeclarationImpl extends DeclarationCo
 		return true;
 	}
 
+	@Override
+	public Declaration finalDeclaration() {
+		return this;
+	}
+
 }

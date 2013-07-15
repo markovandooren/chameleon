@@ -237,4 +237,10 @@ public abstract class MemberImpl extends TypeElementImpl implements Member {
 			return true;
 		}
 	};
+	
+	@Override
+	public Declaration finalDeclaration() {
+		return this;
+	}
+
 }

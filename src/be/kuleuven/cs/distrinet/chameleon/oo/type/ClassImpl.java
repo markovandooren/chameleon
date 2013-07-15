@@ -21,6 +21,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContextSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.Modifier;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
@@ -298,9 +299,9 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 
   	  @Override
   	  @SuppressWarnings("unchecked")
-  	  public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
+  	  public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 //  	    return selector.selection(parameters());
-  			List<D> result = new ArrayList<D>();
+  			List<SelectionResult> result = new ArrayList<SelectionResult>();
   			List<ParameterBlock> parameterBlocks = parameterBlocks();
   			Iterator<ParameterBlock> iter = parameterBlocks.iterator();
   			// If the selector found a match, we stop.
@@ -606,7 +607,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     	return result;
     }
 
-    public <D extends Member> List<D> implicitMembers(DeclarationSelector<D> selector) throws LookupException {
+    public <D extends Member> List<? extends SelectionResult> implicitMembers(DeclarationSelector<D> selector) throws LookupException {
     	return selector.selection(implicitMembers());
     }
 
@@ -633,21 +634,22 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
       }
       return result;
     }
-    public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException {
+    public <D extends Member> List<? extends SelectionResult> members(DeclarationSelector<D> selector) throws LookupException {
     	// 1) perform local search
     	boolean greedy = selector.isGreedy();
-    	List<D> result = localMembers(selector);
+    	List<SelectionResult> result = (List)localMembers(selector);
     	if(! greedy || result.isEmpty()) {
     	  result.addAll(implicitMembers(selector));
     	}
     	// 2) process inheritance relations
-    	//    only if the selector isn't greed or
+    	//    only if the selector isn't greedy or
     	//    there are not results.
     	if(! greedy || result.isEmpty()) {
     		for (InheritanceRelation rel : inheritanceRelations()) {
     			rel.accumulateInheritedMembers(selector, result);
     		}
-    		return selector.selection(result);
+    		return selector.onlyApplyFilteringTo(result);
+//    		return selector.selection(result);
     	} else {
     	  return result;
     	}
@@ -664,7 +666,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 		 * @see chameleon.oo.type.Tajp#localMembers(chameleon.core.lookup.DeclarationSelector)
 		 */
     @SuppressWarnings("unchecked")
-    public abstract <D extends Member> List<D> localMembers(DeclarationSelector<D> selector) throws LookupException;
+    public abstract <D extends Member> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException;
 
     public List<Member> members() throws LookupException {
       return members(Member.class);
@@ -745,8 +747,9 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#declarations(chameleon.core.lookup.DeclarationSelector)
 		 */
-    public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
-    	return (List<D>) members((DeclarationSelector<? extends Member>)selector);
+    @Override
+    public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+    	return (List<? extends SelectionResult>) members((DeclarationSelector<? extends Member>)selector);
     }
 
     protected void copyContents(Type from) {

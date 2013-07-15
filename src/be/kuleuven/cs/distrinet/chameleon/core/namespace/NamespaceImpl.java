@@ -20,6 +20,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
@@ -283,7 +284,7 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 
 	protected Map<String,List<Declaration>> _declarationCache;
 	
-	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 //		System.out.println("Requesting declarations() of "+getFullyQualifiedName());
 		if(selector.usesSelectionName()) {
 			List<Declaration> list = null;
@@ -298,7 +299,7 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 			if(list == null) {
 				list = Collections.EMPTY_LIST;
 			}
-			List<D> result = selector.selection(Collections.unmodifiableList(list));
+			List<? extends SelectionResult> result = selector.selection(Collections.unmodifiableList(list));
 			// If nothing was found and a namespace or more generic type is searched,
 			// the namespace is resolved and given to the selector.
 			if(result.isEmpty() && selector.canSelect(Namespace.class)) {
@@ -328,4 +329,9 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 		return this;
 	}
 	
+	@Override
+	public Declaration finalDeclaration() {
+		return this;
+	}
+
 }

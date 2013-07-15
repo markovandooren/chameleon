@@ -6,6 +6,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UnsafePredicate;
 
 /**
@@ -22,9 +23,9 @@ public abstract class Import extends ElementImpl {
   
   public abstract List<Declaration> demandImports() throws LookupException;
 
-  public abstract <D extends Declaration> List<D> directImports(DeclarationSelector<D> selector) throws LookupException;
+  public abstract <D extends Declaration> List<? extends SelectionResult> directImports(DeclarationSelector<D> selector) throws LookupException;
   
-  public abstract <D extends Declaration> List<D> demandImports(DeclarationSelector<D> selector) throws LookupException;
+  public abstract <D extends Declaration> List<? extends SelectionResult> demandImports(DeclarationSelector<D> selector) throws LookupException;
   
   public boolean importsSameAs(Import other) throws LookupException {
 	  boolean result = sameDeclarations(demandImports(), other.demandImports());

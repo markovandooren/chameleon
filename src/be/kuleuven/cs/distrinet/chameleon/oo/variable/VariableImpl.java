@@ -3,6 +3,7 @@ package be.kuleuven.cs.distrinet.chameleon.oo.variable;
 import java.util.ArrayList;
 import java.util.List;
 
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.MissingSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
@@ -94,4 +95,10 @@ public abstract class VariableImpl extends ElementImpl implements Variable {
 	public String toString() {
 		return getTypeReference().toString() +" "+signature().toString();
 	}
+	
+	@Override
+	public Declaration finalDeclaration() {
+		return this;
+	}
+
 }

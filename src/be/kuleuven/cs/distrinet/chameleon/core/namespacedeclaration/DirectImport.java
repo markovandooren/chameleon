@@ -7,6 +7,7 @@ import java.util.List;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
@@ -79,12 +80,12 @@ public class DirectImport<D extends Declaration> extends Import {
 	}
 
 	@Override
-	public <D extends Declaration> List<D> demandImports(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult> demandImports(DeclarationSelector<D> selector) throws LookupException {
 		return Collections.EMPTY_LIST;
 	}
 
 	@Override
-	public <D extends Declaration> List<D> directImports(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult> directImports(DeclarationSelector<D> selector) throws LookupException {
 		List<Declaration> tmp = new ArrayList<Declaration>();
 		tmp.add(importedElement());
 		return selector.selection(tmp);

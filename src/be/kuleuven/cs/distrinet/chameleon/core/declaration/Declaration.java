@@ -3,6 +3,7 @@ package be.kuleuven.cs.distrinet.chameleon.core.declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.Scope;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 
@@ -21,7 +22,7 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
  * method returns a declaration of the same family. In case of a type parameter, this ensures that the stub type will be transformed
  * into a type.
  */
-public interface Declaration extends Element {
+public interface Declaration extends Element {//, SelectionResult
 
   /**
    * Return the signature of this declaration. The signature represents the identity of this declaration.

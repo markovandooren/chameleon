@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.eclipse.ui.internal.commands.ElementReference;
-
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationCollector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.SimpleReference;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
@@ -60,68 +59,26 @@ public class DemandImport extends Import {
 		return new ArrayList<Declaration>();
 	}
 
-//	@Override
-//	public synchronized void flushLocalCache() {
-//		_declarationCache = null;
-//	}
-
 	@Override
-	public <D extends Declaration> List<D> demandImports(DeclarationSelector<D> selector) throws LookupException {
-//		if(selector.usesSelectionNameOnly()) {
-//			String selectionName = selector.selectionName(null);
-//			Class<D> selectedClass = selector.selectedClass();
-//			List<D> d = cachedDeclaration(selectionName, selectedClass);
-//			if(d != null) {
-//			  return d;
-//			} else {
-//				List<D> result = importedDeclarations(selector);
-//				storeCache(selectionName, selectedClass, result);
-//				return result;
-//			}
-//		} else {
+	public <D extends Declaration> List<? extends SelectionResult> demandImports(DeclarationSelector<D> selector) throws LookupException {
 			return importedDeclarations(selector);
-//	  }
 	}
 
-	private <D extends Declaration> List<D> importedDeclarations(DeclarationSelector<D> selector) throws LookupException {
-		DeclarationCollector<D> collector = new DeclarationCollector<D>(selector);
+	private <D extends Declaration> List<? extends SelectionResult> importedDeclarations(DeclarationSelector<D> selector) throws LookupException {
+		DeclarationCollector collector = new DeclarationCollector(selector);
 		declarationContainer().localContext().lookUp(collector);
-		List<D> result = new ArrayList<D>();
+		List<SelectionResult> result = new ArrayList<SelectionResult>();
 		if(! collector.willProceed()) { 
-		  D selected = collector.result();
+		  D selected = (D) collector.result();
 		  Util.addNonNull(selected, result);
 		}
 		return result;
 	}
 
-//	private synchronized <D extends Declaration> List<D> cachedDeclaration(String name, Class<D> kind) {
-//		if(_declarationCache != null) {
-//			Map<Class,List<? extends Declaration>> classMap = _declarationCache.get(name);
-//			if(classMap != null) {
-//				return (List<D>) classMap.get(kind);
-//			}
-//		}
-//		return null;
-//	}
-	
-//	private synchronized <D extends Declaration> void storeCache(String name, Class<D> kind, List<D> declaration) {
-//		if(_declarationCache == null) {
-//			_declarationCache = new HashMap<String,Map<Class,List<? extends Declaration>>>();
-//		}
-//		Map<Class,List<? extends Declaration>> classMap = _declarationCache.get(name);
-//		if(classMap == null) {
-//			classMap = new HashMap<Class,List<? extends Declaration>>();
-//			_declarationCache.put(name, classMap);
-//		}
-//		classMap.put(kind, declaration);
-//	}
 
-//	private Map<String,Map<Class,List<? extends Declaration>>> _declarationCache;
-
-	
 	
 	@Override
-	public <D extends Declaration> List<D> directImports(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult> directImports(DeclarationSelector<D> selector) throws LookupException {
 		return Collections.EMPTY_LIST;
 	}
 
