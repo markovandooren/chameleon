@@ -106,7 +106,7 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
    */
   public List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
   	Map<D,Declaration> tmp = new HashMap<D,Declaration>();
-  	List<SelectionResult> Ds = new ArrayList<SelectionResult>();
+  	List<D> Ds = new ArrayList<D>();
   	Class<D> selectedClass = selectedClass();
   	for(Declaration selectionCandidate: selectionCandidates) {
   		if(selectedBasedOnName(selectionCandidate.signature())) {
@@ -119,7 +119,7 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
   			}
   		} 
   	}
-  	applyOrder(Ds);
+  	applyOrder((List)Ds);
   	List<SelectionResult> result = new ArrayList<SelectionResult>();
   	for(D d: Ds) {
   		result.add(tmp.get(d));

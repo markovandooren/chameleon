@@ -48,7 +48,7 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
 
 	@Override
 	public List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException {
-  	List<? extends SelectionResult> tmp = new ArrayList<SelectionResult>();
+  	List<SelectionResult> tmp = new ArrayList<SelectionResult>();
   	for(Declaration decl: declarators) {
   		D e = selection(decl);
   		if(e != null) {

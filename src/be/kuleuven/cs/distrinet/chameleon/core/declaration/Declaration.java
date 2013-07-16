@@ -22,7 +22,7 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
  * method returns a declaration of the same family. In case of a type parameter, this ensures that the stub type will be transformed
  * into a type.
  */
-public interface Declaration extends Element {//, SelectionResult
+public interface Declaration extends Element, SelectionResult {//
 
   /**
    * Return the signature of this declaration. The signature represents the identity of this declaration.

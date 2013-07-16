@@ -131,5 +131,23 @@ public abstract class DeclarationSelector<D extends Declaration> {
 	public boolean isGreedy() {
 		return usesSelectionName();
 	}
+	
+	/**
+	 * Filter the given list of selection results by removing those results
+	 * that are not most-specific. Because being more specific than another result is
+	 * a partial order, the result is a list.
+	 * 
+	 * This method can be used for split the selection into stages and then combine the 
+	 * results. This approach is used for example for inheritance in classes. First the
+	 * local members are selected. After that, each of the inheritance relations is traversed
+	 * and the results are combined (though in practice more efficiently than described here).
+	 * 
+	 * The default implementation does nothing.
+	 * @param selected
+	 * @throws LookupException 
+	 */
+	public void filter(List<? extends SelectionResult> selected) throws LookupException {
+		
+	}
 
 }

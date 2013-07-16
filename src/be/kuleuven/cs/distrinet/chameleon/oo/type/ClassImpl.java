@@ -648,7 +648,8 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     		for (InheritanceRelation rel : inheritanceRelations()) {
     			rel.accumulateInheritedMembers(selector, result);
     		}
-    		return selector.onlyApplyFilteringTo(result);
+    		selector.filter(result);
+    		return result;
 //    		return selector.selection(result);
     	} else {
     	  return result;
@@ -936,7 +937,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 		public <D extends Member> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException {
 			List<D> result = new ArrayList<D>();
 			if(!selector.declaration().ancestors().contains(this)) {
-				result.addAll(members(selector));
+				result.addAll((List)members(selector));
 			} else {
 				for(InheritanceRelation relation:inheritanceRelations()) {
 					result.addAll(relation.membersDirectlyOverriddenBy(selector));

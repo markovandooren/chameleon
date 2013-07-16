@@ -121,11 +121,11 @@ public class IntersectionType extends MultiType {
 	
 
 	
-	public void removeConstructors(List<? extends SelectionResult> members) {
-		Iterator<? extends SelectionResult> iter = members.iterator();
+	public void removeConstructors(List<?> members) {
+		Iterator<? extends Object> iter = members.iterator();
 		// Remove constructors. We really do need metaclasses so it seems.
 		while(iter.hasNext()) {
-			SelectionResult m = iter.next();
+			Object m = iter.next();
 			if(m instanceof Element) {
 				Element member = (Element) m;
 				if(member.is(language(ObjectOrientedLanguage.class).CONSTRUCTOR) == Ternary.TRUE) {
