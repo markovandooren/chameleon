@@ -648,7 +648,9 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     		for (InheritanceRelation rel : inheritanceRelations()) {
     			rel.accumulateInheritedMembers(selector, result);
     		}
-    		selector.filter(result);
+    		if(result.size() > 1) {
+    			selector.filter(result);
+    		}
     		return result;
 //    		return selector.selection(result);
     	} else {
