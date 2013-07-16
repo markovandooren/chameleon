@@ -596,7 +596,8 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     }
     
     public <M extends Member> List<M> implicitMembers(Class<M> kind) {
-    	List result = implicitMembers();
+    	// implicitMembers returns an immutable list.
+    	List result = new ArrayList(implicitMembers());
     	Iterator iter = result.iterator();
     	while(iter.hasNext()) {
     		Object o = iter.next();
