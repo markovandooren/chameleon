@@ -19,6 +19,9 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.inheritance.InheritanceRelation;
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
+
 
 /**
  * A derived type is created by filling in the type parameters of a parameterized
@@ -104,25 +107,26 @@ public class DerivedType extends ClassWithBody {
 	}
 	
 	private void copyImplicitMembers(Type original) {
-		_implicitMembers = new ArrayList<Member>();
+		Builder<Member> builder = ImmutableList.<Member>builder();
 		List<Member> implicits = original.implicitMembers();
 		for(Member m: implicits) {
 			Member clone = clone(m);
 			clone.setUniParent(body());
-			_implicitMembers.add(clone);
+			builder.add(clone);
 		}
+		_implicitMembers = builder.build();
 	}
 
-	private List<Member> _implicitMembers;
+	private ImmutableList<Member> _implicitMembers;
 	
 	@Override
 	public List<Member> implicitMembers() {
-		return new ArrayList<Member>(_implicitMembers);
+		return _implicitMembers;
 	}
 	
 	@Override
 	public <D extends Member> List<? extends SelectionResult> implicitMembers(DeclarationSelector<D> selector) throws LookupException {
-		return selector.selection(Collections.unmodifiableList(_implicitMembers));
+		return selector.selection(_implicitMembers);
 	}
 
 	/**

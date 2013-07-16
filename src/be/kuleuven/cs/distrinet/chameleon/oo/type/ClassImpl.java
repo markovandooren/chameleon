@@ -592,7 +592,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     public abstract List<Member> localMembers() throws LookupException;
     
     public List<Member> implicitMembers() {
-    	return new ArrayList<Member>();
+    	return Collections.EMPTY_LIST;
     }
     
     public <M extends Member> List<M> implicitMembers(Class<M> kind) {
