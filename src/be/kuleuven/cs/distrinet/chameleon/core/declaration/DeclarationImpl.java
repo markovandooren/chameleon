@@ -2,6 +2,7 @@ package be.kuleuven.cs.distrinet.chameleon.core.declaration;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.Scope;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.ScopeProperty;
@@ -59,6 +60,11 @@ public abstract class DeclarationImpl extends ElementImpl implements Declaration
 	@Override
 	public Declaration finalDeclaration() {
 		return this;
+	}
+
+	@Override
+	public SelectionResult updatedTo(Declaration declaration) {
+		return declaration;
 	}
 
 }

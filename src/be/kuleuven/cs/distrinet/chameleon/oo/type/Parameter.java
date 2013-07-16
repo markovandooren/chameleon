@@ -5,6 +5,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
@@ -45,6 +46,11 @@ public abstract class Parameter extends ElementImpl implements Declaration {
 	@Override
 	public Declaration finalDeclaration() {
 		return this;
+	}
+	
+	@Override
+	public SelectionResult updatedTo(Declaration declaration) {
+		return declaration;
 	}
 
 }

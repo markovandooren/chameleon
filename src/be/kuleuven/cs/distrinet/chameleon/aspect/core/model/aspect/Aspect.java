@@ -171,4 +171,9 @@ public class Aspect extends ElementImpl implements DeclarationContainer, Declara
 	public Declaration finalDeclaration() {
 		return this;
 	}
+
+	@Override
+	public SelectionResult updatedTo(Declaration declaration) {
+		return declaration;
+	}
 }

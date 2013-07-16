@@ -333,5 +333,10 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	public Declaration finalDeclaration() {
 		return this;
 	}
+	
+	@Override
+	public SelectionResult updatedTo(Declaration declaration) {
+		return declaration;
+	}
 
 }

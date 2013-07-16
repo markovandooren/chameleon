@@ -3,6 +3,7 @@ package be.kuleuven.cs.distrinet.chameleon.core.declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.Scope;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
@@ -104,6 +105,11 @@ public class DeclarationAlias extends ElementImpl implements Declaration {
 	@Override
 	public Declaration finalDeclaration() {
 		return this;
+	}
+
+	@Override
+	public SelectionResult updatedTo(Declaration declaration) {
+		return declaration;
 	}
 
 }

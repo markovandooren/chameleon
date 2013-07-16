@@ -9,6 +9,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.Modifier;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
@@ -99,6 +100,11 @@ public abstract class VariableImpl extends ElementImpl implements Variable {
 	@Override
 	public Declaration finalDeclaration() {
 		return this;
+	}
+
+	@Override
+	public SelectionResult updatedTo(Declaration declaration) {
+		return declaration;
 	}
 
 }

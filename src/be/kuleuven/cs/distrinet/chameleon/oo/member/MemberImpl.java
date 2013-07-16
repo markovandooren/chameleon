@@ -10,6 +10,7 @@ import java.util.Set;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.Scope;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.ScopeProperty;
@@ -241,6 +242,11 @@ public abstract class MemberImpl extends TypeElementImpl implements Member {
 	@Override
 	public Declaration finalDeclaration() {
 		return this;
+	}
+
+	@Override
+	public SelectionResult updatedTo(Declaration declaration) {
+		return declaration;
 	}
 
 }
