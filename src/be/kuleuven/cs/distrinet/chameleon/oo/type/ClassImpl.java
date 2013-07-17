@@ -649,9 +649,10 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     		for (InheritanceRelation rel : inheritanceRelations()) {
     			rel.accumulateInheritedMembers(selector, result);
     		}
-    		if(result.size() > 1) {
-    			selector.filter(result);
-    		}
+    		// We cannot take a shortcut and test for > 1 because if
+    		// the inheritance relation transforms the member (as is done with subobjects)
+    		// the transformed member may have to be removed, even if there is only 1.
+    		selector.filter(result);
     		return result;
 //    		return selector.selection(result);
     	} else {
@@ -694,8 +695,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     	result = localMembers(kind);
     	result.addAll(implicitMembers(kind));
     	// 2) Fetch all potentially inherited members from all inheritance relations
-    	List<InheritanceRelation> inheritanceRelations = inheritanceRelations();
-    	for (InheritanceRelation rel : inheritanceRelations) {
+    	for (InheritanceRelation rel : inheritanceRelations()) {
     		rel.accumulateInheritedMembers(kind, result);
     	}
     	if(cacheDeclarations) {
