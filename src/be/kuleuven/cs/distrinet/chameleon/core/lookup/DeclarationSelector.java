@@ -147,7 +147,6 @@ public abstract class DeclarationSelector<D extends Declaration> {
 	 * @throws LookupException 
 	 */
 	public void filter(List<? extends SelectionResult> selected) throws LookupException {
-		
 	}
 
 }

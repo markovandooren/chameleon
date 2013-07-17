@@ -1,6 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.member;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
@@ -109,4 +110,15 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
 
 	}
 
+	@Override
+	public void filter(List<? extends SelectionResult> selected) throws LookupException {
+		Iterator<? extends SelectionResult> iterator = selected.iterator();
+		while(iterator.hasNext()) {
+			SelectionResult result = iterator.next();
+			Declaration declaration = result.finalDeclaration();
+			if(selection(declaration) == null) {
+				iterator.remove();
+			}
+		}
+	}
 }
