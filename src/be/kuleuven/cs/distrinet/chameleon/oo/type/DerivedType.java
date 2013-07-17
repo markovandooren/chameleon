@@ -9,6 +9,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.Modifier;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.Member;
@@ -17,6 +18,9 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.InstantiatedTypeParam
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.inheritance.InheritanceRelation;
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
 
 
 /**
@@ -103,25 +107,26 @@ public class DerivedType extends ClassWithBody {
 	}
 	
 	private void copyImplicitMembers(Type original) {
-		_implicitMembers = new ArrayList<Member>();
+		Builder<Member> builder = ImmutableList.<Member>builder();
 		List<Member> implicits = original.implicitMembers();
 		for(Member m: implicits) {
 			Member clone = clone(m);
 			clone.setUniParent(body());
-			_implicitMembers.add(clone);
+			builder.add(clone);
 		}
+		_implicitMembers = builder.build();
 	}
 
-	private List<Member> _implicitMembers;
+	private ImmutableList<Member> _implicitMembers;
 	
 	@Override
 	public List<Member> implicitMembers() {
-		return new ArrayList<Member>(_implicitMembers);
+		return _implicitMembers;
 	}
 	
 	@Override
-	public <D extends Member> List<D> implicitMembers(DeclarationSelector<D> selector) throws LookupException {
-		return selector.selection(Collections.unmodifiableList(_implicitMembers));
+	public <D extends Member> List<? extends SelectionResult> implicitMembers(DeclarationSelector<D> selector) throws LookupException {
+		return selector.selection(_implicitMembers);
 	}
 
 	/**

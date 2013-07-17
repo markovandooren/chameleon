@@ -5,6 +5,7 @@ import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.Scope;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.ScopeProperty;
@@ -104,4 +105,15 @@ public abstract class Pointcut extends ElementImpl implements Declaration {
 	public boolean complete() throws LookupException {
 		return true;
 	}
+	
+	@Override
+	public Declaration finalDeclaration() {
+		return this;
+	}
+	
+	@Override
+	public SelectionResult updatedTo(Declaration declaration) {
+		return declaration;
+	}
+
 }

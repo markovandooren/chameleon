@@ -6,10 +6,12 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
@@ -106,10 +108,10 @@ public class IntersectionType extends MultiType {
 	}
 	
 	@Override
-	public <D extends Member> List<D> localMembers(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Member> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException {
 		//FIXME: renaming and so on. Extend both types and perform automatic renaming?
 		//       what about conflicting member definitions?
-		List<D> result = new ArrayList<D>();
+		List<SelectionResult> result = new ArrayList<SelectionResult>();
 		for(Type type: types()) {
 		  result.addAll(type.localMembers(selector));
 		}
@@ -119,13 +121,16 @@ public class IntersectionType extends MultiType {
 	
 
 	
-	public void removeConstructors(List<? extends TypeElement> members) {
-		Iterator<? extends TypeElement> iter = members.iterator();
+	public void removeConstructors(List<?> members) {
+		Iterator<? extends Object> iter = members.iterator();
 		// Remove constructors. We really do need metaclasses so it seems.
 		while(iter.hasNext()) {
-			TypeElement member = iter.next();
-			if(member.is(language(ObjectOrientedLanguage.class).CONSTRUCTOR) == Ternary.TRUE) {
-				iter.remove();
+			Object m = iter.next();
+			if(m instanceof Element) {
+				Element member = (Element) m;
+				if(member.is(language(ObjectOrientedLanguage.class).CONSTRUCTOR) == Ternary.TRUE) {
+					iter.remove();
+				}
 			}
 		}
 	}

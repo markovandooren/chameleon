@@ -1,6 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.member;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
@@ -8,6 +9,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 
 public class MemberRelationSelector<D extends Declaration> extends DeclarationSelector<D> {
 
@@ -46,8 +48,8 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
   }
 
 	@Override
-	public List<D> selection(List<? extends Declaration> declarators) throws LookupException {
-  	List<D> tmp = new ArrayList<D>();
+	public List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException {
+  	List<SelectionResult> tmp = new ArrayList<SelectionResult>();
   	for(Declaration decl: declarators) {
   		D e = selection(decl);
   		if(e != null) {
@@ -92,8 +94,8 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
 //	public abstract boolean selectedRegardlessOfName(D declaration) throws LookupException;
 
 	@Override
-	public List<? extends Declaration> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
-  	List<Declaration> result = new ArrayList<Declaration>();
+	public List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
+  	List<SelectionResult> result = new ArrayList<SelectionResult>();
   	for(Declaration selectionCandidate: selectionCandidates) {
   		if(selectedBasedOnName(selectionCandidate.signature())) {
   			Declaration selectionDeclaration = selectionCandidate.selectionDeclaration();
@@ -108,4 +110,24 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
 
 	}
 
+	/**
+	 * The filter method must be implemented to do something because some inheritance relations,
+	 * such as subobjects, transform the members after they have been selected in the super class.
+	 * After they are inherited, the filter method is invoked. Here the selection (and thus the
+	 * overrides check) must be repeated. The new member may not be overridden by the declaration
+	 * of this selector, even if the original member was. For methods for example, the containing
+	 * type of the declaration must be a subtype of the containing type of the member. If the 
+   * member is incorporated in a subobject, that relation no longer holds. 
+	 */
+	@Override
+	public void filter(List<? extends SelectionResult> selected) throws LookupException {
+		Iterator<? extends SelectionResult> iterator = selected.iterator();
+		while(iterator.hasNext()) {
+			SelectionResult result = iterator.next();
+			Declaration declaration = result.finalDeclaration();
+			if(selection(declaration) == null) {
+				iterator.remove();
+			}
+		}
+	}
 }

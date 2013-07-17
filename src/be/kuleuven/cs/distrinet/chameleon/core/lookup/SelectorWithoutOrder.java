@@ -49,7 +49,7 @@ public abstract class SelectorWithoutOrder<D extends Declaration> extends Declar
    @ post declarator.signature() == null ==> \result == null;
    @ post ! declarator.signature().sameAs(signature) ==> \result == null;
    @*/
-  protected D selection(Declaration declarator) throws LookupException {
+  protected SelectionResult selection(Declaration declarator) throws LookupException {
   	// We first perform the checks on the selectionDeclaration, since a signature check may be
   	// very expensive.
   	D result = null;
@@ -64,10 +64,10 @@ public abstract class SelectorWithoutOrder<D extends Declaration> extends Declar
   }
   
   @Override
-  public List<D> selection(List<? extends Declaration> declarators) throws LookupException {
-  	List<D> tmp = new ArrayList<D>();
+  public List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException {
+  	List<SelectionResult> tmp = new ArrayList<SelectionResult>();
   	for(Declaration decl: declarators) {
-  		D e = selection(decl);
+  		SelectionResult e = selection(decl);
   		if(e != null) {
   			tmp.add(e);
   		}
@@ -83,8 +83,8 @@ public abstract class SelectorWithoutOrder<D extends Declaration> extends Declar
    * @return
    * @throws LookupException
    */
-  public List<? extends Declaration> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
-  	List<Declaration> result = new ArrayList<Declaration>();
+  public List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
+  	List<SelectionResult> result = new ArrayList<SelectionResult>();
   	for(Declaration selectionCandidate: selectionCandidates) {
   		Signature signature = selectionCandidate.signature();
 			if(signature!=null && signature.sameAs(signature())) {

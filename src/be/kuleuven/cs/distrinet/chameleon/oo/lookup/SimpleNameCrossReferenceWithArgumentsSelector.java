@@ -6,6 +6,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.TwoPhaseDeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.relation.WeakPartialOrder;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.DeclarationWithParametersSignature;
@@ -58,19 +59,19 @@ public abstract class SimpleNameCrossReferenceWithArgumentsSelector<D extends De
 	}
 
 	@Override
-	protected void applyOrder(List<D> tmp) throws LookupException {
+	protected void applyOrder(List<SelectionResult> tmp) throws LookupException {
 		order().removeBiggerElements(tmp);
 	}
 	
-	public WeakPartialOrder<D> order() {
-		return new WeakPartialOrder<D>() {
+	public WeakPartialOrder<SelectionResult> order() {
+		return new WeakPartialOrder<SelectionResult>() {
 			@Override
-			public boolean contains(D first, D second) throws LookupException {
+			public boolean contains(SelectionResult first, SelectionResult second) throws LookupException {
 				return MoreSpecificTypesOrder
 						.create()
 						.contains(
-								((DeclarationWithParametersSignature) first.signature()).parameterTypes(),
-								((DeclarationWithParametersSignature) second.signature()).parameterTypes());
+								((DeclarationWithParametersSignature) first.finalDeclaration().signature()).parameterTypes(),
+								((DeclarationWithParametersSignature) second.finalDeclaration().signature()).parameterTypes());
 			}
 		};
 	}

@@ -5,7 +5,6 @@ import java.util.List;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
-import be.kuleuven.cs.distrinet.chameleon.core.relation.WeakPartialOrder;
 
 /**
  * A class of objects that select declarations during lookup.
@@ -44,7 +43,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * 
    * The default result is container.declarations(this), but clients cannot rely on that.
    */
-  public List<D> declarations(DeclarationContainer container) throws LookupException {
+  public List<? extends SelectionResult> declarations(DeclarationContainer container) throws LookupException {
   	return container.declarations(this);
   }
   
@@ -95,7 +94,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * @return
    * @throws LookupException
    */
-  public abstract List<D> selection(List<? extends Declaration> declarators) throws LookupException;
+  public abstract List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException;
   
   /**
    * Return the list of declarations in the given set that are selected.
@@ -105,7 +104,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * @return
    * @throws LookupException
    */
-  public abstract List<? extends Declaration> declarators(List<? extends Declaration> selectionCandidates) throws LookupException;
+  public abstract List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException;
 
 	/**
 	 * If the selectionName() of this selector must match declaration.signature().name() when that declaration is selected,
@@ -131,6 +130,23 @@ public abstract class DeclarationSelector<D extends Declaration> {
 	 */
 	public boolean isGreedy() {
 		return usesSelectionName();
+	}
+	
+	/**
+	 * Filter the given list of selection results by removing those results
+	 * that are not most-specific. Because being more specific than another result is
+	 * a partial order, the result is a list.
+	 * 
+	 * This method can be used for split the selection into stages and then combine the 
+	 * results. This approach is used for example for inheritance in classes. First the
+	 * local members are selected. After that, each of the inheritance relations is traversed
+	 * and the results are combined (though in practice more efficiently than described here).
+	 * 
+	 * The default implementation does nothing.
+	 * @param selected
+	 * @throws LookupException 
+	 */
+	public void filter(List<? extends SelectionResult> selected) throws LookupException {
 	}
 
 }

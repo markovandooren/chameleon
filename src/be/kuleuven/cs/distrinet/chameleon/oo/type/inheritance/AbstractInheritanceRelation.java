@@ -7,6 +7,7 @@ import java.util.List;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.ElementWithModifiersImpl;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
@@ -92,25 +93,26 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 	public <M extends Member> 
   void accumulateInheritedMembers(final Class<M> kind, List<M> current) throws LookupException {
 		final List<M> potential = potentiallyInheritedMembers(kind);
-		removeNonMostSpecificMembers(current, potential);
+		removeNonMostSpecificMembers((List)current, potential);
 	}
 
 //	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
 //  void accumulateInheritedMembers(DeclarationSelector<M> selector, List<M> current) throws LookupException {
 	public <X extends Member> 
-  void accumulateInheritedMembers(DeclarationSelector<X> selector, List<X> current) throws LookupException {
-		final List<X> potential = potentiallyInheritedMembers(selector);
+  void accumulateInheritedMembers(DeclarationSelector<X> selector, List<SelectionResult> current) throws LookupException {
+		final List<? extends SelectionResult> potential = potentiallyInheritedMembers(selector);
 		removeNonMostSpecificMembers(current, potential);
 	}
 
 	protected <M extends Member>
-	  void removeNonMostSpecificMembers(List<M> current, final List<M> potential) throws LookupException {
-		final List<M> toAdd = new ArrayList<M>();
-		for(M m: potential) {
+	  void removeNonMostSpecificMembers(List<SelectionResult> current, final List<? extends SelectionResult> potential) throws LookupException {
+		final List<SelectionResult> toAdd = new ArrayList<SelectionResult>();
+		for(SelectionResult mm: potential) {
+			Member m = (Member)mm.finalDeclaration();
 			boolean add = true;
-			Iterator<M> iterCurrent = current.iterator();
+			Iterator<? extends SelectionResult> iterCurrent = current.iterator();
 			while(add && iterCurrent.hasNext()) {
-				M alreadyInherited = iterCurrent.next();
+				Member alreadyInherited = (Member)iterCurrent.next().finalDeclaration();
 				// Remove the already inherited member if potentially inherited member m overrides or hides it.
 				if((alreadyInherited.sameAs(m) || alreadyInherited.overrides(m) || alreadyInherited.canImplement(m) || alreadyInherited.hides(m))) {
 					add = false;
@@ -119,7 +121,7 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 				}
 			}
 			if(add == true) {
-				toAdd.add(m);
+				toAdd.add(mm);
 			}
 		}
 		current.addAll(toAdd);
@@ -140,9 +142,9 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
     return superMembers;
 	}
 	
-	public <M extends Member> List<M> potentiallyInheritedMembers(
+	public <M extends Member> List<? extends SelectionResult> potentiallyInheritedMembers(
 			final DeclarationSelector<M> selector) throws LookupException {
-		List<M> superMembers = superClass().members(selector);
+		List<? extends SelectionResult> superMembers = superClass().members(selector);
 		removeNonInheritableMembers(superMembers);
 		return superMembers;
 	}
@@ -267,10 +269,11 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
    @
    @ (\forall M m; members.contains(m); \old(members()).contains(m) && m.is(language(ObjectOrientedLanguage.class).INHERITABLE == Ternary.TRUE);
    @*/
-	private <M extends Declaration> void removeNonInheritableMembers(List<M> members) throws LookupException {
-		Iterator<M> superIter = members.iterator();
+	private <M extends Declaration> void removeNonInheritableMembers(List<? extends SelectionResult> members) throws LookupException {
+		Iterator<? extends SelectionResult> superIter = members.iterator();
 		while(superIter.hasNext()) {
-			M member = superIter.next();
+			SelectionResult r = superIter.next();
+			Declaration member = r.finalDeclaration();
 			Ternary temp = member.is(language(ObjectOrientedLanguage.class).INHERITABLE);
 			if (temp == Ternary.UNKNOWN) {
 				temp = member.is(language(ObjectOrientedLanguage.class).INHERITABLE);

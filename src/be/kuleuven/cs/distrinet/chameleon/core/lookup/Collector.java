@@ -102,18 +102,18 @@ public abstract class Collector<D extends Declaration> {
 	 */
   public abstract boolean willProceed() throws LookupException;
   
-  /**
-   * Process the given local lookup context.
-   * @param local
-   * @throws LookupException
-   */
-	public void process(LocalLookupContext<?> local) throws LookupException {
-		process(local.declarations(selector()));
-	}	
+//  /**
+//   * Process the given local lookup context.
+//   * @param local
+//   * @throws LookupException
+//   */
+//	public void process(LocalLookupContext<?> local) throws LookupException {
+//		process(local.declarations(selector()));
+//	}	
+//
+  protected abstract void process(List<? extends SelectionResult> candidates) throws LookupException;
 
-  protected abstract void process(List<? extends Declaration> candidates) throws LookupException;
-
-	abstract void storeCachedResult(Declaration cached);
+	abstract void storeCachedResult(SelectionResult cached);
 	
 	abstract D result() throws LookupException;
 

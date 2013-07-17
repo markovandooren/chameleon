@@ -20,6 +20,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContextFactory;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContextSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.SimpleReference;
@@ -55,8 +56,8 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		}
 
 	  @Override
-	  public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
-	    List<D> result = new ArrayList<D>();
+	  public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+	    List<SelectionResult> result = new ArrayList<SelectionResult>();
 			List<? extends Import> imports = imports();
 			ListIterator<? extends Import> iter = imports.listIterator(imports.size());
 			// If the selector found a match, we stop.
@@ -75,8 +76,8 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		}
 
 		@Override
-		public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
-			List<D> result = new ArrayList<D>();
+		public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+			List<SelectionResult> result = new ArrayList<SelectionResult>();
 			List<? extends Import> imports = imports();
 			ListIterator<? extends Import> iter = imports.listIterator(imports.size());
 			// If the selector found a match, we stop.
@@ -261,7 +262,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
     return new TypePredicate<Declaration,T>(kind).filterReturn(declarations());
   }
 	
-	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 		return selector.selection(declarations());
 	}
 

@@ -12,6 +12,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
@@ -260,10 +261,10 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 
 	public List<Member> directlyDeclaredMembers();
 
-	public <D extends Member> List<D> members(DeclarationSelector<D> selector) throws LookupException;
+	public <D extends Member> List<? extends SelectionResult> members(DeclarationSelector<D> selector) throws LookupException;
 
 	@SuppressWarnings("unchecked")
-	public <D extends Member> List<D> localMembers(DeclarationSelector<D> selector) throws LookupException;
+	public <D extends Member> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException;
 
 	public List<Member> members() throws LookupException;
 
@@ -303,8 +304,6 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 //	public CheckedExceptionList getAbsCEL() throws LookupException;
 
 	public List<? extends Declaration> declarations() throws LookupException;
-
-	public <D extends Declaration> List<D> declarations(DeclarationSelector<D> selector) throws LookupException;
 
 	public Type alias(SimpleNameSignature sig);
 

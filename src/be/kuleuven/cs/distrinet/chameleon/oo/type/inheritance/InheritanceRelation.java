@@ -6,6 +6,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.Member;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.MemberRelationSelector;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
@@ -29,7 +30,7 @@ public interface InheritanceRelation extends Element {
 	
 	public <X extends Member> void accumulateInheritedMembers(final Class<X> kind, List<X> current) throws LookupException;
 	
-	public <X extends Member> void accumulateInheritedMembers(DeclarationSelector<X> selector, List<X> current) throws LookupException;
+	public <X extends Member> void accumulateInheritedMembers(DeclarationSelector<X> selector, List<SelectionResult> current) throws LookupException;
 	
 	public <D extends Member> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException;
 	

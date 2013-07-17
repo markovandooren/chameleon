@@ -74,7 +74,7 @@ public class LexicalLookupContext extends LookupContext {
 		return selector().strategy();
 	}
 
-	public <D extends Declaration> void lookUp(Collector<D> collector) throws LookupException {
+	public void lookUp(Collector collector) throws LookupException {
 		boolean hit = false;
 		if(_cache != null) {
 			hit = _cache.search(collector);
