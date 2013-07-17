@@ -110,6 +110,15 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
 
 	}
 
+	/**
+	 * The filter method must be implemented to do something because some inheritance relations,
+	 * such as subobjects, transform the members after they have been selected in the super class.
+	 * After they are inherited, the filter method is invoked. Here the selection (and thus the
+	 * overrides check) must be repeated. The new member may not be overridden by the declaration
+	 * of this selector, even if the original member was. For methods for example, the containing
+	 * type of the declaration must be a subtype of the containing type of the member. If the 
+   * member is incorporated in a subobject, that relation no longer holds. 
+	 */
 	@Override
 	public void filter(List<? extends SelectionResult> selected) throws LookupException {
 		Iterator<? extends SelectionResult> iterator = selected.iterator();
