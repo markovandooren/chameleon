@@ -102,19 +102,20 @@ public abstract class Collector<D extends Declaration> {
 	 */
   public abstract boolean willProceed() throws LookupException;
   
-//  /**
-//   * Process the given local lookup context.
-//   * @param local
-//   * @throws LookupException
-//   */
-//	public void process(LocalLookupContext<?> local) throws LookupException {
-//		process(local.declarations(selector()));
-//	}	
-//
   protected abstract void process(List<? extends SelectionResult> candidates) throws LookupException;
 
+  /**
+   * Store the given selection result as the cached result.
+   * 
+   * @param cached The result that was cached.
+   */
 	abstract void storeCachedResult(SelectionResult cached);
 	
+	/**
+	 * Return the result of the collector if there is a single one. If this
+	 * method is invoked when there is not exactly 1 result, a @link{LookupException} will
+	 * be thrown.
+	 */
 	abstract D result() throws LookupException;
 
 }
