@@ -135,8 +135,7 @@ public abstract class ElementImpl implements Element {
 
 	public void removeAllMetadata() {
 		if(_tags != null) {
-			List<String> keySet = new ArrayList<String>(_tags.keySet());
-			for(String tagName: keySet) {
+			for(String tagName: _tags.keySet()) {
 				removeMetadata(tagName);
 			}
 		}
@@ -181,7 +180,7 @@ public abstract class ElementImpl implements Element {
 
 	public Collection<Metadata> metadata() {
 		if(_tags == null) {
-			return new ArrayList();
+			return Collections.EMPTY_LIST;
 		} else {
 			return _tags.values();
 		}
@@ -1045,16 +1044,21 @@ public abstract class ElementImpl implements Element {
 //	 }
 
 	 public <X extends Exception> ChameleonProperty property(UnsafePredicate<ChameleonProperty,X> predicate) throws ModelException, X {
-		 List<ChameleonProperty> properties = new ArrayList<ChameleonProperty>();
+//		 List<ChameleonProperty> properties = new ArrayList<ChameleonProperty>();
+		 ChameleonProperty result = null;
 		 for(ChameleonProperty p : internalProperties().properties()) {
 			 if(predicate.eval(p)) {
-				 properties.add(p);
+				 if(result == null) {
+				   result = p;
+				 } else {
+					 throw new ModelException("Element of type " +getClass().getName()+ " has more than one property that satisfy the given condition.");
+				 }
 			 }
 		 }
-		 if(properties.size() == 1) {
-			 return properties.get(0);
+		 if(result != null) {
+			 return result;
 		 } else {
-			 throw new ModelException("Element of type " +getClass().getName()+ " has "+properties.size()+" properties that satisfy the given condition.");
+			 throw new ModelException("Element of type " +getClass().getName()+ " has no properties that satisfy the given condition.");
 		 }
 	 }
 
