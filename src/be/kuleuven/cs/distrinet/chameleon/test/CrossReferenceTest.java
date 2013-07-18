@@ -2,7 +2,10 @@ package be.kuleuven.cs.distrinet.chameleon.test;
 
 import static junit.framework.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -12,6 +15,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.test.provider.ElementProvider;
+import be.kuleuven.cs.distrinet.chameleon.util.AllocationTracker;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectException;
@@ -38,12 +42,16 @@ public class CrossReferenceTest extends ModelTest {
 //		Action<CrossReference,LookupException> action = createAction();
 //		CallableFactory factory = new QueuePollingCallableFactory(action,queue);
 //		new FixedThreadCallableExecutor<LookupException>(factory).run();
+		
+//		TRACKER.clearAllocationMap();
+		
   	project().applyToSource(createAction());
 //  	long endTime = System.nanoTime();
 //  	System.out.println("Testing took "+(endTime-startTime)/1000000+" milliseconds.");
 //  	System.out.println("Number of avoidable getOtherEnds() computations: "+Association.nbAvoidableGetOtherEnds());
 //  	System.out.println("Number of getOtherEnds() computations that are done only once: "+Association.nbWithoutAvoidableGetOtherEnds());
-//  	Map<Class,Integer> perClass  = Association.nbAvoidableGetOtherEndsPerClass();
+
+//  	Map<Class,Integer> perClass  = TRACKER.nbAvoidableAllocationsPerClass();
 //  	List<Map.Entry<Class,Integer>> list = new ArrayList<>(perClass.entrySet());
 //  	Collections.sort(list, new EntryComparator());
 //  	for(Map.Entry<Class,Integer> entry: list) {
@@ -77,6 +85,8 @@ public class CrossReferenceTest extends ModelTest {
 		}
 		
 	}
+	
+//	public final static AllocationTracker TRACKER = new AllocationTracker();
 	
 //	public static Map<String,Integer> nbAvoidableGetOtherEndsPerAssociation() {
 //		Map<String,Integer> result = new HashMap<String, Integer>();

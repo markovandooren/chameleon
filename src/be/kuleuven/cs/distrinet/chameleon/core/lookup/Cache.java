@@ -18,11 +18,18 @@ public class Cache {
 		DeclarationSelector<?> selector = collector.selector();
 		Declaration cached = selector.readCache(this);
 		if(cached != null) {
+//			CrossReferenceTest.TRACKER.increase(this);
 			collector.storeCachedResult(cached);
 			result = true;
-		} 
+		} else {
+//			CrossReferenceTest.TRACKER.increase(CacheMiss.MISS);
+		}
 		return result;
 	}
+	
+//	private static class CacheMiss {
+//		public final static CacheMiss MISS = new CacheMiss();
+//	}
 	
 	public void store(Collector collector) throws LookupException {
 		if(! collector.willProceed()) {

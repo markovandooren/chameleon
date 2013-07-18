@@ -1,6 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.support.statement;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
@@ -112,7 +112,7 @@ public class StatementExprList extends ElementImpl implements ForInit, Exception
 	}
 
 	public List<? extends Declaration> declarations() throws LookupException {
-		return new ArrayList<Declaration>();
+		return Collections.EMPTY_LIST;
 	}
 
 	@Override
@@ -121,7 +121,7 @@ public class StatementExprList extends ElementImpl implements ForInit, Exception
 	}
 	
 	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
-		return new ArrayList<SelectionResult>();
+		return Collections.EMPTY_LIST;
 	}
 
 	@Override

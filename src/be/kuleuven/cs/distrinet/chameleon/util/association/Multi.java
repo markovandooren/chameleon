@@ -16,8 +16,12 @@ import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 public class Multi<T extends Element> extends OrderedMultiAssociation<Element, T> implements ChameleonAssociation<T> {
 
 	public Multi(Element element) {
-		super(element);
+		this(element,3);
 		_max = -1;
+	}
+	
+	private Multi(Element element, int initialSize) {
+		super(element,initialSize);
 	}
 	
 	public Multi(Element element, int min, int max) {

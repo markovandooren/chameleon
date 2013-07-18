@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
+
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationCollector;
@@ -13,6 +15,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.SimpleReference;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
+import be.kuleuven.cs.distrinet.chameleon.test.CrossReferenceTest;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
@@ -56,7 +59,7 @@ public class DemandImport extends Import {
 	
 	@Override
 	public List<Declaration> directImports() throws LookupException {
-		return new ArrayList<Declaration>();
+		return Collections.EMPTY_LIST;
 	}
 
 	@Override
@@ -67,21 +70,17 @@ public class DemandImport extends Import {
 	private <D extends Declaration> List<? extends SelectionResult> importedDeclarations(DeclarationSelector<D> selector) throws LookupException {
 		DeclarationCollector collector = new DeclarationCollector(selector);
 		declarationContainer().localContext().lookUp(collector);
-		List<SelectionResult> result = new ArrayList<SelectionResult>();
 		if(! collector.willProceed()) { 
-		  D selected = (D) collector.result();
-		  Util.addNonNull(selected, result);
+		  return ImmutableList.of((D) collector.result());
+		} else {
+			return Collections.EMPTY_LIST;
 		}
-		return result;
 	}
-
-
 	
 	@Override
 	public <D extends Declaration> List<? extends SelectionResult> directImports(DeclarationSelector<D> selector) throws LookupException {
 		return Collections.EMPTY_LIST;
 	}
-
 
 	@Override
 	public Verification verifySelf() {

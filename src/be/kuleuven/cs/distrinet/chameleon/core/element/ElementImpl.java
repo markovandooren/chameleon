@@ -415,14 +415,6 @@ public abstract class ElementImpl implements Element {
 		return _excludedFieldNames.get(type);
 	}
 
-	private List<Element> reflectiveChildren() {
-		List<Element> reflchildren = new ArrayList<Element>();
-		for (ChameleonAssociation association : associations()) {
-			association.addOtherEndsTo(reflchildren);
-		}
-		return reflchildren;
-	}
-
 	private static Map<Class, List<Field>> _fieldMap = new HashMap<Class, List<Field>>();
 
 	private static List<Field> getAllFieldsTillClass(Class currentClass){
@@ -445,10 +437,16 @@ public abstract class ElementImpl implements Element {
 	private synchronized List<ChameleonAssociation<?>> myAssociations() {
 		if(_associations == null) {
 			List<Field> fields = getAllFieldsTillClass(getClass());
-			_associations = new ArrayList<ChameleonAssociation<?>>(fields.size());
-			for (Field field : fields) {
-				Object content = getFieldValue(field);
-				_associations.add((ChameleonAssociation<?>) content);
+			int size = fields.size();
+			if(size > 0) {
+				_associations = new ArrayList<ChameleonAssociation<?>>(size);
+				for (Field field : fields) {
+					Object content = getFieldValue(field);
+					_associations.add((ChameleonAssociation<?>) content);
+				}
+			}
+			else {
+				_associations = Collections.EMPTY_LIST;
 			}
 		}
 		return _associations;
@@ -506,7 +504,11 @@ public abstract class ElementImpl implements Element {
 	 * LazyNamespace.
 	 */
   public List<? extends Element> children() {
-  	return reflectiveChildren();
+  	List<Element> reflchildren = new ArrayList<Element>();
+		for (ChameleonAssociation association : associations()) {
+			association.addOtherEndsTo(reflchildren);
+		}
+		return reflchildren;
   }
 
 	public final <T extends Element> List<T> children(Class<T> c) {

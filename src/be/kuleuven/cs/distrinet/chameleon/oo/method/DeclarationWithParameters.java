@@ -1,6 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.method;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
@@ -127,7 +128,7 @@ public abstract class DeclarationWithParameters extends MemberImpl implements De
 		  if(header != null) {
 			  return header.formalParameters();
 		  } else {
-		  	return new ArrayList<FormalParameter>();
+		  	return Collections.EMPTY_LIST;
 		  }
 		}
 		

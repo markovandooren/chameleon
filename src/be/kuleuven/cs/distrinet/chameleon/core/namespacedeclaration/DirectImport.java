@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
+
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
@@ -11,6 +13,8 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
+import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
+import be.kuleuven.cs.distrinet.chameleon.test.CrossReferenceTest;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
 /**
@@ -69,14 +73,15 @@ public class DirectImport<D extends Declaration> extends Import {
 
 	@Override
 	public List<Declaration> demandImports() {
-		return new ArrayList<Declaration>();
+		return Collections.EMPTY_LIST;
 	}
 
 	@Override
 	public List<Declaration> directImports() throws LookupException {
-		List<Declaration> result = new ArrayList<Declaration>();
-		result.add(importedElement());
-		return result;
+		if(_cache == null) {
+			_cache = (List)ImmutableList.of(importedElement());
+		}
+		return _cache;
 	}
 
 	@Override
@@ -86,11 +91,19 @@ public class DirectImport<D extends Declaration> extends Import {
 
 	@Override
 	public <D extends Declaration> List<? extends SelectionResult> directImports(DeclarationSelector<D> selector) throws LookupException {
-		List<Declaration> tmp = new ArrayList<Declaration>();
-		tmp.add(importedElement());
-		return selector.selection(tmp);
+		if(_cache == null) {
+			_cache = (List)ImmutableList.of(importedElement());
+		}
+		return selector.selection(_cache);
 	}
 
+	@Override
+	public synchronized void flushLocalCache() {
+		_cache = null;
+	}
+	
+	private List<Declaration> _cache;
+	
 	@Override
 	public Verification verifySelf() {
 		return Valid.create();

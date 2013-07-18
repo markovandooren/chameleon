@@ -37,10 +37,10 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
  * Every Element provides many methods to navigate the lexical structure of the model through methods to access
  * the children, descendants, and ancestors. The lexical structure can be navigated in any direction: from outer
  * elements to inner elements or vice versa. By default, the {@link ElementImpl#children()} method collects all 
- * objects referenced by ChameleonAssociation fields. 
+ * objects referenced by {@link ChameleonAssociation} fields. 
  * 
  * 
- * If a one of these fields does not reference lexical children, 
+ * If one of these {@link ChameleonAssociation} fields does not reference lexical children, 
  * you can exclude it by writing the following code. Suppose that <code>C</code> is the name of the class that 
  * contains the field.
  * 

@@ -16,8 +16,6 @@ import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
  * @author Marko van Dooren
  */
 public class Block extends StatementImpl implements StatementListContainer {
-	//TODO: should this be a member, or should there be a separate ObjectInitializer that contains a block ?
-	//TODO: can any statement be a member ? In this case the methods of Member have to move up.
 
 	/**
 	 * STATEMENTS

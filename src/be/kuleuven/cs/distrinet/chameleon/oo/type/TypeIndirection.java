@@ -118,18 +118,6 @@ public abstract class TypeIndirection extends ClassImpl {
 		return aliasedType().baseType();
 	}
 
-//	public <P extends Parameter> List<P> parameters(Class<P> kind) {
-//		return new ArrayList<P>();
-//	}
-//	
-//	public <P extends Parameter> P parameter(Class<P> kind, int index) {
-//		return null;
-//	}
-//
-//	public <P extends Parameter> int nbTypeParameters(Class<P> kind) {
-//		return 0;
-//	}
-
 	public <P extends Parameter> List<P> parameters(Class<P> kind) {
 		return aliasedType().parameters(kind);
 	}

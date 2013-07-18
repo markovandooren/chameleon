@@ -6,9 +6,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
@@ -30,6 +27,10 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
+
+import com.google.common.collect.ImmutableCollection;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 /**
  * A namespace part adds its declarations to a namespace. Different namespace parts in different compilation units
  * can contribute to the same namespace.
@@ -140,7 +141,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	private Single<CrossReference<Namespace>> _ref = new Single<CrossReference<Namespace>>(this,true,"namespace reference");
 	
 	public LookupContext lookupContext(Element child) throws LookupException {
-		if(imports().contains(child) || child == namespaceReference()) {
+		if(containsImport(child) || child == namespaceReference()) {
 			return getDefaultNamespace().targetContext();
 		} else {
 			return getLexicalContext();
@@ -155,15 +156,32 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	}
 	
 	private void initContexts() {
+		LookupContextFactory factory = language().lookupFactory();
     // This must be executed after the namespace is set, so it cannot be in the initialization.
-    _typeLocalContext = language().lookupFactory().createTargetLookupStrategy(this);
+    _typeLocalContext = factory.createTargetLookupStrategy(this);
     _importLocalDirectContext = new ImportLocalDirectContext(this);
 //    _importLocalDemandContext = language().lookupFactory().wrapLocalStrategy(new ImportLocalDemandContext(this),this);
     _importLocalDemandContext = new ImportLocalDemandContext(this);
-		_importDirectContext = language().lookupFactory().createLexicalLookupStrategy(_importLocalDirectContext, this, _currentNamespaceStrategySelector);
-		_importDemandContext = language().lookupFactory().createLexicalLookupStrategy(_importLocalDemandContext, this, _defaultNamespaceSelector);
+		_importDirectContext = factory.createLexicalLookupStrategy(_importLocalDirectContext, this, _currentNamespaceStrategySelector);
+		_importDemandContext = factory.createLexicalLookupStrategy(_importLocalDemandContext, this, _defaultNamespaceSelector);
     // 1 SEARCH IN NAMESPACEPART
-		_lexicalContext = language().lookupFactory().createLexicalLookupStrategy(namespaceDeclarationContext(), this, _directImportStrategySelector); 
+		_lexicalContext = factory.createLexicalLookupStrategy(namespaceDeclarationContext(), this, _directImportStrategySelector);
+		_lexicalContext.enableCache();
+		_importDemandContext.enableCache();
+		_importDirectContext.enableCache();
+		_importLocalDemandContext.enableCache();
+		_importLocalDirectContext.enableCache();
+	}
+	
+	@Override
+	public synchronized void flushLocalCache() {
+		_lexicalContext.flushCache();
+		_importDemandContext.flushCache();
+		_importDirectContext.flushCache();
+		_importLocalDemandContext.flushCache();
+		_importLocalDirectContext.flushCache();
+		_importCache = null;
+		_importSet = null;
 	}
 
   private DirectImportStrategySelector _directImportStrategySelector = new DirectImportStrategySelector();
@@ -320,15 +338,33 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	}
 
 	public List<Import> imports() {
-//		use guave list builder
+//		use guava list builder
+		if(_importCache == null) {
+			_importCache = (ImmutableList<Import>) createImportCache(ImmutableList.<Import>builder());
+		}
+		return _importCache;
+	}
+
+	protected ImmutableCollection createImportCache(ImmutableCollection.Builder<Import> builder) {
 		List<? extends Import> implicitImports = implicitImports();
 		List<? extends Import> explicitImports = explicitImports();
-		return ImmutableList.<Import>builder()
-		  .addAll(explicitImports)
-		  .addAll(implicitImports)
-		  .build();
+		return builder
+				.addAll(explicitImports)
+				.addAll(implicitImports)
+				.build();
+	}
+	
+	private boolean containsImport(Element element) {
+		if(_importSet == null) {
+			_importSet = (ImmutableSet<Import>) createImportCache(ImmutableSet.<Import>builder());
+		}
+		return _importSet.contains(element);
 
 	}
+	
+	private ImmutableSet<Import> _importSet;
+	
+	private ImmutableList<Import> _importCache;
 	
 	public List<? extends Import> explicitImports() {
 		return _imports.getOtherEnds();
