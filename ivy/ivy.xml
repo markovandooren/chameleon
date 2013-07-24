@@ -1,5 +1,5 @@
 <ivy-module version="2.0">
-  <info organisation="distrinet.cs.kuleuven.be" module="chameleon"/>
+  <info organisation="${organisation}" module="chameleon"/>
   <dependencies>
     <!-- <dependency org="junit" name="junit" rev="4.10"/>  --> <!-- Dep already received from rejuse. -->
     <!-- We don't use logging currently, so I just removed it for now -->
