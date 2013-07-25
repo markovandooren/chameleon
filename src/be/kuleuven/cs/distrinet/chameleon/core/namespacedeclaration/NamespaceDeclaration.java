@@ -175,11 +175,21 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	
 	@Override
 	public synchronized void flushLocalCache() {
-		_lexicalContext.flushCache();
-		_importDemandContext.flushCache();
-		_importDirectContext.flushCache();
-		_importLocalDemandContext.flushCache();
-		_importLocalDirectContext.flushCache();
+		if(_lexicalContext != null) {
+			_lexicalContext.flushCache();
+		}
+		if(_importDemandContext != null) {
+			_importDemandContext.flushCache();
+		}
+		if(_importDirectContext != null) {
+			_importDirectContext.flushCache();
+		}
+		if(_importLocalDemandContext != null) {
+			_importLocalDemandContext.flushCache();
+		}
+		if(_importLocalDirectContext != null) {
+			_importLocalDirectContext.flushCache();
+		}
 		_importCache = null;
 		_importSet = null;
 	}
@@ -339,17 +349,35 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	 * DEMAND IMPORTS *
 	 ******************/
 
-	private Multi<Import> _imports = new Multi<Import>(this,"imports");
+	private Multi<Import> _imports = new Multi<Import>(this,"imports"){
+		//FIXME SLOW but it works for now.
+		protected void fireElementAdded(Import addedElement) {
+			super.fireElementAdded(addedElement);
+			_importSet = null;
+			_importCache = null;
+		};
+		protected void fireElementRemoved(Import addedElement) {
+			super.fireElementRemoved(addedElement);
+			_importSet = null;
+			_importCache = null;
+		};
+		protected void fireElementReplaced(Import oldElement, Import newElement) {
+			super.fireElementReplaced(oldElement, newElement);
+			fireElementRemoved(oldElement);
+			fireElementAdded(newElement);
+		};
+	};
 	{
 		_imports.enableCache();
 	}
 
 	public List<Import> imports() {
-//		use guava list builder
-		if(_importCache == null) {
-			_importCache = (ImmutableList<Import>) createImportCache(ImmutableList.<Import>builder());
-		}
-		return _importCache;
+////		use guava list builder
+//		if(_importCache == null) {
+//			_importCache = (ImmutableList<Import>) createImportCache(ImmutableList.<Import>builder());
+//		}
+//		return _importCache;
+		return (ImmutableList<Import>)createImportCache(ImmutableList.<Import>builder());
 	}
 
 	protected ImmutableCollection createImportCache(ImmutableCollection.Builder<Import> builder) {
