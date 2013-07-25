@@ -137,7 +137,8 @@ public abstract class ElementImpl implements Element {
 
 	public void removeAllMetadata() {
 		if(_tags != null) {
-			for(String tagName: _tags.keySet()) {
+			List<String> tagNames = new ArrayList<>(_tags.keySet());
+			for(String tagName: tagNames) {
 				removeMetadata(tagName);
 			}
 		}
