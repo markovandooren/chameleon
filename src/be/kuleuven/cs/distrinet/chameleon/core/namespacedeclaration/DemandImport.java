@@ -90,4 +90,9 @@ public class DemandImport extends Import {
 	public boolean importsSameAs(Import other) throws LookupException {
 		return super.importsSameAs(other);
 	}
+	
+	@Override
+	public String toString() {
+		return "demand import of " + containerReference() == null ? null : containerReference().toString();
+	}
 }
