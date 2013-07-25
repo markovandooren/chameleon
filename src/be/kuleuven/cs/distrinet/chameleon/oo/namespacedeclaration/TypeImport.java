@@ -81,4 +81,10 @@ public class TypeImport extends Import {
 	}
 	
 	private List<Type> _cache;
+	
+	@Override
+	public String toString() {
+		return "type import of " + getTypeReference() == null ? null : getTypeReference().toString();
+	}
+
 }
