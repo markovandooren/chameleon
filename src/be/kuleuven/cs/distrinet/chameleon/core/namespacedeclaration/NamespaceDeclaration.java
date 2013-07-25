@@ -224,15 +224,15 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	/**
 	 * NAMESPACEPARTS
 	 */
-	public List<NamespaceDeclaration> namespaceParts() {
+	public List<NamespaceDeclaration> namespaceDeclarations() {
 		return _subNamespaceParts.getOtherEnds();
 	}
 
-	public void addNamespacePart(NamespaceDeclaration pp) {
+	public void addNamespaceDeclaration(NamespaceDeclaration pp) {
 		add(_subNamespaceParts,pp);
 	}
 
-	public void removeNamespacePart(NamespaceDeclaration pp) {
+	public void removeNamespaceDeclaration(NamespaceDeclaration pp) {
 		remove(_subNamespaceParts,pp);
 	}
 
@@ -309,6 +309,13 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 			stored.addNamespacePart(this);
 		}
 		return stored;
+	}
+	
+	public void activate() {
+		namespace();
+		for(NamespaceDeclaration part: namespaceDeclarations()) {
+			part.activate();
+		}
 	}
 	
 	public CrossReference<Namespace> namespaceReference() {

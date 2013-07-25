@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableList;
+
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.core.language.WrongLanguageException;
@@ -431,7 +433,7 @@ public abstract class ElementImpl implements Element {
 	private List<ChameleonAssociation<?>> _associations;
 
 	public synchronized List<ChameleonAssociation<?>> associations() {
-		return Collections.unmodifiableList(myAssociations());
+		return myAssociations();
 	}
 
 	private synchronized List<ChameleonAssociation<?>> myAssociations() {
@@ -439,11 +441,12 @@ public abstract class ElementImpl implements Element {
 			List<Field> fields = getAllFieldsTillClass(getClass());
 			int size = fields.size();
 			if(size > 0) {
-				_associations = new ArrayList<ChameleonAssociation<?>>(size);
+				List<ChameleonAssociation<?>> tmp = new ArrayList<>(size);
 				for (Field field : fields) {
 					Object content = getFieldValue(field);
-					_associations.add((ChameleonAssociation<?>) content);
+					tmp.add((ChameleonAssociation<?>) content);
 				}
+				_associations = ImmutableList.copyOf(tmp);
 			}
 			else {
 				_associations = Collections.EMPTY_LIST;
