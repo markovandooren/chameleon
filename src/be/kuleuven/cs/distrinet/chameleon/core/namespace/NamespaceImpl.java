@@ -48,7 +48,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
  *  
  * @author Marko van Dooren
  */
-
+//FIXME Make this extends DeclarationImpl
 public abstract class NamespaceImpl extends ElementImpl implements TargetDeclaration, DeclarationContainer, Namespace {
 
 	//SPEED : use hashmap to store the subnamespaces and forbid
@@ -334,6 +334,11 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 		return this;
 	}
 	
+	@Override
+	public Declaration template() {
+		return finalDeclaration();
+	}
+
 	@Override
 	public SelectionResult updatedTo(Declaration declaration) {
 		return declaration;

@@ -60,6 +60,11 @@ public abstract class DeclarationContainingDeclarationImpl extends DeclarationCo
 	}
 
 	@Override
+	public Declaration template() {
+		return finalDeclaration();
+	}
+
+	@Override
 	public SelectionResult updatedTo(Declaration declaration) {
 		return declaration;
 	}

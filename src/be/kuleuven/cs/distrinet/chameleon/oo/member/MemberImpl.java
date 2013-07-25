@@ -243,6 +243,11 @@ public abstract class MemberImpl extends TypeElementImpl implements Member {
 	public Declaration finalDeclaration() {
 		return this;
 	}
+	
+	@Override
+	public Declaration template() {
+		return finalDeclaration();
+	}
 
 	@Override
 	public SelectionResult updatedTo(Declaration declaration) {

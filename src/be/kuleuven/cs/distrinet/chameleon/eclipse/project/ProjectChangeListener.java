@@ -49,7 +49,7 @@ public class ProjectChangeListener implements IResourceChangeListener {
 						IResource resource = delta.getResource();
 						if(resource instanceof IFile) {
 							File file = resource.getRawLocation().makeAbsolute().toFile();
-							System.out.println("### ADDING FILE TO MODEL :"+file.getAbsolutePath());
+							System.out.println("### TRYING TO ADD FILE:"+file.getAbsolutePath());
 							if(file.isFile()) {
 								nature().chameleonProject().tryToAdd(file);
 							}
