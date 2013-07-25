@@ -115,7 +115,7 @@ public class ProjectWizard extends BasicNewProjectResourceWizard implements INew
 	}
 
 	public String projectName() {
-		return projectConfig().name();
+		return projectConfig().getName();
 	}
 	
 	public void setName(String name) {

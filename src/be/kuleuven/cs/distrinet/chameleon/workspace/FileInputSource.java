@@ -7,8 +7,9 @@ import be.kuleuven.cs.distrinet.chameleon.core.namespace.InputSourceNamespace;
 public class FileInputSource extends StreamInputSource implements IFileInputSource {
 
 	public FileInputSource(File file, DocumentLoader loader) throws InputException {
-		super(convert(file),loader);
+		super(convert(file));
 		_file = file;
+		init(loader);
 	}
 	
 	public File file() {

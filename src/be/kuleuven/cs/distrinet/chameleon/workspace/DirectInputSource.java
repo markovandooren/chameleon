@@ -15,7 +15,8 @@ import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDec
 public class DirectInputSource extends InputSourceImpl {
 
 	public DirectInputSource(Declaration decl, String namespaceFQN, View view, DocumentLoader loader) throws InputException {
-		super(loader);
+		init(loader);
+
 		if(decl == null) {
 			throw new IllegalArgumentException("The given declaration is null.");
 		}

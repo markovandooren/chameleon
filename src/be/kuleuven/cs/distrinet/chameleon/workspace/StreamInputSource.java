@@ -12,13 +12,12 @@ import be.kuleuven.cs.distrinet.chameleon.input.ModelFactory;
 
 public class StreamInputSource extends InputSourceImpl {
 
-	protected StreamInputSource(InputStream stream, DocumentLoader loader) {
-		super(loader);
+	protected StreamInputSource(InputStream stream) {
 		setInputStream(stream);
 	}
 	
-	protected StreamInputSource(File file, DocumentLoader loader) throws InputException {
-		this(convert(file),loader);
+	protected StreamInputSource(File file) throws InputException {
+		this(convert(file));
 	}
 	
 	protected static InputStream convert(File file) throws InputException {
@@ -32,7 +31,8 @@ public class StreamInputSource extends InputSourceImpl {
 
 	
 	public StreamInputSource(InputStream stream, InputSourceNamespace namespace,DocumentLoader loader) throws InputException {
-		this(stream,loader);
+		this(stream);
+		init(loader);
 		namespace.addInputSource(this);
 	}
 	

@@ -61,7 +61,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 		_view = view;
 		_factory = factory;
 		Project project = view.project();
-		_name = project.name();
+		_name = project.getName();
     setModelElement(project);
     //FIXME fix this code when multi view support is added.
     //      I'd rather not do it before I know what I'm doing.
@@ -229,7 +229,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
    @
    @ post \result != null;
    @*/
-	public String name() {
+	public String getName() {
 		return _name;
 	}
 	
@@ -434,7 +434,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 
 	@Override
 	protected void $update() {
-		_name = ((Project)modelElement()).name();
+		_name = ((Project)modelElement()).getName();
 	}
 
 	protected ProjectConfigurator $configurator() {

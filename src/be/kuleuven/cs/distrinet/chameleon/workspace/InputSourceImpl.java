@@ -15,12 +15,12 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 public abstract class InputSourceImpl implements InputSource {
 	
-	protected InputSourceImpl(DocumentLoader loader) {
+	protected void init(DocumentLoader loader) {
 		setLoader(loader);
 	}
 	
-	public InputSourceImpl(InputSourceNamespace ns, DocumentLoader loader) throws InputException {
-		this(loader);
+	protected void init(InputSourceNamespace ns, DocumentLoader loader) throws InputException {
+		init(loader);
 		setNamespace(ns);
 	}
 	

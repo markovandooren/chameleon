@@ -31,18 +31,28 @@ public class LazyStreamInputSource extends StreamInputSource {
 	 *                        from the super constructor call.
 	 */
 	public LazyStreamInputSource(InputStream stream, String declarationName, InputSourceNamespace ns, DocumentLoader loader) throws InputException {
+		super(stream);
+		init(declarationName, ns,loader);
+	}
+	
+	public void init(String declarationName, InputSourceNamespace ns, DocumentLoader loader) throws InputException {
 		// The super class cannot yet add the input source to the namespace because we cannot
 		// set the declaration name in advance (it is needed when the input source is added to the namespace).
-		super(stream,loader);
 		if(declarationName == null) {
 			throw new IllegalArgumentException();
 		}
 		_declarationName = declarationName;
+		init(loader);
 		ns.addInputSource(this);
 	}
 	
 	public LazyStreamInputSource(File file, String declarationName, InputSourceNamespace ns, DocumentLoader loader) throws InputException {
-		this(convert(file),declarationName,ns,loader);
+		super(convert(file));
+		init(declarationName,ns,loader);
+	}
+	
+	protected LazyStreamInputSource(File file) throws InputException {
+		super(convert(file));
 	}
 	
 	private String _declarationName;

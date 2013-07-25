@@ -168,7 +168,7 @@ public class Document extends ElementImpl {
 	private static class FakeInputSource extends InputSourceImpl {
 
 		public FakeInputSource(Document document, DocumentLoader loader) {
-			super(loader);
+			init(loader);
 			setDocument(document);
 		}
 		
