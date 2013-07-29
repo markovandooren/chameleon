@@ -1,4 +1,4 @@
-package be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.outline;
+package be.kuleuven.cs.distrinet.chameleon.eclipse.view.outline;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.outline;
+package be.kuleuven.cs.distrinet.chameleon.eclipse.view.outline;
 
 import java.util.List;
 
