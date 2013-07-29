@@ -11,8 +11,8 @@ import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
 
 public class BootstrapProjectConfig extends ConfigElement {
 	
-	public BootstrapProjectConfig(File root, Workspace workspace) {
-		_root = root;
+	public BootstrapProjectConfig(Workspace workspace) {
+//		_root = root;
 		_workspace = workspace;
 		_configuration = new BaseLibraryConfiguration(workspace);
 	}
@@ -30,11 +30,11 @@ public class BootstrapProjectConfig extends ConfigElement {
 		_listeners.remove(listener);
 	}
 	
-	private File _root;
-	
-	public File root() {
-		return _root;
-	}
+//	private File _root;
+//	
+//	public File root() {
+//		return _root;
+//	}
 	
 	private String _projectName;
 	
@@ -116,9 +116,9 @@ public class BootstrapProjectConfig extends ConfigElement {
 		}
 	}
 
-	@Override
-	protected void $after() throws ConfigException {
-		ConfigElement pc = _lang.plugin(ProjectConfigurator.class).createConfigElement(_projectName, _root, _workspace,_listener,_configuration);
+	
+	private void myafter(File root) throws ConfigException {
+		ConfigElement pc = _lang.plugin(ProjectConfigurator.class).createConfigElement(_projectName, root, _workspace,_listener,_configuration);
 		for(Element element: unprocessedElements()) {
 			pc.processChild(element);
 		}
@@ -130,6 +130,7 @@ public class BootstrapProjectConfig extends ConfigElement {
 	public Project project(File xmlFile, ProjectInitialisationListener listener) throws ConfigException {
 		_listener = listener;
 		readFromXML(xmlFile);
+		myafter(xmlFile.getParentFile());
 		return _project;
 	}
 	
