@@ -1,4 +1,4 @@
-package be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.callhierarchy;
+package be.kuleuven.cs.distrinet.chameleon.eclipse.view.callhierarchy;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 

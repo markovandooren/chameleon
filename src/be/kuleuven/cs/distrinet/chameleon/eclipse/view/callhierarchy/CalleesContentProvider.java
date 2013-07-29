@@ -1,4 +1,4 @@
-package be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.callhierarchy;
+package be.kuleuven.cs.distrinet.chameleon.eclipse.view.callhierarchy;
 
 import java.util.HashSet;
 import java.util.List;
