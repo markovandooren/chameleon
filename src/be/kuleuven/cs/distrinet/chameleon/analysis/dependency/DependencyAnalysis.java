@@ -75,8 +75,12 @@ public class DependencyAnalysis<E extends Element, T extends Declaration> extend
 	private DependencyResult<E, T> _result;
 	
 	@Override
+	public DependencyResult<E, T> result() {
+		return _result;
+	}
+	
+	@Override
 	public void perform(final E element) throws Nothing {
-		final Set<T> deps = new HashSet<>();
 		element.apply(new SafeAction<CrossReference>(CrossReference.class) {
 			@Override
 			public void perform(CrossReference cref) throws Nothing {
@@ -86,8 +90,8 @@ public class DependencyAnalysis<E extends Element, T extends Declaration> extend
 						T container = decl.nearestAncestorOrSelf(DependencyAnalysis.this._targetType);
 						if(container != null) {
 							T apply = _declarationMapper.apply(container);
-							if(_dependencyPredicate.eval(new Pair<E, T>(element, apply))) {
-								deps.add(apply);
+							if(dependencyPredicate().eval(new Pair<E, T>(element, apply))) {
+								_result.add(element,apply);
 							}
 						}
 					}
@@ -97,7 +101,6 @@ public class DependencyAnalysis<E extends Element, T extends Declaration> extend
 				}
 			}
 		});
-		return deps;
 	}
 
 }
