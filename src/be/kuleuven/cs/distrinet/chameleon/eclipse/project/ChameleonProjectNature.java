@@ -227,9 +227,8 @@ public class ChameleonProjectNature implements IProjectNature {
 			if(project != null) {
 				try {
 					IPath location = project.getLocation();
-					File file = location.toFile();
 					final EclipseInputSourceListener listener = new EclipseInputSourceListener();
-					BootstrapProjectConfig bootstrapProjectConfig = new BootstrapProjectConfig(file, workspace());
+					BootstrapProjectConfig bootstrapProjectConfig = new BootstrapProjectConfig(workspace());
 					_chameleonProject = bootstrapProjectConfig.project(new File(location+"/"+CHAMELEON_PROJECT_FILE), new ProjectInitialisationListener(){
 						@Override
 						public void viewAdded(View view) {
