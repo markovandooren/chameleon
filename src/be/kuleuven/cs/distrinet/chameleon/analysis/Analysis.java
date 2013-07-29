@@ -9,27 +9,22 @@ public abstract class Analysis<E extends Element, R extends Result<R>> extends S
 		super(type);
 	}
 	
-	@Override
-	public final void perform(E t) {
-		R result = analyse(t);
-		_result = result.and(_result);
-	}
+//	@Override
+//	public final void perform(E t) {
+//		R result = analyse(t);
+//		_result = result.and(_result);
+//	}
 	
-	/**
-	 * Perform the analysis on the given element.
-	 * 
-	 * @param element The element to be analyzed.
-	 */
-	protected abstract R analyse(E e);
+//	/**
+//	 * Perform the analysis on the given element.
+//	 * 
+//	 * @param element The element to be analyzed.
+//	 */
+//	protected abstract R analyse(E e);
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public R result() {
-		return _result;
-	}
-	
-	private R _result;
-
+	public abstract R result();
 }

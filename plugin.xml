@@ -206,12 +206,19 @@
 		  category="chameleon.eclipse.ChameleonEditorPlugin"
 		  class="be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.hierarchy.HierarchyView"/>
 	
+		  <view 
+		  id="chameleon.eclipse.ChameleonEditorPlugin.dependency" 
+		  name="Dependencies"
+		  icon="icons/type_hierarchy.gif"
+		  category="chameleon.eclipse.ChameleonEditorPlugin"
+		  class="be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency.DependencyView"/>
+	
 	  <view 
 		  id="chameleon.eclipse.ChameleonEditorPlugin.callhierarchyview" 
 		  name="Call Hierarchy"
 		  icon="icons/call_hierarchy.gif"
 		  category="chameleon.eclipse.ChameleonEditorPlugin"
-		  class="be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.callhierarchy.CallHierarchyView"/>
+		  class="be.kuleuven.cs.distrinet.chameleon.eclipse.view.callhierarchy.CallHierarchyView"/>
 	
     <view 
 		  id="chameleon.eclipse.ChameleonEditorPlugin.modelview" 
