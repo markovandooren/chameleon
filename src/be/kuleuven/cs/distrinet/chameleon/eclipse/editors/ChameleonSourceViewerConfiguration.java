@@ -35,7 +35,7 @@ import be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.formatting.Chamel
 import be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.formatting.ChameleonFormatterStrategy;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.hyperlink.ChameleonHyperlinkDetector;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.hyperlink.ChameleonHyperlinkPresenter;
-import be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.outline.ChameleonOutlinePage;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.view.outline.ChameleonOutlinePage;
 
 
 /**
