@@ -234,7 +234,7 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 
 		Action<File,Exception> unsafeAction = new Action<File,Exception>(File.class) {
 			private boolean _debug = false;
-			public void perform(File file) throws InputException {
+			public void doPerform(File file) throws InputException {
 				counter.increase();
 				if(_debug) {System.out.println(counter.get()+" of "+size+" :"+file.getAbsolutePath());};
 				addToModel(file);

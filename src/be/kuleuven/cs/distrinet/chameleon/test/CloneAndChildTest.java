@@ -59,7 +59,7 @@ public class CloneAndChildTest extends ModelTest {
 	public void testClone() throws LookupException, Nothing, InputException {
 		project().applyToSource(new Action<Element, Nothing>(Element.class) {
 			@Override
-			public void perform(Element object) throws Nothing {
+			public void doPerform(Element object) throws Nothing {
 				test(object);
 			}
 		});

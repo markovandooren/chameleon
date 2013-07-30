@@ -585,7 +585,7 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 			_properties.apply(new SafeAction<Property>(Property.class) {
 
 				@Override
-				public void perform(Property object) throws Nothing {
+				public void doPerform(Property object) throws Nothing {
 					object.flushLocalCache();
 				}
 			});

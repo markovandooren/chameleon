@@ -68,7 +68,7 @@ public class ExpressionTest extends ModelTest {
 
 	protected Action<Type, LookupException> createAction() {
 		return new Action<Type,LookupException>(Type.class) {
-	  	public void perform(Type type) throws LookupException {
+	  	public void doPerform(Type type) throws LookupException {
 	  		processType(type);
 	  	} 
 	  };

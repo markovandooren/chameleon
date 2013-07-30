@@ -224,7 +224,7 @@ public abstract class ElementImpl implements Element {
 				final ChameleonAssociation<? extends Element> o = others.get(i);
 				m.apply(new Action<Element,Nothing>(Element.class) {
 					@Override
-					public void perform(Element myElement) {
+					public void doPerform(Element myElement) {
 						Element clone = myElement.clone();
 						clone.parentLink().connectTo((Association)o);
 					}
