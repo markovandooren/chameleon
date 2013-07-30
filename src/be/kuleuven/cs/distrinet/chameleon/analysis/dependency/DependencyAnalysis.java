@@ -37,14 +37,14 @@ import com.google.common.base.Function;
  * @param <E> The type of the elements of which the dependencies must be analyzed.
  * @param <T> The type of the declarations that are analyzed as possible dependencies.
  */
-public class DependencyAnalysis<E extends Element, T extends Declaration> extends Analysis<E, DependencyResult<E,T>> {
+public class DependencyAnalysis<E extends Element, T extends Declaration> extends Analysis<Element, DependencyResult> {
 
-	public DependencyAnalysis(Class<E> elementType, 
+	public DependencyAnalysis(Class<E> elementType,
 			                      Class<T> targetType,
 														Predicate<Pair<E, T>> declarationPredicate, 
 														Predicate<CrossReference<?>> crossReferencePredicate,
 														Function<T,T> declarationMapper) {
-		super(elementType);
+		super(Element.class);
 		if(crossReferencePredicate == null) {
 			throw new IllegalArgumentException("The cross reference predicate should not be null");
 		}
@@ -54,12 +54,15 @@ public class DependencyAnalysis<E extends Element, T extends Declaration> extend
 		if(declarationMapper == null) {
 			throw new IllegalArgumentException("The declaration mapper should not be null");
 		}
+		_elementType = elementType;
 		_targetType = targetType;
 		_crossReferencePredicate = crossReferencePredicate;
 		_dependencyPredicate = declarationPredicate;
 		_declarationMapper = declarationMapper;
 	}
-	
+
+	private Class<E> _elementType;
+
 	private Class<T> _targetType;
 
 	public Predicate<Pair<E, T>> dependencyPredicate() {
@@ -72,18 +75,20 @@ public class DependencyAnalysis<E extends Element, T extends Declaration> extend
 	
 	private Function<T, T> _declarationMapper;
 
-	private DependencyResult<E, T> _result;
+	private DependencyResult _result;
 	
 	@Override
-	public DependencyResult<E, T> result() {
+	public DependencyResult result() {
 		return _result;
 	}
 	
 	@Override
-	public void perform(final E element) throws Nothing {
+	protected void doPerform(final Element element) throws Nothing {
+		
+		
 		element.apply(new SafeAction<CrossReference>(CrossReference.class) {
 			@Override
-			public void perform(CrossReference cref) throws Nothing {
+			public void doPerform(CrossReference cref) throws Nothing {
 				try {
 					if(_crossReferencePredicate.eval(cref)) {
 						Declaration decl = cref.getElement();
