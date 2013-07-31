@@ -94,9 +94,9 @@ public class TypeSTEFAnalysis {
   }
   
   public int getNbHeaders(final Type type) {
-    return new SafePredicate() {
-      public boolean eval(Object o) {
-        return ((MethodSTEFAnalysis)o).getHeaderAnalysis(type) != null;
+    return new SafePredicate<MethodSTEFAnalysis>() {
+      public boolean eval(MethodSTEFAnalysis o) {
+        return o.getHeaderAnalysis(type) != null;
       }
     }.count(_analyses);
   }
@@ -114,18 +114,18 @@ public class TypeSTEFAnalysis {
   }
   
   public int getNbThrows(final Type type) {
-    return new SafePredicate() {
-      public boolean eval(Object o) {
-        return ((MethodSTEFAnalysis)o).getThrowAnalysis(type) != null;
+    return new SafePredicate<MethodSTEFAnalysis>() {
+      public boolean eval(MethodSTEFAnalysis o) {
+        return o.getThrowAnalysis(type) != null;
       }
     }.count(_analyses);
   }
   
   public Set getThrowingMethods() {
     Set result = new HashSet(getMethodAnalyses());
-    new SafePredicate() {
-      public boolean eval(Object o) {
-        return ((MethodSTEFAnalysis)o).hasDirectThrow();
+    new SafePredicate<MethodSTEFAnalysis>() {
+      public boolean eval(MethodSTEFAnalysis o) {
+        return o.hasDirectThrow();
       }
     }.filter(result);
     return result;

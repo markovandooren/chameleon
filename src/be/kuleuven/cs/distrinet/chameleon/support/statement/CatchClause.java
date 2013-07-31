@@ -20,7 +20,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.variable.FormalParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.Variable;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.VariableContainer;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UnsafePredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 
 /**
  * @author Marko van Dooren
@@ -79,7 +79,7 @@ public class CatchClause extends Clause implements VariableContainer {
     try {
       CheckedExceptionList cel = nearestAncestor(TryStatement.class).getStatement().getCEL();
       Collection checkedExceptionTypes = cel.getExceptions();
-      return new UnsafePredicate<Element,LookupException>() {
+      return new AbstractPredicate<Element,LookupException>() {
         public boolean eval(Element o) throws LookupException {
           return ((Type)o).assignableTo(getExceptionParameter().getType());
         }

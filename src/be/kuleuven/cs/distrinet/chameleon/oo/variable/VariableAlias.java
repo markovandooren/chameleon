@@ -98,7 +98,7 @@ public class VariableAlias extends VariableImpl implements MemberVariable {
 						aliasedProperties.addAll(object.impliedProperties());
 						return aliasedProperties.consistent();
 					}
-				}.forall(mine);
+				}.forAll(mine);
 			}
 		}.filter(result);
 		result.addAll(mine);

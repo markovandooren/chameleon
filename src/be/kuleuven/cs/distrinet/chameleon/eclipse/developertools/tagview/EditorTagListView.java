@@ -29,6 +29,7 @@ import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.ChameleonEditor;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.treeview.ChameleonLabelProvider;
 import be.kuleuven.cs.distrinet.chameleon.input.PositionMetadata;
+import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.True;
 
@@ -106,9 +107,9 @@ public class EditorTagListView extends ViewPart {
 	}
 
 	private class PredicateShowEditorTagListAction extends Action {
-		private Predicate<EclipseEditorTag> _predicate;
+		private Predicate<EclipseEditorTag,Nothing> _predicate;
 		
-		public PredicateShowEditorTagListAction(String message, Predicate<EclipseEditorTag> predicate) {
+		public PredicateShowEditorTagListAction(String message, Predicate<EclipseEditorTag,Nothing> predicate) {
 			super(message);
 			_predicate = predicate;
 		}

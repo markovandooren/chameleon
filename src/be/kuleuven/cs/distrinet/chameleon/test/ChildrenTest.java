@@ -160,7 +160,7 @@ public class ChildrenTest extends ModelTest {
 						return !excludedField.equals(fieldName);
 					}
 					
-				}.forall(_excludedFieldNames.get(currentClass));
+				}.forAll(_excludedFieldNames.get(currentClass));
 			}
 		}.filter(fieldList);
 		accumulator.addAll(fieldList);

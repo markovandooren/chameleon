@@ -2,14 +2,14 @@ package be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.pattern;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UnsafePredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 
 /**
  * An interface for patterns that are used to match declarations.
  * 
  * @author Marko van Dooren
  */
-public abstract class DeclarationPattern extends UnsafePredicate<Declaration, LookupException> {
+public abstract class DeclarationPattern extends AbstractPredicate<Declaration, LookupException> {
 
 	public abstract DeclarationPattern clone();
 	
