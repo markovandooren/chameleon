@@ -11,6 +11,7 @@ Bundle-Activator: be.kuleuven.cs.distrinet.chameleon.eclipse.ChameleonEditorPlug
 Bundle-Vendor: KU Leuven
 Bundle-Localization: plugin
 Export-Package: be.kuleuven.cs.distrinet.chameleon.analysis,
+ be.kuleuven.cs.distrinet.chameleon.analysis.dependency,
  be.kuleuven.cs.distrinet.chameleon.aspect.core.build,
  be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice,
  be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice.modifier,
@@ -124,6 +125,7 @@ Export-Package: be.kuleuven.cs.distrinet.chameleon.analysis,
  be.kuleuven.cs.distrinet.chameleon.test.provider,
  be.kuleuven.cs.distrinet.chameleon.tool.analysis,
  be.kuleuven.cs.distrinet.chameleon.util,
+ be.kuleuven.cs.distrinet.chameleon.util.action,
  be.kuleuven.cs.distrinet.chameleon.util.association,
  be.kuleuven.cs.distrinet.chameleon.util.concurrent,
  be.kuleuven.cs.distrinet.chameleon.workspace,
