@@ -7,7 +7,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UnsafePredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 
 /**
  * @author Marko van Dooren
@@ -35,11 +35,11 @@ public abstract class Import extends ElementImpl {
 
   private boolean sameDeclarations(List<Declaration> mine,
 		  final List<Declaration> others) throws LookupException {
-	  boolean result = new UnsafePredicate<Declaration, LookupException>() {
+	  boolean result = new AbstractPredicate<Declaration, LookupException>() {
 
 		  @Override
 		  public boolean eval(final Declaration m) throws LookupException {
-			  return new UnsafePredicate<Declaration, LookupException>() {
+			  return new AbstractPredicate<Declaration, LookupException>() {
 
 				  @Override
 				  public boolean eval(Declaration o) throws LookupException {

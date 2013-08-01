@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
@@ -20,7 +19,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.inheritance.InheritanceRelation;
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UnsafePredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 
 public class IntersectionType extends MultiType {
 	
@@ -173,10 +172,10 @@ public class IntersectionType extends MultiType {
 	public boolean uniSameAs(final Element other) throws LookupException {
 		List<Type> types = types();
 		if (other instanceof IntersectionType) {
-			return new UnsafePredicate<Type, LookupException>() {
+			return new AbstractPredicate<Type, LookupException>() {
 				@Override
 				public boolean eval(final Type first) throws LookupException {
-					return new UnsafePredicate<Type, LookupException>() {
+					return new AbstractPredicate<Type, LookupException>() {
 						@Override
 						public boolean eval(Type second) throws LookupException {
 							return first.sameAs(second);
@@ -193,10 +192,10 @@ public class IntersectionType extends MultiType {
 	public boolean uniSameAs(final Type other, final List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
 		List<Type> types = types();
 		if (other instanceof IntersectionType) {
-			return new UnsafePredicate<Type, LookupException>() {
+			return new AbstractPredicate<Type, LookupException>() {
 				@Override
 				public boolean eval(final Type first) throws LookupException {
-					return new UnsafePredicate<Type, LookupException>() {
+					return new AbstractPredicate<Type, LookupException>() {
 						@Override
 						public boolean eval(Type second) throws LookupException {
 							return first.sameAs(second,trace);

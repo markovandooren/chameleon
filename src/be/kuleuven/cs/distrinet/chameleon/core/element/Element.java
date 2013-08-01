@@ -17,12 +17,9 @@ import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.chameleon.workspace.View;
 import be.kuleuven.cs.distrinet.chameleon.workspace.WrongViewException;
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
-import be.kuleuven.cs.distrinet.rejuse.action.SafeAction;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UnsafePredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 
@@ -223,8 +220,7 @@ public interface Element {
      @ post origin() == element;
      @*/
     public void setOrigin(Element element);
-    
-
+ 
     /**
      * Return a list of all ancestors. The direct parent is in front of the list, the
      * furthest ancestor is last.
@@ -249,13 +245,14 @@ public interface Element {
      @ post \result != null;
      @ post parent() == null ==> \result.isEmpty();
      @ post parent() != null && c.isInstance(parent()) ==> \result.get(0) == parent();
-     @ post parent() != null ==> \result.subList(1,\result.size()).equals(parent().ancestors(c));
+     @                       && \result.subList(1,\result.size()).equals(parent().ancestors(c));
+     @ post post parent() != null && ! c.isInstance(parent()) ==> \result.equals(parent().ancestors(c));
      @*/
     public <T extends Element> List<T> ancestors(Class<T> c);
     
     /**
-     * Return a list of all ancestors of the given type that satify the given predicate. 
-     * A closer ancestors will have a lower index than a farther ancestor.
+     * Return a list of all ancestors of the given type. A closer ancestors will have a lower index than a 
+     * farther ancestor.
      */
    /*@
      @ public behavior
@@ -263,24 +260,12 @@ public interface Element {
      @ post \result != null;
      @ post parent() == null ==> \result.isEmpty();
      @ post parent() != null && c.isInstance(parent()) && predicate.eval(parent()) ==> \result.get(0) == parent();
-     @ post parent() != null ==> \result.subList(1,\result.size()).equals(parent().ancestors(c));
+     @                       && \result.subList(1,\result.size()).equals(parent().ancestors(c));
+     @ post post parent() != null && (! c.isInstance(parent() || !predicate.eval(parent()))) ==> 
+     @                       \result.equals(parent().ancestors(c));
      @*/
-    public <T extends Element> List<T> ancestors(Class<T> c, SafePredicate<T> predicate);
-
-    /**
-     * Return a list of all ancestors of the given type that satify the given predicate. 
-     * A closer ancestors will have a lower index than a farther ancestor.
-     */
-   /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @ post parent() == null ==> \result.isEmpty();
-     @ post parent() != null && c.isInstance(parent()) && predicate.eval(parent()) ==> \result.get(0) == parent();
-     @ post parent() != null ==> \result.subList(1,\result.size()).equals(parent().ancestors(c));
-     @*/
-    public <T extends Element, X extends Exception> List<T> ancestors(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
-   
+    public <T extends Element, E extends Exception> List<T> ancestors(Class<T> c, Predicate<T, E> predicate) throws E;
+     
     /**
      * Return the direct children of this element.
      * 
@@ -327,35 +312,7 @@ public interface Element {
      @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && predicate.eval(e) == true);
      @*/
-    public List<Element> children(Predicate<Element> predicate) throws Exception;
-    
-    /**
-     * Return all children of this element that satisfy the given predicate.
-     */
-   /*@
-     @ public behavior
-     @
-     @ pre predicate != null;
-     @
-     @ post \result != null;
-     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && predicate.eval(e));
-     @*/
-    public List<Element> children(SafePredicate<Element> predicate);
-
-    /**
-     * Return all children of this element that satisfy the given predicate.
-     * 
-     * The only checked exceptions that can occurs are determined by type parameter X.
-     */
-   /*@
-     @ public behavior
-     @
-     @ pre predicate != null;
-     @
-     @ post \result != null;
-     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && predicate.eval(e));
-     @*/
-    public <X extends Exception> List<Element> children(UnsafePredicate<Element,X> predicate) throws X;
+    public <E extends Exception> List<Element> children(Predicate<? super Element,E> predicate) throws E;
     
     /**
      * Return all children of this element that are of the given type, and satisfy the given predicate.
@@ -371,36 +328,7 @@ public interface Element {
      @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && c.isInstance(e) && predicate.eval(e));
      @*/
-    public <T extends Element> List<T> children(Class<T> c, Predicate<T> predicate) throws Exception;
-    
-    /**
-     * Return all children of this element that are of the given type, and satisfy the given predicate.
-     */
-   /*@
-     @ public behavior
-     @
-     @ pre predicate != null;
-     @
-     @ post \result != null;
-     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && c.isInstance(e) && predicate.eval(e));
-     @*/
-    public <T extends Element> List<T> children(Class<T> c, SafePredicate<T> predicate);
-    
-    /**
-     * Return all children of this element that are of the given type, and satisfy the given predicate.
-     * 
-     * The only checked exception that occurs are determined by type parameter X.
-     */
-   /*@
-     @ public behavior
-     @
-     @ pre predicate != null;
-     @
-     @ post \result != null;
-     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && c.isInstance(e) && predicate.eval(e));
-     @*/
-    public <T extends Element, X extends Exception> List<T> children(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
-    
+    public <T extends Element, E extends Exception> List<T> children(Class<T> c, Predicate<T,E> predicate) throws E;
     
     /**
      * Return all children of this element that are of the given type, and that have the given property.
@@ -444,7 +372,7 @@ public interface Element {
 	  public <T extends Element> boolean hasDescendant(Class<T> c);
 
 	  // TODO: documentation
-	  public <T extends Element> boolean hasDescendant(Class<T> c, SafePredicate<T> predicate);
+	  public <T extends Element, E extends Exception> boolean hasDescendant(Class<T> c, Predicate<T,E> predicate) throws E;
 
   
 	  
@@ -489,36 +417,9 @@ public interface Element {
      @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && predicate.eval(e));
      @*/
-    public List<Element> descendants(Predicate<Element> predicate) throws Exception;
+    public <E extends Exception> List<Element> descendants(Predicate<? super Element,E> predicate) throws E;
 
-    /**
-     * Recursively return all descendants of this element that satisfy the given predicate.
-     */
-   /*@
-     @ public behavior
-     @
-     @ pre predicate != null;
-     @
-     @ post \result != null;
-     @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && predicate.eval(e));
-     @*/
-    public List<Element> descendants(SafePredicate<Element> predicate);
-   
-    /**
-     * Recursively return all descendants of this element that satisfy the given predicate.
-     * 
-     * The only checked exceptions that can occurs are determined by type parameter X.
-     */
-   /*@
-     @ public behavior
-     @
-     @ pre predicate != null;
-     @
-     @ post \result != null;
-     @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && predicate.eval(e));
-     @*/
-    public <X extends Exception> List<Element> descendants(UnsafePredicate<Element,X> predicate) throws X;
-   
+    
     /**
      * Recursively return all descendants of this element that are of the given type, and satisfy the given predicate.
      * 
@@ -533,37 +434,9 @@ public interface Element {
      @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && c.isInstance(e) && predicate.eval(e));
      @*/
-    public <T extends Element> List<T> descendants(Class<T> c, Predicate<T> predicate) throws Exception;
+    public <T extends Element, E extends Exception> List<T> descendants(Class<T> c, Predicate<T,E> predicate) throws E;
 
-    /**
-     * Recursively return all descendants of this element that are of the given type, and satisfy the given predicate.
-     */
-   /*@
-     @ public behavior
-     @
-     @ pre predicate != null;
-     @
-     @ post \result != null;
-     @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && c.isInstance(e) && predicate.eval(e));
-     @*/
-    public <T extends Element> List<T> descendants(Class<T> c, SafePredicate<T> predicate);
-
-    /**
-     * Recursively return all descendants of this element that are of the given type, and satisfy the given predicate.
-     * 
-     * The only checked exception that occurs are determined by type parameter X.
-     */
-   /*@
-     @ public behavior
-     @
-     @ pre predicate != null;
-     @
-     @ post \result != null;
-     @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && c.isInstance(e) && predicate.eval(e));
-     @*/
-    public <T extends Element, X extends Exception> List<T> descendants(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
-
-    
+     
     /**
      * Recursively apply the given action to this element and all of its descendants, but only if they their type conforms to T.
      */
@@ -706,6 +579,18 @@ public interface Element {
      @ post parent() != null && (parent().farthestAncestor(c) != null) ==> \result == parent().farthestAncestor(c);
      @*/
     public <T extends Element> T farthestAncestorOrSelf(Class<T> c);
+    
+    /**
+     * Return the farthest ancestor of the given type that satisfies the given predicate.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post parent() == null ==> \result == null;
+     @ post parent() != null && c.isInstance(this) && parent().farthestAncestor(c) == null ==> \result == this;
+     @ post parent() != null && (parent().farthestAncestor(c) != null) ==> \result == parent().farthestAncestor(c);
+     @*/
+    public <T extends Element, E extends Exception> T farthestAncestor(Class<T> c, Predicate<T,E> p) throws E;
 
     /**
      * Return the nearest ancestor of type T. Null if no such ancestor can be found.
@@ -744,52 +629,8 @@ public interface Element {
      @ post parent() != null && ((! c.isInstance(parent())) || (c.isInstance(parent()) && ! predicate.eval((T)parent())) 
      @          ==> \result == parent().nearestAncestor(c, predicate);
      @*/
-    public <T extends Element> T nearestAncestor(Class<T> c, Predicate<T> predicate) throws Exception;
+    public <T extends Element, E extends Exception> T nearestAncestor(Class<T> c, Predicate<T,E> predicate) throws E;
 
-    /**
-     * Return the nearest ancestor of type T that satifies the given predicate. Null if no such ancestor can be found.
-     * 
-     * The only checked exception that can be thrown comes from the predicate. Use the safe and unsafe variants of this method
-     * for convenience.
-     * 
-     * @param <T>
-     *        The type of the ancestor to be found
-     * @param c
-     *        The class object of type T (T.class)
-     * @return
-     */
-   /*@
-     @ public behavior
-     @
-     @ post parent() == null ==> \result == null;
-     @ post parent() != null && c.isInstance(parent()) && predicate.eval((T)parent()) ==> \result == parent();
-     @ post parent() != null && ((! c.isInstance(parent())) || (c.isInstance(parent()) && ! predicate.eval((T)parent())) 
-     @          ==> \result == parent().nearestAncestor(c, predicate);
-     @*/
-    public <T extends Element> T nearestAncestor(Class<T> c, SafePredicate<T> predicate);
-    
-    /**
-     * Return the nearest ancestor of type T that satifies the given predicate. Null if no such ancestor can be found.
-     * 
-     * The only checked exception that can be thrown comes from the predicate. Use the safe and unsafe variants of this method
-     * for convenience.
-     * 
-     * @param <T>
-     *        The type of the ancestor to be found
-     * @param c
-     *        The class object of type T (T.class)
-     * @return
-     */
-   /*@
-     @ public behavior
-     @
-     @ post parent() == null ==> \result == null;
-     @ post parent() != null && c.isInstance(parent()) && predicate.eval((T)parent()) ==> \result == parent();
-     @ post parent() != null && ((! c.isInstance(parent())) || (c.isInstance(parent()) && ! predicate.eval((T)parent())) 
-     @          ==> \result == parent().nearestAncestor(c, predicate);
-     @*/
-    public <T extends Element, X extends Exception> T nearestAncestor(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
-    
     /**
      * Return the nearest element of type T. Null if no such ancestor can be found.
      * @param <T>
@@ -826,50 +667,8 @@ public interface Element {
      @ post (! c.isInstance(this) || (c.isInstance(this) && (! predicate.eval(this)))) && parent() != null ==> \result == parent().nearestAncestor(c,predicate);
      @ post (! c.isInstance(this) || (c.isInstance(this) && (! predicate.eval(this)))) && parent() == null ==> \result == null;
      @*/
-    public <T extends Element> T nearestAncestorOrSelf(Class<T> c, Predicate<T> predicate) throws Exception;
+    public <T extends Element, E extends Exception> T nearestAncestorOrSelf(Class<T> c, Predicate<T,E> predicate) throws E;
 
-    /**
-     * Return the nearest element of type T that satifies the given predicate. Null if no such ancestor can be found.
-     * 
-     * The only checked exception that can be thrown comes from the predicate. Use the safe and unsafe variants of this method
-     * for convenience.
-     * 
-     * @param <T>
-     *        The type of the ancestor to be found
-     * @param c
-     *        The class object of type T (T.class)
-     * @return
-     */
-   /*@
-     @ public behavior
-     @
-     @ post c.isInstance(this) && predicate.eval(this) ==> \result == this;
-     @ post (! c.isInstance(this) || (c.isInstance(this) && (! predicate.eval(this)))) && parent() != null ==> \result == parent().nearestAncestor(c,predicate);
-     @ post (! c.isInstance(this) || (c.isInstance(this) && (! predicate.eval(this)))) && parent() == null ==> \result == null;
-     @*/
-    public <T extends Element> T nearestAncestorOrSelf(Class<T> c, SafePredicate<T> predicate);
-    
-    /**
-     * Return the nearest element of type T that satifies the given predicate. Null if no such ancestor can be found.
-     * 
-     * The only checked exception that can be thrown comes from the predicate. Use the safe and unsafe variants of this method
-     * for convenience.
-     * 
-     * @param <T>
-     *        The type of the ancestor to be found
-     * @param c
-     *        The class object of type T (T.class)
-     * @return
-     */
-   /*@
-     @ public behavior
-     @
-     @ post c.isInstance(this) && predicate.eval(this) ==> \result == this;
-     @ post (! c.isInstance(this) || (c.isInstance(this) && (! predicate.eval(this)))) && parent() != null ==> \result == parent().nearestAncestor(c,predicate);
-     @ post (! c.isInstance(this) || (c.isInstance(this) && (! predicate.eval(this)))) && parent() == null ==> \result == null;
-     @*/
-    public <T extends Element, X extends Exception> T nearestAncestorOrSelf(Class<T> c, UnsafePredicate<T,X> predicate) throws X;
-    
     /**
      * Return the language of this element. Return null if this element is not
      * connected to a complete model.

@@ -11,7 +11,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UnsafePredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 
 
 public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
@@ -31,7 +31,7 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 	public TypeParameterSubstitution substitution(Element element) throws LookupException {
 		List<CrossReference> crossReferences = 
 			 element.descendants(CrossReference.class, 
-					              new UnsafePredicate<CrossReference,LookupException>() {
+					              new AbstractPredicate<CrossReference,LookupException>() {
 	
 													@Override
 													public boolean eval(CrossReference object) throws LookupException {

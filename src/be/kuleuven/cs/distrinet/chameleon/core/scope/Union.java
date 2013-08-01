@@ -13,7 +13,7 @@ public class Union extends CompositeScope {
 	
 	public boolean contains(final Element element) throws LookupException {
 		try {
-			return new AbstractPredicate<Scope>() {
+			return new AbstractPredicate<Scope,LookupException>() {
 
 				public boolean eval(Scope object) throws LookupException {
 					return object.contains(element);
