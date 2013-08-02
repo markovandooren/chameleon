@@ -1,7 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.analysis.dependency;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.Analysis;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
@@ -10,7 +9,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.action.SafeAction;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 
 import com.google.common.base.Function;
 
@@ -39,10 +38,10 @@ import com.google.common.base.Function;
  */
 public class DependencyAnalysis<E extends Element, T extends Declaration> extends Analysis<Element, DependencyResult> {
 
-	public DependencyAnalysis(Class<E> elementType,
-			                      Class<T> targetType,
-														Predicate<Pair<E, T>> declarationPredicate, 
-														Predicate<CrossReference<?>> crossReferencePredicate,
+	public DependencyAnalysis(UniversalPredicate<E,Nothing> elementPredicate,
+														UniversalPredicate<T,Nothing> declarationPredicate, 
+														UniversalPredicate<CrossReference<?>,Nothing> crossReferencePredicate,
+														UniversalPredicate<Pair<E,T>,Nothing> dependencyPredicate,
 														Function<T,T> declarationMapper) {
 		super(Element.class);
 		if(crossReferencePredicate == null) {
@@ -54,26 +53,26 @@ public class DependencyAnalysis<E extends Element, T extends Declaration> extend
 		if(declarationMapper == null) {
 			throw new IllegalArgumentException("The declaration mapper should not be null");
 		}
-		_elementType = elementType;
-		_targetType = targetType;
+		_elementPredicate = elementPredicate;
+		_declarationPredicate = declarationPredicate;
 		_crossReferencePredicate = crossReferencePredicate;
-		_dependencyPredicate = declarationPredicate;
+		_dependencyPredicate = dependencyPredicate;
 		_declarationMapper = declarationMapper;
 	}
 
-	private Class<E> _elementType;
-
-	private Class<T> _targetType;
-
-	public Predicate<Pair<E, T>> dependencyPredicate() {
+	private final UniversalPredicate<E,Nothing> _elementPredicate;
+	
+	private final UniversalPredicate<T,Nothing> _declarationPredicate;
+	
+	private final UniversalPredicate<CrossReference<?>,Nothing> _crossReferencePredicate;
+	
+	public UniversalPredicate<Pair<E, T>,Nothing> dependencyPredicate() {
 		return _dependencyPredicate;
 	}
 	
-	private Predicate<Pair<E, T>> _dependencyPredicate;
+	private final UniversalPredicate<Pair<E, T>,Nothing> _dependencyPredicate;
 	
-	private Predicate<CrossReference<?>> _crossReferencePredicate;
-	
-	private Function<T, T> _declarationMapper;
+	private final Function<T, T> _declarationMapper;
 
 	private DependencyResult _result;
 	
@@ -83,29 +82,35 @@ public class DependencyAnalysis<E extends Element, T extends Declaration> extend
 	}
 	
 	@Override
+	public void enter(Element object) {
+		if(_elementPredicate.eval(object)) {
+			_elements.addLast((E) object);
+		}
+	}
+	
+	@Override
+	public void exit(Element object) {
+		if(_elements.getLast() == object) {
+			_elements.removeLast();
+		}
+	}
+	
+	private LinkedList<E> _elements = new LinkedList<>();
+	
+	@Override
 	protected void doPerform(final Element element) throws Nothing {
-		
-		
-		element.apply(new SafeAction<CrossReference>(CrossReference.class) {
-			@Override
-			public void doPerform(CrossReference cref) throws Nothing {
-				try {
-					if(_crossReferencePredicate.eval(cref)) {
-						Declaration decl = cref.getElement();
-						T container = decl.nearestAncestorOrSelf(DependencyAnalysis.this._targetType);
-						if(container != null) {
-							T apply = _declarationMapper.apply(container);
-							if(dependencyPredicate().eval(new Pair<E, T>(element, apply))) {
-								_result.add(element,apply);
-							}
-						}
-					}
-				} catch (Exception e) {
-					// Only print the stacke trace when an exception is thrown. Don't want the analysis to crash.
-					e.printStackTrace();
+		if(_crossReferencePredicate.eval(element)) {
+			CrossReference<?> cref = (CrossReference<?>) element;
+			Declaration decl = cref.getElement();
+			
+			T container = decl.nearestAncestorOrSelf(_declarationPredicate);
+			if(container != null) {
+				T apply = _declarationMapper.apply(container);
+				if(dependencyPredicate().eval(new Pair<E, T>(element, apply))) {
+					_result.add(element,apply);
 				}
 			}
-		});
+		}
 	}
 
 }
