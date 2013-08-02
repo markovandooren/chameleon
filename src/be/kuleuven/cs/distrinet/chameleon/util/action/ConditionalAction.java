@@ -5,15 +5,15 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 public class ConditionalAction<T, E extends Exception> extends Action<T, E> {
 
-	public ConditionalAction(Class<T> type, Predicate<T> predicate, Action<T, E> action) {
+	public ConditionalAction(Class<T> type, Predicate<T,? extends E> predicate, Action<T, ? extends E> action) {
 		super(type);
 		this._predicate = predicate;
 		this._action = action;
 	}
 
-	private Predicate<T> _predicate;
+	private Predicate<T, ? extends E> _predicate;
 	
-	private Action<T,E> _action;
+	private Action<T,? extends E> _action;
 	
 	@Override
 	protected void doPerform(T object) throws E {
@@ -22,15 +22,15 @@ public class ConditionalAction<T, E extends Exception> extends Action<T, E> {
 		}
 	}
 
-	public Predicate<T> predicate() {
+	public Predicate<T, ? extends E> predicate() {
 		return _predicate;
 	}
 
-	protected void setPredicate(Predicate<T> predicate) {
+	protected void setPredicate(Predicate<T, ? extends E> predicate) {
 		_predicate = predicate;
 	}
 
-	public Action<T,E> action() {
+	public Action<T, ? extends E> action() {
 		return _action;
 	}
 
