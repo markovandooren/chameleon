@@ -348,7 +348,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     public boolean complete() throws LookupException {
 	    	List<Member> members = localMembers(Member.class);
 	    	// Only check for actual definitions
-	    	new TypePredicate<Element,Declaration>(Declaration.class).filter(members);
+	    	new TypePredicate<Declaration>(Declaration.class).filter(members);
 	    	Iterator<Member> iter = members.iterator();
 	    	boolean result = true;
 	    	while(iter.hasNext()) {
@@ -714,7 +714,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 
   	public <T extends TypeElement> List<T> directlyDeclaredElements(Class<T> kind) {
     	List<TypeElement> tmp = (List<TypeElement>) directlyDeclaredElements();
-    	new TypePredicate<TypeElement,T>(kind).filter(tmp);
+    	new TypePredicate<>(kind).filter(tmp);
       return (List<T>)tmp;
   	}
 

@@ -523,7 +523,7 @@ public class ChameleonEditor extends TextEditor {
 				no_result = false;
 			} else {
 				Collection<Metadata> editorTags = element.metadata();  
-				new TypePredicate<Metadata,EclipseEditorTag>(EclipseEditorTag.class).filter(editorTags);
+				new TypePredicate<>(EclipseEditorTag.class).filter(editorTags);
 				if(editorTags.isEmpty()) {
 					Element origin = element.origin();
 					if(origin != element) {

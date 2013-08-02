@@ -287,7 +287,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	}
 	
 	public <T extends Declaration> List<T> declarations(Class<T> kind) {
-    return new TypePredicate<Declaration,T>(kind).filterReturn(declarations());
+    return new TypePredicate<T>(kind).downCastedList(declarations());
   }
 	
 	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {

@@ -313,7 +313,7 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	}
 	
 	public <T extends Declaration> List<T> declarations(Class<T> kind) throws LookupException {
-    return new TypePredicate<Declaration,T>(kind).filterReturn(declarations());
+    return new TypePredicate<T>(kind).downCastedList(declarations());
   }
 	
 
