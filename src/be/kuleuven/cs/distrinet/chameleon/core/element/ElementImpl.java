@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableList;
-
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.core.language.WrongLanguageException;
@@ -45,9 +43,12 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.Conflict;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
+
+import com.google.common.collect.ImmutableList;
 
 /**
  * @author Marko van Dooren
@@ -515,9 +516,13 @@ public abstract class ElementImpl implements Element {
   }
 
 	public final <T extends Element> List<T> children(Class<T> c) {
-		List<Element> tmp = (List<Element>) children();
-		new TypePredicate<Element,T>(c).filter(tmp);
-		return (List<T>)tmp;
+		return new TypePredicate<T>(c).downCastedList(children());
+	}
+
+	public final <E extends Exception> List<Element> children(Predicate<? super Element,E> predicate) throws E {
+		List<? extends Element> tmp = children();
+		predicate.filter(tmp);
+		return (List<Element>)tmp;
 	}
 
 	public final <T extends Element> List<T> descendants(Class<T> c) {
@@ -530,7 +535,7 @@ public abstract class ElementImpl implements Element {
 
 	public final <T extends Element> boolean hasDescendant(Class<T> c) {
 		List<Element> tmp = (List<Element>) children();
-		new TypePredicate<Element,T>(c).filter(tmp);
+		new TypePredicate<T>(c).filter(tmp);
 
 		if (!tmp.isEmpty())
 			return true;
@@ -545,7 +550,7 @@ public abstract class ElementImpl implements Element {
 
 	public final <T extends Element, E extends Exception> boolean hasDescendant(Class<T> c, Predicate<T,E> predicate) throws E {
 		List<Element> tmp = (List<Element>) children();
-		new TypePredicate<Element,T>(c).filter(tmp);
+		new TypePredicate<T>(c).filter(tmp);
 		List<T> result = (List<T>)tmp;
 		predicate.filter(result);
 
@@ -575,12 +580,6 @@ public abstract class ElementImpl implements Element {
 			result.addAll(e.nearestDescendants(c));
 		}
 		return result;
-	}
-
-	public final <E extends Exception> List<Element> children(Predicate<? super Element,E> predicate) throws E {
-		List<? extends Element> tmp = children();
-		predicate.filter(tmp);
-		return (List<Element>)tmp;
 	}
 
 	public final <E extends Exception> List<Element> descendants(Predicate<? super Element,E> predicate) throws E {
@@ -653,6 +652,11 @@ public abstract class ElementImpl implements Element {
 		return result;
 	}
 
+	@Override
+	public <T extends Element, E extends Exception> List<T> ancestors(UniversalPredicate<T, E> predicate) throws E {
+		return predicate.downCastedList(ancestors());
+	}
+
 	public final List<Element> ancestors() {
 		if (parent()!=null) {
 			List<Element> result = parent().ancestors();
@@ -675,6 +679,15 @@ public abstract class ElementImpl implements Element {
 	public <T extends Element, E extends Exception> T nearestAncestorOrSelf(Class<T> c, Predicate<T, E> predicate) throws E {
 		Element el = this;
 		while ((el != null) && (! (c.isInstance(el) && predicate.eval((T)el)))) {
+			el = el.parent();
+		}
+		return (T) el;
+	}
+
+	@Override
+	public <T extends Element, E extends Exception> T nearestAncestorOrSelf(UniversalPredicate<T, E> predicate) throws E {
+		Element el = this;
+		while ((el != null) && (! predicate.eval((T)el))) {
 			el = el.parent();
 		}
 		return (T) el;

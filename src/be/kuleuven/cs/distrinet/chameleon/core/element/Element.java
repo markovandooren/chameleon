@@ -20,6 +20,7 @@ import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 
@@ -265,7 +266,23 @@ public interface Element {
      @                       \result.equals(parent().ancestors(c));
      @*/
     public <T extends Element, E extends Exception> List<T> ancestors(Class<T> c, Predicate<T, E> predicate) throws E;
-     
+
+    /**
+     * Return a list of all ancestors of the given type. A closer ancestors will have a lower index than a 
+     * farther ancestor.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @ post parent() == null ==> \result.isEmpty();
+     @ post parent() != null && predicate.eval(parent()) ==> \result.get(0) == parent();
+     @                       && \result.subList(1,\result.size()).equals(parent().ancestors(c));
+     @ post post parent() != null && ! predicate.eval(parent()) ==> 
+     @                       \result.equals(parent().ancestors(c));
+     @*/
+    public <T extends Element, E extends Exception> List<T> ancestors(UniversalPredicate<T, E> predicate) throws E;
+    
     /**
      * Return the direct children of this element.
      * 
@@ -300,9 +317,6 @@ public interface Element {
     
     /**
      * Return all children of this element that satisfy the given predicate.
-     * 
-     * The only checked exceptions that can occur will come from the predicate. Use the safe and unsafe variants
-     * of this method for convenience.
      */
    /*@
      @ public behavior
@@ -316,9 +330,6 @@ public interface Element {
     
     /**
      * Return all children of this element that are of the given type, and satisfy the given predicate.
-     * 
-     * The only checked exception that occurs will come from the predicate. Use the safe and unsafe variants
-     * of this method for convenience.
      */
    /*@
      @ public behavior
@@ -405,9 +416,6 @@ public interface Element {
 
    /**
      * Recursively return all descendants of this element that satisfy the given predicate.
-     * 
-     * The only checked exceptions that can occur will come from the predicate. Use the safe and unsafe variants
-     * of this method for convenience.
      */
    /*@
      @ public behavior
@@ -422,9 +430,6 @@ public interface Element {
     
     /**
      * Recursively return all descendants of this element that are of the given type, and satisfy the given predicate.
-     * 
-     * The only checked exception that occurs will come from the predicate. Use the safe and unsafe variants
-     * of this method for convenience.
      */
    /*@
      @ public behavior
@@ -442,18 +447,6 @@ public interface Element {
      */
     public <T extends Element, E extends Exception> void apply(Action<T,E> action) throws E;
     
-//    /**
-//     * Recursively apply the given action to this element and all of its descendants, but only if they their type conforms to T.
-//     */
-//    public <T extends Element> void apply(Class<T> c, SafeAction<T> action);
-//    
-//    /**
-//     * Recursively apply the given action to this element and all of its descendants, but only if they their type conforms to T.
-//     * 
-//     * The only checked exception that occurs are determined by type parameter X.
-//     */
-//    public <T extends Element, X extends Exception> void apply(Class<T> c, UnsafeAction<T,X> action) throws X;
-
     /**
      * Return the metadata with the given key.
      * @param key
@@ -612,9 +605,6 @@ public interface Element {
     /**
      * Return the nearest ancestor of type T that satifies the given predicate. Null if no such ancestor can be found.
      * 
-     * The only checked exception that can be thrown comes from the predicate. Use the safe and unsafe variants of this method
-     * for convenience.
-     * 
      * @param <T>
      *        The type of the ancestor to be found
      * @param c
@@ -651,9 +641,6 @@ public interface Element {
     /**
      * Return the nearest element of type T that satifies the given predicate. Null if no such ancestor can be found.
      * 
-     * The only checked exception that can be thrown comes from the predicate. Use the safe and unsafe variants of this method
-     * for convenience.
-     * 
      * @param <T>
      *        The type of the ancestor to be found
      * @param c
@@ -669,6 +656,24 @@ public interface Element {
      @*/
     public <T extends Element, E extends Exception> T nearestAncestorOrSelf(Class<T> c, Predicate<T,E> predicate) throws E;
 
+    /**
+     * Return the nearest element of type T that satifies the given predicate. Null if no such ancestor can be found.
+     * 
+     * @param <T>
+     *        The type of the ancestor to be found
+     * @param c
+     *        The class object of type T (T.class)
+     * @return
+     */
+   /*@
+     @ public behavior
+     @
+     @ post c.isInstance(this) && predicate.eval(this) ==> \result == this;
+     @ post (! predicate.eval(this)) && parent() != null ==> \result == parent().nearestAncestor(predicate);
+     @ post (! predicate.eval(this)) && parent() == null ==> \result == null;
+     @*/
+    public <T extends Element, E extends Exception> T nearestAncestorOrSelf(UniversalPredicate<T, E> predicate) throws E;
+    
     /**
      * Return the language of this element. Return null if this element is not
      * connected to a complete model.
