@@ -8,12 +8,10 @@ public abstract class Walker<T, E extends Exception> extends Action<T,E> {
 		super(type);
 	}
 
-	/**
-	 * Invoked when entering a particular object in the data structure.
-	 * The default implementation does nothing.
-	 * @param object
-	 */
-	public void enter(T object) {
+	public void enter(Object object) {
+		if(type().isInstance(object)) {
+			doEnter((T)object);
+		}
 	}
 	
 	/**
@@ -21,6 +19,20 @@ public abstract class Walker<T, E extends Exception> extends Action<T,E> {
 	 * The default implementation does nothing.
 	 * @param object
 	 */
-	public void exit(T object) {
+	public void doEnter(T object) {
+	}
+	
+	public void exit(Object object) {
+		if(type().isInstance(object)) {
+			doExit((T)object);
+		}
+	}
+	
+	/**
+	 * Invoked when entering a particular object in the data structure.
+	 * The default implementation does nothing.
+	 * @param object
+	 */
+	public void doExit(T object) {
 	}
 }
