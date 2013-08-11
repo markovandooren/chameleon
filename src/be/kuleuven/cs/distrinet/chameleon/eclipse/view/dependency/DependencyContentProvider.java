@@ -1,27 +1,42 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency;
 
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.zest.core.viewers.IGraphEntityContentProvider;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.zest.core.viewers.IGraphContentProvider;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyResult;
-import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
+import be.kuleuven.cs.distrinet.rejuse.graph.UniEdge;
 
-public class DependencyContentProvider extends ArrayContentProvider implements IGraphEntityContentProvider {
+public class DependencyContentProvider implements IGraphContentProvider {
 
-	private DependencyResult<Type, Type> _dependencyModel;
-	
 	@Override
-	public Object[] getConnectedTo(Object entity) {
-		if(entity instanceof Type) {
-			return _dependencyModel.dependencies((Type) entity).toArray();
-		}
-		else {
-			throw new IllegalArgumentException("Cannot process object of type "+entity.getClass());
-		}
+	public void dispose() {
+		_result = null;
+	}
+
+	@Override
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		_result = (DependencyResult) newInput;
 	}
 	
-	public void setModel(DependencyResult<Type,Type> model) {
-		_dependencyModel = model;
+	private DependencyResult _result;
+
+	@Override
+	public Object getSource(Object rel) {
+		return ((UniEdge)rel).start();
+	}
+
+	@Override
+	public Object getDestination(Object rel) {
+		return ((UniEdge)rel).end();
+	}
+
+	@Override
+	public Object[] getElements(Object input) {
+		if(_result != null) {
+			return _result.dependencies().toArray();
+		} else {
+			return new Object[0];
+		}
 	}
 
 }
