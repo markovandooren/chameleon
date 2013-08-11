@@ -7,7 +7,6 @@ import java.util.TreeSet;
 import org.eclipse.jface.text.BadPositionCategoryException;
 import org.eclipse.jface.text.Position;
 
-import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.pattern.And;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorTag;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
 import be.kuleuven.cs.distrinet.chameleon.input.PositionMetadata;
@@ -39,12 +38,12 @@ public class ShowEditorTags {
 	 * 			if true, only the ChameleonEditorPositions with name ChameleonEditorPositionTypes.ALL will be shown.
 	 */
 	public static String getChameleonEditorPositionsStringOfDocument(EclipseDocument document, String content, boolean showOnlyAllChameleonEditorPositions) {
-		SafePredicate<EclipseEditorTag> otherConditions;
+		Predicate<? super EclipseEditorTag, Nothing> otherConditions;
 		// filter all editor tags?
 		if(showOnlyAllChameleonEditorPositions){
 			otherConditions = new EclipseEditorTag.NamePredicate(PositionMetadata.ALL);
 		} else {
-			otherConditions = new True<EclipseEditorTag>();
+			otherConditions = new True();
 		}
 		return getChameleonEditorPositionsStringOfDocument(document, content, otherConditions);
 	}
@@ -59,7 +58,7 @@ public class ShowEditorTags {
 	 * @param 	content
 	 * 			default: document.get()
 	 */
-	public static String getChameleonEditorPositionsStringOfDocument(EclipseDocument document, String content, SafePredicate<EclipseEditorTag> otherConditions) {
+	public static String getChameleonEditorPositionsStringOfDocument(EclipseDocument document, String content, Predicate<? super EclipseEditorTag, Nothing> otherConditions) {
 		int[] positions = getPositions(document);
 		String result = "";
 		int currPos = positions[0];

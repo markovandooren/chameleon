@@ -527,7 +527,7 @@ public class EclipseDocument extends org.eclipse.jface.text.Document {
 	 * @post	If the predicate throws an exception the searching is just stopped and the already found
 	 * 			elements will be added to the result
 	 */
-	public <E extends Exception> void getEditorTagsWithPredicate(Predicate<EclipseEditorTag,E> predicate, Collection<EclipseEditorTag> result) throws E {
+	public <E extends Exception> void getEditorTagsWithPredicate(Predicate<? super EclipseEditorTag,E> predicate, Collection<EclipseEditorTag> result) throws E {
 		try {
 			Position[] positions = getPositions(EclipseEditorTag.CHAMELEON_CATEGORY); // throws BadPositionCategoryException
 			for (Position position : positions) {
