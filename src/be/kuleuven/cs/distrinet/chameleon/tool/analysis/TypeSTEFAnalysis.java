@@ -88,7 +88,7 @@ public class TypeSTEFAnalysis {
       }
       public int accumulate(Object element, int acc) {
         ExceptionFlow flow = ((MethodSTEFAnalysis)element).getHeaderAnalysis(type); 
-        return acc + (flow != null ? flow.getGraph().getNbNodes() -1 : 0);
+        return acc + (flow != null ? flow.getGraph().nbNodes() -1 : 0);
       }
     }.in(getMethodAnalyses());
   }
@@ -108,7 +108,7 @@ public class TypeSTEFAnalysis {
       }
       public int accumulate(Object element, int acc) {
         ExceptionFlow flow = ((MethodSTEFAnalysis)element).getThrowAnalysis(type); 
-        return acc + (flow != null ? flow.getGraph().getNbNodes() -1 : 0);
+        return acc + (flow != null ? flow.getGraph().nbNodes() -1 : 0);
       }
     }.in(getMethodAnalyses());
   }
@@ -143,7 +143,7 @@ public class TypeSTEFAnalysis {
             if(propagating.contains(flow.getMethod())){
               remove = false;
             }
-            propagating.addAll(flow.getGraph().getObjects());
+            propagating.addAll(flow.getGraph().objects());
             if(remove) {
               //System.out.println("Removing "+flow.getMethod().getNearestType().getFullyQualifiedName()+":"+flow.getMethod().getName());
               propagating.remove(flow.getMethod());
