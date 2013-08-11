@@ -12,6 +12,8 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
@@ -94,6 +96,50 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
 	 * @throws IOException 
 	 */
 	protected void initializeRegistry() {}
+	
+	public ILabelProvider labelProvider() {
+		return new ILabelProvider(){
+		
+			@Override
+			public void removeListener(ILabelProviderListener listener) {
+			}
+		
+			@Override
+			public boolean isLabelProperty(Object element, String property) {
+				return false;
+			}
+		
+			@Override
+			public void dispose() {
+			}
+		
+			@Override
+			public void addListener(ILabelProviderListener listener) {
+			}
+		
+			@Override
+			public String getText(Object element) {
+				if(element instanceof Element) {
+					return EclipseEditorExtension.this.getLabel((Element) element);
+				} else {
+					throw new IllegalArgumentException();
+				}
+			}
+		
+			@Override
+			public Image getImage(Object element) {
+				if(element instanceof Element) {
+					try {
+						return EclipseEditorExtension.this.getIcon((Element) element);
+					} catch (ModelException e) {
+						return null;
+					}
+				} else {
+					throw new IllegalArgumentException();
+				}
+			}
+		};
+	}
 	
 	/**
 	 * Return a text label for the given element. This is used for example in the outline.
