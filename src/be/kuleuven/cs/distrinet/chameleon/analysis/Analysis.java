@@ -6,13 +6,22 @@ import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 
 public abstract class Analysis<E extends Element, R extends Result<R>> extends Walker<E,Nothing> {
 
-	public Analysis(Class<E> type) {
+	public Analysis(Class<E> type, R initial) {
 		super(type);
+		setResult(initial);
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public abstract R result();
+	public final R result() {
+		return _result;
+	}
+	
+	protected void setResult(R result) {
+		_result = result;
+	}
+	
+	private R _result;
 }
