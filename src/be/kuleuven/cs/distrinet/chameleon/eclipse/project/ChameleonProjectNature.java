@@ -40,6 +40,7 @@ import be.kuleuven.cs.distrinet.chameleon.input.InputProcessor;
 import be.kuleuven.cs.distrinet.chameleon.input.ModelFactory;
 import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
 import be.kuleuven.cs.distrinet.chameleon.input.SourceManager;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.workspace.BootstrapProjectConfig;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ConfigException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
@@ -111,6 +112,7 @@ public class ChameleonProjectNature implements IProjectNature {
 		}
 	}
 
+	@SuppressWarnings("serial")
 	public ChameleonProjectNature() {
 		_eclipseDocuments=new ArrayList<EclipseDocument>() {
 			@Override
