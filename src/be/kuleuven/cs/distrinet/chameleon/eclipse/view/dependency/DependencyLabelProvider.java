@@ -23,7 +23,7 @@ class DependencyLabelProvider extends LabelProvider implements IConnectionStyleP
 			if(element instanceof Element) {
 				return ((Element)element).language().plugin(EclipseEditorExtension.class).getLabel((Element) element);
 			} else {
-				return "X";
+				return "";
 			}
 		}
 		
