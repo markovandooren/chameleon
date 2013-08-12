@@ -1,13 +1,24 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.layouts.LayoutStyles;
-import org.eclipse.zest.layouts.algorithms.DirectedGraphLayoutAlgorithm;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyAnalysis;
@@ -15,6 +26,7 @@ import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyResult;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.ChameleonEditor;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.util.action.TopDown;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
@@ -41,7 +53,7 @@ public class DependencyView extends ViewPart {
 		_viewer.applyLayout();
 		
 		IToolBarManager mgr = getViewSite().getActionBars().getToolBarManager();
-    mgr.add(new AnalyzeDocumentTypeAction(parent));
+    mgr.add(new AnalyzeDocumentTypeAction());
 	}
 	
 	private ChameleonEditor editor() {
@@ -49,34 +61,46 @@ public class DependencyView extends ViewPart {
 		return editor;
 	}
 	
+	private Document currentDocument() throws CoreException {
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IWorkbenchWindow activeWorkbenchWindow = workbench.getActiveWorkbenchWindow();
+		IEditorInput editorInput = activeWorkbenchWindow.getActivePage().getActiveEditor().getEditorInput();
+		Document document = null;
+		if(editorInput instanceof IFileEditorInput) {
+			IFile file = ((IFileEditorInput)editorInput).getFile();
+			IProject project = file.getProject();
+			if(project != null) {
+			  ChameleonProjectNature nature = (ChameleonProjectNature) project.getNature(ChameleonProjectNature.NATURE);
+			  if(nature != null) {
+			  	document = nature.chameleonDocumentOfFile(file);
+			  }
+			}
+		}
+		return document;
+	}
+	
+  IResource extractSelection(ISelection sel) {
+    if (!(sel instanceof IStructuredSelection))
+       return null;
+    IStructuredSelection ss = (IStructuredSelection) sel;
+    Object element = ss.getFirstElement();
+    if (element instanceof IResource)
+       return (IResource) element;
+    if (!(element instanceof IAdaptable))
+       return null;
+    IAdaptable adaptable = (IAdaptable)element;
+    Object adapter = adaptable.getAdapter(IResource.class);
+    return (IResource) adapter;
+ }
+	
 	private class AnalyzeDocumentTypeAction extends Action {
 		
-		public AnalyzeDocumentTypeAction(Composite parent) {
-			_parent = parent;
+		public AnalyzeDocumentTypeAction() {
 		}
-		
-		private Composite _parent;
 		
 		@Override
 		public void run() {
-//			if(_graph != null) {
-////				for(GraphNode node: _nodeMap.values()) {
-////					node.
-////				}
-//				_graph.dispose();
-//			}
-//			_graph = new Graph(_parent, SWT.NONE);
-//	    _graph.setLayoutAlgorithm(new SpringLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING), true);
-
-//			ZESTGraphBuilder builder = new ZESTGraphBuilder<Type>(_graph, new LabelGenerator<Type>() {
-//				@Override
-//				public String text(Type t) {
-//					return t.name();
-//				}
-//			});
-			
 			Function<Type,Type> identity = new Function<Type, Type>() {
-
 				@Override
 				public Type apply(Type type) {
 					return type;
@@ -89,15 +113,16 @@ public class DependencyView extends ViewPart {
 							new True(), 
 							Type.class, identity, new True(), 
 							new True());
-			
-			ChameleonEditor editor = editor();
-			Document document = editor.getDocument().document();
-			TopDown<Element, Nothing> topDown = new TopDown<>(analysis);
-			topDown.perform(document);
-			
-			DependencyResult result = analysis.result();
+			try {
+				Document document = currentDocument();
+//				ChameleonEditor editor = editor();
+//				Document document = editor.getDocument().document();
+				TopDown<Element, Nothing> topDown = new TopDown<>(analysis);
+				topDown.perform(document);
 
-			_viewer.setInput(result);
+				DependencyResult result = analysis.result();
+
+				_viewer.setInput(result);
 			
 	    // Selection listener on graphConnect or GraphNode is not supported
 	    // see https://bugs.eclipse.org/bugs/show_bug.cgi?id=236528
@@ -108,6 +133,9 @@ public class DependencyView extends ViewPart {
 //	      }
 	//
 //	    });
+			} catch(CoreException exc) {
+				exc.printStackTrace();
+			}
 		}
 
 	}
