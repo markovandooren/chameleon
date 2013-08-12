@@ -55,9 +55,6 @@ public class ChameleonEditorPlugin extends AbstractUIPlugin {
 	public ChameleonEditorPlugin() {
 		super();
 		plugin = this;
-  	// We can't enable caching because the point of an IDE is to modify the model
-  	// which breaks caching until we have implemented a bread crumb dependency tracker.
-  	// YES WE CAN!
     Config.setCaching(true);
 	}
 
