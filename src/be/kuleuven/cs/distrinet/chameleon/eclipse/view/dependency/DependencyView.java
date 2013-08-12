@@ -1,31 +1,20 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency;
 
-import java.util.Map;
-import java.util.Set;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.zest.core.viewers.GraphViewer;
-import org.eclipse.zest.core.widgets.Graph;
 import org.eclipse.zest.layouts.LayoutStyles;
+import org.eclipse.zest.layouts.algorithms.DirectedGraphLayoutAlgorithm;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
-import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyAnalysis;
-import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyAnalyzer.GraphBuilder;
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyResult;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
-import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorExtension;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.ChameleonEditor;
-import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.util.action.TopDown;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
@@ -35,42 +24,7 @@ import com.google.common.base.Function;
 
 public class DependencyView extends ViewPart {
 
-//	private Graph _graph;
-	
-//	private int _layout = 1;
-	
-//	public void createPartControl(Composite parent) {
-//		IToolBarManager mgr = getViewSite().getActionBars().getToolBarManager();
-//    mgr.add(new AnalyzeoDocumentTypeAction(parent));
-//	}
-	
 	private GraphViewer _viewer;
-	
-	private class DependencyLabelProvider extends LabelProvider {
-		
-		
-		@Override
-		public String getText(Object element) {
-			if(element instanceof Element) {
-				return ((Element)element).language().plugin(EclipseEditorExtension.class).getLabel((Element) element);
-			} else {
-				return "";
-			}
-		}
-		
-		@Override
-		public Image getImage(Object element) {
-			if(element instanceof Element) {
-				try {
-				return ((Element)element).language().plugin(EclipseEditorExtension.class).getIcon((Element) element);
-				} catch(ModelException exc) {
-					exc.printStackTrace();
-				}
-			}
-			return super.getImage(element);
-		}
-		
-	}
 	
 	@Override
 	public void createPartControl(Composite parent) {
@@ -79,7 +33,11 @@ public class DependencyView extends ViewPart {
 		_viewer.setLabelProvider(new DependencyLabelProvider());
 		// Start with an empty model.
 		_viewer.setInput(new DependencyResult());
-		_viewer.setLayoutAlgorithm(new SpringLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING),true);
+		SpringLayoutAlgorithm algorithm = new SpringLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING);
+		_viewer.setLayoutAlgorithm(algorithm,true);
+		// The following puts all nodes on top of each other. Rubbish layout.
+//		_viewer.setLayoutAlgorithm(new DirectedGraphLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING),true);
+//		_viewer.setConnectionStyle(ZestStyles.CONNECTIONS_DIRECTED + ZestStyles.CONNECTIONS_SOLID);
 		_viewer.applyLayout();
 		
 		IToolBarManager mgr = getViewSite().getActionBars().getToolBarManager();
@@ -153,43 +111,6 @@ public class DependencyView extends ViewPart {
 		}
 
 	}
-	
-//	private static class DependencyVisualizer<S extends Declaration, E extends S, T extends S> {
-//		
-//		public DependencyVisualizer(GraphBuilder<S> builder) {
-//			_builder = builder;
-//		}
-//		
-//		private GraphBuilder<S> _builder;
-//		
-//		public void visualize(DependencyResult<E, T> result) {
-//		Map<E,Set<T>> deps = result.dependencies();
-//		for(Map.Entry<E,Set<T>> dependencies: deps.entrySet()) {
-//			E origin = dependencies.getKey();
-//			_builder.addVertex(origin);
-//			for(T dependency: dependencies.getValue()) {
-//				_builder.addVertex(dependency);
-//				_builder.addEdge(origin, dependency);
-//			}
-//		}
-//	}
-//
-//	}
-	
-//  public void setLayoutManager() {
-//    switch (_layout) {
-//    case 1:
-//      _graph.setLayoutAlgorithm(new TreeLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING), true);
-//      _layout++;
-//      break;
-//    case 2:
-//      _graph.setLayoutAlgorithm(new SpringLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING), true);
-//      _layout = 1;
-//      break;
-//
-//    }
-//
-//  }
 	
 	@Override
 	public void setFocus() {
