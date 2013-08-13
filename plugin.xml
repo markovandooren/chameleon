@@ -31,6 +31,19 @@
       <content-type id="be.chameleon.eclipse.chameleonsource"/>
    </extension>
    
+   
+      <extension
+         id="BackgroundNature"
+         name="Chameleon Background Project"
+         point="org.eclipse.core.resources.natures">
+         <runtime>
+         	<run class="be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature">
+         </run>
+      </runtime>
+      <builder id="be.chameleon.eclipse.ChameleonBuilder"/>
+   </extension>
+   
+   
    <extension
          id="chameleon.eclipse.project.ProjectWizard"
          name="ChameleonProject"
@@ -150,30 +163,59 @@
   <command
         name="Rename Declaration"
         description="Rename Declaration"
-        id="chameleon.eclipse.actions.refactoring.rename">
+        id="chameleon.eclipse.actions.refactoring.rename"
+        defaultHandler="be.kuleuven.cs.distrinet.chameleon.eclipse.refactoring.RefactoringHandler">
   </command>
   
   </extension>
   
   <extension
          point="org.eclipse.ui.menus">
-      <menuContribution
-            locationURI="menu:org.eclipse.ui.views.ContentOutline?after=additions">
+         <menuContribution
+          allPopups="false"
+          locationURI="menu:org.eclipse.ui.main.menu">
+       <menu
+             id="chameleon.eclipse.menu"
+             label="Chameleon">
+       </menu>
+    </menuContribution>
+         
+         
+      <!--<menuContribution
+            allPopups="false"
+            locationURI="menu:chameleon.eclipse.menu">
          <command
                commandId="chameleon.eclipse.actions.refactoring.rename"
-               mnemonic="Johny"
-               tooltip="sharp">
+               label="Rename">
          </command>
-      </menuContribution>
+      </menuContribution>-->
       <menuContribution
             locationURI="popup:org.eclipse.ui.popup.any?after=additions">
          <command
                commandId="chameleon.eclipse.actions.refactoring.rename"
-               mnemonic="Johny"
-               tooltip="sharp">
+               label="Rename this declaration">
+            <visibleWhen>
+              	<test
+                     property="chameleon.properties.isDeclaration">
+              	</test>
+            </visibleWhen>
          </command>
       </menuContribution>
   </extension>
+
+
+  <extension
+        point="org.eclipse.core.expressions.propertyTesters">
+     <propertyTester
+           class="be.kuleuven.cs.distrinet.chameleon.eclipse.property.IsDeclaration"
+           id="chameleon.IsDeclaration"
+           namespace="chameleon.properties"
+           properties="isDeclaration"
+           type="java.util.List">
+     </propertyTester>
+  </extension>
+  
+
       
   <extension point="org.eclipse.ui.handlers">
     <handler
@@ -262,8 +304,7 @@
    <extension point="org.eclipse.core.contenttype.contentTypes">
      <content-type base-type="org.eclipse.core.runtime.text"
       				     id="chameleonsource"
-      				     name="Chameleon Source Document"
-      				     priority="high"/>
+      				     name="Chameleon Source Document"/>
    </extension>
 
    
