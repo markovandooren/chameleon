@@ -135,9 +135,6 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 	
 	@Override
 	protected void doPerform(final Element element) throws Nothing {
-		for(Object o: done) {
-			Util.debug(o == element);
-		}
 		done.add(element);
 		try {
 			if(! _elements.isEmpty()) {
