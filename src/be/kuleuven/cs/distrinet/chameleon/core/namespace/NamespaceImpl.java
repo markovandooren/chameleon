@@ -175,6 +175,7 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	 @ signals (LookupException) (* There are multiple namespaces with the given name. *);
 	 @*/
 	public Namespace getSubNamespace(final String name) throws LookupException {
+		// SLOW keep a map name -> subnamespace
 		List<Namespace> packages = getSubNamespaces();
 		for(Namespace n: packages) {
 			if(n.name().equals(name)) {
