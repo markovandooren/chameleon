@@ -163,41 +163,20 @@
   <command
         name="Rename Declaration"
         description="Rename Declaration"
-        id="chameleon.eclipse.actions.refactoring.rename"
-        defaultHandler="be.kuleuven.cs.distrinet.chameleon.eclipse.refactoring.RefactoringHandler">
+        id="chameleon.eclipse.actions.refactoring.rename">
   </command>
   
   </extension>
   
   <extension
          point="org.eclipse.ui.menus">
-         <menuContribution
-          allPopups="false"
-          locationURI="menu:org.eclipse.ui.main.menu">
-       <menu
-             id="chameleon.eclipse.menu"
-             label="Chameleon">
-       </menu>
-    </menuContribution>
-         
-         
-      <!--<menuContribution
-            allPopups="false"
-            locationURI="menu:chameleon.eclipse.menu">
-         <command
-               commandId="chameleon.eclipse.actions.refactoring.rename"
-               label="Rename">
-         </command>
-      </menuContribution>-->
       <menuContribution
             locationURI="popup:org.eclipse.ui.popup.any?after=additions">
          <command
                commandId="chameleon.eclipse.actions.refactoring.rename"
                label="Rename this declaration">
             <visibleWhen>
-              	<test
-                     property="chameleon.properties.isDeclaration">
-              	</test>
+              	<test property="chameleon.properties.isDeclaration"/>
             </visibleWhen>
          </command>
       </menuContribution>
@@ -211,7 +190,7 @@
            id="chameleon.IsDeclaration"
            namespace="chameleon.properties"
            properties="isDeclaration"
-           type="java.util.List">
+           type="java.lang.Object">
      </propertyTester>
   </extension>
   
