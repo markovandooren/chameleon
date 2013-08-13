@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.workspace;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +12,8 @@ import java.util.zip.ZipFile;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
+import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 public abstract class AbstractZipLoader extends DocumentLoaderImpl {
@@ -33,7 +34,7 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
    @ post filter() == filter;
    @ post isBaseLoader() == isBaseLoader;
    @*/
-	public AbstractZipLoader(ZipFile zipFile, SafePredicate<? super String> filter, boolean isBaseLoader) {
+	public AbstractZipLoader(ZipFile zipFile, Predicate<? super String,Nothing> filter, boolean isBaseLoader) {
 		setPath(zipFile);
 		setFilter(filter);
 	}
@@ -54,7 +55,7 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
    @ post filter() == filter;
    @ post isBaseLoader() == false;
    @*/
-	public AbstractZipLoader(ZipFile zipFile, SafePredicate<? super String> filter) {
+	public AbstractZipLoader(ZipFile zipFile, Predicate<? super String,Nothing> filter) {
 		this(zipFile,filter,false);
 	}
 
@@ -76,7 +77,7 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
 		return _zipFile;
 	}
 	
-	private void setFilter(SafePredicate<? super String> filter) {
+	private void setFilter(Predicate<? super String,Nothing> filter) {
 		_filter = filter;
 	}
 	
@@ -85,11 +86,11 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
 	 * on the paths of the files.
 	 * @return
 	 */
-	public SafePredicate<? super String> filter() {
+	public Predicate<? super String,Nothing> filter() {
 		return _filter;
 	}
 	
-	private SafePredicate<? super String> _filter;
+	private Predicate<? super String,Nothing> _filter;
 	
 	/**
 	 * Create a {@link ZipFile} object that represents the zip file

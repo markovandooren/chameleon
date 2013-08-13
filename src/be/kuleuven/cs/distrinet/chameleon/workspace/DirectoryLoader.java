@@ -20,6 +20,8 @@ import be.kuleuven.cs.distrinet.chameleon.util.concurrent.CallableFactory;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.FixedThreadCallableExecutor;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.QueuePollingCallableFactory;
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
+import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 /**
@@ -51,7 +53,7 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
    @ post filter() == filter;
    @ post isBaseLoader() == isBaseLoader;
    @*/
-	public DirectoryLoader(String root, SafePredicate<? super String> filter, FileInputSourceFactory factory) {
+	public DirectoryLoader(String root, Predicate<? super String,Nothing> filter, FileInputSourceFactory factory) {
 		this(root, filter, false, factory);
 	}
 
@@ -72,25 +74,25 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
    @ post filter() == filter;
    @ post isBaseLoader() == isBaseLoader;
    @*/
-	public DirectoryLoader(String root, SafePredicate<? super String> filter, boolean isBaseLoader, FileInputSourceFactory factory) {
+	public DirectoryLoader(String root, Predicate<? super String,Nothing> filter, boolean isBaseLoader, FileInputSourceFactory factory) {
 		super(isBaseLoader);
 		setPath(root);
 		setInputSourceFactory(factory);
 		setFilter(filter);
 	}
 	
-	protected void setFilter(SafePredicate<? super String> filter) {
+	protected void setFilter(Predicate<? super String,Nothing> filter) {
 		if(filter == null) {
 			throw new IllegalArgumentException("The file name filter of a directory loader cannot be null");
 		}
 		_filter = filter;
 	}
 	
-	public SafePredicate<? super String> filter() {
+	public Predicate<? super String,Nothing> filter() {
 		return _filter;
 	}
 	
-	private SafePredicate<? super String> _filter;
+	private Predicate<? super String,Nothing> _filter;
 	
 	/**
 	 * This method is called when the directory loader is connected to a view.
