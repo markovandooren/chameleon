@@ -39,9 +39,6 @@ public abstract class OpenCallHierarchyAction extends Action {
 	@Override
 	public void run() {
 		Language lang = ChameleonEditor.getActiveLanguage();
-		if(lang != null){
-			view.getTreeViewer().setLabelProvider(new ChameleonLabelProvider(lang, true, true, false));
-		}
 		EclipseDocument doc = ChameleonEditor.getActiveDocument();
 		// set content provider
 		ChameleonProjectNature projNat = doc.getProjectNature();
@@ -49,6 +46,9 @@ public abstract class OpenCallHierarchyAction extends Action {
 		// set input method:
 		Declaration currentDeclaration = getCurrentDeclaration();
 		view.getTreeViewer().setInput(new RootDeclaration(currentDeclaration));
+		if(lang != null){
+			view.getTreeViewer().setLabelProvider(new ChameleonLabelProvider(lang, true, true, false));
+		}
 
 	}
 	
