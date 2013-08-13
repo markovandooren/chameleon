@@ -226,15 +226,17 @@ public class Project {
 	}
 	
 	/**
-	 * Set the name of this project.
+	 * Set the name of this project. If null is provided,
+	 * the name is set to "Unnamed Project".
 	 * 
 	 * @param name The new name of this project.
 	 */
 	public void setName(String name) {
 		if(name == null) {
-			throw new IllegalArgumentException();
+			_name="Unnamed Project";
+		} else {
+			_name = name;
 		}
-		_name = name;
 	}
 	
 	private String _name;
