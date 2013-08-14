@@ -49,7 +49,7 @@ public class ChameleonPropertyTester extends PropertyTester {
 		if(! result) {
 			result = testObject(receiver, property, args, expectedValue);
 		}
-		return false;
+		return result;
 	}
 	
 	/**
