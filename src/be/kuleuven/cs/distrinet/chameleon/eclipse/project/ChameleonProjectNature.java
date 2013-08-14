@@ -47,6 +47,7 @@ import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
 import be.kuleuven.cs.distrinet.chameleon.workspace.IFileInputSource;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputSource;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputSourceListener;
+import be.kuleuven.cs.distrinet.chameleon.workspace.LanguageRepository;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectInitialisationListener;
 import be.kuleuven.cs.distrinet.chameleon.workspace.View;
@@ -70,14 +71,14 @@ public class ChameleonProjectNature implements IProjectNature {
 	 *
 	 */
 	public class EclipseInputSourceListener implements InputSourceListener {
-		
+
 		/**
 		 * Explicit empty default constructor so we can see who invokes it.
 		 */
 		public EclipseInputSourceListener() {
-			
+
 		}
-		
+
 		@Override
 		public void notifyInputSourceRemoved(InputSource source) {
 			if(source instanceof IFileInputSource) {
@@ -124,43 +125,45 @@ public class ChameleonProjectNature implements IProjectNature {
 			}
 		};
 	}
-	
+
 	//the project this natures resides
 	private IProject _project;
-	
+
 	//the language of this nature
-//	private Language _language;
-	
+	//	private Language _language;
+
 	public static final String CHAMELEON_PROJECT_FILE = "project.xml";
 
 	//The elements in the model of this nature
 	private ArrayList<EclipseDocument> _eclipseDocuments;
-	
+
 	public static final String NATURE = ChameleonEditorPlugin.PLUGIN_ID+".ChameleonNature";
-		
+
+	public static final String BACKGROUND_NATURE = ChameleonEditorPlugin.PLUGIN_ID+".BackgroundNature";
+
 	public PresentationModel presentationModel() {
 		return LanguageMgt.getInstance().getPresentationModel(view().language().name());
 	}
-//
-//	/**
-//	 * Set the language, and attach the source manager and the input processor.
-//	 * @param language
-//	 */
-//	public void init(Project project){
-//		if(project == null) {
-//			throw new ChameleonProgrammerException("Cannot set the project of a Chameleon project nature to null.");
-//		}
-//		this._chameleonProject = project;
-////		for(View view: project.views()) {
-////		}
-//	}
-	
+	//
+	//	/**
+	//	 * Set the language, and attach the source manager and the input processor.
+	//	 * @param language
+	//	 */
+	//	public void init(Project project){
+	//		if(project == null) {
+	//			throw new ChameleonProgrammerException("Cannot set the project of a Chameleon project nature to null.");
+	//		}
+	//		this._chameleonProject = project;
+	////		for(View view: project.views()) {
+	////		}
+	//	}
+
 	public Project chameleonProject() {
 		return _chameleonProject;
 	}
-	
+
 	private Project _chameleonProject;
-	
+
 	/**
 	 * Configure this nature. This method is called by Eclipse after initialisation.
 	 * We use it to create the Chameleon builder. FIXME: this also starts a new build job. I'm not
@@ -171,7 +174,7 @@ public class ChameleonProjectNature implements IProjectNature {
 		//later om de builders in te steken (compiler?)
 		addBuilder(getProject(), ChameleonBuilder.BUILDER_ID);
 		new Job("Chameleon Project Build"){
-		
+
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				try {
@@ -183,25 +186,25 @@ public class ChameleonProjectNature implements IProjectNature {
 			}
 		}.schedule();
 	}
-	
-  private void addBuilder(IProject project, String id) throws CoreException {
-    IProjectDescription desc = project.getDescription();
-    ICommand[] commands = desc.getBuildSpec();
-    for (int i = 0; i < commands.length; ++i) {
-       if (commands[i].getBuilderName().equals(id)) {
-          return;
-       }
-    }
-    //add builder to project
-    ICommand command = desc.newCommand();
-    command.setBuilderName(id);
-    ICommand[] nc = new ICommand[commands.length + 1];
-    // Add it before other builders.
-    System.arraycopy(commands, 0, nc, 1, commands.length);
-    nc[0] = command;
-    desc.setBuildSpec(nc);
-    project.setDescription(desc, null);
- }
+
+	private void addBuilder(IProject project, String id) throws CoreException {
+		IProjectDescription desc = project.getDescription();
+		ICommand[] commands = desc.getBuildSpec();
+		for (int i = 0; i < commands.length; ++i) {
+			if (commands[i].getBuilderName().equals(id)) {
+				return;
+			}
+		}
+		//add builder to project
+		ICommand command = desc.newCommand();
+		command.setBuilderName(id);
+		ICommand[] nc = new ICommand[commands.length + 1];
+		// Add it before other builders.
+		System.arraycopy(commands, 0, nc, 1, commands.length);
+		nc[0] = command;
+		desc.setBuildSpec(nc);
+		project.setDescription(desc, null);
+	}
 
 
 	/**
@@ -228,31 +231,10 @@ public class ChameleonProjectNature implements IProjectNature {
 			this._project = project;
 			if(project != null) {
 				try {
-					IPath location = project.getLocation();
-					final EclipseInputSourceListener listener = new EclipseInputSourceListener();
-					BootstrapProjectConfig bootstrapProjectConfig = new BootstrapProjectConfig(workspace());
-					_chameleonProject = bootstrapProjectConfig.project(new File(location+"/"+CHAMELEON_PROJECT_FILE), new ProjectInitialisationListener(){
-						@Override
-						public void viewAdded(View view) {
-							// Attach listeners for document loaders which attaches
-							// the listeners for the input sources.
-							view.addListener(new ViewListener(){
-								@Override
-								public void sourceLoaderAdded(DocumentLoader loader) {
-									loader.addAndSynchronizeListener(listener);
-								}
-							});
-							view.setPlugin(SourceManager.class, new EclipseSourceManager(ChameleonProjectNature.this));
-							//FIXME This should not be attached to a language, but to a view.
-							view.addProcessor(InputProcessor.class, new EclipseEditorInputProcessor(ChameleonProjectNature.this));
-							// Let the editor extension initialize the view.
-							//FIXME this should not be done by IDE code. Need further improvements
-							view.language().plugin(EclipseEditorExtension.class).initialize(view);
-							//FIXME This will NOT work with language stacking, but for now it will do. Got more important things to do now.
-//							_language = language;
-							_view = view;
-						}
-					});
+					_chameleonProject = readFromChameleonConfig(project);
+					if(_chameleonProject == null) {
+						_chameleonProject = createBackgroundProject(project);
+					}
 					_projectListener = new ProjectChangeListener(this);
 					getProject().getWorkspace().addResourceChangeListener(_projectListener, IResourceChangeEvent.POST_CHANGE);
 					// It should be sufficient to register the listener once for the entire project. Now we need a more
@@ -267,15 +249,56 @@ public class ChameleonProjectNature implements IProjectNature {
 		}
 	}
 	
+	protected Project createBackgroundProject(IProject project) {
+		LanguageRepository repository = workspace().languageRepository();
+		for(Language language: repository.languages()) {
+			EclipseEditorExtension loader = language.plugin(EclipseEditorExtension.class);
+			if(loader != null && loader.canLoad(project)) {
+				return loader.load(project);
+			}
+		}
+		return null;
+	}
+
+	protected Project readFromChameleonConfig(IProject project) {
+		IPath location = project.getLocation();
+		Project result = null;
+		final EclipseInputSourceListener listener = new EclipseInputSourceListener();
+		BootstrapProjectConfig bootstrapProjectConfig = new BootstrapProjectConfig(workspace());
+		result = bootstrapProjectConfig.project(new File(location+"/"+CHAMELEON_PROJECT_FILE), new ProjectInitialisationListener(){
+			@Override
+			public void viewAdded(View view) {
+				// Attach listeners for document loaders which attaches
+				// the listeners for the input sources.
+				view.addListener(new ViewListener(){
+					@Override
+					public void sourceLoaderAdded(DocumentLoader loader) {
+						loader.addAndSynchronizeListener(listener);
+					}
+				});
+				view.setPlugin(SourceManager.class, new EclipseSourceManager(ChameleonProjectNature.this));
+				//FIXME This should not be attached to a language, but to a view.
+				view.addProcessor(InputProcessor.class, new EclipseEditorInputProcessor(ChameleonProjectNature.this));
+				// Let the editor extension initialize the view.
+				//FIXME this should not be done by IDE code. Need further improvements
+				view.language().plugin(EclipseEditorExtension.class).initialize(view);
+				//FIXME This will NOT work with language stacking, but for now it will do. Got more important things to do now.
+				//							_language = language;
+				_view = view;
+			}
+		});
+		return result;
+	}
+
 	/*
 	 * TODO get rid of this static nonsense.
 	 */
 	protected Workspace workspace() {
 		return LanguageMgt.getInstance().workspace();
 	}
-	
+
 	private IResourceChangeListener _projectListener;
-	
+
 	/*
 	 *  (non-Javadoc)
 	 * @see chameleonEditor.editors.IChameleonDocument#getMetaModelFactory()
@@ -342,12 +365,12 @@ public class ChameleonProjectNature implements IProjectNature {
 			removeDocument(same);
 		}
 		_eclipseDocuments.add(document);
-		
-//		addDocument(document);
+
+		//		addDocument(document);
 		//FIXME why update? I think this can go because now the project nature
 		// sends an event to the appropriate document loader, which in turn
 		// sends an event back to add a ChameleonDocument for the document
-//		updateModel(document);
+		//		updateModel(document);
 	}
 
 	/**
@@ -361,7 +384,7 @@ public class ChameleonProjectNature implements IProjectNature {
 		if(element != null) {
 			Document cu = element.nearestAncestorOrSelf(Document.class);
 			for(EclipseDocument doc : _eclipseDocuments) {
-//				if(doc.chameleonDocument().equals(cu)) {
+				//				if(doc.chameleonDocument().equals(cu)) {
 				if(doc.inputSource().equals(cu.inputSource())) {
 					return doc;
 				}
@@ -377,7 +400,7 @@ public class ChameleonProjectNature implements IProjectNature {
 	 * 
 	 * If the given document is null, nothing happens.
 	 */
- /*@
+	/*@
    @ post ! documents().contains(document);
    @ post document != null ==> document.compilationUnit().disconnected();
    @*/
@@ -391,7 +414,7 @@ public class ChameleonProjectNature implements IProjectNature {
 	public View view() {
 		return _view;
 	}
-	
+
 	private View _view;
 
 	public void addDocument(EclipseDocument document) {
@@ -410,7 +433,7 @@ public class ChameleonProjectNature implements IProjectNature {
 			e.printStackTrace();
 		} 
 	}
-	
+
 	public EclipseDocument documentOfPath(IPath path) {
 		EclipseDocument result = null;
 		for(EclipseDocument doc:_eclipseDocuments) {
@@ -454,7 +477,7 @@ public class ChameleonProjectNature implements IProjectNature {
 	public void flushSourceCache() {
 		view().flushSourceCache();
 	}
-	
+
 	public void acquire() throws InterruptedException {
 		_semaphore.acquire();
 	}
@@ -462,9 +485,9 @@ public class ChameleonProjectNature implements IProjectNature {
 	public void release() {
 		_semaphore.release();
 	}
-	
+
 	private Semaphore _semaphore = new Semaphore(1);
-	
+
 	public void clearMarkers() throws CoreException {
 		for(EclipseDocument document: _eclipseDocuments) {
 			IFile file = document.getFile();
