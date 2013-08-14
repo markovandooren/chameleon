@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
@@ -30,6 +31,7 @@ import be.kuleuven.cs.distrinet.chameleon.eclipse.view.outline.ChameleonOutlineS
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.plugin.LanguagePlugin;
 import be.kuleuven.cs.distrinet.chameleon.plugin.LanguagePluginImpl;
+import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.chameleon.workspace.View;
 
 /**
@@ -296,5 +298,14 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
 
 	public void initialize(View view) {
 	}
+	
+	public boolean canLoad(IProject project) {
+		return false;
+	}
+	
+	public Project load(IProject project) {
+		return null;
+	}
+
 
 }
