@@ -288,7 +288,7 @@ public class Project {
 	 */
 	public void tryToAdd(File file) {
 		for(View view: views()) {
-			for(FileLoader loader: view.sourceLoaders(FileLoader.class)) {
+			for(FileLoader loader: view.loaders(FileLoader.class)) {
 				try {
 					loader.tryToAdd(file);
 				} catch (InputException e) {

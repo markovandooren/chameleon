@@ -76,7 +76,7 @@ public class ZipLoader extends AbstractZipLoader {
 	}
 
 	private InputSource createInputSource(InputStream stream, String declarationName, InputSourceNamespace ns) throws InputException {
-		return new LazyStreamInputSource(stream,declarationName,ns,this);
+		return new LazyReadOnceStreamInputSource(stream,declarationName,ns,this);
 	}
 
 }

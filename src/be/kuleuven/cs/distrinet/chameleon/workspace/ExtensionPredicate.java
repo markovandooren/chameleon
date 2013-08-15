@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import be.kuleuven.cs.distrinet.chameleon.util.Strings;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
@@ -54,7 +55,7 @@ public class ExtensionPredicate extends SafePredicate<String> {
 		return Collections.unmodifiableCollection(_extensions);
 	}
 	
-	private Set _extensions = new HashSet<String>();
+	private Set<String> _extensions = new HashSet<String>();
 	
 	/**
 	 * Returns true if the given file name has an extension that is
@@ -75,4 +76,13 @@ public class ExtensionPredicate extends SafePredicate<String> {
 		return result;
 	}
 
+	@Override
+	public String toString() {
+		return "Extension predicate: "+Strings.create(extensions());
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		return false;
+	}
 }

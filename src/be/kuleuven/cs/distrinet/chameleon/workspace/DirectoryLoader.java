@@ -15,6 +15,7 @@ import java.util.concurrent.ExecutionException;
 
 import org.antlr.runtime.RecognitionException;
 
+import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.CallableFactory;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.FixedThreadCallableExecutor;
@@ -339,4 +340,37 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 //		System.out.println(file);
 //	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == this) {
+			return true;
+		}
+		if(obj instanceof DirectoryLoader) {
+			DirectoryLoader loader = (DirectoryLoader) obj;
+			return path().equals(loader.path()) && filter().equals(loader.filter());
+		}
+		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return "Directory loader: "+path()+" with filter: "+filter().toString();
+	}
+	
+	@Override
+	public boolean canAddInputSource(InputSource source) {
+		return source instanceof IFileInputSource;
+	}
+	
+	@Override
+	public Document documentOf(File absoluteFile) throws InputException {
+		for(InputSource source: inputSources()) {
+			//Safe cast since we control the addition of input sources.
+			IFileInputSource s = (IFileInputSource) source;
+			if(s.file().equals(absoluteFile)) {
+				return s.load();
+			}
+		}
+		return null;
+	}
 }

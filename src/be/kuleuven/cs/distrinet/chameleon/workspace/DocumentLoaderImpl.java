@@ -12,8 +12,9 @@ import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
 import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import be.kuleuven.cs.distrinet.rejuse.contract.Contracts;
 
-public abstract class DocumentLoaderImpl implements DocumentLoader {
+public class DocumentLoaderImpl implements DocumentLoader {
 
 	public DocumentLoaderImpl() {
 		this(false);
@@ -128,13 +129,30 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 
 	private OrderedMultiAssociation<DocumentLoaderImpl, InputSource> _inputSources = new OrderedMultiAssociation<DocumentLoaderImpl, InputSource>(this);
 	
+	/**
+	 * Add the given input source.
+	 * @param source
+	 */
+ /*@
+   @ public behavior
+   @
+   @ pre source != null;
+   @
+   @ post inputSources().contains(source);
+   @ post inputSources().containsAll(\old(inputSources()));
+   @*/
 	public void addInputSource(InputSource source) {
 		// The Association object will send the event and the attached listener
 		// will invoke notifyAdded(InputSource).
 //		System.out.println("Adding "+source);
+		Contracts.check(canAddInputSource(source), "The given input source cannot be handled by this loader.");
 		if(source != null) {
 			_inputSources.add(source.loaderLink());
 		}
+	}
+	
+	public boolean canAddInputSource(InputSource source) {
+		return true;
 	}
 
 	@Override

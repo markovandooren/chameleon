@@ -71,17 +71,21 @@ public abstract class InputSourceImpl implements InputSource {
 	
 	public final Document load() throws InputException {
 		if(! isLoaded()) {
-			doLoad();
-			Document result = rawDocument();
-			result.activate();
-			notifyLoaded(result);
-			return result;
+			return refresh();
 		} else {
-			return _document.getOtherEnd();
+			return rawDocument();
 		}
 	}
 	
-	protected abstract void doLoad() throws InputException;
+	public final Document refresh() throws InputException {
+		doRefresh();
+		Document result = rawDocument();
+		result.activate();
+		notifyLoaded(result);
+		return result;
+	}
+	
+	protected abstract void doRefresh() throws InputException;
 	
 	@Override
 	public Project project() {

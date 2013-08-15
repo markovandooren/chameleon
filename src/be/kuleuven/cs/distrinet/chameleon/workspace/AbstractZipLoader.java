@@ -169,4 +169,15 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
 		return Util.getAllButLastPart(Util.getAllButLastPart(entryName).replace('/', '.'));
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == this) {
+			return true;
+		}
+		if(obj instanceof AbstractZipLoader) {
+			AbstractZipLoader loader = (AbstractZipLoader) obj;
+			return loader.filter().equals(filter()) && loader.file().equals(file());
+		}
+		return false;
+	}
 }
