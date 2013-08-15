@@ -174,11 +174,13 @@ public class Document extends ElementImpl {
 			init(loader);
 			setDocument(document);
 		}
-		
+
+		/**
+		 * We do nothing for a fake input source. The content was set directly.
+		 */
 		@Override
-		protected void doLoad() throws InputException {
+		public void doRefresh() throws InputException {
 		}
-		
 	}
 	
 	private static class FakeDocumentLoader extends DocumentLoaderImpl {
