@@ -1,8 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.nature;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Iterator;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -17,8 +14,13 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.LanguageMgt;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorExtension;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.util.Files;
+import be.kuleuven.cs.distrinet.chameleon.workspace.LanguageRepository;
+import be.kuleuven.cs.distrinet.chameleon.workspace.Workspace;
 
 public class AddBackgroundNature extends AbstractHandler {
 
@@ -44,9 +46,8 @@ public class AddBackgroundNature extends AbstractHandler {
 						System.arraycopy(natures, 0, newNatures, 0, natures.length);
 						newNatures[natures.length] = ChameleonProjectNature.BACKGROUND_NATURE;
 						description.setNatureIds(newNatures);
-						// We must create the Chameleon project file before we change the project
-						// description because the latter will trigger the creation of the
-						// chameleon project nature.
+            // We do not create a Chameleon project file to avoid overwriting a file.
+						//
 						try {
 							project.setDescription(description, new NullProgressMonitor());
 						} catch(CoreException exc) {
@@ -65,5 +66,15 @@ public class AddBackgroundNature extends AbstractHandler {
 		return null;
 	}
 	
+  private void ploks(IProject project) {
+  	Workspace workspace = LanguageMgt.getInstance().workspace();
+		LanguageRepository repository = workspace.languageRepository();
+		for(Language language: repository.languages()) {
+			EclipseEditorExtension loader = language.plugin(EclipseEditorExtension.class);
+			if(loader != null && loader.canLoad(project)) {
+				loader.load(project);
+			}
+		}
 
+  }
 }
