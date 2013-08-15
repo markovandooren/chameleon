@@ -40,7 +40,7 @@
          	<run class="be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature">
          </run>
       </runtime>
-      <builder id="be.chameleon.eclipse.ChameleonBuilder"/>
+      <!--<builder id="be.chameleon.eclipse.ChameleonBuilder"/> -->
    </extension>
    
    
