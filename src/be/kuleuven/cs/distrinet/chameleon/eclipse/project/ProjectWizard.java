@@ -78,10 +78,6 @@ public class ProjectWizard extends BasicNewProjectResourceWizard implements INew
 		_languageSelectionPage.setTitle("Language Selection");
 		_languageSelectionPage.setDescription("Select the language to use for this project");
 
-//		_projectDetailsPage = new WizardNewProjectCreationPage("Project Details");
-//		_projectDetailsPage.setTitle( "Project Details" );
-//		_projectDetailsPage.setDescription( "Fill in a project title" );
-
 		_pathPage = new PathPage(this);
 		_pathPage.setTitle( "Project Paths" );
 		_pathPage.setDescription( "Set the source and binary paths" );
@@ -115,7 +111,7 @@ public class ProjectWizard extends BasicNewProjectResourceWizard implements INew
 	}
 
 	public String projectName() {
-		return projectConfig().name();
+		return projectConfig().getName();
 	}
 	
 	public void setName(String name) {

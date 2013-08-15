@@ -11,6 +11,7 @@ public class RefactoringHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent arg0) throws ExecutionException {
+		System.out.println("*** Refactoring handler executed ***");
 		return null;
 	}
 

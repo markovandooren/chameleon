@@ -2,7 +2,7 @@
  * Created on 14-jun-07
  * @author Tim Vermeiren
  */
-package be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.callhierarchy;
+package be.kuleuven.cs.distrinet.chameleon.eclipse.view.callhierarchy;
 
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;

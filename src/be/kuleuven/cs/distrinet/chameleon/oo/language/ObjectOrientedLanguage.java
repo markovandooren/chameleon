@@ -29,12 +29,11 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.ActualTypeArgument;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.Variable;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.VariableDeclarator;
-import be.kuleuven.cs.distrinet.chameleon.support.member.simplename.variable.MemberVariableDeclarator;
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UnsafePredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 
 public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	
@@ -207,7 +206,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	}
 
 	public void replace(TypeReference replacement, final Declaration declarator, TypeReference in) throws LookupException {
-		UnsafePredicate<TypeReference, LookupException> predicate = new UnsafePredicate<TypeReference, LookupException>() {
+		AbstractPredicate<TypeReference, LookupException> predicate = new AbstractPredicate<TypeReference, LookupException>() {
 			@Override
 			public boolean eval(TypeReference object) throws LookupException {
 				return object.getDeclarator().sameAs(declarator);

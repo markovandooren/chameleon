@@ -6,10 +6,10 @@ import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice.Advice;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.Pointcut;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
-import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContextFactory;
@@ -25,7 +25,7 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
-public class Aspect extends ElementImpl implements DeclarationContainer, Declaration {
+public class Aspect extends DeclarationImpl implements DeclarationContainer, Declaration {
 	
 	public Aspect(String name) {
 		this(new SimpleNameSignature(name));

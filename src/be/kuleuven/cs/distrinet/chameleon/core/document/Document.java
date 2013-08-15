@@ -68,13 +68,16 @@ public class Document extends ElementImpl {
 	}
 	
 	/**
-	 * Activate this document by letting all descendant namespace declarations
-	 * connect themselves to their corresponding namespace. This adds the contents
+	 * Activate this document by letting all child namespace declarations
+	 * activate themselves. This adds the contents
 	 * of this document to the logical namespace structure of the project. 
 	 */
 	public void activate() {
-		for(NamespaceDeclaration nsd: descendants(NamespaceDeclaration.class)) {
-			nsd.namespace();
+//		for(NamespaceDeclaration nsd: descendants(NamespaceDeclaration.class)) {
+//			nsd.namespace();
+//		}
+		for(NamespaceDeclaration part: namespaceDeclarations()) {
+			part.activate();
 		}
 	}
 	
@@ -168,14 +171,16 @@ public class Document extends ElementImpl {
 	private static class FakeInputSource extends InputSourceImpl {
 
 		public FakeInputSource(Document document, DocumentLoader loader) {
-			super(loader);
+			init(loader);
 			setDocument(document);
 		}
-		
+
+		/**
+		 * We do nothing for a fake input source. The content was set directly.
+		 */
 		@Override
-		protected void doLoad() throws InputException {
+		public void doRefresh() throws InputException {
 		}
-		
 	}
 	
 	private static class FakeDocumentLoader extends DocumentLoaderImpl {

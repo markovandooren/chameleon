@@ -33,7 +33,7 @@ public class Workspace {
 
 	public Project getProject(String name) throws LookupException {
 		for(Project project: projects()) {
-			if(project.name().equals(name)) {
+			if(project.getName().equals(name)) {
 				return project;
 			}
 		}

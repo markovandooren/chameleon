@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.IPath;
 
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 
 public abstract class ChameleonResourceDeltaVisitor implements IResourceDeltaVisitor {
 	
@@ -33,10 +34,7 @@ public abstract class ChameleonResourceDeltaVisitor implements IResourceDeltaVis
 				handleRemoved(delta);
 				break;
 			case IResourceDelta.CHANGED :
-				int flags = delta.getFlags();
-				if(! ((flags & IResourceDelta.MARKERS) == IResourceDelta.MARKERS)) {
 				  handleChanged(delta);
-				}
 				break;
 			}
 		return true;

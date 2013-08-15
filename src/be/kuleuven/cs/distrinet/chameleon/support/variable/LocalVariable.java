@@ -27,8 +27,7 @@ public class LocalVariable extends RegularVariable {
   }
 
   public Scope scope() throws LookupException {
-    List ancestors = ancestors();
-    new TypePredicate(StatementListContainer.class).filter(ancestors);
+    List ancestors = ancestors(StatementListContainer.class);
     return new StatementListScope((StatementListContainer)ancestors.get(ancestors.size() - 1), (Statement)parent());
   }
 

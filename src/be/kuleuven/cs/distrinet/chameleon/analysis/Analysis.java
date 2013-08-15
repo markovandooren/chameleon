@@ -1,35 +1,27 @@
 package be.kuleuven.cs.distrinet.chameleon.analysis;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
-import be.kuleuven.cs.distrinet.rejuse.action.SafeAction;
+import be.kuleuven.cs.distrinet.chameleon.util.action.Walker;
+import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 
-public abstract class Analysis<E extends Element, R extends Result<R>> extends SafeAction<E> {
+public abstract class Analysis<E extends Element, R extends Result<R>> extends Walker<E,Nothing> {
 
-	public Analysis(Class<E> type) {
+	public Analysis(Class<E> type, R initial) {
 		super(type);
+		setResult(initial);
 	}
-	
-	@Override
-	public final void perform(E t) {
-		R result = analyse(t);
-		_result = result.and(_result);
-	}
-	
-	/**
-	 * Perform the analysis on the given element.
-	 * 
-	 * @param element The element to be analyzed.
-	 */
-	protected abstract R analyse(E e);
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public R result() {
+	public final R result() {
 		return _result;
 	}
 	
+	protected void setResult(R result) {
+		_result = result;
+	}
+	
 	private R _result;
-
 }

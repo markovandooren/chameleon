@@ -61,6 +61,12 @@ public abstract class DeclarationImpl extends ElementImpl implements Declaration
 	public Declaration finalDeclaration() {
 		return this;
 	}
+	
+	@Override
+	public Declaration template() {
+		return finalDeclaration();
+	}
+
 
 	@Override
 	public SelectionResult updatedTo(Declaration declaration) {

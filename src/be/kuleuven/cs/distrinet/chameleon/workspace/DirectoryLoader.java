@@ -15,11 +15,14 @@ import java.util.concurrent.ExecutionException;
 
 import org.antlr.runtime.RecognitionException;
 
+import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.CallableFactory;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.FixedThreadCallableExecutor;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.QueuePollingCallableFactory;
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
+import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 /**
@@ -51,7 +54,7 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
    @ post filter() == filter;
    @ post isBaseLoader() == isBaseLoader;
    @*/
-	public DirectoryLoader(String root, SafePredicate<? super String> filter, FileInputSourceFactory factory) {
+	public DirectoryLoader(String root, Predicate<? super String,Nothing> filter, FileInputSourceFactory factory) {
 		this(root, filter, false, factory);
 	}
 
@@ -72,25 +75,25 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
    @ post filter() == filter;
    @ post isBaseLoader() == isBaseLoader;
    @*/
-	public DirectoryLoader(String root, SafePredicate<? super String> filter, boolean isBaseLoader, FileInputSourceFactory factory) {
+	public DirectoryLoader(String root, Predicate<? super String,Nothing> filter, boolean isBaseLoader, FileInputSourceFactory factory) {
 		super(isBaseLoader);
 		setPath(root);
 		setInputSourceFactory(factory);
 		setFilter(filter);
 	}
 	
-	protected void setFilter(SafePredicate<? super String> filter) {
+	protected void setFilter(Predicate<? super String,Nothing> filter) {
 		if(filter == null) {
 			throw new IllegalArgumentException("The file name filter of a directory loader cannot be null");
 		}
 		_filter = filter;
 	}
 	
-	public SafePredicate<? super String> filter() {
+	public Predicate<? super String,Nothing> filter() {
 		return _filter;
 	}
 	
-	private SafePredicate<? super String> _filter;
+	private Predicate<? super String,Nothing> _filter;
 	
 	/**
 	 * This method is called when the directory loader is connected to a view.
@@ -234,7 +237,7 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 
 		Action<File,Exception> unsafeAction = new Action<File,Exception>(File.class) {
 			private boolean _debug = false;
-			public void perform(File file) throws InputException {
+			public void doPerform(File file) throws InputException {
 				counter.increase();
 				if(_debug) {System.out.println(counter.get()+" of "+size+" :"+file.getAbsolutePath());};
 				addToModel(file);
@@ -337,4 +340,37 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 //		System.out.println(file);
 //	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == this) {
+			return true;
+		}
+		if(obj instanceof DirectoryLoader) {
+			DirectoryLoader loader = (DirectoryLoader) obj;
+			return path().equals(loader.path()) && filter().equals(loader.filter());
+		}
+		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return "Directory loader: "+path()+" with filter: "+filter().toString();
+	}
+	
+	@Override
+	public boolean canAddInputSource(InputSource source) {
+		return source instanceof IFileInputSource;
+	}
+	
+	@Override
+	public Document documentOf(File absoluteFile) throws InputException {
+		for(InputSource source: inputSources()) {
+			//Safe cast since we control the addition of input sources.
+			IFileInputSource s = (IFileInputSource) source;
+			if(s.file().equals(absoluteFile)) {
+				return s.load();
+			}
+		}
+		return null;
+	}
 }

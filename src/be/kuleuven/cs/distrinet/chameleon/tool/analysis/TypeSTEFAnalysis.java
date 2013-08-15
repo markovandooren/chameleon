@@ -88,15 +88,15 @@ public class TypeSTEFAnalysis {
       }
       public int accumulate(Object element, int acc) {
         ExceptionFlow flow = ((MethodSTEFAnalysis)element).getHeaderAnalysis(type); 
-        return acc + (flow != null ? flow.getGraph().getNbNodes() -1 : 0);
+        return acc + (flow != null ? flow.getGraph().nbNodes() -1 : 0);
       }
     }.in(getMethodAnalyses());
   }
   
   public int getNbHeaders(final Type type) {
-    return new SafePredicate() {
-      public boolean eval(Object o) {
-        return ((MethodSTEFAnalysis)o).getHeaderAnalysis(type) != null;
+    return new SafePredicate<MethodSTEFAnalysis>() {
+      public boolean eval(MethodSTEFAnalysis o) {
+        return o.getHeaderAnalysis(type) != null;
       }
     }.count(_analyses);
   }
@@ -108,24 +108,24 @@ public class TypeSTEFAnalysis {
       }
       public int accumulate(Object element, int acc) {
         ExceptionFlow flow = ((MethodSTEFAnalysis)element).getThrowAnalysis(type); 
-        return acc + (flow != null ? flow.getGraph().getNbNodes() -1 : 0);
+        return acc + (flow != null ? flow.getGraph().nbNodes() -1 : 0);
       }
     }.in(getMethodAnalyses());
   }
   
   public int getNbThrows(final Type type) {
-    return new SafePredicate() {
-      public boolean eval(Object o) {
-        return ((MethodSTEFAnalysis)o).getThrowAnalysis(type) != null;
+    return new SafePredicate<MethodSTEFAnalysis>() {
+      public boolean eval(MethodSTEFAnalysis o) {
+        return o.getThrowAnalysis(type) != null;
       }
     }.count(_analyses);
   }
   
   public Set getThrowingMethods() {
     Set result = new HashSet(getMethodAnalyses());
-    new SafePredicate() {
-      public boolean eval(Object o) {
-        return ((MethodSTEFAnalysis)o).hasDirectThrow();
+    new SafePredicate<MethodSTEFAnalysis>() {
+      public boolean eval(MethodSTEFAnalysis o) {
+        return o.hasDirectThrow();
       }
     }.filter(result);
     return result;
@@ -143,7 +143,7 @@ public class TypeSTEFAnalysis {
             if(propagating.contains(flow.getMethod())){
               remove = false;
             }
-            propagating.addAll(flow.getGraph().getObjects());
+            propagating.addAll(flow.getGraph().objects());
             if(remove) {
               //System.out.println("Removing "+flow.getMethod().getNearestType().getFullyQualifiedName()+":"+flow.getMethod().getName());
               propagating.remove(flow.getMethod());

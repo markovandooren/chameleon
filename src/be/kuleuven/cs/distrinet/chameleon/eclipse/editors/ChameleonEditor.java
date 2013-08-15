@@ -56,7 +56,7 @@ import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorTag;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.actions.IChameleonEditorActionDefinitionIds;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.PresentationManager;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.annotation.ChameleonAnnotation;
-import be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.outline.ChameleonOutlinePage;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.view.outline.ChameleonOutlinePage;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.input.PositionMetadata;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
@@ -523,7 +523,7 @@ public class ChameleonEditor extends TextEditor {
 				no_result = false;
 			} else {
 				Collection<Metadata> editorTags = element.metadata();  
-				new TypePredicate<Metadata,EclipseEditorTag>(EclipseEditorTag.class).filter(editorTags);
+				new TypePredicate<>(EclipseEditorTag.class).filter(editorTags);
 				if(editorTags.isEmpty()) {
 					Element origin = element.origin();
 					if(origin != element) {

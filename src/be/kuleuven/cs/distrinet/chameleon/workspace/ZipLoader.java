@@ -9,6 +9,8 @@ import java.util.zip.ZipFile;
 
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.InputSourceNamespace;
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
+import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 public class ZipLoader extends AbstractZipLoader {
@@ -29,7 +31,7 @@ public class ZipLoader extends AbstractZipLoader {
    @ post filter() == filter;
    @ post isBaseLoader() == isBaseLoader;
    @*/
-	public ZipLoader(ZipFile zipFile, SafePredicate<? super String> filter, boolean isBaseLoader) {
+	public ZipLoader(ZipFile zipFile, Predicate<? super String,Nothing> filter, boolean isBaseLoader) {
 		super(zipFile, filter, isBaseLoader);
 	}
 
@@ -49,7 +51,7 @@ public class ZipLoader extends AbstractZipLoader {
    @ post filter() == filter;
    @ post isBaseLoader() == false;
    @*/
-	public ZipLoader(ZipFile zipFile, SafePredicate<? super String> filter) {
+	public ZipLoader(ZipFile zipFile, Predicate<? super String,Nothing> filter) {
 		this(zipFile, filter, false);
 	}
 
@@ -74,7 +76,7 @@ public class ZipLoader extends AbstractZipLoader {
 	}
 
 	private InputSource createInputSource(InputStream stream, String declarationName, InputSourceNamespace ns) throws InputException {
-		return new LazyStreamInputSource(stream,declarationName,ns,this);
+		return new LazyReadOnceStreamInputSource(stream,declarationName,ns,this);
 	}
 
 }

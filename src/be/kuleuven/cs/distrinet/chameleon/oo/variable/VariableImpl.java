@@ -103,6 +103,11 @@ public abstract class VariableImpl extends ElementImpl implements Variable {
 	}
 
 	@Override
+	public Declaration template() {
+		return finalDeclaration();
+	}
+
+	@Override
 	public SelectionResult updatedTo(Declaration declaration) {
 		return declaration;
 	}

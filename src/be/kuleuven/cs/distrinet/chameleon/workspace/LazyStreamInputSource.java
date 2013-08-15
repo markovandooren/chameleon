@@ -16,7 +16,7 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException
  * 
  * @author Marko van Dooren
  */
-public class LazyStreamInputSource extends StreamInputSource {
+public abstract class LazyStreamInputSource extends StreamInputSource {
 
 	/**
 	 * Create a new lazy input source for the given file and namespace. The
@@ -30,22 +30,38 @@ public class LazyStreamInputSource extends StreamInputSource {
 	 *                        It must be mentioned, however, because we can't catch exceptions
 	 *                        from the super constructor call.
 	 */
-	public LazyStreamInputSource(InputStream stream, String declarationName, InputSourceNamespace ns, DocumentLoader loader) throws InputException {
+	public LazyStreamInputSource(String declarationName, InputSourceNamespace ns, DocumentLoader loader) throws InputException {
+		init(declarationName, ns,loader);
+	}
+	
+	/**
+	 * Does nothing. You must invoke {@link #init(String, InputSourceNamespace, DocumentLoader)} afterwards.
+	 */
+	protected LazyStreamInputSource() {
+		
+	}
+	
+	public void init(String declarationName, InputSourceNamespace ns, DocumentLoader loader) throws InputException {
 		// The super class cannot yet add the input source to the namespace because we cannot
 		// set the declaration name in advance (it is needed when the input source is added to the namespace).
-		super(stream,loader);
 		if(declarationName == null) {
 			throw new IllegalArgumentException();
 		}
 		_declarationName = declarationName;
+		init(loader);
 		ns.addInputSource(this);
 	}
 	
-	public LazyStreamInputSource(File file, String declarationName, InputSourceNamespace ns, DocumentLoader loader) throws InputException {
-		this(convert(file),declarationName,ns,loader);
-	}
+//	public LazyStreamInputSource(File file, String declarationName, InputSourceNamespace ns, DocumentLoader loader) throws InputException {
+//		super(convert(file));
+//		init(declarationName,ns,loader);
+//	}
 	
 	private String _declarationName;
+	
+	public String declarationName() {
+		return _declarationName;
+	}
 	
 	/**
 	 * Return the file name without the file extension. For lazy loading, that name should be
@@ -56,14 +72,5 @@ public class LazyStreamInputSource extends StreamInputSource {
 		return Collections.singletonList(_declarationName);
 	}
 
-	@Override
-	public LazyStreamInputSource clone() {
-		try {
-			return new LazyStreamInputSource(inputStream(),_declarationName,null,null);
-		} catch (InputException e) {
-			throw new ChameleonProgrammerException(e);
-		}
-	}
-	
 
 }

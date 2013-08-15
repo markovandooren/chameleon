@@ -7,4 +7,6 @@ public interface SelectionResult {
 	public Declaration finalDeclaration() throws LookupException;
 	
 	public SelectionResult updatedTo(Declaration declaration);
+	
+	public Declaration template();
 }

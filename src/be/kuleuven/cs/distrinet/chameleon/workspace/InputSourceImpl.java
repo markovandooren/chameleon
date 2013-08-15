@@ -15,12 +15,12 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 public abstract class InputSourceImpl implements InputSource {
 	
-	protected InputSourceImpl(DocumentLoader loader) {
+	protected void init(DocumentLoader loader) {
 		setLoader(loader);
 	}
 	
-	public InputSourceImpl(InputSourceNamespace ns, DocumentLoader loader) throws InputException {
-		this(loader);
+	protected void init(InputSourceNamespace ns, DocumentLoader loader) throws InputException {
+		init(loader);
 		setNamespace(ns);
 	}
 	
@@ -71,17 +71,21 @@ public abstract class InputSourceImpl implements InputSource {
 	
 	public final Document load() throws InputException {
 		if(! isLoaded()) {
-			doLoad();
-			Document result = rawDocument();
-			result.activate();
-			notifyLoaded(result);
-			return result;
+			return refresh();
 		} else {
-			return _document.getOtherEnd();
+			return rawDocument();
 		}
 	}
 	
-	protected abstract void doLoad() throws InputException;
+	public final Document refresh() throws InputException {
+		doRefresh();
+		Document result = rawDocument();
+		result.activate();
+		notifyLoaded(result);
+		return result;
+	}
+	
+	protected abstract void doRefresh() throws InputException;
 	
 	@Override
 	public Project project() {

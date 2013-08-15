@@ -1,4 +1,4 @@
-package be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.outline;
+package be.kuleuven.cs.distrinet.chameleon.eclipse.view.outline;
 
 
 import java.util.ArrayList;
@@ -180,7 +180,7 @@ public class ChameleonOutlineTree {
 	 * String representation of this tree
 	 */
 	public String toString(){
-		return "chameleontree with node " + _node.toString();
+		return "chameleon tree with node " + _node.toString();
 	}
 	
 	
@@ -223,112 +223,5 @@ public class ChameleonOutlineTree {
 		System.out.println("ChameleonOutlineTree.fireRemove");
 		listener.remove(new ChameleonOutlineTreeEvent(removed));
 	}
-	
-///**
-//* adds a child to the current tree
-//* @param child
-//* 	the child to be added
-//* @return
-//* 	a new Chameleontree with child as node
-//*/
-//public ChameleonOutlineTree addChild(Element child) {
-//	return addTreeNodeChild( new ChameleonOutlineTree( child) );
-//}
-//
-
-	//	/**
-//	 * This notifies any listeners that this tree has changed.
-//	 * 
-//	 */
-//	public void fireChanged() {
-//		listener.fireChanged();
-//		
-//	}
-	
-//	/**
-//	 * Checks whether this tree has <code>element<code> as element. 
-//	 * <code>element<code> is an element of the tree when 
-//	 *  - <code>element<code> is effective
-//	 *  - the current node equals <code>element<code> or one of the child(ren) 
-//	 *     has <code>element<code> as element
-//	 *  
-//	 * 
-//	 * @param element
-//	 * 		the element to be checked
-//	 * 
-//	 */
-//	public boolean hasAsElement(Element element) {
-//		try{
-//			if (element == null){
-//				return false;
-//			}
-//			else if(((Element)element).equals(_node)){
-//				return true;
-//			}
-//			else{
-//				for (Iterator iter = _children.iterator(); iter.hasNext();) {
-//					ChameleonOutlineTree childTree = (ChameleonOutlineTree) iter.next();
-//					if (childTree.hasAsElement(element))
-//						return true;
-//				}
-//				return false;
-//				
-//			}
-//		}catch(ClassCastException cce){
-//			return false; // element is not even a tree element !
-//		}
-//	}
-	
-//	/**
-//	 * @param language 
-//	 * @param allowedTreeElements 
-//	 *  
-//	 * Sets the elements which are to be shown in the outline tree.
-//	 * This does not update the tree !
-//	 */
-//	public static void setAllowedElements(String lang, List<String> alloweds) {
-//		//allowedTreeElements.put(lang, alloweds);	
-//	}
-
-	
-	
-///**
-//* Removes or add the given element properly in the tree
-//* Then triggers the necessary event(s)
-//* @param element
-//* 
-//* @param bool
-//* 	True = addition; False = removal
-//*/
-//public void update(Element element, boolean bool) {
-//	System.out.println("ChameleonOutlineTree.update");
-//	if (bool){ //addition
-//		if(element.parent().equals(_node)){
-//			//tis een van dees kinderen.
-//			addChild(element);
-//			fireAdd(element);
-//		}
-//		else{
-//			for (int i=0; i < _children.size(); i++){
-//				_children.get(i).update(element,bool);
-//			}
-//		}
-//	}
-//	else{ //removal
-//		if (element == _node){
-//			_node = null;
-//			_children = new ArrayList<ChameleonOutlineTree>(0);
-//			fireRemove(element);
-//		}
-//		else{
-//			for (int i=0; i < _children.size(); i++){
-//				_children.get(i).update(element,bool);
-//			}
-//		}
-//	}
-//	
-//}
-
-	
 	
 }

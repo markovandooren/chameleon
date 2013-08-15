@@ -2,7 +2,7 @@
  * Created on 22-jun-07
  * @author Tim Vermeiren
  */
-package be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.callhierarchy;
+package be.kuleuven.cs.distrinet.chameleon.eclipse.view.callhierarchy;
 
 import org.eclipse.jface.viewers.IContentProvider;
 
@@ -14,17 +14,17 @@ import be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature
  * 
  * @author Tim Vermeiren
  */
-public class OpenCallersHierarchyAction extends OpenCallHierarchyAction {
+public class OpenCalleesHierarchyAction extends OpenCallHierarchyAction {
 
-	public OpenCallersHierarchyAction(CallHierarchyView view) {
+	public OpenCalleesHierarchyAction(CallHierarchyView view) {
 		super(view);
-		setText("Open Callers Hierarchy");
-		setImageDescriptor(ChameleonEditorPlugin.getImageDescriptor("call_hierarchy_callers.gif"));
+		setText("Open Callees Hierarchy");
+		setImageDescriptor(ChameleonEditorPlugin.getImageDescriptor("call_hierarchy_callees.gif"));
 	}
 
 	@Override
 	protected IContentProvider getContentProvider(ChameleonProjectNature projectNature) {
-		return new CallersContentProvider(projectNature);
+		return new CalleesContentProvider();
 	}
 	
 	

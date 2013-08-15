@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
+
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
@@ -159,6 +162,9 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
    @*/
 	public void addBinary(DocumentLoader loader) throws ProjectException {
 		if(loader != null) {
+			if(! canAddBinary(loader)) {
+				throw new ProjectException("There is already a binary loader present to load these resources.");
+			}
 			Association<? extends DocumentLoader, ? super View> projectLink = loader.viewLink();
 			try {
 				_binaryLoaders.add(projectLink);
@@ -168,6 +174,18 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
 				throw (ProjectException)exc.getCause();
 			}
 		}
+	}
+
+	/**
+	 * Check whether the given document loader can be added
+	 * as a binary loader. If there is already an equal
+	 * loader present, false is returned.
+	 * 
+	 * @param loader The loader of which must be determined whether it can be added.
+	 * @return
+	 */
+	public boolean canAddBinary(DocumentLoader loader) {
+		return ! _binaryLoaders.containsObject(loader);
 	}
 	
 	public void removeBinary(DocumentLoader loader) {
@@ -213,6 +231,9 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
    @*/
 	public void addSource(DocumentLoader loader) throws ProjectException {
 		if(loader != null) {
+			if(! canAddSource(loader)) {
+				throw new ProjectException("There is already a source loader present to load these resources.");
+			}
 			Association<? extends DocumentLoader, ? super View> projectLink = loader.viewLink();
 			try {
 				_sourceLoaders.add(projectLink);
@@ -224,6 +245,18 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
 		}
 	}
 	
+	/**
+	 * Check whether the given document loader can be added
+	 * as a source loader. If there is already an equal
+	 * loader present, false is returned.
+	 * 
+	 * @param loader The loader of which must be determined whether it can be added.
+	 * @return
+	 */
+	public boolean canAddSource(DocumentLoader loader) {
+		return ! _sourceLoaders.containsObject(loader);
+	}
+	
 	public void removeSource(DocumentLoader loader) {
 		_sourceLoaders.remove(loader.viewLink());
 	}
@@ -232,8 +265,20 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
 		return _sourceLoaders.getOtherEnds();
 	}
 	
+	public <T extends DocumentLoader> List<T> loaders(Class<T> kind) {
+		Builder<T> builder = ImmutableList.<T>builder();
+		builder.addAll((List<T>) new TypePredicate<>(kind).filteredList(binaryLoaders()));
+		builder.addAll((List<T>) new TypePredicate<>(kind).filteredList(sourceLoaders()));
+		return builder.build();
+	}
+
+	public <T extends DocumentLoader> List<T> binaryLoaders(Class<T> kind) {
+		return (List<T>) new TypePredicate<>(kind).filteredList(binaryLoaders());
+	}
+
+
 	public <T extends DocumentLoader> List<T> sourceLoaders(Class<T> kind) {
-		return (List<T>) new TypePredicate(kind).filterReturn(sourceLoaders());
+		return (List<T>) new TypePredicate<>(kind).filteredList(sourceLoaders());
 	}
 
 	public void flushSourceCache() {

@@ -17,7 +17,7 @@ import be.kuleuven.cs.distrinet.chameleon.eclipse.ChameleonEditorPlugin;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorExtension;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorTag;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.hierarchy.HierarchyTypeNode;
-import be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.outline.ChameleonOutlineTree;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.view.outline.ChameleonOutlineTree;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;

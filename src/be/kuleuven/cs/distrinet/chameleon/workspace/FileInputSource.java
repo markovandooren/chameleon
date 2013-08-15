@@ -1,14 +1,15 @@
 package be.kuleuven.cs.distrinet.chameleon.workspace;
 
 import java.io.File;
+import java.io.InputStream;
 
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.InputSourceNamespace;
 
 public class FileInputSource extends StreamInputSource implements IFileInputSource {
 
 	public FileInputSource(File file, DocumentLoader loader) throws InputException {
-		super(convert(file),loader);
 		_file = file;
+		init(loader);
 	}
 	
 	public File file() {
@@ -25,5 +26,10 @@ public class FileInputSource extends StreamInputSource implements IFileInputSour
   @Override
   public String toString() {
   	return "file: "+ _file.toString();
+  }
+  
+  @Override
+  public InputStream inputStream() throws InputException {
+  	return convert(_file); 
   }
 }

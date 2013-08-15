@@ -112,6 +112,11 @@ public abstract class Pointcut extends ElementImpl implements Declaration {
 	}
 	
 	@Override
+	public Declaration template() {
+		return finalDeclaration();
+	}
+
+	@Override
 	public SelectionResult updatedTo(Declaration declaration) {
 		return declaration;
 	}

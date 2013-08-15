@@ -12,6 +12,7 @@ import org.eclipse.jface.viewers.Viewer;
 
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorTag;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
+import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 /**
@@ -22,17 +23,17 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 public class EditorTagContentProvider implements IStructuredContentProvider {
 	
 	EditorTagListView view;
-	private Predicate<EclipseEditorTag> _filterPredicate;
+	private Predicate<? super EclipseEditorTag,Nothing> _filterPredicate;
 	
-	void setFilter(Predicate<EclipseEditorTag> filter) {
+	void setFilter(Predicate<? super EclipseEditorTag,Nothing> filter) {
 		_filterPredicate = filter;
 	}
 	
-	public Predicate<EclipseEditorTag> filter() {
+	public Predicate<? super EclipseEditorTag,Nothing> filter() {
 		return _filterPredicate;
 	}
 	
-	public EditorTagContentProvider(EditorTagListView view, Predicate<EclipseEditorTag> filterPredicate) {
+	public EditorTagContentProvider(EditorTagListView view, Predicate<? super EclipseEditorTag,Nothing> filterPredicate) {
 		this.view = view;
 		this._filterPredicate = filterPredicate;
 	}

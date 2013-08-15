@@ -4,7 +4,8 @@ import java.io.File;
 
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.plugin.LanguagePlugin;
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
+import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 /**
  * A class of plugins to create language specific project configurations.
@@ -47,13 +48,13 @@ public interface ProjectConfigurator extends LanguagePlugin {
 	 * path with respect to its corresponding source root.
 	 * @return
 	 */
-	public SafePredicate<? super String> sourceFileFilter();
+	public Predicate<? super String,Nothing> sourceFileFilter();
 
 	/**
 	 * Return a predicate to select binary files of the language based on the relative 
 	 * path with respect to its corresponding source root.
 	 * @return
 	 */
-	public SafePredicate<? super String> binaryFileFilter();
+	public Predicate<? super String,Nothing> binaryFileFilter();
 	
 }

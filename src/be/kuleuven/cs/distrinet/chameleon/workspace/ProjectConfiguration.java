@@ -8,8 +8,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
+import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectConfiguration.SourcePath;
+import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.io.FileUtils;
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 /**
  * A ProjectConfig mirrors the configuration of a Chameleon project. To load a project,
@@ -61,7 +63,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 		_view = view;
 		_factory = factory;
 		Project project = view.project();
-		_name = project.name();
+		_name = project.getName();
     setModelElement(project);
     //FIXME fix this code when multi view support is added.
     //      I'd rather not do it before I know what I'm doing.
@@ -229,7 +231,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
    @
    @ post \result != null;
    @*/
-	public String name() {
+	public String getName() {
 		return _name;
 	}
 	
@@ -312,14 +314,14 @@ public abstract class ProjectConfiguration extends ConfigElement {
 			}
 			
 			@Override
-			protected SafePredicate<? super String> fileNameFilter() {
+			protected Predicate<? super String,Nothing> fileNameFilter() {
 				return $configurator().sourceFileFilter();
 			}
 
 		}
 		
 		public class Zip extends ZipArchive {
-			protected SafePredicate<? super String> filter() {
+			protected Predicate<? super String,Nothing> filter() {
 				return $configurator().sourceFileFilter();
 			}
 		}
@@ -344,7 +346,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 			}
 
 			@Override
-			protected SafePredicate<? super String> fileNameFilter() {
+			protected Predicate<? super String,Nothing> fileNameFilter() {
 				return $configurator().sourceFileFilter();
 			}
 		}
@@ -355,7 +357,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 		 * @author Marko van Dooren
 		 */
 		public class Zip extends ZipArchive {
-			protected SafePredicate<? super String> filter() {
+			protected Predicate<? super String,Nothing> filter() {
 				return $configurator().binaryFileFilter();
 			}
 		}
@@ -388,7 +390,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 			return new DirectoryLoader(_path, fileNameFilter(),factory);
 		}
 		
-		protected abstract SafePredicate<? super String> fileNameFilter();
+		protected abstract Predicate<? super String,Nothing> fileNameFilter();
 	}
 	
 	public abstract class Archive extends ConfigElement {
@@ -423,7 +425,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
   		}
   	}
 
-		protected abstract SafePredicate<? super String> filter();
+		protected abstract Predicate<? super String,Nothing> filter();
 	}
 
 	public void addSource(String path) {
@@ -434,7 +436,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 
 	@Override
 	protected void $update() {
-		_name = ((Project)modelElement()).name();
+		_name = ((Project)modelElement()).getName();
 	}
 
 	protected ProjectConfigurator $configurator() {

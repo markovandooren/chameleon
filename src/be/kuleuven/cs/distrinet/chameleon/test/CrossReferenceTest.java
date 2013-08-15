@@ -70,7 +70,7 @@ public class CrossReferenceTest extends ModelTest {
 
 	protected Action<CrossReference, LookupException> createAction() {
 		return new Action<CrossReference,LookupException>(CrossReference.class) {
-			public void perform(CrossReference cref) throws LookupException {
+			public void doPerform(CrossReference cref) throws LookupException {
 				Declaration declaration = cref.getElement();
 				assertTrue(declaration != null);
 			} 

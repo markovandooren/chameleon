@@ -48,7 +48,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
  *  
  * @author Marko van Dooren
  */
-
+//FIXME Make this extends DeclarationImpl
 public abstract class NamespaceImpl extends ElementImpl implements TargetDeclaration, DeclarationContainer, Namespace {
 
 	//SPEED : use hashmap to store the subnamespaces and forbid
@@ -175,6 +175,7 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	 @ signals (LookupException) (* There are multiple namespaces with the given name. *);
 	 @*/
 	public Namespace getSubNamespace(final String name) throws LookupException {
+		// SLOW keep a map name -> subnamespace
 		List<Namespace> packages = getSubNamespaces();
 		for(Namespace n: packages) {
 			if(n.name().equals(name)) {
@@ -313,7 +314,7 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	}
 	
 	public <T extends Declaration> List<T> declarations(Class<T> kind) throws LookupException {
-    return new TypePredicate<Declaration,T>(kind).filterReturn(declarations());
+    return new TypePredicate<T>(kind).downCastedList(declarations());
   }
 	
 
@@ -334,6 +335,11 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 		return this;
 	}
 	
+	@Override
+	public Declaration template() {
+		return finalDeclaration();
+	}
+
 	@Override
 	public SelectionResult updatedTo(Declaration declaration) {
 		return declaration;

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?eclipse version="3.2"?>
+<?eclipse version="4.2"?>
 <plugin>
-   
     <extension-point id="chameleon.eclipse.language" name="Language" schema="schema/chameleon.eclipse.language.exsd"/>
 
    	<extension
@@ -31,6 +30,19 @@
       <builder id="be.chameleon.eclipse.ChameleonBuilder"/>
       <content-type id="be.chameleon.eclipse.chameleonsource"/>
    </extension>
+   
+   
+      <extension
+         id="BackgroundNature"
+         name="Chameleon Background Project"
+         point="org.eclipse.core.resources.natures">
+         <runtime>
+         	<run class="be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature">
+         </run>
+      </runtime>
+      <!--<builder id="be.chameleon.eclipse.ChameleonBuilder"/> -->
+   </extension>
+   
    
    <extension
          id="chameleon.eclipse.project.ProjectWizard"
@@ -159,22 +171,30 @@
   <extension
          point="org.eclipse.ui.menus">
       <menuContribution
-            locationURI="menu:org.eclipse.ui.views.ContentOutline?after=additions">
-         <command
-               commandId="chameleon.eclipse.actions.refactoring.rename"
-               mnemonic="Johny"
-               tooltip="sharp">
-         </command>
-      </menuContribution>
-      <menuContribution
             locationURI="popup:org.eclipse.ui.popup.any?after=additions">
          <command
                commandId="chameleon.eclipse.actions.refactoring.rename"
-               mnemonic="Johny"
-               tooltip="sharp">
+               label="Rename this declaration">
+            <visibleWhen>
+              	<test property="chameleon.properties.isDeclaration"/>
+            </visibleWhen>
          </command>
       </menuContribution>
   </extension>
+
+
+  <extension
+        point="org.eclipse.core.expressions.propertyTesters">
+     <propertyTester
+           class="be.kuleuven.cs.distrinet.chameleon.eclipse.property.IsDeclaration"
+           id="chameleon.IsDeclaration"
+           namespace="chameleon.properties"
+           properties="isDeclaration"
+           type="java.lang.Object">
+     </propertyTester>
+  </extension>
+  
+
       
   <extension point="org.eclipse.ui.handlers">
     <handler
@@ -207,12 +227,19 @@
 		  category="chameleon.eclipse.ChameleonEditorPlugin"
 		  class="be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.hierarchy.HierarchyView"/>
 	
+		  <view 
+		  id="chameleon.eclipse.ChameleonEditorPlugin.dependency" 
+		  name="Dependencies"
+		  icon="icons/type_hierarchy.gif"
+		  category="chameleon.eclipse.ChameleonEditorPlugin"
+		  class="be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency.DependencyView"/>
+	
 	  <view 
 		  id="chameleon.eclipse.ChameleonEditorPlugin.callhierarchyview" 
 		  name="Call Hierarchy"
 		  icon="icons/call_hierarchy.gif"
 		  category="chameleon.eclipse.ChameleonEditorPlugin"
-		  class="be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.callhierarchy.CallHierarchyView"/>
+		  class="be.kuleuven.cs.distrinet.chameleon.eclipse.view.callhierarchy.CallHierarchyView"/>
 	
     <view 
 		  id="chameleon.eclipse.ChameleonEditorPlugin.modelview" 
@@ -256,8 +283,7 @@
    <extension point="org.eclipse.core.contenttype.contentTypes">
      <content-type base-type="org.eclipse.core.runtime.text"
       				     id="chameleonsource"
-      				     name="Chameleon Source Document"
-      				     priority="high"/>
+      				     name="Chameleon Source Document"/>
    </extension>
 
    

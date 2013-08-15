@@ -24,9 +24,6 @@ public class SimpleNameSignature extends Signature {
   }
   
   public void setName(String name) {
-  	if(name == null) {
-  		throw new IllegalArgumentException();
-  	}
     _name = name;
   }
   

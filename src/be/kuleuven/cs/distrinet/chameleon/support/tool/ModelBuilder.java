@@ -41,7 +41,7 @@ public class ModelBuilder {
    @*/
 	public ModelBuilder(String[] arguments, Workspace workspace) throws ConfigException {
 		File projectXML = new File(arguments[0]);
-		BootstrapProjectConfig config = new BootstrapProjectConfig(projectXML.getParentFile(), workspace);
+		BootstrapProjectConfig config = new BootstrapProjectConfig(workspace);
 		_project = config.project(projectXML,null);
 		processArguments(arguments);
 	}

@@ -15,7 +15,8 @@ import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDec
 public class DirectInputSource extends InputSourceImpl {
 
 	public DirectInputSource(Declaration decl, String namespaceFQN, View view, DocumentLoader loader) throws InputException {
-		super(loader);
+		init(loader);
+
 		if(decl == null) {
 			throw new IllegalArgumentException("The given declaration is null.");
 		}
@@ -70,9 +71,11 @@ public class DirectInputSource extends InputSourceImpl {
 		return result;
 	}
 
+	/**
+	 * We don't do an actual refresh since the contents of the input source
+	 * was set directly.
+	 */
 	@Override
-	protected void doLoad() throws InputException {
-		// there is nothing to load, as the element has already been defined.
+	public void doRefresh() throws InputException {
 	}
-	
 }

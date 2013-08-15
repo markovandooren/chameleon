@@ -175,11 +175,21 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	
 	@Override
 	public synchronized void flushLocalCache() {
-		_lexicalContext.flushCache();
-		_importDemandContext.flushCache();
-		_importDirectContext.flushCache();
-		_importLocalDemandContext.flushCache();
-		_importLocalDirectContext.flushCache();
+		if(_lexicalContext != null) {
+			_lexicalContext.flushCache();
+		}
+		if(_importDemandContext != null) {
+			_importDemandContext.flushCache();
+		}
+		if(_importDirectContext != null) {
+			_importDirectContext.flushCache();
+		}
+		if(_importLocalDemandContext != null) {
+			_importLocalDemandContext.flushCache();
+		}
+		if(_importLocalDirectContext != null) {
+			_importLocalDirectContext.flushCache();
+		}
 		_importCache = null;
 		_importSet = null;
 	}
@@ -224,15 +234,15 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	/**
 	 * NAMESPACEPARTS
 	 */
-	public List<NamespaceDeclaration> namespaceParts() {
+	public List<NamespaceDeclaration> namespaceDeclarations() {
 		return _subNamespaceParts.getOtherEnds();
 	}
 
-	public void addNamespacePart(NamespaceDeclaration pp) {
+	public void addNamespaceDeclaration(NamespaceDeclaration pp) {
 		add(_subNamespaceParts,pp);
 	}
 
-	public void removeNamespacePart(NamespaceDeclaration pp) {
+	public void removeNamespaceDeclaration(NamespaceDeclaration pp) {
 		remove(_subNamespaceParts,pp);
 	}
 
@@ -277,7 +287,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	}
 	
 	public <T extends Declaration> List<T> declarations(Class<T> kind) {
-    return new TypePredicate<Declaration,T>(kind).filterReturn(declarations());
+    return new TypePredicate<T>(kind).downCastedList(declarations());
   }
 	
 	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
@@ -311,6 +321,13 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		return stored;
 	}
 	
+	public void activate() {
+		namespace();
+		for(NamespaceDeclaration part: namespaceDeclarations()) {
+			part.activate();
+		}
+	}
+	
 	public CrossReference<Namespace> namespaceReference() {
 		return _ref.getOtherEnd();
 	}
@@ -332,17 +349,35 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	 * DEMAND IMPORTS *
 	 ******************/
 
-	private Multi<Import> _imports = new Multi<Import>(this,"imports");
+	private Multi<Import> _imports = new Multi<Import>(this,"imports"){
+		//FIXME SLOW but it works for now.
+		protected void fireElementAdded(Import addedElement) {
+			super.fireElementAdded(addedElement);
+			_importSet = null;
+			_importCache = null;
+		};
+		protected void fireElementRemoved(Import addedElement) {
+			super.fireElementRemoved(addedElement);
+			_importSet = null;
+			_importCache = null;
+		};
+		protected void fireElementReplaced(Import oldElement, Import newElement) {
+			super.fireElementReplaced(oldElement, newElement);
+			fireElementRemoved(oldElement);
+			fireElementAdded(newElement);
+		};
+	};
 	{
 		_imports.enableCache();
 	}
 
 	public List<Import> imports() {
-//		use guava list builder
-		if(_importCache == null) {
-			_importCache = (ImmutableList<Import>) createImportCache(ImmutableList.<Import>builder());
-		}
-		return _importCache;
+////		use guava list builder
+//		if(_importCache == null) {
+//			_importCache = (ImmutableList<Import>) createImportCache(ImmutableList.<Import>builder());
+//		}
+//		return _importCache;
+		return (ImmutableList<Import>)createImportCache(ImmutableList.<Import>builder());
 	}
 
 	protected ImmutableCollection createImportCache(ImmutableCollection.Builder<Import> builder) {
