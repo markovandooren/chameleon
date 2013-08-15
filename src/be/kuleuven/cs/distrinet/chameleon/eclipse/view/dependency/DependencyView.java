@@ -27,6 +27,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.ChameleonEditor;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.util.Projects;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.util.action.TopDown;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
@@ -70,7 +71,7 @@ public class DependencyView extends ViewPart {
 			IFile file = ((IFileEditorInput)editorInput).getFile();
 			IProject project = file.getProject();
 			if(project != null) {
-			  ChameleonProjectNature nature = (ChameleonProjectNature) project.getNature(ChameleonProjectNature.NATURE);
+			  ChameleonProjectNature nature = Projects.chameleonNature(project);
 			  if(nature != null) {
 			  	document = nature.chameleonDocumentOfFile(file);
 			  }
