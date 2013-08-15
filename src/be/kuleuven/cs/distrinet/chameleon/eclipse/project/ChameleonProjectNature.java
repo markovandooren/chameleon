@@ -1,6 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.project;
 
 import java.io.File;
+import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
@@ -36,6 +37,7 @@ import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseSourceManager
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.ChameleonEditor;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.PresentationModel;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.util.Files;
 import be.kuleuven.cs.distrinet.chameleon.input.InputProcessor;
 import be.kuleuven.cs.distrinet.chameleon.input.ModelFactory;
 import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
@@ -44,7 +46,9 @@ import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.workspace.BootstrapProjectConfig;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ConfigException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
+import be.kuleuven.cs.distrinet.chameleon.workspace.FileLoader;
 import be.kuleuven.cs.distrinet.chameleon.workspace.IFileInputSource;
+import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputSource;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputSourceListener;
 import be.kuleuven.cs.distrinet.chameleon.workspace.LanguageRepository;
@@ -247,6 +251,9 @@ public class ChameleonProjectNature implements IProjectNature {
 				old.getWorkspace().removeResourceChangeListener(_projectListener);
 			}
 		}
+		if(_view == null) {
+			throw new IllegalStateException();
+		}
 	}
 	
 	protected Project createBackgroundProject(IProject project) {
@@ -254,40 +261,46 @@ public class ChameleonProjectNature implements IProjectNature {
 		for(Language language: repository.languages()) {
 			EclipseEditorExtension loader = language.plugin(EclipseEditorExtension.class);
 			if(loader != null && loader.canLoad(project)) {
-				return loader.load(project);
+				Project chameleonProject = loader.load(project);
+				_view = chameleonProject.views().get(0);
+				return chameleonProject;
 			}
 		}
 		return null;
 	}
 
 	protected Project readFromChameleonConfig(IProject project) {
-		IPath location = project.getLocation();
-		Project result = null;
-		final EclipseInputSourceListener listener = new EclipseInputSourceListener();
-		BootstrapProjectConfig bootstrapProjectConfig = new BootstrapProjectConfig(workspace());
-		result = bootstrapProjectConfig.project(new File(location+"/"+CHAMELEON_PROJECT_FILE), new ProjectInitialisationListener(){
-			@Override
-			public void viewAdded(View view) {
-				// Attach listeners for document loaders which attaches
-				// the listeners for the input sources.
-				view.addListener(new ViewListener(){
-					@Override
-					public void sourceLoaderAdded(DocumentLoader loader) {
-						loader.addAndSynchronizeListener(listener);
-					}
-				});
-				view.setPlugin(SourceManager.class, new EclipseSourceManager(ChameleonProjectNature.this));
-				//FIXME This should not be attached to a language, but to a view.
-				view.addProcessor(InputProcessor.class, new EclipseEditorInputProcessor(ChameleonProjectNature.this));
-				// Let the editor extension initialize the view.
-				//FIXME this should not be done by IDE code. Need further improvements
-				view.language().plugin(EclipseEditorExtension.class).initialize(view);
-				//FIXME This will NOT work with language stacking, but for now it will do. Got more important things to do now.
-				//							_language = language;
-				_view = view;
-			}
-		});
-		return result;
+		try {
+			IPath location = project.getLocation();
+			Project result = null;
+			final EclipseInputSourceListener listener = new EclipseInputSourceListener();
+			BootstrapProjectConfig bootstrapProjectConfig = new BootstrapProjectConfig(workspace());
+			result = bootstrapProjectConfig.project(new File(location+"/"+CHAMELEON_PROJECT_FILE), new ProjectInitialisationListener(){
+				@Override
+				public void viewAdded(View view) {
+					// Attach listeners for document loaders which attaches
+					// the listeners for the input sources.
+					view.addListener(new ViewListener(){
+						@Override
+						public void sourceLoaderAdded(DocumentLoader loader) {
+							loader.addAndSynchronizeListener(listener);
+						}
+					});
+					view.setPlugin(SourceManager.class, new EclipseSourceManager(ChameleonProjectNature.this));
+					//FIXME This should not be attached to a language, but to a view.
+					view.addProcessor(InputProcessor.class, new EclipseEditorInputProcessor(ChameleonProjectNature.this));
+					// Let the editor extension initialize the view.
+					//FIXME this should not be done by IDE code. Need further improvements
+					view.language().plugin(EclipseEditorExtension.class).initialize(view);
+					//FIXME This will NOT work with language stacking, but for now it will do. Got more important things to do now.
+					//							_language = language;
+					_view = view;
+				}
+			});
+			return result;
+		} catch(Exception exc) {
+			return null;
+		}
 	}
 
 	/*
@@ -449,12 +462,29 @@ public class ChameleonProjectNature implements IProjectNature {
 		if(file == null) {
 			return null;
 		}
-		for(EclipseDocument doc : _eclipseDocuments){
-			if(file.equals(doc.getFile())){
-				return doc.document();
+		
+		File absoluteFile = Files.workspaceFileToAbsoluteFile(file);
+		
+		for(View view: chameleonProject().views()) {
+			for(FileLoader loader: view.loaders(FileLoader.class)) {
+				Document doc;
+				try {
+					doc = loader.documentOf(absoluteFile);
+					if(doc != null) {
+						return doc;
+					}
+				} catch (InputException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return null;
+//		for(EclipseDocument doc : _eclipseDocuments){
+//			if(file.equals(doc.getFile())){
+//				return doc.document();
+//			}
+//		}
+//		return null;
 	}
 
 	/**
