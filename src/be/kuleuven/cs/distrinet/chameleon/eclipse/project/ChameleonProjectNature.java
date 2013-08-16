@@ -1,7 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.project;
 
 import java.io.File;
-import java.nio.channels.IllegalSelectorException;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
@@ -33,6 +32,7 @@ import be.kuleuven.cs.distrinet.chameleon.eclipse.LanguageMgt;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.builder.ChameleonBuilder;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorExtension;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorInputProcessor;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseProjectLoader;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseSourceManager;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.ChameleonEditor;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
@@ -42,7 +42,6 @@ import be.kuleuven.cs.distrinet.chameleon.input.InputProcessor;
 import be.kuleuven.cs.distrinet.chameleon.input.ModelFactory;
 import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
 import be.kuleuven.cs.distrinet.chameleon.input.SourceManager;
-import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.workspace.BootstrapProjectConfig;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ConfigException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
@@ -259,7 +258,7 @@ public class ChameleonProjectNature implements IProjectNature {
 	protected Project createBackgroundProject(IProject project) {
 		LanguageRepository repository = workspace().languageRepository();
 		for(Language language: repository.languages()) {
-			EclipseEditorExtension loader = language.plugin(EclipseEditorExtension.class);
+			EclipseProjectLoader loader = language.plugin(EclipseProjectLoader.class);
 			if(loader != null && loader.canLoad(project)) {
 				Project chameleonProject = loader.load(project);
 				_view = chameleonProject.views().get(0);

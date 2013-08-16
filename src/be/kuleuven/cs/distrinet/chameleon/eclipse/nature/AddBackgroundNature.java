@@ -16,7 +16,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.LanguageMgt;
-import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorExtension;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseProjectLoader;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.util.Files;
 import be.kuleuven.cs.distrinet.chameleon.workspace.LanguageRepository;
@@ -66,15 +66,4 @@ public class AddBackgroundNature extends AbstractHandler {
 		return null;
 	}
 	
-  private void ploks(IProject project) {
-  	Workspace workspace = LanguageMgt.getInstance().workspace();
-		LanguageRepository repository = workspace.languageRepository();
-		for(Language language: repository.languages()) {
-			EclipseEditorExtension loader = language.plugin(EclipseEditorExtension.class);
-			if(loader != null && loader.canLoad(project)) {
-				loader.load(project);
-			}
-		}
-
-  }
 }

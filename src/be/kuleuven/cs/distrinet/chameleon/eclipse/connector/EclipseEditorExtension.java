@@ -299,13 +299,4 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
 	public void initialize(View view) {
 	}
 	
-	public boolean canLoad(IProject project) {
-		return false;
-	}
-	
-	public Project load(IProject project) {
-		return null;
-	}
-
-
 }
