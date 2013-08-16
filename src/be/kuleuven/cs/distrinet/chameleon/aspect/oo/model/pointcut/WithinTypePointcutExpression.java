@@ -6,9 +6,9 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
-import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
+import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
+import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 
 public class WithinTypePointcutExpression<E extends WithinTypePointcutExpression<E>> extends WithinPointcutExpressionDeprecated {
 	
@@ -38,10 +38,10 @@ public class WithinTypePointcutExpression<E extends WithinTypePointcutExpression
 	@Override
 	public MatchResult match(Element joinpoint) throws LookupException {
 		@SuppressWarnings("unchecked")
-		boolean noMatch = joinpoint.ancestors(Type.class, new SafePredicate<Type>() {
+		boolean noMatch = joinpoint.ancestors(new UniversalPredicate<Type,Nothing>(Type.class) {
 
 			@Override
-			public boolean eval(Type object) {
+			public boolean uncheckedEval(Type object) {
 				try {
 					if (hasSubtypeMarker())
 						return object.assignableTo(typeReference().getType());

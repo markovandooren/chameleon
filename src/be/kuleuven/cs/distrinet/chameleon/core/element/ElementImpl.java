@@ -548,23 +548,20 @@ public abstract class ElementImpl implements Element {
 		return false;
 	}
 
-	public final <T extends Element, E extends Exception> boolean hasDescendant(Class<T> c, Predicate<T,E> predicate) throws E {
-		List<Element> tmp = (List<Element>) children();
-		new TypePredicate<T>(c).filter(tmp);
-		List<T> result = (List<T>)tmp;
-		predicate.filter(result);
-
+	@Override
+	public final <T extends Element, E extends Exception> boolean hasDescendant(UniversalPredicate<T,E> predicate) throws E {
+		List<T> result = children(predicate);
 		if (!result.isEmpty())
 			return true;
 
 		for (Element e : children()) {
-			if (e.hasDescendant(c, predicate))
+			if (e.hasDescendant(predicate))
 				return true;
 		}
 
 		return false;
 	}
-
+	
 	public final <T extends Element> List<T> nearestDescendants(Class<T> c) {
 		List<? extends Element> tmp = children();
 		List<T> result = new ArrayList<T>();
@@ -594,15 +591,14 @@ public abstract class ElementImpl implements Element {
 		return result;
 	}
 
-	public final <T extends Element, E extends Exception> List<T> children(Class<T> c, Predicate<T,E> predicate) throws E {
-		List<T> result = children(c);
-		predicate.filter(result);
-		return result;
+	@Override
+	public final <T extends Element, E extends Exception> List<T> children(UniversalPredicate<T,E> predicate) throws E {
+		return predicate.downCastedList(children());
 	}
 
 	public final <T extends Element> List<T> children(Class<T> c, final ChameleonProperty property) {
-		List<T> result = children(c, new SafePredicate<T>() {
-			public boolean eval(T element) {
+		List<T> result = children(new UniversalPredicate<T,Nothing>(c) {
+			public boolean uncheckedEval(T element) {
 				return element.isTrue(property);
 			}
 		});
@@ -642,13 +638,6 @@ public abstract class ElementImpl implements Element {
 			result.add(el);
 			el = el.nearestAncestor(c);
 		}
-		return result;
-	}
-
-	@Override
-	public <T extends Element, E extends Exception> List<T> ancestors(Class<T> c, Predicate<T, E> predicate) throws E {
-		List<T> result = ancestors(c);
-		predicate.filter(result);
 		return result;
 	}
 

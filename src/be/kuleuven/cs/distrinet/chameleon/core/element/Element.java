@@ -260,22 +260,6 @@ public interface Element {
      @
      @ post \result != null;
      @ post parent() == null ==> \result.isEmpty();
-     @ post parent() != null && c.isInstance(parent()) && predicate.eval(parent()) ==> \result.get(0) == parent();
-     @                       && \result.subList(1,\result.size()).equals(parent().ancestors(c));
-     @ post post parent() != null && (! c.isInstance(parent() || !predicate.eval(parent()))) ==> 
-     @                       \result.equals(parent().ancestors(c));
-     @*/
-    public <T extends Element, E extends Exception> List<T> ancestors(Class<T> c, Predicate<T, E> predicate) throws E;
-
-    /**
-     * Return a list of all ancestors of the given type. A closer ancestors will have a lower index than a 
-     * farther ancestor.
-     */
-   /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @ post parent() == null ==> \result.isEmpty();
      @ post parent() != null && predicate.eval(parent()) ==> \result.get(0) == parent();
      @                       && \result.subList(1,\result.size()).equals(parent().ancestors(c));
      @ post post parent() != null && ! predicate.eval(parent()) ==> 
@@ -303,7 +287,6 @@ public interface Element {
      @*/
     public List<? extends Element> children();
 
-//    public List<? extends Element> reflectiveChildren();
     /**
      * Return all children of this element that are of the given type.
      */
@@ -337,9 +320,9 @@ public interface Element {
      @ pre predicate != null;
      @
      @ post \result != null;
-     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && c.isInstance(e) && predicate.eval(e));
+     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && predicate.eval(e));
      @*/
-    public <T extends Element, E extends Exception> List<T> children(Class<T> c, Predicate<T,E> predicate) throws E;
+    public <T extends Element, E extends Exception> List<T> children(UniversalPredicate<T,E> predicate) throws E;
     
     /**
      * Return all children of this element that are of the given type, and that have the given property.
@@ -379,12 +362,33 @@ public interface Element {
     public <T extends Element> List<T> descendants(Class<T> c);
     
     
-    // TODO: documentation
+    /**
+     * Check whether this element has a descendant of the given type.
+     * 
+     * @param c The class object representing the type the descendants.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre c != null;
+     @
+     @ post \result == ! descendants(c).isEmpty();
+     @*/
 	  public <T extends Element> boolean hasDescendant(Class<T> c);
 
-	  // TODO: documentation
-	  public <T extends Element, E extends Exception> boolean hasDescendant(Class<T> c, Predicate<T,E> predicate) throws E;
-
+	  /**
+	   * Check whether this element has a descendant that satisfies the given predicate.
+	   * 
+	   * @param predicate The predicate of which must be determined whether any descendants satisfy it.
+	   */
+	 /*@
+	   @ public behavior
+	   @
+	   @ pre predicate != null;
+	   @
+	   @ post \result == (\exists T t; descendants().contains(t); predicate.eval(t));
+	  */
+	  public <T extends Element, E extends Exception> boolean hasDescendant(UniversalPredicate<T,E> predicate) throws E;
   
 	  
     /**
