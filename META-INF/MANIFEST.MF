@@ -12,6 +12,7 @@ Bundle-Vendor: KU Leuven
 Bundle-Localization: plugin
 Export-Package: be.kuleuven.cs.distrinet.chameleon.analysis,
  be.kuleuven.cs.distrinet.chameleon.analysis.dependency,
+ be.kuleuven.cs.distrinet.chameleon.analysis.predicate,
  be.kuleuven.cs.distrinet.chameleon.aspect.core.build,
  be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice,
  be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice.modifier,
