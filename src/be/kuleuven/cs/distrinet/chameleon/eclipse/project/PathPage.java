@@ -5,12 +5,12 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.dialogs.IPageChangedListener;
+import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -33,11 +33,6 @@ public class PathPage extends WizardPage implements IWizardPage {
 
 	private static final String SET_SOURCE_PATH = "Set source path";
 
-	public PathPage(String pageName, String title, ImageDescriptor titleImage, ProjectWizard wizard) {
-		super(SET_SOURCE_PATH, title, titleImage);
-		_wizard = wizard;
-	}
-
 	private ProjectWizard _wizard;
 
 	public ProjectWizard wizard() {
@@ -55,6 +50,34 @@ public class PathPage extends WizardPage implements IWizardPage {
 
 	private String _cacheRoot;
 
+	void notifyWizardDialogConnected(WizardDialog dialog) {
+		dialog.addPageChangedListener(new IPageChangedListener(){
+
+			@Override
+			public void pageChanged(PageChangedEvent event) {
+				if(event.getSelectedPage() == PathPage.this) {
+					_initialized = true;
+					_sourceProjectRoot.setText(wizard().projectName());
+
+
+					ProjectConfiguration projectConfig = wizard().projectConfig();
+					File file = wizard().projectDirectory();
+					String projectPathName = file == null ? null: file.toString();
+					if(file != null && ! projectPathName.equals(_cacheRoot)) {
+						_sourceProjectRoot.removeAll();
+						_cacheRoot = projectPathName;
+						for(String directory:_sourcePaths) {
+							projectConfig.addSource(directory);
+							// This attaches the child to the tree
+							createNode(_sourceProjectRoot);
+						}
+						addSrc();
+					}
+				}
+			}
+		});
+	}
+
 	@Override
 	public void createControl(Composite parent) {
 		controlContainer = new Composite(parent,SWT.NONE);
@@ -63,36 +86,8 @@ public class PathPage extends WizardPage implements IWizardPage {
 		gridLayout.numColumns = 2;
 		controlContainer.setLayout(gridLayout);
 
-		Canvas root = new Canvas(controlContainer, SWT.NONE);
-		root.addFocusListener(new FocusListener(){
+		//		Canvas roott = new Canvas(controlContainer, SWT.NONE);
 
-			@Override
-			public void focusLost(FocusEvent arg0) {
-			}
-
-			@Override
-			public void focusGained(FocusEvent arg0) {
-				_initialized = true;
-				_sourceProjectRoot.setText(wizard().projectName());
-
-
-				ProjectConfiguration projectConfig = wizard().projectConfig();
-				File file = wizard().projectDirectory();
-				String projectPathName = file == null ? null: file.toString();
-				if(file != null && ! projectPathName.equals(_cacheRoot)) {
-					_sourceProjectRoot.removeAll();
-					_cacheRoot = projectPathName;
-					for(String directory:_sourcePaths) {
-						projectConfig.addSource(directory);
-						// This attaches the child to the tree
-						createNode(_sourceProjectRoot);
-					}
-					addSrc();
-				}
-			}
-
-
-		});
 
 		TabFolder folder = new TabFolder(controlContainer, SWT.BORDER);
 		GridData tabFolderGridData = new GridData(GridData.FILL,GridData.FILL,true,true);
@@ -244,15 +239,12 @@ public class PathPage extends WizardPage implements IWizardPage {
 		//		});
 	}
 
-	private ProjectConfiguration _cached;
-
 	protected void addSourceLoader(String directory) {
 		if(directory != null) {
 			_sourcePaths.add(directory);
 			projectConfig().addSource(directory);
 		}
 		File file = new File(directory);
-		TreeItem child;
 		if(file.isAbsolute()) {
 			createNode(_sourceTree, directory);
 		} else {

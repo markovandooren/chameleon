@@ -13,7 +13,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.IWizardContainer;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
@@ -24,6 +27,7 @@ import be.kuleuven.cs.distrinet.chameleon.eclipse.LanguageMgt;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.builder.ChameleonBuilder;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorExtension;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.workspace.BaseLibraryConfiguration;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ConfigException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectConfiguration;
@@ -38,6 +42,10 @@ import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectConfigurator;
  */
 public class ProjectWizard extends BasicNewProjectResourceWizard implements INewWizard {
 
+	public ProjectWizard() {
+	}
+	
+	
 	/**
 	 * Fields for keeping track of the various pages.
 	 */
@@ -49,7 +57,21 @@ public class ProjectWizard extends BasicNewProjectResourceWizard implements INew
 	
 	private PathPage _pathPage;
 	
+	@Override
+	public void setContainer(IWizardContainer wizardContainer) {
+		super.setContainer(wizardContainer);
+		//FIXME stupid, but I'm tired of Eclipse developers making
+		//so many things impossible by hiding everything behind
+		//XML. So far this is the "best" way I found to attach
+		// a project changed listener
+		if(wizardContainer instanceof WizardDialog) {
+			_pathPage.notifyWizardDialogConnected((WizardDialog)wizardContainer);
+		}
+	}
+	
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
+		IWizardContainer container = getContainer();
+		// Why can't Eclipse allow me to query the $%*&#@$ objects.
 		setWindowTitle("Create New Chameleon Project");
 		try {
 			setDefaultPageImageDescriptor(EclipseEditorExtension.iconDescriptor("chameleon.png", ChameleonEditorPlugin.PLUGIN_ID));
