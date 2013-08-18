@@ -1,5 +1,8 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -8,10 +11,9 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.action.Action;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.UIJob;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyAnalysis;
@@ -24,6 +26,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.util.action.TopDown;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.predicate.True;
+import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 
 import com.google.common.base.Function;
 
@@ -73,19 +76,15 @@ public class AnalyseDependencies extends Action {
 						final Document document = currentDocument();
 						final DependencyAnalysis<Type, Type> analysis = performAnalysis(document);				
 						// If you want to update the UI
-						UIJob uiJob = new UIJob("Dependency Analysis"){
-
+						Display.getDefault().syncExec(new Runnable(){
 							@Override
-							public IStatus runInUIThread(IProgressMonitor monitor) {
+							public void run() {
 								DependencyResult result = analysis.result();
 								if(result != null) {
 									AnalyseDependencies.this._dependencyView._viewer.setInput(result);
 								}
-								return Status.OK_STATUS;
 							}
-
-						};
-						uiJob.schedule();
+						});
 						return Status.OK_STATUS;
 					} catch(CoreException exc) {
 						exc.printStackTrace();
@@ -98,6 +97,7 @@ public class AnalyseDependencies extends Action {
 
 	}
 
+	@SuppressWarnings("rawtypes")
 	protected DependencyAnalysis<Type, Type> performAnalysis(Document document) {
 		Function<Type,Type> identity = new Function<Type, Type>() {
 			@Override
@@ -106,11 +106,24 @@ public class AnalyseDependencies extends Action {
 			}
 		};
 		
+		//True sourceDeclarationPredicate = new True();
+		final List sourceListHack = new ArrayList();
+		final List targetListHack = new ArrayList();
+		Display.getDefault().syncExec(new Runnable(){
+		
+			@Override
+			public void run() {
+				sourceListHack.add(_dependencyView.sourcePredicate());
+				targetListHack.add(_dependencyView.targetPredicate());
+			}
+		});
+		UniversalPredicate sourceDeclarationPredicate = (UniversalPredicate) sourceListHack.get(0);
+		UniversalPredicate targetDeclarationPredicate = (UniversalPredicate) targetListHack.get(0);
 		final DependencyAnalysis<Type, Type> analysis = 
 				new DependencyAnalysis<Type,Type>(
-						Type.class, new True(), 
+						Type.class, sourceDeclarationPredicate, 
 						new True(), 
-						Type.class, identity, new True(), 
+						Type.class, identity, targetDeclarationPredicate, 
 						new True());
 		if(document != null) {
 			TopDown<Element, Nothing> topDown = new TopDown<>(analysis);
