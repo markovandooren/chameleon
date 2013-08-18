@@ -11,7 +11,7 @@ public interface ViewProcessor extends Processor<View, ViewProcessor> {
   public View view();
 
   /**
-   * Set the language to which this processor is connected. The bidirectional
+   * Set the view to which this processor is connected. The bidirectional
    * relation is kept in a consistent state.
    * 
    * T, which represents the processor interface, must be a super type of the type of this object.
