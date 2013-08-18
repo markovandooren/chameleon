@@ -6,6 +6,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 
 import be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature;
+import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 
 public class Projects {
 
@@ -34,6 +35,11 @@ public class Projects {
 		} catch (CoreException e) {
 			return null;
 		}
+	}
+	
+	public static Project chameleonProject(IProject project) {
+		ChameleonProjectNature chameleonNature = chameleonNature(project);
+		return chameleonNature == null ? null : chameleonNature.chameleonProject();
 	}
 	
 	public static IProject project(IPath path) {
