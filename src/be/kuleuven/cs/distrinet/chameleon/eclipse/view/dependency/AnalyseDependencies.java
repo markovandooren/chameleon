@@ -111,6 +111,7 @@ public class AnalyseDependencies extends Action {
 		final List targetListHack = new ArrayList();
 		Display.getDefault().syncExec(new Runnable(){
 		
+			@SuppressWarnings("unchecked")
 			@Override
 			public void run() {
 				sourceListHack.add(_dependencyView.sourcePredicate());
