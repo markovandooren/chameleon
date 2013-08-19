@@ -15,10 +15,14 @@ public class DefaultDependencyOptions extends LanguagePluginImpl implements Depe
 	@Override
 	public DependencyConfiguration createConfiguration() {
 		List<PredicateSelector<? super Element>> source = new ArrayList<>();
-		source.add(new CheckboxSelector<>(new IsSource(), "Only source declarations"));
+		source.add(onlySource());
 		List<PredicateSelector<? super Element>> target = new ArrayList<>();
-		target.add(new CheckboxSelector<>(new IsSource(), "Only source declarations"));
-		return new DependencyConfiguration(source, target, Collections.EMPTY_LIST);
+		target.add(onlySource());
+		return new DependencyConfiguration(source, target, Collections.EMPTY_LIST,Collections.EMPTY_LIST);
+	}
+
+	private CheckboxSelector<Element> onlySource() {
+		return new CheckboxSelector<>(new IsSource(), "Only source declarations");
 	}
 
 	@Override

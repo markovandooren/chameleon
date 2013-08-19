@@ -11,10 +11,12 @@ public class DependencyConfiguration {
 
 	public DependencyConfiguration(
 			List<PredicateSelector<? super Element>> sourceOptions,
+			List<PredicateSelector<? super Element>> crossReferenceOptions,
 			List<PredicateSelector<? super Element>> targetOptions,
 			List<PredicateSelector<? super Element>> dependencyOptions
 			) {
 		_sourceOptions = ImmutableList.copyOf(sourceOptions);
+		_crossReferenceOptions = ImmutableList.copyOf(crossReferenceOptions);
 		_targetOptions = ImmutableList.copyOf(targetOptions);
 		_dependencyOptions = ImmutableList.copyOf(dependencyOptions);
 	}
@@ -27,12 +29,18 @@ public class DependencyConfiguration {
 		return _targetOptions;
 	}
 	
+	public List<PredicateSelector<? super Element>> crossReferenceOptions() {
+		return _crossReferenceOptions;
+	}
+	
 	public List<PredicateSelector<? super Element>> dependencyOptions() {
 		return _dependencyOptions;
 	}
 
 
 	private ImmutableList<PredicateSelector<? super Element>> _sourceOptions;
+	
+	private ImmutableList<PredicateSelector<? super Element>> _crossReferenceOptions;
 
 	private ImmutableList<PredicateSelector<? super Element>> _targetOptions;
 
