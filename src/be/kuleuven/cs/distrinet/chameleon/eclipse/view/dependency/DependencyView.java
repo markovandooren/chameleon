@@ -1,21 +1,12 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.inject.Inject;
-
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.e4.ui.di.UISynchronize;
-import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -28,44 +19,29 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IPageListener;
 import org.eclipse.ui.IPartListener;
-import org.eclipse.ui.IPartListener2;
-import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
-import org.eclipse.ui.progress.UIJob;
-import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyResult;
-import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
-import be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature;
-import be.kuleuven.cs.distrinet.chameleon.eclipse.util.Editors;
-import be.kuleuven.cs.distrinet.chameleon.eclipse.util.Projects;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.util.Workbenches;
-import be.kuleuven.cs.distrinet.chameleon.eclipse.util.Workspaces;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.widget.PredicateSelector;
-import be.kuleuven.cs.distrinet.chameleon.util.Util;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.widget.SWTWidgetFactory;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.widget.WidgetFactory;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.True;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 
@@ -95,7 +71,7 @@ public class DependencyView extends ViewPart {
 				if(chameleonProject != null) {
 					populateOptionTabs(chameleonProject);
 				} else {
-					clearSourceTab();
+					clearOptionTabs();
 				}
 			}
 		}
@@ -104,11 +80,11 @@ public class DependencyView extends ViewPart {
 
 	GraphViewer _viewer;
 
-		private Composite _controlContainer;
-		
-		private Composite controlContainer() {
-			return _controlContainer;
-		}
+	private Composite _controlContainer;
+
+	private Composite controlContainer() {
+		return _controlContainer;
+	}
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -194,27 +170,47 @@ public class DependencyView extends ViewPart {
 		return result;
 	}
 
-	private void clearSourceTab() {
+	private void clearOptionTabs() {
 
 		Display.getDefault().syncExec(new Runnable(){
 		
 			@Override
 			public void run() {
-				for(Control control:_sourceCanvas.getChildren()) {
-					control.dispose();
-				}
-				for(Control control:_targetCanvas.getChildren()) {
-					control.dispose();
-				}
-				_sourceSelectors.clear();
-				_targetSelectors.clear();
+				doClearOptionsTab();
+				DependencyView.this.controlContainer().layout(true);
 			}
 		});
 	}
 
+	protected void doClearOptionsTab() {
+		for(Control control:_sourceCanvas.getChildren()) {
+			control.dispose();
+		}
+		for(Control control:_targetCanvas.getChildren()) {
+			control.dispose();
+		}
+		_sourceSelectors.clear();
+		_targetSelectors.clear();
+	}
+	
 	private Composite _sourceCanvas;
 	
+	private WidgetFactory<Control> _sourceOptionWidgetFactory = new SWTWidgetFactory(){
+		@Override
+		public Composite parent() {
+			return _sourceCanvas;
+		}
+	};
+	
 	private Composite _targetCanvas;
+
+	private WidgetFactory<Control> _targetOptionWidgetFactory = new SWTWidgetFactory(){
+		
+		@Override
+		public Composite parent() {
+			return _targetCanvas;
+		}
+	};
 
 	protected void addGraphViewer(Composite parent) {
 		_viewer = new GraphViewer(parent, SWT.NONE);
@@ -274,29 +270,43 @@ public class DependencyView extends ViewPart {
 	public void setFocus() {
 	}
 
+	
+	
 	private void populateOptionTabs(final Project chameleonProject) {
 		Display.getDefault().syncExec(new Runnable(){
 
 			@Override
 			public void run() {
-				_sourceSelectors = new ArrayList<PredicateSelector>();
+				doClearOptionsTab();
 				final Language language = chameleonProject.views().get(0).language();
-				DependencyOptions plugin = language.plugin(DependencyOptions.class);
-				if(plugin == null) {
-					plugin = new DefaultDependencyOptions();
+				DependencyConfiguration configuration = _options.get(language);
+//				DependencyConfiguration configuration = null;
+				if(configuration == null) {
+					DependencyOptions plugin = language.plugin(DependencyOptions.class);
+					if(plugin == null) {
+						plugin = new DefaultDependencyOptions();
+					}
+					configuration = plugin.createConfiguration();
+					_options.put(language, configuration);
 				}
-				for(PredicateSelector selector: plugin.sourceOptions()) {
-					selector.createControl(_sourceCanvas);
+				for(PredicateSelector selector: configuration.sourceOptions()) {
+					selector.createControl(_sourceOptionWidgetFactory);
 					_sourceSelectors.add(selector);
 				}
-				for(PredicateSelector selector: plugin.targetOptions()) {
-					selector.createControl(_targetCanvas);
+				for(PredicateSelector selector: configuration.targetOptions()) {
+					selector.createControl(_targetOptionWidgetFactory);
 					_targetSelectors.add(selector);
 				}
-				//				_sourceCanvas.redraw();
+				// The layout call on the view is required to make the tab expand in size, but
+				// for some reason it is not enough. We must invoke layout() also directly on the
+				// canvasses.
+				_sourceCanvas.layout(true);
+				_targetCanvas.layout(true);
 				DependencyView.this.controlContainer().layout(true);
 			}
 		});
 	}
+	
+	private Map<Language, DependencyConfiguration> _options = new HashMap<>();
 
 }
