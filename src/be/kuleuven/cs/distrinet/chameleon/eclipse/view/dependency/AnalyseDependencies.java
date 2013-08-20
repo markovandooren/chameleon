@@ -108,6 +108,7 @@ public class AnalyseDependencies extends Action {
 		
 		//True sourceDeclarationPredicate = new True();
 		final List sourceListHack = new ArrayList();
+		final List crossReferenceListHack = new ArrayList();
 		final List targetListHack = new ArrayList();
 		Display.getDefault().syncExec(new Runnable(){
 		
@@ -116,14 +117,16 @@ public class AnalyseDependencies extends Action {
 			public void run() {
 				sourceListHack.add(_dependencyView.sourcePredicate());
 				targetListHack.add(_dependencyView.targetPredicate());
+				crossReferenceListHack.add(_dependencyView.crossReferencePredicate());
 			}
 		});
 		UniversalPredicate sourceDeclarationPredicate = (UniversalPredicate) sourceListHack.get(0);
 		UniversalPredicate targetDeclarationPredicate = (UniversalPredicate) targetListHack.get(0);
+		UniversalPredicate crossReferencePredicate = (UniversalPredicate) crossReferenceListHack.get(0);
 		final DependencyAnalysis<Type, Type> analysis = 
 				new DependencyAnalysis<Type,Type>(
 						Type.class, sourceDeclarationPredicate, 
-						new True(), 
+						crossReferencePredicate, 
 						Type.class, identity, targetDeclarationPredicate, 
 						new True());
 		if(document != null) {

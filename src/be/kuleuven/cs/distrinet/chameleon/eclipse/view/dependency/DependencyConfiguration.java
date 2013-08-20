@@ -3,7 +3,7 @@ package be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
-import be.kuleuven.cs.distrinet.chameleon.eclipse.widget.PredicateSelector;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.PredicateSelector;
 
 import com.google.common.collect.ImmutableList;
 
