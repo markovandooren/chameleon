@@ -7,6 +7,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.CheckboxListener;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.WidgetFactory;
+
 
 public abstract class SWTWidgetFactory implements WidgetFactory<Control> {
 

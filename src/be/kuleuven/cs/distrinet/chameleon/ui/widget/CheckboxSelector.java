@@ -1,4 +1,4 @@
-package be.kuleuven.cs.distrinet.chameleon.eclipse.widget;
+package be.kuleuven.cs.distrinet.chameleon.ui.widget;
 
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.predicate.True;
@@ -18,9 +18,7 @@ public class CheckboxSelector<T> extends PredicateSelector<T>{
 
 	@Override
 	public <W> W createControl(WidgetFactory<W> factory) {
-		System.out.println("Creation of: "+_message+" with: "+_selection);
 		return factory.createCheckbox(_message, _selection, new CheckboxListener(){
-		
 			@Override
 			public void selectionChanged(boolean selection) {
 				System.out.println("Selection of: "+_message+" set to: "+selection);

@@ -1,4 +1,4 @@
-package be.kuleuven.cs.distrinet.chameleon.eclipse.widget;
+package be.kuleuven.cs.distrinet.chameleon.ui.widget;
 
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;

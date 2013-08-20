@@ -1,4 +1,4 @@
-package be.kuleuven.cs.distrinet.chameleon.eclipse.widget;
+package be.kuleuven.cs.distrinet.chameleon.ui.widget;
 
 public interface CheckboxListener {
 
