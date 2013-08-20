@@ -56,6 +56,13 @@ public class OptionsTab {
 					selector.createControl(_tabWidgetFactory);
 					_tabSelectors.add(selector);
 				}
+				new SWTWidgetFactory() {
+					@Override
+					public Composite parent() {
+						return _tabCanvas;
+					}
+				}.createCheckboxList();
+
 				// The layout call on the view is required to make the tab expand in size, but
 				// for some reason it is not enough. We must invoke layout() also directly on the
 				// canvasses.

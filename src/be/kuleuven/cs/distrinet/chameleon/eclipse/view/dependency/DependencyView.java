@@ -8,6 +8,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.layout.GridData;
@@ -35,7 +36,10 @@ import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyResult;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.util.Workbenches;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.widget.SWTWidgetFactory;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.CheckboxListener;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.PredicateSelector;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.WidgetFactory;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.function.Function;
@@ -100,7 +104,7 @@ public class DependencyView extends ViewPart {
 	}
 
 	private void createConfigurationControls(Composite parent) {
-		Composite right = new Composite(parent, SWT.NONE);
+		final Composite right = new Composite(parent, SWT.NONE);
 		GridData rightData = new GridData(GridData.FILL,GridData.FILL,false,true);
 		right.setLayoutData(rightData);
 		GridLayout rightLayout = new GridLayout();
@@ -108,6 +112,13 @@ public class DependencyView extends ViewPart {
 		right.setLayout(rightLayout);
 
 		createAnalyzeButton(right);
+		
+//		new SWTWidgetFactory() {
+//			@Override
+//			public Composite parent() {
+//				return right;
+//			}
+//		}.createCheckboxList();
 
 		TabFolder folder = new TabFolder(right, SWT.BORDER);
 		GridData tabFolderGridData = new GridData(GridData.FILL,GridData.FILL,true,true);
@@ -134,14 +145,21 @@ public class DependencyView extends ViewPart {
 	}
 
 	protected OptionsTab createTab(TabFolder folder, Function<DependencyConfiguration, List<PredicateSelector>, Nothing> selector, String name) {
-		TabItem sourceTab = new TabItem(folder, SWT.NONE);
-		sourceTab.setText(name);
-		Composite sourceCanvas = new Canvas(folder,SWT.NONE);
-		GridLayout sourceLayout = new GridLayout();
-		sourceLayout.numColumns = 1;
-		sourceCanvas.setLayout(sourceLayout);
-		sourceTab.setControl(sourceCanvas);
-		OptionsTab optionsTab = new OptionsTab(sourceCanvas, selector);
+		TabItem tab = new TabItem(folder, SWT.NONE);
+		tab.setText(name);
+		ScrolledComposite scroll = new ScrolledComposite(folder, SWT.V_SCROLL);
+		Composite canvas = new Canvas(scroll,SWT.NONE);
+		scroll.setContent(canvas);
+		
+		scroll.setExpandVertical(true);
+		scroll.setExpandHorizontal(true);
+		scroll.setMinSize(canvas.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 1;
+		canvas.setLayout(layout);
+		tab.setControl(scroll);
+		OptionsTab optionsTab = new OptionsTab(canvas, selector);
 		return optionsTab;
 	}
 
