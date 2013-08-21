@@ -2,21 +2,14 @@ package be.kuleuven.cs.distrinet.chameleon.eclipse.widget;
 
 import java.util.List;
 
-import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
-import org.eclipse.jface.viewers.IBaseLabelProvider;
-import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TreePath;
-import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
@@ -25,6 +18,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.TreeItem;
 
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.RegularNamespaceFactory;
@@ -63,9 +59,21 @@ composite.setLayoutData(rightData);
 		layout.numColumns = 1;
 		composite.setLayout(layout);
 
-		Button button = new Button(composite,SWT.CHECK);
+		final Button button = new Button(composite,SWT.CHECK);
 		button.setText("Enable namespace filter");
+		button.setSelection(true);
+		final CheckboxTreeViewer tree = createTree(composite);
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+				tree.getTree().setEnabled(button.getSelection());
+			}
+		});
 		
+		return null;
+	}
+
+	protected CheckboxTreeViewer createTree(Composite composite) {
 		final CheckboxTreeViewer pack = new CheckboxTreeViewer(composite,SWT.NONE);
 		pack.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
 		pack.setContentProvider(new ITreeContentProvider(){
@@ -133,45 +141,101 @@ composite.setLayoutData(rightData);
 				return null;
 			}
 		});
+		pack.setAutoExpandLevel(2);
+		pack.getTree().addListener(SWT.Selection, new Listener(){
 		
-//		button.addListener (SWT.Selection, new Listener() {
-//			public void handleEvent (Event e) {
-//				if (button.getSelection()) {
-//					if (!button.getGrayed()) {
-//						button.setGrayed(true);
-//					}
-//				} else {
-//					if (button.getGrayed()) {
-//						button.setGrayed(false);
-//						button.setSelection (true);
-//					}
-//				}
-//			}
-//		});
-		
-		pack.addSelectionChangedListener(new ISelectionChangedListener(){
-		
+			void updateParents(TreeItem changed) {
+				TreeItem item = changed.getParentItem();
+		    if (item == null) return;
+		    boolean checked = item.getChecked();
+		    boolean grayed = item.getGrayed();
+		    boolean allUnchecked = true;
+		    boolean allChecked = true;
+		    for(TreeItem child:  item.getItems()) {
+		    	if(child.getGrayed() || (! (allUnchecked | allChecked))) {
+		    		grayed = true;
+		    		break;
+		    	} else if(child.getChecked() && allUnchecked) {
+		    		allUnchecked = false;
+		    	} else if((! child.getChecked()) && allChecked) {
+		    		allChecked = false;
+		    	}
+		    }
+//		    if(allUnchecked) {
+//		    	grayed = false;
+//		    	checked = false;
+//		    } else 
+		    if(allChecked) {
+		    	grayed = false;
+		    	checked = true;
+		    } else {
+		    	grayed = true;
+		    }
+		    if(grayed) {
+		    	checked = true;
+		    } 
+		    item.setChecked(checked);
+		    item.setGrayed(grayed);
+		    updateParents(item);
+		}
+			
 			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				Object source = event.getSource();
-				ISelection selection = event.getSelection();
-				if(selection instanceof TreeSelection) {
-					TreeSelection treeSelection = (TreeSelection) selection;
-					TreePath[] paths = treeSelection.getPaths();
-					System.out.println("debug");
+			public void handleEvent(Event event) {
+				if(event.detail == SWT.CHECK) {
+					TreeItem item = (TreeItem) event.item;
+					itemClicked(item);
+					updateParents(item);
+				} else {
+					System.out.println("Other");
 				}
-				System.out.println("debug");
+			}
+			
+			private void itemClicked(TreeItem item) {
+//				if(item.getGrayed()) {
+//					setUnchecked(item);
+//				} else 
+				if(! item.getChecked()) {
+					setUnchecked(item);
+				} else {
+					setChecked(item);
+				}
+			}
+			
+			private void setChecked(TreeItem item) {
+				System.out.println("Setting checked for: "+item.getText());
+				item.setChecked(true);
+				item.setGrayed(false);
+				for(TreeItem child: item.getItems()) {
+					setChecked(child);
+				}
+			}
+			
+			private void setMaybe(TreeItem item) {
+				item.setGrayed(true);
+				item.setChecked(true);
+			}
+			
+			private void setUnchecked(TreeItem item) {
+				item.setChecked(false);
+				item.setGrayed(false);
+				for(TreeItem child: item.getItems()) {
+					setUnchecked(child);
+				}
 			}
 		});
-		
-		
-		pack.setAutoExpandLevel(2);
 		Namespace ns = new RootNamespace(new RegularNamespaceFactory());
 		ns.getOrCreateNamespace("a.b.c.d");
+		ns.getOrCreateNamespace("a.b.e.f");
+		ns.getOrCreateNamespace("a.m.n.o");
+		ns.getOrCreateNamespace("x.y.z");
 		pack.setInput(ns);
-		
-		return null;
+		return pack;
 	}
+	
+//	protected void treeExperiment1(Composite composite) {
+//		Tree tree = new Tree(composite, SWT.CHECK | SWT.V_SCROLL| SWT.H_SCROLL);
+//		
+//	}
 	
 	public abstract Composite parent();
 
