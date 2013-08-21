@@ -2,7 +2,9 @@ package be.kuleuven.cs.distrinet.chameleon.eclipse.widget;
 
 import java.util.List;
 
+import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
+import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -80,12 +82,10 @@ composite.setLayoutData(rightData);
 		
 			@Override
 			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-				System.out.println("*** Input changed ***");
 			}
 		
 			@Override
 			public void dispose() {
-				
 			}
 		
 			@Override
@@ -141,7 +141,7 @@ composite.setLayoutData(rightData);
 				return null;
 			}
 		});
-		pack.setAutoExpandLevel(2);
+//		pack.setAutoExpandLevel(2);
 		pack.getTree().addListener(SWT.Selection, new Listener(){
 		
 			void updateParents(TreeItem changed) {
@@ -161,10 +161,6 @@ composite.setLayoutData(rightData);
 		    		allChecked = false;
 		    	}
 		    }
-//		    if(allUnchecked) {
-//		    	grayed = false;
-//		    	checked = false;
-//		    } else 
 		    if(allChecked) {
 		    	grayed = false;
 		    	checked = true;
@@ -229,6 +225,11 @@ composite.setLayoutData(rightData);
 		ns.getOrCreateNamespace("a.m.n.o");
 		ns.getOrCreateNamespace("x.y.z");
 		pack.setInput(ns);
+		// We must do a full expand to make recursive descend work
+		// otherwise never-expanded tree item are simply ignore. 
+		pack.expandAll();
+		pack.collapseAll();
+		pack.expandToLevel(2);
 		return pack;
 	}
 	
