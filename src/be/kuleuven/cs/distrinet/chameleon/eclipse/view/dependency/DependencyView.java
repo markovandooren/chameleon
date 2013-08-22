@@ -1,7 +1,9 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
@@ -9,6 +11,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.layout.GridData;
@@ -16,6 +19,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
@@ -31,15 +35,11 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutStyles;
-import org.eclipse.zest.layouts.algorithms.DirectedGraphLayoutAlgorithm;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyResult;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.util.Workbenches;
-import be.kuleuven.cs.distrinet.chameleon.eclipse.widget.SWTWidgetFactory;
-import be.kuleuven.cs.distrinet.chameleon.ui.widget.CheckboxListener;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.PredicateSelector;
-import be.kuleuven.cs.distrinet.chameleon.ui.widget.WidgetFactory;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.function.Function;
@@ -68,16 +68,21 @@ public class DependencyView extends ViewPart {
 		public void partActivated(IWorkbenchPart part) {
 			if(part instanceof IEditorPart) {
 				Project chameleonProject = Workbenches.chameleonProject(part);
-				for(OptionsTab tab: _optionTabs) {  
-					if(chameleonProject != null) {
-						tab.populate(chameleonProject);
-					} else {
-						tab.clear();;
-					}
+				if(chameleonProject != null) {
+					Control control = _stackMap.get(chameleonProject);
+					if(control == null) {
+						control = createConfigurationControls(_stack, chameleonProject);
+						_stackMap.put(chameleonProject, control);
+					} 
+					((StackLayout)_stack.getLayout()).topControl = control;
 				}
+				_sourceTab = _sources.get(chameleonProject);
+				_targetTab = _targets.get(chameleonProject);
+				_crossReferenceTab = _crossReferences.get(chameleonProject);
 				Display.getDefault().syncExec(new Runnable(){
 					@Override
 					public void run() {
+						_stack.layout(true);
 						DependencyView.this.controlContainer().layout(true);
 					}
 				});
@@ -85,6 +90,8 @@ public class DependencyView extends ViewPart {
 		}
 
 	}
+	
+	private Map<Project,Control> _stackMap = new HashMap<>();
 
 	GraphViewer _viewer;
 
@@ -100,10 +107,20 @@ public class DependencyView extends ViewPart {
 		GridLayout gridLayout = new GridLayout(2,false);
 		parent.setLayout(gridLayout);
 		addGraphViewer(parent);
-		createConfigurationControls(parent);
+		initStack(parent);
+		registerPartListener();
 	}
+	
+	private void initStack(Composite parent) {
+		_stack = new Composite(parent, SWT.NONE);
+		StackLayout layout = new StackLayout();
+		_stack.setLayout(layout);
+		_stack.setLayoutData(new GridData(SWT.FILL,SWT.FILL,false,true));
+	}
+	
+	private Composite _stack;
 
-	private void createConfigurationControls(Composite parent) {
+	private Control createConfigurationControls(Composite parent, Project project) {
 		final Composite right = new Composite(parent, SWT.NONE);
 		GridData rightData = new GridData(GridData.FILL,GridData.FILL,false,true);
 		right.setLayoutData(rightData);
@@ -124,15 +141,14 @@ public class DependencyView extends ViewPart {
 		GridData tabFolderGridData = new GridData(GridData.FILL,GridData.FILL,true,true);
 		folder.setLayoutData(tabFolderGridData);
 
-		createTargetTab(folder);
-		createCrossReferenceTab(folder);
-		createSourceTab(folder);
+		createTargetTab(folder,project);
+		createCrossReferenceTab(folder,project);
+		createSourceTab(folder,project);
 
-		registerPartListener();
-
+		return right;
 	}
 
-	private void createSourceTab(TabFolder folder) {
+	private void createSourceTab(TabFolder folder,Project project) {
 		Function<DependencyConfiguration, List<PredicateSelector>, Nothing> selector = new Function<DependencyConfiguration, List<PredicateSelector>, Nothing>() {
 			@Override
 			public List<PredicateSelector> apply(DependencyConfiguration argument) throws Nothing {
@@ -140,11 +156,14 @@ public class DependencyView extends ViewPart {
 			}
 		};
 		String name = "Source";
-		_sourceTab = createTab(folder, selector, name);
-		_optionTabs.add(_sourceTab);
+		_sources.put(project,createTab(folder, selector, name,project));
 	}
+	
+	private Map<Project,SelectorList> _sources = new HashMap<>();
+	private Map<Project,SelectorList> _targets= new HashMap<>();
+	private Map<Project,SelectorList> _crossReferences= new HashMap<>();
 
-	protected OptionsTab createTab(TabFolder folder, Function<DependencyConfiguration, List<PredicateSelector>, Nothing> selector, String name) {
+	protected SelectorList createTab(TabFolder folder, Function<DependencyConfiguration, List<PredicateSelector>, Nothing> selector, String name, Project project) {
 		TabItem tab = new TabItem(folder, SWT.NONE);
 		tab.setText(name);
 		ScrolledComposite scroll = new ScrolledComposite(folder, SWT.V_SCROLL);
@@ -157,13 +176,15 @@ public class DependencyView extends ViewPart {
 		
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
+//		StackLayout layout = new StackLayout();
 		canvas.setLayout(layout);
 		tab.setControl(scroll);
-		OptionsTab optionsTab = new OptionsTab(canvas, selector);
+		SelectorList optionsTab = new SelectorList(canvas, SWT.NONE, selector,project);
+		optionsTab.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		return optionsTab;
 	}
 
-	private void createTargetTab(TabFolder folder) {
+	private void createTargetTab(TabFolder folder,Project project) {
 		Function<DependencyConfiguration, List<PredicateSelector>, Nothing> selector = new Function<DependencyConfiguration, List<PredicateSelector>, Nothing>() {
 			@Override
 			public List<PredicateSelector> apply(DependencyConfiguration argument) throws Nothing {
@@ -171,11 +192,10 @@ public class DependencyView extends ViewPart {
 			}
 		};
 		String name = "Target";
-		_targetTab = createTab(folder, selector, name);
-		_optionTabs.add(_targetTab);
+		_targets.put(project,createTab(folder, selector, name,project));
 	}
 
-	private void createCrossReferenceTab(TabFolder folder) {
+	private void createCrossReferenceTab(TabFolder folder,Project project) {
 		Function<DependencyConfiguration, List<PredicateSelector>, Nothing> selector = new Function<DependencyConfiguration, List<PredicateSelector>, Nothing>() {
 			@Override
 			public List<PredicateSelector> apply(DependencyConfiguration argument) throws Nothing {
@@ -183,8 +203,7 @@ public class DependencyView extends ViewPart {
 			}
 		};
 		String name = "Cross-Reference";
-		_crossReferenceTab = createTab(folder, selector, name);
-		_optionTabs.add(_crossReferenceTab);
+		_crossReferences.put(project,createTab(folder, selector, name,project));
 	}
 
 	private void registerPartListener() {
@@ -198,17 +217,17 @@ public class DependencyView extends ViewPart {
 	UniversalPredicate sourcePredicate() {
 		return _sourceTab.predicate();
 	}
-	private OptionsTab _sourceTab;
+	private SelectorList _sourceTab;
 
 	UniversalPredicate targetPredicate() {
 		return _targetTab.predicate();
 	}
-	private OptionsTab _targetTab;
+	private SelectorList _targetTab;
 
 	UniversalPredicate crossReferencePredicate() {
 		return _crossReferenceTab.predicate();
 	}
-	private OptionsTab _crossReferenceTab;
+	private SelectorList _crossReferenceTab;
 
 	protected void addGraphViewer(Composite parent) {
 		_viewer = new GraphViewer(parent, SWT.NONE);
@@ -270,5 +289,5 @@ public class DependencyView extends ViewPart {
 
 
 
-	private List<OptionsTab> _optionTabs = new ArrayList<>();
+	private List<SelectorList> _optionTabs = new ArrayList<>();
 }

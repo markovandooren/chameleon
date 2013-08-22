@@ -6,16 +6,15 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
-import be.kuleuven.cs.distrinet.chameleon.core.namespace.RegularNamespaceFactory;
-import be.kuleuven.cs.distrinet.chameleon.core.namespace.RootNamespace;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.CheckboxListener;
-import be.kuleuven.cs.distrinet.chameleon.ui.widget.Input;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.SelectionController;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeContentProvider;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.WidgetFactory;
 
@@ -23,8 +22,9 @@ import be.kuleuven.cs.distrinet.chameleon.ui.widget.WidgetFactory;
 public abstract class SWTWidgetFactory implements WidgetFactory<Control> {
 
 	@Override
-	public Input createCheckbox(String text, boolean initialState, final CheckboxListener listener) {
+	public SelectionController createCheckbox(String text, boolean initialState, final CheckboxListener listener) {
 		final Button button = new Button(parent(), SWT.CHECK);
+		final GridData layoutData = new GridData();
 		button.setText(text);
 		button.setSelection(initialState);
 		button.addSelectionListener(new SelectionListener(){
@@ -39,9 +39,21 @@ public abstract class SWTWidgetFactory implements WidgetFactory<Control> {
 				listener.selectionChanged(button.getSelection());
 			}
 		});
-		return new Input(){
+		return new SelectionController(){
 			@Override
-			public void setInput(Element element) {
+			public void setContext(Element element) {
+			}
+
+			@Override
+			public void show() {
+				layoutData.heightHint=-1;
+				button.setVisible(true);
+			}
+
+			@Override
+			public void hide() {
+				layoutData.heightHint=0;
+				button.setVisible(false);
 			}
 		};
 	}
@@ -69,7 +81,7 @@ public abstract class SWTWidgetFactory implements WidgetFactory<Control> {
 //		return null;
 //	}
 
-	public Input createTristateTree(TreeContentProvider contentProvider) {
+	public SelectionController createTristateTree(TreeContentProvider contentProvider) {
 		final TristateTreeViewer tree = new TristateTreeViewer(parent(),SWT.NONE);
 		tree.setContentProvider(new SWTTreeContentAdapter(contentProvider));
 		tree.setLabelProvider(new ILabelProvider(){
@@ -106,16 +118,26 @@ public abstract class SWTWidgetFactory implements WidgetFactory<Control> {
 		});
 		// We must do a full expand to make recursive descend work
 		// otherwise never-expanded tree item are simply ignore. 
-		return new Input(){
+		return new SelectionController(){
 		
 			@Override
-			public void setInput(Element element) {
+			public void setContext(Element element) {
 			  tree.setRedraw(false);
 				tree.setInput(element);
 //				tree.expandAll();
 //				tree.collapseAll();
 //				tree.expandToLevel(2);
 				tree.setRedraw(true);
+			}
+
+			@Override
+			public void show() {
+				tree.setVisible(true);
+			}
+
+			@Override
+			public void hide() {
+				tree.setVisible(false);
 			}
 		};
 	}

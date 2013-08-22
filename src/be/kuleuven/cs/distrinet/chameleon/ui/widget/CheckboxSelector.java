@@ -18,11 +18,10 @@ public class CheckboxSelector<T> extends PredicateSelector<T>{
 	}
 
 	@Override
-	public <W> Input createControl(WidgetFactory<W> factory) {
+	public <W> SelectionController createControl(WidgetFactory<W> factory) {
 		return factory.createCheckbox(_message, _selection, new CheckboxListener(){
 			@Override
 			public void selectionChanged(boolean selection) {
-				System.out.println("Selection of: "+_message+" set to: "+selection);
 				_selection = selection;
 			}
 		});

@@ -7,8 +7,8 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 public class TristateTreeSelector<T extends Element> extends PredicateSelector<T>{
 
 	@Override
-	public <W> Input createControl(WidgetFactory<W> factory) {
-		Input createTristateTree = factory.createTristateTree(new PredicateContentProvider<T>(predicate()));
+	public <W> SelectionController createControl(WidgetFactory<W> factory) {
+		SelectionController createTristateTree = factory.createTristateTree(new PredicateContentProvider<T>(predicate()));
 		return createTristateTree;
 	}
 	
