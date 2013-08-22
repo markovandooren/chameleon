@@ -579,6 +579,24 @@ public abstract class ElementImpl implements Element {
 		return result;
 	}
 
+  public <T extends Element, E extends Exception> List<T> nearestDescendants(UniversalPredicate<T,E> predicate) throws E {
+		List<? extends Element> tmp = children();
+		List<T> result = new ArrayList<T>();
+		Iterator<? extends Element> iter = tmp.iterator();
+		while(iter.hasNext()) {
+			Element e = iter.next();
+			if(predicate.eval(e)) {
+				result.add((T)e);
+				iter.remove();
+			}
+		}
+		for (Element e : tmp) {
+			result.addAll(e.nearestDescendants(predicate));
+		}
+		return result;
+  }
+
+	
 	public final <E extends Exception> List<Element> descendants(Predicate<? super Element,E> predicate) throws E {
 		// Do not compute all descendants, and apply predicate afterwards.
 		// That is way too expensive.
@@ -707,11 +725,11 @@ public abstract class ElementImpl implements Element {
 		return anc;
 	}
 	
-	public <T extends Element, E extends Exception> T farthestAncestor(Class<T> c, Predicate<T,E> p) throws E {
+	public <T extends Element, E extends Exception> T farthestAncestor(UniversalPredicate<T,E> p) throws E {
 		Element el = parent();
 		T anc = null;
 		while(el != null) {
-			while ((el != null) && ((! c.isInstance(el)) || !p.eval((T)el)) ){
+			while ((el != null) && (!p.eval((T)el))) {
 				el = el.parent();
 			}
 			if(el != null) {
@@ -741,9 +759,9 @@ public abstract class ElementImpl implements Element {
 	}
 
 	@Override
-	public <T extends Element, E extends Exception> T nearestAncestor(Class<T> c, Predicate<T,E> predicate) throws E {
+	public <T extends Element, E extends Exception> T nearestAncestor(UniversalPredicate<T,E> predicate) throws E {
 		Element el = parent();
-		while ((el != null) && (! (c.isInstance(el) && predicate.eval((T)el)))) {
+		while ((el != null) && (! predicate.eval((T)el))) {
 			el = el.parent();
 		}
 		return (T) el;

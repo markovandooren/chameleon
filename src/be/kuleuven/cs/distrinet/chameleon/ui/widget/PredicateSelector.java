@@ -8,7 +8,7 @@ public abstract class PredicateSelector<T>  {
 	public PredicateSelector() {
 	}
 	
-	public abstract <W> W createControl(WidgetFactory<W> factory);
+	public abstract <W> Input createControl(WidgetFactory<W> factory);
 	
 	public abstract UniversalPredicate<? super T, Nothing> predicate();
 	

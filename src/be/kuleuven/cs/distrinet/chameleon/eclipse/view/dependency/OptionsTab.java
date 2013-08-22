@@ -12,13 +12,19 @@ import org.eclipse.swt.widgets.Display;
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DefaultDependencyOptions;
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyOptions;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
+import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
+import be.kuleuven.cs.distrinet.chameleon.core.namespace.RegularNamespaceFactory;
+import be.kuleuven.cs.distrinet.chameleon.core.namespace.RootNamespace;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.widget.SWTWidgetFactory;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.Input;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.PredicateContentProvider;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.PredicateSelector;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.WidgetFactory;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.function.Function;
 import be.kuleuven.cs.distrinet.rejuse.predicate.True;
+import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 
 public class OptionsTab {
@@ -56,13 +62,20 @@ public class OptionsTab {
 					selector.createControl(_tabWidgetFactory);
 					_tabSelectors.add(selector);
 				}
-				new SWTWidgetFactory() {
+				TypePredicate<Namespace> typePredicate = new TypePredicate<>(Namespace.class);
+				Input createTristateTree = new SWTWidgetFactory() {
 					@Override
 					public Composite parent() {
 						return _tabCanvas;
 					}
-				}.createCheckboxList();
-
+				}.createTristateTree(new PredicateContentProvider<>(typePredicate));
+//				Namespace ns = new RootNamespace(new RegularNamespaceFactory());
+//				ns.getOrCreateNamespace("a.b.c.d");
+//				ns.getOrCreateNamespace("a.b.e.f");
+//				ns.getOrCreateNamespace("a.m.n.o");
+//				ns.getOrCreateNamespace("x.y.z");
+				createTristateTree.setInput(chameleonProject.views().get(0).namespace());
+				
 				// The layout call on the view is required to make the tab expand in size, but
 				// for some reason it is not enough. We must invoke layout() also directly on the
 				// canvasses.

@@ -406,6 +406,21 @@ public interface Element {
     public <T extends Element> List<T> nearestDescendants(Class<T> c);
 
     /**
+     * Return the list of first descendants that satisfy the given predicate. First means that if
+     * an element satisfies the predicate, the element itself is in the result but its descendants are ignored.
+     * 
+     * @param <T> The type of the elements for which the predicate can match.
+     * @param predicate The predicate that must be satisfied.
+     * @return
+     */
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @*/
+    public <T extends Element, E extends Exception> List<T> nearestDescendants(UniversalPredicate<T,E> predicate) throws E;
+
+    /**
      * Recursively return all descendants of this element that are of the given type, and have the given property.
      */
    /*@
@@ -587,7 +602,7 @@ public interface Element {
      @ post parent() != null && c.isInstance(this) && parent().farthestAncestor(c) == null ==> \result == this;
      @ post parent() != null && (parent().farthestAncestor(c) != null) ==> \result == parent().farthestAncestor(c);
      @*/
-    public <T extends Element, E extends Exception> T farthestAncestor(Class<T> c, Predicate<T,E> p) throws E;
+    public <T extends Element, E extends Exception> T farthestAncestor(UniversalPredicate<T,E> p) throws E;
 
     /**
      * Return the nearest ancestor of type T. Null if no such ancestor can be found.
@@ -623,7 +638,7 @@ public interface Element {
      @ post parent() != null && ((! c.isInstance(parent())) || (c.isInstance(parent()) && ! predicate.eval((T)parent())) 
      @          ==> \result == parent().nearestAncestor(c, predicate);
      @*/
-    public <T extends Element, E extends Exception> T nearestAncestor(Class<T> c, Predicate<T,E> predicate) throws E;
+    public <T extends Element, E extends Exception> T nearestAncestor(UniversalPredicate<T,E> predicate) throws E;
 
     /**
      * Return the nearest element of type T. Null if no such ancestor can be found.

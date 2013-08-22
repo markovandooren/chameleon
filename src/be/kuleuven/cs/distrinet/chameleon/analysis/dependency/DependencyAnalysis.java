@@ -67,7 +67,7 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 	public DependencyAnalysis(Class<? extends E> elementType,
 														UniversalPredicate<? super E,Nothing> elementPredicate,
 			                      UniversalPredicate<? super CrossReference<?>,Nothing> crossReferencePredicate,
-														Class<? extends D> declarationType,
+														Class<D> declarationType,
 			                      Function<D,D> declarationMapper,
 														UniversalPredicate<? super D,Nothing> declarationPredicate, 
 														UniversalPredicate<? super Pair<? super E, ? super D>,Nothing> dependencyPredicate) {
@@ -95,7 +95,7 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 		}
 	};
 	
-	private Class<? extends D> _declarationType;
+	private Class<D> _declarationType;
 
 	private Class<? extends E> _elementType;
 
