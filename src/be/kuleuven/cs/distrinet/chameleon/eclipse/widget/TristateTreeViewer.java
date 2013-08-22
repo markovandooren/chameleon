@@ -77,6 +77,15 @@ public class TristateTreeViewer extends Composite {
 		layout.numColumns = 1;
 		setLayout(layout);
 		
+		_inner.getTree().addListener(SWT.Expand, new Listener() {
+      public void handleEvent(Event e) {
+        TreeItem item = (TreeItem) e.item;
+        if(item.getChecked() && (! item.getGrayed())) {
+        	setChecked(item);
+        }
+      }
+    });
+		
 		_inner.getTree().addListener(SWT.Selection, new Listener(){
 
 			void updateParents(TreeItem changed) {
@@ -129,28 +138,30 @@ public class TristateTreeViewer extends Composite {
 				}
 			}
 
-			private void setChecked(TreeItem item) {
-				item.setChecked(true);
-				item.setGrayed(false);
-				for(TreeItem child: item.getItems()) {
-					setChecked(child);
-				}
-			}
-
-//			private void setMaybe(TreeItem item) {
-//				item.setGrayed(true);
-//				item.setChecked(true);
-//			}
-
-			private void setUnchecked(TreeItem item) {
-				item.setChecked(false);
-				item.setGrayed(false);
-				for(TreeItem child: item.getItems()) {
-					setUnchecked(child);
-				}
-			}
 		});
 	}
+	
+	private void setChecked(TreeItem item) {
+		item.setChecked(true);
+		item.setGrayed(false);
+		for(TreeItem child: item.getItems()) {
+			setChecked(child);
+		}
+	}
+
+//	private void setMaybe(TreeItem item) {
+//		item.setGrayed(true);
+//		item.setChecked(true);
+//	}
+
+	private void setUnchecked(TreeItem item) {
+		item.setChecked(false);
+		item.setGrayed(false);
+		for(TreeItem child: item.getItems()) {
+			setUnchecked(child);
+		}
+	}
+
 
 	public int hashCode() {
 		return _inner.hashCode();
