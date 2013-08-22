@@ -125,8 +125,6 @@ public class TristateTreeViewer extends Composite {
 					TreeItem item = (TreeItem) event.item;
 					itemClicked(item);
 					updateParents(item);
-				} else {
-					System.out.println("Other");
 				}
 			}
 
