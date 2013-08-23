@@ -3,18 +3,21 @@ package be.kuleuven.cs.distrinet.chameleon.workspace;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableList.Builder;
-
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
+import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
+import be.kuleuven.cs.distrinet.chameleon.core.namespace.RootNamespace;
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
 import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.rejuse.contract.Contracts;
 
-public class DocumentLoaderImpl implements DocumentLoader {
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
+import com.google.common.collect.ImmutableSet;
+
+public abstract class DocumentLoaderImpl implements DocumentLoader {
 
 	public DocumentLoaderImpl() {
 		this(false);
@@ -30,7 +33,7 @@ public class DocumentLoaderImpl implements DocumentLoader {
 		_viewLink.addListener(new AssociationListener<View>() {
 
 			// WARNING
-			
+
 			// WE TUNNEL THE EXCEPTION THROUGH THE ASSOCIATION CLASSES
 			// AND PERFORM THE ROLLBACK IN {@link Project#addSource(ProjectLoader)}
 			@Override
@@ -79,24 +82,24 @@ public class DocumentLoaderImpl implements DocumentLoader {
 			}
 		});
 	}
-	
+
 	/**
 	 * Store whether this document loader is responsible for loading a base library.
 	 */
 	private boolean _isBaseLoader;
-	
+
 	public boolean isBaseLoader() {
 		return _isBaseLoader;
 	}
-	
+
 	static class TunnelException extends RuntimeException {
 
 		public TunnelException(Throwable cause) {
 			super(cause);
 		}
-		
+
 	}
-	
+
 	/**
 	 * This method is invoked when the loader is connected to a project. It should
 	 * then put the required objects in place to populate the project. The loader
@@ -106,7 +109,7 @@ public class DocumentLoaderImpl implements DocumentLoader {
 	 */
 	protected void notifyViewAdded(View project) throws ProjectException {
 	}
-	
+
 	protected void notifyProjectRemoved(View project) throws ProjectException {
 	}
 
@@ -114,26 +117,26 @@ public class DocumentLoaderImpl implements DocumentLoader {
 	}
 
 	private SingleAssociation<DocumentLoaderImpl, View> _viewLink = new SingleAssociation<DocumentLoaderImpl, View>(this);
-	
+
 	public SingleAssociation<DocumentLoaderImpl, View> viewLink() {
 		return _viewLink;
 	}
-	
+
 	public View view() {
 		return _viewLink.getOtherEnd();
 	}
-	
+
 	public Project project() {
 		return view().project();
 	}
 
 	private OrderedMultiAssociation<DocumentLoaderImpl, InputSource> _inputSources = new OrderedMultiAssociation<DocumentLoaderImpl, InputSource>(this);
-	
+
 	/**
 	 * Add the given input source.
 	 * @param source
 	 */
- /*@
+	/*@
    @ public behavior
    @
    @ pre source != null;
@@ -144,13 +147,13 @@ public class DocumentLoaderImpl implements DocumentLoader {
 	public void addInputSource(InputSource source) {
 		// The Association object will send the event and the attached listener
 		// will invoke notifyAdded(InputSource).
-//		System.out.println("Adding "+source);
+		//		System.out.println("Adding "+source);
 		Contracts.check(canAddInputSource(source), "The given input source cannot be handled by this loader.");
 		if(source != null) {
 			_inputSources.add(source.loaderLink());
 		}
 	}
-	
+
 	public boolean canAddInputSource(InputSource source) {
 		return true;
 	}
@@ -159,7 +162,7 @@ public class DocumentLoaderImpl implements DocumentLoader {
 	public List<InputSource> inputSources() {
 		return _inputSources.getOtherEnds();
 	}
-	
+
 	public List<Document> documents() throws InputException {
 		if(_documentsCache == null) {
 			Builder<Document> builder = ImmutableList.<Document>builder();
@@ -170,16 +173,16 @@ public class DocumentLoaderImpl implements DocumentLoader {
 		}
 		return _documentsCache;
 	}
-	
+
 	private List<Document> _documentsCache;
-	
+
 	@Override
 	public <E extends Exception> void apply(Action<? extends Element, E> action) throws E, InputException {
 		for(Document document: documents()) {
 			document.apply(action);
 		}
 	}
-	
+
 	public void removeInputSource(InputSource source) {
 		// The Association object will send the event and the attached listener
 		// will invoke notifyRemoved(InputSource).
@@ -188,11 +191,11 @@ public class DocumentLoaderImpl implements DocumentLoader {
 		}
 		source.destroy();
 	}
-	
+
 	public void addListener(InputSourceListener listener) {
 		_listeners.add(listener);
 	}
-	
+
 	public void removeListener(InputSourceListener listener) {
 		_listeners.remove(listener);
 	}
@@ -202,21 +205,21 @@ public class DocumentLoaderImpl implements DocumentLoader {
 	}
 
 	private List<InputSourceListener> _listeners = new ArrayList<InputSourceListener>();
-	
+
 	private void notifyAdded(InputSource source) {
 		flushLocalCache();
 		for(InputSourceListener listener: inputSourceListeners()) {
 			listener.notifyInputSourceAdded(source);
 		}
 	}
-	
+
 	private void notifyRemoved(InputSource source) {
 		flushLocalCache();
 		for(InputSourceListener listener: inputSourceListeners()) {
 			listener.notifyInputSourceRemoved(source);
 		}
 	}
-	
+
 	@Override
 	public void addAndSynchronizeListener(InputSourceListener listener) {
 		addListener(listener);
@@ -224,11 +227,11 @@ public class DocumentLoaderImpl implements DocumentLoader {
 			notifyAdded(source);
 		}
 	}
-	
+
 	protected void flushLocalCache() {
 		_documentsCache = null;
 	}
-	
+
 	@Override
 	public void flushCache() {
 		flushLocalCache();
@@ -236,7 +239,7 @@ public class DocumentLoaderImpl implements DocumentLoader {
 			source.flushCache();
 		}
 	}
-	
+
 	/**
 	 * Returns 1 when o is null. Otherwise, the return value 
 	 * may differ. The default (non-binding) implementation is
@@ -244,7 +247,7 @@ public class DocumentLoaderImpl implements DocumentLoader {
 	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
- /*@
+	/*@
    @ public behavior
    @
    @ post o == null ==> \result == -1;
@@ -252,5 +255,28 @@ public class DocumentLoaderImpl implements DocumentLoader {
 	@Override
 	public int compareTo(DocumentLoader o) {
 		return o == null ? -1 : 0;
+	}
+
+	public List<Namespace> topLevelNamespaces() {
+		ImmutableSet.Builder<Namespace> builder = ImmutableSet.<Namespace>builder();
+		for(InputSource source: inputSources()) {
+			Namespace namespace = source.namespace();
+			boolean added = false;
+			while(! added) { 
+				if(namespace.parent() != null && (namespace.parent().parent() != null)) { 
+					namespace = (Namespace) namespace.parent();
+				} else {
+					added = true;
+					builder.add(namespace);
+				}
+			}
+		}
+		ImmutableSet<Namespace> allNamespaces = builder.build();
+		return ImmutableList.copyOf(allNamespaces);
+	}
+
+	@Override
+	public int nbInputSources() {
+		return _inputSources.size();
 	}
 }

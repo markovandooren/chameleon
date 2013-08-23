@@ -64,6 +64,8 @@ public interface InputSource extends Comparable<InputSource> {
 	
 	public Document refresh() throws InputException;
 	
+	public Namespace namespace();
+	
 	/**
 	 * Return the association object that connects this input source to its namespace.
 	 * @return

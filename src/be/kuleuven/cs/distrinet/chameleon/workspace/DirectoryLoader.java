@@ -357,6 +357,10 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 		return "Directory loader: "+path()+" with filter: "+filter().toString();
 	}
 	
+	public String label() {
+		return path();
+	}
+	
 	@Override
 	public boolean canAddInputSource(InputSource source) {
 		return source instanceof IFileInputSource;

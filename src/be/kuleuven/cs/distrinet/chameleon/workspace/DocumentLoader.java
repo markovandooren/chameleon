@@ -5,6 +5,7 @@ import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
+import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
@@ -32,15 +33,43 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
    @*/
 	public Project project();
 
+	/**
+	 * Return the association link that connections this document loader to its view.
+	 * @return
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
 	public SingleAssociation<? extends DocumentLoader, ? super View> viewLink();
 	
+	/**
+	 * Return the view to which this document loader adds documents.
+	 */
 	public View view();
 	
 	/**
 	 * Return the input sources that are managed by this document loader.
 	 * @return
 	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
 	public List<InputSource> inputSources();
+	
+	/**
+	 * Return the number of input sources.
+	 * @return
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result == inputSources().size();
+   @*/
+	public int nbInputSources();
 	
 	public List<Document> documents() throws InputException;
 	
@@ -100,5 +129,23 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
 	 * @throws InputException 
 	 */
 	public <E extends Exception> void apply(Action<? extends Element, E> action) throws E, E, InputException;
+
+	/**
+	 * Return the namespaces that are populated by this document loader.
+	 * @return
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @ post 
+   @*/
+	public List<Namespace> topLevelNamespaces();
+	
+	/**
+	 * Return a label to describe the resource loaded by this document loader.
+	 * @return
+	 */
+	public String label();
 
 }

@@ -180,4 +180,11 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
 		}
 		return false;
 	}
+	
+	@Override
+	public String label() {
+		return file().getName(); 
+	}
+
+
 }
