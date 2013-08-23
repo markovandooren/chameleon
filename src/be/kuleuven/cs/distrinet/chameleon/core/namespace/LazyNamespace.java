@@ -13,6 +13,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputSource;
 import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
@@ -125,9 +126,9 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 	@Override
 	public List<? extends Element> children() {
 		//SPEED add view to Association class.
-		for(InputSource source: inputSources()) {
+		for(Queue<InputSource> q: _newSourceMap.values()) {
 			try {
-				source.load();
+				q.peek().load();
 			} catch (InputException e) {
 				throw new LoadException("File open error",e);
 			}
