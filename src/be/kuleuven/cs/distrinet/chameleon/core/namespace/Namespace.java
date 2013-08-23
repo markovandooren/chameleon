@@ -109,6 +109,8 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer {
 	
 	public List<Namespace> getSubNamespaces();
 	
+	public boolean hasSubNamespaces();
+	
 	public Namespace getSubNamespace(final String name) throws LookupException;
 	
 	public NamespaceAlias alias(SimpleNameSignature sig);

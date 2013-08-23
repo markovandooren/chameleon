@@ -99,7 +99,7 @@ public class NamespaceAlias extends NamespaceImpl {
 		return aliasedNamespace().declarator();
 	}
 
-	public List locallyDeclaredDeclarations() throws LookupException {
+	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return aliasedNamespace().locallyDeclaredDeclarations();
 	}
 
@@ -108,4 +108,8 @@ public class NamespaceAlias extends NamespaceImpl {
 		return aliasedNamespace().complete();
 	}
 
+	@Override
+	public boolean hasSubNamespaces() {
+		return aliasedNamespace().hasSubNamespaces();
+	}
 }

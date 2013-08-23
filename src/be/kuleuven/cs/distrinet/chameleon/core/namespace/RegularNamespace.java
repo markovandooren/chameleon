@@ -117,4 +117,9 @@ public class RegularNamespace extends NamespaceImpl {
 	public boolean complete() {
 		return true;
 	}
+	
+	@Override
+	public boolean hasSubNamespaces() {
+		return _namespaces.size() > 0;
+	}
 }
