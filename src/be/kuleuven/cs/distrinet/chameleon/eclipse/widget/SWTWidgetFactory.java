@@ -1,18 +1,13 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.widget;
 
-import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
-import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.CheckboxListener;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.SelectionController;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeContentProvider;
@@ -22,9 +17,10 @@ import be.kuleuven.cs.distrinet.chameleon.ui.widget.WidgetFactory;
 public abstract class SWTWidgetFactory implements WidgetFactory<Control> {
 
 	@Override
-	public SelectionController createCheckbox(String text, boolean initialState, final CheckboxListener listener) {
+	public SelectionController<Button> createCheckbox(String text, boolean initialState, final CheckboxListener listener) {
 		final Button button = new Button(parent(), SWT.CHECK);
 		final GridData layoutData = new GridData();
+		button.setLayoutData(layoutData);
 		button.setText(text);
 		button.setSelection(initialState);
 		button.addSelectionListener(new SelectionListener(){
@@ -39,21 +35,26 @@ public abstract class SWTWidgetFactory implements WidgetFactory<Control> {
 				listener.selectionChanged(button.getSelection());
 			}
 		});
-		return new SelectionController(){
+		return new SelectionController<Button>(){
 			@Override
-			public void setContext(Element element) {
+			public void setContext(Object element) {
 			}
 
 			@Override
 			public void show() {
-				layoutData.heightHint=-1;
+				layoutData.exclude=false;
 				button.setVisible(true);
 			}
 
 			@Override
 			public void hide() {
-				layoutData.heightHint=0;
+				layoutData.exclude=true;
 				button.setVisible(false);
+			}
+			
+			@Override
+			public Button widget() {
+				return button;
 			}
 		};
 	}
@@ -81,63 +82,35 @@ public abstract class SWTWidgetFactory implements WidgetFactory<Control> {
 //		return null;
 //	}
 
-	public SelectionController createTristateTree(TreeContentProvider contentProvider) {
+	public SelectionController<TristateTreeViewer> createTristateTree(TreeContentProvider contentProvider) {
 		final TristateTreeViewer tree = new TristateTreeViewer(parent(),SWT.NONE);
+		final GridData layoutData = new GridData(SWT.FILL,SWT.FILL,true,true);
+		tree.setLayoutData(layoutData);
 		tree.setContentProvider(new SWTTreeContentAdapter(contentProvider));
-		tree.setLabelProvider(new ILabelProvider(){
+		return new SelectionController<TristateTreeViewer>(){
 		
 			@Override
-			public void removeListener(ILabelProviderListener listener) {
-				
-			}
-		
-			@Override
-			public boolean isLabelProperty(Object element, String property) {
-				return false;
-			}
-		
-			@Override
-			public void dispose() {
-				
-			}
-		
-			@Override
-			public void addListener(ILabelProviderListener listener) {
-				
-			}
-		
-			@Override
-			public String getText(Object element) {
-				return ((Namespace)element).name();
-			}
-		
-			@Override
-			public Image getImage(Object element) {
-				return null;
-			}
-		});
-		// We must do a full expand to make recursive descend work
-		// otherwise never-expanded tree item are simply ignore. 
-		return new SelectionController(){
-		
-			@Override
-			public void setContext(Element element) {
+			public void setContext(Object element) {
 			  tree.setRedraw(false);
 				tree.setInput(element);
-//				tree.expandAll();
-//				tree.collapseAll();
-//				tree.expandToLevel(2);
 				tree.setRedraw(true);
 			}
 
 			@Override
 			public void show() {
+				layoutData.exclude = false;
 				tree.setVisible(true);
 			}
 
 			@Override
 			public void hide() {
+				layoutData.exclude = true;
 				tree.setVisible(false);
+			}
+			
+			@Override
+			public TristateTreeViewer widget() {
+				return tree;
 			}
 		};
 	}
