@@ -44,8 +44,6 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 		return result;
 	}
 
-	private ComparableOrder<InputSource> _comparableOrder = new ComparableOrder<InputSource>();
-	
 	@SuppressWarnings("unchecked")
 	@Override
 	// Only called in synchronized
@@ -62,20 +60,11 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 				}
 			}
 			// inputSources is sorted: the element with the highest priority is in front.
-			Queue<InputSource> inputSources = _newSourceMap.get(name);
+			Queue<InputSource> inputSources = _sourceMap.get(name);
 			if(inputSources != null && ! inputSources.isEmpty()) {
-//				List<InputSource> sources = new ArrayList(inputSourceList);
-//				try {
-//					_comparableOrder.removeBiggerElements(sources);
-//				} catch (Exception e) {
-//					throw new ChameleonProgrammerException(e);
-//				}
-//				for(InputSource source: sources) {
 					if(candidates == null) {
 						candidates = new ArrayList<Declaration>();
 					}
-//					candidates.addAll(source.targetDeclarations(name));
-//				}
 				candidates.addAll(inputSources.peek().targetDeclarations(name));
 			} 
 			if (candidates == null){
@@ -93,15 +82,11 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 			if(name == null) {
 				throw new ChameleonProgrammerException("An input source uses null as a declaration name.");
 			}
-//			List<InputSource> list = _sourceMap.get(name);
-			Queue<InputSource> queue = _newSourceMap.get(name);
+			Queue<InputSource> queue = _sourceMap.get(name);
 			if(queue == null) {
-//				list = new ArrayList<InputSource>();
 				queue = new PriorityQueue<InputSource>();
-//				_sourceMap.put(name, list);
-				_newSourceMap.put(name, queue);
+				_sourceMap.put(name, queue);
 			}
-//			list.add(source);
 			queue.add(source);
 		}
 	}
@@ -125,8 +110,7 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 	
 	@Override
 	public List<? extends Element> children() {
-		//SPEED add view to Association class.
-		for(Queue<InputSource> q: _newSourceMap.values()) {
+		for(Queue<InputSource> q: _sourceMap.values()) {
 			try {
 				q.peek().load();
 			} catch (InputException e) {
@@ -140,14 +124,13 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 		return _inputSources.getOtherEnds();
 	}
 	
-//	private Map<String, List<InputSource>> _sourceMap = new HashMap<String, List<InputSource>>();
-	private Map<String, Queue<InputSource>> _newSourceMap = new HashMap<String, Queue<InputSource>>();
+	private Map<String, Queue<InputSource>> _sourceMap = new HashMap<String, Queue<InputSource>>();
 
 	private OrderedMultiAssociation<LazyNamespace,InputSource> _inputSources = new OrderedMultiAssociation<LazyNamespace, InputSource>(this) {
 		@Override
 		protected void fireElementRemoved(InputSource removedElement) {
 			List<String> obsoleteKeys = new ArrayList<String>();
-			for(Map.Entry<String, Queue<InputSource>> entry: _newSourceMap.entrySet()) {
+			for(Map.Entry<String, Queue<InputSource>> entry: _sourceMap.entrySet()) {
 				Queue<InputSource> value = entry.getValue();
 				value.remove(removedElement);
 				if(value.isEmpty()) {
@@ -155,8 +138,7 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 				}
 			}
 			for(String obsoleteKey: obsoleteKeys) {
-//				_sourceMap.remove(obsoleteKey);
-				_newSourceMap.remove(obsoleteKey);
+				_sourceMap.remove(obsoleteKey);
 			}
 		}
 	};
