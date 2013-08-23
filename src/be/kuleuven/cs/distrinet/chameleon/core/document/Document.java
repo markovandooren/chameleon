@@ -184,6 +184,11 @@ public class Document extends ElementImpl {
 	}
 	
 	private static class FakeDocumentLoader extends DocumentLoaderImpl {
+
+		@Override
+		public String label() {
+			return "fake";
+		}
 		
 	}
 	
