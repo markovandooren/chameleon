@@ -29,4 +29,9 @@ public class PredicateContentProvider<T extends Element> extends TreeContentProv
 	public T parent(T element) {
 		return element == null ? null : element.nearestAncestor(predicate());
 	}
+
+	@Override
+	public TreeViewerNode<?> createNode(Object input) {
+		return null;
+	}
 }

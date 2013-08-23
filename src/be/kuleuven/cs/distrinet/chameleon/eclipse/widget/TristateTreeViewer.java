@@ -37,6 +37,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
@@ -71,12 +72,13 @@ public class TristateTreeViewer extends Composite {
   }
 	
 	private void init() {
-		_inner = new CheckboxTreeViewer(this,SWT.VIRTUAL);
+		_inner = new CheckboxTreeViewer(this,SWT.H_SCROLL | SWT.V_SCROLL);
 		setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
 		setLayout(layout);
-		
+//		ScrollBar horizontalBar = _inner.getTree().getHorizontalBar();
+//		horizontalBar.setVisible(true);
 		_inner.getTree().addListener(SWT.Expand, new Listener() {
       public void handleEvent(Event e) {
         TreeItem item = (TreeItem) e.item;
@@ -85,7 +87,6 @@ public class TristateTreeViewer extends Composite {
         }
       }
     });
-		
 		_inner.getTree().addListener(SWT.Selection, new Listener(){
 
 			void updateParents(TreeItem changed) {
@@ -95,9 +96,10 @@ public class TristateTreeViewer extends Composite {
 				boolean grayed = item.getGrayed();
 				boolean allUnchecked = true;
 				boolean allChecked = true;
+				boolean someGray = false;
 				for(TreeItem child:  item.getItems()) {
 					if(child.getGrayed() || (! (allUnchecked | allChecked))) {
-						grayed = true;
+						someGray = true;
 						break;
 					} else if(child.getChecked() && allUnchecked) {
 						allUnchecked = false;
@@ -105,7 +107,9 @@ public class TristateTreeViewer extends Composite {
 						allChecked = false;
 					}
 				}
-				if(allChecked) {
+				if(someGray) {
+					grayed = true;
+				} else if(allChecked) {
 					grayed = false;
 					checked = true;
 				} else {

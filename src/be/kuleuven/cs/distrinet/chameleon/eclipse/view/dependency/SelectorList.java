@@ -21,6 +21,7 @@ import be.kuleuven.cs.distrinet.chameleon.ui.widget.LexicalTreeContentProvider;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.PredicateSelector;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.SelectionController;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeContentProvider;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeViewerNode;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
@@ -87,12 +88,8 @@ public class SelectorList extends Composite {
 			@Override
 			public String getText(Object element) {
 				String result = null;
-				if(element instanceof Namespace) {
-					result = ((Namespace)element).name();
-				} else if (element instanceof DocumentLoader) {
-					result = ((DocumentLoader) element).label();
-				} else if (element instanceof DocumentLoaderNode) {
-					result = ((DocumentLoaderNode) element).name();
+				if(element instanceof TreeViewerNode) {
+					result = ((TreeViewerNode) element).label();
 				}
 				return result;
 			}
@@ -110,7 +107,7 @@ public class SelectorList extends Composite {
 		}.createTristateTree(contentProvider);
 //		createTristateTree.setContext(project.views().get(0).namespace());
 		createTristateTree.widget().setLabelProvider(provider);
-		createTristateTree.setContext(project);
+		createTristateTree.setContext(contentProvider.createNode(project));
 	}
 
 	public UniversalPredicate predicate() {

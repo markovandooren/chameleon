@@ -123,4 +123,6 @@ public abstract class TreeContentProvider<T> {
 				hasChildren((T)element) :
 			  false;
 	}
+	
+	public abstract TreeViewerNode<?> createNode(Object input);
 }
