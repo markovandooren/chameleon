@@ -287,12 +287,14 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	
 	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 //		System.out.println("Requesting declarations() of "+getFullyQualifiedName());
+		List<? extends SelectionResult> result;
 		if(selector.usesSelectionName()) {
 			List<Declaration> list = null;
+			String selectionName = selector.selectionName(this);
 			if(Config.cacheDeclarations()) {
 				synchronized(this) {
 					initDirectCache();
-				  list = searchDeclarations(selector.selectionName(this));
+				  list = searchDeclarations(selectionName);
 				}
 			} else {
 				list = declarations();
@@ -300,17 +302,16 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 			if(list == null) {
 				list = Collections.EMPTY_LIST;
 			}
-			List<? extends SelectionResult> result = selector.selection(Collections.unmodifiableList(list));
+			result = selector.selection(Collections.unmodifiableList(list));
 			// If nothing was found and a namespace or more generic type is searched,
 			// the namespace is resolved and given to the selector.
 			if(result.isEmpty() && selector.canSelect(Namespace.class)) {
-				result = selector.selection(Collections.singletonList(getOrCreateNamespace(selector.selectionName(this))));
+				result = selector.selection(Collections.singletonList(getOrCreateNamespace(selectionName)));
 			}
-			return result;
-			
 		} else {
-			return selector.selection(declarations());
+			result = selector.selection(declarations());
 		}
+		return result;
 	}
 	
 	public <T extends Declaration> List<T> declarations(Class<T> kind) throws LookupException {
