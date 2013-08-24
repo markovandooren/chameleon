@@ -3,6 +3,8 @@ package be.kuleuven.cs.distrinet.chameleon.ui.widget;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
+
 import be.kuleuven.cs.distrinet.rejuse.contract.Contracts;
 
 /**
@@ -19,7 +21,7 @@ import be.kuleuven.cs.distrinet.rejuse.contract.Contracts;
  *
  * @param <T> The type of the objects in the tree.
  */
-public abstract class TreeContentProvider<T> {
+public abstract class TreeContentProvider<T,D> {
 
 	public TreeContentProvider(Class<T> type) {
 		Contracts.notNull(type, "The type of a tree content provider cannot be null.");
@@ -79,6 +81,27 @@ public abstract class TreeContentProvider<T> {
    @*/
 	public abstract T parent(T element);
 	
+	public List<T> ancestors(T element) {
+		ImmutableList.Builder<T> builder = ImmutableList.builder();
+		T ancestor = parent(element);
+		while(ancestor != null) {
+			builder.add(ancestor);
+			ancestor = parent(ancestor);
+		}
+		return builder.build();
+	}
+	
+	public boolean isAncestor(T ancestor, T descendant) {
+		T a = parent(descendant);
+		while(a != null) {
+			if(a == ancestor) {
+				return true;
+			}
+			a = parent(a);
+		}
+		return false;
+	}
+	
 	/**
 	 * Return the parent of the given element.
 	 * 
@@ -124,5 +147,13 @@ public abstract class TreeContentProvider<T> {
 			  false;
 	}
 	
-	public abstract TreeViewerNode<?> createNode(Object input);
+	public abstract Object createNode(Object input);
+	
+	public D domainData(T treeData) {
+		if(_type.isInstance(treeData)) {
+			return (D)treeData;
+		} else {
+			return null;
+		}
+	}
 }

@@ -3,32 +3,25 @@ package be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DefaultDependencyOptions;
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyOptions;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
-import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.widget.SWTWidgetFactory;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.widget.TristateTreeViewer;
-import be.kuleuven.cs.distrinet.chameleon.ui.widget.DocumentLoaderNode;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.LabelProvider;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.LexicalTreeContentProvider;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.PredicateSelector;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.SelectionController;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeContentProvider;
-import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeViewerNode;
-import be.kuleuven.cs.distrinet.chameleon.util.Util;
-import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeListener;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeViewNodeLabelProvider;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.function.Function;
 import be.kuleuven.cs.distrinet.rejuse.predicate.True;
-import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 
 public class SelectorList extends Composite {
@@ -62,53 +55,38 @@ public class SelectorList extends Composite {
 			}
 		};
 		for(PredicateSelector selector: _currentSelectors) {
-			SelectionController control = selector.createControl(widgetFactory);
+			selector.createControl(widgetFactory);
+//		control.setContext(selector.);
+			selector.setContext(project);
 		}
 		
+		test(project);
+		
+		
 		SelectorList.this.layout(true);
-		TypePredicate<Namespace> typePredicate = new TypePredicate<>(Namespace.class);
-//		TreeContentProvider<Namespace> contentProvider = new PredicateContentProvider<>(typePredicate);
-		TreeContentProvider<Object> contentProvider = new LexicalTreeContentProvider();
-		ILabelProvider provider = new ILabelProvider(){
-			
-			@Override
-			public void removeListener(ILabelProviderListener listener) {}
-		
-			@Override
-			public boolean isLabelProperty(Object element, String property) {
-				return false;
-			}
-		
-			@Override
-			public void dispose() {}
-		
-			@Override
-			public void addListener(ILabelProviderListener listener) {}
-		
-			@Override
-			public String getText(Object element) {
-				String result = null;
-				if(element instanceof TreeViewerNode) {
-					result = ((TreeViewerNode) element).label();
-				}
-				return result;
-			}
-		
-			@Override
-			public Image getImage(Object element) {
-				return null;
-			}
-		};
-		SelectionController<TristateTreeViewer> createTristateTree = new SWTWidgetFactory() {
+	}
+
+	private void test(Project project) {
+		TreeContentProvider<?,?> contentProvider = new LexicalTreeContentProvider();
+		LabelProvider provider = new TreeViewNodeLabelProvider();
+		SelectionController<TristateTreeViewer> tristateTree = new SWTWidgetFactory() {
 			@Override
 			public Composite parent() {
 				return SelectorList.this;
 			}
-		}.createTristateTree(contentProvider);
-//		createTristateTree.setContext(project.views().get(0).namespace());
-		createTristateTree.widget().setLabelProvider(provider);
-		createTristateTree.setContext(contentProvider.createNode(project));
+		}.createTristateTree(contentProvider, provider,new TreeListener(){
+		
+			@Override
+			public void itemChanged(Object data, boolean checked, boolean grayed) {
+				
+			}
+		});
+		tristateTree.setContext(contentProvider.createNode(project));
+		tristateTree.widget().getTree().getItem(0).setChecked(true);
 	}
+	
+	
+	
 
 	public UniversalPredicate predicate() {
 		UniversalPredicate result = new True();

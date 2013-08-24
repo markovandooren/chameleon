@@ -1,23 +1,24 @@
 package be.kuleuven.cs.distrinet.chameleon.ui.widget;
 
-import java.util.Collections;
 import java.util.List;
 
-import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
-import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
+import be.kuleuven.cs.distrinet.chameleon.workspace.CompositeDocumentLoader;
 import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
-import be.kuleuven.cs.distrinet.chameleon.workspace.InputSource;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.chameleon.workspace.View;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 
-public class LexicalTreeContentProvider extends TreeContentProvider<Object> {
+/**
+ * 
+ * @author Marko van Dooren
+ */
+public class LexicalTreeContentProvider extends TreeContentProvider<TreeViewerNode,Object> {
 
 	public LexicalTreeContentProvider() {
-		super(Object.class);
+		super(TreeViewerNode.class);
 	}
 	
 	@Override
@@ -29,7 +30,7 @@ public class LexicalTreeContentProvider extends TreeContentProvider<Object> {
 		}
 	}
 	
-	private static class ProjectNode extends TreeViewerNode<Project> {
+	public static class ProjectNode extends TreeViewerNode<Project> {
 
 		public ProjectNode(Project domainObject) {
 			super(domainObject, domainObject.getName());
@@ -44,7 +45,7 @@ public class LexicalTreeContentProvider extends TreeContentProvider<Object> {
 		
 	}
 	
-	private static abstract class LoaderGroupNode extends TreeViewerNode<Project> {
+	public static abstract class LoaderGroupNode extends TreeViewerNode<Project> {
 
 		public LoaderGroupNode(TreeViewerNode<?> parent, Project domainObject, String label) {
 			super(parent, domainObject, label);
@@ -66,10 +67,10 @@ public class LexicalTreeContentProvider extends TreeContentProvider<Object> {
 		protected abstract List<DocumentLoader> loaders(View view);
 	}
 	
-	private static class SourceNode extends LoaderGroupNode {
+	public static class SourceNode extends LoaderGroupNode {
 
 		public SourceNode(TreeViewerNode<?> parent, Project project) {
-			super(parent, project,"Sources");
+			super(parent, project,"Source");
 		}
 
 		protected List<DocumentLoader> loaders(View view) {
@@ -78,10 +79,10 @@ public class LexicalTreeContentProvider extends TreeContentProvider<Object> {
 
 	}
 
-	private static class BinaryNode extends LoaderGroupNode {
+	public static class BinaryNode extends LoaderGroupNode {
 
 		public BinaryNode(TreeViewerNode<?> parent, Project project) {
-			super(parent, project,"Binaries");
+			super(parent, project,"External");
 		}
 
 		protected List<DocumentLoader> loaders(View view) {
@@ -90,7 +91,7 @@ public class LexicalTreeContentProvider extends TreeContentProvider<Object> {
 
 	}
 
-	private static class DocumentLoaderNode extends TreeViewerNode<DocumentLoader> {
+	public static class DocumentLoaderNode extends TreeViewerNode<DocumentLoader> {
 
 		public DocumentLoaderNode(TreeViewerNode<?> parent,
 				DocumentLoader domainObject) {
@@ -99,16 +100,24 @@ public class LexicalTreeContentProvider extends TreeContentProvider<Object> {
 
 		@Override
 		public List<?> children() {
-			List<Namespace> topLevelNamespaces = domainObject().topLevelNamespaces();
-			Builder<NamespaceNode> namespaceBuilder = ImmutableList.builder();
-			for(Namespace ns: topLevelNamespaces) {
-				namespaceBuilder.add(new NamespaceNode(this, ns));
+			if(domainObject() instanceof CompositeDocumentLoader) {
+				Builder<DocumentLoaderNode> builder = ImmutableList.builder();
+				for(DocumentLoader loader: ((CompositeDocumentLoader)domainObject()).loaders()) {
+					builder.add(new DocumentLoaderNode(this, loader));
+				}
+				return builder.build();
+			} else {
+				List<Namespace> topLevelNamespaces = domainObject().topLevelNamespaces();
+				Builder<NamespaceNode> namespaceBuilder = ImmutableList.builder();
+				for(Namespace ns: topLevelNamespaces) {
+					namespaceBuilder.add(new NamespaceNode(this, ns));
+				}
+				return namespaceBuilder.build();
 			}
-			return namespaceBuilder.build();
 		}
 	}
 	
-	private static class NamespaceNode extends TreeViewerNode<Namespace> {
+	public static class NamespaceNode extends TreeViewerNode<Namespace> {
 
 		public NamespaceNode(TreeViewerNode<?> parent, Namespace domainObject) {
 			super(parent, domainObject,domainObject.name());
@@ -127,34 +136,29 @@ public class LexicalTreeContentProvider extends TreeContentProvider<Object> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Object> children(Object element) {
-		if(element instanceof TreeViewerNode) {
+	public List<TreeViewerNode> children(TreeViewerNode element) {
 			return ((TreeViewerNode) element).children();
-		} 
-		else {
-			return Collections.EMPTY_LIST;
-		}
 	}
 	
-	@Override
-	public boolean hasChildren(Object element) {
-		if(element instanceof Namespace) {
-			return ((Namespace) element).hasSubNamespaces();
-		} else if(element instanceof DocumentLoader) {
-			return ((DocumentLoader) element).nbInputSources() > 0;
-		}
-		else {
-			return super.hasChildren(element);
-		}
-	}
+//	@Override
+//	public boolean hasChildren(Object element) {
+//		if(element instanceof Namespace) {
+//			return ((Namespace) element).hasSubNamespaces();
+//		} else if(element instanceof DocumentLoader) {
+//			return ((DocumentLoader) element).nbInputSources() > 0;
+//		}
+//		else {
+//			return super.hasChildren(element);
+//		}
+//	}
 
 	@Override
-	public Object parent(Object element) {
-		if(element instanceof TreeViewerNode) {
+	public TreeViewerNode parent(TreeViewerNode element) {
 			return ((TreeViewerNode) element).parent();
-		} else {
-			return null;
-		}
 	}
 
+	@Override
+	public Object domainData(TreeViewerNode treeData) {
+		return treeData.domainObject();
+	}
 }

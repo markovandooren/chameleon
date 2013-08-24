@@ -9,8 +9,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.CheckboxListener;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.LabelProvider;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.SelectionController;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeContentProvider;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeListener;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.WidgetFactory;
 
 
@@ -82,11 +84,17 @@ public abstract class SWTWidgetFactory implements WidgetFactory<Control> {
 //		return null;
 //	}
 
-	public SelectionController<TristateTreeViewer> createTristateTree(TreeContentProvider contentProvider) {
+	@Override
+	public SelectionController<TristateTreeViewer> createTristateTree(
+			TreeContentProvider contentProvider,
+			LabelProvider labelProvider,
+			TreeListener listener) {
 		final TristateTreeViewer tree = new TristateTreeViewer(parent(),SWT.NONE);
+		tree.addTreeListener(listener);
 		final GridData layoutData = new GridData(SWT.FILL,SWT.FILL,true,true);
 		tree.setLayoutData(layoutData);
 		tree.setContentProvider(new SWTTreeContentAdapter(contentProvider));
+		tree.setLabelProvider(new TreeViewLabelAdapter(labelProvider));
 		return new SelectionController<TristateTreeViewer>(){
 		
 			@Override

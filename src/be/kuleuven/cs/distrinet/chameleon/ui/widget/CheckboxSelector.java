@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.ui.widget;
 
-import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.predicate.True;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
@@ -18,7 +17,7 @@ public class CheckboxSelector<T> extends PredicateSelector<T>{
 	}
 
 	@Override
-	public <W> SelectionController createControl(WidgetFactory<W> factory) {
+	public <W> SelectionController<? extends W> createControl(WidgetFactory<W> factory) {
 		return factory.createCheckbox(_message, _selection, new CheckboxListener(){
 			@Override
 			public void selectionChanged(boolean selection) {
@@ -43,4 +42,11 @@ public class CheckboxSelector<T> extends PredicateSelector<T>{
 	private UniversalPredicate<? super T,Nothing> _predicate;
 
 	private String _message;
+
+	/**
+	 * Does nothing because a checkbox selector is not context-sensitive.
+	 */
+	@Override
+	public void setContext(Object context) {
+	}
 }

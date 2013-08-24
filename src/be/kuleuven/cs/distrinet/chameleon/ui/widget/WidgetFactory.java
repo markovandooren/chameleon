@@ -6,5 +6,5 @@ public interface WidgetFactory<W> {
 
 	public SelectionController<? extends W> createCheckbox(String text, boolean initialState, CheckboxListener listener);
 	
-	public SelectionController<? extends W> createTristateTree(TreeContentProvider contentProvider);
+	public SelectionController<? extends W> createTristateTree(TreeContentProvider contentProvider, LabelProvider provider, TreeListener listener);
 }

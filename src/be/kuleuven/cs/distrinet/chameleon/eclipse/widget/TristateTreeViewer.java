@@ -1,5 +1,8 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.widget;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
@@ -12,7 +15,6 @@ import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IElementComparer;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IOpenListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -28,7 +30,6 @@ import org.eclipse.swt.dnd.DragSourceListener;
 import org.eclipse.swt.dnd.DropTargetListener;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.HelpListener;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -37,20 +38,53 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 
-import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeListener;
 
+/**
+ * A tree viewer with tristate checkboxes.
+ * 
+ * @author Marko van Dooren
+ */
 public class TristateTreeViewer extends Composite {
 
 	public TristateTreeViewer(Composite parent, int style) {
 		super(parent, style);
 		init();
 	}
+	
+	private List<TreeListener> _listeners;
 
+	public void addTreeListener(TreeListener listener) {
+		if(listener != null) {
+			if(_listeners == null) {
+				_listeners = new ArrayList<>();
+			}
+			_listeners.add(listener);
+		}
+	}
+	
+	public void removeTreeListener(TreeListener listener) {
+		if(listener != null) {
+			if(_listeners != null) {
+				_listeners.remove(listener);
+			}
+		}
+	}
+	
+	private void notifyItemChanged(TreeItem item) {
+		if(_listeners != null) {
+			boolean checked = item.getChecked();
+			boolean grayed = item.getGrayed();
+			for(TreeListener listener: _listeners) {
+				listener.itemChanged(item.getData(), checked, grayed);
+			}
+		}
+	}
+	
 	private CheckboxTreeViewer _inner;
 	
 	public void setContentProvider(ITreeContentProvider provider) {
@@ -120,6 +154,7 @@ public class TristateTreeViewer extends Composite {
 				} 
 				item.setChecked(checked);
 				item.setGrayed(grayed);
+				notifyItemChanged(item);
 				updateParents(item);
 			}
 
@@ -146,6 +181,7 @@ public class TristateTreeViewer extends Composite {
 	private void setChecked(TreeItem item) {
 		item.setChecked(true);
 		item.setGrayed(false);
+		notifyItemChanged(item);
 		for(TreeItem child: item.getItems()) {
 			setChecked(child);
 		}
@@ -159,6 +195,7 @@ public class TristateTreeViewer extends Composite {
 	private void setUnchecked(TreeItem item) {
 		item.setChecked(false);
 		item.setGrayed(false);
+		notifyItemChanged(item);
 		for(TreeItem child: item.getItems()) {
 			setUnchecked(child);
 		}

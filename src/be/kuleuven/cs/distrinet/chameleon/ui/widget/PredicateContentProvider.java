@@ -7,7 +7,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 
-public class PredicateContentProvider<T extends Element> extends TreeContentProvider<T> {
+public class PredicateContentProvider<T extends Element> extends TreeContentProvider<T,T> {
 
 	public PredicateContentProvider(UniversalPredicate<T,Nothing> predicate) {
 		super(predicate.type());
