@@ -204,6 +204,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 	
 	protected final void binaryLoaderAdded(DocumentLoader loader) throws ConfigException {
 		if(!loader.isBaseLoader()) {
+			//FIXME This doesn't seem right :)
 		}
 	}
 
