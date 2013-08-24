@@ -189,7 +189,7 @@ public class Document extends ElementImpl {
 		public String label() {
 			return "fake";
 		}
-		
+				
 	}
 	
 	@Deprecated
