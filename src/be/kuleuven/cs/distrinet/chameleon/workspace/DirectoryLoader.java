@@ -98,9 +98,13 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 	/**
 	 * This method is called when the directory loader is connected to a view.
 	 */
-	protected void notifyViewAdded(View view) throws ProjectException {
-		setRoot(view.project().absoluteFile(path()));
-		includeCustom();
+	@Override
+	public void notifyContainerConnected(DocumentLoaderContainer container) throws ProjectException {
+		View view = view();
+		if(view != null) {
+			setRoot(view.project().absoluteFile(path()));
+			includeCustom();
+		}
 	}
 
 	private void setInputSourceFactory(FileInputSourceFactory factory) {
@@ -341,7 +345,7 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 //	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean loadsSameAs(DocumentLoader obj) {
 		if(obj == this) {
 			return true;
 		}

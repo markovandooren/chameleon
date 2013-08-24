@@ -42,11 +42,22 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
    @
    @ post \result != null;
    @*/
-	public SingleAssociation<? extends DocumentLoader, ? super View> viewLink();
+	public SingleAssociation<? extends DocumentLoader, ? super DocumentLoaderContainer> containerLink();
+	
+	/**
+	 * Return the container of this document loader.
+	 */
+	public DocumentLoaderContainer container();
 	
 	/**
 	 * Return the view to which this document loader adds documents.
 	 */
+ /*@
+   @ public behavior
+   @
+   @ post container() == null ==> \result == null;
+   @ post container() != null ==> \result == container().view();
+   @*/
 	public View view();
 	
 	/**
@@ -147,5 +158,19 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
 	 * @return
 	 */
 	public String label();
+
+	/**
+	 * DO NOT INVOKE EXTERNALLY. Must be exposed due to ridiculous Java access modifiers.
+	 * 
+	 * @param container
+	 * @throws ProjectException
+	 */
+	public void notifyContainerConnected(DocumentLoaderContainer container) throws ProjectException;
+
+	public void notifyContainerRemoved(DocumentLoaderContainer project) throws ProjectException;
+
+	public void notifyProjectReplaced(DocumentLoaderContainer old, DocumentLoaderContainer newProject) throws ProjectException;
+
+	public boolean loadsSameAs(DocumentLoader loader);
 
 }

@@ -29,7 +29,10 @@ import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 
-public class View extends PluginContainerImpl<ViewPlugin> implements PluginContainer<ViewPlugin>, ProcessorContainer<ViewProcessor> {
+public class View extends PluginContainerImpl<ViewPlugin> 
+       implements PluginContainer<ViewPlugin>, 
+                  ProcessorContainer<ViewProcessor>, 
+                  DocumentLoaderContainer {
 	
 	public View(RootNamespace namespace, Language language) {
 		setNamespace(namespace);
@@ -165,7 +168,7 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
 			if(! canAddBinary(loader)) {
 				throw new ProjectException("There is already a binary loader present to load these resources.");
 			}
-			Association<? extends DocumentLoader, ? super View> projectLink = loader.viewLink();
+			Association<? extends DocumentLoader, ? super View> projectLink = loader.containerLink();
 			try {
 				_binaryLoaders.add(projectLink);
 			} catch(TunnelException exc) {
@@ -175,7 +178,15 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
 			}
 		}
 	}
-
+	
+//	public OrderedMultiAssociation<View, DocumentLoader> sourceLink() {
+//		return _sourceLoaders;
+//	}
+//
+//	public OrderedMultiAssociation<View, DocumentLoader> binaryLink() {
+//		return _sourceLoaders;
+//	}
+//
 	/**
 	 * Check whether the given document loader can be added
 	 * as a binary loader. If there is already an equal
@@ -185,11 +196,17 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
 	 * @return
 	 */
 	public boolean canAddBinary(DocumentLoader loader) {
-		return ! _binaryLoaders.containsObject(loader);
+		for(DocumentLoader l: binaryLoaders()) {
+			if(l.loadsSameAs(loader)) {
+				return false;
+			}
+		}
+		return true;
+//		return ! _binaryLoaders.containsObject(loader);
 	}
 	
 	public void removeBinary(DocumentLoader loader) {
-		_binaryLoaders.remove(loader.viewLink());
+		_binaryLoaders.remove(loader.containerLink());
 	}
 	
 	public List<DocumentLoader> binaryLoaders() {
@@ -234,7 +251,7 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
 			if(! canAddSource(loader)) {
 				throw new ProjectException("There is already a source loader present to load these resources.");
 			}
-			Association<? extends DocumentLoader, ? super View> projectLink = loader.viewLink();
+			Association<? extends DocumentLoader, ? super View> projectLink = loader.containerLink();
 			try {
 				_sourceLoaders.add(projectLink);
 			} catch(TunnelException exc) {
@@ -254,11 +271,17 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
 	 * @return
 	 */
 	public boolean canAddSource(DocumentLoader loader) {
-		return ! _sourceLoaders.containsObject(loader);
+		for(DocumentLoader l: sourceLoaders()) {
+			if(l.loadsSameAs(loader)) {
+				return false;
+			}
+		}
+		return true;
+//		return ! _sourceLoaders.containsObject(loader);
 	}
 	
 	public void removeSource(DocumentLoader loader) {
-		_sourceLoaders.remove(loader.viewLink());
+		_sourceLoaders.remove(loader.containerLink());
 	}
 	
 	public List<DocumentLoader> sourceLoaders() {
@@ -300,7 +323,7 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
 		// Namespace are not in documents and thus cannot be source elements.
 		if(doc != null) {
 			DocumentLoader loader = doc.inputSource().loader();
-			return loader.viewLink().getOtherRelation() == _sourceLoaders;
+			return loader.containerLink().getOtherRelation() == _sourceLoaders;
 		}
 		return false;
 	}
@@ -386,4 +409,7 @@ public class View extends PluginContainerImpl<ViewPlugin> implements PluginConta
 		}
 	}
 
+	public View view() {
+		return this;
+	}
 }

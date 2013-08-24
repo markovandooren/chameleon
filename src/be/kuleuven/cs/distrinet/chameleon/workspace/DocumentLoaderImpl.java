@@ -22,7 +22,7 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	public DocumentLoaderImpl() {
 		this(false);
 	}
-
+	
 	/**
 	 * Create a new document loader with the given base loader setting.
 	 * 
@@ -30,32 +30,32 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	 */
 	public DocumentLoaderImpl(boolean isBaseLoader) {
 		_isBaseLoader = isBaseLoader;
-		_viewLink.addListener(new AssociationListener<View>() {
+		_viewLink.addListener(new AssociationListener<DocumentLoaderContainer>() {
 
 			// WARNING
 
 			// WE TUNNEL THE EXCEPTION THROUGH THE ASSOCIATION CLASSES
 			// AND PERFORM THE ROLLBACK IN {@link Project#addSource(ProjectLoader)}
 			@Override
-			public void notifyElementAdded(View element) {
+			public void notifyElementAdded(DocumentLoaderContainer element) {
 				try {
-					notifyViewAdded(element);
+					notifyContainerConnected(element);
 				} catch (ProjectException e) {
 					throw new TunnelException(e);
 				}
 			}
 
 			@Override
-			public void notifyElementRemoved(View element) {
+			public void notifyElementRemoved(DocumentLoaderContainer element) {
 				try {
-					notifyProjectRemoved(element);
+					notifyContainerRemoved(element);
 				} catch (ProjectException e) {
 					throw new TunnelException(e);
 				}
 			}
 
 			@Override
-			public void notifyElementReplaced(View oldElement, View newElement) {
+			public void notifyElementReplaced(DocumentLoaderContainer oldElement, DocumentLoaderContainer newElement) {
 				try {
 					notifyProjectReplaced(oldElement, newElement);
 				} catch (ProjectException e) {
@@ -107,23 +107,29 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	 * @param project
 	 * @throws ProjectException
 	 */
-	protected void notifyViewAdded(View project) throws ProjectException {
+	public void notifyContainerConnected(DocumentLoaderContainer project) throws ProjectException {
 	}
 
-	protected void notifyProjectRemoved(View project) throws ProjectException {
+	public void notifyContainerRemoved(DocumentLoaderContainer project) throws ProjectException {
 	}
 
-	protected void notifyProjectReplaced(View old, View newProject) throws ProjectException {
+	public void notifyProjectReplaced(DocumentLoaderContainer old, DocumentLoaderContainer newProject) throws ProjectException {
 	}
 
-	private SingleAssociation<DocumentLoaderImpl, View> _viewLink = new SingleAssociation<DocumentLoaderImpl, View>(this);
+	private SingleAssociation<DocumentLoaderImpl, DocumentLoaderContainer> _viewLink = new SingleAssociation<>(this);
 
-	public SingleAssociation<DocumentLoaderImpl, View> viewLink() {
+	public SingleAssociation<DocumentLoaderImpl, DocumentLoaderContainer> containerLink() {
 		return _viewLink;
 	}
 
-	public View view() {
+	@Override
+	public DocumentLoaderContainer container() {
 		return _viewLink.getOtherEnd();
+	}
+	
+	public View view() {
+		DocumentLoaderContainer container = container();
+		return container == null ? null : container.view();
 	}
 
 	public Project project() {
@@ -279,4 +285,14 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	public int nbInputSources() {
 		return _inputSources.size();
 	}
+
+	/**
+	 * DEFAULT IMPLEMENTATION returns true if and only if
+	 * the given loader is this object.
+	 */
+	@Override
+	public boolean loadsSameAs(DocumentLoader loader) {
+		return loader == this;
+	}
+
 }

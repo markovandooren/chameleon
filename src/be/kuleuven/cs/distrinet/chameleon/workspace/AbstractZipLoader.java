@@ -110,9 +110,11 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
 	}
 
 	@Override
-	protected void notifyViewAdded(View view) throws ProjectException {
+	public void notifyContainerConnected(DocumentLoaderContainer container) throws ProjectException {
 		try {
-			createInputSources();
+			if(view() != null) {
+				createInputSources();
+			}
 		} catch (Exception e) {
 			throw new ProjectException(e);
 		}
@@ -170,7 +172,7 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean loadsSameAs(DocumentLoader obj) {
 		if(obj == this) {
 			return true;
 		}
