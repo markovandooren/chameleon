@@ -138,7 +138,7 @@ public class DependencyView extends ViewPart {
 //		}.createCheckboxList();
 
 		TabFolder folder = new TabFolder(right, SWT.BORDER);
-		GridData tabFolderGridData = new GridData(GridData.FILL,GridData.FILL,true,true);
+		GridData tabFolderGridData = new GridData(GridData.FILL,GridData.FILL,false,true);
 		folder.setLayoutData(tabFolderGridData);
 
 		createTargetTab(folder,project);
