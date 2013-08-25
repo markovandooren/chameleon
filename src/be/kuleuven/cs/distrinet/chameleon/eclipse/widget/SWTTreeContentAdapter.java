@@ -13,14 +13,14 @@ import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeContentProvider;
  */
 public class SWTTreeContentAdapter implements ITreeContentProvider {
 	
-	private final TreeContentProvider<?,?> _contentProvider;
+	private final TreeContentProvider<?> _contentProvider;
 
 	/**
 	 * Create a new adapter with the given tree content provider.
 	 * 
 	 * @param contentProvider The content provider that will provide the actual tree content.
 	 */
-	public SWTTreeContentAdapter(TreeContentProvider<?,?> contentProvider) {
+	public SWTTreeContentAdapter(TreeContentProvider<?> contentProvider) {
 		this._contentProvider = contentProvider;
 	}
 

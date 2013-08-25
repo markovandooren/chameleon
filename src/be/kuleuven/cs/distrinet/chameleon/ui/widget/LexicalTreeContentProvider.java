@@ -15,14 +15,14 @@ import com.google.common.collect.ImmutableList.Builder;
  * 
  * @author Marko van Dooren
  */
-public class LexicalTreeContentProvider extends TreeContentProvider<TreeViewerNode,Object> {
+public class LexicalTreeContentProvider extends TreeContentProvider<Object> {
 
-	public LexicalTreeContentProvider() {
-		super(TreeViewerNode.class);
-	}
+//	public LexicalTreeContentProvider() {
+//		super(TreeNode.class);
+//	}
 	
 	@Override
-	public TreeViewerNode<?> createNode(Object input) {
+	public TreeNode<? extends Object> createNode(Object input) {
 		if(input instanceof Project) {
 			return new ProjectNode((Project) input);
 		} else {
@@ -30,29 +30,29 @@ public class LexicalTreeContentProvider extends TreeContentProvider<TreeViewerNo
 		}
 	}
 	
-	public static class ProjectNode extends TreeViewerNode<Project> {
+	public static class ProjectNode extends TreeNode<Project> {
 
 		public ProjectNode(Project domainObject) {
 			super(domainObject, domainObject.getName());
 		}
 
 		@Override
-		public List<?> children() {
-			return ImmutableList.<TreeViewerNode<Project>>of(
+		public List<? extends TreeNode<?>> createChildren() {
+			return ImmutableList.<TreeNode<Project>>of(
 					new SourceNode(this, domainObject()), 
 					new BinaryNode(this, domainObject()));
 		}
 		
 	}
 	
-	public static abstract class LoaderGroupNode extends TreeViewerNode<Project> {
+	public static abstract class LoaderGroupNode extends TreeNode<Project> {
 
-		public LoaderGroupNode(TreeViewerNode<?> parent, Project domainObject, String label) {
+		public LoaderGroupNode(TreeNode<?> parent, Project domainObject, String label) {
 			super(parent, domainObject, label);
 		}
 		
 		@Override
-		public List<?> children() {
+		public List<? extends TreeNode<?>> createChildren() {
 			Builder<DocumentLoader> sourceBuilder = ImmutableList.<DocumentLoader>builder();
 			for(View view:domainObject().views()) {
 				sourceBuilder.addAll(loaders(view));
@@ -69,7 +69,7 @@ public class LexicalTreeContentProvider extends TreeContentProvider<TreeViewerNo
 	
 	public static class SourceNode extends LoaderGroupNode {
 
-		public SourceNode(TreeViewerNode<?> parent, Project project) {
+		public SourceNode(TreeNode<?> parent, Project project) {
 			super(parent, project,"Source");
 		}
 
@@ -81,7 +81,7 @@ public class LexicalTreeContentProvider extends TreeContentProvider<TreeViewerNo
 
 	public static class BinaryNode extends LoaderGroupNode {
 
-		public BinaryNode(TreeViewerNode<?> parent, Project project) {
+		public BinaryNode(TreeNode<?> parent, Project project) {
 			super(parent, project,"External");
 		}
 
@@ -91,15 +91,15 @@ public class LexicalTreeContentProvider extends TreeContentProvider<TreeViewerNo
 
 	}
 
-	public static class DocumentLoaderNode extends TreeViewerNode<DocumentLoader> {
+	public static class DocumentLoaderNode extends TreeNode<DocumentLoader> {
 
-		public DocumentLoaderNode(TreeViewerNode<?> parent,
+		public DocumentLoaderNode(TreeNode<?> parent,
 				DocumentLoader domainObject) {
 			super(parent, domainObject, domainObject.label());
 		}
 
 		@Override
-		public List<?> children() {
+		public List<? extends TreeNode<?>> createChildren() {
 			if(domainObject() instanceof CompositeDocumentLoader) {
 				Builder<DocumentLoaderNode> builder = ImmutableList.builder();
 				for(DocumentLoader loader: ((CompositeDocumentLoader)domainObject()).loaders()) {
@@ -117,14 +117,14 @@ public class LexicalTreeContentProvider extends TreeContentProvider<TreeViewerNo
 		}
 	}
 	
-	public static class NamespaceNode extends TreeViewerNode<Namespace> {
+	public static class NamespaceNode extends TreeNode<Namespace> {
 
-		public NamespaceNode(TreeViewerNode<?> parent, Namespace domainObject) {
+		public NamespaceNode(TreeNode<?> parent, Namespace domainObject) {
 			super(parent, domainObject,domainObject.name());
 		}
 
 		@Override
-		public List<?> children() {
+		public List<? extends TreeNode<?>> createChildren() {
 			List<Namespace> subNamespaces = domainObject().getSubNamespaces();
 			Builder<NamespaceNode> namespaceBuilder = ImmutableList.builder();
 			for(Namespace ns: subNamespaces) {
@@ -136,8 +136,8 @@ public class LexicalTreeContentProvider extends TreeContentProvider<TreeViewerNo
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<TreeViewerNode> children(TreeViewerNode element) {
-			return ((TreeViewerNode) element).children();
+	public List<TreeNode<Object>> children(TreeNode element) {
+			return ((TreeNode) element).children();
 	}
 	
 //	@Override
@@ -153,12 +153,12 @@ public class LexicalTreeContentProvider extends TreeContentProvider<TreeViewerNo
 //	}
 
 	@Override
-	public TreeViewerNode parent(TreeViewerNode element) {
-			return ((TreeViewerNode) element).parent();
+	public TreeNode parent(TreeNode element) {
+			return ((TreeNode) element).parent();
 	}
 
 	@Override
-	public Object domainData(TreeViewerNode treeData) {
+	public Object domainData(TreeNode treeData) {
 		return treeData.domainObject();
 	}
 }

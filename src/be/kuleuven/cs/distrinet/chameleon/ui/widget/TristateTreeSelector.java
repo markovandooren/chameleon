@@ -16,16 +16,16 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
  * @param <D>
  * @param <E>
  */
-public class TristateTreeSelector<V,D,E> extends PredicateSelector<E>{
+public class TristateTreeSelector<D,E extends D> extends PredicateSelector<E>{
 
-	public TristateTreeSelector(TreeContentProvider<V,D> contentProvider, 
-			                        TristatePredicateGenerator<E> generator, LabelProvider provider) {
+	public TristateTreeSelector(TreeContentProvider<D> contentProvider, 
+			                        TristatePredicateGenerator<D,E> generator, LabelProvider provider) {
 		_contentProvider = contentProvider;
 		_generator = generator;
 		_labelProvider = provider;
 	}
 	
-	private TreeContentProvider<V,D> _contentProvider;
+	private TreeContentProvider<D> _contentProvider;
 	
 	private LabelProvider _labelProvider;
 	
@@ -34,13 +34,14 @@ public class TristateTreeSelector<V,D,E> extends PredicateSelector<E>{
 	@Override
 	public <W> SelectionController<? extends W> createControl(WidgetFactory<W> factory) {
 		SelectionController<? extends W> createTristateTree = 
-				factory.createTristateTree(_contentProvider, _labelProvider,new TreeListener(){
+				factory.createTristateTree(_contentProvider, _labelProvider,new TreeListener<D>(){
 				
 					@SuppressWarnings("unchecked")
 					@Override
-					public void itemChanged(Object data, boolean checked, boolean grayed) {
+					public void itemChanged(TreeNode<D> data, boolean checked, boolean grayed) {
 						if(data != null) {
-							D domainObject = _contentProvider.domainData((V)data);
+//							D domainObject = _contentProvider.domainData((V)data);
+							TreeNode<D> domainObject = data;
 							if(! checked) {
 								_selected.remove(domainObject);
 								_grayed.remove(domainObject);
@@ -60,32 +61,31 @@ public class TristateTreeSelector<V,D,E> extends PredicateSelector<E>{
 		return createTristateTree;
 	}
 	
-	private Set<D> _selected= new HashSet<>();
-	private Set<D> _grayed= new HashSet<>();
+	private Set<TreeNode<? extends D>> _selected= new HashSet<>();
+	private Set<TreeNode<? extends D>> _grayed= new HashSet<>();
 	
-	public static interface TristatePredicateGenerator<X> {
+	public static interface TristatePredicateGenerator<X,Y> {
 		
-		public UniversalPredicate<? super X, Nothing> create(Object domainObject, boolean checked, boolean grayed); 
+		public UniversalPredicate<? super Y, Nothing> create(TreeNode<? extends X> root, Set<TreeNode<? extends X>> checked, Set<TreeNode<? extends X>> grayed); 
 		
 	}
 	
-	private TristatePredicateGenerator<E> _generator;
+	private TristatePredicateGenerator<D,E> _generator;
 	
 	@Override
 	public UniversalPredicate<? super E, Nothing> predicate() {
-		UniversalPredicate<? super E, Nothing> result = new True();
-		for(D t: _selected) {
-			result = result.or((UniversalPredicate)_generator.create(t, true, false));
-		}
-		for(D t: _grayed) {
-			result = result.or((UniversalPredicate)_generator.create(t, false, true));
-		}
-		return result;
+		return _generator.create(_root, _selected, _grayed);
 	}
+	
+	private TreeNode<? extends D> _root;
 	
 	@Override
 	public void setContext(Object context) {
-		_controller.setContext(_contentProvider.createNode(context));
+		_root = _contentProvider.createNode((D)context);
+		_selected.clear();
+		_grayed.clear();
+		_grayed.add(_root);
+		_controller.setContext(_root);
 	}
 
 }

@@ -43,6 +43,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeListener;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeNode;
 
 /**
  * A tree viewer with tristate checkboxes.
@@ -80,7 +81,7 @@ public class TristateTreeViewer extends Composite {
 			boolean checked = item.getChecked();
 			boolean grayed = item.getGrayed();
 			for(TreeListener listener: _listeners) {
-				listener.itemChanged(item.getData(), checked, grayed);
+				listener.itemChanged((TreeNode)item.getData(), checked, grayed);
 			}
 		}
 	}

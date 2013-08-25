@@ -85,10 +85,10 @@ public abstract class SWTWidgetFactory implements WidgetFactory<Control> {
 //	}
 
 	@Override
-	public SelectionController<TristateTreeViewer> createTristateTree(
-			TreeContentProvider contentProvider,
+	public <V> SelectionController<TristateTreeViewer> createTristateTree(
+			TreeContentProvider<V> contentProvider,
 			LabelProvider labelProvider,
-			TreeListener listener) {
+			TreeListener<V> listener) {
 		final TristateTreeViewer tree = new TristateTreeViewer(parent(),SWT.NONE);
 		tree.addTreeListener(listener);
 		final GridData layoutData = new GridData(SWT.FILL,SWT.FILL,true,true);

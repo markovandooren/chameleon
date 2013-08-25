@@ -17,6 +17,7 @@ import be.kuleuven.cs.distrinet.chameleon.ui.widget.PredicateSelector;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.SelectionController;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeContentProvider;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeListener;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeNode;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeViewNodeLabelProvider;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
@@ -60,14 +61,14 @@ public class SelectorList extends Composite {
 			selector.setContext(project);
 		}
 		
-		test(project);
+//		test(project);
 		
 		
 		SelectorList.this.layout(true);
 	}
 
 	private void test(Project project) {
-		TreeContentProvider<?,?> contentProvider = new LexicalTreeContentProvider();
+		TreeContentProvider contentProvider = new LexicalTreeContentProvider();
 		LabelProvider provider = new TreeViewNodeLabelProvider();
 		SelectionController<TristateTreeViewer> tristateTree = new SWTWidgetFactory() {
 			@Override
@@ -77,7 +78,7 @@ public class SelectorList extends Composite {
 		}.createTristateTree(contentProvider, provider,new TreeListener(){
 		
 			@Override
-			public void itemChanged(Object data, boolean checked, boolean grayed) {
+			public void itemChanged(TreeNode data, boolean checked, boolean grayed) {
 				
 			}
 		});
