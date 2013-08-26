@@ -1,4 +1,4 @@
-package be.kuleuven.cs.distrinet.chameleon.ui.widget;
+package be.kuleuven.cs.distrinet.chameleon.ui.widget.tree;
 
 import java.util.List;
 

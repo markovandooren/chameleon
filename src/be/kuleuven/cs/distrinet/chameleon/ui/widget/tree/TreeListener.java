@@ -1,4 +1,5 @@
-package be.kuleuven.cs.distrinet.chameleon.ui.widget;
+package be.kuleuven.cs.distrinet.chameleon.ui.widget.tree;
+
 
 public interface TreeListener<V> {
 

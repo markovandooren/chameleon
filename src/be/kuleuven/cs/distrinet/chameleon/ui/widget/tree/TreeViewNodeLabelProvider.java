@@ -1,4 +1,6 @@
-package be.kuleuven.cs.distrinet.chameleon.ui.widget;
+package be.kuleuven.cs.distrinet.chameleon.ui.widget.tree;
+
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.LabelProvider;
 
 
 public final class TreeViewNodeLabelProvider implements LabelProvider {

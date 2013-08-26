@@ -1,8 +1,12 @@
-package be.kuleuven.cs.distrinet.chameleon.ui.widget;
+package be.kuleuven.cs.distrinet.chameleon.ui.widget.tree;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.LabelProvider;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.PredicateSelector;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.SelectionController;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.WidgetFactory;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.predicate.True;
@@ -16,7 +20,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
  * @param <D>
  * @param <E>
  */
-public class TristateTreeSelector<D,E extends D> extends PredicateSelector<E>{
+public class TristateTreeSelector<D,E> extends PredicateSelector<E>{
 
 	public TristateTreeSelector(TreeContentProvider<D> contentProvider, 
 			                        TristatePredicateGenerator<D,E> generator, LabelProvider provider) {

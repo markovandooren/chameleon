@@ -1,10 +1,13 @@
-package be.kuleuven.cs.distrinet.chameleon.ui.widget;
+package be.kuleuven.cs.distrinet.chameleon.ui.widget.checkbox;
 
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.PredicateSelector;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.SelectionController;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.WidgetFactory;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.predicate.True;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 
-public class CheckboxSelector<T> extends PredicateSelector<T>{
+public class CheckboxSelector<T> extends PredicateSelector<T> {
 
 	public CheckboxSelector(UniversalPredicate<? super T, Nothing> predicate, String message) {
 		this(predicate,message,false);
