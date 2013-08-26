@@ -1,19 +1,28 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.widget;
 
+import java.util.List;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-import be.kuleuven.cs.distrinet.chameleon.ui.widget.CheckboxListener;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.LabelProvider;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.SelectionController;
-import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeContentProvider;
-import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeListener;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.WidgetFactory;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.checkbox.CheckboxListener;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.list.ComboBoxController;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.list.ComboBoxListener;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.list.ListContentProvider;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.tree.TreeContentProvider;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.tree.TreeListener;
+
+import com.google.common.collect.ImmutableList;
 
 
 public abstract class SWTWidgetFactory implements WidgetFactory<Control> {
@@ -61,29 +70,6 @@ public abstract class SWTWidgetFactory implements WidgetFactory<Control> {
 		};
 	}
 	
-//	public <T> Control createCheckboxList(TreeContentProvider<T> contentProvider, boolean enabled, String enableCheckboxText) {
-//		Composite composite = new Composite(parent(), SWT.NONE);
-//		GridData rightData = new GridData(GridData.FILL,GridData.FILL,true,true);
-//		composite.setLayoutData(rightData);
-//		GridLayout layout = new GridLayout();
-//		layout.numColumns = 1;
-//		composite.setLayout(layout);
-//
-//		final Button button = new Button(composite,SWT.CHECK);
-//		button.setText(enableCheckboxText);
-//		button.setSelection(enabled);
-////		final CheckboxTreeViewer tree = createTree(composite,contentProvider);
-//		final TristateTreeViewer tree = createTristateTree(composite,contentProvider);
-//		button.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseUp(MouseEvent e) {
-//				tree.getTree().setEnabled(button.getSelection());
-//			}
-//		});
-//		
-//		return null;
-//	}
-
 	@Override
 	public <V> SelectionController<TristateTreeViewer> createTristateTree(
 			TreeContentProvider<V> contentProvider,
@@ -123,6 +109,87 @@ public abstract class SWTWidgetFactory implements WidgetFactory<Control> {
 		};
 	}
 
+	
+	protected class ComboBoxSelectionListener<V> extends SelectionAdapter {
+		private final Combo combo;
+
+		private final Container<V> items;
+
+		private final ComboBoxListener listener;
+
+		protected ComboBoxSelectionListener(Combo combo, Container<V> items, ComboBoxListener listener) {
+			this.combo = combo;
+			this.items = items;
+			this.listener = listener;
+		}
+
+		@Override
+		public void widgetDefaultSelected(SelectionEvent e) {
+			notifyComboBoxListener();
+		}
+
+		public void notifyComboBoxListener() {
+			listener.itemSelected(items._list.get(combo.getSelectionIndex()));
+		}
+
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			notifyComboBoxListener();
+		}
+	}
+
+	private static class Container<T> {
+		//Only to replace a local variable that has to be final.
+		public List<T> _list;
+	}
+	
+	@Override
+	public <V> ComboBoxController<Combo> createComboBox(
+			final ListContentProvider<V> contentProvider, 
+			final LabelProvider provider,
+			final ComboBoxListener listener,
+			final int baseOneDefaultSelection) {
+		final Combo combo = new Combo(parent(), SWT.READ_ONLY);
+		final Container<V> items = new Container<>();
+		final ComboBoxSelectionListener selectionAdapter = new ComboBoxSelectionListener<V>(combo, items, listener);
+		combo.addSelectionListener(selectionAdapter);
+		return new ComboBoxController<Combo>() {
+
+			@Override
+			public void setContext(Object element) {
+				items._list = ImmutableList.copyOf(contentProvider.items(element));
+				int size = items._list.size();
+				String[] strings = new String[size];
+				for(int i=0; i<size; i++) {
+					strings[i] = provider.text(items._list.get(i));
+				}
+				combo.setItems(strings);
+				if(size > baseOneDefaultSelection-1) {
+					combo.select(baseOneDefaultSelection-1);
+					selectionAdapter.notifyComboBoxListener();
+				}
+			}
+
+			@Override
+			public void show() {
+			}
+
+			@Override
+			public void hide() {
+			}
+
+			@Override
+			public Combo widget() {
+				return combo;
+			}
+			
+			@Override
+			public void select(int baseOneIndex) {
+				combo.select(baseOneIndex-1);
+			}
+		};
+	}
+	
 	public abstract Composite parent();
 
 }
