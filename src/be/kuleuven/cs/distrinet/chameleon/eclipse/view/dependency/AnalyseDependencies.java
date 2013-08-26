@@ -14,21 +14,18 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.progress.UIJob;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyAnalysis;
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyResult;
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.util.Projects;
-import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.util.action.TopDown;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.predicate.True;
+import be.kuleuven.cs.distrinet.rejuse.function.Function;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
-
-import com.google.common.base.Function;
 
 public class AnalyseDependencies extends Action {
 	
@@ -74,7 +71,7 @@ public class AnalyseDependencies extends Action {
 						// Obtaining the document can trigger loading of a chameleon background project.
 						// We must do this inside the Job to avoid blocking the UI.
 						final Document document = currentDocument();
-						final DependencyAnalysis<Type, Type> analysis = performAnalysis(document);				
+						final DependencyAnalysis<Declaration, Declaration> analysis = performAnalysis(document);				
 						// If you want to update the UI
 						Display.getDefault().syncExec(new Runnable(){
 							@Override
@@ -98,18 +95,21 @@ public class AnalyseDependencies extends Action {
 	}
 
 	@SuppressWarnings("rawtypes")
-	protected DependencyAnalysis<Type, Type> performAnalysis(Document document) {
-		Function<Type,Type> identity = new Function<Type, Type>() {
-			@Override
-			public Type apply(Type type) {
-				return type;
-			}
-		};
+	protected DependencyAnalysis<Declaration, Declaration> performAnalysis(Document document) {
+		//FIXME This shold not be SWT dependent. Pass the DependencyConfiguration instead of the view?
+//		Function<Declaration,Declaration> identity = new Function<Declaration, Declaration>() {
+//			@Override
+//			public Declaration apply(Declaration type) {
+//				return type;
+//			}
+//		};
 		
 		//True sourceDeclarationPredicate = new True();
 		final List sourceListHack = new ArrayList();
 		final List crossReferenceListHack = new ArrayList();
 		final List targetListHack = new ArrayList();
+		final List dependencyListHack = new ArrayList();
+		final List mapperListHack = new ArrayList();
 		Display.getDefault().syncExec(new Runnable(){
 		
 			@SuppressWarnings("unchecked")
@@ -118,17 +118,21 @@ public class AnalyseDependencies extends Action {
 				sourceListHack.add(_dependencyView.sourcePredicate());
 				targetListHack.add(_dependencyView.targetPredicate());
 				crossReferenceListHack.add(_dependencyView.crossReferencePredicate());
+				dependencyListHack.add(_dependencyView.dependencyPredicate());
+				mapperListHack.add(_dependencyView.mapper());
 			}
 		});
 		UniversalPredicate sourceDeclarationPredicate = (UniversalPredicate) sourceListHack.get(0);
 		UniversalPredicate targetDeclarationPredicate = (UniversalPredicate) targetListHack.get(0);
 		UniversalPredicate crossReferencePredicate = (UniversalPredicate) crossReferenceListHack.get(0);
-		final DependencyAnalysis<Type, Type> analysis = 
-				new DependencyAnalysis<Type,Type>(
-						Type.class, sourceDeclarationPredicate, 
+		UniversalPredicate dependencyPredicate = (UniversalPredicate) dependencyListHack.get(0);
+		Function mapper = (Function) mapperListHack.get(0);
+		final DependencyAnalysis<Declaration, Declaration> analysis = 
+				new DependencyAnalysis<Declaration,Declaration>(
+						Declaration.class, sourceDeclarationPredicate, 
 						crossReferencePredicate, 
-						Type.class, identity, targetDeclarationPredicate, 
-						new True());
+						Declaration.class, mapper, targetDeclarationPredicate, 
+						dependencyPredicate);
 		if(document != null) {
 			TopDown<Element, Nothing> topDown = new TopDown<>(analysis);
 			topDown.perform(document);
