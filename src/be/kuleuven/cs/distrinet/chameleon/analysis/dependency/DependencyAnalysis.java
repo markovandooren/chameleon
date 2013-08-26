@@ -9,12 +9,11 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
-import be.kuleuven.cs.distrinet.chameleon.util.Util;
+import be.kuleuven.cs.distrinet.chameleon.util.Triple;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.contract.Contracts;
+import be.kuleuven.cs.distrinet.rejuse.function.Function;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
-
-import com.google.common.base.Function;
 
 /**
  * An analysis the reports dependencies between elements and declarations.
@@ -52,9 +51,9 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 
 	public DependencyAnalysis(UniversalPredicate<E,Nothing> elementPredicate,
       UniversalPredicate<? super CrossReference<?>,Nothing> crossReferencePredicate,
-      Function<D,D> declarationMapper,
+      Function<D,D,Nothing> declarationMapper,
 			UniversalPredicate<D,Nothing> declarationPredicate, 
-			UniversalPredicate<? super Pair<? super E, ? super D>,Nothing> dependencyPredicate) {
+			UniversalPredicate<? super Dependency<? super E, ? super CrossReference, ? super D>,Nothing> dependencyPredicate) {
 		this(elementPredicate.type(), 
 				 elementPredicate, 
 				 crossReferencePredicate,
@@ -68,9 +67,9 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 														UniversalPredicate<? super E,Nothing> elementPredicate,
 			                      UniversalPredicate<? super CrossReference<?>,Nothing> crossReferencePredicate,
 														Class<D> declarationType,
-			                      Function<D,D> declarationMapper,
+			                      Function<D,D,Nothing> declarationMapper,
 														UniversalPredicate<? super D,Nothing> declarationPredicate, 
-														UniversalPredicate<? super Pair<? super E, ? super D>,Nothing> dependencyPredicate) {
+														UniversalPredicate<? super Dependency<? super E, ? super CrossReference, ? super D>,Nothing> dependencyPredicate) {
 		super(Element.class, new DependencyResult());
 		Contracts.notNull(elementType, "The element type should not be null");
 		Contracts.notNull(elementPredicate, "The element predicate should not be null");
@@ -88,10 +87,10 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 		_declarationType = declarationType;
 	}
 	
-	private UniversalPredicate<Pair<? super E,? super D>,Nothing> _noSelfReference = (UniversalPredicate)new UniversalPredicate<Pair, Nothing>(Pair.class) {
+	private UniversalPredicate<Dependency<? super E,? super CrossReference,? super D>,Nothing> _noSelfReference = (UniversalPredicate)new UniversalPredicate<Dependency, Nothing>(Dependency.class) {
 		@Override
-		public boolean uncheckedEval(Pair t) throws Nothing {
-			return t.first() != t.second();
+		public boolean uncheckedEval(Dependency t) throws Nothing {
+			return t.source() != t.target();
 		}
 	};
 	
@@ -105,13 +104,15 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 	
 	private final UniversalPredicate<? super CrossReference<?>,Nothing> _crossReferencePredicate;
 	
-	public UniversalPredicate<? super Pair<E, D>,Nothing> dependencyPredicate() {
+	public UniversalPredicate<? super Dependency<? super E, ? super CrossReference, ? super D>,Nothing> dependencyPredicate() {
 		return _dependencyPredicate;
 	}
 	
-	private final UniversalPredicate<? super Pair<E, D>,Nothing> _dependencyPredicate;
+//	private final UniversalPredicate<? super Pair<E, D>,Nothing> _dependencyPredicate;
 	
-	private final Function<D, D> _declarationMapper;
+	private final UniversalPredicate<? super Dependency<? super E, ? super CrossReference, ? super D>,Nothing> _dependencyPredicate;
+	
+	private final Function<D, D,Nothing> _declarationMapper;
 
 	@Override
 	public void doEnter(Element object) {
@@ -151,7 +152,7 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 
 					if(container != null) {
 						for(Element e: _elements) {
-							if(_dependencyPredicate.eval(new Pair(e,container))) {
+							if(_dependencyPredicate.eval(new Dependency(e,cref,container))) {
 								result().add(e,container);
 							}
 						}

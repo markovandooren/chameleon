@@ -8,12 +8,11 @@ import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
+import be.kuleuven.cs.distrinet.rejuse.function.Function;
 import be.kuleuven.cs.distrinet.rejuse.graph.Edge;
 import be.kuleuven.cs.distrinet.rejuse.graph.UniEdge;
 import be.kuleuven.cs.distrinet.rejuse.predicate.True;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
-
-import com.google.common.base.Function;
 
 public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer {
 
@@ -23,8 +22,8 @@ public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer
 		return new True();
 	}
 
-	protected Function<D, D> createMapper() {
-		return new Function<D, D>() {
+	protected Function<D, D,Nothing> createMapper() {
+		return new Function<D, D,Nothing>() {
 			@Override
 			public D apply(D declaration) {
 				return declaration;
@@ -46,12 +45,12 @@ public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer
 	}
 	
 	public void buildGraph(final GraphBuilder<Element> builder) throws InputException {
-		Function<D,D> function = createMapper();
+		Function<D,D,Nothing> function = createMapper();
 		UniversalPredicate<D, Nothing> elementPredicate = elementPredicate();
 		DependencyAnalysis<D, D> analysis = new DependencyAnalysis<D,D>(
 				elementPredicate, 
 				crossReferencePredicate(),
-				createMapper(),
+				function,
 				declarationPredicate(), new True());
 		
 		DependencyResult result = analysisResult(analysis);
