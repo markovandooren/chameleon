@@ -3,7 +3,7 @@ package be.kuleuven.cs.distrinet.chameleon.eclipse.widget;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeContentProvider;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.tree.TreeContentProvider;
 
 /**
  * An adapter class to use a {@link TreeContentProvider} when
