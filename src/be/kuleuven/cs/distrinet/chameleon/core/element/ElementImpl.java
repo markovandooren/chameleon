@@ -750,6 +750,14 @@ public abstract class ElementImpl implements Element {
 
 
 
+	public boolean hasAncestor(Element ancestor) {
+		Element el = parent();
+		while ((el != null) && (el != ancestor)){
+			el = el.parent();
+		}
+		return el == ancestor;
+	}
+
 	public <T extends Element> T nearestAncestor(Class<T> c) {
 		Element el = parent();
 		while ((el != null) && (! c.isInstance(el))){

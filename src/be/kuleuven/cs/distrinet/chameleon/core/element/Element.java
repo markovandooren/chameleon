@@ -363,6 +363,21 @@ public interface Element {
     
     
     /**
+     * Check whether the given element is an ancestor of this element.
+     * 
+     * @param ancestor The potential ancestor.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre c != null;
+     @
+     @ post \result == ancestors().contains(ancestor);
+     @*/
+	  public <T extends Element> boolean hasAncestor(Element ancestor);
+
+
+    /**
      * Check whether this element has a descendant of the given type.
      * 
      * @param c The class object representing the type the descendants.
