@@ -322,11 +322,22 @@ public class View extends PluginContainerImpl<ViewPlugin>
 		Document doc = element.nearestAncestorOrSelf(Document.class);
 		// Namespace are not in documents and thus cannot be source elements.
 		if(doc != null) {
-			DocumentLoader loader = doc.inputSource().loader();
+			DocumentLoader loader = doc.inputSource().loader().rootLoader();
 			return loader.containerLink().getOtherRelation() == _sourceLoaders;
 		}
 		return false;
 	}
+	
+	public boolean isBinary(Element element) {
+		Document doc = element.nearestAncestorOrSelf(Document.class);
+		// Namespace are not in documents and thus cannot be source elements.
+		if(doc != null) {
+			DocumentLoader loader = doc.inputSource().loader().rootLoader();
+			return loader.containerLink().getOtherRelation() == _binaryLoaders;
+		}
+		return false;
+	}
+
 	
 	
   private ListMapWrapper<ViewProcessor> _processors = new ListMapWrapper<ViewProcessor>();
