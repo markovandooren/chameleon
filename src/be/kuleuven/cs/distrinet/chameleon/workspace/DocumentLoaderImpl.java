@@ -294,5 +294,14 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	public boolean loadsSameAs(DocumentLoader loader) {
 		return loader == this;
 	}
+	
+	@Override
+	public DocumentLoader rootLoader() {
+		if(container()  instanceof DocumentLoader) {
+			return ((DocumentLoader)container()).rootLoader();
+		} else {
+			return this;
+		}
+	}
 
 }

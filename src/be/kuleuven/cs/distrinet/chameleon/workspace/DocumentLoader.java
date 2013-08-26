@@ -172,5 +172,11 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
 	public void notifyProjectReplaced(DocumentLoaderContainer old, DocumentLoaderContainer newProject) throws ProjectException;
 
 	public boolean loadsSameAs(DocumentLoader loader);
+	
+	/**
+	 * Return the top-most loader in the composite loader structure.
+	 * @return
+	 */
+	public DocumentLoader rootLoader();
 
 }
