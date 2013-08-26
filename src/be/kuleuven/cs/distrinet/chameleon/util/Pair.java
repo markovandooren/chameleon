@@ -24,8 +24,8 @@ public class Pair<T1,T2> {
    @ pre first != null;
    @ pre second != null;
    @
-   @ post first() == null;
-   @ post second() == null;
+   @ post first() == first;
+   @ post second() == second;
    @*/
 	public Pair(T1 first, T2 second) {
 		setFirst(first);
