@@ -12,6 +12,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.layout.GridData;
@@ -37,7 +39,10 @@ import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 
+import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DefaultDependencyOptions;
+import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyOptions;
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyResult;
+import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.util.Workbenches;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.PredicateSelector;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
@@ -79,6 +84,8 @@ public class DependencyView extends ViewPart {
 				_sourceTab = _sources.get(chameleonProject);
 				_targetTab = _targets.get(chameleonProject);
 				_crossReferenceTab = _crossReferences.get(chameleonProject);
+				_dependencyTab = _dependencies.get(chameleonProject);
+				_mapper = _mappers.get(chameleonProject);
 				Display.getDefault().syncExec(new Runnable(){
 					@Override
 					public void run() {
@@ -109,6 +116,25 @@ public class DependencyView extends ViewPart {
 		addGraphViewer(parent);
 		initStack(parent);
 		registerPartListener();
+		
+		
+//		parent.addControlListener(new ControlListener(){
+//		
+//			@Override
+//			public void controlResized(ControlEvent e) {
+//				int width = ((Composite)e.widget).getBounds().width;
+//				GridData layoutData = (GridData) _stack.getLayoutData();
+//				if(layoutData != null) {
+//					layoutData.widthHint = (int) (0.25 * width);
+//				}
+//			}
+//		
+//			@Override
+//			public void controlMoved(ControlEvent e) {
+//			}
+//		});
+		
+		
 	}
 	
 	private void initStack(Composite parent) {
@@ -122,7 +148,7 @@ public class DependencyView extends ViewPart {
 
 	private Control createConfigurationControls(Composite parent, Project project) {
 		final Composite right = new Composite(parent, SWT.NONE);
-		GridData rightData = new GridData(GridData.FILL,GridData.FILL,false,true);
+		GridData rightData = new GridData(GridData.FILL,GridData.FILL,true,true);
 		right.setLayoutData(rightData);
 		GridLayout rightLayout = new GridLayout();
 		rightLayout.numColumns = 1;
@@ -138,13 +164,22 @@ public class DependencyView extends ViewPart {
 //		}.createCheckboxList();
 
 		TabFolder folder = new TabFolder(right, SWT.BORDER);
-		GridData tabFolderGridData = new GridData(GridData.FILL,GridData.FILL,false,true);
+		GridData tabFolderGridData = new GridData(GridData.FILL,GridData.FILL,true,true);
 		folder.setLayoutData(tabFolderGridData);
 
+		createSourceTab(folder,project);
 		createTargetTab(folder,project);
 		createCrossReferenceTab(folder,project);
-		createSourceTab(folder,project);
-
+		createDependenciesTab(folder,project);
+		//FIXME Filthy hack! Use the configuration options: create a new one and store it. It just
+		//      needs to store its own selector lists.
+		final Language language = project.views().get(0).language();
+		DependencyOptions plugin = language.plugin(DependencyOptions.class);
+		if(plugin == null) {
+			plugin = new DefaultDependencyOptions();
+		}
+		DependencyConfiguration config = plugin.createConfiguration();
+		_mappers.put(project, config.mapper());
 		return right;
 	}
 
@@ -162,25 +197,39 @@ public class DependencyView extends ViewPart {
 	private Map<Project,SelectorList> _sources = new HashMap<>();
 	private Map<Project,SelectorList> _targets= new HashMap<>();
 	private Map<Project,SelectorList> _crossReferences= new HashMap<>();
+	private Map<Project,SelectorList> _dependencies= new HashMap<>();
+	private Map<Project,Function> _mappers= new HashMap<>();
 
 	protected SelectorList createTab(TabFolder folder, Function<DependencyConfiguration, List<PredicateSelector>, Nothing> selector, String name, Project project) {
 		TabItem tab = new TabItem(folder, SWT.NONE);
 		tab.setText(name);
-		ScrolledComposite scroll = new ScrolledComposite(folder, SWT.V_SCROLL);
+		final ScrolledComposite scroll = new ScrolledComposite(folder, SWT.V_SCROLL);
 		Composite canvas = new Canvas(scroll,SWT.NONE);
 		scroll.setContent(canvas);
 		
 		scroll.setExpandVertical(true);
 		scroll.setExpandHorizontal(true);
-		scroll.setMinSize(canvas.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
-//		StackLayout layout = new StackLayout();
 		canvas.setLayout(layout);
+		canvas.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		tab.setControl(scroll);
 		SelectorList optionsTab = new SelectorList(canvas, SWT.NONE, selector,project);
-		optionsTab.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
+		final GridData layoutData = new GridData(SWT.FILL,SWT.FILL,true,true);
+		layoutData.widthHint = scroll.getClientArea().width;
+		optionsTab.setLayoutData(layoutData);
+//		canvas.addControlListener(new ControlListener(){
+//		
+//			@Override
+//			public void controlResized(ControlEvent e) {
+//				layoutData.widthHint = scroll.getClientArea().width;
+//			}
+//		
+//			@Override
+//			public void controlMoved(ControlEvent e) {
+//			}
+//		});
 		return optionsTab;
 	}
 
@@ -206,6 +255,17 @@ public class DependencyView extends ViewPart {
 		_crossReferences.put(project,createTab(folder, selector, name,project));
 	}
 
+	private void createDependenciesTab(TabFolder folder,Project project) {
+		Function<DependencyConfiguration, List<PredicateSelector>, Nothing> selector = new Function<DependencyConfiguration, List<PredicateSelector>, Nothing>() {
+			@Override
+			public List<PredicateSelector> apply(DependencyConfiguration argument) throws Nothing {
+				return (List)argument.dependencyOptions();
+			}
+		};
+		String name = "Dependency";
+		_dependencies.put(project,createTab(folder, selector, name,project));
+	}
+
 	private void registerPartListener() {
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		IWorkbenchWindow activeWorkbenchWindow = workbench.getActiveWorkbenchWindow();
@@ -218,6 +278,12 @@ public class DependencyView extends ViewPart {
 		return _sourceTab.predicate();
 	}
 	private SelectorList _sourceTab;
+	
+	Function mapper() {
+		return _mapper;
+	}
+	
+	private Function _mapper;
 
 	UniversalPredicate targetPredicate() {
 		return _targetTab.predicate();
@@ -228,6 +294,11 @@ public class DependencyView extends ViewPart {
 		return _crossReferenceTab.predicate();
 	}
 	private SelectorList _crossReferenceTab;
+	
+	UniversalPredicate dependencyPredicate() {
+		return _dependencyTab.predicate();
+	}
+	private SelectorList _dependencyTab;
 
 	protected void addGraphViewer(Composite parent) {
 		_viewer = new GraphViewer(parent, SWT.NONE);
