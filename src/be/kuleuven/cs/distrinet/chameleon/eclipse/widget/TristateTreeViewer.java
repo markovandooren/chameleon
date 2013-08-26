@@ -42,8 +42,8 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 
-import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeListener;
-import be.kuleuven.cs.distrinet.chameleon.ui.widget.TreeNode;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.tree.TreeListener;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.tree.TreeNode;
 
 /**
  * A tree viewer with tristate checkboxes.
@@ -108,12 +108,10 @@ public class TristateTreeViewer extends Composite {
 	
 	private void init() {
 		_inner = new CheckboxTreeViewer(this,SWT.H_SCROLL | SWT.V_SCROLL);
-		setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
+		setLayoutData(new GridData(SWT.FILL,SWT.FILL,false,true));
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
 		setLayout(layout);
-//		ScrollBar horizontalBar = _inner.getTree().getHorizontalBar();
-//		horizontalBar.setVisible(true);
 		_inner.getTree().addListener(SWT.Expand, new Listener() {
       public void handleEvent(Event e) {
         TreeItem item = (TreeItem) e.item;
