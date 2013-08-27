@@ -33,6 +33,12 @@ public abstract class OptionGroup {
 
 	protected List<? extends Selector<?>> selectors() {
 		return _selectors;
-	}		
+	}	
+	
+	public void setContext(Object context) {
+		for(Selector<?> selector: _selectors) {
+			selector.setContext(context);
+		}
+	}
 	
 }

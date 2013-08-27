@@ -1,7 +1,10 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.widget;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.eclipse.jface.viewers.ICheckStateProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -21,6 +24,8 @@ import be.kuleuven.cs.distrinet.chameleon.ui.widget.list.ComboBoxListener;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.list.ListContentProvider;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.tree.TreeContentProvider;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.tree.TreeListener;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.tree.TreeNode;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.tree.TristateTreeController;
 
 import com.google.common.collect.ImmutableList;
 
@@ -69,20 +74,56 @@ public abstract class SWTWidgetFactory implements WidgetFactory<Control> {
 			}
 		};
 	}
+
+	private Set<Object> _selected = new HashSet<>();
+	private Set<Object> _grayed = new HashSet<>();
 	
 	@Override
-	public <V> SelectionController<TristateTreeViewer> createTristateTree(
+	public <V> TristateTreeController<TristateTreeViewer> createTristateTree(
 			TreeContentProvider<V> contentProvider,
 			LabelProvider labelProvider,
 			TreeListener<V> listener) {
 		final TristateTreeViewer tree = new TristateTreeViewer(parent(),SWT.NONE);
 		tree.addTreeListener(listener);
+//		tree.addTreeListener(new TreeListener<Object>() {
+//
+//			@Override
+//			public void itemChanged(TreeNode<Object> data, boolean checked, boolean grayed) {
+//				if(checked) {
+//					_grayed.remove(data);
+//					_selected.add(data);
+//				} else if(grayed) {
+//					_grayed.add(data);
+//					_selected.remove(data);
+//				} else {
+//					_grayed.remove(data);
+//					_selected.remove(data);
+//				}
+//			}
+//		});
 		final GridData layoutData = new GridData(SWT.FILL,SWT.FILL,true,true);
 		tree.setLayoutData(layoutData);
 		tree.setContentProvider(new SWTTreeContentAdapter(contentProvider));
 		tree.setLabelProvider(new TreeViewLabelAdapter(labelProvider));
-		return new SelectionController<TristateTreeViewer>(){
+		tree.setCheckStateProvider(new ICheckStateProvider(){
+			
+			@Override
+			public boolean isGrayed(Object element) {
+				return _grayed.contains(element);
+			}
 		
+			@Override
+			public boolean isChecked(Object element) {
+				return _selected.contains(element);
+			}
+		});
+		return new TristateTreeController<TristateTreeViewer>(){
+		
+			@Override
+			public void setChecked(TreeNode node) {
+				_selected.add(node);
+			}
+			
 			@Override
 			public void setContext(Object element) {
 			  tree.setRedraw(false);

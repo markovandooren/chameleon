@@ -12,8 +12,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StackLayout;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.layout.GridData;
@@ -39,6 +37,8 @@ import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 
+import be.kuleuven.cs.distrinet.chameleon.analysis.AnalysisOptions;
+import be.kuleuven.cs.distrinet.chameleon.analysis.OptionGroup;
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DefaultDependencyOptionsFactory;
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyOptionsFactory;
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyResult;
@@ -74,6 +74,7 @@ public class DependencyView extends ViewPart {
 			if(part instanceof IEditorPart) {
 				Project chameleonProject = Workbenches.chameleonProject(part);
 				if(chameleonProject != null) {
+					_project = chameleonProject;
 					Control control = _stackMap.get(chameleonProject);
 					if(control == null) {
 						control = createConfigurationControls(_stack, chameleonProject);
@@ -81,11 +82,11 @@ public class DependencyView extends ViewPart {
 					} 
 					((StackLayout)_stack.getLayout()).topControl = control;
 				}
-				_sourceTab = _sources.get(chameleonProject);
-				_targetTab = _targets.get(chameleonProject);
-				_crossReferenceTab = _crossReferences.get(chameleonProject);
-				_dependencyTab = _dependencies.get(chameleonProject);
-				_mapper = _mappers.get(chameleonProject);
+//				_sourceTab = _sources.get(chameleonProject);
+//				_targetTab = _targets.get(chameleonProject);
+//				_crossReferenceTab = _crossReferences.get(chameleonProject);
+//				_dependencyTab = _dependencies.get(chameleonProject);
+//				_mapper = _mappers.get(chameleonProject);
 				Display.getDefault().syncExec(new Runnable(){
 					@Override
 					public void run() {
@@ -100,6 +101,10 @@ public class DependencyView extends ViewPart {
 	
 	private Map<Project,Control> _stackMap = new HashMap<>();
 
+	private Map<Project, AnalysisOptions> _optionsMap = new HashMap<>();
+	
+	private Project _project;
+	
 	GraphViewer _viewer;
 
 	private Composite _controlContainer;
@@ -167,42 +172,45 @@ public class DependencyView extends ViewPart {
 		GridData tabFolderGridData = new GridData(GridData.FILL,GridData.FILL,true,true);
 		folder.setLayoutData(tabFolderGridData);
 
-		createSourceTab(folder,project);
-		createTargetTab(folder,project);
-		createCrossReferenceTab(folder,project);
-		createDependenciesTab(folder,project);
-		//FIXME Filthy hack! Use the configuration options: create a new one and store it. It just
-		//      needs to store its own selector lists.
-		final Language language = project.views().get(0).language();
+		createTabs(folder, project);
+		
+		return right;
+	}
+
+	private void createTabs(TabFolder folder,Project project) {
+		Language language = project.views().get(0).language();
 		DependencyOptionsFactory plugin = language.plugin(DependencyOptionsFactory.class);
 		if(plugin == null) {
 			plugin = new DefaultDependencyOptionsFactory();
 		}
-		DependencyOptions config = plugin.createConfiguration();
-		_mappers.put(project, config.mapper());
-		return right;
-	}
-
-	private void createSourceTab(TabFolder folder,Project project) {
-		Function<DependencyOptions, List<PredicateSelector>, Nothing> selector = new Function<DependencyOptions, List<PredicateSelector>, Nothing>() {
-			@Override
-			public List<PredicateSelector> apply(DependencyOptions argument) throws Nothing {
-				return (List)argument.sourceOptions();
-			}
-		};
-		String name = "Source";
-		_sources.put(project,createTab(folder, selector, name,project));
+		AnalysisOptions<?,?> options = plugin.createConfiguration();
+		_optionsMap.put(project, options);
+		for(OptionGroup group: options.optionGroups()) {
+			createTab(folder, group, project);
+		}
+		options.setContext(project);
 	}
 	
-	private Map<Project,SelectorList> _sources = new HashMap<>();
-	private Map<Project,SelectorList> _targets= new HashMap<>();
-	private Map<Project,SelectorList> _crossReferences= new HashMap<>();
-	private Map<Project,SelectorList> _dependencies= new HashMap<>();
-	private Map<Project,Function> _mappers= new HashMap<>();
+//	private void createSourceTab(TabFolder folder,Project project) {
+////		Function<DependencyOptions, List<PredicateSelector>, Nothing> selector = new Function<DependencyOptions, List<PredicateSelector>, Nothing>() {
+////			@Override
+////			public List<PredicateSelector> apply(DependencyOptions argument) throws Nothing {
+////				return (List)argument.sourceOptions();
+////			}
+////		};
+//		String name = "Source";
+//		_sources.put(project,createTab(folder, selector, name,project));
+//	}
+	
+//	private Map<Project,SelectorList> _sources = new HashMap<>();
+//	private Map<Project,SelectorList> _targets= new HashMap<>();
+//	private Map<Project,SelectorList> _crossReferences= new HashMap<>();
+//	private Map<Project,SelectorList> _dependencies= new HashMap<>();
+//	private Map<Project,Function> _mappers= new HashMap<>();
 
-	protected SelectorList createTab(TabFolder folder, Function<DependencyOptions, List<PredicateSelector>, Nothing> selector, String name, Project project) {
+	protected SelectorList createTab(TabFolder folder, OptionGroup group, Project project) {
 		TabItem tab = new TabItem(folder, SWT.NONE);
-		tab.setText(name);
+		tab.setText(group.name());
 		final ScrolledComposite scroll = new ScrolledComposite(folder, SWT.V_SCROLL);
 		Composite canvas = new Canvas(scroll,SWT.NONE);
 		scroll.setContent(canvas);
@@ -215,7 +223,7 @@ public class DependencyView extends ViewPart {
 		canvas.setLayout(layout);
 		canvas.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		tab.setControl(scroll);
-		SelectorList optionsTab = new SelectorList(canvas, SWT.NONE, selector,project);
+		SelectorList optionsTab = new SelectorList(canvas, SWT.NONE, group,project);
 		final GridData layoutData = new GridData(SWT.FILL,SWT.FILL,true,true);
 		layoutData.widthHint = scroll.getClientArea().width;
 		optionsTab.setLayoutData(layoutData);
@@ -233,38 +241,38 @@ public class DependencyView extends ViewPart {
 		return optionsTab;
 	}
 
-	private void createTargetTab(TabFolder folder,Project project) {
-		Function<DependencyOptions, List<PredicateSelector>, Nothing> selector = new Function<DependencyOptions, List<PredicateSelector>, Nothing>() {
-			@Override
-			public List<PredicateSelector> apply(DependencyOptions argument) throws Nothing {
-				return (List)argument.targetOptions();
-			}
-		};
-		String name = "Target";
-		_targets.put(project,createTab(folder, selector, name,project));
-	}
+//	private void createTargetTab(TabFolder folder,Project project) {
+//		Function<DependencyOptions, List<PredicateSelector>, Nothing> selector = new Function<DependencyOptions, List<PredicateSelector>, Nothing>() {
+//			@Override
+//			public List<PredicateSelector> apply(DependencyOptions argument) throws Nothing {
+//				return (List)argument.targetOptions();
+//			}
+//		};
+//		String name = "Target";
+//		_targets.put(project,createTab(folder, selector, name,project));
+//	}
 
-	private void createCrossReferenceTab(TabFolder folder,Project project) {
-		Function<DependencyOptions, List<PredicateSelector>, Nothing> selector = new Function<DependencyOptions, List<PredicateSelector>, Nothing>() {
-			@Override
-			public List<PredicateSelector> apply(DependencyOptions argument) throws Nothing {
-				return (List)argument.crossReferenceOptions();
-			}
-		};
-		String name = "Cross-Reference";
-		_crossReferences.put(project,createTab(folder, selector, name,project));
-	}
-
-	private void createDependenciesTab(TabFolder folder,Project project) {
-		Function<DependencyOptions, List<PredicateSelector>, Nothing> selector = new Function<DependencyOptions, List<PredicateSelector>, Nothing>() {
-			@Override
-			public List<PredicateSelector> apply(DependencyOptions argument) throws Nothing {
-				return (List)argument.dependencyOptions();
-			}
-		};
-		String name = "Dependency";
-		_dependencies.put(project,createTab(folder, selector, name,project));
-	}
+//	private void createCrossReferenceTab(TabFolder folder,Project project) {
+//		Function<DependencyOptions, List<PredicateSelector>, Nothing> selector = new Function<DependencyOptions, List<PredicateSelector>, Nothing>() {
+//			@Override
+//			public List<PredicateSelector> apply(DependencyOptions argument) throws Nothing {
+//				return (List)argument.crossReferenceOptions();
+//			}
+//		};
+//		String name = "Cross-Reference";
+//		_crossReferences.put(project,createTab(folder, selector, name,project));
+//	}
+//
+//	private void createDependenciesTab(TabFolder folder,Project project) {
+//		Function<DependencyOptions, List<PredicateSelector>, Nothing> selector = new Function<DependencyOptions, List<PredicateSelector>, Nothing>() {
+//			@Override
+//			public List<PredicateSelector> apply(DependencyOptions argument) throws Nothing {
+//				return (List)argument.dependencyOptions();
+//			}
+//		};
+//		String name = "Dependency";
+//		_dependencies.put(project,createTab(folder, selector, name,project));
+//	}
 
 	private void registerPartListener() {
 		IWorkbench workbench = PlatformUI.getWorkbench();
@@ -274,31 +282,31 @@ public class DependencyView extends ViewPart {
 	}
 
 
-	UniversalPredicate sourcePredicate() {
-		return _sourceTab.predicate();
-	}
-	private SelectorList _sourceTab;
-	
-	Function mapper() {
-		return _mapper;
-	}
-	
-	private Function _mapper;
-
-	UniversalPredicate targetPredicate() {
-		return _targetTab.predicate();
-	}
-	private SelectorList _targetTab;
-
-	UniversalPredicate crossReferencePredicate() {
-		return _crossReferenceTab.predicate();
-	}
-	private SelectorList _crossReferenceTab;
-	
-	UniversalPredicate dependencyPredicate() {
-		return _dependencyTab.predicate();
-	}
-	private SelectorList _dependencyTab;
+//	UniversalPredicate sourcePredicate() {
+//		return _sourceTab.predicate();
+//	}
+//	private SelectorList _sourceTab;
+//	
+//	Function mapper() {
+//		return _mapper;
+//	}
+//	
+//	private Function _mapper;
+//
+//	UniversalPredicate targetPredicate() {
+//		return _targetTab.predicate();
+//	}
+//	private SelectorList _targetTab;
+//
+//	UniversalPredicate crossReferencePredicate() {
+//		return _crossReferenceTab.predicate();
+//	}
+//	private SelectorList _crossReferenceTab;
+//	
+//	UniversalPredicate dependencyPredicate() {
+//		return _dependencyTab.predicate();
+//	}
+//	private SelectorList _dependencyTab;
 
 	protected void addGraphViewer(Composite parent) {
 		_viewer = new GraphViewer(parent, SWT.NONE);
@@ -327,7 +335,7 @@ public class DependencyView extends ViewPart {
 			@Override
 			public void mouseDown(MouseEvent e) {
 				IEditorInput input = input();
-				new AnalyseDependencies(DependencyView.this, input).run();
+				new AnalyseDependencies(_optionsMap.get(_project),DependencyView.this,input).run();
 			}
 		};
 		analyze.addMouseListener(mouseAdapter);
@@ -358,7 +366,4 @@ public class DependencyView extends ViewPart {
 	public void setFocus() {
 	}
 
-
-
-	private List<SelectorList> _optionTabs = new ArrayList<>();
 }

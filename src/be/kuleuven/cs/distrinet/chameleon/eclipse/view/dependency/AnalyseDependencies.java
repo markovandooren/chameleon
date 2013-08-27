@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 
+import be.kuleuven.cs.distrinet.chameleon.analysis.AnalysisOptions;
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyAnalysis;
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyResult;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
@@ -33,12 +34,15 @@ public class AnalyseDependencies extends Action {
 	 * 
 	 */
 	private final DependencyView _dependencyView;
+	
+	AnalysisOptions<?, ?> _options;
 
 	/**
 	 * @param dependencyView
 	 */
-	AnalyseDependencies(DependencyView dependencyView, IEditorInput input) {
+	AnalyseDependencies(AnalysisOptions<?, ?> options, DependencyView dependencyView, IEditorInput input) {
 		_dependencyView = dependencyView;
+		_options = options;
 		_input = input;
 	}
 	
@@ -96,43 +100,7 @@ public class AnalyseDependencies extends Action {
 
 	@SuppressWarnings("rawtypes")
 	protected DependencyAnalysis<Declaration, Declaration> performAnalysis(Document document) {
-		//FIXME This shold not be SWT dependent. Pass the DependencyConfiguration instead of the view?
-//		Function<Declaration,Declaration> identity = new Function<Declaration, Declaration>() {
-//			@Override
-//			public Declaration apply(Declaration type) {
-//				return type;
-//			}
-//		};
-		
-		//True sourceDeclarationPredicate = new True();
-		final List sourceListHack = new ArrayList();
-		final List crossReferenceListHack = new ArrayList();
-		final List targetListHack = new ArrayList();
-		final List dependencyListHack = new ArrayList();
-		final List mapperListHack = new ArrayList();
-		Display.getDefault().syncExec(new Runnable(){
-		
-			@SuppressWarnings("unchecked")
-			@Override
-			public void run() {
-				sourceListHack.add(_dependencyView.sourcePredicate());
-				targetListHack.add(_dependencyView.targetPredicate());
-				crossReferenceListHack.add(_dependencyView.crossReferencePredicate());
-				dependencyListHack.add(_dependencyView.dependencyPredicate());
-				mapperListHack.add(_dependencyView.mapper());
-			}
-		});
-		UniversalPredicate sourceDeclarationPredicate = (UniversalPredicate) sourceListHack.get(0);
-		UniversalPredicate targetDeclarationPredicate = (UniversalPredicate) targetListHack.get(0);
-		UniversalPredicate crossReferencePredicate = (UniversalPredicate) crossReferenceListHack.get(0);
-		UniversalPredicate dependencyPredicate = (UniversalPredicate) dependencyListHack.get(0);
-		Function mapper = (Function) mapperListHack.get(0);
-		final DependencyAnalysis<Declaration, Declaration> analysis = 
-				new DependencyAnalysis<Declaration,Declaration>(
-						Declaration.class, sourceDeclarationPredicate, 
-						crossReferencePredicate, 
-						Declaration.class, mapper, targetDeclarationPredicate, 
-						dependencyPredicate);
+		final DependencyAnalysis<Declaration, Declaration> analysis = (DependencyAnalysis)_options.createAnalysis();
 		if(document != null) {
 			TopDown<Element, Nothing> topDown = new TopDown<>(analysis);
 			topDown.perform(document);

@@ -2,9 +2,13 @@ package be.kuleuven.cs.distrinet.chameleon.analysis;
 
 import java.util.List;
 
-public interface AnalysisOptions {
+import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 
-	public List<OptionGroup> optionGroups();
+public interface AnalysisOptions<E extends Element, R extends Result<R>> {
 
-	public Analysis createAnalysis();
+	public List<? extends OptionGroup> optionGroups();
+
+	public Analysis<Element, R> createAnalysis();
+	
+	public void setContext(Object context);
 }

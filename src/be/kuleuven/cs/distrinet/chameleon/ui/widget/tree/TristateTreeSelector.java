@@ -33,11 +33,11 @@ public class TristateTreeSelector<D,E> extends PredicateSelector<E>{
 	
 	private LabelProvider _labelProvider;
 	
-	private SelectionController<?> _controller;
+	private TristateTreeController<?> _controller;
 	
 	@Override
 	public <W> SelectionController<? extends W> createControl(WidgetFactory<W> factory) {
-		SelectionController<? extends W> createTristateTree = 
+		TristateTreeController<? extends W> createTristateTree = 
 				factory.createTristateTree(_contentProvider, _labelProvider,new TreeListener<D>(){
 				
 					@SuppressWarnings("unchecked")
@@ -90,6 +90,10 @@ public class TristateTreeSelector<D,E> extends PredicateSelector<E>{
 		_grayed.clear();
 		_grayed.add(_root);
 		_controller.setContext(_root);
+		for(TreeNode<? extends D> node: _initialSelection) {
+			_controller.setChecked(node);
+		}
 	}
 
+	private Set<TreeNode<? extends D>> _initialSelection = new HashSet<>();
 }
