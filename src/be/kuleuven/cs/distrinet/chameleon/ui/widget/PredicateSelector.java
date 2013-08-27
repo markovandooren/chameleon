@@ -14,22 +14,8 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
  *
  * @param <T> The type of objects that can be selected by the generated predicates.
  */
-public abstract class PredicateSelector<T>  {
+public abstract class PredicateSelector<T> extends Selector<T> {
 
-	/**
-	 * Create a control with the given factory.
-	 * 
-	 * @param factory The factory that creates the user interface element.
-	 */
- /*@
-   @ public behavior
-   @
-   @ pre factory != null;
-   @
-   @ post \result != null;
-   @*/
-	public abstract <W> SelectionController createControl(WidgetFactory<W> factory);
-	
 	/**
 	 * Create a predicate based on the current state of the user interface element.
 	 */
@@ -39,13 +25,5 @@ public abstract class PredicateSelector<T>  {
    @ post \result != null;
    @*/
 	public abstract UniversalPredicate<? super T, Nothing> predicate();
-	
-	/**
-	 * Set the context for the selector. This may update the user interface
-	 * control if the selection is context dependent. Otherwise, nothing is done.
-	 * 
-	 * @param context The new context for configuring the predicate.
-	 */
-	public abstract void setContext(Object context);
 	
 }

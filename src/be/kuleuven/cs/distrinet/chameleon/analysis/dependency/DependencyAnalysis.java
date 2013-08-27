@@ -8,6 +8,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency.DependencyOptions;
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
 import be.kuleuven.cs.distrinet.chameleon.util.Triple;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
@@ -49,6 +50,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
  */
 public class DependencyAnalysis<E extends Element, D extends Declaration> extends Analysis<Element, DependencyResult> {
 
+	
 	public DependencyAnalysis(UniversalPredicate<E,Nothing> elementPredicate,
       UniversalPredicate<? super CrossReference<?>,Nothing> crossReferencePredicate,
       Function<D,D,Nothing> declarationMapper,

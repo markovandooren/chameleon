@@ -6,8 +6,8 @@ import java.util.List;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DefaultDependencyOptions;
-import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyOptions;
+import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DefaultDependencyOptionsFactory;
+import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyOptionsFactory;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.widget.SWTWidgetFactory;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.widget.TristateTreeViewer;
@@ -28,7 +28,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 public class SelectorList extends Composite {
 
 
-	public SelectorList(Composite parent, int style, Function<DependencyConfiguration, List<PredicateSelector>, Nothing> mapper, Project project) {
+	public SelectorList(Composite parent, int style, Function<DependencyOptions, List<PredicateSelector>, Nothing> mapper, Project project) {
 		super(parent, style);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
@@ -38,11 +38,11 @@ public class SelectorList extends Composite {
 //
 //	private void init(final Project chameleonProject, Function<DependencyConfiguration, List<PredicateSelector>, Nothing> mapper, SWTWidgetFactory factory) {
 		final Language language = project.views().get(0).language();
-		DependencyOptions plugin = language.plugin(DependencyOptions.class);
+		DependencyOptionsFactory plugin = language.plugin(DependencyOptionsFactory.class);
 		if(plugin == null) {
-			plugin = new DefaultDependencyOptions();
+			plugin = new DefaultDependencyOptionsFactory();
 		}
-		DependencyConfiguration config = plugin.createConfiguration();
+		DependencyOptions config = plugin.createConfiguration();
 		_currentSelectors = new ArrayList<>();
 		for(PredicateSelector selector: mapper.apply(config)) {
 			_currentSelectors.add(selector);

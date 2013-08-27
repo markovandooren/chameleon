@@ -6,16 +6,16 @@ import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.predicate.IsSource;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
-import be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency.DependencyConfiguration;
+import be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency.DependencyOptions;
 import be.kuleuven.cs.distrinet.chameleon.plugin.LanguagePluginImpl;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.PredicateSelector;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.checkbox.CheckboxSelector;
 import be.kuleuven.cs.distrinet.rejuse.function.Function;
 
-public class DefaultDependencyOptions extends LanguagePluginImpl implements DependencyOptions {
+public class DefaultDependencyOptionsFactory extends LanguagePluginImpl implements DependencyOptionsFactory {
 
 	@Override
-	public DependencyConfiguration createConfiguration() {
+	public DependencyOptions createConfiguration() {
 		List<PredicateSelector<? super Element>> source = new ArrayList<>();
 		List<PredicateSelector<? super Element>> target = new ArrayList<>();
 		Function identity = new Function() {
@@ -26,7 +26,7 @@ public class DefaultDependencyOptions extends LanguagePluginImpl implements Depe
 			}
 		};
 		target.add(onlySource());
-		return new DependencyConfiguration(source, Collections.EMPTY_LIST,target,Collections.EMPTY_LIST, identity);
+		return new DependencyOptions(source, Collections.EMPTY_LIST,target,Collections.EMPTY_LIST, identity);
 	}
 
 	public CheckboxSelector<Element> onlySource() {
@@ -35,7 +35,7 @@ public class DefaultDependencyOptions extends LanguagePluginImpl implements Depe
 
 	@Override
 	public LanguagePluginImpl clone() {
-		return new DefaultDependencyOptions();
+		return new DefaultDependencyOptionsFactory();
 	}
 
 }

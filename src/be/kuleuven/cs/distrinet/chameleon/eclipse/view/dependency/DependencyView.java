@@ -39,8 +39,8 @@ import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 
-import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DefaultDependencyOptions;
-import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyOptions;
+import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DefaultDependencyOptionsFactory;
+import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyOptionsFactory;
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyResult;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.util.Workbenches;
@@ -174,19 +174,19 @@ public class DependencyView extends ViewPart {
 		//FIXME Filthy hack! Use the configuration options: create a new one and store it. It just
 		//      needs to store its own selector lists.
 		final Language language = project.views().get(0).language();
-		DependencyOptions plugin = language.plugin(DependencyOptions.class);
+		DependencyOptionsFactory plugin = language.plugin(DependencyOptionsFactory.class);
 		if(plugin == null) {
-			plugin = new DefaultDependencyOptions();
+			plugin = new DefaultDependencyOptionsFactory();
 		}
-		DependencyConfiguration config = plugin.createConfiguration();
+		DependencyOptions config = plugin.createConfiguration();
 		_mappers.put(project, config.mapper());
 		return right;
 	}
 
 	private void createSourceTab(TabFolder folder,Project project) {
-		Function<DependencyConfiguration, List<PredicateSelector>, Nothing> selector = new Function<DependencyConfiguration, List<PredicateSelector>, Nothing>() {
+		Function<DependencyOptions, List<PredicateSelector>, Nothing> selector = new Function<DependencyOptions, List<PredicateSelector>, Nothing>() {
 			@Override
-			public List<PredicateSelector> apply(DependencyConfiguration argument) throws Nothing {
+			public List<PredicateSelector> apply(DependencyOptions argument) throws Nothing {
 				return (List)argument.sourceOptions();
 			}
 		};
@@ -200,7 +200,7 @@ public class DependencyView extends ViewPart {
 	private Map<Project,SelectorList> _dependencies= new HashMap<>();
 	private Map<Project,Function> _mappers= new HashMap<>();
 
-	protected SelectorList createTab(TabFolder folder, Function<DependencyConfiguration, List<PredicateSelector>, Nothing> selector, String name, Project project) {
+	protected SelectorList createTab(TabFolder folder, Function<DependencyOptions, List<PredicateSelector>, Nothing> selector, String name, Project project) {
 		TabItem tab = new TabItem(folder, SWT.NONE);
 		tab.setText(name);
 		final ScrolledComposite scroll = new ScrolledComposite(folder, SWT.V_SCROLL);
@@ -234,9 +234,9 @@ public class DependencyView extends ViewPart {
 	}
 
 	private void createTargetTab(TabFolder folder,Project project) {
-		Function<DependencyConfiguration, List<PredicateSelector>, Nothing> selector = new Function<DependencyConfiguration, List<PredicateSelector>, Nothing>() {
+		Function<DependencyOptions, List<PredicateSelector>, Nothing> selector = new Function<DependencyOptions, List<PredicateSelector>, Nothing>() {
 			@Override
-			public List<PredicateSelector> apply(DependencyConfiguration argument) throws Nothing {
+			public List<PredicateSelector> apply(DependencyOptions argument) throws Nothing {
 				return (List)argument.targetOptions();
 			}
 		};
@@ -245,9 +245,9 @@ public class DependencyView extends ViewPart {
 	}
 
 	private void createCrossReferenceTab(TabFolder folder,Project project) {
-		Function<DependencyConfiguration, List<PredicateSelector>, Nothing> selector = new Function<DependencyConfiguration, List<PredicateSelector>, Nothing>() {
+		Function<DependencyOptions, List<PredicateSelector>, Nothing> selector = new Function<DependencyOptions, List<PredicateSelector>, Nothing>() {
 			@Override
-			public List<PredicateSelector> apply(DependencyConfiguration argument) throws Nothing {
+			public List<PredicateSelector> apply(DependencyOptions argument) throws Nothing {
 				return (List)argument.crossReferenceOptions();
 			}
 		};
@@ -256,9 +256,9 @@ public class DependencyView extends ViewPart {
 	}
 
 	private void createDependenciesTab(TabFolder folder,Project project) {
-		Function<DependencyConfiguration, List<PredicateSelector>, Nothing> selector = new Function<DependencyConfiguration, List<PredicateSelector>, Nothing>() {
+		Function<DependencyOptions, List<PredicateSelector>, Nothing> selector = new Function<DependencyOptions, List<PredicateSelector>, Nothing>() {
 			@Override
-			public List<PredicateSelector> apply(DependencyConfiguration argument) throws Nothing {
+			public List<PredicateSelector> apply(DependencyOptions argument) throws Nothing {
 				return (List)argument.dependencyOptions();
 			}
 		};
