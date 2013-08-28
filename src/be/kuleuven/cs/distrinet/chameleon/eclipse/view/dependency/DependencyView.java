@@ -82,11 +82,6 @@ public class DependencyView extends ViewPart {
 					} 
 					((StackLayout)_stack.getLayout()).topControl = control;
 				}
-//				_sourceTab = _sources.get(chameleonProject);
-//				_targetTab = _targets.get(chameleonProject);
-//				_crossReferenceTab = _crossReferences.get(chameleonProject);
-//				_dependencyTab = _dependencies.get(chameleonProject);
-//				_mapper = _mappers.get(chameleonProject);
 				Display.getDefault().syncExec(new Runnable(){
 					@Override
 					public void run() {

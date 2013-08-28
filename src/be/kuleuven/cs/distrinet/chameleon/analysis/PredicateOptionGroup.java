@@ -23,8 +23,12 @@ public class PredicateOptionGroup extends OptionGroup {
 	private List<PredicateSelector<?>> _predicateSelectors = new ArrayList<>();
 	
 	public UniversalPredicate predicate() {
+		return predicate(_predicateSelectors);
+	}
+
+	public UniversalPredicate predicate(List<PredicateSelector<?>> selectors) {
 		UniversalPredicate result = new True();
-		for(PredicateSelector selector: _predicateSelectors) {
+		for(PredicateSelector selector: selectors) {
 			result = result.and(selector.predicate());
 		}
 		return result;

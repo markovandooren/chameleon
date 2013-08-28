@@ -1,8 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -24,9 +21,9 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.util.Projects;
 import be.kuleuven.cs.distrinet.chameleon.util.action.TopDown;
+import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
+import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.function.Function;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 
 public class AnalyseDependencies extends Action {
 	
@@ -53,20 +50,21 @@ public class AnalyseDependencies extends Action {
 
 			Job job = new Job("Dependency Analysis") {
 				//FIXME Expand and make this reusable.
-				private Document currentDocument() throws CoreException {
-					Document document = null;
+				private Project currentProject() throws CoreException {
+					Project cproject = null;
 					IEditorInput editorInput = _input;
 					if(editorInput instanceof IFileEditorInput) {
 						IFile file = ((IFileEditorInput)editorInput).getFile();
 						IProject project = file.getProject();
 						if(project != null) {
 						  ChameleonProjectNature nature = Projects.chameleonNature(project);
-						  if(nature != null) {
-						  	document = nature.chameleonDocumentOfFile(file);
-						  }
+						  cproject = Projects.chameleonProject(project);
+//						  if(nature != null) {
+//						  	document = nature.chameleonDocumentOfFile(file);
+//						  }
 						}
 					}
-					return document;
+					return cproject;
 				}
 				
 				@Override
@@ -74,8 +72,8 @@ public class AnalyseDependencies extends Action {
 					try {
 						// Obtaining the document can trigger loading of a chameleon background project.
 						// We must do this inside the Job to avoid blocking the UI.
-						final Document document = currentDocument();
-						final DependencyAnalysis<Declaration, Declaration> analysis = performAnalysis(document);				
+						final Project project = currentProject();
+						final DependencyAnalysis<Declaration, Declaration> analysis = performAnalysis(project);				
 						// If you want to update the UI
 						Display.getDefault().syncExec(new Runnable(){
 							@Override
@@ -99,12 +97,17 @@ public class AnalyseDependencies extends Action {
 	}
 
 	@SuppressWarnings("rawtypes")
-	protected DependencyAnalysis<Declaration, Declaration> performAnalysis(Document document) {
+	protected DependencyAnalysis<Declaration, Declaration> performAnalysis(Project project) {
 		final DependencyAnalysis<Declaration, Declaration> analysis = (DependencyAnalysis)_options.createAnalysis();
-		if(document != null) {
+		if(project != null) {
 			TopDown<Element, Nothing> topDown = new TopDown<>(analysis);
-			topDown.perform(document);
-
+			try {
+//				project.applyToSource(topDown);
+				for(Document document: project.sourceDocuments()) {
+					topDown.perform(document);
+				}
+			} catch (InputException e) {
+			}
 		}
 		return analysis;
 	}
