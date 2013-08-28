@@ -35,11 +35,9 @@ import org.eclipse.zest.core.viewers.AbstractZoomableViewer;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.viewers.IZoomableWorkbenchPart;
 import org.eclipse.zest.core.viewers.ZoomContributionViewItem;
-import org.eclipse.zest.layouts.LayoutAlgorithm;
+import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutStyles;
-import org.eclipse.zest.layouts.algorithms.CompositeLayoutAlgorithm;
-import org.eclipse.zest.layouts.algorithms.DirectedGraphLayoutAlgorithm;
-import org.eclipse.zest.layouts.algorithms.HorizontalShift;
+import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.AnalysisOptions;
 import be.kuleuven.cs.distrinet.chameleon.analysis.OptionGroup;
@@ -312,17 +310,19 @@ public class DependencyView extends ViewPart implements IZoomableWorkbenchPart {
 		_viewer.setLabelProvider(new DependencyLabelProvider());
 		// Start with an empty model.
 		_viewer.setInput(new DependencyResult());
-//		SpringLayoutAlgorithm algorithm = new SpringLayoutAlgorithm(
-//				LayoutStyles.NO_LAYOUT_NODE_RESIZING + 
-//          ZestStyles.NODES_NO_LAYOUT_ANIMATION
-//				+ ZestStyles.NODES_NO_ANIMATION
-//				);
+		SpringLayoutAlgorithm algorithm = new SpringLayoutAlgorithm(
+				LayoutStyles.NO_LAYOUT_NODE_RESIZING + 
+          ZestStyles.NODES_NO_LAYOUT_ANIMATION
+				+ ZestStyles.NODES_NO_ANIMATION
+				);
 
-		CompositeLayoutAlgorithm algorithm = new CompositeLayoutAlgorithm(
-				new LayoutAlgorithm[]{
-						new DirectedGraphLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING),
-						new HorizontalShift(LayoutStyles.NO_LAYOUT_NODE_RESIZING)
-				});
+////	int style = LayoutStyles.NONE;
+//		int style = LayoutStyles.NO_LAYOUT_NODE_RESIZING;
+//		CompositeLayoutAlgorithm algorithm = new CompositeLayoutAlgorithm(
+//				new LayoutAlgorithm[]{
+//						new DirectedGraphLayoutAlgorithm(style),
+//						new HorizontalShift(style)
+//				});
 		
 		_viewer.setLayoutAlgorithm(algorithm,true);
 		// The following puts all nodes on top of each other. Rubbish layout.
