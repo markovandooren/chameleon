@@ -1,8 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
@@ -23,6 +21,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPartListener;
@@ -32,10 +31,15 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.eclipse.zest.core.viewers.AbstractZoomableViewer;
 import org.eclipse.zest.core.viewers.GraphViewer;
-import org.eclipse.zest.core.widgets.ZestStyles;
+import org.eclipse.zest.core.viewers.IZoomableWorkbenchPart;
+import org.eclipse.zest.core.viewers.ZoomContributionViewItem;
+import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
-import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
+import org.eclipse.zest.layouts.algorithms.CompositeLayoutAlgorithm;
+import org.eclipse.zest.layouts.algorithms.DirectedGraphLayoutAlgorithm;
+import org.eclipse.zest.layouts.algorithms.HorizontalShift;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.AnalysisOptions;
 import be.kuleuven.cs.distrinet.chameleon.analysis.OptionGroup;
@@ -44,13 +48,9 @@ import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyOptionsF
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyResult;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.util.Workbenches;
-import be.kuleuven.cs.distrinet.chameleon.ui.widget.PredicateSelector;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.function.Function;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 
-public class DependencyView extends ViewPart {
+public class DependencyView extends ViewPart implements IZoomableWorkbenchPart {
 
 	private final class DependencyControlUpdater implements IPartListener {
 		@Override
@@ -134,7 +134,9 @@ public class DependencyView extends ViewPart {
 //			}
 //		});
 		
-		
+    ZoomContributionViewItem toolbarZoomContributionViewItem = new ZoomContributionViewItem(this);
+    IActionBars bars = getViewSite().getActionBars();
+    bars.getMenuManager().add(toolbarZoomContributionViewItem);
 	}
 	
 	private void initStack(Composite parent) {
@@ -310,9 +312,18 @@ public class DependencyView extends ViewPart {
 		_viewer.setLabelProvider(new DependencyLabelProvider());
 		// Start with an empty model.
 		_viewer.setInput(new DependencyResult());
-		SpringLayoutAlgorithm algorithm = new SpringLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING + 
-				ZestStyles.NODES_NO_LAYOUT_ANIMATION
-				+ ZestStyles.NODES_NO_ANIMATION);
+//		SpringLayoutAlgorithm algorithm = new SpringLayoutAlgorithm(
+//				LayoutStyles.NO_LAYOUT_NODE_RESIZING + 
+//          ZestStyles.NODES_NO_LAYOUT_ANIMATION
+//				+ ZestStyles.NODES_NO_ANIMATION
+//				);
+
+		CompositeLayoutAlgorithm algorithm = new CompositeLayoutAlgorithm(
+				new LayoutAlgorithm[]{
+						new DirectedGraphLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING),
+						new HorizontalShift(LayoutStyles.NO_LAYOUT_NODE_RESIZING)
+				});
+		
 		_viewer.setLayoutAlgorithm(algorithm,true);
 		// The following puts all nodes on top of each other. Rubbish layout.
 //				_viewer.setLayoutAlgorithm(new DirectedGraphLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING),true);
@@ -359,6 +370,11 @@ public class DependencyView extends ViewPart {
 
 	@Override
 	public void setFocus() {
+	}
+
+	@Override
+	public AbstractZoomableViewer getZoomableViewer() {
+		return _viewer;
 	}
 
 }
