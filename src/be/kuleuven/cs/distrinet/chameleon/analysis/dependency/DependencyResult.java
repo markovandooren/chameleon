@@ -10,6 +10,7 @@ import be.kuleuven.cs.distrinet.rejuse.graph.Edge;
 import be.kuleuven.cs.distrinet.rejuse.graph.Graph;
 import be.kuleuven.cs.distrinet.rejuse.graph.UniEdge;
 import be.kuleuven.cs.distrinet.rejuse.graph.UniEdgeFactory;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 public class DependencyResult extends Result<DependencyResult> {
 
@@ -49,6 +50,10 @@ public class DependencyResult extends Result<DependencyResult> {
 	@Override
 	public DependencyResult and(DependencyResult other) {
 		return new DependencyResult(_dependencyGraph.plus(other._dependencyGraph));
+	}
+	
+	public <E extends Exception> void filter(Predicate<? super Edge<Element>,E> predicate) throws E {
+		_dependencyGraph.filter(predicate);
 	}
 	
 	void add(Element element, Declaration declaration) {

@@ -63,7 +63,8 @@ public class DefaultDependencyOptionsFactory extends LanguagePluginImpl implemen
 					new True(), 
 					new True(), 
 					Declaration.class, identity(), _target.predicate(), 
-					new True());
+					new True(),
+					new DependencyAnalysis.NOOP());
 		}
 		
 	}

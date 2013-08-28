@@ -51,7 +51,8 @@ public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer
 				elementPredicate, 
 				crossReferencePredicate(),
 				function,
-				declarationPredicate(), new True());
+				declarationPredicate(), new True(),
+				new DependencyAnalysis.NOOP());
 		
 		DependencyResult result = analysisResult(analysis);
 		Action<Element, Nothing> nodeAction = new Action<Element, Nothing>(Element.class) {

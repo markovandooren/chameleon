@@ -11,6 +11,9 @@ import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.contract.Contracts;
 import be.kuleuven.cs.distrinet.rejuse.function.Function;
+import be.kuleuven.cs.distrinet.rejuse.graph.Edge;
+import be.kuleuven.cs.distrinet.rejuse.graph.UniEdge;
+import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 
 /**
@@ -52,14 +55,16 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
       UniversalPredicate<? super CrossReference<?>,Nothing> crossReferencePredicate,
       Function<D,D,Nothing> declarationMapper,
 			UniversalPredicate<D,Nothing> declarationPredicate, 
-			UniversalPredicate<? super Dependency<? super E, ? super CrossReference, ? super D>,Nothing> dependencyPredicate) {
+			UniversalPredicate<? super Dependency<? super E, ? super CrossReference, ? super D>,Nothing> dependencyPredicate,
+			HistoryFilter<E> historyFilter) {
 		this(elementPredicate.type(), 
 				 elementPredicate, 
 				 crossReferencePredicate,
 				 declarationPredicate.type(), 
 				 declarationMapper,
 				 declarationPredicate,
-				 dependencyPredicate);
+				 dependencyPredicate,
+				 historyFilter);
 	}
 
 	public DependencyAnalysis(Class<? extends E> elementType,
@@ -68,7 +73,8 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 														Class<D> declarationType,
 			                      Function<D,D,Nothing> declarationMapper,
 														UniversalPredicate<? super D,Nothing> declarationPredicate, 
-														UniversalPredicate<? super Dependency<? super E, ? super CrossReference, ? super D>,Nothing> dependencyPredicate) {
+														UniversalPredicate<? super Dependency<? super E, ? super CrossReference, ? super D>,Nothing> dependencyPredicate,
+														HistoryFilter<E> historyFilter) {
 		super(Element.class, new DependencyResult());
 		Contracts.notNull(elementType, "The element type should not be null");
 		Contracts.notNull(elementPredicate, "The element predicate should not be null");
@@ -84,6 +90,7 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 		_declarationMapper = declarationMapper;
 		_elementType = elementType;
 		_declarationType = declarationType;
+		_historyFilter = historyFilter;
 	}
 	
 	private UniversalPredicate<Dependency<? super E,? super CrossReference,? super D>,Nothing> _noSelfReference = (UniversalPredicate)new UniversalPredicate<Dependency, Nothing>(Dependency.class) {
@@ -92,6 +99,19 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 			return t.source() != t.target();
 		}
 	};
+	
+	public abstract static class HistoryFilter<E> {
+		
+		public abstract boolean process(Dependency<E, CrossReference, E> dependency, DependencyResult result);
+	}
+	
+	public static class NOOP<E> extends HistoryFilter<E> {
+
+		@Override
+		public boolean process(Dependency<E, CrossReference, E> dependency, DependencyResult result) {
+			return true;
+		}
+	}
 	
 	private Class<D> _declarationType;
 
@@ -113,6 +133,8 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 	
 	private final Function<D, D,Nothing> _declarationMapper;
 
+	private HistoryFilter<E> _historyFilter;
+	
 	@Override
 	public void doEnter(Element object) {
 		if(_elementType.isInstance(object) && _elementPredicate.eval(object)) {
@@ -151,8 +173,12 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 
 					if(container != null) {
 						for(Element e: _elements) {
-							if(_dependencyPredicate.eval(new Dependency(e,cref,container))) {
-								result().add(e,container);
+							Dependency dependency = new Dependency(e,cref,container);
+							if(_dependencyPredicate.eval(dependency)) {
+								DependencyResult result = result();
+								if(_historyFilter.process(dependency, result)) {
+									result.add(e,container);
+								}
 							}
 						}
 					}

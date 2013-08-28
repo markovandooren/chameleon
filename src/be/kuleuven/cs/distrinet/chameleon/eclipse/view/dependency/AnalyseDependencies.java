@@ -1,5 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency;
 
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -73,7 +75,7 @@ public class AnalyseDependencies extends Action {
 						// Obtaining the document can trigger loading of a chameleon background project.
 						// We must do this inside the Job to avoid blocking the UI.
 						final Project project = currentProject();
-						final DependencyAnalysis<Declaration, Declaration> analysis = performAnalysis(project);				
+						final DependencyAnalysis<Declaration, Declaration> analysis = performAnalysis(project,monitor);				
 						// If you want to update the UI
 						Display.getDefault().syncExec(new Runnable(){
 							@Override
@@ -97,13 +99,16 @@ public class AnalyseDependencies extends Action {
 	}
 
 	@SuppressWarnings("rawtypes")
-	protected DependencyAnalysis<Declaration, Declaration> performAnalysis(Project project) {
+	protected DependencyAnalysis<Declaration, Declaration> performAnalysis(Project project, IProgressMonitor monitor) {
 		final DependencyAnalysis<Declaration, Declaration> analysis = (DependencyAnalysis)_options.createAnalysis();
 		if(project != null) {
 			TopDown<Element, Nothing> topDown = new TopDown<>(analysis);
 			try {
 //				project.applyToSource(topDown);
-				for(Document document: project.sourceDocuments()) {
+				List<Document> sourceDocuments = project.sourceDocuments();
+				monitor.beginTask("Analyzing sources", sourceDocuments.size());
+				for(Document document: sourceDocuments) {
+					monitor.worked(1);
 					topDown.perform(document);
 				}
 			} catch (InputException e) {

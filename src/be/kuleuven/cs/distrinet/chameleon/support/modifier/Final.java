@@ -4,6 +4,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.ModifierImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 
 
@@ -29,7 +30,9 @@ public class Final extends ModifierImpl {
    @*/
   public PropertySet<Element,ChameleonProperty> impliedProperties() {
 //    return createSet(language(ObjectOrientedLanguage.class).REFINABLE.inverse(),language(ObjectOrientedLanguage.class).DEFINED);
-    return createSet(language(ObjectOrientedLanguage.class).FINAL);
+    ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+    Util.debug(language == null);
+		return createSet(language.FINAL);
   }
 
 }

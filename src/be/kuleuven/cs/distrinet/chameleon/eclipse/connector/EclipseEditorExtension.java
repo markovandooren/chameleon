@@ -174,7 +174,12 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
    */
 	public Image getIcon(Element element) throws ModelException {
 		IconProvider iconProvider = iconProvider();
-		return iconProvider != null ? image(iconProvider.iconName(element)) : null;
+		try {
+			return iconProvider != null ? image(iconProvider.iconName(element)) : null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public IconProvider createIconProvider() {
