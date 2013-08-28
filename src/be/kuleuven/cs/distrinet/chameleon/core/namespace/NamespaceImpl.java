@@ -148,11 +148,7 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 			}
 			String current = Util.getFirstPart(qualifiedName);
 			next = Util.getAllButFirstPart(qualifiedName); //rest
-			try {
-				currentNamespace = getSubNamespace(current);
-			} catch (LookupException e) {
-				// currentNamespace == null
-			}
+			currentNamespace = getSubNamespace(current);
 			if(currentNamespace == null) {
 				currentNamespace = createSubNamespace(current);
 			}
@@ -174,30 +170,30 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	 @
 	 @ signals (LookupException) (* There are multiple namespaces with the given name. *);
 	 @*/
-	public Namespace getSubNamespace(final String name) throws LookupException {
-		// SLOW keep a map name -> subnamespace
-		List<Namespace> packages = getSubNamespaces();
-		for(Namespace n: packages) {
-			if(n.name().equals(name)) {
-				return n;
-			}
-		}
-//		new SafePredicate<Namespace>() {
-//			public boolean eval(Namespace o) {
-//				return o.name().equals(name);
+//	public Namespace getSubNamespace(final String name) throws LookupException {
+//		// SLOW keep a map name -> subnamespace
+//		List<Namespace> packages = getSubNamespaces();
+//		for(Namespace n: packages) {
+//			if(n.name().equals(name)) {
+//				return n;
 //			}
-//		}.filter(packages);
-//		if (packages.isEmpty()) {
-			return null;
 //		}
-//		else if(packages.size() == 1){
-//			return (Namespace)packages.iterator().next();
-//		}
-//		else {
-//			throw new LookupException("Namespace "+getFullyQualifiedName()+ " contains "+packages.size()+" sub namespaces with name "+name);
-//		}
+//		return null;
+//	}
 
+	public Namespace getSubNamespace(String name) {
+		return _nameMap.get(name);
 	}
+
+	protected void registerNamespace(Namespace namespace) {
+		_nameMap.put(namespace.name(),namespace);
+	}
+
+	protected void unregisterNamespace(Namespace namespace) {
+		_nameMap.remove(namespace.name());
+	}
+
+	private Map<String,Namespace> _nameMap = new HashMap<>();
 
 	public <T extends Declaration> List<T> allDescendantDeclarations(Class<T> kind) throws LookupException {
   	final List<T> result = declarations(kind);
@@ -306,7 +302,10 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 			// If nothing was found and a namespace or more generic type is searched,
 			// the namespace is resolved and given to the selector.
 			if(result.isEmpty() && selector.canSelect(Namespace.class)) {
-				result = selector.selection(Collections.singletonList(getOrCreateNamespace(selectionName)));
+				Namespace subNamespace = getSubNamespace(selectionName);
+				if(subNamespace != null) {
+					result = selector.selection(Collections.singletonList(subNamespace));
+				}
 			}
 		} else {
 			result = selector.selection(declarations());

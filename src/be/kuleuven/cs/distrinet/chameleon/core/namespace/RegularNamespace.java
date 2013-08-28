@@ -1,6 +1,8 @@
 package be.kuleuven.cs.distrinet.chameleon.core.namespace;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
@@ -30,17 +32,33 @@ public class RegularNamespace extends NamespaceImpl {
 	/**
 	 * SUBNAMESPACES
 	 */
-	private Multi<Namespace> _namespaces = new Multi<Namespace>(this,"namespaces");
+	private Multi<Namespace> _namespaces = new Multi<Namespace>(this,"namespaces") {
+		@Override
+		protected void fireElementAdded(Namespace addedElement) {
+			super.fireElementAdded(addedElement);
+			registerNamespace(addedElement);
+		}
+		
+		protected void fireElementRemoved(Namespace addedElement) {
+			super.fireElementRemoved(addedElement);
+			unregisterNamespace(addedElement);
+		};
+		
+		protected void fireElementReplaced(Namespace oldElement, Namespace newElement) {
+			super.fireElementReplaced(oldElement, newElement);
+			fireElementAdded(newElement);
+			fireElementRemoved(oldElement);
+		};
+	};
 	{
 		_namespaces.enableCache();
 	}
-
 
 	protected synchronized void addNamespace(Namespace namespace) {
 		add(_namespaces,namespace);
 		updateCacheNamespaceAdded(namespace);
 	}
-
+	
 	protected void updateCacheNamespaceAdded(Namespace namespace) {
 		flushLocalCache();
 	}
