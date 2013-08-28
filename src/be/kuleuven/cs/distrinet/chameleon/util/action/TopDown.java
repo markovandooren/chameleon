@@ -10,10 +10,4 @@ public class TopDown<T extends Element,E extends Exception> extends Sequence<T,E
 		setSecond(new Recurse<T,E>(this));
 	}
 
-//	public TopDown(Class<T> type, Action<? super T,? extends E> action) {
-//		super(type,action, null);
-//		setSecond(new Recurse<T,E>(type,this));
-//	}
-
-	
 }
