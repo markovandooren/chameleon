@@ -1,6 +1,8 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
@@ -12,10 +14,13 @@ import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -35,7 +40,6 @@ import org.eclipse.zest.core.viewers.AbstractZoomableViewer;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.viewers.IZoomableWorkbenchPart;
 import org.eclipse.zest.core.viewers.ZoomContributionViewItem;
-import org.eclipse.zest.core.widgets.ZestStyles;
 import org.eclipse.zest.layouts.LayoutAlgorithm;
 import org.eclipse.zest.layouts.LayoutStyles;
 import org.eclipse.zest.layouts.algorithms.CompositeLayoutAlgorithm;
@@ -43,6 +47,7 @@ import org.eclipse.zest.layouts.algorithms.DirectedGraphLayoutAlgorithm;
 import org.eclipse.zest.layouts.algorithms.HorizontalShift;
 import org.eclipse.zest.layouts.algorithms.RadialLayoutAlgorithm;
 import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
+import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.AnalysisOptions;
 import be.kuleuven.cs.distrinet.chameleon.analysis.OptionGroup;
@@ -142,6 +147,8 @@ public class DependencyView extends ViewPart implements IZoomableWorkbenchPart {
     bars.getMenuManager().add(toolbarZoomContributionViewItem);
 	}
 	
+	private Map<String, LayoutAlgorithm> _layouts = new HashMap<>();
+	
 	private void initStack(Composite parent) {
 		_stack = new Composite(parent, SWT.NONE);
 		StackLayout layout = new StackLayout();
@@ -159,7 +166,13 @@ public class DependencyView extends ViewPart implements IZoomableWorkbenchPart {
 		rightLayout.numColumns = 1;
 		right.setLayout(rightLayout);
 
-		createAnalyzeButton(right);
+		Composite buttonComposite = new Composite(right, SWT.NONE);
+		GridLayout buttonCompositeLayout = new GridLayout();
+		buttonCompositeLayout.numColumns = 2;
+		buttonComposite.setLayout(buttonCompositeLayout);
+		
+		createAnalyzeButton(buttonComposite);
+		createLayoutSelector(buttonComposite);
 		
 //		new SWTWidgetFactory() {
 //			@Override
@@ -317,28 +330,83 @@ public class DependencyView extends ViewPart implements IZoomableWorkbenchPart {
 		_viewer.setInput(new DependencyResult());
 
 ////	int style = LayoutStyles.NONE;
+		
+		// SPRING
 		int style = LayoutStyles.NO_LAYOUT_NODE_RESIZING;
 		SpringLayoutAlgorithm spring = new SpringLayoutAlgorithm(
 				style 
-//				+ ZestStyles.NODES_NO_LAYOUT_ANIMATION
-//				+ ZestStyles.NODES_NO_ANIMATION
 				);
 		;
 		spring.setSpringLength(SpringLayoutAlgorithm.DEFAULT_SPRING_LENGTH * 2);
-		DirectedGraphLayoutAlgorithm directed = new DirectedGraphLayoutAlgorithm(style);
-		CompositeLayoutAlgorithm algorithm = new CompositeLayoutAlgorithm(
+		CompositeLayoutAlgorithm springAlgorithm = new CompositeLayoutAlgorithm(
 				new LayoutAlgorithm[]{
-						new RadialLayoutAlgorithm(style),
+						spring,
 						new HorizontalShift(style)
 				});
+
+		String springName = "Spring";
+		_layouts.put(springName, springAlgorithm);
+		_layoutList.add(springName);
+		DirectedGraphLayoutAlgorithm directed = new DirectedGraphLayoutAlgorithm(style);
+		CompositeLayoutAlgorithm directedAlgorithm = new CompositeLayoutAlgorithm(
+				new LayoutAlgorithm[]{
+						directed,
+						new HorizontalShift(style)
+				});
+		String directedName = "Directed";
+		_layouts.put(directedName, directedAlgorithm);
+		_layoutList.add(directedName);
 		
-		_viewer.setLayoutAlgorithm(algorithm,true);
-		// The following puts all nodes on top of each other. Rubbish layout.
-//				_viewer.setLayoutAlgorithm(new DirectedGraphLayoutAlgorithm(LayoutStyles.NO_LAYOUT_NODE_RESIZING),true);
-		//		_viewer.setConnectionStyle(ZestStyles.CONNECTIONS_DIRECTED + ZestStyles.CONNECTIONS_SOLID);
+		RadialLayoutAlgorithm radial = new RadialLayoutAlgorithm(style);
+		String radialName = "Radial";
+		CompositeLayoutAlgorithm radialAlgorithm = new CompositeLayoutAlgorithm(
+				new LayoutAlgorithm[]{
+						radial,
+						new HorizontalShift(style)
+				});
+		_layouts.put(radialName, radialAlgorithm);
+		_layoutList.add(radialName);
+		
+		TreeLayoutAlgorithm tree = new RadialLayoutAlgorithm(style);
+		String treeName = "Tree";
+		CompositeLayoutAlgorithm treeAlgorithm = new CompositeLayoutAlgorithm(
+				new LayoutAlgorithm[]{
+						tree,
+						new HorizontalShift(style)
+				});
+		_layouts.put(treeName, treeAlgorithm);
+		_layoutList.add(treeName);
+		
+		
+		_viewer.setLayoutAlgorithm(springAlgorithm,true);
 		_viewer.applyLayout();
 	}
+	
+	private List<String>_layoutList = new ArrayList<>(); 
 
+	protected void createLayoutSelector(Composite right) {
+		final Combo combo = new Combo(right, SWT.NONE);
+		combo.setItems(_layoutList.toArray(new String[_layoutList.size()]));
+		combo.select(0);
+		combo.addSelectionListener(new SelectionListener(){
+		
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Display.getDefault().syncExec(new Runnable(){
+					@Override
+					public void run() {
+						_viewer.setLayoutAlgorithm(_layouts.get(_layoutList.get(combo.getSelectionIndex())),true);
+						_viewer.applyLayout();
+					}
+				});
+			}
+		
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
+	}
+	
 	protected void createAnalyzeButton(Composite right) {
 		Button analyze = new Button(right, SWT.PUSH);
 		GridData analyzeData = new GridData();

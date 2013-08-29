@@ -21,7 +21,7 @@ import be.kuleuven.cs.distrinet.rejuse.contract.Contracts;
  *
  * @param <T> The type of the objects in the tree.
  */
-public abstract class TreeContentProvider<D> {
+public abstract class TreeContentProvider<G> {
 
 //	public TreeContentProvider(Class<T> type) {
 //		Contracts.notNull(type, "The type of a tree content provider cannot be null.");
@@ -53,7 +53,7 @@ public abstract class TreeContentProvider<D> {
    @ post \result != null;
    @ post element == null ==> \result.isEmpty();
    @*/
-	public abstract List<TreeNode<D>> children(TreeNode<D> element);
+	public abstract List<TreeNode<?,G>> children(TreeNode<?,G> element);
 	
 	/**
 	 * Check whether the given element has children.
@@ -65,7 +65,7 @@ public abstract class TreeContentProvider<D> {
    @
    @ post element == null ==> \result == false;
    @*/
-	public boolean hasChildren(TreeNode<D> element) {
+	public boolean hasChildren(TreeNode<?,G> element) {
 		return element == null ? false : ! children(element).isEmpty();
 	}
 	
@@ -79,11 +79,11 @@ public abstract class TreeContentProvider<D> {
    @
    @ post element == null ==> \result == null;
    @*/
-	public abstract TreeNode<D> parent(TreeNode<D> element);
+	public abstract TreeNode<?,G> parent(TreeNode<?,G> element);
 	
-	public List<TreeNode<D>> ancestors(TreeNode<D> element) {
-		ImmutableList.Builder<TreeNode<D>> builder = ImmutableList.builder();
-		TreeNode<D> ancestor = parent(element);
+	public List<TreeNode<?,G>> ancestors(TreeNode<?,G> element) {
+		ImmutableList.Builder<TreeNode<?,G>> builder = ImmutableList.builder();
+		TreeNode<?,G> ancestor = parent(element);
 		while(ancestor != null) {
 			builder.add(ancestor);
 			ancestor = parent(ancestor);
@@ -91,8 +91,8 @@ public abstract class TreeContentProvider<D> {
 		return builder.build();
 	}
 	
-	public boolean isAncestor(TreeNode<D> ancestor, TreeNode<D> descendant) {
-		TreeNode<D> a = parent(descendant);
+	public boolean isAncestor(TreeNode<?,G> ancestor, TreeNode<?,G> descendant) {
+		TreeNode<?,G> a = parent(descendant);
 		while(a != null) {
 			if(a == ancestor) {
 				return true;
@@ -109,7 +109,7 @@ public abstract class TreeContentProvider<D> {
 	 */
 	public Object universalParent(Object element) {
 		return element instanceof TreeNode ?
-			parent((TreeNode<D>)element) :
+			parent((TreeNode<?,G>)element) :
 		  null;
 	}
 	
@@ -124,9 +124,9 @@ public abstract class TreeContentProvider<D> {
    @ type().isInstance(element) ==> \result == children((T)element);
    @ ! type().isInstance(element) ==> \result == Collections.EMPTY_LIST;
    @*/
-	public List<TreeNode<D>> universalChildren(Object element) {
+	public List<TreeNode<?,G>> universalChildren(Object element) {
 		return element instanceof TreeNode ?
-				children((TreeNode<D>)element) :
+				children((TreeNode<?,G>)element) :
 			  Collections.EMPTY_LIST;
 	}
 	
@@ -143,13 +143,13 @@ public abstract class TreeContentProvider<D> {
    @*/
 	public boolean universalHasChildren(Object element) {
 		return element instanceof TreeNode ?
-				hasChildren((TreeNode<D>)element) :
+				hasChildren((TreeNode<?,G>)element) :
 			  false;
 	}
 	
-	public abstract TreeNode<? extends D> createNode(D input);
+	public abstract TreeNode<?,G> createNode(G input);
 	
-	public D domainData(TreeNode<D> treeData) {
+	public G domainData(TreeNode<?,G> treeData) {
 		return treeData.domainObject();
 	}
 }

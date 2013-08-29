@@ -52,7 +52,7 @@ public class DependencyResult extends Result<DependencyResult> {
 		return new DependencyResult(_dependencyGraph.plus(other._dependencyGraph));
 	}
 	
-	public <E extends Exception> void filter(Predicate<? super Edge<Element>,E> predicate) throws E {
+	public <E extends Exception> void filter(Predicate<Edge<Element>,E> predicate) throws E {
 		_dependencyGraph.filter(predicate);
 	}
 	

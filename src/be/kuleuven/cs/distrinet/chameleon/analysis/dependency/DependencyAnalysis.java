@@ -155,6 +155,7 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 	
 	private ArrayList<Object> done = new ArrayList<>();
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPerform(final Element element) throws Nothing {
 		done.add(element);
@@ -173,11 +174,14 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 
 					if(container != null) {
 						for(Element e: _elements) {
-							Dependency dependency = new Dependency(e,cref,container);
+							// SLOW mapping is applied twice, but that should be peanuts compared
+							// to the rest of the analysis.
+							D apply = _declarationMapper.apply(container);
+							Dependency dependency = new Dependency(e,cref,apply);
 							if(_dependencyPredicate.eval(dependency)) {
 								DependencyResult result = result();
 								if(_historyFilter.process(dependency, result)) {
-									result.add(e,container);
+									result.add(e,apply);
 								}
 							}
 						}

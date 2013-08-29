@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 
-public abstract class TreeNode<T> {
+public abstract class TreeNode<T extends G,G> {
 
-	public TreeNode(TreeNode<?> parent,T domainObject, String label) {
+	public TreeNode(TreeNode<?,G> parent,T domainObject, String label) {
 		_parent = parent;
 		_domainObject = domainObject;
 		_label = label;
@@ -16,11 +16,11 @@ public abstract class TreeNode<T> {
 		this(null, domainObject,label);
 	}
 	
-	public TreeNode<?> parent() {
+	public TreeNode<?,G> parent() {
 		return _parent;
 	}
 	
-	private TreeNode<?> _parent;
+	private TreeNode<?,G> _parent;
 	
 	public T domainObject() {
 		return _domainObject;
@@ -34,15 +34,15 @@ public abstract class TreeNode<T> {
 	
 	private String _label;
 	
-	public final List<? extends TreeNode<?>> children() {
+	public final List<? extends TreeNode<?,G>> children() {
 		if(_children == null) {
 			_children = ImmutableList.copyOf(createChildren());
 		}
 		return _children;
 	}
 	
-	protected abstract List<? extends TreeNode<?>> createChildren();
+	protected abstract List<? extends TreeNode<?,G>> createChildren();
 	
-	private ImmutableList<? extends TreeNode<?>> _children;
+	private ImmutableList<? extends TreeNode<?,G>> _children;
 	
 }
