@@ -2,6 +2,7 @@ package be.kuleuven.cs.distrinet.chameleon.workspace;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
@@ -153,6 +154,8 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
    @*/
 	public List<Namespace> topLevelNamespaces();
 	
+	public Set<Namespace> namespaces();
+
 	/**
 	 * Return a label to describe the resource loaded by this document loader.
 	 * @return

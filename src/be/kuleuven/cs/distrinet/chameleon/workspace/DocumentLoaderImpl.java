@@ -2,6 +2,7 @@ package be.kuleuven.cs.distrinet.chameleon.workspace;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
@@ -279,6 +280,14 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		}
 		ImmutableSet<Namespace> allNamespaces = builder.build();
 		return ImmutableList.copyOf(allNamespaces);
+	}
+
+	public Set<Namespace> namespaces() {
+		ImmutableSet.Builder<Namespace> builder = ImmutableSet.<Namespace>builder();
+		for(InputSource source: inputSources()) {
+			builder.add(source.namespace());
+		}
+		return builder.build();
 	}
 
 	@Override
