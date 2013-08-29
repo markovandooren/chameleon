@@ -75,6 +75,11 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	protected NamespaceImpl() {
 		
 	}
+	
+	@Override
+	public Namespace namespace() {
+		return (Namespace) parent();
+	}
 
 
 	/*@
