@@ -1,20 +1,15 @@
 package be.kuleuven.cs.distrinet.chameleon.analysis.dependency;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.Analysis;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.contract.Contracts;
 import be.kuleuven.cs.distrinet.rejuse.function.Function;
-import be.kuleuven.cs.distrinet.rejuse.graph.Edge;
-import be.kuleuven.cs.distrinet.rejuse.graph.UniEdge;
-import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 
 /**
@@ -169,11 +164,6 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 							return _declarationPredicate.eval(_declarationMapper.apply(t));
 						}
 					};
-//					D container = decl.nearestAncestorOrSelf(predicate);
-//					if(container == null) {
-//						Namespace namespace = decl.namespace();
-//						container = namespace.nearestAncestorOrSelf(predicate);
-//					}
 					D container = decl.logical().nearestAncestorOrSelf(decl,predicate);
 					if(container != null) {
 						for(Element e: _elements) {
