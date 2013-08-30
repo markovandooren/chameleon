@@ -47,6 +47,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.Conflict;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
+import be.kuleuven.cs.distrinet.rejuse.tree.TreeNavigator;
 
 import com.google.common.collect.ImmutableList;
 
@@ -712,15 +713,6 @@ public abstract class ElementImpl implements Element {
 	public <T extends Element> T nearestAncestorOrSelf(Class<T> c) {
 		Element el = this;
 		while ((el != null) && (! c.isInstance(el))){
-			el = el.parent();
-		}
-		return (T) el;
-	}
-
-	@Override
-	public <T extends Element, E extends Exception> T nearestAncestorOrSelf(Class<T> c, Predicate<T, E> predicate) throws E {
-		Element el = this;
-		while ((el != null) && (! (c.isInstance(el) && predicate.eval((T)el)))) {
 			el = el.parent();
 		}
 		return (T) el;

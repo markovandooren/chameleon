@@ -23,6 +23,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
+import be.kuleuven.cs.distrinet.rejuse.tree.TreeNavigator;
 
 /**
  * Element is the top interface for an element of a source model. Every lexical language construct (every
@@ -676,24 +677,6 @@ public interface Element {
      @*/
     public <T extends Element> T nearestAncestorOrSelf(Class<T> c);
     
-    /**
-     * Return the nearest element of type T that satifies the given predicate. Null if no such ancestor can be found.
-     * 
-     * @param <T>
-     *        The type of the ancestor to be found
-     * @param c
-     *        The class object of type T (T.class)
-     * @return
-     */
-   /*@
-     @ public behavior
-     @
-     @ post c.isInstance(this) && predicate.eval(this) ==> \result == this;
-     @ post (! c.isInstance(this) || (c.isInstance(this) && (! predicate.eval(this)))) && parent() != null ==> \result == parent().nearestAncestor(c,predicate);
-     @ post (! c.isInstance(this) || (c.isInstance(this) && (! predicate.eval(this)))) && parent() == null ==> \result == null;
-     @*/
-    public <T extends Element, E extends Exception> T nearestAncestorOrSelf(Class<T> c, Predicate<T,E> predicate) throws E;
-
     /**
      * Return the nearest element of type T that satifies the given predicate. Null if no such ancestor can be found.
      * 
