@@ -83,6 +83,37 @@ public abstract class ElementImpl implements Element {
 		//	  	});
 	}
 	
+	private static TreeNavigator<Element> _lexical = new LexicalNavigator();
+	
+	@Override
+	public TreeNavigator<Element> lexical() {
+		return _lexical;
+	}
+	
+	private static TreeNavigator<Element> _logical = new LogicalNavigator();
+	
+	@Override
+	public TreeNavigator<Element> logical() {
+		return _logical;
+	}
+	
+//  private Tree<Element> _lexical;
+//  
+//  public Tree<Element> lexical() {
+//  	if(_lexical == null) {
+//  		_lexical = new Tree<Element>() {
+//
+//				@Override
+//				public Element parent(Element element) {
+//					return ElementImpl.this.actualParent();
+//				}
+//			};
+//  	}
+//  	return _lexical;
+//  }
+//	private Tree<Element> _logical;
+
+	
 	/**
 	 * For debugging purposes. Invoke enableParentListening() to enable this functionality.
 	 */
@@ -308,12 +339,16 @@ public abstract class ElementImpl implements Element {
 	/**
 	 * Return the parent of this element
 	 */
-	public final Element parent() {
+	public final Element actualParent() {
 		if(_parentLink != null) {
 			return _parentLink.getOtherEnd();
 		} else {
 			return _parent;
 		}
+	}
+	
+	public final Element parent() {
+		return lexical().parent(this);
 	}
 
 	/**
@@ -1135,7 +1170,41 @@ public abstract class ElementImpl implements Element {
 		 return result;
 	 }
 
-	 public static class ConflictProblem extends BasicProblem {
+	 public static class LogicalNavigator extends TreeNavigator<Element> {
+		@Override
+		public Element parent(Element element) {
+			return ((ElementImpl)element).actualParent();
+		}
+
+		@Override
+		public TreeNavigator<Element> tree(Element element) {
+			return element.logical();
+		}
+
+		@Override
+		public List<? extends Element> children(Element element) {
+			return element.children();
+		}
+	}
+
+	public static class LexicalNavigator extends TreeNavigator<Element> {
+		@Override
+		public Element parent(Element element) {
+			return ((ElementImpl)element).actualParent();
+		}
+
+		@Override
+		public TreeNavigator<Element> tree(Element element) {
+			return element.lexical();
+		}
+
+		@Override
+		public List<? extends Element> children(Element element) {
+			return element.children();
+		}
+	}
+
+	public static class ConflictProblem extends BasicProblem {
 
 		 private Conflict<ChameleonProperty> _conflict;
 

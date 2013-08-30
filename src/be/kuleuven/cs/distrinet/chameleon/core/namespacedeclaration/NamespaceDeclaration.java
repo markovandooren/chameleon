@@ -10,6 +10,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
+import be.kuleuven.cs.distrinet.chameleon.core.element.TreeNavigator;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
@@ -43,6 +44,23 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
   static {
     excludeFieldName(NamespaceDeclaration.class,"_namespaceLink");
   }
+  
+  private static TreeNavigator<Element> _logical = new LogicalNavigator() {
+
+		@Override
+		public Element parent(Element element) {
+			if(element instanceof NamespaceDeclaration) {
+				return element.namespace();
+			} else {
+				// If for some reason someone should pass another object, use the lexical structure.
+				return super.parent(element);
+			}
+		}
+	};
+	
+	public TreeNavigator<Element> logical() {
+		return _logical;
+	}
   
 	private final class DefaultNamespaceSelector implements LookupContextSelector {
 		public LookupContext strategy() throws LookupException {

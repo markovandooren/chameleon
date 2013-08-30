@@ -67,6 +67,10 @@ public interface Element {
      */
     public Element parent();
     
+    public TreeNavigator<Element> lexical();
+    
+    public TreeNavigator<Element> logical();
+    
     /**
      * Return the object representing the <b>bidirectional</b>link to the parent of this element.
      * 
