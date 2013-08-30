@@ -154,12 +154,9 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 	
 	private LinkedList<Element> _elements = new LinkedList<>();
 	
-	private ArrayList<Object> done = new ArrayList<>();
-	
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPerform(final Element element) throws Nothing {
-		done.add(element);
 		try {
 			if(! _elements.isEmpty()) {
 				if(_crossReferencePredicate.eval(element)) {
@@ -172,12 +169,12 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 							return _declarationPredicate.eval(_declarationMapper.apply(t));
 						}
 					};
-					D container = decl.nearestAncestorOrSelf(predicate);
-					if(container == null) {
-						Namespace namespace = decl.namespace();
-						container = namespace.nearestAncestorOrSelf(predicate);
-					}
-					
+//					D container = decl.nearestAncestorOrSelf(predicate);
+//					if(container == null) {
+//						Namespace namespace = decl.namespace();
+//						container = namespace.nearestAncestorOrSelf(predicate);
+//					}
+					D container = decl.logical().nearestAncestorOrSelf(decl,predicate);
 					if(container != null) {
 						for(Element e: _elements) {
 							// SLOW mapping is applied twice, but that should be peanuts compared
