@@ -1,6 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -18,13 +19,14 @@ import be.kuleuven.cs.distrinet.chameleon.analysis.AnalysisOptions;
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyAnalysis;
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyResult;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
-import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
+import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.util.Projects;
 import be.kuleuven.cs.distrinet.chameleon.util.action.TopDown;
-import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
+import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
+import be.kuleuven.cs.distrinet.chameleon.workspace.View;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 
 public class AnalyseDependencies extends Action {
@@ -104,14 +106,26 @@ public class AnalyseDependencies extends Action {
 		if(project != null) {
 			TopDown<Element, Nothing> topDown = new TopDown<>(analysis);
 			try {
-//				project.applyToSource(topDown);
-				List<Document> sourceDocuments = project.sourceDocuments();
-				monitor.beginTask("Analyzing sources", sourceDocuments.size());
-				for(Document document: sourceDocuments) {
-					monitor.worked(1);
-					topDown.perform(document);
+				project.applyToSource(topDown);
+				Set<Namespace> namespaces = new HashSet<>();
+				for(View view: project.views()) {
+					for(DocumentLoader loader: view.sourceLoaders()) {
+						namespaces.addAll(loader.namespaces());
+					}
 				}
-			} catch (InputException e) {
+				for(Namespace namespace: namespaces) {
+					namespace.apply(topDown);
+				}
+//				view.namespace().apply(topDown);
+				
+				
+//				List<Document> sourceDocuments = project.sourceDocuments();
+//				monitor.beginTask("Analyzing sources", sourceDocuments.size());
+//				for(Document document: sourceDocuments) {
+//					monitor.worked(1);
+//					topDown.perform(document);
+//				}
+			} catch (Exception e) {
 			}
 		}
 		return analysis;
