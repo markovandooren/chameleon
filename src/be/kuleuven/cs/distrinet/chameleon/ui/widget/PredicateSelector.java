@@ -14,7 +14,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
  *
  * @param <T> The type of objects that can be selected by the generated predicates.
  */
-public abstract class PredicateSelector<T> extends Selector<T> {
+public abstract class PredicateSelector<T> extends Selector {
 
 	/**
 	 * Create a predicate based on the current state of the user interface element.

@@ -19,24 +19,24 @@ public abstract class OptionGroup {
 	private String _name;
 	
 	public void createControls(WidgetFactory<?> widgetFactory) {
-		for(Selector<?> selector:selectors()) {
+		for(Selector selector:selectors()) {
 			selector.createControl(widgetFactory);
 		}
 	}
 	
 	
-	protected void add(Selector<?> selector) {
+	protected void add(Selector selector) {
 		_selectors.add(selector);
 	}
 	
-	private List<Selector<?>> _selectors = new ArrayList<>();
+	private List<Selector> _selectors = new ArrayList<>();
 
-	protected List<? extends Selector<?>> selectors() {
+	protected List<? extends Selector> selectors() {
 		return _selectors;
 	}	
 	
 	public void setContext(Object context) {
-		for(Selector<?> selector: _selectors) {
+		for(Selector selector: _selectors) {
 			selector.setContext(context);
 		}
 	}

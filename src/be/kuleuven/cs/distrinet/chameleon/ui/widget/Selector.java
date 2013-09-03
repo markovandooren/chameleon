@@ -1,6 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.ui.widget;
 
-public abstract class Selector<T> {
+public abstract class Selector {
 
 	/**
 	 * Create a control with the given factory.
@@ -14,7 +14,7 @@ public abstract class Selector<T> {
    @
    @ post \result != null;
    @*/
-	public abstract <W> SelectionController createControl(WidgetFactory<W> factory);
+	public abstract <W> SelectionController<? extends W> createControl(WidgetFactory<W> factory);
 	
 	/**
 	 * Set the context for the selector. This may update the user interface

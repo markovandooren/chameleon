@@ -27,7 +27,7 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
-import be.kuleuven.cs.distrinet.rejuse.tree.TreeNavigator;
+import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
 
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
@@ -45,7 +45,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
     excludeFieldName(NamespaceDeclaration.class,"_namespaceLink");
   }
   
-  private static TreeNavigator<Element> _logical = new LogicalNavigator() {
+  private static TreeStructure<Element> _logical = new LogicalNavigator() {
 
 		@Override
 		public Element parent(Element element) {
@@ -58,7 +58,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		}
 	};
 	
-	public TreeNavigator<Element> logical() {
+	public TreeStructure<Element> logical() {
 		return _logical;
 	}
   

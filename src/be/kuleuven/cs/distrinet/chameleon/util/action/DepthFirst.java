@@ -6,7 +6,7 @@ import be.kuleuven.cs.distrinet.rejuse.action.Action;
 
 public class DepthFirst<T extends Element, E extends Exception> extends Sequence<T,E> {
 
-	public DepthFirst(Walker<T, ? extends E> walker) {
+	public DepthFirst(TreeAction<T, ? extends E> walker) {
 		super(walker.type(),null, walker);
 		setFirst(new Recurse<T,E>(this));
 	}

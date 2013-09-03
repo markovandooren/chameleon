@@ -47,7 +47,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.Conflict;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
-import be.kuleuven.cs.distrinet.rejuse.tree.TreeNavigator;
+import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
 
 import com.google.common.collect.ImmutableList;
 
@@ -84,17 +84,17 @@ public abstract class ElementImpl implements Element {
 		//	  	});
 	}
 	
-	private static TreeNavigator<Element> _lexical = new LexicalNavigator();
+	private static TreeStructure<Element> _lexical = new LexicalNavigator();
 	
 	@Override
-	public TreeNavigator<Element> lexical() {
+	public TreeStructure<Element> lexical() {
 		return _lexical;
 	}
 	
-	private static TreeNavigator<Element> _logical = new LogicalNavigator();
+	private static TreeStructure<Element> _logical = new LogicalNavigator();
 	
 	@Override
-	public TreeNavigator<Element> logical() {
+	public TreeStructure<Element> logical() {
 		return _logical;
 	}
 	
@@ -1162,14 +1162,14 @@ public abstract class ElementImpl implements Element {
 		 return result;
 	 }
 
-	 public static class LogicalNavigator extends TreeNavigator<Element> {
+	 public static class LogicalNavigator extends TreeStructure<Element> {
 		@Override
 		public Element parent(Element element) {
 			return ((ElementImpl)element).actualParent();
 		}
 
 		@Override
-		public TreeNavigator<Element> tree(Element element) {
+		public TreeStructure<Element> tree(Element element) {
 			return element.logical();
 		}
 
@@ -1179,14 +1179,14 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 
-	public static class LexicalNavigator extends TreeNavigator<Element> {
+	public static class LexicalNavigator extends TreeStructure<Element> {
 		@Override
 		public Element parent(Element element) {
 			return ((ElementImpl)element).actualParent();
 		}
 
 		@Override
-		public TreeNavigator<Element> tree(Element element) {
+		public TreeStructure<Element> tree(Element element) {
 			return element.lexical();
 		}
 

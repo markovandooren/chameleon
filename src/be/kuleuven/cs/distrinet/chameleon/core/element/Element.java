@@ -23,7 +23,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
-import be.kuleuven.cs.distrinet.rejuse.tree.TreeNavigator;
+import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
 
 /**
  * Element is the top interface for an element of a source model. Every lexical language construct (every
@@ -68,9 +68,9 @@ public interface Element {
      */
     public Element parent();
     
-    public TreeNavigator<Element> lexical();
+    public TreeStructure<Element> lexical();
     
-    public TreeNavigator<Element> logical();
+    public TreeStructure<Element> logical();
     
     /**
      * Return the object representing the <b>bidirectional</b>link to the parent of this element.
