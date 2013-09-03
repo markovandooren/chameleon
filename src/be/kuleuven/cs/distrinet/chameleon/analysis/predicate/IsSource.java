@@ -7,9 +7,9 @@ import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
 import be.kuleuven.cs.distrinet.chameleon.workspace.View;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
+import be.kuleuven.cs.distrinet.rejuse.tree.TreePredicate;
 
-public class IsSource extends UniversalPredicate<Element,Nothing> {
+public class IsSource extends TreePredicate<Element,Nothing> {
 
 	public IsSource() {
 		super(Element.class);
@@ -23,6 +23,24 @@ public class IsSource extends UniversalPredicate<Element,Nothing> {
 			for(DocumentLoader loader:sourceLoaders) {
 				if(loader.namespaces().contains(element)) {
 					return true;
+				}
+			}
+			return false;
+		} else {
+			return view.isSource(element);
+		}
+	}
+
+	@Override
+	public boolean canSucceedBeyond(Element element) throws Nothing {
+		View view = element.view();
+		if(element instanceof Namespace) {
+			List<DocumentLoader> sourceLoaders = view.sourceLoaders();
+			for(DocumentLoader loader:sourceLoaders) {
+				for(Namespace ns: loader.namespaces()) {
+					if(ns == element || ns.hasAncestor(element)) {
+						return true;
+					}
 				}
 			}
 			return false;

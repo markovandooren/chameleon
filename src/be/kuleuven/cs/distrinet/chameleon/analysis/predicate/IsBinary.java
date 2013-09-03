@@ -7,9 +7,9 @@ import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
 import be.kuleuven.cs.distrinet.chameleon.workspace.View;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
+import be.kuleuven.cs.distrinet.rejuse.tree.TreePredicate;
 
-public class IsBinary extends UniversalPredicate<Element,Nothing> {
+public class IsBinary extends TreePredicate<Element,Nothing> {
 
 	public IsBinary() {
 		super(Element.class);
@@ -23,6 +23,24 @@ public class IsBinary extends UniversalPredicate<Element,Nothing> {
 			for(DocumentLoader loader:binaryLoaders) {
 				if(loader.namespaces().contains(element)) {
 					return true;
+				}
+			}
+			return false;
+		} else {
+			return view.isBinary(element);
+		}
+	}
+
+	@Override
+	public boolean canSucceedBeyond(Element element) throws Nothing {
+		View view = element.view();
+		if(element instanceof Namespace) {
+			List<DocumentLoader> binaryLoaders = view.binaryLoaders();
+			for(DocumentLoader loader:binaryLoaders) {
+				for(Namespace ns: loader.namespaces()) {
+					if(ns == element || ns.hasAncestor(element)) {
+						return true;
+					}
 				}
 			}
 			return false;
