@@ -1,13 +1,9 @@
 package be.kuleuven.cs.distrinet.chameleon.util.action;
 
-import be.kuleuven.cs.distrinet.chameleon.util.StackOverflowTracer;
-
-
+import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
 
 public class Sequence<T,E extends Exception> extends TreeAction<T,E> {
 	
-	StackOverflowTracer _tracer = new StackOverflowTracer(100);
-
 	public Sequence(TreeAction<T, ? extends E> first, TreeAction<? super T, ? extends E> second) {
 		super(first.type());
 		_first = first;
@@ -49,5 +45,13 @@ public class Sequence<T,E extends Exception> extends TreeAction<T,E> {
 		second().exit(element);
 		first().exit(element);
 	}
-
+	@Override
+	public void traverse(T element, TreeStructure<? extends T> tree) throws E {          
+		first().enter(element);
+		first().traverse(element,tree);
+		second().enter(element);
+		second().traverse(element,tree);
+		second().exit(element);
+		first().exit(element);
+	}
 }

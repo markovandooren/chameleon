@@ -1,6 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.util.action;
 
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
+import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
 
 /**
  * A class of objects for traversing a tree structure. In addition
@@ -77,5 +78,9 @@ public abstract class TreeAction<T, E extends Exception> extends Action<T,E> {
 	 * @param node The node that has been exited.
 	 */
 	public void doExit(T node) {
+	}
+	
+	public void traverse(T element, TreeStructure<? extends T> tree) throws E {
+		perform(element);
 	}
 }
