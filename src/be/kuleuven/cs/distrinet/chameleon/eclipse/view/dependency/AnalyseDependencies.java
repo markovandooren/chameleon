@@ -17,6 +17,7 @@ import org.eclipse.ui.IFileEditorInput;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.AnalysisOptions;
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyAnalysis;
+import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyOptions;
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyResult;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
@@ -77,12 +78,11 @@ public class AnalyseDependencies extends Action {
 						// Obtaining the document can trigger loading of a chameleon background project.
 						// We must do this inside the Job to avoid blocking the UI.
 						final Project project = currentProject();
-						final DependencyAnalysis<Declaration, Declaration> analysis = performAnalysis(project,monitor);				
+						final DependencyResult result = performAnalysis(project,monitor);
 						// If you want to update the UI
 						Display.getDefault().syncExec(new Runnable(){
 							@Override
 							public void run() {
-								DependencyResult result = analysis.result();
 								if(result != null) {
 									AnalyseDependencies.this._dependencyView._viewer.setInput(result);
 								}
@@ -101,34 +101,25 @@ public class AnalyseDependencies extends Action {
 	}
 
 	@SuppressWarnings("rawtypes")
-	protected DependencyAnalysis<Declaration, Declaration> performAnalysis(Project project, IProgressMonitor monitor) {
-		final DependencyAnalysis<Declaration, Declaration> analysis = (DependencyAnalysis)_options.createAnalysis();
-		if(project != null) {
-			TopDown<Element, Nothing> topDown = new TopDown<>(analysis);
-			try {
-				project.applyToSource(topDown);
-				Set<Namespace> namespaces = new HashSet<>();
-				for(View view: project.views()) {
-					for(DocumentLoader loader: view.sourceLoaders()) {
-						namespaces.addAll(loader.namespaces());
-					}
-				}
-				for(Namespace namespace: namespaces) {
-					namespace.apply(topDown);
-				}
-//				view.namespace().apply(topDown);
-				
-				
-//				List<Document> sourceDocuments = project.sourceDocuments();
-//				monitor.beginTask("Analyzing sources", sourceDocuments.size());
-//				for(Document document: sourceDocuments) {
-//					monitor.worked(1);
-//					topDown.perform(document);
+	protected DependencyResult performAnalysis(Project project, IProgressMonitor monitor) {
+		return ((DependencyOptions)_options).createAnalysis();
+//		final DependencyAnalysis<Declaration, Declaration> analysis = (DependencyAnalysis)_options.createAnalysis();
+//		if(project != null) {
+//			TopDown<Element, Nothing> topDown = new TopDown<>(analysis);
+//			try {
+//				Set<Namespace> namespaces = new HashSet<>();
+//				for(View view: project.views()) {
+//					for(DocumentLoader loader: view.sourceLoaders()) {
+//						namespaces.addAll(loader.namespaces());
+//					}
 //				}
-			} catch (Exception e) {
-			}
-		}
-		return analysis;
+//				for(Namespace namespace: namespaces) {
+//					namespace.apply(topDown);
+//				}
+//			} catch (Exception e) {
+//			}
+//		}
+//		return analysis.result();
 	}
 	
 
