@@ -137,7 +137,19 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		return view().project();
 	}
 
-	private OrderedMultiAssociation<DocumentLoaderImpl, InputSource> _inputSources = new OrderedMultiAssociation<DocumentLoaderImpl, InputSource>(this);
+	private OrderedMultiAssociation<DocumentLoaderImpl, InputSource> _inputSources = new OrderedMultiAssociation<DocumentLoaderImpl, InputSource>(this) {
+		protected void fireElementAdded(InputSource addedElement) {
+			flushLocalCache();
+		};
+		
+		protected void fireElementRemoved(InputSource addedElement) {
+			flushLocalCache();
+		};
+		
+		protected void fireElementReplaced(InputSource oldElement, InputSource newElement) {
+			flushLocalCache();
+		};
+	};
 
 	/**
 	 * Add the given input source.
@@ -237,6 +249,7 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 
 	protected void flushLocalCache() {
 		_documentsCache = null;
+		_namespaceCache = null;
 	}
 
 	@Override
@@ -283,12 +296,17 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	}
 
 	public Set<Namespace> namespaces() {
-		ImmutableSet.Builder<Namespace> builder = ImmutableSet.<Namespace>builder();
-		for(InputSource source: inputSources()) {
-			builder.add(source.namespace());
+		if(_namespaceCache == null) {
+			ImmutableSet.Builder<Namespace> builder = ImmutableSet.<Namespace>builder();
+			for(InputSource source: inputSources()) {
+				builder.add(source.namespace());
+			}
+			_namespaceCache = builder.build(); 
 		}
-		return builder.build();
+		return _namespaceCache;
 	}
+	
+	private Set<Namespace> _namespaceCache;
 
 	@Override
 	public int nbInputSources() {
