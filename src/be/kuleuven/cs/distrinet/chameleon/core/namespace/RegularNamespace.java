@@ -76,18 +76,18 @@ public class RegularNamespace extends NamespaceImpl {
 	 * NAMESPACE PARTS *
 	 *******************/
 
-	private Multi<NamespaceDeclaration> _namespaceParts = new Multi<NamespaceDeclaration>(this,"namespace parts");
+	private Multi<NamespaceDeclaration> _namespaceDeclarations = new Multi<NamespaceDeclaration>(this,"namespace parts");
 	{
-		_namespaceParts.enableCache();
+		_namespaceDeclarations.enableCache();
 	}
 
 	public synchronized void addNamespacePart(NamespaceDeclaration namespacePart){
-		_namespaceParts.add((Association)namespacePart.namespaceLink());
+		_namespaceDeclarations.add((Association)namespacePart.namespaceLink());
 		flushLocalCache();
 	}
 
 	public List<NamespaceDeclaration> getNamespaceParts(){
-		return _namespaceParts.getOtherEnds();
+		return _namespaceDeclarations.getOtherEnds();
 	}
 
 	protected RegularNamespace cloneSelf() {
