@@ -5,6 +5,7 @@ import java.util.Set;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.predicate.False;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
+import be.kuleuven.cs.distrinet.rejuse.tree.TreePredicate;
 
 public abstract class TristateTreePruner<X,Y> {
 	
@@ -12,47 +13,47 @@ public abstract class TristateTreePruner<X,Y> {
 		_next = next;
 	}
 	
-	public UniversalPredicate<? super Y, Nothing> create(TreeNode<?, X> treeNode, Set<TreeNode<?,X>> checked, Set<TreeNode<?,X>> grayed) {
+	public TreePredicate<? super Y, Nothing> create(TreeNode<?, X> treeNode, Set<TreeNode<?,X>> checked, Set<TreeNode<?,X>> grayed) {
 		return create(treeNode, checked, grayed, this);
 	}
 
 	private TristateTreePruner<X, Y> _next;
 
-	protected UniversalPredicate<? super Y, Nothing> create(
+	protected TreePredicate<? super Y, Nothing> create(
 			TreeNode<?, X> treeNode, 
 			Set<TreeNode<?,X>> checked, 
 			Set<TreeNode<?,X>> grayed,
 			TristateTreePruner<X,Y> first) {
 		
-		UniversalPredicate<? super Y, Nothing> result = null;
+		TreePredicate<? super Y, Nothing> result = null;
 		if(checked.contains(treeNode)) {
 			result = checked(treeNode,checked,grayed, first);
 		} else if(grayed.contains(treeNode)) {
 			result = grayed(treeNode,checked,grayed, first);
 		}	else {
-			result = new False();
+			result = TreePredicate.False();
 		}
 		if(result == null) {
 			if(_next != null) {
 				result = _next.create(treeNode, checked, grayed, first);
 			} else {
-				result = new False();
+				result = TreePredicate.False();
 			}
 		}
 		return result;
 	}
 	
-	public UniversalPredicate<? super Y, Nothing> childrenDisjunction(TreeNode<?,X> node, Set<TreeNode<?,X>> checked,
+	public TreePredicate<? super Y, Nothing> childrenDisjunction(TreeNode<?,X> node, Set<TreeNode<?,X>> checked,
 			Set<TreeNode<?,X>> grayed,TristateTreePruner<X,Y>  first) {
-		UniversalPredicate<? super Y, Nothing> result = new False();
+		TreePredicate<? super Y, Nothing> result = TreePredicate.False();
 		for(TreeNode<?,X> child: node.children()) {
-			result = result.or((UniversalPredicate)create(child, checked, grayed,first));
+			result = result.or((TreePredicate)create(child, checked, grayed,first));
 		}
 		return result;
 	}
 
 
-	protected abstract UniversalPredicate<? super Y, Nothing> grayed(TreeNode<?,X> node, Set<TreeNode<?,X>> checked, Set<TreeNode<?,X>> grayed,TristateTreePruner<X,Y>  first);
+	protected abstract TreePredicate<? super Y, Nothing> grayed(TreeNode<?,X> node, Set<TreeNode<?,X>> checked, Set<TreeNode<?,X>> grayed,TristateTreePruner<X,Y>  first);
 
-	protected abstract UniversalPredicate<? super Y, Nothing> checked(TreeNode<?,X> node, Set<TreeNode<?,X>> checked, Set<TreeNode<?,X>> grayed,TristateTreePruner<X,Y>  first);
+	protected abstract TreePredicate<? super Y, Nothing> checked(TreeNode<?,X> node, Set<TreeNode<?,X>> checked, Set<TreeNode<?,X>> grayed,TristateTreePruner<X,Y>  first);
 }
