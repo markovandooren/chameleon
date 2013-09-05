@@ -17,7 +17,6 @@ import be.kuleuven.cs.distrinet.chameleon.core.property.StaticChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.core.relation.EquivalenceRelation;
 import be.kuleuven.cs.distrinet.chameleon.core.relation.StrictPartialOrder;
-import be.kuleuven.cs.distrinet.chameleon.core.relation.WeakPartialOrder;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.Member;
 import be.kuleuven.cs.distrinet.chameleon.oo.method.Method;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.DerivedType;
@@ -166,7 +165,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	/**
 	 * Return the relation that determines when a member overrides another
 	 */
-	public abstract WeakPartialOrder<Type> subtypeRelation();
+	public abstract SubtypeRelation subtypeRelation();
 	
 //	/**
 //	 * Return the relation that determines when a member overrides another
@@ -243,4 +242,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	public abstract TypeReference createNonLocalTypeReference(TypeReference tref, Element lookupParent);
 	
 	public abstract <E extends Element> E replace(TypeReference replacement, Declaration declarator, E in, Class<E> kind) throws LookupException;
+	
+	public abstract TypeReference reference(Type type) throws LookupException;
+
 }
