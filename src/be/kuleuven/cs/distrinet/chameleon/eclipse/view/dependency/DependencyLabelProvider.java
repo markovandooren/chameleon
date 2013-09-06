@@ -1,5 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency;
 
+import org.eclipse.draw2d.ConnectionRouter;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -17,7 +18,7 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.Variable;
 
-class DependencyLabelProvider extends LabelProvider implements IConnectionStyleProvider, IEntityStyleProvider {
+class DependencyLabelProvider extends LabelProvider implements IConnectionStyleProvider, IEntityStyleProvider, org.eclipse.gef4.zest.core.viewers.IConnectionStyleProvider, org.eclipse.gef4.zest.core.viewers.IEntityStyleProvider {
 		
 		
 		@Override
@@ -106,6 +107,12 @@ class DependencyLabelProvider extends LabelProvider implements IConnectionStyleP
 		@Override
 		public boolean fisheyeNode(Object entity) {
 			return false;
+		}
+
+		@Override
+		public ConnectionRouter getRouter(Object rel) {
+			// Default implementation as per the javadocs of Zest 2.
+			return null;
 		}
 		
 	}

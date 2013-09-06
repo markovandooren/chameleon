@@ -84,7 +84,7 @@ public class AnalyseDependencies extends Action {
 							@Override
 							public void run() {
 								if(result != null) {
-									AnalyseDependencies.this._dependencyView._viewer.setInput(result);
+									AnalyseDependencies.this._dependencyView._viewer2.setInput(result);
 								}
 							}
 						});
@@ -102,7 +102,7 @@ public class AnalyseDependencies extends Action {
 
 	@SuppressWarnings("rawtypes")
 	protected DependencyResult performAnalysis(Project project, IProgressMonitor monitor) {
-		return ((DependencyOptions)_options).createAnalysis();
+		return ((DependencyOptions)_options).analyze();
 //		final DependencyAnalysis<Declaration, Declaration> analysis = (DependencyAnalysis)_options.createAnalysis();
 //		if(project != null) {
 //			TopDown<Element, Nothing> topDown = new TopDown<>(analysis);

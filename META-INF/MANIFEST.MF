@@ -156,7 +156,16 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.zest.core;bundle-version="1.5.0",
  org.eclipse.zest.layouts;bundle-version="1.1.0",
  org.eclipse.core.expressions;bundle-version="3.4.500",
- org.eclipse.e4.ui.di
+ org.eclipse.e4.ui.di,
+ org.eclipse.gef4.geometry;bundle-version="0.1.0",
+ org.eclipse.gef4.geometry.convert.swt;bundle-version="0.1.0",
+ org.eclipse.gef4.graphics;bundle-version="0.1.0",
+ org.eclipse.gef4.graphics.swt;bundle-version="0.1.0",
+ org.eclipse.gef4.zest.cloudio;bundle-version="0.1.0",
+ org.eclipse.gef4.zest.core;bundle-version="0.1.0",
+ org.eclipse.gef4.zest.dot.core;bundle-version="0.1.0",
+ org.eclipse.gef4.zest.jface;bundle-version="0.1.0",
+ org.eclipse.gef4.zest.layouts;bundle-version="0.1.0"
 Eclipse-BuddyPolicy: registered
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

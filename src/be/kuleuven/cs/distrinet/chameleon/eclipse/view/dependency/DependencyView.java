@@ -7,6 +7,13 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.gef4.zest.layouts.LayoutAlgorithm;
+import org.eclipse.gef4.zest.layouts.algorithms.CompositeLayoutAlgorithm;
+import org.eclipse.gef4.zest.layouts.algorithms.DirectedGraphLayoutAlgorithm;
+import org.eclipse.gef4.zest.layouts.algorithms.HorizontalShiftAlgorithm;
+import org.eclipse.gef4.zest.layouts.algorithms.RadialLayoutAlgorithm;
+import org.eclipse.gef4.zest.layouts.algorithms.SpaceTreeLayoutAlgorithm;
+import org.eclipse.gef4.zest.layouts.algorithms.SpringLayoutAlgorithm;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -26,7 +33,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IPartListener;
@@ -39,15 +45,6 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.zest.core.viewers.AbstractZoomableViewer;
 import org.eclipse.zest.core.viewers.GraphViewer;
 import org.eclipse.zest.core.viewers.IZoomableWorkbenchPart;
-import org.eclipse.zest.core.viewers.ZoomContributionViewItem;
-import org.eclipse.zest.layouts.LayoutAlgorithm;
-import org.eclipse.zest.layouts.LayoutStyles;
-import org.eclipse.zest.layouts.algorithms.CompositeLayoutAlgorithm;
-import org.eclipse.zest.layouts.algorithms.DirectedGraphLayoutAlgorithm;
-import org.eclipse.zest.layouts.algorithms.HorizontalShift;
-import org.eclipse.zest.layouts.algorithms.RadialLayoutAlgorithm;
-import org.eclipse.zest.layouts.algorithms.SpringLayoutAlgorithm;
-import org.eclipse.zest.layouts.algorithms.TreeLayoutAlgorithm;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.AnalysisOptions;
 import be.kuleuven.cs.distrinet.chameleon.analysis.OptionGroup;
@@ -121,33 +118,18 @@ public class DependencyView extends ViewPart implements IZoomableWorkbenchPart {
 		_controlContainer = parent;
 		GridLayout gridLayout = new GridLayout(2,false);
 		parent.setLayout(gridLayout);
-		addGraphViewer(parent);
+//		addGraphViewer(parent);
+		addZest2GraphViewer(parent);
 		initStack(parent);
 		registerPartListener();
 		
 		
-//		parent.addControlListener(new ControlListener(){
-//		
-//			@Override
-//			public void controlResized(ControlEvent e) {
-//				int width = ((Composite)e.widget).getBounds().width;
-//				GridData layoutData = (GridData) _stack.getLayoutData();
-//				if(layoutData != null) {
-//					layoutData.widthHint = (int) (0.25 * width);
-//				}
-//			}
-//		
-//			@Override
-//			public void controlMoved(ControlEvent e) {
-//			}
-//		});
-		
-    ZoomContributionViewItem toolbarZoomContributionViewItem = new ZoomContributionViewItem(this);
-    IActionBars bars = getViewSite().getActionBars();
-    bars.getMenuManager().add(toolbarZoomContributionViewItem);
+//    ZoomContributionViewItem toolbarZoomContributionViewItem = new ZoomContributionViewItem(this);
+//    IActionBars bars = getViewSite().getActionBars();
+//    bars.getMenuManager().add(toolbarZoomContributionViewItem);
 	}
 	
-	private Map<String, LayoutAlgorithm> _layouts = new HashMap<>();
+	private Map<String, org.eclipse.gef4.zest.layouts.LayoutAlgorithm> _layouts = new HashMap<>();
 	
 	private void initStack(Composite parent) {
 		_stack = new Composite(parent, SWT.NONE);
@@ -321,66 +303,130 @@ public class DependencyView extends ViewPart implements IZoomableWorkbenchPart {
 //	}
 //	private SelectorList _dependencyTab;
 
-	protected void addGraphViewer(Composite parent) {
-		_viewer = new GraphViewer(parent, SWT.NONE);
-		_viewer.getGraphControl().setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
-		_viewer.setContentProvider(new DependencyContentProvider());
-		_viewer.setLabelProvider(new DependencyLabelProvider());
-		// Start with an empty model.
-		_viewer.setInput(new DependencyResult());
-
-////	int style = LayoutStyles.NONE;
+	protected void addZest2GraphViewer(Composite parent) {
+		_viewer2 = new org.eclipse.gef4.zest.core.viewers.GraphViewer(parent, SWT.NONE);
+		_viewer2.getGraphControl().setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
+		_viewer2.setContentProvider(new DependencyContentProvider());
+		_viewer2.setInput(new DependencyResult());
+		_viewer2.setLabelProvider(new DependencyLabelProvider());
 		
-		// SPRING
-		int style = LayoutStyles.NO_LAYOUT_NODE_RESIZING;
-		SpringLayoutAlgorithm spring = new SpringLayoutAlgorithm(
-				style 
-				);
-		;
-		spring.setSpringLength(SpringLayoutAlgorithm.DEFAULT_SPRING_LENGTH * 2);
-		CompositeLayoutAlgorithm springAlgorithm = new CompositeLayoutAlgorithm(
-				new LayoutAlgorithm[]{
-						spring,
-						new HorizontalShift(style)
-				});
-
-		String springName = "Spring";
-		_layouts.put(springName, springAlgorithm);
-		_layoutList.add(springName);
-		DirectedGraphLayoutAlgorithm directed = new DirectedGraphLayoutAlgorithm(style);
+		String directedName = "Directed";
+		DirectedGraphLayoutAlgorithm directed = new DirectedGraphLayoutAlgorithm();
 		CompositeLayoutAlgorithm directedAlgorithm = new CompositeLayoutAlgorithm(
 				new LayoutAlgorithm[]{
 						directed,
-						new HorizontalShift(style)
+						new HorizontalShiftAlgorithm()
 				});
-		String directedName = "Directed";
 		_layouts.put(directedName, directedAlgorithm);
 		_layoutList.add(directedName);
+
+//		String sugiyamaName = "Sugiyama";
+//		DirectedGraphLayoutAlgorithm sugiyama = new DirectedGraphLayoutAlgorithm();
+//		CompositeLayoutAlgorithm sugiyamaAlgorithm = new CompositeLayoutAlgorithm(
+//				new LayoutAlgorithm[]{
+//						sugiyama,
+//						new HorizontalShiftAlgorithm()
+//				});
+//		_layouts.put(sugiyamaName, sugiyamaAlgorithm);
+//		_layoutList.add(sugiyamaName);
 		
-		RadialLayoutAlgorithm radial = new RadialLayoutAlgorithm(style);
+		RadialLayoutAlgorithm radial = new RadialLayoutAlgorithm();
 		String radialName = "Radial";
 		CompositeLayoutAlgorithm radialAlgorithm = new CompositeLayoutAlgorithm(
 				new LayoutAlgorithm[]{
 						radial,
-						new HorizontalShift(style)
+						new HorizontalShiftAlgorithm()
 				});
 		_layouts.put(radialName, radialAlgorithm);
 		_layoutList.add(radialName);
-		
-		TreeLayoutAlgorithm tree = new RadialLayoutAlgorithm(style);
-		String treeName = "Tree";
-		CompositeLayoutAlgorithm treeAlgorithm = new CompositeLayoutAlgorithm(
+
+		String springName = "Spring";
+		SpringLayoutAlgorithm spring = new SpringLayoutAlgorithm();
+		CompositeLayoutAlgorithm springAlgorithm = new CompositeLayoutAlgorithm(
 				new LayoutAlgorithm[]{
-						tree,
-						new HorizontalShift(style)
+						spring,
+						new HorizontalShiftAlgorithm()
 				});
-		_layouts.put(treeName, treeAlgorithm);
-		_layoutList.add(treeName);
-		
-		
-		_viewer.setLayoutAlgorithm(springAlgorithm,true);
-		_viewer.applyLayout();
+		_layouts.put(springName, springAlgorithm);
+		_layoutList.add(springName);
+
+//		String spaceTreeName = "Space Tree";
+//		SpaceTreeLayoutAlgorithm spaceTree = new SpaceTreeLayoutAlgorithm();
+//		CompositeLayoutAlgorithm spaceTreeAlgorithm = new CompositeLayoutAlgorithm(
+//				new LayoutAlgorithm[]{
+//						spaceTree,
+//						new HorizontalShiftAlgorithm()
+//				});
+//		_layouts.put(spaceTreeName, spaceTreeAlgorithm);
+//		_layoutList.add(spaceTreeName);
+
+		_viewer2.getGraphControl().setLayoutAlgorithm(directed, true);
+		_viewer2.applyLayout();
 	}
+	
+	org.eclipse.gef4.zest.core.viewers.GraphViewer _viewer2;
+	
+	
+//	protected void addGraphViewer(Composite parent) {
+//		_viewer = new GraphViewer(parent, SWT.NONE);
+//		_viewer.getGraphControl().setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
+//		_viewer.setContentProvider(new DependencyContentProvider());
+//		_viewer.setLabelProvider(new DependencyLabelProvider());
+//		// Start with an empty model.
+//		_viewer.setInput(new DependencyResult());
+//
+//////	int style = LayoutStyles.NONE;
+//		
+//		// SPRING
+//		int style = LayoutStyles.NO_LAYOUT_NODE_RESIZING;
+//		SpringLayoutAlgorithm spring = new SpringLayoutAlgorithm(
+//				style 
+//				);
+//		;
+//		spring.setSpringLength(SpringLayoutAlgorithm.DEFAULT_SPRING_LENGTH * 2);
+//		CompositeLayoutAlgorithm springAlgorithm = new CompositeLayoutAlgorithm(
+//				new LayoutAlgorithm[]{
+//						spring,
+//						new HorizontalShift(style)
+//				});
+//
+//		String springName = "Spring";
+//		_layouts.put(springName, springAlgorithm);
+//		_layoutList.add(springName);
+//		DirectedGraphLayoutAlgorithm directed = new DirectedGraphLayoutAlgorithm(style);
+//		CompositeLayoutAlgorithm directedAlgorithm = new CompositeLayoutAlgorithm(
+//				new LayoutAlgorithm[]{
+//						directed,
+//						new HorizontalShift(style)
+//				});
+//		String directedName = "Directed";
+//		_layouts.put(directedName, directedAlgorithm);
+//		_layoutList.add(directedName);
+//		
+//		RadialLayoutAlgorithm radial = new RadialLayoutAlgorithm(style);
+//		String radialName = "Radial";
+//		CompositeLayoutAlgorithm radialAlgorithm = new CompositeLayoutAlgorithm(
+//				new LayoutAlgorithm[]{
+//						radial,
+//						new HorizontalShift(style)
+//				});
+//		_layouts.put(radialName, radialAlgorithm);
+//		_layoutList.add(radialName);
+//		
+//		TreeLayoutAlgorithm tree = new RadialLayoutAlgorithm(style);
+//		String treeName = "Tree";
+//		CompositeLayoutAlgorithm treeAlgorithm = new CompositeLayoutAlgorithm(
+//				new LayoutAlgorithm[]{
+//						tree,
+//						new HorizontalShift(style)
+//				});
+//		_layouts.put(treeName, treeAlgorithm);
+//		_layoutList.add(treeName);
+//		
+//		
+//		_viewer.setLayoutAlgorithm(springAlgorithm,true);
+//		_viewer.applyLayout();
+//	}
 	
 	private List<String>_layoutList = new ArrayList<>(); 
 
@@ -395,8 +441,8 @@ public class DependencyView extends ViewPart implements IZoomableWorkbenchPart {
 				Display.getDefault().syncExec(new Runnable(){
 					@Override
 					public void run() {
-						_viewer.setLayoutAlgorithm(_layouts.get(_layoutList.get(combo.getSelectionIndex())),true);
-						_viewer.applyLayout();
+						_viewer2.setLayoutAlgorithm(_layouts.get(_layoutList.get(combo.getSelectionIndex())),true);
+						_viewer2.applyLayout();
 					}
 				});
 			}
