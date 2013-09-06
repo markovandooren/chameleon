@@ -21,10 +21,34 @@ import be.kuleuven.cs.distrinet.chameleon.ui.widget.WidgetFactory;
  */
 public class TristateTreeSelector<D> extends Selector {
 
-	public TristateTreeSelector(TreeContentProvider<D> contentProvider, LabelProvider provider) {
+	private final class StateSyncListener implements TreeListener<D> {
+		@SuppressWarnings("unchecked")
+		@Override
+		public void itemChanged(TreeNode<?,D> data, boolean checked, boolean grayed) {
+			if(data != null) {
+//							D domainObject = _contentProvider.domainData((V)data);
+				TreeNode<?,D> domainObject = data;
+				if(! checked) {
+					_selected.remove(domainObject);
+					_grayed.remove(domainObject);
+				} else {
+					if(grayed) {
+						_selected.remove(domainObject);
+						_grayed.add(domainObject);
+					} else {
+						_selected.add(domainObject);
+						_grayed.remove(domainObject);
+					}
+				}
+			}
+		}
+	}
+
+	public TristateTreeSelector(TreeContentProvider<D> contentProvider, LabelProvider provider, CheckStateProvider checkStateProvider) {
 		_contentProvider = contentProvider;
 //		_generator = generator;
 		_labelProvider = provider;
+		_checkStateProvider = checkStateProvider;
 	}
 	
 	private TreeContentProvider<D> _contentProvider;
@@ -36,32 +60,12 @@ public class TristateTreeSelector<D> extends Selector {
 	@Override
 	public <W> SelectionController<? extends W> createControl(WidgetFactory<W> factory) {
 		TristateTreeController<? extends W> createTristateTree = 
-				factory.createTristateTree(_contentProvider, _labelProvider,new TreeListener<D>(){
-				
-					@SuppressWarnings("unchecked")
-					@Override
-					public void itemChanged(TreeNode<?,D> data, boolean checked, boolean grayed) {
-						if(data != null) {
-//							D domainObject = _contentProvider.domainData((V)data);
-							TreeNode<?,D> domainObject = data;
-							if(! checked) {
-								_selected.remove(domainObject);
-								_grayed.remove(domainObject);
-							} else {
-								if(grayed) {
-									_selected.remove(domainObject);
-									_grayed.add(domainObject);
-								} else {
-									_selected.add(domainObject);
-									_grayed.remove(domainObject);
-								}
-							}
-						}
-					}
-				});
+				factory.createTristateTree(_contentProvider, _labelProvider,new StateSyncListener(), _checkStateProvider);
 		_controller = createTristateTree;
 		return createTristateTree;
 	}
+
+	private CheckStateProvider<D> _checkStateProvider;
 	
 	private Set<TreeNode<? , D>> _selected= new HashSet<>();
 	private Set<TreeNode<? , D>> _grayed= new HashSet<>();
@@ -87,10 +91,11 @@ public class TristateTreeSelector<D> extends Selector {
 		_grayed.clear();
 		_grayed.add(_root);
 		_controller.setContext(_root);
-		for(TreeNode<?, D> node: _initialSelection) {
-			_controller.setChecked(node);
-		}
+//		
+//		for(TreeNode<?, D> node: _initialSelection) {
+//			_controller.setChecked(node);
+//		}
 	}
 
-	private Set<TreeNode<?,D>> _initialSelection = new HashSet<>();
+	private Set<TreeNode<?,D>> _initialChecked = new HashSet<>();
 }

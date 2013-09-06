@@ -76,13 +76,44 @@ public class TristateTreeViewer extends Composite {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	private final class CheckStateWrapper<V> implements
+			ICheckStateProvider {
+		private final ICheckStateProvider stateProvider;
+
+		private CheckStateWrapper(ICheckStateProvider stateProvider) {
+			this.stateProvider = stateProvider;
+		}
+
+		@Override
+		public boolean isGrayed(Object element) {
+			boolean grayed = stateProvider.isGrayed((V)element);
+			return grayed;
+		}
+
+		@Override
+		public boolean isChecked(Object element) {
+			//FIXME side effect in this 
+			boolean checked = stateProvider.isChecked((V)element);
+			boolean grayed = stateProvider.isGrayed((V)element);
+			notifyNodeChanged((TreeNode) element, checked, grayed);
+			return checked;
+		}
+	}
+ 
+	
 	private void notifyItemChanged(TreeItem item) {
 		if(_listeners != null) {
 			boolean checked = item.getChecked();
 			boolean grayed = item.getGrayed();
-			for(TreeListener listener: _listeners) {
-				listener.itemChanged((TreeNode)item.getData(), checked, grayed);
-			}
+			TreeNode data = (TreeNode)item.getData();
+			notifyNodeChanged(data, checked, grayed);
+		}
+	}
+
+	private void notifyNodeChanged(TreeNode data, boolean checked, boolean grayed) {
+		for(TreeListener listener: _listeners) {
+			listener.itemChanged(data, checked, grayed);
 		}
 	}
 	
@@ -218,7 +249,7 @@ public class TristateTreeViewer extends Composite {
 	}
 
 	public void setCheckStateProvider(ICheckStateProvider checkStateProvider) {
-		_inner.setCheckStateProvider(checkStateProvider);
+		_inner.setCheckStateProvider(new CheckStateWrapper(checkStateProvider));
 	}
 
 	public void add(Object parentElementOrTreePath, Object[] childElements) {
