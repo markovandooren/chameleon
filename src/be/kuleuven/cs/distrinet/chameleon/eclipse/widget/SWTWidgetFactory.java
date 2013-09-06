@@ -22,6 +22,7 @@ import be.kuleuven.cs.distrinet.chameleon.ui.widget.checkbox.CheckboxListener;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.list.ComboBoxController;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.list.ComboBoxListener;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.list.ListContentProvider;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.tree.CheckStateProvider;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.tree.TreeContentProvider;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.tree.TreeListener;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.tree.TreeNode;
@@ -75,16 +76,19 @@ public abstract class SWTWidgetFactory implements WidgetFactory<Control> {
 		};
 	}
 
-	private Set<Object> _selected = new HashSet<>();
-	private Set<Object> _grayed = new HashSet<>();
-	
 	@Override
 	public <V> TristateTreeController<TristateTreeViewer> createTristateTree(
 			TreeContentProvider<V> contentProvider,
 			LabelProvider labelProvider,
-			TreeListener<V> listener) {
+			TreeListener<V> listener,
+			final CheckStateProvider<V> stateProvider) {
 		final TristateTreeViewer tree = new TristateTreeViewer(parent(),SWT.NONE);
-		tree.addTreeListener(listener);
+		if(listener != null) {
+			tree.addTreeListener(listener);
+		}
+		if(stateProvider != null) {
+			tree.setCheckStateProvider(new CheckStateAdapter<V>(stateProvider));
+		}
 //		tree.addTreeListener(new TreeListener<Object>() {
 //
 //			@Override
@@ -105,23 +109,11 @@ public abstract class SWTWidgetFactory implements WidgetFactory<Control> {
 		tree.setLayoutData(layoutData);
 		tree.setContentProvider(new SWTTreeContentAdapter(contentProvider));
 		tree.setLabelProvider(new TreeViewLabelAdapter(labelProvider));
-		tree.setCheckStateProvider(new ICheckStateProvider(){
-			
-			@Override
-			public boolean isGrayed(Object element) {
-				return _grayed.contains(element);
-			}
-		
-			@Override
-			public boolean isChecked(Object element) {
-				return _selected.contains(element);
-			}
-		});
 		return new TristateTreeController<TristateTreeViewer>(){
 		
 			@Override
-			public void setChecked(TreeNode node) {
-				_selected.add(node);
+			public void setCheckStateProvider(CheckStateProvider stateProvider) {
+				tree.setCheckStateProvider(new CheckStateAdapter<V>(stateProvider));
 			}
 			
 			@Override
@@ -151,6 +143,30 @@ public abstract class SWTWidgetFactory implements WidgetFactory<Control> {
 	}
 
 	
+	@SuppressWarnings("unchecked")
+	private static final class CheckStateAdapter<V> implements
+			ICheckStateProvider {
+		private final CheckStateProvider<V> stateProvider;
+
+		private CheckStateAdapter(CheckStateProvider<V> stateProvider) {
+			this.stateProvider = stateProvider;
+		}
+
+		@Override
+		public boolean isGrayed(Object element) {
+			boolean grayed = stateProvider.isGrayed((V)element);
+			if(grayed) {
+				
+			}
+			return grayed;
+		}
+
+		@Override
+		public boolean isChecked(Object element) {
+			return stateProvider.isChecked((V)element);
+		}
+	}
+
 	protected class ComboBoxSelectionListener<V> extends SelectionAdapter {
 		private final Combo combo;
 
