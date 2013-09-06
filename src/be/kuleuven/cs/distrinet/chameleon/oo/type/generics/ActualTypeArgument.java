@@ -72,6 +72,7 @@ public abstract class ActualTypeArgument extends ElementImpl {
 	}
 
 	public boolean uniSameAs(ActualTypeArgument argument, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+		//FIXME the getClass() comparison is iffy
 		return (argument.getClass().equals(getClass())) && (type().sameAs(((ActualTypeArgument)argument).type(),trace));
 	}
 
