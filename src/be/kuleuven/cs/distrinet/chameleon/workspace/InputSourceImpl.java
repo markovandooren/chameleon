@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.common.base.Stopwatch;
+
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
@@ -77,11 +79,15 @@ public abstract class InputSourceImpl implements InputSource {
 		}
 	}
 	
+//	public static Stopwatch LOADING_TIME = new Stopwatch();
+
 	public final Document refresh() throws InputException {
+//		LOADING_TIME.start();
 		doRefresh();
 		Document result = rawDocument();
 		result.activate();
 		notifyLoaded(result);
+//		LOADING_TIME.stop();
 		return result;
 	}
 	
