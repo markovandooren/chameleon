@@ -10,6 +10,7 @@ import java.util.List;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
@@ -101,7 +102,15 @@ public class UnionType extends MultiType {
 //		return result;
 	}
 	
-
+	@Override
+	public LocalLookupContext<?> targetContext() throws LookupException {
+		List<TypeReference> trefs = new ArrayList<>();
+		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+		for(Type type: types()) {
+			trefs.add(language.reference(type));
+		}
+		return language.subtypeRelation().leastUpperBound(trefs).targetContext();
+	}
 	
 	public void removeConstructors(List<? extends TypeElement> members) {
 		Iterator<? extends TypeElement> iter = members.iterator();
