@@ -23,25 +23,6 @@ import be.kuleuven.cs.distrinet.rejuse.contract.Contracts;
  */
 public abstract class TreeContentProvider<G> {
 
-//	public TreeContentProvider(Class<T> type) {
-//		Contracts.notNull(type, "The type of a tree content provider cannot be null.");
-//		_type = type;
-//	}
-//	
-//	private Class<T> _type;
-	
-//	/**
-//	 * Return the class object of the type of objects that can be handled by this content provider.
-//	 */
-// /*@
-//   @ public behavior
-//   @
-//   @ post \result != null;
-//   @*/
-//	public Class<T> type() {
-//		return _type;
-//	}
-	
 	/**
 	 * Return the children of the given element.
 	 * 
