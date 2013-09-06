@@ -62,7 +62,7 @@ public class DefaultDependencyOptionsFactory extends LanguagePluginImpl implemen
 		}
 
 		@Override
-		public DependencyResult createAnalysis() {
+		public DependencyResult analyze() {
 			DependencyAnalysis<Declaration, Declaration> dependencyAnalysis = new DependencyAnalysis<>(
 					Declaration.class,
 					new True(), 

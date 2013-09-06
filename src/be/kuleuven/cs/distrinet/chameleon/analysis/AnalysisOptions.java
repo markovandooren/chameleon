@@ -9,7 +9,7 @@ public interface AnalysisOptions<E extends Element, R extends Result<R>> {
 
 	public List<? extends OptionGroup> optionGroups();
 
-	public Result<?> createAnalysis();
+	public Result<?> analyze();
 	
 	public void setContext(Object context);
 }

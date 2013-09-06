@@ -7,5 +7,5 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 public abstract class DependencyOptions<E extends Element, R extends Result<R>> extends AbstractAnalysisOptions<E, R>{
 
 	@Override
-	public abstract DependencyResult createAnalysis();
+	public abstract DependencyResult analyze();
 }
