@@ -29,7 +29,7 @@ public class DependencyResult extends Result<DependencyResult> {
 	}
 	
 	public Set<Element> dependencies(Element source) {
-		return _dependencyGraph.node(source).directlyConnectedObjects();
+		return _dependencyGraph.node(source).directSuccessors();
 	}
 	
 	public Set<UniEdge<Element>> dependencies() {
@@ -60,5 +60,10 @@ public class DependencyResult extends Result<DependencyResult> {
 		dependencyGraph().addNode(element);
 		dependencyGraph().addNode(declaration);
 		dependencyGraph().ensureEdge(element, declaration);
+	}
+	
+	void add(Dependency<?,?,Declaration> dependency) {
+		add(dependency.source(), dependency.target());
+		
 	}
 }

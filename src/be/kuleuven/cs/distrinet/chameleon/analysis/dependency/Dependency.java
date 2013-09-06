@@ -1,6 +1,9 @@
 package be.kuleuven.cs.distrinet.chameleon.analysis.dependency;
 
-public class Dependency<S,C,T> {
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
+import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
+
+public class Dependency<S extends Element,C,T extends Declaration> {
 
 	public Dependency(S source, C crossReference, T target) {
 		super();
