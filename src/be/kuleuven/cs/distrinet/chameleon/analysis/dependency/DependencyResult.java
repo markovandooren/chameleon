@@ -64,6 +64,9 @@ public class DependencyResult extends Result<DependencyResult> {
 	
 	void add(Dependency<?,?,Declaration> dependency) {
 		add(dependency.source(), dependency.target());
-		
+	}
+	
+	public void prune() {
+		_dependencyGraph.prune();
 	}
 }
