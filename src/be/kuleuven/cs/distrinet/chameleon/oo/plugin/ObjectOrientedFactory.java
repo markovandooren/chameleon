@@ -40,29 +40,6 @@ public abstract class ObjectOrientedFactory extends Factory {
 		return new RegularType(signature);
 	}
 
-	/**
-	 * Create a new invocation based on the name of the invoked method and the target.
-	 *  
-	 * @param name
-	 * @param target
-	 * @return
-	 */
-	public MethodInvocation createInvocation(String name, CrossReferenceTarget target) {
-		return new RegularMethodInvocation(name, target);
-	}
-	
-	public MethodInvocation createInfixOperatorInvocation(String name, CrossReferenceTarget target) {
-		return new InfixOperatorInvocation(name, target);
-	}
-
-	public MethodInvocation createPrefixOperatorInvocation(String name, CrossReferenceTarget target) {
-		return new PrefixOperatorInvocation(name, target);
-	}
-
-	public MethodInvocation createPostfixOperatorInvocation(String name, CrossReferenceTarget target) {
-		return new PostfixOperatorInvocation(name, target);
-	}
-
 	public Method createNormalMethod(String name, TypeReference returnType) {
 		return createNormalMethod(new SimpleNameMethodHeader(name, returnType));
 	}
