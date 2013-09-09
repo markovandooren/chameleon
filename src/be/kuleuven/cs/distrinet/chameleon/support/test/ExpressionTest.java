@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
@@ -63,7 +62,10 @@ public class ExpressionTest extends ModelTest {
   
   @Test
   public void testExpressionTypes() throws Exception {
-	  project().applyToSource(createAction());
+//	  project().applyToSource(createAction());
+  	for(Type type: typeProvider().elements(view())) {
+  		type.apply(createAction());
+  	}
   }
 
 	protected Action<Type, LookupException> createAction() {
@@ -74,7 +76,9 @@ public class ExpressionTest extends ModelTest {
 	  };
 	}
   
+	private int _count;
    public void processType(Type type) throws LookupException {
+  	 System.out.println(++_count + " checking expression types of: "+type);
   	 List<Expression> exprs = type.descendants(Expression.class);
   	 for(Expression expression : exprs) {
   		 Type expressionType = expression.getType();
