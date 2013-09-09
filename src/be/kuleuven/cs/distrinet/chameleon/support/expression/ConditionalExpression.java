@@ -35,40 +35,26 @@ public class ConditionalExpression extends TernaryExpression {
 
   protected Type actualType() throws LookupException {
   	//GENERALIZE PROMOTIONS
-    Type firstType = getFirst().getType();
-    Type secondType = getSecond().getType();
-    if (firstType.equals(secondType)) {
-      return firstType;
-    }
-    
-    //TODO I think this code is redundant since NullType is assignable to anything.
-    
-//    else if (firstType instanceof NullType) {
-//      return secondType;
-//    }
-//    else if (secondType instanceof NullType) {
-//      return firstType;
-//    }
-    
-    else if (firstType.assignableTo(secondType)) {
-      return secondType;
-    }
-    else if (secondType.assignableTo(firstType)) {
-      return firstType;
-    } else {
-			ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-			if (firstType.isTrue(language.REFERENCE_TYPE) && secondType.isTrue(language.REFERENCE_TYPE)) {
-				TypeReference first = language.reference(firstType);
-				TypeReference second = language.reference(secondType);
-				return language.subtypeRelation().leastUpperBound(ImmutableList.of(first,second));
-			}
-			else {
+  	Type result = basicType();
+  	if(result == null) {
 			  throw new ChameleonProgrammerException("Numerical promotion in conditional expression not yet complete");
-			}
-		}
-//  else if ((firstType.getName().equals("short") && secondType.getName().equals("byte")) || (firstType.getName().equals("byte") && secondType.getName().equals("short"))) {
-//  return getNamespace().getDefaultNamespace().findType("short");
-//}
+  	}
+  	return result;
+  }
+
+  protected Type basicType() throws LookupException {
+  	Type firstType = getFirst().getType();
+  	Type secondType = getSecond().getType();
+  	if (firstType.equals(secondType)) {
+  		return firstType;
+  	}
+  	else if (firstType.assignableTo(secondType)) {
+  		return secondType;
+  	}
+  	else if (secondType.assignableTo(firstType)) {
+  		return firstType;
+  	} 
+  	return null;
   }
 
   protected ConditionalExpression cloneSelf() {
