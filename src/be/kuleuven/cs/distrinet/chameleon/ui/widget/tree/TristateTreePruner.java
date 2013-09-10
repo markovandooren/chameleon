@@ -47,7 +47,7 @@ public abstract class TristateTreePruner<X,Y> {
 			Set<TreeNode<?,X>> grayed,TristateTreePruner<X,Y>  first) {
 		TreePredicate<? super Y, Nothing> result = TreePredicate.False();
 		for(TreeNode<?,X> child: node.children()) {
-			result = result.or((TreePredicate)create(child, checked, grayed,first));
+			result = result.orTree((TreePredicate)create(child, checked, grayed,first));
 		}
 		return result;
 	}
