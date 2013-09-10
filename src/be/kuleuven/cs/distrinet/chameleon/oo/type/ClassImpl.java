@@ -458,11 +458,11 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
   	public synchronized Set<Type> getSelfAndAllSuperTypesView() throws LookupException {
   		try {
   			
-  			if(_superTypeCache == null) {
-  				_superTypeCache = new HashSet<Type>();
-  				newAccumulateSelfAndAllSuperTypes(_superTypeCache);
+  			if(_superTypeAndSelfCache == null) {
+  				_superTypeAndSelfCache = new HashSet<Type>();
+  				newAccumulateSelfAndAllSuperTypes(_superTypeAndSelfCache);
   			}
-  			return Collections.unmodifiableSet(_superTypeCache);
+  			return Collections.unmodifiableSet(_superTypeAndSelfCache);
   			
   		} catch(ChameleonProgrammerException exc) {
   			if(exc.getCause() instanceof LookupException) {
@@ -496,6 +496,8 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     }
     
     private Set<Type> _superTypeCache;
+    
+    private Set<Type> _superTypeAndSelfCache;
     
     //TODO: rename to properSubTypeOf
 
