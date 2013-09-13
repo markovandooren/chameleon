@@ -30,18 +30,17 @@ public class EqualityConstraint extends TypeConstraint {
 
 	@Override
 	public Type upperBound() throws LookupException {
-//		String t = nearestAncestor(Type.class).getFullyQualifiedName();
-//		String p = nearestAncestor(TypeParameter.class).signature().name();
-//		String x = t+"."+p;
-//		if(x.equals("java.util.AbstractCollection.E")) {
-//			System.out.println(x);
-//		}
 		return bound().upperBound();
 	}
 
 	@Override
 	public TypeReference upperBoundReference() {
 		return typeReference();
+	}
+
+	@Override
+	public String toString() {
+		return "equals "+toStringTypeReference();
 	}
 
 }

@@ -23,6 +23,11 @@ public class InstantiatedParameterType extends TypeIndirection {
 		}
 		
 		@Override
+		public String toString() {
+		  return parameter().toString();
+		}
+		
+		@Override
 		public List<Type> getDirectSuperTypes() throws LookupException {
 //			return aliasedType().getDirectSuperTypes();
 			return Util.createNonNullList(aliasedType());

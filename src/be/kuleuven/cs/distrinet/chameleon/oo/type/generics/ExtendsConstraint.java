@@ -4,6 +4,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
+import be.kuleuven.cs.distrinet.chameleon.util.CreationStackTrace;
 
 public class ExtendsConstraint extends TypeConstraint {
 
@@ -42,5 +43,8 @@ public class ExtendsConstraint extends TypeConstraint {
 		return typeReference();
 	}
 
-	
+	@Override
+	public String toString() {
+		return "extends "+toStringTypeReference();
+	}
 }

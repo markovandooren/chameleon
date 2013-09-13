@@ -16,5 +16,8 @@ public class RegularLiteral extends LiteralWithTypeReference {
     return new RegularLiteral(null, getValue());
   }
 
-
+  @Override
+  public String toString() {
+  	return getValue();
+  }
 }

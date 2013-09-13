@@ -1,11 +1,14 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.type.generics;
 
+import java.util.List;
+
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
+import be.kuleuven.cs.distrinet.chameleon.oo.type.BasicTypeReference;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
@@ -69,5 +72,31 @@ public abstract class TypeConstraint extends ElementImpl {
 		
 	}
 
-
+	protected String toStringTypeReference() {
+		try {
+			TypeReference clone = clone(typeReference());
+			clone.setUniParent(this);
+			List<BasicTypeReference> descendants = clone.descendants(BasicTypeReference.class);
+			if(clone instanceof BasicTypeReference) {
+				descendants.add((BasicTypeReference) clone);
+			}
+			for(BasicTypeReference tref: descendants) {
+				Type element = tref.getElement();
+				if(element instanceof InstantiatedParameterType) {
+					TypeParameter parameter = ((InstantiatedParameterType)element).parameter();
+					String replacement = parameter.toString();
+					if(parameter instanceof CapturedTypeParameter) {
+						replacement = "";
+						for(TypeConstraint constraint: ((CapturedTypeParameter) parameter).constraints()) {
+							replacement += (constraint.toStringTypeReference()+" ");
+						}
+					}
+					tref.setName(replacement);
+				}
+			}
+			return clone.toString();
+		} catch (LookupException e) {
+			return typeReference().toString();
+		}
+	}
 }

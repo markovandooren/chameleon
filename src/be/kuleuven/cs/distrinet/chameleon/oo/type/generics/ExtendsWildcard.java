@@ -70,7 +70,7 @@ public class ExtendsWildcard extends ActualTypeArgumentWithTypeReference {
 		result.append('?');
 		if(tref != null) {
 			result.append(" extends ");
-			result.append(typeReference().toString());
+			result.append(toStringTypeReference());
 		}
 		return result.toString();
 	}

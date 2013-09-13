@@ -183,4 +183,15 @@ public class FormalTypeParameter extends TypeParameter {
 	public boolean sameValueAs(TypeParameter otherParam, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
 		return sameAs(otherParam);
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(name());
+		for(TypeConstraint constraint: constraints()) {
+			builder.append(' ');
+			builder.append(constraint.toString());
+		}
+		return builder.toString();
+	}
 }

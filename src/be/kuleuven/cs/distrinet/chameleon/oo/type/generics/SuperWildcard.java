@@ -66,11 +66,11 @@ public class SuperWildcard extends ActualTypeArgumentWithTypeReference {
 		CapturedTypeParameter newParameter = new CapturedTypeParameter(clone(formal.signature()));
 		for(TypeConstraint constraint: formal.constraints()) {
 			TypeConstraint clone = cloneAndResetTypeReference(constraint,constraint);
+//			TypeConstraint clone = clone(constraint);
 			newParameter.addConstraint(clone);
 			accumulator.add(clone);
 		}
 		newParameter.addConstraint(cloneAndResetTypeReference(new SuperConstraint(clone(typeReference())),this));
-		
     return newParameter;
 	}
 
@@ -80,7 +80,7 @@ public class SuperWildcard extends ActualTypeArgumentWithTypeReference {
 		StringBuffer result = new StringBuffer();
 		result.append("? super ");
 		if(tref != null) {
-			result.append(typeReference().toString());
+			result.append(toStringTypeReference());
 		}
 		return result.toString();
 	}

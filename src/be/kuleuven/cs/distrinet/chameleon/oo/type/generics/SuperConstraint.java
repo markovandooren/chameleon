@@ -41,4 +41,9 @@ public class SuperConstraint extends TypeConstraint {
 		return language.createTypeReference(language.getDefaultSuperClassFQN());
 	}
 
+	@Override
+	public String toString() {
+		return "super "+toStringTypeReference();
+	}
+
 }

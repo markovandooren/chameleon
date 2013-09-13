@@ -85,7 +85,7 @@ public class BasicTypeArgument extends ActualTypeArgumentWithTypeReference {
 
 	@Override
 	public String toString() {
-		return typeReference().toString();
+		return toStringTypeReference();
 	}
 
 }
