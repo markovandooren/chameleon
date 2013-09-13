@@ -145,4 +145,8 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 		return argument().substitutionReference();
 	}
 
+	@Override
+	public String toString() {
+		return argument().toString();
+	}
 }
