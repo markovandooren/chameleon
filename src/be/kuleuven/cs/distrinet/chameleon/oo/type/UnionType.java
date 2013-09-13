@@ -41,7 +41,7 @@ public class UnionType extends MultiType {
 		super(createSignature(Arrays.asList(new Type[]{first,second})), Arrays.asList(new Type[]{first,second}));
 	}
 	
-	public UnionType(List<Type> types) throws LookupException {
+	private UnionType(List<Type> types) throws LookupException {
 		super(createSignature(types),types);
 	}
 	
