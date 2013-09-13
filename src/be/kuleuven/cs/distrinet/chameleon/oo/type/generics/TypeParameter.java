@@ -56,10 +56,10 @@ public abstract class TypeParameter extends Parameter {
 		List<Pair<Type, TypeParameter>> slowTrace = new ArrayList<Pair<Type, TypeParameter>>(trace);
 		boolean result = sameAs(other);
 		if(! result) {
-		 result = upperBound().upperBoundNotHigherThan(other.upperBound(),slowTrace);
-		 if(result) {
-			 result = other.lowerBound().upperBoundNotHigherThan(lowerBound(),slowTrace);
-		 }
+			result = upperBound().upperBoundNotHigherThan(other.upperBound(),slowTrace);
+			if(result) {
+				result = other.lowerBound().upperBoundNotHigherThan(lowerBound(),slowTrace);
+			}
 		}
 		return result;
 	}
@@ -106,4 +106,7 @@ public abstract class TypeParameter extends Parameter {
   	return upperBound().targetContext();
   }
 
+  @Override
+  public abstract Type selectionDeclaration() throws LookupException;
+  
 }
