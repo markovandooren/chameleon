@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableList;
+
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
@@ -37,6 +39,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.member.Member;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.MemberRelationSelector;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.inheritance.InheritanceRelation;
+import be.kuleuven.cs.distrinet.chameleon.util.CallTracer;
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
 import be.kuleuven.cs.distrinet.rejuse.java.collections.TypeFilter;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
@@ -324,7 +327,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
   		if(parameterBlock != null) {
 			  result = parameterBlock.parameters();
   		} else {
-  			result = new ArrayList<P>();
+  			result = ImmutableList.of();
   		}
   		return result;
   	}
@@ -757,7 +760,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
     	return (List<? extends SelectionResult>) members((DeclarationSelector<? extends Member>)selector);
     }
-
+    
     protected void copyContents(Type from) {
   		copyContents(from, false);
   	}
