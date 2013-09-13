@@ -53,7 +53,6 @@ public class ExtendsWildcard extends ActualTypeArgumentWithTypeReference {
 	@Override
 	public TypeParameter capture(FormalTypeParameter formal, List<TypeConstraint> accumulator) {
 		CapturedTypeParameter newParameter = new CapturedTypeParameter(clone(formal.signature()));
-		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
 		for(TypeConstraint constraint: formal.constraints()) {
 			TypeConstraint clone = cloneAndResetTypeReference(constraint,constraint);
 			newParameter.addConstraint(clone);
