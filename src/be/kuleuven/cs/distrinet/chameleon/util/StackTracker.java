@@ -3,6 +3,11 @@ package be.kuleuven.cs.distrinet.chameleon.util;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Dirty utility class for debugging.
+ * 
+ * @author Marko van Dooren
+ */
 public class StackTracker {
 
 	public static void mark(String string) {
