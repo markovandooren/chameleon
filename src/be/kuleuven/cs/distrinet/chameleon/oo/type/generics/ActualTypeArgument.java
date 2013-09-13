@@ -59,8 +59,8 @@ public abstract class ActualTypeArgument extends ElementImpl {
 	}
 	
 	protected TypeConstraint cloneAndResetTypeReference(TypeConstraint constraint, Element lookupParent) {
-		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
 		TypeConstraint kloon = clone(constraint);
+		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
 		TypeReference nl = language.createNonLocalTypeReference(kloon.typeReference(), lookupParent);
 		kloon.setTypeReference(nl);
 		return kloon;
