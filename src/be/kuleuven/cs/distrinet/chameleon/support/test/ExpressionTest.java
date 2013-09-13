@@ -62,10 +62,10 @@ public class ExpressionTest extends ModelTest {
   
   @Test
   public void testExpressionTypes() throws Exception {
-//	  project().applyToSource(createAction());
-  	for(Type type: typeProvider().elements(view())) {
-  		type.apply(createAction());
-  	}
+	  project().applyToSource(createAction());
+//  	for(Type type: typeProvider().elements(view())) {
+//  		type.apply(createAction());
+//  	}
   }
 
 	protected Action<Type, LookupException> createAction() {
@@ -76,9 +76,9 @@ public class ExpressionTest extends ModelTest {
 	  };
 	}
   
-	private int _count;
+//	private int _count;
    public void processType(Type type) throws LookupException {
-  	 System.out.println(++_count + " checking expression types of: "+type);
+//  	 System.out.println(++_count + " checking expression types of: "+type);
   	 List<Expression> exprs = type.descendants(Expression.class);
   	 for(Expression expression : exprs) {
   		 Type expressionType = expression.getType();
