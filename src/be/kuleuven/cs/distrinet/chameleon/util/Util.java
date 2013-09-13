@@ -14,10 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import be.kuleuven.cs.distrinet.chameleon.core.Config;
-import be.kuleuven.cs.distrinet.chameleon.core.element.CloneException;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
-import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
 
