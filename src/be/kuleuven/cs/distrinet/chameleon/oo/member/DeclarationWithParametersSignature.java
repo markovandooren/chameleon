@@ -77,7 +77,13 @@ public abstract class DeclarationWithParametersSignature extends Signature {
   			}
   			List<Type> myFormalParameterTypes = parameterTypes();
   			for(int i=0; result && i < nbMyFormalParameters; i++) {
-  				result = clonedFormalParameters.get(i).getType().sameAs(myFormalParameterTypes.get(i));
+  				Type clonedParameterType = clonedFormalParameters.get(i).getType();
+					Type myParameterType = myFormalParameterTypes.get(i);
+//					boolean sameUpperBound = clonedParameterType.upperBound().sameAs(myParameterType.upperBound());
+//					boolean sameLowerBound = clonedParameterType.lowerBound().sameAs(myParameterType.lowerBound());
+					boolean clonedSubtypeOfMine = clonedParameterType.subTypeOf(myParameterType);
+					result = clonedSubtypeOfMine && myParameterType.subTypeOf(clonedParameterType);
+//					result = clonedParameterType.sameAs(myParameterType);
   			}
   			for(int i=0; result && i < nbMyTypeParameters; i++) {
   				// According to the language specification, the equality should be on the bounds, not just the upper bounds.
