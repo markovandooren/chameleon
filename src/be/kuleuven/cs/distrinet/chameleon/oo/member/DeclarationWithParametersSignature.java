@@ -29,6 +29,7 @@ public abstract class DeclarationWithParametersSignature extends Signature {
  		return after;
 	}
 
+	@SuppressWarnings("unused")
 	private boolean sameParameterBoundsAsAfter(DeclarationWithParametersSignature other) throws LookupException {
   	// substitute paramaters.
 		DeclarationWithParameters otherMethod = other.nearestAncestor(DeclarationWithParameters.class);
@@ -39,13 +40,15 @@ public abstract class DeclarationWithParametersSignature extends Signature {
   	boolean result = nbOtherFormalParameters == nbMyFormalParameters;
   	
   	if(result) {
-  		DeclarationWithParametersHeader clonedOtherHeader = clone(otherHeader);
-  		clonedOtherHeader.setUniParent(otherMethod);
-  		List<TypeParameter> cloneTypeParameters = clonedOtherHeader.typeParameters();
-  		List<TypeParameter> myTypeParameters = nearestAncestor(DeclarationWithParameters.class).typeParameters();
-  		int nbMyTypeParameters = myTypeParameters.size();
-  		result = (nbMyTypeParameters == cloneTypeParameters.size());
+  		DeclarationWithParameters nearestAncestor = nearestAncestor(DeclarationWithParameters.class);
+  		int nbMyTypeParameters = nearestAncestor.nbTypeParameters();
+  		int nbOtherTypeParameters = other.nearestAncestor(DeclarationWithParameters.class).nbTypeParameters();
+  		result = (nbMyTypeParameters == nbOtherTypeParameters);
   		if(result) {
+				List<TypeParameter> myTypeParameters = nearestAncestor.typeParameters();
+  			DeclarationWithParametersHeader clonedOtherHeader = clone(otherHeader);
+  			clonedOtherHeader.setUniParent(otherMethod);
+  			List<TypeParameter> cloneTypeParameters = clonedOtherHeader.typeParameters();
   			// FIXME: part of this should be delegated to 'other' and a class Erased...Signature should be made
   			//        to avoid cloning when it is not necessary (and to clean up this bad code of course).
   			List<FormalParameter> clonedFormalParameters = (List<FormalParameter>)clonedOtherHeader.formalParameters();
