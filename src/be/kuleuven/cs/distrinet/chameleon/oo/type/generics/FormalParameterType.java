@@ -30,7 +30,6 @@ public class FormalParameterType extends TypeIndirection {
 		_param = param;
 	}
 	
-	
 	@Override
 	public boolean uniSameAs(Element type) throws LookupException {
 		return type == this || 
