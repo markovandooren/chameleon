@@ -51,10 +51,6 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 //FIXME Make this extends DeclarationImpl
 public abstract class NamespaceImpl extends ElementImpl implements TargetDeclaration, DeclarationContainer, Namespace {
 
-	//SPEED : use hashmap to store the subnamespaces and forbid
-	//        adding multiple namespaces with the same name. That is
-	//        never useful anyway.
-	
 	/**
 	 * Initialize a new Namespace with the given name.
 	 *
