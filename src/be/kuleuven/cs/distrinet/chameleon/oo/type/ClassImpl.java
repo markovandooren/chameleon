@@ -920,9 +920,8 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 		}
 
 		public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
-			List<Pair<Type, TypeParameter>> slowTrace = trace;
 			ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-			return language.upperBoundNotHigherThan(this, other, slowTrace);
+			return language.upperBoundNotHigherThan(this, other, trace);
 		}
 
 		public boolean sameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
