@@ -2,10 +2,7 @@ package be.kuleuven.cs.distrinet.chameleon.test;
 
 import static junit.framework.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -15,7 +12,6 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.test.provider.ElementProvider;
-import be.kuleuven.cs.distrinet.chameleon.util.AllocationTracker;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectException;
@@ -46,6 +42,11 @@ public class CrossReferenceTest extends ModelTest {
 //		TRACKER.clearAllocationMap();
 		
   	project().applyToSource(createAction());
+  	
+//  	for(CrossReference type: crossReferenceProvider().elements(view())) {
+//  		type.apply(createAction());
+//  	}
+
 //  	long endTime = System.nanoTime();
 //  	System.out.println("Testing took "+(endTime-startTime)/1000000+" milliseconds.");
 //  	System.out.println("Number of avoidable getOtherEnds() computations: "+Association.nbAvoidableGetOtherEnds());
