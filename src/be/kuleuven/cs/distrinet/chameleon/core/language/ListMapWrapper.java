@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
+
+import com.google.common.collect.ImmutableList;
+
 /**************
   * CONNECTORS *
   **************/
@@ -32,7 +36,7 @@ import java.util.Set;
     	if(processors == null) {
     		return ImmutableList.of();
     	} else {
-        return new ArrayList<S>(processors);
+        return Lists.create(processors);
     	}
     }
     
@@ -43,7 +47,7 @@ import java.util.Set;
     public <S extends T> void add(Class<S> key, S value) {
     	  List<S> list = (List<S>)_map.get(key);
     	  if(list == null) {
-    	  	list = new ArrayList<S>();
+    	  	list = Lists.create();
     	  	_map.put(key, list);
     	  }
     	  list.add(value);

@@ -9,6 +9,7 @@ import be.kuleuven.cs.distrinet.chameleon.aspect.oo.model.pointcut.RuntimePointc
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
 
@@ -56,7 +57,7 @@ public abstract class PointcutExpressionDual<J extends Element> extends Abstract
 	
 	@Override
 	public List<PointcutExpression<?>> toPostorderList() {
-		List<PointcutExpression<?>> result = new ArrayList<PointcutExpression<?>>();
+		List<PointcutExpression<?>> result = Lists.create();
 		
 		result.addAll(expression1().toPostorderList());
 		result.addAll(expression2().toPostorderList());

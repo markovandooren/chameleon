@@ -8,6 +8,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyUniverse;
@@ -94,7 +95,7 @@ public class StaticChameleonProperty extends StaticProperty<Element,ChameleonPro
 		_validTypes.add(type);
 	}
 	
-	private List<Class<? extends Element>> _validTypes = new ArrayList<Class<? extends Element>>();
+	private List<Class<? extends Element>> _validTypes = Lists.create();
 
 	private final class InverseChameleonProperty extends InverseProperty<Element, ChameleonProperty> implements ChameleonProperty {
 		private InverseChameleonProperty(String name, PropertyUniverse<ChameleonProperty> universe, PropertyMutex<ChameleonProperty> family,

@@ -5,6 +5,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
 import be.kuleuven.cs.distrinet.chameleon.support.member.simplename.SimpleNameMethodInvocation;
+import be.kuleuven.cs.distrinet.chameleon.util.profile.Timer;
 
 
 /**
@@ -37,6 +38,14 @@ public class InfixOperatorInvocation extends SimpleNameMethodInvocation<InfixOpe
       }
 
     };
+  }
+  
+  @Override
+  public InfixOperator getElement() throws LookupException {
+  	Timer.INFIX_OPERATOR_INVOCATION.start();
+  	InfixOperator result = super.getElement();
+  	Timer.INFIX_OPERATOR_INVOCATION.stop();
+  	return result;
   }
 
 }

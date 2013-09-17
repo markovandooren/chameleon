@@ -1,25 +1,24 @@
 package be.kuleuven.cs.distrinet.chameleon.core.namespace;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Set;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputSource;
 import be.kuleuven.cs.distrinet.chameleon.workspace.View;
 import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
+
+import com.google.common.collect.ImmutableList;
 
 public class LazyRootNamespace extends RootNamespace implements InputSourceNamespace {
 
@@ -184,7 +183,7 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 	private OrderedMultiAssociation<LazyRootNamespace,InputSource> _inputSources = new OrderedMultiAssociation<LazyRootNamespace, InputSource>(this) {
 		@Override
 		protected void fireElementRemoved(InputSource removedElement) {
-			List<String> obsoleteKeys = new ArrayList<String>();
+			List<String> obsoleteKeys = Lists.create();
 			for(Map.Entry<String, Queue<InputSource>> entry: _sourceMap.entrySet()) {
 				Queue<InputSource> value = entry.getValue();
 				value.remove(removedElement);

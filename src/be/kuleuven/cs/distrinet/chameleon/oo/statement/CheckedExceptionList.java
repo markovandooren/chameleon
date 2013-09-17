@@ -9,6 +9,7 @@ import java.util.Set;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
 import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 
@@ -23,7 +24,7 @@ public class CheckedExceptionList {
 	 * Initialize a new empty checked exception list.
 	 */
   public CheckedExceptionList() {
-    _pairs = new ArrayList();
+    _pairs = Lists.create();
   }
 
   
@@ -72,7 +73,7 @@ public class CheckedExceptionList {
    * @return
    */
   public Collection getDeclarations() {
-    final List result = new ArrayList();
+    final List result = Lists.create();
     new Visitor() {
       public void visit(Object element) {
         result.add(((ExceptionTuple)element).getDeclaration());

@@ -6,6 +6,7 @@ import java.util.List;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 
 public abstract class SelectorWithoutOrder<D extends Declaration> extends DeclarationSelector<D> {
 
@@ -65,7 +66,7 @@ public abstract class SelectorWithoutOrder<D extends Declaration> extends Declar
   
   @Override
   public List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException {
-  	List<SelectionResult> tmp = new ArrayList<SelectionResult>();
+  	List<SelectionResult> tmp = Lists.create();
   	for(Declaration decl: declarators) {
   		SelectionResult e = selection(decl);
   		if(e != null) {
@@ -84,7 +85,7 @@ public abstract class SelectorWithoutOrder<D extends Declaration> extends Declar
    * @throws LookupException
    */
   public List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
-  	List<SelectionResult> result = new ArrayList<SelectionResult>();
+  	List<SelectionResult> result = Lists.create();
   	for(Declaration selectionCandidate: selectionCandidates) {
   		Signature signature = selectionCandidate.signature();
 			if(signature!=null && signature.sameAs(signature())) {

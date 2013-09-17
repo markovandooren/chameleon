@@ -23,6 +23,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
@@ -244,7 +245,7 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 		  	String name = declaration.name();
 				List<Declaration> list = directDeclarations(name);
 		  	if(list == null) {
-		  		list = new ArrayList<Declaration>();
+		  		list = Lists.create();
 		  		_declarationCache.put(name, list);
 		  	}
 		  	// list != null

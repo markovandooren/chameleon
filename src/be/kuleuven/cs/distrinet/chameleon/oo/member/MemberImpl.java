@@ -19,6 +19,7 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeElementImpl;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 
 public abstract class MemberImpl extends TypeElementImpl implements Member {
 
@@ -86,7 +87,7 @@ public abstract class MemberImpl extends TypeElementImpl implements Member {
   			todo.remove(0);
   			Type containingType = m.nearestAncestor(Type.class);
   			if(! visitedTypes.containsKey(containingType)) {
-  				visitedTypes.put(containingType, new ArrayList<Member>());
+  				visitedTypes.put(containingType, Lists.<Member>create());
   			}
   			List<Member> done = visitedTypes.get(containingType);
   			boolean contains = false;

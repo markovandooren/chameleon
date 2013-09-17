@@ -3,11 +3,12 @@
  */
 package be.kuleuven.cs.distrinet.chameleon.core.lookup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
+
+import com.google.common.collect.ImmutableList;
 
 public class Skipper<D extends Declaration> extends DeclarationSelector<D> {
 

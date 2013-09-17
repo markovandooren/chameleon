@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
+
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
@@ -18,6 +20,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.Member;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
@@ -144,7 +147,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 				List<Declaration> list = cachedDeclarations(name);
 		  	boolean newList = false;
 		  	if(list == null) {
-		  		list = new ArrayList<Declaration>();
+		  		list = Lists.create();
 		  		newList = true;
 		  	}
 		  	// list != null
@@ -182,7 +185,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 	private HashMap<String, List<Declaration>> _declarationCache;
 	
 	public List<Member> members() throws LookupException {
-		List<Member> result = new ArrayList<Member>();
+		List<Member> result = Lists.create();
     for(TypeElement m: elements()) {
       result.addAll(m.getIntroducedMembers());
     }

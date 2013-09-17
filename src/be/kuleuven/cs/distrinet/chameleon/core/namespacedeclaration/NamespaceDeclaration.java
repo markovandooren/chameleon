@@ -24,6 +24,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.reference.SimpleReference;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
@@ -76,7 +77,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 
 	  @Override
 	  public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
-	    List<SelectionResult> result = new ArrayList<SelectionResult>();
+	    List<SelectionResult> result = Lists.create();
 			List<? extends Import> imports = imports();
 			ListIterator<? extends Import> iter = imports.listIterator(imports.size());
 			// If the selector found a match, we stop.
@@ -96,7 +97,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 
 		@Override
 		public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
-			List<SelectionResult> result = new ArrayList<SelectionResult>();
+			List<SelectionResult> result = Lists.create();
 			List<? extends Import> imports = imports();
 			ListIterator<? extends Import> iter = imports.listIterator(imports.size());
 			// If the selector found a match, we stop.

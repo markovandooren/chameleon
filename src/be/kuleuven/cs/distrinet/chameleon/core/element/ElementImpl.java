@@ -1,6 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.core.element;
 
 import java.lang.reflect.Field;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,6 +26,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.association.ChameleonAssociation;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
@@ -459,7 +461,7 @@ public abstract class ElementImpl implements Element {
 	private static List<Field> getAllFieldsTillClass(Class currentClass){
 		List<Field> result = _fieldMap.get(currentClass);
 		if(result == null) {
-			result = new ArrayList<Field>();
+			result = Lists.create();
 			addAllFieldsTillClass(currentClass, result);
 			_fieldMap.put(currentClass, result);
 		}
@@ -544,7 +546,7 @@ public abstract class ElementImpl implements Element {
 	 * LazyNamespace.
 	 */
   public List<? extends Element> children() {
-  	List<Element> reflchildren = new ArrayList<Element>();
+  	List<Element> reflchildren = Lists.create();
 		for (ChameleonAssociation association : associations()) {
 			association.addOtherEndsTo(reflchildren);
 		}
@@ -600,7 +602,7 @@ public abstract class ElementImpl implements Element {
 	
 	public final <T extends Element> List<T> nearestDescendants(Class<T> c) {
 		List<? extends Element> tmp = children();
-		List<T> result = new ArrayList<T>();
+		List<T> result = Lists.create();
 		Iterator<? extends Element> iter = tmp.iterator();
 		while(iter.hasNext()) {
 			Element e = iter.next();
@@ -617,7 +619,7 @@ public abstract class ElementImpl implements Element {
 
   public <T extends Element, E extends Exception> List<T> nearestDescendants(UniversalPredicate<T,E> predicate) throws E {
 		List<? extends Element> tmp = children();
-		List<T> result = new ArrayList<T>();
+		List<T> result = Lists.create();
 		Iterator<? extends Element> iter = tmp.iterator();
 		while(iter.hasNext()) {
 			Element e = iter.next();
@@ -686,7 +688,7 @@ public abstract class ElementImpl implements Element {
 	}
 
 	public final <T extends Element> List<T> ancestors(Class<T> c) {
-		List<T> result = new ArrayList<T>();
+		List<T> result = Lists.create();
 		T el = nearestAncestor(c);
 		while (el != null){
 			result.add(el);
@@ -706,7 +708,7 @@ public abstract class ElementImpl implements Element {
 			result.add(0, parent());
 			return result;
 		} else {
-			return new ArrayList<Element>();
+			return Lists.create();
 		}
 	}
 

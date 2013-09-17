@@ -13,6 +13,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 
 public class DeclarationContainerAlias extends ElementImpl implements DeclarationContainer {
@@ -51,7 +52,7 @@ public class DeclarationContainerAlias extends ElementImpl implements Declaratio
 	}
 	
 	public List<Declaration> allDeclarations() {
-		List<Declaration> result = new ArrayList<Declaration>();
+		List<Declaration> result = Lists.create();
 		for(DeclarationContainerAlias superContainer: superContainers()) {
 			result.addAll(superContainer.allDeclarations());
 		}
@@ -91,7 +92,7 @@ public class DeclarationContainerAlias extends ElementImpl implements Declaratio
 		_superContainers.remove(container);
 	}
 	
-	private List<DeclarationContainerAlias> _superContainers = new ArrayList<DeclarationContainerAlias>();
+	private List<DeclarationContainerAlias> _superContainers = Lists.create();
 
 	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return _elements.getOtherEnds();

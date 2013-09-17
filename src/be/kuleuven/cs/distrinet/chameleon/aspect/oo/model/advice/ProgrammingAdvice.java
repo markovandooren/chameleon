@@ -17,6 +17,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.statement.Block;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.FormalParameter;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
@@ -98,7 +99,7 @@ public abstract class ProgrammingAdvice extends Advice<Block> implements Declara
   
 	@Override
 	public List<Declaration> declarations() throws LookupException {
-		List<Declaration> declarations =  new ArrayList<Declaration>();
+		List<Declaration> declarations =  Lists.create();
 		for (Modifier m : modifiers()) {
 			if (m instanceof DeclarationContainer)
 				declarations.addAll(((DeclarationContainer) m).declarations());

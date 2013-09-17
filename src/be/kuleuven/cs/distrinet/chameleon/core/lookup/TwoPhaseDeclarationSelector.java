@@ -7,6 +7,7 @@ import java.util.Map;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 
 public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends DeclarationSelector<D> {
 
@@ -85,7 +86,7 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
    @            ! (\exists D other; set.contains(other); order().strictOrder().contains(other,d))));
    @*/
   public List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException {
-  	List<SelectionResult> tmp = new ArrayList<SelectionResult>();
+  	List<SelectionResult> tmp = Lists.create();
   	for(Declaration decl: declarators) {
   		SelectionResult e = selection(decl);
   		if(e != null) {
@@ -106,7 +107,7 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
    */
   public List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
   	Map<D,Declaration> tmp = new HashMap<D,Declaration>();
-  	List<D> Ds = new ArrayList<D>();
+  	List<D> Ds = Lists.create();
   	Class<D> selectedClass = selectedClass();
   	for(Declaration selectionCandidate: selectionCandidates) {
   		if(selectedBasedOnName(selectionCandidate.signature())) {
@@ -120,7 +121,7 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
   		} 
   	}
   	applyOrder((List)Ds);
-  	List<SelectionResult> result = new ArrayList<SelectionResult>();
+  	List<SelectionResult> result = Lists.create();
   	for(D d: Ds) {
   		result.add(tmp.get(d));
   	}

@@ -17,6 +17,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.Member;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.inheritance.InheritanceRelation;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
@@ -98,7 +99,7 @@ public class IntersectionType extends MultiType {
 	public List<Member> localMembers() throws LookupException {
 		//FIXME: renaming and so on. Extend both types and perform automatic renaming?
 		//       what about conflicting member definitions?
-		List<Member> result = new ArrayList<Member>();
+		List<Member> result = Lists.create();
 		for(Type type: types()) {
 		  result.addAll(type.localMembers(Member.class));
 		}
@@ -110,7 +111,7 @@ public class IntersectionType extends MultiType {
 	public <D extends Member> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException {
 		//FIXME: renaming and so on. Extend both types and perform automatic renaming?
 		//       what about conflicting member definitions?
-		List<SelectionResult> result = new ArrayList<SelectionResult>();
+		List<SelectionResult> result = Lists.create();
 		for(Type type: types()) {
 		  result.addAll(type.localMembers(selector));
 		}
@@ -136,7 +137,7 @@ public class IntersectionType extends MultiType {
 
 	@Override
 	public List<InheritanceRelation> inheritanceRelations() throws LookupException {
-		List<InheritanceRelation> result = new ArrayList<InheritanceRelation>();
+		List<InheritanceRelation> result = Lists.create();
 		for(Type type: types()) {
 		  result.addAll(type.inheritanceRelations());
 		}
@@ -144,7 +145,7 @@ public class IntersectionType extends MultiType {
 	}
 
 	public List<InheritanceRelation> nonMemberInheritanceRelations() {
-		List<InheritanceRelation> result = new ArrayList<InheritanceRelation>();
+		List<InheritanceRelation> result = Lists.create();
 		for(Type type: types()) {
 		  result.addAll(type.nonMemberInheritanceRelations());
 		}
@@ -158,7 +159,7 @@ public class IntersectionType extends MultiType {
 
 	@Override
 	public List<? extends TypeElement> directlyDeclaredElements() {
-		List<TypeElement> result = new ArrayList<TypeElement>();
+		List<TypeElement> result = Lists.create();
 		for(Type type: types()) {
 		  result.addAll(type.directlyDeclaredElements());
 		}

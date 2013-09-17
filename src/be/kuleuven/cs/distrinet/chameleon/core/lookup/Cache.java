@@ -38,6 +38,13 @@ public class Cache {
 		}
 	}
 	
+	/**
+	 * Store the given object as a cache for the given selector. The
+	 * object is stored with key {@code selector.getClass()}.
+	 * @param selector
+	 * @param object
+	 */
+	@SuppressWarnings("rawtypes")
 	public synchronized void put(DeclarationSelector selector, Object object) {
 		if(_cache == null) {
 			_cache = new HashMap<Class,Object>();

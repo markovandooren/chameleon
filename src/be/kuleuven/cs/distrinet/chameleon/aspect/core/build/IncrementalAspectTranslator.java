@@ -12,6 +12,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.plugin.build.BuildException;
 import be.kuleuven.cs.distrinet.chameleon.plugin.build.BuildProgressHelper;
 import be.kuleuven.cs.distrinet.chameleon.support.translate.IncrementalTranslator;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.View;
 
@@ -33,14 +34,14 @@ public class IncrementalAspectTranslator extends IncrementalTranslator<AspectOri
 		initTargetLanguage(true);
 		
 		System.out.println("-- Complete rebuild");
-		List<Document> result = new ArrayList<Document>();
+		List<Document> result = Lists.create();
 
 		// First clone the compilation units to the target language.
 		for (Document cu : source().sourceDocuments()) {
 			Document clone = implementationCompilationUnit(cu);
 			result.add(clone);
 		}
-		List<List<JoinPointWeaver>> heads = new ArrayList<List<JoinPointWeaver>>(); 	
+		List<List<JoinPointWeaver>> heads = Lists.create(); 	
 		for (Document cu : result) {
 			buildProgressHelper.checkForCancellation();
 			heads.add(_translator.weave(cu, result));

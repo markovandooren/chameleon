@@ -17,6 +17,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.ActualTypeArgument;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.InstantiatedTypeParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.inheritance.InheritanceRelation;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
 
 import com.google.common.collect.ImmutableList;
@@ -204,9 +205,9 @@ public class DerivedType extends ClassWithBody {
 	}
 	
 	protected List<ParameterSubstitution> clonedParameters() {
-		List<ParameterSubstitution> args = new ArrayList<ParameterSubstitution>();
+		List<ParameterSubstitution> args = Lists.create();
 		for(ParameterBlock<?> block: parameterBlocks()) {
-			List<Parameter> list = new ArrayList<Parameter>();
+			List<Parameter> list = Lists.create();
 			for(Parameter par: block.parameters()) {
 				list.add(clone(par));
 			}
