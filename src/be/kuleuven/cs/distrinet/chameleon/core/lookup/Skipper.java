@@ -23,7 +23,7 @@ public class Skipper<D extends Declaration> extends DeclarationSelector<D> {
 	@Override
 	public List<? extends SelectionResult> declarations(DeclarationContainer container) throws LookupException {
 		if(container.equals(_skipped)) {
-			return new ArrayList<SelectionResult>();
+			return ImmutableList.of();
 		} else {
 			return super.declarations(container);
 		}

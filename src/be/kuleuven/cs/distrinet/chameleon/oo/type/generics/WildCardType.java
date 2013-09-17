@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
+
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
@@ -180,7 +182,7 @@ public abstract class WildCardType extends ClassImpl {
 	}
 
 	public List<ParameterBlock> parameterBlocks() {
-		return new ArrayList<ParameterBlock>();
+		return ImmutableList.of();
 	}
 
 	public void removeParameterBlock(ParameterBlock block) {

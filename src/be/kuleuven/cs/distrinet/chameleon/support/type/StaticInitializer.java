@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.support.type;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
@@ -14,6 +13,8 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+
+import com.google.common.collect.ImmutableList;
 
 /**
  * @author Marko van Dooren
@@ -80,7 +81,7 @@ public class StaticInitializer extends TypeElementImpl implements ExceptionSourc
    * A static initializer does not add members to a type.
    */
   public List<Member> getIntroducedMembers() {
-    return new ArrayList<Member>();
+    return ImmutableList.of();
   }
 
 	@Override

@@ -30,7 +30,7 @@ import java.util.Set;
     public <S extends T> List<S> get(Class<S> key) {
     	List<S> processors = (List<S>)_map.get(key);
     	if(processors == null) {
-    		return new ArrayList<S>();
+    		return ImmutableList.of();
     	} else {
         return new ArrayList<S>(processors);
     	}

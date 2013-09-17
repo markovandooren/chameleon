@@ -153,7 +153,7 @@ public class DerivedType extends ClassWithBody {
 			while(myParams.hasNext() && result) {
 				TypeParameter mine = myParams.next();
 				TypeParameter otherParam = otherParams.next();
-				result = mine.sameValueAs(otherParam, new ArrayList());
+				result = mine.sameValueAs(otherParam, ImmutableList.<Pair<TypeParameter, TypeParameter>>of());
 			}
 		}
 		return result;

@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.support.statement;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
@@ -8,8 +7,9 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
-import be.kuleuven.cs.distrinet.chameleon.oo.variable.Variable;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
+
+import com.google.common.collect.ImmutableList;
 
 public class SimpleForControl extends ForControl {
 
@@ -75,7 +75,7 @@ public class SimpleForControl extends ForControl {
 		if(init != null) {
 		  return getForInit().declarations();
 		} else {
-			return new ArrayList<Variable>();
+			return ImmutableList.of();
 		}
 	}
 

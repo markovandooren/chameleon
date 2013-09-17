@@ -130,7 +130,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 		ensureLocalCache();
 		List<Declaration> result = cachedDeclarations(selectionName);
 		if(result == null) {
-			result = new ArrayList<Declaration>();
+			result = ImmutableList.of();
 		}
 		return result;
 	}

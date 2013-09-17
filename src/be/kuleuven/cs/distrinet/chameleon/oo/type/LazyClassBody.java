@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.type;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -17,6 +16,10 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.Member;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
 
 /**
  *
@@ -60,7 +63,8 @@ public class LazyClassBody extends ClassBody {
 
 	public List<Declaration> fetchMembers(String selectionName, List<Declaration> declarationsFromBaseType)
 			throws LookupException {
-		ArrayList<Declaration> result = new ArrayList<Declaration>();
+		Builder<Declaration> builder = ImmutableList.builder();
+		List<Declaration> result = ImmutableList.of();
 		if(declarationsFromBaseType != null) {
 			// If the cache was empty, and the aliased body contains matches
 			// we clone the matches and store them in the cache.
@@ -85,10 +89,10 @@ public class LazyClassBody extends ClassBody {
 						clone = declarationFromBaseType;
 					}
 				}
-				result.add(clone);
+				builder.add(clone);
 			}
+			result = builder.build();
 			storeCache(selectionName, result);
-			result = new ArrayList<Declaration>(result);
 		}
 		return result;
 	}
@@ -171,9 +175,7 @@ public class LazyClassBody extends ClassBody {
 
 	public synchronized List<TypeElement> elements() {
 		if(! _initializedElements) {
-//			flushLocalCache();
-//			clear();
-			_statics = new ArrayList<TypeElement>();
+			_statics = Lists.create();
 			List<TypeElement> alreadyCloned = super.elements();
 			for(TypeElement element: original().elements()) {
 				ChameleonProperty clazz = language(ObjectOrientedLanguage.class).CLASS;
@@ -243,7 +245,7 @@ public class LazyClassBody extends ClassBody {
 	
 	public <D extends Member> List<D> members(Class<D> kind) throws LookupException {
 		List<D> originals = original().members(kind);
-		List<D> result = new ArrayList<D>();
+		List<D> result = Lists.create();
 		for(D original:originals) {
 			List<Declaration> clones = declarations(original.signature().name());
 			for(Declaration clone:clones) {

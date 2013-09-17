@@ -14,6 +14,8 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeIndirection;
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
 
+import com.google.common.collect.ImmutableList;
+
 /**
  * This class represents types created as a result of looking up (resolving) a generic parameter, which itself is
  * not a type.
@@ -44,9 +46,7 @@ public class FormalParameterType extends TypeIndirection {
 	
 	@Override
 	public List<Type> getDirectSuperTypes() throws LookupException {
-		List<Type> result = new ArrayList<Type>();
-		result.add(aliasedType());
-		return result;
+		return ImmutableList.of(aliasedType());
 	}
 
 

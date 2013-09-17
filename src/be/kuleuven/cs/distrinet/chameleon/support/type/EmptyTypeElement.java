@@ -1,12 +1,13 @@
 package be.kuleuven.cs.distrinet.chameleon.support.type;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.Member;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeElementImpl;
+
+import com.google.common.collect.ImmutableList;
 
 public class EmptyTypeElement extends TypeElementImpl {
 
@@ -16,7 +17,7 @@ public class EmptyTypeElement extends TypeElementImpl {
 	}
 
 	public List<Member> getIntroducedMembers() {
-		return new ArrayList<Member>();
+		return ImmutableList.of();
 	}
 
 	@Override

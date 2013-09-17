@@ -54,8 +54,7 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 		if(candidates == null) {
 			for(Namespace ns: getSubNamespaces()) {
 				if(ns.name().equals(name)) {
-					candidates = new ArrayList<Declaration>();
-					candidates.add(ns);
+					candidates = ImmutableList.<Declaration>of(ns);
 					break;
 				}
 			}
@@ -63,7 +62,7 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 			Queue<InputSource> inputSources = _sourceMap.get(name);
 			if(inputSources != null && ! inputSources.isEmpty()) {
 					if(candidates == null) {
-						candidates = new ArrayList<Declaration>();
+						candidates = Lists.create();
 					}
 				candidates.addAll(inputSources.peek().targetDeclarations(name));
 			} 

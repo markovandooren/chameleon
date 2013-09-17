@@ -252,7 +252,7 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
 	 */
 	public List<TypeParameter> typeParameters() {
 		TypeParameterBlock parameterBlock = parameterBlock();
-		return (parameterBlock == null ? new ArrayList<TypeParameter>() :parameterBlock.parameters());
+		return (parameterBlock == null ? ImmutableList.<TypeParameter>of() :parameterBlock.parameters());
 	}
 	
 	public int nbTypeParameters() {

@@ -340,9 +340,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
   	}
 
     public List<Member> getIntroducedMembers() {
-      List<Member> result = new ArrayList<Member>();
-      result.add(this);
-      return result;
+      return ImmutableList.<Member>of(this);
     }
     
     /* (non-Javadoc)
@@ -928,8 +926,8 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 		}
 
 		public boolean sameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
-			List<Pair<TypeParameter, TypeParameter>> newTrace = new ArrayList<Pair<TypeParameter, TypeParameter>>(trace);
-			return uniSameAs(other,newTrace) || other.uniSameAs(this,newTrace);
+//			List<Pair<TypeParameter, TypeParameter>> newTrace = new ArrayList<Pair<TypeParameter, TypeParameter>>(trace);
+			return uniSameAs(other,trace) || other.uniSameAs(this,trace);
 		}
 		
 		public Type lowerBound() throws LookupException {
@@ -954,7 +952,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 		}
 		
 		public <D extends Member> List<D> membersDirectlyAliasedBy(MemberRelationSelector<D> selector) throws LookupException {
-			List<D> result = new ArrayList<D>();
+			List<D> result = Lists.create();
 			for(InheritanceRelation relation:inheritanceRelations()) {
 				result.addAll(relation.membersDirectlyAliasedBy(selector));
 			}
@@ -962,8 +960,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 		}
 		
 		public <D extends Member> List<D> membersDirectlyAliasing(MemberRelationSelector<D> selector) throws LookupException {
-			List<D> result = new ArrayList<D>();
-			return result;
+			return ImmutableList.of();
 		}
 		
 	  public HidesRelation<? extends Member> hidesRelation() {

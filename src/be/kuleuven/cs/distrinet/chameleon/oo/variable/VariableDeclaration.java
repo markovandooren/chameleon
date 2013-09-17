@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.variable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
@@ -20,6 +19,8 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
+
+import com.google.common.collect.ImmutableList;
 
 public class VariableDeclaration extends ElementImpl implements DeclarationContainer {
 
@@ -93,9 +94,7 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
   }
 
 	public List<? extends Declaration> declarations() throws LookupException {
-		List<Variable> result = new ArrayList<Variable>();
-		result.add(variable());
-		return result;
+		return ImmutableList.of(variable());
 	}
 	
 	/**

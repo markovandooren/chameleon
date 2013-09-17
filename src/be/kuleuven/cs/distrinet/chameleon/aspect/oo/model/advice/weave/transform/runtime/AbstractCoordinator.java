@@ -20,6 +20,8 @@ import be.kuleuven.cs.distrinet.chameleon.support.member.simplename.operator.pre
 import be.kuleuven.cs.distrinet.chameleon.support.statement.IfThenElseStatement;
 import be.kuleuven.cs.distrinet.chameleon.support.variable.LocalVariableDeclarator;
 
+import com.google.common.collect.ImmutableList;
+
 /**
  * 	See the Coordinator interface for documentation. This class implements some basic functionality
  * 
@@ -77,11 +79,11 @@ public abstract class AbstractCoordinator<T extends Element> implements Coordina
 	 * @throws LookupException 
 	 */
 	protected List<Statement> getDeclarations(RuntimePointcutExpression tree, NamingRegistry<RuntimePointcutExpression> expressionNames) throws LookupException {
-		List<Statement> result = new ArrayList<Statement>();
 		
 		if (tree == null)
-			return result;
+			return ImmutableList.of();
 
+		List<Statement> result = new ArrayList<Statement>();
 		// Get the tree in list-form, with the leaves first (postorder)
 		List<RuntimePointcutExpression> expressions = tree.toPostorderList();
 

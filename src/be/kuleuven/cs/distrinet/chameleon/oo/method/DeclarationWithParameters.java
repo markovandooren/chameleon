@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.method;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,6 +22,8 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.FormalParameter;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
+
+import com.google.common.collect.ImmutableList;
 
 public abstract class DeclarationWithParameters extends MemberImpl implements DeclarationContainer, Target, DeclarationWithType {
 
@@ -128,7 +129,7 @@ public abstract class DeclarationWithParameters extends MemberImpl implements De
 		  if(header != null) {
 			  return header.formalParameters();
 		  } else {
-		  	return Collections.EMPTY_LIST;
+		  	return ImmutableList.<FormalParameter>of();
 		  }
 		}
 		
@@ -137,7 +138,7 @@ public abstract class DeclarationWithParameters extends MemberImpl implements De
 		  if(header != null) {
 			  return header.formalParameterTypes();
 		  } else {
-		  	return new ArrayList<Type>();
+		  	return ImmutableList.<Type>of();
 		  }
 		}
 		
