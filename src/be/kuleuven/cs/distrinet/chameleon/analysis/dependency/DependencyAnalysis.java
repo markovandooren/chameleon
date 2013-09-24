@@ -174,8 +174,7 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 	protected void doPerform(final Element element) throws Nothing {
 		try {
 			if(! _elements.isEmpty()) {
-				boolean crossReferenceMatches = _crossReferencePredicate.eval(element);
-				if(crossReferenceMatches) {
+				if(_crossReferencePredicate.eval(element)) {
 					CrossReference<?> cref = (CrossReference<?>) element;
 //					_stopwatch.start();
 					// This is the expensive one. File loading is relatively large part 
