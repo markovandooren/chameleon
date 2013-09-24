@@ -44,7 +44,10 @@ public class LexicalLookupContext extends LookupContext {
   	}
   	setLocalContext(local);
   	setSelector(selector);
+//  	CREATED++;
 	}
+	
+//	public static int CREATED;
 	
 	public void setSelector(LookupContextSelector selector) {
 		_selector = selector;

@@ -7,12 +7,14 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.gef4.zest.core.viewers.AbstractZoomableViewer;
+import org.eclipse.gef4.zest.core.viewers.GraphViewer;
+import org.eclipse.gef4.zest.core.viewers.IZoomableWorkbenchPart;
 import org.eclipse.gef4.zest.layouts.LayoutAlgorithm;
 import org.eclipse.gef4.zest.layouts.algorithms.CompositeLayoutAlgorithm;
 import org.eclipse.gef4.zest.layouts.algorithms.DirectedGraphLayoutAlgorithm;
 import org.eclipse.gef4.zest.layouts.algorithms.HorizontalShiftAlgorithm;
 import org.eclipse.gef4.zest.layouts.algorithms.RadialLayoutAlgorithm;
-import org.eclipse.gef4.zest.layouts.algorithms.SpaceTreeLayoutAlgorithm;
 import org.eclipse.gef4.zest.layouts.algorithms.SpringLayoutAlgorithm;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -42,9 +44,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
-import org.eclipse.zest.core.viewers.AbstractZoomableViewer;
-import org.eclipse.zest.core.viewers.GraphViewer;
-import org.eclipse.zest.core.viewers.IZoomableWorkbenchPart;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.AnalysisOptions;
 import be.kuleuven.cs.distrinet.chameleon.analysis.OptionGroup;
@@ -312,12 +311,15 @@ public class DependencyView extends ViewPart implements IZoomableWorkbenchPart {
 		
 		String directedName = "Directed";
 		DirectedGraphLayoutAlgorithm directed = new DirectedGraphLayoutAlgorithm();
-		CompositeLayoutAlgorithm directedAlgorithm = new CompositeLayoutAlgorithm(
-				new LayoutAlgorithm[]{
-						directed,
-						new HorizontalShiftAlgorithm()
-				});
-		_layouts.put(directedName, directedAlgorithm);
+		// The new directed layout algorithm seems to work better without the
+		// horizontal shift.
+		
+//		CompositeLayoutAlgorithm directedAlgorithm = new CompositeLayoutAlgorithm(
+//				new LayoutAlgorithm[]{
+//						directed,
+//						new HorizontalShiftAlgorithm()
+//				});
+		_layouts.put(directedName, directed);
 		_layoutList.add(directedName);
 
 //		String sugiyamaName = "Sugiyama";

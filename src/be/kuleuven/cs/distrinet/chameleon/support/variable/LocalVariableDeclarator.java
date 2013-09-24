@@ -24,6 +24,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.variable.VariableDeclarator;
 import be.kuleuven.cs.distrinet.chameleon.support.statement.ForInit;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
+import be.kuleuven.cs.distrinet.chameleon.util.profile.Timer;
 
 public class LocalVariableDeclarator extends StatementImpl implements VariableDeclarator, ForInit {
 
@@ -172,15 +173,20 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
    @      \result == declarations().elementAt(declarations().indexOf(element) - 1).lexicalContext();
    @*/
 	public LookupContext lookupContext(Element element) throws LookupException {
+//		LINEAR.start();
 		List<VariableDeclaration> declarations = variableDeclarations();
 		int index = declarations.indexOf(element);
+		LookupContext result;
 		if(index <= 0) {
-			return parent().lookupContext(this);
+			result = parent().lookupContext(this);
 		} else {
-			return declarations.get(index-1).linearContext();
+			result = declarations.get(index-1).linearContext();
 		}
+//		LINEAR.stop();
+		return result;
 	}
-	
+//	public final static Timer LINEAR = new Timer();
+
 	public int numberOfVariableDeclarations() {
 		return _declarations.size();
 	}

@@ -1,6 +1,8 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.expression;
 
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
+import be.kuleuven.cs.distrinet.chameleon.core.reference.SimpleReference;
 import be.kuleuven.cs.distrinet.chameleon.plugin.LanguagePluginImpl;
 import be.kuleuven.cs.distrinet.chameleon.support.expression.ConditionalExpression;
 import be.kuleuven.cs.distrinet.chameleon.support.member.simplename.method.RegularMethodInvocation;
@@ -42,5 +44,11 @@ public class ExpressionFactory extends LanguagePluginImpl {
 		return new PostfixOperatorInvocation(name, target);
 	}
 
+	public <D extends Declaration> SimpleReference<D> createSimpleReference(String fqn,Class<D> kind) {
+		return new SimpleReference<>(fqn, kind);
+	}
 
+	public NamedTarget createNamedTarget(String fqn) {
+		return new NamedTarget(fqn);
+	}
 }

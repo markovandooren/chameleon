@@ -1,12 +1,12 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency;
 
+import org.eclipse.gef4.zest.core.viewers.IGraphContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.zest.core.viewers.IGraphContentProvider;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyResult;
 import be.kuleuven.cs.distrinet.rejuse.graph.UniEdge;
 
-public class DependencyContentProvider implements IGraphContentProvider, org.eclipse.gef4.zest.core.viewers.IGraphContentProvider {
+public class DependencyContentProvider implements IGraphContentProvider {
 
 	@Override
 	public void dispose() {

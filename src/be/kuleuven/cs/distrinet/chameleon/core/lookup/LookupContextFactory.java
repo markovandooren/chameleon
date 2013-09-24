@@ -1,7 +1,13 @@
 package be.kuleuven.cs.distrinet.chameleon.core.lookup;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 
 /**
  * A class of factories that create lookup strategies.
@@ -31,6 +37,7 @@ public class LookupContextFactory {
 	 * @return
 	 */
 	public LookupContext createLexicalLookupStrategy(LookupContext local, Element element) {
+//		report(element);
 		return new LexicalLookupContext(local, element);
 	}
 	
@@ -55,15 +62,36 @@ public class LookupContextFactory {
 	 * @return
 	 */
 	public LookupContext createLexicalLookupStrategy(LookupContext local, Element element, LookupContextSelector selector) {
+//		report(element);
 		return new LexicalLookupContext(local, selector);
 	}
 	
   public  LocalLookupContext createTargetLookupStrategy(DeclarationContainer element) {
+//  	report(element);
   	return new LocalLookupContext(element);
   }
 
   public  LookupContext createLocalLookupStrategy(DeclarationContainer element) {
+//  	report(element);
   	return new LocalLookupContext(element);
   }
+
+//  public static boolean ENABLED=true;
+//  
+//  protected void report(Element element) {
+//  	if(ENABLED) {
+//  		if(LEXICAL_DONE.contains(element)) {
+//  			Integer current = LEXICAL_ALLOCATORS.get(element.getClass());
+//  			Integer newValue = current == null ? 1 : current + 1;
+//  			LEXICAL_ALLOCATORS.put(element.getClass(), newValue);
+//  		} else {
+//  			LEXICAL_DONE.add(element);
+//  		}
+//  	}
+//  }
+//  
+//  public final static Map<Class,Integer> LEXICAL_ALLOCATORS = new HashMap<>();
+//  
+//  public final static Set<Element> LEXICAL_DONE = new HashSet<>();
   
 }

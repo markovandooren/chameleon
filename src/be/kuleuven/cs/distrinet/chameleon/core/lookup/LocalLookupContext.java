@@ -1,9 +1,14 @@
 package be.kuleuven.cs.distrinet.chameleon.core.lookup;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
+import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 
 /**
  * A lookup context for search declarations locally in a declaration container.
@@ -14,6 +19,8 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
  */
 public class LocalLookupContext<E extends DeclarationContainer> extends LookupContext {
 
+//	public static int CREATED;
+	
 	/**
 	 * Create a new local lookup strategy that searches for declarations in the
 	 * given declaration container.
@@ -27,7 +34,30 @@ public class LocalLookupContext<E extends DeclarationContainer> extends LookupCo
    @*/
 	public LocalLookupContext(E declarationContainer) {
 		_declarationContainer = declarationContainer;
+//		CREATED++;
+//		report(declarationContainer);
 	}
+
+//	public static boolean ENABLED=true;
+//
+//	protected void report(Element element) {
+//		try {
+//			if(ENABLED) {
+////				if(LEXICAL_DONE.contains(element)) {
+//					Integer current = ALLOCATORS.get(element.getClass());
+//					Integer newValue = current == null ? 1 : current + 1;
+//					ALLOCATORS.put(element.getClass(), newValue);
+////				} else {
+////					LEXICAL_DONE.add(element);
+////				}
+//			}
+//		} catch (Throwable e) {
+//			e.printStackTrace();
+//		}
+//	}
+//
+//	public final static Map<Class,Integer> ALLOCATORS = new HashMap<>();
+
 	/*
 	 * The declaration container in which this local lookup strategy will search for declarations 
 	 */

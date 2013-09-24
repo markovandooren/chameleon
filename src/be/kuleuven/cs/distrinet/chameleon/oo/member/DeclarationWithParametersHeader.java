@@ -9,7 +9,6 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.Collector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
@@ -20,9 +19,10 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameterBlock;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.FormalParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.VariableContainer;
-import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
+
+import com.google.common.collect.ImmutableList;
 /**
  * A class of objects representing method headers. A method header contains for example the name and parameters of a method.
  * 
@@ -263,8 +263,8 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
 	/**
 	 * Return the index-th type parameter. Indices start at 1.
 	 */
-	public TypeParameter typeParameter(int index) {
-		return parameterBlock().parameter(index);
+	public TypeParameter typeParameter(int baseOneIndex) {
+		return parameterBlock().parameter(baseOneIndex);
 	}
 	
 	public void addAllTypeParameters(Collection<? extends TypeParameter> parameters) {
@@ -291,5 +291,9 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
 		parameterBlock().replace(oldParameter, newParameter);
 	}
 
+	@Override
+	public String toString() {
+		return signature().toString();
+	}
 
 }

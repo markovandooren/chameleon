@@ -50,14 +50,32 @@ public class ExtendsWildcard extends ActualTypeArgumentWithTypeReference {
 		}
 	}
 
+	/**
+	 * For wildcards {@code ? extends B} corresponding to parameter {@code Fi extends Ui}, the captured type parameter 
+	 * is Si with upper bound {@code glb(B, Ui[A1=S1,...,Ai=Si,...])} and lower bound the null type.
+	 * 
+	 * All constraints of the formal parameter are copied, and with a non-local reference, their
+	 * lookup path is redirected to the formal parameter such that all types in the bounds Ui are
+	 * resolved corrected. An additional constraint
+	 * with B as the upper bound is added, and its lookup path is redirected to this wildcard object
+	 * to correctly resolve any types in B.
+	 * 
+	 * <b>Any references to Ai must still replaced by references to Si. Capture conversion for 
+	 * derived types takes care of this.</b>  
+	 * 
+	 * Note that in practice, the name of the parameter is unchanged. It is not needed because we use
+	 * an object model instead of a string match as is typically done in type system. 
+	 */
 	@Override
 	public TypeParameter capture(FormalTypeParameter formal, List<TypeConstraint> accumulator) {
 		CapturedTypeParameter newParameter = new CapturedTypeParameter(clone(formal.signature()));
+		// Copy and redirect the bound of the formal parameter.
 		for(TypeConstraint constraint: formal.constraints()) {
 			TypeConstraint clone = cloneAndResetTypeReference(constraint,constraint);
 			newParameter.addConstraint(clone);
 			accumulator.add(clone);
 		}
+		// Copy and redirect the type argument
 		newParameter.addConstraint(cloneAndResetTypeReference(new ExtendsConstraint(clone(typeReference())),this));
     return newParameter;
 	}

@@ -3,22 +3,23 @@ package be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency;
 import org.eclipse.draw2d.ConnectionRouter;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
+import org.eclipse.gef4.zest.core.viewers.IConnectionStyleProvider;
+import org.eclipse.gef4.zest.core.viewers.IEntityStyleProvider;
+import org.eclipse.gef4.zest.core.widgets.ZestStyles;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.zest.core.viewers.IConnectionStyleProvider;
-import org.eclipse.zest.core.viewers.IEntityStyleProvider;
-import org.eclipse.zest.core.widgets.ZestStyles;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
+import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorExtension;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.Variable;
 
-class DependencyLabelProvider extends LabelProvider implements IConnectionStyleProvider, IEntityStyleProvider, org.eclipse.gef4.zest.core.viewers.IConnectionStyleProvider, org.eclipse.gef4.zest.core.viewers.IEntityStyleProvider {
+class DependencyLabelProvider extends LabelProvider implements IConnectionStyleProvider, IEntityStyleProvider {
 		
 		
 		@Override
@@ -70,6 +71,8 @@ class DependencyLabelProvider extends LabelProvider implements IConnectionStyleP
 			} else if(entity instanceof Variable) {
 				Type type = ((Variable) entity).nearestAncestor(Type.class);
 				return new Label(type.getFullyQualifiedName()+"."+((Variable)entity).name());
+			} else if(entity instanceof Namespace) {
+				return new Label(((Namespace)entity).getFullyQualifiedName());
 			}
 			return null;
 		}

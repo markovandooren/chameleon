@@ -9,7 +9,6 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.TargetDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.SimpleSelector;
-import be.kuleuven.cs.distrinet.chameleon.util.CreationStackTrace;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
 
 public class SimpleReference<D extends Declaration> extends ElementReference<D> {
@@ -26,22 +25,15 @@ public class SimpleReference<D extends Declaration> extends ElementReference<D> 
 		this(fqn,specificClass,false);
 	}
 
+	public SimpleReference(Signature signature, Class<D> specificClass) {
+		this(null, signature, specificClass);
+	}
+	
   public SimpleReference(String fqn, Class<D> specificClass, boolean recursiveLimit) {
-    this(createTarget(fqn, specificClass, recursiveLimit), 
-                   new SimpleNameSignature(Util.getLastPart(fqn)), 
-                   specificClass);
+    this(new SimpleNameSignature(Util.getLastPart(fqn)), specificClass);
+    setTarget(createTarget(fqn, specificClass, recursiveLimit));
   }
 
-	protected static SimpleReference createTarget(String fqn, Class specificClass, boolean recursiveLimit) {
-		String allButLastPart = Util.getAllButLastPart(fqn);
-		if(allButLastPart == null) {
-			return null;
-		} else {
-			return new SimpleReference(allButLastPart, recursiveLimit ? specificClass : TargetDeclaration.class, recursiveLimit);
-		}
-	}
-
-  
 	public SimpleReference(CrossReferenceTarget target, String name, Class<D> specificClass) {
 		this(target, new SimpleNameSignature(name), specificClass);
 	}
@@ -50,11 +42,6 @@ public class SimpleReference<D extends Declaration> extends ElementReference<D> 
 		super(signature);
 		setTarget(target); 
 		_specificClass = specificClass;
-	}
-
-	//Only used in JLo compiler. Need to test if the limit should be recursive or not.
-	public SimpleReference(QualifiedName name, Class<D> specificClass) {
-		this(targetOf(name, specificClass), Util.clone(name.lastSignature()), specificClass);
 	}
 
 	/**
@@ -88,31 +75,25 @@ public class SimpleReference<D extends Declaration> extends ElementReference<D> 
 		return _specificClass;
 	}
 
-
-	public static <DD extends Declaration> CrossReference targetOf(QualifiedName name, Class<DD> specificClass) {
-		SimpleReference current = null;
-		List<Signature> signatures = name.signatures();
-		int size = signatures.size();
-		for(int i = 0; i < size-1; i++) {
-			current = new SimpleReference<DD>(current, Util.clone(signatures.get(i)), specificClass);
-		}
-		return current;
-	}
-	
-	protected static CrossReferenceTarget getTarget(String qn) {
-		if(qn == null) {
+	protected SimpleReference createTarget(String fqn, Class specificClass, boolean recursiveLimit) {
+		String allButLastPart = Util.getAllButLastPart(fqn);
+		if(allButLastPart == null) {
 			return null;
+		} else {
+			return createSimpleReference(allButLastPart, recursiveLimit ? specificClass : TargetDeclaration.class, recursiveLimit);
 		}
-		SimpleReference<TargetDeclaration> target = new SimpleReference<TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
-		qn = Util.getAllButFirstPart(qn);
-		while(qn != null) {
-			SimpleReference<TargetDeclaration> newTarget = new SimpleReference<TargetDeclaration>(Util.getFirstPart(qn),TargetDeclaration.class);
-			newTarget.setTarget(target);
-			target = newTarget;
-			qn = Util.getAllButFirstPart(qn);
-		}
-		return target;
 	}
 
+	/**
+	 * Subclasses must override this method and return an object of the type of the subclass.
+	 * 
+	 * @param fqn
+	 * @param kind
+	 * @param recursiveLimit
+	 * @return
+	 */
+  protected <D extends Declaration> SimpleReference<D> createSimpleReference(String fqn, Class<D> kind, boolean recursiveLimit) {
+  	return new SimpleReference(fqn, recursiveLimit ? kind : TargetDeclaration.class, recursiveLimit);
+  }
 
 }

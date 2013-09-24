@@ -147,6 +147,7 @@ public abstract class WildCardType extends ClassImpl {
 
 	@Override
 	public boolean uniSameAs(Element other) throws LookupException {
+		Type lowerBound = ((Type)other).lowerBound();
 		if(other instanceof WildCardType) {
 			WildCardType wild = (WildCardType) other;
 			return upperBound().sameAs(wild.upperBound()) && lowerBound().sameAs(wild.lowerBound());
