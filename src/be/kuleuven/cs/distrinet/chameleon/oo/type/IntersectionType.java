@@ -230,4 +230,18 @@ public class IntersectionType extends MultiType {
 		}
 		return result;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		List<Type> types = types();
+		int size = types.size();
+		for(int i=0; i<size;i++) {
+			builder.append(types.get(i).toString());
+			if(i < size - 1) {
+				builder.append(" & ");
+			}
+		}
+		return builder.toString();
+	}
 }
