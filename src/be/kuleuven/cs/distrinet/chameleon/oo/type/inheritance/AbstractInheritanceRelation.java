@@ -14,6 +14,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.Member;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 
@@ -106,7 +107,7 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 
 	protected <M extends Member>
 	  void removeNonMostSpecificMembers(List<SelectionResult> current, final List<? extends SelectionResult> potential) throws LookupException {
-		final List<SelectionResult> toAdd = new ArrayList<SelectionResult>();
+		final List<SelectionResult> toAdd = Lists.create();
 		for(SelectionResult mm: potential) {
 			Member m = (Member)mm.finalDeclaration();
 			boolean add = true;

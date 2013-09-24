@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 
 /**
  * A class that combines basic problems.
@@ -51,7 +52,7 @@ public class CompositeProblem extends Invalid {
 		return result;
 	}
 
-	private List<AtomicProblem> _problems = new ArrayList<AtomicProblem>();
+	private List<AtomicProblem> _problems = Lists.create();
 	
 	/**
 	 * Return the problems indicated by this composite problem.

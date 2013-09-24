@@ -11,7 +11,8 @@ import be.kuleuven.cs.distrinet.chameleon.aspect.oo.model.pointcut.RuntimePointc
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
-import be.kuleuven.cs.distrinet.chameleon.oo.expression.NamedTargetExpression;
+import be.kuleuven.cs.distrinet.chameleon.oo.expression.ExpressionFactory;
+import be.kuleuven.cs.distrinet.chameleon.oo.expression.NameExpression;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Block;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Statement;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.BasicTypeReference;
@@ -135,7 +136,8 @@ public abstract class AbstractCoordinator<T extends Element> implements Coordina
 	
 	protected IfThenElseStatement getTest(RuntimePointcutExpression<?> tree, NamingRegistry<RuntimePointcutExpression> expressionNames) throws LookupException {
 		// Now, convert the actual expression to the right test - get the name of the root
-		Expression completeTest = new NamedTargetExpression("_$" + expressionNames.getName((RuntimePointcutExpression<?>) tree.origin()));
+		ExpressionFactory expressionFactory = tree.language().plugin(ExpressionFactory.class);
+		Expression completeTest = expressionFactory.createNameExpression("_$" + expressionNames.getName((RuntimePointcutExpression<?>) tree.origin()));
 		
 		// Negate it, since we do the return of the original method if the expression returns false
 		PrefixOperatorInvocation negation = new PrefixOperatorInvocation("!", completeTest);

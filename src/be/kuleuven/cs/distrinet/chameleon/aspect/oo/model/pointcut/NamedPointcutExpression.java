@@ -16,7 +16,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
-import be.kuleuven.cs.distrinet.chameleon.oo.expression.NamedTargetExpression;
+import be.kuleuven.cs.distrinet.chameleon.oo.expression.NameExpression;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.FormalParameter;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.rejuse.action.SafeAction;
@@ -87,10 +87,10 @@ public class NamedPointcutExpression extends AbstractPointcutExpression<Element>
 			while (pointcutParameters.hasNext() && referenceParameters.hasNext()) {
 				Expression _nextReferenceParam  = referenceParameters.next();
 				
-				if (!(_nextReferenceParam instanceof NamedTargetExpression))
+				if (!(_nextReferenceParam instanceof NameExpression))
 					throw new ChameleonProgrammerException("Pointcut reference has a parameter that isn't a named target expr");
 				
-				NamedTargetExpression nextReferenceParam = (NamedTargetExpression) _nextReferenceParam;
+				NameExpression nextReferenceParam = (NameExpression) _nextReferenceParam;
 				FormalParameter nextPointcutParam = pointcutParameters.next();
 				
 				parameterNamesMap.put(nextPointcutParam.getName(), nextReferenceParam.name());

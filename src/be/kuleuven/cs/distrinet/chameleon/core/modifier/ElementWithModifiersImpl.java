@@ -8,6 +8,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.rejuse.property.Property;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
@@ -119,7 +120,7 @@ public abstract class ElementWithModifiersImpl extends ElementImpl implements El
   }
 
 	public List<Modifier> modifiers(Property property) throws ModelException {
-		List<Modifier> result = new ArrayList<Modifier>();
+		List<Modifier> result = Lists.create();
 		for(Modifier modifier: modifiers()) {
 			if(modifier.impliesTrue(property)) {
 				result.add(modifier);
@@ -131,7 +132,7 @@ public abstract class ElementWithModifiersImpl extends ElementImpl implements El
 	@Override
 	public List<Modifier> modifiers(PropertyMutex mutex) throws ModelException {
 		Property property = property(mutex);
-		List<Modifier> result = new ArrayList<Modifier>();
+		List<Modifier> result = Lists.create();
 		for (Modifier mod : modifiers()) {
 			if (mod.impliesTrue(property)) {
 				result.add(mod);

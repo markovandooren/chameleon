@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 
 /**
  * @author marko
@@ -65,7 +66,7 @@ public abstract class CompositeScope extends Scope {
   
   protected abstract void filter() throws LookupException;
 
-	protected List<Scope> _scopes = new ArrayList<Scope>();
+	protected List<Scope> _scopes = Lists.create();
 
 // /*@
 //   @ public behavior

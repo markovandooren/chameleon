@@ -309,7 +309,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
   	  @SuppressWarnings("unchecked")
   	  public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 //  	    return selector.selection(parameters());
-  			List<SelectionResult> result = new ArrayList<SelectionResult>();
+  			List<SelectionResult> result = Lists.create();
   			List<ParameterBlock> parameterBlocks = parameterBlocks();
   			Iterator<ParameterBlock> iter = parameterBlocks.iterator();
   			// If the selector found a match, we stop.
@@ -359,7 +359,6 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 	    	boolean result = true;
 	    	while(iter.hasNext()) {
 	    		Member member = iter.next();
-	    		ObjectOrientedLanguage lang = language(ObjectOrientedLanguage.class);
 	    		result = result && (mustBeOverridden(member));
 	    	}
 	      return result;
@@ -415,19 +414,19 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 		 * @see chameleon.oo.type.Tajp#getDirectSuperTypes()
 		 */
 
-    public List<Type> getDirectSuperTypes() throws LookupException {
-            final ArrayList<Type> result = new ArrayList<Type>();
-            for(InheritanceRelation element:inheritanceRelations()) {
-              Type type = (Type) element.superType();
-              if (type!=null) {
-                result.add(type);
-              }
-            }
-            return result;
-    }
+  	public List<Type> getDirectSuperTypes() throws LookupException {
+  		List<Type> result = Lists.create();
+  		for(InheritanceRelation element:inheritanceRelations()) {
+  			Type type = (Type) element.superType();
+  			if (type!=null) {
+  				result.add(type);
+  			}
+  		}
+  		return result;
+  	}
 
     public List<Type> getDirectSuperClasses() throws LookupException {
-      final ArrayList<Type> result = new ArrayList<Type>();
+      List<Type> result = Lists.create();
       for(InheritanceRelation element:inheritanceRelations()) {
         result.add((Type)element.superElement());
       }
@@ -637,7 +636,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     }
     
     public  List<Member> directlyDeclaredMembers() {
-  		List<Member> result = new ArrayList<Member>();
+  		List<Member> result = Lists.create();
       for(TypeElement m: directlyDeclaredElements()) {
         result.addAll(m.declaredMembers());
       }
@@ -945,7 +944,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 
 		@Override
 		public <D extends Member> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException {
-			List<D> result = new ArrayList<D>();
+			List<D> result = Lists.create();
 			if(!selector.declaration().ancestors().contains(this)) {
 				result.addAll((List)members(selector));
 			} else {

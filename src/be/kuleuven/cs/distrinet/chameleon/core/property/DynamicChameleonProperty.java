@@ -7,6 +7,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.DynamicProperty;
@@ -133,7 +134,7 @@ public abstract class DynamicChameleonProperty extends DynamicProperty<Element,C
 		_validTypes.add(type);
 	}
 	
-	private List<Class<? extends Element>> _validTypes = new ArrayList<Class<? extends Element>>();
+	private List<Class<? extends Element>> _validTypes = Lists.create();
 
 
 }

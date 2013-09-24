@@ -10,6 +10,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 /**
@@ -89,7 +90,7 @@ public abstract class AbstractPointcutExpression<J extends Element> extends Elem
 	 */
 	@Override
 	public final List<MatchResult> joinpoints(Document compilationUnit) throws LookupException {
-		List<MatchResult> result = new ArrayList<MatchResult>();
+		List<MatchResult> result = Lists.create();
 		List<? extends Element> joinPoints = compilationUnit.descendants(joinPointType());
 		for (Element joinPoint : joinPoints) {
 			MatchResult match = matches(joinPoint);

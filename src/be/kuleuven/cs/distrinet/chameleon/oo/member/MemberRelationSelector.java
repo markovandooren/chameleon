@@ -10,6 +10,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 
 public class MemberRelationSelector<D extends Declaration> extends DeclarationSelector<D> {
 
@@ -49,7 +50,7 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
 
 	@Override
 	public List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException {
-  	List<SelectionResult> tmp = new ArrayList<SelectionResult>();
+  	List<SelectionResult> tmp = Lists.create();
   	for(Declaration decl: declarators) {
   		D e = selection(decl);
   		if(e != null) {
@@ -95,7 +96,7 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
 
 	@Override
 	public List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
-  	List<SelectionResult> result = new ArrayList<SelectionResult>();
+  	List<SelectionResult> result = Lists.create();
   	for(Declaration selectionCandidate: selectionCandidates) {
   		if(selectedBasedOnName(selectionCandidate.signature())) {
   			Declaration selectionDeclaration = selectionCandidate.selectionDeclaration();

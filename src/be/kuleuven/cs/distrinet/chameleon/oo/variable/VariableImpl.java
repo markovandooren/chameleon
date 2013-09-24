@@ -16,6 +16,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.rejuse.property.Property;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
@@ -74,7 +75,7 @@ public abstract class VariableImpl extends ElementImpl implements Variable {
 	 */
   public List<Modifier> modifiers(PropertyMutex mutex) throws ModelException {
   	Property property = property(mutex);
-  	List<Modifier> result = new ArrayList<Modifier>();
+  	List<Modifier> result = Lists.create();
   	for(Modifier mod: modifiers()) {
   		if(mod.impliesTrue(property)) {
   			result.add(mod);
@@ -84,7 +85,7 @@ public abstract class VariableImpl extends ElementImpl implements Variable {
   }
 
 	public List<Modifier> modifiers(Property property) throws ModelException {
-		List<Modifier> result = new ArrayList<Modifier>();
+		List<Modifier> result = Lists.create();
 		for(Modifier modifier: modifiers()) {
 			if(modifier.impliesTrue(property)) {
 				result.add(modifier);

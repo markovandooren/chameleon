@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.core.namespace;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,7 +131,7 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 	private OrderedMultiAssociation<LazyRootNamespace,InputSource> _inputSources = new OrderedMultiAssociation<LazyRootNamespace, InputSource>(this) {
 		@Override
 		protected void fireElementRemoved(InputSource removedElement) {
-			List<String> obsoleteKeys = new ArrayList<String>();
+			List<String> obsoleteKeys = Lists.create();
 			for(Map.Entry<String, Queue<InputSource>> entry: _sourceMap.entrySet()) {
 				Queue<InputSource> value = entry.getValue();
 				value.remove(removedElement);

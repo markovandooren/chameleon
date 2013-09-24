@@ -1,10 +1,10 @@
 package be.kuleuven.cs.distrinet.chameleon.analysis;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.Selector;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.WidgetFactory;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 
 public abstract class OptionGroup {
 
@@ -29,7 +29,7 @@ public abstract class OptionGroup {
 		_selectors.add(selector);
 	}
 	
-	private List<Selector> _selectors = new ArrayList<>();
+	private List<Selector> _selectors = Lists.create();
 
 	protected List<? extends Selector> selectors() {
 		return _selectors;

@@ -11,6 +11,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 
@@ -89,7 +90,7 @@ public class SimpleNameDeclarationWithParametersSignature extends DeclarationWit
   
 	@Override
 	public List<Type> parameterTypes() throws LookupException {
-		List<Type> result = new ArrayList<Type>();
+		List<Type> result = Lists.create(_parameterTypes.size());
   	for(TypeReference ref: typeReferences()) {
   		result.add(ref.getType());
   	}

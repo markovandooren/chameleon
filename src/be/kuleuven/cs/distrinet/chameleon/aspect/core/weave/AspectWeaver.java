@@ -14,6 +14,7 @@ import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 
 public abstract class AspectWeaver {
 	/**
@@ -45,7 +46,7 @@ public abstract class AspectWeaver {
 	public List<JoinPointWeaver> weave(Document compilationUnit, Collection<Document> aspectCompilationUnits) throws LookupException {
 //		if (!compilationUnit.hasDescendant(Aspect.class)) {
 			Map<Element, List<JoinPointWeaver>> weavingMap = getAllWeavers(compilationUnit, aspectCompilationUnits);
-			List<JoinPointWeaver> heads = new ArrayList<JoinPointWeaver>();
+			List<JoinPointWeaver> heads = Lists.create();
 			for (Entry<Element, List<JoinPointWeaver>> entry : weavingMap.entrySet()) {
 				List<JoinPointWeaver> weavingEncapsulators = entry.getValue();
 				
@@ -82,7 +83,7 @@ public abstract class AspectWeaver {
 	 */
 	private Map<Element, List<JoinPointWeaver>> getAllWeavers(Document compilationUnit, Collection<Document> aspectCompilationUnits) throws LookupException {
 		// Get a list of all advices
-		List<Advice> advices = new ArrayList<Advice>();
+		List<Advice> advices = Lists.create();
 		for (Document cu : aspectCompilationUnits) {
 			advices.addAll(cu.descendants(Advice.class));
 		}
@@ -98,7 +99,7 @@ public abstract class AspectWeaver {
 			// For each joinpoint, get all necessairy weaving info and add it to the list
 			for (MatchResult<? extends Element> joinpoint : joinpoints) {
 				if (!weavingMap.containsKey(joinpoint.getJoinpoint()))
-					weavingMap.put(joinpoint.getJoinpoint(), new ArrayList<JoinPointWeaver>());
+					weavingMap.put(joinpoint.getJoinpoint(), Lists.<JoinPointWeaver>create());
 				
 				JoinPointWeaver encapsulator = getElementWeaver().weave(advice, joinpoint);
 				weavingMap.get(joinpoint.getJoinpoint()).add(encapsulator);

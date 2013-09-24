@@ -5,7 +5,7 @@ import java.util.Map;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.oo.expression.NamedTargetExpression;
+import be.kuleuven.cs.distrinet.chameleon.oo.expression.NameExpression;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.FormalParameter;
 
 public abstract class AbstractParameterExposurePointcutExpression extends AbstractDynamicPointcutExpression implements ParameterExposurePointcutExpression<Element> {
@@ -43,11 +43,11 @@ public abstract class AbstractParameterExposurePointcutExpression extends Abstra
 
 	@Override
 	public void renameParameters(Map<String, String> parameterNamesMap) {
-		for (NamedTargetExpression fp : parameters())
+		for (NameExpression fp : parameters())
 			fp.setName(parameterNamesMap.get(fp.name()));
 	}
 	
-	public abstract List<NamedTargetExpression> parameters();
+	public abstract List<NameExpression> parameters();
 				
 	@Override
 	public Class<? extends Element> joinPointType() throws LookupException {

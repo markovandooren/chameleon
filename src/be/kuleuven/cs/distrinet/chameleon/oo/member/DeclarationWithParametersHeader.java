@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.member;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -19,6 +18,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameterBlock;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.FormalParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.VariableContainer;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
@@ -109,7 +109,7 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
    * @throws ModelException
    */
   public List<Type> formalParameterTypes() throws LookupException {
-  	List<Type> result = new ArrayList<Type>();
+  	List<Type> result = Lists.create();
   	for (FormalParameter param : formalParameters()) {
   		result.add(param.getType());
   	}
@@ -156,7 +156,7 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
    @ post \result.containsAll(typeParameters());
    @*/
   public List<Declaration> declarations() {
-    List<Declaration>  result = new ArrayList<Declaration>();
+    List<Declaration>  result = Lists.create();
     result.addAll(formalParameters());
     result.addAll(typeParameters());
     return result;

@@ -14,6 +14,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.ParameterBlock;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 
@@ -43,7 +44,7 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 
 	public List<? extends Declaration> declarations() throws LookupException {
 //	return parameters();
-		List<Declaration> result = new ArrayList<Declaration>();
+		List<Declaration> result = Lists.create();
 		Stub stub = new Stub();
 //		stub.setUniParent(parent());
 		stub.setUniParent(this);
@@ -97,7 +98,7 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 		
 
 		public List<? extends Declaration> declarations() throws LookupException {
-				List<Declaration> result = new ArrayList<Declaration>();
+				List<Declaration> result = Lists.create();
 				for(TypeParameter parameter: parameters()) {
 					result.add(parameter.resolveForRoundTrip());
 				}

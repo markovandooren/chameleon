@@ -11,6 +11,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.modifier.Modifier;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.rejuse.property.Property;
@@ -162,7 +163,7 @@ public abstract class CommonDeclaration extends DeclarationImpl implements Eleme
 	}
 	
 	public List<Modifier> modifiers(Property property) throws ModelException {
-		List<Modifier> result = new ArrayList<Modifier>();
+		List<Modifier> result = Lists.create();
 		for(Modifier modifier: modifiers()) {
 			if(modifier.impliesTrue(property)) {
 				result.add(modifier);
@@ -174,7 +175,7 @@ public abstract class CommonDeclaration extends DeclarationImpl implements Eleme
 	@Override
 	public List<Modifier> modifiers(PropertyMutex mutex) throws ModelException {
 		Property property = property(mutex);
-		List<Modifier> result = new ArrayList<Modifier>();
+		List<Modifier> result = Lists.create();
 		for (Modifier mod : modifiers()) {
 			if (mod.impliesTrue(property)) {
 				result.add(mod);

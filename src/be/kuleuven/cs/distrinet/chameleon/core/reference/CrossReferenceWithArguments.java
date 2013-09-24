@@ -1,6 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.core.reference;
 
 import java.lang.ref.SoftReference;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.MethodInvocation;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.ActualTypeArgument;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
@@ -88,7 +90,7 @@ public class CrossReferenceWithArguments extends ElementImpl {
 
 	public List<Type> getActualParameterTypes() throws LookupException {
 		List<Expression> params = getActualParameters();
-		final List<Type> result = new ArrayList<Type>();
+		final List<Type> result = Lists.create();
 		for (Expression param : params) {
 			Type type = param.getType();
 			if (type != null) {

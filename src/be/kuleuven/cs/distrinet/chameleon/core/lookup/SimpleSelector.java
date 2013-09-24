@@ -81,6 +81,7 @@ public abstract class SimpleSelector<D extends Declaration> extends SelectorWith
 		map.put(signature().name(), selection);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected D readCache(Cache cache) {
 		Map<String,Declaration> map = (Map<String, Declaration>) cache.get(this);
