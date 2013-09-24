@@ -10,6 +10,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LexicalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContextFactory;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
@@ -17,6 +18,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
+import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
@@ -102,8 +104,14 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
 	 * and to a target context which is also attached to this variable declaration.
 	 */
 	public LookupContext linearContext() throws LookupException {
-		return new LexicalLookupContext(new LocalLookupContext<VariableDeclaration>(this),this);
+		if(_linear == null) {
+			LookupContextFactory lookupFactory = language().lookupFactory();
+			_linear = lookupFactory.createLexicalLookupStrategy(lookupFactory.createLocalLookupStrategy(this),this);
+		}
+		return _linear;
 	}
+	
+	private LookupContext _linear;
 
 	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 		return selector.selection(declarations());

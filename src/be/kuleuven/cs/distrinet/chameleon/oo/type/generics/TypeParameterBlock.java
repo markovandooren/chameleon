@@ -67,9 +67,14 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 		if(element instanceof Stub) {
 			return parent().lookupContext(this);
 		} else {
-		  return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
+			if(_lexical == null) {
+				_lexical = language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
+			}
+			return _lexical;
 		}
 	}
+	
+	private LookupContext _lexical;
 
 	public LookupContext localContext() {
 		return language().lookupFactory().createLocalLookupStrategy(this);

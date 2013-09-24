@@ -20,8 +20,13 @@ public class ForStatement extends IterationStatement implements DeclarationConta
 
 	@SuppressWarnings("unchecked")
 	public LookupContext lookupContext(Element element) throws LookupException {
-		return new LexicalLookupContext(localContext(),this);
+		if(_lexical == null) {
+			_lexical = language().lookupFactory().createLexicalLookupStrategy(localContext(),this);
+		}
+		return _lexical;
 	}
+	
+	private LookupContext _lexical;
 
 	public LookupContext localContext() {
 		return language().lookupFactory().createLocalLookupStrategy(this);
