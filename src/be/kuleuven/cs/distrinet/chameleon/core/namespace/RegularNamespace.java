@@ -99,8 +99,13 @@ public class RegularNamespace extends NamespaceImpl {
 	}
 	
   public LookupContext lookupContext(Element element) throws LookupException {
-  	return language().lookupFactory().createLexicalLookupStrategy(targetContext(), this);
+  	if(_context == null) {
+  		_context = language().lookupFactory().createLexicalLookupStrategy(targetContext(), this);
+  	}
+		return _context;
   }
+  
+  private LookupContext _context;
   
 	/**
 	 * Create a new package with the given name

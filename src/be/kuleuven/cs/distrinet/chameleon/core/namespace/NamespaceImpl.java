@@ -209,12 +209,22 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 		 ***********/
 		
 	public LocalLookupContext targetContext() {
-		return language().lookupFactory().createTargetLookupStrategy(this);
+		if(_target == null) {
+			_target = language().lookupFactory().createTargetLookupStrategy(this);
+		}
+		return _target;
 	}
 	
+	private LocalLookupContext _target;
+	
 	public LookupContext localContext() {
-		return language().lookupFactory().createLocalLookupStrategy(this);
+		if(_local == null) {
+			_local = language().lookupFactory().createLocalLookupStrategy(this);
+		}
+		return _local;
 	}
+
+	private LookupContext _local;
 
 	public List<Declaration> declarations() throws LookupException {
 		return directDeclarations();

@@ -119,11 +119,16 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	protected class CurrentNamespaceStrategySelector implements LookupContextSelector {
 		public LookupContext strategy() throws LookupException {
 			// 3 SEARCH IN CURRENT NAMESPACE
-			LookupContext currentNamespaceStrategy = namespace().localContext();
-			return language().lookupFactory().createLexicalLookupStrategy(
-					 currentNamespaceStrategy, NamespaceDeclaration.this, _demandImportStrategySelector)
+			if(_context == null) {
+				LookupContext currentNamespaceStrategy = namespace().localContext();
+				_context = language().lookupFactory().createLexicalLookupStrategy(
+						currentNamespaceStrategy, NamespaceDeclaration.this, _demandImportStrategySelector);
+			}
+			return _context
 			;
 		}
+		
+		private LookupContext _context;
 	}
 
 	protected class DirectImportStrategySelector implements LookupContextSelector {
