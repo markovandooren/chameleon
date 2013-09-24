@@ -9,8 +9,8 @@ import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
+import be.kuleuven.cs.distrinet.chameleon.util.profile.Timer;
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
-import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
 
 /**
  * @author Marko van Dooren
@@ -91,16 +91,22 @@ public class Block extends StatementImpl implements StatementListContainer {
    @      \result == getStatements().elementAt(getStatements().indexOf(element) - 1).lexicalContext();
    @*/
 	public LookupContext lookupContext(Element element) throws LookupException {
+//		LINEAR.start();
+		LookupContext result;
 		List<Statement> declarations = statements();
 		int index = declarations.indexOf(element);
 		if(index == 0) {
-			return parent().lookupContext(this);
+			result = parent().lookupContext(this);
 		} else if (index > 0) {
-			return declarations.get(index-1).linearLookupStrategy();
+			result = declarations.get(index-1).linearLookupStrategy();
 		} else {
 		  throw new ChameleonProgrammerException("Invoking lexicalContext(element) with an element that is not a child.");
 		}
+//		LINEAR.stop();
+		return result;
 	}
+	
+//	public final static Timer LINEAR = new Timer();
 
 	@Override
 	public Verification verifySelf() {

@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableList;
-
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
@@ -39,10 +37,12 @@ import be.kuleuven.cs.distrinet.chameleon.oo.member.Member;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.MemberRelationSelector;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.inheritance.InheritanceRelation;
-import be.kuleuven.cs.distrinet.chameleon.util.CallTracer;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
 import be.kuleuven.cs.distrinet.rejuse.java.collections.TypeFilter;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
+
+import com.google.common.collect.ImmutableList;
 
 /**
  * <p>A class representing types in object-oriented programs.</p>
@@ -214,11 +214,16 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     public LocalLookupContext<?> targetContext() throws LookupException {
     	Language language = language();
     	if(language != null) {
-			  return language.lookupFactory().createTargetLookupStrategy(this);
+    		if(_target == null) {
+    			_target = language.lookupFactory().createTargetLookupStrategy(this);
+    		}
+				return _target;
     	} else {
     		throw new LookupException("Element of type "+getClass().getName()+" is not connected to a language. Cannot retrieve target context.");
     	}
     }
+    
+    private LocalLookupContext  _target;
     
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#localStrategy()

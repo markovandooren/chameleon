@@ -23,6 +23,8 @@ import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 
+import com.google.common.collect.ImmutableList;
+
 public class ClassBody extends ElementImpl implements DeclarationContainer {
 
 	public ClassBody() {
