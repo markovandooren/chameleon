@@ -198,6 +198,9 @@ public class Document extends ElementImpl {
 //		Document clone = (Document) clone();
 		FakeDocumentLoader pl = new FakeDocumentLoader();
 		InputSource is = new FakeInputSource(clone,pl);
+		for(NamespaceDeclaration decl: descendants(NamespaceDeclaration.class)) {
+			view.namespace().getOrCreateNamespace(decl.namespace().getFullyQualifiedName());
+		}
 		try {
 			view.addSource(pl);
 		} catch (ProjectException e) {
