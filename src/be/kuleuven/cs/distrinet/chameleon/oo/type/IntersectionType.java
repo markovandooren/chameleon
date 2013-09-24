@@ -185,7 +185,15 @@ public class IntersectionType extends MultiType {
 				}
 			}.forAll(types);
 		} else {
-			return (other instanceof Type) && (types.size() == 1) && (types.iterator().next().sameAs(other));
+			if(other instanceof Type) {
+				for(Type type: types()) {
+					if(! type.sameAs(other)) {
+						return false;
+					}
+				}
+				return true;
+			}
+			return false;
 		}
 	}
 	
