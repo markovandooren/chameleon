@@ -4,14 +4,14 @@ import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.staticexpression.DeclarationReference;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.oo.expression.NamedTargetExpression;
+import be.kuleuven.cs.distrinet.chameleon.oo.expression.NameExpression;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.RegularType;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.RegularMemberVariable;
 import be.kuleuven.cs.distrinet.chameleon.support.expression.AssignmentExpression;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
-public class FieldReadPointcutExpression extends AbstractPointcutExpression<NamedTargetExpression> {
+public class FieldReadPointcutExpression extends AbstractPointcutExpression<NameExpression> {
 
 	public FieldReadPointcutExpression(TypeReference typeReference, DeclarationReference reference) {
 		setFieldReference(reference);
@@ -65,7 +65,7 @@ public class FieldReadPointcutExpression extends AbstractPointcutExpression<Name
 	 *  get(B.foo) doesn't match a.foo OR b.foo
 	 */
 	@Override
-	public MatchResult match(NamedTargetExpression joinpoint) throws LookupException {
+	public MatchResult match(NameExpression joinpoint) throws LookupException {
 		if (!(joinpoint.getElement() instanceof RegularMemberVariable))
 			return MatchResult.noMatch();
 		
@@ -92,7 +92,7 @@ public class FieldReadPointcutExpression extends AbstractPointcutExpression<Name
 	}
 
 	@Override
-	public Class<? extends NamedTargetExpression> joinPointType() throws LookupException {
-		return NamedTargetExpression.class;
+	public Class<? extends NameExpression> joinPointType() throws LookupException {
+		return NameExpression.class;
 	}
 }

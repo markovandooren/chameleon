@@ -11,7 +11,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceWithArguments;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
-import be.kuleuven.cs.distrinet.chameleon.oo.expression.NamedTargetExpression;
+import be.kuleuven.cs.distrinet.chameleon.oo.expression.NameExpression;
 import be.kuleuven.cs.distrinet.chameleon.oo.lookup.SimpleNameCrossReferenceWithArgumentsSelector;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.ActualTypeArgument;
@@ -83,10 +83,10 @@ public class PointcutReference extends CrossReferenceWithArguments implements Cr
 		int index = 0;
 		
 		for (Expression param : getActualParameters()) {
-			if (!(param instanceof NamedTargetExpression))
+			if (!(param instanceof NameExpression))
 				continue;
 			
-			if (((NamedTargetExpression) param).name().equals(fp.getName()))
+			if (((NameExpression) param).name().equals(fp.getName()))
 				return index;
 			
 			index++;

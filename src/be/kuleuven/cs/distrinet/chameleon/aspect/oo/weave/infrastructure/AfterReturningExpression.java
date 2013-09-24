@@ -6,7 +6,8 @@ import be.kuleuven.cs.distrinet.chameleon.aspect.oo.model.language.AspectOriente
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
-import be.kuleuven.cs.distrinet.chameleon.oo.expression.NamedTargetExpression;
+import be.kuleuven.cs.distrinet.chameleon.oo.expression.ExpressionFactory;
+import be.kuleuven.cs.distrinet.chameleon.oo.expression.NameExpression;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Block;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.VariableDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.support.statement.ReturnStatement;
@@ -55,10 +56,11 @@ public class AfterReturningExpression extends AdvisedExpressionFactory {
 		 */
 		adviceBody.addBlock(Util.clone(advice.body()));
 		
+		ExpressionFactory expressionFactory = language().plugin(ExpressionFactory.class);
 		/*
 		 * 	Add the return statement
 		 */
-		adviceBody.addStatement(new ReturnStatement(new NamedTargetExpression(returnVariableName)));
+		adviceBody.addStatement(new ReturnStatement(expressionFactory.createNameExpression(returnVariableName)));
 		
 		return adviceBody;
 	}

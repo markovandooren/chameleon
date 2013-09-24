@@ -5,7 +5,8 @@ import be.kuleuven.cs.distrinet.chameleon.aspect.oo.model.advice.modifier.Throwi
 import be.kuleuven.cs.distrinet.chameleon.aspect.oo.model.language.AspectOrientedOOLanguage;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
-import be.kuleuven.cs.distrinet.chameleon.oo.expression.NamedTargetExpression;
+import be.kuleuven.cs.distrinet.chameleon.oo.expression.ExpressionFactory;
+import be.kuleuven.cs.distrinet.chameleon.oo.expression.NameExpression;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Block;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.BasicTypeReference;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
@@ -27,7 +28,8 @@ public class AfterThrowingExpressionFactory extends AdvisedExpressionFactory {
 
 	public CatchClause clause(String name, Type caughtType) {
 		Block catchBlockBody = new Block();
-		ThrowStatement rethrow = new ThrowStatement(new NamedTargetExpression(name));
+		ExpressionFactory expressionFactory = caughtType.language().plugin(ExpressionFactory.class);
+		ThrowStatement rethrow = new ThrowStatement(expressionFactory.createNameExpression(name));
 		try {
 			ProgrammingAdvice advice = factory().getAdvice();
 			Throwing m = (Throwing) advice.modifiers(advice.language(AspectOrientedOOLanguage.class).THROWING()).get(0);
@@ -37,7 +39,7 @@ public class AfterThrowingExpressionFactory extends AdvisedExpressionFactory {
 				// If the declared type is the same or a super type of the type caught, add the advice and expose the parameter
 				if (caughtType.assignableTo(declaredType)) {
 					LocalVariableDeclarator paramExpose = new LocalVariableDeclarator(Util.clone(m.parameter().getTypeReference()));
-					paramExpose.add(new VariableDeclaration(m.parameter().getName(), new NamedTargetExpression(name)));
+					paramExpose.add(new VariableDeclaration(m.parameter().getName(), expressionFactory.createNameExpression(name)));
 					catchBlockBody.addStatement(paramExpose);
 					catchBlockBody.addBlock(Util.clone(advice.body()));
 					catchBlockBody.addStatement(rethrow);
@@ -46,12 +48,12 @@ public class AfterThrowingExpressionFactory extends AdvisedExpressionFactory {
 				else if (declaredType.subTypeOf(caughtType)) {
 					Block innerBody = new Block();
 					LocalVariableDeclarator paramExpose = new LocalVariableDeclarator(Util.clone(m.parameter().getTypeReference()));
-					paramExpose.add(new VariableDeclaration(m.parameter().getName(), new ClassCastExpression(Util.clone(m.parameter().getTypeReference()), new NamedTargetExpression(name))));
+					paramExpose.add(new VariableDeclaration(m.parameter().getName(), new ClassCastExpression(Util.clone(m.parameter().getTypeReference()), expressionFactory.createNameExpression(name))));
 
 					innerBody.addStatement(paramExpose);
 					innerBody.addBlock(Util.clone(advice.body()));
 
-					InstanceofExpression instanceOf = new InstanceofExpression(new NamedTargetExpression(name), new BasicTypeReference(declaredType.getFullyQualifiedName()));
+					InstanceofExpression instanceOf = new InstanceofExpression(expressionFactory.createNameExpression(name), new BasicTypeReference(declaredType.getFullyQualifiedName()));
 					IfThenElseStatement runtimeTest = new IfThenElseStatement(instanceOf, innerBody, null);
 
 					catchBlockBody.addStatement(runtimeTest);

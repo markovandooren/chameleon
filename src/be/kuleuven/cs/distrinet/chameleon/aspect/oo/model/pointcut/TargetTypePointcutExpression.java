@@ -1,10 +1,10 @@
 package be.kuleuven.cs.distrinet.chameleon.aspect.oo.model.pointcut;
 
-import be.kuleuven.cs.distrinet.chameleon.oo.expression.NamedTargetExpression;
+import be.kuleuven.cs.distrinet.chameleon.oo.expression.NameExpression;
 
 public class TargetTypePointcutExpression extends TypePointcutExpression {
 	
-	public TargetTypePointcutExpression(NamedTargetExpression parameter) {
+	public TargetTypePointcutExpression(NameExpression parameter) {
 		super(parameter);
 	}
 

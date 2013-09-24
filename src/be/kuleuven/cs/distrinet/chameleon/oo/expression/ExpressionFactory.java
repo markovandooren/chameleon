@@ -42,5 +42,11 @@ public class ExpressionFactory extends LanguagePluginImpl {
 		return new PostfixOperatorInvocation(name, target);
 	}
 
+  public NameExpression createNameExpression(String name) {
+  	return new NameExpression(name);
+  }
 
+  public NameExpression createNameExpression(String name, CrossReferenceTarget target) {
+  	return new NameExpression(name,target);
+  }
 }

@@ -27,18 +27,18 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
-public class NamedTargetExpression extends TargetedExpression implements CrossReferenceWithName<DeclarationWithType>, CrossReferenceWithTarget<DeclarationWithType> {
+public class NameExpression extends TargetedExpression implements CrossReferenceWithName<DeclarationWithType>, CrossReferenceWithTarget<DeclarationWithType> {
 
-  public NamedTargetExpression(String identifier) {
+  public NameExpression(String identifier) {
   	setSignature(new SimpleNameSignature(identifier));
 	}
   
-  public NamedTargetExpression(String identifier, CrossReferenceTarget target) {
+  public NameExpression(String identifier, CrossReferenceTarget target) {
   	this(identifier);
 	  setTarget(target);
 	}
   
-  private NamedTargetExpression() {
+  protected NameExpression() {
   }
 
   /********
@@ -86,8 +86,8 @@ public class NamedTargetExpression extends TargetedExpression implements CrossRe
 
 
 	@Override
-	public NamedTargetExpression cloneSelf() {
-    return new NamedTargetExpression();
+	public NameExpression cloneSelf() {
+    return new NameExpression();
 	}
 
 	@Override
@@ -186,7 +186,7 @@ public class NamedTargetExpression extends TargetedExpression implements CrossRe
 	
 	private DeclarationSelector<DeclarationWithType> _selector = new SimpleSelector<DeclarationWithType>(DeclarationWithType.class) {
 		public Signature signature() {
-			return NamedTargetExpression.this.signature();
+			return NameExpression.this.signature();
 		}
 	};
 
