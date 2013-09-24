@@ -4,7 +4,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.RootNamespaceReference;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
-import be.kuleuven.cs.distrinet.chameleon.core.reference.SimpleReference;
+import be.kuleuven.cs.distrinet.chameleon.oo.expression.ExpressionFactory;
 import be.kuleuven.cs.distrinet.chameleon.plugin.LanguagePluginImpl;
 
 /**
@@ -28,7 +28,7 @@ public abstract class Factory extends LanguagePluginImpl {
    @ post \result.namespace() == ns;
    @*/
 	public NamespaceDeclaration createNamespaceDeclaration(String fqn) {
-		return createNamespaceDeclaration(new SimpleReference<Namespace>(fqn, Namespace.class));
+		return createNamespaceDeclaration(language().plugin(ExpressionFactory.class).createSimpleReference(fqn, Namespace.class));
 	}
 	
 	/**
