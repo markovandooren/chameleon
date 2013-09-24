@@ -265,8 +265,7 @@ public abstract class Method extends DeclarationWithParameters {
 	 * For debugging purposes because Eclipse detail formatters simply don't work.
 	 */
 	public String toString() {
-		Type container = nearestAncestor(Type.class);
-		return (container == null ? "" : container.getFullyQualifiedName() +".")+signature().toString();
+		return header().toString();
 	}
 
 }
