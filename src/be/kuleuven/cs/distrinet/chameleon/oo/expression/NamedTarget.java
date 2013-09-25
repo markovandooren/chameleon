@@ -36,12 +36,12 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
    @ pre fqn != null;
    @
    @*/
-  public NamedTarget(String fqn) {
+  public NamedTarget(String fqn, ExpressionFactory factory) {
   	_signature=new SimpleNameSignature(""); // name will be set correctly in setName().
 	  setName(Util.getLastPart(fqn));
     fqn = Util.getAllButLastPart(fqn);
     if(fqn != null) {
-      setTarget(new NamedTarget(fqn)); 
+      setTarget(factory.createNamedTarget(fqn)); 
     }
 
   }
@@ -194,8 +194,12 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
 //    return false;
 //  }
 
+	protected NamedTarget() {
+		
+	}
+	
   protected NamedTarget cloneSelf() {
-    return new NamedTarget(name());
+    return new NamedTarget(name(),(CrossReferenceTarget)null);
   }
   
 //  public void prefix(InvocationTarget target) throws LookupException {

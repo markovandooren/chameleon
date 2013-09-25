@@ -49,7 +49,11 @@ public class ExpressionFactory extends LanguagePluginImpl {
 	}
 
 	public NamedTarget createNamedTarget(String fqn) {
-		return new NamedTarget(fqn);
+		return new NamedTarget(fqn,this);
+	}
+
+	public NamedTarget createNamedTarget(String fqn, CrossReferenceTarget target) {
+		return new NamedTarget(fqn,target);
 	}
 
   public NameExpression createNameExpression(String name) {
