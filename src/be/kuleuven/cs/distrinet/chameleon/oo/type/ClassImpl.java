@@ -212,24 +212,24 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
     
     
     public LocalLookupContext<?> targetContext() throws LookupException {
-    	Language language = language();
-    	if(language != null) {
-    		if(_target == null) {
-    			_target = language.lookupFactory().createTargetLookupStrategy(this);
-    		}
-				return _target;
-    	} else {
-    		throw new LookupException("Element of type "+getClass().getName()+" is not connected to a language. Cannot retrieve target context.");
-    	}
+    	return localContext();
     }
     
-    private LocalLookupContext  _target;
+    protected LocalLookupContext  _target;
     
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#localStrategy()
 		 */
-    public LookupContext localContext() throws LookupException {
-    	return targetContext();
+    public LocalLookupContext localContext() throws LookupException {
+    	if(_target == null) {
+    		Language language = language();
+    		if(language != null) {
+    			_target = language.lookupFactory().createTargetLookupStrategy(this);
+    		}	else {
+    			throw new LookupException("Element of type "+getClass().getName()+" is not connected to a language. Cannot retrieve target context.");
+    		}
+    	} 
+    	return _target;
     }
     
     /* (non-Javadoc)
