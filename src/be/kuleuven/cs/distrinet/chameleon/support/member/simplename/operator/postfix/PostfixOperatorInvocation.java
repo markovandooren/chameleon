@@ -44,12 +44,12 @@ public class PostfixOperatorInvocation extends SimpleNameMethodInvocation<Postfi
     };
   }
 
-  @Override
-  public PostfixOperator getElement() throws LookupException {
-  	Timer.POSTFIX_OPERATOR_INVOCATION.start();
-  	PostfixOperator result = super.getElement();
-  	Timer.POSTFIX_OPERATOR_INVOCATION.stop();
-  	return result;
-  }
+//  @Override
+//  public PostfixOperator getElement() throws LookupException {
+//  	Timer.POSTFIX_OPERATOR_INVOCATION.start();
+//  	PostfixOperator result = super.getElement();
+//  	Timer.POSTFIX_OPERATOR_INVOCATION.stop();
+//  	return result;
+//  }
 
 }

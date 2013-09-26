@@ -40,12 +40,12 @@ public class InfixOperatorInvocation extends SimpleNameMethodInvocation<InfixOpe
     };
   }
   
-  @Override
-  public InfixOperator getElement() throws LookupException {
-  	Timer.INFIX_OPERATOR_INVOCATION.start();
-  	InfixOperator result = super.getElement();
-  	Timer.INFIX_OPERATOR_INVOCATION.stop();
-  	return result;
-  }
+//  @Override
+//  public InfixOperator getElement() throws LookupException {
+//  	Timer.INFIX_OPERATOR_INVOCATION.start();
+//  	InfixOperator result = super.getElement();
+//  	Timer.INFIX_OPERATOR_INVOCATION.stop();
+//  	return result;
+//  }
 
 }

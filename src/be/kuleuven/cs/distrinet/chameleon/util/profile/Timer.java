@@ -38,7 +38,7 @@ public class Timer {
 		_stopwatch.reset();
 	}
 	
-	public final static Timer INFIX_OPERATOR_INVOCATION = new Timer();
-	public final static Timer POSTFIX_OPERATOR_INVOCATION = new Timer();
-	public final static Timer PREFIX_OPERATOR_INVOCATION = new Timer();
+//	public final static Timer INFIX_OPERATOR_INVOCATION = new Timer();
+//	public final static Timer POSTFIX_OPERATOR_INVOCATION = new Timer();
+//	public final static Timer PREFIX_OPERATOR_INVOCATION = new Timer();
 }

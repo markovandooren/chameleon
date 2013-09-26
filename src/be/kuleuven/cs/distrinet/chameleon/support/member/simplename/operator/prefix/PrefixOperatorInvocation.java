@@ -36,12 +36,12 @@ public class PrefixOperatorInvocation extends SimpleNameMethodInvocation<PrefixO
     };
   }
   
-  @Override
-  public PrefixOperator getElement() throws LookupException {
-  	Timer.PREFIX_OPERATOR_INVOCATION.start();
-  	PrefixOperator result = super.getElement();
-  	Timer.PREFIX_OPERATOR_INVOCATION.stop();
-  	return result;
-  }
+//  @Override
+//  public PrefixOperator getElement() throws LookupException {
+//  	Timer.PREFIX_OPERATOR_INVOCATION.start();
+//  	PrefixOperator result = super.getElement();
+//  	Timer.PREFIX_OPERATOR_INVOCATION.stop();
+//  	return result;
+//  }
 
 }
