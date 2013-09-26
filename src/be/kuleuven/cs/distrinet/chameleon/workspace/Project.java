@@ -6,6 +6,7 @@ import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
+import be.kuleuven.cs.distrinet.chameleon.support.statement.JumpStatement;
 import be.kuleuven.cs.distrinet.chameleon.util.Handler;
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
@@ -286,17 +287,23 @@ public class Project {
 	 *        
 	 * @param file The file to be added.
 	 */
-	public void tryToAdd(File file) {
-		for(View view: views()) {
-			for(FileLoader loader: view.loaders(FileLoader.class)) {
+	public IFileInputSource tryToAdd(File file) {
+		IFileInputSource result = null;
+		List<View> views = views();
+		int nbViews = views.size();
+		for(int j = 0; result == null && j< nbViews; j++) {
+			List<FileLoader> loaders = views.get(j).loaders(FileLoader.class);
+			int loaderSize = loaders.size();
+			for(int i = 0; result == null && i < loaderSize; i++) {
 				try {
-					loader.tryToAdd(file);
+					result = loaders.get(i).tryToAdd(file);
 				} catch (InputException e) {
 					throw new IllegalArgumentException(e);
 				}
 			}
 		}
 		flushSourceCache();
+		return result;
 	}
 	
 	/**

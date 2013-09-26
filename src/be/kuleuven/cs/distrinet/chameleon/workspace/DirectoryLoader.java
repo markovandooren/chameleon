@@ -23,7 +23,6 @@ import be.kuleuven.cs.distrinet.chameleon.util.concurrent.QueuePollingCallableFa
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 /**
  * A class for recursively loading files from a directory.
@@ -293,7 +292,8 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 	}
 
 	@Override
-	public synchronized void tryToAdd(File file) throws InputException {
+	public synchronized IFileInputSource tryToAdd(File file) throws InputException {
+		IFileInputSource result = null;
 		try {
 			if(responsibleFor(file) && ! file.isHidden()) {
 				File relative = file.getParentFile();
@@ -301,23 +301,25 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 				while(relative != null && (! relative.equals(_root))) {
 					String relativeName = relative.getName();
 					if(new File(relativeName).isHidden()) {
-						return;
+						return result;
 					}
 					names.add(relativeName);
 					relative = relative.getParentFile();
 				}
 				if(relative != null) {
+//					_inputSourceFactory.resetToRoot();
 					int size = names.size();
 					for(int i = size - 1; i >= 0; i--) {
 						_inputSourceFactory.pushDirectory(names.get(i));
 					}
-					_inputSourceFactory.create(file,this);		
+					result = _inputSourceFactory.create(file,this);		
 				}
 			}
 		}
 		finally {
 			_inputSourceFactory.initialize(view().namespace());
 		}
+		return result;
 	}
 	
 	@Override
