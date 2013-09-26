@@ -64,24 +64,6 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 				}
 			}
 		});
-		_inputSources.addListener(new AssociationListener<InputSource>() {
-
-			@Override
-			public void notifyElementAdded(InputSource element) {
-				notifyAdded(element);
-			}
-
-			@Override
-			public void notifyElementRemoved(InputSource element) {
-				notifyRemoved(element);
-			}
-
-			@Override
-			public void notifyElementReplaced(InputSource oldElement, InputSource newElement) {
-				notifyAdded(oldElement);
-				notifyRemoved(newElement);
-			}
-		});
 	}
 
 	/**
@@ -140,16 +122,25 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	private OrderedMultiAssociation<DocumentLoaderImpl, InputSource> _inputSources = new OrderedMultiAssociation<DocumentLoaderImpl, InputSource>(this) {
 		protected void fireElementAdded(InputSource addedElement) {
 			flushLocalCache();
+			notifyAdded(addedElement);
+			super.fireElementAdded(addedElement);
+
 		};
 		
 		protected void fireElementRemoved(InputSource addedElement) {
 			flushLocalCache();
+			notifyRemoved(addedElement);
+			super.fireElementRemoved(addedElement);
 		};
 		
 		protected void fireElementReplaced(InputSource oldElement, InputSource newElement) {
 			flushLocalCache();
+			notifyAdded(oldElement);
+			notifyRemoved(newElement);
+			super.fireElementReplaced(oldElement, newElement);
 		};
 	};
+	
 
 	/**
 	 * Add the given input source.
