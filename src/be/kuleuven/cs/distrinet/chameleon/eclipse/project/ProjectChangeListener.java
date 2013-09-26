@@ -17,7 +17,6 @@ import org.eclipse.core.runtime.IPath;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.ChameleonEditor;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.editors.EclipseDocument;
-import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 

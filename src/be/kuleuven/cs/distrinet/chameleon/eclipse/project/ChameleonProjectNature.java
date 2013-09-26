@@ -82,16 +82,6 @@ public class ChameleonProjectNature implements IProjectNature {
 
 		}
 
-		@Override
-		public void notifyInputSourceRemoved(InputSource source) {
-			if(source instanceof IFileInputSource) {
-				IFileInputSource fileSource = (IFileInputSource) source;
-				EclipseDocument doc = documentOfPath(toPath(fileSource));
-				_eclipseDocuments.remove(doc);
-				doc.destroy();
-			}
-		}
-
 		protected IPath toPath(IFileInputSource fileSource) {
 			IFile ifile = toFile(fileSource);
 			return ifile.getFullPath();
@@ -106,6 +96,16 @@ public class ChameleonProjectNature implements IProjectNature {
 		}
 
 		@Override
+		public void notifyInputSourceRemoved(InputSource source) {
+			if(source instanceof IFileInputSource) {
+				IFileInputSource fileSource = (IFileInputSource) source;
+				EclipseDocument doc = documentOfPath(toPath(fileSource));
+				_eclipseDocuments.remove(doc);
+				doc.destroy();
+			}
+		}
+
+		@Override
 		public void notifyInputSourceAdded(InputSource source) {
 			if(source instanceof IFileInputSource) {
 				IFileInputSource fileSource = (IFileInputSource) source;
@@ -115,6 +115,8 @@ public class ChameleonProjectNature implements IProjectNature {
 			}
 		}
 	}
+	
+
 
 	@SuppressWarnings("serial")
 	public ChameleonProjectNature() {
