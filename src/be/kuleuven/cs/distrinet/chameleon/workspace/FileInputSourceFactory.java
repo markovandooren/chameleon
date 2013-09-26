@@ -12,6 +12,8 @@ public class FileInputSourceFactory {
 	public void initialize(Namespace root) {
 //		_currentNamespace = root;
 		_root = root;
+		_current = _root;
+		_namespaceNameStack = new LinkedList<>();
 	}
 	
 	private Namespace _root;
