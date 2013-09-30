@@ -35,12 +35,12 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 		super(sig,view,new LazyNamespaceFactory());
 	}
 
-	@Override
-	protected synchronized void initDirectCache() throws LookupException {
-		if(_declarationCache == null) {
-			_declarationCache = new HashMap<String, List<Declaration>>();
-		}
-	}
+//	@Override
+//	protected synchronized void initDirectCache() throws LookupException {
+//		if(_declarationCache == null) {
+//			_declarationCache = new HashMap<String, List<Declaration>>();
+//		}
+//	}
 	
 	@Override
 	protected synchronized List<Declaration> searchDeclarations(String name) throws LookupException {

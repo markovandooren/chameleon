@@ -45,7 +45,7 @@ public class Pair<T1,T2> {
 	}
 	
 	private void setFirst(T1 first) {
-		Contracts.notNull(first, "The first element of a pair should not be null.");
+//		Contracts.notNull(first, "The first element of a pair should not be null.");
 		_first = first;
 	}
 
@@ -64,7 +64,7 @@ public class Pair<T1,T2> {
 	}
 	
 	private void setSecond(T2 second) {
-		Contracts.notNull(second, "The second element of a pair should not be null.");
+//		Contracts.notNull(second, "The second element of a pair should not be null.");
 		_second = second;
 	}
 	
