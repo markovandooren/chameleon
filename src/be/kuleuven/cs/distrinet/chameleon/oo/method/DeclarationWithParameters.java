@@ -62,7 +62,8 @@ public abstract class DeclarationWithParameters extends MemberImpl implements De
 	  private Single<MethodHeader> _header = new Single<MethodHeader>(this,true);
 	
 		public DeclarationWithParametersSignature signature() {
-			return header().signature();
+			MethodHeader header = header();
+			return header == null ? null : header.signature();
 		}
 		
 		public void setSignature(Signature signature) {
