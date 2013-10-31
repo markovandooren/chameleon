@@ -297,5 +297,9 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 	
 	private Single<TypeReference> _superClass = new Single<TypeReference>(this);
 
+	@Override
+	public String toString() {
+		return "<: "+superClassReference().toString();
+	}
 
 }
