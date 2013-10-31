@@ -24,7 +24,7 @@ public class BaseLibraryConfiguration {
 	return _workspace;
 	}
 
-  private Map<Language, Boolean> _baseLibraryMap = new HashMap<Language, Boolean>();
+  private Map<String, Boolean> _baseLibraryMap = new HashMap<>();
   
   
   public boolean mustLoad(be.kuleuven.cs.distrinet.chameleon.core.language.Language language) {
@@ -37,7 +37,6 @@ public class BaseLibraryConfiguration {
   }
   
   public void put(String languageName, boolean load) {
-  	Language language = workspace().languageRepository().get(languageName);
-		_baseLibraryMap.put(language, load);
+		_baseLibraryMap.put(languageName.toLowerCase(), load);
   }
 }
