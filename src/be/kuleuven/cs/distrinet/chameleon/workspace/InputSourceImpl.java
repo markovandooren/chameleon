@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.google.common.base.Stopwatch;
-
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
+import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.InputSourceNamespace;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
@@ -71,7 +70,7 @@ public abstract class InputSourceImpl implements InputSource {
 		return _document.getOtherEnd() != null;
 	}
 	
-	public final Document load() throws InputException {
+	public final synchronized Document load() throws InputException {
 		if(! isLoaded()) {
 			return refresh();
 		} else {
@@ -126,13 +125,13 @@ public abstract class InputSourceImpl implements InputSource {
 		} catch (InputException e) {
 			throw new LookupException("Error opening file",e);
 		}
-		NamespaceDeclaration namespaceDeclaration = rawDocument().children(NamespaceDeclaration.class).get(0);
+		NamespaceDeclaration namespaceDeclaration = rawDocument().namespaceDeclaration(1);
 		if(namespaceDeclaration != null) {
-			List<Declaration> children = (List)namespaceDeclaration.children(Declaration.class);
+			List<Element> children = (List)namespaceDeclaration.children();
 			List<Declaration> result = new ArrayList<Declaration>(1);
-			for(Declaration t: children) {
-				if(t.name().equals(name)) {
-					result.add(t);
+			for(Element t: children) {
+				if(t instanceof Declaration && ((Declaration)t).name().equals(name)) {
+					result.add((Declaration) t);
 				}
 			}
 			return result;

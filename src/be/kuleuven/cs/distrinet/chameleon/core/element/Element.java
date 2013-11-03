@@ -379,7 +379,7 @@ public interface Element {
      @
      @ post \result == ancestors().contains(ancestor);
      @*/
-	  public <T extends Element> boolean hasAncestor(Element ancestor);
+	  public boolean hasAncestor(Element ancestor);
 
 
     /**

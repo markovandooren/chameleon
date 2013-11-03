@@ -2,11 +2,15 @@ package be.kuleuven.cs.distrinet.chameleon.oo.expression;
 
 import java.util.List;
 
+import java.lang.ref.SoftReference;
+
+import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationCollector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclaratorSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
-import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceWithArguments;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceWithTarget;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.UnresolvableCrossReference;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
@@ -16,22 +20,25 @@ import be.kuleuven.cs.distrinet.chameleon.oo.method.DeclarationWithParameters;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.CheckedExceptionList;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.ActualTypeArgument;
+import be.kuleuven.cs.distrinet.chameleon.util.Lists;
+import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
 /**
  * @author Marko van Dooren
  * 
- * @param <D>
+ * @param <D>import java.lang.ref.SoftReference;
+
  *            The type of declaration invoked by this invocation.
  */
 
 public abstract class MethodInvocation<D extends DeclarationWithParameters>
 		extends TargetedExpression implements CrossReferenceWithTarget<D> {
 
-	private Single<CrossReferenceWithArguments> _crossReference = new Single<CrossReferenceWithArguments>(this);
+//	private Single<CrossReferenceWithArguments> _crossReference = new Single<CrossReferenceWithArguments>(this);
 
 	public MethodInvocation(CrossReferenceTarget target) {
-		set(_crossReference, new CrossReferenceWithArguments());
+//		set(_crossReference, new CrossReferenceWithArguments());
 		setTarget(target);
 	}
 
@@ -42,37 +49,84 @@ public abstract class MethodInvocation<D extends DeclarationWithParameters>
 		return _selector;
 	}
 
-	public CrossReferenceWithArguments crossReference() {
-		return _crossReference.getOtherEnd();
-	}
 
 	protected abstract DeclarationSelector<D> createSelector()
 			throws LookupException;
 
 	protected DeclarationSelector<D> _selector;
 
+//	@Override
+//	public void flushLocalCache() {
+//		super.flushLocalCache();
+//		crossReference().flushLocalCache();
+//	}
+
+	public CheckedExceptionList getDirectCEL() throws LookupException {
+		throw new Error();
+	}
+
+	public CheckedExceptionList getDirectAbsCEL() throws LookupException {
+		throw new Error();
+	}
+
+	@Override
+	public Verification verifySelf() {
+		Verification result = Valid.create();
+		try {
+			if (getElement() == null) {
+				result = result.and(new UnresolvableCrossReference(this));
+			}
+		} catch(LookupException e) {
+			result = result.and(new UnresolvableCrossReference(this, e.getMessage()));
+		} catch(ChameleonProgrammerException e) {
+			result = result.and(new UnresolvableCrossReference(this, e.getMessage()));
+		}
+		return result;
+	}
+	
+	
+	
+	//*********************
+	
+
+	/**
+	 * TARGET
+	 */
+	private Single<CrossReferenceTarget> _target = new Single<CrossReferenceTarget>(
+			this);
+
 	public CrossReferenceTarget getTarget() {
-		return crossReference().getTarget();
+		return _target.getOtherEnd();
 	}
 
 	public void setTarget(CrossReferenceTarget target) {
-		crossReference().setTarget(target);
+		set(_target,target);
+	}
+
+	/*********************
+	 * ACTUAL PARAMETERS *
+	 *********************/
+	private Multi<Expression> _parameters = new Multi<Expression>(this,"arguments");
+	{
+		_parameters.enableCache();
 	}
 
 	public void addArgument(Expression parameter) {
-		crossReference().addArgument(parameter);
+		add(_parameters, parameter);
 	}
 
-	public void addAllArguments(List<Expression> parameters) {
-		crossReference().addAllArguments(parameters);
+	public void addAllArguments(List<? extends Expression> parameters) {
+		for (Expression parameter : parameters) {
+			addArgument(parameter);
+		}
 	}
 
 	public void removeParameter(Expression parameter) {
-		crossReference().removeParameter(parameter);
+		remove(_parameters,parameter);
 	}
 
 	public List<Expression> getActualParameters() {
-		return crossReference().getActualParameters();
+		return _parameters.getOtherEnds();
 	}
 
 	/*
@@ -87,15 +141,132 @@ public abstract class MethodInvocation<D extends DeclarationWithParameters>
 	 * @
 	 */
 	public int nbActualParameters() {
-		return crossReference().nbActualParameters();
+		return _parameters.size();
 	}
 
 	public List<Type> getActualParameterTypes() throws LookupException {
-		return crossReference().getActualParameterTypes();
+		List<Expression> params = getActualParameters();
+		final List<Type> result = Lists.create();
+		for (Expression param : params) {
+			Type type = param.getType();
+			if (type != null) {
+				result.add(type);
+			} else {
+				// Type ttt = ((ActualParameter)param).getType(); //DEBUG
+				throw new LookupException("Cannot determine type of expression");
+			}
+		}
+		return result;
 	}
 
+	/*
+	 * @
+	 * 
+	 * @ also public behavior
+	 * 
+	 * @
+	 * 
+	 * @ post
+	 * \result.containsAll(getMethod().getExceptionClause().getExceptionTypes
+	 * (this));
+	 * 
+	 * @ post
+	 * (getLanguage().getUncheckedException(getPackage().getDefaultPackage()) !=
+	 * null) ==>
+	 * 
+	 * @ result.contains(getLanguage().getUncheckedException(getPackage().
+	 * getDefaultPackage());
+	 * 
+	 * @
+	 */
+	// public Set getMethodExceptions() throws LookupException {
+	// Set result = getMethod().getExceptionClause().getExceptionTypes(this);
+	// Type rte =
+	// language(ObjectOrientedLanguage.class).getUncheckedException();
+	// if (rte != null) {
+	// result.add(rte);
+	// }
+	// return result;
+	// }
+
+	/*
+	 * @
+	 * 
+	 * @ also public behavior
+	 * 
+	 * @
+	 * 
+	 * @ post \result.containsAll(getMethodExceptions());
+	 * 
+	 * @ post
+	 * (getLanguage().getNullInvocationException(getPackage().getDefaultPackage
+	 * ()) != null) ==>
+	 * 
+	 * @ result.contains(getLanguage().getNullInvocationException(getPackage().
+	 * getDefaultPackage());
+	 * 
+	 * @
+	 */
+	// public Set getDirectExceptions() throws LookupException {
+	// Set result = getMethodExceptions();
+	// if(getTarget() != null) {
+	// Util.addNonNull(language(ObjectOrientedLanguage.class).getNullInvocationException(),
+	// result);
+	// }
+	// return result;
+	// }
+
+	// public Set getDirectExceptions() throws NotResolvedException {
+	// Set result = getMethodExceptions();
+	// Type npe =
+	// getLanguage().getNullInvocationException(getPackage().getDefaultPackage());
+	// if(npe != null) {
+	// result.add(npe);
+	// }
+	// result.addAll(getTarget().getDirectExceptions());
+	// Iterator iter = getActualParameters().iterator();
+	// while(iter.hasNext()) {
+	// result.addAll(((Expression)iter.next()).getDirectExceptions());
+	// }
+	// return result;
+	// }
+
 	public D getElement() throws LookupException {
-		return (D) getElement(selector());
+		D el = getElement(selector());
+		if (el == null) // debug
+			getElement(selector());
+
+		return el;
+	}
+
+	public Declaration getDeclarator() throws LookupException {
+		return getElement(new DeclaratorSelector(selector()));
+	}
+
+	private SoftReference<Declaration> _cache;
+
+	@Override
+	public void flushLocalCache() {
+		super.flushLocalCache();
+		_cache = null;
+	}
+
+	public Declaration getCache() {
+		Declaration result = null;
+		if (Config.cacheElementReferences() == true) {
+			result = (_cache == null ? null : _cache.get());
+		}
+		return result;
+	}
+
+	public void setCache(Declaration value) {
+		// if(! value.isDerived()) {
+		if (Config.cacheElementReferences() == true) {
+			_cache = new SoftReference<Declaration>(value);
+		}
+		// } else {
+		// _cache = null;
+		// }
 	}
 
 	/**
@@ -117,69 +288,84 @@ public abstract class MethodInvocation<D extends DeclarationWithParameters>
 	 * @
 	 */
 	// public abstract D getMethod() throws MetamodelException;
-	public <X extends Declaration> X getElement(DeclarationSelector<X> selector)
-			throws LookupException {
-		return (X) crossReference().getElement(selector);
+	public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
+		X result = null;
+
+		// OPTIMISATION
+		boolean cache = selector.equals(selector());
+		if (cache) {
+			result = (X) getCache();
+		}
+		if (result != null) {
+			return result;
+		}
+
+		synchronized(this) {
+			if(result != null) {
+				return result;
+			}
+
+		DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
+		CrossReferenceTarget target = getTarget();
+		if (target == null) {
+			lexicalContext().lookUp(collector);
+		} else {
+			target.targetContext().lookUp(collector);
+		}
+		result = collector.result();
+//		if (result != null) {
+//			// OPTIMISATION
+			if (cache) {
+				setCache((Declaration) result);
+			}
+			return result;
+//		} else {
+//			// repeat lookup for debugging purposes.
+//			// Config.setCaching(false);
+//			if (target == null) {
+//				result = lookupContext().lookUp(selector);
+//			} else {
+//				result = target.targetContext().lookUp(selector);
+//			}
+//			throw new LookupException("Method returned by invocation is null");
+//		}
+		}
 	}
 
-	public Declaration getDeclarator() throws LookupException {
-		return crossReference().getDeclarator();
-	}
-
-//	@Override
-//	public void flushLocalCache() {
-//		super.flushLocalCache();
-//		crossReference().flushLocalCache();
+//	protected CrossReferenceWithArguments cloneSelf() {
+//		return new CrossReferenceWithArguments();
 //	}
-
-	protected D getCache() {
-		return (D) crossReference().getCache();
-	}
-
-	protected void setCache(D value) {
-		crossReference().setCache(value);
-	}
-
-	public CheckedExceptionList getDirectCEL() throws LookupException {
-		throw new Error();
-	}
-
-	public CheckedExceptionList getDirectAbsCEL() throws LookupException {
-		throw new Error();
-	}
+//
+	// public void substituteParameter(String name, Expression expr) throws
+	// MetamodelException {
+	// if(getTarget()!= null) {
+	// getTarget().substituteParameter(name, expr);
+	// }
+	// }
 
 	public List<ActualTypeArgument> typeArguments() {
-		return crossReference().typeArguments();
-	}
-	
-	public boolean hasTypeArguments() {
-		return crossReference().hasTypeArguments();
+		return _genericArguments.getOtherEnds();
 	}
 
+	public boolean hasTypeArguments() {
+		return _genericArguments.size() > 0;
+	}
+
+	
 	public void addArgument(ActualTypeArgument arg) {
-		crossReference().addArgument(arg);
+		add(_genericArguments,arg);
 	}
 
 	public void addAllTypeArguments(List<ActualTypeArgument> args) {
-		crossReference().addAllTypeArguments(args);
+		for (ActualTypeArgument argument : args) {
+			addArgument(argument);
+		}
 	}
 
 	public void removeArgument(ActualTypeArgument arg) {
-		crossReference().removeArgument(arg);
+		remove(_genericArguments,arg);
 	}
 
-	@Override
-	public Verification verifySelf() {
-		Verification result = Valid.create();
-		try {
-			if (getElement() == null) {
-				result = result.and(new UnresolvableCrossReference(this));
-			}
-		} catch(LookupException e) {
-			result = result.and(new UnresolvableCrossReference(this, e.getMessage()));
-		} catch(ChameleonProgrammerException e) {
-			result = result.and(new UnresolvableCrossReference(this, e.getMessage()));
-		}
-		return result;
-	}
+	private Multi<ActualTypeArgument> _genericArguments = new Multi<ActualTypeArgument>(this,"type arguments");
+
 }

@@ -1,5 +1,8 @@
 package be.kuleuven.cs.distrinet.chameleon.test;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import java.io.File;
 
 import org.junit.Before;
@@ -21,13 +24,15 @@ public abstract class CompositeTest {
 	  Config.setCaching(true);
 	}
 
+	protected abstract ExecutorService threadPool();
+	
 	/**
 	 * Test clone for all elements in the namespaces provided
 	 * by the namespace provider.
 	 */
 	@Test
 	public void testClone() throws Exception {
-		new CloneAndChildTest(project(), namespaceProvider()).testClone();
+//		new CloneAndChildTest(project(), namespaceProvider(),threadPool()).testClone();
 	}
 
 	// NO LONGER REQUIRED NOW children() is implemented with reflection (making the test identical to the implementation)
@@ -58,7 +63,8 @@ public abstract class CompositeTest {
 	 */
 	@Test
 	public void testCrossReferences() throws Exception {
-		new CrossReferenceTest(project(), new BasicDescendantProvider<CrossReference>(namespaceProvider(), CrossReference.class)).testCrossReferences();
+		new CrossReferenceTest(project(), namespaceProvider(), Executors.newCachedThreadPool()).testCrossReferences();
+//		new CrossReferenceTest(project(), new BasicDescendantProvider<CrossReference>(namespaceProvider(), CrossReference.class), Executors.newCachedThreadPool()).testCrossReferences();
 	}
 
 	/**

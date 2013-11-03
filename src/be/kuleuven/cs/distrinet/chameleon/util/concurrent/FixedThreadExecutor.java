@@ -7,6 +7,10 @@ import be.kuleuven.cs.distrinet.chameleon.core.Config;
 
 public class FixedThreadExecutor {
 
+	public FixedThreadExecutor(ExecutorService executor) {
+		_executor = executor;
+		_availableProcessors = Runtime.getRuntime().availableProcessors();
+	}
 	public FixedThreadExecutor() {
 		_availableProcessors = Runtime.getRuntime().availableProcessors();
 		_executor = Executors.newFixedThreadPool(availableProcessors());
@@ -15,8 +19,12 @@ public class FixedThreadExecutor {
 	protected int _availableProcessors;
 
 	public int availableProcessors() {
-		if(Config.singleThreaded()) {return 1;}
-		return _availableProcessors;
+		boolean singleThreaded = Config.singleThreaded();
+		if(singleThreaded) {
+			return 1;
+		} else {
+			return _availableProcessors;
+		}
 	}
 
 	protected ExecutorService _executor;

@@ -6,9 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableList.Builder;
-
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
@@ -26,8 +23,10 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException
 import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
 
 /**
  * <p>Namespaces are a completely logical structure. You do not explicitly create a namespace, but query it using
@@ -221,6 +220,7 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	public LookupContext localContext() {
 		if(_local == null) {
 			_local = language().lookupFactory().createLocalLookupStrategy(this);
+			_local.enableCache();
 		}
 		return _local;
 	}
@@ -234,16 +234,21 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	protected List<Declaration> directDeclarations() throws LookupException {
 		Builder<Declaration> builder = ImmutableList.<Declaration>builder();
 		builder.addAll(getSubNamespaces());
-		for(NamespaceDeclaration part: getNamespaceParts()) {
+		for(NamespaceDeclaration part: loadedNamespaceParts()) {
 			builder.addAll(part.declarations());
 		}
 		return builder.build();
 	}
 
+	public abstract List<NamespaceDeclaration> loadedNamespaceParts();
+
 
 	@Override
 	public synchronized void flushLocalCache() {
 		_declarationCache = null;
+		if(_local != null) {
+			_local.flushCache();
+		}
 	}
 	
 	protected void initDirectCache() throws LookupException {
@@ -252,19 +257,32 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 			// build the cache of directly connected declarations.
 			_declarationCache = new HashMap<String, List<Declaration>>();
 		  for(Declaration declaration: directDeclarations()) {
-		  	String name = declaration.name();
-				List<Declaration> list = directDeclarations(name);
-		  	if(list == null) {
-		  		list = Lists.create();
-		  		_declarationCache.put(name, list);
-		  	}
-		  	// list != null
-		  	list.add(declaration);
+		  	_declarationCache.put(declaration.name(), Lists.create(declaration,1));
 		  }
 		}
 	}
 	
-	protected void updateLocalCacheNamespaceAdd(Namespace namespace) {
+//	public static Map<String,List<String>> LOG = new HashMap<>();
+//	
+//	private List<String> getLog() {
+//		String fullyQualifiedName = this.getFullyQualifiedName();
+//		List<String> result = LOG.get(fullyQualifiedName);
+//		if(result == null) {
+//			result = new ArrayList<String>();
+//			LOG.put(fullyQualifiedName,result);
+//		}
+//		return result;
+//	}
+	
+//	protected void log(String string) {
+//		synchronized (LOG) {
+//			Util.debug(string.equals("found no declaration with name ResolvedPackage") && getFullyQualifiedName().equals("org.jnome.mm.java.packages"));
+//			List<String> log = getLog();
+//			log.add(string);
+//		}
+//	}
+	
+	protected synchronized void updateLocalCacheNamespaceAdd(Namespace namespace) {
 		if(_declarationCache !=null) {
 				List<Declaration> decls = _declarationCache.get(namespace.name());
 				if(decls != null) {

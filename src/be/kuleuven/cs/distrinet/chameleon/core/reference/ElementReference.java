@@ -115,25 +115,31 @@ public abstract class ElementReference<D extends Declaration> extends CrossRefer
 		//OPTIMISATION
 		boolean cache = selector.equals(selector());
 		if(cache) {
-			result = (X) getCache();
+				result = (X) getCache();
 		}
 		if(result != null) {
 			return result;
 		}
 
-		DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
-		CrossReferenceTarget targetReference = getTarget();
-		if(targetReference != null) {
-			targetReference.targetContext().lookUp(collector);
+		synchronized(this) {
+			if(result != null) {
+				return result;
+			}
+
+			DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
+			CrossReferenceTarget targetReference = getTarget();
+			if(targetReference != null) {
+				targetReference.targetContext().lookUp(collector);
+			}
+			else {
+				lexicalContext().lookUp(collector);
+			}
+			result = collector.result();
+			if(cache) {
+				setCache((D) result);
+			}
+			return result;
 		}
-		else {
-			lexicalContext().lookUp(collector);
-		}
-		result = collector.result();
-		if(cache) {
-			setCache((D) result);
-		}
-		return result;
 	}
 
 	public String toString() {

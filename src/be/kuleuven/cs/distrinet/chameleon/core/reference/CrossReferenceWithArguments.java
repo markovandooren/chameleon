@@ -216,22 +216,13 @@ public class CrossReferenceWithArguments extends ElementImpl {
 	/**
 	 * Return the method invoked by this invocation.
 	 */
-	/*
-	 * @
-	 * 
-	 * @ public behavior
-	 * 
-	 * @
-	 * 
-	 * @ post \result != null;
-	 * 
-	 * @
-	 * 
-	 * @ signals (NotResolvedException) (* The method could not be found *);
-	 * 
-	 * @
-	 */
-	// public abstract D getMethod() throws MetamodelException;
+	/*@
+	  @ public behavior
+	  @
+	  @ post \result != null;
+	  @
+	  @ signals (LookupException) (* The method could not be found *);
+	  @*/
 	public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
 		X result = null;
 
@@ -243,6 +234,11 @@ public class CrossReferenceWithArguments extends ElementImpl {
 		if (result != null) {
 			return result;
 		}
+
+		synchronized(this) {
+			if(result != null) {
+				return result;
+			}
 
 		DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
 		CrossReferenceTarget target = getTarget();
@@ -268,6 +264,7 @@ public class CrossReferenceWithArguments extends ElementImpl {
 //			}
 //			throw new LookupException("Method returned by invocation is null");
 //		}
+		}
 	}
 
 	protected CrossReferenceWithArguments cloneSelf() {

@@ -83,7 +83,8 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer {
 	public String name();
 	
 	/**
-	 * Return all namespace parts attached to this namespace.
+	 * Return all namespace parts attached to this namespace. All unloaded input sources
+	 * will be loaded.
 	 */
  /*@
    @ public behavior
@@ -92,6 +93,8 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer {
    @*/
 	public List<NamespaceDeclaration> getNamespaceParts();
 	
+	public List<NamespaceDeclaration> loadedNamespaceParts();
+
 	/**
 	 * Add a namespace part to this namespace. A namespace part adds elements to its namespace.
 	 * 
@@ -108,7 +111,9 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer {
 	public void addNamespacePart(NamespaceDeclaration namespacePart);
 	
 	public List<Namespace> getSubNamespaces();
-	
+
+	public List<Namespace> getAllSubNamespaces();
+
 	public boolean hasSubNamespaces();
 	
 	public Namespace getSubNamespace(final String name) throws LookupException;

@@ -112,4 +112,14 @@ public class NamespaceAlias extends NamespaceImpl {
 	public boolean hasSubNamespaces() {
 		return aliasedNamespace().hasSubNamespaces();
 	}
+
+	@Override
+	public List<Namespace> getAllSubNamespaces() {
+		return _aliasedNamespace.getAllSubNamespaces();
+	}
+
+	@Override
+	public List<NamespaceDeclaration> loadedNamespaceParts() {
+		return _aliasedNamespace.loadedNamespaceParts();
+	}
 }

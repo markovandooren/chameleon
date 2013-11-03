@@ -6,6 +6,7 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.gef4.zest.core.viewers.IConnectionStyleProvider;
 import org.eclipse.gef4.zest.core.viewers.IEntityStyleProvider;
 import org.eclipse.gef4.zest.core.widgets.ZestStyles;
+import org.eclipse.gef4.zest.core.widgets.decoration.IConnectionDecorator;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -115,6 +116,11 @@ class DependencyLabelProvider extends LabelProvider implements IConnectionStyleP
 		@Override
 		public ConnectionRouter getRouter(Object rel) {
 			// Default implementation as per the javadocs of Zest 2.
+			return null;
+		}
+
+		@Override
+		public IConnectionDecorator getConnectionDecorator(Object rel) {
 			return null;
 		}
 		

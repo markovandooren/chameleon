@@ -154,7 +154,11 @@ public class NameExpression extends TargetedExpression implements CrossReference
 	  if(result != null) {
 	   	return result;
 	  }
-	   
+		synchronized(this) {
+			if(result != null) {
+				return result;
+			}
+
 		DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
     CrossReferenceTarget target = getTarget();
     if(target != null) {
@@ -178,6 +182,7 @@ public class NameExpression extends TargetedExpression implements CrossReference
 //      }
 //    	throw new LookupException("Lookup of named target with name: "+name()+" returned null.");
 //    }
+		}
   }
 
 	public DeclarationSelector<DeclarationWithType> selector() {

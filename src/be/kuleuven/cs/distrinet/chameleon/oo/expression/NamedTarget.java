@@ -115,6 +115,10 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
 	  if(result != null) {
 	   	return result;
 	  }
+		synchronized(this) {
+			if(result != null) {
+				return result;
+			}
 
 		DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
 	  CrossReferenceTarget target = getTarget();
@@ -139,6 +143,7 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
 //      }
 //    	throw new LookupException("Lookup of named target with name: "+name()+" returned null.");
 //    }
+		}
   }
   
   public DeclarationSelector<TargetDeclaration> selector() {

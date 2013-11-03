@@ -12,8 +12,10 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.util.Lists;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputSource;
 import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
@@ -39,6 +41,18 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 	}
 	
 	@Override
+	public synchronized List<NamespaceDeclaration> getNamespaceParts() {
+		for(InputSource inputSource: inputSources()) {
+			try {
+				inputSource.load();
+			} catch (InputException e) {
+				throw new ChameleonProgrammerException(e);
+			}
+		}
+		return super.getNamespaceParts();
+	}
+	
+	@Override
 	public Namespace createSubNamespace(String name) {
 		LazyNamespace result = new LazyNamespace(name);
 		addNamespace(result);
@@ -53,11 +67,9 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 		List<Declaration> candidates = super.searchDeclarations(name);
 		// If there was no cache, the input sources might have something
 		if(candidates == null) {
-			for(Namespace ns: getSubNamespaces()) {
-				if(ns.name().equals(name)) {
-					candidates = ImmutableList.<Declaration>of(ns);
-					break;
-				}
+			Namespace ns = getSubNamespace(name);
+			if(ns != null) {
+				candidates = ImmutableList.<Declaration>of(ns);
 			}
 			// inputSources is sorted: the element with the highest priority is in front.
 			Queue<InputSource> inputSources = _sourceMap.get(name);
@@ -66,7 +78,7 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 						candidates = Lists.create();
 					}
 				candidates.addAll(inputSources.peek().targetDeclarations(name));
-			} 
+			}
 			if (candidates == null){
 				candidates = Collections.EMPTY_LIST;
 			}

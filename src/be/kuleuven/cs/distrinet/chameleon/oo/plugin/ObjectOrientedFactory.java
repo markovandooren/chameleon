@@ -1,9 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.plugin;
 
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.factory.Factory;
-import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
-import be.kuleuven.cs.distrinet.chameleon.oo.expression.MethodInvocation;
 import be.kuleuven.cs.distrinet.chameleon.oo.method.Method;
 import be.kuleuven.cs.distrinet.chameleon.oo.method.MethodHeader;
 import be.kuleuven.cs.distrinet.chameleon.oo.method.SimpleNameMethodHeader;
@@ -12,10 +9,6 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.inheritance.InheritanceRelation;
 import be.kuleuven.cs.distrinet.chameleon.support.member.simplename.method.NormalMethod;
-import be.kuleuven.cs.distrinet.chameleon.support.member.simplename.method.RegularMethodInvocation;
-import be.kuleuven.cs.distrinet.chameleon.support.member.simplename.operator.infix.InfixOperatorInvocation;
-import be.kuleuven.cs.distrinet.chameleon.support.member.simplename.operator.postfix.PostfixOperatorInvocation;
-import be.kuleuven.cs.distrinet.chameleon.support.member.simplename.operator.prefix.PrefixOperatorInvocation;
 import be.kuleuven.cs.distrinet.chameleon.support.modifier.Constructor;
 
 /**
@@ -36,8 +29,8 @@ public abstract class ObjectOrientedFactory extends Factory {
    @ post \result != null;
    @ post \result.signature() == signature;
    @*/
-	public Type createRegularType(SimpleNameSignature signature) {
-		return new RegularType(signature);
+	public Type createRegularType(String name) {
+		return new RegularType(name);
 	}
 
 	public Method createNormalMethod(String name, TypeReference returnType) {

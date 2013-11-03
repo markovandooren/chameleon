@@ -10,7 +10,7 @@ import java.util.Map;
  * collections, you can let it {@link #increase(Object)} its counter. After
  * running your code, you can then ask an overview per creator or per class
  * of creators to find out where most of the unnecessary allocations are done.
- * Caching everyhting requires too much error-prone code. This class can help you
+ * Caching everything requires too much error-prone code. This class can help you
  * to track the hot spots.
  * 
  * This class is typically used in code that is thrown away afterwards. You don't want

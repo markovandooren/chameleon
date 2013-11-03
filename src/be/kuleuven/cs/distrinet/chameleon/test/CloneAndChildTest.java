@@ -4,21 +4,32 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+
+import java.io.IOException;
 
 import org.junit.Test;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
+import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
 import be.kuleuven.cs.distrinet.chameleon.test.provider.ElementProvider;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
+import be.kuleuven.cs.distrinet.chameleon.util.concurrent.CallableFactory;
+import be.kuleuven.cs.distrinet.chameleon.util.concurrent.FixedThreadCallableExecutor;
+import be.kuleuven.cs.distrinet.chameleon.util.concurrent.QueuePollingCallableFactory;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectException;
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 
 /**
  * A test class for the clone and children methods of elements. It test all elements
@@ -44,10 +55,13 @@ public class CloneAndChildTest extends ModelTest {
    @ post modelProvider() == provider;
    @ post namespaceProvider() == namespaceProvider;
    @*/
-	public CloneAndChildTest(Project project, ElementProvider<Namespace> namespaceProvider) throws ProjectException {
+	public CloneAndChildTest(Project project, ElementProvider<Namespace> namespaceProvider, ExecutorService executor) throws ProjectException {
 		super(project);
 		_namespaceProvider = namespaceProvider;
+		threadPool = executor;
 	}
+	
+	private ExecutorService threadPool;
 	
 	private ElementProvider<Namespace> _namespaceProvider;
 
@@ -56,14 +70,38 @@ public class CloneAndChildTest extends ModelTest {
 	}
 	
 	@Test
-	public void testClone() throws LookupException, Nothing, InputException {
-		project().applyToSource(new Action<Element, Nothing>(Element.class) {
-			@Override
-			public void doPerform(Element object) throws Nothing {
-				test(object);
-			}
-		});
+	public void testClone() throws LookupException, InputException, InterruptedException, ExecutionException {
+//		project().applyToSource(new Action<Element, Nothing>(Element.class) {
+//			@Override
+//			public void doPerform(Element object) throws Nothing {
+//				test(object);
+//			}
+//		});
+	  Collection<Namespace> types = namespaceProvider().elements(view());
+	  Collection<Namespace> namespaces = new ArrayList<>();
+	  for(Namespace ns: types) {
+	  	namespaces.addAll(ns.getAllSubNamespaces());
+	  }
+	  final BlockingQueue<Namespace> typeQueue = new ArrayBlockingQueue<Namespace>(namespaces.size(), true, namespaces);
+	  Action<Namespace,LookupException> action = createAction();
+		CallableFactory factory = new QueuePollingCallableFactory(action,typeQueue);
+	  new FixedThreadCallableExecutor<LookupException>(factory,threadPool).run();
+
 	}
+	
+	protected Action<Namespace, LookupException> createAction() {
+		return new Action<Namespace,LookupException>(Namespace.class) {
+	  	public void doPerform(Namespace type) throws LookupException {
+	  		List<NamespaceDeclaration> namespaceParts = type.getNamespaceParts();
+				for(NamespaceDeclaration nsp: namespaceParts) {
+	  			for(Element element: nsp.descendants()) {
+	  				test(type);
+	  			}
+	  		}
+	  	} 
+	  };
+	}
+
 
 	/**
 	 * Test the clone method of the given element.

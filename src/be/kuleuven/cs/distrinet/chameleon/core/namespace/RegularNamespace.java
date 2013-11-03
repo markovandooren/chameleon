@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableList;
+
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
@@ -86,7 +88,12 @@ public class RegularNamespace extends NamespaceImpl {
 		flushLocalCache();
 	}
 
-	public List<NamespaceDeclaration> getNamespaceParts(){
+	public synchronized List<NamespaceDeclaration> getNamespaceParts(){
+		return _namespaceDeclarations.getOtherEnds();
+	}
+	
+	@Override
+	public List<NamespaceDeclaration> loadedNamespaceParts() {
 		return _namespaceDeclarations.getOtherEnds();
 	}
 
@@ -144,5 +151,15 @@ public class RegularNamespace extends NamespaceImpl {
 	@Override
 	public boolean hasSubNamespaces() {
 		return _namespaces.size() > 0;
+	}
+
+	@Override
+	public List<Namespace> getAllSubNamespaces() {
+		ImmutableList.Builder<Namespace> builder = ImmutableList.builder();
+		builder.addAll(_namespaces.getOtherEnds());
+		for(Namespace ns:_namespaces.getOtherEnds()) {
+			builder.addAll(ns.getAllSubNamespaces());
+		}
+		return builder.build();
 	}
 }

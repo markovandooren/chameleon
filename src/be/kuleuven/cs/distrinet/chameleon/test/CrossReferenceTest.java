@@ -2,16 +2,26 @@ package be.kuleuven.cs.distrinet.chameleon.test;
 
 import static junit.framework.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 
 import org.junit.Test;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
+import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.test.provider.ElementProvider;
+import be.kuleuven.cs.distrinet.chameleon.util.concurrent.CallableFactory;
+import be.kuleuven.cs.distrinet.chameleon.util.concurrent.FixedThreadCallableExecutor;
+import be.kuleuven.cs.distrinet.chameleon.util.concurrent.QueuePollingCallableFactory;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectException;
@@ -19,29 +29,35 @@ import be.kuleuven.cs.distrinet.rejuse.action.Action;
 
 public class CrossReferenceTest extends ModelTest {
 
-	public CrossReferenceTest(Project project,ElementProvider<CrossReference> crossReferenceProvider) throws ProjectException {
+	public CrossReferenceTest(Project project,ElementProvider<Namespace> crossReferenceProvider,ExecutorService executor) throws ProjectException {
 		super(project);
 		_crossReferenceProvider = crossReferenceProvider;
+		threadPool = executor;
 	}
 	
-	private ElementProvider<CrossReference> _crossReferenceProvider;
+	private ElementProvider<Namespace> _crossReferenceProvider;
 
-	public ElementProvider<CrossReference> crossReferenceProvider() {
+	public ElementProvider<Namespace> crossReferenceProvider() {
 		return _crossReferenceProvider;
 	}
-	
+  ExecutorService threadPool;
+
 	@Test
 	public void testCrossReferences() throws LookupException, InterruptedException, ExecutionException, InputException {
 //  	long startTime = System.nanoTime();
-//		Collection<CrossReference> crossReferences = crossReferenceProvider().elements(view());
-//		BlockingQueue<CrossReference> queue = new ArrayBlockingQueue<CrossReference>(crossReferences.size(), true, crossReferences);
-//		Action<CrossReference,LookupException> action = createAction();
-//		CallableFactory factory = new QueuePollingCallableFactory(action,queue);
-//		new FixedThreadCallableExecutor<LookupException>(factory).run();
+		Collection<Namespace> crossReferences = crossReferenceProvider().elements(view());
+	  Collection<Namespace> namespaces = new ArrayList<>();
+	  for(Namespace ns: crossReferences) {
+	  	namespaces.addAll(ns.getAllSubNamespaces());
+	  }
+		BlockingQueue<Namespace> queue = new ArrayBlockingQueue<Namespace>(namespaces.size(), true, namespaces);
+		Action<Namespace,LookupException> action = createAction();
+		CallableFactory factory = new QueuePollingCallableFactory<Namespace,LookupException>(action,queue);
+		new FixedThreadCallableExecutor<LookupException>(factory,threadPool).run();
 		
 //		TRACKER.clearAllocationMap();
 		
-  	project().applyToSource(createAction());
+//  	project().applyToSource(createAction());
   	
 //  	for(CrossReference type: crossReferenceProvider().elements(view())) {
 //  		type.apply(createAction());
@@ -69,12 +85,16 @@ public class CrossReferenceTest extends ModelTest {
 //  	Association.cleanGetOtherEndsCache();
 	}
 
-	protected Action<CrossReference, LookupException> createAction() {
-		return new Action<CrossReference,LookupException>(CrossReference.class) {
-			public void doPerform(CrossReference cref) throws LookupException {
-				Declaration declaration = cref.getElement();
-				assertTrue(declaration != null);
-			} 
+	protected Action<Namespace, LookupException> createAction() {
+		return new Action<Namespace,LookupException>(Namespace.class) {
+			public void doPerform(Namespace ns) throws LookupException {
+				for(NamespaceDeclaration nsp: ns.getNamespaceParts()) {
+					for(CrossReference cref: nsp.descendants(CrossReference.class)) {
+						Declaration declaration = cref.getElement();
+						assertTrue(declaration != null);
+					}
+				} 
+			}
 		};
 	}
 	

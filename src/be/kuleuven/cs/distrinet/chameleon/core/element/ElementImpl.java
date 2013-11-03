@@ -171,7 +171,9 @@ public abstract class ElementImpl implements Element {
 
 	public void removeAllMetadata() {
 		if(_tags != null) {
-			List<String> tagNames = new ArrayList<>(_tags.keySet());
+			// We must clone the key set, or otherwise the removal of the keys
+			// may cause undefined behavior in the set.
+			List<String> tagNames = Lists.create(_tags.keySet());
 			for(String tagName: tagNames) {
 				removeMetadata(tagName);
 			}
@@ -475,20 +477,24 @@ public abstract class ElementImpl implements Element {
 		return myAssociations();
 	}
 
-	private synchronized List<ChameleonAssociation<?>> myAssociations() {
+	private List<ChameleonAssociation<?>> myAssociations() {
 		if(_associations == null) {
-			List<Field> fields = getAllFieldsTillClass(getClass());
-			int size = fields.size();
-			if(size > 0) {
-				List<ChameleonAssociation<?>> tmp = new ArrayList<>(size);
-				for (Field field : fields) {
-					Object content = getFieldValue(field);
-					tmp.add((ChameleonAssociation<?>) content);
+			synchronized (this) {
+				if(_associations == null) {
+					List<Field> fields = getAllFieldsTillClass(getClass());
+					int size = fields.size();
+					if(size > 0) {
+						List<ChameleonAssociation<?>> tmp = Lists.create(size);
+						for (Field field : fields) {
+							Object content = getFieldValue(field);
+							tmp.add((ChameleonAssociation<?>) content);
+						}
+						_associations = ImmutableList.copyOf(tmp);
+					}
+					else {
+						_associations = Collections.EMPTY_LIST;
+					}
 				}
-				_associations = ImmutableList.copyOf(tmp);
-			}
-			else {
-				_associations = Collections.EMPTY_LIST;
 			}
 		}
 		return _associations;
@@ -958,30 +964,7 @@ public abstract class ElementImpl implements Element {
 		 });
 	 }
 	 
-//	 public ChameleonProperty implyingProperty(final ChameleonProperty implied) throws ModelException {
-//		 return property(new UnsafePredicate<ChameleonProperty,ModelException>() {
-//			@Override
-//			public boolean eval(ChameleonProperty property) throws ModelException
-//				 {return property.implies(implied);}
-//		 });
-//	 }
-	 
-//	 public ChameleonProperty property(SafePredicate<ChameleonProperty> predicate) throws ModelException {
-//		 List<ChameleonProperty> properties = new ArrayList<ChameleonProperty>();
-//		 for(ChameleonProperty p : properties().properties()) {
-//			 if(predicate.eval(p)) {
-//				 properties.add(p);
-//			 }
-//		 }
-//		 if(properties.size() == 1) {
-//			 return properties.get(0);
-//		 } else {
-//			 throw new ModelException("Element of type " +getClass().getName()+ " has "+properties.size()+" properties that satisfy the given condition.");
-//		 }
-//	 }
-
 	 public <X extends Exception> ChameleonProperty property(Predicate<ChameleonProperty,X> predicate) throws ModelException, X {
-//		 List<ChameleonProperty> properties = new ArrayList<ChameleonProperty>();
 		 ChameleonProperty result = null;
 		 for(ChameleonProperty p : internalProperties().properties()) {
 			 if(predicate.eval(p)) {

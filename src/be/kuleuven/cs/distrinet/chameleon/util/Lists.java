@@ -1,9 +1,8 @@
 package be.kuleuven.cs.distrinet.chameleon.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-
-import be.kuleuven.cs.distrinet.chameleon.util.profile.Timer;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
@@ -40,7 +39,23 @@ public class Lists {
 		return result;
 	}
 	
-	public static <T> List<T> create(List<T> list) {
+	public static <T> List<T> create(T t) {
+		//	LIST_CREATION.start();
+		ArrayList<T> result = new ArrayList<T>();
+		result.add(t);
+		//	LIST_CREATION.stop();
+		return result;
+	}
+
+	public static <T> List<T> create(T t, int size) {
+		//	LIST_CREATION.start();
+		ArrayList<T> result = new ArrayList<T>(size);
+		result.add(t);
+		//	LIST_CREATION.stop();
+		return result;
+	}
+	
+	public static <T> List<T> create(Collection<T> list) {
 //		LIST_CREATION.start();
 		ArrayList<T> result = new ArrayList<T>(list);
 //		LIST_CREATION.stop();
