@@ -1,13 +1,12 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.variable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.MissingSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.BasicDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
-import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.Modifier;
@@ -17,14 +16,13 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.util.Lists;
-import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.rejuse.property.Property;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 
-public abstract class VariableImpl extends ElementImpl implements Variable {
+public abstract class VariableImpl extends BasicDeclaration implements Variable {
 	
-	public VariableImpl(SimpleNameSignature signature) {
-		setSignature(signature);
+	public VariableImpl(String name) {
+		super(name);
 	}
 	
 	public Type declarationType() throws LookupException {
@@ -35,31 +33,6 @@ public abstract class VariableImpl extends ElementImpl implements Variable {
 		return true;
 	}
 	
-	public void setName(String name) {
-		signature().setName(name);
-	}
-
-  public void setSignature(Signature signature) {
-  	if(signature instanceof SimpleNameSignature || signature == null) {
-  		set(_signature, (SimpleNameSignature)signature);
-  	} else {
-  		throw new ChameleonProgrammerException("Setting wrong type of signature. Provided: "+(signature == null ? null :signature.getClass().getName())+" Expected SimpleNameSignature");
-  	}
-  }
-  
-  /**
-   * Return the signature of this member.
-   */
-  public SimpleNameSignature signature() {
-    return _signature.getOtherEnd();
-  }
-  
-	@Override
-	public String name() {
-		return signature().name();
-	}
-
-	private Single<SimpleNameSignature> _signature = new Single<SimpleNameSignature>(this);
 
 	@Override
 	public Verification verifySelf() {

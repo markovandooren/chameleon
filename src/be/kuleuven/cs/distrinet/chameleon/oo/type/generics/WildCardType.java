@@ -1,13 +1,9 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.type.generics;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
-
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
@@ -23,10 +19,12 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.inheritance.InheritanceRelatio
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
 
+import com.google.common.collect.ImmutableList;
+
 public abstract class WildCardType extends ClassImpl {
 
-	public WildCardType(SimpleNameSignature sig, Type upperBound, Type lowerBound) {
-		super(sig);
+	public WildCardType(String name, Type upperBound, Type lowerBound) {
+		super(name);
 		_upperBound = upperBound;
 		_lowerBound = lowerBound;
 	}

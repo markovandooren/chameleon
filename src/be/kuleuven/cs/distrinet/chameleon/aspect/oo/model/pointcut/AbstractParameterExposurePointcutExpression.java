@@ -20,7 +20,7 @@ public abstract class AbstractParameterExposurePointcutExpression extends Abstra
 			return -1;	
 		
 		for (int i = 0; i < parameters().size(); i++) {
-					if (parameters().get(i).signature().name().equals(fp.signature().name()))
+					if (parameters().get(i).name().equals(fp.name()))
 						return i;
 //				if (parameters().get(i).getElement() instanceof FormalParameter) {
 //					FormalParameter param = (FormalParameter) parameters().get(i).getElement();

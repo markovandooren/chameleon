@@ -19,6 +19,12 @@ public class DeclarationAlias extends ElementImpl implements Declaration {
 	}
 	
 	@Override
+	public boolean sameSignatureAs(Declaration declaration)
+			throws LookupException {
+		return signature().sameAs(declaration.signature());
+	}
+	
+	@Override
 	public DeclarationAlias cloneSelf() {
 		return new DeclarationAlias(null, aliasedDeclaration());
 	}

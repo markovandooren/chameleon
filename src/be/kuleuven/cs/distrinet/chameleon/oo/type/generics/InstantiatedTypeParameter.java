@@ -4,13 +4,13 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 
 public class InstantiatedTypeParameter extends AbstractInstantiatedTypeParameter {
 	
-	public InstantiatedTypeParameter(SimpleNameSignature signature, ActualTypeArgument argument) {
-		super(signature,argument);
+	public InstantiatedTypeParameter(String name, ActualTypeArgument argument) {
+		super(name,argument);
 	}
 	
 	@Override
 	protected InstantiatedTypeParameter cloneSelf() {
-		return new InstantiatedTypeParameter(null,argument());
+		return new InstantiatedTypeParameter(name(),argument());
 	}
 
 	

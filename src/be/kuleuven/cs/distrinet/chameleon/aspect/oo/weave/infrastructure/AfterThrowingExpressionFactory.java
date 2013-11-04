@@ -39,7 +39,7 @@ public class AfterThrowingExpressionFactory extends AdvisedExpressionFactory {
 				// If the declared type is the same or a super type of the type caught, add the advice and expose the parameter
 				if (caughtType.assignableTo(declaredType)) {
 					LocalVariableDeclarator paramExpose = new LocalVariableDeclarator(Util.clone(m.parameter().getTypeReference()));
-					paramExpose.add(new VariableDeclaration(m.parameter().getName(), expressionFactory.createNameExpression(name)));
+					paramExpose.add(new VariableDeclaration(m.parameter().name(), expressionFactory.createNameExpression(name)));
 					catchBlockBody.addStatement(paramExpose);
 					catchBlockBody.addBlock(Util.clone(advice.body()));
 					catchBlockBody.addStatement(rethrow);
@@ -48,7 +48,7 @@ public class AfterThrowingExpressionFactory extends AdvisedExpressionFactory {
 				else if (declaredType.subTypeOf(caughtType)) {
 					Block innerBody = new Block();
 					LocalVariableDeclarator paramExpose = new LocalVariableDeclarator(Util.clone(m.parameter().getTypeReference()));
-					paramExpose.add(new VariableDeclaration(m.parameter().getName(), new ClassCastExpression(Util.clone(m.parameter().getTypeReference()), expressionFactory.createNameExpression(name))));
+					paramExpose.add(new VariableDeclaration(m.parameter().name(), new ClassCastExpression(Util.clone(m.parameter().getTypeReference()), expressionFactory.createNameExpression(name))));
 
 					innerBody.addStatement(paramExpose);
 					innerBody.addBlock(Util.clone(advice.body()));

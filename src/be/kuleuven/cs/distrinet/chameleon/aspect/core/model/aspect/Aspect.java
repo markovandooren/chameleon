@@ -4,9 +4,9 @@ import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice.Advice;
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.Pointcut;
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.BasicDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
@@ -25,19 +25,22 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
-public class Aspect extends DeclarationImpl implements DeclarationContainer, Declaration {
+public class Aspect extends BasicDeclaration implements DeclarationContainer, Declaration {
 	
 	public Aspect(String name) {
-		this(new SimpleNameSignature(name));
-	}
-	
-	public Aspect(SimpleNameSignature sig) {
-		setSignature(sig);
+		super(name);
 	}
 	
 	public String name() {
 		return signature().name();
 	}
+	
+	@Override
+	public boolean sameSignatureAs(Declaration declaration)
+			throws LookupException {
+		return signature().sameAs(declaration.signature());
+	}
+
 	
 	/**
 	 * 	Get the list of pointcuts that have been defined in this Aspect
@@ -67,7 +70,7 @@ public class Aspect extends DeclarationImpl implements DeclarationContainer, Dec
 	}
 
 	public Aspect cloneSelf() {
-		return new Aspect((SimpleNameSignature)null);
+		return new Aspect(name());
 	}
 
 	@Override

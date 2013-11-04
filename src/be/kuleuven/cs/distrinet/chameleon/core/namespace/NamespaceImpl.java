@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.core.namespace;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -9,20 +8,16 @@ import java.util.Map;
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.BasicDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.TargetDeclaration;
-import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
-import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
-import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 
 import com.google.common.collect.ImmutableList;
@@ -49,7 +44,7 @@ import com.google.common.collect.ImmutableList.Builder;
  * @author Marko van Dooren
  */
 //FIXME Make this extends DeclarationImpl
-public abstract class NamespaceImpl extends ElementImpl implements TargetDeclaration, DeclarationContainer, Namespace {
+public abstract class NamespaceImpl extends BasicDeclaration implements TargetDeclaration, DeclarationContainer, Namespace {
 
 	/**
 	 * Initialize a new Namespace with the given name.
@@ -64,12 +59,12 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	 @
 	 @ post signature()==sig;
 	 @*/
-	protected NamespaceImpl(SimpleNameSignature sig) {
-      setSignature(sig);
+	protected NamespaceImpl(String name) {
+      super(name);
 	}
 	
 	protected NamespaceImpl() {
-		
+		super("");
 	}
 	
 	@Override
@@ -78,36 +73,6 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
 	}
 
 
-	/*@
-   @ public behavior
-   @
-   @ pre signature != null;
-   @
-   @ post signature() = signature; 
-   @*/
-	public void setSignature(Signature signature) {
-		if(! (signature instanceof SimpleNameSignature)) {
-			throw new ChameleonProgrammerException("A namespace must have a simple name signature. The argument is of type "+
-		                                         (signature == null ? "null type" : signature.getClass().getName()));
-		}
-	  set(_signature,(SimpleNameSignature)signature);
-	}
-	
-	public void setName(String name) {
-		setSignature(new SimpleNameSignature(name));
-	}
-
-		  
-	  public SimpleNameSignature signature() {
-	    return _signature.getOtherEnd();
-	  }
-		  
-	  private Single<SimpleNameSignature> _signature = new Single<SimpleNameSignature>(this,true);
-
-	  public String name() {
-		  return signature().name();
-	  }
-	  
 	public String getFullyQualifiedName() {
 		Namespace nearestAncestor = nearestAncestor(Namespace.class);
 		return ((parent() == null || nearestAncestor.name().equals("")) ? "" : nearestAncestor.getFullyQualifiedName() + ".") + name();
@@ -348,8 +313,8 @@ public abstract class NamespaceImpl extends ElementImpl implements TargetDeclara
   }
 	
 
-	public NamespaceAlias alias(SimpleNameSignature sig) {
-		return new NamespaceAlias(sig,this);
+	public NamespaceAlias alias(String name) {
+		return new NamespaceAlias(name,this);
 	}
 
 	public Namespace selectionDeclaration() {

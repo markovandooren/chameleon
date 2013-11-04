@@ -1,6 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut;
 
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
@@ -15,6 +16,12 @@ public class PointcutWithName extends Pointcut {
 	public PointcutWithName(SimpleNameSignature signature, PointcutExpression expression) {
 		super(expression);
 		setSignature(signature);
+	}
+
+	@Override
+	public boolean sameSignatureAs(Declaration declaration)
+			throws LookupException {
+		return signature().sameAs(declaration.signature());
 	}
 
 	@Override

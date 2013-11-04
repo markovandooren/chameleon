@@ -1,13 +1,8 @@
 package be.kuleuven.cs.distrinet.chameleon.core.namespace;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import com.google.common.collect.ImmutableList;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
@@ -19,18 +14,14 @@ import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 
+import com.google.common.collect.ImmutableList;
+
 public class RegularNamespace extends NamespaceImpl {
 	
 	public RegularNamespace(String name) {
-		this(new SimpleNameSignature(name));
+		super(name);
 	}
 	
-	public RegularNamespace(SimpleNameSignature sig) {
-		super(sig);
-	}
-
-	protected RegularNamespace() {
-	}
 	/**
 	 * SUBNAMESPACES
 	 */
@@ -98,7 +89,7 @@ public class RegularNamespace extends NamespaceImpl {
 	}
 
 	protected RegularNamespace cloneSelf() {
-		return new RegularNamespace();
+		return new RegularNamespace(name());
 	}
 	
 	public Scope scope() {

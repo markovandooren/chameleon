@@ -132,7 +132,9 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 	}
 	
 	protected List<Declaration> declarations(String selectionName) throws LookupException {
-		ensureLocalCache();
+		synchronized (this) {
+			ensureLocalCache();
+		}
 		List<Declaration> result = cachedDeclarations(selectionName);
 		if(result == null) {
 			result = ImmutableList.of();
@@ -145,7 +147,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 			List<Member> members = members();
 		  _declarationCache = new HashMap<String, List<Declaration>>();
 		  for(Member member: members) {
-		  	String name = member.signature().name();
+		  	String name = member.name();
 				List<Declaration> list = cachedDeclarations(name);
 		  	boolean newList = false;
 		  	if(list == null) {

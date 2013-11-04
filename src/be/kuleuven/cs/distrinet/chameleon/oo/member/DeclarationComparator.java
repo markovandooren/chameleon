@@ -21,7 +21,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
  *
  * @param <D>
  */
-public abstract class DeclarationComparator<D extends Declaration> {
+public class DeclarationComparator<D extends Declaration> {
 
 	private final Class<D> _declarationClass;
 
@@ -34,12 +34,18 @@ public abstract class DeclarationComparator<D extends Declaration> {
 	}
 
 	public boolean contains(Member first, Member second) throws LookupException {
-		return selectedClass().isInstance(first) && selectedClass().isInstance(second) && containsBasedOnName(first.signature(), second.signature()) &&
+		return selectedClass().isInstance(first) && 
+				   selectedClass().isInstance(second) && 
+//				   containsBasedOnName(first.name(), second.name()) &&
 		       containsBasedOnRest((D) first, (D) second);
 	}
 
-	public abstract boolean containsBasedOnRest(D first, D second) throws LookupException;
+	public boolean containsBasedOnRest(D first, D second) throws LookupException {
+		return first.name().equals(second.name());
+	}
 
-	public abstract boolean containsBasedOnName(Signature first, Signature second) throws LookupException;
-
+//	public final boolean containsBasedOnName(String first, String second) throws LookupException {
+//		return first.equals(second);
+//	}
+	
 }

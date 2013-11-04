@@ -44,6 +44,12 @@ public class ProgrammingPointcut extends Pointcut implements DeclarationContaine
   	return new ProgrammingPointcut(null, null);
   }
   
+	@Override
+	public boolean sameSignatureAs(Declaration declaration)
+			throws LookupException {
+		return signature().sameAs(declaration.signature());
+	}
+
 	public List<FormalParameter> parameters() {
 		return header().formalParameters();
 	}

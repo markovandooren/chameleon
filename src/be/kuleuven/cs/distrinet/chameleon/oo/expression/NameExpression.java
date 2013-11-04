@@ -13,7 +13,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationCollector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclaratorSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.SimpleSelector;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.NameSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceWithName;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceWithTarget;
@@ -30,7 +30,7 @@ import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 public class NameExpression extends TargetedExpression implements CrossReferenceWithName<DeclarationWithType>, CrossReferenceWithTarget<DeclarationWithType> {
 
   public NameExpression(String identifier) {
-  	setSignature(new SimpleNameSignature(identifier));
+  	_name = identifier;
 	}
   
   public NameExpression(String identifier, CrossReferenceTarget target) {
@@ -38,35 +38,23 @@ public class NameExpression extends TargetedExpression implements CrossReference
 	  setTarget(target);
 	}
   
-  protected NameExpression() {
-  }
-
   /********
    * NAME *
    ********/
 
-  public String name() {
-    return signature().name();
-  }
-  
   public String toString() {
   	return name();
   }
 
-  public void setName(String name) {
-    signature().setName(name);
+  public String name() {
+  	return _name;
   }
-
-	public void setSignature(Signature signature) {
-		set(_signature, signature);
-	}
-
-	public Signature signature() {
-		return _signature.getOtherEnd();
-	}
-
-	private Single<Signature> _signature = new Single<Signature>(this);
-
+  
+  public void setName(String name) {
+  	_name = name;
+  }
+  
+  private String _name;
 	/**
 	 * TARGET
 	 */
@@ -87,7 +75,7 @@ public class NameExpression extends TargetedExpression implements CrossReference
 
 	@Override
 	public NameExpression cloneSelf() {
-    return new NameExpression();
+    return new NameExpression(name());
 	}
 
 	@Override
@@ -189,9 +177,9 @@ public class NameExpression extends TargetedExpression implements CrossReference
 		return _selector;
 	}
 	
-	private DeclarationSelector<DeclarationWithType> _selector = new SimpleSelector<DeclarationWithType>(DeclarationWithType.class) {
-		public Signature signature() {
-			return NameExpression.this.signature();
+	private DeclarationSelector<DeclarationWithType> _selector = new NameSelector<DeclarationWithType>(DeclarationWithType.class) {
+		public String name() {
+			return NameExpression.this.name();
 		}
 	};
 

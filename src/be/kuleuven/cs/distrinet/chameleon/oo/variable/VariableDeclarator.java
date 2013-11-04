@@ -13,7 +13,7 @@ public interface VariableDeclarator extends Element, DeclarationContainer {
 
 	public List<VariableDeclaration> variableDeclarations();
 
-	public Variable createVariable(SimpleNameSignature signature, Expression expression);
+	public Variable createVariable(String name, Expression expression);
 	
 	public TypeReference typeReference();
 	

@@ -10,7 +10,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationCollector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclaratorSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.SimpleSelector;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.NameSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.UnresolvableCrossReference;
@@ -39,7 +39,6 @@ public class VariableReference extends Expression implements Assignable, CrossRe
    @ post getTarget() == target;
    @*/
   public VariableReference(String identifier, CrossReferenceTarget target) {
-  	_signature = new SimpleNameSignature(identifier);
   	setName(identifier);
 	  setTarget(target);
   }
@@ -49,26 +48,14 @@ public class VariableReference extends Expression implements Assignable, CrossRe
    ********/
 
   public String name() {
-    return signature().name();
+    return _name;
   }
   
-  public SimpleNameSignature signature() {
-  	return _signature;
-  }
-
   public void setName(String name) {
-    _signature.setName(name);
+    _name = name;
   }
 
-	public void setSignature(Signature signature) {
-		if(signature instanceof SimpleNameSignature) {
-			_signature = (SimpleNameSignature) signature;
-		} else {
-			throw new ChameleonProgrammerException();
-		}
-	}
-
-	private SimpleNameSignature _signature;
+	private String _name;
 
 	/**
 	 * TARGET
@@ -143,9 +130,9 @@ public class VariableReference extends Expression implements Assignable, CrossRe
   }
 
 	public DeclarationSelector<Variable> selector() {
-		return new SimpleSelector<Variable>(Variable.class) {
-			public Signature signature() {
-				return _signature;
+		return new NameSelector<Variable>(Variable.class) {
+			public String name() {
+				return _name;
 			}
 		};
 	}

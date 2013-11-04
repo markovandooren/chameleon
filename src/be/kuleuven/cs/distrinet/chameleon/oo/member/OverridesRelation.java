@@ -5,7 +5,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 
-public abstract class OverridesRelation<D extends Declaration> extends DeclarationComparator<D> {
+public class OverridesRelation<D extends Declaration> extends DeclarationComparator<D> {
 
 	public OverridesRelation(Class<D> kind) {
 		super(kind);

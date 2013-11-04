@@ -7,7 +7,6 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
@@ -22,17 +21,16 @@ import com.google.common.collect.ImmutableList;
 public class LazyRootNamespace extends RootNamespace implements InputSourceNamespace {
 
 	public LazyRootNamespace() {
-		super(new LazyNamespaceFactory());
+		this(null);
 	}
-
 	
 	@Override
 	protected RootNamespace cloneSelf() {
 		return new LazyRootNamespace();
 	}
 	
-	public LazyRootNamespace(SimpleNameSignature sig, View view) {
-		super(sig,view,new LazyNamespaceFactory());
+	public LazyRootNamespace(View view) {
+		super(view,new LazyNamespaceFactory());
 	}
 
 //	@Override

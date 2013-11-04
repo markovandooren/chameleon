@@ -93,7 +93,7 @@ public class NamedPointcutExpression extends AbstractPointcutExpression<Element>
 				NameExpression nextReferenceParam = (NameExpression) _nextReferenceParam;
 				FormalParameter nextPointcutParam = pointcutParameters.next();
 				
-				parameterNamesMap.put(nextPointcutParam.getName(), nextReferenceParam.name());
+				parameterNamesMap.put(nextPointcutParam.name(), nextReferenceParam.name());
 			}
 			
 			// We know there are parameters, so we know the pointcut expression must be a ParameterExposurePointcutExpression, so the cast is no problem

@@ -3,14 +3,13 @@
  */
 package be.kuleuven.cs.distrinet.chameleon.oo.type.generics;
 
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 
 public class LazyFormalAlias extends FormalParameterType {
 
-	public LazyFormalAlias(SimpleNameSignature sig, FormalTypeParameter param) {
-		super(sig,null,param);
+	public LazyFormalAlias(String name, FormalTypeParameter param) {
+		super(name,null,param);
 	}
 	
 	public Type aliasedType() {

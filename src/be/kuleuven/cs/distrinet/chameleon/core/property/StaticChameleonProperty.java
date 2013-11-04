@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.core.property;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
@@ -8,29 +7,30 @@ import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
-import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyUniverse;
 import be.kuleuven.cs.distrinet.rejuse.property.StaticProperty;
+
+import com.google.common.collect.ImmutableList;
 
 public class StaticChameleonProperty extends StaticProperty<Element,ChameleonProperty> implements ChameleonProperty {
 
 	public StaticChameleonProperty(String name, PropertyUniverse<ChameleonProperty> universe,
 			PropertyMutex<ChameleonProperty> mutex, ChameleonProperty inverse, Class<? extends Element> validElementType) {
 		super(name, universe, mutex, inverse);
-		_validTypes.add(validElementType);
+		addValidElementType(validElementType);
 	}
 
 	public StaticChameleonProperty(String name, PropertyUniverse<ChameleonProperty> universe,
 			PropertyMutex<ChameleonProperty> mutex, Class<? extends Element> validElementType) {
 		super(name,universe, mutex);
-		_validTypes.add(validElementType);
+		addValidElementType(validElementType);
 	}
 
 	public StaticChameleonProperty(String name, PropertyUniverse<ChameleonProperty> universe, Class<? extends Element> validElementType) {
 		super(name, universe);
-		_validTypes.add(validElementType);
+		addValidElementType(validElementType);
 	}
 
 	/**
@@ -54,12 +54,13 @@ public class StaticChameleonProperty extends StaticProperty<Element,ChameleonPro
    @*/
 	public Verification verify(Element element) {
 		final Class<? extends Element> elementClass = element.getClass();
-		boolean validType = new SafePredicate<Class<? extends Element>>() {
-			@Override
-			public boolean eval(Class<? extends Element> validClass) {
-				return validClass.isAssignableFrom(elementClass);
-			}
-		}.exists(_validTypes);
+		boolean validType = false;
+		for(Class<? extends Element> validClass: _validTypes) {
+				if(validClass.isAssignableFrom(elementClass)) {
+					validType = true;
+					break;
+				}
+		};
 		if(validType) {
 			return Valid.create();
 		} else {
@@ -77,7 +78,7 @@ public class StaticChameleonProperty extends StaticProperty<Element,ChameleonPro
    @ post ! \result.contains(null);
    @*/
 	public List<Class<? extends Element>> validElementTypes() {
-		return new ArrayList<Class<? extends Element>>(_validTypes);
+		return _validTypes;
 	}
 	
  /**
@@ -92,10 +93,12 @@ public class StaticChameleonProperty extends StaticProperty<Element,ChameleonPro
   @ post validElementTypes().contains(type);
   @*/
 	public void addValidElementType(Class<? extends Element> type) {
-		_validTypes.add(type);
+		_validTypes = _builder.add(type).build();
 	}
 	
-	private List<Class<? extends Element>> _validTypes = Lists.create();
+	private ImmutableList.Builder<Class<? extends Element>> _builder = ImmutableList.builder();
+	
+	private ImmutableList<Class<? extends Element>> _validTypes = _builder.build();
 
 	private final class InverseChameleonProperty extends InverseProperty<Element, ChameleonProperty> implements ChameleonProperty {
 		private InverseChameleonProperty(String name, PropertyUniverse<ChameleonProperty> universe, PropertyMutex<ChameleonProperty> family,

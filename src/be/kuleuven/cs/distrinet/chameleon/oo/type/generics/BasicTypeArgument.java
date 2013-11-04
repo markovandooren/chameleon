@@ -69,7 +69,7 @@ public class BasicTypeArgument extends ActualTypeArgumentWithTypeReference {
 
 	@Override
 	public TypeParameter capture(FormalTypeParameter formal, List<TypeConstraint> accumulator) {
-		CapturedTypeParameter newParameter = new CapturedTypeParameter(clone(formal.signature()));
+		CapturedTypeParameter newParameter = new CapturedTypeParameter(formal.name());
 		TypeReference typeReference = typeReference();
 		TypeReference clone = clone(typeReference);
 		clone.setOrigin(typeReference);//DEBUG //FIXME remove debugging statement after clone has been refactored

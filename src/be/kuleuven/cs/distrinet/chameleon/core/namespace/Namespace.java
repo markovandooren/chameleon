@@ -4,12 +4,12 @@ import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.TargetDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 
-public interface Namespace extends TargetDeclaration, DeclarationContainer {
+public interface Namespace extends TargetDeclaration, DeclarationContainer, SimpleNameDeclaration {
 
 	/**
 	 * Return the fully qualified name of this package. This is the concatenation of the
@@ -118,7 +118,7 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer {
 	
 	public Namespace getSubNamespace(final String name) throws LookupException;
 	
-	public NamespaceAlias alias(SimpleNameSignature sig);
+	public NamespaceAlias alias(String name);
 	
 	public Namespace createSubNamespace(String name);
 	

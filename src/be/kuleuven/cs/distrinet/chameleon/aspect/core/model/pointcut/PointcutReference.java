@@ -86,7 +86,7 @@ public class PointcutReference extends CrossReferenceWithArguments implements Cr
 			if (!(param instanceof NameExpression))
 				continue;
 			
-			if (((NameExpression) param).name().equals(fp.getName()))
+			if (((NameExpression) param).name().equals(fp.name()))
 				return index;
 			
 			index++;

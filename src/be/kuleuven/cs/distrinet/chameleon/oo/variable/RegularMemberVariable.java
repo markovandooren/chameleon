@@ -36,21 +36,14 @@ public class RegularMemberVariable extends RegularVariable implements MemberVari
    * @param name
    */
   public RegularMemberVariable(String name, TypeReference type) {
-    super(new SimpleNameSignature(name), type, null);
+    super(name, type, null);
   }
   
   /**
    * @param name
    */
-  public RegularMemberVariable(SimpleNameSignature sig, TypeReference type) {
-    super(sig, type, null);
-  }
-  
-  /**
-   * @param name
-   */
-  public RegularMemberVariable(SimpleNameSignature sig, TypeReference type, Expression initCode) {
-    super(sig, type, initCode);
+  public RegularMemberVariable(String name, TypeReference type, Expression initCode) {
+    super(name, type, initCode);
   }
 
   
@@ -89,7 +82,7 @@ public class RegularMemberVariable extends RegularVariable implements MemberVari
 
 
   protected RegularMemberVariable cloneSelf() {
-    return new RegularMemberVariable(null,null,null);
+    return new RegularMemberVariable(name(),null,null);
   }
 	  
   public List<Member> getIntroducedMembers() {
@@ -157,9 +150,9 @@ public class RegularMemberVariable extends RegularVariable implements MemberVari
   	return ((HidesRelation)hidesSelector()).contains(this,other);
   }
 
-	public MemberVariable alias(SimpleNameSignature signature) {
-		return new VariableAlias(signature,this);
-	}
+//	public MemberVariable alias(String name) {
+//		return new VariableAlias(name,this);
+//	}
 
   public Scope scope() throws ModelException {
   	Scope result = null;
@@ -184,35 +177,13 @@ public class RegularMemberVariable extends RegularVariable implements MemberVari
   	return _overridesSelector;
   }
   
-  private static OverridesRelation<MemberVariable> _overridesSelector = new OverridesRelation<MemberVariable>(MemberVariable.class) {
-		
-		public boolean containsBasedOnRest(MemberVariable first, MemberVariable second) throws LookupException {
-			return true;
-		}
-
-		/**
-		 * Returns true by default. The "rest" method will check for equality of the signatures
-		 * by default. 
-		 */
-		@Override
-		public boolean containsBasedOnName(Signature first, Signature second) {
-			return first.name().equals(second.name());
-		}
-	};
+  private static OverridesRelation<MemberVariable> _overridesSelector = new OverridesRelation<MemberVariable>(MemberVariable.class);
 	
   public HidesRelation<? extends Member> hidesSelector() {
 		return _hidesSelector;
   }
   
-  private static HidesRelation<RegularMemberVariable> _hidesSelector = new HidesRelation<RegularMemberVariable>(RegularMemberVariable.class) {
-		
-  	/**
-  	 * Returns true because only the name matters.
-  	 */
-		public boolean containsBasedOnRest(RegularMemberVariable first, RegularMemberVariable second) throws LookupException {
-			return true;
-		}
-	};
+  private static HidesRelation<RegularMemberVariable> _hidesSelector = new HidesRelation<RegularMemberVariable>(RegularMemberVariable.class);
 	
   public Set<? extends Member> overriddenMembers() throws LookupException {
   	List<Member> todo = (List<Member>) directlyOverriddenMembers();
@@ -231,17 +202,7 @@ public class RegularMemberVariable extends RegularVariable implements MemberVari
 		return new MemberRelationSelector<Member>(Member.class,this,_aliasSelector);
   }
 	
-  private static DeclarationComparator<Member> _aliasSelector = new DeclarationComparator<Member>(Member.class) {
-		
-		public boolean containsBasedOnRest(Member first, Member second) throws LookupException {
-			return first.signature().sameAs(second.signature());
-		}
-
-		@Override
-		public boolean containsBasedOnName(Signature first, Signature second) {
-			return true;
-		}
-	};
+  private static DeclarationComparator<Member> _aliasSelector = new DeclarationComparator<Member>(Member.class);
 
 	  public Set<? extends Member> aliasedMembers() throws LookupException {
 		  List<Member> todo = (List<Member>) directlyAliasedMembers();

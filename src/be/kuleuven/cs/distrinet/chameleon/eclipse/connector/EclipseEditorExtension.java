@@ -149,10 +149,7 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
   public String getLabel(Element element) {
   	String result = "";
   	if (element instanceof Declaration) {
-			Signature signature = ((Declaration)element).signature();
-			if(signature != null) {
-				result = signature.name();
-			}
+			result = ((Declaration)element).name();
 		} else if (element instanceof Signature) {
 			return ((Signature)element).name();
 		}

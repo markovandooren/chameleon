@@ -68,7 +68,7 @@ public class ExtendsWildcard extends ActualTypeArgumentWithTypeReference {
 	 */
 	@Override
 	public TypeParameter capture(FormalTypeParameter formal, List<TypeConstraint> accumulator) {
-		CapturedTypeParameter newParameter = new CapturedTypeParameter(clone(formal.signature()));
+		CapturedTypeParameter newParameter = new CapturedTypeParameter(formal.name());
 		// Copy and redirect the bound of the formal parameter.
 		for(TypeConstraint constraint: formal.constraints()) {
 			TypeConstraint clone = cloneAndResetTypeReference(constraint,constraint);

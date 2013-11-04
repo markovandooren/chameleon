@@ -206,8 +206,8 @@ public abstract class ClassWithBody extends ClassImpl {
 //		}
 //	}
 
-	public ClassWithBody(SimpleNameSignature sig) {
-		super(sig);
+	public ClassWithBody(String name) {
+		super(name);
 		init();
 	}
 
@@ -216,9 +216,9 @@ public abstract class ClassWithBody extends ClassImpl {
 		add(_parameters,new TypeParameterBlock());
 	}
 	
-	protected ClassWithBody() {
-		init();
-	}
+//	protected ClassWithBody() {
+//		init();
+//	}
 
 	public <P extends Parameter> void replaceAllParameters(Class<P> kind, List<P> newParameters) {
 		int size = newParameters.size();

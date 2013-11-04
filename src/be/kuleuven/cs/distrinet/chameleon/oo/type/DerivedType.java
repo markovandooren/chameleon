@@ -53,7 +53,7 @@ public class DerivedType extends ClassWithBody {
 	 * @param baseType
 	 */
 	private DerivedType(Type baseType) {
-		super((SimpleNameSignature) baseType.signature().clone());
+		super(baseType.name());
 		_baseType = baseType;
 		setOrigin(baseType);
 		copyInheritanceRelations(baseType, true);
@@ -102,7 +102,7 @@ public class DerivedType extends ClassWithBody {
 			ActualTypeArgument argument = argumentsIterator.next();
 			// The next call does not change the parent of 'argument'. It is stored in InstantiatedTypeParameter
 			// using a regular reference.
-			InstantiatedTypeParameter instantiated = new InstantiatedTypeParameter(clone(parameter.signature()), argument);
+			InstantiatedTypeParameter instantiated = new InstantiatedTypeParameter(parameter.name(), argument);
 			replaceParameter(TypeParameter.class,parameter, instantiated);
 		}
 	}

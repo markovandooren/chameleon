@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.type;
 
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.SimpleReference;
@@ -19,16 +18,12 @@ public class BasicTypeReference extends SimpleReference<Type> implements TypeRef
     super(target, name, Type.class);
   }
   
-  public BasicTypeReference(CrossReferenceTarget target, SimpleNameSignature signature) {
-    super(target, signature, Type.class);
-  }
-  
   public Type getType() throws LookupException {
   	return getElement();
   }
 
   public BasicTypeReference cloneSelf() {
-    return new BasicTypeReference(null,(SimpleNameSignature)null);
+    return new BasicTypeReference(null,name());
   }
 
 	public TypeReference intersection(TypeReference other) {

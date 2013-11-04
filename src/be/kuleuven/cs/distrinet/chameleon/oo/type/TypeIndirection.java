@@ -2,7 +2,6 @@ package be.kuleuven.cs.distrinet.chameleon.oo.type;
 
 import java.util.List;
 
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
@@ -15,8 +14,8 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 
 public abstract class TypeIndirection extends ClassImpl {
 
-	public TypeIndirection(SimpleNameSignature sig, Type aliasedType) {
-		super(sig);
+	public TypeIndirection(String name, Type aliasedType) {
+		super(name);
 		_aliasedType = aliasedType;
 		if(aliasedType != null) {
 		  setUniParent(aliasedType.parent());

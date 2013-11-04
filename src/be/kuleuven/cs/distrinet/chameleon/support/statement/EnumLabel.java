@@ -8,7 +8,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclaratorSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.SimpleSelector;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.NameSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
@@ -18,7 +18,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.variable.Variable;
 public class EnumLabel extends SwitchLabel implements CrossReference<Variable>{
 
 	public EnumLabel(String name) {
-		_signature = new SimpleNameSignature(name);
+		setName(name);
 	}
 	
 	@Override
@@ -27,14 +27,14 @@ public class EnumLabel extends SwitchLabel implements CrossReference<Variable>{
 	}
 
 	public String name() {
-		return _signature.name();
+		return _name;
 	}
 	
 	public void setName(String name) {
-		_signature.setName(name);
+		_name = name;
 	}
 	
-	private SimpleNameSignature _signature;
+	private String _name;
 	
 	public Variable getElement() throws LookupException {
 		return getElement(selector());
@@ -53,9 +53,9 @@ public class EnumLabel extends SwitchLabel implements CrossReference<Variable>{
 	}
 
 	public DeclarationSelector<Variable> selector() {
-		return new SimpleSelector<Variable>(Variable.class) {
-			public Signature signature() {
-				return _signature;
+		return new NameSelector<Variable>(Variable.class) {
+			public String name() {
+				return _name;
 			}
 		};
 	}

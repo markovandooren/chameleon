@@ -77,13 +77,13 @@ public class IntersectionType extends MultiType {
 		_types.add(type);
 	}
 	
-	public static SimpleNameSignature createSignature(Collection<Type> types) {
+	public static String createSignature(Collection<Type> types) {
 		StringBuffer name = new StringBuffer("intersection of ");
 		for(Type type:types) {
 			name.append(type.getFullyQualifiedName()+", ");
 		}
 		name.delete(name.length()-2, name.length()-1);
-		return new SimpleNameSignature(name.toString());
+		return name.toString();
 	}
 	
 	private IntersectionType(List<Type> types, boolean useless) {

@@ -8,7 +8,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.TargetDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.SimpleSelector;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.NameSelector;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
 
 public class SimpleReference<D extends Declaration> extends ElementReference<D> {
@@ -25,21 +25,13 @@ public class SimpleReference<D extends Declaration> extends ElementReference<D> 
 		this(fqn,specificClass,false);
 	}
 
-	public SimpleReference(Signature signature, Class<D> specificClass) {
-		this(null, signature, specificClass);
-	}
-	
   public SimpleReference(String fqn, Class<D> specificClass, boolean recursiveLimit) {
-    this(new SimpleNameSignature(Util.getLastPart(fqn)), specificClass);
+    this(null, Util.getLastPart(fqn), specificClass);
     setTarget(createTarget(fqn, specificClass, recursiveLimit));
   }
 
-	public SimpleReference(CrossReferenceTarget target, String name, Class<D> specificClass) {
-		this(target, new SimpleNameSignature(name), specificClass);
-	}
-
-	public SimpleReference(CrossReferenceTarget  target, Signature signature, Class<D> specificClass) {
-		super(signature);
+	public SimpleReference(CrossReferenceTarget  target, String name, Class<D> specificClass) {
+		super(name);
 		setTarget(target); 
 		_specificClass = specificClass;
 	}
@@ -49,7 +41,7 @@ public class SimpleReference<D extends Declaration> extends ElementReference<D> 
 	 */
 	@Override
 	protected SimpleReference<D> cloneSelf() {
-	   return new SimpleReference<D>(null, (SimpleNameSignature)null, specificType());
+	   return new SimpleReference<D>(null, name(), specificType());
 	}
 
 
@@ -58,9 +50,9 @@ public class SimpleReference<D extends Declaration> extends ElementReference<D> 
 	@Override
 	public DeclarationSelector<D> selector() {
 		if(_selector == null) {
-			_selector = new SimpleSelector<D>(_specificClass) {
-				public Signature signature() {
-					return SimpleReference.this.signature();
+			_selector = new NameSelector<D>(_specificClass) {
+				public String name() {
+					return SimpleReference.this.name();
 				}
 			};
 		}

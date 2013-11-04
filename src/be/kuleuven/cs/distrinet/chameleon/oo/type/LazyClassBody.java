@@ -111,7 +111,7 @@ public class LazyClassBody extends ClassBody {
 			// Creating a new type reference with the same name will ensure that the name is
 			// resolved in the current context, and thus point to the corresponding type
 			// parameter in the surrounding DerivedType.
-			TypeReference tref = language.createTypeReference(par.signature().name());
+			TypeReference tref = language.createTypeReference(par.name());
 			tref.setUniParent(this);
 			language.replace(tref, par, declClone, Declaration.class);
 		}
@@ -135,8 +135,7 @@ public class LazyClassBody extends ClassBody {
 		List<? extends Member> introducedByNewGenerator = newGenerator.getIntroducedMembers();
 		// 7. Search for the one with the same signature as the clone of the declaration (which is in the same context). 
 		for(Member m: introducedByNewGenerator) {
-			Signature msig = m.signature();
-			if(msig.name().equals(selectionName) && msig.sameAs(declClone.signature())) {
+			if(m.name().equals(selectionName) && m.sameSignatureAs(declClone)) {
 				clone = m;
 				break;
 			}
@@ -144,8 +143,7 @@ public class LazyClassBody extends ClassBody {
 		if(clone == null) {
 			//DEBUG CODE
 			for(Member m: introducedByNewGenerator) {
-				Signature msig = m.signature();
-				if(msig.name().equals(selectionName) && msig.sameAs(declClone.signature())) {
+				if(m.sameSignatureAs(declClone)) {
 					clone = m;
 					break;
 				}

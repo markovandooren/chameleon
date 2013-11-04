@@ -1,7 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.core.namespace;
 
 
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
@@ -43,27 +42,24 @@ public class RootNamespace extends RegularNamespace {
 // @FIXME
 // Create Model
 	
-  /**
+
+  public RootNamespace(NamespaceFactory factory) {
+  	this(null,factory);
+  }
+/**
    * @param name
    */
-  protected RootNamespace(SimpleNameSignature sig, View view,NamespaceFactory factory) {
-    super(sig);
+  protected RootNamespace(View view,NamespaceFactory factory) {
+    super("");
     setNamespaceFactory(factory);
     setView(view); 
 //    NamespacePart primitiveNP = new NamespacePart(this);
 //    _primitiveNamespacePart.connectTo(primitiveNP.getNamespaceLink());
   }
   
-  /**
-   * @param name
-   */
-  public RootNamespace(NamespaceFactory factory) {
-  	this(new SimpleNameSignature(""),null, factory);
-  }
-
 
 	protected RootNamespace cloneSelf() {
-		return new RootNamespace(null,null, namespaceFactory());
+		return new RootNamespace(null, namespaceFactory());
 	}
 
   public void setView(View view) {

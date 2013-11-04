@@ -24,8 +24,8 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 
 public abstract class RegularVariable extends VariableImpl implements ExceptionSource {
 
-	public RegularVariable(SimpleNameSignature sig, TypeReference typeRef, Expression init) {
-		super(sig);
+	public RegularVariable(String name, TypeReference typeRef, Expression init) {
+		super(name);
     setTypeReference(typeRef);
     setInitialization(init);
 	}
@@ -118,13 +118,6 @@ public abstract class RegularVariable extends VariableImpl implements ExceptionS
   }
 
 
-  /**
-   * Return the name of this variable.
-   */
-  public String getName() {
-    return signature().name();
-  }
-  
   public Type getType() throws LookupException {
   	Type result = getTypeReference().getElement();
   	if(result != null) {

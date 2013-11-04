@@ -55,7 +55,7 @@ public abstract class DeclarationWithParametersSignature extends Signature {
   			for(int i=0; i < nbMyTypeParameters; i++) {
   				TypeParameter myTypeParameter = myTypeParameters.get(i);
   				TypeParameter clonedTypeParameter = cloneTypeParameters.get(i);
-  				TypeReference replacement = language(ObjectOrientedLanguage.class).createTypeReference(myTypeParameter.signature().name());
+  				TypeReference replacement = language(ObjectOrientedLanguage.class).createTypeReference(myTypeParameter.name());
   				replacement.setUniParent(myTypeParameter.parent());
   				
   				// substitute in formal parameter types

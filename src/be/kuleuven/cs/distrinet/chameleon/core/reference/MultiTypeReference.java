@@ -20,19 +20,9 @@ public class MultiTypeReference<D extends Declaration> extends ElementReference<
 	
 	
 	
-	/**
-	 * Initialize a new simple reference given a fully qualified name. The name is split at every dot, and
-	 * multiple objects are created to form a chain of references.
-	 * @param fqn
-	 * @param specificClass
-	 */
-	public MultiTypeReference(String fqn, Set<Class<? extends D>> classes) {
-		this(fqn,classes,false);
-	}
-
   public MultiTypeReference(String fqn, Set<Class<? extends D>> classes, boolean recursiveLimit) {
     this(createTarget(fqn, classes, recursiveLimit), 
-                   new SimpleNameSignature(Util.getLastPart(fqn)), 
+                   Util.getLastPart(fqn), 
                    classes);
   }
 
@@ -47,18 +37,14 @@ public class MultiTypeReference<D extends Declaration> extends ElementReference<
 
   
 	public MultiTypeReference(CrossReferenceTarget target, String name, Set<Class<? extends D>> classes) {
-		this(target, new SimpleNameSignature(name), classes);
-	}
-
-	public MultiTypeReference(CrossReferenceTarget  target, Signature signature, Set<Class<? extends D>> classes) {
-		super(signature);
+		super(name);
 		setTarget(target); 
-		_classes = classes;
+		_classes = ImmutableSet.copyOf(classes);
 	}
 
-	public MultiTypeReference(Signature signature, Set<Class<? extends D>> classes) {
-		super(signature);
-		_classes = ImmutableSet.copyOf(classes);
+	public MultiTypeReference(String fqn, Set<Class<? extends D>> classes) {
+		this(createTarget(fqn, classes, false), 
+        Util.getLastPart(fqn),classes);
 	}
 
 	@Override
@@ -66,15 +52,15 @@ public class MultiTypeReference<D extends Declaration> extends ElementReference<
 		return new MultiTypeSelector<D>(_classes) {
 
 			@Override
-			public Signature signature() {
-				return MultiTypeReference.this.signature();
+			public String name() {
+				return MultiTypeReference.this.name();
 			}
 		};
 	}
 
 	@Override
 	protected Element cloneSelf() {
-		return new MultiTypeReference<D>(null,(Signature)null,_classes);
+		return new MultiTypeReference<D>(null,name(),_classes);
 	}
 
 	private Set<Class<? extends D>> _classes;

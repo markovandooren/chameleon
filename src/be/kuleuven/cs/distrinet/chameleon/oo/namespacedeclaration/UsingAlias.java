@@ -98,9 +98,9 @@ public class UsingAlias extends Import {
 		Declaration nst = getCrossReference().getElement(); 
 		List<Declaration> result = new ArrayList<Declaration>();
     if(nst instanceof Type) {
-      result.add(((Type) nst).alias(new SimpleNameSignature(getIdentifier())));
+      result.add(((Type) nst).alias(getIdentifier()));
     } else if (nst instanceof Namespace) {
-    	result.add(((Namespace) nst).alias(new SimpleNameSignature(getIdentifier())));    	
+    	result.add(((Namespace) nst).alias(getIdentifier()));    	
     }
     return result;
 	}

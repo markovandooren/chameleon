@@ -11,8 +11,8 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.inheritance.InheritanceRelatio
 
 public abstract class MultiType extends ClassImpl {
 
-	public MultiType(SimpleNameSignature sig, List<Type> types) {
-		super(sig);
+	public MultiType(String name, List<Type> types) {
+		super(name);
 		if(types.isEmpty()) {
 			throw new ChameleonProgrammerException("Creating a union type with an empty collection of types.");
 		}

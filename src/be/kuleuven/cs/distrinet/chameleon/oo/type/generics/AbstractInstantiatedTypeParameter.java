@@ -16,8 +16,8 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 
 public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 
-	public AbstractInstantiatedTypeParameter(SimpleNameSignature signature, ActualTypeArgument argument) {
-		super(signature);
+	public AbstractInstantiatedTypeParameter(String name, ActualTypeArgument argument) {
+		super(name);
 		setArgument(argument);
 	}
 
@@ -62,7 +62,7 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 
 	public synchronized Type selectionDeclaration() throws LookupException {
 		if(_selectionTypeCache == null) {
-		  _selectionTypeCache = new InstantiatedParameterType(clone(signature()), argument().type(),this);
+		  _selectionTypeCache = new InstantiatedParameterType(name(), argument().type(),this);
 		}
 		return _selectionTypeCache;
 	}
@@ -79,7 +79,7 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 	@Override
 	public Type resolveForRoundTrip() throws LookupException {
 //		return this;
-  	Type result = new LazyInstantiatedAlias(clone(signature()), this);
+  	Type result = new LazyInstantiatedAlias(name(), this);
   	result.setUniParent(parent());
   	return result;
 	}

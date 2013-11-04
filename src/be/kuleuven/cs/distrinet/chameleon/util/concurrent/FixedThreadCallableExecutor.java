@@ -19,7 +19,7 @@ public class FixedThreadCallableExecutor<E extends Exception> extends FixedThrea
 	
 	public void run() throws InterruptedException, E, ExecutionException {
 		int availableProcessors = availableProcessors();
-		System.out.println("Using "+availableProcessors+" threads.");
+//		System.out.println("Using "+availableProcessors+" threads.");
 		List<Callable<Object>> tasks = new ArrayList<Callable<Object>>(availableProcessors);
 		for(int i=0; i<availableProcessors;i++) {
 			tasks.add(factory().createCallable());

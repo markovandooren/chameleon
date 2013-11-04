@@ -39,7 +39,7 @@ public class AfterReturningExpression extends AdvisedExpressionFactory {
 		try {
 			Returning m = (Returning) advice.modifiers(advice.language(AspectOrientedOOLanguage.class).RETURNING()).get(0);
 			if (m.hasParameter()) {
-				returnVariableName = m.parameter().getName();
+				returnVariableName = m.parameter().name();
 			}
 		} catch (ModelException e) {
 			throw new ChameleonProgrammerException(e);

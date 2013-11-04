@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.core.namespace;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -9,13 +8,11 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.util.Lists;
-import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputSource;
 import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
@@ -24,20 +21,13 @@ import com.google.common.collect.ImmutableList;
 
 public class LazyNamespace extends RegularNamespace implements InputSourceNamespace {
 
-	protected LazyNamespace(SimpleNameSignature sig) {
-		super(sig);
-	}
-	
 	protected LazyNamespace(String name) {
-		this(new SimpleNameSignature(name));
+		super(name);
 	}
 	
-	protected LazyNamespace() {
-	}
-
 	@Override
 	protected RegularNamespace cloneSelf() {
-		return new LazyNamespace();
+		return new LazyNamespace(name());
 	}
 	
 	@Override

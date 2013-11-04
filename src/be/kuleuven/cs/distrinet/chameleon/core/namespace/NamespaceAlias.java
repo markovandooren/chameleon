@@ -3,7 +3,6 @@ package be.kuleuven.cs.distrinet.chameleon.core.namespace;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
@@ -19,8 +18,8 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 
 public class NamespaceAlias extends NamespaceImpl {
 
-	public NamespaceAlias(SimpleNameSignature sig, Namespace aliasedNamespace) {
-		super(sig);
+	public NamespaceAlias(String name, Namespace aliasedNamespace) {
+		super(name);
 		_aliasedNamespace = aliasedNamespace;
 	}
 	

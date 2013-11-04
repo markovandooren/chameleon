@@ -9,20 +9,15 @@ import be.kuleuven.cs.distrinet.chameleon.util.Pair;
 
 public class RegularType extends ClassWithBody {
 
-	public RegularType(SimpleNameSignature sig) {
-		super(sig);
-	}
-	
 	public RegularType(String name) {
-		this(new SimpleNameSignature(name));
+		super(name);
 	}
 	
-	protected RegularType() {
-	}
+//	protected RegularType() {
+//	}
 	
 	protected RegularType cloneSelf() {
-		RegularType result = new RegularType(clone(signature()));
-		result.setSignature(null);
+		RegularType result = new RegularType(name());
 		result.parameterBlock(TypeParameter.class).disconnect();
 		return result;
 	}

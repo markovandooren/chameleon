@@ -1,19 +1,18 @@
 package be.kuleuven.cs.distrinet.chameleon.core.property;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
-import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.DynamicProperty;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyUniverse;
+
+import com.google.common.collect.ImmutableList;
 
 public abstract class DynamicChameleonProperty extends DynamicProperty<Element,ChameleonProperty> implements ChameleonProperty {
 
@@ -86,12 +85,13 @@ public abstract class DynamicChameleonProperty extends DynamicProperty<Element,C
 		Verification result = Valid.create();
 
 		final Class<? extends Element> elementClass = element.getClass();
-		boolean validType = new SafePredicate<Class<? extends Element>>() {
-			@Override
-			public boolean eval(Class<? extends Element> validClass) {
-				return validClass.isAssignableFrom(elementClass);
-			}
-		}.exists(_validTypes);
+		boolean validType = false;
+		for(Class<? extends Element> validClass: _validTypes) {
+				if(validClass.isAssignableFrom(elementClass)) {
+					validType = true;
+					break;
+				}
+		};
 		if(! validType) {
 		  result = result.and(new BasicProblem(element, "Property "+property.name()+" is not applicable to a "+elementClass.getName())); 
 		}
@@ -116,7 +116,7 @@ public abstract class DynamicChameleonProperty extends DynamicProperty<Element,C
    @ post ! \result.contains(null);
    @*/
 	public List<Class<? extends Element>> validElementTypes() {
-		return new ArrayList<Class<? extends Element>>(_validTypes);
+		return _validTypes;
 	}
 	
  /**
@@ -131,10 +131,12 @@ public abstract class DynamicChameleonProperty extends DynamicProperty<Element,C
   @ post validElementTypes().contains(type);
   @*/
 	public void addValidElementType(Class<? extends Element> type) {
-		_validTypes.add(type);
+		_validTypes = _builder.add(type).build();
 	}
 	
-	private List<Class<? extends Element>> _validTypes = Lists.create();
+	private ImmutableList.Builder<Class<? extends Element>> _builder = ImmutableList.builder();
+	
+	private ImmutableList<Class<? extends Element>> _validTypes = _builder.build();
 
 
 }

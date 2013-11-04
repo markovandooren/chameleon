@@ -3,7 +3,6 @@ package be.kuleuven.cs.distrinet.chameleon.oo.type.generics;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeIndirection;
@@ -11,8 +10,8 @@ import be.kuleuven.cs.distrinet.chameleon.util.Pair;
 
 public class LazyInstantiatedAlias extends TypeIndirection {
 
-	public LazyInstantiatedAlias(SimpleNameSignature sig, TypeParameter param) {
-		super(sig,null);
+	public LazyInstantiatedAlias(String name, TypeParameter param) {
+		super(name,null);
 		_param = param;
 	}
 	
@@ -32,7 +31,7 @@ public class LazyInstantiatedAlias extends TypeIndirection {
 
 	@Override
 	public LazyInstantiatedAlias cloneSelf() {
-		return new LazyInstantiatedAlias(null, _param);
+		return new LazyInstantiatedAlias(name(), _param);
 	}
 
 	public boolean uniSameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {

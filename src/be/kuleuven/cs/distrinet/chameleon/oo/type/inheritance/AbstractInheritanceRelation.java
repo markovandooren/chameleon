@@ -15,6 +15,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.member.Member;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
 import be.kuleuven.cs.distrinet.chameleon.util.Lists;
+import be.kuleuven.cs.distrinet.chameleon.util.StackOverflowTracer;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 

@@ -1,26 +1,23 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.type.generics;
 
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
-import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.oo.type.NonLocalTypeReference;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 
 public class CapturedTypeParameter extends FormalTypeParameter {
 //FIXME a captured type parameter should NOT be a formal type parameter but an instantiated type parameter!!!!
 //      I must modify the instantiated type parameter hierarchy.
-	public CapturedTypeParameter(SimpleNameSignature signature) {
-		super(signature);
+	public CapturedTypeParameter(String name) {
+		super(name);
 	}
 
 	@Override
 	protected CapturedTypeParameter cloneSelf() {
-		return new CapturedTypeParameter(null);
+		return new CapturedTypeParameter(name());
 	}
 	
 	@Override
 	protected Type createLazyAlias() {
-		return new LazyInstantiatedAlias(clone(signature()), this);
+		return new LazyInstantiatedAlias(name(), this);
 	}
 
 	@Override
@@ -30,7 +27,7 @@ public class CapturedTypeParameter extends FormalTypeParameter {
 //			System.out.println("Creating selection type of " + x);
 //		}
 		if(_selectionTypeCache == null) {
-		  _selectionTypeCache = new InstantiatedParameterType(clone(signature()), upperBound(),this);
+		  _selectionTypeCache = new InstantiatedParameterType(name(), upperBound(),this);
 		}
 		return _selectionTypeCache;
 	}

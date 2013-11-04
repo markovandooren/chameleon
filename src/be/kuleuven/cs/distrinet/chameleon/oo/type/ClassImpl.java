@@ -12,7 +12,6 @@ import java.util.Set;
 
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
@@ -31,10 +30,10 @@ import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
-import be.kuleuven.cs.distrinet.chameleon.oo.member.FixedSignatureMember;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.HidesRelation;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.Member;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.MemberRelationSelector;
+import be.kuleuven.cs.distrinet.chameleon.oo.member.SimpleNameMember;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.inheritance.InheritanceRelation;
 import be.kuleuven.cs.distrinet.chameleon.util.Lists;
@@ -51,17 +50,41 @@ import com.google.common.collect.ImmutableList;
  *
  * @author Marko van Dooren
  */
-public abstract class ClassImpl extends FixedSignatureMember implements Type {
+public abstract class ClassImpl extends SimpleNameMember implements Type {
  
-	
+//  /**
+//   * Initialize a new Type.
+//   */
+// /*@
+//   @ public behavior
+//   @
+//   @ pre sig != null;
+//	   @
+//   @ post signature() == sig;
+//   @ post parent() == null;
+//   @*/
+//  public ClassImpl(SimpleNameSignature sig) {
+//      super(sig);
+//  }
+  
+  /**
+   * Initialize a new class with the given name.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post name() == name;
+   @ post parent() == null;
+   @*/
+  public ClassImpl(String name) {
+      setName(name);
+  }
+  
 	public Class<SimpleNameSignature> signatureType() {
 		return SimpleNameSignature.class;
 	}
 	
-	public void setName(String name) {
-		setSignature(new SimpleNameSignature(name));
-	}
-	
+
 	public Type declarationType() {
 		return this;
 	}
@@ -73,9 +96,9 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 		}
 	}
 	
-	public SimpleNameSignature signature() {
-		return (SimpleNameSignature) super.signature();
-	}
+//	public SimpleNameSignature signature() {
+//		return (SimpleNameSignature) super.signature();
+//	}
 	private List<? extends Declaration> _declarationCache = null;
 	
 	private synchronized List<? extends Declaration> declarationCache() {
@@ -139,36 +162,6 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 		
 	}
 	
-    /**
-     * Initialize a new Type.
-     */
-   /*@
-     @ public behavior
-     @
-     @ pre sig != null;
- 	   @
-     @ post signature() == sig;
-     @ post parent() == null;
-     @*/
-    public ClassImpl(SimpleNameSignature sig) {
-        super(sig);
-    }
-    
-
-  	/* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#getName()
-		 */
-
-  	/*@
-  	 @ public behavior
-  	 @
-  	 @ post \result != null;
-  	 @*/
-  	public String getName() {
-  		Signature signature = signature();
-			return (signature != null ? signature.name() : null);
-  	}
-
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#getFullyQualifiedName()
 		 */
@@ -825,8 +818,8 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
   	/* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#alias(chameleon.core.declaration.SimpleNameSignature)
 		 */
-  	public Type alias(SimpleNameSignature sig) {
-      return new TypeAlias(sig,this);
+  	public Type alias(String name) {
+      return new TypeAlias(name,this);
   	}
 
   	/* (non-Javadoc)
@@ -971,15 +964,7 @@ public abstract class ClassImpl extends FixedSignatureMember implements Type {
 			return _hidesSelector;
 	  }
 	  
-	  private static HidesRelation<Type> _hidesSelector = new HidesRelation<Type>(Type.class) {
-			
-	  	/**
-	  	 * Returns true because only the name matters.
-	  	 */
-			public boolean containsBasedOnRest(Type first, Type second) throws LookupException {
-				return true;
-			}
-		};
+	  private static HidesRelation<Type> _hidesSelector = new HidesRelation<Type>(Type.class);
 }
 
 

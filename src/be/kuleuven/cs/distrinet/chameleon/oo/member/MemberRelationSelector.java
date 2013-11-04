@@ -83,7 +83,7 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
 	
 
 	public boolean selectedBasedOnName(Signature signature) throws LookupException {
-		return comparator().containsBasedOnName(declaration().signature(), signature);
+		return declaration().name().equals(signature.name());
 	}
 
 	public boolean selectedRegardlessOfName(D declaration) throws LookupException {

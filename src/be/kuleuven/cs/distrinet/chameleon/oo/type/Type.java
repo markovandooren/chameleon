@@ -6,6 +6,7 @@ import java.util.Set;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
@@ -22,7 +23,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.inheritance.InheritanceRelation;
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
 
-public interface Type extends DeclarationContainer, DeclarationWithType, Member {
+public interface Type extends DeclarationContainer, DeclarationWithType, Member, SimpleNameDeclaration {
 
 	public Class<SimpleNameSignature> signatureType();
 
@@ -305,7 +306,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 
 	public List<? extends Declaration> declarations() throws LookupException;
 
-	public Type alias(SimpleNameSignature sig);
+	public Type alias(String name);
 
 	public Type intersection(Type type) throws LookupException;
 	

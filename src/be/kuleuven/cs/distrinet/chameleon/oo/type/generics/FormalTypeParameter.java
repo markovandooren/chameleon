@@ -20,18 +20,14 @@ import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
  */
 public class FormalTypeParameter extends TypeParameter {
 
-	public FormalTypeParameter(SimpleNameSignature signature) {
-		super(signature);
-	}
-	
 	public FormalTypeParameter(String name) {
-		this(new SimpleNameSignature(name));
+		super(name);
 	}
 	
   
 	@Override
 	protected FormalTypeParameter cloneSelf() {
-		return new FormalTypeParameter((SimpleNameSignature)null);
+		return new FormalTypeParameter(name());
 	}
 	
 	/**
@@ -50,7 +46,7 @@ public class FormalTypeParameter extends TypeParameter {
 
 
 	protected Type createSelectionType() throws LookupException {
-		return new FormalParameterType(clone(signature()),upperBound(),this);
+		return new FormalParameterType(name(),upperBound(),this);
 	}
 	
 	public Type resolveForRoundTrip() throws LookupException {
@@ -61,7 +57,7 @@ public class FormalTypeParameter extends TypeParameter {
 
 
 	protected Type createLazyAlias() {
-		return new LazyFormalAlias(clone(signature()), this);
+		return new LazyFormalAlias(name(), this);
 	}
 	
 	private Multi<TypeConstraint> _typeConstraints = new Multi<TypeConstraint>(this);

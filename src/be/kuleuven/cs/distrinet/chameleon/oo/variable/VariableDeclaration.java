@@ -4,6 +4,7 @@ import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
@@ -27,35 +28,59 @@ import com.google.common.collect.ImmutableList;
 public class VariableDeclaration extends ElementImpl implements DeclarationContainer {
 
 	public VariableDeclaration(String name) {
-		this(new SimpleNameSignature(name), null);
+		this(name, null);
 	}
 	
 	public VariableDeclaration(String name, Expression expr) {
-		this(new SimpleNameSignature(name), expr);
-	}
-	
-	public VariableDeclaration(SimpleNameSignature sig, Expression expr) {
 		setInitialization(expr);
-		setSignature(sig);
+		setName(name);
 	}
 	
 	@Override
 	protected VariableDeclaration cloneSelf() {
-		return new VariableDeclaration((SimpleNameSignature)null, null);
+		return new VariableDeclaration(name(), null);
 	}
 
-	public void setSignature(SimpleNameSignature signature) {
-		set(_signature,signature);
+  private String _name;
+  
+  public String name() {
+  	return _name;
+  }
+
+	private SimpleNameSignature _signature;
+	
+	public void setName(String name) {
+		_name = name;
+		if(_signature != null) {
+			_signature.setName(name);
+		}
 	}
-	  
-	  /**
-	   * Return the signature of this member.
-	   */
-	  public SimpleNameSignature signature() {
-	    return _signature.getOtherEnd();
-	  }
-	  
-	  private Single<SimpleNameSignature> _signature = new Single<SimpleNameSignature>(this);
+	
+//	public void setSignature(Signature signature) {
+//		if(signature instanceof SimpleNameSignature) {
+//			setName(signature.name());
+//		} else {
+//			throw new ChameleonProgrammerException();
+//		}
+//	}
+	
+//	public SimpleNameSignature signature() {
+//		if(_signature == null) {
+//			synchronized (this) {
+//				if(_signature == null) {
+//					_signature = new SimpleNameSignature(_name) {
+//						@Override
+//						public void setName(String name) {
+//							super.setName(name);
+//							VariableDeclaration.this._name = name;
+//						}
+//					};
+//				}
+//				_signature.setUniParent(this);
+//			}
+//		}
+//		return _signature;
+//	}
 
 	/**
 	 * EXPRESSION
@@ -76,7 +101,7 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
   	if(result == null) {
   		Expression init = initialization();
   		Expression initClone = (init == null ? null : clone(init));
-  		result = ((VariableDeclarator)parent()).createVariable(clone(signature()),initClone);
+  		result = ((VariableDeclarator)parent()).createVariable(name(),initClone);
   		result.setUniParent(parent());
   		result.setOrigin(this);
   		transform(result);
@@ -119,7 +144,7 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
 
 	@Override
 	public Verification verifySelf() {
-		Verification result = checkNull(signature(), "The variable declaration has no signature", Valid.create());
+		Verification result = checkNull(_name, "The variable declaration has no name", Valid.create());
 		Expression initialization = initialization();
 		if(initialization != null) {
 			Type initType = null;

@@ -1,5 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.variable;
 
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
@@ -12,7 +14,7 @@ import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
 /**
  * @author Marko van Dooren
  */
-public interface Variable extends ElementWithModifiers, DeclarationWithType {
+public interface Variable extends ElementWithModifiers, DeclarationWithType, SimpleNameDeclaration {
 
 	public Expression getInitialization();
 
@@ -23,11 +25,6 @@ public interface Variable extends ElementWithModifiers, DeclarationWithType {
    */
   public SimpleNameSignature signature();
   
-  /**
-   * Return the name of this variable.
-   */
-  public String getName();
-
   public abstract TypeReference getTypeReference();
   
   public abstract void setTypeReference(TypeReference ref);
@@ -39,5 +36,5 @@ public interface Variable extends ElementWithModifiers, DeclarationWithType {
   public LocalLookupContext<?> targetContext() throws LookupException;
 
 
-  public Variable selectionDeclaration();
+  public Declaration selectionDeclaration() throws LookupException;
 }

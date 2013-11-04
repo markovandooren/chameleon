@@ -1,24 +1,25 @@
 package be.kuleuven.cs.distrinet.chameleon.core.lookup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 
 public abstract class SelectorWithoutOrder<D extends Declaration> extends DeclarationSelector<D> {
 
-	/**
-	 * Return the signature that is used by this selector for selecting declarations.
-	 */
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @*/
-	public abstract Signature signature();
+//	/**
+//	 * Return the signature that is used by this selector for selecting declarations.
+//	 */
+// /*@
+//   @ public behavior
+//   @
+//   @ post \result != null;
+//   @*/
+//	public abstract Signature signature();
+	public abstract String name();
 	
 	/**
 	 * The selection name is the name of the signature.
@@ -30,7 +31,7 @@ public abstract class SelectorWithoutOrder<D extends Declaration> extends Declar
    @*/
 	@Override
 	public String selectionName(DeclarationContainer container) {
-		return signature().name();
+		return name();
 	}
 
 	/**
@@ -54,14 +55,17 @@ public abstract class SelectorWithoutOrder<D extends Declaration> extends Declar
   	// We first perform the checks on the selectionDeclaration, since a signature check may be
   	// very expensive.
   	D result = null;
-  	Signature signature = declarator.signature();
-		if(signature!=null && signature.sameAs(signature())) {
+		if(correctSignature(declarator)) {
   		Declaration selectionDeclaration = declarator.selectionDeclaration();
   		if(hasSelectableType(selectionDeclaration)) {
   			result = (D) selectionDeclaration.actualDeclaration();
   		}
   	}
   	return result;
+  }
+  
+  protected boolean correctSignature(Declaration declaration) throws LookupException {
+		return declaration.name().equals(name()) && (declaration instanceof SimpleNameDeclaration);
   }
   
   @Override
@@ -87,8 +91,7 @@ public abstract class SelectorWithoutOrder<D extends Declaration> extends Declar
   public List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
   	List<SelectionResult> result = Lists.create();
   	for(Declaration selectionCandidate: selectionCandidates) {
-  		Signature signature = selectionCandidate.signature();
-			if(signature!=null && signature.sameAs(signature())) {
+			if(correctSignature(selectionCandidate)) {
   			Declaration selectionDeclaration = selectionCandidate.selectionDeclaration();
   			if(hasSelectableType(selectionDeclaration)) {
   				result.add(selectionCandidate.declarator());
@@ -104,5 +107,5 @@ public abstract class SelectorWithoutOrder<D extends Declaration> extends Declar
    * @return
    */
 	protected abstract boolean hasSelectableType(Declaration selectionDeclaration);
-
+	
 }

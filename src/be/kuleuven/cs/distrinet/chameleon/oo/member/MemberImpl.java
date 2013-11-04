@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.member;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -27,6 +26,12 @@ public abstract class MemberImpl extends TypeElementImpl implements Member {
    * Return the signature of this member.
    */
   public abstract Signature signature();
+  
+  @Override
+  public boolean sameSignatureAs(Declaration declaration)
+  		throws LookupException {
+  	return signature().sameAs(declaration.signature());
+  }
   
   public String name() {
   	return signature().name();
@@ -200,45 +205,19 @@ public abstract class MemberImpl extends TypeElementImpl implements Member {
   	return _overridesRelation;
   }
   
-  private static OverridesRelation<Member> _overridesRelation = new OverridesRelation<Member>(Member.class) {
-		
-		public boolean containsBasedOnRest(Member first, Member second) throws LookupException {
-			return first.signature().sameAs(second.signature());
-		}
-
-		@Override
-		public boolean containsBasedOnName(Signature first, Signature second) {
-			return first.name().equals(second.name());
-		}
-	};
+  private static OverridesRelation<Member> _overridesRelation = new OverridesRelation<Member>(Member.class);
 
   public HidesRelation<? extends Member> hidesRelation() {
 		return _hidesSelector;
   }
   
-  private static HidesRelation<Member> _hidesSelector = new HidesRelation<Member>(Member.class) {
-		
-		public boolean containsBasedOnRest(Member first, Member second) throws LookupException {
-			return true;
-		}
-
-	};
+  private static HidesRelation<Member> _hidesSelector = new HidesRelation<Member>(Member.class);
 
   public MemberRelationSelector<? extends Member> aliasSelector() {
 		return new MemberRelationSelector<Member>(Member.class,this,_aliasSelector);
   }
 	
-  private static DeclarationComparator<Member> _aliasSelector = new DeclarationComparator<Member>(Member.class) {
-		
-		public boolean containsBasedOnRest(Member first, Member second) throws LookupException {
-			return first.signature().sameAs(second.signature());
-		}
-
-		@Override
-		public boolean containsBasedOnName(Signature first, Signature second) {
-			return true;
-		}
-	};
+  private static DeclarationComparator<Member> _aliasSelector = new DeclarationComparator<Member>(Member.class);
 	
 	@Override
 	public Declaration finalDeclaration() {

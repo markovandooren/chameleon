@@ -13,7 +13,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationCollector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.SimpleSelector;
+import be.kuleuven.cs.distrinet.chameleon.core.lookup.NameSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceWithName;
@@ -37,7 +37,6 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
    @
    @*/
   public NamedTarget(String fqn, ExpressionFactory factory) {
-  	_signature=new SimpleNameSignature(""); // name will be set correctly in setName().
 	  setName(Util.getLastPart(fqn));
     fqn = Util.getAllButLastPart(fqn);
     if(fqn != null) {
@@ -55,7 +54,6 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
    * @param target
    */
   public NamedTarget(String identifier, CrossReferenceTarget target) {
-  	_signature=new SimpleNameSignature(""); // name will be set correctly in setName().
   	setName(identifier);
   	setTarget(target);
   }
@@ -148,9 +146,9 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
   
   public DeclarationSelector<TargetDeclaration> selector() {
   	if(_selector == null) {
-  		_selector = new SimpleSelector<TargetDeclaration>(TargetDeclaration.class) {
-  			public SimpleNameSignature signature() {
-  				return NamedTarget.this._signature;
+  		_selector = new NameSelector<TargetDeclaration>(TargetDeclaration.class) {
+  			public String name() {
+  				return NamedTarget.this.name();
   			}
   		};
   	}
@@ -164,18 +162,14 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
    ********/
 
   public String name() {
-    return signature().name();
+    return _name;
   }
 
   public void setName(String name) {
-    _signature.setName(name);
+    _name = name;
   }
 
-  public SimpleNameSignature signature() {
-  	return _signature;
-  }
-  
-	private SimpleNameSignature _signature;
+	private String _name;
 
   
 //  private boolean compatVar(Variable variable, Variable variable2) throws LookupException {
@@ -262,15 +256,15 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
     return getElement().targetContext();
   }
 
-	public void setSignature(Signature signature) {
-		if(signature instanceof SimpleNameSignature) {
-			_signature = (SimpleNameSignature) signature;
-		} else {
-			throw new ChameleonProgrammerException();
-		}
-	}
+//	public void setSignature(Signature signature) {
+//		if(signature instanceof SimpleNameSignature) {
+//			_signature = (SimpleNameSignature) signature;
+//		} else {
+//			throw new ChameleonProgrammerException();
+//		}
+//	}
 	
 	public String toString() {
-		return signature().name();
+		return name();
 	}
 }

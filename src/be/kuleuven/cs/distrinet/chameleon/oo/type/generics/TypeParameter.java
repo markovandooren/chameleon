@@ -5,7 +5,6 @@ import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.MissingSignature;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LocalLookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
@@ -29,8 +28,8 @@ import be.kuleuven.cs.distrinet.chameleon.util.Pair;
  */
 public abstract class TypeParameter extends Parameter {
 	
-	public TypeParameter(SimpleNameSignature signature) {
-		super(signature);
+	public TypeParameter(String name) {
+		super(name);
 	}
 	
 	/**

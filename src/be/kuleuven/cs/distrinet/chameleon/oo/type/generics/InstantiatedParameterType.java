@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
@@ -17,8 +16,8 @@ import be.kuleuven.cs.distrinet.chameleon.util.Util;
 
 public class InstantiatedParameterType extends TypeIndirection {
 
-		public InstantiatedParameterType(SimpleNameSignature sig, Type aliasedType, TypeParameter parameter) {
-			super(sig,aliasedType);
+		public InstantiatedParameterType(String name, Type aliasedType, TypeParameter parameter) {
+			super(name,aliasedType);
 			setParameter(parameter);
 		}
 		
@@ -67,7 +66,7 @@ public class InstantiatedParameterType extends TypeIndirection {
     
 		@Override
 		public InstantiatedParameterType cloneSelf() {
-			return new InstantiatedParameterType(null, aliasedType(),parameter());
+			return new InstantiatedParameterType(name(), aliasedType(),parameter());
 		}
 		
 		@Override

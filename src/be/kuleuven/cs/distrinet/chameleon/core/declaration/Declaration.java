@@ -155,4 +155,6 @@ public interface Declaration extends Element, SelectionResult {//
    *   3) in "packagename.f", "f" must be looked up in the package represented by "package"
    */
   public LookupContext targetContext() throws LookupException;
+  
+  public boolean sameSignatureAs(Declaration declaration) throws LookupException;
 }

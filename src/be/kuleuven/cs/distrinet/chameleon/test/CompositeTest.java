@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
-import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.test.provider.BasicDescendantProvider;
 import be.kuleuven.cs.distrinet.chameleon.test.provider.BasicNamespaceProvider;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ConfigException;
@@ -26,14 +25,14 @@ public abstract class CompositeTest {
 
 	protected abstract ExecutorService threadPool();
 	
-	/**
-	 * Test clone for all elements in the namespaces provided
-	 * by the namespace provider.
-	 */
-	@Test
-	public void testClone() throws Exception {
+//	/**
+//	 * Test clone for all elements in the namespaces provided
+//	 * by the namespace provider.
+//	 */
+//	@Test
+//	public void testClone() throws Exception {
 //		new CloneAndChildTest(project(), namespaceProvider(),threadPool()).testClone();
-	}
+//	}
 
 	// NO LONGER REQUIRED NOW children() is implemented with reflection (making the test identical to the implementation)
 //	/**

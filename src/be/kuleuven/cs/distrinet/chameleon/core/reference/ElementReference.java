@@ -4,10 +4,10 @@ import java.lang.ref.SoftReference;
 
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationCollector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
 /**
@@ -18,8 +18,8 @@ import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 public abstract class ElementReference<D extends Declaration> extends CrossReferenceImpl<D> implements CrossReferenceWithName<D>, CrossReferenceWithTarget<D> {
 
 	
-	protected ElementReference() {
-	}
+//	protected ElementReference() {
+//	}
 	
 	/*@
    @ public behavior
@@ -28,37 +28,37 @@ public abstract class ElementReference<D extends Declaration> extends CrossRefer
    @
    @ post getName().equals(name);
    @*/
-	public ElementReference(Signature signature) {
-		setSignature(signature);
+	public ElementReference(String name) {
+		setName(name);
 	}
 
-  private Single<Signature> _signature = new Single<Signature>(this);
+  private String _name;
 
-  /**
-   * Return the signature of this element reference.
-   */
-  public Signature signature() {
-  	return _signature.getOtherEnd();
-  }
+//  /**
+//   * Return the signature of this element reference.
+//   */
+//  public Signature signature() {
+//  	return _signature.getOtherEnd();
+//  }
   
   public String name() {
-  	return signature().name();
+  	return _name;
   }
   
- /*@
-   @ public behavior
-   @
-   @ pre name != null;
-   @
-   @ post getName() == name;
-   @*/
-  public void setSignature(Signature signature) {
-  	set(_signature, signature);
-  }
+// /*@
+//   @ public behavior
+//   @
+//   @ pre name != null;
+//   @
+//   @ post getName() == name;
+//   @*/
+//  public void setSignature(Signature signature) {
+//  	set(_signature, signature);
+//  }
   
 	@Override
 	public final void setName(String name) {
-		signature().setName(name);
+		_name = name;
 	}
   
   private SoftReference<D> _cache;
@@ -143,7 +143,7 @@ public abstract class ElementReference<D extends Declaration> extends CrossRefer
 	}
 
 	public String toString() {
-		return (getTarget() == null ? "" : getTarget().toString()+".")+signature().toString();
+		return (getTarget() == null ? "" : getTarget().toString()+".")+name();
 	}
 
 }

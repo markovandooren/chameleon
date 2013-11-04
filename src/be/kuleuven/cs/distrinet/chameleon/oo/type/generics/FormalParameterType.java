@@ -24,8 +24,8 @@ import com.google.common.collect.ImmutableList;
  */
 public class FormalParameterType extends TypeIndirection {
 
-	public FormalParameterType(SimpleNameSignature sig, Type aliasedType, FormalTypeParameter param) {
-		super(sig, aliasedType);
+	public FormalParameterType(String name, Type aliasedType, FormalTypeParameter param) {
+		super(name, aliasedType);
 		if(param == null) {
 			throw new ChameleonProgrammerException("The formal type parameter corresponding to a constructed type cannot be null.");
 		}
@@ -52,7 +52,7 @@ public class FormalParameterType extends TypeIndirection {
 
 	@Override
 	public String getFullyQualifiedName() {
-		return signature().name();
+		return name();
 	}
 
 	public FormalTypeParameter parameter() {
@@ -63,7 +63,7 @@ public class FormalParameterType extends TypeIndirection {
 
 	@Override
 	public FormalParameterType cloneSelf() {
-		return new FormalParameterType(null, aliasedType(), parameter());
+		return new FormalParameterType(name(), aliasedType(), parameter());
 	}
 
 	@Override
