@@ -221,9 +221,18 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
 			// We don't want to trigger loading of lazy input sources to
 			// build the cache of directly connected declarations.
 			_declarationCache = new HashMap<String, List<Declaration>>();
-		  for(Declaration declaration: directDeclarations()) {
-		  	_declarationCache.put(declaration.name(), Lists.create(declaration,1));
-		  }
+//		  for(Declaration declaration: directDeclarations()) {
+//		  	_declarationCache.put(declaration.name(), Lists.create(declaration,1));
+//		  }
+			for(Declaration declaration: getSubNamespaces()) {
+				_declarationCache.put(declaration.name(), Lists.create(declaration,1));
+			}
+			for(NamespaceDeclaration part: loadedNamespaceParts()) {
+				for(Declaration declaration: part.declarations()) {
+					_declarationCache.put(declaration.name(), Lists.create(declaration,1));
+				}
+			}
+			
 		}
 	}
 	

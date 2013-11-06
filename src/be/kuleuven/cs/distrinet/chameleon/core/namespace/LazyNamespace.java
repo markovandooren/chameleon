@@ -60,17 +60,14 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 			Namespace ns = getSubNamespace(name);
 			if(ns != null) {
 				candidates = ImmutableList.<Declaration>of(ns);
-			}
-			// inputSources is sorted: the element with the highest priority is in front.
-			Queue<InputSource> inputSources = _sourceMap.get(name);
-			if(inputSources != null && ! inputSources.isEmpty()) {
-					if(candidates == null) {
-						candidates = Lists.create();
-					}
-				candidates.addAll(inputSources.peek().targetDeclarations(name));
-			}
-			if (candidates == null){
-				candidates = Collections.EMPTY_LIST;
+			} else {
+				// inputSources is sorted: the element with the highest priority is in front.
+				Queue<InputSource> inputSources = _sourceMap.get(name);
+				if(inputSources != null && ! inputSources.isEmpty()) {
+					candidates = inputSources.peek().targetDeclarations(name);
+				} else {
+					candidates = Collections.EMPTY_LIST;
+				}
 			}
 			storeCache(name, candidates);
 		}
