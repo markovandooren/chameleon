@@ -81,16 +81,18 @@ public abstract class ChameleonParser<L extends Language> extends Parser impleme
 
 	   public void setLocation(Element element, Token start, Token stop, String tagType) {
 	     List<InputProcessor> processors = inputProcessors();
-	     CommonToken begin = (CommonToken)start;
-	     CommonToken end = (CommonToken)stop;
-	         if(begin != null && end != null) {
-	         	int offset = offset(begin);
-	         	int length = length(begin,end);
-	         	for(InputProcessor processor: processors) {
-	         		//processor.setLocation(element, new Position2D(begin.getLine(), begin.getCharPositionInLine()), new Position2D(end.getLine(), end.getCharPositionInLine()));
-	         		processor.setLocation(element, offset, length, getDocument(), tagType);
-	         	}
-	         }
+	     if(processors.size() > 0) {
+	    	 CommonToken begin = (CommonToken)start;
+	    	 CommonToken end = (CommonToken)stop;
+	    	 if(begin != null && end != null) {
+	    		 int offset = offset(begin);
+	    		 int length = length(begin,end);
+	    		 for(InputProcessor processor: processors) {
+	    			 //processor.setLocation(element, new Position2D(begin.getLine(), begin.getCharPositionInLine()), new Position2D(end.getLine(), end.getCharPositionInLine()));
+	    			 processor.setLocation(element, offset, length, getDocument(), tagType);
+	    		 }
+	    	 }
+	     }
 	   }
 	   
 	   public int offset(CommonToken token) {
