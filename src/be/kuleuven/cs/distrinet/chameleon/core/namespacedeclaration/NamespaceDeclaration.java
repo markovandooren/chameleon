@@ -165,7 +165,8 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	private Single<CrossReference<Namespace>> _ref = new Single<CrossReference<Namespace>>(this,true,"namespace reference");
 	
 	public LookupContext lookupContext(Element child) throws LookupException {
-		if(containsImport(child) || child == namespaceReference()) {
+//		if(containsImport(child) || child == namespaceReference()) {
+		if(child == namespaceReference()) {
 			return getDefaultNamespace().targetContext();
 		} else {
 			return getLexicalContext();
@@ -215,7 +216,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 			_importLocalDirectContext.flushCache();
 		}
 		_importCache = null;
-		_importSet = null;
+//		_importSet = null;
 	}
 
   private DirectImportStrategySelector _directImportStrategySelector = new DirectImportStrategySelector();
@@ -377,12 +378,12 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		//FIXME SLOW but it works for now.
 		protected void fireElementAdded(Import addedElement) {
 			super.fireElementAdded(addedElement);
-			_importSet = null;
+//			_importSet = null;
 			_importCache = null;
 		};
 		protected void fireElementRemoved(Import addedElement) {
 			super.fireElementRemoved(addedElement);
-			_importSet = null;
+//			_importSet = null;
 			_importCache = null;
 		};
 		protected void fireElementReplaced(Import oldElement, Import newElement) {
@@ -401,27 +402,29 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 //			_importCache = (ImmutableList<Import>) createImportCache(ImmutableList.<Import>builder());
 //		}
 //		return _importCache;
-		return (ImmutableList<Import>)createImportCache(ImmutableList.<Import>builder());
-	}
-
-	protected ImmutableCollection createImportCache(ImmutableCollection.Builder<Import> builder) {
-		List<? extends Import> implicitImports = implicitImports();
-		List<? extends Import> explicitImports = explicitImports();
-		return builder
-				.addAll(explicitImports)
-				.addAll(implicitImports)
-				.build();
-	}
-	
-	private boolean containsImport(Element element) {
-		if(_importSet == null) {
-			_importSet = (ImmutableSet<Import>) createImportCache(ImmutableSet.<Import>builder());
+		ImmutableList.Builder<Import> builder = ImmutableList.<Import>builder();
+		if(_importCache == null) {
+			synchronized(this) {
+				if(_importCache == null) {
+					_importCache = builder
+							.addAll(explicitImports())
+							.addAll(implicitImports())
+							.build();
+				}
+			}
 		}
-		return _importSet.contains(element);
-
+		return _importCache;
 	}
 	
-	private ImmutableSet<Import> _importSet;
+//	private boolean containsImport(Element element) {
+//		if(_importSet == null) {
+//			_importSet = (ImmutableSet<Import>) createImportCache(ImmutableSet.<Import>builder());
+//		}
+//		return _importSet.contains(element);
+//
+//	}
+	
+//	private ImmutableSet<Import> _importSet;
 	
 	private ImmutableList<Import> _importCache;
 	
