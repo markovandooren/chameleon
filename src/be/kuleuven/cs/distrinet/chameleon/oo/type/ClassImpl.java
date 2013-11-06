@@ -623,24 +623,28 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
     }
     public <D extends Member> List<? extends SelectionResult> members(DeclarationSelector<D> selector) throws LookupException {
     	// 1) perform local search
-    	boolean greedy = selector.isGreedy();
+    	boolean nonGreedy = ! selector.isGreedy();
     	List<SelectionResult> result = (List)localMembers(selector);
-    	if(! greedy || result.isEmpty()) {
-    	  result.addAll(implicitMembers(selector));
+    	if(nonGreedy || result.isEmpty()) {
+    	  List<SelectionResult> implicitMembers = (List)implicitMembers(selector);
+    	  if(result == Collections.EMPTY_LIST) {
+    	  	result = implicitMembers;
+    	  } else {
+    	  	result.addAll(implicitMembers);
+    	  }
     	}
     	// 2) process inheritance relations
     	//    only if the selector isn't greedy or
     	//    there are not results.
-    	if(! greedy || result.isEmpty()) {
+    	if(nonGreedy || result.isEmpty()) {
     		for (InheritanceRelation rel : inheritanceRelations()) {
-    			rel.accumulateInheritedMembers(selector, result);
+    			result = rel.accumulateInheritedMembers(selector, result);
     		}
     		// We cannot take a shortcut and test for > 1 because if
     		// the inheritance relation transforms the member (as is done with subobjects)
     		// the transformed member may have to be removed, even if there is only 1.
     		selector.filter(result);
     		return result;
-//    		return selector.selection(result);
     	} else {
     	  return result;
     	}
@@ -682,7 +686,7 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
     	result.addAll(implicitMembers(kind));
     	// 2) Fetch all potentially inherited members from all inheritance relations
     	for (InheritanceRelation rel : inheritanceRelations()) {
-    		rel.accumulateInheritedMembers(kind, result);
+    		result = rel.accumulateInheritedMembers(kind, result);
     	}
     	if(cacheDeclarations) {
     		if(_membersCache == null) {

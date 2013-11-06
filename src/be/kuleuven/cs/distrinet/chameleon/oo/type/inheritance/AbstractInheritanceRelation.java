@@ -1,6 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.type.inheritance;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,13 +10,14 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.ElementWithModifiersImpl;
+import be.kuleuven.cs.distrinet.chameleon.core.property.StaticChameleonProperty;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.Member;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
 import be.kuleuven.cs.distrinet.chameleon.util.Lists;
-import be.kuleuven.cs.distrinet.chameleon.util.StackOverflowTracer;
+import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 
@@ -93,22 +95,25 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 	 * @throws LookupException
 	 */
 	public <M extends Member> 
-  void accumulateInheritedMembers(final Class<M> kind, List<M> current) throws LookupException {
+  List<M> accumulateInheritedMembers(final Class<M> kind, List<M> current) throws LookupException {
 		final List<M> potential = potentiallyInheritedMembers(kind);
-		removeNonMostSpecificMembers((List)current, potential);
+		return (List<M>) removeNonMostSpecificMembers((List)current, (List)potential);
 	}
 
 //	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
 //  void accumulateInheritedMembers(DeclarationSelector<M> selector, List<M> current) throws LookupException {
 	public <X extends Member> 
-  void accumulateInheritedMembers(DeclarationSelector<X> selector, List<SelectionResult> current) throws LookupException {
+	List<SelectionResult> accumulateInheritedMembers(DeclarationSelector<X> selector, List<SelectionResult> current) throws LookupException {
 		final List<? extends SelectionResult> potential = potentiallyInheritedMembers(selector);
-		removeNonMostSpecificMembers(current, potential);
+		return removeNonMostSpecificMembers(current, potential);
 	}
 
-	protected <M extends Member>
-	  void removeNonMostSpecificMembers(List<SelectionResult> current, final List<? extends SelectionResult> potential) throws LookupException {
-		final List<SelectionResult> toAdd = Lists.create();
+	protected 
+	List<SelectionResult> removeNonMostSpecificMembersq(List<SelectionResult> current, final List<? extends SelectionResult> potential) throws LookupException {
+		if(current == Collections.EMPTY_LIST) {
+			return (List)potential; 
+		}
+		final List<SelectionResult> toAdd = Lists.create(potential.size());
 		for(SelectionResult mm: potential) {
 			Member m = (Member)mm.finalDeclaration();
 			boolean add = true;
@@ -126,7 +131,72 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 				toAdd.add(mm);
 			}
 		}
-		current.addAll(toAdd);
+		if(current.size() > toAdd.size()) {
+			current.addAll(toAdd);
+			return current;
+		} else {
+			toAdd.addAll(current);
+			return toAdd;
+		}
+	}
+
+	protected 
+	List<SelectionResult> removeNonMostSpecificMembers(List<SelectionResult> current, final List<? extends SelectionResult> potential) throws LookupException {
+//		List<SelectionResult> current = new ArrayList(crt);
+//		List backup = new ArrayList(crt);
+		if(current == Collections.EMPTY_LIST) {
+			return (List)potential; 
+		}
+		final List<SelectionResult> toAdd = Lists.create(potential.size());
+		int potentialSize = potential.size();
+		int currentSize = current.size();
+		int[] removedIndices = new int[currentSize];
+		int removedIndex = -1;
+		for(int potentialIndex =0; potentialIndex < potentialSize; potentialIndex++) {
+			SelectionResult mm = potential.get(potentialIndex);
+			Member m = (Member)mm.finalDeclaration();
+			boolean add = true;
+			for(int currentIndex = 0; currentIndex < currentSize; currentIndex++) {
+				SelectionResult selectionResult = current.get(currentIndex);
+				if(selectionResult != null) {
+				Member alreadyInherited = (Member)selectionResult.finalDeclaration();
+					// Remove the already inherited member if potentially inherited member m overrides or hides it.
+					if((alreadyInherited.sameAs(m) || alreadyInherited.overrides(m) || alreadyInherited.canImplement(m) || alreadyInherited.hides(m))) {
+						add = false;
+					} else if((!alreadyInherited.sameAs(m)) && (m.overrides(alreadyInherited) || m.canImplement(alreadyInherited) || m.hides(alreadyInherited))) {
+						removedIndex++;
+						removedIndices[removedIndex] = currentIndex;
+						current.set(currentIndex,null);
+					}
+				}
+			}
+			if(add == true) {
+				toAdd.add(mm);
+			}
+		}
+		int idx = toAdd.size() - 1;
+		int min = Math.min(removedIndex, idx);
+		for(int i=0; i <= min ;i++) {
+			SelectionResult a = toAdd.get(idx);
+			current.set(removedIndices[removedIndex],a);
+			toAdd.remove(idx--);
+			removedIndex--;
+		}
+		List result;
+		if(removedIndex >= 0) {
+			// there are still gaps. removedIndex points to the last gap.
+			result = Lists.create(currentSize-(removedIndex+1));
+			for(int i=0; i < currentSize; i++) {
+				SelectionResult sel = current.get(i);
+				if(sel != null) {
+					result.add(sel);
+				}
+			}
+		} else {
+			current.addAll(toAdd);
+			result = current;
+		}
+		return result;
 	}
 
 	
@@ -134,20 +204,20 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 //	        List<M> potentiallyInheritedMembers(final Class<M> kind) throws LookupException {
 	public <M extends Member> List<M> potentiallyInheritedMembers(final Class<M> kind) throws LookupException {
 		List<M> superMembers = superClass().members(kind);
-		removeNonInheritableMembers(superMembers);
+		removeNonInheritableMembers((List)superMembers);
     return superMembers;
 	}
 
 	public List<Member> potentiallyInheritedMembers() throws LookupException {
 		List<Member> superMembers = superClass().members();
-		removeNonInheritableMembers(superMembers);
+		removeNonInheritableMembers((List)superMembers);
     return superMembers;
 	}
 	
 	public <M extends Member> List<? extends SelectionResult> potentiallyInheritedMembers(
 			final DeclarationSelector<M> selector) throws LookupException {
 		List<? extends SelectionResult> superMembers = superClass().members(selector);
-		removeNonInheritableMembers(superMembers);
+		removeNonInheritableMembers((List)superMembers);
 		return superMembers;
 	}
 	

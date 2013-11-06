@@ -28,9 +28,9 @@ public interface InheritanceRelation extends Element {
 	
 	public TypeReference superClassReference();
 	
-	public <X extends Member> void accumulateInheritedMembers(final Class<X> kind, List<X> current) throws LookupException;
+	public <X extends Member> List<X> accumulateInheritedMembers(final Class<X> kind, List<X> current) throws LookupException;
 	
-	public <X extends Member> void accumulateInheritedMembers(DeclarationSelector<X> selector, List<SelectionResult> current) throws LookupException;
+	public <X extends Member> List<SelectionResult> accumulateInheritedMembers(DeclarationSelector<X> selector, List<SelectionResult> current) throws LookupException;
 	
 	public <D extends Member> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException;
 	
