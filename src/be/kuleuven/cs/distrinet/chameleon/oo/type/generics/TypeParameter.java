@@ -79,7 +79,7 @@ public abstract class TypeParameter extends Parameter {
 
 	@Override
 	public Verification verifySelf() {
-		if(signature() != null) {
+		if(name() != null) {
 		  return Valid.create();
 		} else {
 			return new MissingSignature(this); 
@@ -98,7 +98,7 @@ public abstract class TypeParameter extends Parameter {
 	}
 	
 	public String toString() {
-		return signature().name();
+		return name();
 	}
 
   public LocalLookupContext<?> targetContext() throws LookupException {

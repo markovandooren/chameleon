@@ -245,7 +245,7 @@ public class LazyClassBody extends ClassBody {
 		List<D> originals = original().members(kind);
 		List<D> result = Lists.create();
 		for(D original:originals) {
-			List<Declaration> clones = declarations(original.signature().name());
+			List<Declaration> clones = declarations(original.name());
 			for(Declaration clone:clones) {
 				if(kind.isInstance(clone)) {
 					result.add((D) clone);

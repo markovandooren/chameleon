@@ -20,7 +20,7 @@ public class HierarchyTypeNode implements HierarchyTreeNode {
 	private HierarchyTreeNode parent;
 	
 	public HierarchyTypeNode(Declaration type, ChameleonProjectNature projectNature, HierarchyTreeNode parent){
-		fullyQualifiedName = type.signature().name();
+		fullyQualifiedName = type.name();
 		this.projectNature = projectNature;
 		this.parent = parent;
 	}

@@ -52,11 +52,11 @@ public abstract class BasicDeclaration extends DeclarationImpl implements Simple
 	}
 	
 	@Override
-	public boolean sameSignatureAs(Declaration declaration) throws LookupException {
+	public boolean sameSignatureAs(Declaration declaration) {
 		if(declaration instanceof BasicDeclaration) {
 			return _name.equals(((BasicDeclaration)declaration)._name);
 		} else {
-			return declaration.name().equals(_name) && declaration.signature() instanceof SimpleNameSignature;
+			return declaration.name().equals(_name) && declaration instanceof SimpleNameDeclaration;
 		}
 	}
 

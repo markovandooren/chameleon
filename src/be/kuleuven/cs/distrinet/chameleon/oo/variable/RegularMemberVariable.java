@@ -57,7 +57,7 @@ public class RegularMemberVariable extends RegularVariable implements MemberVari
   		RegularMemberVariable var = (RegularMemberVariable) other;
   		Element parent = parent();
 			Element otherParent = other.parent();
-			return (parent != null && otherParent != null && otherParent.equals(parent) && signature().equals(var.signature()));
+			return (parent != null && otherParent != null && otherParent.equals(parent) && sameSignatureAs(var));
   	} else {
   		return false;
   	}

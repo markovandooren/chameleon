@@ -35,13 +35,6 @@ public class Aspect extends BasicDeclaration implements DeclarationContainer, De
 		return signature().name();
 	}
 	
-	@Override
-	public boolean sameSignatureAs(Declaration declaration)
-			throws LookupException {
-		return signature().sameAs(declaration.signature());
-	}
-
-	
 	/**
 	 * 	Get the list of pointcuts that have been defined in this Aspect
 	 */

@@ -271,30 +271,31 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
    @
    @ (\forall M m; members.contains(m); \old(members()).contains(m) && m.is(language(ObjectOrientedLanguage.class).INHERITABLE == Ternary.TRUE);
    @*/
-	private <M extends Declaration> void removeNonInheritableMembers(List<? extends SelectionResult> members) throws LookupException {
-		Iterator<? extends SelectionResult> superIter = members.iterator();
-		while(superIter.hasNext()) {
-			SelectionResult r = superIter.next();
+	private <M extends Declaration> void removeNonInheritableMembers(List<SelectionResult> members) throws LookupException {
+//		Iterator<? extends SelectionResult> superIter = members.iterator();
+		StaticChameleonProperty inheritable = language(ObjectOrientedLanguage.class).INHERITABLE;
+		int size = members.size();
+		for(int i =0; i< size;) {
+			SelectionResult r = members.get(i);
 			Declaration member = r.finalDeclaration();
-			Ternary temp = member.is(language(ObjectOrientedLanguage.class).INHERITABLE);
+			Ternary temp = member.is(inheritable);
 			if (temp == Ternary.UNKNOWN) {
 				temp = member.is(language(ObjectOrientedLanguage.class).INHERITABLE);
 				throw new LookupException("For one of the members of super type " + superClass().getFullyQualifiedName()
 						+ " it is unknown whether it is inheritable or not. Member type: " + member.getClass().getName());
 			} else {
 				if (temp == Ternary.FALSE) {
-					superIter.remove();
+					SelectionResult last = members.remove(size-1);
+					if(i < size -1) {
+						members.set(i,last);
+					}
+					size--;
+				} else {
+					i++;
 				}
 			}
 		}
 	}
-	
-//	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
-//	        M transform(M member) throws MetamodelException {
-//		M result = member.clone();
-//		// 1) SUBSTITUTE GENERIC PARAMETERS, OR USE TRICK CONTAINER?
-//		//   1.a) WE NEED A TRICK CONTAINER (The superclass) IN WHICH THE PARAMETERS ARE SUBSTITUTED
-//	}
 	
 	private Single<TypeReference> _superClass = new Single<TypeReference>(this);
 

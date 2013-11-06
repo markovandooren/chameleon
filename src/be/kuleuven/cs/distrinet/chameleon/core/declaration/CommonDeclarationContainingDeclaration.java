@@ -82,7 +82,7 @@ public abstract class CommonDeclarationContainingDeclaration extends
   	List<? extends Declaration> declarations = declarations();
   	for(Declaration first: declarations) {
   		for(Declaration second: declarations) {
-  			if(first != second && first.signature().sameAs(second.signature())) {
+  			if(first != second && first.sameSignatureAs(second)) {
   				result = result.and(new BasicProblem(first, "There is another declaration with the same signature defined in this container."));
   			}
   		}

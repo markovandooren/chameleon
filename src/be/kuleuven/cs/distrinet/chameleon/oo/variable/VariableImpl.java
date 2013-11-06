@@ -36,7 +36,7 @@ public abstract class VariableImpl extends BasicDeclaration implements Variable 
 
 	@Override
 	public Verification verifySelf() {
-		if(signature() != null) {
+		if(name() != null) {
 		  return Valid.create();
 		} else {
 			return new MissingSignature(this); 
@@ -68,7 +68,7 @@ public abstract class VariableImpl extends BasicDeclaration implements Variable 
 	}
 	
 	public String toString() {
-		return getTypeReference().toString() +" "+signature().toString();
+		return getTypeReference().toString() +" "+name();
 	}
 	
 	@Override

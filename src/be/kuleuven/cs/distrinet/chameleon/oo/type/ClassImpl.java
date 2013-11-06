@@ -52,21 +52,7 @@ import com.google.common.collect.ImmutableList;
  */
 public abstract class ClassImpl extends SimpleNameMember implements Type {
  
-//  /**
-//   * Initialize a new Type.
-//   */
-// /*@
-//   @ public behavior
-//   @
-//   @ pre sig != null;
-//	   @
-//   @ post signature() == sig;
-//   @ post parent() == null;
-//   @*/
-//  public ClassImpl(SimpleNameSignature sig) {
-//      super(sig);
-//  }
-  
+
   /**
    * Initialize a new class with the given name.
    */
@@ -118,7 +104,7 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
   		try {
   			return getFullyQualifiedName();
   		} catch(Exception exc) {
-  			return signature().name();
+  			return name();
   		}
   	} catch(NullPointerException exc) {
   		return "";
@@ -192,7 +178,7 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
 				try {
 					return getFullyQualifiedName();
 				} catch(Exception exc) {
-					return signature().name();
+					return name();
 				}
 			}catch(NullPointerException exc) {
 				return "";
@@ -262,7 +248,7 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
     	if(result == null) {
     		Language language = language();
     		if(language == null) {
-    			throw new LookupException("Parent of type "+signature().name()+" is null.");
+    			throw new LookupException("Parent of type "+name()+" is null.");
     		}
 				_lexicalMembersLookupStrategy = language.lookupFactory().createLexicalLookupStrategy(targetContext(), this, 
     			new LookupContextSelector(){
@@ -718,25 +704,6 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
       return (List<T>)tmp;
   	}
 
-//  	public CheckedExceptionList getCEL() throws LookupException {
-//        CheckedExceptionList cel = new CheckedExceptionList();
-//        for(TypeElement el : localMembers()) {
-//        	cel.absorb(el.getCEL());
-//        }
-//        return cel;
-//    }
-
-//    /* (non-Javadoc)
-//		 * @see chameleon.oo.type.Tajp#getAbsCEL()
-//		 */
-//    public CheckedExceptionList getAbsCEL() throws LookupException {
-//      CheckedExceptionList cel = new CheckedExceptionList();
-//      for(TypeElement el : localMembers()) {
-//      	cel.absorb(el.getAbsCEL());
-//      }
-//      return cel;
-//    }
-
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#declarations()
 		 */
@@ -903,7 +870,7 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
 						int size = members.size();
 						for(int i=0; i< size; i++) {
 							try {
-								msg.append(members.get(i).signature().name());
+								msg.append(members.get(i).name());
 								if(i < size -1) {
 									msg.append(',');
 								}

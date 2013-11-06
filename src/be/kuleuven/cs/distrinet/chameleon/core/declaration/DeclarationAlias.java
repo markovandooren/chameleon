@@ -33,9 +33,9 @@ public class DeclarationAlias extends ElementImpl implements Declaration {
 	public Verification verifySelf() {
 		Verification result = Valid.create();
 		if(aliasedDeclaration() == null) {
-			result = result.and(new BasicProblem(this, "The alias with signature "+signature().toString()+" does not alias any declaration."));
+			result = result.and(new BasicProblem(this, "The alias with signature "+name()+" does not alias any declaration."));
 		}
-		if(signature() == null) {
+		if(name() == null) {
 			result = result.and(new BasicProblem(this, "The signature of the alias is null, but it should be non-null."));
 		}
 		return result;

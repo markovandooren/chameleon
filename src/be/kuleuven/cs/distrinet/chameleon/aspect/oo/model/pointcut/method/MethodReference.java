@@ -53,7 +53,7 @@ public class MethodReference extends ElementImpl {
 			return false;
 		
 		// Check if the signature matches
-		if (!sameAsWithWildcard(e.signature().name(), fqn().lastSignature().name()))
+		if (!sameAsWithWildcard(e.name(), fqn().lastSignature().name()))
 			return false;
 		
 		// Check if the FQN matches
