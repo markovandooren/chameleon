@@ -37,26 +37,42 @@ public abstract class MemberImpl extends TypeElementImpl implements Member {
   	return signature().name();
   }
   
+//  private static int HIT_OVERRIDDEN;
+//  private static int HIT_NOT_OVERRIDDEN;
+  
   public final boolean overrides(Member other) throws LookupException {
-//  	return overridesSelector().selects(other);
-  	return overridesRelation().contains(this,other);
-
-  	//  	return overriddenMembers().contains(other);
-  	
-//  	List<Member> todo = (List<Member>) directlyOverriddenMembers();
-//  	Set<Member> done = new HashSet<Member>();
-//  	while(! todo.isEmpty()) {
-//  		Member<?,?,?> m = todo.get(0);
-//  		todo.remove(0);
-//			if(m.sameAs(other)) {
-//				return true;
-//			}
-//  		if(done.add(m)) {
-//  			todo.addAll(m.directlyOverriddenMembers());
+//  	// overriddenMembers().contains(other) does not work
+//  	// because a member can also override non-lexical members
+//  	// which are created on demand.
+//  	if(overridden != null && overridden.contains(other)) {
+////  		System.out.println("Hit overridden: "+ ++HIT_OVERRIDDEN);
+//  		return true;
+//  	}
+//  	if(notOverridden != null && notOverridden.contains(other)) {
+////  		System.out.println("Hit not overridden: "+ ++HIT_NOT_OVERRIDDEN);
+//  		return false;
+//  	}
+  	boolean overrides = overridesRelation().contains(this,other);
+//  	if(overrides) {
+//  		synchronized (this) {
+//  			if(overridden == null) {
+//  				overridden = new HashSet<>();
+//  			}
+//  			overridden.add(other);
+//  		}
+//  	} else {
+//  		synchronized (this) {
+//  			if(notOverridden == null) {
+//  				notOverridden = new HashSet<>();
+//  			}
+//  			notOverridden.add(other);
 //  		}
 //  	}
-//  	return false;
+		return overrides;
   }
+  
+  private Set<Member> overridden;
+  private Set<Member> notOverridden;
   
   public final boolean hides(Member other) throws LookupException {
 	  return ((HidesRelation)hidesRelation()).contains(this,other);
@@ -97,7 +113,7 @@ public abstract class MemberImpl extends TypeElementImpl implements Member {
   			List<Member> done = visitedTypes.get(containingType);
   			boolean contains = false;
   			for(Member member:done) {
-  				if(member.signature().sameAs(m.signature())) {
+  				if(member.sameSignatureAs(m)) {
   					contains = true;
   					break;
   				}
