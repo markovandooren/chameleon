@@ -1,5 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.core.lookup;
 
+import java.util.Collections;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
@@ -70,14 +71,18 @@ public abstract class SelectorWithoutOrder<D extends Declaration> extends Declar
   
   @Override
   public List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException {
-  	List<SelectionResult> tmp = Lists.create();
-  	for(Declaration decl: declarators) {
-  		SelectionResult e = selection(decl);
-  		if(e != null) {
-  			tmp.add(e);
+  	if(declarators.size() > 0) {
+  		List<SelectionResult> tmp = Lists.create();
+  		for(Declaration decl: declarators) {
+  			SelectionResult e = selection(decl);
+  			if(e != null) {
+  				tmp.add(e);
+  			}
   		}
+  		return tmp;
+  	} else {
+  		return Collections.EMPTY_LIST;
   	}
-    return tmp;
   }
 
   /**
