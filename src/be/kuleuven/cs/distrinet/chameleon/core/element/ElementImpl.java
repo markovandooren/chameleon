@@ -1,8 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.core.element;
 
-import java.lang.reflect.Field;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import java.lang.reflect.Field;
 
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
@@ -50,8 +49,6 @@ import be.kuleuven.cs.distrinet.rejuse.property.Conflict;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
-
-import com.google.common.collect.ImmutableList;
 
 /**
  * @author Marko van Dooren
@@ -473,7 +470,7 @@ public abstract class ElementImpl implements Element {
 
 	private List<ChameleonAssociation<?>> _associations;
 
-	public synchronized List<ChameleonAssociation<?>> associations() {
+	public List<ChameleonAssociation<?>> associations() {
 		return myAssociations();
 	}
 
@@ -489,7 +486,8 @@ public abstract class ElementImpl implements Element {
 							Object content = getFieldValue(field);
 							tmp.add((ChameleonAssociation<?>) content);
 						}
-						_associations = ImmutableList.copyOf(tmp);
+						_associations = Collections.unmodifiableList(tmp);
+//						_associations = ImmutableList.copyOf(tmp);
 					}
 					else {
 						_associations = Collections.EMPTY_LIST;
