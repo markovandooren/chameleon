@@ -2,6 +2,8 @@ package be.kuleuven.cs.distrinet.chameleon.oo.language;
 
 import java.util.List;
 
+import com.google.common.base.Stopwatch;
+
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.TargetDeclaration;
@@ -109,8 +111,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
   
   public abstract DerivedType createDerivedType(Type baseType, List<ActualTypeArgument> typeArguments) throws LookupException;
   
-  // NEEDS_NS
-	public synchronized Type getDefaultSuperClass(Namespace root) throws LookupException {
+	public Type getDefaultSuperClass(Namespace root) throws LookupException {
 //		Type result = _defaultSuperClass;
 //		if(result == null) {
 			TypeReference typeRef = createTypeReferenceInNamespace(getDefaultSuperClassFQN(),root);
