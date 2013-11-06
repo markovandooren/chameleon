@@ -1,5 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.expression;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import java.lang.ref.SoftReference;
 
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
@@ -30,27 +32,36 @@ public abstract class Expression extends ElementImpl implements CrossReferenceTa
    @
    @ post \result == actualType();
    @*/
-	public synchronized final Type getType() throws LookupException {
+	public final Type getType() throws LookupException {
 		Type result = null;
 		if(Config.cacheExpressionTypes()) {
-			result = (_typeCache == null ? null : _typeCache.get());
+			SoftReference<Type> tcache = _cache.get();
+			result = (tcache == null ? null : tcache.get());
 		}
 		if(result == null) {
 		  result = actualType();
 			if(Config.cacheExpressionTypes()) {
-				_typeCache = new SoftReference<Type>(result);
+				_cache.compareAndSet(null, new SoftReference<Type>(result));
 			}
 		}
 		return result;
 	}
 	
 	@Override
-	public synchronized void flushLocalCache() {
+	public void flushLocalCache() {
 		super.flushLocalCache();
-		_typeCache = null;
+//		_typeCache = null;
+		boolean success = false;
+		do {
+			success = _cache.compareAndSet(_cache.get(), null);
+		} while(! success);
+
 	}
 	
-	private SoftReference<Type> _typeCache;
+//	private final AtomicBoolean _cacheLock = new AtomicBoolean();
+	private final AtomicReference<SoftReference<Type>> _cache = new AtomicReference<>();
+	
+//	private SoftReference<Type> _typeCache;
 	
 	protected abstract Type actualType() throws LookupException;
 
