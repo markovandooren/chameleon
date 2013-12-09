@@ -6,6 +6,7 @@ import org.eclipse.draw2d.Label;
 import org.eclipse.gef4.zest.core.viewers.IConnectionStyleProvider;
 import org.eclipse.gef4.zest.core.viewers.IEntityStyleProvider;
 import org.eclipse.gef4.zest.core.widgets.ZestStyles;
+import org.eclipse.gef4.zest.core.widgets.decoration.DirectedConnectionDecorator;
 import org.eclipse.gef4.zest.core.widgets.decoration.IConnectionDecorator;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
@@ -46,7 +47,7 @@ class DependencyLabelProvider extends LabelProvider implements IConnectionStyleP
 
 		@Override
 		public int getConnectionStyle(Object rel) {
-			return ZestStyles.CONNECTIONS_DIRECTED + ZestStyles.CONNECTIONS_SOLID;
+			return ZestStyles.CONNECTIONS_SOLID;
 		}
 
 		@Override
@@ -121,7 +122,7 @@ class DependencyLabelProvider extends LabelProvider implements IConnectionStyleP
 
 		@Override
 		public IConnectionDecorator getConnectionDecorator(Object rel) {
-			return null;
+			return new DirectedConnectionDecorator();
 		}
 		
 	}
