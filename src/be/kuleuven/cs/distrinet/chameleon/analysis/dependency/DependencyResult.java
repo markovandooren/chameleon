@@ -8,6 +8,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.graph.Edge;
 import be.kuleuven.cs.distrinet.rejuse.graph.Graph;
+import be.kuleuven.cs.distrinet.rejuse.graph.Node;
 import be.kuleuven.cs.distrinet.rejuse.graph.UniEdge;
 import be.kuleuven.cs.distrinet.rejuse.graph.UniEdgeFactory;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
@@ -57,9 +58,34 @@ public class DependencyResult extends Result<DependencyResult> {
 	}
 	
 	void add(Element element, Declaration declaration) {
-		dependencyGraph().addNode(element);
+		Graph<Element> dependencyGraph = dependencyGraph();
+		dependencyGraph.addNode(element);
 		dependencyGraph().addNode(declaration);
-		dependencyGraph().ensureEdge(element, declaration);
+		Edge<Element> edge = dependencyGraph().ensureEdge(element, declaration);
+		DependencyCount counter = edge.get(DependencyCount.class);
+		if(counter == null) {
+			counter = new DependencyCount();
+			edge.put(DependencyCount.class,counter);
+		} else {
+			counter.increase();
+		}
+	}
+	
+	public boolean involvedInCyle(Element element) {
+		Node<Element> node = _dependencyGraph.node(element);
+		return node == null ? false : node.canReach(node);
+	}
+	
+	public static class DependencyCount {
+		public void increase() {
+			_count++;
+		}
+		
+		public int value() {
+			return _count;
+		}
+		
+		private int _count=1;
 	}
 	
 	void add(Dependency<?,?,Declaration> dependency) {

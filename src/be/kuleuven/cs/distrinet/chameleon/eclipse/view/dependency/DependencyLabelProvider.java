@@ -14,12 +14,14 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
+import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyResult.DependencyCount;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorExtension;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.Variable;
+import be.kuleuven.cs.distrinet.rejuse.graph.UniEdge;
 
 class DependencyLabelProvider extends LabelProvider implements IConnectionStyleProvider, IEntityStyleProvider {
 		
@@ -28,6 +30,9 @@ class DependencyLabelProvider extends LabelProvider implements IConnectionStyleP
 		public String getText(Object element) {
 			if(element instanceof Element) {
 				return ((Element)element).language().plugin(EclipseEditorExtension.class).getLabel((Element) element);
+			} else if(element instanceof UniEdge) {
+				DependencyCount count = ((UniEdge<Element>)element).get(DependencyCount.class);
+				return ""+count.value();
 			} else {
 				return "";
 			}
@@ -67,7 +72,8 @@ class DependencyLabelProvider extends LabelProvider implements IConnectionStyleP
 
 		@Override
 		public IFigure getTooltip(Object entity) {
-			//FIXME: This is bad design. This label provide should have no knowledge of types or variables.
+			//FIXME: This is a temporary hack. This label provider should of course 
+			// have no knowledge of types or variables.
 			if(entity instanceof Type) {
 			  return new Label(((Type)entity).getFullyQualifiedName());
 			} else if(entity instanceof Variable) {
@@ -75,6 +81,9 @@ class DependencyLabelProvider extends LabelProvider implements IConnectionStyleP
 				return new Label(type.getFullyQualifiedName()+"."+((Variable)entity).name());
 			} else if(entity instanceof Namespace) {
 				return new Label(((Namespace)entity).getFullyQualifiedName());
+			} else if(entity instanceof UniEdge) {
+				UniEdge<?> edge = (UniEdge) entity;
+				return new Label(getText(edge.startNode().object()) + " has " + edge.get(DependencyCount.class).value()+" dependencies on "+getText(edge.endNode().object()));
 			}
 			return null;
 		}
