@@ -21,6 +21,7 @@ import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseEditorExtensi
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.Variable;
+import be.kuleuven.cs.distrinet.rejuse.graph.Node;
 import be.kuleuven.cs.distrinet.rejuse.graph.UniEdge;
 
 class DependencyLabelProvider extends LabelProvider implements IConnectionStyleProvider, IEntityStyleProvider {
@@ -28,6 +29,10 @@ class DependencyLabelProvider extends LabelProvider implements IConnectionStyleP
 		
 		@Override
 		public String getText(Object element) {
+			if(element instanceof Node) {
+				element = ((Node)element).object();
+			}
+			
 			if(element instanceof Element) {
 				return ((Element)element).language().plugin(EclipseEditorExtension.class).getLabel((Element) element);
 			} else if(element instanceof UniEdge) {
@@ -40,6 +45,9 @@ class DependencyLabelProvider extends LabelProvider implements IConnectionStyleP
 		
 		@Override
 		public Image getImage(Object element) {
+			if(element instanceof Node) {
+				element = ((Node)element).object();
+			}
 			if(element instanceof Element) {
 				try {
 				return ((Element)element).language().plugin(EclipseEditorExtension.class).getIcon((Element) element);
@@ -72,6 +80,9 @@ class DependencyLabelProvider extends LabelProvider implements IConnectionStyleP
 
 		@Override
 		public IFigure getTooltip(Object entity) {
+			if(entity instanceof Node) {
+				entity = ((Node)entity).object();
+			}
 			//FIXME: This is a temporary hack. This label provider should of course 
 			// have no knowledge of types or variables.
 			if(entity instanceof Type) {
@@ -110,7 +121,13 @@ class DependencyLabelProvider extends LabelProvider implements IConnectionStyleP
 
 		@Override
 		public Color getBackgroundColour(Object entity) {
-			return Display.getCurrent().getSystemColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT);
+			if(entity instanceof Node) {
+				Node node = (Node)entity;
+				if(node.canReach(node)) {
+					return new Color(Display.getCurrent(), 200, 50, 50);
+				}
+			} 
+			return new Color(Display.getCurrent(), 100, 100, 100);
 		}
 
 		@Override

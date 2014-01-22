@@ -13,7 +13,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.plugin.LanguagePluginImpl;
-import be.kuleuven.cs.distrinet.chameleon.ui.widget.checkbox.CheckboxSelector;
+import be.kuleuven.cs.distrinet.chameleon.ui.widget.checkbox.CheckboxPredicateSelector;
 import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.chameleon.workspace.View;
@@ -57,8 +57,8 @@ public class DefaultDependencyOptionsFactory extends LanguagePluginImpl implemen
 			
 		}
 
-		public CheckboxSelector<Element> onlySource() {
-			return new CheckboxSelector<>(new IsSource(), "Only source declarations");
+		public CheckboxPredicateSelector<Element> onlySource() {
+			return new CheckboxPredicateSelector<>(new IsSource(), "Only source declarations");
 		}
 
 		@Override

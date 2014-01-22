@@ -4,6 +4,7 @@ import org.eclipse.gef4.zest.core.viewers.IGraphContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyResult;
+import be.kuleuven.cs.distrinet.rejuse.graph.Node;
 import be.kuleuven.cs.distrinet.rejuse.graph.UniEdge;
 
 public class DependencyContentProvider implements IGraphContentProvider {
@@ -21,13 +22,13 @@ public class DependencyContentProvider implements IGraphContentProvider {
 	private DependencyResult _result;
 
 	@Override
-	public Object getSource(Object rel) {
-		return ((UniEdge)rel).start();
+	public Node getSource(Object rel) {
+		return ((UniEdge)rel).startNode();
 	}
 
 	@Override
-	public Object getDestination(Object rel) {
-		return ((UniEdge)rel).end();
+	public Node getDestination(Object rel) {
+		return ((UniEdge)rel).endNode();
 	}
 
 	@Override

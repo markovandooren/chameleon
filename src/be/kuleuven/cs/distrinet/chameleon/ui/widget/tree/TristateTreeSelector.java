@@ -19,7 +19,7 @@ import be.kuleuven.cs.distrinet.chameleon.ui.widget.WidgetFactory;
  * @param <D>
  * @param <E>
  */
-public class TristateTreeSelector<D> extends Selector {
+public class TristateTreeSelector<D> implements Selector {
 
 	private final class StateSyncListener implements TreeListener<D> {
 		@SuppressWarnings("unchecked")

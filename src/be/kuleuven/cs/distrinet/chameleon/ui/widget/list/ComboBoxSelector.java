@@ -8,7 +8,7 @@ import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.function.Function;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 
-public class ComboBoxSelector<T,E> extends PredicateSelector<E> {
+public class ComboBoxSelector<T,E> implements PredicateSelector<E> {
 
 	/**
 	 * Create a new combo box selector.   The
