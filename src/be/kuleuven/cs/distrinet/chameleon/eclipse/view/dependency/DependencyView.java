@@ -7,15 +7,16 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.gef4.layout.LayoutAlgorithm;
+import org.eclipse.gef4.layout.algorithms.CompositeLayoutAlgorithm;
+import org.eclipse.gef4.layout.algorithms.HorizontalShiftAlgorithm;
+import org.eclipse.gef4.layout.algorithms.RadialLayoutAlgorithm;
+import org.eclipse.gef4.layout.algorithms.SpaceTreeLayoutAlgorithm;
+import org.eclipse.gef4.layout.algorithms.SpringLayoutAlgorithm;
+import org.eclipse.gef4.layout.algorithms.SugiyamaLayoutAlgorithm;
 import org.eclipse.gef4.zest.core.viewers.AbstractZoomableViewer;
 import org.eclipse.gef4.zest.core.viewers.GraphViewer;
 import org.eclipse.gef4.zest.core.viewers.IZoomableWorkbenchPart;
-import org.eclipse.gef4.zest.layouts.LayoutAlgorithm;
-import org.eclipse.gef4.zest.layouts.algorithms.CompositeLayoutAlgorithm;
-import org.eclipse.gef4.zest.layouts.algorithms.DirectedGraphLayoutAlgorithm;
-import org.eclipse.gef4.zest.layouts.algorithms.HorizontalShiftAlgorithm;
-import org.eclipse.gef4.zest.layouts.algorithms.RadialLayoutAlgorithm;
-import org.eclipse.gef4.zest.layouts.algorithms.SpringLayoutAlgorithm;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -128,7 +129,7 @@ public class DependencyView extends ViewPart implements IZoomableWorkbenchPart {
 //    bars.getMenuManager().add(toolbarZoomContributionViewItem);
 	}
 	
-	private Map<String, org.eclipse.gef4.zest.layouts.LayoutAlgorithm> _layouts = new HashMap<>();
+	private Map<String, LayoutAlgorithm> _layouts = new HashMap<>();
 	
 	private void initStack(Composite parent) {
 		_stack = new Composite(parent, SWT.NONE);
@@ -302,6 +303,12 @@ public class DependencyView extends ViewPart implements IZoomableWorkbenchPart {
 //	}
 //	private SelectorList _dependencyTab;
 
+	private void registerLayout(String name, LayoutAlgorithm algorithm) {
+		_layouts.put(name, algorithm);
+		_layoutList.add(name);
+
+	}
+	
 	protected void addZest2GraphViewer(Composite parent) {
 		_viewer2 = new org.eclipse.gef4.zest.core.viewers.GraphViewer(parent, SWT.NONE);
 		_viewer2.getGraphControl().setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
@@ -309,8 +316,9 @@ public class DependencyView extends ViewPart implements IZoomableWorkbenchPart {
 		_viewer2.setInput(new DependencyResult());
 		_viewer2.setLabelProvider(new DependencyLabelProvider());
 		
-		String directedName = "Directed";
-		DirectedGraphLayoutAlgorithm directed = new DirectedGraphLayoutAlgorithm();
+//		String directedName = "Directed";
+//		org.eclipse.gef4.layout.algorithms.
+//		DirectedGraphLayoutAlgorithm directed = new DirectedGraphLayoutAlgorithm();
 		// The new directed layout algorithm seems to work better without the
 		// horizontal shift.
 		
@@ -319,38 +327,35 @@ public class DependencyView extends ViewPart implements IZoomableWorkbenchPart {
 //						directed,
 //						new HorizontalShiftAlgorithm()
 //				});
-		_layouts.put(directedName, directed);
-		_layoutList.add(directedName);
+//		registerLayout(directedName, directed);
 
-//		String sugiyamaName = "Sugiyama";
-//		DirectedGraphLayoutAlgorithm sugiyama = new DirectedGraphLayoutAlgorithm();
+		SpaceTreeLayoutAlgorithm spaceTreeAlgorithm=new SpaceTreeLayoutAlgorithm();
+		
+		SugiyamaLayoutAlgorithm sugiyamaAlgorithm = new SugiyamaLayoutAlgorithm();
+//		SugiyamaLayoutAlgorithm sugiyama = new SugiyamaLayoutAlgorithm();
 //		CompositeLayoutAlgorithm sugiyamaAlgorithm = new CompositeLayoutAlgorithm(
 //				new LayoutAlgorithm[]{
 //						sugiyama,
 //						new HorizontalShiftAlgorithm()
 //				});
-//		_layouts.put(sugiyamaName, sugiyamaAlgorithm);
-//		_layoutList.add(sugiyamaName);
 		
 		RadialLayoutAlgorithm radial = new RadialLayoutAlgorithm();
-		String radialName = "Radial";
 		CompositeLayoutAlgorithm radialAlgorithm = new CompositeLayoutAlgorithm(
 				new LayoutAlgorithm[]{
 						radial,
 						new HorizontalShiftAlgorithm()
 				});
-		_layouts.put(radialName, radialAlgorithm);
-		_layoutList.add(radialName);
-
-		String springName = "Spring";
+		
 		SpringLayoutAlgorithm spring = new SpringLayoutAlgorithm();
 		CompositeLayoutAlgorithm springAlgorithm = new CompositeLayoutAlgorithm(
 				new LayoutAlgorithm[]{
 						spring,
 						new HorizontalShiftAlgorithm()
 				});
-		_layouts.put(springName, springAlgorithm);
-		_layoutList.add(springName);
+		registerLayout("Spring", springAlgorithm);
+		registerLayout("Radial", radialAlgorithm);
+		registerLayout("Sugiyama", sugiyamaAlgorithm);
+		registerLayout("Space Tree", spaceTreeAlgorithm);
 
 //		String spaceTreeName = "Space Tree";
 //		SpaceTreeLayoutAlgorithm spaceTree = new SpaceTreeLayoutAlgorithm();
@@ -362,7 +367,7 @@ public class DependencyView extends ViewPart implements IZoomableWorkbenchPart {
 //		_layouts.put(spaceTreeName, spaceTreeAlgorithm);
 //		_layoutList.add(spaceTreeName);
 
-		_viewer2.getGraphControl().setLayoutAlgorithm(directed, true);
+		_viewer2.getGraphControl().setLayoutAlgorithm(springAlgorithm, true);
 		_viewer2.applyLayout();
 	}
 	

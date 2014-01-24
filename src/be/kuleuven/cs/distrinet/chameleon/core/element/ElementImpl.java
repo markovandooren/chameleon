@@ -269,6 +269,36 @@ public abstract class ElementImpl implements Element {
 //		}
 		return result;
 	}
+
+//	public Element clone() {
+//	return clone((Mapper)null);
+//}
+//
+	public final Element clone(final Mapper mapper) {
+		Element result = cloneSelf();
+		if(canHaveChildren()) {
+			List<ChameleonAssociation<?>> mine = myAssociations();
+			int size = mine.size();
+			List<ChameleonAssociation<?>> others = result.associations();
+			for(int i = 0; i<size;i++) {
+				ChameleonAssociation<? extends Element> m = mine.get(i);
+				final ChameleonAssociation<? extends Element> o = others.get(i);
+				m.apply(new Action<Element,Nothing>(Element.class) {
+					@Override
+					public void doPerform(Element myElement) {
+						Element clone = myElement.clone();
+						clone.parentLink().connectTo((Association)o);
+					}
+				});
+			}
+		}
+		if(mapper != null) {
+			mapper.process(this, result);
+		}
+		return result;
+	}
+
+	
 	
 	protected abstract Element cloneSelf();
 	

@@ -23,7 +23,7 @@ public class FixedThreadExecutor {
 		if(singleThreaded) {
 			return 1;
 		} else {
-			return _availableProcessors;
+			return _availableProcessors/2;
 		}
 	}
 
