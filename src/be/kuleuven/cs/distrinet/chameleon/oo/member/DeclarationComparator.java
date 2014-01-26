@@ -36,7 +36,6 @@ public class DeclarationComparator<D extends Declaration> {
 	public boolean contains(Member first, Member second) throws LookupException {
 		return selectedClass().isInstance(first) && 
 				   selectedClass().isInstance(second) && 
-//				   containsBasedOnName(first.name(), second.name()) &&
 		       containsBasedOnRest((D) first, (D) second);
 	}
 

@@ -69,4 +69,9 @@ public abstract class DeclarationContainingDeclarationImpl extends DeclarationCo
 		return declaration;
 	}
 
+  @Override
+  public boolean sameSignatureAs(Declaration declaration)
+  		throws LookupException {
+  	return signature().sameAs(declaration.signature());
+  }
 }

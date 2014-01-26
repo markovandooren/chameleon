@@ -73,4 +73,11 @@ public abstract class DeclarationImpl extends ElementImpl implements Declaration
 		return declaration;
 	}
 
+  @Override
+  public boolean sameSignatureAs(Declaration declaration)
+  		throws LookupException {
+  	return signature().sameAs(declaration.signature());
+  }
+  
+
 }
