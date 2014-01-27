@@ -6,7 +6,7 @@ import java.util.List;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameDeclaration;
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 
 public abstract class SelectorWithoutOrder<D extends Declaration> extends DeclarationSelector<D> {
@@ -66,7 +66,8 @@ public abstract class SelectorWithoutOrder<D extends Declaration> extends Declar
   }
   
   protected boolean correctSignature(Declaration declaration) throws LookupException {
-		return declaration.name().equals(name()) && (declaration instanceof SimpleNameDeclaration);
+  	//FIXME This interface is not good!
+		return declaration.name().equals(name()) && (declaration.signature() instanceof SimpleNameSignature);
   }
   
   @Override
