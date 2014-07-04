@@ -58,10 +58,16 @@ public abstract class Expression extends ElementImpl implements CrossReferenceTa
 
 	}
 	
-//	private final AtomicBoolean _cacheLock = new AtomicBoolean();
+	/**
+	 * The type of an expression is cached to increase performance. Call {@link #flushCache()} to
+	 * flush the cache of the model has changed.
+	 * 
+	 * The reference is stored in a soft reference to allow garbage collection of cached types.
+	 * 
+	 * The soft reference is stored in an atomic reference to deal with concurrent lookups of the
+	 * type of this expression without needing a lock.
+	 */
 	private final AtomicReference<SoftReference<Type>> _cache = new AtomicReference<>();
-	
-//	private SoftReference<Type> _typeCache;
 	
 	protected abstract Type actualType() throws LookupException;
 

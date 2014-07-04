@@ -161,7 +161,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.gef4.graphics;bundle-version="0.1.0",
  org.eclipse.gef4.graphics.swt;bundle-version="0.1.0",
  org.eclipse.gef4.zest.core;bundle-version="0.1.0",
- org.eclipse.gef4.zest.dot.core;bundle-version="0.1.0",
  org.eclipse.gef4.zest.jface;bundle-version="0.1.0"
 Eclipse-BuddyPolicy: registered
 Bundle-ActivationPolicy: lazy

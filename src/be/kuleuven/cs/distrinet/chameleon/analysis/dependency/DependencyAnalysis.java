@@ -116,10 +116,42 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 		public boolean processSource(E source, DependencyResult result) {
 			return true;
 		}
+		
+		public HistoryFilter<E, D> and(HistoryFilter<E,D> other) {
+			if(other instanceof NOOP) {
+				return this;
+			} else {
+				return new AndHistoryFilter<>(this,other);
+			}
+		}
+	}
+	
+	public static class AndHistoryFilter<E extends Element, D extends Declaration> extends HistoryFilter<E,D> {
+		private HistoryFilter<E,D> _first;
+		private HistoryFilter<E,D> _second;
+		
+		public AndHistoryFilter(HistoryFilter<E,D> first, HistoryFilter<E,D> second) {
+			_first = first;
+			_second = second;
+		}
+		
+		@Override
+		public boolean process(Dependency<E, CrossReference, D> dependency,
+				DependencyResult result) {
+			return _first.process(dependency,result) && _second.process(dependency,result);
+		}
+		
+		@Override
+		public boolean processSource(E source, DependencyResult result) {
+			return _first.processSource(source,result) && _second.processSource(source,result);
+		}
 	}
 	
 	public static class NOOP<E extends Element, D extends Declaration> extends HistoryFilter<E,D> {
-
+		@Override
+		public HistoryFilter<E, D> and(HistoryFilter<E, D> other) {
+			return other;
+		}
 	}
 	
 	private Class<D> _declarationType;

@@ -1,5 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.core.reference;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import java.lang.ref.SoftReference;
 
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
@@ -7,7 +9,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationCollector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.util.Util;
+import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
 /**
@@ -58,28 +60,54 @@ public abstract class ElementReference<D extends Declaration> extends CrossRefer
   
 	@Override
 	public final void setName(String name) {
+		if(name == null) {
+			throw new ChameleonProgrammerException("The name of an element reference cannot be null");
+		} else if(name.equals("")) {
+			throw new ChameleonProgrammerException("The name of an element reference cannot be the empty string");
+		}
 		_name = name;
 	}
   
-  private SoftReference<D> _cache;
+	/**
+	 * The type of an expression is cached to increase performance. Call {@link #flushCache()} to
+	 * flush the cache of the model has changed.
+	 * 
+	 * The reference is stored in a soft reference to allow garbage collection of cached types.
+	 * 
+	 * The soft reference is stored in an atomic reference to deal with concurrent lookups of the
+	 * type of this expression without needing a lock.
+	 */
+	private final AtomicReference<SoftReference<D>> _cache = new AtomicReference<>();
+//  private SoftReference<D> _cache;
   
   @Override
-  public synchronized void flushLocalCache() {
+  public void flushLocalCache() {
   	super.flushLocalCache();
-  	_cache = null;
+//  	_cache = null;
+  	
+		boolean success = false;
+		do {
+			success = _cache.compareAndSet(_cache.get(), null);
+		} while(! success);
+
+
   }
   
-  protected synchronized D getCache() {
+  protected D getCache() {
   	D result = null;
   	if(Config.cacheElementReferences() == true) {
-  	  result = (_cache == null ? null: _cache.get());
+  		SoftReference<D> cache = _cache.get();
+  	  result = (cache == null ? null: cache.get());
   	}
     return result;
   }
   
-  protected synchronized void setCache(D value) {
+  protected void setCache(D value) {
     	if(Config.cacheElementReferences() == true) {
-    		_cache = new SoftReference<D>(value);
+    		// We only try to set once. Concurrent lookups of this name
+    		// should result in the same element.
+				_cache.compareAndSet(null, new SoftReference<D>(value));
+//    		_cache = new SoftReference<D>(value);
     	}
   }
   
@@ -121,7 +149,7 @@ public abstract class ElementReference<D extends Declaration> extends CrossRefer
 			return result;
 		}
 
-		synchronized(this) {
+//synchronized(this) {
 			if(result != null) {
 				return result;
 			}
@@ -139,7 +167,7 @@ public abstract class ElementReference<D extends Declaration> extends CrossRefer
 				setCache((D) result);
 			}
 			return result;
-		}
+//		}
 	}
 
 	public String toString() {

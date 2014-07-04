@@ -220,7 +220,7 @@ public abstract class MemberImpl extends TypeElementImpl implements Member {
   public OverridesRelation<? extends Member> overridesRelation() {
   	return _overridesRelation;
   }
-  
+
   private static OverridesRelation<Member> _overridesRelation = new OverridesRelation<Member>(Member.class);
 
   public HidesRelation<? extends Member> hidesRelation() {
@@ -230,10 +230,11 @@ public abstract class MemberImpl extends TypeElementImpl implements Member {
   private static HidesRelation<Member> _hidesSelector = new HidesRelation<Member>(Member.class);
 
   public MemberRelationSelector<? extends Member> aliasSelector() {
-		return new MemberRelationSelector<Member>(Member.class,this,_aliasSelector);
+		DeclarationComparator<Member> aliasRelation = new DeclarationComparator<>(Member.class);
+		return new MemberRelationSelector<Member>(Member.class,this,aliasRelation);
   }
 	
-  private static DeclarationComparator<Member> _aliasSelector = new DeclarationComparator<Member>(Member.class);
+  //private static DeclarationComparator<Member> _aliasSelector = new DeclarationComparator<Member>(Member.class);
 	
 	@Override
 	public Declaration finalDeclaration() {

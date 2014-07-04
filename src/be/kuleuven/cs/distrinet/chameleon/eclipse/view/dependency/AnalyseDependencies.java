@@ -1,8 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -16,19 +13,11 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 
 import be.kuleuven.cs.distrinet.chameleon.analysis.AnalysisOptions;
-import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyAnalysis;
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyOptions;
 import be.kuleuven.cs.distrinet.chameleon.analysis.dependency.DependencyResult;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
-import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
-import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.util.Projects;
-import be.kuleuven.cs.distrinet.chameleon.util.action.TopDown;
-import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
-import be.kuleuven.cs.distrinet.chameleon.workspace.View;
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 
 public class AnalyseDependencies extends Action {
 	

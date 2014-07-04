@@ -5,25 +5,18 @@ import java.util.Iterator;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.internal.resources.ProjectNatureDescriptor;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jdt.internal.core.JavaProject;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
-import be.kuleuven.cs.distrinet.chameleon.eclipse.LanguageMgt;
-import be.kuleuven.cs.distrinet.chameleon.eclipse.connector.EclipseProjectLoader;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature;
 import be.kuleuven.cs.distrinet.chameleon.eclipse.util.Files;
-import be.kuleuven.cs.distrinet.chameleon.workspace.LanguageRepository;
-import be.kuleuven.cs.distrinet.chameleon.workspace.Workspace;
 
 public class AddBackgroundNature extends AbstractHandler {
 

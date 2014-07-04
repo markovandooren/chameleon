@@ -17,6 +17,7 @@ import org.eclipse.gef4.layout.algorithms.SugiyamaLayoutAlgorithm;
 import org.eclipse.gef4.zest.core.viewers.AbstractZoomableViewer;
 import org.eclipse.gef4.zest.core.viewers.GraphViewer;
 import org.eclipse.gef4.zest.core.viewers.IZoomableWorkbenchPart;
+import org.eclipse.gef4.zest.core.widgets.GraphWidget;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -311,7 +312,8 @@ public class DependencyView extends ViewPart implements IZoomableWorkbenchPart {
 	
 	protected void addZest2GraphViewer(Composite parent) {
 		_viewer2 = new org.eclipse.gef4.zest.core.viewers.GraphViewer(parent, SWT.NONE);
-		_viewer2.getGraphControl().setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
+		GraphWidget graphControl = _viewer2.getGraphControl();
+		graphControl.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
 		_viewer2.setContentProvider(new DependencyContentProvider());
 		_viewer2.setInput(new DependencyResult());
 		_viewer2.setLabelProvider(new DependencyLabelProvider());
@@ -367,7 +369,9 @@ public class DependencyView extends ViewPart implements IZoomableWorkbenchPart {
 //		_layouts.put(spaceTreeName, spaceTreeAlgorithm);
 //		_layoutList.add(spaceTreeName);
 
-		_viewer2.getGraphControl().setLayoutAlgorithm(springAlgorithm, true);
+		// Only here because t
+		org.eclipse.gef4.layout.LayoutAlgorithm algorithm = (org.eclipse.gef4.layout.LayoutAlgorithm)springAlgorithm;
+		graphControl.setLayoutAlgorithm(algorithm, true);
 		_viewer2.applyLayout();
 	}
 	

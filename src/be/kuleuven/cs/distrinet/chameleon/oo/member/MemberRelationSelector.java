@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.member;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 

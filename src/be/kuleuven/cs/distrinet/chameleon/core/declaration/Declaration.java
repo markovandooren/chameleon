@@ -148,7 +148,7 @@ public interface Declaration extends Element, SelectionResult {//
    * <code>a</code>. Therefore, two contexts are provided: a lexical context and 
    * a target context.
    *
-   * For example:
+   * A few examples in the language Java:
    *   1) in "expr.f", "f" must be looked up in the static type of "expr",
    *      and not in its lexical context, which is the current lexical context.
    *   2) in "typename.f", "f" must be looked up in the type represented by "typename"

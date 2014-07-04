@@ -93,6 +93,6 @@ public class DependencyResult extends Result<DependencyResult> {
 	}
 	
 	public void prune() {
-		_dependencyGraph.prune();
+		_dependencyGraph.remoteEdgesNotInvolvedInCycles();
 	}
 }

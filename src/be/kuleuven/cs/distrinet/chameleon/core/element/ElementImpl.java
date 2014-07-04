@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import java.lang.reflect.Field;
 
@@ -270,10 +271,6 @@ public abstract class ElementImpl implements Element {
 		return result;
 	}
 
-//	public Element clone() {
-//	return clone((Mapper)null);
-//}
-//
 	public final Element clone(final Mapper mapper) {
 		Element result = cloneSelf();
 		if(canHaveChildren()) {
@@ -283,13 +280,14 @@ public abstract class ElementImpl implements Element {
 			for(int i = 0; i<size;i++) {
 				ChameleonAssociation<? extends Element> m = mine.get(i);
 				final ChameleonAssociation<? extends Element> o = others.get(i);
-				m.apply(new Action<Element,Nothing>(Element.class) {
+				final Action<Element,Nothing> action = new Action<Element,Nothing>(Element.class) {
 					@Override
 					public void doPerform(Element myElement) {
 						Element clone = myElement.clone();
 						clone.parentLink().connectTo((Association)o);
 					}
-				});
+				};
+				m.apply(action);
 			}
 		}
 		if(mapper != null) {
@@ -297,8 +295,6 @@ public abstract class ElementImpl implements Element {
 		}
 		return result;
 	}
-
-	
 	
 	protected abstract Element cloneSelf();
 	
@@ -719,6 +715,9 @@ public abstract class ElementImpl implements Element {
 		for (Element e : children()) {
 			e.apply(action);
 		}
+	}
+	
+	public final <T extends Element, E extends Exception>  void apply(Consumer<T> action) throws E {
 	}
 
 	public final <T extends Element> List<T> ancestors(Class<T> c) {

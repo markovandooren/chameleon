@@ -46,24 +46,25 @@ public class Cache {
 	 */
 	@SuppressWarnings("rawtypes")
 	public synchronized void put(DeclarationSelector selector, Object object) {
-		if(_cache == null) {
-			_cache = new HashMap<Class,Object>();
-		}
+//		if(_cache == null) {
+//			_cache = new HashMap<Class,Object>();
+//		}
 		_cache.put(selector.getClass(), object);
 	}
 	
 	public synchronized Object get(DeclarationSelector selector) {
-		if(_cache != null) {
+//		if(_cache != null) {
 			return  _cache.get(selector.getClass());
-		} else {
-			return null;
-		}
+//		} else {
+//			return null;
+//		}
 	}
 
 	/**
 	 * The selectors themselves know the most efficient way to update and retrieve the cache,
 	 * so we use Object as the value type.
 	 */
-	private Map<Class,Object> _cache;
+//	private Map<Class,Object> _cache;
+	private final Map<Class,Object> _cache = new HashMap<Class,Object>();
 	
 }

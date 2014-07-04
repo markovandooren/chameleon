@@ -64,10 +64,21 @@ public interface DeclarationContainer extends Element {
  /*@
    @ public behavior
    @
+   @ post \result != null;
    @ post \result.equals(selector.selection(declarations()));
    @*/
   public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException;
 
+  /**
+   * Return a lookup context that searches for local declarations.
+   * @return
+   * @throws LookupException
+   */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
 	public LookupContext localContext() throws LookupException;
   
 }

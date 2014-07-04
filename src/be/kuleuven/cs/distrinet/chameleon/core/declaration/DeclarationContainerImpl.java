@@ -9,6 +9,11 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 
+/**
+ * A convenience class for implementation declaration containers.
+ * 
+ * @author Marko van Dooren
+ */
 public abstract class DeclarationContainerImpl extends ElementImpl implements DeclarationContainer {
 
 	@Override
