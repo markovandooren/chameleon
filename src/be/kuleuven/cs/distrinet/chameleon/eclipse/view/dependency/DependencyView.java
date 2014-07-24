@@ -314,6 +314,10 @@ public class DependencyView extends ViewPart implements IZoomableWorkbenchPart {
 		_viewer2 = new org.eclipse.gef4.zest.core.viewers.GraphViewer(parent, SWT.NONE);
 		GraphWidget graphControl = _viewer2.getGraphControl();
 		graphControl.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
+		
+		
+		
+		
 		_viewer2.setContentProvider(new DependencyContentProvider());
 		_viewer2.setInput(new DependencyResult());
 		_viewer2.setLabelProvider(new DependencyLabelProvider());
