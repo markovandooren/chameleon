@@ -23,12 +23,17 @@ import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
+/**
+ * 
+ *
+ * 
+ * FIXME This should become an interface because MethodInvocation cannot extend this
+ *       class and Expression at the same time. 
+ * 
+ * @author Marko van Dooren
+ */
 public class CrossReferenceWithArguments extends ElementImpl {
 	
-	public CrossReferenceWithArguments() {
-		
-	}
-
 	/**
 	 * TARGET
 	 */
