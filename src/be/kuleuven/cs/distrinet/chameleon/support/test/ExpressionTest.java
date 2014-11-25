@@ -2,14 +2,13 @@ package be.kuleuven.cs.distrinet.chameleon.support.test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
-
-import java.io.IOException;
 
 import org.junit.Test;
 

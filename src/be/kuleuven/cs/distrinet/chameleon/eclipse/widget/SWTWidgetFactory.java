@@ -1,8 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.eclipse.widget;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.jface.viewers.ICheckStateProvider;
 import org.eclipse.swt.SWT;
@@ -25,7 +23,6 @@ import be.kuleuven.cs.distrinet.chameleon.ui.widget.list.ListContentProvider;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.tree.CheckStateProvider;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.tree.TreeContentProvider;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.tree.TreeListener;
-import be.kuleuven.cs.distrinet.chameleon.ui.widget.tree.TreeNode;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.tree.TristateTreeController;
 
 import com.google.common.collect.ImmutableList;

@@ -1,7 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.member;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 
 /**

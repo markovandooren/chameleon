@@ -15,6 +15,7 @@ import java.util.concurrent.ExecutionException;
 
 import org.antlr.runtime.RecognitionException;
 
+import antlr.TokenStreamException;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
 import be.kuleuven.cs.distrinet.chameleon.util.concurrent.CallableFactory;

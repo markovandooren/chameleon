@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.type.generics;
 
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 
 public class InstantiatedTypeParameter extends AbstractInstantiatedTypeParameter {
 	

@@ -3,13 +3,12 @@ package be.kuleuven.cs.distrinet.chameleon.ui.widget.tree;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.LabelProvider;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.SelectionController;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.Selector;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.WidgetFactory;
+
+import com.google.common.collect.ImmutableSet;
 
 /**
  * 

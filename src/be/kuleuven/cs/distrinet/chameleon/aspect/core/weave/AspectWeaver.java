@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.aspect.core.weave;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;

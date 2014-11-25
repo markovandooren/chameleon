@@ -1,11 +1,8 @@
 package be.kuleuven.cs.distrinet.chameleon.analysis;
 
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.Collection;
 
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 

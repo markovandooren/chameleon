@@ -6,7 +6,7 @@ import com.google.common.base.Stopwatch;
 
 public class Timer {
 
-	private Stopwatch _stopwatch = new Stopwatch();
+	private Stopwatch _stopwatch = Stopwatch.createUnstarted();
 	
 	private int _stack;
 	
@@ -27,7 +27,7 @@ public class Timer {
 	}
 	
 	public long elapsedTime(TimeUnit unit) {
-		return _stopwatch.elapsedTime(unit);
+		return _stopwatch.elapsed(unit);
 	}
 	
 	public long elapsedMillis() {

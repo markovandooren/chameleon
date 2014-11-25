@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.util;
 
-import be.kuleuven.cs.distrinet.rejuse.contract.Contracts;
 
 /**
  * A class of pairs. A pair does not allow null values.

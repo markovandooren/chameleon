@@ -1,9 +1,8 @@
 package be.kuleuven.cs.distrinet.chameleon.test;
 
+import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -4,11 +4,8 @@ package be.kuleuven.cs.distrinet.chameleon.support.member.simplename.operator.po
 
 
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
 import be.kuleuven.cs.distrinet.chameleon.support.member.simplename.SimpleNameMethodInvocation;
-import be.kuleuven.cs.distrinet.chameleon.support.member.simplename.operator.infix.InfixOperator;
-import be.kuleuven.cs.distrinet.chameleon.util.profile.Timer;
 
 
 /**

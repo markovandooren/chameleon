@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.method;
 
-import java.util.Collections;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;

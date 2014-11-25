@@ -1,7 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.core.lookup;
 
 
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 

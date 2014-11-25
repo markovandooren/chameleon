@@ -1,7 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.util.action;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
-import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
 
 public class Recurse<T extends Element,E extends Exception> extends TreeAction<T,E> {

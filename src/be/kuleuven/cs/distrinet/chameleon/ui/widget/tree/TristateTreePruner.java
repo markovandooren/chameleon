@@ -3,8 +3,6 @@ package be.kuleuven.cs.distrinet.chameleon.ui.widget.tree;
 import java.util.Set;
 
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.predicate.False;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 import be.kuleuven.cs.distrinet.rejuse.tree.TreePredicate;
 
 public abstract class TristateTreePruner<X,Y> {

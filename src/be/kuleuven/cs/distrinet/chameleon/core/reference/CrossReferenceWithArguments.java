@@ -1,13 +1,10 @@
 package be.kuleuven.cs.distrinet.chameleon.core.reference;
 
 import java.lang.ref.SoftReference;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
-import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationCollector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
@@ -23,12 +20,17 @@ import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
+/**
+ * 
+ *
+ * 
+ * FIXME This should become an interface because MethodInvocation cannot extend this
+ *       class and Expression at the same time. 
+ * 
+ * @author Marko van Dooren
+ */
 public class CrossReferenceWithArguments extends ElementImpl {
 	
-	public CrossReferenceWithArguments() {
-		
-	}
-
 	/**
 	 * TARGET
 	 */

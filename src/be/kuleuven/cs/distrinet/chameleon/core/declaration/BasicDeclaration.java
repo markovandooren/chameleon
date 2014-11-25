@@ -1,7 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.core.declaration;
 
-import be.kuleuven.cs.distrinet.chameleon.core.element.ElementImpl;
-import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 
 public abstract class BasicDeclaration extends DeclarationImpl implements SimpleNameDeclaration {

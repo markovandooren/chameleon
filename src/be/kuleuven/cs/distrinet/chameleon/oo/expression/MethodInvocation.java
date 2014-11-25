@@ -1,8 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.expression;
 
-import java.util.List;
-
 import java.lang.ref.SoftReference;
+import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;

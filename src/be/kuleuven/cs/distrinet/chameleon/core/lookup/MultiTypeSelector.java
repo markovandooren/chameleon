@@ -3,7 +3,6 @@ package be.kuleuven.cs.distrinet.chameleon.core.lookup;
 import java.util.Set;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
 
 import com.google.common.collect.ImmutableSet;
 

@@ -1,13 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.core.lookup;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
-import be.kuleuven.cs.distrinet.chameleon.util.Util;
 
 /**
  * A class of factories that create lookup strategies.

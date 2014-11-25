@@ -1,13 +1,10 @@
 package be.kuleuven.cs.distrinet.chameleon.workspace;
 
-import java.io.File;
-import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.InputSourceNamespace;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
-import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 
 /**
  * A class of input sources that read file that contain only a single non-private top-level declaration

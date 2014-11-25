@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 
-import be.kuleuven.cs.distrinet.rejuse.contract.Contracts;
-
 /**
  * A generic interface for providing tree structures 
  * without creating dependencies to frameworks such as

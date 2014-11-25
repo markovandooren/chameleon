@@ -1,8 +1,7 @@
 package be.kuleuven.cs.distrinet.chameleon.core.reference;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 import java.lang.ref.SoftReference;
+import java.util.concurrent.atomic.AtomicReference;
 
 import be.kuleuven.cs.distrinet.chameleon.core.Config;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;

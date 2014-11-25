@@ -3,7 +3,6 @@ package be.kuleuven.cs.distrinet.chameleon.oo.method;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.DeclarationWithParametersHeader;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
-import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
 public abstract class MethodHeader extends DeclarationWithParametersHeader {

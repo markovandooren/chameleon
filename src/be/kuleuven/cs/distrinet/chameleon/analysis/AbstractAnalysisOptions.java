@@ -1,7 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.analysis;
 
-import java.util.List;
-
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 
 public abstract class AbstractAnalysisOptions<E extends Element, R extends Result<R>> implements AnalysisOptions<E, R>{

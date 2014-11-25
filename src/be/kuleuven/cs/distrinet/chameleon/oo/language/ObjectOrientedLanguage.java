@@ -2,10 +2,7 @@ package be.kuleuven.cs.distrinet.chameleon.oo.language;
 
 import java.util.List;
 
-import com.google.common.base.Stopwatch;
-
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.TargetDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.language.LanguageImpl;

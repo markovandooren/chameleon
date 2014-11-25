@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.core.lookup;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

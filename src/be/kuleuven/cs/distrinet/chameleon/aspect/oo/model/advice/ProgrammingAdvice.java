@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.aspect.oo.model.advice;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.model.advice.Advice;

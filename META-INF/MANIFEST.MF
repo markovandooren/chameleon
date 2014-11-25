@@ -1,5 +1,4 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
+Bundle-ManifestVersion: 1
 Bundle-Name: Chameleon Eclipse Plugin
 Bundle-SymbolicName: be.chameleon.eclipse;singleton:=true
 Bundle-Version: 1.0.7
@@ -139,11 +138,7 @@ Export-Package: be.kuleuven.cs.distrinet.chameleon.analysis,
  be.kuleuven.cs.distrinet.chameleon.util.association,
  be.kuleuven.cs.distrinet.chameleon.util.concurrent,
  be.kuleuven.cs.distrinet.chameleon.util.profile,
- be.kuleuven.cs.distrinet.chameleon.workspace,
- org.antlr.runtime,
- org.antlr.runtime.debug,
- org.antlr.runtime.misc,
- org.antlr.runtime.tree
+ be.kuleuven.cs.distrinet.chameleon.workspace
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.jface.text,
@@ -155,13 +150,8 @@ Require-Bundle: org.eclipse.ui,
  rejuse.distrinet.cs.kuleuven.be;bundle-version="1.0.12",
  org.junit;bundle-version="4.10.0",
  org.eclipse.core.expressions;bundle-version="3.4.500",
- org.eclipse.e4.ui.di,
- org.eclipse.gef4.geometry;bundle-version="0.1.0",
- org.eclipse.gef4.geometry.convert.swt;bundle-version="0.1.0",
- org.eclipse.gef4.graphics;bundle-version="0.1.0",
- org.eclipse.gef4.graphics.swt;bundle-version="0.1.0",
- org.eclipse.gef4.zest.core;bundle-version="0.1.0",
- org.eclipse.gef4.zest.jface;bundle-version="0.1.0"
-Eclipse-BuddyPolicy: registered
+ org.eclipse.e4.ui.di
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: com.google.common.base,
+ com.google.common.collect

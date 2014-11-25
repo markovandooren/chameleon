@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.oo.member;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;

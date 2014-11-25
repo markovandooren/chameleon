@@ -1,7 +1,6 @@
 package be.kuleuven.cs.distrinet.chameleon.util.action;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
-import be.kuleuven.cs.distrinet.rejuse.action.Action;
 
 
 public class DepthFirst<T extends Element, E extends Exception> extends Sequence<T,E> {

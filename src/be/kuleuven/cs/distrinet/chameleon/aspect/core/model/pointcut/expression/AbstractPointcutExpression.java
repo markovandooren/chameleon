@@ -1,6 +1,5 @@
 package be.kuleuven.cs.distrinet.chameleon.aspect.core.model.pointcut.expression;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
