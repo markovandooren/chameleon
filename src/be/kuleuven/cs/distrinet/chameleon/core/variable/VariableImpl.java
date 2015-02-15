@@ -1,4 +1,4 @@
-package be.kuleuven.cs.distrinet.chameleon.oo.variable;
+package be.kuleuven.cs.distrinet.chameleon.core.variable;
 
 import java.util.List;
 
@@ -22,11 +22,13 @@ public abstract class VariableImpl extends BasicDeclaration implements Variable 
 		super(name);
 	}
 	
-	public Type declarationType() throws LookupException {
+	@Override
+   public Type declarationType() throws LookupException {
 		return getType();
 	}
 	
-	public boolean complete() {
+	@Override
+   public boolean complete() {
 		return true;
 	}
 	
@@ -43,7 +45,8 @@ public abstract class VariableImpl extends BasicDeclaration implements Variable 
 	/**
 	 * COPIED FROM TypeElementImpl
 	 */
-  public List<Modifier> modifiers(PropertyMutex mutex) throws ModelException {
+  @Override
+public List<Modifier> modifiers(PropertyMutex mutex) throws ModelException {
   	Property property = property(mutex);
   	List<Modifier> result = Lists.create();
   	for(Modifier mod: modifiers()) {
@@ -54,7 +57,8 @@ public abstract class VariableImpl extends BasicDeclaration implements Variable 
   	return result;
   }
 
-	public List<Modifier> modifiers(Property property) throws ModelException {
+	@Override
+   public List<Modifier> modifiers(Property property) throws ModelException {
 		List<Modifier> result = Lists.create();
 		for(Modifier modifier: modifiers()) {
 			if(modifier.impliesTrue(property)) {
@@ -64,7 +68,8 @@ public abstract class VariableImpl extends BasicDeclaration implements Variable 
 		return result;
 	}
 	
-	public String toString() {
+	@Override
+   public String toString() {
 		return getTypeReference().toString() +" "+name();
 	}
 	

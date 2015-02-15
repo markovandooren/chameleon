@@ -11,7 +11,8 @@ public class StatementExpression extends ExpressionContainingStatement {
     super(expression);
   }
 
-  protected StatementExpression cloneSelf() {
+  @Override
+protected StatementExpression cloneSelf() {
     return new StatementExpression(null);
   }
 }

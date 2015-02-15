@@ -40,7 +40,8 @@ public class ChameleonDocumentProvider extends FileDocumentProvider {
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.texteditor.AbstractDocumentProvider#createDocument(java.lang.Object)
 	 */
-	protected IDocument createDocument(Object element) throws CoreException {
+	@Override
+   protected IDocument createDocument(Object element) throws CoreException {
 		IProject project = null;
 		ChameleonProjectNature nature = null;
 		IPath path=null;

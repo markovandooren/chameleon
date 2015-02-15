@@ -72,7 +72,8 @@ public class OptionalColor {
 		return color;
 	}
 	
-	public String toString(){
+	@Override
+   public String toString(){
 		if (!defined) return "null";
 		return getColorString(color);
 	}

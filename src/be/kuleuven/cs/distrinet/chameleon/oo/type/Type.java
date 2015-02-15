@@ -55,16 +55,19 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member,
 	 * LEXICAL CONTEXT 
 	 *******************/
 
-	public LocalLookupContext<?> targetContext() throws LookupException;
+	@Override
+   public LocalLookupContext<?> targetContext() throws LookupException;
 
-	public LookupContext localContext() throws LookupException;
+	@Override
+   public LookupContext localContext() throws LookupException;
 
 	/**
 	 * If the given element is an inheritance relation, the lookup must proceed to the parent. For other elements,
 	 * the context is a lexical context connected to the target context to perform a local search.
 	 * @throws LookupException 
 	 */
-	public LookupContext lookupContext(Element element) throws LookupException;
+	@Override
+   public LookupContext lookupContext(Element element) throws LookupException;
 
 	public List<ParameterBlock> parameterBlocks();
 	
@@ -95,7 +98,8 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member,
 	 * BEING A TYPE ELEMENT *
 	 ************************/
 
-	public List<Member> getIntroducedMembers();
+	@Override
+   public List<Member> getIntroducedMembers();
 
 	/**********
 	 * ACCESS *
@@ -168,7 +172,8 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member,
 	 * @param other
 	 * @return
 	 */
-	public boolean uniSameAs(Element other) throws LookupException;
+	@Override
+   public boolean uniSameAs(Element other) throws LookupException;
 
 	/**
 	 * Check if this type is assignable to another type.
@@ -304,7 +309,8 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member,
 //
 //	public CheckedExceptionList getAbsCEL() throws LookupException;
 
-	public List<? extends Declaration> declarations() throws LookupException;
+	@Override
+   public List<? extends Declaration> declarations() throws LookupException;
 
 	public Type alias(String name);
 

@@ -89,7 +89,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 		_version = version;
 	}
 	
-	public Revision version() {
+	@Override
+   public Revision version() {
 		return _version;
 	}
 	
@@ -112,7 +113,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
    @
    @ post \result != null;
    @*/
-	public String name() {
+	@Override
+   public String name() {
 		return _name;
 	}
 	
@@ -133,7 +135,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
    @        \exists(PropertyRule rule; propertyRules().contains(rule);
    @           rule.properties(element).contains(p)));
    @*/
-	public PropertySet<Element,ChameleonProperty> defaultProperties(Element element,PropertySet<Element,ChameleonProperty> explicit) {
+	@Override
+   public PropertySet<Element,ChameleonProperty> defaultProperties(Element element,PropertySet<Element,ChameleonProperty> explicit) {
 		// FIXME: verify all dynamic properties? Check if result is TRUE or FALSE, and add property or
 		//       property.inverse() respectively.
 		PropertySet<Element,ChameleonProperty> result = new PropertySet<Element,ChameleonProperty>();
@@ -154,7 +157,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
    @
    @ post \result != null;
    @*/
-	public List<PropertyRule> propertyRules() {
+	@Override
+   public List<PropertyRule> propertyRules() {
 		return _propertyRules.getOtherEnds();
 	}
 	
@@ -175,7 +179,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
    @
    @ post propertyRules().contains(rule);
    @*/
-	public void addPropertyRule(PropertyRule rule) {
+	@Override
+   public void addPropertyRule(PropertyRule rule) {
 		if(rule == null) {
 			throw new ChameleonProgrammerException("adding a null property rule to a language");
 		}
@@ -193,7 +198,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
    @
    @ post ! propertyRules().contains(rule);
    @*/
-	public void removePropertyRule(PropertyRule rule) {
+	@Override
+   public void removePropertyRule(PropertyRule rule) {
 		if(rule == null) {
 			throw new ChameleonProgrammerException("removing a null property rule to a language");
 		}
@@ -214,7 +220,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
    @
    @ post getName() == name;
    @*/
-	public void setName(String name) {
+	@Override
+   public void setName(String name) {
 		_name = name;
 	}
 	
@@ -245,7 +252,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 	 */
 	public final PropertyMutex<ChameleonProperty> SCOPE_MUTEX;
 
-	public final PropertyMutex<ChameleonProperty> SCOPE_MUTEX() {
+	@Override
+   public final PropertyMutex<ChameleonProperty> SCOPE_MUTEX() {
 		return SCOPE_MUTEX;
 	}
 	
@@ -341,7 +349,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
      @
      @ post \result.equals(processorMap().get(connectorInterface));
      @*/
-    public <T extends LanguageProcessor> List<T> processors(Class<T> connectorInterface) {
+    @Override
+   public <T extends LanguageProcessor> List<T> processors(Class<T> connectorInterface) {
       return _processors.get(connectorInterface);
     }
 
@@ -360,7 +369,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
      @
      @ post !processor(connectorInterface).contains(processor); 
      @*/
-    public <T extends LanguageProcessor> void removeProcessor(Class<T> connectorInterface, T processor) {
+    @Override
+   public <T extends LanguageProcessor> void removeProcessor(Class<T> connectorInterface, T processor) {
         List<T> list = _processors.get(connectorInterface);
         if (list!=null && list.contains(processor)) {
             processor.setContainer(null, connectorInterface);
@@ -422,7 +432,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
      @
      @ post \result != null;
      @*/
-  	public Map<Class<? extends LanguageProcessor>, List<? extends LanguageProcessor>> processorMap() {
+  	@Override
+   public Map<Class<? extends LanguageProcessor>, List<? extends LanguageProcessor>> processorMap() {
   		return _processors.map();
   	}
   	
@@ -436,7 +447,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
      * For every class of properties, one object is in the set.
      * @return
      */
-    public Set<ChameleonProperty> properties() {
+    @Override
+   public Set<ChameleonProperty> properties() {
       return new HashSet<ChameleonProperty>(_properties.getOtherEnds());
     }
 
@@ -447,7 +459,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
      * DO NOT MODIFY THE RESULTING OBJECT. IT IS ACCESSIBLE ONLY BECAUSE OF THE 
      * VERY DUMB ACCESS CONTROL IN JAVA.
      */
-    public MultiAssociation<Language,ChameleonProperty> propertyLink() {
+    @Override
+   public MultiAssociation<Language,ChameleonProperty> propertyLink() {
       return _properties;
     }
     
@@ -460,7 +473,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
      * @throws ChameleonProgrammerException
      *         There is no property with the given name.
      */
-    public ChameleonProperty property(String name) throws ChameleonProgrammerException {
+    @Override
+   public ChameleonProperty property(String name) throws ChameleonProgrammerException {
     	for(ChameleonProperty p: properties()) {
     		if(p.name().equals(name)) {
     			return p;
@@ -487,7 +501,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 //        return _view;
 //    }
 
-    public LookupContextFactory lookupFactory() {
+    @Override
+   public LookupContextFactory lookupFactory() {
     	return _contextFactory;
     }
     
@@ -501,7 +516,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 		 * Returns true if the given character is a valid character
 		 * for an identifier.
 		 */
-  	public boolean isValidIdentifierCharacter(char character) {
+  	@Override
+   public boolean isValidIdentifierCharacter(char character) {
   		return true;
   	}
 
@@ -519,7 +535,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 	   @
 	   @ post \result != null;
 	   @*/
-		public List<VerificationRule> validityRules() {
+		@Override
+      public List<VerificationRule> validityRules() {
 			return _validityRules.getOtherEnds();
 		}
 		
@@ -540,7 +557,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 	   @
 	   @ post propertyRules().contains(rule);
 	   @*/
-		public void addValidityRule(VerificationRule rule) {
+		@Override
+      public void addValidityRule(VerificationRule rule) {
 			if(rule == null) {
 				throw new ChameleonProgrammerException("adding a null validity rule to a language");
 			}
@@ -558,14 +576,16 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 	   @
 	   @ post ! propertyRules().contains(rule);
 	   @*/
-		public void removeValidityRule(VerificationRule rule) {
+		@Override
+      public void removeValidityRule(VerificationRule rule) {
 			if(rule == null) {
 				throw new ChameleonProgrammerException("removing a null validity rule to a language");
 			}
 			_validityRules.remove(rule.languageLink());
 		} 
 		
-		public Verification verify(Element element) {
+		@Override
+      public Verification verify(Element element) {
 			Verification result = Valid.create();
 			for(VerificationRule rule: validityRules()) {
 				if(rule.elementType().isInstance(element)) {
@@ -581,7 +601,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 		/**
 		 * Flush the caches kept by this language. Caches of model elements are flushed separately. The default behavior is to do nothing.
 		 */
-		public void flushCache() {
+		@Override
+      public void flushCache() {
 			_properties.apply(new SafeAction<Property>(Property.class) {
 
 				@Override

@@ -19,11 +19,13 @@ public class SimpleNameSignature extends Signature {
     setName(name);
   }
   
-  public String name() {
+  @Override
+public String name() {
     return _name;
   }
   
-  public void setName(String name) {
+  @Override
+public void setName(String name) {
     _name = name;
   }
   

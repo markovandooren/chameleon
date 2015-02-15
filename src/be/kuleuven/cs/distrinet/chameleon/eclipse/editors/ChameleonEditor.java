@@ -168,7 +168,8 @@ public class ChameleonEditor extends TextEditor {
 //		      return (IResource) adapter;
 //		   }
 
-		protected void createActions() {
+		@Override
+      protected void createActions() {
 			createLocalActions();
 			super.createActions();
 		}
@@ -223,7 +224,8 @@ public class ChameleonEditor extends TextEditor {
 	 * @param parent.
 	 * 		The element used to create the parts
 	 */
-	public void createPartControl(Composite parent)
+	@Override
+   public void createPartControl(Composite parent)
 	{
 			
 			
@@ -237,7 +239,8 @@ public class ChameleonEditor extends TextEditor {
 	    projectionSupport.addSummarizableAnnotationType( "org.eclipse.ui.workbench.texteditor.error");
 	    projectionSupport.addSummarizableAnnotationType("org.eclipse.ui.workbench.texteditor.warning");
 	    projectionSupport.setHoverControlCreator(new IInformationControlCreator() {
-	    	public IInformationControl createInformationControl(Shell parent) {
+	    	@Override
+         public IInformationControl createInformationControl(Shell parent) {
 	    		return new DefaultInformationControl(parent);
 	    	}
 	    });
@@ -262,7 +265,8 @@ public class ChameleonEditor extends TextEditor {
 	/**
 	 * The source viewer manages the annotation on the vertical ruler bar.
 	 */
-	protected ISourceViewer createSourceViewer(Composite parent,IVerticalRuler ruler, int styles){
+	@Override
+   protected ISourceViewer createSourceViewer(Composite parent,IVerticalRuler ruler, int styles){
 		ISourceViewer viewer = new ProjectionViewer(parent, ruler,getOverviewRuler(), isOverviewRulerVisible(), styles);
 
 	   // ensure decoration support has been created and configured.
@@ -351,7 +355,8 @@ public class ChameleonEditor extends TextEditor {
 	/**
 	 * This method is invoked by Eclipse to obtain e.g. the outline page for an editor.
 	 */
-	public Object getAdapter(Class required) {
+	@Override
+   public Object getAdapter(Class required) {
 		if (IContentOutlinePage.class.equals(required)) {
 			EclipseDocument document = getDocument();
 			if (_fOutlinePage == null && document != null) {

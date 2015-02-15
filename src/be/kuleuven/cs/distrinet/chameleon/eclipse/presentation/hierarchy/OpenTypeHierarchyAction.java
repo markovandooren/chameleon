@@ -174,7 +174,8 @@ public class OpenTypeHierarchyAction extends Action implements IDoubleClickListe
 	 * 
 	 * This method is used in both, the typeviewer and the memberviewer.
 	 */
-	public void doubleClick(DoubleClickEvent event) {
+	@Override
+   public void doubleClick(DoubleClickEvent event) {
 		if(event.getSelection() instanceof IStructuredSelection) {
 			IStructuredSelection selection = (IStructuredSelection)event.getSelection();
 			Object firstObject = selection.getFirstElement();
@@ -201,7 +202,8 @@ public class OpenTypeHierarchyAction extends Action implements IDoubleClickListe
 	 * 
 	 * This method is used in both, the typeviewer and the memberviewer.
 	 */
-	public void selectionChanged(SelectionChangedEvent event) {
+	@Override
+   public void selectionChanged(SelectionChangedEvent event) {
 		if(event.getSelection() instanceof IStructuredSelection) {
 			IStructuredSelection selection = (IStructuredSelection)event.getSelection();
 			Object firstObject = selection.getFirstElement();

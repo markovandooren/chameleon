@@ -51,7 +51,8 @@ public class EnhancedForControl extends ForControl {
 		return nearestAncestor(Element.class);
 	}
 
-	public List<LocalVariable> declarations() throws LookupException {
+	@Override
+   public List<LocalVariable> declarations() throws LookupException {
 		return variableDeclarator().variables();
 	}
 

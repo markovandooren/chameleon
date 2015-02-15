@@ -27,7 +27,8 @@ public class ChameleonTextListener implements ITextListener  {
 		this.viewer = textviewer;
 	}
 
-	public void textChanged(TextEvent event) {
+	@Override
+   public void textChanged(TextEvent event) {
 		// CHANGE: in Tim's later version, the offset and length are ignored
 		//         The method in ChameleonDocument that takes an offset and length
 		//         as arguments is commented out.

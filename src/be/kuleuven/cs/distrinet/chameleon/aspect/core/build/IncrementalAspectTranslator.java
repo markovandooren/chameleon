@@ -28,7 +28,8 @@ public class IncrementalAspectTranslator extends IncrementalTranslator<AspectOri
 		return _translator;
 	}
 	
-	public List<Document> build(Document dummy, BuildProgressHelper buildProgressHelper) throws BuildException {
+	@Override
+   public List<Document> build(Document dummy, BuildProgressHelper buildProgressHelper) throws BuildException {
 		try {
 		initTargetLanguage(true);
 		

@@ -39,15 +39,18 @@ public class NameExpression extends TargetedExpression implements CrossReference
    * NAME *
    ********/
 
-  public String toString() {
+  @Override
+public String toString() {
   	return name();
   }
 
-  public String name() {
+  @Override
+public String name() {
   	return _name;
   }
   
-  public void setName(String name) {
+  @Override
+public void setName(String name) {
   	_name = name;
   }
   
@@ -57,15 +60,18 @@ public class NameExpression extends TargetedExpression implements CrossReference
 	 */
 	private Single<CrossReferenceTarget> _target = new Single<CrossReferenceTarget>(this);
 
-  public CrossReferenceTarget getTarget() {
+  @Override
+public CrossReferenceTarget getTarget() {
     return _target.getOtherEnd();
   }
 
-  public void setTarget(CrossReferenceTarget target) {
+  @Override
+public void setTarget(CrossReferenceTarget target) {
   	set(_target,target);
   }
   
-  protected Type actualType() throws LookupException {
+  @Override
+protected Type actualType() throws LookupException {
     return getElement().declarationType();
   }
 
@@ -94,11 +100,13 @@ public class NameExpression extends TargetedExpression implements CrossReference
     return result;
 	}
 
-	public Declaration getDeclarator() throws LookupException {
+	@Override
+   public Declaration getDeclarator() throws LookupException {
 		return getElement(new DeclaratorSelector(selector()));
 	}
 
-	public DeclarationWithType getElement() throws LookupException {
+	@Override
+   public DeclarationWithType getElement() throws LookupException {
   	return getElement(selector());
 	}
 
@@ -175,7 +183,8 @@ public class NameExpression extends TargetedExpression implements CrossReference
 	}
 	
 	private DeclarationSelector<DeclarationWithType> _selector = new NameSelector<DeclarationWithType>(DeclarationWithType.class) {
-		public String name() {
+		@Override
+      public String name() {
 			return NameExpression.this.name();
 		}
 	};

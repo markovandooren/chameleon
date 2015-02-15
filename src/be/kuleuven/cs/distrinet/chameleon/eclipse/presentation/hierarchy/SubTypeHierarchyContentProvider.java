@@ -30,7 +30,8 @@ public class SubTypeHierarchyContentProvider extends HierarchyContentProvider {
 	/**
 	 * Calculates the children of the given parentElement
 	 */
-	public Object[] getChildren(Object parentElement) {
+	@Override
+   public Object[] getChildren(Object parentElement) {
 		if(parentElement instanceof HierarchyTypeNode){
 			try {
 				// unwrap Type out hierarchyTypeNode:
@@ -59,7 +60,8 @@ public class SubTypeHierarchyContentProvider extends HierarchyContentProvider {
 	/**
 	 * Calculates the parent of the given element:
 	 */
-	public Object getParent(Object element) {
+	@Override
+   public Object getParent(Object element) {
 		if(element instanceof HierarchyTreeNode){
 			return ((HierarchyTreeNode)element).getParent();
 		}

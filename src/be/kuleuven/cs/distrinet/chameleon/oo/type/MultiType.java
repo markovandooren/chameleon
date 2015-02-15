@@ -43,7 +43,8 @@ public abstract class MultiType extends ClassImpl {
 		throw new ChameleonProgrammerException("Trying to add a super type to a union type.");
 	}
 
-	public void replace(TypeElement oldElement, TypeElement newElement) {
+	@Override
+   public void replace(TypeElement oldElement, TypeElement newElement) {
 		throw new ChameleonProgrammerException("Trying to replace an element in a union type.");
 	}
 
@@ -65,35 +66,43 @@ public abstract class MultiType extends ClassImpl {
 		return 0;
 	}
 
-	public <P extends Parameter> void replaceParameter(Class<P> kind, P oldParameter, P newParameter) {
+	@Override
+   public <P extends Parameter> void replaceParameter(Class<P> kind, P oldParameter, P newParameter) {
 		throw new ChameleonProgrammerException("Trying to replace a type parameter in a union type.");
 	}
 
-	public <P extends Parameter> void replaceAllParameters(Class<P> kind, List<P> newParameters) {
+	@Override
+   public <P extends Parameter> void replaceAllParameters(Class<P> kind, List<P> newParameters) {
 		throw new ChameleonProgrammerException("Trying to replace type parameters in a union type.");
 	}
 
-	public <P extends Parameter> void addParameter(Class<P> kind, P parameter) {
+	@Override
+   public <P extends Parameter> void addParameter(Class<P> kind, P parameter) {
 		throw new ChameleonProgrammerException("Trying to add a type parameter to a union type.");
 	}
 
-	public Declaration declarator() {
+	@Override
+   public Declaration declarator() {
 		return this;
 	}
 
-	public void addParameterBlock(ParameterBlock block) {
+	@Override
+   public void addParameterBlock(ParameterBlock block) {
 		throw new ChameleonProgrammerException("Trying to add a parameter block to a union type.");
 	}
 
-	public <P extends Parameter> ParameterBlock<P> parameterBlock(Class<P> kind) {
+	@Override
+   public <P extends Parameter> ParameterBlock<P> parameterBlock(Class<P> kind) {
 		return null;
 	}
 
-	public List<ParameterBlock> parameterBlocks() {
+	@Override
+   public List<ParameterBlock> parameterBlocks() {
 		return new ArrayList<ParameterBlock>();
 	}
 
-	public void removeParameterBlock(ParameterBlock block) {
+	@Override
+   public void removeParameterBlock(ParameterBlock block) {
 		throw new ChameleonProgrammerException("Trying to remove a parameter block from a union type.");
 	}
 

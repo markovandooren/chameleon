@@ -46,7 +46,8 @@ public class AdviceReturnStatement extends ReturnStatement {
 	  	return result;
 	  }
 	  
-	  protected AdviceReturnStatement cloneSelf() {
+	  @Override
+   protected AdviceReturnStatement cloneSelf() {
 		    return new AdviceReturnStatement(null);
 		  }
 }

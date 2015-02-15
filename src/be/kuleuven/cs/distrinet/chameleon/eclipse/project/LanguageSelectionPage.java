@@ -37,15 +37,18 @@ public class LanguageSelectionPage extends WizardPage {
 	/**
 	 * The page is complete when a language has been selected.
 	 */
-	public boolean isPageComplete(){
+	@Override
+   public boolean isPageComplete(){
 		return optionList.getSelection().length > 0;
 	}
 
-	public String getName() {
+	@Override
+   public String getName() {
 		return "Select the language of the new project";
 	}
 
-	public void createControl(Composite parent) {
+	@Override
+   public void createControl(Composite parent) {
 		controlContainer = new Composite(parent,SWT.NONE);
 		controlContainer.setLayout( new FillLayout(  ) );
 		controlContainer.setLayoutData( new GridData( GridData.FILL_BOTH ) );
@@ -54,10 +57,12 @@ public class LanguageSelectionPage extends WizardPage {
 		setControl(controlContainer);
 		setPageComplete(true);
 		optionList.addSelectionListener(new SelectionListener(){
-			public void widgetSelected(SelectionEvent e) {
+			@Override
+         public void widgetSelected(SelectionEvent e) {
 				languageSelected();
 			}
-			public void widgetDefaultSelected(SelectionEvent e) {
+			@Override
+         public void widgetDefaultSelected(SelectionEvent e) {
 				languageSelected();
 				getWizard().getContainer().showPage(getNextPage());
 			}
@@ -93,25 +98,30 @@ public class LanguageSelectionPage extends WizardPage {
 	}
 
 
-	public String getDescription() {
+	@Override
+   public String getDescription() {
 		return "Allows the user to select the language of the new project";
 	}
 
-	public String getErrorMessage() {
+	@Override
+   public String getErrorMessage() {
 		if (selected<0) return "No Language selected";
 		return null; 
 	}
 
-	public String getMessage() {
+	@Override
+   public String getMessage() {
 		return "Please select the language to use for this project";
 	}
 
-	public String getTitle() {
+	@Override
+   public String getTitle() {
 		return "Language Selection";
 	}
 
 
-	public void setVisible(boolean visible) {
+	@Override
+   public void setVisible(boolean visible) {
 		controlContainer.setVisible(visible);
 	}		
 

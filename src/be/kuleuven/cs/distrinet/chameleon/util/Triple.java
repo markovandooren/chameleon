@@ -97,7 +97,8 @@ public class Triple<T1,T2,T3> {
 	/**
 	 * The string representation is: (first,second).
 	 */
-	public String toString() {
+	@Override
+   public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("(")
 		       .append(first().toString())

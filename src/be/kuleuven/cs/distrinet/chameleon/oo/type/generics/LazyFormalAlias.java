@@ -12,7 +12,8 @@ public class LazyFormalAlias extends FormalParameterType {
 		super(name,null,param);
 	}
 	
-	public Type aliasedType() {
+	@Override
+   public Type aliasedType() {
 		try {
 			return parameter().upperBound();
 		} catch (LookupException e) {

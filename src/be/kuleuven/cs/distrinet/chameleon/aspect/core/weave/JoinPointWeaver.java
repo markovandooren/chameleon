@@ -115,7 +115,7 @@ public class JoinPointWeaver<T extends Element, U extends Element> {
 
 		T joinpointShadow = getJoinpoint().getJoinpoint();
 		SingleAssociation parentLink = joinpointShadow.parentLink();
-		parentLink.getOtherRelation().replace(parentLink, (Association)result.parentLink());
+		parentLink.getOtherRelation().replace(parentLink, result.parentLink());
 
 		return result;
 //		if (_next != null)

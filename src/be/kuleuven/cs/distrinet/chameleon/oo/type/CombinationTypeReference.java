@@ -25,7 +25,8 @@ public abstract class CombinationTypeReference extends ElementImpl implements Ty
 		return _types.elementAt(baseOneIndex);
 	}
 	
-	public Type getType() throws LookupException {
+	@Override
+   public Type getType() throws LookupException {
 		return getElement();
 	}
 
@@ -59,7 +60,8 @@ public abstract class CombinationTypeReference extends ElementImpl implements Ty
 
 	public abstract String operatorName();
 	
-  public LocalLookupContext<?> targetContext() throws LookupException {
+  @Override
+public LocalLookupContext<?> targetContext() throws LookupException {
   	return getElement().targetContext();
   }
 }

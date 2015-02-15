@@ -48,7 +48,8 @@ public class LocalClassStatement extends StatementImpl implements DeclarationCon
     return _type.getOtherEnd();
   }
 
-	protected LocalClassStatement cloneSelf() {
+	@Override
+   protected LocalClassStatement cloneSelf() {
 		return new LocalClassStatement(null);
 	}
 
@@ -64,11 +65,13 @@ public class LocalClassStatement extends StatementImpl implements DeclarationCon
 		return language().lookupFactory();
 	}
 	
-	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
 	}
 
-  public List<Declaration> declarations() {
+  @Override
+public List<Declaration> declarations() {
     List<Declaration> result = new ArrayList<Declaration>();
     result.add(getType());
     return result;
@@ -82,19 +85,23 @@ public class LocalClassStatement extends StatementImpl implements DeclarationCon
 //    return result;
 //  }
 
-  public LookupContext lookupContext(Element element) {
+  @Override
+public LookupContext lookupContext(Element element) {
   	return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
   }
 
-	public LocalLookupContext localContext() {
+	@Override
+   public LocalLookupContext localContext() {
 		return language().lookupFactory().createTargetLookupStrategy(this);
 	}
   
-  public LookupContext linearLookupStrategy() {
+  @Override
+public LookupContext linearLookupStrategy() {
   	return lookupContext(getType());
   }
 
-	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+	@Override
+   public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 		return selector.selection(declarations());
 	}
 

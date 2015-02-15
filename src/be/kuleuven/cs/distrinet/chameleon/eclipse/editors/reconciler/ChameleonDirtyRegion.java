@@ -56,21 +56,24 @@ public class ChameleonDirtyRegion extends DirtyRegion/*implements ITypedRegion*/
 	/*
 	 * @see ITypedRegion#getOffset()
 	 */
-	public int getOffset() {
+	@Override
+   public int getOffset() {
 		return fOffset2;
 	}
 	
 	/*
 	 * @see ITypedRegion#getLength()
 	 */
-	public int getLength() {
+	@Override
+   public int getLength() {
 		return fLength2;
 	}
 	
 	/*
 	 * @see ITypedRegion#getType
 	 */
-	public String getType() {
+	@Override
+   public String getType() {
 		return fType2;
 	}
 	
@@ -79,7 +82,8 @@ public class ChameleonDirtyRegion extends DirtyRegion/*implements ITypedRegion*/
 	 * 
 	 * @return the changed text
 	 */
-	public String getText() {
+	@Override
+   public String getText() {
 		return fText2;
 	}
 	

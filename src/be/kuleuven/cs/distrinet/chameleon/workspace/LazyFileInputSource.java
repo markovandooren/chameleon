@@ -12,7 +12,8 @@ public class LazyFileInputSource extends LazyStreamInputSource implements IFileI
 		init(declarationName, ns, loader);
 	}
 	
-	public File file() {
+	@Override
+   public File file() {
 		return _file;
 	}
 	

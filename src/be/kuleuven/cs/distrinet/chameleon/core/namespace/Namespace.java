@@ -80,7 +80,8 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer, Simp
    @
    @ post \result == signature().getName();
    @*/
-	public String name();
+	@Override
+   public String name();
 	
 	/**
 	 * Return all namespace parts attached to this namespace. All unloaded input sources
@@ -108,7 +109,8 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer, Simp
    @
    @ post getNamespaceParts().contains(namespacepart);
    @*/
-	public void addNamespacePart(NamespaceDeclaration namespacePart);
+	@Deprecated
+   public void addNamespacePart(NamespaceDeclaration namespacePart);
 	
 	public List<Namespace> getSubNamespaces();
 

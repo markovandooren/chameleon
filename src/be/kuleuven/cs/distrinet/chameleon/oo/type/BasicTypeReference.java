@@ -18,23 +18,28 @@ public class BasicTypeReference extends SimpleReference<Type> implements TypeRef
     super(target, name, Type.class);
   }
   
-  public Type getType() throws LookupException {
+  @Override
+public Type getType() throws LookupException {
   	return getElement();
   }
 
-  public BasicTypeReference cloneSelf() {
+  @Override
+public BasicTypeReference cloneSelf() {
     return new BasicTypeReference(null,name());
   }
 
-	public TypeReference intersection(TypeReference other) {
+	@Override
+   public TypeReference intersection(TypeReference other) {
 		return other.intersectionDoubleDispatch(this);
 	}
 
-	public TypeReference intersectionDoubleDispatch(TypeReference other) {
+	@Override
+   public TypeReference intersectionDoubleDispatch(TypeReference other) {
 		return language(ObjectOrientedLanguage.class).createIntersectionReference(clone(this), clone(other));
 	}
 
-	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference other) {
+	@Override
+   public TypeReference intersectionDoubleDispatch(IntersectionTypeReference other) {
 		IntersectionTypeReference result = clone(other);
 		result.add(clone(this));
 		return result;

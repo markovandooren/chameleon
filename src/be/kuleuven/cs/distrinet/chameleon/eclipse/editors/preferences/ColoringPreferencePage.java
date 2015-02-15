@@ -96,7 +96,8 @@ public class ColoringPreferencePage extends FieldEditorPreferencePage implements
 	private void recolorAll() {
 		SafeRunner.run(new SafeRunnable(WorkbenchMessages.ErrorClosing) {
 			IWorkbench workbench = _workbench;
-			public void run() {
+			@Override
+         public void run() {
 				// Collect dirtyParts
 				//ArrayList dirtyParts = new ArrayList();
 				//ArrayList dirtyEditorsInput = new ArrayList();
@@ -246,7 +247,8 @@ public class ColoringPreferencePage extends FieldEditorPreferencePage implements
 
 	}
 
-	public void init(IWorkbench workbench) {
+	@Override
+   public void init(IWorkbench workbench) {
 		_workbench = workbench;
 	}
 	
@@ -273,14 +275,16 @@ public class ColoringPreferencePage extends FieldEditorPreferencePage implements
 		return result;
 	}
 
-	public boolean performOk(){
+	@Override
+   public boolean performOk(){
 		boolean prev= super.performOk();
 		performChoices();
 
 		return prev;
 	}
 	
-	public void performApply(){
+	@Override
+   public void performApply(){
 		super.performApply();
 		
 		performChoices();

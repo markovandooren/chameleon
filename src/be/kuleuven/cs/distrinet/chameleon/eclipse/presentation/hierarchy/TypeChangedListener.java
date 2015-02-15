@@ -36,7 +36,8 @@ public class TypeChangedListener implements ISelectionChangedListener {
 	 * If selection changed of hierarchytreeview, then
 	 * its members will be shown in the memberview
 	 */
-	public void selectionChanged(SelectionChangedEvent event) {
+	@Override
+   public void selectionChanged(SelectionChangedEvent event) {
 		ISelection selection = event.getSelection();
 		selectionChanged(selection);
 	}

@@ -30,7 +30,8 @@ public class PluginContainerImpl<P extends Plugin> implements PluginContainer<P>
 		}
 	}
 
-	public <K extends P, V extends K> void setPlugin(Class<K> keyInterface, V plugin) {
+	@Override
+   public <K extends P, V extends K> void setPlugin(Class<K> keyInterface, V plugin) {
   K old = _plugins.get(keyInterface);
   if (old!=plugin) {
       if ((plugin!=null) && (plugin.container()!=this)) {
@@ -52,7 +53,8 @@ public class PluginContainerImpl<P extends Plugin> implements PluginContainer<P>
 	}
 
 	
-  public Collection<P> plugins() {
+  @Override
+public Collection<P> plugins() {
     return _plugins.values();
 }
 
@@ -114,7 +116,7 @@ public class PluginContainerImpl<P extends Plugin> implements PluginContainer<P>
 	public void clonePluginsFrom(PluginContainer<P> from) {
 		for(Entry<Class<? extends P>, P> entry: from.pluginEntrySet()) {
 			Class<P> key = (Class<P>) entry.getKey();
-			P value = (P) entry.getValue();
+			P value = entry.getValue();
 			_plugins.put(key, (P)value.clone());
 		}
 	}

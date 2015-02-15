@@ -89,7 +89,8 @@ public class CloneAndChildTest extends ModelTest {
 	
 	protected Action<Namespace, LookupException> createAction() {
 		return new Action<Namespace,LookupException>(Namespace.class) {
-	  	public void doPerform(Namespace type) throws LookupException {
+	  	@Override
+      public void doPerform(Namespace type) throws LookupException {
 	  		List<NamespaceDeclaration> namespaceParts = type.getNamespaceParts();
 				for(NamespaceDeclaration nsp: namespaceParts) {
 	  			for(Element element: nsp.descendants()) {

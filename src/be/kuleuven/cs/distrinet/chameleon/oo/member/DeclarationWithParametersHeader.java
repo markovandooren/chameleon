@@ -12,12 +12,12 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
+import be.kuleuven.cs.distrinet.chameleon.core.variable.VariableContainer;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameter;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.generics.TypeParameterBlock;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.FormalParameter;
-import be.kuleuven.cs.distrinet.chameleon.oo.variable.VariableContainer;
 import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
@@ -140,7 +140,8 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
 //  	return parent().getNearestType();
 //  }
   
-	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
 	}
 
@@ -155,14 +156,16 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
    @ post \result.containsAll(formalParameters());
    @ post \result.containsAll(typeParameters());
    @*/
-  public List<Declaration> declarations() {
+  @Override
+public List<Declaration> declarations() {
     List<Declaration>  result = Lists.create();
     result.addAll(formalParameters());
     result.addAll(typeParameters());
     return result;
   }
   
-	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+	@Override
+   public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 		return selector.selection(declarations());
 	}
 
@@ -232,7 +235,8 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
   	return result;
   }
 
-  public Element variableScopeElement() {
+  @Override
+public Element variableScopeElement() {
   	return nearestAncestor(Element.class);
   }
   

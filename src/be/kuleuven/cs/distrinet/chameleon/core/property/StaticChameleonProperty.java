@@ -52,7 +52,8 @@ public class StaticChameleonProperty extends StaticProperty<Element,ChameleonPro
    @
    @ post ! (\exists Class<? extends Element> cls; validElementTypes().contains(cls); cls.isAssignableFrom(element.getClass()) ==> \result instanceof Invalid;
    @*/
-	public Verification verify(Element element) {
+	@Override
+   public Verification verify(Element element) {
 		final Class<? extends Element> elementClass = element.getClass();
 		boolean validType = false;
 		for(Class<? extends Element> validClass: _validTypes) {
@@ -92,7 +93,8 @@ public class StaticChameleonProperty extends StaticProperty<Element,ChameleonPro
   @
   @ post validElementTypes().contains(type);
   @*/
-	public void addValidElementType(Class<? extends Element> type) {
+	@Override
+   public void addValidElementType(Class<? extends Element> type) {
 		_validTypes = _builder.add(type).build();
 	}
 	
@@ -111,7 +113,8 @@ public class StaticChameleonProperty extends StaticProperty<Element,ChameleonPro
 			throw new ChameleonProgrammerException("This method should not be invoked for an InverseProperty. Its inverse is passed as an argument to the constructor.");
 		}
 
-		public Verification verify(Element element) {
+		@Override
+      public Verification verify(Element element) {
 			final Class<? extends Element> elementClass = element.getClass();
 			boolean validType = new SafePredicate<Class<? extends Element>>() {
 				@Override

@@ -17,7 +17,8 @@ public class Defined extends DynamicChameleonProperty {
     super(name, lang, mutex,Declaration.class);
   }
   
-  protected Ternary selfAppliesTo(Element element) {
+  @Override
+protected Ternary selfAppliesTo(Element element) {
   	Ternary result;
 		if(element instanceof Declaration) {
 			try {

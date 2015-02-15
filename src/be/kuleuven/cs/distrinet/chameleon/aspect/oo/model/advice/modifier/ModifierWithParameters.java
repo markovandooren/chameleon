@@ -86,7 +86,8 @@ public abstract class ModifierWithParameters extends ModifierImpl implements Dec
 		return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
 	}
 
-	public LookupContext localContext() {
+	@Override
+   public LookupContext localContext() {
 		return language().lookupFactory().createLocalLookupStrategy(this);
 	}
 

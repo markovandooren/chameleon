@@ -60,11 +60,13 @@ public abstract class MethodInvocation<D extends DeclarationWithParameters>
 //		crossReference().flushLocalCache();
 //	}
 
-	public CheckedExceptionList getDirectCEL() throws LookupException {
+	@Override
+   public CheckedExceptionList getDirectCEL() throws LookupException {
 		throw new Error();
 	}
 
-	public CheckedExceptionList getDirectAbsCEL() throws LookupException {
+	@Override
+   public CheckedExceptionList getDirectAbsCEL() throws LookupException {
 		throw new Error();
 	}
 
@@ -94,11 +96,13 @@ public abstract class MethodInvocation<D extends DeclarationWithParameters>
 	private Single<CrossReferenceTarget> _target = new Single<CrossReferenceTarget>(
 			this);
 
-	public CrossReferenceTarget getTarget() {
+	@Override
+   public CrossReferenceTarget getTarget() {
 		return _target.getOtherEnd();
 	}
 
-	public void setTarget(CrossReferenceTarget target) {
+	@Override
+   public void setTarget(CrossReferenceTarget target) {
 		set(_target,target);
 	}
 
@@ -230,7 +234,8 @@ public abstract class MethodInvocation<D extends DeclarationWithParameters>
 	// return result;
 	// }
 
-	public D getElement() throws LookupException {
+	@Override
+   public D getElement() throws LookupException {
 		D el = getElement(selector());
 		if (el == null) // debug
 			getElement(selector());
@@ -238,7 +243,8 @@ public abstract class MethodInvocation<D extends DeclarationWithParameters>
 		return el;
 	}
 
-	public Declaration getDeclarator() throws LookupException {
+	@Override
+   public Declaration getDeclarator() throws LookupException {
 		return getElement(new DeclaratorSelector(selector()));
 	}
 
@@ -315,7 +321,7 @@ public abstract class MethodInvocation<D extends DeclarationWithParameters>
 //		if (result != null) {
 //			// OPTIMISATION
 			if (cache) {
-				setCache((Declaration) result);
+				setCache(result);
 			}
 			return result;
 //		} else {

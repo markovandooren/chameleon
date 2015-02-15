@@ -21,7 +21,8 @@ public class ValueType extends ModifierImpl {
 		return new ValueType();
 	}
 
-  public PropertySet<Element,ChameleonProperty> impliedProperties() {
+  @Override
+public PropertySet<Element,ChameleonProperty> impliedProperties() {
     return createSet(language(ObjectOrientedLanguage.class).VALUE_TYPE);
   }
 

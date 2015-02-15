@@ -21,7 +21,8 @@ public class Destructor extends ModifierImpl {
 		return new Destructor();
 	}
 
-  public PropertySet<Element,ChameleonProperty> impliedProperties() {
+  @Override
+public PropertySet<Element,ChameleonProperty> impliedProperties() {
     return createSet(language(ObjectOrientedLanguage.class).DESTRUCTOR);
   }
 }

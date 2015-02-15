@@ -12,7 +12,8 @@ public class WhileStatement extends IterationStatementWithExpression {
     super(statement, expression);
   }
 
-  public WhileStatement cloneSelf() {
+  @Override
+public WhileStatement cloneSelf() {
     return new WhileStatement(null, null);
   }
 }

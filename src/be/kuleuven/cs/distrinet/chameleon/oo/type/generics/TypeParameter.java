@@ -41,7 +41,8 @@ public abstract class TypeParameter extends Parameter {
   @Override
 	public abstract boolean uniSameAs(Element other) throws LookupException;
 
-  public Type actualDeclaration() throws LookupException {
+  @Override
+public Type actualDeclaration() throws LookupException {
   	throw new ChameleonProgrammerException();
   }
 
@@ -73,7 +74,8 @@ public abstract class TypeParameter extends Parameter {
 	
 	public abstract Type lowerBound() throws LookupException;
 
-	public Scope scope() throws ModelException {
+	@Override
+   public Scope scope() throws ModelException {
 		return new LexicalScope(nearestAncestor(Type.class));
 	}
 
@@ -88,7 +90,8 @@ public abstract class TypeParameter extends Parameter {
 
 	public abstract boolean sameValueAs(TypeParameter otherParam, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException;
 
-  public Declaration declarator() {
+  @Override
+public Declaration declarator() {
   	return this;
   }
 
@@ -97,11 +100,13 @@ public abstract class TypeParameter extends Parameter {
 		return true;
 	}
 	
-	public String toString() {
+	@Override
+   public String toString() {
 		return name();
 	}
 
-  public LocalLookupContext<?> targetContext() throws LookupException {
+  @Override
+public LocalLookupContext<?> targetContext() throws LookupException {
   	return upperBound().targetContext();
   }
 

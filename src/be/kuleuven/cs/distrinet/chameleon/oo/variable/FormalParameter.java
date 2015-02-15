@@ -3,6 +3,7 @@ package be.kuleuven.cs.distrinet.chameleon.oo.variable;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.LexicalScope;
 import be.kuleuven.cs.distrinet.chameleon.core.scope.Scope;
+import be.kuleuven.cs.distrinet.chameleon.core.variable.VariableContainer;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 import be.kuleuven.cs.distrinet.chameleon.oo.member.DeclarationWithParametersHeader;
 import be.kuleuven.cs.distrinet.chameleon.oo.method.Method;
@@ -35,15 +36,18 @@ public class FormalParameter extends RegularVariable {
     return result; 
   }
 
-  protected FormalParameter cloneSelf() {
+  @Override
+protected FormalParameter cloneSelf() {
     return new FormalParameter(name(), null);
   }
   
-	public Scope scope() throws ModelException {
+	@Override
+   public Scope scope() throws ModelException {
 		return new LexicalScope(nearestAncestor(VariableContainer.class).variableScopeElement());
 	}
 
-	public FormalParameter actualDeclaration() throws LookupException {
+	@Override
+   public FormalParameter actualDeclaration() throws LookupException {
 		return this;
 	}
 

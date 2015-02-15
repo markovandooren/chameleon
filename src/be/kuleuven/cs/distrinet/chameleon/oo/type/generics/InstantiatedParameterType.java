@@ -49,7 +49,8 @@ public class InstantiatedParameterType extends TypeIndirection {
     }
     
     
-		public void newAccumulateAllSuperTypes(Set<Type> acc) throws LookupException {
+		@Override
+      public void newAccumulateAllSuperTypes(Set<Type> acc) throws LookupException {
 			Type aliased =aliasedType();
 			boolean add=true;
 			for(Type acced: acc) {
@@ -86,7 +87,8 @@ public class InstantiatedParameterType extends TypeIndirection {
 			return result;
 		}
 		
-		public boolean uniSameAs(Type element, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+		@Override
+      public boolean uniSameAs(Type element, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
 			boolean result = false;
 			if(element instanceof InstantiatedParameterType) {
 				TypeParameter mine = parameter();
@@ -102,7 +104,7 @@ public class InstantiatedParameterType extends TypeIndirection {
 				}
 			} 
 			if(! result) {
-				result = ((Type)element).sameAs(aliasedType(),trace);
+				result = element.sameAs(aliasedType(),trace);
 			}
 			return result;
 		}
@@ -117,7 +119,8 @@ public class InstantiatedParameterType extends TypeIndirection {
 		
 		private TypeParameter _parameter;
 
-		public Declaration declarator() {
+		@Override
+      public Declaration declarator() {
 			return parameter();
 		}
 		

@@ -60,7 +60,7 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
   		Declaration selectionDeclaration = declarator.selectionDeclaration();
   		if(selectedClass().isInstance(selectionDeclaration)) {
   			if(selectedRegardlessOfName((D)selectionDeclaration)) {
-  				result = (D) selectionDeclaration.actualDeclaration();
+  				result = selectionDeclaration.actualDeclaration();
   			}
   		}
   	}
@@ -84,7 +84,8 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
    @            selects(d) && 
    @            ! (\exists D other; set.contains(other); order().strictOrder().contains(other,d))));
    @*/
-  public List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException {
+  @Override
+public List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException {
   	List<SelectionResult> tmp = Lists.create();
   	for(Declaration decl: declarators) {
   		SelectionResult e = selection(decl);
@@ -104,7 +105,8 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends
    * @return
    * @throws LookupException
    */
-  public List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
+  @Override
+public List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
   	Map<D,Declaration> tmp = new HashMap<D,Declaration>();
   	List<D> Ds = Lists.create();
   	Class<D> selectedClass = selectedClass();

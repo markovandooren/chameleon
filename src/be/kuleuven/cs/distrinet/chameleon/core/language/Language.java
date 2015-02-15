@@ -242,7 +242,8 @@ public interface Language extends PropertyUniverse<ChameleonProperty>, PluginCon
    @
    @ post \result != null;
    @*/
-	public Map<Class<? extends LanguageProcessor>, List<? extends LanguageProcessor>> processorMap();
+	@Override
+   public Map<Class<? extends LanguageProcessor>, List<? extends LanguageProcessor>> processorMap();
 	
   /**************************************************************************
    *                                 PROPERTIES                             *
@@ -254,7 +255,8 @@ public interface Language extends PropertyUniverse<ChameleonProperty>, PluginCon
    * For every class of properties, one object is in the set.
    * @return
    */
-  public Set<ChameleonProperty> properties();
+  @Override
+public Set<ChameleonProperty> properties();
 
   /**
    * Return the object representing the association between this language and the
@@ -263,7 +265,8 @@ public interface Language extends PropertyUniverse<ChameleonProperty>, PluginCon
    * DO NOT MODIFY THE RESULTING OBJECT. IT IS ACCESSIBLE ONLY BECAUSE OF THE 
    * VERY DUMB ACCESS CONTROL IN JAVA.
    */
-  public MultiAssociation<Language,ChameleonProperty> propertyLink();
+  @Override
+public MultiAssociation<Language,ChameleonProperty> propertyLink();
   
   /**
    * 
@@ -357,6 +360,7 @@ public interface Language extends PropertyUniverse<ChameleonProperty>, PluginCon
 	 * Flush the caches kept by this language. Caches of model elements are flushed separately. 
 	 * The default behavior is to do nothing.
 	 */
-	public void flushCache();
+	@Override
+   public void flushCache();
 
 }

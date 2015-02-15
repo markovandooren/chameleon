@@ -36,7 +36,8 @@ public abstract class NonLocalTypeReference extends ElementImpl implements TypeR
 		return lookupParent().lookupContext(this);
 	}
 
-  public LookupContext lookupContext(Element child) throws LookupException {
+  @Override
+public LookupContext lookupContext(Element child) throws LookupException {
 		return lookupParent().lookupContext(this);
   }
   
@@ -55,29 +56,35 @@ public abstract class NonLocalTypeReference extends ElementImpl implements TypeR
 		return Valid.create();
 	}
 
-	public Type getElement() throws LookupException {
+	@Override
+   public Type getElement() throws LookupException {
 		return actualReference().getElement();
 	}
 
-	public Type getType() throws LookupException {
+	@Override
+   public Type getType() throws LookupException {
 		return getElement();
 	}
 
-	public TypeReference intersection(TypeReference other) {
+	@Override
+   public TypeReference intersection(TypeReference other) {
 		return other.intersectionDoubleDispatch(this);
 	}
 
-	public TypeReference intersectionDoubleDispatch(TypeReference other) {
+	@Override
+   public TypeReference intersectionDoubleDispatch(TypeReference other) {
 		return language(ObjectOrientedLanguage.class).createIntersectionReference(clone(this), clone(other));
 	}
 
-	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference other) {
+	@Override
+   public TypeReference intersectionDoubleDispatch(IntersectionTypeReference other) {
 		IntersectionTypeReference result = clone(other);
 		result.add(clone(this));
 		return result;
 	}
 
-	public Declaration getDeclarator() throws LookupException {
+	@Override
+   public Declaration getDeclarator() throws LookupException {
 		return actualReference().getDeclarator();
 	}
 

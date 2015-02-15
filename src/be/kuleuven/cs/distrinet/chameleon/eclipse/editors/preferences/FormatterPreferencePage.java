@@ -115,7 +115,8 @@ public class FormatterPreferencePage extends FieldEditorPreferencePage implement
 		}
 	}
 
-	public void init(IWorkbench workbench) {}
+	@Override
+   public void init(IWorkbench workbench) {}
 
 	/***************
 	 * 
@@ -155,7 +156,8 @@ public class FormatterPreferencePage extends FieldEditorPreferencePage implement
 	/**
 	 * all choices are applied and saved
 	 */
-	public boolean performOk(){
+	@Override
+   public boolean performOk(){
 		boolean prev = super.performOk();
 		performChoices();		
 		return prev;
@@ -190,7 +192,8 @@ public class FormatterPreferencePage extends FieldEditorPreferencePage implement
 		store.setValue("Chameleon_prefs_inited", true);
 	}
 	
-	public void performApply(){
+	@Override
+   public void performApply(){
 		super.performApply();
 		performChoices();
 	}	

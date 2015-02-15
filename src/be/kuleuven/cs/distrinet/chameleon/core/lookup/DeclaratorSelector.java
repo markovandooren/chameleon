@@ -22,7 +22,8 @@ public class DeclaratorSelector extends DeclarationSelector<Declaration>{
 
   private DeclarationSelector _selector;
 
-  public List selection(List selectionCandidates) throws LookupException {
+  @Override
+public List selection(List selectionCandidates) throws LookupException {
   	return _selector.declarators(selectionCandidates);
   }
   

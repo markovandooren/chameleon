@@ -15,7 +15,8 @@ public class RegularType extends ClassWithBody {
 //	protected RegularType() {
 //	}
 	
-	protected RegularType cloneSelf() {
+	@Override
+   protected RegularType cloneSelf() {
 		RegularType result = new RegularType(name());
 		result.parameterBlock(TypeParameter.class).disconnect();
 		return result;
@@ -26,7 +27,8 @@ public class RegularType extends ClassWithBody {
 		return this;
 	}
 
-	public boolean uniSameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+	@Override
+   public boolean uniSameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
 		return other == this;
 	}
 

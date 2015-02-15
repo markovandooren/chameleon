@@ -60,15 +60,18 @@ public abstract class DeclarationWithParameters extends MemberImpl implements De
 	  
 	  private Single<MethodHeader> _header = new Single<MethodHeader>(this,true);
 	
-		public DeclarationWithParametersSignature signature() {
+		@Override
+      public DeclarationWithParametersSignature signature() {
 			return header().signature();
 		}
 		
-		public void setSignature(Signature signature) {
+		@Override
+      public void setSignature(Signature signature) {
 			setHeader((MethodHeader) header().createFromSignature(signature));
 		}
 		
-		public void setName(String name) {
+		@Override
+      public void setName(String name) {
 			header().setName(name);
 		}
 		
@@ -94,7 +97,8 @@ public abstract class DeclarationWithParameters extends MemberImpl implements De
 		 * DO NOT USE IT TO IDENTIFY ELEMENTS! The signature is used for identification, not just the name.
 		 * @return
 		 */
-		public String name() {
+		@Override
+      public String name() {
 			DeclarationWithParametersHeader header = header();
 			if(header != null) {
 			  return header.name();
@@ -148,11 +152,13 @@ public abstract class DeclarationWithParameters extends MemberImpl implements De
 		 @ post \result.contains(this);
 		 @ post \result.size() == 1;
 		 @*/
-		public List<Member> getIntroducedMembers() {
+		@Override
+      public List<Member> getIntroducedMembers() {
 			return (List)Util.createSingletonList(this);
 		}
 
-	  public LookupContext lookupContext(Element element) throws LookupException {
+	  @Override
+   public LookupContext lookupContext(Element element) throws LookupException {
 	  	if(element == header()) {
 	  		return parent().lookupContext(this);
 	  	} else {
@@ -170,7 +176,8 @@ public abstract class DeclarationWithParameters extends MemberImpl implements De
 	  	return _local;
 	  }
 	  
-	  public LookupContext localContext() {
+	  @Override
+   public LookupContext localContext() {
 	  	return localLookupStrategy();
 	  }
 	  
@@ -178,19 +185,23 @@ public abstract class DeclarationWithParameters extends MemberImpl implements De
 	  
 	  private LookupContext _lexical;
 	  
-		public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+		@Override
+      public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 			return declarations();
 		}
 
-	  public List<? extends Declaration> declarations() {
+	  @Override
+   public List<? extends Declaration> declarations() {
 	  	return header().declarations();
 	  }
 	  
-	  public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+	  @Override
+   public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 	  	return header().declarations(selector);
 	  }
 
-		public Declaration declarator() {
+		@Override
+      public Declaration declarator() {
 			return this;
 		}
 		

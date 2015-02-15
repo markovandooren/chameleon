@@ -185,7 +185,8 @@ public class Util {
 	 */
 	public static void addExpressions(List list, final Set result) {
     new Visitor() {
-		    public void visit(Object element) {
+		    @Override
+         public void visit(Object element) {
           addExpression((Expression)element, result);
 		    }
 		}.applyTo(list);

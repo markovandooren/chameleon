@@ -20,7 +20,8 @@ public class Interface extends ModifierImpl {
 		/**
 		 * An interface is abstract, thus not defined.
 		 */
-    public PropertySet<Element,ChameleonProperty> impliedProperties() {
+    @Override
+   public PropertySet<Element,ChameleonProperty> impliedProperties() {
       return createSet(language(ObjectOrientedLanguage.class).INTERFACE);
     }
 }

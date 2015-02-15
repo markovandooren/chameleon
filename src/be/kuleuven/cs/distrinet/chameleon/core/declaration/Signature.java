@@ -32,7 +32,8 @@ public abstract class Signature extends QualifiedName {
   /* (non-Javadoc)
    * @see chameleon.core.declaration.QualifiedName#signatureAt(int)
    */
-  public Signature signatureAt(int index) {
+  @Override
+public Signature signatureAt(int index) {
   	if(index != 1) {
   		throw new ChameleonProgrammerException();
   	} else {
@@ -43,7 +44,8 @@ public abstract class Signature extends QualifiedName {
   /**
    * The default string representation of a signature is its name.
    */
-  public String toString() {
+  @Override
+public String toString() {
   	return name();
   }
 }

@@ -45,7 +45,8 @@ public class LookupRedirector extends ElementImpl implements Stub {
 		set(_element, element);
 	}
 	
-	public Declaration child() {
+	@Override
+   public Declaration child() {
 		return _element.getOtherEnd();
 	}
 
@@ -54,7 +55,8 @@ public class LookupRedirector extends ElementImpl implements Stub {
 		return contextElement().lookupContext(child);
 	}
 
-	public Element generator() {
+	@Override
+   public Element generator() {
 		return contextElement();
 	}
 

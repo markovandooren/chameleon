@@ -34,7 +34,8 @@ public class FormalTypeParameter extends TypeParameter {
 	 * Resolving a generic parameter results in a constructed type whose bound
 	 * is the upper bound of this generic parameter as defined by the upperBound method.
 	 */
-	public Type selectionDeclaration() throws LookupException {
+	@Override
+   public Type selectionDeclaration() throws LookupException {
 //		String x = nearestAncestor(Type.class).getFullyQualifiedName()+"."+signature();
 //		if(x.equals("org.rejuse.property.Property.E")) {
 //			System.out.println("Selection declaration of " + x);
@@ -49,7 +50,8 @@ public class FormalTypeParameter extends TypeParameter {
 		return new FormalParameterType(name(),upperBound(),this);
 	}
 	
-	public Type resolveForRoundTrip() throws LookupException {
+	@Override
+   public Type resolveForRoundTrip() throws LookupException {
   	Type result = createLazyAlias();
   	result.setUniParent(parent());
   	return result;
@@ -73,7 +75,8 @@ public class FormalTypeParameter extends TypeParameter {
 		add(_typeConstraints,constraint);
 	}
 	
-	public TypeReference upperBoundReference() {
+	@Override
+   public TypeReference upperBoundReference() {
 		List<TypeConstraint> constraints = constraints();
 		int size = constraints.size();
 		TypeReference result;
@@ -92,7 +95,8 @@ public class FormalTypeParameter extends TypeParameter {
 		return result;
 	}
 
-	public Type upperBound() throws LookupException {
+	@Override
+   public Type upperBound() throws LookupException {
 		List<TypeConstraint> constraints = constraints();
 		Type result;
 		int size = constraints.size();

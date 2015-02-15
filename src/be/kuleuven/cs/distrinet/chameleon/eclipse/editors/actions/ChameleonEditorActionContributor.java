@@ -51,7 +51,8 @@ public class ChameleonEditorActionContributor extends BasicTextEditorActionContr
 	 * 
 	 * @see EditorActionBarContributor#editorChanged
 	 */
-	public void setActiveEditor(IEditorPart part)
+	@Override
+   public void setActiveEditor(IEditorPart part)
 	{
 
 		super.setActiveEditor(part);
@@ -69,7 +70,8 @@ public class ChameleonEditorActionContributor extends BasicTextEditorActionContr
 	/**
 	 * Adds the three items to the edit-menu
 	 */
-	public void contributeToMenu(IMenuManager mm)
+	@Override
+   public void contributeToMenu(IMenuManager mm)
 	{
 		super.contributeToMenu(mm);
 		IMenuManager editMenu = mm.findMenuUsingPath(IWorkbenchActionConstants.M_EDIT);

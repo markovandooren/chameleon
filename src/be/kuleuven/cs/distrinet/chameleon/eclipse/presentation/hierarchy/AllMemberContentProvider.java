@@ -22,7 +22,8 @@ public class AllMemberContentProvider implements IStructuredContentProvider {
 	 * If the inputElement is a type, all the (direct and inherited) member
 	 * are returned.
 	 */
-	public Object[] getElements(Object inputElement) {
+	@Override
+   public Object[] getElements(Object inputElement) {
 		try {
 			if(inputElement instanceof Type){
 				Type type = (Type)inputElement;
@@ -34,11 +35,13 @@ public class AllMemberContentProvider implements IStructuredContentProvider {
 		return null;
 	}
 
-	public void dispose() {
+	@Override
+   public void dispose() {
 		
 	}
 
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+	@Override
+   public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		
 	}
 

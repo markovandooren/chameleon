@@ -43,7 +43,8 @@ public class ChameleonTemplateProposal extends TemplateProposal {
 	/*
 	 * @see ICompletionProposal#getAdditionalProposalInfo()
 	 */
-	public String getAdditionalProposalInfo() {
+	@Override
+   public String getAdditionalProposalInfo() {
 		if(additionalProposalInfo==null)
 			additionalProposalInfo = labelProvider.getCode(element);
 		return additionalProposalInfo;

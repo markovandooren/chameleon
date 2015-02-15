@@ -1,4 +1,4 @@
-package be.kuleuven.cs.distrinet.chameleon.oo.variable;
+package be.kuleuven.cs.distrinet.chameleon.core.variable;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameDeclaration;
@@ -23,7 +23,8 @@ public interface Variable extends ElementWithModifiers, DeclarationWithType, Sim
   /**
    * Return the signature of this member.
    */
-  public SimpleNameSignature signature();
+  @Override
+public SimpleNameSignature signature();
   
   public abstract TypeReference getTypeReference();
   
@@ -33,8 +34,10 @@ public interface Variable extends ElementWithModifiers, DeclarationWithType, Sim
 
 
 
-  public LocalLookupContext<?> targetContext() throws LookupException;
+  @Override
+public LocalLookupContext<?> targetContext() throws LookupException;
 
 
-  public Declaration selectionDeclaration() throws LookupException;
+  @Override
+public Declaration selectionDeclaration() throws LookupException;
 }

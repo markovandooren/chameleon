@@ -24,5 +24,6 @@ public interface TargetDeclaration extends Declaration, Target {
    *   2) in "typename.f", "f" must be looked up in the type represented by "typename"
    *   3) in "packagename.f", "f" must be looked up in the package represented by "package"
    */
+@Override
 public LookupContext targetContext() throws LookupException;
 }

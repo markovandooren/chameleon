@@ -36,7 +36,8 @@ public class AnnotationModifier extends ModifierImpl {
 		set(_typeReference,tref);
 	}
 
-	public PropertySet<Element, ChameleonProperty> impliedProperties() {
+	@Override
+   public PropertySet<Element, ChameleonProperty> impliedProperties() {
 		return new PropertySet<Element, ChameleonProperty>();
 	}
 }

@@ -4,7 +4,8 @@ import be.kuleuven.cs.distrinet.chameleon.workspace.View;
 
 public abstract class ViewProcessorImpl extends ProcessorImpl<View,ViewProcessor> implements ViewProcessor {
 
-	public View view() {
+	@Override
+   public View view() {
 		return container();
 	}
 	

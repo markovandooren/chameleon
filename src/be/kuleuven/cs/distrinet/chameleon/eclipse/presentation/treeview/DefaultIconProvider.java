@@ -21,7 +21,8 @@ public class DefaultIconProvider extends AbstractIconProvider {
 		_baseIconName = baseIconName;
 	}
 	
-	public String baseIconName(Element element) {
+	@Override
+   public String baseIconName(Element element) {
 		String result = null;
 		if(elementType().isInstance(element)) {
 			result = baseIconName();

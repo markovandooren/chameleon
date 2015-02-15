@@ -48,15 +48,18 @@ public class NamespaceAlias extends NamespaceImpl {
 		return language().defaultProperties(this,this.explicitProperties());
 	}
 
-  public PropertySet<Element,ChameleonProperty> defaultProperties() {
+  @Override
+public PropertySet<Element,ChameleonProperty> defaultProperties() {
     return filterProperties(myDefaultProperties(), aliasedNamespace().defaultProperties());
   }
 
-  public PropertySet<Element,ChameleonProperty> declaredProperties() {
+  @Override
+public PropertySet<Element,ChameleonProperty> declaredProperties() {
   	return aliasedNamespace().declaredProperties();
   }
 	
-  public PropertySet<Element,ChameleonProperty> inherentProperties() {
+  @Override
+public PropertySet<Element,ChameleonProperty> inherentProperties() {
     return filterProperties(myInherentProperties(), aliasedNamespace().inherentProperties());
   }
 
@@ -64,7 +67,8 @@ public class NamespaceAlias extends NamespaceImpl {
 		return new PropertySet<Element,ChameleonProperty>();
 	}
 
-	public Scope scope() throws ModelException {
+	@Override
+   public Scope scope() throws ModelException {
   	Scope result = null;
   	ChameleonProperty scopeProperty = property(language().SCOPE_MUTEX());
   	if(scopeProperty instanceof ScopeProperty) {
@@ -75,7 +79,8 @@ public class NamespaceAlias extends NamespaceImpl {
   	return result;
   }
   
-  public LookupContext lookupContext(Element element) throws LookupException {
+  @Override
+public LookupContext lookupContext(Element element) throws LookupException {
   	return aliasedNamespace().lexicalContext();
   }
 
@@ -94,11 +99,13 @@ public class NamespaceAlias extends NamespaceImpl {
 		return Valid.create();
 	}
 
-	public Declaration declarator() {
+	@Override
+   public Declaration declarator() {
 		return aliasedNamespace().declarator();
 	}
 
-	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return aliasedNamespace().locallyDeclaredDeclarations();
 	}
 

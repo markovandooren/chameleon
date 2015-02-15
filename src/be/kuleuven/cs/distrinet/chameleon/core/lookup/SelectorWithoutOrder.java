@@ -95,7 +95,8 @@ public abstract class SelectorWithoutOrder<D extends Declaration> extends Declar
    * @return
    * @throws LookupException
    */
-  public List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
+  @Override
+public List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
   	List<SelectionResult> result = Lists.create();
   	for(Declaration selectionCandidate: selectionCandidates) {
 			if(correctSignature(selectionCandidate)) {

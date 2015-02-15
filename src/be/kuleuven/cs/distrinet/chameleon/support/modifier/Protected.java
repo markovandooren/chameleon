@@ -21,7 +21,8 @@ public class Protected extends ModifierImpl {
 		return new Protected();
 	}
 
-	public PropertySet<Element,ChameleonProperty> impliedProperties() {
+	@Override
+   public PropertySet<Element,ChameleonProperty> impliedProperties() {
 		return createSet(language().property(ProtectedProperty.ID));
 	}
 

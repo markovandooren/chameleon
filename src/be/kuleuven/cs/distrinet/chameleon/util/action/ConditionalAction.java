@@ -18,7 +18,7 @@ public class ConditionalAction<T, E extends Exception> extends Action<T, E> {
 	@Override
 	protected void doPerform(T object) throws E {
 		if(predicate().eval(object)) {
-			action().perform((T)object);
+			action().perform(object);
 		}
 	}
 

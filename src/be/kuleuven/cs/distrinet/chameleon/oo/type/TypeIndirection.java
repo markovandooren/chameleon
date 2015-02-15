@@ -80,7 +80,8 @@ public abstract class TypeIndirection extends ClassImpl {
 	}
 	
 	//TODO I am not sure if these definitions are appropriate for a constructed type.
-  public PropertySet<Element,ChameleonProperty> defaultProperties() {
+  @Override
+public PropertySet<Element,ChameleonProperty> defaultProperties() {
     return filterProperties(myDefaultProperties(), aliasedType().defaultProperties());
   }
 	
@@ -96,11 +97,13 @@ public abstract class TypeIndirection extends ClassImpl {
 		return new PropertySet<Element,ChameleonProperty>();
 	}
 
-  public PropertySet<Element,ChameleonProperty> inherentProperties() {
+  @Override
+public PropertySet<Element,ChameleonProperty> inherentProperties() {
     return filterProperties(myInherentProperties(), aliasedType().inherentProperties());
   }
 
-  public PropertySet<Element,ChameleonProperty> declaredProperties() {
+  @Override
+public PropertySet<Element,ChameleonProperty> declaredProperties() {
     return filterProperties(myDeclaredProperties(), aliasedType().declaredProperties());
   }
   
@@ -108,7 +111,8 @@ public abstract class TypeIndirection extends ClassImpl {
   	return super.declaredProperties();
   }
 
-  public void replace(TypeElement oldElement, TypeElement newElement) {
+  @Override
+public void replace(TypeElement oldElement, TypeElement newElement) {
 		throw new ChameleonProgrammerException("Trying to replace an element in a type alias.");
   }
   
@@ -117,27 +121,33 @@ public abstract class TypeIndirection extends ClassImpl {
 		return aliasedType().baseType();
 	}
 
-	public <P extends Parameter> List<P> parameters(Class<P> kind) {
+	@Override
+   public <P extends Parameter> List<P> parameters(Class<P> kind) {
 		return aliasedType().parameters(kind);
 	}
 	
-	public <P extends Parameter> P parameter(Class<P> kind, int index) {
+	@Override
+   public <P extends Parameter> P parameter(Class<P> kind, int index) {
 		return aliasedType().parameter(kind, index);
 	}
 
-	public <P extends Parameter> int nbTypeParameters(Class<P> kind) {
+	@Override
+   public <P extends Parameter> int nbTypeParameters(Class<P> kind) {
 		return aliasedType().nbTypeParameters(kind);
 	}
 
-	public <P extends Parameter> void replaceParameter(Class<P> kind,P oldParameter, P newParameter) {
+	@Override
+   public <P extends Parameter> void replaceParameter(Class<P> kind,P oldParameter, P newParameter) {
 		throw new ChameleonProgrammerException("Trying to replace a type parameter in a type alias.");
 	}
 
-	public <P extends Parameter> void replaceAllParameters(Class<P> kind,List<P> newParameters) {
+	@Override
+   public <P extends Parameter> void replaceAllParameters(Class<P> kind,List<P> newParameters) {
 		throw new ChameleonProgrammerException("Trying to replace type parameters in a type alias.");
 	}
 
-	public <P extends Parameter> void addParameter(Class<P> kind,P parameter) {
+	@Override
+   public <P extends Parameter> void addParameter(Class<P> kind,P parameter) {
 		throw new ChameleonProgrammerException("Trying to add a type parameter to a type alias.");
 	}
   
@@ -146,21 +156,25 @@ public abstract class TypeIndirection extends ClassImpl {
 		return aliasedType().directlyDeclaredElements();
 	}
 
-	public void addParameterBlock(ParameterBlock block) {
+	@Override
+   public void addParameterBlock(ParameterBlock block) {
 		throw new ChameleonProgrammerException("Trying to add a type parameter block to a type alias.");
 	}
 
 
-	public List<ParameterBlock> parameterBlocks() {
+	@Override
+   public List<ParameterBlock> parameterBlocks() {
 		return aliasedType().parameterBlocks();
 	}
 
 
-	public void removeParameterBlock(ParameterBlock block) {
+	@Override
+   public void removeParameterBlock(ParameterBlock block) {
 		throw new ChameleonProgrammerException("Trying to remove a type parameter block from a type alias.");
 	}
 
-	public <P extends Parameter> ParameterBlock<P> parameterBlock(Class<P> kind) {
+	@Override
+   public <P extends Parameter> ParameterBlock<P> parameterBlock(Class<P> kind) {
 		return aliasedType().parameterBlock(kind);
 	}
 

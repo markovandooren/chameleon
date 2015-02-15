@@ -58,7 +58,8 @@ public class RootNamespace extends RegularNamespace {
   }
   
 
-	protected RootNamespace cloneSelf() {
+	@Override
+   protected RootNamespace cloneSelf() {
 		return new RootNamespace(null, namespaceFactory());
 	}
 
@@ -68,7 +69,8 @@ public class RootNamespace extends RegularNamespace {
   	}
   }
 
-  public Language language() {
+  @Override
+public Language language() {
     return view().language();
   }
   
@@ -76,7 +78,8 @@ public class RootNamespace extends RegularNamespace {
 //    return view().project();
 //  }
   
-  public View view() {
+  @Override
+public View view() {
   	return _view.getOtherEnd();
   }
   
@@ -107,7 +110,8 @@ public class RootNamespace extends RegularNamespace {
 		
 	}
 
-	public LookupContext lexicalContext() throws LookupException {
+	@Override
+   public LookupContext lexicalContext() throws LookupException {
 		return targetContext();
 	}
 

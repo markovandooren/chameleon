@@ -57,7 +57,8 @@ public class Single<T extends Element> extends SingleAssociation<Element, T> imp
 		return _mandatory;
 	}
 	
-	public Verification verify() {
+	@Override
+   public Verification verify() {
 		Verification result = Valid.create();
 		if(mandatory()) {
 			if(mandatory() && getOtherEnd() == null) {
@@ -67,7 +68,8 @@ public class Single<T extends Element> extends SingleAssociation<Element, T> imp
 		return result;
 	}
 
-	public String role() {
+	@Override
+   public String role() {
 		return _role;
 	}
 	

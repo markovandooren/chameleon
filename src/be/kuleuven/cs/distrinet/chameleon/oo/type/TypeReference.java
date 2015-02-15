@@ -10,7 +10,8 @@ public interface TypeReference extends CrossReference<Type> {
 
 	public Type getType() throws LookupException;
 	
-	public Type getElement() throws LookupException;
+	@Override
+   public Type getElement() throws LookupException;
 	
 //	public TypeReference clone();
 

@@ -53,7 +53,8 @@ public abstract class Pointcut extends ElementImpl implements Declaration {
 		set(_expression, expression);
 	}
 	
-	protected abstract Pointcut cloneSelf();
+	@Override
+   protected abstract Pointcut cloneSelf();
 	
 	@Override
 	public Verification verifySelf() {

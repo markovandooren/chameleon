@@ -10,11 +10,13 @@ public class PrefixOperator extends Operator {
     super(header);
   }
 
-  public boolean sameKind(Method other) {
+  @Override
+public boolean sameKind(Method other) {
   	return(other instanceof PrefixOperator);
   }
 
-  protected PrefixOperator cloneSelf() {
+  @Override
+protected PrefixOperator cloneSelf() {
     return new PrefixOperator(null);
   }
 

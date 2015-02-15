@@ -27,7 +27,7 @@ public class TypeImport extends Import {
 	private Single<TypeReference> _typeReference = new Single<TypeReference>(this);
 
   public TypeReference getTypeReference() {
-    return (TypeReference)_typeReference.getOtherEnd();
+    return _typeReference.getOtherEnd();
   }
 
   public void setTypeReference(TypeReference reference) {

@@ -10,7 +10,8 @@ public class ArgsPointcutExpression extends AbstractParameterExposurePointcutExp
 	
 	private Multi<NameExpression> _parameters = new Multi<NameExpression>(this);
 	
-	public List<NameExpression> parameters() {
+	@Override
+   public List<NameExpression> parameters() {
 		return _parameters.getOtherEnds();
 	}
 	

@@ -38,7 +38,8 @@ public class EditorTagContentProvider implements IStructuredContentProvider {
 		this._filterPredicate = filterPredicate;
 	}
 
-	public Object[] getElements(Object inputObject) {
+	@Override
+   public Object[] getElements(Object inputObject) {
 		if(inputObject instanceof EclipseDocument){
 			EclipseDocument doc = (EclipseDocument)inputObject;
 			Collection<EclipseEditorTag> tags = new TreeSet<EclipseEditorTag>(EclipseEditorTag.beginoffsetComparator);
@@ -50,11 +51,13 @@ public class EditorTagContentProvider implements IStructuredContentProvider {
 		return null;
 	}
 
-	public void dispose() {
+	@Override
+   public void dispose() {
 		// NOP
 	}
 
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+	@Override
+   public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		// NOP
 	}
 

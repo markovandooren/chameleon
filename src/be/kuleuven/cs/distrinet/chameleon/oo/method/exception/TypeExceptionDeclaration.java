@@ -27,11 +27,13 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration {
     setTypeReference(type);
   }
 
-  public Set<Type> getExceptionTypes(MethodInvocation invocation) throws LookupException {
+  @Override
+public Set<Type> getExceptionTypes(MethodInvocation invocation) throws LookupException {
     return getExceptionTypeSet();
   }
   
-  public Set<Type> getWorstCaseExceptionTypes() throws LookupException {
+  @Override
+public Set<Type> getWorstCaseExceptionTypes() throws LookupException {
     return getExceptionTypeSet();
   }
   
@@ -69,13 +71,15 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration {
 
 
 
-  public boolean compatibleWith(final ExceptionClause other) throws LookupException {
+  @Override
+public boolean compatibleWith(final ExceptionClause other) throws LookupException {
     if(! language(ObjectOrientedLanguage.class).isCheckedException(getType())) {
       return true;
     }
     try {
       return new AbstractPredicate() {
-        public boolean eval(Object o2) throws LookupException {
+        @Override
+      public boolean eval(Object o2) throws LookupException {
           return (o2 instanceof TypeExceptionDeclaration) && (getType().assignableTo(((TypeExceptionDeclaration)o2).getType()));
         }
       }.exists(other.exceptionDeclarations());
@@ -89,11 +93,13 @@ public class TypeExceptionDeclaration extends ExceptionDeclaration {
     }
   }
 
-  public TypeExceptionDeclaration cloneSelf() {
+  @Override
+public TypeExceptionDeclaration cloneSelf() {
     return new TypeExceptionDeclaration(null);
   }
 
-  public boolean hasValidAccessibility() throws LookupException {
+  @Override
+public boolean hasValidAccessibility() throws LookupException {
     return true; 
   }
 

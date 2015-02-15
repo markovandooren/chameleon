@@ -14,7 +14,8 @@ public class EmptyScope extends Scope {
    @
    @ \result == false;
    @*/
-	public boolean contains(Element element) {
+	@Override
+   public boolean contains(Element element) {
 		return false;
 	}
 	
@@ -23,7 +24,8 @@ public class EmptyScope extends Scope {
    @
    @ post \result == other instanceof EmptyScope;
    @*/
-  public boolean geRecursive(Scope other) throws LookupException {
+  @Override
+public boolean geRecursive(Scope other) throws LookupException {
     return (other instanceof EmptyScope);
   }
   
@@ -32,11 +34,13 @@ public class EmptyScope extends Scope {
    @
    @ post \result == true; 
    @*/
-  public boolean leRecursive(Scope other) {
+  @Override
+public boolean leRecursive(Scope other) {
     return true;
   }
   
-  public boolean equals(Object o) {
+  @Override
+public boolean equals(Object o) {
     return (o instanceof EmptyScope);
   }
 

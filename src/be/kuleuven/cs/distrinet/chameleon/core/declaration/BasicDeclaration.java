@@ -10,20 +10,23 @@ public abstract class BasicDeclaration extends DeclarationImpl implements Simple
 	
   private String _name;
   
-  public String name() {
+  @Override
+public String name() {
   	return _name;
   }
 
 	private SimpleNameSignature _signature;
 	
-	public void setName(String name) {
+	@Override
+   public void setName(String name) {
 		_name = name;
 		if(_signature != null) {
 			_signature.setName(name);
 		}
 	}
 	
-	public void setSignature(Signature signature) {
+	@Override
+   public void setSignature(Signature signature) {
 		if(signature instanceof SimpleNameSignature) {
 			setName(signature.name());
 		} else {
@@ -31,7 +34,8 @@ public abstract class BasicDeclaration extends DeclarationImpl implements Simple
 		}
 	}
 	
-	public SimpleNameSignature signature() {
+	@Override
+   public SimpleNameSignature signature() {
 		if(_signature == null) {
 			synchronized (this) {
 				if(_signature == null) {

@@ -51,7 +51,8 @@ public class SimpleForControl extends ForControl {
     return _update.getOtherEnd();
   }
 
-  protected SimpleForControl cloneSelf() {
+  @Override
+protected SimpleForControl cloneSelf() {
     return new SimpleForControl(null, null, null);
   }
 
@@ -70,7 +71,8 @@ public class SimpleForControl extends ForControl {
   }
   
 
-	public List<? extends Declaration> declarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> declarations() throws LookupException {
 		ForInit init = getForInit();
 		if(init != null) {
 		  return getForInit().declarations();

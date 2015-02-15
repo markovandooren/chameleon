@@ -33,7 +33,8 @@ public class ChameleonContentAssistProcessor implements IContentAssistProcessor 
 		
 	}
 
-	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset) {
+	@Override
+   public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset) {
 		offset--;
 		EclipseDocument chamDoc = (EclipseDocument)viewer.getDocument();
 		try {
@@ -91,7 +92,8 @@ public class ChameleonContentAssistProcessor implements IContentAssistProcessor 
 		return null;
 	}
 
-	public IContextInformation[] computeContextInformation(ITextViewer viewer, int offset) {
+	@Override
+   public IContextInformation[] computeContextInformation(ITextViewer viewer, int offset) {
 		try {
 			offset--;
 			EclipseDocument chamDoc = (EclipseDocument)viewer.getDocument();
@@ -116,19 +118,23 @@ public class ChameleonContentAssistProcessor implements IContentAssistProcessor 
 
 	}
 
-	public char[] getCompletionProposalAutoActivationCharacters() {
+	@Override
+   public char[] getCompletionProposalAutoActivationCharacters() {
 		return new char[] { '.' };
 	}
 
-	public char[] getContextInformationAutoActivationCharacters() {
+	@Override
+   public char[] getContextInformationAutoActivationCharacters() {
 		return new char[] { '(', ',', ' ' };
 	}
 
-	public IContextInformationValidator getContextInformationValidator() {
+	@Override
+   public IContextInformationValidator getContextInformationValidator() {
 		return new ContextInformationValidator(this);
 	}
 
-	public String getErrorMessage() {
+	@Override
+   public String getErrorMessage() {
 		return null;
 	}
 

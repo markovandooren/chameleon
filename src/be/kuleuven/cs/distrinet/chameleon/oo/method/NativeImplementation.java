@@ -10,15 +10,18 @@ import be.kuleuven.cs.distrinet.chameleon.oo.statement.Block;
 public class NativeImplementation extends Implementation {
 
 
-	protected NativeImplementation cloneSelf() {
+	@Override
+   protected NativeImplementation cloneSelf() {
     return new NativeImplementation();
   }
 
-  public boolean compatible() {
+  @Override
+public boolean compatible() {
     return true;
   }
   
-  public Block getBody() {
+  @Override
+public Block getBody() {
     return null;
   }
 

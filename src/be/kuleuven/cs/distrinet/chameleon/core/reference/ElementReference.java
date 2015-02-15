@@ -42,7 +42,8 @@ public abstract class ElementReference<D extends Declaration> extends CrossRefer
 //  	return _signature.getOtherEnd();
 //  }
   
-  public String name() {
+  @Override
+public String name() {
   	return _name;
   }
   
@@ -119,11 +120,13 @@ public abstract class ElementReference<D extends Declaration> extends CrossRefer
 		return _target;
 	}
 
-	public CrossReferenceTarget getTarget() {
+	@Override
+   public CrossReferenceTarget getTarget() {
 		return _target.getOtherEnd();
 	}
 
-	public void setTarget(CrossReferenceTarget target) {
+	@Override
+   public void setTarget(CrossReferenceTarget target) {
 		set(_target,target);
 	}
 
@@ -136,7 +139,8 @@ public abstract class ElementReference<D extends Declaration> extends CrossRefer
 	  @     (getTarget().getPackageOrType() == null ==> \result == 
 	  @         getTarget().getPackageOrType().getTargetContext().findPackageOrType(getName()));
 	  @*/
-	public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
+	@Override
+   public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
 		X result = null;
 
 		//OPTIMISATION
@@ -169,7 +173,8 @@ public abstract class ElementReference<D extends Declaration> extends CrossRefer
 //		}
 	}
 
-	public String toString() {
+	@Override
+   public String toString() {
 		return (getTarget() == null ? "" : getTarget().toString()+".")+name();
 	}
 

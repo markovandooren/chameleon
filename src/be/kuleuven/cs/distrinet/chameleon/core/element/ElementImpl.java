@@ -39,6 +39,7 @@ import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
 import be.kuleuven.cs.distrinet.rejuse.association.IAssociation;
 import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import be.kuleuven.cs.distrinet.rejuse.debug.StackTrace;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
@@ -51,17 +52,22 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
 
 /**
- * @author Marko van Dooren
+ * A class that implement most methods of {@link Element}.
  * 
- * @opt operations
- * @opt attributes
- * @opt visibility
- * @opt types
+ * @author Marko van Dooren
  */
 public abstract class ElementImpl implements Element {
 
-	private static Map<Class,Set<String>> _excludedFieldNames = new HashMap<Class,Set<String>>();
+   /**
+    * Filthy static hack to improve performance of reflective code.
+    * 
+    * FIXME: replace this with better code.
+    */
+	private static Map<Class<? extends Element>,Set<String>> _excludedFieldNames = new HashMap<Class<? extends Element>,Set<String>>();
 
+	/**
+	 * Construct a new object without children and without a parent.
+	 */
 	public ElementImpl() {
 		//	  	_parentLink.addListener(new AssociationListener<P>() {
 		//
@@ -83,15 +89,21 @@ public abstract class ElementImpl implements Element {
 		//	  	});
 	}
 	
-	private static TreeStructure<Element> _lexical = new LexicalNavigator();
+	private final static TreeStructure<Element> _lexical = new LexicalNavigator();
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public TreeStructure<Element> lexical() {
 		return _lexical;
 	}
 	
-	private static TreeStructure<Element> _logical = new LogicalNavigator();
+	private final static TreeStructure<Element> _logical = new LogicalNavigator();
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public TreeStructure<Element> logical() {
 		return _logical;
@@ -115,12 +127,31 @@ public abstract class ElementImpl implements Element {
 
 	
 	/**
-	 * For debugging purposes. Invoke enableParentListening() to enable this functionality.
+	 * A method that is mostly used for debugging purposes. 
+	 * Invoke {@link #enableParentListening()} to enable this functionality and
+	 * override the method for the appropriate element.
 	 */
 	protected void notifyParentSet(Element element) {}
+	
+   /**
+    * A method that is mostly used for debugging purposes. 
+    * Invoke {@link #enableParentListening()} to enable this functionality and
+    * override the method for the appropriate element.
+    */
 	protected void notifyParentRemoved(Element element) {}
+	
+   /**
+    * A method that is mostly used for debugging purposes. 
+    * Invoke {@link #enableParentListening()} to enable this functionality and
+    * override the method for the appropriate element.
+    */
 	protected void notifyParentReplaced(Element oldParent, Element newParent) {}
 	
+	/**
+	 * Enable notification when the parent is changed. By default, this
+	 * is turned off to prevent a massive amount of events when loading
+	 * a document.
+	 */
 	protected void enableParentListening() {
 	 parentLink().addListener(new AssociationListener<Element>() {
 		@Override
@@ -144,10 +175,15 @@ public abstract class ElementImpl implements Element {
 	 * TAGS *
 	 ********/
 
-	// initialization of this Map is done lazily.
+	// Initialization of this Map is done lazily to reduce memory usage
 	private Map<String, Metadata> _tags;
 
-	public Metadata metadata(String name) {
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+   public Metadata metadata(String name) {
 		if(_tags != null) {
 			return _tags.get(name);
 		} else {
@@ -156,7 +192,11 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 
-	public void removeMetadata(String name) {
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+   public void removeMetadata(String name) {
 		if(_tags != null) {
 			Metadata old = _tags.get(name);
 			_tags.remove(name);
@@ -166,7 +206,11 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 
-	public void removeAllMetadata() {
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+   public void removeAllMetadata() {
 		if(_tags != null) {
 			// We must clone the key set, or otherwise the removal of the keys
 			// may cause undefined behavior in the set.
@@ -177,6 +221,10 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void freeze() {
 		for(Element element: children()) {
 			element.parentLink().lock();
@@ -187,7 +235,11 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 
-	public void unfreeze() {
+   /**
+    * {@inheritDoc}
+    */
+	@Override
+   public void unfreeze() {
 		for(Element element: children()) {
 			element.parentLink().unlock();
 			element.unfreeze();
@@ -197,7 +249,11 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 
-	public void setMetadata(Metadata decorator, String name) {
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+   public void setMetadata(Metadata decorator, String name) {
 		//Lazy init of hashmap
 		if (_tags==null) {
 			_tags = new HashMap<String, Metadata>();
@@ -214,7 +270,11 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 
-	public Collection<Metadata> metadata() {
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+   public Collection<Metadata> metadata() {
 		if(_tags == null) {
 			return Collections.EMPTY_LIST;
 		} else {
@@ -222,7 +282,11 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 
-	public boolean hasMetadata(String name) {
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+   public boolean hasMetadata(String name) {
 		if(_tags == null) {
 			return false;
 		} else {
@@ -230,7 +294,11 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 
-	public boolean hasMetadata() {
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+   public boolean hasMetadata() {
 		if(_tags == null) {
 			return false;
 		} else {
@@ -238,15 +306,31 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 	
+	/**
+	 * Clone the given element. This is a convenience method.
+	 * This method performs an unsafe cast! The return type
+	 * of {@Link #clone()} is {@link Element}. Using a type
+	 * parameters as the self type is too cumbersome in Java.
+	 * 
+	 * @param element The element to be cloned.
+	 * @return A clone of the given element.
+	 */
 	public final <T extends Element> T clone(T element) {
 		return (T) element.clone();
 	}
 	
-	public Element clone() {
-//		return clone((Mapper)null);
-//	}
-//
-//	public final Element clone(final Mapper mapper) {
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * The default implementation uses {@link #cloneSelf()} to
+	 * create a deep clone of this element, and then iterates over all
+	 * associations using reflection and deep clones the children
+	 * using {@link #clone()}.
+	 * 
+	 * @return A deep clone of this element.
+	 */
+	@Override
+   public Element clone() {
 		Element result = cloneSelf();
 		if(canHaveChildren()) {
 			List<ChameleonAssociation<?>> mine = myAssociations();
@@ -295,6 +379,17 @@ public abstract class ElementImpl implements Element {
 		return result;
 	}
 	
+	/**
+	 * Create shallow clone of the current element.
+	 * @return
+	 */
+  /*@
+    @ public behavior
+    @
+    @ post \result != null;
+    @ post \result.parent() == null;
+    @ post \result.children().isEmpty();
+    @*/
 	protected abstract Element cloneSelf();
 	
 	@Override
@@ -329,7 +424,7 @@ public abstract class ElementImpl implements Element {
 	 * PARENT *
 	 **********/
 
-	// WORKING AROUND LACK OF MULTIPLE INHERITANCE
+	// WORKING AROUND LACK OF SUBOBJECTS IN JAVA
 
 	// THESE VARIABLES MUST NOT BE USED AT THE SAME TIME
 	//
@@ -346,12 +441,14 @@ public abstract class ElementImpl implements Element {
 
 	/**
 	 * Return the bidirectional link to the parent in case the element IS NOT derived.
-	 * DO NOT USE THIS TO OBTAIN THE PARENT
+	 * DO NOT USE THIS TO OBTAIN THE PARENT! This method is public only because of
+	 * limitation in the Java language.
 	 * 
 	 * @throws ChameleonProgrammerException
 	 *    The method is invoked on a derived element. 
 	 */
-	public final SingleAssociation<Element,Element> parentLink() {
+	@Override
+   public final SingleAssociation<Element,Element> parentLink() {
 		if(_parentLink != null) {
 			return _parentLink;
 		} else {
@@ -359,6 +456,19 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 
+	/**
+	 * A factory method to create association objects. This method
+	 * is typically only overridden for debugging purposes to allow
+	 * the addition of breakpoints, or to store a {@link StackTrace} object
+	 * to find out when the parent has changed.
+	 */
+  /*@
+    @ public behavior
+    @
+    @ post \result != null;
+    @ post \result.getObject() == this;
+    @ post \result.getOtherEnds().isEmpty();
+    @*/
 	protected Single<Element> createParentLink() {
 		return new Single<Element>(this);
 	}
@@ -366,7 +476,7 @@ public abstract class ElementImpl implements Element {
 	/**
 	 * Return the parent of this element
 	 */
-	public final Element actualParent() {
+	private final Element actualParent() {
 		if(_parentLink != null) {
 			return _parentLink.getOtherEnd();
 		} else {
@@ -374,7 +484,8 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 	
-	public final Element parent() {
+	@Override
+   public Element parent() {
 		return lexical().parent(this);
 	}
 
@@ -383,53 +494,51 @@ public abstract class ElementImpl implements Element {
 	 * 
 	 * @return True if this element is derived, false otherwise.
 	 */
-	public boolean isDerived() {
+	@Override
+   public boolean isDerived() {
 		return _parent != null;
 	}
 
 	/**
-	 * The default behavior is to return 'this'.
+	 * The default behavior is to return 'this' because most elements
+	 * are not derived.
 	 */
-	public Element origin() {
+	@Override
+   public Element origin() {
 		return _origin;
 	}
 
-	public Element farthestOrigin() {
-		Element element = this;
-		Element origin = origin();
-		while(element != origin) {
-			element = origin;
-			origin = element.origin();
-		}
-		return origin;
-	}
-
-	public Element rootOrigin() {
+	@Override
+   public Element farthestOrigin() {
 		Element current = this;
 		Element origin = origin();
 		while(current != origin) {
 			current = origin;
 			origin = current.origin();
 		}
-		return current;
+		return origin;
 	}
 
-	public void setOrigin(Element origin) {
+	@Override
+   public void setOrigin(Element origin) {
 		_origin = origin;
 	}
 
 	private Element _origin = this;
 
-	public void disconnect() {
+	@Override
+   public void disconnect() {
 		nonRecursiveDisconnect();
 		disconnectChildren();
 	}
 
-	public boolean disconnected() {
+	@Override
+   public boolean disconnected() {
 		return parent() == null;
 	}
 
-	public void nonRecursiveDisconnect() {
+	@Override
+   public void nonRecursiveDisconnect() {
 		if(_parentLink != null) {
 			_parentLink.connectTo(null);
 		} else {
@@ -439,10 +548,11 @@ public abstract class ElementImpl implements Element {
 	}
 
 	/**
-	 * DO NOT OVERRIDE THIS METHOD UNLESS YOU *REALLY* KNOW WHAT YOU ARE DOING! We don't see
-	 * any use other than diagnostic purposes.
+	 * DO NOT OVERRIDE THIS METHOD UNLESS YOU *REALLY* KNOW WHAT YOU ARE DOING! 
+	 * We do not see any use other than diagnostic purposes.
 	 */
-	public void setUniParent(Element parent) {
+	@Override
+   public void setUniParent(Element parent) {
 		if(_parentLink != null) {
 			_parentLink.connectTo(null);
 		}
@@ -454,7 +564,8 @@ public abstract class ElementImpl implements Element {
 		_parent = parent;
 	}
 
-	public final List<Element> descendants() {
+	@Override
+   public final List<Element> descendants() {
 		return descendants(Element.class);
 	}
 
@@ -495,7 +606,8 @@ public abstract class ElementImpl implements Element {
 
 	private List<ChameleonAssociation<?>> _associations;
 
-	public List<ChameleonAssociation<?>> associations() {
+	@Override
+   public List<ChameleonAssociation<?>> associations() {
 		return myAssociations();
 	}
 
@@ -529,7 +641,7 @@ public abstract class ElementImpl implements Element {
 	
 
 
-	private static void addAllFieldsTillClass(final Class currentClass, Collection<Field> accumulator){
+	private static void addAllFieldsTillClass(final Class<? extends Element> currentClass, Collection<Field> accumulator){
 		Field[] fields = currentClass.getDeclaredFields();
 		for(Field field: fields) {
 			Set<String> set = _excludedFieldNames.get(currentClass);
@@ -574,7 +686,8 @@ public abstract class ElementImpl implements Element {
 	 * This method currently is overridden only to provide support for lazy loading in
 	 * LazyNamespace.
 	 */
-  public List<? extends Element> children() {
+  @Override
+public List<? extends Element> children() {
   	List<Element> reflchildren = Lists.create();
 		for (ChameleonAssociation association : associations()) {
 			association.addOtherEndsTo(reflchildren);
@@ -582,17 +695,20 @@ public abstract class ElementImpl implements Element {
 		return reflchildren;
   }
 
-	public final <T extends Element> List<T> children(Class<T> c) {
+	@Override
+   public final <T extends Element> List<T> children(Class<T> c) {
 		return new TypePredicate<T>(c).downCastedList(children());
 	}
 
-	public final <E extends Exception> List<Element> children(Predicate<? super Element,E> predicate) throws E {
+	@Override
+   public final <E extends Exception> List<Element> children(Predicate<? super Element,E> predicate) throws E {
 		List<? extends Element> tmp = children();
 		predicate.filter(tmp);
 		return (List<Element>)tmp;
 	}
 
-	public final <T extends Element> List<T> descendants(Class<T> c) {
+	@Override
+   public final <T extends Element> List<T> descendants(Class<T> c) {
 		List<T> result = children(c);
 		for (Element e : children()) {
 			result.addAll(e.descendants(c));
@@ -600,7 +716,8 @@ public abstract class ElementImpl implements Element {
 		return result;
 	}
 
-	public final <T extends Element> boolean hasDescendant(Class<T> c) {
+	@Override
+   public final <T extends Element> boolean hasDescendant(Class<T> c) {
 		List<Element> tmp = (List<Element>) children();
 		new TypePredicate<T>(c).filter(tmp);
 
@@ -629,7 +746,8 @@ public abstract class ElementImpl implements Element {
 		return false;
 	}
 	
-	public final <T extends Element> List<T> nearestDescendants(Class<T> c) {
+	@Override
+   public final <T extends Element> List<T> nearestDescendants(Class<T> c) {
 		List<? extends Element> tmp = children();
 		List<T> result = Lists.create();
 		Iterator<? extends Element> iter = tmp.iterator();
@@ -646,7 +764,8 @@ public abstract class ElementImpl implements Element {
 		return result;
 	}
 
-  public <T extends Element, E extends Exception> List<T> nearestDescendants(UniversalPredicate<T,E> predicate) throws E {
+  @Override
+public <T extends Element, E extends Exception> List<T> nearestDescendants(UniversalPredicate<T,E> predicate) throws E {
 		List<? extends Element> tmp = children();
 		List<T> result = Lists.create();
 		Iterator<? extends Element> iter = tmp.iterator();
@@ -664,7 +783,8 @@ public abstract class ElementImpl implements Element {
   }
 
 	
-	public final <E extends Exception> List<Element> descendants(Predicate<? super Element,E> predicate) throws E {
+	@Override
+   public final <E extends Exception> List<Element> descendants(Predicate<? super Element,E> predicate) throws E {
 		// Do not compute all descendants, and apply predicate afterwards.
 		// That is way too expensive.
 		List<? extends Element> tmp = children();
@@ -681,16 +801,19 @@ public abstract class ElementImpl implements Element {
 		return predicate.downCastedList(children());
 	}
 
-	public final <T extends Element> List<T> children(Class<T> c, final ChameleonProperty property) {
+	@Override
+   public final <T extends Element> List<T> children(Class<T> c, final ChameleonProperty property) {
 		List<T> result = children(new UniversalPredicate<T,Nothing>(c) {
-			public boolean uncheckedEval(T element) {
+			@Override
+         public boolean uncheckedEval(T element) {
 				return element.isTrue(property);
 			}
 		});
 		return result;
 	}
 
-	public final <T extends Element> List<T> descendants(Class<T> c, ChameleonProperty property) {
+	@Override
+   public final <T extends Element> List<T> descendants(Class<T> c, ChameleonProperty property) {
 		List<T> result = children(c, property);
 		for (Element e : children()) {
 			result.addAll(e.descendants(c, property));
@@ -698,7 +821,8 @@ public abstract class ElementImpl implements Element {
 		return result;
 	}
 
-	public final <T extends Element,E extends Exception> List<T> descendants(Class<T> c, Predicate<T,E> predicate) throws E {
+	@Override
+   public final <T extends Element,E extends Exception> List<T> descendants(Class<T> c, Predicate<T,E> predicate) throws E {
 		List<T> result = children(c);
 		predicate.filter(result);
 		for (Element e : children()) {
@@ -707,9 +831,10 @@ public abstract class ElementImpl implements Element {
 		return result;
 	}
 
-	public final <T extends Element, E extends Exception>  void apply(Action<T,E> action) throws E {
+	@Override
+   public final <T extends Element, E extends Exception>  void apply(Action<T,E> action) throws E {
 		if(action.type().isInstance(this)) {
-			action.perform((T)this);
+			action.perform(this);
 		}
 		for (Element e : children()) {
 			e.apply(action);
@@ -719,7 +844,8 @@ public abstract class ElementImpl implements Element {
 	public final <T extends Element, E extends Exception>  void apply(Consumer<T> action) throws E {
 	}
 
-	public final <T extends Element> List<T> ancestors(Class<T> c) {
+	@Override
+   public final <T extends Element> List<T> ancestors(Class<T> c) {
 		List<T> result = Lists.create();
 		T el = nearestAncestor(c);
 		while (el != null){
@@ -734,7 +860,8 @@ public abstract class ElementImpl implements Element {
 		return predicate.downCastedList(ancestors());
 	}
 
-	public final List<Element> ancestors() {
+	@Override
+   public final List<Element> ancestors() {
 		if (parent()!=null) {
 			List<Element> result = parent().ancestors();
 			result.add(0, parent());
@@ -744,7 +871,8 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 
-	public <T extends Element> T nearestAncestorOrSelf(Class<T> c) {
+	@Override
+   public <T extends Element> T nearestAncestorOrSelf(Class<T> c) {
 		Element el = this;
 		while ((el != null) && (! c.isInstance(el))){
 			el = el.parent();
@@ -755,7 +883,7 @@ public abstract class ElementImpl implements Element {
 	@Override
 	public <T extends Element, E extends Exception> T nearestAncestorOrSelf(UniversalPredicate<T, E> predicate) throws E {
 		Element el = this;
-		while ((el != null) && (! predicate.eval((T)el))) {
+		while ((el != null) && (! predicate.eval(el))) {
 			el = el.parent();
 		}
 		return (T) el;
@@ -771,7 +899,8 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 
-	public <T extends Element> T farthestAncestor(Class<T> c) {
+	@Override
+   public <T extends Element> T farthestAncestor(Class<T> c) {
 		Element el = parent();
 		T anc = null;
 		while(el != null) {
@@ -786,11 +915,12 @@ public abstract class ElementImpl implements Element {
 		return anc;
 	}
 	
-	public <T extends Element, E extends Exception> T farthestAncestor(UniversalPredicate<T,E> p) throws E {
+	@Override
+   public <T extends Element, E extends Exception> T farthestAncestor(UniversalPredicate<T,E> p) throws E {
 		Element el = parent();
 		T anc = null;
 		while(el != null) {
-			while ((el != null) && (!p.eval((T)el))) {
+			while ((el != null) && (!p.eval(el))) {
 				el = el.parent();
 			}
 			if(el != null) {
@@ -801,7 +931,8 @@ public abstract class ElementImpl implements Element {
 		return anc;
 	}
 
-	public <T extends Element> T farthestAncestorOrSelf(Class<T> c) {
+	@Override
+   public <T extends Element> T farthestAncestorOrSelf(Class<T> c) {
 		T result = farthestAncestor(c);
 		if((result == null) && (c.isInstance(this))) {
 			result = (T) this;
@@ -811,7 +942,8 @@ public abstract class ElementImpl implements Element {
 
 
 
-	public boolean hasAncestor(Element ancestor) {
+	@Override
+   public boolean hasAncestor(Element ancestor) {
 		Element el = parent();
 		while ((el != null) && (el != ancestor)){
 			el = el.parent();
@@ -819,7 +951,8 @@ public abstract class ElementImpl implements Element {
 		return el == ancestor;
 	}
 
-	public <T extends Element> T nearestAncestor(Class<T> c) {
+	@Override
+   public <T extends Element> T nearestAncestor(Class<T> c) {
 		Element el = parent();
 		while ((el != null) && (! c.isInstance(el))){
 			el = el.parent();
@@ -830,7 +963,7 @@ public abstract class ElementImpl implements Element {
 	@Override
 	public <T extends Element, E extends Exception> T nearestAncestor(UniversalPredicate<T,E> predicate) throws E {
 		Element el = parent();
-		while ((el != null) && (! predicate.eval((T)el))) {
+		while ((el != null) && (! predicate.eval(el))) {
 			el = el.parent();
 		}
 		return (T) el;
@@ -838,7 +971,8 @@ public abstract class ElementImpl implements Element {
 
 //	public abstract Element clone();
 
-	public Language language() {
+	@Override
+   public Language language() {
 		Language result = null;
 		if(Config.cacheLanguage() == true) {
 			result = _languageCache;
@@ -857,7 +991,8 @@ public abstract class ElementImpl implements Element {
 
 	private Language _languageCache;
 
-	public <T extends Language> T language(Class<T> kind) {
+	@Override
+   public <T extends Language> T language(Class<T> kind) {
 		if(kind == null) {
 			throw new ChameleonProgrammerException("The given language class is null.");
 		}
@@ -869,17 +1004,19 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 
-	/**
-	 * @see Element#lookupContext(Element) 
+	 /**
+	 * {@inheritDoc}
 	 */
-	 public LookupContext lookupContext(Element child) throws LookupException {
+	@Override
+   public LookupContext lookupContext(Element child) throws LookupException {
 		return lexicalContext();
 	}
 
-	/**
-	 * @see Element#lexicalContext() 
+	 /**
+	 * {@inheritDoc}
 	 */
-	 public LookupContext lexicalContext() throws LookupException {
+	@Override
+   public LookupContext lexicalContext() throws LookupException {
 		try {
 			return parent().lookupContext(this);
 		} catch(NullPointerException exc) {
@@ -891,7 +1028,11 @@ public abstract class ElementImpl implements Element {
 		}
 	 }
 	 
-	 public PropertySet<Element,ChameleonProperty> properties() {
+	 /**
+	 * {@inheritDoc}
+	 */
+	@Override
+   public PropertySet<Element,ChameleonProperty> properties() {
 		 return new PropertySet<>(internalProperties());
 	 }
 
@@ -907,7 +1048,8 @@ public abstract class ElementImpl implements Element {
 	 
 	/**
 	 * Return the set of explicit properties of this element. 
-	 * @return
+	 * @return A property set for the explicitly declared properties
+	 *         of this element.
 	 */
  /*@
    @ public behavior
@@ -922,35 +1064,68 @@ public abstract class ElementImpl implements Element {
 		return result;
 	}
 
-	 public PropertySet<Element,ChameleonProperty> defaultProperties() {
+	 /**
+	 * {@inheritDoc}
+	 */
+	@Override
+   public PropertySet<Element,ChameleonProperty> defaultProperties() {
 		 return defaultProperties(explicitProperties());
 	 }
 
-	 public PropertySet<Element,ChameleonProperty> defaultProperties(PropertySet<Element,ChameleonProperty> explicit) {
+	 /**
+	 * @param explicit The set of explicitly declared properties
+	 * @return The default properties of this element, taking into account
+	 *         the explicitly declared properties.
+	 */
+	protected PropertySet<Element,ChameleonProperty> defaultProperties(PropertySet<Element,ChameleonProperty> explicit) {
 		 return language().defaultProperties(this,explicit);
 	 }
 
-	 public PropertySet<Element,ChameleonProperty> inherentProperties() {
+	 /**
+	 * {@inheritDoc}
+	 */
+	@Override
+   public PropertySet<Element,ChameleonProperty> inherentProperties() {
 		 return new PropertySet<Element,ChameleonProperty>();
 	 }
 
-	 public PropertySet<Element,ChameleonProperty> declaredProperties() {
+	 /**
+	 * {@inheritDoc}
+	 */
+	@Override
+   public PropertySet<Element,ChameleonProperty> declaredProperties() {
 		 return new PropertySet<Element,ChameleonProperty>();
 	 }
 
-	 public boolean isTrue(ChameleonProperty property) {
+	 /**
+	 * {@inheritDoc}
+	 */
+	@Override
+   public boolean isTrue(ChameleonProperty property) {
 		 return is(property) == Ternary.TRUE;
 	 }
 
-	 public boolean isFalse(ChameleonProperty property) {
+	 /**
+	 * {@inheritDoc}
+	 */
+	@Override
+   public boolean isFalse(ChameleonProperty property) {
 		 return is(property) == Ternary.FALSE;
 	 }
 
-	 public boolean isUnknown(ChameleonProperty property) {
+	 /**
+	 * {@inheritDoc}
+	 */
+	@Override
+   public boolean isUnknown(ChameleonProperty property) {
 		 return is(property) == Ternary.UNKNOWN;
 	 }
 
-	 public synchronized Ternary is(ChameleonProperty property) {
+	 /**
+	 * {@inheritDoc}
+	 */
+	@Override
+   public synchronized Ternary is(ChameleonProperty property) {
 		 Ternary result = null;
 		 if(Config.cacheElementProperties()) {
 			 if(_propertyCache != null) {
@@ -982,7 +1157,11 @@ public abstract class ElementImpl implements Element {
 
 	 private HashMap<ChameleonProperty,Ternary> _propertyCache;
 
-	 public ChameleonProperty property(final PropertyMutex<ChameleonProperty> mutex) throws ModelException {
+	 /**
+	 * {@inheritDoc}
+	 */
+	@Override
+   public ChameleonProperty property(final PropertyMutex<ChameleonProperty> mutex) throws ModelException {
 		 return property(new AbstractPredicate<ChameleonProperty,ModelException>() {
 			@Override
 			public boolean eval(ChameleonProperty property) throws ModelException
@@ -990,26 +1169,43 @@ public abstract class ElementImpl implements Element {
 		 });
 	 }
 	 
-	 public <X extends Exception> ChameleonProperty property(Predicate<ChameleonProperty,X> predicate) throws ModelException, X {
-		 ChameleonProperty result = null;
-		 for(ChameleonProperty p : internalProperties().properties()) {
-			 if(predicate.eval(p)) {
-				 if(result == null) {
-				   result = p;
-				 } else {
-					 throw new ModelException("Element of type " +getClass().getName()+ " has more than one property that satisfy the given condition.");
-				 }
-			 }
-		 }
-		 if(result != null) {
-			 return result;
-		 } else {
-			 throw new ModelException("Element of type " +getClass().getName()+ " has no properties that satisfy the given condition.");
-		 }
-	 }
+   /**
+    * Return the property that satisfies the given predicate.
+    * 
+    * @param predicate The predicate that determines the requested property.
+    * @return The property that satisfies the given predicate, if any.
+    * @throws IllegalArgumentException This element has more that one property that
+    *         satisfies the predicate.
+    * @throws IllegalArgumentException This element has no property that satisfies
+    *         the given predicate.
+    * @throws X The predicate has thrown exception X
+    */
+   protected <X extends Exception> ChameleonProperty property(Predicate<ChameleonProperty, X> predicate)
+         throws X {
+      ChameleonProperty result = null;
+      for (ChameleonProperty p : internalProperties().properties()) {
+         if (predicate.eval(p)) {
+            if (result == null) {
+               result = p;
+            } else {
+               throw new IllegalArgumentException("Element of type " + getClass().getName()
+                     + " has more than one property that satisfy the given condition.");
+            }
+         }
+      }
+      if (result != null) {
+         return result;
+      } else {
+         throw new IllegalArgumentException("Element of type " + getClass().getName()
+               + " has no properties that satisfy the given condition.");
+      }
+   }
 
-
-	 public boolean hasProperty(PropertyMutex<ChameleonProperty> mutex) throws ModelException {
+	 /**
+	 * {@inheritDoc}
+	 */
+	@Override
+   public boolean hasProperty(PropertyMutex<ChameleonProperty> mutex) throws ModelException {
 		 return internalProperties().hasPropertyFor(mutex);
 	 }
 
@@ -1038,7 +1234,11 @@ public abstract class ElementImpl implements Element {
 		 return new PropertySet<Element,ChameleonProperty>(baseProperties);
 	 }
 
-	 public void disconnectChildren() {
+	 /**
+	 * {@inheritDoc}
+	 */
+	@Override
+   public void disconnectChildren() {
 		 for(Element child:children()) {
 			 if(child != null) {
 				 child.disconnect();
@@ -1071,16 +1271,11 @@ public abstract class ElementImpl implements Element {
 	 //    	showStackTrace(null);
 	 //    }
 
-	 public List<? extends Element> directDependencies() {
-		 return children();
-	 }
-
 	 /**
-	  * Notify this element that the given descendant was modified. This
-	  * method first calls reactOnDescendantChange with the given element. After that,
-	  * the event is propagated to the lexical parent, if the parent is not null.
+	  * {@inheritDoc}
 	  */
-	 public void notifyDescendantChanged(Element descendant) {
+	 @Override
+   public void notifyDescendantChanged(Element descendant) {
 		 reactOnDescendantChange(descendant);
 		 notifyParent(descendant);
 	 }
@@ -1093,23 +1288,46 @@ public abstract class ElementImpl implements Element {
 	 }
 
 	 /**
-	  * Actually react on a change of the given descendant.
+	  * {@inheritDoc}
 	  * 
 	  * By default, there is no reaction.
 	  */
-	 public void reactOnDescendantChange(Element descendant) {
+	 @Override
+   public void reactOnDescendantChange(Element descendant) {
 	 }
 
-	 public void reactOnDescendantAdded(Element descendant) {
+    /**
+     * {@inheritDoc}
+     * 
+     * By default, there is no reaction.
+     */
+	 @Override
+   public void reactOnDescendantAdded(Element descendant) {
 	 }
 
-	 public void reactOnDescendantRemoved(Element descendant) {
+    /**
+     * {@inheritDoc}
+     * 
+     * By default, there is no reaction.
+     */
+	 @Override
+   public void reactOnDescendantRemoved(Element descendant) {
 	 }
 
-	 public void reactOnDescendantReplaced(Element oldElement, Element newElement) {
+    /**
+     * {@inheritDoc}
+     * 
+     * By default, there is no reaction.
+     */
+	 @Override
+   public void reactOnDescendantReplaced(Element oldElement, Element newElement) {
 	 }
 
-	 public final Verification verify() {
+	 /**
+	 * {@inheritDoc}
+	 */
+	@Override
+   public final Verification verify() {
 		 try {
 			 Verification result = verifySelf();
 			 if(result == null) {
@@ -1137,7 +1355,7 @@ public abstract class ElementImpl implements Element {
 		 return result;
 	 }
 
-	 public final Verification verifyLoops() {
+	 protected Verification verifyLoops() {
 		 Verification result = Valid.create();
 		 Element e = parent();
 		 while(e != null) {
@@ -1155,17 +1373,16 @@ public abstract class ElementImpl implements Element {
 	  * apply to it and that there are no conflicting properties are both implemented in verifyProperties(), which is also used in verify().
 	  * @return
 	  */
-	 //    public abstract VerificationResult verifySelf();
-	 public Verification verifySelf() {
+	 protected Verification verifySelf() {
 		 return Valid.create();
 	 }
 
-	 public final Verification verifyProperties() {
+	 protected Verification verifyProperties() {
 		 Verification result = Valid.create();
 		 PropertySet<Element,ChameleonProperty> properties = internalProperties();
 		 Collection<Conflict<ChameleonProperty>> conflicts = properties.conflicts();
 		 for(Conflict<ChameleonProperty> conflict: conflicts) {
-			 result = result.and(new ConflictProblem(this,conflict));
+			 result = result.and(new ConflictingProperties(this,conflict));
 		 }
 		 for(ChameleonProperty property: properties.properties()) {
 			 result = result.and(property.verify(this));
@@ -1173,49 +1390,84 @@ public abstract class ElementImpl implements Element {
 		 return result;
 	 }
 
-	 public static class LogicalNavigator extends TreeStructure<Element> {
-		@Override
-		public Element parent(Element element) {
-			return ((ElementImpl)element).actualParent();
-		}
+	  public abstract static class Navigator extends TreeStructure<Element> {
+	     
+	       /**
+	        * {@inheritDoc}
+	        * 
+	        * @return the parent of the given element.
+	        */
+	      @Override
+	      public Element parent(Element element) {
+	         return ((ElementImpl)element).actualParent();
+	      }
 
+	      /**
+	       * {@inheritDoc}
+	       * 
+	       * @return The {@link Element#children()} of the element.
+	       */
+	      @Override
+	      public List<? extends Element> children(Element element) {
+	         return element.children();
+	      }
+	  }
+	 
+	 /**
+	  * A tree structure for the main logical structure of the model.
+	  * 
+	  * @author Marko van Dooren
+	  */
+	 public static class LogicalNavigator extends Navigator {
+	    
+      /**
+       * {@inheritDoc}
+       * 
+       * @return The {@link Element#logical()} tree structure of the element.
+       */
 		@Override
 		public TreeStructure<Element> tree(Element element) {
 			return element.logical();
 		}
 
-		@Override
-		public List<? extends Element> children(Element element) {
-			return element.children();
-		}
 	}
 
-	public static class LexicalNavigator extends TreeStructure<Element> {
-		@Override
-		public Element parent(Element element) {
-			return ((ElementImpl)element).actualParent();
-		}
+    /**
+     * A tree structure for the lexical structure of the model.
+     * 
+     * @author Marko van Dooren
+     */
+	public static class LexicalNavigator extends Navigator {
 
+      /**
+       * {@inheritDoc}
+       * 
+       * @return The {@link Element#logical()} tree structure of the element.
+       */
 		@Override
 		public TreeStructure<Element> tree(Element element) {
 			return element.lexical();
 		}
-
-		@Override
-		public List<? extends Element> children(Element element) {
-			return element.children();
-		}
 	}
 
-	public static class ConflictProblem extends BasicProblem {
+	/**
+	 * A class of problems caused by conflicting properties.
+	 * 
+	 * @author Marko van Dooren
+	 */
+	public static class ConflictingProperties extends BasicProblem {
 
 		 private Conflict<ChameleonProperty> _conflict;
 
-		 public ConflictProblem(Element element, Conflict<ChameleonProperty> conflict) {
+		 public ConflictingProperties(Element element, Conflict<ChameleonProperty> conflict) {
 			 super(element, "Property "+conflict.first().name()+" conflicts with property "+conflict.second().name());
 			 _conflict = conflict;
 		 }
 
+		 /**
+		  * 
+		  * @return The conflict that caused this problem.
+		  */
 		 public Conflict<ChameleonProperty> conflict() {
 			 return _conflict;
 		 }
@@ -1333,58 +1585,86 @@ public abstract class ElementImpl implements Element {
 	 }
 
 
-	 public final boolean equals(Object other) {
-		 try {
-			 return (other instanceof Element) && sameAs((Element) other);
-		 } catch (LookupException e) {
-			 throw new ChameleonProgrammerException(e);
-		 }
-	 }
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public final boolean equals(Object other) {
+      try {
+         return (other instanceof Element) && sameAs((Element) other);
+      } catch (LookupException e) {
+         throw new ChameleonProgrammerException(e);
+      }
+   }
+   
+   /**
+    * {@inheritDoc}
+    * 
+    * YOU MUST OVERRIDE THIS METHOD WHEN YOU OVERRIDE {@link #uniSameAs(Element)}.
+    */
+   public int hashCode() {
+      return super.hashCode();
+   }
 
-	 public final boolean sameAs(Element other) throws LookupException {
-		 return other == this || (uniSameAs(other) || ((other != null) && (other.uniSameAs(this))));
-	 }
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public final boolean sameAs(Element other) throws LookupException {
+      return other == this || (uniSameAs(other) || ((other != null) && (other.uniSameAs(this))));
+   }
 
 	 /**
+	  * {@inheritDoc}
+	  * 
 	  * By default, reference equality is used.
 	  */
-	 public boolean uniSameAs(Element other) throws LookupException {
+	 @Override
+   public boolean uniSameAs(Element other) throws LookupException {
 		 return other == this;
 	 }
 
-	 /**
-	  * Flush the cache. This method flushes the local cache using "flushLocalCache()" and then
-	  * recurses into the children.
-	  */
-	 public void flushCache() {
-		 flushLocalCache();
-		 for(Element child:children()) {
-			 if(child != null) {
-				 child.flushCache();
-			 } else {
-				 throw new ChameleonProgrammerException("The children method of class "+getClass()+" returns a collection that contains a null reference");
-			 }
-		 }
-	 }
+   /**
+    * {@inheritDoc}
+    * 
+    * Flush the cache. This method flushes the local cache using
+    * "flushLocalCache()" and then recurses into the children.
+    */
+   @Override
+   public void flushCache() {
+      flushLocalCache();
+      for (Element child : children()) {
+         if (child != null) {
+            child.flushCache();
+         } else {
+            throw new ChameleonProgrammerException("The children method of class " + getClass()
+                  + " returns a collection that contains a null reference");
+         }
+      }
+   }
 
-	 /**
-	  * Flush language cache and property cache.
-	  */
-	 public synchronized void flushLocalCache() {
-		 _propertyCache = null;
-		 _properties = null;
-	 }
-	 
-	 public Namespace namespace() {
-		 NamespaceDeclaration ancestor = nearestAncestor(NamespaceDeclaration.class);
-		 if(ancestor != null) {
-			 return ancestor.namespace();
-		 } else {
-			 return null;
-		 }
-	 }
+   /**
+    * Flush language cache and property cache.
+    */
+   protected synchronized void flushLocalCache() {
+      _propertyCache = null;
+      _properties = null;
+   }
 
-//	 /**
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public Namespace namespace() {
+      NamespaceDeclaration ancestor = nearestAncestor(NamespaceDeclaration.class);
+      if (ancestor != null) {
+         return ancestor.namespace();
+      } else {
+         return null;
+      }
+   }
+
+   //	 /**
 //	  * Clone the descendants of this element and make the clones the descendants of
 //	  * the given element (which will typically be a clone of this element). Type
 //	  * E must be the class of the current element; otherwise e does not have the

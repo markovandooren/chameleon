@@ -105,7 +105,8 @@ public class ProgrammingPointcut extends Pointcut implements DeclarationContaine
 		header().setName(name);
 	}
 
-	public LookupContext lookupContext(Element element) throws LookupException {
+	@Override
+   public LookupContext lookupContext(Element element) throws LookupException {
 		if (element == header()) {
 			return parent().lookupContext(this);
 		} else {

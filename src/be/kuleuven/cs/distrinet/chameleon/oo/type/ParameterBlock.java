@@ -58,7 +58,8 @@ public class ParameterBlock<T extends Parameter> extends ElementImpl {
 		}
 	}
 
-	protected ParameterBlock<T> cloneSelf() {
+	@Override
+   protected ParameterBlock<T> cloneSelf() {
 		return new ParameterBlock<T>(parameterType());
 	}
 

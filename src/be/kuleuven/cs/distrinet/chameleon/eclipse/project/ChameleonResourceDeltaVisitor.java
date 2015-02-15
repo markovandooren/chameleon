@@ -24,7 +24,8 @@ public abstract class ChameleonResourceDeltaVisitor implements IResourceDeltaVis
 		return _nature;
 	}
 	
-	public boolean visit(IResourceDelta delta) throws CoreException {
+	@Override
+   public boolean visit(IResourceDelta delta) throws CoreException {
 			switch (delta.getKind()) {
 			case IResourceDelta.ADDED :
 				handleAdded(delta);

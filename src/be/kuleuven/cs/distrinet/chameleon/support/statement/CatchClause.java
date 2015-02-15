@@ -13,12 +13,12 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
+import be.kuleuven.cs.distrinet.chameleon.core.variable.Variable;
+import be.kuleuven.cs.distrinet.chameleon.core.variable.VariableContainer;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.CheckedExceptionList;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.Statement;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.FormalParameter;
-import be.kuleuven.cs.distrinet.chameleon.oo.variable.Variable;
-import be.kuleuven.cs.distrinet.chameleon.oo.variable.VariableContainer;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 
@@ -68,7 +68,8 @@ public class CatchClause extends Clause implements VariableContainer {
 //  	}
 //  }
 
-  public CatchClause cloneSelf() {
+  @Override
+public CatchClause cloneSelf() {
     return new CatchClause(null, null);
   }
 
@@ -80,7 +81,8 @@ public class CatchClause extends Clause implements VariableContainer {
       CheckedExceptionList cel = nearestAncestor(TryStatement.class).getStatement().getCEL();
       Collection checkedExceptionTypes = cel.getExceptions();
       return new AbstractPredicate<Element,LookupException>() {
-        public boolean eval(Element o) throws LookupException {
+        @Override
+      public boolean eval(Element o) throws LookupException {
           return ((Type)o).assignableTo(getExceptionParameter().getType());
         }
       }.exists(checkedExceptionTypes);
@@ -90,13 +92,15 @@ public class CatchClause extends Clause implements VariableContainer {
     }
   }
 
-  public List<? extends Variable> declarations() {
+  @Override
+public List<? extends Variable> declarations() {
     List<Variable> result = new ArrayList<Variable>();
     result.add(getExceptionParameter());
     return result;
   }
   
-	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+	@Override
+   public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 		return selector.selection(declarations());
 	}
 	
@@ -105,7 +109,8 @@ public class CatchClause extends Clause implements VariableContainer {
 		return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
 	}
 
-	public LocalLookupContext localContext() {
+	@Override
+   public LocalLookupContext localContext() {
 		return language().lookupFactory().createTargetLookupStrategy(this);
 	}
 
@@ -117,7 +122,8 @@ public class CatchClause extends Clause implements VariableContainer {
 //    return result;
 //  }
 
-	public Element variableScopeElement() {
+	@Override
+   public Element variableScopeElement() {
 		return this;
 	}
 
@@ -126,7 +132,8 @@ public class CatchClause extends Clause implements VariableContainer {
 		return checkNull(getExceptionParameter(), "Exception parameter is missing", Valid.create());
 	}
 
-	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
 	}
 

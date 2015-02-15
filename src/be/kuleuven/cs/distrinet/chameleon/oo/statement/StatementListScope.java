@@ -21,7 +21,8 @@ public class StatementListScope extends Scope {
     _statement = statement;
   }
   
-  public boolean geRecursive(Scope other)  {
+  @Override
+public boolean geRecursive(Scope other)  {
   	return (
 		    (other instanceof StatementListScope) && 
         ((StatementListScope)other).getStatement().ancestors().contains(getContainer()) &&

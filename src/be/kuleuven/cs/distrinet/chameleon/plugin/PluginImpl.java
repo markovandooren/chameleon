@@ -2,7 +2,8 @@ package be.kuleuven.cs.distrinet.chameleon.plugin;
 
 public abstract class PluginImpl<C extends PluginContainer<P>, P extends Plugin> implements Plugin<C,P> {
 
-	public abstract PluginImpl<C, P> clone();
+	@Override
+   public abstract PluginImpl<C, P> clone();
 	
 	@Override
 	public <T extends P> void setContainer(C container, Class<T> keyInterface) {

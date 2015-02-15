@@ -47,7 +47,8 @@ public class DeclarationContainerAlias extends ElementImpl implements Declaratio
 		return result;
 	}
 	
-	public List<Declaration> declarations() {
+	@Override
+   public List<Declaration> declarations() {
 		return _elements.getOtherEnds();
 	}
 	
@@ -60,7 +61,8 @@ public class DeclarationContainerAlias extends ElementImpl implements Declaratio
 		return result;
 	}
 
-	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+	@Override
+   public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 		return selector.selection(declarations());
 	}
 
@@ -94,7 +96,8 @@ public class DeclarationContainerAlias extends ElementImpl implements Declaratio
 	
 	private List<DeclarationContainerAlias> _superContainers = Lists.create();
 
-	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return _elements.getOtherEnds();
 	}
 

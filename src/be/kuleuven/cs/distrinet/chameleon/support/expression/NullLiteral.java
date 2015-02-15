@@ -18,11 +18,13 @@ public class NullLiteral extends Literal {
     super("null");
   }
 
-  protected Type actualType() throws LookupException {
+  @Override
+protected Type actualType() throws LookupException {
 	  return language(ObjectOrientedLanguage.class).getNullType(view().namespace());
   }
 
-  protected NullLiteral cloneSelf() {
+  @Override
+protected NullLiteral cloneSelf() {
     return new NullLiteral();
   }
 

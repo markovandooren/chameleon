@@ -20,16 +20,19 @@ public class LocalVariable extends RegularVariable {
     super(name, type, init);
   }
 
-  protected LocalVariable cloneSelf() {
+  @Override
+protected LocalVariable cloneSelf() {
     return new LocalVariable(name(), null,null);
   }
 
-  public Scope scope() throws LookupException {
+  @Override
+public Scope scope() throws LookupException {
     List ancestors = ancestors(StatementListContainer.class);
     return new StatementListScope((StatementListContainer)ancestors.get(ancestors.size() - 1), (Statement)parent());
   }
 
-	public LocalVariable actualDeclaration() throws LookupException {
+	@Override
+   public LocalVariable actualDeclaration() throws LookupException {
 		return this;
 	}
 

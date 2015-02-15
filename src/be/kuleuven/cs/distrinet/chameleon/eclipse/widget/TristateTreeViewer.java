@@ -87,15 +87,15 @@ public class TristateTreeViewer extends Composite {
 
 		@Override
 		public boolean isGrayed(Object element) {
-			boolean grayed = stateProvider.isGrayed((V)element);
+			boolean grayed = stateProvider.isGrayed(element);
 			return grayed;
 		}
 
 		@Override
 		public boolean isChecked(Object element) {
 			//FIXME side effect in this 
-			boolean checked = stateProvider.isChecked((V)element);
-			boolean grayed = stateProvider.isGrayed((V)element);
+			boolean checked = stateProvider.isChecked(element);
+			boolean grayed = stateProvider.isGrayed(element);
 			notifyNodeChanged((TreeNode) element, checked, grayed);
 			return checked;
 		}
@@ -144,6 +144,7 @@ public class TristateTreeViewer extends Composite {
 		layout.numColumns = 1;
 		setLayout(layout);
 		_inner.getTree().addListener(SWT.Expand, new Listener() {
+      @Override
       public void handleEvent(Event e) {
         TreeItem item = (TreeItem) e.item;
         if(item.getChecked() && (! item.getGrayed())) {
@@ -232,11 +233,13 @@ public class TristateTreeViewer extends Composite {
 	}
 
 
-	public int hashCode() {
+	@Override
+   public int hashCode() {
 		return _inner.hashCode();
 	}
 
-	public void addHelpListener(HelpListener listener) {
+	@Override
+   public void addHelpListener(HelpListener listener) {
 		_inner.addHelpListener(listener);
 	}
 
@@ -264,7 +267,8 @@ public class TristateTreeViewer extends Composite {
 		return _inner.getContentProvider();
 	}
 
-	public boolean equals(Object obj) {
+	@Override
+   public boolean equals(Object obj) {
 		return _inner.equals(obj);
 	}
 
@@ -276,7 +280,8 @@ public class TristateTreeViewer extends Composite {
 		return _inner.getControl();
 	}
 
-	public Object getData(String key) {
+	@Override
+   public Object getData(String key) {
 		return _inner.getData(key);
 	}
 
@@ -296,7 +301,8 @@ public class TristateTreeViewer extends Composite {
 		return _inner.getTree();
 	}
 
-	public void removeHelpListener(HelpListener listener) {
+	@Override
+   public void removeHelpListener(HelpListener listener) {
 		_inner.removeHelpListener(listener);
 	}
 
@@ -316,11 +322,13 @@ public class TristateTreeViewer extends Composite {
 		_inner.setLabelProvider(labelProvider);
 	}
 
-	public void setData(String key, Object value) {
+	@Override
+   public void setData(String key, Object value) {
 		_inner.setData(key, value);
 	}
 
-	public String toString() {
+	@Override
+   public String toString() {
 		return _inner.toString();
 	}
 

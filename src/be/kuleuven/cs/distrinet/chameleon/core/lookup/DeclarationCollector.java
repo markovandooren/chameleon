@@ -33,7 +33,8 @@ public class DeclarationCollector<D extends Declaration> extends Collector<D> {
    @
    @ post candidates.size() == 1 ==> !willProceed();
    @*/
-	public void process(List<? extends SelectionResult> candidates) throws LookupException {
+	@Override
+   public void process(List<? extends SelectionResult> candidates) throws LookupException {
 		int size = candidates.size();
 		if(size == 1) {
 			_accumulator = candidates.get(0);
@@ -45,7 +46,8 @@ public class DeclarationCollector<D extends Declaration> extends Collector<D> {
 	/**
 	 * Return the result of the lookup. If no result has been found, a @link{LookupException} is thrown.
 	 */
-	public D result() throws LookupException {
+	@Override
+   public D result() throws LookupException {
 		if(_accumulator == null) {
 			throw new LookupException("No result has been found using selector "+selector().toString(),selector());
 		} else {
@@ -56,7 +58,8 @@ public class DeclarationCollector<D extends Declaration> extends Collector<D> {
 	/**
 	 * A declaration collector will proceed when it has not yet found a declaration.
 	 */
-	public boolean willProceed() throws LookupException {
+	@Override
+   public boolean willProceed() throws LookupException {
 		return _accumulator == null;
 	}
 		

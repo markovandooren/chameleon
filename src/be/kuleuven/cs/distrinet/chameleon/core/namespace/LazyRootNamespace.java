@@ -68,7 +68,8 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 		return candidates;
 	}
 	
-	public void addInputSource(InputSource source) throws InputException {
+	@Override
+   public void addInputSource(InputSource source) throws InputException {
 		_inputSources.add(source.namespaceLink());
 		List<String> targetDeclarationNames = source.targetDeclarationNames(this);
 		for(String name: targetDeclarationNames) {
@@ -116,7 +117,8 @@ public class LazyRootNamespace extends RootNamespace implements InputSourceNames
 //		return super.children();
 	}
 	
-	public List<InputSource> inputSources() {
+	@Override
+   public List<InputSource> inputSources() {
 		return _inputSources.getOtherEnds();
 	}
 		

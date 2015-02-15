@@ -20,15 +20,18 @@ public class ModelContentProvider implements ITreeContentProvider {
 		
 	}
 
-	public void dispose() {
+	@Override
+   public void dispose() {
 		
 	}
 
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+	@Override
+   public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		
 	}
 
-	public Object[] getChildren(Object parentElement) {
+	@Override
+   public Object[] getChildren(Object parentElement) {
 		if(parentElement instanceof Element){
 			Element elem = (Element)parentElement;
 			return elem.children().toArray();
@@ -36,7 +39,8 @@ public class ModelContentProvider implements ITreeContentProvider {
 		return null;
 	}
 
-	public Object getParent(Object element) {
+	@Override
+   public Object getParent(Object element) {
 		if(element instanceof Element){
 			Element elem = (Element)element;
 			return elem.parent();
@@ -44,7 +48,8 @@ public class ModelContentProvider implements ITreeContentProvider {
 		return null;
 	}
 
-	public boolean hasChildren(Object element) {
+	@Override
+   public boolean hasChildren(Object element) {
 		if(element instanceof Element){
 			Element elem = (Element)element;
 			return ! elem.children().isEmpty();
@@ -52,7 +57,8 @@ public class ModelContentProvider implements ITreeContentProvider {
 		return false;
 	}
 
-	public Object[] getElements(Object inputElement) {
+	@Override
+   public Object[] getElements(Object inputElement) {
 		return getChildren(inputElement);
 	}
 

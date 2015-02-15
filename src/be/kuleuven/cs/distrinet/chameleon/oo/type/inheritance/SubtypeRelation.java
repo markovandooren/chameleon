@@ -20,7 +20,8 @@ public class SubtypeRelation extends AbstractInheritanceRelation {
 		super(ref);
 	}
 
-	protected SubtypeRelation cloneSelf() {
+	@Override
+   protected SubtypeRelation cloneSelf() {
 		return new SubtypeRelation(null);
 	}
 

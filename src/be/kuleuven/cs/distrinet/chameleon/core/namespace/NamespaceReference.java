@@ -17,7 +17,8 @@ public class NamespaceReference extends SimpleReference<Namespace> {
     super(qn, Namespace.class);
   }
 
-  protected NamespaceReference cloneSelf() {
+  @Override
+protected NamespaceReference cloneSelf() {
     return new NamespaceReference(null,name());
   }
 

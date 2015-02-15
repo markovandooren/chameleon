@@ -48,7 +48,8 @@ public class ChameleonReconciler extends AbstractChameleonReconciler{
 	
 	
 	// called when complete dirty region queue is reconciled
-	protected void reconciled() {
+	@Override
+   protected void reconciled() {
 		try {
 			getEditor().getDocument().getProjectNature().acquire();
 			fStrategy.startReconciling();
@@ -60,7 +61,8 @@ public class ChameleonReconciler extends AbstractChameleonReconciler{
 	/*
 	 * @see IReconciler#getReconcilingStrategy(String)
 	 */
-	public IReconcilingStrategy getReconcilingStrategy(String contentType) {
+	@Override
+   public IReconcilingStrategy getReconcilingStrategy(String contentType) {
 		//Assert.isNotNull(contentType);
 		return (IReconcilingStrategy) fStrategy;
 	}
@@ -68,7 +70,8 @@ public class ChameleonReconciler extends AbstractChameleonReconciler{
 	/*
 	 * @see AbstractReconciler#process(DirtyRegion)
 	 */
-	protected void process(ChameleonDirtyRegion dirtyRegion) {
+	@Override
+   protected void process(ChameleonDirtyRegion dirtyRegion) {
 		if(dirtyRegion != null){
 			fStrategy.reconcile(dirtyRegion,dirtyRegion);
 		}	
@@ -82,14 +85,16 @@ public class ChameleonReconciler extends AbstractChameleonReconciler{
 	/*
 	 * @see AbstractReconciler#reconcilerDocumentChanged(IDocument)
 	 */
-	protected void reconcilerDocumentChanged(EclipseDocument document) {
+	@Override
+   protected void reconcilerDocumentChanged(EclipseDocument document) {
 		fStrategy.setDocument(document);
 	}	
 		
 	/*
 	 * @see AbstractReconciler#setProgressMonitor(IProgressMonitor)
 	 */
-	public void setProgressMonitor(IProgressMonitor monitor) {
+	@Override
+   public void setProgressMonitor(IProgressMonitor monitor) {
 		super.setProgressMonitor(monitor);
 		if (fStrategy instanceof IReconcilingStrategyExtension) {
 			IReconcilingStrategyExtension extension= (IReconcilingStrategyExtension) fStrategy;
@@ -103,7 +108,8 @@ public class ChameleonReconciler extends AbstractChameleonReconciler{
 	/*
 	 * This also sets up the folding process.
 	 */
-	protected void initialProcess() {
+	@Override
+   protected void initialProcess() {
 		if (fStrategy instanceof IReconcilingStrategyExtension) {
 			IReconcilingStrategyExtension extension= (IReconcilingStrategyExtension) fStrategy;
 			extension.initialReconcile();
@@ -114,7 +120,8 @@ public class ChameleonReconciler extends AbstractChameleonReconciler{
 	 *  (non-Javadoc)
 	 * @see chameleonEditor.editors.reconciler.AbstractChameleonReconciler#docAboutToBeChanged()
 	 */
-    protected void docAboutToBeChanged(){
+    @Override
+   protected void docAboutToBeChanged(){
     	fStrategy.initReconciling();
     }
 

@@ -12,7 +12,8 @@ public class RegularLiteral extends LiteralWithTypeReference {
     setTypeReference(type);
   }
 
-  protected RegularLiteral cloneSelf() {
+  @Override
+protected RegularLiteral cloneSelf() {
     return new RegularLiteral(null, getValue());
   }
 

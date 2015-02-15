@@ -88,7 +88,8 @@ public class ChameleonAnnotation extends ProjectionAnnotation {
 	/*
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString() {
+	@Override
+   public String toString() {
 		return "ChameleonAnnotation:\n" + //$NON-NLS-1$
 				"\telement: \t"+pos.toString()+"\n" + //$NON-NLS-1$ //$NON-NLS-2$
 				"\tcollapsed: \t" + isCollapsed() + "\n" + //$NON-NLS-1$ //$NON-NLS-2$

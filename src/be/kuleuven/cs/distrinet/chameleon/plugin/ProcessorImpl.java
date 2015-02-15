@@ -10,7 +10,8 @@ public abstract class ProcessorImpl<C extends ProcessorContainer<P>, P extends P
 
   private C _container;
 
-  public C container() {
+  @Override
+public C container() {
       return _container;
   }
 
@@ -33,5 +34,6 @@ public abstract class ProcessorImpl<C extends ProcessorContainer<P>, P extends P
     }
   }
 
-  public abstract Processor clone();
+  @Override
+public abstract Processor clone();
 }

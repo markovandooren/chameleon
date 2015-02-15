@@ -41,7 +41,8 @@ public class PredicateDescendantProvider<E extends Element> extends AbstractDesc
 		return _predicate;
 	}
 	
-	public Collection<E> elements(View project) {
+	@Override
+   public Collection<E> elements(View project) {
 		Collection<E> result = new ArrayList();
 		Class<E> cls = elementType();
 		SafePredicate<E> predicate = predicate();

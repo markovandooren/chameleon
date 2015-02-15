@@ -32,6 +32,7 @@ public interface ModelFactory extends LanguagePlugin {
 	 * Create a 'clone' of this model factory. The model factory will be attached to a fresh language instance.
 	 * No elements will have been added to the model.
 	 */
-	public ModelFactory clone();
+	@Override
+   public ModelFactory clone();
 	
 }

@@ -55,7 +55,8 @@ public class Advice<B extends Element> extends ElementWithModifiersImpl {
 		set(_pointcutExpression, pointcutref);
 	}
 
-	protected Advice cloneSelf() {
+	@Override
+   protected Advice cloneSelf() {
 		return new Advice();
 	}
 

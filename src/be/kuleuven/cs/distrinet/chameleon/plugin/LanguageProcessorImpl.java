@@ -4,7 +4,8 @@ import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 
 public abstract class LanguageProcessorImpl extends ProcessorImpl<Language, LanguageProcessor> implements LanguageProcessor {
 
-	public Language language() {
+	@Override
+   public Language language() {
 		return container();
 	}
 	

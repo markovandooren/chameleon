@@ -62,7 +62,8 @@ public abstract class DynamicChameleonProperty extends DynamicProperty<Element,C
 		protected void createInverse(String name, PropertyUniverse<ChameleonProperty> universe) {
 		}
 
-		public Verification verify(Element element) {
+		@Override
+      public Verification verify(Element element) {
 			return verifyAux(element, this);
 		}
 
@@ -77,7 +78,8 @@ public abstract class DynamicChameleonProperty extends DynamicProperty<Element,C
 		new InverseDynamicChameleonProperty("not "+name, universe, mutex(), this);
 	}
 
-	public Verification verify(Element element) {
+	@Override
+   public Verification verify(Element element) {
 		return verifyAux(element,this);
 	}
 	
@@ -130,7 +132,8 @@ public abstract class DynamicChameleonProperty extends DynamicProperty<Element,C
   @
   @ post validElementTypes().contains(type);
   @*/
-	public void addValidElementType(Class<? extends Element> type) {
+	@Override
+   public void addValidElementType(Class<? extends Element> type) {
 		_validTypes = _builder.add(type).build();
 	}
 	

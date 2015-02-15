@@ -56,12 +56,14 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		}
 	};
 	
-	public TreeStructure<Element> logical() {
+	@Override
+   public TreeStructure<Element> logical() {
 		return _logical;
 	}
   
 	private final class DefaultNamespaceSelector implements LookupContextSelector {
-		public LookupContext strategy() throws LookupException {
+		@Override
+      public LookupContext strategy() throws LookupException {
 			// 5 SEARCH IN DEFAULT NAMESPACE
 			return NamespaceDeclaration.this.getDefaultNamespace().targetContext();
 		}
@@ -108,14 +110,16 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	}
 
 	protected class DemandImportStrategySelector implements LookupContextSelector {
-		public LookupContext strategy() {
+		@Override
+      public LookupContext strategy() {
 			// 4 SEARCH DEMAND IMPORTS
 			return _importDemandContext;
 		}
 	}
 
 	protected class CurrentNamespaceStrategySelector implements LookupContextSelector {
-		public LookupContext strategy() throws LookupException {
+		@Override
+      public LookupContext strategy() throws LookupException {
 			// 3 SEARCH IN CURRENT NAMESPACE
 			if(_context == null) {
 				LookupContext currentNamespaceStrategy = namespace().localContext();
@@ -130,7 +134,8 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	}
 
 	protected class DirectImportStrategySelector implements LookupContextSelector {
-		public LookupContext strategy() {
+		@Override
+      public LookupContext strategy() {
 			// 2 SEARCH IN DIRECT IMPORTS
 			return _importDirectContext;
 		}
@@ -161,7 +166,8 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	
 	private Single<CrossReference<Namespace>> _ref = new Single<CrossReference<Namespace>>(this,true,"namespace reference");
 	
-	public LookupContext lookupContext(Element child) throws LookupException {
+	@Override
+   public LookupContext lookupContext(Element child) throws LookupException {
 //		if(containsImport(child) || child == namespaceReference()) {
 		if(child == namespaceReference()) {
 			return getDefaultNamespace().targetContext();
@@ -272,7 +278,8 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	 * Recursively disconnect this namespace declaration and all descendant namespace declarations
 	 * from their namespaces. 
 	 */
-	public void nonRecursiveDisconnect() {
+	@Override
+   public void nonRecursiveDisconnect() {
 		// 1) Set the lexical parent to null.
 		super.nonRecursiveDisconnect();
 //		if(Config.DEBUG) {
@@ -304,7 +311,8 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	
 	private Multi<NamespaceDeclaration> _subNamespaceParts = new Multi<NamespaceDeclaration>(this,"subnamespace parts");
 
-	public List<Declaration> declarations() {
+	@Override
+   public List<Declaration> declarations() {
       return _declarations.getOtherEnds();
 	}
 	
@@ -312,7 +320,8 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
     return new TypePredicate<T>(kind).downCastedList(declarations());
   }
 	
-	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+	@Override
+   public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 		return selector.selection(declarations());
 	}
 
@@ -327,7 +336,8 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	 * @return
 	 * @throws LookupException 
 	 */
-	public Namespace namespace() {
+	@Override
+   public Namespace namespace() {
 		Namespace stored = _namespaceLink.getOtherEnd();
 		if(stored == null) {
 			//FIXME When multi-language support is added, this must change
@@ -373,17 +383,20 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 
 	private Multi<Import> _imports = new Multi<Import>(this,"imports"){
 		//FIXME SLOW but it works for now.
-		protected void fireElementAdded(Import addedElement) {
+		@Override
+      protected void fireElementAdded(Import addedElement) {
 			super.fireElementAdded(addedElement);
 //			_importSet = null;
 			_importCache = null;
 		};
-		protected void fireElementRemoved(Import addedElement) {
+		@Override
+      protected void fireElementRemoved(Import addedElement) {
 			super.fireElementRemoved(addedElement);
 //			_importSet = null;
 			_importCache = null;
 		};
-		protected void fireElementReplaced(Import oldElement, Import newElement) {
+		@Override
+      protected void fireElementReplaced(Import oldElement, Import newElement) {
 			super.fireElementReplaced(oldElement, newElement);
 			fireElementRemoved(oldElement);
 			fireElementAdded(newElement);
@@ -515,7 +528,8 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	 * ACCESSIBILITY
 	 */
 
-	public Language language(){
+	@Override
+   public Language language(){
 		Namespace namespace = null;
 			namespace = namespace();
 		if(namespace != null) {
@@ -537,7 +551,8 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		return view().namespace();
 	}
   
-	protected NamespaceDeclaration cloneSelf() {
+	@Override
+   protected NamespaceDeclaration cloneSelf() {
   	return new NamespaceDeclaration((CrossReference)null);
   }
 
@@ -548,7 +563,8 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		return Valid.create();
 	}
 
-	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
 	}
 

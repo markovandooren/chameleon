@@ -71,7 +71,8 @@ public class ChameleonCompletionProposal implements ICompletionProposal {
 	/*
 	 * @see ICompletionProposal#apply(IDocument)
 	 */
-	public void apply(IDocument document) {
+	@Override
+   public void apply(IDocument document) {
 		try {
 			document.replace(fReplacementOffset, fReplacementLength, fReplacementString);
 		} catch (BadLocationException x) {
@@ -82,28 +83,32 @@ public class ChameleonCompletionProposal implements ICompletionProposal {
 	/*
 	 * @see ICompletionProposal#getSelection(IDocument)
 	 */
-	public Point getSelection(IDocument document) {
+	@Override
+   public Point getSelection(IDocument document) {
 		return new Point(fReplacementOffset + fCursorPosition, 0);
 	}
 
 	/*
 	 * @see ICompletionProposal#getContextInformation()
 	 */
-	public IContextInformation getContextInformation() {
+	@Override
+   public IContextInformation getContextInformation() {
 		return fContextInformation;
 	}
 
 	/*
 	 * @see ICompletionProposal#getImage()
 	 */
-	public Image getImage() {
+	@Override
+   public Image getImage() {
 		return fImage;
 	}
 
 	/*
 	 * @see ICompletionProposal#getDisplayString()
 	 */
-	public String getDisplayString() {
+	@Override
+   public String getDisplayString() {
 		if (fDisplayString != null)
 			return fDisplayString;
 		return fReplacementString;
@@ -112,7 +117,8 @@ public class ChameleonCompletionProposal implements ICompletionProposal {
 	/*
 	 * @see ICompletionProposal#getAdditionalProposalInfo()
 	 */
-	public String getAdditionalProposalInfo() {
+	@Override
+   public String getAdditionalProposalInfo() {
 		if(fAdditionalProposalInfo==null)
 			fAdditionalProposalInfo = fLabelProvider.getCode(fElement);
 		return fAdditionalProposalInfo;

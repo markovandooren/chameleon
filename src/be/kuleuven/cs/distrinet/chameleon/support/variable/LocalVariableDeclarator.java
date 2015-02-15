@@ -12,12 +12,12 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.modifier.Modifier;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
+import be.kuleuven.cs.distrinet.chameleon.core.variable.Variable;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.oo.statement.StatementImpl;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.TypeReference;
-import be.kuleuven.cs.distrinet.chameleon.oo.variable.Variable;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.VariableDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.oo.variable.VariableDeclarator;
 import be.kuleuven.cs.distrinet.chameleon.support.statement.ForInit;
@@ -48,7 +48,8 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
 		return new LocalVariableDeclarator(null);
 	}
 
-	public LocalVariable createVariable(String name, Expression expression) {
+	@Override
+   public LocalVariable createVariable(String name, Expression expression) {
 		LocalVariable result = new LocalVariable(name, clone(typeReference()),expression);
 		for(Modifier mod: modifiers()) {
 			result.addModifier(clone(mod));
@@ -65,7 +66,8 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
   	return typeReference().getType();
   }
 	
-  public TypeReference typeReference() {
+  @Override
+public TypeReference typeReference() {
     return _typeReference.getOtherEnd();
   }
 
@@ -73,7 +75,8 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
     set(_typeReference,type);
   }
 
-	public List<VariableDeclaration> variableDeclarations() {
+	@Override
+   public List<VariableDeclaration> variableDeclarations() {
 		return _declarations.getOtherEnds();
 	}
 	
@@ -109,7 +112,8 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
    @
    @ post \result != null;
    @*/
-  public List<Modifier> modifiers() {
+  @Override
+public List<Modifier> modifiers() {
     return _modifiers.getOtherEnds();
   }
 
@@ -143,15 +147,18 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
    @ 
    @ post \result == variables();
    @*/
-	public List<? extends Variable> declarations() throws LookupException {
+	@Override
+   public List<? extends Variable> declarations() throws LookupException {
 		return variables();
 	}
 	
-	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
 	}
 
-	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+	@Override
+   public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 		return selector.selection(declarations());
 	}
 
@@ -170,7 +177,8 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
    @ post declarations().indexOf(Element) > 0) ==> 
    @      \result == declarations().elementAt(declarations().indexOf(element) - 1).lexicalContext();
    @*/
-	public LookupContext lookupContext(Element element) throws LookupException {
+	@Override
+   public LookupContext lookupContext(Element element) throws LookupException {
 //		LINEAR.start();
 		List<VariableDeclaration> declarations = variableDeclarations();
 		int index = declarations.indexOf(element);
@@ -188,7 +196,8 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
 	public int numberOfVariableDeclarations() {
 		return _declarations.size();
 	}
-	public LookupContext linearLookupStrategy() throws LookupException {
+	@Override
+   public LookupContext linearLookupStrategy() throws LookupException {
 		return variableDeclarations().get(numberOfVariableDeclarations()-1).linearContext();
 	}
 

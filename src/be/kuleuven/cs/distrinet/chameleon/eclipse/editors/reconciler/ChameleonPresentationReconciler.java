@@ -46,14 +46,16 @@ public class ChameleonPresentationReconciler extends AbstractChameleonReconciler
 	/**
 	 * @return null;
 	 */
-	public IPresentationDamager getDamager(String contentType) {
+	@Override
+   public IPresentationDamager getDamager(String contentType) {
 		return null;
 	}
 
 	/**
 	 * @return null;
 	 */
-	public IPresentationRepairer getRepairer(String contentType) {
+	@Override
+   public IPresentationRepairer getRepairer(String contentType) {
 		return null;
 	}
 
@@ -110,7 +112,7 @@ public class ChameleonPresentationReconciler extends AbstractChameleonReconciler
 	//Do the coloring
 	private void doColoring(){
 		try {
-			((EclipseDocument)this._document).doPresentation(_textViewer);
+			this._document.doPresentation(_textViewer);
 		} catch (ClassCastException e){
 			e.printStackTrace();
 		}
@@ -130,7 +132,8 @@ public class ChameleonPresentationReconciler extends AbstractChameleonReconciler
 	 *  (non-Javadoc)
 	 * @see chameleonEditor.editors.reconciler.AbstractChameleonReconciler#reconcilerDocumentChanged(org.eclipse.jface.text.IDocument)
 	 */
-	protected void reconcilerDocumentChanged(EclipseDocument newDocument) {
+	@Override
+   protected void reconcilerDocumentChanged(EclipseDocument newDocument) {
 	//	System.out.println("ChameleonPresentationReconciler.reconcilerDocumentChanged is opgeroepen");
 		_strategy.setDocument(newDocument);
 	}
@@ -139,7 +142,8 @@ public class ChameleonPresentationReconciler extends AbstractChameleonReconciler
 	 *  (non-Javadoc)
 	 * @see org.eclipse.jface.text.reconciler.IReconciler#getReconcilingStrategy(java.lang.String)
 	 */
-	public IReconcilingStrategy getReconcilingStrategy(String contentType) {
+	@Override
+   public IReconcilingStrategy getReconcilingStrategy(String contentType) {
 		return (IReconcilingStrategy) _strategy;
 	}
 
@@ -154,12 +158,13 @@ public class ChameleonPresentationReconciler extends AbstractChameleonReconciler
 	 *  (non-Javadoc)
 	 * @see chameleonEditor.editors.reconciler.AbstractChameleonReconciler#initialProcess()
 	 */
-	protected void initialProcess(){
+	@Override
+   protected void initialProcess(){
 
 		doPresentation();
 
 		//FIXME als er elementen gefold zijn, en er wordt tekst bijgetypt, dan worden alle foldings ongedaan gemaakt
-		getEditor().fold(((EclipseDocument)_document).getFoldedElementsFromModel());
+		getEditor().fold(_document.getFoldedElementsFromModel());
 
 		
 
@@ -171,14 +176,15 @@ public class ChameleonPresentationReconciler extends AbstractChameleonReconciler
 	 */
 	public void reColor() {
 		try {
-			((EclipseDocument)this._document).doPresentation(_textViewer);
+			this._document.doPresentation(_textViewer);
 		} catch (ClassCastException e){}
 	}
 	
 	/**
 	 * returns the text viewer
 	 */
-	public ITextViewer getTextViewer(){
+	@Override
+   public ITextViewer getTextViewer(){
 		return _textViewer;
 	}
 

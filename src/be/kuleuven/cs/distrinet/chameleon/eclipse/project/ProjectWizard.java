@@ -67,7 +67,8 @@ public class ProjectWizard extends BasicNewProjectResourceWizard implements INew
 		}
 	}
 	
-	public void init(IWorkbench workbench, IStructuredSelection selection) {
+	@Override
+   public void init(IWorkbench workbench, IStructuredSelection selection) {
 		IWizardContainer container = getContainer();
 		// Why can't Eclipse allow me to query the $%*&#@$ objects.
 		setWindowTitle("Create New Chameleon Project");
@@ -93,7 +94,8 @@ public class ProjectWizard extends BasicNewProjectResourceWizard implements INew
 	/**
 	 * Initialize the pages of this wizard and add them to this wizard.
 	 */
-	public void addPages() {
+	@Override
+   public void addPages() {
 		_languageSelectionPage = new LanguageSelectionPage("Language Selection",this);
 		_languageSelectionPage.setTitle("Language Selection");
 		_languageSelectionPage.setDescription("Select the language to use for this project");
@@ -138,7 +140,8 @@ public class ProjectWizard extends BasicNewProjectResourceWizard implements INew
 		projectConfig().setName(name);
 	}
 	
-	public boolean performFinish() {
+	@Override
+   public boolean performFinish() {
 		try {
 			_pathPage.complete();
 			IWorkspace workspace = ResourcesPlugin.getWorkspace();

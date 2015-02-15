@@ -21,7 +21,8 @@ public class CrossReferencePointcutExpression extends DeclarationPointcutExpress
 		return new CrossReferencePointcutExpression(null);
 	}
 
-	protected Declaration declaration(CrossReference joinpoint) throws LookupException {
+	@Override
+   protected Declaration declaration(CrossReference joinpoint) throws LookupException {
 		return joinpoint.getElement();
 	}
 

@@ -24,7 +24,7 @@ public class WithinPointcutExpression extends DeclarationPointcutExpression<Elem
 
 	@Override
 	protected Declaration declaration(Element joinpoint) throws LookupException {
-		return (Declaration) joinpoint.nearestAncestor(type());
+		return joinpoint.nearestAncestor(type());
 	}
 	
 	public Class<? extends Declaration> type() {

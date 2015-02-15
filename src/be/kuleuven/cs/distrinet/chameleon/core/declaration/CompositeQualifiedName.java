@@ -16,7 +16,8 @@ import be.kuleuven.cs.distrinet.rejuse.association.Association;
  */
 public class CompositeQualifiedName extends QualifiedName {
 
-	public List<Signature> signatures() {
+	@Override
+   public List<Signature> signatures() {
 		return _signatures.getOtherEnds();
 	}
 	
@@ -42,7 +43,8 @@ public class CompositeQualifiedName extends QualifiedName {
 	
 	private Multi<Signature> _signatures = new Multi<Signature>(this);
 
-	public Signature lastSignature() {
+	@Override
+   public Signature lastSignature() {
 		return _signatures.lastElement();
 	}
 	
@@ -51,7 +53,8 @@ public class CompositeQualifiedName extends QualifiedName {
 		return new CompositeQualifiedName();
 	}
 	
-	public int length() {
+	@Override
+   public int length() {
 		return _signatures.size();
 	}
 
@@ -60,7 +63,8 @@ public class CompositeQualifiedName extends QualifiedName {
 		return Valid.create();//new BasicProblem(this, "TODO: implement verifySelf of FullyQualifiedName");
 	}
 
-	public QualifiedName popped() {
+	@Override
+   public QualifiedName popped() {
 		CompositeQualifiedName result = clone(this);
 		result.remove(result.lastSignature());
 		return result;
@@ -74,7 +78,8 @@ public class CompositeQualifiedName extends QualifiedName {
 	/**
 	 * For debugging purposes because Eclipse detail formatters simply don't work.
 	 */
-	public String toString() {
+	@Override
+   public String toString() {
 		StringBuffer result = new StringBuffer();
 		List<Signature> signatures = signatures();
 		int size = signatures.size();

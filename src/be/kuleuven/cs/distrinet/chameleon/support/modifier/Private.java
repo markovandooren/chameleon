@@ -23,8 +23,9 @@ public class Private extends ModifierImpl {
 	/**
 	 * A private element has a private scope, and is not inheritable.
 	 */
-  public PropertySet<Element,ChameleonProperty> impliedProperties() {
-	  return createSet(language().property(PrivateProperty.ID), language(ObjectOrientedLanguage.class).INHERITABLE.inverse());
+  @Override
+public PropertySet<Element,ChameleonProperty> impliedProperties() {
+	  return createSet(language(ObjectOrientedLanguage.class).property(PrivateProperty.ID), language(ObjectOrientedLanguage.class).INHERITABLE.inverse());
   }
 
 }

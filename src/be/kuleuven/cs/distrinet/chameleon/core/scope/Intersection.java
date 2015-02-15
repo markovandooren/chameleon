@@ -30,11 +30,13 @@ public class Intersection extends CompositeScope {
     super(domains);
   }
 
-	public boolean contains(final Element element) throws LookupException {
+	@Override
+   public boolean contains(final Element element) throws LookupException {
 		try {
 			return new AbstractPredicate<Scope,LookupException>() {
 
-				public boolean eval(Scope object) throws LookupException {
+				@Override
+            public boolean eval(Scope object) throws LookupException {
 					return object.contains(element);
 				}
 			}.forAll(scopes());
@@ -47,10 +49,12 @@ public class Intersection extends CompositeScope {
 	}
 
   
-  public boolean geRecursive(final Scope other) throws LookupException {
+  @Override
+public boolean geRecursive(final Scope other) throws LookupException {
     try {
       return new AbstractPredicate<Scope,LookupException>() {
-        public boolean eval(Scope o) throws LookupException {
+        @Override
+      public boolean eval(Scope o) throws LookupException {
           return (o).greaterThanOrEqualTo(other);
         }
       }.forAll(scope());
@@ -64,10 +68,12 @@ public class Intersection extends CompositeScope {
     }
   }
 
-  protected boolean leRecursive(final Scope other) throws LookupException {
+  @Override
+protected boolean leRecursive(final Scope other) throws LookupException {
     try {
       return new AbstractPredicate<Scope,LookupException>() {
-        public boolean eval(Scope o) throws LookupException {
+        @Override
+      public boolean eval(Scope o) throws LookupException {
           return other.greaterThanOrEqualTo((o));
         }
       }.exists(scope());
@@ -81,17 +87,21 @@ public class Intersection extends CompositeScope {
     }
   }
 
-  public Scope intersect(final Scope other) throws LookupException {
+  @Override
+public Scope intersect(final Scope other) throws LookupException {
     Intersection result = new Intersection(scope());
     result.add(other);
     return result;
   }
   
-  protected void filter() throws LookupException {
+  @Override
+protected void filter() throws LookupException {
     try {
       new AbstractPredicate<Scope,LookupException>() {
-        public boolean eval(final Scope acc) throws LookupException {
+        @Override
+      public boolean eval(final Scope acc) throws LookupException {
           return ! new AbstractPredicate<Scope,LookupException>() {
+            @Override
             public boolean eval(Scope other) throws LookupException {
               return (acc != other) && (acc.greaterThanOrEqualTo(other));
             }

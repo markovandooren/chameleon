@@ -71,7 +71,8 @@ public class DocumentLoaderContentProvider extends TreeNodeContentProvider<Objec
 			super(parent, project,"Source");
 		}
 
-		protected List<DocumentLoader> loaders(View view) {
+		@Override
+      protected List<DocumentLoader> loaders(View view) {
 			return view.sourceLoaders();
 		}
 
@@ -83,7 +84,8 @@ public class DocumentLoaderContentProvider extends TreeNodeContentProvider<Objec
 			super(parent, project,"External");
 		}
 
-		protected List<DocumentLoader> loaders(View view) {
+		@Override
+      protected List<DocumentLoader> loaders(View view) {
 			return view.binaryLoaders();
 		}
 

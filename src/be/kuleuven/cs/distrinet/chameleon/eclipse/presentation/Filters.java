@@ -67,7 +67,8 @@ public class Filters {
 	}
 
 	private static final ViewerFilter fieldsFilter = new ViewerFilter(){
-		public boolean select(Viewer viewer, Object parentObject, Object object) {
+		@Override
+      public boolean select(Viewer viewer, Object parentObject, Object object) {
 			Element element = ChameleonLabelProvider.getElement(object);
 			return ! (element instanceof MemberVariable);
 		}

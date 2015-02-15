@@ -26,7 +26,8 @@ public class Static extends ModifierImpl {
   @ post \result.contains(language(ObjectOrientedLanguage.class).DEFINED);
   @ post \result.size() == 2;
   @*/
- public PropertySet<Element,ChameleonProperty> impliedProperties() {
+ @Override
+public PropertySet<Element,ChameleonProperty> impliedProperties() {
    return createSet(language(ObjectOrientedLanguage.class).CLASS);
  }
 

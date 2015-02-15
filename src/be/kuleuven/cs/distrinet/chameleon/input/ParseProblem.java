@@ -31,7 +31,8 @@ public class ParseProblem extends BasicProblem {
 		return _offset;
 	}
 	
-	public boolean equals(Object other) {
+	@Override
+   public boolean equals(Object other) {
 		boolean result = false;
 		if(other instanceof ParseProblem) {
 			ParseProblem pb = (ParseProblem) other;

@@ -41,7 +41,8 @@ public abstract class FixedSignatureMember extends MemberImpl {
    @
    @ post signature() == signature;
    @*/
-  public void setSignature(Signature signature) {
+  @Override
+public void setSignature(Signature signature) {
   	if(signatureType().isInstance(signature) || signature == null) {
   		set(_signature,signature);
   	} else {
@@ -52,7 +53,8 @@ public abstract class FixedSignatureMember extends MemberImpl {
   /**
    * Return the signature of this member.
    */
-  public Signature signature() {
+  @Override
+public Signature signature() {
     return _signature.getOtherEnd();
   }
   

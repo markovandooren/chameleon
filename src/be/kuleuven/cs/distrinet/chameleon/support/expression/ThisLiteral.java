@@ -18,7 +18,8 @@ public class ThisLiteral extends LiteralWithTypeReference {
     super("this", ref);
   }
 
-  protected Type actualType() throws LookupException {
+  @Override
+protected Type actualType() throws LookupException {
     TypeReference tref = getTypeReference();
 		if (tref == null) {
       return nearestAncestor(Type.class);
@@ -28,7 +29,8 @@ public class ThisLiteral extends LiteralWithTypeReference {
     }
   }
 
-  protected ThisLiteral cloneSelf() {
+  @Override
+protected ThisLiteral cloneSelf() {
     return new ThisLiteral();
   }
 

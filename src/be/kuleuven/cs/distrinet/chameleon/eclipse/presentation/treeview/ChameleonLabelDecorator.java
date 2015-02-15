@@ -9,20 +9,25 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 
 public class ChameleonLabelDecorator implements ILabelDecorator {
 
-	public void addListener(ILabelProviderListener arg0) {
+	@Override
+   public void addListener(ILabelProviderListener arg0) {
 	}
 
-	public void dispose() {
+	@Override
+   public void dispose() {
 	}
 
-	public boolean isLabelProperty(Object arg0, String arg1) {
+	@Override
+   public boolean isLabelProperty(Object arg0, String arg1) {
 		return true;
 	}
 
-	public void removeListener(ILabelProviderListener arg0) {
+	@Override
+   public void removeListener(ILabelProviderListener arg0) {
 	}
 
-	public Image decorateImage(Image baseImage, Object o) {
+	@Override
+   public Image decorateImage(Image baseImage, Object o) {
 		Image result = null;
 		if(o instanceof Element) {
 			DecorationOverlayIcon icon = null;
@@ -30,7 +35,8 @@ public class ChameleonLabelDecorator implements ILabelDecorator {
 		return result;
 	}
 
-	public String decorateText(String arg0, Object arg1) {
+	@Override
+   public String decorateText(String arg0, Object arg1) {
 		return arg0;
 	}
 

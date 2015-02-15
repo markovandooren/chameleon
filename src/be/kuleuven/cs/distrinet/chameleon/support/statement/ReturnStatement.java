@@ -24,7 +24,8 @@ public class ReturnStatement extends ExpressionContainingStatement {
     super(expression);
   }
 
-  protected ReturnStatement cloneSelf() {
+  @Override
+protected ReturnStatement cloneSelf() {
     return new ReturnStatement(null);
   }
   

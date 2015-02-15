@@ -17,7 +17,8 @@ import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
  */
 public class ForStatement extends IterationStatement implements DeclarationContainer {
 
-	@SuppressWarnings("unchecked")
+	@Override
+   @SuppressWarnings("unchecked")
 	public LookupContext lookupContext(Element element) throws LookupException {
 		if(_lexical == null) {
 			_lexical = language().lookupFactory().createLexicalLookupStrategy(localContext(),this);
@@ -27,7 +28,8 @@ public class ForStatement extends IterationStatement implements DeclarationConta
 	
 	private LookupContext _lexical;
 
-	public LookupContext localContext() {
+	@Override
+   public LookupContext localContext() {
 		return language().lookupFactory().createLocalLookupStrategy(this);
 	}
 	
@@ -55,16 +57,19 @@ public class ForStatement extends IterationStatement implements DeclarationConta
 		return new ForStatement(null,null);
 	}
 	
-	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
 	}
 
 
-	public List<? extends Declaration> declarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> declarations() throws LookupException {
 		return forControl().declarations();
 	}
 
-	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+	@Override
+   public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 		return selector.selection(declarations());
 	}
 

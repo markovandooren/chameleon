@@ -38,7 +38,8 @@ public abstract class DeclarationContainingDeclarationImpl extends DeclarationCo
 		return this;
 	}
 
-  public Scope scope() throws ModelException {
+  @Override
+public Scope scope() throws ModelException {
   	Scope result = null;
   	ChameleonProperty scopeProperty = property(language().SCOPE_MUTEX());
   	if(scopeProperty instanceof ScopeProperty) {

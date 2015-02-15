@@ -45,7 +45,8 @@ public class DeclarationAlias extends ElementImpl implements Declaration {
 		return _aliasedDeclaration;
 	}
 
-	public Declaration actualDeclaration() {
+	@Override
+   public Declaration actualDeclaration() {
 		return _aliasedDeclaration;
 	}
 
@@ -60,7 +61,8 @@ public class DeclarationAlias extends ElementImpl implements Declaration {
    @
    @ signals(MetamodelException) actualDeclaration() == null;
    @*/
-	public Scope scope() throws ModelException {
+	@Override
+   public Scope scope() throws ModelException {
 		Declaration aliasedDeclaration = aliasedDeclaration();
 		if(aliasedDeclaration != null) {
 		  return aliasedDeclaration.scope();
@@ -69,19 +71,23 @@ public class DeclarationAlias extends ElementImpl implements Declaration {
 		}
 	}
 
-	public Declaration selectionDeclaration() throws LookupException {
+	@Override
+   public Declaration selectionDeclaration() throws LookupException {
 		return aliasedDeclaration();
 	}
 
-	public void setSignature(Signature signature) {
+	@Override
+   public void setSignature(Signature signature) {
 		set(_signature, signature);
 	}
 	
-	public void setName(String name) {
+	@Override
+   public void setName(String name) {
 		setSignature(new SimpleNameSignature(name));
 	}
 	
-	public Signature signature() {
+	@Override
+   public Signature signature() {
 		return _signature.getOtherEnd();
 	}
 
@@ -89,7 +95,8 @@ public class DeclarationAlias extends ElementImpl implements Declaration {
 
 	private Declaration _aliasedDeclaration;
 
-	public Declaration declarator() {
+	@Override
+   public Declaration declarator() {
 		return aliasedDeclaration().declarator();
 	}
 

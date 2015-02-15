@@ -342,7 +342,8 @@ public class View extends PluginContainerImpl<ViewPlugin>
 	
   private ListMapWrapper<ViewProcessor> _processors = new ListMapWrapper<ViewProcessor>();
 
-  public <T extends ViewProcessor> List<T> processors(Class<T> connectorInterface) {
+  @Override
+public <T extends ViewProcessor> List<T> processors(Class<T> connectorInterface) {
     return _processors.get(connectorInterface);
   }
 
@@ -391,7 +392,8 @@ public class View extends PluginContainerImpl<ViewPlugin>
    @
    @ post \result != null;
    @*/
-	public Map<Class<? extends ViewProcessor>, List<? extends ViewProcessor>> processorMap() {
+	@Override
+   public Map<Class<? extends ViewProcessor>, List<? extends ViewProcessor>> processorMap() {
 		return _processors.map();
 	}
 
@@ -420,7 +422,8 @@ public class View extends PluginContainerImpl<ViewPlugin>
 		}
 	}
 
-	public View view() {
+	@Override
+   public View view() {
 		return this;
 	}
 }

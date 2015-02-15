@@ -92,7 +92,8 @@ public class ExpressionTest extends ModelTest {
 
 	protected Action<Namespace, LookupException> createAction() {
 		return new Action<Namespace,LookupException>(Namespace.class) {
-	  	public void doPerform(Namespace ns) throws LookupException {
+	  	@Override
+      public void doPerform(Namespace ns) throws LookupException {
 	  		for(NamespaceDeclaration nsp: ns.getNamespaceParts()) {
 	  			for(Type type: nsp.descendants(Type.class)) {
 	  				processType(type);

@@ -26,7 +26,8 @@ public class MethodClickedListener implements IDoubleClickListener, ISelectionCh
 	 * This method will show the method selected in the Call Hierarchy in a ChameleonEditor
 	 * if the appropriate editor is already opened.
 	 */
-	public void selectionChanged(SelectionChangedEvent event) {
+	@Override
+   public void selectionChanged(SelectionChangedEvent event) {
 		if(event.getSelection() instanceof IStructuredSelection) {
 			IStructuredSelection selection = (IStructuredSelection)event.getSelection();
 			Object firstObject = selection.getFirstElement();
@@ -44,7 +45,8 @@ public class MethodClickedListener implements IDoubleClickListener, ISelectionCh
 	 * This method will open the selected method in the Call hierarchy
 	 * in a ChameleonEditor (and open a new editor if necessary) 
 	 */
-	public void doubleClick(DoubleClickEvent event) {
+	@Override
+   public void doubleClick(DoubleClickEvent event) {
 		if(event.getSelection() instanceof IStructuredSelection) {
 			IStructuredSelection selection = (IStructuredSelection)event.getSelection();
 			Object firstObject = selection.getFirstElement();

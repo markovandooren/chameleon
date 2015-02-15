@@ -20,25 +20,29 @@ public class NormalMethod extends RegularMethod {
     super(header);
   }
   
-	public boolean sameKind(Method other) {
+	@Override
+   public boolean sameKind(Method other) {
   	return(other instanceof NormalMethod);
   }  
 
-	protected NormalMethod cloneSelf() {
+	@Override
+   protected NormalMethod cloneSelf() {
     return new NormalMethod(null);
   }
 	
-  public HidesRelation<? extends Member> hidesRelation() {
+  @Override
+public HidesRelation<? extends Member> hidesRelation() {
 		return _hidesSelector;
   }
   
   private static HidesRelation<NormalMethod> _hidesSelector = new HidesRelation<NormalMethod>(NormalMethod.class) {
 		
-		public boolean containsBasedOnRest(NormalMethod first, NormalMethod second) throws LookupException {
+		@Override
+      public boolean containsBasedOnRest(NormalMethod first, NormalMethod second) throws LookupException {
 			boolean result = first.name().equals(second.name()) 
-					          && first.isTrue(((ObjectOrientedLanguage)first.language(ObjectOrientedLanguage.class)).INSTANCE) 
+					          && first.isTrue(first.language(ObjectOrientedLanguage.class).INSTANCE) 
 			              && first.signature().sameParameterBoundsAs(second.signature()) 
-			              && ((Type)first.nearestAncestor(Type.class)).subTypeOf((Type)second.nearestAncestor(Type.class));
+			              && first.nearestAncestor(Type.class).subTypeOf(second.nearestAncestor(Type.class));
 			return result;
 		}
 	};

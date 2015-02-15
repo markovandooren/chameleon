@@ -19,11 +19,13 @@ public class InstanceofExpression extends ExprTypeRefContainingExpression {
     setTypeReference(type);
   }
 
-  protected Type actualType() throws LookupException {
+  @Override
+protected Type actualType() throws LookupException {
     return language(ObjectOrientedLanguage.class).booleanType(view().namespace());
   }
 
-  protected InstanceofExpression cloneSelf() {
+  @Override
+protected InstanceofExpression cloneSelf() {
     return new InstanceofExpression(null,null);
   }
 

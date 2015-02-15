@@ -15,11 +15,13 @@ public class ConversionOperator extends Operator {
 		    super(new SimpleNameMethodHeader("", returnType));
 	  }
 
-	  public boolean sameKind(Method other) {
+	  @Override
+   public boolean sameKind(Method other) {
 		  return (other instanceof ConversionOperator);
 	}
 
-	  protected ConversionOperator cloneSelf() {
+	  @Override
+   protected ConversionOperator cloneSelf() {
 	    return new ConversionOperator(null);
 	  }
 

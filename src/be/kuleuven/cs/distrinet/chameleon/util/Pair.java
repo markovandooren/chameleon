@@ -72,7 +72,8 @@ public class Pair<T1,T2> {
 	/**
 	 * The string representation is: (first,second).
 	 */
-	public String toString() {
+	@Override
+   public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("(")
 		       .append(first().toString())

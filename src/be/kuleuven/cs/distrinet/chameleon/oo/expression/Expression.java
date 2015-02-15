@@ -73,7 +73,8 @@ public abstract class Expression extends ElementImpl implements CrossReferenceTa
 	/**
 	 * @see {@link Target#targetContext()}
 	 */
-  public LocalLookupContext<?> targetContext() throws LookupException {
+  @Override
+public LocalLookupContext<?> targetContext() throws LookupException {
     return getType().targetContext();
   }
 
@@ -120,12 +121,14 @@ public abstract class Expression extends ElementImpl implements CrossReferenceTa
     final CheckedExceptionList cel = getDirectCEL();
     try {
       new RobustVisitor() {
-        public Object visit(Object element) throws LookupException {
+        @Override
+      public Object visit(Object element) throws LookupException {
           cel.absorb(((ExceptionSource)element).getCEL());
           return null;
         }
 
-        public void unvisit(Object element, Object undo) {
+        @Override
+      public void unvisit(Object element, Object undo) {
           //NOP
         }
       }.applyTo(children());
@@ -148,12 +151,14 @@ public abstract class Expression extends ElementImpl implements CrossReferenceTa
     final CheckedExceptionList cel = getDirectAbsCEL();
     try {
       new RobustVisitor() {
-        public Object visit(Object element) throws LookupException {
+        @Override
+      public Object visit(Object element) throws LookupException {
           cel.absorb(((ExceptionSource)element).getAbsCEL());
           return null;
         }
 
-        public void unvisit(Object element, Object undo) {
+        @Override
+      public void unvisit(Object element, Object undo) {
           //NOP
         }
       }.applyTo(children());

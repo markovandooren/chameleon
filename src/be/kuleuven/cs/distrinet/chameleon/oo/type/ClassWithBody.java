@@ -33,22 +33,26 @@ public abstract class ClassWithBody extends ClassImpl {
 	protected Single<ClassBody> _body = new Single<ClassBody>(this,true,"body");
 
 	
-	public List<InheritanceRelation> nonMemberInheritanceRelations() {
+	@Override
+   public List<InheritanceRelation> nonMemberInheritanceRelations() {
 		return ImmutableList.<InheritanceRelation>builder()
 				   .addAll(explicitNonMemberInheritanceRelations())
 				   .addAll(implicitNonMemberInheritanceRelations())
 				   .build();
 	}
 	
-	public List<InheritanceRelation> explicitNonMemberInheritanceRelations() {
+	@Override
+   public List<InheritanceRelation> explicitNonMemberInheritanceRelations() {
 		return _inheritanceRelations.getOtherEnds();
 	}
 	
-	public List<InheritanceRelation> implicitNonMemberInheritanceRelations() {
+	@Override
+   public List<InheritanceRelation> implicitNonMemberInheritanceRelations() {
 		return Collections.EMPTY_LIST;
 	}
 
-	public LookupContext lookupContext(Element element) throws LookupException {
+	@Override
+   public LookupContext lookupContext(Element element) throws LookupException {
 		List<ParameterBlock> parameterBlocks = parameterBlocks();
 		if(parameterBlocks.contains(element)) { // || element.isDerived()
 			int index = parameterBlocks.indexOf(element);
@@ -78,7 +82,8 @@ public abstract class ClassWithBody extends ClassImpl {
 		set(_body,body);
 	}
 
-	public void add(TypeElement element) {
+	@Override
+   public void add(TypeElement element) {
 		  body().add(element);
 		}
 
@@ -92,7 +97,8 @@ public abstract class ClassWithBody extends ClassImpl {
 	 * @return
 	 * @throws LookupException 
 	 */
-	public List<Member> localMembers() throws LookupException {
+	@Override
+   public List<Member> localMembers() throws LookupException {
 	   return body().members();
 	}
 
@@ -101,7 +107,8 @@ public abstract class ClassWithBody extends ClassImpl {
 		_parameters.enableCache();
 	}
 
-	public void removeNonMemberInheritanceRelation(InheritanceRelation relation) {
+	@Override
+   public void removeNonMemberInheritanceRelation(InheritanceRelation relation) {
 		remove(_inheritanceRelations,relation);
 	}
 
@@ -156,7 +163,8 @@ public abstract class ClassWithBody extends ClassImpl {
 			return body().members(selector);
 		}
 
-	public void replace(TypeElement oldElement, TypeElement newElement) {
+	@Override
+   public void replace(TypeElement oldElement, TypeElement newElement) {
 		body().replace(oldElement, newElement);
 	}
 
@@ -168,11 +176,13 @@ public abstract class ClassWithBody extends ClassImpl {
 		
 	}
 
-	public List<ParameterBlock> parameterBlocks() {
+	@Override
+   public List<ParameterBlock> parameterBlocks() {
 		return _parameters.getOtherEnds();
 	}
 
-	public <P extends Parameter> void addParameter(Class<P> kind, P parameter) {
+	@Override
+   public <P extends Parameter> void addParameter(Class<P> kind, P parameter) {
 		parameterBlock(kind).add(parameter);
 	}
 
@@ -180,7 +190,8 @@ public abstract class ClassWithBody extends ClassImpl {
 		parameterBlock(kind).add(parameter);
 	}
 
-	public <P extends Parameter> void replaceParameter(Class<P> kind, P oldParameter, P newParameter) {
+	@Override
+   public <P extends Parameter> void replaceParameter(Class<P> kind, P oldParameter, P newParameter) {
 		parameterBlock(kind).replace(oldParameter, newParameter);
 	}
 
@@ -189,7 +200,8 @@ public abstract class ClassWithBody extends ClassImpl {
 		return body().elements();
 	}
 
-	public <T extends TypeElement> List<T> directlyDeclaredElements(Class<T> kind) {
+	@Override
+   public <T extends TypeElement> List<T> directlyDeclaredElements(Class<T> kind) {
   	List<TypeElement> tmp = (List<TypeElement>) directlyDeclaredElements();
   	new TypePredicate<>(kind).filter(tmp);
     return (List<T>)tmp;
@@ -219,7 +231,8 @@ public abstract class ClassWithBody extends ClassImpl {
 //		init();
 //	}
 
-	public <P extends Parameter> void replaceAllParameters(Class<P> kind, List<P> newParameters) {
+	@Override
+   public <P extends Parameter> void replaceAllParameters(Class<P> kind, List<P> newParameters) {
 		int size = newParameters.size();
 		List<P> old = parameters(kind);
 		if(old.size() != size) {
@@ -251,18 +264,21 @@ public abstract class ClassWithBody extends ClassImpl {
 		}
 	}
 	
-	public Declaration declarator() {
+	@Override
+   public Declaration declarator() {
 		return this;
 	}
 
-	public void addParameterBlock(ParameterBlock block) {
+	@Override
+   public void addParameterBlock(ParameterBlock block) {
 		if(block != null && parameterBlock(block.parameterType()) != null) {
 			throw new ChameleonProgrammerException("There is already a parameter block containing the following kind of element "+block.parameterType().getName());
 		}
 		add(_parameters, block);
 	}
 
-	public <P extends Parameter> ParameterBlock<P> parameterBlock(Class<P> kind) {
+	@Override
+   public <P extends Parameter> ParameterBlock<P> parameterBlock(Class<P> kind) {
 		for(ParameterBlock p: parameterBlocks()) {
 			if(p.parameterType().equals(kind)) {
 				return p;
@@ -271,7 +287,8 @@ public abstract class ClassWithBody extends ClassImpl {
 		return null;
 	}
 
-	public void removeParameterBlock(ParameterBlock block) {
+	@Override
+   public void removeParameterBlock(ParameterBlock block) {
 		remove(_parameters,block);
 	}
 

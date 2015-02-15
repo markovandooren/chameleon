@@ -22,7 +22,8 @@ public class CalleesContentProvider implements ITreeContentProvider {
 	/**
 	 * Calculates all the methods that are called by a given method
 	 */
-	public Object[] getChildren(Object inputObject) {
+	@Override
+   public Object[] getChildren(Object inputObject) {
 		if (inputObject instanceof Declaration) {
 			Declaration method = (Declaration) inputObject;
 			// get all the invocations of the given method:
@@ -45,23 +46,28 @@ public class CalleesContentProvider implements ITreeContentProvider {
 		return null;
 	}
 
-	public Object getParent(Object inputObject) {
+	@Override
+   public Object getParent(Object inputObject) {
 		return null;
 	}
 
-	public boolean hasChildren(Object inputObject) {
+	@Override
+   public boolean hasChildren(Object inputObject) {
 		return true;
 	}
 
-	public Object[] getElements(Object inputObject) {
+	@Override
+   public Object[] getElements(Object inputObject) {
 		return getChildren(inputObject);
 	}
 
-	public void dispose() {
+	@Override
+   public void dispose() {
 		// NOP
 	}
 
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+	@Override
+   public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		// NOP
 	}
 

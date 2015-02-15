@@ -28,7 +28,8 @@ public class ChameleonAutoEditStrategy implements IAutoEditStrategy {
 	 * If an opening brace { is typed the ending brace } will be automaticaly
 	 * be typed en indented.
 	 */
-	public void customizeDocumentCommand(IDocument document, DocumentCommand command) {
+	@Override
+   public void customizeDocumentCommand(IDocument document, DocumentCommand command) {
 		if(ENABLE_AUTO_FORMATTING){
 			try {
 				// braces

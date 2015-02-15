@@ -16,7 +16,8 @@ public class EmptyTypeElement extends TypeElementImpl {
 		return new EmptyTypeElement();
 	}
 
-	public List<Member> getIntroducedMembers() {
+	@Override
+   public List<Member> getIntroducedMembers() {
 		return ImmutableList.of();
 	}
 

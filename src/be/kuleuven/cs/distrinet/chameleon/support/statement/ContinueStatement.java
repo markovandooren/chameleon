@@ -16,7 +16,8 @@ public class ContinueStatement extends JumpStatement {
     super(label);
   }
 
-  protected ContinueStatement cloneSelf() {
+  @Override
+protected ContinueStatement cloneSelf() {
     return new ContinueStatement(getLabel());
   }
 

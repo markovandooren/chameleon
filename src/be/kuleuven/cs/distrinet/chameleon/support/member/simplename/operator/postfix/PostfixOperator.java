@@ -13,11 +13,13 @@ public class PostfixOperator extends Operator {
     super(header);
   }
   
-  public boolean sameKind(Method other) {
+  @Override
+public boolean sameKind(Method other) {
 	  	return(other instanceof PostfixOperator);
 	  }  
 
-  protected PostfixOperator cloneSelf() {
+  @Override
+protected PostfixOperator cloneSelf() {
     return new PostfixOperator(null);
   }
 

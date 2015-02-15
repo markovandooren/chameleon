@@ -13,11 +13,13 @@ public class InfixOperator extends Operator {
     super(header);
   }
 
-  protected InfixOperator cloneSelf() {
+  @Override
+protected InfixOperator cloneSelf() {
     return new InfixOperator(null);
   }
 
-  public boolean sameKind(Method other) {
+  @Override
+public boolean sameKind(Method other) {
 	  return(other instanceof InfixOperator);
   }
 

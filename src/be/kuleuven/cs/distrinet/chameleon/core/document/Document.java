@@ -38,73 +38,70 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
  */
 public class Document extends ElementImpl {
 
-//	private CreationStackTrace _trace = new CreationStackTrace();
-	
-	/**
-	 * Create a new empty document. The document is not activated.
-	 */
- /*@
+    //	private CreationStackTrace _trace = new CreationStackTrace();
+
+    /**
+     * Create a new empty document. The document is not activated.
+     */
+    /*@
    @ public behavior
    @
    @ post children().isEmpty();
    @*/
-	public Document() {
-	}
-	
-  /**
-   * Create a new compilation unit with the given namespace declaration.
-   * The document is not activated.
-   * @param namespacePart
-   */
- /*@
-   @ public behavior
-   @
-   @ post children().size() == 1;
-   @ post children().contains(namespaceDeclaration);
-   @*/
-	public Document(NamespaceDeclaration namespaceDeclaration) {
-    add(namespaceDeclaration);
-	}
-	
-	/**
-	 * Activate this document by letting all child namespace declarations
-	 * activate themselves. This adds the contents
-	 * of this document to the logical namespace structure of the project. 
-	 */
-	public void activate() {
-//		for(NamespaceDeclaration nsd: descendants(NamespaceDeclaration.class)) {
-//			nsd.namespace();
-//		}
-		for(NamespaceDeclaration part: namespaceDeclarations()) {
-			part.activate();
-		}
-	}
-	
-	/************
-	 * Children *
-	 ************/
+    public Document() {
+    }
 
-	/**
-	 * Return the namespace declarations in this document.
-	 */
-	public List<NamespaceDeclaration> namespaceDeclarations() {
-		return _subNamespaceParts.getOtherEnds();
-	}
-	
-	/**
-	 * Indices start at 1.
-	 * @param baseOneIndex
-	 * @return
-	 */
-	public NamespaceDeclaration namespaceDeclaration(int baseOneIndex) {
-		return _subNamespaceParts.elementAt(baseOneIndex);
-	}
+    /**
+     * Create a new compilation unit with the given namespace declaration.
+     * The document is not activated.
+     * @param namespacePart
+     */
+   /*@
+     @ public behavior
+     @
+     @ post children().size() == 1;
+     @ post children().contains(namespaceDeclaration);
+     @*/
+    public Document(NamespaceDeclaration namespaceDeclaration) {
+        add(namespaceDeclaration);
+    }
 
-	/**
-	 * Add the given namespace declaration to this document.
-	 * @param namespaceDeclaration The namespace declaration to be added.
-	 */
- /*@
+    /**
+     * Activate this document by letting all child namespace declarations
+     * activate themselves. This adds the contents
+     * of this document to the logical namespace structure of the project. 
+     */
+    public void activate() {
+        for(NamespaceDeclaration part: namespaceDeclarations()) {
+            part.activate();
+        }
+    }
+
+    /************
+     * Children *
+     ************/
+
+    /**
+     * Return the namespace declarations in this document.
+     */
+    public List<NamespaceDeclaration> namespaceDeclarations() {
+        return _subNamespaceParts.getOtherEnds();
+    }
+
+    /**
+     * Indices start at 1.
+     * @param baseOneIndex
+     * @return
+     */
+    public NamespaceDeclaration namespaceDeclaration(int baseOneIndex) {
+        return _subNamespaceParts.elementAt(baseOneIndex);
+    }
+
+    /**
+     * Add the given namespace declaration to this document.
+     * @param namespaceDeclaration The namespace declaration to be added.
+     */
+    /*@
    @ public behavior
    @
    @ ! \old(namespaceDeclarations().contains(namespaceDeclaration)) ==> 
@@ -112,127 +109,129 @@ public class Document extends ElementImpl {
    @ ! \old(namespaceDeclarations().contains(namespaceDeclaration) ==>
    @        namespaceDeclarations().size() == \old(namespaceDeclarations().size()) + 1;
    @*/
-	public void add(NamespaceDeclaration namespaceDeclaration) {
-		add(_subNamespaceParts,namespaceDeclaration);
-	}
+    public void add(NamespaceDeclaration namespaceDeclaration) {
+        add(_subNamespaceParts,namespaceDeclaration);
+    }
 
-	/**
-	 * Remove the given namespace declaration to this document.
-	 * @param namespaceDeclaration The namespace declaration to be added.
-	 */
- /*@
+    /**
+     * Remove the given namespace declaration to this document.
+     * @param namespaceDeclaration The namespace declaration to be added.
+     */
+    /*@
    @ public behavior
    @
    @ ! namespaceDeclarations().contains(namespaceDeclaration);
    @ ! \old(namespaceDeclarations().contains(namespaceDeclaration) ==>
    @        namespaceDeclarations().size() == \old(namespaceDeclarations().size()) - 1;
    @*/
-	public void remove(NamespaceDeclaration namespaceDeclaration) {
-		remove(_subNamespaceParts,namespaceDeclaration);
-	}
-	
-	private Multi<NamespaceDeclaration> _subNamespaceParts = new Multi<NamespaceDeclaration>(this);
+    public void remove(NamespaceDeclaration namespaceDeclaration) {
+        remove(_subNamespaceParts,namespaceDeclaration);
+    }
+
+    private Multi<NamespaceDeclaration> _subNamespaceParts = new Multi<NamespaceDeclaration>(this);
 
 
-	/**
-	 * Normally a document should not be involved in the lookup process. The child namespace declarations
-	 * should redirect the lookup towards the general namespace.
-	 */
-	public LookupContext lookupContext(Element child) throws LookupException {
-		throw new ChameleonProgrammerException("A document should not be involved in the lookup");
-	}
+    /**
+     * Normally a document should not be involved in the lookup process. The child namespace declarations
+     * should redirect the lookup towards the general namespace.
+     */
+    @Override
+   public LookupContext lookupContext(Element child) throws LookupException {
+        throw new ChameleonProgrammerException("A document should not be involved in the lookup");
+    }
 
-  //TODO Document why this implementation differs from the default and does not go via
-	//     the input source.
-	public Language language() {
-		List<NamespaceDeclaration> parts = namespaceDeclarations();
-		Language result = null;
-		if(parts.size() > 0) {
-	    NamespaceDeclaration firstNamespace = parts.get(0);
-	    if(firstNamespace != null) {
-		    result = firstNamespace.language();
-	    }
-		}
-		return result;
-	}
+    //TODO Document why this implementation differs from the default and does not go via
+    //     the input source.
+    @Override
+   public Language language() {
+        List<NamespaceDeclaration> parts = namespaceDeclarations();
+        Language result = null;
+        if(parts.size() > 0) {
+            NamespaceDeclaration firstNamespace = parts.get(0);
+            if(firstNamespace != null) {
+                result = firstNamespace.language();
+            }
+        }
+        return result;
+    }
 
 
-  @Override
-  protected Document cloneSelf() {
-    return new Document();
-  }
+    @Override
+    protected Document cloneSelf() {
+        return new Document();
+    }
 
-	@Override
-	public Verification verifySelf() {
-		return Valid.create();
-	}
+    @Override
+    public Verification verifySelf() {
+        return Valid.create();
+    }
 
-	private static class FakeInputSource extends InputSourceImpl {
+    private static class FakeInputSource extends InputSourceImpl {
 
-		public FakeInputSource(Document document, DocumentLoader loader) {
-			init(loader);
-			setDocument(document);
-		}
+        public FakeInputSource(Document document, DocumentLoader loader) {
+            init(loader);
+            setDocument(document);
+        }
 
-		/**
-		 * We do nothing for a fake input source. The content was set directly.
-		 */
-		@Override
-		public void doRefresh() throws InputException {
-		}
-	}
-	
-	private static class FakeDocumentLoader extends DocumentLoaderImpl {
+        /**
+         * We do nothing for a fake input source. The content was set directly.
+         */
+        @Override
+        public void doRefresh() throws InputException {
+        }
+    }
 
-		@Override
-		public String label() {
-			return "fake";
-		}
-				
-	}
-	
-	@Deprecated
-	public Document cloneTo(View view) {
-		Document clone = clone(this);
-//		Document clone = (Document) clone();
-		FakeDocumentLoader pl = new FakeDocumentLoader();
-		InputSource is = new FakeInputSource(clone,pl);
-		for(NamespaceDeclaration decl: descendants(NamespaceDeclaration.class)) {
-			view.namespace().getOrCreateNamespace(decl.namespace().getFullyQualifiedName());
-		}
-		try {
-			view.addSource(pl);
-		} catch (ProjectException e) {
-			throw new ChameleonProgrammerException(e);
-		}
-		clone.activate();
-		return clone;
-	}
-	
-	public SingleAssociation<Document, InputSource> inputSourceLink() {
-		return _inputSource;
-	}
-	
-	/**
-	 * Return the input source that is responsible for loading the contents of this document.
-	 * @return
-	 */
-	public InputSource inputSource() {
-		return _inputSource.getOtherEnd();
-	}
+    private static class FakeDocumentLoader extends DocumentLoaderImpl {
 
-	protected SingleAssociation<Document, InputSource> _inputSource = new SingleAssociation<Document, InputSource>(this);
-	
-	/**
-	 * The view of a document is the view to which its input source is connected.
-	 */
- /*@
+        @Override
+        public String label() {
+            return "fake";
+        }
+
+    }
+
+    @Deprecated
+    public Document cloneTo(View view) {
+        Document clone = clone(this);
+        //		Document clone = (Document) clone();
+        FakeDocumentLoader pl = new FakeDocumentLoader();
+        InputSource is = new FakeInputSource(clone,pl);
+        for(NamespaceDeclaration decl: descendants(NamespaceDeclaration.class)) {
+            view.namespace().getOrCreateNamespace(decl.namespace().getFullyQualifiedName());
+        }
+        try {
+            view.addSource(pl);
+        } catch (ProjectException e) {
+            throw new ChameleonProgrammerException(e);
+        }
+        clone.activate();
+        return clone;
+    }
+
+    public SingleAssociation<Document, InputSource> inputSourceLink() {
+        return _inputSource;
+    }
+
+    /**
+     * Return the input source that is responsible for loading the contents of this document.
+     * @return
+     */
+    public InputSource inputSource() {
+        return _inputSource.getOtherEnd();
+    }
+
+    protected SingleAssociation<Document, InputSource> _inputSource = new SingleAssociation<Document, InputSource>(this);
+
+    /**
+     * The view of a document is the view to which its input source is connected.
+     */
+    /*@
    @ public behavior
    @
    @ post \result == inputSource().view();
    @*/
-	@Override 
-	public View view() {
-		return inputSource().view();
-	}
+    @Override 
+    public View view() {
+        return inputSource().view();
+    }
 }

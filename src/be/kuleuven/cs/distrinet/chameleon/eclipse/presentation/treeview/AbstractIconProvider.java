@@ -64,7 +64,8 @@ public abstract class AbstractIconProvider implements IconProvider {
    @
    @ post \result == null | \result.equals(decoratedName(element, baseIconName()));
    @*/
-	public String iconName(Element element) throws ModelException {
+	@Override
+   public String iconName(Element element) throws ModelException {
 		String result = null;
 		if(elementType().isInstance(element)) {
 			result = baseIconName(element);

@@ -14,9 +14,9 @@ import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceTarget;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.UnresolvableCrossReference;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
+import be.kuleuven.cs.distrinet.chameleon.core.variable.Variable;
 import be.kuleuven.cs.distrinet.chameleon.oo.language.ObjectOrientedLanguage;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
-import be.kuleuven.cs.distrinet.chameleon.oo.variable.Variable;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
@@ -71,11 +71,13 @@ public class VariableReference extends Expression implements Assignable, CrossRe
   	return getElement();
   }
 
-  protected Type actualType() throws LookupException {
+  @Override
+protected Type actualType() throws LookupException {
     return getVariable().getType();
   }
 
-  public VariableReference cloneSelf() {
+  @Override
+public VariableReference cloneSelf() {
     return new VariableReference(name(), null);
   }
 
@@ -95,11 +97,13 @@ public class VariableReference extends Expression implements Assignable, CrossRe
     return result;
   }
   
-  public Variable getElement() throws LookupException {
+  @Override
+public Variable getElement() throws LookupException {
   	return getElement(selector());
   }
   
-	public Declaration getDeclarator() throws LookupException {
+	@Override
+   public Declaration getDeclarator() throws LookupException {
 		return getElement(new DeclaratorSelector(selector()));
 	}
   
@@ -128,7 +132,8 @@ public class VariableReference extends Expression implements Assignable, CrossRe
 
 	public DeclarationSelector<Variable> selector() {
 		return new NameSelector<Variable>(Variable.class) {
-			public String name() {
+			@Override
+         public String name() {
 				return _name;
 			}
 		};

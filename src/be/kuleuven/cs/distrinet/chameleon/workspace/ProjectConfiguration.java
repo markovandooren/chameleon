@@ -112,7 +112,8 @@ public abstract class ProjectConfiguration extends ConfigElement {
 	 * Adds a node named "language" that contains the name and the version
 	 * of the language of the view of this project configuration.
 	 */
-	protected void addImplicitChildren(Element result, Document doc) {
+	@Override
+   protected void addImplicitChildren(Element result, Document doc) {
 		Element lang = doc.createElement("language");
 		lang.setAttribute("name", view().language().name());
 		lang.setAttribute("version", view().language().version().toString());
@@ -303,7 +304,8 @@ public abstract class ProjectConfiguration extends ConfigElement {
 			 * After configuration, a {@link DirectoryLoader} is added to
 			 * the project for the directory.
 			 */
-			protected void $after() throws ConfigException {
+			@Override
+         protected void $after() throws ConfigException {
 				try {
 					DirectoryLoader loader = createLoader(fileInputSourceFactory());
 					view().addSource(loader);
@@ -321,7 +323,8 @@ public abstract class ProjectConfiguration extends ConfigElement {
 		}
 		
 		public class Zip extends ZipArchive {
-			protected Predicate<? super String,Nothing> filter() {
+			@Override
+         protected Predicate<? super String,Nothing> filter() {
 				return $configurator().sourceFileFilter();
 			}
 		}
@@ -337,7 +340,8 @@ public abstract class ProjectConfiguration extends ConfigElement {
 		 * @author Marko van Dooren
 		 */
 		public class Source extends ProjectConfiguration.Source {
-			protected void $after() throws ConfigException {
+			@Override
+         protected void $after() throws ConfigException {
 				try {
 					view().addBinary(createLoader(fileInputSourceFactory()));
 				} catch (ProjectException e) {
@@ -357,7 +361,8 @@ public abstract class ProjectConfiguration extends ConfigElement {
 		 * @author Marko van Dooren
 		 */
 		public class Zip extends ZipArchive {
-			protected Predicate<? super String,Nothing> filter() {
+			@Override
+         protected Predicate<? super String,Nothing> filter() {
 				return $configurator().binaryFileFilter();
 			}
 		}
@@ -417,7 +422,8 @@ public abstract class ProjectConfiguration extends ConfigElement {
 	}
 	
 	public abstract class ZipArchive extends Archive {
-  	protected void pathChanged() throws ConfigException {
+  	@Override
+   protected void pathChanged() throws ConfigException {
   		try {
   			view().addBinary(new ZipLoader(new ZipFile(project().absoluteFile(_path)),filter()));
   		} catch (ProjectException | IOException e) {

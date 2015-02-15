@@ -49,7 +49,8 @@ public class IfThenElseStatement extends ExpressionContainingStatement {
   }
 
 
-  protected IfThenElseStatement cloneSelf() {
+  @Override
+protected IfThenElseStatement cloneSelf() {
     return new IfThenElseStatement(null,null,null);
   }
 

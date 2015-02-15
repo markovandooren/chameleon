@@ -47,7 +47,8 @@ public class LazyClassBody extends ClassBody {
 	/**
 	 * Return the declarations with the given name. The declarations are loaded lazily from the base type.
 	 */
-	protected List<Declaration> declarations(String selectionName) throws LookupException {
+	@Override
+   protected List<Declaration> declarations(String selectionName) throws LookupException {
 		if(_initializedElements) {
 			return super.declarations(selectionName);
 		} else {
@@ -152,11 +153,13 @@ public class LazyClassBody extends ClassBody {
 		return clone;
 	}
 
-	public void add(TypeElement element) {
+	@Override
+   public void add(TypeElement element) {
 		throw new ChameleonProgrammerException("Trying to add an element to a lazy class body.");
 	}
 
-	public void remove(TypeElement element) {
+	@Override
+   public void remove(TypeElement element) {
 		throw new ChameleonProgrammerException("Trying to remove an element from a lazy class body.");
 	}
 
@@ -170,7 +173,8 @@ public class LazyClassBody extends ClassBody {
 		_initializedElements = false;
 	}
 
-	public synchronized List<TypeElement> elements() {
+	@Override
+   public synchronized List<TypeElement> elements() {
 		if(! _initializedElements) {
 			_statics = Lists.create();
 			List<TypeElement> alreadyCloned = super.elements();
@@ -223,7 +227,8 @@ public class LazyClassBody extends ClassBody {
 	
 	private List<TypeElement> _statics;
 	
-	public <D extends Member> List<? extends SelectionResult> members(DeclarationSelector<D> selector) throws LookupException {
+	@Override
+   public <D extends Member> List<? extends SelectionResult> members(DeclarationSelector<D> selector) throws LookupException {
 		if(selector.usesSelectionName()) {
 			List<? extends Declaration> list = null;
 			if(Config.cacheDeclarations()) {
@@ -240,7 +245,8 @@ public class LazyClassBody extends ClassBody {
 		}
 	}
 	
-	public <D extends Member> List<D> members(Class<D> kind) throws LookupException {
+	@Override
+   public <D extends Member> List<D> members(Class<D> kind) throws LookupException {
 		List<D> originals = original().members(kind);
 		List<D> result = Lists.create();
 		for(D original:originals) {

@@ -31,17 +31,20 @@ public class TypeAlias extends TypeIndirection {
 	/**
 	 * OVERRIDE IN SUBCLASSES !!!!
 	 */
-	public TypeAlias cloneSelf() {
+	@Override
+   public TypeAlias cloneSelf() {
 		return new TypeAlias(name(), aliasedType());
 	}
 
-	public boolean uniSameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+	@Override
+   public boolean uniSameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
 		return super.uniSameAs(other) || 
     other.sameAs(aliasedType(),trace) || 
     ((other instanceof TypeIndirection) && (((TypeIndirection)other).aliasedType().sameAs(aliasedType(),trace)));
 	}
 
-	public Declaration declarator() {
+	@Override
+   public Declaration declarator() {
 		return aliasedType().declarator();
 	}
 

@@ -21,7 +21,8 @@ public class SimpleNameDeclarationWithParametersHeader extends DeclarationWithPa
     return _name;
   }
   
-  public void setName(String name) {
+  @Override
+public void setName(String name) {
     _name = name;
   }
   

@@ -18,13 +18,8 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
  */
 public abstract class ModifierImpl extends ElementImpl implements Modifier {
 
-
-
-  public ModifierImpl() {
-  }
- 
   /**
-   * Convenience method for creating an empty propertyset
+   * Convenience method for creating an empty propertyset.
    */
   protected PropertySet<Element,ChameleonProperty> createSet() {
     return new PropertySet<Element,ChameleonProperty>(); 
@@ -57,41 +52,51 @@ public abstract class ModifierImpl extends ElementImpl implements Modifier {
     return result;
   }
   
+  /**
+   * The default implementation return a valid result.
+   */
 	@Override
 	public Verification verifySelf() {
 		return Valid.create();
 	}
 	
-	
-	public Ternary implies(Property property) {
+	@Override
+   public Ternary implies(Property property) {
 		return impliedProperties().implies(property);
 	}
 
-	public boolean impliesTrue(Property property) {
+	@Override
+   public boolean impliesTrue(Property property) {
 		return implies(property) == Ternary.TRUE;
 	}
 
-	public boolean impliesFalse(Property property) {
+	@Override
+   public boolean impliesFalse(Property property) {
 		return implies(property) == Ternary.FALSE;
 	}
 
-	public boolean impliesUnknown(Property property) {
+	@Override
+   public boolean impliesUnknown(Property property) {
 		return implies(property) == Ternary.UNKNOWN;
 	}
 
-	public Ternary contradicts(Property property) {
+	@Override
+   public Ternary contradicts(Property property) {
 		return impliedProperties().contradicts(property);
 	}
 
-	public boolean contradictsTrue(Property property) {
+	@Override
+   public boolean contradictsTrue(Property property) {
 		return contradicts(property) == Ternary.TRUE;
 	}
 
-	public boolean contradictsFalse(Property property) {
+	@Override
+   public boolean contradictsFalse(Property property) {
 		return contradicts(property) == Ternary.FALSE;
 	}
 
-	public boolean contradictsUnknown(Property property) {
+	@Override
+   public boolean contradictsUnknown(Property property) {
 		return contradicts(property) == Ternary.UNKNOWN;
 	}
 

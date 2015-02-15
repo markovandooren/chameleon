@@ -1,4 +1,4 @@
-package be.kuleuven.cs.distrinet.chameleon.oo.variable;
+package be.kuleuven.cs.distrinet.chameleon.core.variable;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;

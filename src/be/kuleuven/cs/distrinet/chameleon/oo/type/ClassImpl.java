@@ -66,12 +66,14 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
       setName(name);
   }
   
-	public Class<SimpleNameSignature> signatureType() {
+	@Override
+   public Class<SimpleNameSignature> signatureType() {
 		return SimpleNameSignature.class;
 	}
 	
 
-	public Type declarationType() {
+	@Override
+   public Type declarationType() {
 		return this;
 	}
 	
@@ -95,11 +97,13 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
 		}
 	}
 	
-  public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+  @Override
+public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
     return directlyDeclaredMembers();
  }
 
-  public String infoName() {
+  @Override
+public String infoName() {
   	try {
   		try {
   			return getFullyQualifiedName();
@@ -111,7 +115,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
   	}
   }
   
-  public Verification verifySubtypeOf(Type otherType, String meaningThisType, String meaningOtherType, Element cause) {
+  @Override
+public Verification verifySubtypeOf(Type otherType, String meaningThisType, String meaningOtherType, Element cause) {
   	Verification result = Valid.create();
   	String messageOther = meaningOtherType+" ("+otherType.infoName()+").";
   	String messageThis = meaningThisType + " (" + infoName() + ")";
@@ -157,7 +162,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
      @ getPackage().getFullyQualifiedName().equals("") ==> \result == getName();
      @ ! getPackage().getFullyQualifiedName().equals("") == > \result.equals(getPackage().getFullyQualifiedName() + getName());
      @*/
-    public String getFullyQualifiedName() {
+    @Override
+   public String getFullyQualifiedName() {
         String prefix;
         Type nearest = nearestAncestor(Type.class);
         if(nearest != null) {
@@ -173,7 +179,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
         return prefix == null ? null : (prefix.equals("") ? "" : prefix+".")+name();
     }
 
-    public String toString() {
+    @Override
+   public String toString() {
 			try {
 				try {
 					return getFullyQualifiedName();
@@ -190,7 +197,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
 		 */
     
     
-    public LocalLookupContext<?> targetContext() throws LookupException {
+    @Override
+   public LocalLookupContext<?> targetContext() throws LookupException {
     	return localContext();
     }
     
@@ -199,7 +207,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#localStrategy()
 		 */
-    public LocalLookupContext localContext() throws LookupException {
+    @Override
+   public LocalLookupContext localContext() throws LookupException {
     	if(_target == null) {
     		Language language = language();
     		if(language != null) {
@@ -214,7 +223,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#lookupContext(chameleon.core.element.Element)
 		 */
-    public LookupContext lookupContext(Element element) throws LookupException {
+    @Override
+   public LookupContext lookupContext(Element element) throws LookupException {
     	if(element instanceof InheritanceRelation && hasInheritanceRelation((InheritanceRelation) element)) {
     		Element parent = parent();
     		if(parent != null) {
@@ -253,7 +263,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
 				_lexicalMembersLookupStrategy = language.lookupFactory().createLexicalLookupStrategy(targetContext(), this, 
     			new LookupContextSelector(){
 					
-						public LookupContext strategy() throws LookupException {
+						@Override
+                  public LookupContext strategy() throws LookupException {
 	    	  		return lexicalParametersLookupStrategy();
 						}
 					}); 
@@ -301,11 +312,13 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
   	  }
   	}
   	
-  	public <P extends Parameter> int nbTypeParameters(Class<P> kind) {
+  	@Override
+   public <P extends Parameter> int nbTypeParameters(Class<P> kind) {
   		return parameterBlock(kind).nbTypeParameters();
   	}
 
-  	public <P extends Parameter> List<P> parameters(Class<P> kind) {
+  	@Override
+   public <P extends Parameter> List<P> parameters(Class<P> kind) {
   		List<P> result;
   		ParameterBlock<P> parameterBlock = parameterBlock(kind);
   		if(parameterBlock != null) {
@@ -319,18 +332,21 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
   	/**
   	 * Indices start at 1.
   	 */
-  	public <P extends Parameter> P parameter(Class<P> kind, int index) {
+  	@Override
+   public <P extends Parameter> P parameter(Class<P> kind, int index) {
   		return parameterBlock(kind).parameter(index);
   	}
 
-    public List<Member> getIntroducedMembers() {
+    @Override
+   public List<Member> getIntroducedMembers() {
       return ImmutableList.<Member>of(this);
     }
     
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#complete()
 		 */
-    public boolean complete() throws LookupException {
+    @Override
+   public boolean complete() throws LookupException {
 	    	List<Member> members = localMembers(Member.class);
 	    	// Only check for actual definitions
 	    	new TypePredicate<Declaration>(Declaration.class).filter(members);
@@ -358,7 +374,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
      @
      @ post directlyDeclaredElements().contains(element);
      @*/
-  	public abstract void add(TypeElement element) throws ChameleonProgrammerException;
+  	@Override
+   public abstract void add(TypeElement element) throws ChameleonProgrammerException;
   	
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#remove(chameleon.oo.type.TypeElement)
@@ -370,7 +387,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
      @
      @ post ! directlyDeclaredElements().contains(element);
      @*/
-  	public abstract void remove(TypeElement element) throws ChameleonProgrammerException;
+  	@Override
+   public abstract void remove(TypeElement element) throws ChameleonProgrammerException;
   	
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#addAll(java.util.Collection)
@@ -383,7 +401,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
      @
      @ post directlyDeclaredElements().containsAll(elements);
      @*/
-  	public void addAll(Collection<? extends TypeElement> elements) throws ChameleonProgrammerException {
+  	@Override
+   public void addAll(Collection<? extends TypeElement> elements) throws ChameleonProgrammerException {
   		for(TypeElement element: elements) {
   			add(element);
   		}
@@ -393,10 +412,11 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
 		 * @see chameleon.oo.type.Tajp#getDirectSuperTypes()
 		 */
 
-  	public List<Type> getDirectSuperTypes() throws LookupException {
+  	@Override
+   public List<Type> getDirectSuperTypes() throws LookupException {
   		List<Type> result = Lists.create();
   		for(InheritanceRelation element:inheritanceRelations()) {
-  			Type type = (Type) element.superType();
+  			Type type = element.superType();
   			if (type!=null) {
   				result.add(type);
   			}
@@ -404,7 +424,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
   		return result;
   	}
 
-    public List<Type> getDirectSuperClasses() throws LookupException {
+    @Override
+   public List<Type> getDirectSuperClasses() throws LookupException {
       List<Type> result = Lists.create();
       for(InheritanceRelation element:inheritanceRelations()) {
         result.add((Type)element.superElement());
@@ -412,7 +433,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
       return result;
 }
 
-    public void accumulateAllSuperTypes(Set<Type> acc) throws LookupException {
+    @Override
+   public void accumulateAllSuperTypes(Set<Type> acc) throws LookupException {
     	List<Type> temp =getDirectSuperTypes();
     	for(Type type:temp) {
     		boolean add=true;
@@ -429,7 +451,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
     	}
     }
     
-    public synchronized Set<Type> getAllSuperTypes() throws LookupException {
+    @Override
+   public synchronized Set<Type> getAllSuperTypes() throws LookupException {
     	if(_superTypeCache == null) {
     		_superTypeCache = new HashSet<Type>();
     		accumulateAllSuperTypes(_superTypeCache);
@@ -439,7 +462,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
     }
 
     
-  	public synchronized Set<Type> getSelfAndAllSuperTypesView() throws LookupException {
+  	@Override
+   public synchronized Set<Type> getSelfAndAllSuperTypesView() throws LookupException {
   		try {
   			
   			if(_superTypeAndSelfCache == null) {
@@ -458,7 +482,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
   	}
 
     
-    public void newAccumulateAllSuperTypes(Set<Type> acc) throws LookupException {
+    @Override
+   public void newAccumulateAllSuperTypes(Set<Type> acc) throws LookupException {
     	List<Type> temp = getDirectSuperTypes();
     	for(Type type:temp) {
     		boolean add=true;
@@ -474,7 +499,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
     	}
     }
     
-    public void newAccumulateSelfAndAllSuperTypes(Set<Type> acc) throws LookupException {
+    @Override
+   public void newAccumulateSelfAndAllSuperTypes(Set<Type> acc) throws LookupException {
     	acc.add(this);
     	newAccumulateAllSuperTypes(acc);
     }
@@ -485,7 +511,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
     
     //TODO: rename to properSubTypeOf
 
-    public boolean subTypeOf(Type other) throws LookupException {
+    @Override
+   public boolean subTypeOf(Type other) throws LookupException {
     	return sameAs(other) || auxSubTypeOf(other) || other.auxSuperTypeOf(this);
     }
     
@@ -508,7 +535,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
      @
      @ post \result == equals(other) || subTypeOf(other);
      @*/
-    public boolean assignableTo(Type other) throws LookupException {
+    @Override
+   public boolean assignableTo(Type other) throws LookupException {
     	return subTypeOf(other);
     }
 
@@ -521,21 +549,25 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
      @
      @ post \result != null;
      @*/
-  	public abstract List<InheritanceRelation> inheritanceRelations() throws LookupException;
+  	@Override
+   public abstract List<InheritanceRelation> inheritanceRelations() throws LookupException;
   	
   	/**
   	 * The default behavior is to return inheritanceRelations(). If there are
   	 * member inheritance relations, the method must be overridden to exclude them.
   	 * @return
   	 */
-  	public abstract List<InheritanceRelation> nonMemberInheritanceRelations();
+  	@Override
+   public abstract List<InheritanceRelation> nonMemberInheritanceRelations();
   	
-  	public abstract List<InheritanceRelation> explicitNonMemberInheritanceRelations();
+  	@Override
+   public abstract List<InheritanceRelation> explicitNonMemberInheritanceRelations();
 //  	{
 //  		return inheritanceRelations();
 //  	}
   	
-  	public <I extends InheritanceRelation> List<I> nonMemberInheritanceRelations(Class<I> kind) {
+  	@Override
+   public <I extends InheritanceRelation> List<I> nonMemberInheritanceRelations(Class<I> kind) {
   		return (List<I>) new TypePredicate(kind).filterReturn(nonMemberInheritanceRelations());
   	}
 
@@ -546,7 +578,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
      @ post inheritanceRelations().contains(relation);
      @*/
   	// FIXME rename to addNonMemberInheritanceRelation.
-  	public abstract void addInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException;
+  	@Override
+   public abstract void addInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException;
     
   	/* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#removeInheritanceRelation(chameleon.oo.type.inheritance.InheritanceRelation)
@@ -557,9 +590,11 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
      @ pre relation != null;
      @ post ! inheritanceRelations().contains(relation);
      @*/
-  	public abstract void removeNonMemberInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException;
+  	@Override
+   public abstract void removeNonMemberInheritanceRelation(InheritanceRelation relation) throws ChameleonProgrammerException;
   	
-  	public void removeAllNonMemberInheritanceRelations() {
+  	@Override
+   public void removeAllNonMemberInheritanceRelations() {
   		for(InheritanceRelation relation: nonMemberInheritanceRelations()) {
   			removeNonMemberInheritanceRelation(relation);
   		}
@@ -568,20 +603,24 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#localMembers(java.lang.Class)
 		 */
-    public <T extends Member> List<T> localMembers(final Class<T> kind) throws LookupException {
+    @Override
+   public <T extends Member> List<T> localMembers(final Class<T> kind) throws LookupException {
       return (List<T>) new TypeFilter(kind).retain(localMembers());
     }
     
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#localMembers()
 		 */
-    public abstract List<Member> localMembers() throws LookupException;
+    @Override
+   public abstract List<Member> localMembers() throws LookupException;
     
-    public List<Member> implicitMembers() {
+    @Override
+   public List<Member> implicitMembers() {
     	return Collections.EMPTY_LIST;
     }
     
-    public <M extends Member> List<M> implicitMembers(Class<M> kind) {
+    @Override
+   public <M extends Member> List<M> implicitMembers(Class<M> kind) {
     	// implicitMembers returns an immutable list.
     	List result = new ArrayList(implicitMembers());
     	Iterator iter = result.iterator();
@@ -598,11 +637,13 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
     	return selector.selection(implicitMembers());
     }
 
-    public <T extends Member> List<T> directlyDeclaredMembers(Class<T> kind) {
+    @Override
+   public <T extends Member> List<T> directlyDeclaredMembers(Class<T> kind) {
       return (List<T>) new TypeFilter(kind).retain(directlyDeclaredMembers());
     }
     
-    public <T extends Member> List<T> directlyDeclaredMembers(Class<T> kind, ChameleonProperty property) {
+    @Override
+   public <T extends Member> List<T> directlyDeclaredMembers(Class<T> kind, ChameleonProperty property) {
       List<T> result = directlyDeclaredMembers(kind);
       Iterator<T> iter = result.iterator();
       while(iter.hasNext()) {
@@ -614,14 +655,16 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
       return result;
     }
     
-    public  List<Member> directlyDeclaredMembers() {
+    @Override
+   public  List<Member> directlyDeclaredMembers() {
   		List<Member> result = Lists.create();
       for(TypeElement m: directlyDeclaredElements()) {
         result.addAll(m.declaredMembers());
       }
       return result;
     }
-    public <D extends Member> List<? extends SelectionResult> members(DeclarationSelector<D> selector) throws LookupException {
+    @Override
+   public <D extends Member> List<? extends SelectionResult> members(DeclarationSelector<D> selector) throws LookupException {
     	// 1) perform local search
     	boolean nonGreedy = ! selector.isGreedy();
     	List<SelectionResult> result = (List)localMembers(selector);
@@ -660,14 +703,17 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#localMembers(chameleon.core.lookup.DeclarationSelector)
 		 */
-    @SuppressWarnings("unchecked")
+    @Override
+   @SuppressWarnings("unchecked")
     public abstract <D extends Member> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException;
 
-    public List<Member> members() throws LookupException {
+    @Override
+   public List<Member> members() throws LookupException {
       return members(Member.class);
     }
     
-    @SuppressWarnings("unchecked")
+    @Override
+   @SuppressWarnings("unchecked")
 		public <M extends Member> List<M> members(final Class<M> kind) throws LookupException {
 
 		// 1) All defined members of the requested kind are added.
@@ -700,9 +746,11 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
 
     private Map<Class,List> _membersCache;
     
-    public abstract List<? extends TypeElement> directlyDeclaredElements();
+    @Override
+   public abstract List<? extends TypeElement> directlyDeclaredElements();
 
-  	public <T extends TypeElement> List<T> directlyDeclaredElements(Class<T> kind) {
+  	@Override
+   public <T extends TypeElement> List<T> directlyDeclaredElements(Class<T> kind) {
     	List<TypeElement> tmp = (List<TypeElement>) directlyDeclaredElements();
     	new TypePredicate<>(kind).filter(tmp);
       return (List<T>)tmp;
@@ -711,7 +759,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
     /* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#declarations()
 		 */
-    public List<? extends Declaration> declarations() throws LookupException {
+    @Override
+   public List<? extends Declaration> declarations() throws LookupException {
     	List<? extends Declaration> result = declarationCache();
     	if(result == null) {
     		result = members();
@@ -724,7 +773,7 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
 		 */
     @Override
     public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
-    	return (List<? extends SelectionResult>) members((DeclarationSelector<? extends Member>)selector);
+    	return members((DeclarationSelector<? extends Member>)selector);
     }
     
     protected void copyContents(Type from) {
@@ -789,40 +838,47 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
   	/* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#alias(chameleon.core.declaration.SimpleNameSignature)
 		 */
-  	public Type alias(String name) {
+  	@Override
+   public Type alias(String name) {
       return new TypeAlias(name,this);
   	}
 
   	/* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#intersection(chameleon.oo.type.Type)
 		 */
-  	public Type intersection(Type type) throws LookupException {
+  	@Override
+   public Type intersection(Type type) throws LookupException {
   		return type.intersectionDoubleDispatch(this);
   	}
   	
-  	public Type intersectionDoubleDispatch(Type type) throws LookupException {
+  	@Override
+   public Type intersectionDoubleDispatch(Type type) throws LookupException {
   		Type result = new IntersectionType(this,type);
   		result.setUniParent(parent());
   		return result;
   	}
 
-  	public Type intersectionDoubleDispatch(IntersectionType type) throws LookupException {
+  	@Override
+   public Type intersectionDoubleDispatch(IntersectionType type) throws LookupException {
   		IntersectionType result = clone(type);
   		result.addType(type);
   		return result;
   	}
 
-  	public Type union(Type type) throws LookupException {
+  	@Override
+   public Type union(Type type) throws LookupException {
   		return type.unionDoubleDispatch(this);
   	}
   	
-  	public Type unionDoubleDispatch(Type type) throws LookupException {
+  	@Override
+   public Type unionDoubleDispatch(Type type) throws LookupException {
   		Type result = new UnionType(this,type);
   		result.setUniParent(parent());
   		return result;
   	}
   	
-  	public Type unionDoubleDispatch(UnionType type) throws LookupException {
+  	@Override
+   public Type unionDoubleDispatch(UnionType type) throws LookupException {
   		UnionType result = clone(type);
   		result.addType(type);
   		return result;
@@ -831,12 +887,14 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
 		/* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#replace(chameleon.oo.type.TypeElement, chameleon.oo.type.TypeElement)
 		 */
-		public abstract void replace(TypeElement oldElement, TypeElement newElement);
+		@Override
+      public abstract void replace(TypeElement oldElement, TypeElement newElement);
 
 		/* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#baseType()
 		 */
-		public abstract Type baseType();
+		@Override
+      public abstract Type baseType();
 
 		protected boolean mustBeOverridden(Member member) {
 			ObjectOrientedLanguage lang = language(ObjectOrientedLanguage.class);
@@ -888,21 +946,25 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
 			return result;
 		}
 
-		public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+		@Override
+      public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
 			ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
 			return language.upperBoundNotHigherThan(this, other, trace);
 		}
 
-		public boolean sameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+		@Override
+      public boolean sameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
 //			List<Pair<TypeParameter, TypeParameter>> newTrace = new ArrayList<Pair<TypeParameter, TypeParameter>>(trace);
 			return uniSameAs(other,trace) || other.uniSameAs(this,trace);
 		}
 		
-		public Type lowerBound() throws LookupException {
+		@Override
+      public Type lowerBound() throws LookupException {
 			return this;
 		}
 		
-		public Type upperBound() throws LookupException {
+		@Override
+      public Type upperBound() throws LookupException {
 			return this;
 		}
 
@@ -919,7 +981,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
 			return result;
 		}
 		
-		public <D extends Member> List<D> membersDirectlyAliasedBy(MemberRelationSelector<D> selector) throws LookupException {
+		@Override
+      public <D extends Member> List<D> membersDirectlyAliasedBy(MemberRelationSelector<D> selector) throws LookupException {
 			List<D> result = Lists.create();
 			for(InheritanceRelation relation:inheritanceRelations()) {
 				result.addAll(relation.membersDirectlyAliasedBy(selector));
@@ -927,11 +990,13 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
 			return result;
 		}
 		
-		public <D extends Member> List<D> membersDirectlyAliasing(MemberRelationSelector<D> selector) throws LookupException {
+		@Override
+      public <D extends Member> List<D> membersDirectlyAliasing(MemberRelationSelector<D> selector) throws LookupException {
 			return ImmutableList.of();
 		}
 		
-	  public HidesRelation<? extends Member> hidesRelation() {
+	  @Override
+   public HidesRelation<? extends Member> hidesRelation() {
 			return _hidesSelector;
 	  }
 	  

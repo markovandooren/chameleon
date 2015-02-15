@@ -6,7 +6,8 @@ public class TagImpl implements Metadata {
 
 	private Element _element;
 	
-  public final Element getElement() {
+  @Override
+public final Element getElement() {
   	return _element;
   }
   
@@ -16,13 +17,15 @@ public class TagImpl implements Metadata {
   
   private String _name;
   
-  public void disconnect() {
+  @Override
+public void disconnect() {
   	if(_element != null) {
   		_element.removeMetadata(name());
   	}
   }
   
-  public void setElement(Element element, String name) {
+  @Override
+public void setElement(Element element, String name) {
   	if(element != _element) {
   		// Set new pointer, backup old for removal.
   		_element = element;

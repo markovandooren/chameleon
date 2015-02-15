@@ -49,7 +49,8 @@ public class ChameleonFormatterStrategy implements IFormattingStrategy {
 	/**
 	 * @see IFormattingStrategy#format(String, boolean, String, int[])
 	 */
-	public String format(String content, boolean isLineStart, String indentation, int[] positions) {
+	@Override
+   public String format(String content, boolean isLineStart, String indentation, int[] positions) {
 		String result = content;
 		// get the selection if any:
 		ISelectionProvider selProv = editor.getSelectionProvider();
@@ -222,11 +223,13 @@ public class ChameleonFormatterStrategy implements IFormattingStrategy {
 		}
 	}
 
-	public void formatterStarts(String initialIndentation) {
+	@Override
+   public void formatterStarts(String initialIndentation) {
 		// NO-OP
 	}
 
-	public void formatterStops() {
+	@Override
+   public void formatterStops() {
 		// NO-OP
 	}
 	

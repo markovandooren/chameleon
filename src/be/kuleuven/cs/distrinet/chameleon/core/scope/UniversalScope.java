@@ -13,7 +13,8 @@ public class UniversalScope extends Scope {
    @
    @ post \result == true;
    @*/
-	public boolean contains(Element element) {
+	@Override
+   public boolean contains(Element element) {
 		return true;
 	}
 	
@@ -22,7 +23,8 @@ public class UniversalScope extends Scope {
    @
    @ post \result == true;
    @*/
-  public boolean geRecursive(Scope other) {
+  @Override
+public boolean geRecursive(Scope other) {
     return true;
   }
   
@@ -31,7 +33,8 @@ public class UniversalScope extends Scope {
    @
    @ post \result == other instanceof UniversalScope;
    @*/
-  public boolean leRecursive(Scope other) {
+  @Override
+public boolean leRecursive(Scope other) {
   	return other instanceof UniversalScope;
   }
 
@@ -40,7 +43,8 @@ public class UniversalScope extends Scope {
    @
    @ post \result == other instanceof UniversalScope;
    @*/
-  public boolean equals(Object o) {
+  @Override
+public boolean equals(Object o) {
     return (o instanceof UniversalScope);
   }
 

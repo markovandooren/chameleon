@@ -29,7 +29,8 @@ public class ConditionalExpression extends TernaryExpression {
   	setThird(condition);
   }
 
-  protected Type actualType() throws LookupException {
+  @Override
+protected Type actualType() throws LookupException {
   	//GENERALIZE PROMOTIONS
   	Type result = basicType();
   	if(result == null) {
@@ -53,7 +54,8 @@ public class ConditionalExpression extends TernaryExpression {
   	return null;
   }
 
-  protected ConditionalExpression cloneSelf() {
+  @Override
+protected ConditionalExpression cloneSelf() {
     return new ConditionalExpression(null, null,null);
   }
 

@@ -69,7 +69,8 @@ public class ProjectDetailsPage extends WizardPage implements IWizardPage {
 		}
 	}
 	
-	public void createControl(Composite parent) {
+	@Override
+   public void createControl(Composite parent) {
 		controlContainer = new Composite(parent,SWT.NONE);
 		GridLayout gl = new GridLayout();
 		gl.numColumns = 3;

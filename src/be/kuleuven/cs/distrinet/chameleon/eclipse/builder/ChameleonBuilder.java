@@ -194,7 +194,8 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 
 				BuildProgressHelper helper = new BuildProgressHelper() {
 
-					public void checkForCancellation()  {
+					@Override
+               public void checkForCancellation()  {
 						try {
 							ChameleonBuilder.this.checkForCancellation(monitor);
 						} catch (CoreException e) {
@@ -203,7 +204,8 @@ public class ChameleonBuilder extends IncrementalProjectBuilder {
 						}
 					}
 
-					public void addWorked(int n) {
+					@Override
+               public void addWorked(int n) {
 						monitor.worked(n);
 					}
 				};

@@ -51,14 +51,16 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 	 * @param document
 	 * 		The new document
 	 */
-	public void setDocument(EclipseDocument document){	
+	@Override
+   public void setDocument(EclipseDocument document){	
 		_document = document;
 	}
 	
 	/**
 	 * @return the document for this ChameleonReconcilingStrategy
 	 */
-	public EclipseDocument getDocument(){
+	@Override
+   public EclipseDocument getDocument(){
 		return _document;
 	}
 	
@@ -88,7 +90,8 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 	/**
 	 * initializes reconciling, during which the positions are saved
 	 */
-	public void initReconciling(){
+	@Override
+   public void initReconciling(){
 		if(_alreadyInit == false){
 			clonePositions();
 			_alreadyInit = true;
@@ -123,7 +126,8 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 	 * If the whole document is dirty, it tries to process the whole document at once
 	 * else it tries to process the smallest altered positions
 	 */
-	public void startReconciling(){
+	@Override
+   public void startReconciling(){
 		try {
 		_clonedPositions.clear();
 		if(isWholeDocumentDirty()){
@@ -335,7 +339,8 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 	 * @param dirtyRegion the document region which has been changed
 	 * @param subRegion the sub region in the dirty region which should be reconciled 
 	 */
-	public void reconcile(ChameleonDirtyRegion dirtyRegion, IRegion subRegion){
+	@Override
+   public void reconcile(ChameleonDirtyRegion dirtyRegion, IRegion subRegion){
 		View view = view();
 		if(view != null) {
 			setWholeDocumentDirty(false);
@@ -371,7 +376,8 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 	 *
 	 * @param partition the document partition to be reconciled
 	 */
-	public void reconcile(IRegion partition){
+	@Override
+   public void reconcile(IRegion partition){
 		
 	}
 

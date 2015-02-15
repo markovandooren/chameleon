@@ -128,7 +128,8 @@ public class UnionType extends MultiType {
 		return result;
 	}
 
-	public List<InheritanceRelation> nonMemberInheritanceRelations() {
+	@Override
+   public List<InheritanceRelation> nonMemberInheritanceRelations() {
 		List<InheritanceRelation> result = new ArrayList<InheritanceRelation>();
 		return result;
 	}
@@ -198,7 +199,8 @@ public class UnionType extends MultiType {
 		_types.add(type);
 	}
 
-	public boolean uniSameAs(final Type other, final List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+	@Override
+   public boolean uniSameAs(final Type other, final List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
 		List<Type> types = types();
 		if (other instanceof UnionType) {
 			return new AbstractPredicate<Type, LookupException>() {

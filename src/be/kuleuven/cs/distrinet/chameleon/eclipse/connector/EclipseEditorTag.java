@@ -55,7 +55,8 @@ public class EclipseEditorTag extends Position implements Metadata {
 		}
 	}
 	
-	public void disconnect() {
+	@Override
+   public void disconnect() {
 		setElement(null,getName());
 	}
 	
@@ -77,11 +78,13 @@ public class EclipseEditorTag extends Position implements Metadata {
 	
 	private Element _element;
 	
-  public final Element getElement() {
+  @Override
+public final Element getElement() {
   	return _element;
   }
   
-  public void setElement(Element element, String name) {
+  @Override
+public void setElement(Element element, String name) {
   	if(element != _element) {
   		// Set new pointer, backup old for removal.
   		_element = element;
@@ -166,7 +169,8 @@ public class EclipseEditorTag extends Position implements Metadata {
 //	public static final String KEYWORD_TAG = "__KEYWORD";
 //	public static final String MODIFIER_TAG = "__MODIFIER";
 	
-	public String toString(){
+	@Override
+   public String toString(){
 		return "Offset : "+getOffset()+"\tLength : "+getLength()+"\tElement : "+getElement();
 	}
 
@@ -202,7 +206,8 @@ public class EclipseEditorTag extends Position implements Metadata {
 	 * @author Tim Vermeiren
 	 */
 	public static Comparator<EclipseEditorTag> lengthComparator = new Comparator<EclipseEditorTag>() {
-		public int compare(EclipseEditorTag t1, EclipseEditorTag t2) {
+		@Override
+      public int compare(EclipseEditorTag t1, EclipseEditorTag t2) {
 			// compare by length:
 			int compare = new Integer(t1.getLength()).compareTo(t2.getLength());
 			// if no difference found
@@ -231,7 +236,8 @@ public class EclipseEditorTag extends Position implements Metadata {
 	 * @author Tim Vermeiren
 	 */
 	public static Comparator<EclipseEditorTag> beginoffsetComparator = new Comparator<EclipseEditorTag>() {
-		public int compare(EclipseEditorTag t1, EclipseEditorTag t2) {
+		@Override
+      public int compare(EclipseEditorTag t1, EclipseEditorTag t2) {
 			// 1) compare by offset:
 			int compare = new Integer(t1.getOffset()).compareTo(t2.getOffset());
 			// if no difference found

@@ -78,7 +78,8 @@ public class HierarchyView extends ViewPart {
 		return memberViewer;
 	}
 
-	public void setFocus() {
+	@Override
+   public void setFocus() {
 		hierarchyViewer.getControl().setFocus();
 	}
 	
@@ -86,7 +87,8 @@ public class HierarchyView extends ViewPart {
 	 * Creates this view, adds the viewers to this view, 
 	 * adds actions to the menu and the toolbar
 	 */
-	public void createPartControl(Composite parent) {
+	@Override
+   public void createPartControl(Composite parent) {
 		/* Create a grid layout object so the text and treeviewer
 		 * are layed out the way I want. */
 		GridLayout layout = new GridLayout();
@@ -195,7 +197,8 @@ public class HierarchyView extends ViewPart {
 		MenuManager mgr = new MenuManager();
 		mgr.setRemoveAllWhenShown(true);
 		mgr.addMenuListener(new IMenuListener(){
-			public void menuAboutToShow(IMenuManager manager) {
+			@Override
+         public void menuAboutToShow(IMenuManager manager) {
 				fillHierarchyContextMenu(manager);
 			}
 		});
@@ -221,7 +224,8 @@ public class HierarchyView extends ViewPart {
 		MenuManager mgr = new MenuManager();
 		mgr.setRemoveAllWhenShown(true);
 		mgr.addMenuListener(new IMenuListener(){
-			public void menuAboutToShow(IMenuManager manager) {
+			@Override
+         public void menuAboutToShow(IMenuManager manager) {
 				fillMemberContextMenu(manager);
 			}
 		});
@@ -265,7 +269,8 @@ public class HierarchyView extends ViewPart {
 		fillMenu(menuMgr);
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener(){
-			public void menuAboutToShow(IMenuManager mgr) {
+			@Override
+         public void menuAboutToShow(IMenuManager mgr) {
 				fillMenu(mgr);
 			};
 		});
@@ -340,7 +345,8 @@ public class HierarchyView extends ViewPart {
 	 * @return an new hierarchy viewer, null if no IViewDescriptor for the hierarchy view is found
 	 * @deprecated doesn't return the existing hierarchyView, but a new instance
 	 */
-	public static HierarchyView getHierarchyView(){
+	@Deprecated
+   public static HierarchyView getHierarchyView(){
 		try {
 			IViewDescriptor viewDesc = Workbench.getInstance().getViewRegistry().find("chameleon.eclipse.ChameleonEditorPlugin.hierarchyview");
 			if(viewDesc!=null){

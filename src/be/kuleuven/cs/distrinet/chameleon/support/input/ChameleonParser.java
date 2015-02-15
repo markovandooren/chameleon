@@ -120,7 +120,7 @@ public abstract class ChameleonParser<L extends Language> extends Parser impleme
 	   
 	   public void setLocation(Element element, Token token, String tagType) {
 	     if(token != null) {
-	       setLocation(element, (CommonToken)token, (CommonToken)token, tagType);
+	       setLocation(element, token, token, tagType);
 	     }
 	   }
 	   

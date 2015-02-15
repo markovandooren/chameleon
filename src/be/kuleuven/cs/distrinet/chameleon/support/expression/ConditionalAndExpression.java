@@ -16,7 +16,8 @@ public class ConditionalAndExpression extends ConditionalBooleanExpression {
     super(first, second);
   }
 
-  protected ConditionalAndExpression cloneSelf() {
+  @Override
+protected ConditionalAndExpression cloneSelf() {
     return new ConditionalAndExpression(null, null);
   }
   

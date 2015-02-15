@@ -73,12 +73,14 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
 	}
 
 
-	public String getFullyQualifiedName() {
+	@Override
+   public String getFullyQualifiedName() {
 		Namespace nearestAncestor = nearestAncestor(Namespace.class);
 		return ((parent() == null || nearestAncestor.name().equals("")) ? "" : nearestAncestor.getFullyQualifiedName() + ".") + name();
 	}
 	
-	public String toString() {
+	@Override
+   public String toString() {
 		return getFullyQualifiedName();
 	}
 
@@ -86,7 +88,8 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
 	 * PACKAGEPART
 	 **************/
 
-	public Namespace defaultNamespace() {
+	@Override
+   public Namespace defaultNamespace() {
 		if (parent() == null) {
 			return this;
 		}
@@ -103,9 +106,11 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
    @
    @ post \result != null;
    @*/
-	public abstract List<Namespace> getSubNamespaces();
+	@Override
+   public abstract List<Namespace> getSubNamespaces();
 
-	public Namespace getOrCreateNamespace(final String qualifiedName) {
+	@Override
+   public Namespace getOrCreateNamespace(final String qualifiedName) {
 		Namespace currentNamespace = null;
 		String next;
 		synchronized(this) {
@@ -147,7 +152,8 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
 //		return null;
 //	}
 
-	public Namespace getSubNamespace(String name) {
+	@Override
+   public Namespace getSubNamespace(String name) {
 		return _nameMap.get(name);
 	}
 
@@ -161,7 +167,8 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
 
 	private Map<String,Namespace> _nameMap = new HashMap<>();
 
-	public <T extends Declaration> List<T> allDescendantDeclarations(Class<T> kind) throws LookupException {
+	@Override
+   public <T extends Declaration> List<T> allDescendantDeclarations(Class<T> kind) throws LookupException {
   	final List<T> result = declarations(kind);
   	for(Namespace ns:getSubNamespaces()) {
 		  result.addAll(ns.allDescendantDeclarations(kind));
@@ -173,7 +180,8 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
 		 * CONTEXT *
 		 ***********/
 		
-	public LocalLookupContext targetContext() {
+	@Override
+   public LocalLookupContext targetContext() {
 		if(_target == null) {
 			_target = language().lookupFactory().createTargetLookupStrategy(this);
 		}
@@ -182,7 +190,8 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
 	
 	private LocalLookupContext _target;
 	
-	public LookupContext localContext() {
+	@Override
+   public LookupContext localContext() {
 		if(_local == null) {
 			_local = language().lookupFactory().createLocalLookupStrategy(this);
 			_local.enableCache();
@@ -192,7 +201,8 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
 
 	private LookupContext _local;
 
-	public List<Declaration> declarations() throws LookupException {
+	@Override
+   public List<Declaration> declarations() throws LookupException {
 		return directDeclarations();
 	}
 	
@@ -205,7 +215,8 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
 		return builder.build();
 	}
 
-	public abstract List<NamespaceDeclaration> loadedNamespaceParts();
+	@Override
+   public abstract List<NamespaceDeclaration> loadedNamespaceParts();
 
 
 	@Override
@@ -285,7 +296,8 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
 
 	protected Map<String,List<Declaration>> _declarationCache;
 	
-	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+	@Override
+   public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 //		System.out.println("Requesting declarations() of "+getFullyQualifiedName());
 		List<? extends SelectionResult> result;
 		if(selector.usesSelectionName()) {
@@ -317,20 +329,24 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
 		return result;
 	}
 	
-	public <T extends Declaration> List<T> declarations(Class<T> kind) throws LookupException {
+	@Override
+   public <T extends Declaration> List<T> declarations(Class<T> kind) throws LookupException {
     return new TypePredicate<T>(kind).downCastedList(declarations());
   }
 	
 
-	public NamespaceAlias alias(String name) {
+	@Override
+   public NamespaceAlias alias(String name) {
 		return new NamespaceAlias(name,this);
 	}
 
-	public Namespace selectionDeclaration() {
+	@Override
+   public Namespace selectionDeclaration() {
 		return this;
 	}
 	
-	public Namespace actualDeclaration() {
+	@Override
+   public Namespace actualDeclaration() {
 		return this;
 	}
 	

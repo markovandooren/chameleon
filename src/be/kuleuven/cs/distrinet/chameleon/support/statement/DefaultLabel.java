@@ -11,7 +11,8 @@ public class DefaultLabel extends SwitchLabel {
   public DefaultLabel() {
 	}
 
-  protected DefaultLabel cloneSelf() {
+  @Override
+protected DefaultLabel cloneSelf() {
     return new DefaultLabel();
   }
   

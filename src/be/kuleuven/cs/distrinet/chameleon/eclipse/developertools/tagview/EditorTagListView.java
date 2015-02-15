@@ -182,7 +182,8 @@ public class EditorTagListView extends ViewPart {
 	}
 
 	private class EditorTagSelectionChangedListener implements ISelectionChangedListener {
-		public void selectionChanged(SelectionChangedEvent event) {
+		@Override
+      public void selectionChanged(SelectionChangedEvent event) {
 			ISelection sel = event.getSelection();
 			if(sel instanceof StructuredSelection){
 				Object selectedObject = ((StructuredSelection)sel).getFirstElement();
@@ -200,7 +201,8 @@ public class EditorTagListView extends ViewPart {
 	}
 
 	private class EditorTagDoubleClickListener implements IDoubleClickListener {
-		public void doubleClick(DoubleClickEvent event) {
+		@Override
+      public void doubleClick(DoubleClickEvent event) {
 			ISelection sel = event.getSelection();
 			if(sel instanceof StructuredSelection){
 				Object selectedObject = ((StructuredSelection)sel).getFirstElement();

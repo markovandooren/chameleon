@@ -60,11 +60,13 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
 	 */
 	private Single<CrossReferenceTarget> _target = new Single<CrossReferenceTarget>(this);
 
-  public CrossReferenceTarget getTarget() {
+  @Override
+public CrossReferenceTarget getTarget() {
     return _target.getOtherEnd();
   }
 
-  public void setTarget(CrossReferenceTarget target) {
+  @Override
+public void setTarget(CrossReferenceTarget target) {
     set(_target,target);
   }
 
@@ -98,7 +100,8 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
    * CONTEXT *
    ***********/
    
-  @SuppressWarnings("unchecked")
+  @Override
+@SuppressWarnings("unchecked")
   protected <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
   	X result = null;
   	
@@ -141,10 +144,12 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
 		}
   }
   
-  public DeclarationSelector<TargetDeclaration> selector() {
+  @Override
+public DeclarationSelector<TargetDeclaration> selector() {
   	if(_selector == null) {
   		_selector = new NameSelector<TargetDeclaration>(TargetDeclaration.class) {
-  			public String name() {
+  			@Override
+         public String name() {
   				return NamedTarget.this.name();
   			}
   		};
@@ -158,11 +163,13 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
    * NAME *
    ********/
 
-  public String name() {
+  @Override
+public String name() {
     return _name;
   }
 
-  public void setName(String name) {
+  @Override
+public void setName(String name) {
     _name = name;
   }
 
@@ -194,7 +201,8 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
 		
 	}
 	
-  protected NamedTarget cloneSelf() {
+  @Override
+protected NamedTarget cloneSelf() {
     return new NamedTarget(name(),(CrossReferenceTarget)null);
   }
   
@@ -249,7 +257,8 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
 //    }
   }
 
-  public LookupContext targetContext() throws LookupException {
+  @Override
+public LookupContext targetContext() throws LookupException {
     return getElement().targetContext();
   }
 
@@ -261,7 +270,8 @@ public class NamedTarget extends CrossReferenceImpl<TargetDeclaration> implement
 //		}
 //	}
 	
-	public String toString() {
+	@Override
+   public String toString() {
 		return name();
 	}
 }

@@ -5,7 +5,8 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
 
 public abstract class PrefixIconDecorator implements NameBasedIconDecorator {
 
-	public String decorate(Element element, String baseIconName) throws ModelException {
+	@Override
+   public String decorate(Element element, String baseIconName) throws ModelException {
 		String result = baseIconName;
 		if(appliesTo(element)) {
 			result = prefix(element)+baseIconName;

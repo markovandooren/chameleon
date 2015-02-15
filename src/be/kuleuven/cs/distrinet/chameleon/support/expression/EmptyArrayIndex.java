@@ -83,7 +83,8 @@ public class EmptyArrayIndex extends ArrayIndex {
 		return _dimensions;
 	}
 
-	protected EmptyArrayIndex cloneSelf(){
+	@Override
+   protected EmptyArrayIndex cloneSelf(){
 		return new EmptyArrayIndex(getDimension());
 	}
 

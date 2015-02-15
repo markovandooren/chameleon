@@ -64,7 +64,8 @@ public class RootType implements HierarchyTreeNode {
 	/**
 	 * Returns null because the root element has no parent.
 	 */
-	public HierarchyTreeNode getParent(){
+	@Override
+   public HierarchyTreeNode getParent(){
 		return null;
 	}
 	

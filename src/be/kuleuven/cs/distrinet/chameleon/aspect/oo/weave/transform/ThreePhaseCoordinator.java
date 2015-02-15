@@ -71,7 +71,7 @@ public abstract class ThreePhaseCoordinator<T extends Element> extends AbstractC
 		if(descendants.isEmpty()) {
 			return null;
 		} else {
-			return (ParameterExposurePointcutExpression<?>) descendants.get(0);
+			return descendants.get(0);
 		}
 	}
 	

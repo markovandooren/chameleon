@@ -31,7 +31,8 @@ public class RegularMethodInvocation extends SimpleNameMethodInvocation<NormalMe
    * MISC *
    ********/
   
-  protected RegularMethodInvocation cloneSelf() {
+  @Override
+protected RegularMethodInvocation cloneSelf() {
     return new RegularMethodInvocation(name(), null);
   }
 

@@ -32,12 +32,14 @@ public class RegularNamespace extends NamespaceImpl {
 			registerNamespace(addedElement);
 		}
 		
-		protected void fireElementRemoved(Namespace addedElement) {
+		@Override
+      protected void fireElementRemoved(Namespace addedElement) {
 			super.fireElementRemoved(addedElement);
 			unregisterNamespace(addedElement);
 		};
 		
-		protected void fireElementReplaced(Namespace oldElement, Namespace newElement) {
+		@Override
+      protected void fireElementReplaced(Namespace oldElement, Namespace newElement) {
 			super.fireElementReplaced(oldElement, newElement);
 			fireElementAdded(newElement);
 			fireElementRemoved(oldElement);
@@ -59,7 +61,8 @@ public class RegularNamespace extends NamespaceImpl {
 	/**
 	 * Return all subpackages of this package.
 	 */
-	public List<Namespace> getSubNamespaces() {
+	@Override
+   public List<Namespace> getSubNamespaces() {
 		return _namespaces.getOtherEnds();
 	}
 
@@ -74,12 +77,14 @@ public class RegularNamespace extends NamespaceImpl {
 		_namespaceDeclarations.enableCache();
 	}
 
-	public synchronized void addNamespacePart(NamespaceDeclaration namespacePart){
+	@Override
+   public synchronized void addNamespacePart(NamespaceDeclaration namespacePart){
 		_namespaceDeclarations.add((Association)namespacePart.namespaceLink());
 		flushLocalCache();
 	}
 
-	public synchronized List<NamespaceDeclaration> getNamespaceParts(){
+	@Override
+   public synchronized List<NamespaceDeclaration> getNamespaceParts(){
 		return _namespaceDeclarations.getOtherEnds();
 	}
 	
@@ -88,15 +93,18 @@ public class RegularNamespace extends NamespaceImpl {
 		return _namespaceDeclarations.getOtherEnds();
 	}
 
-	protected RegularNamespace cloneSelf() {
+	@Override
+   protected RegularNamespace cloneSelf() {
 		return new RegularNamespace(name());
 	}
 	
-	public Scope scope() {
+	@Override
+   public Scope scope() {
 		return new UniversalScope();
 	}
 	
-  public LookupContext lookupContext(Element element) throws LookupException {
+  @Override
+public LookupContext lookupContext(Element element) throws LookupException {
   	if(_context == null) {
   		_context = language().lookupFactory().createLexicalLookupStrategy(targetContext(), this);
   	}
@@ -115,7 +123,8 @@ public class RegularNamespace extends NamespaceImpl {
 	 @
 	 @ post \result != null;
 	 @*/
-	public Namespace createSubNamespace(String name){
+	@Override
+   public Namespace createSubNamespace(String name){
 	  Namespace result = new RegularNamespace(name);
 	  addNamespace(result);
 		return result;
@@ -126,11 +135,13 @@ public class RegularNamespace extends NamespaceImpl {
 		return Valid.create();
 	}
 
-	public Declaration declarator() {
+	@Override
+   public Declaration declarator() {
 		return this;
 	}
 
-	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
 	}
 

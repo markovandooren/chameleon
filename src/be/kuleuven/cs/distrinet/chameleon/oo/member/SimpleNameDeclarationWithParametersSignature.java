@@ -20,11 +20,13 @@ public class SimpleNameDeclarationWithParametersSignature extends DeclarationWit
     setName(name);
   }
   
-  public String name() {
+  @Override
+public String name() {
     return _name;
   }
   
-  public void setName(String name) {
+  @Override
+public void setName(String name) {
     _name = name;
     // Robustness check needed to deal with partially parsed code.
     if(_name != null) {
@@ -44,7 +46,8 @@ public class SimpleNameDeclarationWithParametersSignature extends DeclarationWit
 //* FORMAL PARAMETERS *
 //*********************/
 //
-  public List<TypeReference> typeReferences() {
+  @Override
+public List<TypeReference> typeReferences() {
     return _parameterTypes.getOtherEnds();
   }
 

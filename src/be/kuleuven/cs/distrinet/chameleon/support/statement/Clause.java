@@ -33,7 +33,8 @@ public abstract class Clause extends ElementImpl implements ExceptionSource {
     return _statement.getOtherEnd();
   }
 
-  public CheckedExceptionList getCEL() throws LookupException {
+  @Override
+public CheckedExceptionList getCEL() throws LookupException {
     CheckedExceptionList result = new CheckedExceptionList();
     if(statement() != null) {
       result.absorb(statement().getCEL());
@@ -41,7 +42,8 @@ public abstract class Clause extends ElementImpl implements ExceptionSource {
     return result;
   }
 
-  public CheckedExceptionList getAbsCEL() throws LookupException {
+  @Override
+public CheckedExceptionList getAbsCEL() throws LookupException {
     CheckedExceptionList result = new CheckedExceptionList();
     if(statement() != null) {
       result.absorb(statement().getAbsCEL());

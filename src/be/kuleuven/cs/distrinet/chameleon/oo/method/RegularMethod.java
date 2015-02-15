@@ -13,21 +13,25 @@ public abstract class RegularMethod extends Method {
 		setExceptionClause(new ExceptionClause());
 	}
 	
-	public TypeReference returnTypeReference() {
+	@Override
+   public TypeReference returnTypeReference() {
 		return header().returnTypeReference();
 	}
 
-	public void setReturnTypeReference(TypeReference type) {
+	@Override
+   public void setReturnTypeReference(TypeReference type) {
 		header().setReturnTypeReference(type);
 	}
 
 	private Single<Implementation> _implementationLink = new Single<Implementation>(this);
 
-	public Implementation implementation() {
+	@Override
+   public Implementation implementation() {
 		return _implementationLink.getOtherEnd();
 	}
 
-	public void setImplementation(Implementation implementation) {
+	@Override
+   public void setImplementation(Implementation implementation) {
 		set(_implementationLink,implementation);
 	}
 
@@ -37,11 +41,13 @@ public abstract class RegularMethod extends Method {
   private Single<ExceptionClause> _exceptionClause = new Single<ExceptionClause>(this);
 
 
-  public ExceptionClause getExceptionClause() {
+  @Override
+public ExceptionClause getExceptionClause() {
     return _exceptionClause.getOtherEnd();
   }
 
-  public void setExceptionClause(ExceptionClause clause) {
+  @Override
+public void setExceptionClause(ExceptionClause clause) {
     set(_exceptionClause,clause);
   }
   

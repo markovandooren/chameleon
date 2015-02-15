@@ -76,11 +76,13 @@ public class ChameleonEditorPreferencePage extends FieldEditorPreferencePage imp
 		
 		}
 
-	public void init(IWorkbench workbench) {
+	@Override
+   public void init(IWorkbench workbench) {
 		
 	}
 	
-	public boolean performOk(){
+	@Override
+   public boolean performOk(){
 		boolean prev = super.performOk();
 		performChoices();		
 		return prev;
@@ -91,7 +93,8 @@ public class ChameleonEditorPreferencePage extends FieldEditorPreferencePage imp
 		ChameleonAutoEditStrategy.ENABLE_AUTO_FORMATTING = getPreferenceStore().getBoolean(ENABLE_AUTO_FORMATTING);
 	}
 
-	public void performApply(){
+	@Override
+   public void performApply(){
 		super.performApply();
 		performChoices();
 	}

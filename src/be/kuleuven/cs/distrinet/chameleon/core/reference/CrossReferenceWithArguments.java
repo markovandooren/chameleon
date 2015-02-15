@@ -253,7 +253,7 @@ public class CrossReferenceWithArguments extends ElementImpl {
 //		if (result != null) {
 //			// OPTIMISATION
 			if (cache) {
-				setCache((Declaration) result);
+				setCache(result);
 			}
 			return result;
 //		} else {
@@ -269,7 +269,8 @@ public class CrossReferenceWithArguments extends ElementImpl {
 		}
 	}
 
-	protected CrossReferenceWithArguments cloneSelf() {
+	@Override
+   protected CrossReferenceWithArguments cloneSelf() {
 		return new CrossReferenceWithArguments();
 	}
 

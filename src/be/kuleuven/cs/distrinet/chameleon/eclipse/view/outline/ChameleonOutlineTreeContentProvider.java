@@ -26,7 +26,8 @@ public class ChameleonOutlineTreeContentProvider implements ITreeContentProvider
 	 *  (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.IContentProvider#dispose()
 	 */
-	public void dispose() {
+	@Override
+   public void dispose() {
 
 	}
 
@@ -34,7 +35,8 @@ public class ChameleonOutlineTreeContentProvider implements ITreeContentProvider
 	 *  (non-Javadoc)
 	 * @see org.eclipse.jface.viewers.IContentProvider#inputChanged(org.eclipse.jface.viewers.Viewer, java.lang.Object, java.lang.Object)
 	 */
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+	@Override
+   public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		System.out.println("ChameleonTreeContents inputChanged");
 		
 		this.viewer = (TreeViewer)viewer;
@@ -72,12 +74,14 @@ public class ChameleonOutlineTreeContentProvider implements ITreeContentProvider
 	/**
 	 * @return the children for the parentelement
 	 */
-	public Object[] getChildren(Object parentElement) {
+	@Override
+   public Object[] getChildren(Object parentElement) {
 		List<ChameleonOutlineTree> children = ((ChameleonOutlineTree) parentElement).getChildren();
 		return children.toArray();
 	}
 
-	public Object getParent(Object object) {
+	@Override
+   public Object getParent(Object object) {
 		if(object instanceof ChameleonOutlineTree){
 			ChameleonOutlineTree node = (ChameleonOutlineTree)object;
 			Element element = node.getElement();
@@ -93,29 +97,34 @@ public class ChameleonOutlineTreeContentProvider implements ITreeContentProvider
 	/**
 	 * checks whether the given element has children
 	 */
-	public boolean hasChildren(Object element) {
+	@Override
+   public boolean hasChildren(Object element) {
 		return ((ChameleonOutlineTree) element).hasChildren();
 	}
 
 	/**
 	 * @see getChildren(object inputelement)
 	 */
-	public Object[] getElements(Object inputElement) {
+	@Override
+   public Object[] getElements(Object inputElement) {
 		return getChildren(inputElement);
 	}
 
-	public void add(ChameleonOutlineTreeEvent event) {
+	@Override
+   public void add(ChameleonOutlineTreeEvent event) {
 		Element elem = event.getInvolved();
 		viewer.refresh(elem,true);
 	}
 		
 
-	public void remove(ChameleonOutlineTreeEvent event) {
+	@Override
+   public void remove(ChameleonOutlineTreeEvent event) {
 		add(event);
 		
 	}
 
-	public void fireChanged() {
+	@Override
+   public void fireChanged() {
 		System.out.println("fire changed");
 		viewer.refresh();
 	}

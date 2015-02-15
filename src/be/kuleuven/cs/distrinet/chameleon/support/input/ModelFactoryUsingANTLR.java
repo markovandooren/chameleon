@@ -38,7 +38,8 @@ public abstract class ModelFactoryUsingANTLR extends LanguagePluginImpl implemen
 //		_view = view;
 //	}
 	
-  public abstract ModelFactoryUsingANTLR clone();
+  @Override
+public abstract ModelFactoryUsingANTLR clone();
 
 	private boolean _debug;
 	
@@ -52,7 +53,8 @@ public abstract class ModelFactoryUsingANTLR extends LanguagePluginImpl implemen
 
 	
 	
-	public void parse(String source, Document cu) throws ParseException {
+	@Override
+   public void parse(String source, Document cu) throws ParseException {
 		InputStream inputStream = new StringBufferInputStream(source);
 		try {
 			parse(inputStream, cu);
@@ -62,7 +64,8 @@ public abstract class ModelFactoryUsingANTLR extends LanguagePluginImpl implemen
 		}
 	}
 
-	public void parse(InputStream inputStream, Document cu) throws IOException, ParseException {
+	@Override
+   public void parse(InputStream inputStream, Document cu) throws IOException, ParseException {
 		try {
 			ChameleonParser parser = getParser(inputStream, cu.view());
 			cu.disconnectChildren();
@@ -92,7 +95,8 @@ public abstract class ModelFactoryUsingANTLR extends LanguagePluginImpl implemen
 	    return result;
 	}
 
-	public void refresh(Element element) throws ParseException {
+	@Override
+   public void refresh(Element element) throws ParseException {
 		Document compilationUnit = element.nearestAncestor(Document.class);
 		View view = element.view();
 		boolean done = false;

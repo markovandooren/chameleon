@@ -25,7 +25,8 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 		setSuperClassReference(ref);
 	}
 	
-	public Type superElement() throws LookupException {
+	@Override
+   public Type superElement() throws LookupException {
 		return superClass();
 	}
 	
@@ -67,7 +68,8 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 	 * Return a reference to the super class of this inheritance relation.
 	 * @return
 	 */
-	public TypeReference superClassReference() {
+	@Override
+   public TypeReference superClassReference() {
 		return _superClass.getOtherEnd();
 	}
 	
@@ -92,7 +94,8 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 	 * @return
 	 * @throws LookupException
 	 */
-	public <M extends Member> 
+	@Override
+   public <M extends Member> 
   List<M> accumulateInheritedMembers(final Class<M> kind, List<M> current) throws LookupException {
 		final List<M> potential = potentiallyInheritedMembers(kind);
 		return (List<M>) removeNonMostSpecificMembers((List)current, (List)potential);
@@ -100,7 +103,8 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 
 //	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
 //  void accumulateInheritedMembers(DeclarationSelector<M> selector, List<M> current) throws LookupException {
-	public <X extends Member> 
+	@Override
+   public <X extends Member> 
 	List<SelectionResult> accumulateInheritedMembers(DeclarationSelector<X> selector, List<SelectionResult> current) throws LookupException {
 		final List<? extends SelectionResult> potential = potentiallyInheritedMembers(selector);
 		return removeNonMostSpecificMembers(current, potential);

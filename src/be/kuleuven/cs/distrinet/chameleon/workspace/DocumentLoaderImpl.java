@@ -70,7 +70,8 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	 */
 	private boolean _isBaseLoader;
 
-	public boolean isBaseLoader() {
+	@Override
+   public boolean isBaseLoader() {
 		return _isBaseLoader;
 	}
 
@@ -89,18 +90,22 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	 * @param project
 	 * @throws ProjectException
 	 */
-	public void notifyContainerConnected(DocumentLoaderContainer project) throws ProjectException {
+	@Override
+   public void notifyContainerConnected(DocumentLoaderContainer project) throws ProjectException {
 	}
 
-	public void notifyContainerRemoved(DocumentLoaderContainer project) throws ProjectException {
+	@Override
+   public void notifyContainerRemoved(DocumentLoaderContainer project) throws ProjectException {
 	}
 
-	public void notifyProjectReplaced(DocumentLoaderContainer old, DocumentLoaderContainer newProject) throws ProjectException {
+	@Override
+   public void notifyProjectReplaced(DocumentLoaderContainer old, DocumentLoaderContainer newProject) throws ProjectException {
 	}
 
 	private SingleAssociation<DocumentLoaderImpl, DocumentLoaderContainer> _viewLink = new SingleAssociation<>(this);
 
-	public SingleAssociation<DocumentLoaderImpl, DocumentLoaderContainer> containerLink() {
+	@Override
+   public SingleAssociation<DocumentLoaderImpl, DocumentLoaderContainer> containerLink() {
 		return _viewLink;
 	}
 
@@ -109,30 +114,35 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		return _viewLink.getOtherEnd();
 	}
 	
-	public View view() {
+	@Override
+   public View view() {
 		DocumentLoaderContainer container = container();
 		return container == null ? null : container.view();
 	}
 
-	public Project project() {
+	@Override
+   public Project project() {
 		return view().project();
 	}
 
 	private OrderedMultiAssociation<DocumentLoaderImpl, InputSource> _inputSources = new OrderedMultiAssociation<DocumentLoaderImpl, InputSource>(this) {
-		protected void fireElementAdded(InputSource addedElement) {
+		@Override
+      protected void fireElementAdded(InputSource addedElement) {
 			flushLocalCache();
 			notifyAdded(addedElement);
 			super.fireElementAdded(addedElement);
 
 		};
 		
-		protected void fireElementRemoved(InputSource addedElement) {
+		@Override
+      protected void fireElementRemoved(InputSource addedElement) {
 			flushLocalCache();
 			notifyRemoved(addedElement);
 			super.fireElementRemoved(addedElement);
 		};
 		
-		protected void fireElementReplaced(InputSource oldElement, InputSource newElement) {
+		@Override
+      protected void fireElementReplaced(InputSource oldElement, InputSource newElement) {
 			flushLocalCache();
 			notifyAdded(oldElement);
 			notifyRemoved(newElement);
@@ -153,7 +163,8 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
    @ post inputSources().contains(source);
    @ post inputSources().containsAll(\old(inputSources()));
    @*/
-	public void addInputSource(InputSource source) {
+	@Override
+   public void addInputSource(InputSource source) {
 		// The Association object will send the event and the attached listener
 		// will invoke notifyAdded(InputSource).
 		//		System.out.println("Adding "+source);
@@ -172,7 +183,8 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		return _inputSources.getOtherEnds();
 	}
 
-	public List<Document> documents() throws InputException {
+	@Override
+   public List<Document> documents() throws InputException {
 		if(_documentsCache == null) {
 			Builder<Document> builder = ImmutableList.<Document>builder();
 			for(InputSource source: inputSources()) {
@@ -201,15 +213,18 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		source.destroy();
 	}
 
-	public void addListener(InputSourceListener listener) {
+	@Override
+   public void addListener(InputSourceListener listener) {
 		_listeners.add(listener);
 	}
 
-	public void removeListener(InputSourceListener listener) {
+	@Override
+   public void removeListener(InputSourceListener listener) {
 		_listeners.remove(listener);
 	}
 
-	public List<InputSourceListener> inputSourceListeners() {
+	@Override
+   public List<InputSourceListener> inputSourceListeners() {
 		return new ArrayList<InputSourceListener>(_listeners);
 	}
 
@@ -267,7 +282,8 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		return o == null ? -1 : 0;
 	}
 
-	public List<Namespace> topLevelNamespaces() {
+	@Override
+   public List<Namespace> topLevelNamespaces() {
 		ImmutableSet.Builder<Namespace> builder = ImmutableSet.<Namespace>builder();
 		for(InputSource source: inputSources()) {
 			Namespace namespace = source.namespace();
@@ -285,7 +301,8 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		return ImmutableList.copyOf(allNamespaces);
 	}
 
-	public Set<Namespace> namespaces() {
+	@Override
+   public Set<Namespace> namespaces() {
 		if(_namespaceCache == null) {
 			ImmutableSet.Builder<Namespace> builder = ImmutableSet.<Namespace>builder();
 			for(InputSource source: inputSources()) {

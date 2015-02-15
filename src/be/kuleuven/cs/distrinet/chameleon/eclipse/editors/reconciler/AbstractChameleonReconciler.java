@@ -175,7 +175,8 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 		 * Calls {@link AbstractChameleonReconciler#initialProcess()} on entrance.
 		 * </p>
 		 */
-		public void run() {
+		@Override
+      public void run() {
 
 
 
@@ -276,14 +277,16 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 		/*
 		 * @see IDocumentListener#documentAboutToBeChanged(DocumentEvent)
 		 */
-		public void documentAboutToBeChanged(DocumentEvent e) {
+		@Override
+      public void documentAboutToBeChanged(DocumentEvent e) {
 			docAboutToBeChanged();
 		}
 
 		/*
 		 * @see IDocumentListener#documentChanged(DocumentEvent)
 		 */
-		public void documentChanged(DocumentEvent e) {
+		@Override
+      public void documentChanged(DocumentEvent e) {
 
 			if (!fThread.isDirty()&& fThread.isAlive()) {
 				aboutToBeReconciled();
@@ -304,7 +307,8 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 		/*
 		 * @see ITextInputListener#inputDocumentAboutToBeChanged(IDocument, IDocument)
 		 */
-		public void inputDocumentAboutToBeChanged(IDocument oldInput, IDocument newInput) {
+		@Override
+      public void inputDocumentAboutToBeChanged(IDocument oldInput, IDocument newInput) {
 
 			//			if (oldInput == _document) {
 			//				
@@ -336,7 +340,8 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 		/*
 		 * @see ITextInputListener#inputDocumentChanged(IDocument, IDocument)
 		 */
-		public void inputDocumentChanged(IDocument oldInput, IDocument newInput) {
+		@Override
+      public void inputDocumentChanged(IDocument oldInput, IDocument newInput) {
 			if (oldInput == _document) {
 
 				if (_document != null)
@@ -368,7 +373,7 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 				}
 				//FIXME Here the new document is set in the reconciler, but if the thread is executed after
 				// the aboutToChange method and this one, the strategy is in an invalid state.
-				reconcilerDocumentChanged((EclipseDocument) _document);
+				reconcilerDocumentChanged(_document);
 
 				_document.addDocumentListener(this);
 				startReconciling();
@@ -500,7 +505,8 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	/*
 	 * @see IReconciler#install(ITextViewer)
 	 */
-	public void install(ITextViewer textViewer) {
+	@Override
+   public void install(ITextViewer textViewer) {
 
 		Assert.isNotNull(textViewer);
 		synchronized (this) {
@@ -520,7 +526,8 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	/*
 	 * @see IReconciler#uninstall()
 	 */
-	public void uninstall() {
+	@Override
+   public void uninstall() {
 		if (fListener != null) {
 
 			_textViewer.removeTextInputListener(fListener);

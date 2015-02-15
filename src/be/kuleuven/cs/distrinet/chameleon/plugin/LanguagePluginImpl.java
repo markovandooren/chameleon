@@ -7,16 +7,19 @@ import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
  */
 public abstract class LanguagePluginImpl extends PluginImpl<Language, LanguagePlugin> implements LanguagePlugin {
 
-    public Language language() {
+    @Override
+   public Language language() {
     	return container();
     }
 
     /**
      * T MUST BE A SUPERTYPE OF THIS OBJECT!!!
      */
-    public <T extends LanguagePlugin> void setLanguage(Language lang, Class<T> pluginInterface) {
+    @Override
+   public <T extends LanguagePlugin> void setLanguage(Language lang, Class<T> pluginInterface) {
     	setContainer(lang, pluginInterface);
     }
 
-    public abstract LanguagePluginImpl clone();
+    @Override
+   public abstract LanguagePluginImpl clone();
 }

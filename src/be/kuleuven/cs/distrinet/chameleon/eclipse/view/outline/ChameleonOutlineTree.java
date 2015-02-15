@@ -179,7 +179,8 @@ public class ChameleonOutlineTree {
 	/**
 	 * String representation of this tree
 	 */
-	public String toString(){
+	@Override
+   public String toString(){
 		return "chameleon tree with node " + _node.toString();
 	}
 	

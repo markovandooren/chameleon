@@ -201,11 +201,13 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 //		return language().lookupFactory().createTargetLookupStrategy(this);
 //	}
 
-	public List<Member> declarations() throws LookupException {
+	@Override
+   public List<Member> declarations() throws LookupException {
 		return members();
 	}
 
-	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+	@Override
+   public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 		return selector.selection(declarations());
 	}
 
@@ -222,12 +224,14 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 	 * This method passes 'element' to the lexicalLookupStrategy method of the parent. It does this
 	 * such that the parent can override the lookup for specific members.
 	 */
-  public LookupContext lookupContext(Element element) throws LookupException {
+  @Override
+public LookupContext lookupContext(Element element) throws LookupException {
   	// WE DO NOT USE 'this' such that a subclass of regular type can override the lookup for specific members.
   	return parent().lookupContext(element);
   }
 
-	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
 	}
 

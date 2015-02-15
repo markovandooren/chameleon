@@ -21,7 +21,8 @@ public class NamespaceScope extends Scope {
     _namespace = ns;
   }
   
-	public boolean contains(Element element) throws LookupException {
+	@Override
+   public boolean contains(Element element) throws LookupException {
 		return  element.namespace().equals(getNamespace());
 	}
   
@@ -31,7 +32,8 @@ public class NamespaceScope extends Scope {
    @ post \result == (other instanceof NamespaceScope) && 
    @                 ((NamespaceScope)other).getPackage().equals(getPackage());
    @*/
-  public boolean geRecursive(Scope other) throws LookupException {
+  @Override
+public boolean geRecursive(Scope other) throws LookupException {
     return (
              (other instanceof NamespaceScope) && 
              ((NamespaceScope)other).getNamespace().equals(getNamespace())

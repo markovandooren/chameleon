@@ -46,7 +46,8 @@ public class SimpleReference<D extends Declaration> extends ElementReference<D> 
 	public DeclarationSelector<D> selector() {
 		if(_selector == null) {
 			_selector = new NameSelector<D>(_specificClass) {
-				public String name() {
+				@Override
+            public String name() {
 					return SimpleReference.this.name();
 				}
 			};

@@ -12,7 +12,8 @@ public class FileInputSource extends StreamInputSource implements IFileInputSour
 		init(loader);
 	}
 	
-	public File file() {
+	@Override
+   public File file() {
 		return _file;
 	}
 	

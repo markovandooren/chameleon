@@ -14,6 +14,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
+import be.kuleuven.cs.distrinet.chameleon.core.variable.Variable;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
@@ -116,7 +117,8 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
   protected void transform(Variable variable) {
   }
 
-	public List<? extends Declaration> declarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> declarations() throws LookupException {
 		return ImmutableList.of(variable());
 	}
 	
@@ -134,7 +136,8 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
 	
 	private LookupContext _linear;
 
-	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+	@Override
+   public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 		return selector.selection(declarations());
 	}
 
@@ -170,7 +173,8 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
 		return result;
 	}
 
-	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
 	}
 

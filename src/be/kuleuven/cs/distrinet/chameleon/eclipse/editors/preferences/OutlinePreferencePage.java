@@ -115,7 +115,8 @@ public class OutlinePreferencePage extends FieldEditorPreferencePage implements 
 
 
 
-	public void init(IWorkbench workbench) {}
+	@Override
+   public void init(IWorkbench workbench) {}
 
 	/***************
 	 * 
@@ -156,7 +157,8 @@ public class OutlinePreferencePage extends FieldEditorPreferencePage implements 
 	/**
 	 * all choices are applied and saved & the necessary outlines are updated
 	 */
-	public boolean performOk(){
+	@Override
+   public boolean performOk(){
 		boolean prev = super.performOk();
 		performChoices();		
 		return prev;
@@ -195,7 +197,8 @@ public class OutlinePreferencePage extends FieldEditorPreferencePage implements 
 //		ChameleonOutlinePage.updateAll();
 	}
 	
-	public void performApply(){
+	@Override
+   public void performApply(){
 		super.performApply();
 		performChoices();
 		

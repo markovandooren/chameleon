@@ -100,7 +100,8 @@ public class ChameleonLabelProvider implements ILabelProvider {
 	 * @return the image corresponding to the given element.
 	 * 			No image is returned if the element does not have image available
 	 */
-	public Image getImage(Object modelObject) {
+	@Override
+   public Image getImage(Object modelObject) {
 		Image image = null;
 		Element element = getElement(modelObject);
 			Language language = element.language();
@@ -195,7 +196,8 @@ public class ChameleonLabelProvider implements ILabelProvider {
 	 * @return the text for the given element.
 	 * 
 	 */
-	public String getText(Object modelObject) {
+	@Override
+   public String getText(Object modelObject) {
 		Element element = getElement(modelObject);
 		String label = getLabel(element);
 		if( element != null ){
@@ -316,7 +318,8 @@ public class ChameleonLabelProvider implements ILabelProvider {
 	/**
 	 * clears the image cache, to prevent leaks
 	 */
-	public void dispose() {
+	@Override
+   public void dispose() {
 		for (Iterator i = imageCache.values().iterator(); i.hasNext();) {
 			((Image) i.next()).dispose();
 		}
@@ -327,14 +330,16 @@ public class ChameleonLabelProvider implements ILabelProvider {
 	 * 
 	 * @return false
 	 */
-	public boolean isLabelProperty(Object element, String property) {
+	@Override
+   public boolean isLabelProperty(Object element, String property) {
 		return false;
 	}
 
 	/**
 	 * UNUSED AT THE MOMENT
 	 */
-	public void addListener(ILabelProviderListener listener) {
+	@Override
+   public void addListener(ILabelProviderListener listener) {
 
 	}
 
@@ -342,7 +347,8 @@ public class ChameleonLabelProvider implements ILabelProvider {
 	/**
 	 * UNUSED AT THE MOMENT
 	 */
-	public void removeListener(ILabelProviderListener listener) {
+	@Override
+   public void removeListener(ILabelProviderListener listener) {
 
 	}
 

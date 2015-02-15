@@ -34,7 +34,8 @@ public class MemberVariableDeclarator extends TypeElementImpl implements TypeEle
 		setTypeReference(tref);
 	}
 	
-	public List<VariableDeclaration> variableDeclarations() {
+	@Override
+   public List<VariableDeclaration> variableDeclarations() {
 		return _declarations.getOtherEnds();
 	}
 	
@@ -48,7 +49,8 @@ public class MemberVariableDeclarator extends TypeElementImpl implements TypeEle
 	
 	private Multi<VariableDeclaration> _declarations = new Multi<VariableDeclaration>(this);
 
-	public MemberVariable createVariable(String name, Expression expression) {
+	@Override
+   public MemberVariable createVariable(String name, Expression expression) {
 		MemberVariable result = new RegularMemberVariable(name, clone(typeReference()),expression);
 		for(Modifier mod: modifiers()) {
 			result.addModifier(clone(mod));
@@ -61,7 +63,8 @@ public class MemberVariableDeclarator extends TypeElementImpl implements TypeEle
 		return new MemberVariableDeclarator(null);
 	}
 
-	public List<MemberVariable> getIntroducedMembers() {
+	@Override
+   public List<MemberVariable> getIntroducedMembers() {
 		List<MemberVariable> result = new ArrayList<MemberVariable>();
 		for(VariableDeclaration declaration: variableDeclarations()) {
 			result.add((MemberVariable) declaration.variable());
@@ -78,7 +81,8 @@ public class MemberVariableDeclarator extends TypeElementImpl implements TypeEle
   	return typeReference().getType();
   }
 	
-  public TypeReference typeReference() {
+  @Override
+public TypeReference typeReference() {
     return _typeReference.getOtherEnd();
   }
 
@@ -86,15 +90,18 @@ public class MemberVariableDeclarator extends TypeElementImpl implements TypeEle
     set(_typeReference,type);
   }
 
-	public List<? extends Declaration> declarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> declarations() throws LookupException {
 		return getIntroducedMembers();
 	}
 
-	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
 	}
 
-	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+	@Override
+   public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 		return selector.selection(declarations());
 	}
 

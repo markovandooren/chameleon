@@ -27,11 +27,13 @@ public class ThrowStatement extends ExpressionContainingStatement {
     super(expression);
   }
 
-  protected ThrowStatement cloneSelf() {
+  @Override
+protected ThrowStatement cloneSelf() {
     return new ThrowStatement(null);
   }
 
-  public CheckedExceptionList getDirectCEL() throws LookupException {
+  @Override
+public CheckedExceptionList getDirectCEL() throws LookupException {
 	    CheckedExceptionList cel = new CheckedExceptionList();
 	    Type type = getExpression().getType();
 	    TypeReference tr = language(ObjectOrientedLanguage.class).createTypeReference(type.getFullyQualifiedName());

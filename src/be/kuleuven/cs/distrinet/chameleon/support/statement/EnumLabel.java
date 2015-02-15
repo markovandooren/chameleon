@@ -10,8 +10,8 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.NameSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
+import be.kuleuven.cs.distrinet.chameleon.core.variable.Variable;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
-import be.kuleuven.cs.distrinet.chameleon.oo.variable.Variable;
 
 public class EnumLabel extends SwitchLabel implements CrossReference<Variable>{
 
@@ -34,7 +34,8 @@ public class EnumLabel extends SwitchLabel implements CrossReference<Variable>{
 	
 	private String _name;
 	
-	public Variable getElement() throws LookupException {
+	@Override
+   public Variable getElement() throws LookupException {
 		return getElement(selector());
 	}
 	
@@ -46,13 +47,15 @@ public class EnumLabel extends SwitchLabel implements CrossReference<Variable>{
 	  return collector.result();
 	}
 
-	public Declaration getDeclarator() throws LookupException {
+	@Override
+   public Declaration getDeclarator() throws LookupException {
 		return getElement(new DeclaratorSelector(selector()));
 	}
 
 	public DeclarationSelector<Variable> selector() {
 		return new NameSelector<Variable>(Variable.class) {
-			public String name() {
+			@Override
+         public String name() {
 				return _name;
 			}
 		};

@@ -37,5 +37,6 @@ public abstract class Invalid extends Verification {
    @
    @ post \result != null;
    @*/
-	public abstract String message();
+	@Override
+   public abstract String message();
 }

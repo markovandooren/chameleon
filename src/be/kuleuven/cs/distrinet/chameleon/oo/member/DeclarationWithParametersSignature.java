@@ -16,7 +16,8 @@ import be.kuleuven.cs.distrinet.chameleon.oo.variable.FormalParameter;
 
 public abstract class DeclarationWithParametersSignature extends Signature {
 
-	public abstract String name();
+	@Override
+   public abstract String name();
 	
 	public abstract int nbFormalParameters();
 	
@@ -51,7 +52,7 @@ public abstract class DeclarationWithParametersSignature extends Signature {
   			List<TypeParameter> cloneTypeParameters = clonedOtherHeader.typeParameters();
   			// FIXME: part of this should be delegated to 'other' and a class Erased...Signature should be made
   			//        to avoid cloning when it is not necessary (and to clean up this bad code of course).
-  			List<FormalParameter> clonedFormalParameters = (List<FormalParameter>)clonedOtherHeader.formalParameters();
+  			List<FormalParameter> clonedFormalParameters = clonedOtherHeader.formalParameters();
   			for(int i=0; i < nbMyTypeParameters; i++) {
   				TypeParameter myTypeParameter = myTypeParameters.get(i);
   				TypeParameter clonedTypeParameter = cloneTypeParameters.get(i);
@@ -64,7 +65,7 @@ public abstract class DeclarationWithParametersSignature extends Signature {
   				}
 
   				// substitute in type bounds of the type parameters of the cloned header.
-  				List<TypeParameter> typeParameters = (List<TypeParameter>)clonedOtherHeader.typeParameters();
+  				List<TypeParameter> typeParameters = clonedOtherHeader.typeParameters();
 					for(TypeParameter typeParameter: typeParameters) {
   					if(typeParameter instanceof FormalTypeParameter) {
   						FormalTypeParameter formal = (FormalTypeParameter) typeParameter;

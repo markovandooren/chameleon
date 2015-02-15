@@ -43,7 +43,8 @@ public class BasicDescendantProvider<E extends Element> extends AbstractDescenda
    @ post (\forall Element ancestor; ancestorProvider().elements().contains(ancestor);
    @         \result.containsAll(ancestor.descendants(selectedType())));
   */
-	public Collection<E> elements(View project) {
+	@Override
+   public Collection<E> elements(View project) {
 		Collection<E> result = new ArrayList<E>();
 		Class<E> cls = elementType();
 		Collection<? extends Element> elements = ancestorProvider().elements(project);

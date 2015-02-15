@@ -28,7 +28,8 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
     }
     try {
       return new AbstractPredicate() {
-        public boolean eval(Object o) throws LookupException {
+        @Override
+      public boolean eval(Object o) throws LookupException {
           return ((ExceptionDeclaration)o).compatibleWith(other);
         }
       }.forAll(exceptionDeclarations());
@@ -46,12 +47,14 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
     final Set result = new HashSet();
     try {
       new RobustVisitor() {
-        public Object visit(Object element) throws LookupException {
+        @Override
+      public Object visit(Object element) throws LookupException {
           result.addAll(((ExceptionDeclaration)element).getExceptionTypes(invocation));
           return null;
         }
 
-        public void unvisit(Object element, Object undo) {
+        @Override
+      public void unvisit(Object element, Object undo) {
           //NOP
         }
       }.applyTo(exceptionDeclarations());
@@ -71,12 +74,14 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
     final Set result = new HashSet();
     try {
       new RobustVisitor() {
-        public Object visit(Object element) throws LookupException {
+        @Override
+      public Object visit(Object element) throws LookupException {
           result.addAll(((ExceptionDeclaration)element).getWorstCaseExceptionTypes());
           return null;
         }
 
-        public void unvisit(Object element, Object undo) {
+        @Override
+      public void unvisit(Object element, Object undo) {
           //NOP
         }
       }.applyTo(exceptionDeclarations());
@@ -114,14 +119,16 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
   /**
    * @return
    */
-  protected ExceptionClause cloneSelf() {
+  @Override
+protected ExceptionClause cloneSelf() {
     return new ExceptionClause();
   }
 
   public boolean hasValidAccessibility() throws LookupException {
     try {
       return new AbstractPredicate() {
-        public boolean eval(Object o) throws LookupException {
+        @Override
+      public boolean eval(Object o) throws LookupException {
           return ((ExceptionDeclaration)o).hasValidAccessibility();
         }
       }.forAll(exceptionDeclarations());

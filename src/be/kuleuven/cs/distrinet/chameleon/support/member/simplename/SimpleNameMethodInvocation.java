@@ -19,7 +19,8 @@ public abstract class SimpleNameMethodInvocation<D extends Method> extends Metho
     setName(name);
   }
   
-  protected Type actualType() throws LookupException {
+  @Override
+protected Type actualType() throws LookupException {
     try {
 			Method method = getElement();
 			if (method != null) {
@@ -45,11 +46,13 @@ public abstract class SimpleNameMethodInvocation<D extends Method> extends Metho
 
   private String _methodName;
 
-  public String name() {
+  @Override
+public String name() {
     return _methodName;
   }
 
-  public void setName(String method) {
+  @Override
+public void setName(String method) {
     _methodName = method;
   }
 
@@ -86,7 +89,8 @@ public abstract class SimpleNameMethodInvocation<D extends Method> extends Metho
   		return SimpleNameMethodInvocation.this.getActualParameterTypes();
   	}
   	
-  	public String name() {
+  	@Override
+   public String name() {
   		return SimpleNameMethodInvocation.this.name();
   	}
   }

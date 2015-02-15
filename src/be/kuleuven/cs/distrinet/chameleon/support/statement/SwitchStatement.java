@@ -39,7 +39,8 @@ public class SwitchStatement extends ExpressionContainingStatement {
     return _switchCases.getOtherEnds();
   }
 
-  public SwitchStatement cloneSelf() {
+  @Override
+public SwitchStatement cloneSelf() {
     return new SwitchStatement(null);
   }
 

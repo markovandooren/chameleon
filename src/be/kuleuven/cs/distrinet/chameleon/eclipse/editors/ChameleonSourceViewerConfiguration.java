@@ -56,16 +56,19 @@ public class ChameleonSourceViewerConfiguration extends SourceViewerConfiguratio
 	
 	//FIXME: attach listeners when constructing the views.
 	private final class HighlightingReconcilingListener implements ActionListener {
-		public void actionPerformed(ActionEvent arg0) {
+		@Override
+      public void actionPerformed(ActionEvent arg0) {
 			if(_presentationReconciler.getDocument()!=null){ //anders is het document gesloten
 				_presentationReconciler.doPresentation();
 			}}
 	}
 
 	private final class OutlineReconcilingListener implements ActionListener {
-		public void actionPerformed(ActionEvent arg0) {
+		@Override
+      public void actionPerformed(ActionEvent arg0) {
 			Display.getDefault().asyncExec(new Runnable() {
-				public void run() {
+				@Override
+            public void run() {
 					try {
 						ChameleonOutlinePage outlinePage = null;
 						if(_chameleonEditor != null) {
@@ -148,7 +151,8 @@ public class ChameleonSourceViewerConfiguration extends SourceViewerConfiguratio
 	 * @param sourceViewer
 	 * 		The sourceViewer used. may <u>not</u> be null
 	 */
-	public IReconciler getReconciler(ISourceViewer sourceViewer){
+	@Override
+   public IReconciler getReconciler(ISourceViewer sourceViewer){
 		_chameleonReconcilingStrategy.setDocument((EclipseDocument) sourceViewer.getDocument());	
 		return _reconciler;
 	}
@@ -162,7 +166,8 @@ public class ChameleonSourceViewerConfiguration extends SourceViewerConfiguratio
 	 * 		The sourceViewer used. may <u>not</u> be null
 	 */
 //	 De getPresentationReconciler wordt het eerst opgeroepen bij het opstarten van eclipse
-	public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
+	@Override
+   public IPresentationReconciler getPresentationReconciler(ISourceViewer sourceViewer) {
 		_chameleonReconcilingStrategy.setDocument((EclipseDocument) sourceViewer.getDocument());
 		return _presentationReconciler;
 	}
@@ -173,7 +178,8 @@ public class ChameleonSourceViewerConfiguration extends SourceViewerConfiguratio
 	 * hover popup window when requested for the given source viewer
 	 * Can only be <code>null</code> when nothing is available for the hover
 	 */
-	public IAnnotationHover getAnnotationHover(ISourceViewer sourceViewer) {
+	@Override
+   public IAnnotationHover getAnnotationHover(ISourceViewer sourceViewer) {
 		return new ChameleonAnnotationHover();
 		
 	}
@@ -244,7 +250,8 @@ public class ChameleonSourceViewerConfiguration extends SourceViewerConfiguratio
 	 * 
 	 * @author Tim Vermeiren
 	 */
-	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
+	@Override
+   public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
 		ContentAssistant assistant= new ContentAssistant();
 		assistant.setContentAssistProcessor(new ChameleonContentAssistProcessor(),  IDocument.DEFAULT_CONTENT_TYPE);
 		assistant.enableAutoActivation(true);
@@ -253,7 +260,8 @@ public class ChameleonSourceViewerConfiguration extends SourceViewerConfiguratio
 		assistant.setEmptyMessage("No auto-completion proposals found.");
 		
 		IInformationControlCreator informationControlCreator= new IInformationControlCreator() {
-			public IInformationControl createInformationControl(Shell shell) {
+			@Override
+         public IInformationControl createInformationControl(Shell shell) {
 				IInformationControl result = new DefaultInformationControl(shell);
 				result.setInformation("Information control information");
 				return result;

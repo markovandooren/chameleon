@@ -49,14 +49,15 @@ public class TryStatement extends StatementContainingStatement {
 	private Single<FinallyClause> _finally = new Single<FinallyClause>(this);
 
   public FinallyClause getFinallyClause() {
-    return (FinallyClause)_finally.getOtherEnd();
+    return _finally.getOtherEnd();
   }
 
   public void setFinallyClause(FinallyClause clause) {
     set(_finally,clause);
   }
 
-  protected TryStatement cloneSelf() {
+  @Override
+protected TryStatement cloneSelf() {
     return new TryStatement(null);
   }
   
@@ -72,7 +73,8 @@ public class TryStatement extends StatementContainingStatement {
   public boolean hasValidCatchClauses() throws LookupException {
     try {
       return new AbstractPredicate() {
-        public boolean eval(Object o) throws LookupException {
+        @Override
+      public boolean eval(Object o) throws LookupException {
           return ((CatchClause)o).isValid();
         }
       }.forAll(getCatchClauses());
@@ -86,7 +88,8 @@ public class TryStatement extends StatementContainingStatement {
     }
   }
   
-  public CheckedExceptionList getCEL() throws LookupException {
+  @Override
+public CheckedExceptionList getCEL() throws LookupException {
     final CheckedExceptionList cel = getStatement().getCEL();
 
     Iterator iter = getCatchClauses().iterator();
@@ -106,7 +109,8 @@ public class TryStatement extends StatementContainingStatement {
     return cel;
   }
   
-  public CheckedExceptionList getAbsCEL() throws LookupException {
+  @Override
+public CheckedExceptionList getAbsCEL() throws LookupException {
     final CheckedExceptionList cel = getStatement().getAbsCEL();
 
     Iterator iter = getCatchClauses().iterator();

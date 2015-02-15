@@ -56,7 +56,8 @@ public abstract class NameSelector<D extends Declaration> extends SelectorWithou
   	return selectedClass().isAssignableFrom(type);
   }
 
-	public String toString() {
+	@Override
+   public String toString() {
 		return getClass().getName() +" class: "+selectedClass().getName()+" "+name();
 	}
 	
@@ -87,7 +88,8 @@ public abstract class NameSelector<D extends Declaration> extends SelectorWithou
 	}
 
 
-	protected boolean hasSelectableType(Declaration selectionDeclaration) {
+	@Override
+   protected boolean hasSelectableType(Declaration selectionDeclaration) {
 		return _class.isInstance(selectionDeclaration);
 	}
 }

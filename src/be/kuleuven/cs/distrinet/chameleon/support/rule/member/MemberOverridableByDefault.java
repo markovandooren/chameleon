@@ -13,7 +13,8 @@ public class MemberOverridableByDefault extends PropertyRule<Member> {
 		super(Member.class);
 	}
 
-	public PropertySet<Element,ChameleonProperty> suggestedProperties(Member element) {
+	@Override
+   public PropertySet<Element,ChameleonProperty> suggestedProperties(Member element) {
 		return createSet(language(ObjectOrientedLanguage.class).OVERRIDABLE);
 	}
 	

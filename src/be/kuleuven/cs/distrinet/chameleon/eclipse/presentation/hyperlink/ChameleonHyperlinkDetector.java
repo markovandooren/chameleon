@@ -33,7 +33,8 @@ public class ChameleonHyperlinkDetector implements IHyperlinkDetector {
 	 * 			The region covered by the mousepointer. Normally the length of region is 0,
 	 * 			only if a selection is covered this will be longer.
 	 */
-	public IHyperlink[] detectHyperlinks(ITextViewer textViewer, IRegion region, boolean canShowMultipleHyperlinks) {
+	@Override
+   public IHyperlink[] detectHyperlinks(ITextViewer textViewer, IRegion region, boolean canShowMultipleHyperlinks) {
 		// Get the ChameleonDocument:
 		EclipseDocument document;
 		try {

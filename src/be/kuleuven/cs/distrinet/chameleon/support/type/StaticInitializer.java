@@ -55,7 +55,8 @@ public class StaticInitializer extends TypeElementImpl implements ExceptionSourc
   /**
    * @return
    */
-  protected StaticInitializer cloneSelf() {
+  @Override
+protected StaticInitializer cloneSelf() {
     return new StaticInitializer(null);
   }
 
@@ -64,7 +65,8 @@ public class StaticInitializer extends TypeElementImpl implements ExceptionSourc
    @
    @ post \result == getBlock().getCEL();
    @*/
-  public CheckedExceptionList getCEL() throws LookupException {
+  @Override
+public CheckedExceptionList getCEL() throws LookupException {
     return getBlock().getCEL();
   }
 
@@ -73,14 +75,16 @@ public class StaticInitializer extends TypeElementImpl implements ExceptionSourc
    @
    @ post \result == getBlock().getAbsCEL();
    @*/
-  public CheckedExceptionList getAbsCEL() throws LookupException {
+  @Override
+public CheckedExceptionList getAbsCEL() throws LookupException {
     return getBlock().getAbsCEL();
   }
 
   /**
    * A static initializer does not add members to a type.
    */
-  public List<Member> getIntroducedMembers() {
+  @Override
+public List<Member> getIntroducedMembers() {
     return ImmutableList.of();
   }
 

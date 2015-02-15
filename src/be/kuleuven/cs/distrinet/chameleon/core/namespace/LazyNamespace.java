@@ -74,7 +74,8 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 		return candidates;
 	}
 	
-	public void addInputSource(InputSource source) throws InputException {
+	@Override
+   public void addInputSource(InputSource source) throws InputException {
 		_inputSources.add(source.namespaceLink());
 		List<String> targetDeclarationNames = source.targetDeclarationNames(this);
 		for(String name: targetDeclarationNames) {
@@ -119,7 +120,8 @@ public class LazyNamespace extends RegularNamespace implements InputSourceNamesp
 		return super.children();
 	}
 	
-	public List<InputSource> inputSources() {
+	@Override
+   public List<InputSource> inputSources() {
 		return _inputSources.getOtherEnds();
 	}
 	

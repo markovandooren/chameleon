@@ -90,7 +90,8 @@ public class ModelView extends ViewPart {
 		MenuManager mgr = new MenuManager();
 		mgr.setRemoveAllWhenShown(true);
 		mgr.addMenuListener(new IMenuListener(){
-			public void menuAboutToShow(IMenuManager manager) {
+			@Override
+         public void menuAboutToShow(IMenuManager manager) {
 				fillContextMenu(manager);
 			}
 		});
@@ -216,7 +217,8 @@ public class ModelView extends ViewPart {
 	 * @author Tim Vermeiren
 	 */
 	private class ModelViewSelectionChangedListener implements ISelectionChangedListener {
-		public void selectionChanged(SelectionChangedEvent event) {
+		@Override
+      public void selectionChanged(SelectionChangedEvent event) {
 			ISelection sel = event.getSelection();
 			if(sel instanceof StructuredSelection){
 				Object selectedObject = ((StructuredSelection)sel).getFirstElement();
@@ -240,7 +242,8 @@ public class ModelView extends ViewPart {
 	 * @author Tim Vermeiren
 	 */
 	private class ModelViewDoubleClickListener implements IDoubleClickListener {
-		public void doubleClick(DoubleClickEvent event) {
+		@Override
+      public void doubleClick(DoubleClickEvent event) {
 			ISelection sel = event.getSelection();
 			if(sel instanceof StructuredSelection){
 				Object selectedObject = ((StructuredSelection)sel).getFirstElement();

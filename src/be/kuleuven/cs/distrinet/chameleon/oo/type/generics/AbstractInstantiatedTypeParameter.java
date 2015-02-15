@@ -59,7 +59,8 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 	
 	private ActualTypeArgument _argument;
 
-	public synchronized Type selectionDeclaration() throws LookupException {
+	@Override
+   public synchronized Type selectionDeclaration() throws LookupException {
 		if(_selectionTypeCache == null) {
 		  _selectionTypeCache = new InstantiatedParameterType(name(), argument().type(),this);
 		}
@@ -135,7 +136,8 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 		return result;
 	}
 
-		public int hashCode() {
+		@Override
+      public int hashCode() {
 		return argument().hashCode();
 	}
 

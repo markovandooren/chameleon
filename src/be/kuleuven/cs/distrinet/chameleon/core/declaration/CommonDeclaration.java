@@ -71,7 +71,8 @@ public abstract class CommonDeclaration extends DeclarationImpl implements Eleme
    @
    @ post \result != null;
    @*/
-  public List<Modifier> modifiers() {
+  @Override
+public List<Modifier> modifiers() {
     return _modifiers.getOtherEnds();
   }
 
@@ -86,7 +87,8 @@ public abstract class CommonDeclaration extends DeclarationImpl implements Eleme
    @
    @ post modifiers().contains(modifier);
    @*/
-  public void addModifier(Modifier modifier) {
+  @Override
+public void addModifier(Modifier modifier) {
   	add(_modifiers,modifier);
   }
   
@@ -103,7 +105,8 @@ public abstract class CommonDeclaration extends DeclarationImpl implements Eleme
    @
    @ post modifiers().containsAll(modifiers);
    @*/
-  public void addModifiers(List<Modifier> modifiers) {
+  @Override
+public void addModifiers(List<Modifier> modifiers) {
   	if(modifiers == null) {
   		throw new ChameleonProgrammerException("List passed to addModifiers is null");
   	} else {
@@ -125,7 +128,8 @@ public abstract class CommonDeclaration extends DeclarationImpl implements Eleme
    @
    @ post ! modifiers().contains(modifier);
    @*/
-  public void removeModifier(Modifier modifier) {
+  @Override
+public void removeModifier(Modifier modifier) {
   	remove(_modifiers,modifier);
   }
 
@@ -145,7 +149,8 @@ public abstract class CommonDeclaration extends DeclarationImpl implements Eleme
     return _modifiers.getOtherEnds().contains(modifier);
   }
 
-  public PropertySet<Element,ChameleonProperty> declaredProperties() {
+  @Override
+public PropertySet<Element,ChameleonProperty> declaredProperties() {
 		PropertySet<Element,ChameleonProperty> result = new PropertySet<Element,ChameleonProperty>();
     for(Modifier modifier:modifiers()) {
       result.addAll(modifier.impliedProperties().properties());
@@ -161,7 +166,8 @@ public abstract class CommonDeclaration extends DeclarationImpl implements Eleme
 		return language().defaultProperties(this, explicitProperties());
 	}
 	
-	public List<Modifier> modifiers(Property property) throws ModelException {
+	@Override
+   public List<Modifier> modifiers(Property property) throws ModelException {
 		List<Modifier> result = Lists.create();
 		for(Modifier modifier: modifiers()) {
 			if(modifier.impliesTrue(property)) {

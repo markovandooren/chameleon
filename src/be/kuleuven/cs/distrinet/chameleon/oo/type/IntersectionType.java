@@ -46,11 +46,13 @@ public class IntersectionType extends MultiType {
 		return types();
 	}
 
-	public Type intersectionDoubleDispatch(Type type) throws LookupException {
+	@Override
+   public Type intersectionDoubleDispatch(Type type) throws LookupException {
 		return type.intersectionDoubleDispatch(this);
 	}
 
-	public Type intersectionDoubleDispatch(IntersectionType type) throws LookupException {
+	@Override
+   public Type intersectionDoubleDispatch(IntersectionType type) throws LookupException {
 		IntersectionType result = clone(this);
 		result.addAll(type);
 		return type;
@@ -142,7 +144,8 @@ public class IntersectionType extends MultiType {
 		return result;
 	}
 
-	public List<InheritanceRelation> nonMemberInheritanceRelations() {
+	@Override
+   public List<InheritanceRelation> nonMemberInheritanceRelations() {
 		List<InheritanceRelation> result = Lists.create();
 		for(Type type: types()) {
 		  result.addAll(type.nonMemberInheritanceRelations());
@@ -196,7 +199,8 @@ public class IntersectionType extends MultiType {
 		}
 	}
 	
-	public boolean uniSameAs(final Type other, final List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+	@Override
+   public boolean uniSameAs(final Type other, final List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
 		List<Type> types = types();
 		if (other instanceof IntersectionType) {
 			return new AbstractPredicate<Type, LookupException>() {

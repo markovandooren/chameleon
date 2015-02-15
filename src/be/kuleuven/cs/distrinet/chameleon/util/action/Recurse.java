@@ -16,7 +16,8 @@ public class Recurse<T extends Element,E extends Exception> extends TreeAction<T
 	
 	private TreeAction<T, ? extends E> _action;
 
-	protected void doPerform(T element) throws E {          
+	@Override
+   protected void doPerform(T element) throws E {          
 		for(Element child: element.children()){
 			walker().enter(child);
 			walker().perform(child);

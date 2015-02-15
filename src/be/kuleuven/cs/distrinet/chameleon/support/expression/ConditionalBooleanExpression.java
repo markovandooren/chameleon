@@ -22,7 +22,8 @@ public abstract class ConditionalBooleanExpression extends BinaryExpression {
     super(first, second);
   }
   
-  protected Type actualType() throws LookupException {
+  @Override
+protected Type actualType() throws LookupException {
     return language(ObjectOrientedLanguage.class).booleanType(view().namespace()); 
   }
   

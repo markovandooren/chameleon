@@ -32,15 +32,18 @@ public abstract class InputSourceImpl implements InputSource {
 		loader.addInputSource(this);
 	}
 	
-	public void setNamespace(InputSourceNamespace ns) throws InputException {
+	@Override
+   public void setNamespace(InputSourceNamespace ns) throws InputException {
 		ns.addInputSource(this);
 	}
 	
-	public InputSourceNamespace namespace() {
+	@Override
+   public InputSourceNamespace namespace() {
 		return _namespace.getOtherEnd();
 	}
 	
-	public SingleAssociation<InputSource, InputSourceNamespace> namespaceLink() {
+	@Override
+   public SingleAssociation<InputSource, InputSourceNamespace> namespaceLink() {
 		return _namespace;
 	}
 	
@@ -70,7 +73,8 @@ public abstract class InputSourceImpl implements InputSource {
 		return _document.getOtherEnd() != null;
 	}
 	
-	public final synchronized Document load() throws InputException {
+	@Override
+   public final synchronized Document load() throws InputException {
 		if(! isLoaded()) {
 			return refresh();
 		} else {
@@ -80,7 +84,8 @@ public abstract class InputSourceImpl implements InputSource {
 	
 //	public static Stopwatch LOADING_TIME = new Stopwatch();
 
-	public final Document refresh() throws InputException {
+	@Override
+   public final Document refresh() throws InputException {
 //		LOADING_TIME.start();
 		doRefresh();
 		Document result = rawDocument();
@@ -97,7 +102,8 @@ public abstract class InputSourceImpl implements InputSource {
 		return loader().project();
 	}
 	
-	public View view() {
+	@Override
+   public View view() {
 		DocumentLoader loader = loader();
 		if(loader != null) {
 			return loader.view();
@@ -108,11 +114,13 @@ public abstract class InputSourceImpl implements InputSource {
 	
 	protected SingleAssociation<InputSourceImpl, Document> _document = new SingleAssociation<InputSourceImpl, Document>(this);
 	
-	public DocumentLoader loader() {
+	@Override
+   public DocumentLoader loader() {
 		return _loader.getOtherEnd();
 	}
 	
-	public SingleAssociation<InputSource, DocumentLoader> loaderLink() {
+	@Override
+   public SingleAssociation<InputSource, DocumentLoader> loaderLink() {
 		return _loader;
 	}
 	
@@ -147,7 +155,7 @@ public abstract class InputSourceImpl implements InputSource {
 		if(! cs.isEmpty()) {
 			NamespaceDeclaration namespaceDeclaration = cs.get(0);
 			if(namespaceDeclaration != null) {
-				List<Declaration> children = (List)namespaceDeclaration.children(Declaration.class);
+				List<Declaration> children = namespaceDeclaration.children(Declaration.class);
 				List<String> result = new ArrayList<String>();
 				for(Declaration t: children) {
 					result.add(t.name());
@@ -216,7 +224,8 @@ public abstract class InputSourceImpl implements InputSource {
 	 * Compare this input source with the given other input source. An input source
 	 * that is bigger than another has priority
 	 */
-	public int compareTo(InputSource other) {
+	@Override
+   public int compareTo(InputSource other) {
 		if(other == null) {
 			// I know that I should throw an exception,
 			// but I want to make it robust.

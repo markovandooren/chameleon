@@ -45,7 +45,8 @@ public class SwitchCase extends ElementImpl implements StatementListContainer, E
     remove(_statements,statement);
   }
 
-  public List<Statement> statements() {
+  @Override
+public List<Statement> statements() {
     return _statements.getOtherEnds();
   }
 
@@ -65,20 +66,24 @@ public class SwitchCase extends ElementImpl implements StatementListContainer, E
   /**
    * @return
    */
-  protected SwitchCase cloneSelf() {
+  @Override
+protected SwitchCase cloneSelf() {
     return new SwitchCase();
   }
 
-  public CheckedExceptionList getCEL() throws LookupException {
+  @Override
+public CheckedExceptionList getCEL() throws LookupException {
     final CheckedExceptionList cel = new CheckedExceptionList();
     try {
       new RobustVisitor() {
-        public Object visit(Object element) throws LookupException {
+        @Override
+      public Object visit(Object element) throws LookupException {
           cel.absorb(((ExceptionSource)element).getCEL());
           return null;
         }
 
-        public void unvisit(Object element, Object undo) {
+        @Override
+      public void unvisit(Object element, Object undo) {
           //NOP
         }
       }.applyTo(statements());
@@ -93,16 +98,19 @@ public class SwitchCase extends ElementImpl implements StatementListContainer, E
     }
   }
 
-  public CheckedExceptionList getAbsCEL() throws LookupException {
+  @Override
+public CheckedExceptionList getAbsCEL() throws LookupException {
     final CheckedExceptionList cel = new CheckedExceptionList();
     try {
       new RobustVisitor() {
-        public Object visit(Object element) throws LookupException {
+        @Override
+      public Object visit(Object element) throws LookupException {
           cel.absorb(((ExceptionSource)element).getAbsCEL());
           return null;
         }
 
-        public void unvisit(Object element, Object undo) {
+        @Override
+      public void unvisit(Object element, Object undo) {
           //NOP
         }
       }.applyTo(statements());
@@ -117,11 +125,13 @@ public class SwitchCase extends ElementImpl implements StatementListContainer, E
     }
   }
 
-  public int getIndexOf(Statement statement) {
+  @Override
+public int getIndexOf(Statement statement) {
     return statements().indexOf(statement) + 1;
   }
 
-	public List<Statement> statementsAfter(Statement statement) {
+	@Override
+   public List<Statement> statementsAfter(Statement statement) {
 		List<Statement> statements = statements(); 
 		int index = statements.indexOf(statement);
 		// returns a view on a clone of _statements (getStatements() clones the list).

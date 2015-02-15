@@ -18,10 +18,10 @@ public class AroundBlock extends AdvisedBlockFactory {
 		Block adviceResultBlock = Util.clone(adviceBlock);
 		Block originalCode = Util.clone(joinpoint.getJoinpoint());
 		
-		List<ProceedCall> descendants = (List<ProceedCall>) adviceResultBlock.descendants(ProceedCall.class);
+		List<ProceedCall> descendants = adviceResultBlock.descendants(ProceedCall.class);
 
 		for (ProceedCall pc : descendants) {
-			Statement statement = (Statement) pc.nearestAncestor(Statement.class);
+			Statement statement = pc.nearestAncestor(Statement.class);
 			statement.parentLink().getOtherRelation().replace((Association)statement.parentLink(), (Association)originalCode.clone().parentLink());	
 		}
 		

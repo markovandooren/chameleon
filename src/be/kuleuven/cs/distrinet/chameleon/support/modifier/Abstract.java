@@ -28,7 +28,8 @@ public class Abstract extends ModifierImpl {
    @ post \result.contains(language().ABSTRACT);
    @ post \result.size() == 1;
    @*/
-  public PropertySet<Element,ChameleonProperty> impliedProperties() {
+  @Override
+public PropertySet<Element,ChameleonProperty> impliedProperties() {
     return createSet(language(ObjectOrientedLanguage.class).ABSTRACT);
   }
   

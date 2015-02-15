@@ -16,13 +16,16 @@ public class NullChameleonOutlineTreeListener implements IChameleonOutlineTreeLi
 		return soleInstance;
 	}
 	
-	public void add(ChameleonOutlineTreeEvent event){		
+	@Override
+   public void add(ChameleonOutlineTreeEvent event){		
 	}
 	
-	public void remove(ChameleonOutlineTreeEvent event){	
+	@Override
+   public void remove(ChameleonOutlineTreeEvent event){	
 	}
 
-	public void fireChanged() {
+	@Override
+   public void fireChanged() {
 	}
 
 }

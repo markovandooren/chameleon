@@ -25,7 +25,8 @@ public class LabeledStatement extends StatementContainingStatement {
     _label = label;
   }
 
-  protected LabeledStatement cloneSelf() {
+  @Override
+protected LabeledStatement cloneSelf() {
     return new LabeledStatement(getLabel(), null);
   }
 

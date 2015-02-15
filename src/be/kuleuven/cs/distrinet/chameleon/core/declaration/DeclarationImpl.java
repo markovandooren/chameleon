@@ -41,7 +41,8 @@ public abstract class DeclarationImpl extends ElementImpl implements Declaration
 		return this;
 	}
 
-  public Scope scope() throws ModelException {
+  @Override
+public Scope scope() throws ModelException {
   	Scope result = null;
   	ChameleonProperty scopeProperty = property(language().SCOPE_MUTEX());
   	if(scopeProperty instanceof ScopeProperty) {

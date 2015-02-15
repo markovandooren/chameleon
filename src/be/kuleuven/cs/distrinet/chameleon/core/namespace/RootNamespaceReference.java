@@ -28,7 +28,8 @@ public class RootNamespaceReference extends ElementImpl implements CrossReferenc
 		return new RootNamespaceReference();
 	}
 	
-	public String toString() {
+	@Override
+   public String toString() {
 		return "";
 	}
 	

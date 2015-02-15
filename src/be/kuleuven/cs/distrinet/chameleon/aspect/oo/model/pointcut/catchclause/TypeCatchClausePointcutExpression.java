@@ -46,7 +46,8 @@ public class TypeCatchClausePointcutExpression extends CatchClausePointcutExpres
 //		return new MatchResult(this, element);
 //	}
 
-	protected boolean doesMatch(Statement joinpoint) throws LookupException {
+	@Override
+   protected boolean doesMatch(Statement joinpoint) throws LookupException {
 		return super.doesMatch(joinpoint) && ((CatchClause) joinpoint.parent()).getExceptionParameter().getType().assignableTo(exceptionType().getType());
 	}
 	

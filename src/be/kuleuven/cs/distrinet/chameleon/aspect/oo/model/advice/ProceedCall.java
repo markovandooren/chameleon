@@ -36,7 +36,7 @@ public class ProceedCall extends Expression {
 	public Verification verifySelf() {
 		Verification result = Valid.create();
 		
-		Advice advice = (Advice) nearestAncestor(Advice.class);
+		Advice advice = nearestAncestor(Advice.class);
 		
 		if (advice == null) {
 			result = result.and(new BasicProblem(this, "Proceed calls are only allowed in advice bodies."));

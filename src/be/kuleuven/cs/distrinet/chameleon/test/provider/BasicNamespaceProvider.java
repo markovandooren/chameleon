@@ -72,7 +72,8 @@ import be.kuleuven.cs.distrinet.chameleon.workspace.View;
 
 		private List<String> _namespaces = new ArrayList<String>();
 		
-		public Collection<Namespace> elements(View view) {
+		@Override
+      public Collection<Namespace> elements(View view) {
 			Collection<Namespace> result = new ArrayList<Namespace>();
 			try {
 				for(String fqn: _namespaces) {

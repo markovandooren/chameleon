@@ -18,7 +18,8 @@ public abstract class AbstractInfrastructureFactory<T extends Element, A extends
 		this._adviceType = adviceType;
 	}
 	
-	public void setJoinPointWeaver(JoinPointWeaver joinPointWeaver) {
+	@Override
+   public void setJoinPointWeaver(JoinPointWeaver joinPointWeaver) {
 		_joinPointWeaver = joinPointWeaver;
 	}
 	

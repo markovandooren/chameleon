@@ -12,7 +12,8 @@ public class DoStatement extends IterationStatementWithExpression {
     super(statement, expression);
   }
 
-  protected DoStatement cloneSelf() {
+  @Override
+protected DoStatement cloneSelf() {
     return new DoStatement(null, null);
   }
 

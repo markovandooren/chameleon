@@ -147,7 +147,8 @@ public class ChameleonOutlinePage extends ContentOutlinePage {
 		menuMgr.setRemoveAllWhenShown(true);
 		createMenuActions(menuMgr);
 		menuMgr.addMenuListener(new IMenuListener(){
-			public void menuAboutToShow(IMenuManager mgr) {
+			@Override
+         public void menuAboutToShow(IMenuManager mgr) {
 				mgr.removeAll();
 				createMenuActions(mgr);
 			};
@@ -264,7 +265,8 @@ public class ChameleonOutlinePage extends ContentOutlinePage {
 	 * When another element in the ChameleonTree is selected, 
 	 * a highlight of the element is made.
 	 */
-	public void selectionChanged(SelectionChangedEvent event) {
+	@Override
+   public void selectionChanged(SelectionChangedEvent event) {
 		super.selectionChanged(event);
 
 		ISelection selection= event.getSelection();

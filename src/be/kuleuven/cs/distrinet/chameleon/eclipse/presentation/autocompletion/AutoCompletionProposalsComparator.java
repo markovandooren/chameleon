@@ -51,7 +51,8 @@ public class AutoCompletionProposalsComparator implements Comparator<Element> {
 	 * 			result == 0   <=>	 e1 == e2
 	 * 			result > 0    <=>	 e1 > e2  (e1 comes after e2)
 	 */
-	public int compare(Element e1, Element e2) {
+	@Override
+   public int compare(Element e1, Element e2) {
 		//FIXME !!!!
 		return -1;
 //		// first try to compare by type:

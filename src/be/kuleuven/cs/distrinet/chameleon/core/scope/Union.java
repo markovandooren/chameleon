@@ -11,11 +11,13 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
  */
 public class Union extends CompositeScope {
 	
-	public boolean contains(final Element element) throws LookupException {
+	@Override
+   public boolean contains(final Element element) throws LookupException {
 		try {
 			return new AbstractPredicate<Scope,LookupException>() {
 
-				public boolean eval(Scope object) throws LookupException {
+				@Override
+            public boolean eval(Scope object) throws LookupException {
 					return object.contains(element);
 				}
 			}.exists(scopes());
@@ -60,10 +62,12 @@ public class Union extends CompositeScope {
   	add(second);
   }
 
-  public boolean geRecursive(final Scope other) throws LookupException {
+  @Override
+public boolean geRecursive(final Scope other) throws LookupException {
     try {
       return new AbstractPredicate() {
-        public boolean eval(Object o) throws LookupException {
+        @Override
+      public boolean eval(Object o) throws LookupException {
           return ((Scope)o).greaterThanOrEqualTo(other);
         }
       }.exists(scope());
@@ -77,10 +81,12 @@ public class Union extends CompositeScope {
     }
   }
 
-  public boolean leRecursive(final Scope other) throws LookupException {
+  @Override
+public boolean leRecursive(final Scope other) throws LookupException {
     try {
       return new AbstractPredicate() {
-        public boolean eval(Object o) throws LookupException {
+        @Override
+      public boolean eval(Object o) throws LookupException {
           return other.greaterThanOrEqualTo(((Scope)o));
         }
       }.forAll(scope());
@@ -94,18 +100,22 @@ public class Union extends CompositeScope {
     }
   }
 
-  public Scope union(Scope other) throws LookupException {
+  @Override
+public Scope union(Scope other) throws LookupException {
     Union result = new Union(scope());
     result.add(other);
     return result;
   }
   
-  protected void filter() throws LookupException {
+  @Override
+protected void filter() throws LookupException {
     try {
       new AbstractPredicate() {
-        public boolean eval(Object o) throws Exception {
+        @Override
+      public boolean eval(Object o) throws Exception {
           final Scope acc = (Scope)o;
           return ! new AbstractPredicate() {
+            @Override
             public boolean eval(Object o2) throws LookupException {
               Scope other = (Scope)o2;
               return (acc != other) && (other.greaterThanOrEqualTo(acc));

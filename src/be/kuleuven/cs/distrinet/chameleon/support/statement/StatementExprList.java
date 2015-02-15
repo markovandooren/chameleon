@@ -45,20 +45,24 @@ public class StatementExprList extends ElementImpl implements ForInit, Exception
     return _statementExpressions.getOtherEnds();
   }
 
-  public StatementExprList cloneSelf() {
+  @Override
+public StatementExprList cloneSelf() {
     return new StatementExprList();
   }
 
-  public CheckedExceptionList getCEL() throws LookupException {
+  @Override
+public CheckedExceptionList getCEL() throws LookupException {
     final CheckedExceptionList cel = new CheckedExceptionList();
     try {
       new RobustVisitor() {
-        public Object visit(Object element) throws LookupException {
+        @Override
+      public Object visit(Object element) throws LookupException {
           cel.absorb(((ExceptionSource)element).getCEL());
           return null;
         }
 
-        public void unvisit(Object element, Object undo) {
+        @Override
+      public void unvisit(Object element, Object undo) {
           //NOP
         }
       }.applyTo(statements());
@@ -74,16 +78,19 @@ public class StatementExprList extends ElementImpl implements ForInit, Exception
 
   }
 
-  public CheckedExceptionList getAbsCEL() throws LookupException {
+  @Override
+public CheckedExceptionList getAbsCEL() throws LookupException {
     final CheckedExceptionList cel = new CheckedExceptionList();
     try {
       new RobustVisitor() {
-        public Object visit(Object element) throws LookupException {
+        @Override
+      public Object visit(Object element) throws LookupException {
           cel.absorb(((ExceptionSource)element).getAbsCEL());
           return null;
         }
 
-        public void unvisit(Object element, Object undo) {
+        @Override
+      public void unvisit(Object element, Object undo) {
           //NOP
         }
       }.applyTo(statements());
@@ -107,11 +114,13 @@ public class StatementExprList extends ElementImpl implements ForInit, Exception
     return statements().size();
   }
 
-	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
 	}
 
-	public List<? extends Declaration> declarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> declarations() throws LookupException {
 		return Collections.EMPTY_LIST;
 	}
 
@@ -120,7 +129,8 @@ public class StatementExprList extends ElementImpl implements ForInit, Exception
 		return language().lookupFactory().createLocalLookupStrategy(this);
 	}
 	
-	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+	@Override
+   public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 		return Collections.EMPTY_LIST;
 	}
 

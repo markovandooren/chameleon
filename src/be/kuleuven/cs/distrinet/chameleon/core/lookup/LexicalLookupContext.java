@@ -43,11 +43,8 @@ public class LexicalLookupContext extends LookupContext {
   	}
   	setLocalContext(local);
   	setSelector(selector);
-//  	CREATED++;
 	}
-	
-//	public static int CREATED;
-	
+		
 	public void setSelector(LookupContextSelector selector) {
 		_selector = selector;
 	}
@@ -76,7 +73,8 @@ public class LexicalLookupContext extends LookupContext {
 		return selector().strategy();
 	}
 
-	public void lookUp(Collector collector) throws LookupException {
+	@Override
+   public void lookUp(Collector collector) throws LookupException {
 		boolean hit = false;
 		if(_cache != null) {
 			hit = _cache.search(collector);
@@ -95,7 +93,8 @@ public class LexicalLookupContext extends LookupContext {
 		_cache = new Cache();
 	}
 	
-	public void flushCache() {
+	@Override
+   public void flushCache() {
 		if(_cache != null) {
 			enableCache();
 		}

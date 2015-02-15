@@ -10,9 +10,9 @@ import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
+import be.kuleuven.cs.distrinet.chameleon.core.variable.Variable;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.Expression;
 import be.kuleuven.cs.distrinet.chameleon.oo.type.Type;
-import be.kuleuven.cs.distrinet.chameleon.oo.variable.Variable;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 
 /**
@@ -61,18 +61,20 @@ public class AssignmentExpression extends Expression {
 	private Single<Expression> _value = new Single<Expression>(this);
 
   public Expression getValue() {
-    return (Expression)_value.getOtherEnd();
+    return _value.getOtherEnd();
   }
 
   public void setValue(Expression expression) {
   	set(_value,expression);
   }
 
-  protected Type actualType() throws LookupException {
+  @Override
+protected Type actualType() throws LookupException {
     return getVariableExpression().getType();
   }
 
-  protected AssignmentExpression cloneSelf() {
+  @Override
+protected AssignmentExpression cloneSelf() {
     return new AssignmentExpression(null,null);
   }
 

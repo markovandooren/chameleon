@@ -26,7 +26,8 @@ public class ParentLookupContextSelector implements LookupContextSelector {
 	 * Return the parent context of this context.
 	 * @throws LookupException 
 	 */
-	public LookupContext strategy() throws LookupException {
+	@Override
+   public LookupContext strategy() throws LookupException {
 		Element element = element();
 		Element parent = element.parent();
 		if(parent != null) {

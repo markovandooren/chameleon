@@ -41,7 +41,8 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 	}
 
 
-	public List<? extends Declaration> declarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> declarations() throws LookupException {
 //	return parameters();
 		List<Declaration> result = Lists.create();
 		Stub stub = new Stub();
@@ -59,11 +60,13 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
     return result;
 	}
 
-	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+	@Override
+   public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 		return selector.selection(declarations());
 	}
 	
-	public LookupContext lookupContext(Element element) throws LookupException {
+	@Override
+   public LookupContext lookupContext(Element element) throws LookupException {
 		if(element instanceof Stub) {
 			return parent().lookupContext(this);
 		} else {
@@ -76,7 +79,8 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 	
 	private LookupContext _lexical;
 
-	public LookupContext localContext() {
+	@Override
+   public LookupContext localContext() {
 		return language().lookupFactory().createLocalLookupStrategy(this);
 	}
 	
@@ -87,16 +91,19 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 			return new Stub();
 		}
 		
-		public LookupContext lookupContext(Element element) {
+		@Override
+      public LookupContext lookupContext(Element element) {
 			return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
 		}
 
-		public LookupContext localContext() {
+		@Override
+      public LookupContext localContext() {
 			return language().lookupFactory().createLocalLookupStrategy(this);
 		}
 		
 
-		public List<? extends Declaration> declarations() throws LookupException {
+		@Override
+      public List<? extends Declaration> declarations() throws LookupException {
 				List<Declaration> result = Lists.create();
 				for(TypeParameter parameter: parameters()) {
 					result.add(parameter.resolveForRoundTrip());
@@ -104,7 +111,8 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 		    return result;
 		}
 
-		public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+		@Override
+      public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
 			return selector.selection(declarations());
 		}
 
@@ -133,7 +141,8 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 			return Valid.create();
 		}
 
-		public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+		@Override
+      public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 			return declarations();
 		}
 
@@ -144,7 +153,8 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 		return Valid.create();
 	}
 
-	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+	@Override
+   public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
 	}
 	

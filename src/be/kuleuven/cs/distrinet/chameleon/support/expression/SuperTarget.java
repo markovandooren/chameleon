@@ -40,7 +40,8 @@ public class SuperTarget extends ElementImpl implements CrossReferenceTarget {
     set(_target,target);
   }
 
-  public SuperTarget cloneSelf() {
+  @Override
+public SuperTarget cloneSelf() {
     return new SuperTarget();
   }
 
@@ -63,7 +64,8 @@ public class SuperTarget extends ElementImpl implements CrossReferenceTarget {
     }
   }
 
-  public LookupContext targetContext() throws LookupException {
+  @Override
+public LookupContext targetContext() throws LookupException {
     return getTargetDeclaration().targetContext();
   }
 

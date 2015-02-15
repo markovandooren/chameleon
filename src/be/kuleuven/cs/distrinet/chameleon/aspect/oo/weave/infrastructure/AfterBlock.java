@@ -8,7 +8,8 @@ public class AfterBlock extends SimpleBlockFactory {
 	
 	protected AfterBlock() {}
 
-	protected Block add(MatchResult<Block> joinpoint, Block advice) {
+	@Override
+   protected Block add(MatchResult<Block> joinpoint, Block advice) {
 		Block finalBlock = new Block();
 		finalBlock.addStatement(Util.clone(joinpoint.getJoinpoint()));
 		finalBlock.addStatement(advice);

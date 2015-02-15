@@ -38,7 +38,8 @@ public class ChameleonHyperlink implements IHyperlink {
 		_document = document;
 	}
 	
-	public String getHyperlinkText() {
+	@Override
+   public String getHyperlinkText() {
 		return getReference().toString();
 	}
 	
@@ -54,7 +55,8 @@ public class ChameleonHyperlink implements IHyperlink {
 		return getReference().getDeclarator();
 	}
 	
-	public String getTypeLabel() {
+	@Override
+   public String getTypeLabel() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -103,7 +105,8 @@ public class ChameleonHyperlink implements IHyperlink {
 	}
 
 	
-	public void open() {
+	@Override
+   public void open() {
 		try {
 			Declaration referencedElement = getDeclarator();
 			if (referencedElement != null) {
@@ -114,7 +117,8 @@ public class ChameleonHyperlink implements IHyperlink {
 		}
 	}
 
-	public IRegion getHyperlinkRegion() {
+	@Override
+   public IRegion getHyperlinkRegion() {
 		return _region;
 	}
 

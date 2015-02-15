@@ -21,7 +21,8 @@ public class MemberContentProvider implements IStructuredContentProvider {
 	/**
 	 * If inputElement is a Type, the direct members are returned
 	 */
-	public Object[] getElements(Object inputElement) {
+	@Override
+   public Object[] getElements(Object inputElement) {
 //		try {
 //			throw new Exception("MEMBER CONTENT PROVIDER GET ELEMENTS");
 //		} catch (Exception e) {
@@ -34,11 +35,13 @@ public class MemberContentProvider implements IStructuredContentProvider {
 		return null;
 	}
 
-	public void dispose() {
+	@Override
+   public void dispose() {
 		
 	}
 
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+	@Override
+   public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		System.out.println("INPUT CHANGED!!!!:   old: " + oldInput +"new: "+newInput);
 	}
 

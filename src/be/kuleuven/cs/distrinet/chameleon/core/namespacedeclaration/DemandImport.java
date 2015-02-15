@@ -84,7 +84,8 @@ public class DemandImport extends Import {
 		return Valid.create();
 	}
 	
-	public boolean importsSameAs(Import other) throws LookupException {
+	@Override
+   public boolean importsSameAs(Import other) throws LookupException {
 		return super.importsSameAs(other);
 	}
 	

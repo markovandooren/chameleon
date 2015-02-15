@@ -15,7 +15,8 @@ public class LazyInstantiatedAlias extends TypeIndirection {
 		_param = param;
 	}
 	
-	public Type aliasedType() {
+	@Override
+   public Type aliasedType() {
 		try {
 			return parameter().upperBound();
 		} catch (LookupException e) {
@@ -34,11 +35,13 @@ public class LazyInstantiatedAlias extends TypeIndirection {
 		return new LazyInstantiatedAlias(name(), _param);
 	}
 
-	public boolean uniSameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+	@Override
+   public boolean uniSameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
 		return other == this;
 	}
 
-	public Declaration declarator() {
+	@Override
+   public Declaration declarator() {
 		return parameter();
 	}
 	

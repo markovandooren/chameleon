@@ -20,11 +20,13 @@ public abstract class CrossReferenceImpl<D extends Declaration> extends ElementI
 	 */
 	public abstract DeclarationSelector<D> selector();
 
-	public D getElement() throws LookupException {
+	@Override
+   public D getElement() throws LookupException {
 		return getElement(selector());
 	}
 	
-	public Declaration getDeclarator() throws LookupException {
+	@Override
+   public Declaration getDeclarator() throws LookupException {
 		return getElement(new DeclaratorSelector(selector()));
 	}
 
@@ -42,7 +44,8 @@ public abstract class CrossReferenceImpl<D extends Declaration> extends ElementI
 		}
 	}
 
-  public LookupContext targetContext() throws LookupException {
+  @Override
+public LookupContext targetContext() throws LookupException {
   	return getElement().targetContext();
   }
 

@@ -34,7 +34,7 @@ public class Cache {
 	public void store(Collector collector) throws LookupException {
 		if(! collector.willProceed()) {
 			DeclarationSelector selector = collector.selector();
-			selector.updateCache(this, (Declaration) collector.result());
+			selector.updateCache(this, collector.result());
 		}
 	}
 	

@@ -29,7 +29,8 @@ public class Public extends ModifierImpl {
 		return new Public();
 	}
 
-  public PropertySet<Element,ChameleonProperty> impliedProperties() {
+  @Override
+public PropertySet<Element,ChameleonProperty> impliedProperties() {
   	try {
 	    return createSet(language().property(PublicProperty.ID));
   	}catch(NullPointerException exc) {

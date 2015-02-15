@@ -46,7 +46,8 @@ public class CheckedExceptionList {
   public void handleType(final Type type) throws LookupException {
     try {
       new AbstractPredicate() {
-        public boolean eval(Object o) throws LookupException {
+        @Override
+      public boolean eval(Object o) throws LookupException {
           ExceptionTuple ep = (ExceptionTuple)o;
           return ! ep.getException().assignableTo(type);
         }
@@ -75,6 +76,7 @@ public class CheckedExceptionList {
   public Collection getDeclarations() {
     final List result = Lists.create();
     new Visitor() {
+      @Override
       public void visit(Object element) {
         result.add(((ExceptionTuple)element).getDeclaration());
       }
@@ -88,6 +90,7 @@ public class CheckedExceptionList {
   public Set getExceptions() throws LookupException {
     final Set result = new HashSet();
     new Visitor() {
+      @Override
       public void visit(Object element) {
         result.add(((ExceptionTuple)element).getException());
       }

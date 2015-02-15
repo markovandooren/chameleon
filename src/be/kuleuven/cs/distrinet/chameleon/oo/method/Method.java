@@ -43,11 +43,13 @@ public abstract class Method extends DeclarationWithParameters {
 		super(header);
 	}
 	
-	public Type declarationType() throws LookupException {
+	@Override
+   public Type declarationType() throws LookupException {
 		return returnType();
 	}
 	
-	public boolean complete() {
+	@Override
+   public boolean complete() {
 	  return implementation() != null && implementation().complete();
 	}
 
@@ -210,7 +212,8 @@ public abstract class Method extends DeclarationWithParameters {
 		try {
 			List methods = directlyOverriddenMembers();
 			return new AbstractPredicate() {
-				public boolean eval(Object o) throws LookupException {
+				@Override
+            public boolean eval(Object o) throws LookupException {
 					Method method = (Method)o;
 					return getExceptionClause().compatibleWith(method.getExceptionClause());
 				}
@@ -253,7 +256,8 @@ public abstract class Method extends DeclarationWithParameters {
 		return result;
 	}
   
-  public LocalLookupContext targetContext() throws LookupException {
+  @Override
+public LocalLookupContext targetContext() throws LookupException {
   	return returnType().targetContext();
   }
   
@@ -262,7 +266,8 @@ public abstract class Method extends DeclarationWithParameters {
 	/**
 	 * For debugging purposes because Eclipse detail formatters simply don't work.
 	 */
-	public String toString() {
+	@Override
+   public String toString() {
 		return header().toString();
 	}
 

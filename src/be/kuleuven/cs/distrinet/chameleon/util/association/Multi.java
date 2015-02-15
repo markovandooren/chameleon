@@ -58,7 +58,8 @@ public class Multi<T extends Element> extends OrderedMultiAssociation<Element, T
 		return _max > 0;
 	}
 	
-	public Verification verify() {
+	@Override
+   public Verification verify() {
 		Verification result = Valid.create();
 		if(isConstrained()) {
 			int size = size();
@@ -72,7 +73,8 @@ public class Multi<T extends Element> extends OrderedMultiAssociation<Element, T
 		return result;
 	}
 	
-	public String role() {
+	@Override
+   public String role() {
 		return _role;
 	}
 	

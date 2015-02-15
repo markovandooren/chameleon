@@ -33,7 +33,8 @@ public class EclipseSourceManager extends ViewPluginImpl implements SourceManage
 		return new EclipseSourceManager(null);
 	}
 
-	public String text(Element element) throws NoLocationException {
+	@Override
+   public String text(Element element) throws NoLocationException {
 		EclipseEditorTag location = (EclipseEditorTag) element.metadata(PositionMetadata.ALL);
 		if(location == null) {
 			throw new NoLocationException(element);

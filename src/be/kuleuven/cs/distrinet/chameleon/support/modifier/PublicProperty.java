@@ -20,7 +20,8 @@ public class PublicProperty extends ScopeProperty {
 		super(name, universe, family);
 	}
 
-	public Scope scope(Element element) {
+	@Override
+   public Scope scope(Element element) {
 			return new UniversalScope();
 	}
 }

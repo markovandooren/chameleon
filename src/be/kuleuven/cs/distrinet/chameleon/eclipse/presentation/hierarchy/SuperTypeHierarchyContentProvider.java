@@ -28,7 +28,8 @@ public class SuperTypeHierarchyContentProvider extends HierarchyContentProvider 
 	/**
 	 * Returns all supertypes of the element if it's a type
 	 */
-	public Object[] getChildren(Object element) {
+	@Override
+   public Object[] getChildren(Object element) {
 		if(element instanceof HierarchyTypeNode){
 			try {
 				HierarchyTypeNode parentTypeNode = (HierarchyTypeNode)element;
@@ -38,7 +39,8 @@ public class SuperTypeHierarchyContentProvider extends HierarchyContentProvider 
 				List<InheritanceRelation> inheritanceRelations = type.inheritanceRelations();
 				// van elke typereference het type opvragen en aan het resultaat toevoegen:
 				new Visitor<InheritanceRelation>(){
-					public void visit(InheritanceRelation element) {
+					@Override
+               public void visit(InheritanceRelation element) {
 						try {
 							result.add(element.superElement());
 						} catch (ModelException e) {
@@ -62,7 +64,8 @@ public class SuperTypeHierarchyContentProvider extends HierarchyContentProvider 
 	/**
 	 * Returns the parent of the given element
 	 */
-	public Object getParent(Object element) {
+	@Override
+   public Object getParent(Object element) {
 		if(element instanceof HierarchyTypeNode){
 			HierarchyTypeNode node = (HierarchyTypeNode)element;
 			return node.getParent();

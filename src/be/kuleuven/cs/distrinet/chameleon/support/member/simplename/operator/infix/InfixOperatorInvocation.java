@@ -21,10 +21,11 @@ public class InfixOperatorInvocation extends SimpleNameMethodInvocation<InfixOpe
   }
 
   public InfixOperator getInfixOperator() throws LookupException {
-    return (InfixOperator)getElement();
+    return getElement();
   }
 
-  protected InfixOperatorInvocation cloneSelf() {
+  @Override
+protected InfixOperatorInvocation cloneSelf() {
     return new InfixOperatorInvocation(name(), null);
   }
 

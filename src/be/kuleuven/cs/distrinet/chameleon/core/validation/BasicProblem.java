@@ -37,7 +37,8 @@ public class BasicProblem extends AtomicProblem {
    @
    @ post \result != null;
    @*/
-	public String message() {
+	@Override
+   public String message() {
 		return _message;
 	}
 

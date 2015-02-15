@@ -13,7 +13,8 @@ public class EmptyStatement extends StatementImpl {
 		
 	}
 	
-	protected EmptyStatement cloneSelf() {
+	@Override
+   protected EmptyStatement cloneSelf() {
 		return new EmptyStatement();
 	}
 	

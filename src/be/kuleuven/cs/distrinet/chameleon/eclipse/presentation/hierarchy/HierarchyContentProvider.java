@@ -16,20 +16,24 @@ import org.eclipse.jface.viewers.Viewer;
  */
 public abstract class HierarchyContentProvider implements ITreeContentProvider {
 
-	public void dispose() {
+	@Override
+   public void dispose() {
 		// NOP
 	}
 
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+	@Override
+   public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		// NOP
 	}
 
-	public boolean hasChildren(Object element) {
+	@Override
+   public boolean hasChildren(Object element) {
 		boolean result = getChildren(element).length > 0;
 		return result;
 	}
 
-	public Object[] getElements(Object inputElement) {
+	@Override
+   public Object[] getElements(Object inputElement) {
 		Object[] result = getChildren(inputElement);
 		return result;
 	}

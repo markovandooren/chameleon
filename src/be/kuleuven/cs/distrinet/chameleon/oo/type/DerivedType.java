@@ -157,7 +157,8 @@ public class DerivedType extends ClassWithBody {
 		return result;
 	}
 	
-	public boolean uniSameAs(Type otherType, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+	@Override
+   public boolean uniSameAs(Type otherType, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
 		boolean result = false;
 		if(otherType instanceof DerivedType) {
 			DerivedType type = (DerivedType) otherType;
@@ -197,7 +198,8 @@ public class DerivedType extends ClassWithBody {
 		return new DerivedType(clonedParameters(),baseType());
 	}
 
-	protected Element cloneSelf() {
+	@Override
+   protected Element cloneSelf() {
 		throw new ChameleonProgrammerException();
 	}
 	

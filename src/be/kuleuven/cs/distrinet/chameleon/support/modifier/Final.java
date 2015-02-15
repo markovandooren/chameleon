@@ -27,7 +27,8 @@ public class Final extends ModifierImpl {
    @ post \result.contains(language().DEFINED);
    @ post \result.size() == 2;
    @*/
-  public PropertySet<Element,ChameleonProperty> impliedProperties() {
+  @Override
+public PropertySet<Element,ChameleonProperty> impliedProperties() {
 //    return createSet(language(ObjectOrientedLanguage.class).REFINABLE.inverse(),language(ObjectOrientedLanguage.class).DEFINED);
     ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
 		return createSet(language.FINAL);

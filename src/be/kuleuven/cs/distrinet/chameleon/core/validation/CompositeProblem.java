@@ -62,7 +62,8 @@ public class CompositeProblem extends Invalid {
    @
    @ post \result != null;
    @*/
-	public List<AtomicProblem> problems() {
+	@Override
+   public List<AtomicProblem> problems() {
 		return new ArrayList<AtomicProblem>(_problems);
 	}
 	

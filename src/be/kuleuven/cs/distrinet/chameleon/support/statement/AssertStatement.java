@@ -16,7 +16,8 @@ public class AssertStatement extends ExpressionContainingStatement {
     super(expression);
   }
 
-  protected AssertStatement cloneSelf() {
+  @Override
+protected AssertStatement cloneSelf() {
     return new AssertStatement(null);
   }
 

@@ -34,7 +34,8 @@ public class Valid extends Verification {
    @
    @ post \result.equals("valid");
    @*/
-	public String message() {
+	@Override
+   public String message() {
 		return "valid";
 	}
 

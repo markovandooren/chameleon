@@ -68,8 +68,23 @@ public interface Element {
      */
     public Element parent();
     
+    /**
+     * Return a tree structure for the lexical structure of this element. This
+     * graph stops at the document level.
+     * @return
+     */
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @*/
     public TreeStructure<Element> lexical();
     
+    /**
+     * Return a tree structure for the logical structure of this element. This
+     * includes the namespace structure.
+     * @return
+     */
     public TreeStructure<Element> logical();
     
     /**
@@ -205,20 +220,9 @@ public interface Element {
     public Element farthestOrigin();
 
     /**
-     * Return the root origin of this element. This is the element that is found when the "origin()" is
-     * resolved until a fixed point is found.
-     */
-   /*@
-     @ public behavior
-     @
-     @ post origin() == this ==> \result == this;
-     @ post origin() != this ==> \result == origin().rootOrigin();
-     @*/
-    public Element rootOrigin();
-
-    /**
      * Set the origin of this element.
-     * @param element
+     * 
+     * @param element The new origin of this element.
      */
    /*@
      @ public behavior
@@ -244,13 +248,15 @@ public interface Element {
     /**
      * Return a list of all ancestors of the given type. A closer ancestors will have a lower index than a 
      * farther ancestor.
+     * 
+     * @param c The kind of the ancestors that should be returned.
      */
    /*@
      @ public behavior
      @
      @ post \result != null;
      @ post parent() == null ==> \result.isEmpty();
-     @ post parent() != null && c.isInstance(parent()) ==> \result.get(0) == parent();
+     @ post parent() != null && c.isInstance(parent()) ==> \result.get(0) == parent()
      @                       && \result.subList(1,\result.size()).equals(parent().ancestors(c));
      @ post post parent() != null && ! c.isInstance(parent()) ==> \result.equals(parent().ancestors(c));
      @*/
@@ -259,13 +265,15 @@ public interface Element {
     /**
      * Return a list of all ancestors of the given type. A closer ancestors will have a lower index than a 
      * farther ancestor.
+     * 
+     * @param predicate A predicate that determines which ancestors should be returned.
      */
    /*@
      @ public behavior
      @
      @ post \result != null;
      @ post parent() == null ==> \result.isEmpty();
-     @ post parent() != null && predicate.eval(parent()) ==> \result.get(0) == parent();
+     @ post parent() != null && predicate.eval(parent()) ==> \result.get(0) == parent()
      @                       && \result.subList(1,\result.size()).equals(parent().ancestors(c));
      @ post post parent() != null && ! predicate.eval(parent()) ==> 
      @                       \result.equals(parent().ancestors(c));
@@ -294,6 +302,8 @@ public interface Element {
 
     /**
      * Return all children of this element that are of the given type.
+     * 
+     * @param c The kind of the children that should be returned.
      */
    /*@
      @ public behavior
@@ -305,6 +315,8 @@ public interface Element {
     
     /**
      * Return all children of this element that satisfy the given predicate.
+     * 
+     * @param predicate A predicate that determines which children should be returned.
      */
    /*@
      @ public behavior
@@ -318,6 +330,8 @@ public interface Element {
     
     /**
      * Return all children of this element that are of the given type, and satisfy the given predicate.
+     * 
+     * @param predicate A predicate that determines which ancestors should be returned.
      */
    /*@
      @ public behavior
@@ -331,6 +345,9 @@ public interface Element {
     
     /**
      * Return all children of this element that are of the given type, and that have the given property.
+     * 
+     * @param c The kind of the children that are returned.
+     * @param property A property that must be satisfied by the children that are returned.
      */
    /*@
      @ public behavior
@@ -357,6 +374,8 @@ public interface Element {
 
     /**
      * Recursively return all descendants of this element that are of the given type.
+     * 
+     * @param c The type of descendants that should be returned.
      */
    /*@
      @ public behavior
@@ -414,9 +433,9 @@ public interface Element {
     /**
      * Return the descendants of the given type that are themselves no descendants of an element of the given type. In other words,
      * do a deep search for elements of the given type, but if you have found one, don't search its descendants.
-     * @param <T>
-     * @param c
-     * @return
+     *
+     * @param <T> The type of the elements for which the predicate can match.
+     * @param c The type of the descendants that should be returned.
      */
    /*@
      @ public behavior
@@ -431,7 +450,6 @@ public interface Element {
      * 
      * @param <T> The type of the elements for which the predicate can match.
      * @param predicate The predicate that must be satisfied.
-     * @return
      */
    /*@
      @ public behavior
@@ -442,6 +460,9 @@ public interface Element {
 
     /**
      * Recursively return all descendants of this element that are of the given type, and have the given property.
+     * 
+     * @param c The kind of the children that are returned.
+     * @param property A property that must be satisfied by the children that are returned.
      */
    /*@
      @ public behavior
@@ -455,6 +476,8 @@ public interface Element {
 
    /**
      * Recursively return all descendants of this element that satisfy the given predicate.
+     * 
+     * @param predicate A predicate that determines which descendants are returned.
      */
    /*@
      @ public behavior
@@ -774,11 +797,10 @@ public interface Element {
      @
      @ post \result != null;
      @ post \result.getParent() == null;
+     @ post \result.children().size() == children().size();
      @*/
     public Element clone();
-    
-//    public Element clone(Mapper mapper);
-    
+        
     /**
      * Return the lexical lookup context for the given child element. The
      * default behavior is to delegate the search to the parent.
@@ -790,7 +812,9 @@ public interface Element {
      * @param element
      *        The child element of this element for which the
      *        context is requested
-     * @throws LookupException 
+     * @return The lookup context for the given child.
+     * @throws LookupException The lookup context could not be retreived because
+     *                         of an inconsistency in the model.
      */
    /*@
      @ public behavior
@@ -802,7 +826,11 @@ public interface Element {
     public LookupContext lookupContext(Element child) throws LookupException;
     
     /**
-     * Return the lexical context for this element.
+     * Return the lexical context for this element. By default, this
+     * call will be delegated to the parent by invoking {@link #lookupContext(Element)}
+     * with parameter 'this' on the parent.
+     * 
+     * @return The lexical lookup context of this element.
      */
    /*@
      @ public behavior

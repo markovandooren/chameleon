@@ -18,11 +18,13 @@ public class UnionTypeReference extends CombinationTypeReference {
 		addAll(refs);
 	}
 	
-	public Declaration getDeclarator() throws LookupException {
+	@Override
+   public Declaration getDeclarator() throws LookupException {
 		throw new LookupException("Requesting declarator for an intersection type reference.");
 	}
 
-	public Type getElement() throws LookupException {
+	@Override
+   public Type getElement() throws LookupException {
 		List<Type> types = new ArrayList<Type>();
 		for(TypeReference ref: typeReferences()) {
 			types.add(ref.getElement());
@@ -42,17 +44,20 @@ public class UnionTypeReference extends CombinationTypeReference {
 		return Valid.create();
 	}
 
-	public TypeReference intersection(TypeReference other) {
+	@Override
+   public TypeReference intersection(TypeReference other) {
 		return other.intersectionDoubleDispatch(this);
 	}
 
-	public TypeReference intersectionDoubleDispatch(TypeReference other) {
+	@Override
+   public TypeReference intersectionDoubleDispatch(TypeReference other) {
 		UnionTypeReference result = clone(this);
 		result.add(clone(other));
 		return result;	
 	}
 
-	public TypeReference intersectionDoubleDispatch(IntersectionTypeReference other) {
+	@Override
+   public TypeReference intersectionDoubleDispatch(IntersectionTypeReference other) {
 		IntersectionTypeReference result = clone(other);
 		result.add(clone(this));
 		return result;

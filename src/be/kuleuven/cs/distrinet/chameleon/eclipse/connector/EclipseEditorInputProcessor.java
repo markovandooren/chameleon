@@ -41,7 +41,8 @@ public class EclipseEditorInputProcessor extends ViewProcessorImpl implements In
 		return projectNature().document(element);
 	}
 
-	public void setLocation(Element element, int offset, int length, Document compilationUnit, String tagType) {
+	@Override
+   public void setLocation(Element element, int offset, int length, Document compilationUnit, String tagType) {
 		if(element == null) {
 			throw new ChameleonProgrammerException("Trying to set decorator to a null element.");
 		}
@@ -96,7 +97,8 @@ public class EclipseEditorInputProcessor extends ViewProcessorImpl implements In
 		}
 	}
 
-	public void markParseError(int offset, int length, String message, Element element) {
+	@Override
+   public void markParseError(int offset, int length, String message, Element element) {
 		EclipseDocument document = document(element);
 		if(document != null) {
 			String header;
@@ -116,7 +118,8 @@ public class EclipseEditorInputProcessor extends ViewProcessorImpl implements In
 		}
 	}
 
-	public void removeLocations(Element element) {
+	@Override
+   public void removeLocations(Element element) {
 		Collection<Metadata> tags = element.metadata(); 
 		for(Metadata tag:tags) {
 			if(tag instanceof EclipseEditorTag) {

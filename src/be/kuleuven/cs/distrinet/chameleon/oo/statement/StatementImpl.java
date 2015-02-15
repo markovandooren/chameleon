@@ -20,16 +20,19 @@ public abstract class StatementImpl extends ElementImpl implements Statement {
 
 //  public abstract StatementImpl clone();
 
-  public CheckedExceptionList getCEL() throws LookupException {
+  @Override
+public CheckedExceptionList getCEL() throws LookupException {
     final CheckedExceptionList cel = getDirectCEL();
     try {
       new RobustVisitor<ExceptionSource>() {
-        public Object visit(ExceptionSource element) throws LookupException {
-          cel.absorb(((ExceptionSource)element).getCEL());
+        @Override
+      public Object visit(ExceptionSource element) throws LookupException {
+          cel.absorb(element.getCEL());
           return null;
         }
 
-        public void unvisit(ExceptionSource element, Object undo) {
+        @Override
+      public void unvisit(ExceptionSource element, Object undo) {
           //NOP
         }
       }.applyTo(children(ExceptionSource.class));
@@ -48,16 +51,19 @@ public abstract class StatementImpl extends ElementImpl implements Statement {
     return new CheckedExceptionList();
   }
 
-  public CheckedExceptionList getAbsCEL() throws LookupException {
+  @Override
+public CheckedExceptionList getAbsCEL() throws LookupException {
     final CheckedExceptionList cel = getDirectAbsCEL();
     try {
       new RobustVisitor() {
-        public Object visit(Object element) throws LookupException {
+        @Override
+      public Object visit(Object element) throws LookupException {
           cel.absorb(((ExceptionSource)element).getAbsCEL());
           return null;
         }
 
-        public void unvisit(Object element, Object undo) {
+        @Override
+      public void unvisit(Object element, Object undo) {
           //NOP
         }
       }.applyTo(children());
@@ -76,7 +82,8 @@ public abstract class StatementImpl extends ElementImpl implements Statement {
     return getDirectCEL();
   }
 
-  public boolean before(Statement other) {
+  @Override
+public boolean before(Statement other) {
     StatementListContainer container = getNearestCommonStatementListContainer(other);
     List myParents = ancestors();
     List otherParents = other.ancestors();
@@ -117,7 +124,8 @@ public abstract class StatementImpl extends ElementImpl implements Statement {
    * @return
    * @throws LookupException
    */
-  public LookupContext linearLookupStrategy() throws LookupException {
+  @Override
+public LookupContext linearLookupStrategy() throws LookupException {
   	return lexicalContext();
   }
 }

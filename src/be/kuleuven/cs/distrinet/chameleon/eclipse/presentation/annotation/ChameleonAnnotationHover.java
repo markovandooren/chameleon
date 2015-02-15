@@ -29,7 +29,8 @@ public class ChameleonAnnotationHover implements IAnnotationHover {
 	 * @param lineNumber
 	 * 		The lineNumber of the annotation pointed at
 	 */
-	public String getHoverInfo(ISourceViewer sourceViewer, int lineNumber) {
+	@Override
+   public String getHoverInfo(ISourceViewer sourceViewer, int lineNumber) {
 		IDocument document= sourceViewer.getDocument();
 		IAnnotationModel model= sourceViewer.getAnnotationModel();
 		

@@ -42,7 +42,8 @@ public class Block extends StatementImpl implements StatementListContainer {
   	return _statements.size();
   }
   
-  public List<Statement> statements() {
+  @Override
+public List<Statement> statements() {
     return _statements.getOtherEnds();
   }
   
@@ -50,7 +51,8 @@ public class Block extends StatementImpl implements StatementListContainer {
   	return _statements.elementAt(baseOneIndex);
   }
 
-  public Block cloneSelf() {
+  @Override
+public Block cloneSelf() {
     return new Block();
   }
   
@@ -60,11 +62,13 @@ public class Block extends StatementImpl implements StatementListContainer {
   	}
   }
 
-  public int getIndexOf(Statement statement) {
+  @Override
+public int getIndexOf(Statement statement) {
     return statements().indexOf(statement) + 1;
   }
   
-	public List<Statement> statementsAfter(Statement statement) {
+	@Override
+   public List<Statement> statementsAfter(Statement statement) {
 		List<Statement> statements = statements(); 
 		int index = statements.indexOf(statement);
 		// returns a view on a clone of _statements (getStatements() clones the list).
@@ -89,7 +93,8 @@ public class Block extends StatementImpl implements StatementListContainer {
    @ post getStatements().indexOf(Element) > 0) ==> 
    @      \result == getStatements().elementAt(getStatements().indexOf(element) - 1).lexicalContext();
    @*/
-	public LookupContext lookupContext(Element element) throws LookupException {
+	@Override
+   public LookupContext lookupContext(Element element) throws LookupException {
 //		LINEAR.start();
 		LookupContext result;
 		List<Statement> declarations = statements();

@@ -31,7 +31,8 @@ public class Constructor extends ModifierImpl {
 	   @
 	   @ post \result.contains(language().CONSTRUCTOR);
 	   @*/
-    public PropertySet<Element,ChameleonProperty> impliedProperties() {
+    @Override
+   public PropertySet<Element,ChameleonProperty> impliedProperties() {
       return createSet(language(ObjectOrientedLanguage.class).CONSTRUCTOR);
     }
 

@@ -13,9 +13,11 @@ public abstract class Parameter extends BasicDeclaration {
 		super(name);
 	}
 	
-	protected abstract Element cloneSelf();
+	@Override
+   protected abstract Element cloneSelf();
 	
-	public abstract Declaration selectionDeclaration() throws LookupException;
+	@Override
+   public abstract Declaration selectionDeclaration() throws LookupException;
 	
 	public Class<SimpleNameSignature> signatureType() {
 		return SimpleNameSignature.class;

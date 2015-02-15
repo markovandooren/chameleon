@@ -13,7 +13,7 @@ public class EmptyCatchClausePointcutExpression extends CatchClausePointcutExpre
 		if (!super.matches(element).isMatch())
 			return MatchResult.noMatch();
 		
-		Statement joinpoint = (Statement) element;
+		Statement joinpoint = element;
 		
 		if (joinpoint instanceof EmptyStatement)
 			return new MatchResult(this, joinpoint);

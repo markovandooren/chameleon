@@ -104,6 +104,7 @@ public class MethodSTEFAnalysis {
   public List getExceptions() {
     final List result = new ArrayList();
     new Visitor() {
+      @Override
       public void visit(Object element) {
         result.add(((ExceptionFlow)element).getType());
       }
@@ -114,6 +115,7 @@ public class MethodSTEFAnalysis {
   public Set getThrownExceptions() {
     final Set result = new HashSet();
     new Visitor() {
+      @Override
       public void visit(Object element) {
         result.add(((ExceptionFlow)element).getType());
       }
@@ -133,6 +135,7 @@ public class MethodSTEFAnalysis {
   public Set getHeaderExceptions() {
     final Set result = new HashSet();
     new Visitor() {
+      @Override
       public void visit(Object element) {
         result.add(((ExceptionFlow)element).getType());
       }

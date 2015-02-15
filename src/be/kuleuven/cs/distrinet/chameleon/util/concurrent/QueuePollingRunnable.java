@@ -19,6 +19,7 @@ public abstract class QueuePollingRunnable<T> extends QueuePollingExecutable<T> 
 
 	}
 	
-	public abstract void process(T t);
+	@Override
+   public abstract void process(T t);
 
 }

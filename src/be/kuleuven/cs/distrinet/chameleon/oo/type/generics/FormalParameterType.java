@@ -75,12 +75,14 @@ public class FormalParameterType extends TypeIndirection {
 	}
 
 
-	public boolean uniSameAs(Type type, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+	@Override
+   public boolean uniSameAs(Type type, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
 		return uniSameAs(type);
 	}
 
 
-	public Declaration declarator() {
+	@Override
+   public Declaration declarator() {
 		return parameter();
 	}
 

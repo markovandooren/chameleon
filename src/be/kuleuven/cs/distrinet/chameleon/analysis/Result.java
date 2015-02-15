@@ -11,7 +11,8 @@ public abstract class Result<T extends Result> {
 	/**
 	 * @return The message of this problem.
 	 */
-	public String toString() {
+	@Override
+   public String toString() {
 		return message();
 	}
 

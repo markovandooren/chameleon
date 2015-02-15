@@ -22,8 +22,9 @@ public class HierarchyScope extends Scope {
     _type = type;
   }
   
-  public boolean contains(Element element) throws LookupException {
-  	Type type = (Type) element.nearestAncestor(Type.class);
+  @Override
+public boolean contains(Element element) throws LookupException {
+  	Type type = element.nearestAncestor(Type.class);
   	if(type != null) {
 		  return type.subTypeOf(getType());
   	} else {
@@ -39,7 +40,8 @@ public class HierarchyScope extends Scope {
    @                 ((other instanceof LexicalScope) && 
    @		 	            ((LexicalScope)other).element().nearestAncestor(Type.class).assignableTo(getType()));
    @*/
-  public boolean geRecursive(Scope other) throws LookupException {
+  @Override
+public boolean geRecursive(Scope other) throws LookupException {
     return (
     		    (other instanceof HierarchyScope) && 
             ((HierarchyScope)other).getType().assignableTo(getType())

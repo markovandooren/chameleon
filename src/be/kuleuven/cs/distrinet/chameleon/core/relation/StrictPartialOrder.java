@@ -14,9 +14,11 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
  */
 public abstract class StrictPartialOrder<E> extends be.kuleuven.cs.distrinet.rejuse.logic.relation.StrictPartialOrder<E> {
   
-  public abstract boolean contains(E first, E second) throws LookupException;
+  @Override
+public abstract boolean contains(E first, E second) throws LookupException;
 
-  public WeakPartialOrder<E> weakOrder() {
+  @Override
+public WeakPartialOrder<E> weakOrder() {
     return new WeakPartialOrder<E>() {
 
       @Override

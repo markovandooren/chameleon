@@ -12,7 +12,8 @@ public class SynchronizedStatement extends StatementExprStatement {
     super(statement, expression);
   }
 
-  protected SynchronizedStatement cloneSelf() {
+  @Override
+protected SynchronizedStatement cloneSelf() {
     return new SynchronizedStatement(null,null);
   }
 }

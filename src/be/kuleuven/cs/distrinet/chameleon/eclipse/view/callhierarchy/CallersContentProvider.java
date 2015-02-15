@@ -38,7 +38,8 @@ public class CallersContentProvider implements ITreeContentProvider {
 	 * Returns all the declarations that contain a cross-reference to the given declaration 
 	 * (if inputObject is a Declaration)
 	 */
-	public Object[] getChildren(Object inputObject) {
+	@Override
+   public Object[] getChildren(Object inputObject) {
 		if(inputObject instanceof Declaration){
 			final Declaration declaration = (Declaration)inputObject;
 			// get all invocations in this project:
@@ -96,25 +97,30 @@ public class CallersContentProvider implements ITreeContentProvider {
 		return new HashSet<CrossReference>(_cachedInvocations);
 	}
 
-	public Object getParent(Object inputObject) {
+	@Override
+   public Object getParent(Object inputObject) {
 		return null;
 	}
 
-	public boolean hasChildren(Object inputObject) {
+	@Override
+   public boolean hasChildren(Object inputObject) {
 		return true;
 	}
 
-	public Object[] getElements(Object inputObject) {
+	@Override
+   public Object[] getElements(Object inputObject) {
 		return getChildren(inputObject);
 		// return new Object[]{inputObject}; 
 	}
 	
 	
-	public void dispose() {
+	@Override
+   public void dispose() {
 		// NOP
 	}
 
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+	@Override
+   public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		// NOP
 	}
 

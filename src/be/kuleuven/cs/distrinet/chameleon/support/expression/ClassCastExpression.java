@@ -26,7 +26,8 @@ public class ClassCastExpression extends ExprTypeRefContainingExpression {
   }
 
 
-  protected Type actualType() throws LookupException {
+  @Override
+protected Type actualType() throws LookupException {
     Type result = getTypeReference().getType();
     if(result == null) {
       getTypeReference().getType();
@@ -35,7 +36,8 @@ public class ClassCastExpression extends ExprTypeRefContainingExpression {
     return result;
   }
 
-  public ClassCastExpression cloneSelf() {
+  @Override
+public ClassCastExpression cloneSelf() {
     return new ClassCastExpression(null, null);
   }
 

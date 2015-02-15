@@ -41,6 +41,7 @@ public interface LanguagePlugin extends Plugin<Language, LanguagePlugin> {
      * Clone this connector.
      * @return
      */
-    public LanguagePlugin clone();
+    @Override
+   public LanguagePlugin clone();
     
 }

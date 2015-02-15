@@ -21,7 +21,8 @@ public class Not extends DeclarationPattern {
 		return _nested;
 	}
 	
-	public Not clone() {
+	@Override
+   public Not clone() {
 		return new Not(nested().clone());
 	}
 	

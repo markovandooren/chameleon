@@ -25,7 +25,8 @@ public abstract class MemberImpl extends TypeElementImpl implements Member {
   /**
    * Return the signature of this member.
    */
-  public abstract Signature signature();
+  @Override
+public abstract Signature signature();
   
   @Override
   public boolean sameSignatureAs(Declaration declaration)
@@ -33,14 +34,13 @@ public abstract class MemberImpl extends TypeElementImpl implements Member {
   	return signature().sameAs(declaration.signature());
   }
   
-  public String name() {
+  @Override
+public String name() {
   	return signature().name();
   }
   
-//  private static int HIT_OVERRIDDEN;
-//  private static int HIT_NOT_OVERRIDDEN;
-  
-  public final boolean overrides(Member other) throws LookupException {
+  @Override
+public final boolean overrides(Member other) throws LookupException {
 //  	// overriddenMembers().contains(other) does not work
 //  	// because a member can also override non-lexical members
 //  	// which are created on demand.
@@ -71,30 +71,33 @@ public abstract class MemberImpl extends TypeElementImpl implements Member {
 		return overrides;
   }
   
-  private Set<Member> overridden;
-  private Set<Member> notOverridden;
-  
-  public final boolean hides(Member other) throws LookupException {
+  @Override
+public final boolean hides(Member other) throws LookupException {
 	  return ((HidesRelation)hidesRelation()).contains(this,other);
   }
 
-  public final boolean canImplement(Member other) throws LookupException {
+  @Override
+public final boolean canImplement(Member other) throws LookupException {
   	return language(ObjectOrientedLanguage.class).implementsRelation().contains(this,other);
   }
 
-  public List<? extends Member> directlyOverriddenMembers() throws LookupException {
+  @Override
+public List<? extends Member> directlyOverriddenMembers() throws LookupException {
     return nearestAncestor(Type.class).membersDirectlyOverriddenBy(overridesSelector());
   }
   
-  public List<? extends Member> directlyAliasedMembers() throws LookupException {
+  @Override
+public List<? extends Member> directlyAliasedMembers() throws LookupException {
     return nearestAncestor(Type.class).membersDirectlyAliasedBy(aliasSelector());
   }
   
-  public List<? extends Member> directlyAliasingMembers() throws LookupException {
+  @Override
+public List<? extends Member> directlyAliasingMembers() throws LookupException {
     return nearestAncestor(Type.class).membersDirectlyAliasing(aliasSelector());
   }
   
-  public Set<? extends Member> overriddenMembers() throws LookupException {
+  @Override
+public Set<? extends Member> overriddenMembers() throws LookupException {
   	Set<Member> result = null;
 //  	boolean cacheDeclarations = Config.cacheDeclarations();
 //		if(cacheDeclarations && _overriddenMembersCache != null) {
@@ -144,7 +147,8 @@ public abstract class MemberImpl extends TypeElementImpl implements Member {
   
 //  private Set<Member> _overriddenMembersCache;
   
-  public Set<? extends Member> aliasedMembers() throws LookupException {
+  @Override
+public Set<? extends Member> aliasedMembers() throws LookupException {
 	  List<Member> todo = (List<Member>) directlyAliasedMembers();
 	  Set<Member> result = new HashSet<Member>();
 	  while(! todo.isEmpty()) {
@@ -157,7 +161,8 @@ public abstract class MemberImpl extends TypeElementImpl implements Member {
 	  return result;
   }
 
-  public Set<? extends Member> aliasingMembers() throws LookupException {
+  @Override
+public Set<? extends Member> aliasingMembers() throws LookupException {
 	  List<Member> todo = (List<Member>) directlyAliasingMembers();
 	  Set<Member> result = new HashSet<Member>();
 	  while(! todo.isEmpty()) {
@@ -194,15 +199,18 @@ public abstract class MemberImpl extends TypeElementImpl implements Member {
   	}
   }
   
-  public Declaration selectionDeclaration() throws LookupException {
+  @Override
+public Declaration selectionDeclaration() throws LookupException {
   	return this;
   }
   
-  public Declaration actualDeclaration() throws LookupException {
+  @Override
+public Declaration actualDeclaration() throws LookupException {
   	return this;
   }
   
-  public Scope scope() throws ModelException {
+  @Override
+public Scope scope() throws ModelException {
   	Scope result = null;
   	ChameleonProperty scopeProperty = property(language().SCOPE_MUTEX());
   	if(scopeProperty instanceof ScopeProperty) {
@@ -213,28 +221,24 @@ public abstract class MemberImpl extends TypeElementImpl implements Member {
   	return result;
   }
   
-  public MemberRelationSelector<? extends Member> overridesSelector() {
-		return new MemberRelationSelector<Member>(Member.class,this,_overridesRelation);
+  @Override
+public MemberRelationSelector<? extends Member> overridesSelector() {
+		return new MemberRelationSelector<Member>(Member.class,this,(DeclarationComparator<Member>) overridesRelation());
   }
   
   public OverridesRelation<? extends Member> overridesRelation() {
-  	return _overridesRelation;
+  	return new OverridesRelation<Member>(Member.class);
   }
-
-  private static OverridesRelation<Member> _overridesRelation = new OverridesRelation<Member>(Member.class);
 
   public HidesRelation<? extends Member> hidesRelation() {
-		return _hidesSelector;
+		return new HidesRelation<Member>(Member.class);
   }
-  
-  private static HidesRelation<Member> _hidesSelector = new HidesRelation<Member>(Member.class);
 
-  public MemberRelationSelector<? extends Member> aliasSelector() {
+  @Override
+public MemberRelationSelector<? extends Member> aliasSelector() {
 		DeclarationComparator<Member> aliasRelation = new DeclarationComparator<>(Member.class);
 		return new MemberRelationSelector<Member>(Member.class,this,aliasRelation);
   }
-	
-  //private static DeclarationComparator<Member> _aliasSelector = new DeclarationComparator<Member>(Member.class);
 	
 	@Override
 	public Declaration finalDeclaration() {

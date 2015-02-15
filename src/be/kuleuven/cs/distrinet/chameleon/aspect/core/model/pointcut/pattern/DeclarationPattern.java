@@ -11,7 +11,8 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
  */
 public abstract class DeclarationPattern extends AbstractPredicate<Declaration, LookupException> {
 
-	public abstract DeclarationPattern clone();
+	@Override
+   public abstract DeclarationPattern clone();
 	
 	/**
 	 * Return the conjunction of this declaration pattern and the given declaration pattern.
@@ -53,7 +54,8 @@ public abstract class DeclarationPattern extends AbstractPredicate<Declaration, 
    @
    @ post (\forall Declaration d; ; \result.eval(d) == ! eval(d));  
    @*/
-	public DeclarationPattern negation() {
+	@Override
+   public DeclarationPattern negation() {
 		return new Not(this);
 	}
 

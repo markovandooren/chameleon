@@ -39,7 +39,8 @@ public class HierarchyTypeNode implements HierarchyTreeNode {
 		return result;
 	}
 	
-	public HierarchyTreeNode getParent(){
+	@Override
+   public HierarchyTreeNode getParent(){
 		return parent;
 	}
 	

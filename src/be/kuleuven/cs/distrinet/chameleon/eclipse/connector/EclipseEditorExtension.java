@@ -234,7 +234,8 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
    */
 	public DeclarationCategorizer declarationCategorizer() {
 		return new DeclarationCategorizer() {
-			public int category(Declaration declaration) {
+			@Override
+         public int category(Declaration declaration) {
 				return 0;
 			}
 		};

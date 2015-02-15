@@ -174,7 +174,8 @@ public class ChameleonProjectNature implements IProjectNature {
 	 * We use it to create the Chameleon builder. FIXME: this also starts a new build job. I'm not
 	 * sure if that should happen.
 	 */
-	public void configure() throws CoreException {
+	@Override
+   public void configure() throws CoreException {
 		System.out.println("Configuring Chameleon project nature.");
 		//later om de builders in te steken (compiler?)
 		addBuilder(getProject(), ChameleonBuilder.BUILDER_ID);
@@ -215,14 +216,16 @@ public class ChameleonProjectNature implements IProjectNature {
 	/**
 	 * Deconfigures this nature. To be called before object destruction.
 	 */
-	public void deconfigure() throws CoreException {
+	@Override
+   public void deconfigure() throws CoreException {
 		getProject().getWorkspace().removeResourceChangeListener(_projectListener);
 	}
 
 	/**
 	 * returns the project where this nature is linked with
 	 */
-	public IProject getProject() {
+	@Override
+   public IProject getProject() {
 		return _project;
 	}
 
@@ -230,7 +233,8 @@ public class ChameleonProjectNature implements IProjectNature {
 	 * A new project for this nature is set. Based on the chameleon project description file,
 	 * the project is initialized.
 	 */
-	public void setProject(IProject project) {
+	@Override
+   public void setProject(IProject project) {
 		if(project != _project) {
 			IProject old = _project;
 			this._project = project;
@@ -356,7 +360,8 @@ public class ChameleonProjectNature implements IProjectNature {
 	 * @see chameleonEditor.editors.IChameleonDocument#getModel()
 	 * @deprecated
 	 */
-	public Namespace getModel(){
+	@Deprecated
+   public Namespace getModel(){
 		//FIXME This should be removed for multi-view support
 		return chameleonProject().views().get(0).namespace();
 	}
@@ -366,7 +371,8 @@ public class ChameleonProjectNature implements IProjectNature {
 	 * @param document
 	 * @deprecated
 	 */
-	public void addToModel(EclipseDocument document) {
+	@Deprecated
+   public void addToModel(EclipseDocument document) {
 		//FIXME: why do we remove the 'same' document and add the new one if
 		//       the document was already in the model?
 		EclipseDocument same = null;

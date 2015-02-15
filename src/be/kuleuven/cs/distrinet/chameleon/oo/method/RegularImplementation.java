@@ -24,15 +24,18 @@ public class RegularImplementation extends Implementation  {
     set(_body,block);
   }
 
-  public Block getBody() {
+  @Override
+public Block getBody() {
     return _body.getOtherEnd();
   }
 
-  protected RegularImplementation cloneSelf() {
+  @Override
+protected RegularImplementation cloneSelf() {
     return new RegularImplementation(null);
   }
 
-  public boolean compatible() throws LookupException {
+  @Override
+public boolean compatible() throws LookupException {
   	throw new Error("Implement exception anchors again.");
 //    if(getBody() == null) {
 //      return true;
@@ -54,7 +57,8 @@ public class RegularImplementation extends Implementation  {
    @ post \result == (\forall TryStatement ts; getAllStatements().contains(ts);
    @                    ts.hasValidCatchClauses()); 
    @*/
-  public boolean hasValidCatchClauses() throws LookupException {
+  @Override
+public boolean hasValidCatchClauses() throws LookupException {
   	//@FIXME reimplement this
 //    try {
 //      Collection<TryStatement> statements = getBody().getDescendants(TryStatement.class);

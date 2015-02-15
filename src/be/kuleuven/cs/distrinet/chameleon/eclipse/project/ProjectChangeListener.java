@@ -37,7 +37,8 @@ public class ProjectChangeListener implements IResourceChangeListener {
 		return _nature;
 	}
 
-	public void resourceChanged(IResourceChangeEvent event) {
+	@Override
+   public void resourceChanged(IResourceChangeEvent event) {
 		IResourceDelta delta = event.getDelta();
 		try {
 			delta.accept( new ChameleonResourceDeltaVisitor(nature()) {

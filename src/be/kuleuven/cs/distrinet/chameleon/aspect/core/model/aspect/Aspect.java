@@ -31,7 +31,8 @@ public class Aspect extends BasicDeclaration implements DeclarationContainer, De
 		super(name);
 	}
 	
-	public String name() {
+	@Override
+   public String name() {
 		return signature().name();
 	}
 	
@@ -62,7 +63,8 @@ public class Aspect extends BasicDeclaration implements DeclarationContainer, De
 		add(_advices, e);
 	}
 
-	public Aspect cloneSelf() {
+	@Override
+   public Aspect cloneSelf() {
 		return new Aspect(name());
 	}
 

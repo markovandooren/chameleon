@@ -23,7 +23,8 @@ public class ProtectedProperty extends ScopeProperty {
 		super(name, universe, family);
 	}
 
-	public Scope scope(Element element) throws ModelException {
+	@Override
+   public Scope scope(Element element) throws ModelException {
 		try {
 			return new HierarchyScope((Type) element).union(new NamespaceScope(element.namespace()));
 		} catch (ClassCastException exc) {

@@ -28,7 +28,8 @@ public abstract class TypeElementImpl extends ElementWithModifiersImpl implement
 //		return new CheckedExceptionList();
 //	}
 
-	public List<? extends Member> declaredMembers() {
+	@Override
+   public List<? extends Member> declaredMembers() {
     try {
 			return getIntroducedMembers();
 		} catch (LookupException e) {
@@ -36,7 +37,8 @@ public abstract class TypeElementImpl extends ElementWithModifiersImpl implement
 		}
   }
 
-  public List<Modifier> modifiers(PropertyMutex mutex) throws ModelException {
+  @Override
+public List<Modifier> modifiers(PropertyMutex mutex) throws ModelException {
   	Property property = property(mutex);
   	List<Modifier> result = Lists.create();
   	for(Modifier mod: modifiers()) {

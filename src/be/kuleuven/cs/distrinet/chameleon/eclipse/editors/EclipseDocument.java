@@ -327,7 +327,8 @@ public class EclipseDocument extends org.eclipse.jface.text.Document {
 		try{
 			_lastpresentation = getPresentationManager().createTextPresentation();
 			Display.getDefault().asyncExec(new Runnable() {
-				public void run() {
+				@Override
+            public void run() {
 					// CHANGE in Tim's last version, the following line is absent.
 //					viewer.changeTextPresentation(_lastpresentation, false);
 					try {
