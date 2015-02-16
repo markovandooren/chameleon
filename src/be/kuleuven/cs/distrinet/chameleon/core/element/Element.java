@@ -275,7 +275,7 @@ public interface Element {
      @ post parent() == null ==> \result.isEmpty();
      @ post parent() != null && predicate.eval(parent()) ==> \result.get(0) == parent()
      @                       && \result.subList(1,\result.size()).equals(parent().ancestors(c));
-     @ post post parent() != null && ! predicate.eval(parent()) ==> 
+     @ post parent() != null && ! predicate.eval(parent()) ==> 
      @                       \result.equals(parent().ancestors(c));
      @*/
     public <T extends Element, E extends Exception> List<T> ancestors(UniversalPredicate<T, E> predicate) throws E;
