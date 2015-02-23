@@ -14,7 +14,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDec
 
 public class DirectInputSource extends InputSourceImpl {
 
-	public DirectInputSource(Declaration decl, String namespaceFQN, View view, DocumentLoader loader) throws InputException {
+	public DirectInputSource(Declaration decl, String namespaceFQN, View view, DocumentScanner loader) throws InputException {
 		init(loader);
 
 		if(decl == null) {

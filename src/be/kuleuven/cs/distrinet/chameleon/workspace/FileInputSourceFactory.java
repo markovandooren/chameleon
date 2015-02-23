@@ -53,7 +53,7 @@ public class FileInputSourceFactory {
 		return _current;
 	}
 
-	public IFileInputSource create(File file, DirectoryLoader loader) throws InputException {
+	public IFileInputSource create(File file, DirectoryScanner loader) throws InputException {
 		IFileInputSource fileInputSource = doCreateInputSource(file,loader);
 		InputSourceNamespace currentNamespace = (InputSourceNamespace) currentNamespace();
 		System.out.println("Adding file: "+file.getAbsolutePath()+ " to namespace "+currentNamespace.getFullyQualifiedName());
@@ -61,7 +61,7 @@ public class FileInputSourceFactory {
 		return fileInputSource;
 	}
 
-	protected IFileInputSource doCreateInputSource(File file, DirectoryLoader loader) throws InputException {
+	protected IFileInputSource doCreateInputSource(File file, DirectoryScanner loader) throws InputException {
 		return new FileInputSource(file,loader);
 	}
 }

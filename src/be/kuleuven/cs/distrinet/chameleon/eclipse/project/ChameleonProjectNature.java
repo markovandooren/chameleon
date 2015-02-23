@@ -44,7 +44,7 @@ import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
 import be.kuleuven.cs.distrinet.chameleon.input.SourceManager;
 import be.kuleuven.cs.distrinet.chameleon.workspace.BootstrapProjectConfig;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ConfigException;
-import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
+import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentScanner;
 import be.kuleuven.cs.distrinet.chameleon.workspace.FileLoader;
 import be.kuleuven.cs.distrinet.chameleon.workspace.IFileInputSource;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
@@ -287,7 +287,7 @@ public class ChameleonProjectNature implements IProjectNature {
 					// the listeners for the input sources.
 					view.addListener(new ViewListener(){
 						@Override
-						public void sourceLoaderAdded(DocumentLoader loader) {
+						public void sourceLoaderAdded(DocumentScanner loader) {
 							loader.addAndSynchronizeListener(listener);
 						}
 					});

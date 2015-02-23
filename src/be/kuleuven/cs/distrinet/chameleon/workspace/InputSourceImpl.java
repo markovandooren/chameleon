@@ -14,18 +14,23 @@ import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDec
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
+/**
+ * A default implementation for input sources.
+ * 
+ * @author Marko van Dooren
+ */
 public abstract class InputSourceImpl implements InputSource {
 	
-	protected void init(DocumentLoader loader) {
+	protected void init(DocumentScanner loader) {
 		setLoader(loader);
 	}
 	
-	protected void init(InputSourceNamespace ns, DocumentLoader loader) throws InputException {
+	protected void init(InputSourceNamespace ns, DocumentScanner loader) throws InputException {
 		init(loader);
 		setNamespace(ns);
 	}
 	
-	private void setLoader(DocumentLoader loader) {
+	private void setLoader(DocumentScanner loader) {
 		if(loader == null) {
 			throw new ChameleonProgrammerException();
 		}
@@ -50,25 +55,42 @@ public abstract class InputSourceImpl implements InputSource {
 	protected SingleAssociation<InputSource, InputSourceNamespace> _namespace = new SingleAssociation<InputSource, InputSourceNamespace>(this);
 
 	/**
-	 * Return the document that is managed by this input source.
-	 * @return
+	 * Return a direct reference to the managed document. This may return null
+	 * as this method does not load the document. If that is required, use 
+	 * {@link #document()} instead.
+	 * 
+	 * @return the document that is managed by this input source.
 	 */
-	public Document rawDocument() {
+	protected Document rawDocument() {
 		return _document.getOtherEnd();
 	}
 	
-	public Document document() throws InputException {
-		return load();
-	}
+//	/**
+//	 * Loads ({@link #load()}) and returns the document managed by this input source.
+//	 * 
+//	 * @return the document managed by this input source.
+//	 * @throws InputException
+//	 */
+//	public Document document() throws InputException {
+//		return load();
+//	}
 		
-	protected void setDocument(Document doc) {
-		if(doc != null) {
-			_document.connectTo(doc.inputSourceLink());
+	/**
+	 * Set the document managed by this input source.
+	 * 
+	 * @param document The document that is managed by this input source.
+	 */
+	protected void setDocument(Document document) {
+		if(document != null) {
+			_document.connectTo(document.inputSourceLink());
 		} else {
 			_document.connectTo(null);
 		}
 	}
 	
+	/**
+	 * @return True if and only if the document is loaded.
+	 */
 	public boolean isLoaded() {
 		return _document.getOtherEnd() != null;
 	}
@@ -95,6 +117,12 @@ public abstract class InputSourceImpl implements InputSource {
 		return result;
 	}
 	
+	/**
+	 * Actuall load the document. Invoke {@link #setDocument(Document)} to
+	 * store the loaded document.
+	 * 
+	 * @throws InputException The document could not be loaded.
+	 */
 	protected abstract void doRefresh() throws InputException;
 	
 	@Override
@@ -104,7 +132,7 @@ public abstract class InputSourceImpl implements InputSource {
 	
 	@Override
    public View view() {
-		DocumentLoader loader = loader();
+		DocumentScanner loader = loader();
 		if(loader != null) {
 			return loader.view();
 		} else {
@@ -115,16 +143,16 @@ public abstract class InputSourceImpl implements InputSource {
 	protected SingleAssociation<InputSourceImpl, Document> _document = new SingleAssociation<InputSourceImpl, Document>(this);
 	
 	@Override
-   public DocumentLoader loader() {
+   public DocumentScanner loader() {
 		return _loader.getOtherEnd();
 	}
 	
 	@Override
-   public SingleAssociation<InputSource, DocumentLoader> loaderLink() {
+   public SingleAssociation<InputSource, DocumentScanner> scannerLink() {
 		return _loader;
 	}
 	
-	protected SingleAssociation<InputSource, DocumentLoader> _loader = new SingleAssociation<InputSource, DocumentLoader>(this);
+	protected SingleAssociation<InputSource, DocumentScanner> _loader = new SingleAssociation<InputSource, DocumentScanner>(this);
 	
 	@Override
 	public List<Declaration> targetDeclarations(String name) throws LookupException {

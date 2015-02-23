@@ -15,14 +15,19 @@ import be.kuleuven.cs.distrinet.chameleon.util.Util;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
-public abstract class AbstractZipLoader extends DocumentLoaderImpl {
+/**
+ * An abstract class for document scanners that scan zip files.
+ * 
+ * @author Marko van Dooren
+ */
+public abstract class AbstractZipScanner extends DocumentScannerImpl {
 
 	/**
-	 * Create a new zip loader for the jar with the given path, file filter, and base loader setting.
+	 * Create a new zip scanner for the zip with the given path, file filter, and base scanner setting.
 	 * 
-	 * @param path The path of the jar file from which elements must be loaded.
+	 * @param path The path of the zip file from which elements must be loaded.
 	 * @param filter A filter that selects files in the zip file based on their paths.
-	 * @param isBaseLoader Indicates whether the loader is responsible for loading a base library.
+	 * @param isBaseLoader Indicates whether the scanner is responsible for loading a base library.
 	 */
  /*@
    @ public behavior
@@ -33,16 +38,16 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
    @ post filter() == filter;
    @ post isBaseLoader() == isBaseLoader;
    @*/
-	public AbstractZipLoader(ZipFile zipFile, Predicate<? super String,Nothing> filter, boolean isBaseLoader) {
+	public AbstractZipScanner(ZipFile zipFile, Predicate<? super String,Nothing> filter, boolean isBaseLoader) {
 		setPath(zipFile);
 		setFilter(filter);
 	}
 	
 	/**
-	 * Create a new jar loader for the jar with the given path and file filter. The loader
+	 * Create a new zip scanner for the zip with the given path and file filter. The scanner
 	 * will not be responsible for loading a base library.
 	 * 
-	 * @param path The path of the jar file from which elements must be loaded.
+	 * @param path The path of the zip file from which elements must be loaded.
 	 * @param filter A filter that selects files in the zip file based on their paths.
 	 */
  /*@
@@ -54,7 +59,7 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
    @ post filter() == filter;
    @ post isBaseLoader() == false;
    @*/
-	public AbstractZipLoader(ZipFile zipFile, Predicate<? super String,Nothing> filter) {
+	public AbstractZipScanner(ZipFile zipFile, Predicate<? super String,Nothing> filter) {
 		this(zipFile,filter,false);
 	}
 
@@ -65,7 +70,7 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
 	private ZipFile _zipFile;
 	
 	/**
-	 * Return the path of the jar file from which elements must be loaded.
+	 * Return the path of the zip file from which elements must be loaded.
 	 */
  /*@
    @ public behavior
@@ -81,7 +86,7 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
 	}
 	
 	/**
-	 * Return the filter that determines which files are loaded from the zip loader based
+	 * Return the filter that determines which files are loaded from the zip scanner based
 	 * on the paths of the files.
 	 * @return
 	 */
@@ -130,8 +135,8 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
   	});
 	}
 
-	protected List<Pair<Pair<String, String>, ZipEntry>> createNameMap(ZipFile jar) {
-  	Enumeration<? extends ZipEntry> entries = jar.entries();
+	protected List<Pair<Pair<String, String>, ZipEntry>> createNameMap(ZipFile zip) {
+  	Enumeration<? extends ZipEntry> entries = zip.entries();
 		List<Pair<Pair<String,String>, ZipEntry>> names = new ArrayList<Pair<Pair<String,String>, ZipEntry>>();
   	while(entries.hasMoreElements()) {
   		ZipEntry entry = entries.nextElement();
@@ -147,18 +152,18 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
 	}
 	
 	protected void createInputSources() throws IOException, LookupException, InputException {
-		ZipFile jar = zipFile();
-  	List<Pair<Pair<String, String>, ZipEntry>> names = createNameMap(jar);
+		ZipFile zip = zipFile();
+  	List<Pair<Pair<String, String>, ZipEntry>> names = createNameMap(zip);
   	// The entries must be sorted first such that if an inner class in processed, its outer
   	// class will have been processed first.
   	// TODO Explain why this is actually necessary. Not even sure it is needed anymore now that we have lazy
   	// loading. With eager loading it would try to add the inner class to the outer when the outer wasn't
   	// loaded yet.
   	sortNameMap(names);
-  	processMap(jar, names);
+  	processMap(zip, names);
 	}
 
-	protected abstract void processMap(ZipFile jar, List<Pair<Pair<String, String>, ZipEntry>> names) throws InputException;
+	protected abstract void processMap(ZipFile zip, List<Pair<Pair<String, String>, ZipEntry>> names) throws InputException;
 
 	/**
 	 * Return the fully qualified name of the namespace that corresponds to the directory name
@@ -171,13 +176,13 @@ public abstract class AbstractZipLoader extends DocumentLoaderImpl {
 	}
 
 	@Override
-	public boolean loadsSameAs(DocumentLoader obj) {
+	public boolean loadsSameAs(DocumentScanner obj) {
 		if(obj == this) {
 			return true;
 		}
-		if(obj instanceof AbstractZipLoader) {
-			AbstractZipLoader loader = (AbstractZipLoader) obj;
-			return loader.filter().equals(filter()) && loader.file().equals(file());
+		if(obj instanceof AbstractZipScanner) {
+			AbstractZipScanner scanner = (AbstractZipScanner) obj;
+			return scanner.filter().equals(filter()) && scanner.file().equals(file());
 		}
 		return false;
 	}

@@ -9,7 +9,6 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.BasicProblem;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
-import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 
 public abstract class CommonDeclarationContainingDeclaration extends
@@ -33,15 +32,10 @@ public abstract class CommonDeclarationContainingDeclaration extends
 		add(_declarations,d);
 	}
 
-	public List<? extends Declaration> localDeclarations() {
+	public List<? extends Declaration> locallyDeclaredDeclarations() {
 		return _declarations.getOtherEnds();
 	}
 	
-	@Override
-	public List<? extends Declaration> declarations() throws LookupException {
-		return localDeclarations();
-	}
-
 	public <D extends Declaration> List<D> declarations(Class<D> kind) throws LookupException {
 		return (List<D>) new TypePredicate(kind).filterReturn(declarations());
 	}

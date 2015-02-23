@@ -48,12 +48,12 @@ public interface InputSource extends Comparable<InputSource> {
 	public abstract List<Declaration> targetDeclarations(String name) throws LookupException;
 	
 	/**
-	 * Load the entire source managed by this InputSource into the model. 
-	 * <b>WARNING</b> The namespace declaration in the returned document
+	 * Load the entire document managed by this InputSource into the model. 
+	 * <b>WARNING</b> The namespace declarations in the returned document
 	 * are not connected yet to the corresponding namespaces. The
-	 * {@link Document#activate()} method must be invoked afterwards in order
+	 * {@link Document#activate()}  method must be invoked by this method in order
 	 * to use the document. The reason for this decision is that it is not
-	 * the reponsibility of the input source to decide how the returned document
+	 * the responsibility of the input source to decide how the returned document
 	 * will be used. It merely creates a document based on the underlying resource.
 	 * 
 	 * @throws LookupException 
@@ -62,8 +62,19 @@ public interface InputSource extends Comparable<InputSource> {
 	 */
 	public Document load() throws InputException;
 	
+	/**
+	 * Refresh the document managed by this input source. The old document
+	 * may modified, or replaced.
+	 * 
+	 * @return The new document managed by this input source.
+	 * 
+	 * @throws InputException the document could not be refreshed.
+	 */
 	public Document refresh() throws InputException;
 	
+	/**
+	 * @return the namespace in which this input source loads the document.
+	 */
 	public Namespace namespace();
 	
 	/**
@@ -76,7 +87,7 @@ public interface InputSource extends Comparable<InputSource> {
 	 * Return the association object that connects this input source to the project loader that created it.
 	 * @return
 	 */
-	public SingleAssociation<InputSource, DocumentLoader> loaderLink();
+	public SingleAssociation<InputSource, DocumentScanner> scannerLink();
 	
 	/**
 	 * Return the project to which this input source belongs.
@@ -122,7 +133,7 @@ public interface InputSource extends Comparable<InputSource> {
 	 * Return the document loader that created this input source.
 	 * @return
 	 */
-	public DocumentLoader loader();
+	public DocumentScanner loader();
 	
 	/**
 	 * Determine the order of this input source compared

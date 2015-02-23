@@ -11,16 +11,6 @@ import be.kuleuven.cs.distrinet.chameleon.input.ModelFactory;
 
 public abstract class StreamInputSource extends InputSourceImpl {
 
-//	public StreamInputSource(InputStream stream, InputSourceNamespace namespace,DocumentLoader loader) throws InputException {
-//		this(stream);
-//		init(loader);
-//		namespace.addInputSource(this);
-//	}
-//	
-//	protected StreamInputSource(InputStream stream) {
-//		setInputStream(stream);
-//	}
-	
 	protected InputStream convert(File file) throws InputException {
 		try {
 			return new BufferedInputStream(new FileInputStream(file),16384);
@@ -45,15 +35,6 @@ public abstract class StreamInputSource extends InputSourceImpl {
 		}
 	}
 
-//	protected void setInputStream(InputStream stream) {
-//		if(stream == null) {
-//			throw new IllegalArgumentException();
-//		}
-//		_stream = stream;
-//	}
-	
-//	private InputStream _stream;
-	
 	public abstract InputStream inputStream() throws InputException;
 
 }

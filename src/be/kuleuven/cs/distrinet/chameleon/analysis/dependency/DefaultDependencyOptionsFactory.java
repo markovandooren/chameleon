@@ -13,7 +13,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.plugin.LanguagePluginImpl;
 import be.kuleuven.cs.distrinet.chameleon.ui.widget.checkbox.CheckboxPredicateSelector;
-import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
+import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentScanner;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.chameleon.workspace.View;
 import be.kuleuven.cs.distrinet.rejuse.function.Function;
@@ -71,7 +71,7 @@ public class DefaultDependencyOptionsFactory extends LanguagePluginImpl implemen
 					new DependencyAnalysis.NOOP());
 			Set<Namespace> namespaces = new HashSet<>();
 			for(View view: _project.views()) {
-				for(DocumentLoader loader: view.sourceLoaders()) {
+				for(DocumentScanner loader: view.sourceLoaders()) {
 					namespaces.addAll(loader.namespaces());
 				}
 			}

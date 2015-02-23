@@ -12,8 +12,8 @@ import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
-import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
-import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoaderImpl;
+import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentScanner;
+import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentScannerImpl;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputSource;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputSourceImpl;
@@ -168,7 +168,7 @@ public class Document extends ElementImpl {
 
     private static class FakeInputSource extends InputSourceImpl {
 
-        public FakeInputSource(Document document, DocumentLoader loader) {
+        public FakeInputSource(Document document, DocumentScanner loader) {
             init(loader);
             setDocument(document);
         }
@@ -181,7 +181,7 @@ public class Document extends ElementImpl {
         }
     }
 
-    private static class FakeDocumentLoader extends DocumentLoaderImpl {
+    private static class FakeDocumentScanner extends DocumentScannerImpl {
 
         @Override
         public String label() {
@@ -194,7 +194,7 @@ public class Document extends ElementImpl {
     public Document cloneTo(View view) {
         Document clone = clone(this);
         //		Document clone = (Document) clone();
-        FakeDocumentLoader pl = new FakeDocumentLoader();
+        FakeDocumentScanner pl = new FakeDocumentScanner();
         InputSource is = new FakeInputSource(clone,pl);
         for(NamespaceDeclaration decl: descendants(NamespaceDeclaration.class)) {
             view.namespace().getOrCreateNamespace(decl.namespace().getFullyQualifiedName());

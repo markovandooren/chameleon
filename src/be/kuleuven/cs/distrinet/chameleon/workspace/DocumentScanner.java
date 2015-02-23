@@ -11,14 +11,15 @@ import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
-
-
 /**
- * An abstract super class for creating projects.
+ * An document scanner loads documents from a particular resource into the project.
+ * A document scanner create an {@link InputSource} for each document in the
+ * resource that it manages. This resource could be a jar file, a directory,
+ * a database,...
  * 
  * @author Marko van Dooren
  */
-public interface DocumentLoader extends Comparable<DocumentLoader> {
+public interface DocumentScanner extends Comparable<DocumentScanner> {
 
 	/**
 	 * Return the project populated by this builder.
@@ -35,7 +36,7 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
 	public Project project();
 
 	/**
-	 * Return the association link that connections this document loader to its view.
+	 * Return the association link that connections this document scanner to its view.
 	 * @return
 	 */
  /*@
@@ -43,15 +44,15 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
    @
    @ post \result != null;
    @*/
-	public SingleAssociation<? extends DocumentLoader, ? super DocumentLoaderContainer> containerLink();
+	public SingleAssociation<? extends DocumentScanner, ? super DocumentLoaderContainer> containerLink();
 	
 	/**
-	 * Return the container of this document loader.
+	 * Return the container of this document scanner.
 	 */
 	public DocumentLoaderContainer container();
 	
 	/**
-	 * Return the view to which this document loader adds documents.
+	 * Return the view to which this document scanner adds documents.
 	 */
  /*@
    @ public behavior
@@ -62,7 +63,7 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
 	public View view();
 	
 	/**
-	 * Return the input sources that are managed by this document loader.
+	 * Return the input sources that are managed by this document scanner.
 	 * @return
 	 */
  /*@
@@ -107,11 +108,11 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
 	public void addAndSynchronizeListener(InputSourceListener listener);
 
 	/**
-	 * Return whether this document loader is reponsible for loading a base library.
+	 * Return whether this document scanner is reponsible for loading a base library.
 	 * A base library is a library that is shipped with a language, and is loaded by
 	 * default. It will therefore not be added to configuration files.
 	 * 
-	 * @return True if this document loaders loads a base libary. False otherwise.
+	 * @return True if this document scanners loads a base libary. False otherwise.
 	 */
 	public boolean isBaseLoader();
 	
@@ -130,12 +131,12 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
 	public void addInputSource(InputSource source);
 	
 	/**
-	 * Flush the cache of all documents loaded by this document loader.
+	 * Flush the cache of all documents loaded by this document scanner.
 	 */
 	public void flushCache();
 	
 	/**
-	 * Apply the given action to all document that are loaded by this document loader.
+	 * Apply the given action to all document that are loaded by this document scanner.
 	 * @param action The action to be applied.
 	 * @throws E
 	 * @throws InputException 
@@ -143,7 +144,7 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
 	public <E extends Exception> void apply(Action<? extends Element, E> action) throws E, E, InputException;
 
 	/**
-	 * Return the namespaces that are populated by this document loader.
+	 * Return the namespaces that are populated by this document scanner.
 	 * @return
 	 */
  /*@
@@ -157,7 +158,7 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
 	public Set<Namespace> namespaces();
 
 	/**
-	 * Return a label to describe the resource loaded by this document loader.
+	 * Return a label to describe the resource loaded by this document scanner.
 	 * @return
 	 */
 	public String label();
@@ -170,16 +171,37 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
 	 */
 	public void notifyContainerConnected(DocumentLoaderContainer container) throws ProjectException;
 
+   /**
+    * DO NOT INVOKE EXTERNALLY. Must be exposed due to ridiculous Java access modifiers.
+    * 
+    * @param container
+    * @throws ProjectException
+    */
 	public void notifyContainerRemoved(DocumentLoaderContainer project) throws ProjectException;
 
+   /**
+    * DO NOT INVOKE EXTERNALLY. Must be exposed due to ridiculous Java access modifiers.
+    * 
+    * @param container
+    * @throws ProjectException
+    */
 	public void notifyProjectReplaced(DocumentLoaderContainer old, DocumentLoaderContainer newProject) throws ProjectException;
 
-	public boolean loadsSameAs(DocumentLoader loader);
+	/**
+	 * Check whether this document scanner loads the same documents as another
+	 * document scanner.
+	 * 
+	 * @param scanner The document scanner for which must be checked whether it
+	 *               loads the same documents as this scanner.
+	 * @return True if and only if the given document scanner loads the same
+	 *         documents as this document scanner.
+	 */
+	public boolean loadsSameAs(DocumentScanner scanner);
 	
 	/**
-	 * Return the top-most loader in the composite loader structure.
+	 * Return the top-most scanner in the composite loader structure.
 	 * @return
 	 */
-	public DocumentLoader rootLoader();
+	public DocumentScanner rootScanner();
 
 }

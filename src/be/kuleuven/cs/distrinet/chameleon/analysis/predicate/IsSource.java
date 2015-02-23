@@ -4,7 +4,7 @@ import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
-import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
+import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentScanner;
 import be.kuleuven.cs.distrinet.chameleon.workspace.View;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.tree.TreePredicate;
@@ -19,8 +19,8 @@ public class IsSource extends TreePredicate<Element,Nothing> {
 	public boolean uncheckedEval(Element element) throws Nothing {
 		View view = element.view();
 		if(element instanceof Namespace) {
-			List<DocumentLoader> sourceLoaders = view.sourceLoaders();
-			for(DocumentLoader loader:sourceLoaders) {
+			List<DocumentScanner> sourceLoaders = view.sourceLoaders();
+			for(DocumentScanner loader:sourceLoaders) {
 				if(loader.namespaces().contains(element)) {
 					return true;
 				}
@@ -35,8 +35,8 @@ public class IsSource extends TreePredicate<Element,Nothing> {
 	public boolean canSucceedBeyond(Element element) throws Nothing {
 		View view = element.view();
 		if(element instanceof Namespace) {
-			List<DocumentLoader> sourceLoaders = view.sourceLoaders();
-			for(DocumentLoader loader:sourceLoaders) {
+			List<DocumentScanner> sourceLoaders = view.sourceLoaders();
+			for(DocumentScanner loader:sourceLoaders) {
 				for(Namespace ns: loader.namespaces()) {
 					if(ns == element || ns.hasAncestor(element)) {
 						return true;

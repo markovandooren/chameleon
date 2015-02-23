@@ -76,19 +76,19 @@ public abstract class ProjectConfiguration extends ConfigElement {
     // FIXME also called during input!
     view.addListener(new ViewListener() {
     	@Override
-    	public void sourceLoaderAdded(DocumentLoader loader) {
+    	public void sourceLoaderAdded(DocumentScanner loader) {
     		ProjectConfiguration.this.sourceLoaderAdded(loader);
     	}
     	@Override
-    	public void sourceLoaderRemoved(DocumentLoader loader) {
+    	public void sourceLoaderRemoved(DocumentScanner loader) {
     		ProjectConfiguration.this.sourceLoaderRemoved(loader);
     	}
     	@Override
-    	public void binaryLoaderAdded(DocumentLoader loader) {
+    	public void binaryLoaderAdded(DocumentScanner loader) {
     		ProjectConfiguration.this.binaryLoaderAdded(loader);
     	}
 			@Override
-    	public void binaryLoaderRemoved(DocumentLoader loader) {
+    	public void binaryLoaderRemoved(DocumentScanner loader) {
 				ProjectConfiguration.this.binaryLoaderRemoved(loader);
     	}
     });
@@ -188,7 +188,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 	 * </ul>
 	 * @param loader
 	 */
-	protected void sourceLoaderAdded(DocumentLoader loader) {
+	protected void sourceLoaderAdded(DocumentScanner loader) {
 		SourcePath p = createOrGetChild(SourcePath.class);
 		if(loader instanceof ZipLoader) {
 			p.createOrUpdateChild(SourcePath.Zip.class,loader);
@@ -197,18 +197,18 @@ public abstract class ProjectConfiguration extends ConfigElement {
 		}
 	}
 
-	protected void sourceLoaderRemoved(DocumentLoader loader) {
+	protected void sourceLoaderRemoved(DocumentScanner loader) {
 		SourcePath p = createOrGetChild(SourcePath.class);
 		p.removeChildFor(loader);
 	}
 	
-	protected final void binaryLoaderAdded(DocumentLoader loader) throws ConfigException {
+	protected final void binaryLoaderAdded(DocumentScanner loader) throws ConfigException {
 		if(!loader.isBaseLoader()) {
 			//FIXME This doesn't seem right :)
 		}
 	}
 
-	protected void binaryNonBaseLoaderAdded(DocumentLoader loader) throws ConfigException {
+	protected void binaryNonBaseLoaderAdded(DocumentScanner loader) throws ConfigException {
 		BinaryPath p = createOrGetChild(BinaryPath.class);
 		if(loader instanceof ZipLoader) {
 			p.createOrUpdateChild(BinaryPath.Zip.class,loader);
@@ -217,7 +217,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 		}
 	}
 
-	protected void binaryLoaderRemoved(DocumentLoader loader) {
+	protected void binaryLoaderRemoved(DocumentScanner loader) {
 		BinaryPath p = createOrGetChild(BinaryPath.class);
 		p.removeChildFor(loader);
 	}
@@ -301,13 +301,13 @@ public abstract class ProjectConfiguration extends ConfigElement {
 		public class Source extends ProjectConfiguration.Source {
 
 			/**
-			 * After configuration, a {@link DirectoryLoader} is added to
+			 * After configuration, a {@link DirectoryScanner} is added to
 			 * the project for the directory.
 			 */
 			@Override
          protected void $after() throws ConfigException {
 				try {
-					DirectoryLoader loader = createLoader(fileInputSourceFactory());
+					DirectoryScanner loader = createLoader(fileInputSourceFactory());
 					view().addSource(loader);
 					setModelElement(loader);
 				} catch (ProjectException e) {
@@ -386,13 +386,13 @@ public abstract class ProjectConfiguration extends ConfigElement {
 		
 		@Override
 		protected void $update() {
-			DirectoryLoader directoryLoader = (DirectoryLoader)modelElement();
+			DirectoryScanner directoryLoader = (DirectoryScanner)modelElement();
 			_path = directoryLoader.path();
 //			_extension = directoryLoader.fileExtension();
 		}
 
-		protected DirectoryLoader createLoader(FileInputSourceFactory factory) {
-			return new DirectoryLoader(_path, fileNameFilter(),factory);
+		protected DirectoryScanner createLoader(FileInputSourceFactory factory) {
+			return new DirectoryScanner(_path, fileNameFilter(),factory);
 		}
 		
 		protected abstract Predicate<? super String,Nothing> fileNameFilter();
@@ -412,7 +412,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 		
 		@Override
 		protected void $update() throws ConfigException {
-			AbstractZipLoader zipLoader = (AbstractZipLoader)modelElement();
+			AbstractZipScanner zipLoader = (AbstractZipScanner)modelElement();
 			//TODO: does this transform a relative path into an absolute path
 			_path = new File(zipLoader.file().getName());
 		}

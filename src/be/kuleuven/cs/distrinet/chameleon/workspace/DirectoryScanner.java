@@ -7,43 +7,34 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutionException;
-
 import org.antlr.runtime.RecognitionException;
 
 import antlr.TokenStreamException;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.input.ParseException;
-import be.kuleuven.cs.distrinet.chameleon.util.concurrent.CallableFactory;
-import be.kuleuven.cs.distrinet.chameleon.util.concurrent.FixedThreadCallableExecutor;
-import be.kuleuven.cs.distrinet.chameleon.util.concurrent.QueuePollingCallableFactory;
-import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 /**
- * A class for recursively loading files from a directory.
+ * A class for recursively scanning files from a directory.
  * 
- * A directory loader stores a path instead of a file object such
+ * A directory scanner stores a path instead of a file object such
  * that we can write a new configuration file whose paths are identical
  * to the configuration file that was originally read.
  * 
  * @author Marko van Dooren
  */
-public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
+public class DirectoryScanner extends DocumentScannerImpl implements FileLoader {
 	
 
 	/**
-	 * Create a new directory loader for the given root directory, input source factor,
-	 * file filter, and base loader setting.
+	 * Create a new directory scanner for the given root directory, input source factor,
+	 * file filter, and base scanner setting.
 	 * 
 	 * @param root The path of the root directory from which elements must be loaded.
 	 * @param filter A filter that selects files in the zip file based on their paths.
-	 * @param isBaseLoader Indicates whether the loader is responsible for loading a base library.
+	 * @param isBaseLoader Indicates whether the scanner is responsible for loading a base library.
 	 */
  /*@
    @ public behavior
@@ -54,17 +45,17 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
    @ post filter() == filter;
    @ post isBaseLoader() == isBaseLoader;
    @*/
-	public DirectoryLoader(String root, Predicate<? super String,Nothing> filter, FileInputSourceFactory factory) {
+	public DirectoryScanner(String root, Predicate<? super String,Nothing> filter, FileInputSourceFactory factory) {
 		this(root, filter, false, factory);
 	}
 
 	/**
-	 * Create a new directory loader for the given root directory, input source factor,
-	 * file filter, and base loader setting.
+	 * Create a new directory scanner for the given root directory, input source factor,
+	 * file filter, and base scanner setting.
 	 * 
 	 * @param root The path of the root directory from which elements must be loaded.
 	 * @param filter A filter that selects files in the zip file based on their paths.
-	 * @param isBaseLoader Indicates whether the loader is responsible for loading a base library.
+	 * @param isBaseLoader Indicates whether the scanner is responsible for loading a base library.
 	 */
  /*@
    @ public behavior
@@ -75,7 +66,7 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
    @ post filter() == filter;
    @ post isBaseLoader() == isBaseLoader;
    @*/
-	public DirectoryLoader(String root, Predicate<? super String,Nothing> filter, boolean isBaseLoader, FileInputSourceFactory factory) {
+	public DirectoryScanner(String root, Predicate<? super String,Nothing> filter, boolean isBaseLoader, FileInputSourceFactory factory) {
 		super(isBaseLoader);
 		setPath(root);
 		setInputSourceFactory(factory);
@@ -84,11 +75,14 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 	
 	protected void setFilter(Predicate<? super String,Nothing> filter) {
 		if(filter == null) {
-			throw new IllegalArgumentException("The file name filter of a directory loader cannot be null");
+			throw new IllegalArgumentException("The file name filter of a directory scanner cannot be null");
 		}
 		_filter = filter;
 	}
 	
+	/**
+	 * @return The file name filter.
+	 */
 	public Predicate<? super String,Nothing> filter() {
 		return _filter;
 	}
@@ -96,7 +90,7 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 	private Predicate<? super String,Nothing> _filter;
 	
 	/**
-	 * This method is called when the directory loader is connected to a view.
+	 * This method is called when the directory scanner is connected to a view.
 	 */
 	@Override
 	public void notifyContainerConnected(DocumentLoaderContainer container) throws ProjectException {
@@ -119,7 +113,7 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 	private String _path;
 	
 	/**
-	 * Return the path from which this directory loader loads files.
+	 * Return the path from which this directory scanner loads files.
 	 */
  /*@
    @ public behavior
@@ -137,6 +131,9 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 		_path = path;
 	}
 	
+	/**
+	 * @return The top-level directory from which sources are loaded.
+	 */
 	public File root() {
 		return _root;
 	}
@@ -148,7 +145,9 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 		_root = root;
 	}
 	
-	
+	/**
+	 * @return The input source factory.
+	 */
 	public FileInputSourceFactory inputSourceFactory() {
 		return _inputSourceFactory;
 	}
@@ -174,46 +173,39 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 	 * @throws ParseException 
 	 * @throws IOException 
 	 */
-  private void doIncludeCustom(File root) throws ProjectException {
-  	File[] files = root.listFiles(new FilenameFilter(){
-			@Override
-			public boolean accept(File file, String extension) {
-				return filter().eval(extension);
-			}
-		});
-  	File[] subdirs = root.listFiles(new FileFilter(){
-			@Override
-			public boolean accept(File pathname) {
-				return pathname.isDirectory();
-			}
-		});
-  	if(files != null) {
-  		for(File file: files) {
-  			try {
-  				addToModel(file);
-  			} catch (InputException e) {
-  				throw new ProjectException(e);
-  			}
-  		}
-  	}
-  	if(subdirs != null) {
-  		for(File subDir: subdirs) {
-  			// push dir
-  			inputSourceFactory().pushDirectory(subDir.getName());
-  			// recurse
-  			doIncludeCustom(subDir);
-  			// pop dir
-  			inputSourceFactory().popDirectory();
-  		}
-  	}
-//  	try {
-//  		addToModel(new DirectoryScanner().scan(dirName, fileExtension(), customRecursive()));
-//		} catch (IOException e) {
-//			throw new ProjectException(e);
-//		} catch (ParseException e) {
-//			throw new ProjectException(e);
-//		}
-  }
+   private void doIncludeCustom(File root) throws ProjectException {
+      File[] files = root.listFiles(new FilenameFilter() {
+         @Override
+         public boolean accept(File file, String extension) {
+            return filter().eval(extension);
+         }
+      });
+      File[] subdirs = root.listFiles(new FileFilter() {
+         @Override
+         public boolean accept(File pathname) {
+            return pathname.isDirectory();
+         }
+      });
+      if (files != null) {
+         for (File file : files) {
+            try {
+               addToModel(file);
+            } catch (InputException e) {
+               throw new ProjectException(e);
+            }
+         }
+      }
+      if (subdirs != null) {
+         for (File subDir : subdirs) {
+            // push dir
+            inputSourceFactory().pushDirectory(subDir.getName());
+            // recurse
+            doIncludeCustom(subDir);
+            // pop dir
+            inputSourceFactory().popDirectory();
+         }
+      }
+   }
   
   /**
    * Return whether the custom files will be scanned recursively.
@@ -224,49 +216,49 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
   
   private boolean _recursive = true;
 
-	private void addToModel(Collection<File> files) throws IOException, ParseException {
-		final int size = files.size();
-		class Counter {
-			private int count;
-			
-			synchronized void increase() {
-				this.count++;
-			}
-			synchronized int get() {
-				return count;
-			}
-		}
-		final Counter counter = new Counter();
-		final BlockingQueue<File> fileQueue = new ArrayBlockingQueue<File>(files.size(), true, files);
-
-		Action<File,Exception> unsafeAction = new Action<File,Exception>(File.class) {
-			private boolean _debug = false;
-			@Override
-         public void doPerform(File file) throws InputException {
-				counter.increase();
-				if(_debug) {System.out.println(counter.get()+" of "+size+" :"+file.getAbsolutePath());};
-				addToModel(file);
-			} 
-		};
-	  CallableFactory factory = new QueuePollingCallableFactory<File,Exception>(unsafeAction,fileQueue);
-	  try {
-	  	new FixedThreadCallableExecutor<Exception>(factory).run();
-	  } catch (IOException e) {
-	  	throw e;
-	  } catch (ParseException e) {
-	  	throw e;
-	  } catch (ExecutionException e) {
-	  	Throwable cause = e.getCause();
-			cause.printStackTrace();
-	  	if(cause instanceof IOException) {
-	  		throw (IOException)cause;
-	  	} else if(cause instanceof ParseException) {
-	  		throw (ParseException)cause;
-	  	} 
-	  } catch (Exception e) {
-	  	e.printStackTrace();
-	  }
-	}
+//	private void addToModel(Collection<File> files) throws IOException, ParseException {
+//		final int size = files.size();
+//		class Counter {
+//			private int count;
+//			
+//			synchronized void increase() {
+//				this.count++;
+//			}
+//			synchronized int get() {
+//				return count;
+//			}
+//		}
+//		final Counter counter = new Counter();
+//		final BlockingQueue<File> fileQueue = new ArrayBlockingQueue<File>(files.size(), true, files);
+//
+//		Action<File,Exception> unsafeAction = new Action<File,Exception>(File.class) {
+//			private boolean _debug = false;
+//			@Override
+//         public void doPerform(File file) throws InputException {
+//				counter.increase();
+//				if(_debug) {System.out.println(counter.get()+" of "+size+" :"+file.getAbsolutePath());};
+//				addToModel(file);
+//			} 
+//		};
+//	  CallableFactory factory = new QueuePollingCallableFactory<File,Exception>(unsafeAction,fileQueue);
+//	  try {
+//	  	new FixedThreadCallableExecutor<Exception>(factory).run();
+//	  } catch (IOException e) {
+//	  	throw e;
+//	  } catch (ParseException e) {
+//	  	throw e;
+//	  } catch (ExecutionException e) {
+//	  	Throwable cause = e.getCause();
+//			cause.printStackTrace();
+//	  	if(cause instanceof IOException) {
+//	  		throw (IOException)cause;
+//	  	} else if(cause instanceof ParseException) {
+//	  		throw (ParseException)cause;
+//	  	} 
+//	  } catch (Exception e) {
+//	  	e.printStackTrace();
+//	  }
+//	}
 	
 	/**
 	 * Return the top of the metamodel when parsing the given file.
@@ -339,30 +331,21 @@ public class DirectoryLoader extends DocumentLoaderImpl implements FileLoader {
 		}
 	}
 	
-	
-//	public static void main(String[] args) throws URISyntaxException {
-//		URL objectLocation = Object.class.getResource("/java/lang/Object.class");
-//		String fileName = objectLocation.getFile();
-//		File file = new File(fileName.substring(5,fileName.indexOf('!')));
-////		file = new File("/Users/marko");
-//		System.out.println(file);
-//	}
-
 	@Override
-	public boolean loadsSameAs(DocumentLoader obj) {
+	public boolean loadsSameAs(DocumentScanner obj) {
 		if(obj == this) {
 			return true;
 		}
-		if(obj instanceof DirectoryLoader) {
-			DirectoryLoader loader = (DirectoryLoader) obj;
-			return path().equals(loader.path()) && filter().equals(loader.filter());
+		if(obj instanceof DirectoryScanner) {
+			DirectoryScanner scanner = (DirectoryScanner) obj;
+			return path().equals(scanner.path()) && filter().equals(scanner.filter());
 		}
 		return false;
 	}
 	
 	@Override
 	public String toString() {
-		return "Directory loader: "+path()+" with filter: "+filter().toString();
+		return "Directory scanner: "+path()+" with filter: "+filter().toString();
 	}
 	
 	@Override

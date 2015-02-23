@@ -1602,6 +1602,7 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
     * 
     * YOU MUST OVERRIDE THIS METHOD WHEN YOU OVERRIDE {@link #uniSameAs(Element)}.
     */
+   @Override
    public int hashCode() {
       return super.hashCode();
    }

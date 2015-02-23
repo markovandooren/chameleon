@@ -8,7 +8,6 @@ import be.kuleuven.cs.distrinet.chameleon.aspect.core.weave.infrastructure.Advic
 import be.kuleuven.cs.distrinet.chameleon.aspect.core.weave.transform.JoinPointTransformer;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 /**

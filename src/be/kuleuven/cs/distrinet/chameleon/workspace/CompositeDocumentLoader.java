@@ -12,7 +12,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.ImmutableSet;
 
-public class CompositeDocumentLoader extends DocumentLoaderImpl implements DocumentLoaderContainer {
+public class CompositeDocumentLoader extends DocumentScannerImpl implements DocumentLoaderContainer {
 
 	public CompositeDocumentLoader(String label) {
 		_label = label;
@@ -25,31 +25,31 @@ public class CompositeDocumentLoader extends DocumentLoaderImpl implements Docum
 	
 	private String _label;
 	
-	public void addLoader(DocumentLoader loader) {
+	public void addLoader(DocumentScanner loader) {
 		if(loader != null) {
 			_loaders.add(loader.containerLink());
 		}
 	}
 	
-	public List<DocumentLoader> loaders() {
+	public List<DocumentScanner> loaders() {
 		return _loaders.getOtherEnds();
 	}
 
-	private OrderedMultiAssociation<CompositeDocumentLoader, DocumentLoader> _loaders = new OrderedMultiAssociation<>(this);
+	private OrderedMultiAssociation<CompositeDocumentLoader, DocumentScanner> _loaders = new OrderedMultiAssociation<>(this);
 	{
 		_loaders.enableCache();
 	}
 	
 	@Override
 	public void notifyContainerRemoved(DocumentLoaderContainer project) throws ProjectException {
-		for(DocumentLoader loader: loaders()) {
+		for(DocumentScanner loader: loaders()) {
 			loader.notifyContainerRemoved(project);
 		}
 	}
 	
 	@Override
 	public void notifyContainerConnected(DocumentLoaderContainer project) throws ProjectException {
-		for(DocumentLoader loader: loaders()) {
+		for(DocumentScanner loader: loaders()) {
 			loader.notifyContainerConnected(project);
 		}
 	}
@@ -57,7 +57,7 @@ public class CompositeDocumentLoader extends DocumentLoaderImpl implements Docum
 	@Override
 	public void notifyProjectReplaced(DocumentLoaderContainer old,
 			DocumentLoaderContainer newProject) throws ProjectException {
-		for(DocumentLoader loader: loaders()) {
+		for(DocumentScanner loader: loaders()) {
 			loader.notifyProjectReplaced(old, newProject);
 		}
 	}
@@ -66,7 +66,7 @@ public class CompositeDocumentLoader extends DocumentLoaderImpl implements Docum
 	@Override
 	public <E extends Exception> void apply(Action<? extends Element, E> action)
 			throws E, InputException {
-		for(DocumentLoader loader: loaders()) {
+		for(DocumentScanner loader: loaders()) {
 			loader.apply(action);
 		}
 	}
@@ -74,7 +74,7 @@ public class CompositeDocumentLoader extends DocumentLoaderImpl implements Docum
 	@Override
 	public int nbInputSources() {
 		int result = 0;
-		for(DocumentLoader loader: loaders()) {
+		for(DocumentScanner loader: loaders()) {
 			result += loader.nbInputSources();
 		}
 		return result;
@@ -87,7 +87,7 @@ public class CompositeDocumentLoader extends DocumentLoaderImpl implements Docum
 	
 	@Override
 	public void addAndSynchronizeListener(InputSourceListener listener) {
-		for(DocumentLoader loader: loaders()) {
+		for(DocumentScanner loader: loaders()) {
 			loader.addAndSynchronizeListener(listener);
 		}
 	}
@@ -95,7 +95,7 @@ public class CompositeDocumentLoader extends DocumentLoaderImpl implements Docum
 	@Override
 	public void addListener(InputSourceListener listener) {
 		super.addListener(listener);
-		for(DocumentLoader loader: loaders()) {
+		for(DocumentScanner loader: loaders()) {
 			loader.addListener(listener);
 		}
 	}
@@ -103,7 +103,7 @@ public class CompositeDocumentLoader extends DocumentLoaderImpl implements Docum
 	@Override
 	public void removeListener(InputSourceListener listener) {
 		super.removeListener(listener);
-		for(DocumentLoader loader: loaders()) {
+		for(DocumentScanner loader: loaders()) {
 			loader.removeListener(listener);
 		}
 	}
@@ -111,7 +111,7 @@ public class CompositeDocumentLoader extends DocumentLoaderImpl implements Docum
 	@Override
 	public List<Document> documents() throws InputException {
 		Builder<Document> builder = ImmutableList.builder();
-		for(DocumentLoader loader: loaders()) {
+		for(DocumentScanner loader: loaders()) {
 			builder.addAll(loader.documents());
 		}
 		return builder.build();
@@ -119,7 +119,7 @@ public class CompositeDocumentLoader extends DocumentLoaderImpl implements Docum
 	
 	@Override
 	public void flushCache() {
-		for(DocumentLoader loader: loaders()) {
+		for(DocumentScanner loader: loaders()) {
 			loader.flushCache();
 		}
 	}
@@ -127,7 +127,7 @@ public class CompositeDocumentLoader extends DocumentLoaderImpl implements Docum
 	@Override
 	public List<InputSource> inputSources() {
 		Builder<InputSource> builder = ImmutableList.builder();
-		for(DocumentLoader loader: loaders()) {
+		for(DocumentScanner loader: loaders()) {
 			builder.addAll(loader.inputSources());
 		}
 		return builder.build();
@@ -136,7 +136,7 @@ public class CompositeDocumentLoader extends DocumentLoaderImpl implements Docum
 	@Override
 	public List<Namespace> topLevelNamespaces() {
 		ImmutableSet.Builder<Namespace> builder = ImmutableSet.builder();
-		for(DocumentLoader loader: loaders()) {
+		for(DocumentScanner loader: loaders()) {
 			builder.addAll(loader.topLevelNamespaces());
 		}
 		return ImmutableList.copyOf(builder.build());
@@ -147,8 +147,8 @@ public class CompositeDocumentLoader extends DocumentLoaderImpl implements Docum
 //	}
 	
 	@Override
-	public boolean loadsSameAs(DocumentLoader loader) {
-		for(DocumentLoader l: loaders()) {
+	public boolean loadsSameAs(DocumentScanner loader) {
+		for(DocumentScanner l: loaders()) {
 			if(l.loadsSameAs(loader)) {
 				return true;
 			}

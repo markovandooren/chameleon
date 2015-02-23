@@ -7,7 +7,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.namespace.InputSourceNamespace;
 
 public class LazyFileInputSource extends LazyStreamInputSource implements IFileInputSource {
 
-	public LazyFileInputSource(File file, String declarationName, InputSourceNamespace ns,DocumentLoader loader) throws InputException {
+	public LazyFileInputSource(File file, String declarationName, InputSourceNamespace ns,DocumentScanner loader) throws InputException {
 		_file = file;
 		init(declarationName, ns, loader);
 	}

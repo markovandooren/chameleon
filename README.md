@@ -35,6 +35,6 @@ Read the documentation of the following types.
 - Namespace: the namespace of a declaration. Think of the package structure of Java, or the namespace structur of C#
 - Document: containers of model descriptions. This is usually a file.
 - InputSource: an object that loads a single document
-- DocumentLoader: an object that create input sources from a resource (a .jar file, a directory, a database,...)
+- DocumentScanner: an object that scans a resource (a .jar file, a directory, a database,...) and creates document loaders for the documents that were found.
 - View: a part of a project that uses a particular language.
 - Project: a collection of views. For now, multiple are not supported well enough. Cross-language lookup support is not yet provided out of the box.

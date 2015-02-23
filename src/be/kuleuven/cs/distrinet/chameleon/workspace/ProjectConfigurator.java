@@ -22,7 +22,7 @@ public interface ProjectConfigurator extends LanguagePlugin {
 
 	/**
 	 * Create a {@link ProjectConfiguration} object for the language to which this project configurator
-	 * is attached. The result already contains all required {@link DocumentLoader} objects to
+	 * is attached. The result already contains all required {@link DocumentScanner} objects to
 	 * load the base library of the language.
 	 *  
 	 * @param projectName The name of the project being loaded.

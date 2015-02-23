@@ -14,7 +14,11 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 /**
  * A class that represents the concept of a project. A project
- * keeps a collection of input sources and is an input source itself.
+ * keeps a collection document loaders that populate the project.
+ * 
+ * FIXME: A project should not need a root directory. That functionality
+ * should be moved to a plugin. If a project is loaded from a database,
+ * a root directory makes no sense. For now, just provide a null reference.
  * 
  * @author Marko van Dooren
  */

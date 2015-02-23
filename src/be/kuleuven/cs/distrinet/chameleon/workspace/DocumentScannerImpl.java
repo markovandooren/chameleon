@@ -17,18 +17,23 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.ImmutableSet;
 
-public abstract class DocumentLoaderImpl implements DocumentLoader {
+/**
+ * A default implementation for document scanners.
+ * 
+ * @author Marko van Dooren
+ */
+public abstract class DocumentScannerImpl implements DocumentScanner {
 
-	public DocumentLoaderImpl() {
+	public DocumentScannerImpl() {
 		this(false);
 	}
 	
 	/**
-	 * Create a new document loader with the given base loader setting.
+	 * Create a new document scanner with the given base scanner setting.
 	 * 
-	 * @param isBaseLoader Set to 'true' if the new loader is responsible for loading a base library.
+	 * @param isBaseLoader Set to 'true' if the new scanner is responsible for loading a base library.
 	 */
-	public DocumentLoaderImpl(boolean isBaseLoader) {
+	public DocumentScannerImpl(boolean isBaseLoader) {
 		_isBaseLoader = isBaseLoader;
 		_viewLink.addListener(new AssociationListener<DocumentLoaderContainer>() {
 
@@ -66,7 +71,7 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	}
 
 	/**
-	 * Store whether this document loader is responsible for loading a base library.
+	 * Store whether this document scanner is responsible for loading a base library.
 	 */
 	private boolean _isBaseLoader;
 
@@ -84,8 +89,8 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	}
 
 	/**
-	 * This method is invoked when the loader is connected to a project. It should
-	 * then put the required objects in place to populate the project. The loader
+	 * This method is invoked when the scanner is connected to a project. It should
+	 * then put the required objects in place to populate the project. The scanner
 	 * is free to load the source files eagerly or lazily.
 	 * @param project
 	 * @throws ProjectException
@@ -102,10 +107,10 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
    public void notifyProjectReplaced(DocumentLoaderContainer old, DocumentLoaderContainer newProject) throws ProjectException {
 	}
 
-	private SingleAssociation<DocumentLoaderImpl, DocumentLoaderContainer> _viewLink = new SingleAssociation<>(this);
+	private SingleAssociation<DocumentScannerImpl, DocumentLoaderContainer> _viewLink = new SingleAssociation<>(this);
 
 	@Override
-   public SingleAssociation<DocumentLoaderImpl, DocumentLoaderContainer> containerLink() {
+   public SingleAssociation<DocumentScannerImpl, DocumentLoaderContainer> containerLink() {
 		return _viewLink;
 	}
 
@@ -125,7 +130,7 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		return view().project();
 	}
 
-	private OrderedMultiAssociation<DocumentLoaderImpl, InputSource> _inputSources = new OrderedMultiAssociation<DocumentLoaderImpl, InputSource>(this) {
+	private OrderedMultiAssociation<DocumentScannerImpl, InputSource> _inputSources = new OrderedMultiAssociation<DocumentScannerImpl, InputSource>(this) {
 		@Override
       protected void fireElementAdded(InputSource addedElement) {
 			flushLocalCache();
@@ -168,9 +173,9 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		// The Association object will send the event and the attached listener
 		// will invoke notifyAdded(InputSource).
 		//		System.out.println("Adding "+source);
-		Contracts.check(canAddInputSource(source), "The given input source cannot be handled by this loader.");
+		Contracts.check(canAddInputSource(source), "The given input source cannot be handled by this scanner.");
 		if(source != null) {
-			_inputSources.add(source.loaderLink());
+			_inputSources.add(source.scannerLink());
 		}
 	}
 
@@ -208,7 +213,7 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		// The Association object will send the event and the attached listener
 		// will invoke notifyRemoved(InputSource).
 		if(source != null) {
-			_inputSources.remove(source.loaderLink());
+			_inputSources.remove(source.scannerLink());
 		}
 		source.destroy();
 	}
@@ -278,7 +283,7 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
    @ post o == null ==> \result == -1;
    @*/
 	@Override
-	public int compareTo(DocumentLoader o) {
+	public int compareTo(DocumentScanner o) {
 		return o == null ? -1 : 0;
 	}
 
@@ -322,17 +327,17 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 
 	/**
 	 * DEFAULT IMPLEMENTATION returns true if and only if
-	 * the given loader is this object.
+	 * the given scanner is this object.
 	 */
 	@Override
-	public boolean loadsSameAs(DocumentLoader loader) {
-		return loader == this;
+	public boolean loadsSameAs(DocumentScanner scanner) {
+		return scanner == this;
 	}
 	
 	@Override
-	public DocumentLoader rootLoader() {
-		if(container()  instanceof DocumentLoader) {
-			return ((DocumentLoader)container()).rootLoader();
+	public DocumentScanner rootScanner() {
+		if(container()  instanceof DocumentScanner) {
+			return ((DocumentScanner)container()).rootScanner();
 		} else {
 			return this;
 		}

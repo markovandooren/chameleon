@@ -2,7 +2,6 @@ package be.kuleuven.cs.distrinet.chameleon.core.namespace;
 
 import java.util.List;
 
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.TargetDeclaration;
@@ -57,20 +56,20 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer, Simp
    @*/
 	public Namespace getOrCreateNamespace(final String name);
 	
-	/**
-	 * Recursively search for all declarations of a given kind. This will also search in child namespaces
-	 * @param kind
-	 * @return
-	 * @throws LookupException
-	 */
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @ post \result.containsAll(declarations(kind));
-   @ post (\forall Namespace ns; getSubnamespaces().contains(ns); \result.containsAll(ns.allDecendantDeclarations(kind)));
-   @*/
-	public <T extends Declaration> List<T> allDescendantDeclarations(Class<T> kind) throws LookupException;
+//	/**
+//	 * Recursively search for all declarations of a given kind. This will also search in child namespaces
+//	 * @param kind
+//	 * @return
+//	 * @throws LookupException
+//	 */
+// /*@
+//   @ public behavior
+//   @
+//   @ post \result != null;
+//   @ post \result.containsAll(declarations(kind));
+//   @ post (\forall Namespace ns; getSubnamespaces().contains(ns); \result.containsAll(ns.allDecendantDeclarations(kind)));
+//   @*/
+//	public <T extends Declaration> List<T> allDescendantDeclarations(Class<T> kind) throws LookupException;
 	
   /**
    * The name of a namespace is the name of its signature.
@@ -124,5 +123,5 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer, Simp
 	
 	public Namespace createSubNamespace(String name);
 	
-	public <T extends Declaration> List<T> declarations(Class<T> kind) throws LookupException;
+//	public <T extends Declaration> List<T> declarations(Class<T> kind) throws LookupException;
 }

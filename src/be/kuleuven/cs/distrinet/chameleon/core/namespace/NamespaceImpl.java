@@ -18,8 +18,6 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 import be.kuleuven.cs.distrinet.chameleon.util.Util;
-import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 
@@ -167,14 +165,14 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
 
 	private Map<String,Namespace> _nameMap = new HashMap<>();
 
-	@Override
-   public <T extends Declaration> List<T> allDescendantDeclarations(Class<T> kind) throws LookupException {
-  	final List<T> result = declarations(kind);
-  	for(Namespace ns:getSubNamespaces()) {
-		  result.addAll(ns.allDescendantDeclarations(kind));
-  	}
- 	  return result;
-	}
+//	@Override
+//   public <T extends Declaration> List<T> allDescendantDeclarations(Class<T> kind) throws LookupException {
+//  	final List<T> result = declarations(kind);
+//  	for(Namespace ns:getSubNamespaces()) {
+//		  result.addAll(ns.allDescendantDeclarations(kind));
+//  	}
+// 	  return result;
+//	}
 
 		/***********
 		 * CONTEXT *
@@ -298,7 +296,6 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
 	
 	@Override
    public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
-//		System.out.println("Requesting declarations() of "+getFullyQualifiedName());
 		List<? extends SelectionResult> result;
 		if(selector.usesSelectionName()) {
 			List<Declaration> list = null;
@@ -329,40 +326,15 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
 		return result;
 	}
 	
-	@Override
-   public <T extends Declaration> List<T> declarations(Class<T> kind) throws LookupException {
-    return new TypePredicate<T>(kind).downCastedList(declarations());
-  }
+//	@Override
+//   public <T extends Declaration> List<T> declarations(Class<T> kind) throws LookupException {
+//    return new TypePredicate<T>(kind).downCastedList(declarations());
+//  }
 	
 
 	@Override
    public NamespaceAlias alias(String name) {
 		return new NamespaceAlias(name,this);
-	}
-
-	@Override
-   public Namespace selectionDeclaration() {
-		return this;
-	}
-	
-	@Override
-   public Namespace actualDeclaration() {
-		return this;
-	}
-	
-	@Override
-	public Declaration finalDeclaration() {
-		return this;
-	}
-	
-	@Override
-	public Declaration template() {
-		return finalDeclaration();
-	}
-
-	@Override
-	public SelectionResult updatedTo(Declaration declaration) {
-		return declaration;
 	}
 
 }

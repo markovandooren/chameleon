@@ -2,7 +2,7 @@ package be.kuleuven.cs.distrinet.chameleon.ui.widget.tree;
 
 import java.util.List;
 
-import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
+import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentScanner;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.chameleon.workspace.View;
 
@@ -51,18 +51,18 @@ public class DocumentLoaderContentProvider extends TreeNodeContentProvider<Objec
 		
 		@Override
 		public List<? extends TreeNode<?,Object>> createChildren() {
-			Builder<DocumentLoader> sourceBuilder = ImmutableList.<DocumentLoader>builder();
+			Builder<DocumentScanner> sourceBuilder = ImmutableList.<DocumentScanner>builder();
 			for(View view:domainObject().views()) {
 				sourceBuilder.addAll(loaders(view));
 			}
 			Builder<DocumentLoaderNode> builder = ImmutableList.builder();
-			for(DocumentLoader loader: sourceBuilder.build()) {
+			for(DocumentScanner loader: sourceBuilder.build()) {
 				builder.add(new DocumentLoaderNode(this, loader));
 			}
 			return builder.build();
 		}
 
-		protected abstract List<DocumentLoader> loaders(View view);
+		protected abstract List<DocumentScanner> loaders(View view);
 	}
 	
 	public static class SourceNode extends LoaderGroupNode {
@@ -72,7 +72,7 @@ public class DocumentLoaderContentProvider extends TreeNodeContentProvider<Objec
 		}
 
 		@Override
-      protected List<DocumentLoader> loaders(View view) {
+      protected List<DocumentScanner> loaders(View view) {
 			return view.sourceLoaders();
 		}
 
@@ -85,7 +85,7 @@ public class DocumentLoaderContentProvider extends TreeNodeContentProvider<Objec
 		}
 
 		@Override
-      protected List<DocumentLoader> loaders(View view) {
+      protected List<DocumentScanner> loaders(View view) {
 			return view.binaryLoaders();
 		}
 

@@ -12,7 +12,7 @@ import be.kuleuven.cs.distrinet.chameleon.util.Pair;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
-public class ZipLoader extends AbstractZipLoader {
+public class ZipLoader extends AbstractZipScanner {
 
 	/**
 	 * Create a new zip loader for the jar with the given path, file filter, and base loader setting.
