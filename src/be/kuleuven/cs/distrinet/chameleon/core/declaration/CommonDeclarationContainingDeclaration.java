@@ -16,23 +16,11 @@ public abstract class CommonDeclarationContainingDeclaration extends
 		DeclarationContainingDeclarationImpl {
 
 	public CommonDeclarationContainingDeclaration() {
-		
+		super(null);
 	}
 	
 	public CommonDeclarationContainingDeclaration(Signature signature) {
-		setSignature(signature);
-	}
-	
-	private Single<Signature> _signature = new Single<Signature>(this);
-
-	@Override
-	public Signature signature() {
-		return _signature.getOtherEnd();
-	}
-
-	@Override
-	public void setSignature(Signature signature) {
-		set(_signature,signature);
+		super(signature);
 	}
 	
 	public List<Element> childrenNotInScopeOfDeclarations() {
@@ -43,11 +31,6 @@ public abstract class CommonDeclarationContainingDeclaration extends
 	
 	public void addDeclaration(Declaration d) {
 		add(_declarations,d);
-	}
-
-	@Override
-	public LookupContext targetContext() throws LookupException {
-		return language().lookupFactory().createLocalLookupStrategy(this);
 	}
 
 	public List<? extends Declaration> localDeclarations() {

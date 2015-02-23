@@ -16,23 +16,24 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
  */
 public abstract class DeclarationContainerImpl extends ElementImpl implements DeclarationContainer {
 
-	@Override
-	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
-		return declarations();
-	}
+   @Override
+   public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector)
+         throws LookupException {
+      return selector.selection(declarations());
+   }
 
-	@Override
-	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
-		return selector.selection(declarations());
-	}
+   @Override
+   public LookupContext localContext() throws LookupException {
+      return language().lookupFactory().createLocalLookupStrategy(this);
+   }
 
-	@Override
-	public LookupContext localContext() throws LookupException {
-		return language().lookupFactory().createLocalLookupStrategy(this);
-	}
+   @Override
+   public LookupContext lookupContext(Element child) throws LookupException {
+      return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
+   }
 
-  @Override
-  public LookupContext lookupContext(Element child) throws LookupException {
-  	return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
-  }
+   @Override
+   public List<? extends Declaration> declarations() throws LookupException {
+      return locallyDeclaredDeclarations();
+   }
 }
