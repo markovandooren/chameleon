@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import be.kuleuven.cs.distrinet.chameleon.core.namespace.InputSourceNamespace;
+import be.kuleuven.cs.distrinet.chameleon.core.namespace.DocumentLoaderNamespace;
 import be.kuleuven.cs.distrinet.chameleon.util.Pair;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
@@ -66,8 +66,8 @@ public class ZipScanner extends AbstractZipScanner {
 				try {
 					String packageFQN = namespaceFQN(entry.getName());
 					InputStream inputStream = new BufferedInputStream(zipFile.getInputStream(entry));
-					InputSourceNamespace ns = (InputSourceNamespace) view().namespace().getOrCreateNamespace(packageFQN);
-					InputSource source = createInputSource(inputStream,qn,ns);
+					DocumentLoaderNamespace ns = (DocumentLoaderNamespace) view().namespace().getOrCreateNamespace(packageFQN);
+					createDocumentLoader(inputStream,qn,ns); //DO NOT REMOVE, HAS SIDE-EFFECT
 				} catch (IOException e) {
 					throw new InputException(e);
 				}
@@ -75,8 +75,8 @@ public class ZipScanner extends AbstractZipScanner {
 		}
 	}
 
-	private InputSource createInputSource(InputStream stream, String declarationName, InputSourceNamespace ns) throws InputException {
-		return new LazyReadOnceStreamInputSource(stream,declarationName,ns,this);
+	private DocumentLoader createDocumentLoader(InputStream stream, String declarationName, DocumentLoaderNamespace ns) throws InputException {
+		return new LazyReadOnceStreamDocumentLoader(stream,declarationName,ns,this);
 	}
 	
 }

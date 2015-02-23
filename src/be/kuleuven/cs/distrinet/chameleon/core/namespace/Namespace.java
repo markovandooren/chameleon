@@ -83,8 +83,8 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer, Simp
    public String name();
 	
 	/**
-	 * Return all namespace parts attached to this namespace. All unloaded input sources
-	 * will be loaded.
+	 * Return all namespace parts attached to this namespace. 
+	 * All unloaded documents will be loaded.
 	 */
  /*@
    @ public behavior

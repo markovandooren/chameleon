@@ -3,11 +3,11 @@ package be.kuleuven.cs.distrinet.chameleon.workspace;
 import java.io.File;
 import java.io.InputStream;
 
-import be.kuleuven.cs.distrinet.chameleon.core.namespace.InputSourceNamespace;
+import be.kuleuven.cs.distrinet.chameleon.core.namespace.DocumentLoaderNamespace;
 
-public class FileInputSource extends StreamInputSource implements IFileInputSource {
+public class FileDocumentLoader extends StreamDocumentLoader implements IFileDocumentLoader {
 
-	public FileInputSource(File file, DocumentScanner scanner) throws InputException {
+	public FileDocumentLoader(File file, DocumentScanner scanner) throws InputException {
 		_file = file;
 		init(scanner);
 	}
@@ -19,7 +19,7 @@ public class FileInputSource extends StreamInputSource implements IFileInputSour
 	
 	private File _file;
 	
-	public FileInputSource(File file, InputSourceNamespace ns, DocumentScanner scanner) throws InputException {
+	public FileDocumentLoader(File file, DocumentLoaderNamespace ns, DocumentScanner scanner) throws InputException {
 		this(file,scanner);
 		setNamespace(ns);
 	}	

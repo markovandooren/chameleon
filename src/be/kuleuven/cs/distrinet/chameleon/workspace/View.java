@@ -343,7 +343,7 @@ public class View extends PluginContainerImpl<ViewPlugin>
 		Document doc = element.nearestAncestorOrSelf(Document.class);
 		// Namespace are not in documents and thus cannot be source elements.
 		if(doc != null) {
-			DocumentScanner scanner = doc.inputSource().scanner().rootScanner();
+			DocumentScanner scanner = doc.loader().scanner().rootScanner();
 			return scanner.containerLink().getOtherRelation() == _sourceScanners;
 		}
 		return false;
@@ -353,7 +353,7 @@ public class View extends PluginContainerImpl<ViewPlugin>
 		Document doc = element.nearestAncestorOrSelf(Document.class);
 		// Namespace are not in documents and thus cannot be source elements.
 		if(doc != null) {
-			DocumentScanner scanner = doc.inputSource().scanner().rootScanner();
+			DocumentScanner scanner = doc.loader().scanner().rootScanner();
 			return scanner.containerLink().getOtherRelation() == _binaryScanners;
 		}
 		return false;

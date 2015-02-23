@@ -3,11 +3,11 @@ package be.kuleuven.cs.distrinet.chameleon.workspace;
 import java.io.File;
 import java.io.InputStream;
 
-import be.kuleuven.cs.distrinet.chameleon.core.namespace.InputSourceNamespace;
+import be.kuleuven.cs.distrinet.chameleon.core.namespace.DocumentLoaderNamespace;
 
-public class LazyFileInputSource extends LazyStreamInputSource implements IFileInputSource {
+public class LazyFileDocumentLoader extends LazyStreamDocumentLoader implements IFileDocumentLoader {
 
-	public LazyFileInputSource(File file, String declarationName, InputSourceNamespace ns,DocumentScanner scanner) throws InputException {
+	public LazyFileDocumentLoader(File file, String declarationName, DocumentLoaderNamespace ns,DocumentScanner scanner) throws InputException {
 		_file = file;
 		init(declarationName, ns, scanner);
 	}

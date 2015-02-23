@@ -227,7 +227,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
 	
 	protected void initDirectCache() throws LookupException {
 		if(_declarationCache == null) {
-			// We don't want to trigger loading of lazy input sources to
+			// We don't want to trigger loading of lazy document loaders to
 			// build the cache of directly connected declarations.
 			_declarationCache = new HashMap<String, List<Declaration>>();
 //		  for(Declaration declaration: directDeclarations()) {

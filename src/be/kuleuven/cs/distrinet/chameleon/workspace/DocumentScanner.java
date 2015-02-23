@@ -13,7 +13,7 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 /**
  * An document scanner loads documents from a particular resource into the project.
- * A document scanner create an {@link InputSource} for each document in the
+ * A document scanner create an {@link DocumentLoader} for each document in the
  * resource that it manages. This resource could be a jar file, a directory,
  * a database,...
  * 
@@ -63,7 +63,7 @@ public interface DocumentScanner extends Comparable<DocumentScanner> {
 	public View view();
 	
 	/**
-	 * Return the input sources that are managed by this document scanner.
+	 * Return the document loaders that are managed by this document scanner.
 	 * @return
 	 */
  /*@
@@ -71,41 +71,60 @@ public interface DocumentScanner extends Comparable<DocumentScanner> {
    @
    @ post \result != null;
    @*/
-	public List<InputSource> inputSources();
+	public List<DocumentLoader> documentLoaders();
 	
 	/**
-	 * Return the number of input sources.
+	 * Return the number of document loaders.
 	 * @return
 	 */
  /*@
    @ public behavior
    @
-   @ post \result == inputSources().size();
+   @ post \result == documentLoaders().size();
    @*/
-	public int nbInputSources();
+	public int nbDocumentLoaders();
 	
+	/**
+	 * Return the documents that are managed by this document scanner.
+	 * This is an expensive operation since all managed documents will be
+	 * loaded. 
+	 * 
+	 * @return The documents that are managed by this document scanner.
+	 * @throws InputException A document could not be loaded.
+	 */
 	public List<Document> documents() throws InputException;
 	
 	/**
 	 * Add the given listener. The added listener will only be notified
 	 * of future events. If the listener should also be used to synchronize
-	 * a data structure with the collection of current input source, the
-	 * {@link #addAndSynchronizeListener(InputSourceListener)} method should be used. 
-	 * @param listener
+	 * a data structure with the collection of current document loader, the
+	 * {@link #addAndSynchronizeListener(DocumentLoaderListener)} method should be used.
+	 * 
+	 * @param listener The listener to be added.
 	 */
-	public void addListener(InputSourceListener listener);
+	public void addListener(DocumentLoaderListener listener);
 	
-	public void removeListener(InputSourceListener listener);
+   /**
+    * Remove the given listener. The added listener will no longer be notified
+    * of future events.
+    * 
+    * @param listener The listener to be removed.
+    */
+	public void removeListener(DocumentLoaderListener listener);
 
-	public List<InputSourceListener> inputSourceListeners();
+	/**
+	 * @return the listeners that listen for changes in the collection of
+	 *         document loaders.
+	 */
+	public List<DocumentLoaderListener> documentLoaderListeners();
 	
 	/**
-	 * Add the given listener, and send it an event for every input source. This
+	 * Add the given listener, and send it an event for every document loader. This
 	 * way no separate code must be written to update on a change, and perform the
 	 * initial synchronisation.
 	 * @param listener
 	 */
-	public void addAndSynchronizeListener(InputSourceListener listener);
+	public void addAndSynchronizeListener(DocumentLoaderListener listener);
 
 	/**
 	 * Return whether this document scanner is reponsible for loading a base library.
@@ -117,7 +136,7 @@ public interface DocumentScanner extends Comparable<DocumentScanner> {
 	public boolean isBaseScanner();
 	
 	/**
-	 * Add the given input source.
+	 * Add the given document loader.
 	 * @param source
 	 */
  /*@
@@ -128,7 +147,7 @@ public interface DocumentScanner extends Comparable<DocumentScanner> {
    @ post inputSources().contains(source);
    @ post inputSources().containsAll(\old(inputSources()));
    @*/
-	public void addInputSource(InputSource source);
+	public void add(DocumentLoader source);
 	
 	/**
 	 * Flush the cache of all documents loaded by this document scanner.

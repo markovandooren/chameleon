@@ -117,7 +117,7 @@ public abstract class AbstractZipScanner extends DocumentScannerImpl {
 	public void notifyContainerConnected(DocumentScannerContainer container) throws ProjectException {
 		try {
 			if(view() != null) {
-				createInputSources();
+				createDocumentLoaders();
 			}
 		} catch (Exception e) {
 			throw new ProjectException(e);
@@ -151,7 +151,7 @@ public abstract class AbstractZipScanner extends DocumentScannerImpl {
 		return names;
 	}
 	
-	protected void createInputSources() throws IOException, LookupException, InputException {
+	protected void createDocumentLoaders() throws IOException, LookupException, InputException {
 		ZipFile zip = zipFile();
   	List<Pair<Pair<String, String>, ZipEntry>> names = createNameMap(zip);
   	// The entries must be sorted first such that if an inner class in processed, its outer

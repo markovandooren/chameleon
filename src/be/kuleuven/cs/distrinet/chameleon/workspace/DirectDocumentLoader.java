@@ -8,13 +8,13 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.factory.Factory;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.namespace.InputSourceNamespace;
+import be.kuleuven.cs.distrinet.chameleon.core.namespace.DocumentLoaderNamespace;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 
-public class DirectInputSource extends InputSourceImpl {
+public class DirectDocumentLoader extends DocumentLoaderImpl {
 
-	public DirectInputSource(Declaration decl, String namespaceFQN, View view, DocumentScanner scanner) throws InputException {
+	public DirectDocumentLoader(Declaration decl, String namespaceFQN, View view, DocumentScanner scanner) throws InputException {
 		init(scanner);
 
 		if(decl == null) {
@@ -27,7 +27,7 @@ public class DirectInputSource extends InputSourceImpl {
 			throw new IllegalArgumentException("The given view is null.");
 		}
 		_declaration = decl;
-		InputSourceNamespace ns = (InputSourceNamespace) view.namespace().getOrCreateNamespace(namespaceFQN);
+		DocumentLoaderNamespace ns = (DocumentLoaderNamespace) view.namespace().getOrCreateNamespace(namespaceFQN);
 		setNamespace(ns);
 		Factory plugin = view.language().plugin(Factory.class);
 		NamespaceDeclaration nsd;
@@ -68,7 +68,7 @@ public class DirectInputSource extends InputSourceImpl {
 	}
 
 	/**
-	 * We don't do an actual refresh since the contents of the input source
+	 * We don't do an actual refresh since the contents of the document loader
 	 * was set directly.
 	 */
 	@Override

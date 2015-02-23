@@ -8,24 +8,24 @@ import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
-import be.kuleuven.cs.distrinet.chameleon.core.namespace.InputSourceNamespace;
+import be.kuleuven.cs.distrinet.chameleon.core.namespace.DocumentLoaderNamespace;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 /**
- * A default implementation for input sources.
+ * A default implementation for document loaders.
  * 
  * @author Marko van Dooren
  */
-public abstract class InputSourceImpl implements InputSource {
+public abstract class DocumentLoaderImpl implements DocumentLoader {
 	
 	protected void init(DocumentScanner scanner) {
 		setScanner(scanner);
 	}
 	
-	protected void init(InputSourceNamespace ns, DocumentScanner scanner) throws InputException {
+	protected void init(DocumentLoaderNamespace ns, DocumentScanner scanner) throws InputException {
 		init(scanner);
 		setNamespace(ns);
 	}
@@ -34,41 +34,41 @@ public abstract class InputSourceImpl implements InputSource {
 		if(scanner == null) {
 			throw new ChameleonProgrammerException();
 		}
-		scanner.addInputSource(this);
+		scanner.add(this);
 	}
 	
 	@Override
-   public void setNamespace(InputSourceNamespace ns) throws InputException {
-		ns.addInputSource(this);
+   public void setNamespace(DocumentLoaderNamespace ns) throws InputException {
+		ns.addDocumentLoader(this);
 	}
 	
 	@Override
-   public InputSourceNamespace namespace() {
+   public DocumentLoaderNamespace namespace() {
 		return _namespace.getOtherEnd();
 	}
 	
 	@Override
-   public SingleAssociation<InputSource, InputSourceNamespace> namespaceLink() {
+   public SingleAssociation<DocumentLoader, DocumentLoaderNamespace> namespaceLink() {
 		return _namespace;
 	}
 	
-	protected SingleAssociation<InputSource, InputSourceNamespace> _namespace = new SingleAssociation<InputSource, InputSourceNamespace>(this);
+	protected SingleAssociation<DocumentLoader, DocumentLoaderNamespace> _namespace = new SingleAssociation<DocumentLoader, DocumentLoaderNamespace>(this);
 
 	/**
 	 * Return a direct reference to the managed document. This may return null
 	 * as this method does not load the document. If that is required, use 
 	 * {@link #document()} instead.
 	 * 
-	 * @return the document that is managed by this input source.
+	 * @return the document that is managed by this document loader.
 	 */
 	protected Document rawDocument() {
 		return _document.getOtherEnd();
 	}
 	
 //	/**
-//	 * Loads ({@link #load()}) and returns the document managed by this input source.
+//	 * Loads ({@link #load()}) and returns the document managed by this document loader.
 //	 * 
-//	 * @return the document managed by this input source.
+//	 * @return the document managed by this document loader.
 //	 * @throws InputException
 //	 */
 //	public Document document() throws InputException {
@@ -76,13 +76,13 @@ public abstract class InputSourceImpl implements InputSource {
 //	}
 		
 	/**
-	 * Set the document managed by this input source.
+	 * Set the document managed by this document loader.
 	 * 
-	 * @param document The document that is managed by this input source.
+	 * @param document The document that is managed by this document loader.
 	 */
 	protected void setDocument(Document document) {
 		if(document != null) {
-			_document.connectTo(document.inputSourceLink());
+			_document.connectTo(document.loaderLink());
 		} else {
 			_document.connectTo(null);
 		}
@@ -140,7 +140,7 @@ public abstract class InputSourceImpl implements InputSource {
 		}
 	}
 	
-	protected SingleAssociation<InputSourceImpl, Document> _document = new SingleAssociation<InputSourceImpl, Document>(this);
+	protected SingleAssociation<DocumentLoaderImpl, Document> _document = new SingleAssociation<DocumentLoaderImpl, Document>(this);
 	
 	@Override
    public DocumentScanner scanner() {
@@ -148,11 +148,11 @@ public abstract class InputSourceImpl implements InputSource {
 	}
 	
 	@Override
-   public SingleAssociation<InputSource, DocumentScanner> scannerLink() {
+   public SingleAssociation<DocumentLoader, DocumentScanner> scannerLink() {
 		return _scanner;
 	}
 	
-	protected SingleAssociation<InputSource, DocumentScanner> _scanner = new SingleAssociation<InputSource, DocumentScanner>(this);
+	protected SingleAssociation<DocumentLoader, DocumentScanner> _scanner = new SingleAssociation<DocumentLoader, DocumentScanner>(this);
 	
 	@Override
 	public List<Declaration> targetDeclarations(String name) throws LookupException {
@@ -172,7 +172,7 @@ public abstract class InputSourceImpl implements InputSource {
 			}
 			return result;
 		} else {
-			throw new LookupException("No target declarations are defined in input source "+toString());
+			throw new LookupException("No target declarations are defined in document loader "+toString());
 		}
 	}
 
@@ -196,7 +196,7 @@ public abstract class InputSourceImpl implements InputSource {
 		// Since we load the file anyway, we know that it doesn't contain namespace declarations. If that
 		// changes, the document must have changed, and any loaded namespace declarations will be activated.
 		
-		//throw new InputException("No target declarations are defined in input source "+toString());
+		//throw new InputException("No target declarations are defined in document loader "+toString());
 		return Collections.EMPTY_LIST;
 	}
 
@@ -229,19 +229,13 @@ public abstract class InputSourceImpl implements InputSource {
 		}
 	}
 	
-//	protected void notifyUnloaded(Document document) {
-//		for(DocumentLoadingListener listener: _listeners) {
-//			listener.notifyUnloaded(document);
-//		}
-//	}
-	
 	private List<DocumentLoadingListener> _listeners;
 	
 	@Override
 	public void destroy() {
 		// This will break down the bidirectional association with the namespace
 		// the association end of the namespace will send an event to the namespace
-		// which will then remove this input source from its caches.
+		// which will then remove this document loader from its caches.
 		_namespace.clear();
 		_scanner.clear();
 		_document.clear();
@@ -249,11 +243,14 @@ public abstract class InputSourceImpl implements InputSource {
 	}
 	
 	/**
-	 * Compare this input source with the given other input source. An input source
-	 * that is bigger than another has priority
+	 * Compare this document loader with the given other document loader. 
+	 * A document loader that is bigger than another has a higher priority.
+	 * 
+	 * FIXME: this is a bad design. A document scanner path (similar to classpath)
+	 * or a proper module system is needed.
 	 */
 	@Override
-   public int compareTo(InputSource other) {
+   public int compareTo(DocumentLoader other) {
 		if(other == null) {
 			// I know that I should throw an exception,
 			// but I want to make it robust.

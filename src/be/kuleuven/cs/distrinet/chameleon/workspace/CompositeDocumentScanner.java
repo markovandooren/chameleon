@@ -72,10 +72,10 @@ public class CompositeDocumentScanner extends DocumentScannerImpl implements Doc
 	}
 	
 	@Override
-	public int nbInputSources() {
+	public int nbDocumentLoaders() {
 		int result = 0;
 		for(DocumentScanner scanner: scanners()) {
-			result += scanner.nbInputSources();
+			result += scanner.nbDocumentLoaders();
 		}
 		return result;
 	}
@@ -86,14 +86,14 @@ public class CompositeDocumentScanner extends DocumentScannerImpl implements Doc
 	}
 	
 	@Override
-	public void addAndSynchronizeListener(InputSourceListener listener) {
+	public void addAndSynchronizeListener(DocumentLoaderListener listener) {
 		for(DocumentScanner scanner: scanners()) {
 			scanner.addAndSynchronizeListener(listener);
 		}
 	}
 	
 	@Override
-	public void addListener(InputSourceListener listener) {
+	public void addListener(DocumentLoaderListener listener) {
 		super.addListener(listener);
 		for(DocumentScanner scanner: scanners()) {
 			scanner.addListener(listener);
@@ -101,7 +101,7 @@ public class CompositeDocumentScanner extends DocumentScannerImpl implements Doc
 	}
 	
 	@Override
-	public void removeListener(InputSourceListener listener) {
+	public void removeListener(DocumentLoaderListener listener) {
 		super.removeListener(listener);
 		for(DocumentScanner scanner: scanners()) {
 			scanner.removeListener(listener);
@@ -125,10 +125,10 @@ public class CompositeDocumentScanner extends DocumentScannerImpl implements Doc
 	}
 	
 	@Override
-	public List<InputSource> inputSources() {
-		Builder<InputSource> builder = ImmutableList.builder();
+	public List<DocumentLoader> documentLoaders() {
+		Builder<DocumentLoader> builder = ImmutableList.builder();
 		for(DocumentScanner scanner: scanners()) {
-			builder.addAll(scanner.inputSources());
+			builder.addAll(scanner.documentLoaders());
 		}
 		return builder.build();
 	}

@@ -114,7 +114,7 @@ public class ProjectChangeListener implements IResourceChangeListener {
 								Document document = nature().chameleonDocumentOfFile(ifile);
 								try {
 									if(document != null) {
-										document.inputSource().refresh();
+										document.loader().refresh();
 									}
 								} catch(InputException exc) {
 									exc.printStackTrace();

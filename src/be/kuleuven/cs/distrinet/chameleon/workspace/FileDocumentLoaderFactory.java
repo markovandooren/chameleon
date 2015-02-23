@@ -4,10 +4,10 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import be.kuleuven.cs.distrinet.chameleon.core.namespace.InputSourceNamespace;
+import be.kuleuven.cs.distrinet.chameleon.core.namespace.DocumentLoaderNamespace;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 
-public class FileInputSourceFactory {
+public class FileDocumentLoaderFactory {
 
 	public void initialize(Namespace root) {
 //		_currentNamespace = root;
@@ -53,15 +53,15 @@ public class FileInputSourceFactory {
 		return _current;
 	}
 
-	public IFileInputSource create(File file, DirectoryScanner scanner) throws InputException {
-		IFileInputSource fileInputSource = doCreateInputSource(file,scanner);
-		InputSourceNamespace currentNamespace = (InputSourceNamespace) currentNamespace();
+	public IFileDocumentLoader create(File file, DirectoryScanner scanner) throws InputException {
+		IFileDocumentLoader fileDocumentLoader = doCreateDocumentLoader(file,scanner);
+		DocumentLoaderNamespace currentNamespace = (DocumentLoaderNamespace) currentNamespace();
 		System.out.println("Adding file: "+file.getAbsolutePath()+ " to namespace "+currentNamespace.getFullyQualifiedName());
-		fileInputSource.setNamespace(currentNamespace);
-		return fileInputSource;
+		fileDocumentLoader.setNamespace(currentNamespace);
+		return fileDocumentLoader;
 	}
 
-	protected IFileInputSource doCreateInputSource(File file, DirectoryScanner scanner) throws InputException {
-		return new FileInputSource(file,scanner);
+	protected IFileDocumentLoader doCreateDocumentLoader(File file, DirectoryScanner scanner) throws InputException {
+		return new FileDocumentLoader(file,scanner);
 	}
 }

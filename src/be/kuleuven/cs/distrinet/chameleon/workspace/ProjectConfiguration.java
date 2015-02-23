@@ -30,7 +30,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 	 * Create a new project configuration object for a project with the given name
 	 * and the given project root directory. A new {@link Project} object is created
 	 * and the given view is added to the project. The new project configuration also refers 
-	 * to the given view, and uses the given file input source factory to load files
+	 * to the given view, and uses the given file document loader factory to load files
 	 * in source directories.
 	 * 
 	 * The project configuration attaches itself to the given view to update its field
@@ -40,7 +40,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 	 * @param projectName The name of the project being initialized.
 	 * @param root The root directory of the project being initialized.
 	 * @param view The view of the project being initialized.
-	 * @param factory The file input source factory used to read source files.
+	 * @param factory The file document loader factory used to read source files.
 	 */
  /*@
    @ public behavior
@@ -56,9 +56,9 @@ public abstract class ProjectConfiguration extends ConfigElement {
    @ post project().root() == root;
    @ post project().views().contains(view);
    @ post view() == view;
-   @ post fileInputSourceFactory = factory;
+   @ post fileDocumentLoaderFactory () == factory;
    @*/
-	public ProjectConfiguration(View view, FileInputSourceFactory factory) {
+	public ProjectConfiguration(View view, FileDocumentLoaderFactory factory) {
 		_view = view;
 		_factory = factory;
 		Project project = view.project();
@@ -253,10 +253,10 @@ public abstract class ProjectConfiguration extends ConfigElement {
 		project().setName(name);
 	}
 	
-	private FileInputSourceFactory _factory;
+	private FileDocumentLoaderFactory _factory;
 	
 	/**
-	 * Return the file input source factory used to load source files of this
+	 * Return the file document loader factory used to load source files of this
 	 * project.
 	 */
  /*@
@@ -264,7 +264,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
    @
    @ post \result != null;
    @*/
-	protected FileInputSourceFactory fileInputSourceFactory() {
+	protected FileDocumentLoaderFactory fileDocumentLoaderFactory() {
 		return _factory;
 	}
 	
@@ -307,7 +307,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 			@Override
          protected void $after() throws ConfigException {
 				try {
-					DirectoryScanner scanner = createScanner(fileInputSourceFactory());
+					DirectoryScanner scanner = createScanner(fileDocumentLoaderFactory());
 					view().addSource(scanner);
 					setModelElement(scanner);
 				} catch (ProjectException e) {
@@ -343,7 +343,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 			@Override
          protected void $after() throws ConfigException {
 				try {
-					view().addBinary(createScanner(fileInputSourceFactory()));
+					view().addBinary(createScanner(fileDocumentLoaderFactory()));
 				} catch (ProjectException e) {
 					throw new ConfigException(e);
 				}
@@ -390,7 +390,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 			_path = directoryScanner.path();
 		}
 
-		protected DirectoryScanner createScanner(FileInputSourceFactory factory) {
+		protected DirectoryScanner createScanner(FileDocumentLoaderFactory factory) {
 			return new DirectoryScanner(_path, fileNameFilter(),factory);
 		}
 		

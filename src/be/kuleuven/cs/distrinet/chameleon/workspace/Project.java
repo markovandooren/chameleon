@@ -271,18 +271,6 @@ public class Project {
    //		return result;
    //	}
 
-
-
-   //	/**
-   //	 * Refresh the project. This performs a refresh on all 
-   //	 * input sources.
-   //	 */
-   //	public void refresh() throws ParseException, IOException {
-   //		for(InputSource input: _inputSources) {
-   //			input.refresh();
-   //		}
-   //	}
-
    /**
     * Try to add the given file to the project. Each FileScanner in each view
     * will be given the opportunity to add the file. The source caches
@@ -294,8 +282,8 @@ public class Project {
     *        
     * @param file The file to be added.
     */
-   public IFileInputSource tryToAdd(File file) {
-      IFileInputSource result = null;
+   public IFileDocumentLoader tryToAdd(File file) {
+      IFileDocumentLoader result = null;
       List<View> views = views();
       int nbViews = views.size();
       for(int j = 0; result == null && j< nbViews; j++) {

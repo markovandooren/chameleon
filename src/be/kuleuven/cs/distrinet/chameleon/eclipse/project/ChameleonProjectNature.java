@@ -45,11 +45,12 @@ import be.kuleuven.cs.distrinet.chameleon.input.SourceManager;
 import be.kuleuven.cs.distrinet.chameleon.workspace.BootstrapProjectConfig;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ConfigException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentScanner;
+import be.kuleuven.cs.distrinet.chameleon.workspace.FileDocumentLoader;
 import be.kuleuven.cs.distrinet.chameleon.workspace.FileScanner;
-import be.kuleuven.cs.distrinet.chameleon.workspace.IFileInputSource;
+import be.kuleuven.cs.distrinet.chameleon.workspace.IFileDocumentLoader;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
-import be.kuleuven.cs.distrinet.chameleon.workspace.InputSource;
-import be.kuleuven.cs.distrinet.chameleon.workspace.InputSourceListener;
+import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
+import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoaderListener;
 import be.kuleuven.cs.distrinet.chameleon.workspace.LanguageRepository;
 import be.kuleuven.cs.distrinet.chameleon.workspace.Project;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectInitialisationListener;
@@ -70,25 +71,25 @@ public class ChameleonProjectNature implements IProjectNature {
    
 	/**
 	 * This listener synchronizes the list of ChameleonDocuments with the 
-	 * FileInputSources in the source scanners of the project.
+	 * {@link FileDocumentLoader}s in the source scanners of the project.
 	 * 
 	 * @author Marko van Dooren
 	 */
-	public class EclipseInputSourceListener implements InputSourceListener {
+	public class EclipseDocumentLoaderListener implements DocumentLoaderListener {
 
 		/**
 		 * Explicit empty default constructor so we can see who invokes it.
 		 */
-		public EclipseInputSourceListener() {
+		public EclipseDocumentLoaderListener() {
 
 		}
 
-		protected IPath toPath(IFileInputSource fileSource) {
+		protected IPath toPath(IFileDocumentLoader fileSource) {
 			IFile ifile = toFile(fileSource);
 			return ifile.getFullPath();
 		}
 
-		protected IFile toFile(IFileInputSource fileSource) {
+		protected IFile toFile(IFileDocumentLoader fileSource) {
 			File file = fileSource.file();
 			IWorkspace workspace= ResourcesPlugin.getWorkspace();
 			IPath location= Path.fromOSString(file.getAbsolutePath());
@@ -97,9 +98,9 @@ public class ChameleonProjectNature implements IProjectNature {
 		}
 
 		@Override
-		public void notifyInputSourceRemoved(InputSource source) {
-			if(source instanceof IFileInputSource) {
-				IFileInputSource fileSource = (IFileInputSource) source;
+		public void notifyDocumentLoaderRemoved(DocumentLoader source) {
+			if(source instanceof IFileDocumentLoader) {
+				IFileDocumentLoader fileSource = (IFileDocumentLoader) source;
 				EclipseDocument doc = documentOfPath(toPath(fileSource));
 				_eclipseDocuments.remove(doc);
 				doc.destroy();
@@ -107,11 +108,11 @@ public class ChameleonProjectNature implements IProjectNature {
 		}
 
 		@Override
-		public void notifyInputSourceAdded(InputSource source) {
-			if(source instanceof IFileInputSource) {
-				IFileInputSource fileSource = (IFileInputSource) source;
-				//FIXME Let the document listen to "the" input source
-				//      fileSource.document() is null when lazy loading is used and the document hasn't been needed yet.
+		public void notifyDocumentLoaderAdded(DocumentLoader source) {
+			if(source instanceof IFileDocumentLoader) {
+				IFileDocumentLoader fileSource = (IFileDocumentLoader) source;
+				//FIXME Let the document listen to "the" document loader
+				//      documentLoader.document() is null when lazy loading is used and the document hasn't been needed yet.
 				addToModel(new EclipseDocument(ChameleonProjectNature.this,fileSource,toFile(fileSource),toPath(fileSource)));
 			}
 		}
@@ -279,13 +280,13 @@ public class ChameleonProjectNature implements IProjectNature {
 		try {
 			IPath location = project.getLocation();
 			Project result = null;
-			final EclipseInputSourceListener listener = new EclipseInputSourceListener();
+			final EclipseDocumentLoaderListener listener = new EclipseDocumentLoaderListener();
 			BootstrapProjectConfig bootstrapProjectConfig = new BootstrapProjectConfig(workspace());
 			result = bootstrapProjectConfig.project(new File(location+"/"+CHAMELEON_PROJECT_FILE), new ProjectInitialisationListener(){
 				@Override
 				public void viewAdded(View view) {
 					// Attach listeners for document scanners which attaches
-					// the listeners for the input sources.
+					// the listeners for the document loaders.
 					view.addListener(new ViewListener(){
 						@Override
 						public void sourceScannerAdded(DocumentScanner scanner) {
@@ -406,7 +407,7 @@ public class ChameleonProjectNature implements IProjectNature {
 			Document cu = element.nearestAncestorOrSelf(Document.class);
 			for(EclipseDocument doc : _eclipseDocuments) {
 				//				if(doc.chameleonDocument().equals(cu)) {
-				if(doc.inputSource().equals(cu.inputSource())) {
+				if(doc.loader().equals(cu.loader())) {
 					return doc;
 				}
 			}

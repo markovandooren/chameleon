@@ -2,13 +2,13 @@ package be.kuleuven.cs.distrinet.chameleon.workspace;
 
 import java.io.InputStream;
 
-import be.kuleuven.cs.distrinet.chameleon.core.namespace.InputSourceNamespace;
+import be.kuleuven.cs.distrinet.chameleon.core.namespace.DocumentLoaderNamespace;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 
-public class LazyReadOnceStreamInputSource extends LazyStreamInputSource {
+public class LazyReadOnceStreamDocumentLoader extends LazyStreamDocumentLoader {
 
-	public LazyReadOnceStreamInputSource(InputStream stream,
-			String declarationName, InputSourceNamespace ns, DocumentScanner scanner)
+	public LazyReadOnceStreamDocumentLoader(InputStream stream,
+			String declarationName, DocumentLoaderNamespace ns, DocumentScanner scanner)
 			throws InputException {
 		super(declarationName, ns, scanner);
 		_stream = stream;
@@ -22,9 +22,9 @@ public class LazyReadOnceStreamInputSource extends LazyStreamInputSource {
 	}
 	
 	@Override
-	public LazyReadOnceStreamInputSource clone() {
+	public LazyReadOnceStreamDocumentLoader clone() {
 		try {
-			return new LazyReadOnceStreamInputSource(inputStream(),declarationName(),null,null);
+			return new LazyReadOnceStreamDocumentLoader(inputStream(),declarationName(),null,null);
 		} catch (InputException e) {
 			throw new ChameleonProgrammerException(e);
 		}

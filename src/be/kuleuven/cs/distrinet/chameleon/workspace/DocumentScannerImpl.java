@@ -159,9 +159,9 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
 		return view().project();
 	}
 
-	private OrderedMultiAssociation<DocumentScannerImpl, InputSource> _inputSources = new OrderedMultiAssociation<DocumentScannerImpl, InputSource>(this) {
+	private OrderedMultiAssociation<DocumentScannerImpl, DocumentLoader> _documentLoaders = new OrderedMultiAssociation<DocumentScannerImpl, DocumentLoader>(this) {
 		@Override
-      protected void fireElementAdded(InputSource addedElement) {
+      protected void fireElementAdded(DocumentLoader addedElement) {
 			flushLocalCache();
 			notifyAdded(addedElement);
 			super.fireElementAdded(addedElement);
@@ -169,14 +169,14 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
 		};
 		
 		@Override
-      protected void fireElementRemoved(InputSource addedElement) {
+      protected void fireElementRemoved(DocumentLoader addedElement) {
 			flushLocalCache();
 			notifyRemoved(addedElement);
 			super.fireElementRemoved(addedElement);
 		};
 		
 		@Override
-      protected void fireElementReplaced(InputSource oldElement, InputSource newElement) {
+      protected void fireElementReplaced(DocumentLoader oldElement, DocumentLoader newElement) {
 			flushLocalCache();
 			notifyAdded(oldElement);
 			notifyRemoved(newElement);
@@ -186,7 +186,7 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
 	
 
 	/**
-	 * Add the given input source.
+	 * Add the given document loader.
 	 * @param source
 	 */
 	/*@
@@ -194,34 +194,33 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
    @
    @ pre source != null;
    @
-   @ post inputSources().contains(source);
-   @ post inputSources().containsAll(\old(inputSources()));
+   @ post documentLoaders().contains(source);
+   @ post documentLoaders().containsAll(\old(documentLoaders()));
    @*/
 	@Override
-   public void addInputSource(InputSource source) {
+   public void add(DocumentLoader source) {
 		// The Association object will send the event and the attached listener
-		// will invoke notifyAdded(InputSource).
-		//		System.out.println("Adding "+source);
-		Contracts.check(canAddInputSource(source), "The given input source cannot be handled by this scanner.");
+		// will invoke notifyAdded(DocumentLoader).
+		Contracts.check(canAddDocumentLoader(source), "The given document loader cannot be handled by this scanner.");
 		if(source != null) {
-			_inputSources.add(source.scannerLink());
+			_documentLoaders.add(source.scannerLink());
 		}
 	}
 
-	public boolean canAddInputSource(InputSource source) {
+	public boolean canAddDocumentLoader(DocumentLoader source) {
 		return true;
 	}
 
 	@Override
-	public List<InputSource> inputSources() {
-		return _inputSources.getOtherEnds();
+	public List<DocumentLoader> documentLoaders() {
+		return _documentLoaders.getOtherEnds();
 	}
 
 	@Override
    public List<Document> documents() throws InputException {
 		if(_documentsCache == null) {
 			Builder<Document> builder = ImmutableList.<Document>builder();
-			for(InputSource source: inputSources()) {
+			for(DocumentLoader source: documentLoaders()) {
 				builder.add(source.load());
 			}
 			_documentsCache = builder.build();
@@ -243,50 +242,50 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
 	 * 
 	 * @param source The document loader to be removed.ƒ
 	 */
-	public void removeInputSource(InputSource source) {
+	public void remove(DocumentLoader source) {
 		// The Association object will send the event and the attached listener
-		// will invoke notifyRemoved(InputSource).
+		// will invoke notifyRemoved(DocumentLoader).
 		if(source != null) {
-			_inputSources.remove(source.scannerLink());
+			_documentLoaders.remove(source.scannerLink());
 		}
 		source.destroy();
 	}
 
 	@Override
-   public void addListener(InputSourceListener listener) {
+   public void addListener(DocumentLoaderListener listener) {
 		_listeners.add(listener);
 	}
 
 	@Override
-   public void removeListener(InputSourceListener listener) {
+   public void removeListener(DocumentLoaderListener listener) {
 		_listeners.remove(listener);
 	}
 
 	@Override
-   public List<InputSourceListener> inputSourceListeners() {
-		return new ArrayList<InputSourceListener>(_listeners);
+   public List<DocumentLoaderListener> documentLoaderListeners() {
+		return new ArrayList<DocumentLoaderListener>(_listeners);
 	}
 
-	private List<InputSourceListener> _listeners = new ArrayList<InputSourceListener>();
+	private List<DocumentLoaderListener> _listeners = new ArrayList<DocumentLoaderListener>();
 
-	private void notifyAdded(InputSource source) {
+	private void notifyAdded(DocumentLoader source) {
 		flushLocalCache();
-		for(InputSourceListener listener: inputSourceListeners()) {
-			listener.notifyInputSourceAdded(source);
+		for(DocumentLoaderListener listener: documentLoaderListeners()) {
+			listener.notifyDocumentLoaderAdded(source);
 		}
 	}
 
-	private void notifyRemoved(InputSource source) {
+	private void notifyRemoved(DocumentLoader source) {
 		flushLocalCache();
-		for(InputSourceListener listener: inputSourceListeners()) {
-			listener.notifyInputSourceRemoved(source);
+		for(DocumentLoaderListener listener: documentLoaderListeners()) {
+			listener.notifyDocumentLoaderRemoved(source);
 		}
 	}
 
 	@Override
-	public void addAndSynchronizeListener(InputSourceListener listener) {
+	public void addAndSynchronizeListener(DocumentLoaderListener listener) {
 		addListener(listener);
-		for(InputSource source: inputSources()) {
+		for(DocumentLoader source: documentLoaders()) {
 			notifyAdded(source);
 		}
 	}
@@ -299,7 +298,7 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
 	@Override
 	public void flushCache() {
 		flushLocalCache();
-		for(InputSource source:inputSources()) {
+		for(DocumentLoader source:documentLoaders()) {
 			source.flushCache();
 		}
 	}
@@ -324,7 +323,7 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
 	@Override
    public List<Namespace> topLevelNamespaces() {
 		ImmutableSet.Builder<Namespace> builder = ImmutableSet.<Namespace>builder();
-		for(InputSource source: inputSources()) {
+		for(DocumentLoader source: documentLoaders()) {
 			Namespace namespace = source.namespace();
 			boolean added = false;
 			while(! added) { 
@@ -344,7 +343,7 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
    public Set<Namespace> namespaces() {
 		if(_namespaceCache == null) {
 			ImmutableSet.Builder<Namespace> builder = ImmutableSet.<Namespace>builder();
-			for(InputSource source: inputSources()) {
+			for(DocumentLoader source: documentLoaders()) {
 				builder.add(source.namespace());
 			}
 			_namespaceCache = builder.build(); 
@@ -355,8 +354,8 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
 	private Set<Namespace> _namespaceCache;
 
 	@Override
-	public int nbInputSources() {
-		return _inputSources.size();
+	public int nbDocumentLoaders() {
+		return _documentLoaders.size();
 	}
 
 	/**

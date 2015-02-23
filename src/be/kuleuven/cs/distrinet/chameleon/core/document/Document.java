@@ -15,8 +15,8 @@ import be.kuleuven.cs.distrinet.chameleon.util.association.Multi;
 import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentScanner;
 import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentScannerImpl;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
-import be.kuleuven.cs.distrinet.chameleon.workspace.InputSource;
-import be.kuleuven.cs.distrinet.chameleon.workspace.InputSourceImpl;
+import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
+import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoaderImpl;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ProjectException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.View;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
@@ -30,7 +30,7 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
  * does not explicitly mention a general namespace (such as Eiffel), a namespace declaration should be used that
  * puts its contents in the root namespace.</p>
  * 
- * <p>Each document is linked to the {@link InputSource} that is responsible for populating the document. The
+ * <p>Each document is linked to the {@link DocumentLoader} that is responsible for populating the document. The
  * document only connects itself to a model after invoking ({@link #activate()})! This is done automatically when
  * a document is loaded by the lookup mechanism and when it is reparsed.</p>
  * 
@@ -141,7 +141,7 @@ public class Document extends ElementImpl {
     }
 
     //TODO Document why this implementation differs from the default and does not go via
-    //     the input source.
+    //     the document loader.
     @Override
    public Language language() {
         List<NamespaceDeclaration> parts = namespaceDeclarations();
@@ -166,15 +166,15 @@ public class Document extends ElementImpl {
         return Valid.create();
     }
 
-    private static class FakeInputSource extends InputSourceImpl {
+    private static class FakeDocumentLoader extends DocumentLoaderImpl {
 
-        public FakeInputSource(Document document, DocumentScanner scanner) {
+        public FakeDocumentLoader(Document document, DocumentScanner scanner) {
             init(scanner);
             setDocument(document);
         }
 
         /**
-         * We do nothing for a fake input source. The content was set directly.
+         * We do nothing for a fake document loader. The content was set directly.
          */
         @Override
         public void doRefresh() throws InputException {
@@ -195,7 +195,7 @@ public class Document extends ElementImpl {
         Document clone = clone(this);
         //		Document clone = (Document) clone();
         FakeDocumentScanner pl = new FakeDocumentScanner();
-        InputSource is = new FakeInputSource(clone,pl);
+        DocumentLoader is = new FakeDocumentLoader(clone,pl);
         for(NamespaceDeclaration decl: descendants(NamespaceDeclaration.class)) {
             view.namespace().getOrCreateNamespace(decl.namespace().getFullyQualifiedName());
         }
@@ -208,30 +208,30 @@ public class Document extends ElementImpl {
         return clone;
     }
 
-    public SingleAssociation<Document, InputSource> inputSourceLink() {
-        return _inputSource;
+    public SingleAssociation<Document, DocumentLoader> loaderLink() {
+        return _loader;
     }
 
     /**
-     * Return the input source that is responsible for loading the contents of this document.
+     * Return the document loader that is responsible for loading the contents of this document.
      * @return
      */
-    public InputSource inputSource() {
-        return _inputSource.getOtherEnd();
+    public DocumentLoader loader() {
+        return _loader.getOtherEnd();
     }
 
-    protected SingleAssociation<Document, InputSource> _inputSource = new SingleAssociation<Document, InputSource>(this);
+    protected SingleAssociation<Document, DocumentLoader> _loader = new SingleAssociation<Document, DocumentLoader>(this);
 
     /**
-     * The view of a document is the view to which its input source is connected.
+     * The view of a document is the view to which its document loader is connected.
      */
     /*@
    @ public behavior
    @
-   @ post \result == inputSource().view();
+   @ post \result == documentLoader().view();
    @*/
     @Override 
     public View view() {
-        return inputSource().view();
+        return loader().view();
     }
 }

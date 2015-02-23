@@ -29,12 +29,12 @@ public class DirectoryScanner extends DocumentScannerImpl implements FileScanner
 	
 
 	/**
-	 * Create a new directory scanner for the given root directory, input source factor,
+	 * Create a new directory scanner for the given root directory, document loader factory,
 	 * file filter, and base scanner setting.
 	 * 
 	 * @param root The path of the root directory from which elements must be loaded.
 	 * @param filter A filter that selects files in the zip file based on their paths.
-	 * @param factory The factory for the input sources.
+	 * @param factory The factory for the document loaders.
 	 */
  /*@
    @ public behavior
@@ -44,20 +44,20 @@ public class DirectoryScanner extends DocumentScannerImpl implements FileScanner
    @ post path() == root;
    @ post filter() == filter;
    @ post isBaseScanner() == false;
-   @ post inputSourceFactor() == factory;
+   @ post documentLoaderFactor() == factory;
    @*/
-	public DirectoryScanner(String root, Predicate<? super String,Nothing> filter, FileInputSourceFactory factory) {
+	public DirectoryScanner(String root, Predicate<? super String,Nothing> filter, FileDocumentLoaderFactory factory) {
 		this(root, filter, false, factory);
 	}
 
 	/**
-	 * Create a new directory scanner for the given root directory, input source factor,
+	 * Create a new directory scanner for the given root directory, document loader factory,
 	 * file filter, and base scanner setting.
 	 * 
 	 * @param root The path of the root directory from which elements must be loaded.
 	 * @param filter A filter that selects files in the zip file based on their paths.
 	 * @param isBaseScanner Indicates whether the scanner is responsible for scanning a base library.
-    * @param factory The factory for the input sources.
+    * @param factory The factory for the document loaders.
 	 */
  /*@
    @ public behavior
@@ -67,12 +67,12 @@ public class DirectoryScanner extends DocumentScannerImpl implements FileScanner
    @ post path() == root;
    @ post filter() == filter;
    @ post isBaseScanner() == isBaseScanner;
-   @ post inputSourceFactor() == factory;
+   @ post documentLoaderFactor() == factory;
    @*/
-	public DirectoryScanner(String root, Predicate<? super String,Nothing> filter, boolean isBaseScanner, FileInputSourceFactory factory) {
+	public DirectoryScanner(String root, Predicate<? super String,Nothing> filter, boolean isBaseScanner, FileDocumentLoaderFactory factory) {
 		super(isBaseScanner);
 		setPath(root);
-		setInputSourceFactory(factory);
+		setDocumentLoaderFactory(factory);
 		setFilter(filter);
 	}
 	
@@ -104,11 +104,11 @@ public class DirectoryScanner extends DocumentScannerImpl implements FileScanner
 		}
 	}
 
-	private void setInputSourceFactory(FileInputSourceFactory factory) {
+	private void setDocumentLoaderFactory(FileDocumentLoaderFactory factory) {
 		if(factory == null) {
-			throw new IllegalArgumentException("The given file input source factory is null.");
+			throw new IllegalArgumentException("The given file document loader factory is null.");
 		}
-		_inputSourceFactory = factory;
+		_documentLoaderFactory = factory;
 	}
 	
 	private File _root;
@@ -149,17 +149,17 @@ public class DirectoryScanner extends DocumentScannerImpl implements FileScanner
 	}
 	
 	/**
-	 * @return The input source factory.
+	 * @return The document loader factory.
 	 */
-	public FileInputSourceFactory inputSourceFactory() {
-		return _inputSourceFactory;
+	public FileDocumentLoaderFactory documentLoaderFactory() {
+		return _documentLoaderFactory;
 	}
 
-	private FileInputSourceFactory _inputSourceFactory;
+	private FileDocumentLoaderFactory _documentLoaderFactory;
 	
 	
 	private void includeCustom() throws ProjectException {
-		inputSourceFactory().initialize(view().namespace());
+		documentLoaderFactory().initialize(view().namespace());
 		doIncludeCustom(root());
 	}
 
@@ -201,11 +201,11 @@ public class DirectoryScanner extends DocumentScannerImpl implements FileScanner
       if (subdirs != null) {
          for (File subDir : subdirs) {
             // push dir
-            inputSourceFactory().pushDirectory(subDir.getName());
+            documentLoaderFactory().pushDirectory(subDir.getName());
             // recurse
             doIncludeCustom(subDir);
             // pop dir
-            inputSourceFactory().popDirectory();
+            documentLoaderFactory().popDirectory();
          }
       }
    }
@@ -285,12 +285,12 @@ public class DirectoryScanner extends DocumentScannerImpl implements FileScanner
 	 * @throws RecognitionException 
 	 */
 	private void addToModel(File file) throws InputException {
-    addInputSource(inputSourceFactory().create(file,this));
+    add(documentLoaderFactory().create(file,this));
 	}
 
 	@Override
-	public synchronized IFileInputSource tryToAdd(File file) throws InputException {
-		IFileInputSource result = null;
+	public synchronized IFileDocumentLoader tryToAdd(File file) throws InputException {
+		IFileDocumentLoader result = null;
 		try {
 			if(responsibleFor(file) && ! file.isHidden()) {
 				File relative = file.getParentFile();
@@ -304,33 +304,33 @@ public class DirectoryScanner extends DocumentScannerImpl implements FileScanner
 					relative = relative.getParentFile();
 				}
 				if(relative != null) {
-//					_inputSourceFactory.resetToRoot();
+//					_documentLoaderFactory.resetToRoot();
 					int size = names.size();
 					for(int i = size - 1; i >= 0; i--) {
-						_inputSourceFactory.pushDirectory(names.get(i));
+						_documentLoaderFactory.pushDirectory(names.get(i));
 					}
-					result = _inputSourceFactory.create(file,this);		
+					result = _documentLoaderFactory.create(file,this);		
 				}
 			}
 		}
 		finally {
-			_inputSourceFactory.initialize(view().namespace());
+			_documentLoaderFactory.initialize(view().namespace());
 		}
 		return result;
 	}
 	
 	@Override
 	public synchronized void tryToRemove(File file) throws InputException {
-		InputSource toRemove = null;
-		for(InputSource source: inputSources()) {
-			IFileInputSource fsource = ((IFileInputSource)source);
+		DocumentLoader toRemove = null;
+		for(DocumentLoader source: documentLoaders()) {
+			IFileDocumentLoader fsource = ((IFileDocumentLoader)source);
 			if(fsource.file().equals(file)) {
 				toRemove = source; 
 				break;
 			}
 		}
 		if(toRemove != null) {
-			removeInputSource(toRemove);
+			remove(toRemove);
 		}
 	}
 	
@@ -357,15 +357,15 @@ public class DirectoryScanner extends DocumentScannerImpl implements FileScanner
 	}
 	
 	@Override
-	public boolean canAddInputSource(InputSource source) {
-		return source instanceof IFileInputSource;
+	public boolean canAddDocumentLoader(DocumentLoader source) {
+		return source instanceof IFileDocumentLoader;
 	}
 	
 	@Override
 	public Document documentOf(File absoluteFile) throws InputException {
-		for(InputSource source: inputSources()) {
-			//Safe cast since we control the addition of input sources.
-			IFileInputSource s = (IFileInputSource) source;
+		for(DocumentLoader source: documentLoaders()) {
+			//Safe cast since we control the addition of document loaders.
+			IFileDocumentLoader s = (IFileDocumentLoader) source;
 			if(s.file().equals(absoluteFile)) {
 				return s.load();
 			}

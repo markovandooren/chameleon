@@ -9,7 +9,7 @@ import java.io.InputStream;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.input.ModelFactory;
 
-public abstract class StreamInputSource extends InputSourceImpl {
+public abstract class StreamDocumentLoader extends DocumentLoaderImpl {
 
 	protected InputStream convert(File file) throws InputException {
 		try {

@@ -46,7 +46,7 @@ import be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature
 import be.kuleuven.cs.distrinet.chameleon.input.ParseProblem;
 import be.kuleuven.cs.distrinet.chameleon.input.PositionMetadata;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
-import be.kuleuven.cs.distrinet.chameleon.workspace.InputSource;
+import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentLoader;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
@@ -65,7 +65,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 public class EclipseDocument extends org.eclipse.jface.text.Document {
 	
 	//The compilation unit of the document
-	private InputSource _inputSource;
+	private DocumentLoader _loader;
 	
 	//manages the presentation
 	private PresentationManager _presentationManager;
@@ -92,9 +92,9 @@ public class EclipseDocument extends org.eclipse.jface.text.Document {
 	 * @param file 
 	 *
 	 */
-	public EclipseDocument(ChameleonProjectNature projectNature, InputSource source, IFile file, IPath path){
+	public EclipseDocument(ChameleonProjectNature projectNature, DocumentLoader source, IFile file, IPath path){
 		//FIXME now the text isn't loaded at the proper moment.
-		_inputSource = source;
+		_loader = source;
 		if(projectNature==null){
 			ChameleonEditorPlugin.showMessageBox("Illegal project", "This document is part of an illegal project. \nCheck if the project is a Chameleon Project.", SWT.ICON_ERROR);
 		}
@@ -249,7 +249,7 @@ public class EclipseDocument extends org.eclipse.jface.text.Document {
 	public Document document() {
 		try {
 			parseFile();
-			return inputSource().load();
+			return loader().load();
 			// JAVA5
 		} catch (InputException e) {
 			//FIXME: properly handle this.
@@ -261,8 +261,8 @@ public class EclipseDocument extends org.eclipse.jface.text.Document {
 		}
 	}
 	
-	public InputSource inputSource() {
-		return _inputSource;
+	public DocumentLoader loader() {
+		return _loader;
 	}
 
 	/** 

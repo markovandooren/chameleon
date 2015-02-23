@@ -7,7 +7,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 
 public interface FileScanner extends DocumentScanner {
 
-	public IFileInputSource tryToAdd(File file) throws InputException;
+	public IFileDocumentLoader tryToAdd(File file) throws InputException;
 
 	public void tryToRemove(File file) throws InputException;
 
