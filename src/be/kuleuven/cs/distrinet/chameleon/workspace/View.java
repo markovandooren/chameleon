@@ -161,7 +161,7 @@ public class View extends PluginContainerImpl<ViewPlugin>
    @
    @ pre input != null;
    @
-   @ post ! inputSources().contains(input);
+   @ post ! documentLoaders().contains(input);
    @*/
 	public void addBinary(DocumentScanner scanner) throws ProjectException {
 		if(scanner != null) {
@@ -249,7 +249,7 @@ public class View extends PluginContainerImpl<ViewPlugin>
    @
    @ pre input != null;
    @
-   @ post ! inputSources().contains(input);
+   @ post ! documentLoaders().contains(input);
    @*/
 	public void addSource(DocumentScanner scanner) throws ProjectException {
 		if(scanner != null) {

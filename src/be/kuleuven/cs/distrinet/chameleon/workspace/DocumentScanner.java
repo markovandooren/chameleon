@@ -144,8 +144,8 @@ public interface DocumentScanner extends Comparable<DocumentScanner> {
    @
    @ pre source != null;
    @
-   @ post inputSources().contains(source);
-   @ post inputSources().containsAll(\old(inputSources()));
+   @ post documentLoaders().contains(source);
+   @ post documentLoaders().containsAll(\old(documentLoaders()));
    @*/
 	public void add(DocumentLoader source);
 	
