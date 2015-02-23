@@ -2,13 +2,9 @@ bin
 .DS_Store
 lib/*.jar
 dist
-scratchbook
+build
 .classpath
 .project
-ivy/ivy.properties
 properties
 *~
-/bin/
-/bin/
-/bin/
 /bin/
