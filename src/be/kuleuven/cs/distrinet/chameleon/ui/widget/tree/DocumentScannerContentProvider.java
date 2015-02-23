@@ -13,12 +13,8 @@ import com.google.common.collect.ImmutableList.Builder;
  * 
  * @author Marko van Dooren
  */
-public class DocumentLoaderContentProvider extends TreeNodeContentProvider<Object> {
+public class DocumentScannerContentProvider extends TreeNodeContentProvider<Object> {
 
-//	public LexicalTreeContentProvider() {
-//		super(TreeNode.class);
-//	}
-	
 	@Override
 	public TreeNode<?, Object> createNode(Object input) {
 		if(input instanceof Project) {
@@ -43,9 +39,9 @@ public class DocumentLoaderContentProvider extends TreeNodeContentProvider<Objec
 		
 	}
 	
-	public static abstract class LoaderGroupNode extends TreeNode<Project,Object> {
+	public static abstract class ScannerGroupNode extends TreeNode<Project,Object> {
 
-		public LoaderGroupNode(TreeNode<?,Object> parent, Project domainObject, String label) {
+		public ScannerGroupNode(TreeNode<?,Object> parent, Project domainObject, String label) {
 			super(parent, domainObject, label);
 		}
 		
@@ -53,58 +49,43 @@ public class DocumentLoaderContentProvider extends TreeNodeContentProvider<Objec
 		public List<? extends TreeNode<?,Object>> createChildren() {
 			Builder<DocumentScanner> sourceBuilder = ImmutableList.<DocumentScanner>builder();
 			for(View view:domainObject().views()) {
-				sourceBuilder.addAll(loaders(view));
+				sourceBuilder.addAll(scanners(view));
 			}
-			Builder<DocumentLoaderNode> builder = ImmutableList.builder();
-			for(DocumentScanner loader: sourceBuilder.build()) {
-				builder.add(new DocumentLoaderNode(this, loader));
+			Builder<DocumentScannerNode> builder = ImmutableList.builder();
+			for(DocumentScanner scanner: sourceBuilder.build()) {
+				builder.add(new DocumentScannerNode(this, scanner));
 			}
 			return builder.build();
 		}
 
-		protected abstract List<DocumentScanner> loaders(View view);
+		protected abstract List<DocumentScanner> scanners(View view);
 	}
 	
-	public static class SourceNode extends LoaderGroupNode {
+	public static class SourceNode extends ScannerGroupNode {
 
 		public SourceNode(TreeNode<?,Object> parent, Project project) {
 			super(parent, project,"Source");
 		}
 
 		@Override
-      protected List<DocumentScanner> loaders(View view) {
-			return view.sourceLoaders();
+      protected List<DocumentScanner> scanners(View view) {
+			return view.sourceScanners();
 		}
 
 	}
 
-	public static class BinaryNode extends LoaderGroupNode {
+	public static class BinaryNode extends ScannerGroupNode {
 
 		public BinaryNode(TreeNode<?,Object> parent, Project project) {
 			super(parent, project,"External");
 		}
 
 		@Override
-      protected List<DocumentScanner> loaders(View view) {
-			return view.binaryLoaders();
+      protected List<DocumentScanner> scanners(View view) {
+			return view.binaryScanners();
 		}
 
 	}
-
-	
-	
-
-//	@Override
-//	public boolean hasChildren(Object element) {
-//		if(element instanceof Namespace) {
-//			return ((Namespace) element).hasSubNamespaces();
-//		} else if(element instanceof DocumentLoader) {
-//			return ((DocumentLoader) element).nbInputSources() > 0;
-//		}
-//		else {
-//			return super.hasChildren(element);
-//		}
-//	}
 
 	@Override
 	public Object domainData(TreeNode treeData) {

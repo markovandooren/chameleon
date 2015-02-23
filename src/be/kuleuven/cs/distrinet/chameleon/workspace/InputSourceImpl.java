@@ -21,20 +21,20 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
  */
 public abstract class InputSourceImpl implements InputSource {
 	
-	protected void init(DocumentScanner loader) {
-		setLoader(loader);
+	protected void init(DocumentScanner scanner) {
+		setScanner(scanner);
 	}
 	
-	protected void init(InputSourceNamespace ns, DocumentScanner loader) throws InputException {
-		init(loader);
+	protected void init(InputSourceNamespace ns, DocumentScanner scanner) throws InputException {
+		init(scanner);
 		setNamespace(ns);
 	}
 	
-	private void setLoader(DocumentScanner loader) {
-		if(loader == null) {
+	private void setScanner(DocumentScanner scanner) {
+		if(scanner == null) {
 			throw new ChameleonProgrammerException();
 		}
-		loader.addInputSource(this);
+		scanner.addInputSource(this);
 	}
 	
 	@Override
@@ -127,14 +127,14 @@ public abstract class InputSourceImpl implements InputSource {
 	
 	@Override
 	public Project project() {
-		return loader().project();
+		return scanner().project();
 	}
 	
 	@Override
    public View view() {
-		DocumentScanner loader = loader();
-		if(loader != null) {
-			return loader.view();
+		DocumentScanner scanner = scanner();
+		if(scanner != null) {
+			return scanner.view();
 		} else {
 			throw new IllegalArgumentException();
 		}
@@ -143,16 +143,16 @@ public abstract class InputSourceImpl implements InputSource {
 	protected SingleAssociation<InputSourceImpl, Document> _document = new SingleAssociation<InputSourceImpl, Document>(this);
 	
 	@Override
-   public DocumentScanner loader() {
-		return _loader.getOtherEnd();
+   public DocumentScanner scanner() {
+		return _scanner.getOtherEnd();
 	}
 	
 	@Override
    public SingleAssociation<InputSource, DocumentScanner> scannerLink() {
-		return _loader;
+		return _scanner;
 	}
 	
-	protected SingleAssociation<InputSource, DocumentScanner> _loader = new SingleAssociation<InputSource, DocumentScanner>(this);
+	protected SingleAssociation<InputSource, DocumentScanner> _scanner = new SingleAssociation<InputSource, DocumentScanner>(this);
 	
 	@Override
 	public List<Declaration> targetDeclarations(String name) throws LookupException {
@@ -243,7 +243,7 @@ public abstract class InputSourceImpl implements InputSource {
 		// the association end of the namespace will send an event to the namespace
 		// which will then remove this input source from its caches.
 		_namespace.clear();
-		_loader.clear();
+		_scanner.clear();
 		_document.clear();
 		_listeners = null;
 	}
@@ -259,7 +259,7 @@ public abstract class InputSourceImpl implements InputSource {
 			// but I want to make it robust.
 			return 1;
 		} else {
-			return loader().compareTo(other.loader());
+			return scanner().compareTo(other.scanner());
 		}
 	}
 }

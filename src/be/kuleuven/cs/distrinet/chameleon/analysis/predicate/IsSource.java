@@ -19,9 +19,9 @@ public class IsSource extends TreePredicate<Element,Nothing> {
 	public boolean uncheckedEval(Element element) throws Nothing {
 		View view = element.view();
 		if(element instanceof Namespace) {
-			List<DocumentScanner> sourceLoaders = view.sourceLoaders();
-			for(DocumentScanner loader:sourceLoaders) {
-				if(loader.namespaces().contains(element)) {
+			List<DocumentScanner> sourceScanners = view.sourceScanners();
+			for(DocumentScanner scanner : sourceScanners) {
+				if(scanner.namespaces().contains(element)) {
 					return true;
 				}
 			}
@@ -35,9 +35,9 @@ public class IsSource extends TreePredicate<Element,Nothing> {
 	public boolean canSucceedBeyond(Element element) throws Nothing {
 		View view = element.view();
 		if(element instanceof Namespace) {
-			List<DocumentScanner> sourceLoaders = view.sourceLoaders();
-			for(DocumentScanner loader:sourceLoaders) {
-				for(Namespace ns: loader.namespaces()) {
+			List<DocumentScanner> sourceScanners = view.sourceScanners();
+			for(DocumentScanner scanner : sourceScanners) {
+				for(Namespace ns: scanner.namespaces()) {
 					if(ns == element || ns.hasAncestor(element)) {
 						return true;
 					}

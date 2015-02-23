@@ -168,8 +168,8 @@ public class Document extends ElementImpl {
 
     private static class FakeInputSource extends InputSourceImpl {
 
-        public FakeInputSource(Document document, DocumentScanner loader) {
-            init(loader);
+        public FakeInputSource(Document document, DocumentScanner scanner) {
+            init(scanner);
             setDocument(document);
         }
 

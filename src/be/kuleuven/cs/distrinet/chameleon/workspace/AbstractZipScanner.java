@@ -25,9 +25,9 @@ public abstract class AbstractZipScanner extends DocumentScannerImpl {
 	/**
 	 * Create a new zip scanner for the zip with the given path, file filter, and base scanner setting.
 	 * 
-	 * @param path The path of the zip file from which elements must be loaded.
+	 * @param path The path of the zip file from which elements must be scanned.
 	 * @param filter A filter that selects files in the zip file based on their paths.
-	 * @param isBaseLoader Indicates whether the scanner is responsible for loading a base library.
+	 * @param isBaseScanner Indicates whether the scanner is responsible for scanning a base library.
 	 */
  /*@
    @ public behavior
@@ -36,9 +36,9 @@ public abstract class AbstractZipScanner extends DocumentScannerImpl {
    @
    @ post path() == path;
    @ post filter() == filter;
-   @ post isBaseLoader() == isBaseLoader;
+   @ post isBaseScanner() == isBaseScanner;
    @*/
-	public AbstractZipScanner(ZipFile zipFile, Predicate<? super String,Nothing> filter, boolean isBaseLoader) {
+	public AbstractZipScanner(ZipFile zipFile, Predicate<? super String,Nothing> filter, boolean isBaseScanner) {
 		setPath(zipFile);
 		setFilter(filter);
 	}
@@ -57,7 +57,7 @@ public abstract class AbstractZipScanner extends DocumentScannerImpl {
    @
    @ post path() == path;
    @ post filter() == filter;
-   @ post isBaseLoader() == false;
+   @ post isBaseScanner() == false;
    @*/
 	public AbstractZipScanner(ZipFile zipFile, Predicate<? super String,Nothing> filter) {
 		this(zipFile,filter,false);
@@ -114,7 +114,7 @@ public abstract class AbstractZipScanner extends DocumentScannerImpl {
 	}
 
 	@Override
-	public void notifyContainerConnected(DocumentLoaderContainer container) throws ProjectException {
+	public void notifyContainerConnected(DocumentScannerContainer container) throws ProjectException {
 		try {
 			if(view() != null) {
 				createInputSources();
@@ -176,7 +176,7 @@ public abstract class AbstractZipScanner extends DocumentScannerImpl {
 	}
 
 	@Override
-	public boolean loadsSameAs(DocumentScanner obj) {
+	public boolean scansSameAs(DocumentScanner obj) {
 		if(obj == this) {
 			return true;
 		}

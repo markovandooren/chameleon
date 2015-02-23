@@ -24,6 +24,10 @@ import com.google.common.collect.ImmutableSet;
  */
 public abstract class DocumentScannerImpl implements DocumentScanner {
 
+   /**
+    * Create a new document scanner that is not responsible for scanning
+    * a base library.
+    */
 	public DocumentScannerImpl() {
 		this(false);
 	}
@@ -31,18 +35,20 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
 	/**
 	 * Create a new document scanner with the given base scanner setting.
 	 * 
-	 * @param isBaseLoader Set to 'true' if the new scanner is responsible for loading a base library.
+	 * @param isBaseScanner Set to 'true' if the new scanner is responsible for scanning a base library.
 	 */
-	public DocumentScannerImpl(boolean isBaseLoader) {
-		_isBaseLoader = isBaseLoader;
-		_viewLink.addListener(new AssociationListener<DocumentLoaderContainer>() {
+	public DocumentScannerImpl(boolean isBaseScanner) {
+		_isBaseScanner = isBaseScanner;
+		_viewLink.addListener(new AssociationListener<DocumentScannerContainer>() {
 
-			// WARNING
-
-			// WE TUNNEL THE EXCEPTION THROUGH THE ASSOCIATION CLASSES
-			// AND PERFORM THE ROLLBACK IN {@link Project#addSource(ProjectLoader)}
+			/** 
+			 * WARNING: WE TUNNEL THE EXCEPTION THROUGH THE ASSOCIATION CLASSES
+			 * AND PERFORM THE ROLLBACK IN {@link View#addSource(DocumentScanner)}
+			 *
+			 * @param element
+			 */
 			@Override
-			public void notifyElementAdded(DocumentLoaderContainer element) {
+			public void notifyElementAdded(DocumentScannerContainer element) {
 				try {
 					notifyContainerConnected(element);
 				} catch (ProjectException e) {
@@ -51,7 +57,7 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
 			}
 
 			@Override
-			public void notifyElementRemoved(DocumentLoaderContainer element) {
+			public void notifyElementRemoved(DocumentScannerContainer element) {
 				try {
 					notifyContainerRemoved(element);
 				} catch (ProjectException e) {
@@ -60,7 +66,7 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
 			}
 
 			@Override
-			public void notifyElementReplaced(DocumentLoaderContainer oldElement, DocumentLoaderContainer newElement) {
+			public void notifyElementReplaced(DocumentScannerContainer oldElement, DocumentScannerContainer newElement) {
 				try {
 					notifyProjectReplaced(oldElement, newElement);
 				} catch (ProjectException e) {
@@ -73,55 +79,78 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
 	/**
 	 * Store whether this document scanner is responsible for loading a base library.
 	 */
-	private boolean _isBaseLoader;
+	private boolean _isBaseScanner;
 
 	@Override
-   public boolean isBaseLoader() {
-		return _isBaseLoader;
+   public boolean isBaseScanner() {
+		return _isBaseScanner;
 	}
 
+	/**
+	 * A class for tunneling exceptions.
+	 * 
+	 * @author Marko van Dooren
+	 */
 	static class TunnelException extends RuntimeException {
 
-		public TunnelException(Throwable cause) {
+      private static final long serialVersionUID = 1L;
+
+      public TunnelException(Throwable cause) {
 			super(cause);
 		}
 
 	}
 
 	/**
-	 * This method is invoked when the scanner is connected to a project. It should
+	 * This method is invoked when the scanner is connected to a container. It should
 	 * then put the required objects in place to populate the project. The scanner
 	 * is free to load the source files eagerly or lazily.
-	 * @param project
+	 * 
+	 * @param container The container to which this scanner is added.
 	 * @throws ProjectException
 	 */
 	@Override
-   public void notifyContainerConnected(DocumentLoaderContainer project) throws ProjectException {
+   public void notifyContainerConnected(DocumentScannerContainer container) throws ProjectException {
 	}
 
+   /**
+    * This method is invoked when the scanner is removed from a container. It should
+    * destroy all loaded documents.
+    * 
+    * @param container The container from which this scanner is removed.
+    * @throws ProjectException
+    */
 	@Override
-   public void notifyContainerRemoved(DocumentLoaderContainer project) throws ProjectException {
+   public void notifyContainerRemoved(DocumentScannerContainer container) throws ProjectException {
 	}
 
+   /**
+    * This method is invoked when the scanner is removed from a container. It should
+    * destroy all loaded documents.
+    * 
+    * @param oldContainer The container to which this scanner is added.
+    * @param newContainer The container from which this scanner is removed.
+    * @throws ProjectException
+    */
 	@Override
-   public void notifyProjectReplaced(DocumentLoaderContainer old, DocumentLoaderContainer newProject) throws ProjectException {
+   public void notifyProjectReplaced(DocumentScannerContainer oldContainer, DocumentScannerContainer newContainer) throws ProjectException {
 	}
 
-	private SingleAssociation<DocumentScannerImpl, DocumentLoaderContainer> _viewLink = new SingleAssociation<>(this);
+	private SingleAssociation<DocumentScannerImpl, DocumentScannerContainer> _viewLink = new SingleAssociation<>(this);
 
 	@Override
-   public SingleAssociation<DocumentScannerImpl, DocumentLoaderContainer> containerLink() {
+   public SingleAssociation<DocumentScannerImpl, DocumentScannerContainer> containerLink() {
 		return _viewLink;
 	}
 
 	@Override
-	public DocumentLoaderContainer container() {
+	public DocumentScannerContainer container() {
 		return _viewLink.getOtherEnd();
 	}
 	
 	@Override
    public View view() {
-		DocumentLoaderContainer container = container();
+		DocumentScannerContainer container = container();
 		return container == null ? null : container.view();
 	}
 
@@ -209,6 +238,11 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
 		}
 	}
 
+	/**
+	 * Remove the given document loader.
+	 * 
+	 * @param source The document loader to be removed.ƒ
+	 */
 	public void removeInputSource(InputSource source) {
 		// The Association object will send the event and the attached listener
 		// will invoke notifyRemoved(InputSource).
@@ -330,7 +364,7 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
 	 * the given scanner is this object.
 	 */
 	@Override
-	public boolean loadsSameAs(DocumentScanner scanner) {
+	public boolean scansSameAs(DocumentScanner scanner) {
 		return scanner == this;
 	}
 	

@@ -5,7 +5,7 @@ import java.io.File;
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 
 
-public interface FileLoader extends DocumentScanner {
+public interface FileScanner extends DocumentScanner {
 
 	public IFileInputSource tryToAdd(File file) throws InputException;
 

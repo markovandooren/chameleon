@@ -144,7 +144,7 @@ public class PathPage extends WizardPage implements IWizardPage {
 	private List<String> _sourcePaths = new ArrayList<String>();
 
 	/**
-	 * Create a tab to configure the source loaders of the project.
+	 * Create a tab to configure the source scanners of the project.
 	 * @param folder
 	 */
 	protected void createSourceTab(TabFolder folder) {
@@ -189,7 +189,7 @@ public class PathPage extends WizardPage implements IWizardPage {
 					if(directory.equals("")) {
 						directory = ".";
 					}
-					addSourceLoader(directory);
+					addSourceScanner(directory);
 				}
 			}
 		});
@@ -212,34 +212,9 @@ public class PathPage extends WizardPage implements IWizardPage {
 
 
 
-		// When the tab is selected and the project has changed, we sync the tree
-		// with the configuration of the project.
-		//		getControl().addFocusListener(new FocusAdapter() {
-		//			@Override
-		//			public void focusGained(FocusEvent arg0) {
-		//				ProjectConfig projectConfig = wizard().projectConfig();
-		//				_sourceProjectRoot.removeAll();
-		//				if(projectConfig != _cached) {
-		//					_cached = projectConfig;
-		//					for(String directory:_sourcePaths) {
-		//						projectConfig.addSource(directory);
-		//						// This attaches the child to the tree
-		//						@SuppressWarnings("unused")
-		//						TreeItem child = new TreeItem(_sourceProjectRoot,0);
-		//					}
-		//					try {
-		//						IFolder f = wizard().project().getFolder("src");
-		//						f.create(true, true, new NullProgressMonitor());
-		//						addSourceLoader("src");
-		//					} catch (CoreException e) {
-		//						System.out.println("Could not create src directory");
-		//					}
-		//				}
-		//			}
-		//		});
 	}
 
-	protected void addSourceLoader(String directory) {
+	protected void addSourceScanner(String directory) {
 		if(directory != null) {
 			_sourcePaths.add(directory);
 			projectConfig().addSource(directory);
@@ -272,7 +247,7 @@ public class PathPage extends WizardPage implements IWizardPage {
 					src.mkdirs();
 				}
 				if(src.isDirectory()) {
-					addSourceLoader("src");
+					addSourceScanner("src");
 				}
 			} catch (Exception e) {
 				System.out.println("Could not create src directory");

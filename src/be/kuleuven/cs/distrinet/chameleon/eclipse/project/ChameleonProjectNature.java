@@ -45,7 +45,7 @@ import be.kuleuven.cs.distrinet.chameleon.input.SourceManager;
 import be.kuleuven.cs.distrinet.chameleon.workspace.BootstrapProjectConfig;
 import be.kuleuven.cs.distrinet.chameleon.workspace.ConfigException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.DocumentScanner;
-import be.kuleuven.cs.distrinet.chameleon.workspace.FileLoader;
+import be.kuleuven.cs.distrinet.chameleon.workspace.FileScanner;
 import be.kuleuven.cs.distrinet.chameleon.workspace.IFileInputSource;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputException;
 import be.kuleuven.cs.distrinet.chameleon.workspace.InputSource;
@@ -67,11 +67,12 @@ import be.kuleuven.cs.distrinet.chameleon.workspace.Workspace;
  * of the nature, the language of the project, and knows the project it is created for.
  */
 public class ChameleonProjectNature implements IProjectNature {
+   
 	/**
-	 * This listener synchronizes the list of ChameleonDocuments with the FileInputSources in the sourceLoaders
-	 * of the project.
+	 * This listener synchronizes the list of ChameleonDocuments with the 
+	 * FileInputSources in the source scanners of the project.
+	 * 
 	 * @author Marko van Dooren
-	 *
 	 */
 	public class EclipseInputSourceListener implements InputSourceListener {
 
@@ -247,7 +248,7 @@ public class ChameleonProjectNature implements IProjectNature {
 					_projectListener = new ProjectChangeListener(this);
 					getProject().getWorkspace().addResourceChangeListener(_projectListener, IResourceChangeEvent.POST_CHANGE);
 					// It should be sufficient to register the listener once for the entire project. Now we need a more
-					// complicated setup to deal with adding document loaders to a view.
+					// complicated setup to deal with adding document scanners to a view.
 				} catch (ConfigException e) {
 					e.printStackTrace();
 					System.out.println("Error while loading the project");
@@ -283,12 +284,12 @@ public class ChameleonProjectNature implements IProjectNature {
 			result = bootstrapProjectConfig.project(new File(location+"/"+CHAMELEON_PROJECT_FILE), new ProjectInitialisationListener(){
 				@Override
 				public void viewAdded(View view) {
-					// Attach listeners for document loaders which attaches
+					// Attach listeners for document scanners which attaches
 					// the listeners for the input sources.
 					view.addListener(new ViewListener(){
 						@Override
-						public void sourceLoaderAdded(DocumentScanner loader) {
-							loader.addAndSynchronizeListener(listener);
+						public void sourceScannerAdded(DocumentScanner scanner) {
+							scanner.addAndSynchronizeListener(listener);
 						}
 					});
 					view.setPlugin(SourceManager.class, new EclipseSourceManager(ChameleonProjectNature.this));
@@ -388,7 +389,7 @@ public class ChameleonProjectNature implements IProjectNature {
 
 		//		addDocument(document);
 		//FIXME why update? I think this can go because now the project nature
-		// sends an event to the appropriate document loader, which in turn
+		// sends an event to the appropriate document scanner, which in turn
 		// sends an event back to add a ChameleonDocument for the document
 		//		updateModel(document);
 	}
@@ -473,10 +474,10 @@ public class ChameleonProjectNature implements IProjectNature {
 		File absoluteFile = Files.workspaceFileToAbsoluteFile(file);
 		
 		for(View view: chameleonProject().views()) {
-			for(FileLoader loader: view.loaders(FileLoader.class)) {
+			for(FileScanner scanner: view.scanners(FileScanner.class)) {
 				Document doc;
 				try {
-					doc = loader.documentOf(absoluteFile);
+					doc = scanner.documentOf(absoluteFile);
 					if(doc != null) {
 						return doc;
 					}

@@ -44,12 +44,12 @@ public interface DocumentScanner extends Comparable<DocumentScanner> {
    @
    @ post \result != null;
    @*/
-	public SingleAssociation<? extends DocumentScanner, ? super DocumentLoaderContainer> containerLink();
+	public SingleAssociation<? extends DocumentScanner, ? super DocumentScannerContainer> containerLink();
 	
 	/**
 	 * Return the container of this document scanner.
 	 */
-	public DocumentLoaderContainer container();
+	public DocumentScannerContainer container();
 	
 	/**
 	 * Return the view to which this document scanner adds documents.
@@ -114,7 +114,7 @@ public interface DocumentScanner extends Comparable<DocumentScanner> {
 	 * 
 	 * @return True if this document scanners loads a base libary. False otherwise.
 	 */
-	public boolean isBaseLoader();
+	public boolean isBaseScanner();
 	
 	/**
 	 * Add the given input source.
@@ -169,7 +169,7 @@ public interface DocumentScanner extends Comparable<DocumentScanner> {
 	 * @param container
 	 * @throws ProjectException
 	 */
-	public void notifyContainerConnected(DocumentLoaderContainer container) throws ProjectException;
+	public void notifyContainerConnected(DocumentScannerContainer container) throws ProjectException;
 
    /**
     * DO NOT INVOKE EXTERNALLY. Must be exposed due to ridiculous Java access modifiers.
@@ -177,7 +177,7 @@ public interface DocumentScanner extends Comparable<DocumentScanner> {
     * @param container
     * @throws ProjectException
     */
-	public void notifyContainerRemoved(DocumentLoaderContainer project) throws ProjectException;
+	public void notifyContainerRemoved(DocumentScannerContainer project) throws ProjectException;
 
    /**
     * DO NOT INVOKE EXTERNALLY. Must be exposed due to ridiculous Java access modifiers.
@@ -185,21 +185,21 @@ public interface DocumentScanner extends Comparable<DocumentScanner> {
     * @param container
     * @throws ProjectException
     */
-	public void notifyProjectReplaced(DocumentLoaderContainer old, DocumentLoaderContainer newProject) throws ProjectException;
+	public void notifyProjectReplaced(DocumentScannerContainer old, DocumentScannerContainer newProject) throws ProjectException;
 
 	/**
-	 * Check whether this document scanner loads the same documents as another
+	 * Check whether this document scanner scans the same resources as another
 	 * document scanner.
 	 * 
 	 * @param scanner The document scanner for which must be checked whether it
-	 *               loads the same documents as this scanner.
-	 * @return True if and only if the given document scanner loads the same
-	 *         documents as this document scanner.
+	 *               scans the same resources as this scanner.
+	 * @return True if and only if the given document scanner scans the same
+	 *         resources as this document scanner.
 	 */
-	public boolean loadsSameAs(DocumentScanner scanner);
+	public boolean scansSameAs(DocumentScanner scanner);
 	
 	/**
-	 * Return the top-most scanner in the composite loader structure.
+	 * Return the top-most scanner in the composite scanner structure.
 	 * @return
 	 */
 	public DocumentScanner rootScanner();

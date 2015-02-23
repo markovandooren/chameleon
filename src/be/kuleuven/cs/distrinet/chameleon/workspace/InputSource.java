@@ -84,7 +84,7 @@ public interface InputSource extends Comparable<InputSource> {
 	public SingleAssociation<InputSource, InputSourceNamespace> namespaceLink();
 	
 	/**
-	 * Return the association object that connects this input source to the project loader that created it.
+	 * Return the association object that connects this input source to the project scanner that created it.
 	 * @return
 	 */
 	public SingleAssociation<InputSource, DocumentScanner> scannerLink();
@@ -105,7 +105,7 @@ public interface InputSource extends Comparable<InputSource> {
  /*@
    @ public behavior
    @
-   @ post \result == loader().view();
+   @ post \result == scanner().view();
    @*/
 	public View view();
 
@@ -130,10 +130,10 @@ public interface InputSource extends Comparable<InputSource> {
 	public void setNamespace(InputSourceNamespace namespace) throws InputException;
 	
 	/**
-	 * Return the document loader that created this input source.
+	 * Return the document scanner that created this input source.
 	 * @return
 	 */
-	public DocumentScanner loader();
+	public DocumentScanner scanner();
 	
 	/**
 	 * Determine the order of this input source compared

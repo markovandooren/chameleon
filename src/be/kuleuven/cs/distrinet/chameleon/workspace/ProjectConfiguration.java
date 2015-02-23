@@ -34,7 +34,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 	 * in source directories.
 	 * 
 	 * The project configuration attaches itself to the given view to update its field
-	 * when the project or the view are changed. The name of the project and the document loaders 
+	 * when the project or the view are changed. The name of the project and the document scanners 
 	 * of the view are synchronized.
 	 * 
 	 * @param projectName The name of the project being initialized.
@@ -76,20 +76,20 @@ public abstract class ProjectConfiguration extends ConfigElement {
     // FIXME also called during input!
     view.addListener(new ViewListener() {
     	@Override
-    	public void sourceLoaderAdded(DocumentScanner loader) {
-    		ProjectConfiguration.this.sourceLoaderAdded(loader);
+    	public void sourceScannerAdded(DocumentScanner scanner) {
+    		ProjectConfiguration.this.sourceScannerAdded(scanner);
     	}
     	@Override
-    	public void sourceLoaderRemoved(DocumentScanner loader) {
-    		ProjectConfiguration.this.sourceLoaderRemoved(loader);
+    	public void sourceScannerRemoved(DocumentScanner scanner) {
+    		ProjectConfiguration.this.sourceScannerRemoved(scanner);
     	}
     	@Override
-    	public void binaryLoaderAdded(DocumentScanner loader) {
-    		ProjectConfiguration.this.binaryLoaderAdded(loader);
+    	public void binaryScannerAdded(DocumentScanner scanner) {
+    		ProjectConfiguration.this.binaryScannerAdded(scanner);
     	}
 			@Override
-    	public void binaryLoaderRemoved(DocumentScanner loader) {
-				ProjectConfiguration.this.binaryLoaderRemoved(loader);
+    	public void binaryScannerRemoved(DocumentScanner scanner) {
+				ProjectConfiguration.this.binaryScannerRemoved(scanner);
     	}
     });
 	}
@@ -176,50 +176,50 @@ public abstract class ProjectConfiguration extends ConfigElement {
 
 	
 	/**
-	 * This method is called when a source loader is added to the project. The
+	 * This method is called when a source scanner is added to the project. The
 	 * method should add a config element that corresponds to the configuration
-	 * of the added source loader.
+	 * of the added source scanner.
 	 * 
-	 * <b>Must be overridden when a new type of source loader must be supported</b> The
-	 * implementation in this class supports the loaders know by this class:
+	 * <b>Must be overridden when a new type of source scanner must be supported</b> The
+	 * implementation in this class supports the scanners know by this class:
 	 * <ul>
 	 *   <li>{@link SourcePath.Zip}</li>
 	 *   <li>{@link SourcePath.Source}</li>
 	 * </ul>
-	 * @param loader
+	 * @param scanner The source scanner that was added.
 	 */
-	protected void sourceLoaderAdded(DocumentScanner loader) {
+	protected void sourceScannerAdded(DocumentScanner scanner) {
 		SourcePath p = createOrGetChild(SourcePath.class);
-		if(loader instanceof ZipLoader) {
-			p.createOrUpdateChild(SourcePath.Zip.class,loader);
+		if(scanner instanceof ZipScanner) {
+			p.createOrUpdateChild(SourcePath.Zip.class,scanner);
 		} else {
-			p.createOrUpdateChild(SourcePath.Source.class, loader);
+			p.createOrUpdateChild(SourcePath.Source.class, scanner);
 		}
 	}
 
-	protected void sourceLoaderRemoved(DocumentScanner loader) {
+	protected void sourceScannerRemoved(DocumentScanner scanner) {
 		SourcePath p = createOrGetChild(SourcePath.class);
-		p.removeChildFor(loader);
+		p.removeChildFor(scanner);
 	}
 	
-	protected final void binaryLoaderAdded(DocumentScanner loader) throws ConfigException {
-		if(!loader.isBaseLoader()) {
+	protected final void binaryScannerAdded(DocumentScanner scanner) throws ConfigException {
+		if(!scanner.isBaseScanner()) {
 			//FIXME This doesn't seem right :)
 		}
 	}
 
-	protected void binaryNonBaseLoaderAdded(DocumentScanner loader) throws ConfigException {
+	protected void binaryNonBaseScannerAdded(DocumentScanner scanner) throws ConfigException {
 		BinaryPath p = createOrGetChild(BinaryPath.class);
-		if(loader instanceof ZipLoader) {
-			p.createOrUpdateChild(BinaryPath.Zip.class,loader);
+		if(scanner instanceof ZipScanner) {
+			p.createOrUpdateChild(BinaryPath.Zip.class,scanner);
 		} else {
-		  p.createOrUpdateChild(BinaryPath.Source.class,loader);
+		  p.createOrUpdateChild(BinaryPath.Source.class,scanner);
 		}
 	}
 
-	protected void binaryLoaderRemoved(DocumentScanner loader) {
+	protected void binaryScannerRemoved(DocumentScanner scanner) {
 		BinaryPath p = createOrGetChild(BinaryPath.class);
-		p.removeChildFor(loader);
+		p.removeChildFor(scanner);
 	}
 	
 	private String _name;
@@ -307,9 +307,9 @@ public abstract class ProjectConfiguration extends ConfigElement {
 			@Override
          protected void $after() throws ConfigException {
 				try {
-					DirectoryScanner loader = createLoader(fileInputSourceFactory());
-					view().addSource(loader);
-					setModelElement(loader);
+					DirectoryScanner scanner = createScanner(fileInputSourceFactory());
+					view().addSource(scanner);
+					setModelElement(scanner);
 				} catch (ProjectException e) {
 					throw new ConfigException(e);
 				}
@@ -343,7 +343,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 			@Override
          protected void $after() throws ConfigException {
 				try {
-					view().addBinary(createLoader(fileInputSourceFactory()));
+					view().addBinary(createScanner(fileInputSourceFactory()));
 				} catch (ProjectException e) {
 					throw new ConfigException(e);
 				}
@@ -386,12 +386,11 @@ public abstract class ProjectConfiguration extends ConfigElement {
 		
 		@Override
 		protected void $update() {
-			DirectoryScanner directoryLoader = (DirectoryScanner)modelElement();
-			_path = directoryLoader.path();
-//			_extension = directoryLoader.fileExtension();
+			DirectoryScanner directoryScanner = (DirectoryScanner)modelElement();
+			_path = directoryScanner.path();
 		}
 
-		protected DirectoryScanner createLoader(FileInputSourceFactory factory) {
+		protected DirectoryScanner createScanner(FileInputSourceFactory factory) {
 			return new DirectoryScanner(_path, fileNameFilter(),factory);
 		}
 		
@@ -412,9 +411,9 @@ public abstract class ProjectConfiguration extends ConfigElement {
 		
 		@Override
 		protected void $update() throws ConfigException {
-			AbstractZipScanner zipLoader = (AbstractZipScanner)modelElement();
+			AbstractZipScanner zipScanner = (AbstractZipScanner)modelElement();
 			//TODO: does this transform a relative path into an absolute path
-			_path = new File(zipLoader.file().getName());
+			_path = new File(zipScanner.file().getName());
 		}
 		
   	protected abstract void pathChanged() throws ConfigException;
@@ -425,7 +424,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
   	@Override
    protected void pathChanged() throws ConfigException {
   		try {
-  			view().addBinary(new ZipLoader(new ZipFile(project().absoluteFile(_path)),filter()));
+  			view().addBinary(new ZipScanner(new ZipFile(project().absoluteFile(_path)),filter()));
   		} catch (ProjectException | IOException e) {
   			throw new ConfigException(e);
   		}

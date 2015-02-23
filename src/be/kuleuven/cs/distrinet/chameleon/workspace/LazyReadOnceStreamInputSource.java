@@ -8,9 +8,9 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException
 public class LazyReadOnceStreamInputSource extends LazyStreamInputSource {
 
 	public LazyReadOnceStreamInputSource(InputStream stream,
-			String declarationName, InputSourceNamespace ns, DocumentScanner loader)
+			String declarationName, InputSourceNamespace ns, DocumentScanner scanner)
 			throws InputException {
-		super(declarationName, ns, loader);
+		super(declarationName, ns, scanner);
 		_stream = stream;
 	}
 	

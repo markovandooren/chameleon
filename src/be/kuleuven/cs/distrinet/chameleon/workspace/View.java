@@ -32,12 +32,12 @@ import com.google.common.collect.ImmutableList.Builder;
 public class View extends PluginContainerImpl<ViewPlugin> 
        implements PluginContainer<ViewPlugin>, 
                   ProcessorContainer<ViewProcessor>, 
-                  DocumentLoaderContainer {
+                  DocumentScannerContainer {
 	
 	public View(RootNamespace namespace, Language language) {
 		setNamespace(namespace);
 		setLanguage(language);
-		_binaryLoaders.addListener(new AssociationListener<DocumentScanner>() {
+		_binaryScanners.addListener(new AssociationListener<DocumentScanner>() {
 
 			@Override
 			public void notifyElementAdded(DocumentScanner element) {
@@ -55,7 +55,7 @@ public class View extends PluginContainerImpl<ViewPlugin>
 				notifyElementAdded(newElement);
 			}
 		});
-		_sourceLoaders.addListener(new AssociationListener<DocumentScanner>() {
+		_sourceScanners.addListener(new AssociationListener<DocumentScanner>() {
 
 			@Override
 			public void notifyElementAdded(DocumentScanner element) {
@@ -75,27 +75,27 @@ public class View extends PluginContainerImpl<ViewPlugin>
 		});
 	}
 	
-	private void notifyBinaryAdded(DocumentScanner loader) {
+	private void notifyBinaryAdded(DocumentScanner scanner) {
 		for(ViewListener listener: _listeners) {
-			listener.binaryLoaderAdded(loader);
+			listener.binaryScannerAdded(scanner);
 		}
 	}
 
-	private void notifyBinaryRemoved(DocumentScanner loader) {
+	private void notifyBinaryRemoved(DocumentScanner scanner) {
 		for(ViewListener listener: _listeners) {
-			listener.binaryLoaderRemoved(loader);
+			listener.binaryScannerRemoved(scanner);
 		}
 	}
 
-	private void notifySourceAdded(DocumentScanner loader) {
+	private void notifySourceAdded(DocumentScanner scanner) {
 		for(ViewListener listener: _listeners) {
-			listener.sourceLoaderAdded(loader);
+			listener.sourceScannerAdded(scanner);
 		}
 	}
 
-	private void notifySourceRemoved(DocumentScanner loader) {
+	private void notifySourceRemoved(DocumentScanner scanner) {
 		for(ViewListener listener: _listeners) {
-			listener.sourceLoaderRemoved(loader);
+			listener.sourceScannerRemoved(scanner);
 		}
 	}
 
@@ -154,7 +154,7 @@ public class View extends PluginContainerImpl<ViewPlugin>
 	private SingleAssociation<View,RootNamespace> _namespace = new SingleAssociation<View,RootNamespace>(this);
 	
 	/**
-	 * Add the given source loader to this project.
+	 * Add the given source scanner to this project.
 	 */
 	/*@
    @ public behavior
@@ -163,68 +163,73 @@ public class View extends PluginContainerImpl<ViewPlugin>
    @
    @ post ! inputSources().contains(input);
    @*/
-	public void addBinary(DocumentScanner loader) throws ProjectException {
-		if(loader != null) {
-			if(! canAddBinary(loader)) {
-				throw new ProjectException("There is already a binary loader present to load these resources.");
+	public void addBinary(DocumentScanner scanner) throws ProjectException {
+		if(scanner != null) {
+			if(! canAddBinary(scanner)) {
+				throw new ProjectException("There is already a binary scanner present to load these resources.");
 			}
-			Association<? extends DocumentScanner, ? super View> projectLink = loader.containerLink();
+			Association<? extends DocumentScanner, ? super View> projectLink = scanner.containerLink();
 			try {
-				_binaryLoaders.add(projectLink);
+				_binaryScanners.add(projectLink);
 			} catch(TunnelException exc) {
 				// Rollback
-				_binaryLoaders.remove(projectLink);
+				_binaryScanners.remove(projectLink);
 				throw (ProjectException)exc.getCause();
 			}
 		}
 	}
 	
-//	public OrderedMultiAssociation<View, DocumentLoader> sourceLink() {
-//		return _sourceLoaders;
-//	}
-//
-//	public OrderedMultiAssociation<View, DocumentLoader> binaryLink() {
-//		return _sourceLoaders;
-//	}
-//
 	/**
-	 * Check whether the given document loader can be added
-	 * as a binary loader. If there is already an equal
-	 * loader present, false is returned.
+	 * Check whether the given document scanner can be added
+	 * as a binary scanner. If there is already an equal
+	 * scanner present, false is returned.
 	 * 
-	 * @param loader The loader of which must be determined whether it can be added.
+	 * @param scanner The scanner of which must be determined whether it can be added.
 	 * @return
 	 */
-	public boolean canAddBinary(DocumentScanner loader) {
-		for(DocumentScanner l: binaryLoaders()) {
-			if(l.loadsSameAs(loader)) {
+	public boolean canAddBinary(DocumentScanner scanner) {
+		for(DocumentScanner l: binaryScanners()) {
+			if(l.scansSameAs(scanner)) {
 				return false;
 			}
 		}
 		return true;
-//		return ! _binaryLoaders.containsObject(loader);
 	}
 	
-	public void removeBinary(DocumentScanner loader) {
-		_binaryLoaders.remove(loader.containerLink());
+	/**
+	 * Remove the given binary scanner.
+	 * 
+	 * @param scanner The binary scanner to be removed.
+	 */
+	public void removeBinary(DocumentScanner scanner) {
+		_binaryScanners.remove(scanner.containerLink());
 	}
 	
-	public List<DocumentScanner> binaryLoaders() {
-		return _binaryLoaders.getOtherEnds();
+	/**
+	 * @return the list of binary scanners.
+	 */
+	public List<DocumentScanner> binaryScanners() {
+		return _binaryScanners.getOtherEnds();
 	}
 
-	private OrderedMultiAssociation<View, DocumentScanner> _binaryLoaders = new OrderedMultiAssociation<View, DocumentScanner>(this);
+	private OrderedMultiAssociation<View, DocumentScanner> _binaryScanners = new OrderedMultiAssociation<View, DocumentScanner>(this);
 	{
-		_binaryLoaders.enableCache();
+		_binaryScanners.enableCache();
 	}
 
-	private OrderedMultiAssociation<View, DocumentScanner> _sourceLoaders = new OrderedMultiAssociation<View, DocumentScanner>(this);
+	private OrderedMultiAssociation<View, DocumentScanner> _sourceScanners = new OrderedMultiAssociation<View, DocumentScanner>(this);
 	{
-		_sourceLoaders.enableCache();
+		_sourceScanners.enableCache();
 	}
 
 	private List<ViewListener> _listeners = new ArrayList<ViewListener>();
 	
+	/**
+	 * Add the given listener as a view listener. The listener
+	 * is notified when document scanners are added and removed.
+	 * 
+	 * @param listener The listener to be added.
+	 */
 	public void addListener(ViewListener listener) {
 		if(listener == null) {
 			throw new IllegalArgumentException();
@@ -237,7 +242,7 @@ public class View extends PluginContainerImpl<ViewPlugin>
 	}
 	
 	/**
-	 * Add the given source loader to this project.
+	 * Add the given document scanner to this project.
 	 */
 	/*@
    @ public behavior
@@ -246,84 +251,100 @@ public class View extends PluginContainerImpl<ViewPlugin>
    @
    @ post ! inputSources().contains(input);
    @*/
-	public void addSource(DocumentScanner loader) throws ProjectException {
-		if(loader != null) {
-			if(! canAddSource(loader)) {
-				throw new ProjectException("There is already a source loader present to load these resources.");
+	public void addSource(DocumentScanner scanner) throws ProjectException {
+		if(scanner != null) {
+			if(! canAddSource(scanner)) {
+				throw new ProjectException("There is already a source scanner present to load these resources.");
 			}
-			Association<? extends DocumentScanner, ? super View> projectLink = loader.containerLink();
+			Association<? extends DocumentScanner, ? super View> projectLink = scanner.containerLink();
 			try {
-				_sourceLoaders.add(projectLink);
+				_sourceScanners.add(projectLink);
 			} catch(TunnelException exc) {
 				// Rollback
-				_sourceLoaders.remove(projectLink);
+				_sourceScanners.remove(projectLink);
 				throw (ProjectException)exc.getCause();
 			}
 		}
 	}
 	
 	/**
-	 * Check whether the given document loader can be added
-	 * as a source loader. If there is already an equal
-	 * loader present, false is returned.
+	 * Check whether the given document scanner can be added
+	 * as a source scanner. If there is already an equal
+	 * scanner present, false is returned.
 	 * 
-	 * @param loader The loader of which must be determined whether it can be added.
+	 * @param scanner The scanner of which must be determined whether it can be added.
 	 * @return
 	 */
-	public boolean canAddSource(DocumentScanner loader) {
-		for(DocumentScanner l: sourceLoaders()) {
-			if(l.loadsSameAs(loader)) {
+	public boolean canAddSource(DocumentScanner scanner) {
+		for(DocumentScanner l: sourceScanners()) {
+			if(l.scansSameAs(scanner)) {
 				return false;
 			}
 		}
 		return true;
-//		return ! _sourceLoaders.containsObject(loader);
 	}
 	
-	public void removeSource(DocumentScanner loader) {
-		_sourceLoaders.remove(loader.containerLink());
+	public void removeSource(DocumentScanner scanner) {
+		_sourceScanners.remove(scanner.containerLink());
 	}
 	
-	public List<DocumentScanner> sourceLoaders() {
-		return _sourceLoaders.getOtherEnds();
+	public List<DocumentScanner> sourceScanners() {
+		return _sourceScanners.getOtherEnds();
 	}
 	
-	public <T extends DocumentScanner> List<T> loaders(Class<T> kind) {
+	public <T extends DocumentScanner> List<T> scanners(Class<T> kind) {
 		Builder<T> builder = ImmutableList.<T>builder();
-		builder.addAll((List<T>) new TypePredicate<>(kind).filteredList(binaryLoaders()));
-		builder.addAll((List<T>) new TypePredicate<>(kind).filteredList(sourceLoaders()));
+		builder.addAll((List<T>) new TypePredicate<>(kind).filteredList(binaryScanners()));
+		builder.addAll((List<T>) new TypePredicate<>(kind).filteredList(sourceScanners()));
 		return builder.build();
 	}
 
-	public <T extends DocumentScanner> List<T> binaryLoaders(Class<T> kind) {
-		return (List<T>) new TypePredicate<>(kind).filteredList(binaryLoaders());
+	public <T extends DocumentScanner> List<T> binaryScanners(Class<T> kind) {
+		return (List<T>) new TypePredicate<>(kind).filteredList(binaryScanners());
 	}
 
 
-	public <T extends DocumentScanner> List<T> sourceLoaders(Class<T> kind) {
-		return (List<T>) new TypePredicate<>(kind).filteredList(sourceLoaders());
+	public <T extends DocumentScanner> List<T> sourceScanners(Class<T> kind) {
+		return (List<T>) new TypePredicate<>(kind).filteredList(sourceScanners());
 	}
 
+	/**
+	 * Flush the cache of all source scanners.
+	 */
 	public void flushSourceCache() {
-		for(DocumentScanner loader: sourceLoaders()) {
-			loader.flushCache();
+		for(DocumentScanner scanner: sourceScanners()) {
+			scanner.flushCache();
 		}
 	}
 	
+	/**
+	 * Return the source document in this view.
+	 * 
+	 * @return The source documents in this view.
+	 * @throws InputException An exception was thrown while loading a document.
+	 */
 	public List<Document> sourceDocuments() throws InputException {
 		List<Document> result = new ArrayList<Document>();
-		for(DocumentScanner loader: sourceLoaders()) {
-			result.addAll(loader.documents());
+		for(DocumentScanner scanner: sourceScanners()) {
+			result.addAll(scanner.documents());
 		}
 		return result;
 	}
 	
+	/**
+	 * Check whether the given element is a source element.
+	 * 
+	 * @param element The element for which must be checked whether it is
+	 *                a source element.
+	 * @return True if and only if the document of the element is a source
+	 *         document.
+	 */
 	public boolean isSource(Element element) {
 		Document doc = element.nearestAncestorOrSelf(Document.class);
 		// Namespace are not in documents and thus cannot be source elements.
 		if(doc != null) {
-			DocumentScanner loader = doc.inputSource().loader().rootScanner();
-			return loader.containerLink().getOtherRelation() == _sourceLoaders;
+			DocumentScanner scanner = doc.inputSource().scanner().rootScanner();
+			return scanner.containerLink().getOtherRelation() == _sourceScanners;
 		}
 		return false;
 	}
@@ -332,8 +353,8 @@ public class View extends PluginContainerImpl<ViewPlugin>
 		Document doc = element.nearestAncestorOrSelf(Document.class);
 		// Namespace are not in documents and thus cannot be source elements.
 		if(doc != null) {
-			DocumentScanner loader = doc.inputSource().loader().rootScanner();
-			return loader.containerLink().getOtherRelation() == _binaryLoaders;
+			DocumentScanner scanner = doc.inputSource().scanner().rootScanner();
+			return scanner.containerLink().getOtherRelation() == _binaryScanners;
 		}
 		return false;
 	}
@@ -399,9 +420,9 @@ public <T extends ViewProcessor> List<T> processors(Class<T> connectorInterface)
 
 	public <T extends Element> List<T> sourceElements(Class<T> kind, Handler handler) throws InputException {
 		List<T> result = new ArrayList<T>();
-		for(DocumentScanner loader: sourceLoaders()) {
+		for(DocumentScanner scanner: sourceScanners()) {
 			try {
-			for(Document doc: loader.documents()) {
+			for(Document doc: scanner.documents()) {
 				result.addAll(doc.descendants(kind));
 				if(kind.isInstance(doc)) {
 					result.add((T)doc);
@@ -417,8 +438,8 @@ public <T extends ViewProcessor> List<T> processors(Class<T> connectorInterface)
 	}
 	
 	public <E extends Exception> void applyToSource(Action<? extends Element, E> action) throws E, InputException {
-		for(DocumentScanner loader:sourceLoaders()) {
-			loader.apply(action);
+		for(DocumentScanner scanner:sourceScanners()) {
+			scanner.apply(action);
 		}
 	}
 

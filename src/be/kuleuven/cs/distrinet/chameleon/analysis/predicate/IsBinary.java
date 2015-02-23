@@ -19,9 +19,9 @@ public class IsBinary extends TreePredicate<Element,Nothing> {
 	public boolean uncheckedEval(Element element) throws Nothing {
 		View view = element.view();
 		if(element instanceof Namespace) {
-			List<DocumentScanner> binaryLoaders = view.binaryLoaders();
-			for(DocumentScanner loader:binaryLoaders) {
-				if(loader.namespaces().contains(element)) {
+			List<DocumentScanner> binaryScanners = view.binaryScanners();
+			for(DocumentScanner scanner : binaryScanners) {
+				if(scanner.namespaces().contains(element)) {
 					return true;
 				}
 			}
@@ -35,9 +35,9 @@ public class IsBinary extends TreePredicate<Element,Nothing> {
 	public boolean canSucceedBeyond(Element element) throws Nothing {
 		View view = element.view();
 		if(element instanceof Namespace) {
-			List<DocumentScanner> binaryLoaders = view.binaryLoaders();
-			for(DocumentScanner loader:binaryLoaders) {
-				for(Namespace ns: loader.namespaces()) {
+			List<DocumentScanner> binaryScanners = view.binaryScanners();
+			for(DocumentScanner scanner : binaryScanners) {
+				for(Namespace ns: scanner.namespaces()) {
 					if(ns == element || ns.hasAncestor(element)) {
 						return true;
 					}

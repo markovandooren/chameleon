@@ -12,14 +12,15 @@ import be.kuleuven.cs.distrinet.chameleon.util.Pair;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
-public class ZipLoader extends AbstractZipScanner {
+public class ZipScanner extends AbstractZipScanner {
 
 	/**
-	 * Create a new zip loader for the jar with the given path, file filter, and base loader setting.
+	 * Create a new zip scanner for the jar with the given path, file filter, 
+	 * and base scanner setting.
 	 * 
-	 * @param path The path of the jar file from which elements must be loaded.
+	 * @param path The path of the jar file from which elements must be scanned.
 	 * @param filter A filter that selects files in the zip file based on their paths.
-	 * @param isBaseLoader Indicates whether the loader is responsible for loading a base library.
+	 * @param isBaseScanner Indicates whether the scanner is responsible for scanning a base library.
 	 */
  /*@
    @ public behavior
@@ -28,18 +29,18 @@ public class ZipLoader extends AbstractZipScanner {
    @
    @ post path() == zipPath;
    @ post filter() == filter;
-   @ post isBaseLoader() == isBaseLoader;
+   @ post isBaseScanner() == isBaseScanner;
    @*/
-	public ZipLoader(ZipFile zipFile, Predicate<? super String,Nothing> filter, boolean isBaseLoader) {
-		super(zipFile, filter, isBaseLoader);
+	public ZipScanner(ZipFile zipFile, Predicate<? super String,Nothing> filter, boolean isBaseScanner) {
+		super(zipFile, filter, isBaseScanner);
 	}
 
 	/**
-	 * Create a new zip loader for the jar with the given path, file filter, and base loader setting.
+	 * Create a new zip scanner for the jar with the given path, file filter.
+	 * The scanner does not load a base library.
 	 * 
 	 * @param path The path of the jar file from which elements must be loaded.
 	 * @param filter A filter that selects files in the zip file based on their paths.
-	 * @param isBaseLoader Indicates whether the loader is responsible for loading a base library.
 	 */
  /*@
    @ public behavior
@@ -48,9 +49,9 @@ public class ZipLoader extends AbstractZipScanner {
    @
    @ post path() == zipPath;
    @ post filter() == filter;
-   @ post isBaseLoader() == false;
+   @ post isBaseScanner() == false;
    @*/
-	public ZipLoader(ZipFile zipFile, Predicate<? super String,Nothing> filter) {
+	public ZipScanner(ZipFile zipFile, Predicate<? super String,Nothing> filter) {
 		this(zipFile, filter, false);
 	}
 
@@ -60,7 +61,7 @@ public class ZipLoader extends AbstractZipScanner {
 			ZipEntry entry = pair.second();
 			String qn = pair.first().second();
 			if(qn.contains(".")) {
-				throw new InputException("The ZipLoader class cannot yet deal with separate files for nested declarations.");
+				throw new InputException("The ZipScanner class cannot yet deal with separate files for nested declarations.");
 			} else {
 				try {
 					String packageFQN = namespaceFQN(entry.getName());

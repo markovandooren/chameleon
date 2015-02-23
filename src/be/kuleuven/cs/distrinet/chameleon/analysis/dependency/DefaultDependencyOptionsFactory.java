@@ -71,8 +71,8 @@ public class DefaultDependencyOptionsFactory extends LanguagePluginImpl implemen
 					new DependencyAnalysis.NOOP());
 			Set<Namespace> namespaces = new HashSet<>();
 			for(View view: _project.views()) {
-				for(DocumentScanner loader: view.sourceLoaders()) {
-					namespaces.addAll(loader.namespaces());
+				for(DocumentScanner scanner: view.sourceScanners()) {
+					namespaces.addAll(scanner.namespaces());
 				}
 			}
 			for(Namespace namespace: namespaces) {

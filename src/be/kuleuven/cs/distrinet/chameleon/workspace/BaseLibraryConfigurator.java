@@ -35,7 +35,7 @@ public abstract class BaseLibraryConfigurator {
 			next().process(view, configuration);
 		}
 		if(configuration.mustLoad(language())) {
-			addBaseLoader(view);
+			addBaseScanner(view);
 		}
 	}
 	
@@ -60,7 +60,7 @@ public abstract class BaseLibraryConfigurator {
 	
 	private BaseLibraryConfigurator _next;
 	
-	protected abstract void addBaseLoader(View view);
+	protected abstract void addBaseScanner(View view);
 
 	/**
 	 * Return the language object for which this base library configurator

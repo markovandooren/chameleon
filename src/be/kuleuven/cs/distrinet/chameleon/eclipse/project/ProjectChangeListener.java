@@ -44,8 +44,8 @@ public class ProjectChangeListener implements IResourceChangeListener {
 			delta.accept( new ChameleonResourceDeltaVisitor(nature()) {
 
 				/**
-				 * If the resource is a file, it is given to all FileLoaders, which
-				 * will try to add the file. A file loader will only add the file when
+				 * If the resource is a file, it is given to all file scanners, which
+				 * will try to add the file. A file scanner will only add the file when
 				 * it determines that it is responsible to that file.
 				 */
 				@Override
@@ -125,8 +125,8 @@ public class ProjectChangeListener implements IResourceChangeListener {
 				}
 
 				/**
-				 * If the resource is a file, it is given to all FileLoaders, which
-				 * will try to add the file. A file loader will only add the file when
+				 * If the resource is a file, it is given to all file scanners, which
+				 * will try to add the file. A file scanner will only add the file when
 				 * it determines that it is responsible to that file.
 				 */
 				@Override

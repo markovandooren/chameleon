@@ -2,11 +2,11 @@ package be.kuleuven.cs.distrinet.chameleon.workspace;
 
 public class ViewListener {
 
-	public void sourceLoaderAdded(DocumentScanner loader) {}
+	public void sourceScannerAdded(DocumentScanner scanner) {}
 	
-	public void sourceLoaderRemoved(DocumentScanner loader) {}
+	public void sourceScannerRemoved(DocumentScanner scanner) {}
 
-	public void binaryLoaderAdded(DocumentScanner loader) {}
+	public void binaryScannerAdded(DocumentScanner scanner) {}
 	
-	public void binaryLoaderRemoved(DocumentScanner loader) {}
+	public void binaryScannerRemoved(DocumentScanner scanner) {}
 }

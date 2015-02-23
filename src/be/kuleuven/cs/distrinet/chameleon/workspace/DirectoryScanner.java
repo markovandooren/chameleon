@@ -25,7 +25,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
  * 
  * @author Marko van Dooren
  */
-public class DirectoryScanner extends DocumentScannerImpl implements FileLoader {
+public class DirectoryScanner extends DocumentScannerImpl implements FileScanner {
 	
 
 	/**
@@ -34,7 +34,7 @@ public class DirectoryScanner extends DocumentScannerImpl implements FileLoader 
 	 * 
 	 * @param root The path of the root directory from which elements must be loaded.
 	 * @param filter A filter that selects files in the zip file based on their paths.
-	 * @param isBaseLoader Indicates whether the scanner is responsible for loading a base library.
+	 * @param factory The factory for the input sources.
 	 */
  /*@
    @ public behavior
@@ -43,7 +43,8 @@ public class DirectoryScanner extends DocumentScannerImpl implements FileLoader 
    @
    @ post path() == root;
    @ post filter() == filter;
-   @ post isBaseLoader() == isBaseLoader;
+   @ post isBaseScanner() == false;
+   @ post inputSourceFactor() == factory;
    @*/
 	public DirectoryScanner(String root, Predicate<? super String,Nothing> filter, FileInputSourceFactory factory) {
 		this(root, filter, false, factory);
@@ -55,7 +56,8 @@ public class DirectoryScanner extends DocumentScannerImpl implements FileLoader 
 	 * 
 	 * @param root The path of the root directory from which elements must be loaded.
 	 * @param filter A filter that selects files in the zip file based on their paths.
-	 * @param isBaseLoader Indicates whether the scanner is responsible for loading a base library.
+	 * @param isBaseScanner Indicates whether the scanner is responsible for scanning a base library.
+    * @param factory The factory for the input sources.
 	 */
  /*@
    @ public behavior
@@ -64,10 +66,11 @@ public class DirectoryScanner extends DocumentScannerImpl implements FileLoader 
    @
    @ post path() == root;
    @ post filter() == filter;
-   @ post isBaseLoader() == isBaseLoader;
+   @ post isBaseScanner() == isBaseScanner;
+   @ post inputSourceFactor() == factory;
    @*/
-	public DirectoryScanner(String root, Predicate<? super String,Nothing> filter, boolean isBaseLoader, FileInputSourceFactory factory) {
-		super(isBaseLoader);
+	public DirectoryScanner(String root, Predicate<? super String,Nothing> filter, boolean isBaseScanner, FileInputSourceFactory factory) {
+		super(isBaseScanner);
 		setPath(root);
 		setInputSourceFactory(factory);
 		setFilter(filter);
@@ -93,7 +96,7 @@ public class DirectoryScanner extends DocumentScannerImpl implements FileLoader 
 	 * This method is called when the directory scanner is connected to a view.
 	 */
 	@Override
-	public void notifyContainerConnected(DocumentLoaderContainer container) throws ProjectException {
+	public void notifyContainerConnected(DocumentScannerContainer container) throws ProjectException {
 		View view = view();
 		if(view != null) {
 			setRoot(view.project().absoluteFile(path()));
@@ -332,7 +335,7 @@ public class DirectoryScanner extends DocumentScannerImpl implements FileLoader 
 	}
 	
 	@Override
-	public boolean loadsSameAs(DocumentScanner obj) {
+	public boolean scansSameAs(DocumentScanner obj) {
 		if(obj == this) {
 			return true;
 		}

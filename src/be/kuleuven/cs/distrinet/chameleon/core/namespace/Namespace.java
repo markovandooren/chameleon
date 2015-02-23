@@ -96,10 +96,13 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer, Simp
 	public List<NamespaceDeclaration> loadedNamespaceParts();
 
 	/**
+	 * <B>DO NOT INVOKE</B> it is an internal method that must be public because
+	 * it is in an interface.
+	 * 
 	 * Add a namespace part to this namespace. A namespace part adds elements to its namespace.
 	 * 
-	 * @deprecated This method must be remove from this interface now that the lexical structure is
-	 *             built upon the project loaders.
+	 * @deprecated This method must be removed from this interface now that the lexical structure is
+	 *             built upon the project scanners.
 	 */
  /*@
    @ public behavior

@@ -21,14 +21,16 @@ public abstract class LazyStreamInputSource extends StreamInputSource {
 	 * 
 	 * @param file The file to be read by this input source.
 	 * @param ns The namespace to which this input source adds its elements.
+	 * @param scanner The document scanner to which this input source will be
+	 *               attached
 	 * 
 	 * @throws InputException This exception cannot actually be thrown because the
 	 *                        {@link #targetDeclarationNames(Namespace)} method cannot throw it.
 	 *                        It must be mentioned, however, because we can't catch exceptions
 	 *                        from the super constructor call.
 	 */
-	public LazyStreamInputSource(String declarationName, InputSourceNamespace ns, DocumentScanner loader) throws InputException {
-		init(declarationName, ns,loader);
+	public LazyStreamInputSource(String declarationName, InputSourceNamespace ns, DocumentScanner scanner) throws InputException {
+		init(declarationName, ns,scanner);
 	}
 	
 	/**
@@ -38,21 +40,16 @@ public abstract class LazyStreamInputSource extends StreamInputSource {
 		
 	}
 	
-	public void init(String declarationName, InputSourceNamespace ns, DocumentScanner loader) throws InputException {
+	protected void init(String declarationName, InputSourceNamespace ns, DocumentScanner scanner) throws InputException {
 		// The super class cannot yet add the input source to the namespace because we cannot
 		// set the declaration name in advance (it is needed when the input source is added to the namespace).
 		if(declarationName == null) {
 			throw new IllegalArgumentException();
 		}
 		_declarationName = declarationName;
-		init(loader);
+		init(scanner);
 		ns.addInputSource(this);
 	}
-	
-//	public LazyStreamInputSource(File file, String declarationName, InputSourceNamespace ns, DocumentLoader loader) throws InputException {
-//		super(convert(file));
-//		init(declarationName,ns,loader);
-//	}
 	
 	private String _declarationName;
 	

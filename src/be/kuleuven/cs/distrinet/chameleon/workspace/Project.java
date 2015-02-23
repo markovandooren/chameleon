@@ -14,11 +14,12 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 /**
  * A class that represents the concept of a project. A project
- * keeps a collection document loaders that populate the project.
+ * keeps a collection document scanners that populate the project.
  * 
- * FIXME: A project should not need a root directory. That functionality
- * should be moved to a plugin. If a project is loaded from a database,
- * a root directory makes no sense. For now, just provide a null reference.
+ * FIXME: A project should not need a root directory or know about files. 
+ * That functionality should be moved to a plugin. 
+ * If a project is loaded from a database, the functionality makes no sense. 
+ * For now, just provide a null reference.
  * 
  * @author Marko van Dooren
  */
@@ -283,13 +284,13 @@ public class Project {
    //	}
 
    /**
-    * Try to add the given file to the project. Each FileLoader in each view
+    * Try to add the given file to the project. Each FileScanner in each view
     * will be given the opportunity to add the file. The source caches
     * of the project are flushed afterwards.
     * 
-    * FIXME: Can we avoid letting the Project know about files and FileLoader?
+    * FIXME: Can we avoid letting the Project know about files and FileScanner?
     *        Yes, but ideally we want to apply a closure to the view which in
-    *        turn apply a closure to their loaders.
+    *        turn apply a closure to their scanners.
     *        
     * @param file The file to be added.
     */
@@ -298,11 +299,11 @@ public class Project {
       List<View> views = views();
       int nbViews = views.size();
       for(int j = 0; result == null && j< nbViews; j++) {
-         List<FileLoader> loaders = views.get(j).loaders(FileLoader.class);
-         int loaderSize = loaders.size();
-         for(int i = 0; result == null && i < loaderSize; i++) {
+         List<FileScanner> scanners = views.get(j).scanners(FileScanner.class);
+         int scannerSize = scanners.size();
+         for(int i = 0; result == null && i < scannerSize; i++) {
             try {
-               result = loaders.get(i).tryToAdd(file);
+               result = scanners.get(i).tryToAdd(file);
             } catch (InputException e) {
                throw new IllegalArgumentException(e);
             }
@@ -315,15 +316,15 @@ public class Project {
    /**
     * Try to remove the given file from the project.
     * 
-    * @param file The file to be removed. Each FileLoader in each view
+    * @param file The file to be removed. Each FileScanner in each view
     * will be given the opportunity to remove the file. The source caches
     * of the project are flushed afterwards.
     */
    public void tryToRemove(File file) {
       for(View view: views()) {
-         for(FileLoader loader: view.sourceLoaders(FileLoader.class)) {
+         for(FileScanner scanner: view.sourceScanners(FileScanner.class)) {
             try {
-               loader.tryToRemove(file);
+               scanner.tryToRemove(file);
             } catch (InputException e) {
                throw new IllegalArgumentException(e);
             }
