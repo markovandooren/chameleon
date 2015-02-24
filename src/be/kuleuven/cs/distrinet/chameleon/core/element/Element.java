@@ -2,6 +2,7 @@ package be.kuleuven.cs.distrinet.chameleon.core.element;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 
 import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
@@ -506,10 +507,24 @@ public interface Element {
 
      
     /**
-     * Recursively apply the given action to this element and all of its descendants, but only if they their type conforms to T.
+     * Recursively apply the given action to this element and all of its 
+     * descendants, but only if their type conforms to T.
+     * 
+     * @param action The action to apply.
      */
     public <T extends Element, E extends Exception> void apply(Action<T,E> action) throws E;
     
+    
+    /**
+     * Recursively pass this element and all of its descendants to
+     * the given consumer if their type conforms to T.
+     * 
+     * @param consumer The consumer to which the elements must be provided.
+     * @param kind A class object representing the type of elements to be 
+     *             passed to the consumer.
+     */
+    public <T extends Element, E extends Exception> void apply(Consumer<T> consumer, Class<T> kind) throws E;
+
     /**
      * Return the metadata with the given key.
      * @param key

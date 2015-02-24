@@ -841,7 +841,13 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
 		}
 	}
 	
-	public final <T extends Element, E extends Exception>  void apply(Consumer<T> action) throws E {
+	public final <T extends Element, E extends Exception>  void apply(Consumer<T> action, Class<T> kind) throws E {
+	  if(kind.isInstance(this)) {
+	     action.accept((T)this);
+	  }
+     for (Element e : children()) {
+        e.apply(action,kind);
+     }
 	}
 
 	@Override

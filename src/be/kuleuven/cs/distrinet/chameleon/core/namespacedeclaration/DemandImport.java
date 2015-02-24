@@ -9,7 +9,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationCollector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.DeclarationSelector;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.SelectionResult;
-import be.kuleuven.cs.distrinet.chameleon.core.reference.SimpleReference;
+import be.kuleuven.cs.distrinet.chameleon.core.reference.NameReference;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Valid;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.util.association.Single;
@@ -21,18 +21,18 @@ import com.google.common.collect.ImmutableList;
  */
 public class DemandImport extends Import {
   
-  public DemandImport(SimpleReference<? extends DeclarationContainer> ref) {
+  public DemandImport(NameReference<? extends DeclarationContainer> ref) {
   	setContainerReference(ref);
   }
   
-	private Single<SimpleReference<? extends DeclarationContainer>> _packageOrType = new Single<SimpleReference<? extends DeclarationContainer>>(this);
+	private Single<NameReference<? extends DeclarationContainer>> _packageOrType = new Single<NameReference<? extends DeclarationContainer>>(this);
 
   
-  public SimpleReference<? extends DeclarationContainer> containerReference() {
+  public NameReference<? extends DeclarationContainer> containerReference() {
     return _packageOrType.getOtherEnd();
   }
   
-  public void setContainerReference(SimpleReference<? extends DeclarationContainer> ref) {
+  public void setContainerReference(NameReference<? extends DeclarationContainer> ref) {
   	set(_packageOrType,ref);
   }
   
