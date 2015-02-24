@@ -6,20 +6,23 @@ import java.util.List;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.Signature;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameDeclaration;
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameSignature;
 import be.kuleuven.cs.distrinet.chameleon.util.Lists;
 
+/**
+ * A class of selectors that do not impose an order on selected elements.
+ * If there are multiple declarations with the correct signature, all of them
+ * will be returned.
+ * 
+ * @author Marko van Dooren
+ *
+ * @param <D> The type of the selected declaration.
+ */
 public abstract class SelectorWithoutOrder<D extends Declaration> extends DeclarationSelector<D> {
 
-//	/**
-//	 * Return the signature that is used by this selector for selecting declarations.
-//	 */
-// /*@
-//   @ public behavior
-//   @
-//   @ post \result != null;
-//   @*/
-//	public abstract Signature signature();
+   /**
+    * @return The name of this selector.
+    */
 	public abstract String name();
 	
 	/**
@@ -65,11 +68,11 @@ public abstract class SelectorWithoutOrder<D extends Declaration> extends Declar
   	return result;
   }
   
-  protected boolean correctSignature(Declaration declaration) throws LookupException {
-  	//FIXME This interface is not good!
-		return declaration.name().equals(name()) && (declaration instanceof SimpleNameDeclaration);
-//		return declaration.name().equals(name()) && (declaration.signature() instanceof SimpleNameSignature);
-  }
+   protected boolean correctSignature(Declaration declaration) throws LookupException {
+      // return declaration.name().equals(name()) && (declaration instanceof SimpleNameDeclaration);
+      Signature signature = declaration.signature();
+      return signature.name().equals(name()) && ! signature.hasMorePropertiesThanName();
+   }
   
   @Override
   public List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException {

@@ -7,7 +7,7 @@ import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException
  * 
  * @author Marko van Dooren
  */
-public abstract class BasicDeclaration extends DeclarationImpl implements SimpleNameDeclaration {
+public abstract class BasicDeclaration extends DeclarationImpl {
 
    public BasicDeclaration(String name) {
       setName(name);
@@ -58,13 +58,14 @@ public abstract class BasicDeclaration extends DeclarationImpl implements Simple
       return _signature;
    }
 
-   @Override
-   public boolean sameSignatureAs(Declaration declaration) {
-      if (declaration instanceof BasicDeclaration) {
-         return _name.equals(((BasicDeclaration) declaration)._name);
-      } else {
-         return declaration.name().equals(_name) && declaration instanceof SimpleNameDeclaration;
-      }
-   }
+//   @Override
+//   public boolean sameSignatureAs(Declaration declaration) {
+////      if (declaration instanceof BasicDeclaration) {
+////         return _name.equals(((BasicDeclaration) declaration)._name);
+////      } else {
+////         return declaration.name().equals(_name) && declaration instanceof SimpleNameDeclaration;
+////      }
+//      return signature().sameAs(declaration.signature());
+//   }
 
 }

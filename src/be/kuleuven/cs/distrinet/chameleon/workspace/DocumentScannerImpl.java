@@ -20,6 +20,9 @@ import com.google.common.collect.ImmutableSet;
 /**
  * A default implementation for document scanners.
  * 
+ * Subclasses should override {@link #notifyContainerConnected(DocumentScannerContainer)}
+ * to create {@link DocumentLoader}s and attach them to the appropriate namespaces.
+ *
  * @author Marko van Dooren
  */
 public abstract class DocumentScannerImpl implements DocumentScanner {

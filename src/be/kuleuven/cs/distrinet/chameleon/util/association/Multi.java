@@ -26,7 +26,7 @@ public class Multi<T extends Element> extends OrderedMultiAssociation<Element, T
 	
 	public Multi(Element element, int min, int max) {
 		this(element);
-		if(min > max) {
+		if(min > max && max >= 0) {
 			throw new IllegalArgumentException();
 		}
 		_min=min;
@@ -48,24 +48,24 @@ public class Multi<T extends Element> extends OrderedMultiAssociation<Element, T
 	}
 	
 	public int max() {
-		return _max;
+		return _max > 0 ? _max : Integer.MAX_VALUE;
 	}
 	
 	private int _min;
 	private int _max;
 	
-	public boolean isConstrained() {
+	public boolean hasFiniteMaximumArity() {
 		return _max > 0;
 	}
 	
 	@Override
    public Verification verify() {
 		Verification result = Valid.create();
-		if(isConstrained()) {
-			int size = size();
-			if(size < min()) {
-				result = result.and(new BasicProblem(getObject(), "At least " + min()+" " + role() + " were expected, but only "+size+ " are defined."));
-			}
+      int size = size();
+      if(size < min()) {
+         result = result.and(new BasicProblem(getObject(), "At least " + min()+" " + role() + " were expected, but only "+size+ " are defined."));
+      }
+		if(hasFiniteMaximumArity()) {
 			if(size > max()) {
 				result = result.and(new BasicProblem(getObject(), "At most " + max()+" " + role() +" were expected, but "+size+ " are defined."));
 			}

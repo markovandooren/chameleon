@@ -75,8 +75,7 @@ public Scope scope() throws ModelException {
 	}
 
   @Override
-  public boolean sameSignatureAs(Declaration declaration)
-  		throws LookupException {
+  public boolean sameSignatureAs(Declaration declaration) throws LookupException {
   	return signature().sameAs(declaration.signature());
   }
   

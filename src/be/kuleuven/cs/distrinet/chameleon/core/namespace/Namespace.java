@@ -3,12 +3,11 @@ package be.kuleuven.cs.distrinet.chameleon.core.namespace;
 import java.util.List;
 
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.DeclarationContainer;
-import be.kuleuven.cs.distrinet.chameleon.core.declaration.SimpleNameDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.declaration.TargetDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 
-public interface Namespace extends TargetDeclaration, DeclarationContainer, SimpleNameDeclaration {
+public interface Namespace extends TargetDeclaration, DeclarationContainer {
 
 	/**
 	 * Return the fully qualified name of this package. This is the concatenation of the

@@ -3,6 +3,7 @@ package be.kuleuven.cs.distrinet.chameleon.core.element;
 import java.util.Collection;
 import java.util.List;
 
+import be.kuleuven.cs.distrinet.chameleon.core.document.Document;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.core.language.WrongLanguageException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
@@ -59,6 +60,8 @@ import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
  * Every element can have metadata associated with it. They are used to attach additional information
  * to an element without adding dependencies to Chameleon.
  * 
+ * @assoc * - "1\n\n parent" Element 
+ * 
  * @author Marko van Dooren
  */
 public interface Element {
@@ -69,9 +72,8 @@ public interface Element {
     public Element parent();
     
     /**
-     * Return a tree structure for the lexical structure of this element. This
-     * graph stops at the document level.
-     * @return
+     * @return a tree structure for the lexical structure of this element. This
+     * tree stops at the {@link Document} level.
      */
    /*@
      @ public behavior
@@ -81,9 +83,8 @@ public interface Element {
     public TreeStructure<Element> lexical();
     
     /**
-     * Return a tree structure for the logical structure of this element. This
-     * includes the namespace structure.
-     * @return
+     * @return a tree structure for the logical structure of this element. This
+     * includes the {@link Namespace} structure.
      */
     public TreeStructure<Element> logical();
     

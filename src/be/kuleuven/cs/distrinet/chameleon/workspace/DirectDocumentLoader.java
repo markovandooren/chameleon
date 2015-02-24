@@ -12,6 +12,11 @@ import be.kuleuven.cs.distrinet.chameleon.core.namespace.DocumentLoaderNamespace
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 
+/**
+ * A class of document loaders that load a document directly.
+ *  
+ * @author Marko van Dooren
+ */
 public class DirectDocumentLoader extends DocumentLoaderImpl {
 
 	public DirectDocumentLoader(Declaration decl, String namespaceFQN, View view, DocumentScanner scanner) throws InputException {

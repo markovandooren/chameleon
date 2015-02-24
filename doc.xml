@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- I can't get gradle to do the multi line regex substitution to link the comment blocks -->
+<project basedir="." default="build" name="common">
+  <!-- <property file="properties"/> -->
+  <property file="default.properties"/>
+  <property file="${common.dir}/properties"/>
+  <property file="${common.dir}/default.properties"/>
+
+  <property environment="env"/>
+  <property name="debuglevel" value="lines,vars,source"/>
+  <property name="src" value="src"/>
+  <property name="build" value="build"/>
+  <property name="tmp" value="${build}/tmp"/>
+  <property name="srcForDoc" value="${tmp}/src_for_doc"/>
+  <property name="javadoc" value="${dist}/javadoc"/>
+
+  <target name="prepdoc">
+    <delete dir="${srcForDoc}"/>
+    <copy todir="${srcForDoc}">
+      <fileset dir="${src}"/>
+    </copy>
+  </target>
+
+  <target name="delSingleLineComments" depends="prepdoc">
+    <replaceregexp flags="g">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="//.*"/>
+      <substitution expression=""/>
+    </replaceregexp>
+  </target>
+
+  <target name="removeSpecHeader" depends="delSingleLineComments">
+    <replaceregexp flags="gm">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="^\s*@\s*public\s*behavior\s*$"/>
+      <substitution expression=""/>
+    </replaceregexp>
+  </target>
+
+  <target name="keywordOld" depends="removeSpecHeader">
+    <replaceregexp flags="g">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="\\old"/>
+      <substitution expression="&lt;b&gt;&#92;old&lt;/b&gt;"/>
+    </replaceregexp>
+  </target>
+
+  <target name="keywordExists" depends="keywordOld">
+    <replaceregexp flags="g">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="\\exists"/>
+      <substitution expression="&lt;b&gt;&#92;exists&lt;/b&gt;"/>
+    </replaceregexp>
+  </target>
+
+  <target name="keywordForAll" depends="keywordExists">
+    <replaceregexp flags="g">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="\\result"/>
+      <substitution expression="&lt;b&gt;&#92;result&lt;/b&gt;"/>
+    </replaceregexp>
+  </target>
+
+  <target name="keywordResult" depends="keywordForAll">
+    <replaceregexp flags="g">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="\\result"/>
+      <substitution expression="&lt;b&gt;&#92;result&lt;/b&gt;"/>
+    </replaceregexp>
+  </target>
+
+  <target name="linkStart" depends="keywordResult">
+    <replaceregexp flags="g">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="\*/(\s)*/\*@"/>
+      <substitution expression="&lt;div&gt;"/>
+    </replaceregexp>
+  </target>
+
+  <target name="replaceStart" depends="linkStart">
+    <replaceregexp flags="g">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="/\*@"/>
+      <substitution expression="/** &lt;div&gt;"/>
+    </replaceregexp>
+  </target>
+
+  <target name="replaceEnd" depends="replaceStart">
+    <replaceregexp flags="g">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="@\*/"/>
+      <substitution expression="#!#!#!# &lt;/div&gt; */"/>
+    </replaceregexp>
+  </target>
+
+  <target name="placePreMarker" depends="replaceEnd">
+    <replaceregexp flags="gs" byLine="false">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="@\s*pre"/>
+      <substitution expression="#!#!#!# @ pre"/>
+    </replaceregexp>
+  </target>
+
+  <target name="placePostMarker" depends="placePreMarker">
+    <replaceregexp flags="gs" byLine="false">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="\s*@\s*post"/>
+      <substitution expression="#!#!#!# @ post"/>
+    </replaceregexp>
+  </target>
+
+  <target name="replacePre" depends="placePostMarker">
+    <replaceregexp flags="gs" byLine="false">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="@ pre(.*?)#!#!#!#"/>
+      <substitution expression="&lt;br/&gt;  &lt;font color=&quot;red&quot;&gt; &lt;code&gt; &lt;b&gt; pre &lt;/b&gt; \1 &lt;/code&gt; &lt;/font&gt; &lt;br/&gt; ${line.separator}"/>
+    </replaceregexp>
+  </target>
+
+  <target name="replacePost" depends="replacePre">
+    <replaceregexp flags="gs" byLine="false">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="@ post(.*?)#!#!#!#"/>
+      <substitution expression="&lt;br/&gt;  &lt;font color=&quot;green&quot;&gt; &lt;code&gt; &lt;b&gt; post &lt;/b&gt; \1 &lt;/code&gt; &lt;/font&gt; &lt;br/&gt; ${line.separator}"/>
+    </replaceregexp>
+  </target>
+
+  <target name="prepareSourceForJavadoc" depends="replacePost">
+    <replaceregexp flags="gm" byLine="false">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.java"/>
+      </fileset>
+      <regexp pattern="\s*@(\s*#!#!#!#\s*|\s+)"/>
+      <substitution expression=""/>
+    </replaceregexp>
+  </target>
+
+  <target name="doc" depends="prepareSourceForJavadoc">
+    <delete dir="${javadoc}"/>
+    <javadoc
+      destdir="${javadoc}"
+      author="true"
+      version="true"
+      use="true"
+      windowtitle="Chameleon API">
+
+      <fileset dir="${srcForDoc}" defaultexcludes="yes">
+        <include name="**/*.java"/>
+        <!-- <exclude name="com/dummy/test/doc-files/**"/> -->
+      </fileset>
+
+      <doctitle><![CDATA[<h1>Chameleon API documentation</h1>]]></doctitle>
+      <bottom><![CDATA[<i>Copyright &#169; 2001-2012 KU Leuven</i>]]></bottom>
+      <tag name="todo" scope="all" description="To do:"/>
+      <!-- <link offline="true" href="http://download.oracle.com/javase/6/docs/api/" packagelistLoc="C:\tmp"/> -->
+      <link href="http://people.cs.kuleuven.be/marko.vandooren/chameleon/api/"/>
+    </javadoc>
+  </target>
+
+</project>

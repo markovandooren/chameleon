@@ -149,7 +149,7 @@ public PropertySet<Element,ChameleonProperty> declaredProperties() {
  }
  
  @Override
-public LocalLookupContext targetContext() throws LookupException {
+public LocalLookupContext<?> targetContext() throws LookupException {
    return getType().targetContext();
  }
 

@@ -29,23 +29,29 @@ public abstract class Signature extends QualifiedName {
    @*/
   public abstract void setName(String name);
   
-  /* (non-Javadoc)
-   * @see chameleon.core.declaration.QualifiedName#signatureAt(int)
-   */
-  @Override
-public Signature signatureAt(int index) {
-  	if(index != 1) {
-  		throw new ChameleonProgrammerException();
-  	} else {
-  		return this;
-  	}
-  }
-  
-  /**
-   * The default string representation of a signature is its name.
-   */
-  @Override
-public String toString() {
-  	return name();
-  }
+   @Override
+   public Signature signatureAt(int index) {
+      if (index != 1) {
+         throw new ChameleonProgrammerException();
+      } else {
+         return this;
+      }
+   }
+
+   /**
+    * The default string representation of a signature is its name.
+    */
+   @Override
+   public String toString() {
+      return name();
+   }
+   
+   /**
+    * Check whether this signature has more properties than just the name.
+    * This method is required to optimize name lookup without introducing
+    * coupling to specific types.  
+    * @return
+    */
+   public abstract boolean hasMorePropertiesThanName();
+
 }

@@ -12,7 +12,7 @@ import be.kuleuven.cs.distrinet.chameleon.plugin.LanguagePluginImpl;
  * 
  * @author Marko van Dooren
  */
-public abstract class Factory extends LanguagePluginImpl {
+public class Factory extends LanguagePluginImpl {
 
 	/**
 	 * Create a new namespace declaration for the given namespace.
@@ -59,5 +59,10 @@ public abstract class Factory extends LanguagePluginImpl {
    @*/
 	public NamespaceDeclaration createRootNamespaceDeclaration() {
 		return createNamespaceDeclaration(new RootNamespaceReference());
+	}
+	
+	@Override
+	public Factory clone() {
+	   return new Factory();
 	}
 }
