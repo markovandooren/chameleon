@@ -44,10 +44,6 @@ public class ExpressionFactory extends LanguagePluginImpl {
 		return new PostfixOperatorInvocation(name, target);
 	}
 
-	public <D extends Declaration> NameReference<D> createSimpleReference(String fqn,Class<D> kind) {
-		return new NameReference<>(fqn, kind);
-	}
-
 	public NamedTarget createNamedTarget(String fqn) {
 		return new NamedTarget(fqn,this);
 	}

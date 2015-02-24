@@ -1,9 +1,11 @@
 package be.kuleuven.cs.distrinet.chameleon.core.factory;
 
+import be.kuleuven.cs.distrinet.chameleon.core.declaration.Declaration;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.RootNamespaceReference;
 import be.kuleuven.cs.distrinet.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
+import be.kuleuven.cs.distrinet.chameleon.core.reference.NameReference;
 import be.kuleuven.cs.distrinet.chameleon.oo.expression.ExpressionFactory;
 import be.kuleuven.cs.distrinet.chameleon.plugin.LanguagePluginImpl;
 
@@ -28,9 +30,22 @@ public class Factory extends LanguagePluginImpl {
    @ post \result.namespace() == ns;
    @*/
 	public NamespaceDeclaration createNamespaceDeclaration(String fqn) {
-		return createNamespaceDeclaration(language().plugin(ExpressionFactory.class).createSimpleReference(fqn, Namespace.class));
+		return createNamespaceDeclaration(createNameReference(fqn, Namespace.class));
 	}
-	
+
+	/**
+	 * Create a new name reference for an element of the given type with the given
+	 * fully qualified name.
+	 * 
+	 * @param fqn The fully qualified name of the referenced declaration.
+	 * @param type A class object representing the type of the referenced declaration.
+	 * @return a name reference for an element of the given type with the given
+    * fully qualified name.
+	 */
+   public <D extends Declaration> NameReference<D> createNameReference(String fqn, Class<D> type) {
+      return new NameReference<>(fqn, type);
+   }
+
 	/**
 	 * Create a new namespace declaration for the given namespace.
 	 *
