@@ -41,7 +41,24 @@ import com.google.common.collect.ImmutableList.Builder;
  * A document scanner ensures that all document for a particular resource,
  * such as an archive file, directory, or database, are loaded into the view.
  * 
- * SOURCE AND BINARY
+ * Document scanners are divided into two collections:
+ * <ul>
+ *   <li>{@link #sourceScanners()} load documents that are part of the
+ *   project and are supposed to be modified.</li>
+ *   <li>{@link #binaryScanners()} load documents that are used by
+ *   the project, but not modified.</li>
+ * </ul>
+ * 
+ * To connect a view to a project, invoke {@link Project#addView(View)} on
+ * the project. It will main the bidirectional association between both.
+ * 
+ * <h3>Caching</h3>
+ * After modification of a source document, you must invoke
+ * {@link #flushSourceCache()} to ensure that there are no stale caches
+ * in the model. Caching is used to dramatically speed up the lookup
+ * procedure, but changing the model will of course invalidate the caches.
+ * Currently no mechanism is in place to automatically flush the cache
+ * or to compute exactly which caches need to be flushed.
  * 
  * @author Marko van Dooren
  */
@@ -49,14 +66,27 @@ public class View extends PluginContainerImpl<ViewPlugin>
        implements PluginContainer<ViewPlugin>, 
                   ProcessorContainer<ViewProcessor>, 
                   DocumentScannerContainer {
-	
+   
+   private Language _language;
+
    /**
-    * Create a 
-    * @param namespace
-    * @param language
+    * Create a name view with the given root namespace and language.
+    * 
+    * @param defaultNamespace The default namespace for the new view.
+    * @param language The language in which the documents of the new view
+    *                 will be described.
     */
-	public View(RootNamespace namespace, Language language) {
-		setNamespace(namespace);
+  /*@
+    @ public behavior
+    @
+    @ pre defaultNamespace != null;
+    @ pre language != null;
+    @
+    @ post namespace() == defaultNamespace;
+    @ post language() == language;
+    @*/
+	public View(RootNamespace defaultNamespace, Language language) {
+		setNamespace(defaultNamespace);
 		setLanguage(language);
 		_binaryScanners.addListener(new AssociationListener<DocumentScanner>() {
 
@@ -122,22 +152,49 @@ public class View extends PluginContainerImpl<ViewPlugin>
 
 	private SingleAssociation<View, Project> _projectLink = new SingleAssociation<View, Project>(this);
 	
+	/**
+	 * @return the association end that connects the view to its project.
+	 */
+  /*@
+    @ public behavior
+    @
+    @ post \result != null;
+    @*/
 	public SingleAssociation<View, Project> projectLink() {
 		return _projectLink;
 	}
 
+	/**
+	 * @return the project to which the view is connected.
+	 */
 	public Project project() {
 		return _projectLink.getOtherEnd();
 	}
 
-  public void setLanguage(Language language) {
-  	if(language != null) {
-  		_language = language;
-  	} else {
-  		throw new IllegalArgumentException();
-  	}
-  }
+	/**
+	 * Set the language of this view.
+	 * 
+	 * This method is private because I see no use for changing the
+	 * language of a view.
+	 * 
+	 * @param language The new language of the view.
+	 */
+   private void setLanguage(Language language) {
+      if (language != null) {
+         _language = language;
+      } else {
+         throw new IllegalArgumentException();
+      }
+   }
 
+   /**
+    * @return The language in which the documents of this view are described.
+    */
+  /*@
+    @ public behavior
+    @
+    @ post \result != null;
+    @*/
   public Language language() {
     return _language;
   }
@@ -154,13 +211,23 @@ public class View extends PluginContainerImpl<ViewPlugin>
 		}
 	}
 	    
-  private Language _language;
-
+	/**
+	 * @return The default namespace of this view.
+	 */
 	public RootNamespace namespace() {
 		return _namespace.getOtherEnd();
 	}
 	
-	public void setNamespace(RootNamespace namespace) {
+	/**
+	 * Set the default namespace of this view. The bidirectional association
+	 * between the namespace and the view is kept consistent.
+	 * 
+	 * This method is protected because there does not seem to be a good
+	 * reason to change the default namespace.
+	 * 
+	 * @param namespace The new default namespace for this view.
+	 */
+	protected void setNamespace(RootNamespace namespace) {
 		if(namespace != null) {
 			_namespace.connectTo(namespace.projectLink());
 		} else {
@@ -168,22 +235,29 @@ public class View extends PluginContainerImpl<ViewPlugin>
 		}
 	}
 	
-  public SingleAssociation<View,RootNamespace> namespaceLink() {
-  	return _namespace;
-  }
-	
+   /**
+    * @return the association end that connects this view to its default
+    *         namespace.
+    */
+   public SingleAssociation<View, RootNamespace> namespaceLink() {
+      return _namespace;
+   }
+
 	private SingleAssociation<View,RootNamespace> _namespace = new SingleAssociation<View,RootNamespace>(this);
 	
 	/**
-	 * Add the given source scanner to this project.
+	 * Add the given document to this view as a binary scanner.
+	 * 
+	 * @param scanner The document scanner to be added as a binary scanner.
 	 */
-	/*@
-   @ public behavior
-   @
-   @ pre input != null;
-   @
-   @ post ! documentLoaders().contains(input);
-   @*/
+  /*@
+    @ public behavior
+    @
+    @ pre input != null;
+    @
+    @ post binaryScanners().get(binaryScanners().size()-1) == scanner;
+    @ post binaryScanners().subList(0,binaryScanners().size()-1).equals(\old(binaryScanners()));
+    @*/
 	public void addBinary(DocumentScanner scanner) throws ProjectException {
 		if(scanner != null) {
 			if(! canAddBinary(scanner)) {
@@ -202,12 +276,17 @@ public class View extends PluginContainerImpl<ViewPlugin>
 	
 	/**
 	 * Check whether the given document scanner can be added
-	 * as a binary scanner. If there is already an equal
-	 * scanner present, false is returned.
+	 * as a binary scanner.
 	 * 
 	 * @param scanner The scanner of which must be determined whether it can be added.
-	 * @return
+	 * @return True if there is no binary scanner that already loads the same 
+	 *         documents, false otherwise.
 	 */
+  /*@
+    @ public behavior
+    @
+    @ post binaryScanners().stream().allMatch(s -> !s.scansSameAs(scanner));
+    @*/
 	public boolean canAddBinary(DocumentScanner scanner) {
 		for(DocumentScanner l: binaryScanners()) {
 			if(l.scansSameAs(scanner)) {
@@ -222,6 +301,13 @@ public class View extends PluginContainerImpl<ViewPlugin>
 	 * 
 	 * @param scanner The binary scanner to be removed.
 	 */
+  /*@
+    @ public behavior
+    @
+    @ pre input != null;
+    @
+    @ post \old(binaryScanners().subList(0,binaryScanners().size()-1)).equals(binaryScanners());
+    @*/
 	public void removeBinary(DocumentScanner scanner) {
 		_binaryScanners.remove(scanner.containerLink());
 	}
@@ -229,6 +315,11 @@ public class View extends PluginContainerImpl<ViewPlugin>
 	/**
 	 * @return the list of binary scanners.
 	 */
+  /*@
+    @ public behavior
+    @
+    @ post result != null;
+    @*/
 	public List<DocumentScanner> binaryScanners() {
 		return _binaryScanners.getOtherEnds();
 	}
@@ -258,20 +349,29 @@ public class View extends PluginContainerImpl<ViewPlugin>
 		_listeners.add(listener);
 	}
 	
+	/**
+	 * Remove the given view listener. The listener will no longer be notified
+	 * by this view.
+	 * 
+	 * @param listener The view listener to be removed.
+	 */
 	public void removeListener(ViewListener listener) {
 		_listeners.remove(listener);
 	}
 	
-	/**
-	 * Add the given document scanner to this project.
-	 */
-	/*@
-   @ public behavior
-   @
-   @ pre input != null;
-   @
-   @ post ! documentLoaders().contains(input);
-   @*/
+   /**
+    * Add the given document to this view as a source scanner.
+    * 
+    * @param scanner The document scanner to be added as a source scanner.
+    */
+  /*@
+    @ public behavior
+    @
+    @ pre input != null;
+    @
+    @ post sourceScanners().get(sourceScanners().size()-1) == scanner;
+    @ post sourceScanners().subList(0,sourceScanners().size()-1).equals(\old(sourceScanners()));
+    @*/
 	public void addSource(DocumentScanner scanner) throws ProjectException {
 		if(scanner != null) {
 			if(! canAddSource(scanner)) {
@@ -288,14 +388,19 @@ public class View extends PluginContainerImpl<ViewPlugin>
 		}
 	}
 	
-	/**
-	 * Check whether the given document scanner can be added
-	 * as a source scanner. If there is already an equal
-	 * scanner present, false is returned.
-	 * 
-	 * @param scanner The scanner of which must be determined whether it can be added.
-	 * @return
-	 */
+   /**
+    * Check whether the given document scanner can be added
+    * as a source scanner.
+    * 
+    * @param scanner The scanner of which must be determined whether it can be added.
+    * @return True if there is no source scanner that already loads the same 
+    *         documents, false otherwise.
+    */
+  /*@
+    @ public behavior
+    @
+    @ post binaryScanners().stream().allMatch(s -> !s.scansSameAs(scanner));
+    @*/
 	public boolean canAddSource(DocumentScanner scanner) {
 		for(DocumentScanner l: sourceScanners()) {
 			if(l.scansSameAs(scanner)) {
@@ -305,26 +410,93 @@ public class View extends PluginContainerImpl<ViewPlugin>
 		return true;
 	}
 	
+   /**
+    * Remove the given source scanner.
+    * 
+    * @param scanner The source scanner to be removed.
+    */
+  /*@
+    @ public behavior
+    @
+    @ pre input != null;
+    @
+    @ post \old(sourceScanners().subList(0,sourceScanners().size()-1)).equals(sourceScanners());
+    @*/
 	public void removeSource(DocumentScanner scanner) {
 		_sourceScanners.remove(scanner.containerLink());
 	}
 	
+   /**
+    * @return the list of source scanners.
+    */
+  /*@
+    @ public behavior
+    @
+    @ post result != null;
+    @*/
 	public List<DocumentScanner> sourceScanners() {
 		return _sourceScanners.getOtherEnds();
 	}
 	
-	public <T extends DocumentScanner> List<T> scanners(Class<T> kind) {
+	/**
+	 * Return all document scanners (both source and binary) of a given type.
+	 * 
+	 * @param type The type of the requested document scanners.
+	 * @return All source and binary scanners of the given type.
+	 */
+  /*@
+    @ public behavior
+    @
+    @ pre type != null;
+    @
+    @ post \result != null;
+    @ post \result.stream().allMatch(s -> type.isInstance(s));
+    @*/
+	public <T extends DocumentScanner> List<T> scanners(Class<T> type) {
 		Builder<T> builder = ImmutableList.<T>builder();
-		builder.addAll((List<T>) new TypePredicate<>(kind).filteredList(binaryScanners()));
-		builder.addAll((List<T>) new TypePredicate<>(kind).filteredList(sourceScanners()));
+		builder.addAll((List<T>) new TypePredicate<>(type).filteredList(binaryScanners()));
+		builder.addAll((List<T>) new TypePredicate<>(type).filteredList(sourceScanners()));
 		return builder.build();
 	}
 
+   /**
+    * Return all binary scanners of a given type.
+    * 
+    * @param type The type of the requested document scanners.
+    * @return All binary scanners of the given type.
+    */
+  /*@
+    @ public behavior
+    @
+    @ pre type != null;
+    @
+    @ post \result != null;
+    @ post \result.stream().allMatch(s1 -> 
+    @   \result.contains(s1) == 
+    @   binaryScanners().stream().filter(s -> type.isInstance(s)).contains(s1)
+    @ );
+    @*/
 	public <T extends DocumentScanner> List<T> binaryScanners(Class<T> kind) {
 		return (List<T>) new TypePredicate<>(kind).filteredList(binaryScanners());
 	}
 
-
+   /**
+    * Return all source scanners of a given type.
+    * 
+    * @param type The type of the requested document scanners.
+    * @return All source scanners of the given type.
+    */
+  /*@
+    @ public behavior
+    @
+    @ pre type != null;
+    @
+    @ post \result != null;
+    @ post \result.stream().allMatch(s1 -> 
+    @   \result.contains(s1) == 
+    @   sourceScanners().stream().filter(s -> type.isInstance(s)).contains(s1)
+    @ );
+    @*/
 	public <T extends DocumentScanner> List<T> sourceScanners(Class<T> kind) {
 		return (List<T>) new TypePredicate<>(kind).filteredList(sourceScanners());
 	}
@@ -370,6 +542,14 @@ public class View extends PluginContainerImpl<ViewPlugin>
 		return false;
 	}
 	
+   /**
+    * Check whether the given element is a binary element.
+    * 
+    * @param element The element for which must be checked whether it is
+    *                a source element.
+    * @return True if and only if the document of the element is a source
+    *         document.
+    */
 	public boolean isBinary(Element element) {
 		Document doc = element.nearestAncestorOrSelf(Document.class);
 		// Namespace are not in documents and thus cannot be source elements.
@@ -382,39 +562,30 @@ public class View extends PluginContainerImpl<ViewPlugin>
 
 	
 	
-  private ListMapWrapper<ViewProcessor> _processors = new ListMapWrapper<ViewProcessor>();
+   private ListMapWrapper<ViewProcessor> _processors = new ListMapWrapper<ViewProcessor>();
 
-  @Override
-public <T extends ViewProcessor> List<T> processors(Class<T> connectorInterface) {
-    return _processors.get(connectorInterface);
-  }
+   @Override
+   public <T extends ViewProcessor> List<T> processors(Class<T> connectorInterface) {
+      return _processors.get(connectorInterface);
+   }
 
-  @Override
-  public <T extends ViewProcessor> void removeProcessor(Class<T> connectorInterface, T processor) {
+   @Override
+   public <T extends ViewProcessor> void removeProcessor(Class<T> connectorInterface, T processor) {
       List<T> list = _processors.get(connectorInterface);
-      if (list!=null && list.contains(processor)) {
-          processor.setContainer(null, connectorInterface);
-          list.remove(processor);
+      if (list != null && list.contains(processor)) {
+         processor.setContainer(null, connectorInterface);
+         list.remove(processor);
       }
-  }
+   }
 
-  @Override
-  public <K extends ViewProcessor, V extends K> void addProcessor(Class<K> keyInterface, V processor) {
-    _processors.add(keyInterface, processor);
-    if(processor.container() != this) {
-    	processor.setContainer(this, keyInterface);
-    }
-  }
+   @Override
+   public <K extends ViewProcessor, V extends K> void addProcessor(Class<K> keyInterface, V processor) {
+      _processors.add(keyInterface, processor);
+      if (processor.container() != this) {
+         processor.setContainer(this, keyInterface);
+      }
+   }
 
-  /**
-   * Copy the processor mapping from the given language to this language.
-   */
- /*@
-   @ public behavior
-   @
-   @ post (\forall Class<? extends Processor> cls; from.processorMap().containsKey(cls);
-   @         processors(cls).containsAll(from.processorMap().valueSet());
-   @*/
   @Override
 	public void cloneProcessorsFrom(ProcessorContainer<ViewProcessor> from) {
 		for(Entry<Class<? extends ViewProcessor>, List<? extends ViewProcessor>> entry: from.processorMap().entrySet()) {
@@ -439,13 +610,25 @@ public <T extends ViewProcessor> List<T> processors(Class<T> connectorInterface)
 		return _processors.map();
 	}
 
-	public <T extends Element> List<T> sourceElements(Class<T> kind, Handler handler) throws InputException {
+	/**
+	 * Return all source elements of this view. Any input exceptions are handled by the given
+	 * handler. The handler makes it possible to choose between failing and resuming
+	 * (or any other strategy) without creating multiple methods.
+	 * 
+	 * @param type A class object representing the type of the requested elements.
+	 * @param handler A handler to deal with potential input exceptions.
+	 * @return
+	 * @throws InputException An input exception was thrown while loading a document
+	 *                        and the exception was not handled by the given
+	 *                        handler.
+	 */
+	public <T extends Element> List<T> sourceElements(Class<T> type, Handler handler) throws InputException {
 		List<T> result = new ArrayList<T>();
 		for(DocumentScanner scanner: sourceScanners()) {
 			try {
 			for(Document doc: scanner.documents()) {
-				result.addAll(doc.descendants(kind));
-				if(kind.isInstance(doc)) {
+				result.addAll(doc.descendants(type));
+				if(type.isInstance(doc)) {
 					result.add((T)doc);
 				}
 			}
@@ -458,12 +641,30 @@ public <T extends ViewProcessor> List<T> processors(Class<T> connectorInterface)
 		return result;
 	}
 	
+	/**
+	 * Apply the given action to all source elements.
+	 * 
+	 * @param action The action to apply
+	 * @throws E The action has thrown an exception of type E.
+	 * @throws InputException An exception was thrown while attempting to
+	 *                        load a document.
+	 */
 	public <E extends Exception> void applyToSource(Action<? extends Element, E> action) throws E, InputException {
 		for(DocumentScanner scanner:sourceScanners()) {
 			scanner.apply(action);
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * The view of a view is the view itself.
+	 * 
+	 * @return this
+	 */
+  /*@
+    @ post \result == this.
+    @*/
 	@Override
    public View view() {
 		return this;

@@ -6,7 +6,7 @@ package be.kuleuven.cs.distrinet.chameleon.plugin;
  * 
  * @author Marko van Dooren
  */
-public abstract class ProcessorImpl<C extends ProcessorContainer<P>, P extends Processor> implements Processor<C,P> {
+public abstract class ProcessorImpl<C extends ProcessorContainer<P>, P extends Processor<C,P>> implements Processor<C,P> {
 
   private C _container;
 

@@ -11,7 +11,7 @@ package be.kuleuven.cs.distrinet.chameleon.plugin;
  * 
  * @author Marko van Dooren
  */
-public interface Processor<C extends ProcessorContainer<P>, P extends Processor> extends Cloneable {
+public interface Processor<C extends ProcessorContainer<P>, P extends Processor<C,P>> extends Cloneable {
 	
   /**
    * Return the language to which this processor is connected.
