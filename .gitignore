@@ -1,10 +1,10 @@
 bin
+/bin/
 .DS_Store
-lib/*.jar
-dist
 build
 .classpath
 .project
+.gradle
+.settings
 properties
 *~
-/bin/
