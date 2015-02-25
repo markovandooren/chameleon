@@ -9,8 +9,11 @@ import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.core.language.WrongLanguageException;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupContext;
 import be.kuleuven.cs.distrinet.chameleon.core.lookup.LookupException;
+import be.kuleuven.cs.distrinet.chameleon.core.modifier.Modifier;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.core.property.ChameleonProperty;
+import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReference;
+import be.kuleuven.cs.distrinet.chameleon.core.reference.CrossReferenceImpl;
 import be.kuleuven.cs.distrinet.chameleon.core.tag.Metadata;
 import be.kuleuven.cs.distrinet.chameleon.core.validation.Verification;
 import be.kuleuven.cs.distrinet.chameleon.exception.ModelException;
@@ -28,22 +31,40 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
 
 /**
- * Element is the top interface for an element of a source model. Every lexical language construct (every
- * construct that can be part of the "source code") must implement this interface. On top of that, every
- * class for a language construct must encapsulate the semantics of that element. As a result, tools no
- * longer have to contain the base semantics of a language, making it much easier to reuse the tool for
- * models of a different language.
+ * An interface for language constructs.
  * 
- * <h3>The Lexical Structure</h3>
- * Every Element provides many methods to navigate the lexical structure of the model through methods to access
- * the children, descendants, and ancestors. The lexical structure can be navigated in any direction: from outer
- * elements to inner elements or vice versa. By default, the {@link ElementImpl#children()} method collects all 
- * objects referenced by {@link ChameleonAssociation} fields. 
+ * Element is the top interface for an element of a source model. Every lexical
+ * language construct (every construct that can be part of the "source code")
+ * must implement this interface. On top of that, every class for a language
+ * construct must encapsulate the semantics of that element. As a result, tools
+ * no longer have to contain the base semantics of a language, making it much
+ * easier to reuse the tool for models of a different language.
  * 
+ * <h3>Design</h3>
+ *
+ * This is a large interface, but it focuses on a few key responsibilities
+ * that any language construct has. Removing responsibilities will only
+ * make the framework less powerful. Many methods for the lexical structure,
+ * though, could be moved to the {@link #lexical()} structure object, but
+ * that will either make it harder to use the functionality, or slower, or
+ * both. Writing element.lexical().parent(element) is not as convenient as element.parent().
+ * The parameter could be removed, but that would make the lexical object stateful,
+ * and a new object should be created for every language construct, which is
+ * too expensive. Until I find a fast and convenient mechanism, I will keep 
+ * them in here. 
  * 
- * If one of these {@link ChameleonAssociation} fields does not reference lexical children, 
- * you can exclude it by writing the following code. Suppose that <code>C</code> is the name of the class that 
- * contains the field.
+ * <h3>The Lexical Structure</h3> 
+ * 
+ * Every Element provides many methods to
+ * navigate the lexical structure of the model through methods to access the
+ * children, descendants, and ancestors. The lexical structure can be navigated
+ * in any direction: from outer elements to inner elements or vice versa. By
+ * default, the {@link ElementImpl#children()} method collects all objects
+ * referenced by {@link ChameleonAssociation} fields.
+ * 
+ * If one of these {@link ChameleonAssociation} fields does not reference
+ * lexical children, you can exclude it by writing the following code. Suppose
+ * that <code>C</code> is the name of the class that contains the field.
  * 
  * <code>
  * class C ... {
@@ -55,13 +76,55 @@ import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
  * }
  * </code>
  * 
- * The logical structures within a model are typically modeled indirectly, instead of through direct object references.  
- * See the interface {@link chameleon.core.reference.CrossReference} for the explanation.
+ * <h3>The logical structure</h3> 
  * 
- * Every element can have metadata associated with it. They are used to attach additional information
- * to an element without adding dependencies to Chameleon.
+ * The logical structures within a model are
+ * typically modeled indirectly, instead of through direct object references.
+ * See the interface {@link chameleon.core.reference.CrossReference} for the
+ * explanation.
  * 
- * @assoc * - "1\n\n parent" Element 
+ * <h3>Properties</h3>
+ * 
+ * Each element can have properties. The properties typically come from
+ * three sources:
+ * <ol>
+ *   <li>Properties that are inherent to the language construct: {@link #inherentProperties()}</li>
+ *   <li>Properties that are explicitly added to an element: {@link #declaredProperties()}.
+ *   Typically these properties are added to an element by {@link Modifier}s.</li>
+ *   <li>Properties that are added to a language construct by the {@link Language}.
+ *   Typically, these are default rules, which are used when a kind of property
+ *   is not inherent to a language construct or set explicitly.</li>
+ * </ol> 
+ * 
+ * The default implementation of {@link #properties()} in {@link ElementImpl} 
+ * combines these three source correctly, so you have to worry only about the
+ * individual sources of properties.
+ * 
+ * <h3>Verification</h3>
+ * 
+ * Each language construct is responsible for verifying itself. It must
+ * implement the {@link #verify()} method to verify itself and its descendants.
+ * 
+ * The default implementation in {@link ElementImpl} takes care of the
+ * recursive descent such that language constructs have to verify only
+ * themselves. In addition, it also checks whether the set of properties of
+ * an element is consistent. For example, this makes it very easy to add modifiers 
+ * without having to worry whether an element has a valid combination of modifiers.
+ * A declaration that is both final and abstract will report a verification 
+ * problem because they modifiers assign conflicting properties to the same
+ * element. 
+ * 
+ * In addition, many abstractions in the framework provide powerful verification
+ * rules. For example, every {@link CrossReference} will automatically check
+ * if it can be resolved, if the class inherits from {@link CrossReferenceImpl}.
+ *
+ * <h3>Metadata</h3>
+ * 
+ * Every element can have metadata associated with it. This can be used to
+ * attach additional information to an element without adding dependencies to
+ * Chameleon.
+ * 
+ * @assoc * - "1\n\n parent" Element
  * 
  * @author Marko van Dooren
  */

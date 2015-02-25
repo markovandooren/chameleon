@@ -14,8 +14,11 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 /**
  * An document scanner loads documents from a particular resource into the project.
  * A document scanner create an {@link DocumentLoader} for each document in the
- * resource that it manages. This resource could be a jar file, a directory,
+ * resource that it manages. This resource could be an archive file, a directory,
  * a database,...
+ * 
+ * A document scanner it connected to a {@link View} and adds document loaders
+ * to the appropriate {@link Namespace}s within that view.
  * 
  * @author Marko van Dooren
  */

@@ -10,7 +10,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 /**
- * A class representing a source from which a Document is built. These
+ * A class representing a source from which a {@link Document} is built. These
  * can be file based (text or binary), editor based, ...
  * 
  * Each document loader manages a single document. There may be multiple
@@ -19,19 +19,25 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
  * the same logical document. In this case, the {@link #compareTo(DocumentLoader)} method
  * is used to determine which document loader has the highest priority.
  * 
+ * A document loader is typically created by a {@link DocumentScanner}. A
+ * document scanner scans a particular resource, such as an archive file, a
+ * directory, or a database, and create a document loader for each document
+ * that it finds.
+ * 
  * @author Marko van Dooren
  */
 public interface DocumentLoader extends Comparable<DocumentLoader> {
 	
 	/**
-	 * Return the list of name of declaration that are added to the given namespace, and
-	 * are visible when the namespace is used as a <b>target</b>. Declarations that are only visible lexically from
-	 * within the namespace are ignored.
-	 * @param ns
-	 * @return
+	 * Return the list of name of declaration that are added to the given namespace, 
+	 * and are visible when the namespace is used as a <b>target</b>. Declarations 
+	 * that are only visible lexically from within the namespace are ignored.
+	 * @param namespace The namespace for which the requested target declarations
+	 *                  are requested.
+	 * @return 
 	 * @throws InputException 
 	 */
-	public List<String> targetDeclarationNames(Namespace ns) throws InputException;
+	public List<String> targetDeclarationNames(Namespace namespace) throws InputException;
 	
 	/**
 	 * Load the declarations with the given name into the model (if any) and return them in a list.

@@ -8,9 +8,9 @@ import be.kuleuven.cs.distrinet.chameleon.core.rule.Rule;
  * 
  * @author Marko van Dooren
  *
- * @param <E>
+ * @param <E> The types of elements that are verified.
  */
-public abstract class VerificationRule<E extends Element> extends Rule<VerificationRule, E> {
+public abstract class VerificationRule<E extends Element> extends Rule<VerificationRule<E>, E> {
 
 	/**
 	 * Create a new validity rule for elements of the given type.

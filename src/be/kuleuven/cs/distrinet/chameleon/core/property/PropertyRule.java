@@ -12,8 +12,14 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
  * 
  * @author Marko van Dooren
  */
-public abstract class PropertyRule<E extends Element> extends Rule<PropertyRule, E> {
+public abstract class PropertyRule<E extends Element> extends Rule<PropertyRule<E>, E> {
 
+   /**
+    * Create a new property rule for the given type of elements.
+    * 
+    * @param elementType The class object of the types of elements for which
+    *                    this rule will determine properties.
+    */
 	public PropertyRule(Class<E> elementType) {
 		super(elementType);
 	}
@@ -24,8 +30,8 @@ public abstract class PropertyRule<E extends Element> extends Rule<PropertyRule,
 	 * those properties that contradict one of the explicitly declared properties of that
 	 * element.
 	 * 
-	 * @param element
-	 * @return
+	 * @param element The element for which the properties are requested.
+	 * @return The properties of the element according to this rule.
 	 */
  /*@
    @ public behavior
@@ -37,7 +43,6 @@ public abstract class PropertyRule<E extends Element> extends Rule<PropertyRule,
 	public PropertySet<Element,ChameleonProperty> properties(E element, PropertySet<Element,ChameleonProperty> explicit) {
 		if(appliesTo(element)) {
 		  PropertySet<Element,ChameleonProperty> suggested = suggestedProperties(element);
-//		   = element.declaredProperties();
 		  return suggested.withoutContradictingProperties(explicit);
 		} else {
 			return createSet();

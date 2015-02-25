@@ -22,17 +22,27 @@ import be.kuleuven.cs.distrinet.chameleon.workspace.View;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 /**
- * <p>A document represents an artefact in which elements of the program/model are defined. This will typically correspond
- * to a file.</p>
+ * <p>
+ * A document represents an artefact in which elements of the program/model are
+ * defined. This will often correspond to a file.
+ * </p>
  * 
- * <p>A document does not directly contain the source code elements. It contains the namespace declarations ({@link NamespaceDeclaration}) 
- * that contain the elements and associate them with a namespace. Namespace declarations can be nested. If a language
- * does not explicitly mention a general namespace (such as Eiffel), a namespace declaration should be used that
- * puts its contents in the root namespace.</p>
+ * <p>
+ * A document does not directly contain the source code elements. It contains
+ * the namespace declarations ({@link NamespaceDeclaration}) that contain the
+ * elements and associate them with a namespace. Namespace declarations can be
+ * nested. If a language does not explicitly mention a general namespace (such
+ * as Eiffel), a namespace declaration should be used that puts its contents in
+ * the root namespace.
+ * </p>
  * 
- * <p>Each document is linked to the {@link DocumentLoader} that is responsible for populating the document. The
- * document only connects itself to a model after invoking ({@link #activate()})! This is done automatically when
- * a document is loaded by the lookup mechanism and when it is reparsed.</p>
+ * <p>
+ * Each document is linked to the {@link DocumentLoader} that is responsible for
+ * populating the document. The document only connects itself to a project after
+ * invoking ({@link #activate()})! This should be done automatically by the
+ * {@link DocumentLoader} when a document is loaded by the lookup mechanism and 
+ * when it is reparsed.
+ * </p>
  * 
  * @author Marko van Dooren
  */
@@ -44,17 +54,18 @@ public class Document extends ElementImpl {
      * Create a new empty document. The document is not activated.
      */
     /*@
-   @ public behavior
-   @
-   @ post children().isEmpty();
-   @*/
+     @ public behavior
+     @
+     @ post children().isEmpty();
+     @*/
     public Document() {
     }
 
     /**
      * Create a new compilation unit with the given namespace declaration.
      * The document is not activated.
-     * @param namespacePart
+     * 
+     * @param namespaceDeclaration The namespace declaration that is added.
      */
    /*@
      @ public behavior
