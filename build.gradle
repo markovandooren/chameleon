@@ -21,13 +21,13 @@ sourceSets {
   main {
         java {
             srcDir 'src'
-            exclude 'be/kuleuven/cs/distrinet/chameleon/eclipse/**'
+            exclude 'org/aikodi/chameleon/eclipse/**'
        }
   }
   dok {
         java {
             srcDir 'build/tmp/src_for_doc'
-            exclude 'be/kuleuven/cs/distrinet/chameleon/eclipse/**'
+            exclude 'org/aikodi/chameleon/eclipse/**'
        }
   }
 }
