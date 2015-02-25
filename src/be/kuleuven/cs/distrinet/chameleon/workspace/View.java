@@ -10,6 +10,7 @@ import be.kuleuven.cs.distrinet.chameleon.core.element.Element;
 import be.kuleuven.cs.distrinet.chameleon.core.language.Language;
 import be.kuleuven.cs.distrinet.chameleon.core.language.ListMapWrapper;
 import be.kuleuven.cs.distrinet.chameleon.core.language.WrongLanguageException;
+import be.kuleuven.cs.distrinet.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.chameleon.core.namespace.RootNamespace;
 import be.kuleuven.cs.distrinet.chameleon.exception.ChameleonProgrammerException;
 import be.kuleuven.cs.distrinet.chameleon.plugin.PluginContainer;
@@ -29,11 +30,31 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 
+/**
+ * A view is a part of a {@link Project} whose documents are written in a 
+ * single language. A project can have multiple views.
+ * 
+ * A view organizes its declaration in a {@link Namespace} and keeps
+ * a reference to the default (root) namespace.
+ * 
+ * To populate the model, {@link DocumentScanner}s are attached to a view.
+ * A document scanner ensures that all document for a particular resource,
+ * such as an archive file, directory, or database, are loaded into the view.
+ * 
+ * SOURCE AND BINARY
+ * 
+ * @author Marko van Dooren
+ */
 public class View extends PluginContainerImpl<ViewPlugin> 
        implements PluginContainer<ViewPlugin>, 
                   ProcessorContainer<ViewProcessor>, 
                   DocumentScannerContainer {
 	
+   /**
+    * Create a 
+    * @param namespace
+    * @param language
+    */
 	public View(RootNamespace namespace, Language language) {
 		setNamespace(namespace);
 		setLanguage(language);
