@@ -1,8 +1,15 @@
 package org.aikodi.chameleon.core.reference;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
+import org.aikodi.chameleon.util.exception.Handler;
+
+import be.kuleuven.cs.distrinet.rejuse.action.Action;
+import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 
 /**
  * This interface represents the concept of a cross-reference in the model. A construct is a cross-reference if it points

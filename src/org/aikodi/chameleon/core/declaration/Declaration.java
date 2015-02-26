@@ -1,6 +1,8 @@
 package org.aikodi.chameleon.core.declaration;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupContext;
@@ -9,7 +11,9 @@ import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.core.scope.Scope;
 import org.aikodi.chameleon.exception.ModelException;
+import org.aikodi.chameleon.util.exception.Handler;
 
+import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 
 /**
@@ -177,6 +181,14 @@ public interface Declaration extends Element, SelectionResult {//
    * This can be an expensive operation on a model whose references are not 
    * yet cached.
    * 
+   * The handler determines what will happend when a cross-reference throws a
+   * LookupException. Handler.fail(LookupException.class) will cause the
+   * search to stop immediately. {@link Handler#resume()} will
+   * ignore the exception and cause the search to continue. If you provide
+   * a handler for an exception that is no lookup exception, the effect
+   * is the same as using {@link Handler#resume()}.
+   * 
+   * @param handler
    * @return all cross references in the model that reference this declaration.
    * @throws LookupException A cross-reference could not be resolved.
    */
@@ -186,13 +198,22 @@ public interface Declaration extends Element, SelectionResult {//
    @ post result != null
    @ post result.stream().allMatch(cref -> cref.getElement().sameAs(this))
    @*/
-  public default Collection<CrossReference<?>> references() throws LookupException {
-     return (Collection)namespace().defaultNamespace().descendants(CrossReference.class, new AbstractPredicate<CrossReference,LookupException>() {
+  public default <E extends Exception> List<CrossReference<?>> findAllReferences(Handler<E> handler) throws E {
+     List<CrossReference<?>> result = new ArrayList<>();
+     namespace().defaultNamespace().apply(new Action<CrossReference, E>(CrossReference.class) {
+
         @Override
-        public boolean eval(CrossReference crossReference) throws LookupException {
-           return crossReference.getElement().sameAs(Declaration.this);
+        protected void doPerform(CrossReference crossReference) throws E {
+           try {
+              if(crossReference.getElement().sameAs(Declaration.this)) {
+                result.add(crossReference); 
+              }
+           } catch (LookupException e) {
+              handler.handle(e);
+           };
         }
      });
+     return result;
   }
 
 }
