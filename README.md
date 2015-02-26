@@ -29,7 +29,8 @@ Most important abstractions
 Read the documentation of the following types.
 
 - Element: every language construct is an element.
-- Cross-Reference: everything that points to another element
+- CrossReference: everything that points to another element
+  - NameReference is a default implementation that should work for almost any language. Try to use it instead of creating new implementations.
 - Declaration: something that can be referenced. Basically everything with a 'name'.
 - Signature: a 'name' of a declaration.
 - Namespace: the namespace of a declaration. Think of the package structure of Java, or the namespace structur of C#
