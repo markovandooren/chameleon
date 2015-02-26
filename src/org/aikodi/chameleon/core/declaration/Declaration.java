@@ -1,11 +1,16 @@
 package org.aikodi.chameleon.core.declaration;
 
+import java.util.Collection;
+
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
+import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.core.scope.Scope;
 import org.aikodi.chameleon.exception.ModelException;
+
+import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 
 /**
  * A declaration introduces an element that can be referenced from other parts of the code.
@@ -156,5 +161,38 @@ public interface Declaration extends Element, SelectionResult {//
    */
   public LookupContext targetContext() throws LookupException;
   
+  /**
+   * Check whether the given declaration has the same signature as this declaration.
+   * 
+   * @param declaration The declaration of which must be checked whether it has
+   * the same signature as this one.
+   * @return True if the given declaration has the same signature as this one,
+   * false otherwise.
+   * @throws LookupException
+   */
   public boolean sameSignatureAs(Declaration declaration) throws LookupException;
+  
+  /**
+   * Return all cross references in the model that reference this declaration.
+   * This can be an expensive operation on a model whose references are not 
+   * yet cached.
+   * 
+   * @return all cross references in the model that reference this declaration.
+   * @throws LookupException A cross-reference could not be resolved.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post result != null
+   @ post result.stream().allMatch(cref -> cref.getElement().sameAs(this))
+   @*/
+  public default Collection<CrossReference<?>> references() throws LookupException {
+     return (Collection)namespace().defaultNamespace().descendants(CrossReference.class, new AbstractPredicate<CrossReference,LookupException>() {
+        @Override
+        public boolean eval(CrossReference crossReference) throws LookupException {
+           return crossReference.getElement().sameAs(Declaration.this);
+        }
+     });
+  }
+
 }
