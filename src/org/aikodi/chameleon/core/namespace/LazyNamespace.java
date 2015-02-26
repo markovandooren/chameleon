@@ -32,7 +32,7 @@ public class LazyNamespace extends RegularNamespace implements DocumentLoaderNam
 	}
 	
 	@Override
-	public synchronized List<NamespaceDeclaration> getNamespaceParts() {
+	public synchronized List<NamespaceDeclaration> namespaceDeclarations() {
 		for(DocumentLoader loader: documentLoaders()) {
 			try {
 				loader.load();
@@ -40,7 +40,7 @@ public class LazyNamespace extends RegularNamespace implements DocumentLoaderNam
 				throw new ChameleonProgrammerException(e);
 			}
 		}
-		return super.getNamespaceParts();
+		return super.namespaceDeclarations();
 	}
 	
 	@Override

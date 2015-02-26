@@ -15,7 +15,7 @@ public class NamespaceNode extends TreeNode<Namespace,Object> {
 
 	@Override
 	public List<? extends TreeNode<?,Object>> createChildren() {
-		List<Namespace> subNamespaces = domainObject().getSubNamespaces();
+		List<Namespace> subNamespaces = domainObject().subNamespaces();
 		Builder<NamespaceNode> namespaceBuilder = ImmutableList.builder();
 		for(Namespace ns: subNamespaces) {
 			namespaceBuilder.add(new NamespaceNode(this, ns));

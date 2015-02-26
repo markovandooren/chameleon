@@ -72,7 +72,7 @@ public class ExpressionTest extends ModelTest {
 	  Collection<Namespace> typess = typeProvider().elements(view());
 	  Collection<Namespace> namespaces = new ArrayList<>();
 	  for(Namespace ns: typess) {
-	  	namespaces.addAll(ns.getAllSubNamespaces());
+	  	namespaces.addAll(ns.descendantNamespaces());
 	  }
 	  final BlockingQueue<Namespace> typeQueue = new ArrayBlockingQueue<Namespace>(namespaces.size(), true, namespaces);
 	  Action<Namespace,LookupException> action = createAction();
@@ -94,7 +94,7 @@ public class ExpressionTest extends ModelTest {
 		return new Action<Namespace,LookupException>(Namespace.class) {
 	  	@Override
       public void doPerform(Namespace ns) throws LookupException {
-	  		for(NamespaceDeclaration nsp: ns.getNamespaceParts()) {
+	  		for(NamespaceDeclaration nsp: ns.namespaceDeclarations()) {
 	  			for(Type type: nsp.descendants(Type.class)) {
 	  				processType(type);
 	  			}

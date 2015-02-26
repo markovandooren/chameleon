@@ -78,7 +78,7 @@ public class CloneAndChildTest extends ModelTest {
 	  Collection<Namespace> types = namespaceProvider().elements(view());
 	  Collection<Namespace> namespaces = new ArrayList<>();
 	  for(Namespace ns: types) {
-	  	namespaces.addAll(ns.getAllSubNamespaces());
+	  	namespaces.addAll(ns.descendantNamespaces());
 	  }
 	  final BlockingQueue<Namespace> typeQueue = new ArrayBlockingQueue<Namespace>(namespaces.size(), true, namespaces);
 	  Action<Namespace,LookupException> action = createAction();
@@ -91,7 +91,7 @@ public class CloneAndChildTest extends ModelTest {
 		return new Action<Namespace,LookupException>(Namespace.class) {
 	  	@Override
       public void doPerform(Namespace type) throws LookupException {
-	  		List<NamespaceDeclaration> namespaceParts = type.getNamespaceParts();
+	  		List<NamespaceDeclaration> namespaceParts = type.namespaceDeclarations();
 				for(NamespaceDeclaration nsp: namespaceParts) {
 	  			for(Element element: nsp.descendants()) {
 	  				test(type);

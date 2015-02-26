@@ -48,7 +48,7 @@ public class CrossReferenceTest extends ModelTest {
 		Collection<Namespace> crossReferences = crossReferenceProvider().elements(view());
 	  Collection<Namespace> namespaces = new ArrayList<>();
 	  for(Namespace ns: crossReferences) {
-	  	namespaces.addAll(ns.getAllSubNamespaces());
+	  	namespaces.addAll(ns.descendantNamespaces());
 	  }
 		BlockingQueue<Namespace> queue = new ArrayBlockingQueue<Namespace>(namespaces.size(), true, namespaces);
 		Action<Namespace,LookupException> action = createAction();
@@ -89,7 +89,7 @@ public class CrossReferenceTest extends ModelTest {
 		return new Action<Namespace,LookupException>(Namespace.class) {
 			@Override
          public void doPerform(Namespace ns) throws LookupException {
-				for(NamespaceDeclaration nsp: ns.getNamespaceParts()) {
+				for(NamespaceDeclaration nsp: ns.namespaceDeclarations()) {
 					for(CrossReference cref: nsp.descendants(CrossReference.class)) {
 						Declaration declaration = cref.getElement();
 						assertTrue(declaration != null);

@@ -2,11 +2,19 @@ package org.aikodi.chameleon.core.namespace;
 
 import java.util.List;
 
+import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.declaration.TargetDeclaration;
+import org.aikodi.chameleon.core.factory.Factory;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
+import org.aikodi.chameleon.core.reference.CrossReference;
 
+/**
+ * An interface for namespaces that contain the declarations of a view/project.
+ * 
+ * @author Marko van Dooren
+ */
 public interface Namespace extends TargetDeclaration, DeclarationContainer {
 
 	/**
@@ -55,21 +63,6 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer {
    @*/
 	public Namespace getOrCreateNamespace(final String name);
 	
-//	/**
-//	 * Recursively search for all declarations of a given kind. This will also search in child namespaces
-//	 * @param kind
-//	 * @return
-//	 * @throws LookupException
-//	 */
-// /*@
-//   @ public behavior
-//   @
-//   @ post \result != null;
-//   @ post \result.containsAll(declarations(kind));
-//   @ post (\forall Namespace ns; getSubnamespaces().contains(ns); \result.containsAll(ns.allDecendantDeclarations(kind)));
-//   @*/
-//	public <T extends Declaration> List<T> allDescendantDeclarations(Class<T> kind) throws LookupException;
-	
   /**
    * The name of a namespace is the name of its signature.
    */
@@ -90,9 +83,13 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer {
    @
    @ post \result != null;
    @*/
-	public List<NamespaceDeclaration> getNamespaceParts();
+	public List<NamespaceDeclaration> namespaceDeclarations();
 	
-	public List<NamespaceDeclaration> loadedNamespaceParts();
+	/**
+	 * Return all namespace declarations that are currently loaded.
+	 * @return 
+	 */
+	public List<NamespaceDeclaration> loadedNamespaceDeclarations();
 
 	/**
 	 * <B>DO NOT INVOKE</B> it is an internal method that must be public because
@@ -113,17 +110,56 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer {
 	@Deprecated
    public void addNamespacePart(NamespaceDeclaration namespacePart);
 	
-	public List<Namespace> getSubNamespaces();
+	/**
+	 * @return All direct subnamespaces of this namespace.
+	 */
+	public List<Namespace> subNamespaces();
 
-	public List<Namespace> getAllSubNamespaces();
+   /**
+    * @return All direct subnamespaces of this namespace, and the
+    * descendants of these subnamespaces.
+    */
+	public List<Namespace> descendantNamespaces();
 
+	/**
+	 * @return True if this namespace has subnamespaces, false otherwise.
+	 */
 	public boolean hasSubNamespaces();
 	
+	/**
+	 * Return the subnamespace with the given name.
+	 * 
+	 * @param name The name of the requested subnamespace
+	 * @return  the subnamespace with the given name.
+	 * @throws LookupException The namespace could not be found.
+	 */
 	public Namespace getSubNamespace(final String name) throws LookupException;
 	
 	public NamespaceAlias alias(String name);
 	
+	/**
+	 * Create and return a subnamespace with the given name.
+	 * 
+	 * @param name The name of the subnamespace to be created.
+	 * @return a subnamespace with the given name.
+	 */
 	public Namespace createSubNamespace(String name);
 	
-//	public <T extends Declaration> List<T> declarations(Class<T> kind) throws LookupException;
+	/**
+	 * A convenience method for finding the element of the given type with the given 
+	 * qualified name.
+	 * 
+	 * @param qualifiedName The qualified name of the requested declaration <b>relative</b>
+	 *                      to this namespace.
+	 * @param type The type of the requested declaration.
+	 * @return A declaration with the given qualified name.
+	 * @throws LookupException The element could not be uniquely identified. It may
+	 * not exists, there may be multiple candidates,...
+	 */
+   public default <D extends Declaration> D find(String qualifiedName, Class<D> type) throws LookupException {
+      CrossReference<D> cref = language().plugin(Factory.class).createNameReference(qualifiedName, type);
+      cref.setUniParent(this);
+      return cref.getElement();
+   }
+
 }

@@ -36,8 +36,8 @@ public class NamespaceAlias extends NamespaceImpl {
 	}
 
 	@Override
-	public List<NamespaceDeclaration> getNamespaceParts() {
-		return aliasedNamespace().getNamespaceParts();
+	public List<NamespaceDeclaration> namespaceDeclarations() {
+		return aliasedNamespace().namespaceDeclarations();
 	}
 
 	@Override
@@ -86,8 +86,8 @@ public LookupContext lookupContext(Element element) throws LookupException {
   }
 
 	@Override
-	public List<Namespace> getSubNamespaces() {
-		return aliasedNamespace().getSubNamespaces();
+	public List<Namespace> subNamespaces() {
+		return aliasedNamespace().subNamespaces();
 	}
 
 	@Override
@@ -121,12 +121,12 @@ public LookupContext lookupContext(Element element) throws LookupException {
 	}
 
 	@Override
-	public List<Namespace> getAllSubNamespaces() {
-		return _aliasedNamespace.getAllSubNamespaces();
+	public List<Namespace> descendantNamespaces() {
+		return _aliasedNamespace.descendantNamespaces();
 	}
 
 	@Override
-	public List<NamespaceDeclaration> loadedNamespaceParts() {
-		return _aliasedNamespace.loadedNamespaceParts();
+	public List<NamespaceDeclaration> loadedNamespaceDeclarations() {
+		return _aliasedNamespace.loadedNamespaceDeclarations();
 	}
 }

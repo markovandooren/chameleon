@@ -10,12 +10,15 @@ import org.aikodi.chameleon.core.declaration.BasicDeclaration;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.declaration.TargetDeclaration;
+import org.aikodi.chameleon.core.factory.Factory;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
+import org.aikodi.chameleon.core.reference.CrossReference;
+import org.aikodi.chameleon.core.reference.NameReference;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.Util;
 
@@ -106,7 +109,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
    @ post \result != null;
    @*/
 	@Override
-   public abstract List<Namespace> getSubNamespaces();
+   public abstract List<Namespace> subNamespaces();
 
 	@Override
    public Namespace getOrCreateNamespace(final String qualifiedName) {
@@ -207,15 +210,15 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
 	
 	protected List<Declaration> directDeclarations() throws LookupException {
 		Builder<Declaration> builder = ImmutableList.<Declaration>builder();
-		builder.addAll(getSubNamespaces());
-		for(NamespaceDeclaration part: loadedNamespaceParts()) {
+		builder.addAll(subNamespaces());
+		for(NamespaceDeclaration part: loadedNamespaceDeclarations()) {
 			builder.addAll(part.declarations());
 		}
 		return builder.build();
 	}
 
 	@Override
-   public abstract List<NamespaceDeclaration> loadedNamespaceParts();
+   public abstract List<NamespaceDeclaration> loadedNamespaceDeclarations();
 
 
 	@Override
@@ -234,10 +237,10 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
 //		  for(Declaration declaration: directDeclarations()) {
 //		  	_declarationCache.put(declaration.name(), Lists.create(declaration,1));
 //		  }
-			for(Declaration declaration: getSubNamespaces()) {
+			for(Declaration declaration: subNamespaces()) {
 				_declarationCache.put(declaration.name(), Lists.create(declaration,1));
 			}
-			for(NamespaceDeclaration part: loadedNamespaceParts()) {
+			for(NamespaceDeclaration part: loadedNamespaceDeclarations()) {
 				for(Declaration declaration: part.declarations()) {
 					_declarationCache.put(declaration.name(), Lists.create(declaration,1));
 				}
@@ -327,12 +330,6 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
 		return result;
 	}
 	
-//	@Override
-//   public <T extends Declaration> List<T> declarations(Class<T> kind) throws LookupException {
-//    return new TypePredicate<T>(kind).downCastedList(declarations());
-//  }
-	
-
 	@Override
    public NamespaceAlias alias(String name) {
 		return new NamespaceAlias(name,this);

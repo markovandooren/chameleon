@@ -40,7 +40,7 @@ public class LazyRootNamespace extends RootNamespace implements DocumentLoaderNa
 		List<Declaration> candidates = super.searchDeclarations(name);
 		// If there was no cache, the document loaders might have something
 		if(candidates == null) {
-			for(Namespace ns: getSubNamespaces()) {
+			for(Namespace ns: subNamespaces()) {
 				if(ns.name().equals(name)) {
 					candidates = ImmutableList.<Declaration>of(ns);
 					break;

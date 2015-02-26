@@ -63,7 +63,7 @@ public class RegularNamespace extends NamespaceImpl {
 	 * Return all subpackages of this package.
 	 */
 	@Override
-   public List<Namespace> getSubNamespaces() {
+   public List<Namespace> subNamespaces() {
 		return _namespaces.getOtherEnds();
 	}
 
@@ -85,12 +85,12 @@ public class RegularNamespace extends NamespaceImpl {
 	}
 
 	@Override
-   public synchronized List<NamespaceDeclaration> getNamespaceParts(){
+   public synchronized List<NamespaceDeclaration> namespaceDeclarations(){
 		return _namespaceDeclarations.getOtherEnds();
 	}
 	
 	@Override
-	public List<NamespaceDeclaration> loadedNamespaceParts() {
+	public List<NamespaceDeclaration> loadedNamespaceDeclarations() {
 		return _namespaceDeclarations.getOtherEnds();
 	}
 
@@ -157,11 +157,11 @@ public LookupContext lookupContext(Element element) throws LookupException {
 	}
 
 	@Override
-	public List<Namespace> getAllSubNamespaces() {
+	public List<Namespace> descendantNamespaces() {
 		ImmutableList.Builder<Namespace> builder = ImmutableList.builder();
 		builder.addAll(_namespaces.getOtherEnds());
 		for(Namespace ns:_namespaces.getOtherEnds()) {
-			builder.addAll(ns.getAllSubNamespaces());
+			builder.addAll(ns.descendantNamespaces());
 		}
 		return builder.build();
 	}
