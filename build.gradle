@@ -33,7 +33,7 @@ sourceSets {
 }
 
 dependencies {
-  umlgraph 'org.umlgraph:umlgraph:5.6.6'
+  //umlgraph 'org.umlgraph:umlgraph:5.6.6'
 
   compile group: 'junit', name: 'junit', version: '4.+'
   compile group: 'com.google.guava', name: 'guava', version: '18.+'
@@ -44,9 +44,9 @@ dependencies {
 }
 
 task javadoc(type: Javadoc, overwrite: true) {
-    options.docletpath = configurations.umlgraph.files.asType(List)
+//    options.docletpath = configurations.umlgraph.files.asType(List)
     source = sourceSets.dok.java
-    options.doclet = 'org.umlgraph.doclet.UmlGraphDoc'
+//    options.doclet = 'org.umlgraph.doclet.UmlGraphDoc'
 }
 
 ant.importBuild 'doc.xml'
@@ -66,7 +66,7 @@ uploadArchives {
         repository(url: "scp://webssh.ugent.be/users/m/mcvdoore/WWW/repository/") {
             authentication(userName: "mcvdoore")
         }
-        pom.version = '1.1.8'
+        pom.version = '1.1.9'
         pom.groupId = 'markovandooren'
         pom.artifactId = 'chameleon'
     }
