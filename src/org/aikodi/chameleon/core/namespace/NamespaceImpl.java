@@ -73,14 +73,14 @@ public abstract class NamespaceImpl extends BasicDeclaration implements TargetDe
 
 
 	@Override
-   public String getFullyQualifiedName() {
+   public String fullyQualifiedName() {
 		Namespace nearestAncestor = nearestAncestor(Namespace.class);
-		return ((parent() == null || nearestAncestor.name().equals("")) ? "" : nearestAncestor.getFullyQualifiedName() + ".") + name();
+		return ((parent() == null || nearestAncestor.name().equals("")) ? "" : nearestAncestor.fullyQualifiedName() + ".") + name();
 	}
 	
 	@Override
    public String toString() {
-		return getFullyQualifiedName();
+		return fullyQualifiedName();
 	}
 
 	/**************

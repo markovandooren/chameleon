@@ -253,7 +253,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	}
 
 	public String getFullyQualifiedName() {
-		return namespace().getFullyQualifiedName();
+		return namespace().fullyQualifiedName();
 	}
 
 	public NamespaceDeclaration getNearestNamespacePart() {

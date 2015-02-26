@@ -209,7 +209,7 @@ public class Document extends ElementImpl {
         FakeDocumentScanner pl = new FakeDocumentScanner();
         DocumentLoader is = new FakeDocumentLoader(clone,pl);
         for(NamespaceDeclaration decl: descendants(NamespaceDeclaration.class)) {
-            view.namespace().getOrCreateNamespace(decl.namespace().getFullyQualifiedName());
+            view.namespace().getOrCreateNamespace(decl.namespace().fullyQualifiedName());
         }
         try {
             view.addSource(pl);

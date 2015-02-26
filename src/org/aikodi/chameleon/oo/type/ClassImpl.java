@@ -172,7 +172,7 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
         } else {
           Namespace namespace = namespace();
           if(namespace != null) {
-					  prefix = namespace.getFullyQualifiedName();
+					  prefix = namespace.fullyQualifiedName();
           } else {
           	prefix = null;
           }

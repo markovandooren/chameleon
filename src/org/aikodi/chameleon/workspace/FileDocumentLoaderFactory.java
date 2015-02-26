@@ -56,7 +56,7 @@ public class FileDocumentLoaderFactory {
 	public IFileDocumentLoader create(File file, DirectoryScanner scanner) throws InputException {
 		IFileDocumentLoader fileDocumentLoader = doCreateDocumentLoader(file,scanner);
 		DocumentLoaderNamespace currentNamespace = (DocumentLoaderNamespace) currentNamespace();
-		System.out.println("Adding file: "+file.getAbsolutePath()+ " to namespace "+currentNamespace.getFullyQualifiedName());
+		System.out.println("Adding file: "+file.getAbsolutePath()+ " to namespace "+currentNamespace.fullyQualifiedName());
 		fileDocumentLoader.setNamespace(currentNamespace);
 		return fileDocumentLoader;
 	}

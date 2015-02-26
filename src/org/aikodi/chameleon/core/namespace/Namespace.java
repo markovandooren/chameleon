@@ -22,7 +22,7 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer {
 	 @ post (getParent() != null) && (! getParent().getName().equals("")) ==>
 	 @        \result == getParent().getFullyQualifiedName() + "." + getName();
 	 @*/
-	public String getFullyQualifiedName();
+	public String fullyQualifiedName();
 	
 	/**
 	 * Return the root namespace of this metamodel instance.

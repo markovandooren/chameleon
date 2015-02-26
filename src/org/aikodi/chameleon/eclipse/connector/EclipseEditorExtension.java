@@ -153,7 +153,7 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
 		else if (element instanceof NamespaceDeclaration) {
 			Namespace namespace = ((NamespaceDeclaration)element).namespace();
 			if(namespace != null) {
-				result = namespace.getFullyQualifiedName();
+				result = namespace.fullyQualifiedName();
 			} else {
 				result = "Error in namespace declaration.";
 			}
