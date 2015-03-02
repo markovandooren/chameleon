@@ -32,7 +32,8 @@ import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
 
 import com.google.common.collect.ImmutableList;
 /**
- * A namespace part adds its declarations to a namespace. Different namespace parts in different compilation units
+ * A namespace declaration add {@link Declaration}s to a {@link Namespace}. 
+ * Different namespace declarations in different {@link Document}s
  * can contribute to the same namespace.
  * 
  * @author Marko van Dooren
@@ -447,10 +448,31 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		return Collections.EMPTY_LIST;
 		
 	}
+	
+	/**
+	 * Add an import to this namespace declaration.
+	 * 
+	 * @param newImport The import to be added.
+	 */
+  /*@
+    @ public behavior
+    @
+    @ pre newImport != null;
+    @*/
 	public void addImport(Import newImport) {
 		add(_imports,newImport);
 	}
 	
+   /**
+    * Remove the given import from this namespace declaration.
+    * 
+    * @param newImport The import to be added.
+    */
+  /*@
+    @ public behavior
+    @
+    @ pre newImport != null;
+    @*/
 	public void removeImport(Import removedImport) {
 		remove(_imports,removedImport);
 	}
