@@ -42,10 +42,10 @@ public abstract class ElementReference<D extends Declaration> extends CrossRefer
 //  	return _signature.getOtherEnd();
 //  }
   
-  @Override
-public String name() {
-  	return _name;
-  }
+   @Override
+   public String name() {
+      return _name;
+   }
   
 // /*@
 //   @ public behavior
@@ -78,7 +78,6 @@ public String name() {
 	 * type of this expression without needing a lock.
 	 */
 	private final AtomicReference<SoftReference<D>> _cache = new AtomicReference<>();
-//  private SoftReference<D> _cache;
   
   @Override
   public void flushLocalCache() {
