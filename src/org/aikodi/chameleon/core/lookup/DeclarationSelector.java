@@ -1,5 +1,6 @@
 package org.aikodi.chameleon.core.lookup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
@@ -15,12 +16,8 @@ import org.aikodi.chameleon.core.declaration.Signature;
  *            This parameter allows for more specific typing of the result of {@see #selection(Set)},
  *            and consequently of {@see Context#declaration(SignatureSelector)}.
  */
-public abstract class DeclarationSelector<D extends Declaration> {
+public interface DeclarationSelector<D extends Declaration> {
    
-	public DeclarationSelector() {
-		// Only here to be able to query call hierarchy
-	}
-	
   /**
    * Return the of the declaration that will be selected by this declaration selector.
    * 
@@ -35,7 +32,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * @return
    * @throws LookupException 
    */
-  public abstract String selectionName(DeclarationContainer container) throws LookupException;
+  public String selectionName(DeclarationContainer container) throws LookupException;
   
   /**
    * Return the declarations of the given declaration container to which selection is applied.
@@ -43,7 +40,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * 
    * The default result is container.declarations(this), but clients cannot rely on that.
    */
-  public List<? extends SelectionResult> declarations(DeclarationContainer container) throws LookupException {
+  public default List<? extends SelectionResult> declarations(DeclarationContainer container) throws LookupException {
   	return container.declarations(this);
   }
   
@@ -53,38 +50,40 @@ public abstract class DeclarationSelector<D extends Declaration> {
    * this does not mean that the selector will never select an object of the
    * given type. 
    */
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @*/
-  public abstract boolean canSelect(Class<? extends Declaration> type);
+  /*@
+    @ public behavior
+    @
+    @ post \result != null;
+    @*/
+   public boolean canSelect(Class<? extends Declaration> type);
   
-  /**
-   * Only called from within a @link{Cache} to store the cache of this selector.
-   * The declaration is best suited for knowing how its selections can be cached.
-   * For example, a selector that can select declarations of multiple types
-   * needs a different cache than a selector that can only select declarations
-   * of a single type. A generic caching scheme would be too inefficient in terms
-   * of object creation.
-   * 
-   * The default implementation does nothing.
-   * @param cache
-   */
-  protected void updateCache(Cache cache, D selection) {
-  	
-  }
-  
-  /**
-   * Only called from within a @link{Cache} to read the cache of this selector.
-   * 
-   * The default implementation returns null.
-   * @param cache
-   * @return
-   */
-  protected D readCache(Cache cache) {
-  	return null;
-  }
+   /**
+    * Only called from within a @link{Cache} to store the cache of this
+    * selector. The declaration is best suited for knowing how its selections
+    * can be cached. For example, a selector that can select declarations of
+    * multiple types needs a different cache than a selector that can only
+    * select declarations of a single type. A generic caching scheme would be
+    * too inefficient in terms of object creation.
+    * 
+    * The default implementation does nothing.
+    * 
+    * @param cache
+    */
+   public default void updateCache(Cache cache, D selection) {
+
+   }
+
+   /**
+    * Only called from within a @link{Cache} to read the cache of this selector.
+    * 
+    * The default implementation returns null.
+    * 
+    * @param cache
+    * @return
+    */
+   public default D readCache(Cache cache) {
+      return null;
+   }
   
   /**
    * Return the list of declarations in the given set that are selected.
@@ -96,15 +95,23 @@ public abstract class DeclarationSelector<D extends Declaration> {
    */
   public abstract List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException;
   
-  /**
-   * Return the list of declarations in the given set that are selected.
-   * 
-   * @param selectionCandidates
-   *        The list containing the declarations that are checked for a match with {@link #selects(Signature)}}.
-   * @return
-   * @throws LookupException
-   */
-  public abstract List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException;
+	/**
+	 * Return the list of declarations in the given set that are selected.
+	 * 
+	 * @param selectionCandidates
+	 *          The list containing the declarations that are checked for a match
+	 *          with {@link #selects(Signature)} .
+	 * @return
+	 * @throws LookupException
+	 */
+	public default List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates)
+			throws LookupException {
+		List<SelectionResult> result = new ArrayList<>();
+		for (SelectionResult r : selection(selectionCandidates)) {
+			result.add(r.template().declarator());
+		}
+		return result;
+	}
 
 	/**
 	 * If the selectionName() of this selector must match declaration.signature().name() when that declaration is selected,
@@ -114,7 +121,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
 	 * For super constructor calls in Java, e.g. this method will return false.
 	 * @return
 	 */
-	public boolean usesSelectionName() {
+	public default boolean usesSelectionName() {
 		return true;
 	}
 	
@@ -128,7 +135,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
 	 * continuing the search in e.g. super declaration containers.
 	 * @return
 	 */
-	public boolean isGreedy() {
+	public default boolean isGreedy() {
 		return usesSelectionName();
 	}
 	
@@ -146,7 +153,7 @@ public abstract class DeclarationSelector<D extends Declaration> {
 	 * @param selected
 	 * @throws LookupException 
 	 */
-	public void filter(List<? extends SelectionResult> selected) throws LookupException {
+	public default void filter(List<? extends SelectionResult> selected) throws LookupException {
 	}
 
 }

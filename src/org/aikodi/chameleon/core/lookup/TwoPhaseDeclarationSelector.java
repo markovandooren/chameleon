@@ -8,7 +8,7 @@ import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Signature;
 import org.aikodi.chameleon.util.Lists;
 
-public abstract class TwoPhaseDeclarationSelector<D extends Declaration> extends DeclarationSelector<D> {
+public abstract class TwoPhaseDeclarationSelector<D extends Declaration> implements DeclarationSelector<D> {
 
   /**
    * This method decides which declarations are candidates for selection <b>provided that it is of the correct
@@ -122,7 +122,7 @@ public List<? extends SelectionResult> declarators(List<? extends Declaration> s
   		} 
   	}
   	applyOrder((List)Ds);
-  	List<SelectionResult> result = Lists.create();
+  	List<SelectionResult> result = Lists.create(Ds.size());
   	for(D d: Ds) {
   		result.add(tmp.get(d));
   	}

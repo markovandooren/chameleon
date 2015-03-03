@@ -18,7 +18,7 @@ import org.aikodi.chameleon.core.declaration.Declaration;
  *
  * @param <D> The type of the declaration that is selected by this selector.
  */
-public abstract class NameSelector<D extends Declaration> extends SelectorWithoutOrder<D> {
+public abstract class NameSelector<D extends Declaration> extends NameBasedSelector<D> {
 	
 	/**
 	 * Create a new selector that selects declarations of the type represented by the given class object.
@@ -61,33 +61,6 @@ public abstract class NameSelector<D extends Declaration> extends SelectorWithou
 		return getClass().getName() +" class: "+selectedClass().getName()+" "+name();
 	}
 	
-	/**
-	 * The cache used by a signature equality selector is:
-	 * 
-	 * Map<String,Declaration>
-	 */
-	@Override
-	protected void updateCache(Cache cache, D selection) {
-		Map<String,Declaration> map = (Map<String, Declaration>) cache.get(this);
-		if(map == null) {
-			map = new HashMap<String,Declaration>();
-			cache.put(this, map);
-		}
-		map.put(name(), selection);
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	protected D readCache(Cache cache) {
-		Map<String,Declaration> map = (Map<String, Declaration>) cache.get(this);
-		if(map != null) {
-			return (D) map.get(name());
-		} else {
-			return null;
-		}
-	}
-
-
 	@Override
    protected boolean hasSelectableType(Declaration selectionDeclaration) {
 		return _class.isInstance(selectionDeclaration);

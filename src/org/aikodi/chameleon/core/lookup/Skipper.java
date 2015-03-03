@@ -10,7 +10,7 @@ import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 
 import com.google.common.collect.ImmutableList;
 
-public class Skipper<D extends Declaration> extends DeclarationSelector<D> {
+public class Skipper<D extends Declaration> implements DeclarationSelector<D> {
 
 	private DeclarationSelector<D> _original;
 	
@@ -26,7 +26,7 @@ public class Skipper<D extends Declaration> extends DeclarationSelector<D> {
 		if(container.equals(_skipped)) {
 			return ImmutableList.of();
 		} else {
-			return super.declarations(container);
+			return DeclarationSelector.super.declarations(container);
 		}
 	}
 

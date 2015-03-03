@@ -1,5 +1,6 @@
 package org.aikodi.chameleon.oo.member;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.util.Lists;
 
-public class MemberRelationSelector<D extends Declaration> extends DeclarationSelector<D> {
+public class MemberRelationSelector<D extends Declaration> implements DeclarationSelector<D> {
 
 	public MemberRelationSelector(Class<D> kind, D declaration,DeclarationComparator<D> comparator) {
 		_selectedClass = kind;
@@ -87,27 +88,6 @@ public class MemberRelationSelector<D extends Declaration> extends DeclarationSe
 
 	public boolean selectedRegardlessOfName(D declaration) throws LookupException {
 		return comparator().containsBasedOnRest(declaration(), declaration);
-	}
-
-//	public abstract boolean selectedBasedOnName(Signature signature) throws LookupException;
-//	
-//	public abstract boolean selectedRegardlessOfName(D declaration) throws LookupException;
-
-	@Override
-	public List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
-  	List<SelectionResult> result = Lists.create();
-  	for(Declaration selectionCandidate: selectionCandidates) {
-  		if(selectedBasedOnName(selectionCandidate.signature())) {
-  			Declaration selectionDeclaration = selectionCandidate.selectionDeclaration();
-  			if(_selectedClass.isInstance(selectionDeclaration)) {
-  				if(selectedRegardlessOfName((D)selectionDeclaration)) {
-  					result.add(selectionCandidate.declarator());
-  				}
-  			}
-  		} 
-  	}
-  	return result;
-
 	}
 
 	/**

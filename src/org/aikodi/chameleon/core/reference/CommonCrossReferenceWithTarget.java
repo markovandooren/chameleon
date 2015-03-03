@@ -1,8 +1,7 @@
 package org.aikodi.chameleon.core.reference;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
-import org.aikodi.chameleon.core.lookup.DeclarationCollector;
-import org.aikodi.chameleon.core.lookup.DeclarationSelector;
+import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.util.association.Single;
 
@@ -31,34 +30,13 @@ public abstract class CommonCrossReferenceWithTarget<D extends Declaration> exte
       set(_target,target);
    }
 
-   @Override
-   protected <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
-      X result = null;
+   protected LookupContext lookupContext() throws LookupException {
+      CrossReferenceTarget target = getTarget();
+      if (target != null) {
+         return target.targetContext();
+      } else {
+         return lexicalContext();
+      }
 
-      //OPTIMISATION
-      boolean cache = selector.equals(selector());
-      if(cache) {
-            result = (X) getCache();
-      }
-      if(result != null) {
-         return result;
-      }
-      synchronized (this) {
-         DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
-         CrossReferenceTarget target = getTarget();
-         if (target != null) {
-            target.targetContext().lookUp(collector);
-         } else {
-            lexicalContext().lookUp(collector);
-         }
-         result = collector.result();
-         if (cache) {
-            setCache((D) result);
-         }
-         return result;
-      }
    }
-
-
-   
 }

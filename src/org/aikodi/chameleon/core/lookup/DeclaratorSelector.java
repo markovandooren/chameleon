@@ -6,7 +6,13 @@ import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 
-public class DeclaratorSelector extends DeclarationSelector<Declaration>{
+/**
+ * A selector that selects the declarator of the declaration selected by
+ * the decorated selector.
+ * 
+ * @author Marko van Dooren
+ */
+public class DeclaratorSelector implements DeclarationSelector<Declaration>{
 	
 	public DeclaratorSelector(DeclarationSelector selector) {
 		if(selector == null) {
@@ -15,11 +21,6 @@ public class DeclaratorSelector extends DeclarationSelector<Declaration>{
 		_selector = selector;
 	}
 	
-//	@Override
-//  public Declaration actualDeclaration(Declaration declarator) throws LookupException {
-//  	return declarator;
-//  }
-
   private DeclarationSelector _selector;
 
   @Override

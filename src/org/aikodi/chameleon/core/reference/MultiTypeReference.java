@@ -13,10 +13,6 @@ import org.aikodi.chameleon.util.Util;
 import com.google.common.collect.ImmutableSet;
 
 public class MultiTypeReference<D extends Declaration> extends ElementReference<D> {
-
-	
-	
-	
 	
   public MultiTypeReference(String fqn, Set<Class<? extends D>> classes, boolean recursiveLimit) {
     this(createTarget(fqn, classes, recursiveLimit), 
