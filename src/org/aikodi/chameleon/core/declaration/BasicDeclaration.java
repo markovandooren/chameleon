@@ -20,7 +20,7 @@ public abstract class BasicDeclaration extends DeclarationImpl {
       return _name;
    }
 
-   private SimpleNameSignature _signature;
+   private Name _signature;
 
    @Override
    public void setName(String name) {
@@ -32,7 +32,7 @@ public abstract class BasicDeclaration extends DeclarationImpl {
 
    @Override
    public void setSignature(Signature signature) {
-      if (signature instanceof SimpleNameSignature) {
+      if (signature instanceof Name) {
          setName(signature.name());
       } else {
          throw new ChameleonProgrammerException();
@@ -40,11 +40,11 @@ public abstract class BasicDeclaration extends DeclarationImpl {
    }
 
    @Override
-   public SimpleNameSignature signature() {
+   public Name signature() {
       if (_signature == null) {
          synchronized (this) {
             if (_signature == null) {
-               _signature = new SimpleNameSignature(_name) {
+               _signature = new Name(_name) {
                   @Override
                   public void setName(String name) {
                      super.setName(name);

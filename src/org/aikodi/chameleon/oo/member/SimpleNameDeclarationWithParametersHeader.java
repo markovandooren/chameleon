@@ -33,11 +33,11 @@ public void setName(String name) {
 		return new SimpleNameDeclarationWithParametersHeader(getName());
 	}
 
-	private SimpleNameDeclarationWithParametersSignature _signatureCache;
+	private SignatureWithParameters _signatureCache;
 	
 	@Override
-	public SimpleNameDeclarationWithParametersSignature signature() {
-		SimpleNameDeclarationWithParametersSignature result;
+	public SignatureWithParameters signature() {
+	   SignatureWithParameters result;
 		boolean cacheSignatures = Config.cacheSignatures();
 		if(cacheSignatures) {
 		  result = _signatureCache;
@@ -45,7 +45,7 @@ public void setName(String name) {
 			result = null;
 		}
 		if(result == null) {
-			result = new SimpleNameDeclarationWithParametersSignature(getName()) {
+			result = new SignatureWithParameters(getName()) {
 
 				@Override
 				public void setName(String name) {
@@ -81,8 +81,8 @@ public void setName(String name) {
 
 	@Override
 	public SimpleNameDeclarationWithParametersHeader createFromSignature(Signature signature) {
-		if(signature instanceof SimpleNameDeclarationWithParametersSignature) {
-			SimpleNameDeclarationWithParametersSignature sig = (SimpleNameDeclarationWithParametersSignature) signature;
+		if(signature instanceof SignatureWithParameters) {
+		   SignatureWithParameters sig = (SignatureWithParameters) signature;
 			SimpleNameDeclarationWithParametersHeader result;
 			List<TypeReference> typeReferences = sig.typeReferences();
 			List<FormalParameter> params = formalParameters();

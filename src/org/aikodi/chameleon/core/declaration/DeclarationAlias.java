@@ -83,7 +83,7 @@ public class DeclarationAlias extends ElementImpl implements Declaration {
 	
 	@Override
    public void setName(String name) {
-		setSignature(new SimpleNameSignature(name));
+		setSignature(new Name(name));
 	}
 	
 	@Override

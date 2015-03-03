@@ -12,7 +12,7 @@ import java.util.Set;
 
 import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.Declaration;
-import org.aikodi.chameleon.core.declaration.SimpleNameSignature;
+import org.aikodi.chameleon.core.declaration.Name;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
@@ -68,8 +68,8 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
   }
   
 	@Override
-   public Class<SimpleNameSignature> signatureType() {
-		return SimpleNameSignature.class;
+   public Class<Name> signatureType() {
+		return Name.class;
 	}
 	
 

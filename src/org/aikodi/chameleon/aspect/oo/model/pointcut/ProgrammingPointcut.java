@@ -13,8 +13,8 @@ import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.validation.Verification;
+import org.aikodi.chameleon.oo.member.SignatureWithParameters;
 import org.aikodi.chameleon.oo.member.SimpleNameDeclarationWithParametersHeader;
-import org.aikodi.chameleon.oo.member.SimpleNameDeclarationWithParametersSignature;
 import org.aikodi.chameleon.oo.variable.FormalParameter;
 import org.aikodi.chameleon.util.association.Single;
 
@@ -86,7 +86,7 @@ public class ProgrammingPointcut extends Pointcut implements DeclarationContaine
   }
   
 	@Override
-	public SimpleNameDeclarationWithParametersSignature signature() {
+	public SignatureWithParameters signature() {
 		return header().signature();
 	}
 

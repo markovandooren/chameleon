@@ -8,7 +8,7 @@ import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
-import org.aikodi.chameleon.oo.member.SimpleNameDeclarationWithParametersSignature;
+import org.aikodi.chameleon.oo.member.SignatureWithParameters;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.oo.variable.FormalParameter;
 
@@ -44,11 +44,11 @@ public void setName(String name) {
 		return new SimpleNameMethodHeader(getName(), null);
 	}
 
-	private SimpleNameDeclarationWithParametersSignature _signatureCache;
+	private SignatureWithParameters _signatureCache;
 	
 	@Override
-	public SimpleNameDeclarationWithParametersSignature signature() {
-		SimpleNameDeclarationWithParametersSignature result;
+	public SignatureWithParameters signature() {
+	   SignatureWithParameters result;
 		boolean cacheSignatures = Config.cacheSignatures();
 		if(cacheSignatures) {
 		  result = _signatureCache;
@@ -56,7 +56,7 @@ public void setName(String name) {
 			result = null;
 		}
 		if(result == null) {
-			result = new SimpleNameDeclarationWithParametersSignature(getName()) {
+			result = new SignatureWithParameters(getName()) {
 				@Override
 				public void setName(String name) {
 					super.setName(name);
@@ -90,8 +90,8 @@ public void setName(String name) {
 
 	@Override
 	public SimpleNameMethodHeader createFromSignature(Signature signature) {
-		if(signature instanceof SimpleNameDeclarationWithParametersSignature) {
-			SimpleNameDeclarationWithParametersSignature sig = (SimpleNameDeclarationWithParametersSignature) signature;
+		if(signature instanceof SignatureWithParameters) {
+		   SignatureWithParameters sig = (SignatureWithParameters) signature;
 			SimpleNameMethodHeader result;
 			List<TypeReference> typeReferences = sig.typeReferences();
 			List<FormalParameter> params = formalParameters();

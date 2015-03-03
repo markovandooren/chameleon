@@ -12,7 +12,7 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.lookup.Target;
 import org.aikodi.chameleon.oo.member.DeclarationWithParametersHeader;
-import org.aikodi.chameleon.oo.member.DeclarationWithParametersSignature;
+import org.aikodi.chameleon.oo.member.SignatureWithParameters;
 import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.member.MemberImpl;
 import org.aikodi.chameleon.oo.type.DeclarationWithType;
@@ -60,7 +60,7 @@ public abstract class DeclarationWithParameters extends MemberImpl implements De
 	  
 	  private Single<MethodHeader> _header = new Single<MethodHeader>(this,true);
 	
-		public DeclarationWithParametersSignature signature() {
+		public SignatureWithParameters signature() {
 			MethodHeader header = header();
 			return header == null ? null : header.signature();
 		}

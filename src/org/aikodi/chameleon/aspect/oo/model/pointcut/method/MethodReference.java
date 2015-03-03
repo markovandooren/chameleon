@@ -8,7 +8,7 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
-import org.aikodi.chameleon.oo.member.SimpleNameDeclarationWithParametersSignature;
+import org.aikodi.chameleon.oo.member.SignatureWithParameters;
 import org.aikodi.chameleon.oo.method.Method;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
@@ -71,7 +71,7 @@ public class MethodReference extends ElementImpl {
 		
 		// Check if the parameter types match
 		Iterator<FormalParameter> methodArguments = e.formalParameters().iterator();
-		SimpleNameDeclarationWithParametersSignature sig = (SimpleNameDeclarationWithParametersSignature) fqn().lastSignature();
+		SignatureWithParameters sig = (SignatureWithParameters) fqn().lastSignature();
 		Iterator<TypeReference> argumentTypes = sig.typeReferences().iterator();
 	
 		

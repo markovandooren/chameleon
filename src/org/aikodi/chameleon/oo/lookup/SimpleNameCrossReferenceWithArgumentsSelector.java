@@ -9,9 +9,8 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.lookup.TwoPhaseDeclarationSelector;
 import org.aikodi.chameleon.core.relation.WeakPartialOrder;
-import org.aikodi.chameleon.oo.member.DeclarationWithParametersSignature;
 import org.aikodi.chameleon.oo.member.MoreSpecificTypesOrder;
-import org.aikodi.chameleon.oo.member.SimpleNameDeclarationWithParametersSignature;
+import org.aikodi.chameleon.oo.member.SignatureWithParameters;
 import org.aikodi.chameleon.oo.type.Type;
 
 public abstract class SimpleNameCrossReferenceWithArgumentsSelector<D extends Declaration>
@@ -27,8 +26,8 @@ public abstract class SimpleNameCrossReferenceWithArgumentsSelector<D extends De
 			throws LookupException {
 		boolean result = false;
 		Signature signature = declaration.signature();
-		if (signature instanceof SimpleNameDeclarationWithParametersSignature) {
-			SimpleNameDeclarationWithParametersSignature sig = (SimpleNameDeclarationWithParametersSignature) signature;
+		if (signature instanceof SignatureWithParameters) {
+		   SignatureWithParameters sig = (SignatureWithParameters) signature;
 			if (sig.nbTypeReferences() == nbActualParameters()) {
 				List<Type> actuals = getActualParameterTypes();
 				List<Type> formals = sig.parameterTypes();
@@ -50,8 +49,8 @@ public abstract class SimpleNameCrossReferenceWithArgumentsSelector<D extends De
 	public boolean selectedBasedOnName(Signature signature)
 			throws LookupException {
 		boolean result = false;
-		if (signature instanceof SimpleNameDeclarationWithParametersSignature) {
-			SimpleNameDeclarationWithParametersSignature sig = (SimpleNameDeclarationWithParametersSignature) signature;
+		if (signature instanceof SignatureWithParameters) {
+		   SignatureWithParameters sig = (SignatureWithParameters) signature;
 			result = sig.name().equals(name()); // (_nameHash == sig.nameHash())
 												// &&
 		}
@@ -70,8 +69,8 @@ public abstract class SimpleNameCrossReferenceWithArgumentsSelector<D extends De
 				return MoreSpecificTypesOrder
 						.create()
 						.contains(
-								((DeclarationWithParametersSignature) first.finalDeclaration().signature()).parameterTypes(),
-								((DeclarationWithParametersSignature) second.finalDeclaration().signature()).parameterTypes());
+								((SignatureWithParameters) first.finalDeclaration().signature()).parameterTypes(),
+								((SignatureWithParameters) second.finalDeclaration().signature()).parameterTypes());
 			}
 		};
 	}

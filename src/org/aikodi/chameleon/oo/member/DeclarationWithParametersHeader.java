@@ -39,7 +39,7 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
    * the information in the header.
    * @return
    */
-  public abstract DeclarationWithParametersSignature signature();
+  public abstract SignatureWithParameters signature();
   
   public abstract void setName(String name);
   
