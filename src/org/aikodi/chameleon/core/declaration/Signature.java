@@ -12,11 +12,16 @@ import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 public abstract class Signature extends QualifiedName {
 
   /**
-   * Return a string representation of the name of this signature. For methods, e.g., the arguments
-   * are not included.
+   * Return a string representation of the name of this signature. For methods, 
+   * e.g., the arguments are not included.
    * 
    * SPEED: This name is used to speed up selection of declarations in declaration containers. 
    */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
   public abstract String name();
   
   /**
