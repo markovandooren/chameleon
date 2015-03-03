@@ -34,10 +34,7 @@ import org.aikodi.chameleon.util.association.Single;
 public abstract class MethodInvocation<D extends DeclarationWithParameters>
 		extends TargetedExpression implements CrossReferenceWithTarget<D> {
 
-//	private Single<CrossReferenceWithArguments> _crossReference = new Single<CrossReferenceWithArguments>(this);
-
 	public MethodInvocation(CrossReferenceTarget target) {
-//		set(_crossReference, new CrossReferenceWithArguments());
 		setTarget(target);
 	}
 
@@ -53,12 +50,6 @@ public abstract class MethodInvocation<D extends DeclarationWithParameters>
 			throws LookupException;
 
 	protected DeclarationSelector<D> _selector;
-
-//	@Override
-//	public void flushLocalCache() {
-//		super.flushLocalCache();
-//		crossReference().flushLocalCache();
-//	}
 
 	@Override
    public CheckedExceptionList getDirectCEL() throws LookupException {
