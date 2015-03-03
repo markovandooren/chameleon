@@ -108,7 +108,6 @@ public abstract class DeclarationWithParameters extends MemberImpl implements De
 		}
 		
 		/**
-		 * The index starts at 1.
 		 */
 		public FormalParameter formalParameter(int index) {
 			return header().formalParameter(index);
@@ -117,7 +116,7 @@ public abstract class DeclarationWithParameters extends MemberImpl implements De
 		public FormalParameter lastFormalParameter() {
 			int nbFormalParameters = nbFormalParameters();
 			if(nbFormalParameters > 0) {
-			  return formalParameter(nbFormalParameters);
+			  return formalParameter(nbFormalParameters-1);
 			} else {
 				return null;
 			}

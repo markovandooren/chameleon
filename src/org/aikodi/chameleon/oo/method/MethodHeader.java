@@ -30,7 +30,7 @@ public abstract class MethodHeader extends DeclarationWithParametersHeader {
 		int size = nbTypeParameters();
 		if(size > 0) {
 			builder.append('<');
-			for(int i=1; i<=size;i++) {
+			for(int i=0; i<size;i++) {
 				builder.append(typeParameter(i));
 				if(i<size) {
 					builder.append(",");

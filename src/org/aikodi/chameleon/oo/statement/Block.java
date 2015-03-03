@@ -48,8 +48,8 @@ public List<Statement> statements() {
     return _statements.getOtherEnds();
   }
   
-  public Statement statement(int baseOneIndex) {
-  	return _statements.elementAt(baseOneIndex);
+  public Statement statement(int index) {
+  	return _statements.elementAt(index);
   }
 
   @Override

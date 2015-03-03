@@ -89,12 +89,11 @@ public abstract class DeclarationWithParametersHeader extends ElementImpl implem
   }
   
   /**
-   * The index starts from 1.
-   * @param baseOneIndex
+   * @param index
    * @return
    */
-  public FormalParameter formalParameter(int baseOneIndex) {
-  	return _parameters.elementAt(baseOneIndex);
+  public FormalParameter formalParameter(int index) {
+  	return _parameters.elementAt(index);
   }
 
   private Multi<FormalParameter> _parameters = new Multi<FormalParameter>(this, "formal parameters");
@@ -265,10 +264,10 @@ public Element variableScopeElement() {
 	}
 	
 	/**
-	 * Return the index-th type parameter. Indices start at 1.
+	 * Return the index-th type parameter.
 	 */
-	public TypeParameter typeParameter(int baseOneIndex) {
-		return parameterBlock().parameter(baseOneIndex);
+	public TypeParameter typeParameter(int index) {
+		return parameterBlock().parameter(index);
 	}
 	
 	public void addAllTypeParameters(Collection<? extends TypeParameter> parameters) {

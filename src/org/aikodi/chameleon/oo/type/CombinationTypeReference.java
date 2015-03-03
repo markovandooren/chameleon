@@ -21,8 +21,8 @@ public abstract class CombinationTypeReference extends ElementImpl implements Ty
 		return _types.getOtherEnds();
 	}
 
-	public TypeReference elementAt(int baseOneIndex) {
-		return _types.elementAt(baseOneIndex);
+	public TypeReference elementAt(int index) {
+		return _types.elementAt(index);
 	}
 	
 	@Override

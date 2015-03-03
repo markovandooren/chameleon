@@ -162,7 +162,7 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		} catch (InputException e) {
 			throw new LookupException("Error opening file",e);
 		}
-		NamespaceDeclaration namespaceDeclaration = rawDocument().namespaceDeclaration(1);
+		NamespaceDeclaration namespaceDeclaration = rawDocument().namespaceDeclaration(0);
 		if(namespaceDeclaration != null) {
 			List<Element> children = (List)namespaceDeclaration.children();
 			List<Declaration> result = new ArrayList<Declaration>(1);
