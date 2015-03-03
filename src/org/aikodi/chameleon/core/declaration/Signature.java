@@ -1,6 +1,10 @@
 package org.aikodi.chameleon.core.declaration;
 
+import java.util.List;
+
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
+
+import com.google.common.collect.ImmutableList;
 
 /**
  * A signature is a means of identifying a declaration that can be cross-referenced. It contains
@@ -58,5 +62,20 @@ public abstract class Signature extends QualifiedName {
     * @return
     */
    public abstract boolean hasMorePropertiesThanName();
+
+   @Override
+   public int length() {
+      return 1;
+   }
+
+   @Override
+   public Signature lastSignature() {
+      return this;
+   }
+
+   @Override
+   public List<Signature> signatures() {
+      return ImmutableList.of(this);
+   }
 
 }
