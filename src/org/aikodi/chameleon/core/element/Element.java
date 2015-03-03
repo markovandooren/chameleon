@@ -29,7 +29,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
-import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
+import be.kuleuven.cs.distrinet.rejuse.tree.FunctionalTreeStructure;
 
 /**
  * An interface for language constructs.
@@ -145,13 +145,13 @@ public interface Element {
      @
      @ post \result != null;
      @*/
-    public TreeStructure<Element> lexical();
+    public Navigator lexical();
     
     /**
      * @return a tree structure for the logical structure of this element. This
      * includes the {@link Namespace} structure.
      */
-    public TreeStructure<Element> logical();
+    public Navigator logical();
     
     /**
      * Return the object representing the <b>bidirectional</b>link to the parent of this element.

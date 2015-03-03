@@ -12,6 +12,7 @@ import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.contract.Contracts;
 import be.kuleuven.cs.distrinet.rejuse.function.Function;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
+import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
 
 /**
  * An analysis the reports dependencies between elements and declarations.
@@ -200,7 +201,8 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void doPerform(final Element element) throws Nothing {
+	protected <X extends Element> void doPerform(TreeStructure<X> tree) throws Nothing {
+	  X element = tree.node();
 		try {
 			if(! _elements.isEmpty()) {
 				if(_crossReferencePredicate.eval(element)) {

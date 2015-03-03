@@ -77,7 +77,8 @@ public class DefaultDependencyOptionsFactory extends LanguagePluginImpl implemen
 				}
 			}
 			for(Namespace namespace: namespaces) {
-				namespace.apply(dependencyAnalysis);
+//				namespace.apply(dependencyAnalysis);
+			  dependencyAnalysis.traverse(namespace.logical());
 			}
 
 			return dependencyAnalysis.result();

@@ -13,7 +13,48 @@ import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
  * @param <T> The type of objects in the data structure being traversed.
  * @param <E> The type of exceptions that can be thrown by this walker.
  */
-public abstract class TreeAction<T, E extends Exception> extends Action<T,E> {
+public abstract class TreeAction<T, E extends Exception> {
+
+  /**
+   * Return a class object that represents the type of
+   * objects on which this action can operate.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
+  public Class<T> type() {
+    return _type;
+  }
+  
+  private Class<T> _type;
+  
+
+  /**
+   * Perform the action.
+   * 
+   * @param tree The tree on which the action must be performed.
+   * @throws E
+   */
+  protected abstract <X extends T> void doPerform(TreeStructure<X> tree) throws E;
+  
+  /**
+   * Perform the action on the given object. First,
+   * the type of the object is checked. If it
+   * is of type T, the action is applied. Otherwise,
+   * nothing is done.
+   * 
+   * @param tree The object to which the action should
+   *               be applied.
+   * @throws E
+   */
+  public <X extends T> void perform(TreeStructure<X> tree) throws E {
+    if(type().isInstance(tree.node())) {
+      doPerform(tree);
+    }
+  }
+  
 
 	/**
 	 * Create a new tree action that performs actions on objects of the given type.
@@ -28,7 +69,10 @@ public abstract class TreeAction<T, E extends Exception> extends Action<T,E> {
    @ post type() == type;
    @*/
 	public TreeAction(Class<T> type) {
-		super(type);
+	  if(type == null) {
+	    throw new IllegalArgumentException("The type of a tree action cannot be null.");
+	  }
+		_type = type;
 	}
 
 	/**
@@ -80,7 +124,7 @@ public abstract class TreeAction<T, E extends Exception> extends Action<T,E> {
 	public void doExit(T node) {
 	}
 	
-	public void traverse(T element, TreeStructure<? extends T> tree) throws E {
-		perform(element);
+	public <X extends T> void traverse(TreeStructure<X> tree) throws E {
+		perform(tree);
 	}
 }

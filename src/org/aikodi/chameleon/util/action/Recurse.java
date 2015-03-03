@@ -2,9 +2,10 @@ package org.aikodi.chameleon.util.action;
 
 import org.aikodi.chameleon.core.element.Element;
 
+import be.kuleuven.cs.distrinet.rejuse.tree.FunctionalTreeStructure;
 import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
 
-public class Recurse<T extends Element,E extends Exception> extends TreeAction<T,E> {
+public class Recurse<T,E extends Exception> extends TreeAction<T,E> {
 	
 	public Recurse(TreeAction<T, ? extends E> action) {
 		super(action.type());
@@ -18,19 +19,21 @@ public class Recurse<T extends Element,E extends Exception> extends TreeAction<T
 	private TreeAction<T, ? extends E> _action;
 
 	@Override
-   protected void doPerform(T element) throws E {          
-		for(Element child: element.children()){
+   protected <X extends T> void doPerform(TreeStructure<X> tree) throws E {
+		for(X child: tree.children()){
 			walker().enter(child);
-			walker().perform(child);
+			walker().perform(tree.tree(child));
 			walker().exit(child);
 		}
 	} 
 
 	@Override
-	public void traverse(T element, TreeStructure<? extends T> tree) throws E {          
-		for(T child: ((TreeStructure<T>)tree).children(element)){
+	public <X extends T> void traverse(TreeStructure<X> tree) throws E {
+	  X element = tree.node();
+		for(X child: tree.children()){
 			walker().enter(child);
-			walker().traverse(child,tree);
+      TreeStructure<? extends T> tree2 = tree.tree(child);
+      walker().traverse(tree2);
 			walker().exit(child);
 		}
 	} 

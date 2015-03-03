@@ -51,7 +51,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.Conflict;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
-import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
+import be.kuleuven.cs.distrinet.rejuse.tree.FunctionalTreeStructure;
 
 /**
  * A class that implement most methods of {@link Element}.
@@ -91,24 +91,25 @@ public abstract class ElementImpl implements Element {
 		//	  	});
 	}
 	
-	private final static TreeStructure<Element> _lexical = new LexicalNavigator();
+//	private final static TreeStructure<Element> _lexical = new LexicalNavigator();
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TreeStructure<Element> lexical() {
-		return _lexical;
+	public Navigator lexical() {
+//		return _lexical;
+		return new LexicalNavigator();
 	}
 	
-	private final static TreeStructure<Element> _logical = new LogicalNavigator();
+//	private final static Navigator _logical = new LogicalNavigator();
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public TreeStructure<Element> logical() {
-		return _logical;
+	public Navigator logical() {
+		return new LogicalNavigator();
 	}
 	
 //  private Tree<Element> _lexical;
@@ -451,7 +452,7 @@ public abstract class ElementImpl implements Element {
 	/**
 	 * Return the parent of this element
 	 */
-	private final Element actualParent() {
+	final Element actualParent() {
 		if(_parentLink != null) {
 			return _parentLink.getOtherEnd();
 		} else {
@@ -461,7 +462,7 @@ public abstract class ElementImpl implements Element {
 	
 	@Override
    public Element parent() {
-		return lexical().parent(this);
+		return lexical().parent();
 	}
 
 	/**
@@ -1370,65 +1371,49 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
 		 return result;
 	 }
 
-	  public abstract static class Navigator extends TreeStructure<Element> {
-	     
-	       /**
-	        * {@inheritDoc}
-	        * 
-	        * @return the parent of the given element.
-	        */
-	      @Override
-	      public Element parent(Element element) {
-	         return ((ElementImpl)element).actualParent();
-	      }
-
-	      /**
-	       * {@inheritDoc}
-	       * 
-	       * @return The {@link Element#children()} of the element.
-	       */
-	      @Override
-	      public List<? extends Element> children(Element element) {
-	         return element.children();
-	      }
-	  }
+	 protected abstract class CommonNavigator extends Navigator {
+     @Override
+     public Element node() {
+       return ElementImpl.this;
+     }
+	 }
 	 
-	 /**
-	  * A tree structure for the main logical structure of the model.
-	  * 
-	  * @author Marko van Dooren
-	  */
-	 public static class LogicalNavigator extends Navigator {
-	    
-      /**
-       * {@inheritDoc}
-       * 
-       * @return The {@link Element#logical()} tree structure of the element.
-       */
-		@Override
-		public TreeStructure<Element> tree(Element element) {
-			return element.logical();
-		}
-
-	}
+  /**
+   * A tree structure for the main logical structure of the model.
+   * 
+   * @author Marko van Dooren
+   */
+  public class LogicalNavigator extends CommonNavigator {
 
     /**
-     * A tree structure for the lexical structure of the model.
+     * {@inheritDoc}
      * 
-     * @author Marko van Dooren
+     * @return The {@link Element#logical()} tree structure of the element.
      */
-	public static class LexicalNavigator extends Navigator {
+    @Override
+    public Navigator tree(Element element) {
+      return element.logical();
+    }
 
-      /**
-       * {@inheritDoc}
-       * 
-       * @return The {@link Element#logical()} tree structure of the element.
-       */
-		@Override
-		public TreeStructure<Element> tree(Element element) {
-			return element.lexical();
-		}
-	}
+  }
+
+  /**
+   * A tree structure for the lexical structure of the model.
+   * 
+   * @author Marko van Dooren
+   */
+  public class LexicalNavigator extends CommonNavigator {
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @return The {@link Element#logical()} tree structure of the element.
+     */
+    @Override
+    public Navigator tree(Element element) {
+      return element.lexical();
+    }
+  }
 
 	/**
 	 * A class of problems caused by conflicting properties.

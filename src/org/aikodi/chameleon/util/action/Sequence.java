@@ -37,7 +37,7 @@ public class Sequence<T,E extends Exception> extends TreeAction<T,E> {
 	private TreeAction<? super T, ? extends E> _second;
 	
 	@Override
-	protected void doPerform(T element) throws E {
+	protected <X extends T> void doPerform(TreeStructure<X> element) throws E {
 		first().enter(element);
 		first().perform(element);
 		second().enter(element);
@@ -46,11 +46,12 @@ public class Sequence<T,E extends Exception> extends TreeAction<T,E> {
 		first().exit(element);
 	}
 	@Override
-	public void traverse(T element, TreeStructure<? extends T> tree) throws E {          
+	public <X extends T> void traverse(TreeStructure<X> tree) throws E {
+	  T element = tree.node();
 		first().enter(element);
-		first().traverse(element,tree);
+		first().traverse(tree);
 		second().enter(element);
-		second().traverse(element,tree);
+		second().traverse(tree);
 		second().exit(element);
 		first().exit(element);
 	}
