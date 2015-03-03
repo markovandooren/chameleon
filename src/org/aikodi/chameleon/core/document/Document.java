@@ -101,12 +101,11 @@ public class Document extends ElementImpl {
     }
 
     /**
-     * Indices start at 1.
-     * @param baseOneIndex
+     * @param index
      * @return
      */
-    public NamespaceDeclaration namespaceDeclaration(int baseOneIndex) {
-        return _subNamespaceParts.elementAt(baseOneIndex);
+    public NamespaceDeclaration namespaceDeclaration(int index) {
+        return _subNamespaceParts.elementAt(index);
     }
 
     /**
