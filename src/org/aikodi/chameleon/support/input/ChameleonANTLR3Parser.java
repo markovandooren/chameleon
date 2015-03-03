@@ -22,9 +22,9 @@ import org.antlr.runtime.Token;
 import org.antlr.runtime.TokenStream;
 
 
-public abstract class ChameleonParser<L extends Language> extends Parser implements PositionMetadata {
+public abstract class ChameleonANTLR3Parser<L extends Language> extends Parser implements PositionMetadata {
 	
-	 public ChameleonParser(TokenStream input, RecognizerSharedState state) {
+	 public ChameleonANTLR3Parser(TokenStream input, RecognizerSharedState state) {
 		super(input,state);
 	}
 

@@ -25,18 +25,7 @@ import be.kuleuven.cs.distrinet.rejuse.io.DirectoryScanner;
 public abstract class ModelFactoryUsingANTLR extends LanguagePluginImpl implements ModelFactory {
 
 	public ModelFactoryUsingANTLR() {
-//		_view = view;
 	}
-	
-//	public View view() {
-//		return _view;
-//	}
-//	
-//	private View _view;
-//	
-//	public void setView(View view) {
-//		_view = view;
-//	}
 	
   @Override
 public abstract ModelFactoryUsingANTLR clone();
@@ -67,9 +56,10 @@ public abstract ModelFactoryUsingANTLR clone();
 	@Override
    public void parse(InputStream inputStream, Document cu) throws IOException, ParseException {
 		try {
-			ChameleonParser parser = getParser(inputStream, cu.view());
+			ChameleonANTLR3Parser<?> parser = getParser(inputStream, cu.view());
 			cu.disconnectChildren();
-			//FIXME: this is crap. I set the document, and later on set the view, while they are (and must be) connected anyway
+			//FIXME: this is crap. I set the document, and later on set the view, 
+			// while they are (and must be) connected anyway
 			parser.setDocument(cu);
 			parser.compilationUnit();
 		} catch (RecognitionException e) {
@@ -79,7 +69,7 @@ public abstract ModelFactoryUsingANTLR clone();
 		}
 	}
 	
-	protected abstract ChameleonParser getParser(InputStream inputStream, View view) throws IOException;
+	protected abstract ChameleonANTLR3Parser getParser(InputStream inputStream, View view) throws IOException;
 
 	/**
 	 * @param pathList		The directories to from where to load the cs-files
