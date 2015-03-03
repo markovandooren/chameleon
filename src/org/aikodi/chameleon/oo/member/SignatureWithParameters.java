@@ -3,8 +3,12 @@ package org.aikodi.chameleon.oo.member;
 import java.util.Iterator;
 import java.util.List;
 
-import org.aikodi.chameleon.core.declaration.Signature;
+import org.aikodi.chameleon.core.declaration.SignatureWithName;
+import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
+import org.aikodi.chameleon.core.validation.BasicProblem;
+import org.aikodi.chameleon.core.validation.Valid;
+import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.method.DeclarationWithParameters;
 import org.aikodi.chameleon.oo.type.Type;
@@ -13,25 +17,122 @@ import org.aikodi.chameleon.oo.type.generics.FormalTypeParameter;
 import org.aikodi.chameleon.oo.type.generics.TypeConstraint;
 import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.variable.FormalParameter;
+import org.aikodi.chameleon.util.Lists;
+import org.aikodi.chameleon.util.association.Multi;
 
-public abstract class DeclarationWithParametersSignature extends Signature {
+/**
+ * A class of signatures that include parameter types.
+ * 
+ * @author Marko van Dooren
+ */
+public class SignatureWithParameters extends SignatureWithName {
 
-	@Override
-   public abstract String name();
-	
-	public abstract int nbFormalParameters();
-	
-	public abstract List<Type> parameterTypes() throws LookupException;
-	
-	public abstract List<TypeReference> typeReferences();
-	
-	public boolean sameParameterBoundsAs(DeclarationWithParametersSignature other) throws LookupException {
+   public SignatureWithParameters(String name) {
+      super(name);
+   }
+
+	public boolean sameParameterBoundsAs(SignatureWithParameters other) throws LookupException {
 		boolean after = sameParameterBoundsAsAfter(other);
  		return after;
 	}
+	
+   // /*********************
+   // * FORMAL PARAMETERS *
+   // *********************/
+   //
+	
+	/**
+	 * @return the list of references to the types of the formal parameters.
+	 */
+   public List<TypeReference> typeReferences() {
+      return _parameterTypes.getOtherEnds();
+   }
+
+   public void add(TypeReference arg) {
+      add(_parameterTypes, arg);
+   }
+
+   public void addAll(List<TypeReference> trefs) {
+      for (TypeReference tref : trefs) {
+         add(tref);
+      }
+   }
+
+   public void remove(TypeReference arg) {
+      remove(_parameterTypes, arg);
+   }
+
+   public int nbTypeReferences() {
+      return _parameterTypes.size();
+   }
+
+   private Multi<TypeReference> _parameterTypes = new Multi<TypeReference>(this, "parameter types");
+   {
+      _parameterTypes.enableCache();
+   }
+
+   @Override
+   protected SignatureWithParameters cloneSelf() {
+      return new SignatureWithParameters(name());
+   }
+
+   @Override
+   public boolean uniSameAs(Element other) throws LookupException {
+      boolean result = false;
+      if (other instanceof SignatureWithParameters) {
+         SignatureWithParameters sig = (SignatureWithParameters) other;
+         result = name().equals(sig.name()) && sameParameterTypesAs(sig);
+      }
+      return result;
+   }
+
+   public List<Type> parameterTypes() throws LookupException {
+      List<Type> result = Lists.create(_parameterTypes.size());
+      for (TypeReference ref : typeReferences()) {
+         result.add(ref.getType());
+      }
+      return result;
+   }
+
+   @Override
+   public Verification verifySelf() {
+      Verification result = Valid.create();
+      if (name() == null) {
+         result = result.and(new BasicProblem(this, "The signature has no name."));
+      }
+      return result;
+   }
+
+   @Override
+   public String toString() {
+      StringBuilder result = new StringBuilder();
+      result.append(name());
+      result.append("(");
+      List<TypeReference> types = typeReferences();
+      int size = types.size();
+      if (size > 0) {
+         result.append(types.get(0).toString());
+      }
+      for (int i = 1; i < size; i++) {
+         result.append(",");
+         result.append(types.get(i).toString());
+      }
+      result.append(")");
+      return result.toString();
+   }
+
+   public int nbFormalParameters() {
+      return _parameterTypes.size();
+   }
+
+   @Override
+   public boolean hasMorePropertiesThanName() {
+      return true;
+   }
+
 
 	@SuppressWarnings("unused")
-	private boolean sameParameterBoundsAsAfter(DeclarationWithParametersSignature other) throws LookupException {
+	private boolean sameParameterBoundsAsAfter(SignatureWithParameters other) throws LookupException {
   	// substitute paramaters.
 		DeclarationWithParameters otherMethod = other.nearestAncestor(DeclarationWithParameters.class);
   	DeclarationWithParametersHeader otherHeader = otherMethod.header();
@@ -80,11 +181,8 @@ public abstract class DeclarationWithParametersSignature extends Signature {
   			for(int i=0; result && i < nbMyFormalParameters; i++) {
   				Type clonedParameterType = clonedFormalParameters.get(i).getType();
 					Type myParameterType = myFormalParameterTypes.get(i);
-//					boolean sameUpperBound = clonedParameterType.upperBound().sameAs(myParameterType.upperBound());
-//					boolean sameLowerBound = clonedParameterType.lowerBound().sameAs(myParameterType.lowerBound());
 					boolean clonedSubtypeOfMine = clonedParameterType.subTypeOf(myParameterType);
 					result = clonedSubtypeOfMine && myParameterType.subTypeOf(clonedParameterType);
-//					result = clonedParameterType.sameAs(myParameterType);
   			}
   			for(int i=0; result && i < nbMyTypeParameters; i++) {
   				// According to the language specification, the equality should be on the bounds, not just the upper bounds.
@@ -98,53 +196,7 @@ public abstract class DeclarationWithParametersSignature extends Signature {
   	return result;
 	}
 	
-//	public boolean sameParameterBoundsAsBefore(DeclarationWithParametersSignature other) throws LookupException {
-//  	// substitute paramaters.
-//  	Method method = (Method)other.nearestAncestor(Method.class);
-//  	DeclarationWithParametersHeader otherHeader = method.header();
-//  	int nbOtherFormalParameters = otherHeader.nbFormalParameters();
-//  	int nbMyFormalParameters = nbFormalParameters();
-//  	boolean result = nbOtherFormalParameters == nbMyFormalParameters;
-//  	if(result) {
-//  		DeclarationWithParametersHeader clonedHeader = otherHeader.clone();
-//  		clonedHeader.setUniParent(method);
-//  		List<TypeParameter> cloneTypeParameters = clonedHeader.typeParameters();
-//  		List<TypeParameter> myTypeParameters = nearestAncestor(Method.class).typeParameters();
-//  		int size = myTypeParameters.size();
-//  		result = (size == cloneTypeParameters.size());
-//  		if(result) {
-//  			List<FormalParameter> clonedFormalParameters = (List<FormalParameter>)clonedHeader.formalParameters();
-//  			for(int i=0; i < size; i++) {
-//  				TypeParameter myTypeParameter = myTypeParameters.get(i);
-//  				TypeParameter clonedTypeParameter = cloneTypeParameters.get(i);
-//  				TypeReference replacement = language(ObjectOrientedLanguage.class).createTypeReference(myTypeParameter.signature().name());
-//  				replacement.setUniParent(myTypeParameter.parent());
-//  				// substitute in formal parameters
-//  				for(FormalParameter formal: clonedFormalParameters) {
-//  					language(ObjectOrientedLanguage.class).replace(replacement, clonedTypeParameter, formal.getTypeReference());
-//  				}
-//
-//  				// substitute in type bounds of the type parameters of the cloned header.
-//  				for(TypeParameter typeParameter: (List<TypeParameter>)clonedHeader.typeParameters()) {
-//  					if(typeParameter instanceof FormalTypeParameter) {
-//  						FormalTypeParameter formal = (FormalTypeParameter) typeParameter;
-//  						language(ObjectOrientedLanguage.class).replace(replacement, clonedTypeParameter, ((ExtendsConstraint)formal.constraints().get(0)).typeReference());
-//  					}
-//  				}
-//  			}
-//  			List<Type> myFormalParameterTypes = parameterTypes();
-//  			for(int i=0; result && i < nbMyFormalParameters; i++) {
-//  				result = clonedFormalParameters.get(i).getType().sameAs(myFormalParameterTypes.get(i));
-//  			}
-//  			for(int i=0; result && i < size; i++) {
-//  				result = cloneTypeParameters.get(i).upperBound().sameAs(myTypeParameters.get(i).upperBound());
-//  			}
-//  		}
-//  	}
-//  	return result;
-//	}
-
-  public boolean sameParameterTypesAs(DeclarationWithParametersSignature other) throws LookupException {
+  public boolean sameParameterTypesAs(SignatureWithParameters other) throws LookupException {
   	boolean result = false;
   	if (other != null) {
 			List<Type> mine = parameterTypes();
