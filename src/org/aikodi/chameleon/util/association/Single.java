@@ -1,5 +1,8 @@
 package org.aikodi.chameleon.util.association;
 
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
@@ -119,4 +122,28 @@ public class Single<T extends Element> extends SingleAssociation<Element, T> imp
 		return getOtherEnd() == null ? 0 : 1;
 	}
 	
+	@Override
+	public void pairWise(ChameleonAssociation<?> other, BiConsumer<Element, Element> consumer) {
+	   if(other instanceof Single) {
+	      consumer.accept(this.getOtherEnd(), ((Single)other).getOtherEnd());
+	   } else {
+	      throw new IllegalArgumentException("The given association is not of the correct type.");
+	   }
+	}
+	
+	@Override
+   public void mapTo(ChameleonAssociation<?> other, Function<Element, Element> mapper) {
+      if(other instanceof Single) {
+         T otherEnd = this.getOtherEnd();
+         if(otherEnd != null) {
+            mapper.apply(otherEnd).parentLink().connectTo((Single)other);
+         }
+      } else {
+         if(other == null) {
+            throw new IllegalArgumentException("The given association is null.");
+         } else {
+            throw new IllegalArgumentException("The given association is of the incorrect type. Expected: "+getClass().getName()+", but received: "+other.getClass().getName());
+         }
+      }
+	}
 }

@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.aikodi.chameleon.core.Config;
@@ -332,30 +333,10 @@ public abstract class ElementImpl implements Element {
 	 */
 	@Override
    public Element clone() {
-		Element result = cloneSelf();
-		if(canHaveChildren()) {
-			List<ChameleonAssociation<?>> mine = myAssociations();
-			int size = mine.size();
-			List<ChameleonAssociation<?>> others = result.associations();
-			for(int i = 0; i<size;i++) {
-				ChameleonAssociation<? extends Element> m = mine.get(i);
-				final ChameleonAssociation<? extends Element> o = others.get(i);
-				m.apply(new Action<Element,Nothing>(Element.class) {
-					@Override
-					public void doPerform(Element myElement) {
-						Element clone = myElement.clone();
-						clone.parentLink().connectTo((Association)o);
-					}
-				});
-			}
-		}
-//		if(mapper != null) {
-//			mapper.process(this, result);
-//		}
-		return result;
+		return clone(null, Element.class);
 	}
-
-	public final Element clone(final Mapper mapper) {
+	
+   public final <E extends Element> Element clone(final BiConsumer<E, E> consumer, Class<E> type) {
 		Element result = cloneSelf();
 		if(canHaveChildren()) {
 			List<ChameleonAssociation<?>> mine = myAssociations();
@@ -364,24 +345,17 @@ public abstract class ElementImpl implements Element {
 			for(int i = 0; i<size;i++) {
 				ChameleonAssociation<? extends Element> m = mine.get(i);
 				final ChameleonAssociation<? extends Element> o = others.get(i);
-				final Action<Element,Nothing> action = new Action<Element,Nothing>(Element.class) {
-					@Override
-					public void doPerform(Element myElement) {
-						Element clone = myElement.clone();
-						clone.parentLink().connectTo((Association)o);
-					}
-				};
-				m.apply(action);
+            m.mapTo(o, e -> e.clone());
 			}
 		}
-		if(mapper != null) {
-			mapper.process(this, result);
+		if(consumer != null && type.isInstance(this)) {
+		   consumer.accept((E)this, (E)result);
 		}
 		return result;
 	}
 	
 	/**
-	 * Create shallow clone of the current element.
+	 * Create a shallow clone of the current element.
 	 * @return
 	 */
   /*@
@@ -625,7 +599,6 @@ public abstract class ElementImpl implements Element {
 							tmp.add((ChameleonAssociation<?>) content);
 						}
 						_associations = Collections.unmodifiableList(tmp);
-//						_associations = ImmutableList.copyOf(tmp);
 					}
 					else {
 						_associations = Collections.EMPTY_LIST;

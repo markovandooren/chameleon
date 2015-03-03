@@ -1,5 +1,8 @@
 package org.aikodi.chameleon.util.association;
 
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
@@ -85,6 +88,44 @@ public class Multi<T extends Element> extends OrderedMultiAssociation<Element, T
 	
 	private String _role = "elements";
 
+	@Override
+	public void pairWise(ChameleonAssociation<?> other, BiConsumer<Element, Element> consumer) {
+	   if(other instanceof Multi) {
+	      Multi<?> otherMulti = (Multi<?>) other;
+	      int size = size();
+         for(int i=0; i<size;i++) {
+	         Element first = elementAt(i);
+	         Element second = otherMulti.elementAt(i);
+	         consumer.accept(first, second);
+	      }
+	   } else {
+         if(other == null) {
+            throw new IllegalArgumentException("The given association is null.");
+         } else {
+            throw new IllegalArgumentException("The given association is of the incorrect type. Expected: "+getClass().getName()+", but received: "+other.getClass().getName());
+         }
+      }
+	}
+	
+	@Override
+   public void mapTo(ChameleonAssociation<?> other, Function<Element, Element> mapper) {
+      if(other instanceof Multi) {
+         Multi<?> otherMulti = (Multi<?>) other;
+         int size = size();
+         for(int i=0; i<size;i++) {
+            Element first = elementAt(i);
+            mapper.apply(first).parentLink().connectTo((Multi)other);
+         }
+      } else {
+         if(other == null) {
+            throw new IllegalArgumentException("The given association is null.");
+         } else {
+            throw new IllegalArgumentException("The given association is of the incorrect type. Expected: "+getClass().getName()+", but received: "+other.getClass().getName());
+         }
+      }
+   }
+	
+	
 //	protected List<T> explicitElements() {
 //		return super.getOtherEnds();
 //	}

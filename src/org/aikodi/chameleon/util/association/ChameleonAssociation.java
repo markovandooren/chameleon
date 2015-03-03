@@ -1,5 +1,8 @@
 package org.aikodi.chameleon.util.association;
 
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.validation.Verification;
 
@@ -13,4 +16,8 @@ public interface ChameleonAssociation<T extends Element> extends IAssociation<El
 	
 	public String role();
 	
+	public void pairWise(ChameleonAssociation<?> other, BiConsumer<Element, Element> consumer);
+	
+   public void mapTo(ChameleonAssociation<?> other, Function<Element, Element> mapper);
+
 }
