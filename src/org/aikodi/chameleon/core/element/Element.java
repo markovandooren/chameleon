@@ -903,7 +903,9 @@ public interface Element {
      @
      @ post \result != null; 
      @*/
-    public LookupContext lookupContext(Element child) throws LookupException;
+    public default LookupContext lookupContext(Element child) throws LookupException {
+      return lexicalContext();
+    }
     
     /**
      * Return the lexical context for this element. By default, this

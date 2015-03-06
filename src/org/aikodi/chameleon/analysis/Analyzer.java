@@ -3,8 +3,12 @@ package org.aikodi.chameleon.analysis;
 import java.util.Collection;
 
 import org.aikodi.chameleon.core.document.Document;
+import org.aikodi.chameleon.core.element.Element;
+import org.aikodi.chameleon.core.element.Navigator;
 import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.chameleon.workspace.Project;
+
+import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
 
 public abstract class Analyzer {
 
@@ -31,9 +35,10 @@ public abstract class Analyzer {
 	 * @return
 	 * @throws InputException
 	 */
-	protected <R extends Result<R>> R analysisResult(Analysis<?,R> analysis) throws InputException {
+	protected <R extends Result<R>> R analysisResult(Analysis<? extends Element,R> analysis) throws InputException {
 		for(Document doc: sourceDocuments()) {
-			doc.apply(analysis);
+			TreeStructure<Element> lexical = doc.lexical();
+      analysis.traverse(lexical);
 		}
 		return analysis.result();
 	}

@@ -58,14 +58,4 @@ public abstract class BasicDeclaration extends DeclarationImpl {
       return _signature;
    }
 
-//   @Override
-//   public boolean sameSignatureAs(Declaration declaration) {
-////      if (declaration instanceof BasicDeclaration) {
-////         return _name.equals(((BasicDeclaration) declaration)._name);
-////      } else {
-////         return declaration.name().equals(_name) && declaration instanceof SimpleNameDeclaration;
-////      }
-//      return signature().sameAs(declaration.signature());
-//   }
-
 }

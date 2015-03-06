@@ -6,14 +6,29 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 
 import be.kuleuven.cs.distrinet.rejuse.association.MultiAssociation;
 
+/**
+ * A workspace holds a number of projects, and a reference to a repository
+ * with supported languages.
+ * 
+ * @author Marko van Dooren
+ */
 public class Workspace {
 
-	public Workspace(LanguageRepository repository) {
+  /**
+   * Create a new workspace with the given language repository.
+   * 
+   * @param repository A repository containing the supported languages.
+   */
+  public Workspace(LanguageRepository repository) {
 		_repository = repository;
 	}
 	
 	private MultiAssociation<Workspace, Project> _projects = new MultiAssociation<Workspace, Project>(this);
 	
+	/**
+	 * @return the projects in the workspace. All references in the resulting
+	 * collection point to different projects.
+	 */
 	public Collection<Project> projects() {
 		return _projects.getOtherEnds();
 	}

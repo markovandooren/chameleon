@@ -1,8 +1,5 @@
 package org.aikodi.chameleon.util.action;
 
-import org.aikodi.chameleon.core.element.Element;
-
-import be.kuleuven.cs.distrinet.rejuse.tree.FunctionalTreeStructure;
 import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
 
 public class Recurse<T,E extends Exception> extends TreeAction<T,E> {

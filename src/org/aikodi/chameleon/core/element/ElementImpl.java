@@ -989,14 +989,6 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
 	 * {@inheritDoc}
 	 */
 	@Override
-   public LookupContext lookupContext(Element child) throws LookupException {
-		return lexicalContext();
-	}
-
-	 /**
-	 * {@inheritDoc}
-	 */
-	@Override
    public LookupContext lexicalContext() throws LookupException {
 		try {
 			return parent().lookupContext(this);

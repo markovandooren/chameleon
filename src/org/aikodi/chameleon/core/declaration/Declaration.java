@@ -52,7 +52,9 @@ public interface Declaration extends Element, SelectionResult {//
    @
    @ post \result == signature().name();
    @*/
-  public String name();
+  public default String name() {
+    return signature().name();
+  }
   
   /**
    * Change the signature of this declaration to the given declaration.
@@ -69,7 +71,9 @@ public interface Declaration extends Element, SelectionResult {//
    @
    @ post signature().name().equals(name); 
    @*/
-  public void setName(String name);
+  public default void setName(String name) {
+    signature().setName(name);
+  }
   
 //  public Declaration clone();
   
@@ -92,7 +96,10 @@ public interface Declaration extends Element, SelectionResult {//
    @
    @ post \result != null;
    @*/
-  public Declaration selectionDeclaration() throws LookupException;
+  public default Declaration selectionDeclaration() throws LookupException {
+    return this;
+  }
+  
 
   /**
    * As explained in the selectionDeclaration method, formal generic parameters create stub types for
@@ -108,7 +115,9 @@ public interface Declaration extends Element, SelectionResult {//
    @
    @ post \result != null;
    @*/
-  public Declaration actualDeclaration() throws LookupException;
+  public default Declaration actualDeclaration() throws LookupException {
+    return this;
+  }
   
   /**
    * Return the declaration that declared this declaration. In most cases the declaration is the same
@@ -122,7 +131,9 @@ public interface Declaration extends Element, SelectionResult {//
    @
    @ post \result != null;
    @*/
-  public Declaration declarator();
+  public default Declaration declarator() {
+    return this;
+  }
   
   /**
    * Return the scope of this declaration. The scope of a declaration denotes the regions of the program
@@ -174,7 +185,9 @@ public interface Declaration extends Element, SelectionResult {//
    * false otherwise.
    * @throws LookupException
    */
-  public boolean sameSignatureAs(Declaration declaration) throws LookupException;
+  public default boolean sameSignatureAs(Declaration declaration) throws LookupException {
+    return signature().sameAs(declaration.signature());
+  }
   
   /**
    * Return all cross references in the model that reference this declaration.
@@ -214,6 +227,21 @@ public interface Declaration extends Element, SelectionResult {//
         }
      });
      return result;
+  }
+
+  @Override
+  public default Declaration finalDeclaration() {
+    return this;
+  }
+
+  @Override
+  public default Declaration template() {
+    return finalDeclaration();
+  }
+
+  @Override
+  public default SelectionResult updatedTo(Declaration declaration) {
+    return declaration;
   }
 
 }

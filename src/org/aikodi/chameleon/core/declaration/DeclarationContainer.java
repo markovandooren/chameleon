@@ -4,15 +4,17 @@ import java.util.List;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
+import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 
 /**
- * A general interface for elements that contain declarations. This interface allows the
- * class TargetContext to perform a local search. The declarations() method defines which
- * declarations are locally defined, after which the other objects involved in a lookup can 
- * decide if the request element is defined by the current declaration container or not.
+ * An element that contains declarations. This interface allows the
+ * class {@link LocalLookupContext} to perform a local search. The 
+ * {@link #declarations()} method defines which declarations are declared
+ * in this container, after which the other objects involved in the lookup 
+ * can decide if the requested element is among these declarations.
  * 
  * @author Marko van Dooren
  */
@@ -25,10 +27,14 @@ public interface DeclarationContainer extends Element {
    * containers (e.g. through an inheritance relation).
    *
    * This method can be <b>very slow</b>. For example, when used on types/classes
-   * for a language with syntactic overloading, this method is a disaster. Fortunately,
-   * all lookup are done using {@link #declarations(DeclarationSelector)}. It is of course
-   * fine to use this metod in the implementation of {@link #declarations(DeclarationSelector)} for
-   * declaration containers that have an efficient {@link #declarations()} method (most of them).
+   * for a language with syntactic overloading, this method is a disaster. 
+   * Fortunately, all lookups are done using {@link #declarations(DeclarationSelector)}, 
+   * which uses the selector to severely prune the collection of candidates. 
+   * It is of course fine to use this metod in the implementation of 
+   * {@link #declarations(DeclarationSelector)} for declaration containers that 
+   * have an efficient {@link #declarations()} method (most of them).
+   * 
+   * @default The default implementation returns the {{@link #locallyDeclaredDeclarations()}.
    */
  /*@
    @ public behavior
@@ -36,12 +42,14 @@ public interface DeclarationContainer extends Element {
    @ post \result != null;
    @ post \result.containsAll(locallyDeclaredDeclarations());
    @*/
-  public List<? extends Declaration> declarations() throws LookupException;
+  public default List<? extends Declaration> declarations() throws LookupException {
+    return locallyDeclaredDeclarations();
+ }
   
   /**
-   * Return the declarations the are defined locally in this declaration container.
-   * @return
-   * @throws LookupException
+   * @return the declarations that are defined locally in this declaration container.
+   * @throws LookupException The list of declarations could not be computed
+   * because of an error during lookup.
    */
  /*@
    @ public behavior
@@ -51,15 +59,21 @@ public interface DeclarationContainer extends Element {
   public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException;
   
   /**
-   * Return the declarations the are defined in this declaration container and selected
-   * by the given declaration selector.
+   * Return the declarations the are defined in this declaration container and
+   * selected by the given declaration selector.
    * 
-   * Most implementations will directly invoke selector.selection(declarations()), but in some cases, 
-   * calculating the collection of declarations is very expensive. In such cases, the selector is typically
-   * pass along the chain of objects that contain the declarations of this container. For example, a class will pass
-   * the selector to its super classes instead of asking them for all declarations and then using the selector.
-   * Applying the inheritance rules (such as overriding) to all class members is very expensive, and useless for
-   * declarations that cannot be selected anyway.
+   * Most implementations will directly invoke
+   * selector.selection(declarations()), but in some cases, calculating the
+   * collection of declarations is very expensive. In such cases, the selector
+   * is typically pass along the chain of objects that contain the declarations
+   * of this container. For example, a class will pass the selector to its super
+   * classes instead of asking them for all declarations and then using the
+   * selector. Applying the inheritance rules (such as overriding) to all class
+   * members is very expensive, and useless for declarations that cannot be
+   * selected anyway.
+   * 
+   * @param selector
+   *          The selector that determines which declarations must be returned.
    */
  /*@
    @ public behavior
@@ -67,11 +81,13 @@ public interface DeclarationContainer extends Element {
    @ post \result != null;
    @ post \result.equals(selector.selection(declarations()));
    @*/
-  public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException;
+  public default <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector)
+      throws LookupException {
+   return selector.selection(declarations());
+}
 
   /**
-   * Return a lookup context that searches for local declarations.
-   * @return
+   * @return a lookup context that searches for declarations in this container.
    * @throws LookupException
    */
  /*@
@@ -79,6 +95,14 @@ public interface DeclarationContainer extends Element {
    @
    @ post \result != null;
    @*/
-	public LookupContext localContext() throws LookupException;
+  public default LookupContext localContext() throws LookupException {
+    return language().lookupFactory().createLocalLookupStrategy(this);
+ }
   
+  @Override
+  public default LookupContext lookupContext(Element child) throws LookupException {
+     return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
+  }
+
+
 }
