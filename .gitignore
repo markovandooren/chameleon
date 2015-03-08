@@ -1,10 +1,10 @@
 bin
+/bin/
 .DS_Store
-lib/*.jar
-dist
-scratchbook
+build
 .classpath
 .project
-ivy/ivy.properties
+.gradle
+.settings
 properties
 *~

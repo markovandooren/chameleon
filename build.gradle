@@ -1,0 +1,73 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'eclipse'
+//apply plugin: 'org.akhikhl.wuff.eclipse-ide-bundle'
+
+sourceCompatibility = 1.8
+
+configurations {
+  umlgraph
+}
+
+repositories {
+  mavenCentral()
+  maven {
+    url 'http://users.ugent.be/~mcvdoore/repository'
+  }
+}
+
+
+sourceSets {
+  main {
+        java {
+            srcDir 'src'
+            exclude 'org/aikodi/chameleon/eclipse/**'
+       }
+  }
+  dok {
+        java {
+            srcDir 'build/tmp/src_for_doc'
+            exclude 'org/aikodi/chameleon/eclipse/**'
+       }
+  }
+}
+
+dependencies {
+  //umlgraph 'org.umlgraph:umlgraph:5.6.6'
+
+  compile group: 'junit', name: 'junit', version: '4.+'
+  compile group: 'com.google.guava', name: 'guava', version: '18.+'
+  //compile project(':rejuse')
+  compile group: 'markovandooren', name: 'rejuse', version: '1.1.0'
+  compile group: 'org.antlr', name: 'antlr', version: '3.2'
+  //compile "${eclipseMavenGroup}:org.eclipse.core.commands:+"
+}
+
+task javadoc(type: Javadoc, overwrite: true) {
+//    options.docletpath = configurations.umlgraph.files.asType(List)
+    source = sourceSets.dok.java
+//    options.doclet = 'org.umlgraph.doclet.UmlGraphDoc'
+}
+
+ant.importBuild 'doc.xml'
+javadoc.dependsOn prepareSourceForJavadoc
+
+configurations {
+  deployerJars
+}
+
+dependencies {
+   deployerJars 'org.apache.maven.wagon:wagon-ssh:2.2'
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        configuration = configurations.deployerJars
+        repository(url: "scp://webssh.ugent.be/users/m/mcvdoore/WWW/repository/") {
+            authentication(userName: "mcvdoore")
+        }
+        pom.version = '1.1.12'
+        pom.groupId = 'markovandooren'
+        pom.artifactId = 'chameleon'
+    }
+}
