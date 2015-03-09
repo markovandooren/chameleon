@@ -5,6 +5,7 @@ import java.util.List;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.declaration.Name;
+import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupContext;
@@ -53,32 +54,6 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
 		}
 	}
 	
-//	public void setSignature(Signature signature) {
-//		if(signature instanceof SimpleNameSignature) {
-//			setName(signature.name());
-//		} else {
-//			throw new ChameleonProgrammerException();
-//		}
-//	}
-	
-//	public SimpleNameSignature signature() {
-//		if(_signature == null) {
-//			synchronized (this) {
-//				if(_signature == null) {
-//					_signature = new SimpleNameSignature(_name) {
-//						@Override
-//						public void setName(String name) {
-//							super.setName(name);
-//							VariableDeclaration.this._name = name;
-//						}
-//					};
-//				}
-//				_signature.setUniParent(this);
-//			}
-//		}
-//		return _signature;
-//	}
-
 	/**
 	 * EXPRESSION
 	 */
@@ -184,5 +159,9 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
 	}
 	// BUG shouldn't this override lexical strategy?
 	
+	@Override
+	public LookupContext lookupContext(Element child) throws LookupException {
+	  return super.lookupContext(child);
+	}
   
 }
