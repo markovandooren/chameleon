@@ -2,57 +2,68 @@ package org.aikodi.chameleon.util.action;
 
 import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
 
-public class Sequence<T,E extends Exception> extends TreeAction<T,E> {
+/**
+ * A tree walker that applies two walkers in sequence to a tree node.
+ * 
+ * @author Marko van Dooren
+ *
+ * @param <T> The type of the elements in the tree.
+ * @param <E> The type of exceptions that can be thrown during the traversal.
+ */
+public class Sequence<T,E extends Exception> extends TreeWalker<T,E> {
 	
-	public Sequence(TreeAction<T, ? extends E> first, TreeAction<? super T, ? extends E> second) {
-		super(first.type());
+	public Sequence(TreeWalker<T, ? extends E> first, TreeWalker<T, ? extends E> second) {
 		_first = first;
 		_second = second;
 	}
 
-	public Sequence(Class<T> type, TreeAction<T, ? extends E> first, TreeAction<? super T, ? extends E> second) {
-		super(type);
-		_first = first;
-		_second = second;
-	}
-
-	private TreeAction<? super T, ? extends E> _first;
+	private TreeWalker<T, ? extends E> _first;
 	
-	public TreeAction<? super T, ? extends E> first() {
-		return _first;
+	/**
+	 * @return The walker that is applied first to a node.
+	 */
+	public TreeWalker<T, ? extends E> first() {
+	  return _first;
 	}
 
-	protected void setFirst(TreeAction<? super T, ? extends E> first) {
+	/**
+	 * Set the first walker.
+	 * 
+	 * @param first The walker that will be applied first to a node.
+	 */
+	protected void setFirst(TreeWalker<T, ? extends E> first) {
 		_first = first;
 	}
 
-	public TreeAction<? super T, ? extends E> second() {
+  /**
+   * @return The walker that is applied second to a node.
+   */
+	public TreeWalker<T, ? extends E> second() {
 		return _second;
 	}
 
-	protected void setSecond(TreeAction<? super T, ? extends E> second) {
+  /**
+   * Set the second walker.
+   * 
+   * @param second The walker that will be applied second to a node.
+   */
+	protected void setSecond(TreeWalker<T, ? extends E> second) {
 		_second = second;
 	}
 
-	private TreeAction<? super T, ? extends E> _second;
+	private TreeWalker<T, ? extends E> _second;
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	protected <X extends T> void doPerform(TreeStructure<X> element) throws E {
+	public <X extends T> void traverse(TreeStructure<X> element) throws E {
 		first().enter(element);
-		first().perform(element);
+		first().traverse(element);
 		second().enter(element);
-		second().perform(element);
+		second().traverse(element);
 		second().exit(element);
 		first().exit(element);
 	}
-	@Override
-	public <X extends T> void traverse(TreeStructure<X> tree) throws E {
-	  T element = tree.node();
-		first().enter(element);
-		first().traverse(tree);
-		second().enter(element);
-		second().traverse(tree);
-		second().exit(element);
-		first().exit(element);
-	}
+	
 }

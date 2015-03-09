@@ -46,7 +46,7 @@ import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
  * @param <E> The type of the elements of which the dependencies must be analyzed.
  * @param <D> The type of the declarations that are analyzed as possible dependencies.
  */
-public class DependencyAnalysis<E extends Element, D extends Declaration> extends Analysis<Element, DependencyResult> {
+public class DependencyAnalysis<E extends Element, D extends Declaration> extends Analysis<E, DependencyResult> {
 
 	
 	public DependencyAnalysis(UniversalPredicate<E,Nothing> elementPredicate,
@@ -73,7 +73,7 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 														UniversalPredicate<? super D,Nothing> declarationPredicate, 
 														UniversalPredicate<? super Dependency<? super E, ? super CrossReference, ? super D>,Nothing> dependencyPredicate,
 														HistoryFilter<E,D> historyFilter) {
-		super(Element.class, new DependencyResult());
+		super(elementType, new DependencyResult());
 		Contracts.notNull(elementType, "The element type should not be null");
 		Contracts.notNull(elementPredicate, "The element predicate should not be null");
 		Contracts.notNull(crossReferencePredicate, "The cross-reference predicate should not be null");
@@ -86,7 +86,6 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 		_crossReferencePredicate = crossReferencePredicate.makeUniversal(CrossReference.class);
 		_dependencyPredicate = _noSelfReference.and(dependencyPredicate);
 		_declarationMapper = declarationMapper;
-		_elementType = elementType;
 		_declarationType = declarationType;
 		_historyFilter = historyFilter;
 		_dependencyFinder = new UniversalPredicate<D,Nothing>(_declarationType) {
@@ -154,8 +153,6 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 	
 	private Class<D> _declarationType;
 
-	private Class<? extends E> _elementType;
-
 	private final UniversalPredicate<D,Nothing> _dependencyFinder;
 	
 	private final UniversalPredicate<?,Nothing> _elementPredicate;
@@ -177,32 +174,27 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 	private HistoryFilter<E,D> _historyFilter;
 	
 	@Override
-	public void doEnter(Element object) {
-		if(_elementType.isInstance(object) && _elementPredicate.eval(object)) {
-			_elements.addLast(object);
+	public void doEnter(E object) {
+		if(_elementPredicate.eval(object)) {
+			_elements.addLast((Element)object);
 		}
 	}
 	
 	@Override
-	public void doExit(Element object) {
+	public void exit(TreeStructure<?> tree) {
+	  Object object = tree.node();
 		if(! _elements.isEmpty()) {
 			if(_elements.getLast() == object) {
 				_elements.removeLast();
 			}
 		}
-//		if(object instanceof RootNamespace) {
-//			System.out.println(_stopwatch.elapsedTime(TimeUnit.MILLISECONDS));
-//		}
 	}
-	
-//	private Stopwatch _stopwatch = new Stopwatch();
 	
 	private LinkedList<Element> _elements = new LinkedList<>();
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	protected <X extends Element> void doPerform(TreeStructure<X> tree) throws Nothing {
-	  X element = tree.node();
+	public void analyze(Element element) throws Nothing {
 		try {
 			if(! _elements.isEmpty()) {
 				if(_crossReferencePredicate.eval(element)) {
@@ -233,10 +225,6 @@ public class DependencyAnalysis<E extends Element, D extends Declaration> extend
 				}
 			}
 		} catch (LookupException e) {
-//			if(_stopwatch.isRunning()) {
-//				_stopwatch.stop();
-//			}
-			// No edge is added when we cannot determine the dependency
 			e.printStackTrace();
 		}
 	}

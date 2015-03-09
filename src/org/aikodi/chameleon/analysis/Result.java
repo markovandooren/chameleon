@@ -1,8 +1,14 @@
 package org.aikodi.chameleon.analysis;
 
 
-
-public abstract class Result<T extends Result> {
+/**
+ * The result of a computation.
+ * 
+ * @author Marko van Dooren
+ *
+ * @param <T> The "self" type.
+ */
+public abstract class Result<T extends Result<T>> {
 	
 	/**
 	 * Return a message that describes the result of the analysis.
