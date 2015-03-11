@@ -35,6 +35,11 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
  * {@link #targetDeclarationNames(Namespace)} so you can compute the list of
  * names without actually loading anything.</p>
  * 
+ * <p>The framework does not automatically call {@link #setNamespace(DocumentLoaderNamespace)}
+ * because it should only be done after the loader has been initialized properly.
+ * Connecting the loader may trigger loading of the document, which is not
+ * possible if the initialization of the loader has not finished.</p>
+ * 
  * @author Marko van Dooren
  */
 public interface DocumentLoader extends Comparable<DocumentLoader> {
