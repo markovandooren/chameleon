@@ -24,6 +24,7 @@ import org.aikodi.chameleon.workspace.WrongViewException;
 
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
@@ -881,6 +882,23 @@ public interface Element {
      @*/
     public Element clone();
         
+    /**
+     * Clone the given element. This is a convenience method.
+     * This method performs an unsafe cast! The return type
+     * of {@Link #clone()} is {@link Element}. Using a type
+     * parameters as the self type is too cumbersome in Java.
+     * 
+     * @param element The element to be cloned.
+     * @return A clone of the given element.
+     */
+    public default <T extends Element> T clone(T element) {
+      // Without the cast, the clone call is bound to the
+      // clone of Object, which throws a CloneNotSupportedException.
+      // Is this because of a potential Raw method call? If you write
+      // the same code in ElementImpl, the cast is not required.
+        return (T) ((Element)element).clone();
+    }
+    
     /**
      * Return the lexical lookup context for the given child element. The
      * default behavior is to delegate the search to the parent.

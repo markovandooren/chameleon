@@ -3,14 +3,14 @@ package org.aikodi.chameleon.aspect.core.model.pointcut.pattern;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.lookup.LookupException;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 /**
  * An interface for patterns that are used to match declarations.
  * 
  * @author Marko van Dooren
  */
-public abstract class DeclarationPattern extends AbstractPredicate<Declaration, LookupException> {
+public abstract class DeclarationPattern implements Predicate<Declaration, LookupException> {
 
 	@Override
    public abstract DeclarationPattern clone();

@@ -43,7 +43,6 @@ import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.rejuse.debug.StackTrace;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
-import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
@@ -51,7 +50,6 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.Conflict;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
-import be.kuleuven.cs.distrinet.rejuse.tree.FunctionalTreeStructure;
 
 /**
  * A class that implement most methods of {@link Element}.
@@ -307,19 +305,6 @@ public abstract class ElementImpl implements Element {
 		} else {
 			return _tags.size() > 0;
 		}
-	}
-	
-	/**
-	 * Clone the given element. This is a convenience method.
-	 * This method performs an unsafe cast! The return type
-	 * of {@Link #clone()} is {@link Element}. Using a type
-	 * parameters as the self type is too cumbersome in Java.
-	 * 
-	 * @param element The element to be cloned.
-	 * @return A clone of the given element.
-	 */
-	public final <T extends Element> T clone(T element) {
-		return (T) element.clone();
 	}
 	
 	/**
@@ -1135,11 +1120,7 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
 	 */
 	@Override
    public ChameleonProperty property(final PropertyMutex<ChameleonProperty> mutex) throws ModelException {
-		 return property(new AbstractPredicate<ChameleonProperty,ModelException>() {
-			@Override
-			public boolean eval(ChameleonProperty property) throws ModelException
-				 {return mutex != null && mutex.equals(property.mutex());}
-		 });
+		 return property(property -> mutex != null && mutex.equals(property.mutex()));
 	 }
 	 
    /**

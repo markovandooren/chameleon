@@ -21,7 +21,7 @@ import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.variable.FormalParameter;
 import org.aikodi.chameleon.util.association.Single;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 /**
  * @author Marko van Dooren
@@ -81,7 +81,7 @@ public CatchClause cloneSelf() {
     try {
       CheckedExceptionList cel = nearestAncestor(TryStatement.class).getStatement().getCEL();
       Collection checkedExceptionTypes = cel.getExceptions();
-      return new AbstractPredicate<Element,LookupException>() {
+      return new Predicate<Element,LookupException>() {
         @Override
       public boolean eval(Element o) throws LookupException {
           return ((Type)o).assignableTo(getExceptionParameter().getType());

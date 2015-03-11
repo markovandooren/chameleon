@@ -12,7 +12,7 @@ import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.util.Lists;
 
 import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
-import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 /**
  * A checked exception list is a list that contains tuples of the form (checked exception type, exception declaration, cause).
@@ -45,22 +45,12 @@ public class CheckedExceptionList {
   }
   
   public void handleType(final Type type) throws LookupException {
-    try {
-      new AbstractPredicate() {
+      new Predicate<ExceptionTuple,LookupException>() {
         @Override
-      public boolean eval(Object o) throws LookupException {
-          ExceptionTuple ep = (ExceptionTuple)o;
+      public boolean eval(ExceptionTuple ep) throws LookupException {
           return ! ep.getException().assignableTo(type);
         }
       }.filter(_pairs);
-    }
-    catch (LookupException e) {
-      throw e;
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-      throw new Error();
-    }
   }
 
 	/**
