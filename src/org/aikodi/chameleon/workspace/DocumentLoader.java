@@ -11,19 +11,29 @@ import org.aikodi.chameleon.core.namespace.Namespace;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 /**
- * A class representing a source from which a {@link Document} is built. These
- * can be file based (text or binary), editor based, ...
+ * <p>A class representing a source from which a {@link Document} is built. These
+ * can be file based (text or binary), editor based, ...</p>
  * 
- * Each document loader manages a single document. There may be multiple
- * document loaders for a single logical document. For example there
- * may be a file document loader and editor buffer document loader for
- * the same logical document. In this case, the {@link #compareTo(DocumentLoader)} method
- * is used to determine which document loader has the highest priority.
+ * <p>Each document loader manages a single document. There may be multiple
+ * document loaders for a single logical document. For example there may be a
+ * file document loader and editor buffer document loader for the same logical
+ * document. In this case, the {@link #compareTo(DocumentLoader)} method is used
+ * to determine which document loader has the highest priority.</p>
  * 
- * A document loader is typically created by a {@link DocumentScanner}. A
+ * <p>A document loader is typically created by a {@link DocumentScanner}. A
  * document scanner scans a particular resource, such as an archive file, a
- * directory, or a database, and create a document loader for each document
- * that it finds.
+ * directory, or a database, and create a document loader for each document that
+ * it finds.</p>
+ * 
+ * <p>Every document loader must be attached to a namespace by calling
+ * {@link #setNamespace(DocumentLoaderNamespace)}, or
+ * {@link DocumentLoaderNamespace#addDocumentLoader(DocumentLoader)}. When that
+ * is done, the namespace will invoke {@link #targetDeclarationNames(Namespace)}
+ * to obtain the names of the top-level declarations that this loader can
+ * provide. The default implementation will simply load the document and inspect
+ * it. To implement lazy loading, you must overwrite
+ * {@link #targetDeclarationNames(Namespace)} so you can compute the list of
+ * names without actually loading anything.</p>
  * 
  * @author Marko van Dooren
  */

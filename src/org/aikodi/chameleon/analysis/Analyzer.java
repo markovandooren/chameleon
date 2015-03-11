@@ -33,7 +33,7 @@ public abstract class Analyzer {
 	 */
 	protected <R extends Result<R>> R analysisResult(Analysis<?,R> analysis) throws InputException {
 		for(Document doc: sourceDocuments()) {
-			doc.apply(analysis);
+//			doc.apply(analysis);
 		}
 		return analysis.result();
 	}
