@@ -32,40 +32,36 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import be.kuleuven.cs.distrinet.rejuse.tree.FunctionalTreeStructure;
 
 /**
- * An interface for language constructs.
+ * <p>An interface for language constructs.</p>
  * 
- * Element is the top interface for an element of a source model. Every lexical
- * language construct (every construct that can be part of the "source code")
+ * <p>Element is the top interface for an element of a source model. Every source
+ * element (every language construct that can be part of the "source code")
  * must implement this interface. On top of that, every class for a language
  * construct must encapsulate the semantics of that element. As a result, tools
  * no longer have to contain the base semantics of a language, making it much
- * easier to reuse the tool for models of a different language.
+ * easier to reuse the tool for models of a different language.</p>
  * 
  * <h3>Design</h3>
  *
- * This is a large interface, but it focuses on a few key responsibilities
+ * <p>This is a large interface, but it focuses on a few key responsibilities
  * that any language construct has. Removing responsibilities will only
  * make the framework less powerful. Many methods for the lexical structure,
  * though, could be moved to the {@link #lexical()} structure object, but
  * that will either make it harder to use the functionality, or slower, or
- * both. Writing element.lexical().parent(element) is not as convenient as element.parent().
- * The parameter could be removed, but that would make the lexical object stateful,
- * and a new object should be created for every language construct, which is
- * too expensive. Until I find a fast and convenient mechanism, I will keep 
- * them in here. 
+ * both. Writing element.lexical().parent() is not as convenient as element.parent().</p>
  * 
  * <h3>The Lexical Structure</h3> 
  * 
- * Every Element provides many methods to
+ * <p>Every Element provides many methods to
  * navigate the lexical structure of the model through methods to access the
  * children, descendants, and ancestors. The lexical structure can be navigated
  * in any direction: from outer elements to inner elements or vice versa. By
  * default, the {@link ElementImpl#children()} method collects all objects
- * referenced by {@link ChameleonAssociation} fields.
+ * referenced by {@link ChameleonAssociation} fields.</p>
  * 
- * If one of these {@link ChameleonAssociation} fields does not reference
+ * <p>If one of these {@link ChameleonAssociation} fields does not reference
  * lexical children, you can exclude it by writing the following code. Suppose
- * that <code>C</code> is the name of the class that contains the field.
+ * that <code>C</code> is the name of the class that contains the field.</p>
  * 
  * <code>
  * class C ... {
@@ -79,15 +75,15 @@ import be.kuleuven.cs.distrinet.rejuse.tree.FunctionalTreeStructure;
  * 
  * <h3>The logical structure</h3> 
  * 
- * The logical structures within a model are
+ * <p>The logical structures within a model are
  * typically modeled indirectly, instead of through direct object references.
  * See the interface {@link chameleon.core.reference.CrossReference} for the
- * explanation.
+ * explanation.</p>
  * 
  * <h3>Properties</h3>
  * 
- * Each element can have properties. The properties typically come from
- * three sources:
+ * <p>Each element can have properties. The properties typically come from
+ * three sources:</p>
  * <ol>
  *   <li>Properties that are inherent to the language construct: {@link #inherentProperties()}</li>
  *   <li>Properties that are explicitly added to an element: {@link #declaredProperties()}.
@@ -97,33 +93,35 @@ import be.kuleuven.cs.distrinet.rejuse.tree.FunctionalTreeStructure;
  *   is not inherent to a language construct or set explicitly.</li>
  * </ol> 
  * 
- * The default implementation of {@link #properties()} in {@link ElementImpl} 
+ * <p>The default implementation of {@link #properties()} in {@link ElementImpl} 
  * combines these three source correctly, so you have to worry only about the
- * individual sources of properties.
+ * individual sources of properties.</p>
  * 
  * <h3>Verification</h3>
  * 
- * Each language construct is responsible for verifying itself. It must
- * implement the {@link #verify()} method to verify itself and its descendants.
+ * <p>Each language construct is responsible for verifying itself. It must
+ * implement the {@link #verify()} method to verify itself and its descendants.</p>
  * 
- * The default implementation in {@link ElementImpl} takes care of the
+ * <p>The default implementation in {@link ElementImpl} takes care of the
  * recursive descent such that language constructs have to verify only
  * themselves. In addition, it also checks whether the set of properties of
  * an element is consistent. For example, this makes it very easy to add modifiers 
  * without having to worry whether an element has a valid combination of modifiers.
  * A declaration that is both final and abstract will report a verification 
  * problem because they modifiers assign conflicting properties to the same
- * element. 
+ * element.</p> 
  * 
- * In addition, many abstractions in the framework provide powerful verification
+ * <p>In addition, many abstractions in the framework provide powerful verification
  * rules. For example, every {@link CrossReference} will automatically check
- * if it can be resolved, if the class inherits from {@link CrossReferenceImpl}.
+ * if it can be resolved, if the class inherits from {@link CrossReferenceImpl}.</p>
  *
  * <h3>Metadata</h3>
  * 
- * Every element can have metadata associated with it. This can be used to
+ * <p>Every element can have metadata associated with it. This can be used to
  * attach additional information to an element without adding dependencies to
- * Chameleon.
+ * Chameleon.</p>
+ * 
+ * <img src="doc-files/image1.png">
  * 
  * @assoc * - "1\n\n parent" Element
  * 
