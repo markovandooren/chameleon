@@ -8,24 +8,128 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespace.DocumentLoaderNamespace;
 import org.aikodi.chameleon.core.namespace.Namespace;
 
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 /**
+ * <p>
  * A class representing a source from which a {@link Document} is built. These
  * can be file based (text or binary), editor based, ...
+ * </p>
  * 
- * Each document loader manages a single document. There may be multiple
- * document loaders for a single logical document. For example there
- * may be a file document loader and editor buffer document loader for
- * the same logical document. In this case, the {@link #compareTo(DocumentLoader)} method
- * is used to determine which document loader has the highest priority.
+ * <h3>Class Diagram</h3>
  * 
+ * <img src="documentLoader-class.png"/>
+ * 
+ * 
+ * <h3>Object Structure</h3>
+ * 
+ * <img src="loader.png"/>
+ *
+ * <p>
  * A document loader is typically created by a {@link DocumentScanner}. A
  * document scanner scans a particular resource, such as an archive file, a
- * directory, or a database, and create a document loader for each document
- * that it finds.
+ * directory, or a database, and create a document loader for each document that
+ * can potentially be loaded. 
+ * </p>
+ * 
+ * <h3>Interaction with namespaces</h3>
+ * 
+ * <p>When a document loader is added to a namespace via {@link #setNamespace(DocumentLoaderNamespace)}:
+ * <ol>
+ *  <li> the namespace will set up the bidirectional association (not shown on
+ *  the diagram because the {@link Association} objects are involved).</li>
+ *  <li> calls {@link #targetDeclarationNames(Namespace)}
+ *       to find out which top-level declarations might be loaded by this loader.</li>
+ *  <li> the document loader returns a list of names</li>
+ *  <li> for each name in the list:</li>
+ *  <ol>
+ *  <li> the namespace looks for the queue of loaders that load the name</li>
+ *  <li> the namespace add the document loader to the queue.</li>
+ *  <li> during this operation, the queue uses the {@link #compareTo(DocumentLoader)}
+ *  method to decide which loader get priority. (see the section on multiple loaders)</li>
+ *  </ol> 
+ * </p>
+ *  
+ * 
+ * <img src="namespace-interaction.png"/>
+ * 
+ * <h3>Multiple loaders for a document.</h3>
+ * 
+ * <p>
+ * Each document loader manages a single document. There may be multiple
+ * document loaders for a single conceptual document. For example there may be a
+ * file document loader and editor buffer document loader for the same logical
+ * document. In this case, the {@link #compareTo(DocumentLoader)} method is used
+ * to determine which document loader has the highest priority.
+ * </p>
  * 
  * @author Marko van Dooren
+ */
+/*
+@startuml documentLoader-class.png
+  interface DocumentScanner
+  interface DocumentLoader {
+  +project() 
+  +view()
+  +scanner() 
+  +scannerLink()
+  .. loading .. 
+  +load()
+  +refresh()
+  +setNamespace(DocumentLoaderNamespace)
+  +targetDeclarationNames(Namespace)
+  +targetDeclarations(String)
+}
+interface Document
+interface Namespace
+DocumentScanner - DocumentLoader
+DocumentLoader - Document
+Namespace -- DocumentLoader  
+@enduml
+
+ @startuml loader.png
+ left to right direction
+ object namespace
+ object documentLoader
+ object document
+ object documentScanner
+ object project
+ object view
+ 
+ project -- view
+ view -- documentScanner
+ documentScanner -- documentLoader
+ documentLoader -- document
+ namespace -- documentLoader
+ @enduml
+
+@startuml namespace-interaction.png
+activate documentLoader
+documentLoader -> namespace : setNamespace(this)
+activate namespace
+namespace -> documentLoader : targetDeclarationNames(this)
+activate documentLoader
+documentLoader --> namespace : names
+deactivate documentLoader
+loop name in names
+namespace -> map : get(name)
+activate map
+map --> namespace : queue
+deactivate map
+namespace -> queue : add(documentLoader)
+activate queue
+queue -> documentLoader : compareTo(?)
+activate documentLoader
+documentLoader --> queue
+deactivate documentLoader
+queue --> namespace
+deactivate queue
+end
+namespace --> documentLoader
+deactivate namespace 
+deactivate documentLoader
+@enduml
  */
 public interface DocumentLoader extends Comparable<DocumentLoader> {
 	

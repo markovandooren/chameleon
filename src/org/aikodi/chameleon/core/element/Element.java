@@ -122,13 +122,22 @@ import be.kuleuven.cs.distrinet.rejuse.tree.FunctionalTreeStructure;
  *
  * <h3>Metadata</h3>
  * 
- * Every element can have metadata associated with it. This can be used to
+ * <p>Every element can have metadata associated with it. This can be used to
  * attach additional information to an element without adding dependencies to
- * Chameleon.
+ * Chameleon.</p>
  * 
+ * <img src="doc-files/image1.png">
+
  * @assoc * - "1\n\n parent" Element
  * 
  * @author Marko van Dooren
+ * 
+ */
+/*
+ * @startuml doc-files/image1.png
+ * Bob -> Alice : hello
+ * Alice --> Bob : OK
+ * @enduml
  */
 public interface Element {
 

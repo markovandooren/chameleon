@@ -30,6 +30,21 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
  * if a declaration is just a stub, such as a generic parameter, the transformation performed by the resolveForResult 
  * method returns a declaration of the same family. In case of a type parameter, this ensures that the stub type will be transformed
  * into a type.
+ * 
+ * <img src="doc-files/declaration-object.png"/>
+ * 
+ * @author Marko van Dooren
+ */
+/*
+@startuml doc-files/declaration-object.png
+interface Element
+interface SelectionResult
+interface Signature
+interface Declaration
+Element <|-- Declaration 
+SelectionResult <|-- Declaration
+Declaration -- Signature
+@enduml
  */
 public interface Declaration extends Element, SelectionResult {//
 
@@ -45,7 +60,7 @@ public interface Declaration extends Element, SelectionResult {//
   public Signature signature();
 
   /**
-   * Return the name of this declaration.
+   * @return the name of a declaration is the name of its signature.
    */
  /*@
    @ public behavior

@@ -1,38 +1,22 @@
-buildscript {
-      dependencies {
-          classpath 'be.jlr-home.gradle:plantumlPlugin:0.1.+'
-          //classpath 'com.github.jruby-gradle:jruby-gradle-plugin:0.1.5'
-      }
-  repositories {
-    mavenCentral()
-    //jcenter()
-  }
-}
-
-//apply plugin: 'com.github.jruby-gradle.base'
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'eclipse'
-apply plugin: 'plantuml'
 //apply plugin: 'org.akhikhl.wuff.eclipse-ide-bundle'
 
 sourceCompatibility = 1.8
-
-configurations {
-  pegdowndoclet
-}
-
-dependencies {
-  pegdowndoclet 'ch.raffael.pegdown-doclet:pegdown-doclet:1.1'
-  pegdowndoclet 'net.sourceforge.plantuml:plantuml:8020'
-
-}
 
 repositories {
   mavenCentral()
   maven {
     url 'http://users.ugent.be/~mcvdoore/repository'
   }
+}
+
+configurations {
+  plantuml
+}
+dependencies {
+  plantuml 'net.sourceforge.plantuml:plantuml:8020'
 }
 
 def docSrc = 'build/tmp/src_for_doc'
@@ -52,11 +36,6 @@ sourceSets {
   }
 }
 
-plantuml {
- sourcePath = docSrc
- sources=sourceSets.dok.java
-}
-
 dependencies {
   compile group: 'junit', name: 'junit', version: '4.+'
   compile group: 'com.google.guava', name: 'guava', version: '18.+'
@@ -65,20 +44,13 @@ dependencies {
   compile group: 'org.antlr', name: 'antlr', version: '3.2'
   //compile "${eclipseMavenGroup}:org.eclipse.core.commands:+"
   
-  //gems 'rubygems:asciidoctor-diagram:1.2.0'
 }
 
 task javadoc(type: Javadoc, overwrite: true) {
     source = sourceSets.dok.java
-    options.docletpath = configurations.pegdowndoclet.files.asType(List)
-    options.doclet = "ch.raffael.doclets.pegdown.PegdownDoclet"
-    options.addStringOption "plantuml-config", "plantuml.skin"    
 }
 
 ant.importBuild 'doc.xml'
-//javadoc.dependsOn tasks.plantuml
-//tasks.plantuml.dependsOn prepareSourceForJavadoc
-//javadoc.dependsOn jrubyPrepareGems 
 
 task copyCode(type:Copy) {
   from sourceSets.main.java
@@ -94,7 +66,7 @@ task copyDiagrams(type:Copy) {
 
 task runPlantUML(type: JavaExec) {
   main = 'net.sourceforge.plantuml.Run'
-  classpath configurations.pegdowndoclet
+  classpath configurations.plantuml
   args '-config', '"./plantuml.skin"', "${docSrc}/**"
 }
 
@@ -105,7 +77,6 @@ javadoc.dependsOn prepareSourceForJavadoc
 diagrams.dependsOn copyDiagrams
 copyDiagrams.dependsOn runPlantUML
 runPlantUML.dependsOn copyCode
-
 
 configurations {
   deployerJars
@@ -126,27 +97,3 @@ uploadArchives {
         pom.artifactId = 'chameleon'
     }
 }
-
-//configurations {
-//    asciidoclet
-//}
-
-//dependencies {
-//    asciidoclet 'org.asciidoctor:asciidoclet:1.5.2'
-//}
-
-//javadoc {
-//    options.docletpath = configurations.asciidoclet.files.asType(List)
-//    options.doclet = 'org.asciidoctor.Asciidoclet'
-//    //options.overview = docSrc+'/overview.adoc'
-//    options.addStringOption "-base-dir", "${projectDir}/build/docs/javadoc"
-//    options.addStringOption "-require", "asciidoctor-diagram"
-//    options.addStringOption "-gem-path", "${jrubyPrepareGems.outputDir}"
-//    options.addStringOption "-attribute",
-//            "name=${project.name}," +
-//            "version=${project.version}," +
-//            "imagesoutdir=doc-files/,"
-//            "data-uri," +
-//            "icons=font," +
-//            "title-link=http://example.com[${project.name} ${project.version}]"
-//}

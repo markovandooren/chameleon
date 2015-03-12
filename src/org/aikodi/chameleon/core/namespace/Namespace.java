@@ -11,9 +11,120 @@ import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.core.reference.CrossReference;
 
 /**
- * An interface for namespaces that contain the declarations of a view/project.
+ * <p>An interface for namespaces that contain the declarations of a view/project.</p>
+ * 
+ * <img src="doc-files/class.png"/>
+ * 
+ * <h3>Subnamespaces</h3>
+ * 
+ * <p>Each namespace can have subnamespaces. The fully qualified name
+ * of a namespace is its own {@link #name()} prefixed by the {@link #fullyQualifiedName()}
+ * of its {@link #parent()} namespace.</p>
+ * 
+ * <img src="doc-files/namespace-hierarchy.png"/>
+ * 
+ * <h3>Declarations</h3>
+ * 
+ * <p>{@link Declaration}s are not stored directly in a namespace. Instead,
+ * every declaration is part of a {@link NamespaceDeclaration}. This
+ * is similar to a package declaration in Java, and a namespace declaration
+ * in C#. The declarations in the namespace declarations are aggregated
+ * in the {@link #declarations()} of a namespace.</p>
+ * 
+ * <img src="doc-files/namespace-declaration.png"/>
  * 
  * @author Marko van Dooren
+ */
+/*green #F0FFE4
+  blue #F1FAFF -> CFE7FF -> DBEDFF
+ @startuml doc-files/class.png
+ 
+ interface Element
+ interface Declaration
+ interface DeclarationContainer
+ interface Namespace {
+   +fullyQualifiedName()
+   +find(String,Class)
+   +name()
+   ..subnamespaces..
+   +getOrCreateNamespace(String)
+   +getSubnamespace(String)
+ }
+ Element <|-- Namespace
+ Declaration <|-- Namespace
+ DeclarationContainer <|-- Namespace
+ 
+ @enduml
+
+ *
+ *
+ *@startuml doc-files/namespace-hierarchy.png
+ * object root
+ * object a {
+ *   name = "a"
+ * }
+ * object b {
+ *   name = "b"
+ * }
+ * object c {
+ *   name = "c"
+ * }
+ * object "a.a" as aa {
+ *   name = "a"
+ * }
+ * object "a.b" as ab {
+ *   name = "b"
+ * }
+ * object "a.c" as ac {
+ *   name = "c"
+ * }
+ * object "c.a" as ca {
+ *   name = "a"
+ * }
+ * object "c.b" as cb {
+ *   name = "b"
+ * }
+ * root -- a
+ * root -- b
+ * root -- c
+ * a -- aa
+ * a -- ab
+ * a -- ac
+ * c -- ca
+ * c -- cb
+ *@enduml
+ *@startuml doc-files/namespace-declaration.png
+ * left to right direction
+ * !definelong nsd(number)
+ * object document##number
+ * object namespaceDeclaration##number
+ * object "declaration 1" as a##number
+ * object "declaration ..." as b##number
+ * object "declaration n" as c##number
+ * document##number -- namespaceDeclaration##number
+ * namespaceDeclaration##number -- a##number
+ * namespaceDeclaration##number -- b##number
+ * namespaceDeclaration##number -- c##number
+ * !enddefinelong 
+ *
+ * object namespace
+ * 
+ * nsd(1)
+ * nsd(2)
+ * nsd(3)
+ * 
+ * namespace -- namespaceDeclaration1
+ * namespace -- namespaceDeclaration2
+ * namespace -- namespaceDeclaration3
+ *@enduml
+ * namespace -- namespaceDeclaration1
+ * document1 - namespaceDeclaration1
+ * namespaceDeclaration1 - declaration1a
+ * namespaceDeclaration1 - declaration1b
+ * namespace -- namespaceDeclaration2
+ * document2 - namespaceDeclaration2
+ * namespaceDeclaration2 - declaration2a
+ * namespaceDeclaration2 - declaration2b
  */
 public interface Namespace extends TargetDeclaration, DeclarationContainer {
 
@@ -63,17 +174,6 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer {
    @*/
 	public Namespace getOrCreateNamespace(final String name);
 	
-  /**
-   * The name of a namespace is the name of its signature.
-   */
- /*@
-   @ public behavior
-   @
-   @ post \result == signature().getName();
-   @*/
-	@Override
-   public String name();
-	
 	/**
 	 * Return all namespace parts attached to this namespace. 
 	 * All unloaded documents will be loaded.
@@ -86,9 +186,12 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer {
 	public List<NamespaceDeclaration> namespaceDeclarations();
 	
 	/**
-	 * Return all namespace declarations that are currently loaded.
-	 * @return 
-	 */
+   * Return all namespace declarations in this namespace that are currently
+   * loaded. This method does not load any namespace declaration itself.
+   * 
+   * @return all namespace declarations in this namespace that are currently
+   * loaded
+   */
 	public List<NamespaceDeclaration> loadedNamespaceDeclarations();
 
 	/**
@@ -97,8 +200,7 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer {
 	 * 
 	 * Add a namespace part to this namespace. A namespace part adds elements to its namespace.
 	 * 
-	 * @deprecated This method must be removed from this interface now that the lexical structure is
-	 *             built upon the project scanners.
+	 * @deprecated This method should be called only from within {@link NamespaceDeclaration}.
 	 */
  /*@
    @ public behavior
@@ -116,9 +218,15 @@ public interface Namespace extends TargetDeclaration, DeclarationContainer {
 	public List<Namespace> subNamespaces();
 
    /**
-    * @return All direct subnamespaces of this namespace, and the
-    * descendants of these subnamespaces.
-    */
+   * Return all descendant namespaces. Calling this method is much more
+   * efficient than calling descendants(Namespace.class) because the latter will
+   * search within the attached {@link NamespaceDeclaration}s as well, where
+   * there can be no namespace objects that are part of the main namespace
+   * structure.
+   * 
+   * @return All direct subnamespaces of this namespace, and the descendants of
+   *         these subnamespaces.
+   */
 	public List<Namespace> descendantNamespaces();
 
 	/**
