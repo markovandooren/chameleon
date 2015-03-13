@@ -21,6 +21,16 @@
     </copy>
   </target>
 
+  <target name="fixSVG">
+    <replaceregexp flags="g">
+      <fileset dir="${srcForDoc}">
+        <include name="**/*.svg"/>
+      </fileset>
+      <regexp pattern="(xlink:href=\S*)"/>
+      <substitution expression="\1 target=&quot;_parent&quot;"/>
+    </replaceregexp>
+  </target>
+
   <target name="delSingleLineComments">
     <replaceregexp flags="g">
       <fileset dir="${srcForDoc}">
