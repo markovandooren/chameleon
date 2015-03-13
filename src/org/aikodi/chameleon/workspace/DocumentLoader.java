@@ -19,12 +19,11 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
  * 
  * <h3>Class Diagram</h3>
  * 
- * <img src="documentLoader-class.png"/>
- * 
+ * <embed src="documentLoader-class.svg"/>
  * 
  * <h3>Object Structure</h3>
  * 
- * <img src="loader.png"/>
+ * <embed src="loader.svg"/>
  *
  * <p>
  * A document loader is typically created by a {@link DocumentScanner}. A
@@ -37,6 +36,7 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
  * 
  * <p>When a document loader is added to a namespace via {@link #setNamespace(DocumentLoaderNamespace)}:
  * <ol>
+ *  <li> the loader invokes {@link DocumentLoaderNamespace#addDocumentLoader(DocumentLoader)} on the namespace.
  *  <li> the namespace will set up the bidirectional association (not shown on
  *  the diagram because the {@link Association} objects are involved).</li>
  *  <li> calls {@link #targetDeclarationNames(Namespace)}
@@ -52,7 +52,7 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
  * </p>
  *  
  * 
- * <img src="namespace-interaction.png"/>
+ * <embed src="namespace-interaction.svg"/>
  * 
  * <h3>Multiple loaders for a document.</h3>
  * 
@@ -67,8 +67,8 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
  * @author Marko van Dooren
  */
 /*
-@startuml documentLoader-class.png
-  interface DocumentScanner
+@startuml documentLoader-class.svg
+  interface DocumentScanner [[DocumentScanner.html]]
   interface DocumentLoader {
   +project() 
   +view()
@@ -81,14 +81,14 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
   +targetDeclarationNames(Namespace)
   +targetDeclarations(String)
 }
-interface Document
+interface Document [[../core/document/Document.html]]
 interface Namespace
 DocumentScanner - DocumentLoader
 DocumentLoader - Document
 Namespace -- DocumentLoader  
 @enduml
 
- @startuml loader.png
+ @startuml loader.svg
  left to right direction
  object namespace
  object documentLoader
@@ -104,9 +104,10 @@ Namespace -- DocumentLoader
  namespace -- documentLoader
  @enduml
 
-@startuml namespace-interaction.png
+@startuml namespace-interaction.svg
+[-> documentLoader: setNamespace(namespace)
 activate documentLoader
-documentLoader -> namespace : setNamespace(this)
+documentLoader -> namespace : addDocumentLoader(this)
 activate namespace
 namespace -> documentLoader : targetDeclarationNames(this)
 activate documentLoader
@@ -128,6 +129,7 @@ deactivate queue
 end
 namespace --> documentLoader
 deactivate namespace 
+[<-- documentLoader
 deactivate documentLoader
 @enduml
  */

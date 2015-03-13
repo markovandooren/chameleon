@@ -1,7 +1,7 @@
 skinparam shadowing false
 skinparam default{
   FontName Roboto
-  FontSize 12
+  FontSize 9
 }
 skinparam class {
   BackgroundColor #e0eafd

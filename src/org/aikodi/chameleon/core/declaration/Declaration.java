@@ -31,12 +31,12 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
  * method returns a declaration of the same family. In case of a type parameter, this ensures that the stub type will be transformed
  * into a type.
  * 
- * <img src="doc-files/declaration-object.png"/>
+ * <img src="doc-files/declaration-object.svg"/>
  * 
  * @author Marko van Dooren
  */
 /*
-@startuml doc-files/declaration-object.png
+@startuml declaration-object.svg
 interface Element
 interface SelectionResult
 interface Signature
