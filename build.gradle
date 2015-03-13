@@ -20,18 +20,19 @@ dependencies {
 }
 
 def docSrc = 'build/tmp/src_for_doc'
+def eclipsePlugin = 'org/aikodi/chameleon/eclipse/**'
 
 sourceSets {
   main {
         java {
             srcDir 'src'
-            exclude 'org/aikodi/chameleon/eclipse/**'
+            exclude eclipsePlugin
        }
   }
   dok {
         java {
             srcDir docSrc
-            exclude 'org/aikodi/chameleon/eclipse/**'
+            exclude eclipsePlugin
        }
   }
 }
@@ -66,8 +67,6 @@ task copyDiagrams(type:Copy) {
     line.replaceAll(/(xlink:href=\S*)/, {it[0]+ / target="_parent"/})
   }
 }
-
-
 
 task runPlantUML(type: JavaExec) {
   main = 'net.sourceforge.plantuml.Run'
