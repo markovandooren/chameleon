@@ -61,9 +61,13 @@ task copyCode(type:Copy) {
 task copyDiagrams(type:Copy) {
   from docSrc
   into 'build/docs/javadoc'
-  include '**/*.png'
   include '**/*.svg'
+  filter { String line ->
+    line.replaceAll(/(xlink:href=\S*)/, {it[0]+ / target="_parent"/})
+  }
 }
+
+
 
 task runPlantUML(type: JavaExec) {
   main = 'net.sourceforge.plantuml.Run'
@@ -77,8 +81,7 @@ javadoc.dependsOn diagrams
 javadoc.dependsOn prepareSourceForJavadoc
 prepareSourceForJavadoc.dependsOn copyCode
 diagrams.dependsOn copyDiagrams
-copyDiagrams.dependsOn fixSVG
-fixSVG.dependsOn runPlantUML
+copyDiagrams.dependsOn runPlantUML
 runPlantUML.dependsOn copyCode
 
 configurations {
