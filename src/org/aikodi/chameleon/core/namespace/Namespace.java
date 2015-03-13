@@ -13,7 +13,7 @@ import org.aikodi.chameleon.core.reference.CrossReference;
 /**
  * <p>An interface for namespaces that contain the declarations of a view/project.</p>
  * 
- * <img src="doc-files/class.png"/>
+ * <embed src="class.svg"/>
  * 
  * <h3>Subnamespaces</h3>
  * 
@@ -21,7 +21,7 @@ import org.aikodi.chameleon.core.reference.CrossReference;
  * of a namespace is its own {@link #name()} prefixed by the {@link #fullyQualifiedName()}
  * of its {@link #parent()} namespace.</p>
  * 
- * <img src="doc-files/namespace-hierarchy.png"/>
+ * <embed src="namespace-hierarchy.svg"/>
  * 
  * <h3>Declarations</h3>
  * 
@@ -31,13 +31,13 @@ import org.aikodi.chameleon.core.reference.CrossReference;
  * in C#. The declarations in the namespace declarations are aggregated
  * in the {@link #declarations()} of a namespace.</p>
  * 
- * <img src="doc-files/namespace-declaration.png"/>
+ * <embed src="namespace-declaration.svg"/>
  * 
  * @author Marko van Dooren
  */
 /*green #F0FFE4
   blue #F1FAFF -> CFE7FF -> DBEDFF
- @startuml doc-files/class.png
+ @startuml class.svg
  
  interface Element
  interface Declaration
@@ -58,7 +58,7 @@ import org.aikodi.chameleon.core.reference.CrossReference;
 
  *
  *
- *@startuml doc-files/namespace-hierarchy.png
+ *@startuml namespace-hierarchy.svg
  * object root
  * object a {
  *   name = "a"
@@ -93,7 +93,7 @@ import org.aikodi.chameleon.core.reference.CrossReference;
  * c -- ca
  * c -- cb
  *@enduml
- *@startuml doc-files/namespace-declaration.png
+ *@startuml namespace-declaration.svg
  * left to right direction
  * !definelong nsd(number)
  * object document##number

@@ -126,18 +126,8 @@ import be.kuleuven.cs.distrinet.rejuse.tree.FunctionalTreeStructure;
  * attach additional information to an element without adding dependencies to
  * Chameleon.</p>
  * 
- * <img src="doc-files/image1.png">
-
- * @assoc * - "1\n\n parent" Element
- * 
  * @author Marko van Dooren
  * 
- */
-/*
- * @startuml doc-files/image1.png
- * Bob -> Alice : hello
- * Alice --> Bob : OK
- * @enduml
  */
 public interface Element {
 

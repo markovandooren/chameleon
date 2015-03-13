@@ -82,7 +82,7 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
   +targetDeclarations(String)
 }
 interface Document [[../core/document/Document.html]]
-interface Namespace
+interface Namespace [[../core/namespace/Namespace.html]]
 DocumentScanner - DocumentLoader
 DocumentLoader - Document
 Namespace -- DocumentLoader  
