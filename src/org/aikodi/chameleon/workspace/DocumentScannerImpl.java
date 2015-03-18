@@ -250,9 +250,9 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
 		// The Association object will send the event and the attached listener
 		// will invoke notifyRemoved(DocumentLoader).
 		if(source != null) {
+	    source.destroy();
 			_documentLoaders.remove(source.scannerLink());
 		}
-		source.destroy();
 	}
 
 	@Override
