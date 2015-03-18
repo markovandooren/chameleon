@@ -71,6 +71,7 @@ task copyDiagrams(type:Copy) {
 task runPlantUML(type: JavaExec) {
   main = 'net.sourceforge.plantuml.Run'
   classpath configurations.plantuml
+  jvmArgs '-Dplantuml.include.path=.'
   args '-tsvg', '-config', '"./plantuml.skin"', "${docSrc}/**"
 }
 
