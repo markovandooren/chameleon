@@ -29,6 +29,7 @@ import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
 
+import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 import be.kuleuven.cs.distrinet.rejuse.tree.FunctionalTreeStructure;
 
@@ -316,7 +317,9 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	}
 	
 	public <T extends Declaration> List<T> declarations(Class<T> kind) {
-    return new TypePredicate<T>(kind).downCastedList(declarations());
+    List result = declarations();
+    CollectionOperations.filter(result, d -> kind.isInstance(d));
+    return result;
   }
 	
 	@Override

@@ -1,5 +1,7 @@
 package org.aikodi.chameleon.core.property;
 
+import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.exists;
+
 import java.util.List;
 
 import org.aikodi.chameleon.core.element.Element;
@@ -8,6 +10,7 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 
+import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyUniverse;
@@ -116,18 +119,11 @@ public class StaticChameleonProperty extends StaticProperty<Element,ChameleonPro
 
 		@Override
       public Verification verify(Element element) {
-			final Class<? extends Element> elementClass = element.getClass();
-			boolean validType = new SafePredicate<Class<? extends Element>>() {
-				@Override
-				public boolean eval(Class<? extends Element> validClass) {
-					return validClass.isAssignableFrom(elementClass);
-				}
-			}.exists(_validTypes);
-			if(validType) {
-				return Valid.create();
-			} else {
-			  return new BasicProblem(element, "Property "+name()+" is not applicable to a "+elementClass.getName()); 
+		  Verification result = Valid.create();
+			if(! exists(_validTypes, t -> t.isAssignableFrom(element.getClass()))) {
+        result = new BasicProblem(element, "Property "+name()+" is not applicable to a "+element.getClass().getName()); 
 			}
+			return result;
 		}
 
 		@Override

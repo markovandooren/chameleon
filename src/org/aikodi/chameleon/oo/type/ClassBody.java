@@ -22,6 +22,7 @@ import org.aikodi.chameleon.util.association.Multi;
 
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
+import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 
 import com.google.common.collect.ImmutableList;
@@ -126,7 +127,9 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 	}
 	
 	public <D extends Member> List<D> members(Class<D> kind) throws LookupException {
-		return (List<D>) new TypePredicate(kind).filterReturn(members());
+    List result = members();
+    CollectionOperations.filter(result, d -> kind.isInstance(d));
+    return result;
 	}
 	
 	protected List<Declaration> declarations(String selectionName) throws LookupException {

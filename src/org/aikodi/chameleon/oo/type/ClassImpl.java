@@ -39,6 +39,7 @@ import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.Pair;
 
+import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
 import be.kuleuven.cs.distrinet.rejuse.java.collections.TypeFilter;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 
@@ -569,7 +570,9 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
   	
   	@Override
    public <I extends InheritanceRelation> List<I> nonMemberInheritanceRelations(Class<I> kind) {
-  		return (List<I>) new TypePredicate(kind).filterReturn(nonMemberInheritanceRelations());
+      List result = nonMemberInheritanceRelations();
+      CollectionOperations.filter(result, d -> kind.isInstance(d));
+      return result;
   	}
 
    /*@

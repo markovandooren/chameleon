@@ -10,6 +10,7 @@ import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.util.association.Multi;
 
+import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 
 public abstract class CommonDeclarationContainingDeclaration extends
@@ -38,7 +39,9 @@ public abstract class CommonDeclarationContainingDeclaration extends
 	}
 	
 	public <D extends Declaration> List<D> declarations(Class<D> kind) throws LookupException {
-		return (List<D>) new TypePredicate(kind).filterReturn(declarations());
+		List result = declarations();
+		CollectionOperations.filter(result, d -> kind.isInstance(d));
+    return result;
 	}
 	
 //	@Override

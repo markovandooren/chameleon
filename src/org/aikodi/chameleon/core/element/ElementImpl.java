@@ -1,5 +1,9 @@
 package org.aikodi.chameleon.core.element;
 
+import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.exists;
+import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.filter;
+import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
+
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Collections;
@@ -44,8 +48,6 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.rejuse.debug.StackTrace;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
-import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.Conflict;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
@@ -657,13 +659,15 @@ public List<? extends Element> children() {
 
 	@Override
    public final <T extends Element> List<T> children(Class<T> c) {
-		return new TypePredicate<T>(c).downCastedList(children());
+		List result = children();
+		filter(result, child -> c.isInstance(child));
+    return result;
 	}
 
 	@Override
    public final <E extends Exception> List<Element> children(Predicate<? super Element,E> predicate) throws E {
 		List<? extends Element> tmp = children();
-		predicate.filter(tmp);
+		filter(tmp,predicate);
 		return (List<Element>)tmp;
 	}
 
@@ -679,31 +683,17 @@ public List<? extends Element> children() {
 	@Override
    public final <T extends Element> boolean hasDescendant(Class<T> c) {
 		List<Element> tmp = (List<Element>) children();
-		new TypePredicate<T>(c).filter(tmp);
-
-		if (!tmp.isEmpty())
+		filter(tmp, child -> c.isInstance(child));
+		if (!tmp.isEmpty()) {
 			return true;
-
-		for (Element e : children()) {
-			if (e.hasDescendant(c))
-				return true;
 		}
-
-		return false;
+		return exists(children(), child -> child.hasDescendant(c));
 	}
 
 	@Override
 	public final <T extends Element, E extends Exception> boolean hasDescendant(UniversalPredicate<T,E> predicate) throws E {
-		List<T> result = children(predicate);
-		if (!result.isEmpty())
-			return true;
-
-		for (Element e : children()) {
-			if (e.hasDescendant(predicate))
-				return true;
-		}
-
-		return false;
+    return (!children(predicate).isEmpty()) || 
+           exists(children(), child -> child.hasDescendant(predicate));
 	}
 	
 	@Override
@@ -1172,18 +1162,9 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
 	 protected PropertySet<Element,ChameleonProperty> filterProperties(PropertySet<Element,ChameleonProperty> overriding, PropertySet<Element,ChameleonProperty> base) {
 		 Set<ChameleonProperty> baseProperties = base.properties();
 		 final Set<ChameleonProperty> overridingProperties = overriding.properties();
-		 new SafePredicate<ChameleonProperty>() {
-			 @Override
-			 public boolean eval(final ChameleonProperty aliasedProperty) {
-				 return new SafePredicate<ChameleonProperty>() {
-					 @Override
-					 public boolean eval(ChameleonProperty myProperty) {
-						 return !aliasedProperty.contradicts(myProperty);
-					 }
-				 }.forAll(overridingProperties);
-			 }
-
-		 }.filter(baseProperties);
+		 filter(baseProperties, 
+		     baseProperty -> forAll(overridingProperties, 
+		         overridingProperty -> !baseProperty.contradicts(overridingProperty)));
 		 baseProperties.addAll(overridingProperties);
 		 return new PropertySet<Element,ChameleonProperty>(baseProperties);
 	 }
