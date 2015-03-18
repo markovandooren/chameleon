@@ -32,12 +32,12 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
  * can potentially be loaded. 
  * </p>
  * 
- * <h3>Connecting to a namespaces</h3>
+ * <h3>Connecting to a namespace</h3>
  * 
  * <p>The framework does not automatically call {@link #setNamespace(DocumentLoaderNamespace)}
  * because it should only be done after the loader has been initialized properly.
  * Connecting the loader may trigger loading of the document, which is not
- * possible if the initialization of the loader has not finished.</p> * 
+ * possible if the initialization of the loader has not finished.</p> 
  * <h3>Lazy Loading</h3>
  * 
  *  <p>The default implementation of {@link #targetDeclarationNames(Namespace)}
