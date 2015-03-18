@@ -13,7 +13,7 @@ import org.aikodi.chameleon.eclipse.editors.ChameleonSourceViewerConfiguration;
 import org.aikodi.chameleon.eclipse.editors.EclipseDocument;
 import org.aikodi.chameleon.eclipse.project.ChameleonProjectNature;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
-import org.aikodi.chameleon.input.ModelFactory;
+import org.aikodi.chameleon.input.Parser;
 import org.aikodi.chameleon.workspace.View;
 import org.eclipse.jface.text.BadPositionCategoryException;
 import org.eclipse.jface.text.IDocument;
@@ -142,7 +142,7 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 			// Keep track of the successfully reparsed elements. If there are multiple errors
 			// on the same element, we don't want to reparse it multiple times.
 			Set<Element> successfullyReparsed = new HashSet<Element>();
-			ModelFactory factory = view().language().plugin(ModelFactory.class);
+			Parser factory = view().language().plugin(Parser.class);
 			try{
 				for(ClonedChameleonPosition position : _dirtyPositions) {
 					// A. Remove the position from the document

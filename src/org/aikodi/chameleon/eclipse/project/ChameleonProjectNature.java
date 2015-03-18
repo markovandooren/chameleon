@@ -20,7 +20,7 @@ import org.aikodi.chameleon.eclipse.editors.EclipseDocument;
 import org.aikodi.chameleon.eclipse.presentation.PresentationModel;
 import org.aikodi.chameleon.eclipse.util.Files;
 import org.aikodi.chameleon.input.InputProcessor;
-import org.aikodi.chameleon.input.ModelFactory;
+import org.aikodi.chameleon.input.Parser;
 import org.aikodi.chameleon.input.ParseException;
 import org.aikodi.chameleon.input.SourceManager;
 import org.aikodi.chameleon.workspace.BootstrapProjectConfig;
@@ -322,8 +322,8 @@ public class ChameleonProjectNature implements IProjectNature {
 	 *  (non-Javadoc)
 	 * @see chameleonEditor.editors.IChameleonDocument#getMetaModelFactory()
 	 */
-	public ModelFactory modelFactory() {
-		return view().language().plugin(ModelFactory.class);
+	public Parser modelFactory() {
+		return view().language().plugin(Parser.class);
 	}
 
 	/**
@@ -446,7 +446,7 @@ public class ChameleonProjectNature implements IProjectNature {
 		try {
 			Document chameleonDocument = document.document();
 			Language language = chameleonDocument.view().language();
-			ModelFactory plugin = language.plugin(ModelFactory.class);
+			Parser plugin = language.plugin(Parser.class);
 			plugin.parse(document.get(), chameleonDocument);
 			chameleonDocument.activate();
 			//modelFactory().parse(document.get(), chameleonDocument);

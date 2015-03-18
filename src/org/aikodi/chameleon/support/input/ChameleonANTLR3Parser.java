@@ -11,7 +11,7 @@ import org.aikodi.chameleon.core.namespace.RootNamespace;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.input.InputProcessor;
-import org.aikodi.chameleon.input.PositionMetadata;
+import static org.aikodi.chameleon.input.PositionMetadata.*;
 import org.aikodi.chameleon.workspace.View;
 import org.antlr.runtime.CommonToken;
 import org.antlr.runtime.Parser;
@@ -21,8 +21,7 @@ import org.antlr.runtime.RecognizerSharedState;
 import org.antlr.runtime.Token;
 import org.antlr.runtime.TokenStream;
 
-
-public abstract class ChameleonANTLR3Parser<L extends Language> extends Parser implements PositionMetadata {
+public abstract class ChameleonANTLR3Parser<L extends Language> extends Parser {
 	
 	 public ChameleonANTLR3Parser(TokenStream input, RecognizerSharedState state) {
 		super(input,state);
@@ -58,14 +57,23 @@ public abstract class ChameleonANTLR3Parser<L extends Language> extends Parser i
 	  	 }
 	   }
 
+	   /**
+	    * FIXME it seems like this should be done by a separate object that
+	    * maps source elements to meta data tags.
+	    * 
+	    * @param element
+	    * @param offset
+	    * @param length
+	    * @param processor
+	    */
 		private void setLocation(Element element, int offset, int length, InputProcessor processor) {
 			Document document = getDocument();
 			processor.setLocation(element, offset, length, document,ALL);
-			if(element instanceof CrossReference && (! element.hasMetadata(PositionMetadata.CROSSREFERENCE))) {
-				processor.setLocation(element, offset, length, document, PositionMetadata.CROSSREFERENCE);
+			if(element instanceof CrossReference && (! element.hasMetadata(CROSSREFERENCE))) {
+				processor.setLocation(element, offset, length, document, CROSSREFERENCE);
 			}
-			if(element instanceof Modifier && (! element.hasMetadata(PositionMetadata.MODIFIER))) {
-				processor.setLocation(element, offset, length, document, PositionMetadata.MODIFIER);
+			if(element instanceof Modifier && (! element.hasMetadata(MODIFIER))) {
+				processor.setLocation(element, offset, length, document, MODIFIER);
 			}
 		}
 	   
