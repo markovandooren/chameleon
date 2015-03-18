@@ -2,6 +2,7 @@ package org.aikodi.chameleon.core.namespace;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -76,9 +77,12 @@ public class LazyNamespace extends RegularNamespace implements DocumentLoaderNam
 	}
 	
 	@Override
-   public void addDocumentLoader(DocumentLoader source) throws InputException {
-		_documentLoaders.add(source.namespaceLink());
-		List<String> targetDeclarationNames = source.targetDeclarationNames(this);
+   public void addDocumentLoader(DocumentLoader loader) throws InputException {
+	  if(loader == null) {
+	    throw new IllegalArgumentException("The given document loader is null.");
+	  }
+		_documentLoaders.add(loader.namespaceLink());
+		List<String> targetDeclarationNames = loader.targetDeclarationNames(this);
 		for(String name: targetDeclarationNames) {
 			if(name == null) {
 				throw new ChameleonProgrammerException("A document loader uses null as a declaration name.");
@@ -88,7 +92,7 @@ public class LazyNamespace extends RegularNamespace implements DocumentLoaderNam
 				queue = new PriorityQueue<DocumentLoader>();
 				_sourceMap.put(name, queue);
 			}
-			queue.add(source);
+			queue.add(loader);
 		}
 	}
 	
