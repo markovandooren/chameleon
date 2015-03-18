@@ -11,7 +11,7 @@ import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.util.Pair;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 
 public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
@@ -31,7 +31,7 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 	public TypeParameterSubstitution substitution(Element element) throws LookupException {
 		List<CrossReference> crossReferences = 
 			 element.descendants(CrossReference.class, 
-					              new AbstractPredicate<CrossReference,LookupException>() {
+					              new Predicate<CrossReference,LookupException>() {
 	
 													@Override
 													public boolean eval(CrossReference object) throws LookupException {

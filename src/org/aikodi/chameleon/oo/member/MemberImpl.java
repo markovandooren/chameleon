@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Signature;
 import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.scope.Scope;
 import org.aikodi.chameleon.core.scope.ScopeProperty;
@@ -19,26 +17,13 @@ import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeElementImpl;
 import org.aikodi.chameleon.util.Lists;
-
+/**
+ * REFACTOR move all methods to Member.
+ * 
+ * @author Marko van Dooren
+ */
 public abstract class MemberImpl extends TypeElementImpl implements Member {
 
-  /**
-   * Return the signature of this member.
-   */
-  @Override
-public abstract Signature signature();
-  
-  @Override
-  public boolean sameSignatureAs(Declaration declaration)
-  		throws LookupException {
-  	return signature().sameAs(declaration.signature());
-  }
-  
-  @Override
-public String name() {
-  	return signature().name();
-  }
-  
   @Override
 public final boolean overrides(Member other) throws LookupException {
 //  	// overriddenMembers().contains(other) does not work
@@ -139,11 +124,11 @@ public Set<? extends Member> overriddenMembers() throws LookupException {
   	return result;
   }
   
-  @Override
-  public synchronized void flushLocalCache() {
-  	super.flushLocalCache();
-//  	_overriddenMembersCache = null;
-  }
+//  @Override
+//  public synchronized void flushLocalCache() {
+//  	super.flushLocalCache();
+////  	_overriddenMembersCache = null;
+//  }
   
 //  private Set<Member> _overriddenMembersCache;
   
@@ -200,16 +185,6 @@ public Set<? extends Member> aliasingMembers() throws LookupException {
   }
   
   @Override
-public Declaration selectionDeclaration() throws LookupException {
-  	return this;
-  }
-  
-  @Override
-public Declaration actualDeclaration() throws LookupException {
-  	return this;
-  }
-  
-  @Override
 public Scope scope() throws ModelException {
   	Scope result = null;
   	ChameleonProperty scopeProperty = property(language().SCOPE_MUTEX());
@@ -240,19 +215,4 @@ public MemberRelationSelector<? extends Member> aliasSelector() {
 		return new MemberRelationSelector<Member>(Member.class,this,aliasRelation);
   }
 	
-	@Override
-	public Declaration finalDeclaration() {
-		return this;
-	}
-	
-	@Override
-	public Declaration template() {
-		return finalDeclaration();
-	}
-
-	@Override
-	public SelectionResult updatedTo(Declaration declaration) {
-		return declaration;
-	}
-
 }

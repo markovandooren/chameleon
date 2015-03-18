@@ -1,5 +1,7 @@
 package org.aikodi.chameleon.support.statement;
 
+import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -8,8 +10,6 @@ import org.aikodi.chameleon.oo.statement.CheckedExceptionList;
 import org.aikodi.chameleon.oo.statement.Statement;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
-
-import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 
 /**
  * @author Marko van Dooren
@@ -68,25 +68,10 @@ protected TryStatement cloneSelf() {
  /*@
    @ public behavior
    @
-   @ post \result == (\forall CatchClause cc; getCatchClauses().contains(cc);
-   @                    cc.isValid());
+   @ post \result == forAll(getCatchClauses(), c -> c.isValid());
    @*/
   public boolean hasValidCatchClauses() throws LookupException {
-    try {
-      return new AbstractPredicate() {
-        @Override
-      public boolean eval(Object o) throws LookupException {
-          return ((CatchClause)o).isValid();
-        }
-      }.forAll(getCatchClauses());
-    }
-    catch (LookupException e) {
-      throw e;
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-      throw new Error();
-    }
+    return forAll(getCatchClauses(), c -> c.isValid());
   }
   
   @Override

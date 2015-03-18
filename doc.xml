@@ -21,7 +21,7 @@
     </copy>
   </target>
 
-  <target name="delSingleLineComments" depends="prepdoc">
+  <target name="delSingleLineComments">
     <replaceregexp flags="g">
       <fileset dir="${srcForDoc}">
         <include name="**/*.java"/>

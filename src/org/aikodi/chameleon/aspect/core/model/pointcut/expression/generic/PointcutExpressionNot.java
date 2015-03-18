@@ -6,7 +6,8 @@ import org.aikodi.chameleon.aspect.oo.model.pointcut.RuntimePointcutExpression;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
+import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 public class PointcutExpressionNot extends PointcutExpressionSingle<Element> implements RuntimePointcutExpression<Element> {
 
@@ -37,7 +38,7 @@ public class PointcutExpressionNot extends PointcutExpressionSingle<Element> imp
 	 * 	{@inheritDoc}
 	 */
 	@Override
-	public PointcutExpression<?> without(SafePredicate<PointcutExpression<?>> filter) {
+	public PointcutExpression<?> without(Predicate<PointcutExpression<?>,Nothing> filter) {
 		PointcutExpression<?> expression = expression().without(filter);
 		
 		if (expression == null)

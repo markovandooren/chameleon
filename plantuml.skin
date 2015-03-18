@@ -1,0 +1,31 @@
+skinparam shadowing false
+skinparam default{
+  FontName Roboto
+  FontSize 9
+}
+skinparam class {
+  BackgroundColor #e0eafd
+  BorderColor black
+  BorderThickness 1
+  ArrowColor black
+}
+skinparam object {
+  BackgroundColor #fafac4
+  BorderColor black
+  BorderThickness 1
+  ArrowColor black
+}
+skinparam sequence {
+  ArrowColor black
+  ActorBorderThickness 1
+  DividerBorderThickness 1
+  GroupBorderThickness 1
+  GroupBackgroundColor #e0a6ff
+  LifeLineBackgroundColor #ffe395
+  LifeLineBorderColor black
+  LifeLineBorderThickness 1
+  ParticipantBorderColor black
+  ParticipantBorderThickness 1
+  ReferenceBorderThickness 1
+  ParticipantBackgroundColor #ffbaba
+}

@@ -14,7 +14,7 @@ import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.util.association.Single;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 /**
  * A class for absolute exception declarations. An absolute exception declaration declares that a certain type of exception
@@ -77,21 +77,12 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
     if(! language(ObjectOrientedLanguage.class).isCheckedException(getType())) {
       return true;
     }
-    try {
-      return new AbstractPredicate() {
+      return new Predicate<ExceptionDeclaration,LookupException>() {
         @Override
-      public boolean eval(Object o2) throws LookupException {
+      public boolean eval(ExceptionDeclaration o2) throws LookupException {
           return (o2 instanceof TypeExceptionDeclaration) && (getType().assignableTo(((TypeExceptionDeclaration)o2).getType()));
         }
       }.exists(other.exceptionDeclarations());
-    }
-    catch (LookupException e) {
-      throw e;
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-      throw new Error();
-    }
   }
 
   @Override

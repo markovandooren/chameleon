@@ -3,8 +3,13 @@ package org.aikodi.chameleon.analysis;
 import java.util.Collection;
 
 import org.aikodi.chameleon.core.document.Document;
+import org.aikodi.chameleon.core.element.Element;
+import org.aikodi.chameleon.util.action.TopDown;
 import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.chameleon.workspace.Project;
+
+import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
+import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
 
 public abstract class Analyzer {
 
@@ -25,15 +30,17 @@ public abstract class Analyzer {
 	private Project _project;
 	
 	/**
-	 * Return the result of performing the given analysis on the project of this
-	 * analyser.
-	 * @param analysis
-	 * @return
+	 * Perform the given analysis on the project of this analyzer.
+	 * 
+	 * @param analysis The analysis to be executed.
+	 * @return The result of performing the given analysis top down on every
+   * source document in the project. 
 	 * @throws InputException
 	 */
-	protected <R extends Result<R>> R analysisResult(Analysis<?,R> analysis) throws InputException {
+	protected <R extends Result<R>> R analysisResult(Analysis<? extends Element,R> analysis) throws InputException {
 		for(Document doc: sourceDocuments()) {
-//			doc.apply(analysis);
+			TreeStructure<Element> lexical = doc.lexical();
+      new TopDown<Element,Nothing>(analysis).traverse(lexical);
 		}
 		return analysis.result();
 	}

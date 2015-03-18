@@ -1,138 +1,88 @@
 package org.aikodi.chameleon.core.scope;
 
+import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.exists;
+import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
+
 import java.util.Collection;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
+import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 /**
+ * A scope that is the union of a number of other scopes.
+ * 
  * @author Marko van Dooren
  */
 public class Union extends CompositeScope {
-	
-	@Override
-   public boolean contains(final Element element) throws LookupException {
-		try {
-			return new AbstractPredicate<Scope,LookupException>() {
 
-				@Override
-            public boolean eval(Scope object) throws LookupException {
-					return object.contains(element);
-				}
-			}.exists(scopes());
-		} catch (LookupException e) {
-			throw e;
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new Error();
-		}
-	}
+  @Override
+  public boolean contains(final Element element) throws LookupException {
+    return exists(scopes(), object -> object.contains(element));
+  }
 
- /*@
-   @ public behavior
-   @
-   @ getDomains().isEmpty();
-   @*/
+  /*
+   * @
+   * @ public behavior
+   * @
+   * @ getDomains().isEmpty();
+   * @
+   */
   public Union() {
   }
-  
- /*@
-   @ public behavior
-   @
-   @ pre domains != null;
-   @
-   @ getDomains().containsAll(domains);
-   @*/
+
+  /*
+   * @
+   * @ public behavior
+   * @
+   * @ pre domains != null;
+   * @
+   * @ getDomains().containsAll(domains);
+   * @
+   */
   public Union(Collection<Scope> domains) throws LookupException {
     super(domains);
   }
-  
- /*@
-   @ public behavior
-   @
-   @ pre first != null;
-   @ pre second != null;
-   @
-   @ getDomains().contains(first);
-   @ getDomains().contains(second);
-   @*/
+
+  /*
+   * @
+   * @ public behavior
+   * @
+   * @ pre first != null;
+   * @ pre second != null;
+   * @
+   * @ getDomains().contains(first);
+   * @ getDomains().contains(second);
+   * @
+   */
   public Union(Scope first, Scope second) throws LookupException {
-  	add(first);
-  	add(second);
+    add(first);
+    add(second);
   }
 
   @Override
-public boolean geRecursive(final Scope other) throws LookupException {
-    try {
-      return new AbstractPredicate() {
-        @Override
-      public boolean eval(Object o) throws LookupException {
-          return ((Scope)o).greaterThanOrEqualTo(other);
-        }
-      }.exists(scope());
-    }
-    catch (LookupException e) {
-      throw e;
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-      throw new Error();
-    }
+  public boolean geRecursive(final Scope other) throws LookupException {
+    return exists(scope(), o -> o.greaterThanOrEqualTo(other));
   }
 
   @Override
-public boolean leRecursive(final Scope other) throws LookupException {
-    try {
-      return new AbstractPredicate() {
-        @Override
-      public boolean eval(Object o) throws LookupException {
-          return other.greaterThanOrEqualTo(((Scope)o));
-        }
-      }.forAll(scope());
-    }
-    catch (LookupException e) {
-      throw e;
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-      throw new Error();
-    }
+  public boolean leRecursive(final Scope other) throws LookupException {
+    return forAll(scope(), o -> other.greaterThanOrEqualTo((o)));
   }
 
   @Override
-public Scope union(Scope other) throws LookupException {
+  public Scope union(Scope other) throws LookupException {
     Union result = new Union(scope());
     result.add(other);
     return result;
   }
-  
+
   @Override
-protected void filter() throws LookupException {
-    try {
-      new AbstractPredicate() {
-        @Override
-      public boolean eval(Object o) throws Exception {
-          final Scope acc = (Scope)o;
-          return ! new AbstractPredicate() {
-            @Override
-            public boolean eval(Object o2) throws LookupException {
-              Scope other = (Scope)o2;
-              return (acc != other) && (other.greaterThanOrEqualTo(acc));
-            }
-          }.exists(_scopes);
-        }
-      }.filter(_scopes);
-    }
-    catch (LookupException e) {
-      throw e;
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-      throw new Error();
-    }
+  protected void filter() throws LookupException {
+    Predicate<Scope, LookupException> predicate = acc -> !exists(_scopes, o2 -> (acc != o2) && (o2.greaterThanOrEqualTo(acc)));
+    CollectionOperations.filter(_scopes, predicate);
   }
-  
 
 }

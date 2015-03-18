@@ -12,7 +12,7 @@ import org.aikodi.chameleon.oo.expression.MethodInvocation;
 import org.aikodi.chameleon.util.association.Multi;
 
 import be.kuleuven.cs.distrinet.rejuse.java.collections.RobustVisitor;
-import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 /**
  * @author Marko van Dooren
@@ -28,7 +28,7 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
       return false;
     }
     try {
-      return new AbstractPredicate() {
+      return new Predicate() {
         @Override
       public boolean eval(Object o) throws LookupException {
           return ((ExceptionDeclaration)o).compatibleWith(other);
@@ -127,7 +127,7 @@ protected ExceptionClause cloneSelf() {
 
   public boolean hasValidAccessibility() throws LookupException {
     try {
-      return new AbstractPredicate() {
+      return new Predicate() {
         @Override
       public boolean eval(Object o) throws LookupException {
           return ((ExceptionDeclaration)o).hasValidAccessibility();

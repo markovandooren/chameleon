@@ -9,7 +9,7 @@ import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 /**
  * A class for import statements.
@@ -83,11 +83,11 @@ public abstract class Import extends ElementImpl {
 
   private boolean sameDeclarations(List<Declaration> mine,
 		  final List<Declaration> others) throws LookupException {
-	  boolean result = new AbstractPredicate<Declaration, LookupException>() {
+	  boolean result = new Predicate<Declaration, LookupException>() {
 
 		  @Override
 		  public boolean eval(final Declaration m) throws LookupException {
-			  return new AbstractPredicate<Declaration, LookupException>() {
+			  return new Predicate<Declaration, LookupException>() {
 
 				  @Override
 				  public boolean eval(Declaration o) throws LookupException {

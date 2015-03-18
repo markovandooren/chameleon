@@ -1,5 +1,8 @@
 package org.aikodi.chameleon.oo.type;
 
+import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.exists;
+import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -22,8 +25,13 @@ import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.Pair;
 
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
-import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 
+/**
+ * A type that is the union of a number of other types. A union type contains
+ * all the values that are in at least one of its child types.
+ * 
+ * @author Marko van Dooren
+ */
 public class UnionType extends MultiType {
 	
 	public static Type create(List<Type> types) throws LookupException {
@@ -148,18 +156,7 @@ public class UnionType extends MultiType {
 	public boolean uniSameAs(final Element other) throws LookupException {
 		List<Type> types = types();
 		if (other instanceof UnionType) {
-			return new AbstractPredicate<Type, LookupException>() {
-				@Override
-				public boolean eval(final Type first) throws LookupException {
-					return new AbstractPredicate<Type, LookupException>() {
-						@Override
-						public boolean eval(Type second) throws LookupException {
-							return first.sameAs(second);
-						}
-						
-					}.exists(((UnionType)other).types());
-				}
-			}.forAll(types);
+		  return forAll(types, first -> exists(((UnionType)other).types(),second -> first.sameAs(second)));
 		} else {
 			return (other instanceof Type) && (types.size() == 1) && (types.iterator().next().sameAs(other));
 		}
@@ -204,18 +201,7 @@ public class UnionType extends MultiType {
    public boolean uniSameAs(final Type other, final List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
 		List<Type> types = types();
 		if (other instanceof UnionType) {
-			return new AbstractPredicate<Type, LookupException>() {
-				@Override
-				public boolean eval(final Type first) throws LookupException {
-					return new AbstractPredicate<Type, LookupException>() {
-						@Override
-						public boolean eval(Type second) throws LookupException {
-							return first.sameAs(second,trace);
-						}
-						
-					}.exists(((UnionType)other).types());
-				}
-			}.forAll(types);
+		  return forAll(types,  first -> exists(((UnionType)other).types(), second -> first.sameAs(second,trace)));
 		} else {
 			return (types.size() == 1) && (types.iterator().next().sameAs(other,trace));
 		}

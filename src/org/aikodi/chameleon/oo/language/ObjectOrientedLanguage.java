@@ -32,8 +32,15 @@ import org.aikodi.chameleon.util.Util;
 
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
-import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
+/**
+ * A convenience class for object-oriented programming languages.
+ * It defined a number of properties that are applicable to object-oriented
+ * programming languages.
+ * 
+ * @author Marko van Dooren
+ */
 public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	
 	//TODO document the properties. This is becoming complicated without an explanation.
@@ -196,37 +203,44 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	 */
 	public abstract EquivalenceRelation<Member> equivalenceRelation();
 
+	/**
+	 * Find the type with the given fully qualified name in the given namespace.
+	 * 
+	 * @param fqn
+	 * @param ns
+	 * @return
+	 * @throws LookupException
+	 * @deprecated See {@link Namespace#find(String, Class)}
+	 */
 	public Type findType(String fqn, Namespace ns) throws LookupException {
 		TypeReference ref = createTypeReferenceInNamespace(fqn,ns);
 		return ref.getType();
 	}
 
+	  /**
+   * Replace all references in the given 'in' type reference that reference a
+   * declaration whose declarator is the same as the given declarator by a clone
+   * of the replacement type reference.
+   * 
+   * If the declarator of the 'in' type reference is the given declarator,
+   * then 'in' is replaced by a clone of the given replacement.
+   * 
+   * @param replacement The type reference that will replace the matching
+   *                    type references.
+   * @param declarator The declaration for which the type references must be
+   * replaced.
+   * @param in The type reference within which the replacement is done.
+   * @throws LookupException An exception was thrown during lookup.
+   */
 	public void replace(TypeReference replacement, final Declaration declarator, TypeReference in) throws LookupException {
-		AbstractPredicate<TypeReference, LookupException> predicate = new AbstractPredicate<TypeReference, LookupException>() {
-			@Override
-			public boolean eval(TypeReference object) throws LookupException {
-				return object.getDeclarator().sameAs(declarator);
-			}
-		};
-		List<TypeReference> crefs = in.descendants(TypeReference.class,predicate);
+		Predicate<TypeReference, LookupException> predicate = type -> type.getDeclarator().sameAs(declarator);
+    List<TypeReference> crefs = in.descendants(TypeReference.class,predicate);
 		if(predicate.eval(in)) {
 			crefs.add(in);
 		}
-		
 		for(TypeReference cref: crefs) {
 			TypeReference clonedReplacement = Util.clone(replacement);
 			TypeReference substitute = createNonLocalTypeReference(clonedReplacement, replacement.parent());
-			
-//			TypeReference substitute;
-//			if(replacement.isDerived()) {
-//				Element oldParent = replacement.parent();
-//				replacement.setUniParent(null);
-//				substitute = createNonLocalTypeReference(replacement,oldParent);
-//			} else {
-//				substitute = createNonLocalTypeReference(replacement);
-//			}
-
-			
 			SingleAssociation crefParentLink = cref.parentLink();
 			crefParentLink.getOtherRelation().replace(crefParentLink, substitute.parentLink());
 		}
@@ -240,6 +254,13 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	
 	public abstract <E extends Element> E replace(TypeReference replacement, Declaration declarator, E in, Class<E> kind) throws LookupException;
 	
+	/**
+	 * Return a type reference to the given type.
+	 * 
+	 * @param type The type for which a type reference is requested.
+	 * @return A type reference that will resolve to the given type.
+	 * @throws LookupException An exception was thrown during lookup.
+	 */
 	public abstract TypeReference reference(Type type) throws LookupException;
 
 }

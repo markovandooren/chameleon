@@ -14,7 +14,7 @@ import org.aikodi.chameleon.oo.statement.ExceptionTuple;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 /**
  * A class of methods.
@@ -210,23 +210,13 @@ public abstract class Method extends DeclarationWithParameters {
 	 * @throws LookupException
 	 */
 	public boolean hasValidOverridingExceptionClause() throws LookupException {
-		try {
 			List methods = directlyOverriddenMembers();
-			return new AbstractPredicate() {
+			return new Predicate<Method,LookupException>() {
 				@Override
-            public boolean eval(Object o) throws LookupException {
-					Method method = (Method)o;
+            public boolean eval(Method method) throws LookupException {
 					return getExceptionClause().compatibleWith(method.getExceptionClause());
 				}
 			}.forAll(methods);
-		}
-		catch (LookupException e) {
-			throw e;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			throw new Error();
-		}
 	}
 
 	/**

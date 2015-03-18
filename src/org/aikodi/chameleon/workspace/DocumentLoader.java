@@ -8,39 +8,122 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespace.DocumentLoaderNamespace;
 import org.aikodi.chameleon.core.namespace.Namespace;
 
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 /**
- * <p>A class representing a source from which a {@link Document} is built. These
- * can be file based (text or binary), editor based, ...</p>
+ * <p>
+ * A class representing a source from which a {@link Document} is built. These
+ * can be file based (text or binary), editor based, ...
+ * </p>
  * 
- * <p>Each document loader manages a single document. There may be multiple
- * document loaders for a single logical document. For example there may be a
- * file document loader and editor buffer document loader for the same logical
- * document. In this case, the {@link #compareTo(DocumentLoader)} method is used
- * to determine which document loader has the highest priority.</p>
+ * <h3>Class Diagram</h3>
  * 
- * <p>A document loader is typically created by a {@link DocumentScanner}. A
+ * <embed src="documentLoader-class.svg"/>
+ * 
+ * <h3>Object Structure</h3>
+ * 
+ * <embed src="loader.svg"/>
+ *
+ * <p>
+ * A document loader is typically created by a {@link DocumentScanner}. A
  * document scanner scans a particular resource, such as an archive file, a
  * directory, or a database, and create a document loader for each document that
- * it finds.</p>
+ * can potentially be loaded. 
+ * </p>
  * 
- * <p>Every document loader must be attached to a namespace by calling
- * {@link #setNamespace(DocumentLoaderNamespace)}, or
- * {@link DocumentLoaderNamespace#addDocumentLoader(DocumentLoader)}. When that
- * is done, the namespace will invoke {@link #targetDeclarationNames(Namespace)}
- * to obtain the names of the top-level declarations that this loader can
- * provide. The default implementation will simply load the document and inspect
- * it. To implement lazy loading, you must overwrite
- * {@link #targetDeclarationNames(Namespace)} so you can compute the list of
- * names without actually loading anything.</p>
+ * <h3>Connecting to a namespaces</h3>
  * 
  * <p>The framework does not automatically call {@link #setNamespace(DocumentLoaderNamespace)}
  * because it should only be done after the loader has been initialized properly.
  * Connecting the loader may trigger loading of the document, which is not
- * possible if the initialization of the loader has not finished.</p>
+ * possible if the initialization of the loader has not finished.</p> * 
+ * <h3>Lazy Loading</h3>
+ * 
+ *  <p>The default implementation of {@link #targetDeclarationNames(Namespace)}
+ *  will simply load the document and inspect it. To implement lazy loading, 
+ *  you must overwrite {@link #targetDeclarationNames(Namespace)} to compute the
+ *  list of names without actually loading the document.</p>
+ * 
+ * <h3>Multiple loaders per document</h3>
+ * 
+ * <p>
+ * Each document loader manages a single {@link Document} object, and each {@link
+ * Document} is loaded by a single document loader. But there may multiple document 
+ * loaders for a single <b>real world</b> document. For example there may be a
+ * file document loader and an editor buffer document loader for the same file
+ * (real world document). The {@link #compareTo(DocumentLoader)} method is used
+ * to determine which document loader has the highest priority.
+ * </p>
  * 
  * @author Marko van Dooren
+ */
+/*
+@startuml documentLoader-class.svg
+  interface DocumentScanner [[DocumentScanner.html]]
+  interface DocumentLoader {
+  +project() 
+  +view()
+  +scanner() 
+  +scannerLink()
+  .. loading .. 
+  +load()
+  +refresh()
+  +setNamespace(DocumentLoaderNamespace)
+  +targetDeclarationNames(Namespace)
+  +targetDeclarations(String)
+}
+interface Document [[../core/document/Document.html]]
+interface Namespace [[../core/namespace/Namespace.html]]
+DocumentScanner - DocumentLoader
+DocumentLoader - Document
+Namespace -- DocumentLoader  
+@enduml
+
+ @startuml loader.svg
+ left to right direction
+ object namespace
+ object documentLoader
+ object document
+ object documentScanner
+ object project
+ object view
+ 
+ project -- view
+ view -- documentScanner
+ documentScanner -- documentLoader
+ documentLoader -- document
+ namespace -- documentLoader
+ @enduml
+
+@startuml namespace-interaction.svg
+[-> documentLoader: setNamespace(namespace)
+activate documentLoader
+documentLoader -> namespace : addDocumentLoader(this)
+activate namespace
+namespace -> documentLoader : targetDeclarationNames(this)
+activate documentLoader
+documentLoader --> namespace : names
+deactivate documentLoader
+loop name in names
+namespace -> map : get(name)
+activate map
+map --> namespace : queue
+deactivate map
+namespace -> queue : add(documentLoader)
+activate queue
+queue -> documentLoader : compareTo(?)
+activate documentLoader
+documentLoader --> queue
+deactivate documentLoader
+queue --> namespace
+deactivate queue
+end
+namespace --> documentLoader
+deactivate namespace 
+[<-- documentLoader
+deactivate documentLoader
+@enduml
  */
 public interface DocumentLoader extends Comparable<DocumentLoader> {
 	
@@ -137,14 +220,42 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
 	 */
 	public void destroy();
 	
-	/**
-	 * Attach this document loader to the given namespace. The document
-	 * loader will load declarations that are in the given namespace.
-	 * 
-	 * @param namespace The namespace to which the document loader must be attached.
-	 * @throws InputException If the document is loaded immediately, all exceptions
-	 *                        that are thrown during the loading will be propagated.
-	 */
+  /**
+   * <p>
+   * Attach this document loader to the given namespace. The document loader
+   * will load declarations that are in the given namespace.
+   * </p>
+   * 
+   * <p>
+   * When a document loader is added to a namespace via
+   * {@link #setNamespace(DocumentLoaderNamespace)}:
+   * <ol>
+   * <li>the loader invokes
+   * {@link DocumentLoaderNamespace#addDocumentLoader(DocumentLoader)} on the
+   * namespace.
+   * <li>the namespace will set up the bidirectional association (not shown on
+   * the diagram because the {@link Association} objects are involved).</li>
+   * <li>calls {@link #targetDeclarationNames(Namespace)} to find out which
+   * top-level declarations might be loaded by this loader.</li>
+   * <li>the document loader returns a list of names</li>
+   * <li>for each name in the list:</li>
+   * <ol>
+   * <li>the namespace looks for the queue of loaders that load the name</li>
+   * <li>the namespace add the document loader to the queue.</li>
+   * <li>during this operation, the queue uses the
+   * {@link #compareTo(DocumentLoader)} method to decide which loader get
+   * priority. (see the section on multiple loaders)</li>
+   * </ol>
+   * </p>
+   * 
+   * <embed src="namespace-interaction.svg"/>
+   * 
+   * @param namespace
+   *          The namespace to which the document loader must be attached.
+   * @throws InputException
+   *           If the document is loaded immediately, all exceptions that are
+   *           thrown during the loading will be propagated.
+   */
 	public void setNamespace(DocumentLoaderNamespace namespace) throws InputException;
 	
 	/**
