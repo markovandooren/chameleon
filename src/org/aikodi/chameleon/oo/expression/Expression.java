@@ -9,11 +9,7 @@ import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.Target;
 import org.aikodi.chameleon.core.reference.CrossReferenceTarget;
-import org.aikodi.chameleon.oo.statement.CheckedExceptionList;
-import org.aikodi.chameleon.oo.statement.ExceptionSource;
 import org.aikodi.chameleon.oo.type.Type;
-
-import be.kuleuven.cs.distrinet.rejuse.java.collections.RobustVisitor;
 
 /**
  * A class of elements representing expressions in a language. Each expression has a type.
@@ -79,103 +75,4 @@ public LocalLookupContext<?> targetContext() throws LookupException {
     return getType().targetContext();
   }
 
-  public void prefix(CrossReferenceTarget target) throws LookupException {
-    // Do nothing by default.
-  }
-  
-  public void prefixRecursive(CrossReferenceTarget target) throws LookupException {
-    // Do nothing by default.
-  }
-  
-  public void substituteParameter(String name, Expression expr) throws LookupException {
-    // Do nothing by default.
-  }
-
-//  /**
-//   * See superclass.
-//   */
-//  public final Set getExceptions() throws LookupException {
-//    final Set result = getDirectExceptions();
-//    try {
-//      new RobustVisitor() {
-//        public Object visit(Object element) throws LookupException {
-//          result.addAll(((InvocationTarget)element).getExceptions());
-//          return null;
-//        }
-//
-//        public void unvisit(Object element, Object undo) {
-//          //NOP
-//        }
-//      }.applyTo(children());
-//      return result;
-//    }
-//    catch (LookupException e) {
-//      throw e;
-//    }
-//    catch (Exception e) {
-//      e.printStackTrace();
-//      throw new Error();
-//    }
-//  }
-
-  public CheckedExceptionList getCEL() throws LookupException {
-    final CheckedExceptionList cel = getDirectCEL();
-    try {
-      new RobustVisitor() {
-        @Override
-      public Object visit(Object element) throws LookupException {
-          cel.absorb(((ExceptionSource)element).getCEL());
-          return null;
-        }
-
-        @Override
-      public void unvisit(Object element, Object undo) {
-          //NOP
-        }
-      }.applyTo(children());
-      return cel;
-    }
-    catch (LookupException e) {
-      throw e;
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-      throw new Error();
-    }
-  }
-  
-  public CheckedExceptionList getDirectCEL() throws LookupException {
-    return new CheckedExceptionList();
-  }
-  
-  public CheckedExceptionList getAbsCEL() throws LookupException {
-    final CheckedExceptionList cel = getDirectAbsCEL();
-    try {
-      new RobustVisitor() {
-        @Override
-      public Object visit(Object element) throws LookupException {
-          cel.absorb(((ExceptionSource)element).getAbsCEL());
-          return null;
-        }
-
-        @Override
-      public void unvisit(Object element, Object undo) {
-          //NOP
-        }
-      }.applyTo(children());
-      return cel;
-    }
-    catch (LookupException e) {
-      throw e;
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-      throw new Error();
-    }
-  }
-  
-  public CheckedExceptionList getDirectAbsCEL() throws LookupException {
-    return getDirectCEL();
-  }
-  
 }

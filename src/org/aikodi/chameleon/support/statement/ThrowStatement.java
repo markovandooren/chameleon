@@ -28,19 +28,20 @@ public class ThrowStatement extends ExpressionContainingStatement {
   }
 
   @Override
-protected ThrowStatement cloneSelf() {
+  protected ThrowStatement cloneSelf() {
     return new ThrowStatement(null);
   }
 
-  @Override
-public CheckedExceptionList getDirectCEL() throws LookupException {
-	    CheckedExceptionList cel = new CheckedExceptionList();
-	    Type type = getExpression().getType();
-	    TypeReference tr = language(ObjectOrientedLanguage.class).createTypeReference(type.getFullyQualifiedName());
-	    TypeExceptionDeclaration ted = new TypeExceptionDeclaration(tr);
-	    cel.add(new ExceptionTuple(type, ted, this));
-	    return cel;
-	  }
+  // @Override
+  // public CheckedExceptionList getDirectCEL() throws LookupException {
+  // CheckedExceptionList cel = new CheckedExceptionList();
+  // Type type = getExpression().getType();
+  // TypeReference tr =
+  // language(ObjectOrientedLanguage.class).createTypeReference(type.getFullyQualifiedName());
+  // TypeExceptionDeclaration ted = new TypeExceptionDeclaration(tr);
+  // cel.add(new ExceptionTuple(type, ted, this));
+  // return cel;
+  // }
 
 	@Override
 	public Verification verifySelf() {

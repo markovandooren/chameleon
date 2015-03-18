@@ -52,16 +52,6 @@ public abstract class MethodInvocation<D extends DeclarationWithParameters>
 	protected DeclarationSelector<D> _selector;
 
 	@Override
-   public CheckedExceptionList getDirectCEL() throws LookupException {
-		throw new Error();
-	}
-
-	@Override
-   public CheckedExceptionList getDirectAbsCEL() throws LookupException {
-		throw new Error();
-	}
-
-	@Override
 	public Verification verifySelf() {
 		Verification result = Valid.create();
 		try {

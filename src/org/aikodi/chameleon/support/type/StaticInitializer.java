@@ -23,7 +23,7 @@ import com.google.common.collect.ImmutableList;
 public class StaticInitializer extends TypeElementImpl implements ExceptionSource {
 
   public StaticInitializer(Block block) {
-      setBlock(block);
+    setBlock(block);
   }
 
   public Type getNearestType() {
@@ -31,7 +31,7 @@ public class StaticInitializer extends TypeElementImpl implements ExceptionSourc
   }
 
   public Type getType() {
-  	return nearestAncestor(Type.class);
+    return nearestAncestor(Type.class);
   }
 
   /*********
@@ -46,52 +46,31 @@ public class StaticInitializer extends TypeElementImpl implements ExceptionSourc
     return _blockLink.getOtherEnd();
   }
 
-
   private Single<Block> _blockLink = new Single<Block>(this);
 
   public void setBlock(Block block) {
-    set(_blockLink,block);
+    set(_blockLink, block);
   }
 
   /**
    * @return
    */
   @Override
-protected StaticInitializer cloneSelf() {
+  protected StaticInitializer cloneSelf() {
     return new StaticInitializer(null);
-  }
-
- /*@
-   @ also public behavior
-   @
-   @ post \result == getBlock().getCEL();
-   @*/
-  @Override
-public CheckedExceptionList getCEL() throws LookupException {
-    return getBlock().getCEL();
-  }
-
- /*@
-   @ also public behavior
-   @
-   @ post \result == getBlock().getAbsCEL();
-   @*/
-  @Override
-public CheckedExceptionList getAbsCEL() throws LookupException {
-    return getBlock().getAbsCEL();
   }
 
   /**
    * A static initializer does not add members to a type.
    */
   @Override
-public List<Member> getIntroducedMembers() {
+  public List<Member> getIntroducedMembers() {
     return ImmutableList.of();
   }
 
-	@Override
-	public Verification verifySelf() {
-		return Valid.create();
-	}
+  @Override
+  public Verification verifySelf() {
+    return Valid.create();
+  }
 
 }

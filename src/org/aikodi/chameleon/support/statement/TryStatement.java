@@ -70,50 +70,50 @@ protected TryStatement cloneSelf() {
    @
    @ post \result == forAll(getCatchClauses(), c -> c.isValid());
    @*/
-  public boolean hasValidCatchClauses() throws LookupException {
-    return forAll(getCatchClauses(), c -> c.isValid());
-  }
+//  public boolean hasValidCatchClauses() throws LookupException {
+//    return forAll(getCatchClauses(), c -> c.isValid());
+//  }
   
-  @Override
-public CheckedExceptionList getCEL() throws LookupException {
-    final CheckedExceptionList cel = getStatement().getCEL();
-
-    Iterator iter = getCatchClauses().iterator();
-    // remove all handled exceptions
-    while(iter.hasNext()) {
-      CatchClause cc = (CatchClause)iter.next();
-      cel.handleType(cc.getExceptionParameter().getType());
-    }
-    iter = getCatchClauses().iterator();
-    while(iter.hasNext()) {
-      CatchClause cc = (CatchClause)iter.next();
-      cel.absorb(cc.getCEL());
-    }
-    if(getFinallyClause() != null) {
-      cel.absorb(getFinallyClause().getCEL());
-    }
-    return cel;
-  }
-  
-  @Override
-public CheckedExceptionList getAbsCEL() throws LookupException {
-    final CheckedExceptionList cel = getStatement().getAbsCEL();
-
-    Iterator iter = getCatchClauses().iterator();
-    // remove all handled exceptions
-    while(iter.hasNext()) {
-      CatchClause cc = (CatchClause)iter.next();
-      cel.handleType(cc.getExceptionParameter().getType());
-    }
-    iter = getCatchClauses().iterator();
-    while(iter.hasNext()) {
-      CatchClause cc = (CatchClause)iter.next();
-      cel.absorb(cc.getAbsCEL());
-    }
-    if(getFinallyClause() != null) {
-      cel.absorb(getFinallyClause().getAbsCEL());
-    }
-    return cel;
-  }
-  
+//  @Override
+//public CheckedExceptionList getCEL() throws LookupException {
+//    final CheckedExceptionList cel = getStatement().getCEL();
+//
+//    Iterator iter = getCatchClauses().iterator();
+//    // remove all handled exceptions
+//    while(iter.hasNext()) {
+//      CatchClause cc = (CatchClause)iter.next();
+//      cel.handleType(cc.getExceptionParameter().getType());
+//    }
+//    iter = getCatchClauses().iterator();
+//    while(iter.hasNext()) {
+//      CatchClause cc = (CatchClause)iter.next();
+//      cel.absorb(cc.getCEL());
+//    }
+//    if(getFinallyClause() != null) {
+//      cel.absorb(getFinallyClause().getCEL());
+//    }
+//    return cel;
+//  }
+//  
+//  @Override
+//public CheckedExceptionList getAbsCEL() throws LookupException {
+//    final CheckedExceptionList cel = getStatement().getAbsCEL();
+//
+//    Iterator iter = getCatchClauses().iterator();
+//    // remove all handled exceptions
+//    while(iter.hasNext()) {
+//      CatchClause cc = (CatchClause)iter.next();
+//      cel.handleType(cc.getExceptionParameter().getType());
+//    }
+//    iter = getCatchClauses().iterator();
+//    while(iter.hasNext()) {
+//      CatchClause cc = (CatchClause)iter.next();
+//      cel.absorb(cc.getAbsCEL());
+//    }
+//    if(getFinallyClause() != null) {
+//      cel.absorb(getFinallyClause().getAbsCEL());
+//    }
+//    return cel;
+//  }
+//  
 }

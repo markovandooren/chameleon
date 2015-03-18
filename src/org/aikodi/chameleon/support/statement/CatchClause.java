@@ -74,25 +74,25 @@ public CatchClause cloneSelf() {
     return new CatchClause(null, null);
   }
 
-  /**
-   * @return
-   */
-  public boolean isValid() {
-    try {
-      CheckedExceptionList cel = nearestAncestor(TryStatement.class).getStatement().getCEL();
-      Collection checkedExceptionTypes = cel.getExceptions();
-      return new Predicate<Element,LookupException>() {
-        @Override
-      public boolean eval(Element o) throws LookupException {
-          return ((Type)o).assignableTo(getExceptionParameter().getType());
-        }
-      }.exists(checkedExceptionTypes);
-    }
-    catch (LookupException e) {
-      return false;
-    }
-  }
-
+//  /**
+//   * @return
+//   */
+//  public boolean isValid() {
+//    try {
+//      CheckedExceptionList cel = nearestAncestor(TryStatement.class).getStatement().getCEL();
+//      Collection checkedExceptionTypes = cel.getExceptions();
+//      return new Predicate<Element,LookupException>() {
+//        @Override
+//      public boolean eval(Element o) throws LookupException {
+//          return ((Type)o).assignableTo(getExceptionParameter().getType());
+//        }
+//      }.exists(checkedExceptionTypes);
+//    }
+//    catch (LookupException e) {
+//      return false;
+//    }
+//  }
+//
   @Override
 public List<? extends Variable> declarations() {
     List<Variable> result = new ArrayList<Variable>();

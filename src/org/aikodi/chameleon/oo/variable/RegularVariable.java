@@ -62,26 +62,6 @@ public void setInitialization(Expression expr) {
     set(_init,expr);
   }
   
-  @Override
-public CheckedExceptionList getCEL() throws LookupException {
-    if(getInitialization() != null) {
-      return getInitialization().getCEL();
-    }
-    else {
-      return new CheckedExceptionList();
-    }
-  }
-
-  @Override
-public CheckedExceptionList getAbsCEL() throws LookupException {
-    if(getInitialization() != null) {
-      return getInitialization().getAbsCEL();
-    }
-    else {
-      return new CheckedExceptionList();
-    }
-  }
-
 	/*************
 	 * MODIFIERS *
 	 *************/
