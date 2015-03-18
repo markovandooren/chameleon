@@ -227,4 +227,5 @@ public interface DocumentScanner extends Comparable<DocumentScanner> {
 	 */
 	public DocumentScanner rootScanner();
 
+	public void remove(DocumentLoader source);
 }
