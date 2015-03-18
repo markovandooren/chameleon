@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
-import org.aikodi.chameleon.core.declaration.Name;
+import org.aikodi.chameleon.core.declaration.SimpleNameSignature;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
@@ -29,7 +29,7 @@ import org.aikodi.chameleon.util.Pair;
  */
 public interface Type extends DeclarationContainer, DeclarationWithType, Member {
 
-	public Class<Name> signatureType();
+	public Class<SimpleNameSignature> signatureType();
 
 	public void accumulateAllSuperTypes(Set<Type> acc) throws LookupException;
 

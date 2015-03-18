@@ -1,7 +1,7 @@
 package org.aikodi.chameleon.core.variable;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
-import org.aikodi.chameleon.core.declaration.Name;
+import org.aikodi.chameleon.core.declaration.SimpleNameSignature;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiers;
@@ -23,7 +23,7 @@ public interface Variable extends ElementWithModifiers, DeclarationWithType {
    * Return the signature of this member.
    */
   @Override
-public Name signature();
+public SimpleNameSignature signature();
   
   public abstract TypeReference getTypeReference();
   

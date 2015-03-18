@@ -20,7 +20,7 @@ import be.kuleuven.cs.distrinet.rejuse.association.Association;
  * 
  * @author Marko van Dooren
  */
-public interface Parser extends LanguagePlugin {
+public interface ModelFactory extends LanguagePlugin {
 
 	/**
 	 * Parse the given source text for the given document. The content
@@ -119,6 +119,6 @@ public interface Parser extends LanguagePlugin {
 	 * No elements will have been added to the model.
 	 */
 	@Override
-   public Parser clone();
+   public ModelFactory clone();
 	
 }

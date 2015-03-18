@@ -8,7 +8,7 @@ import org.aikodi.chameleon.core.declaration.BasicDeclaration;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.declaration.Signature;
-import org.aikodi.chameleon.core.declaration.Name;
+import org.aikodi.chameleon.core.declaration.SimpleNameSignature;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupContext;
@@ -105,19 +105,19 @@ public class Aspect extends BasicDeclaration implements DeclarationContainer, De
 		return localLookupStrategy();
 	}
 	
-	private Single<Name> _signature = new Single<Name>(this);
+	private Single<SimpleNameSignature> _signature = new Single<SimpleNameSignature>(this);
 
 	@Override
-	public Name signature() {
+	public SimpleNameSignature signature() {
 		return _signature.getOtherEnd();
 	}
 
 	@Override
 	public void setSignature(Signature signature) {
-		if (!(signature instanceof Name))
+		if (!(signature instanceof SimpleNameSignature))
 			throw new ChameleonProgrammerException("Exptected simpleNameSignature, got " + signature);
 		
-		set(_signature, (Name) signature);
+		set(_signature, (SimpleNameSignature) signature);
 	}
 
 
@@ -152,7 +152,7 @@ public class Aspect extends BasicDeclaration implements DeclarationContainer, De
 
 	@Override
 	public void setName(String name) {
-		setSignature(new Name(name));
+		setSignature(new SimpleNameSignature(name));
 	}
 
 	@Override

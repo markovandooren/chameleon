@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
-import org.aikodi.chameleon.core.declaration.Name;
+import org.aikodi.chameleon.core.declaration.SimpleNameSignature;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
@@ -45,7 +45,7 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
   	return _name;
   }
 
-	private Name _signature;
+	private SimpleNameSignature _signature;
 	
 	public void setName(String name) {
 		_name = name;

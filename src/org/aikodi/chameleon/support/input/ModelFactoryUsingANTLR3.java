@@ -11,7 +11,7 @@ import java.util.Set;
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
-import org.aikodi.chameleon.input.Parser;
+import org.aikodi.chameleon.input.ModelFactory;
 import org.aikodi.chameleon.input.NoLocationException;
 import org.aikodi.chameleon.input.ParseException;
 import org.aikodi.chameleon.input.SourceManager;
@@ -22,7 +22,7 @@ import org.antlr.runtime.RecognitionException;
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.io.DirectoryScanner;
 
-public abstract class ModelFactoryUsingANTLR3 extends LanguagePluginImpl implements Parser {
+public abstract class ModelFactoryUsingANTLR3 extends LanguagePluginImpl implements ModelFactory {
 
 	public ModelFactoryUsingANTLR3() {
 	}

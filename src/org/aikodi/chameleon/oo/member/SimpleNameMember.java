@@ -2,7 +2,7 @@ package org.aikodi.chameleon.oo.member;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Signature;
-import org.aikodi.chameleon.core.declaration.Name;
+import org.aikodi.chameleon.core.declaration.SimpleNameSignature;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 
@@ -15,7 +15,7 @@ public abstract class SimpleNameMember extends MemberImpl {
     return _name;
   }
 
-  private Name _signature;
+  private SimpleNameSignature _signature;
 
   @Override
   public void setName(String name) {
@@ -27,7 +27,7 @@ public abstract class SimpleNameMember extends MemberImpl {
 
   @Override
   public void setSignature(Signature signature) {
-    if (signature instanceof Name) {
+    if (signature instanceof SimpleNameSignature) {
       setName(signature.name());
     } else {
       throw new ChameleonProgrammerException();
@@ -35,11 +35,11 @@ public abstract class SimpleNameMember extends MemberImpl {
   }
 
   @Override
-  public Name signature() {
+  public SimpleNameSignature signature() {
     if (_signature == null) {
       synchronized (this) {
         if (_signature == null) {
-          _signature = new Name(_name) {
+          _signature = new SimpleNameSignature(_name) {
             @Override
             public void setName(String name) {
               super.setName(name);
@@ -58,7 +58,7 @@ public abstract class SimpleNameMember extends MemberImpl {
     if (declaration instanceof SimpleNameMember) {
       return _name.equals(((SimpleNameMember) declaration)._name);
     } else {
-      return declaration.name().equals(_name) && declaration.signature() instanceof Name;
+      return declaration.name().equals(_name) && declaration.signature() instanceof SimpleNameSignature;
     }
   }
 

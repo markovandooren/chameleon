@@ -2,7 +2,7 @@ package org.aikodi.chameleon.oo.type;
 
 import org.aikodi.chameleon.core.declaration.BasicDeclaration;
 import org.aikodi.chameleon.core.declaration.Declaration;
-import org.aikodi.chameleon.core.declaration.Name;
+import org.aikodi.chameleon.core.declaration.SimpleNameSignature;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
@@ -19,8 +19,8 @@ public abstract class Parameter extends BasicDeclaration {
 	@Override
    public abstract Declaration selectionDeclaration() throws LookupException;
 	
-	public Class<Name> signatureType() {
-		return Name.class;
+	public Class<SimpleNameSignature> signatureType() {
+		return SimpleNameSignature.class;
 	}
 	
 	@Override

@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import org.aikodi.chameleon.core.document.Document;
-import org.aikodi.chameleon.input.Parser;
+import org.aikodi.chameleon.input.ModelFactory;
 
 public abstract class StreamDocumentLoader extends DocumentLoaderImpl {
 
@@ -28,7 +28,7 @@ public abstract class StreamDocumentLoader extends DocumentLoaderImpl {
 		}
 		try {
 			InputStream inputStream = inputStream();
-			namespace().language().plugin(Parser.class).parse(inputStream, rawDocument());
+			namespace().language().plugin(ModelFactory.class).parse(inputStream, rawDocument());
 			// Connect the namespace declarations in the document to the corresponding namespaces.
 		} catch (Exception e) {
 			throw new InputException(e);
