@@ -1,5 +1,6 @@
 package org.aikodi.chameleon.core.element;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
@@ -24,13 +25,11 @@ import org.aikodi.chameleon.workspace.WrongViewException;
 
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
-import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
-import be.kuleuven.cs.distrinet.rejuse.tree.FunctionalTreeStructure;
 
 /**
  * <p>An interface for language constructs.</p>
@@ -391,6 +390,31 @@ public interface Element {
     public <E extends Exception> List<Element> children(Predicate<? super Element,E> predicate) throws E;
     
     /**
+     * Return all children of this element that satisfy the given predicate.
+     * 
+     * @param type The type of the children to which the predicate must be applied.
+     * @param predicate A predicate that determines which children should be returned.
+     */
+   /*@
+     @ public behavior
+     @
+     @ pre predicate != null;
+     @
+     @ post \result != null;
+     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && predicate.eval(e) == true);
+     @*/
+    public default <T, E extends Exception> List<T> children(Class<T> type, Predicate<T,E> predicate) throws E {
+      List<? extends Element> children = children();
+      List<T> result = new ArrayList<T>(children.size());
+      for(Element child: children) {
+        if(type.isInstance(child) && predicate.eval((T) child)) {
+          result.add((T) child);
+        }
+      }
+      return result;
+    }
+
+    /**
      * Return all children of this element that are of the given type, and satisfy the given predicate.
      * 
      * @param predicate A predicate that determines which ancestors should be returned.
@@ -477,6 +501,18 @@ public interface Element {
      @*/
 	  public <T extends Element> boolean hasDescendant(Class<T> c);
 
+	  public default <T extends Element, E extends Exception> boolean hasDescendant(Class<T> type, Predicate<T,E> predicate) throws E {
+	    List<T> result = children(type, predicate);
+	    if (!result.isEmpty())
+	      return true;
+
+	    for (Element e : children()) {
+	      if (e.hasDescendant(type, predicate))
+	        return true;
+	    }
+
+	    return false;
+	  }
 	  /**
 	   * Check whether this element has a descendant that satisfies the given predicate.
 	   * 
