@@ -1,5 +1,7 @@
 package org.aikodi.chameleon.test;
 
+import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.filter;
+import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -28,6 +30,7 @@ import org.aikodi.chameleon.workspace.ProjectException;
 import org.junit.Test;
 
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 /**
@@ -148,21 +151,7 @@ public class ChildrenTest extends ModelTest {
 
 	public void addAllFieldsTillClass(final Class currentClass, Class till, Collection<Field> accumulator){
 		List<Field> fieldList = new ArrayList<Field>(Arrays.asList(currentClass.getDeclaredFields()));
-		new SafePredicate<Field>() {
-
-			@Override
-			public boolean eval(Field field) {
-				final String fieldName = field.getName();
-				return new SafePredicate<String>() {
-
-					@Override
-					public boolean eval(String excludedField) {
-						return !excludedField.equals(fieldName);
-					}
-					
-				}.forAll(_excludedFieldNames.get(currentClass));
-			}
-		}.filter(fieldList);
+		filter(fieldList, field -> forAll(_excludedFieldNames.get(currentClass), excluded -> !excluded.equals(field.getName())));
 		accumulator.addAll(fieldList);
     if(currentClass != till) {
   		Class superClass = currentClass.getSuperclass();
