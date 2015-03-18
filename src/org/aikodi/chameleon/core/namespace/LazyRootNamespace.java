@@ -1,6 +1,7 @@
 package org.aikodi.chameleon.core.namespace;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -19,6 +20,12 @@ import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 
 import com.google.common.collect.ImmutableList;
 
+/**
+ * FIXME: use default methods in {@link DocumentLoaderNamespace} to get rid
+ * of the code duplication.
+ * 
+ * @author Marko van Dooren
+ */
 public class LazyRootNamespace extends RootNamespace implements DocumentLoaderNamespace {
 
 	public LazyRootNamespace() {
