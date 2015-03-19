@@ -17,7 +17,7 @@ import org.junit.Before;
  * 
  * @author Marko van Dooren
  */
-public abstract class ModelTest extends TestSuite {
+public abstract class ModelTest {
 	
 	 /**
 	  * Create a new test that uses the given provider to create models
