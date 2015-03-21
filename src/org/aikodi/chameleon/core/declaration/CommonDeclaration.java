@@ -40,8 +40,12 @@ public abstract class CommonDeclaration extends DeclarationImpl implements Eleme
 		setSignature(signature);
 	}
 
-	private Single<Signature> _signature = new Single<Signature>(this);
+	private Single<Signature> _signature = createSignatureLink();
 
+	protected Single<Signature> createSignatureLink() {
+	  return new Single<Signature>(this);
+	}
+	
 	@Override
 	public Signature signature() {
 		return _signature.getOtherEnd();
