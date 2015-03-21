@@ -71,7 +71,14 @@ public abstract class NameBasedSelector<D extends Declaration> implements Declar
   
    protected boolean correctSignature(Declaration declaration) throws LookupException {
       Signature signature = declaration.signature();
-      return signature.name().equals(name()) && ! signature.hasMorePropertiesThanName();
+      if(signature == null) {
+        throw new LookupException("The signature of a declaration of class "+declaration.getClass()+" is null.");
+      }
+      String name = signature.name();
+      if(name == null) {
+        throw new LookupException("The name of a declaration of class "+declaration.getClass()+"with signature of class"+signature.getClass()+" is null.");
+      }
+      return name.equals(name()) && ! signature.hasMorePropertiesThanName();
    }
   
   /**
