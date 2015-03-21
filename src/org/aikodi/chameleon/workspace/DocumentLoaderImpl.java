@@ -239,6 +239,10 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		// which will then remove this document loader from its caches.
 		_namespace.clear();
 		_scanner.clear();
+		Document doc = rawDocument();
+		if(doc != null) {
+      doc.disconnect();
+		}
 		_document.clear();
 		_listeners = null;
 	}
