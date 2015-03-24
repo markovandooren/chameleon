@@ -237,6 +237,10 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		// This will break down the bidirectional association with the namespace
 		// the association end of the namespace will send an event to the namespace
 		// which will then remove this document loader from its caches.
+    DocumentLoaderNamespace namespace = namespace();
+    if(namespace != null) {
+      namespace.flushCache();
+    }
 		_namespace.clear();
 		_scanner.clear();
 		Document doc = rawDocument();
