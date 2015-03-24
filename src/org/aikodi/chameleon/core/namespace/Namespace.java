@@ -126,7 +126,7 @@ import org.aikodi.chameleon.core.reference.CrossReference;
  * namespaceDeclaration2 - declaration2a
  * namespaceDeclaration2 - declaration2b
  */
-public interface Namespace extends TargetDeclaration, DeclarationContainer {
+public interface Namespace extends Declaration, DeclarationContainer {
 
 	/**
 	 * Return the fully qualified name of this package. This is the concatenation of the

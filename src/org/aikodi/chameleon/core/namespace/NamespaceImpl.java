@@ -46,7 +46,7 @@ import com.google.common.collect.ImmutableList.Builder;
  * @author Marko van Dooren
  */
 //FIXME Make this extends DeclarationImpl
-public abstract class NamespaceImpl extends BasicDeclaration implements TargetDeclaration, DeclarationContainer, Namespace {
+public abstract class NamespaceImpl extends BasicDeclaration implements Namespace {
 
 	/**
 	 * Initialize a new Namespace with the given name.

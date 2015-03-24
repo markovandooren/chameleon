@@ -25,7 +25,7 @@ public class MultiTypeReference<D extends Declaration> extends ElementReference<
 		if(allButLastPart == null) {
 			return null;
 		} else {
-			return new MultiTypeReference(allButLastPart, recursiveLimit ? classes : Collections.singleton(TargetDeclaration.class), recursiveLimit);
+			return new MultiTypeReference(allButLastPart, recursiveLimit ? classes : Collections.singleton(Declaration.class), recursiveLimit);
 		}
 	}
 

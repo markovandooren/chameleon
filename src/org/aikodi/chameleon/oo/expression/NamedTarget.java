@@ -3,6 +3,7 @@ package org.aikodi.chameleon.oo.expression;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.TargetDeclaration;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -19,8 +20,8 @@ import org.aikodi.chameleon.util.Util;
  * 
  * @author Marko van Dooren
  */
-public class NamedTarget extends CommonCrossReferenceWithTarget<TargetDeclaration> implements CrossReferenceTarget,
-      CrossReferenceWithTarget<TargetDeclaration>, CrossReferenceWithName<TargetDeclaration> {
+public class NamedTarget extends CommonCrossReferenceWithTarget<Declaration> implements CrossReferenceTarget,
+      CrossReferenceWithTarget<Declaration>, CrossReferenceWithName<Declaration> {
 
    /**
     * Initialize a new named target with the given fully qualified name. The
@@ -61,9 +62,9 @@ public class NamedTarget extends CommonCrossReferenceWithTarget<TargetDeclaratio
     ***********/
 
    @Override
-   public DeclarationSelector<TargetDeclaration> selector() {
+   public DeclarationSelector<Declaration> selector() {
       if (_selector == null) {
-         _selector = new NameSelector<TargetDeclaration>(TargetDeclaration.class) {
+         _selector = new NameSelector<Declaration>(Declaration.class) {
             @Override
             public String name() {
                return NamedTarget.this.name();
@@ -73,7 +74,7 @@ public class NamedTarget extends CommonCrossReferenceWithTarget<TargetDeclaratio
       return _selector;
    }
 
-   private DeclarationSelector<TargetDeclaration> _selector;
+   private DeclarationSelector<Declaration> _selector;
 
    /********
     * NAME *

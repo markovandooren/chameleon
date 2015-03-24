@@ -2,7 +2,7 @@ package org.aikodi.chameleon.support.expression;
 
 import java.util.List;
 
-import org.aikodi.chameleon.core.declaration.TargetDeclaration;
+import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -53,7 +53,7 @@ public SuperTarget cloneSelf() {
     return new CheckedExceptionList();
   }
 
-  public TargetDeclaration getTargetDeclaration() throws LookupException {
+  public Declaration getTargetDeclaration() throws LookupException {
     if(getTarget() != null) {
       return ((NamedTarget)getTarget()).getElement();
     } else {

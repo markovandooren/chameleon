@@ -26,7 +26,7 @@ public class NameReference<D extends Declaration> extends ElementReference<D> {
     * is split at every dot, and multiple objects are created to form a chain of
     * references.
     * 
-    * The prefixes are all references to {@link TargetDeclaration}s. If the
+    * The prefixes are all references to {@link Declaration}s. If the
     * given type must be used for all prefixes, use constructor
     * {@link #NameReference(String, Class, boolean)} with true as the last
     * argument.
@@ -47,7 +47,7 @@ public class NameReference<D extends Declaration> extends ElementReference<D> {
     * 
     * If recusriveLimit is true, the prefixes are all references to elements of
     * the given type. If recursiveLimit is false, the prefixes are all
-    * references to {@link TargetDeclaration}s.
+    * references to {@link Declaration}s.
     * 
     * @param fqn
     *           The fully qualified name of the referenced declaration.
@@ -119,7 +119,7 @@ public class NameReference<D extends Declaration> extends ElementReference<D> {
       if (allButLastPart == null) {
          return null;
       } else {
-         return createSimpleReference(allButLastPart, recursiveLimit ? specificClass : TargetDeclaration.class,
+         return createSimpleReference(allButLastPart, recursiveLimit ? specificClass : Declaration.class,
                recursiveLimit);
       }
    }
@@ -139,7 +139,7 @@ public class NameReference<D extends Declaration> extends ElementReference<D> {
     */
    protected <D extends Declaration> NameReference<D> createSimpleReference(String fqn, Class<D> kind,
          boolean recursiveLimit) {
-      return new NameReference(fqn, recursiveLimit ? kind : TargetDeclaration.class, recursiveLimit);
+      return new NameReference(fqn, recursiveLimit ? kind : Declaration.class, recursiveLimit);
    }
 
 }

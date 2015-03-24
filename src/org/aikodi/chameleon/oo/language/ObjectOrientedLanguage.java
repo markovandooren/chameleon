@@ -101,7 +101,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
   
   public abstract TypeReference createTypeReference(Type type);
   
-  public abstract TypeReference createTypeReference(CrossReference<? extends TargetDeclaration> target, String name);
+  public abstract TypeReference createTypeReference(CrossReference<? extends Declaration> target, String name);
   
   public abstract IntersectionTypeReference createIntersectionReference(TypeReference first, TypeReference second);
   
