@@ -43,13 +43,23 @@ public abstract class LazyStreamDocumentLoader extends StreamDocumentLoader {
 	protected void init(String declarationName, DocumentLoaderNamespace ns, DocumentScanner scanner) throws InputException {
 		// The super class cannot yet add the document loader to the namespace because we cannot
 		// set the declaration name in advance (it is needed when the document loader is added to the namespace).
-		if(declarationName == null) {
-			throw new IllegalArgumentException();
-		}
-		_declarationName = declarationName;
+		setDeclarationName(declarationName);
 		init(scanner);
 		ns.addDocumentLoader(this);
 	}
+
+	/**
+	 * Set the name of the declaration that is loader by this loader.
+	 * 
+	 * @param declarationName the name of the declaration that is loader by this loader.
+	 *                        The name cannot be null.
+ 	 */
+  protected void setDeclarationName(String declarationName) {
+    if(declarationName == null) {
+			throw new IllegalArgumentException();
+		}
+		_declarationName = declarationName;
+  }
 	
 	private String _declarationName;
 	
