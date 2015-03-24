@@ -13,10 +13,8 @@ import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.workspace.DocumentLoader;
-import org.aikodi.chameleon.workspace.DocumentLoaderImpl;
-import org.aikodi.chameleon.workspace.DocumentScanner;
-import org.aikodi.chameleon.workspace.DocumentScannerImpl;
-import org.aikodi.chameleon.workspace.InputException;
+import org.aikodi.chameleon.workspace.FakeDocumentLoader;
+import org.aikodi.chameleon.workspace.FakeDocumentScanner;
 import org.aikodi.chameleon.workspace.ProjectException;
 import org.aikodi.chameleon.workspace.View;
 
@@ -175,30 +173,6 @@ public class Document extends ElementImpl {
     @Override
     public Verification verifySelf() {
         return Valid.create();
-    }
-
-    private static class FakeDocumentLoader extends DocumentLoaderImpl {
-
-        public FakeDocumentLoader(Document document, DocumentScanner scanner) {
-            init(scanner);
-            setDocument(document);
-        }
-
-        /**
-         * We do nothing for a fake document loader. The content was set directly.
-         */
-        @Override
-        public void doRefresh() throws InputException {
-        }
-    }
-
-    private static class FakeDocumentScanner extends DocumentScannerImpl {
-
-        @Override
-        public String label() {
-            return "fake";
-        }
-
     }
 
     @Deprecated
