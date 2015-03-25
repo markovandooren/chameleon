@@ -223,6 +223,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
 
 	@Override
 	public synchronized void flushLocalCache() {
+	  super.flushLocalCache();
 		_declarationCache = null;
 		if(_local != null) {
 			_local.flushCache();
@@ -295,6 +296,13 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
 		}
 		_declarationCache.put(name, declarations);
 	}
+	
+  protected synchronized void removeCache(String name) {
+    if(_declarationCache != null) {
+      _declarationCache.remove(name);
+    }
+  }
+	
 
 	protected Map<String,List<Declaration>> _declarationCache;
 	

@@ -145,6 +145,7 @@ public class LazyNamespace extends RegularNamespace implements DocumentLoaderNam
 			}
 			for(String obsoleteKey: obsoleteKeys) {
 				_sourceMap.remove(obsoleteKey);
+	      LazyNamespace.this.removeCache(obsoleteKey);
 			}
 		}
 	};

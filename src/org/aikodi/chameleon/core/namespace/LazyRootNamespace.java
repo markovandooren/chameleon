@@ -130,6 +130,7 @@ public class LazyRootNamespace extends RootNamespace implements DocumentLoaderNa
 			}
 			for(String obsoleteKey: obsoleteKeys) {
 				_sourceMap.remove(obsoleteKey);
+        LazyRootNamespace.this.removeCache(obsoleteKey);
 			}
 		}
 	};
