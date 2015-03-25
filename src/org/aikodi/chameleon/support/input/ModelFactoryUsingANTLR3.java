@@ -46,7 +46,7 @@ public abstract ModelFactoryUsingANTLR3 clone();
    public void parse(InputStream inputStream, Document cu) throws IOException, ParseException {
 		try {
 			ChameleonANTLR3Parser<?> parser = getParser(inputStream, cu.view());
-			cu.disconnectChildren();
+//			cu.disconnectChildren();
 			//FIXME: this is crap. I set the document, and later on set the view, 
 			// while they are (and must be) connected anyway
 			parser.setDocument(cu);

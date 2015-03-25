@@ -24,6 +24,7 @@ public abstract class StreamDocumentLoader extends DocumentLoaderImpl {
 		if(rawDocument() == null) {
 			setDocument(new Document());
 		} else {
+		  //FIXME I think this should call disconnectChildren() instead.
 			rawDocument().disconnect();
 		}
 		try {

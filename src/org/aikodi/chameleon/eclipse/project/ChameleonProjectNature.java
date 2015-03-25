@@ -335,7 +335,9 @@ public class ChameleonProjectNature implements IProjectNature {
 		if(doc != null) {
 			doc.dumpPositions();
 			try {
-				modelFactory().parse(doc.get(), doc.document());
+				Document document = doc.document();
+				document.disconnectChildren();
+        modelFactory().parse(doc.get(), document);
 			} catch (ParseException e) {
 				// FIXME Can we ignore this exception? Normally, the parse error markers should have been set.
 				e.printStackTrace();
@@ -447,6 +449,7 @@ public class ChameleonProjectNature implements IProjectNature {
 			Document chameleonDocument = document.document();
 			Language language = chameleonDocument.view().language();
 			ModelFactory plugin = language.plugin(ModelFactory.class);
+			chameleonDocument.disconnectChildren();
 			plugin.parse(document.get(), chameleonDocument);
 			chameleonDocument.activate();
 			//modelFactory().parse(document.get(), chameleonDocument);
