@@ -357,13 +357,20 @@ public abstract class ElementImpl implements Element {
 	
 	@Override
 	public View view() {
-		Element parent = parent();
-		if(parent != null) {
-			return parent.view();
-		} else {
-			return null;
-		}
+	  View result = _viewCache;
+	  if(result == null) {
+	    Element parent = parent();
+	    if(parent != null) {
+	      result = parent.view();
+	      if(Config.cacheLanguage()) {
+	        _viewCache = result;
+	      }
+	    }
+	  }
+	  return result;
 	}
+	
+	private View _viewCache;
 	
 	@Override
 	public <T extends View> T view(Class<T> kind) {
@@ -929,23 +936,21 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
 
 	@Override
    public Language language() {
-		Language result = null;
-		if(Config.cacheLanguage() == true) {
-			result = _languageCache;
-		}
-		if(result == null) {
-			Element parent = parent();
-			if(parent != null) {
-				result = parent.language();
-				if(Config.cacheLanguage() == true) {
-					_languageCache = result;
-				}
-			} 
-		}
-		return result;
+//		Language result = _languageCache;
+//		if(result == null) {
+//			Element parent = parent();
+//			if(parent != null) {
+//				result = parent.language();
+//				if(Config.cacheLanguage() == true) {
+//					_languageCache = result;
+//				}
+//			} 
+//		}
+//		return result;
+	  return view().language();
 	}
 
-	private Language _languageCache;
+//	private Language _languageCache;
 
 	@Override
    public <T extends Language> T language(Class<T> kind) {
@@ -1567,8 +1572,10 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
     * Flush language cache and property cache.
     */
    protected synchronized void flushLocalCache() {
-      _propertyCache = null;
-      _properties = null;
+//     _languageCache = null;
+     _viewCache = null;
+     _propertyCache = null;
+     _properties = null;
    }
 
    /**
