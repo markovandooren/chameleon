@@ -36,11 +36,11 @@ public abstract class CrossReferenceImpl<D extends Declaration> extends ElementI
    private final AtomicReference<SoftReference<D>> _cache = new AtomicReference<>();
   
    protected D getCache() {
-      D result = null;
-      if(Config.cacheElementReferences() == true) {
+//      D result = null;
+//      if(Config.cacheElementReferences() == true) {
          SoftReference<D> cache = _cache.get();
-         result = (cache == null ? null: cache.get());
-      }
+         D result = (cache == null ? null: cache.get());
+//      }
        return result;
      }
      

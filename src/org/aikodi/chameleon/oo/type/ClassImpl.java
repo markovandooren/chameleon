@@ -723,8 +723,7 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 		// 1) All defined members of the requested kind are added.
     boolean foundInCache = false;
     List<M> result = null;
-    boolean cacheDeclarations = Config.cacheDeclarations();
-		if(cacheDeclarations && _membersCache != null) {
+    if(_membersCache != null) {
     	result = _membersCache.get(kind);
     	if(result != null) {
     		foundInCache = true;
@@ -738,7 +737,7 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
     	for (InheritanceRelation rel : inheritanceRelations()) {
     		result = rel.accumulateInheritedMembers(kind, result);
     	}
-    	if(cacheDeclarations) {
+    	if(Config.cacheDeclarations()) {
     		if(_membersCache == null) {
     			_membersCache = new HashMap<Class,List>();
     		}
