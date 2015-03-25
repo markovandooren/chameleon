@@ -78,7 +78,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
 	@Override
    public String fullyQualifiedName() {
 		Namespace nearestAncestor = nearestAncestor(Namespace.class);
-		return ((parent() == null || nearestAncestor.name().equals("")) ? "" : nearestAncestor.fullyQualifiedName() + ".") + name();
+		return ((nearestAncestor == null || nearestAncestor.name().equals("")) ? "" : nearestAncestor.fullyQualifiedName() + ".") + name();
 	}
 	
 	@Override
