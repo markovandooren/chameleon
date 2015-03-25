@@ -153,15 +153,16 @@ public class Document extends ElementImpl {
     //     the document loader.
     @Override
    public Language language() {
-        List<NamespaceDeclaration> parts = namespaceDeclarations();
-        Language result = null;
-        if(parts.size() > 0) {
-            NamespaceDeclaration firstNamespace = parts.get(0);
-            if(firstNamespace != null) {
-                result = firstNamespace.language();
-            }
-        }
-        return result;
+      return loader().scanner().view().language();
+//        List<NamespaceDeclaration> parts = namespaceDeclarations();
+//        Language result = null;
+//        if(parts.size() > 0) {
+//            NamespaceDeclaration firstNamespace = parts.get(0);
+//            if(firstNamespace != null) {
+//                result = firstNamespace.language();
+//            }
+//        }
+//        return result;
     }
 
 

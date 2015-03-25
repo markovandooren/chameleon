@@ -347,6 +347,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 			try {
 //				System.out.println("resolving "+namespaceReference().toString());
 				stored = namespaceReference().getElement();
+				//FIXME I think this exception no longer has to be transformed.
 			} catch (LookupException e) {
 				throw new ChameleonProgrammerException(e);
 			}
@@ -551,16 +552,16 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	 * ACCESSIBILITY
 	 */
 
-	@Override
-   public Language language(){
-		Namespace namespace = null;
-			namespace = namespace();
-		if(namespace != null) {
-		  return namespace.language();
-		} else {
-			return null;
-		}
-	}
+//	@Override
+//   public Language language(){
+//		Namespace namespace = null;
+//			namespace = namespace();
+//		if(namespace != null) {
+//		  return namespace.language();
+//		} else {
+//			return null;
+//		}
+//	}
 	public LookupContextFactory getContextFactory() {
 		return language().lookupFactory();
 	}
