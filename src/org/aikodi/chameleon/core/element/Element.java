@@ -156,6 +156,17 @@ public interface Element {
      */
     public SingleAssociation<? extends Element,? extends Element> parentLink();
 
+    public void enableChangePropagation();
+    
+    public void notifyChanged();
+    
+    public void notifyDescendantChanged(Element descendant);
+    
+    public void notifyDescendantAdded(Element descendant);
+
+    public void notifyDescendantRemoved(Element descendant);
+    
+    public void notifyDescendantReplaced(Element oldChild, Element newChild);
     /**
      * <p>Freeze this element. This locks the parent links of all descendants.
      * As a result, no descendant can be removed 
@@ -1196,7 +1207,7 @@ public interface Element {
      @ pre descendant != null;
      @ pre descendants().contains(descendant);
      @*/
-    public void notifyDescendantChanged(Element descendant);
+//    public void notifyDescendantChanged(Element descendant);
     
     
     /**

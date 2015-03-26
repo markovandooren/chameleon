@@ -71,24 +71,42 @@ public abstract class ElementImpl implements Element {
 	 * Construct a new object without children and without a parent.
 	 */
 	public ElementImpl() {
-		//	  	_parentLink.addListener(new AssociationListener<P>() {
-		//
-		//				public void notifyElementAdded(P element) {
-		//          super.notifyElementAdded(element);
-		//					notifyParent(ElementImpl.this);
-		//				}
-		//
-		//				public void notifyElementRemoved(P element) {
-		//          super.notifyElementRemoved(element);
-		//					notifyParent(ElementImpl.this);
-		//				}
-		//
-		//				public void notifyElementReplaced(P oldElement, P newElement) {
-		//          super.notifyElementReplaced(oldElement,newElement);
-		//					notifyParent(ElementImpl.this);
-		//				}
-		//	  		
-		//	  	});
+	}
+	
+	private AssociationListener<Element> _changePropagationListener;
+	
+	public boolean changePropagationEnabled() {
+	  return _changePropagationListener != null;
+	}
+	
+	public void disableChangePropagation() {
+	  if(_changePropagationListener != null) {
+      associations().forEach(a -> a.removeListener(_changePropagationListener));
+	    _changePropagationListener = null;
+	  }
+	}
+	
+	public void enableChangePropagation() {
+	  if(! changePropagationEnabled()) {
+	    _changePropagationListener = new AssociationListener<Element>() {
+
+	      public void notifyElementAdded(Element element) {
+	        notifyChildAdded(element);
+	        element.enableChangePropagation();
+	      }
+
+	      public void notifyElementRemoved(Element element) {
+	        notifyChildRemoved(element);
+	      }
+
+	      public void notifyElementReplaced(Element oldElement, Element newElement) {
+	        notifyChildReplaced(oldElement, newElement);
+	        newElement.enableChangePropagation();
+	      }
+	    };
+	    associations().forEach(a -> a.addListener(_changePropagationListener));
+	    children().forEach(e -> e.enableChangePropagation());
+	  }
 	}
 	
 //	private final static TreeStructure<Element> _lexical = new LexicalNavigator();
@@ -129,50 +147,50 @@ public abstract class ElementImpl implements Element {
 //	private Tree<Element> _logical;
 
 	
-	/**
-	 * A method that is mostly used for debugging purposes. 
-	 * Invoke {@link #enableParentListening()} to enable this functionality and
-	 * override the method for the appropriate element.
-	 */
-	protected void notifyParentSet(Element element) {}
+//	/**
+//	 * A method that is mostly used for debugging purposes. 
+//	 * Invoke {@link #enableParentListening()} to enable this functionality and
+//	 * override the method for the appropriate element.
+//	 */
+//	protected void notifyParentSet(Element element) {}
+//	
+//   /**
+//    * A method that is mostly used for debugging purposes. 
+//    * Invoke {@link #enableParentListening()} to enable this functionality and
+//    * override the method for the appropriate element.
+//    */
+//	protected void notifyParentRemoved(Element element) {}
+//	
+//   /**
+//    * A method that is mostly used for debugging purposes. 
+//    * Invoke {@link #enableParentListening()} to enable this functionality and
+//    * override the method for the appropriate element.
+//    */
+//	protected void notifyParentReplaced(Element oldParent, Element newParent) {}
 	
-   /**
-    * A method that is mostly used for debugging purposes. 
-    * Invoke {@link #enableParentListening()} to enable this functionality and
-    * override the method for the appropriate element.
-    */
-	protected void notifyParentRemoved(Element element) {}
-	
-   /**
-    * A method that is mostly used for debugging purposes. 
-    * Invoke {@link #enableParentListening()} to enable this functionality and
-    * override the method for the appropriate element.
-    */
-	protected void notifyParentReplaced(Element oldParent, Element newParent) {}
-	
-	/**
-	 * Enable notification when the parent is changed. By default, this
-	 * is turned off to prevent a massive amount of events when loading
-	 * a document.
-	 */
-	protected void enableParentListening() {
-	 parentLink().addListener(new AssociationListener<Element>() {
-		@Override
-		public void notifyElementAdded(Element element) {
-			ElementImpl.this.notifyParentSet(element);
-		}
-
-		@Override
-		public void notifyElementRemoved(Element element) {
-			ElementImpl.this.notifyParentRemoved(element);
-		}
-
-		@Override
-		public void notifyElementReplaced(Element oldElement, Element newElement) {
-			ElementImpl.this.notifyParentReplaced(oldElement, newElement);
-		}
-	  });
-	}
+//	/**
+//	 * Enable notification when the parent is changed. By default, this
+//	 * is turned off to prevent a massive amount of events when loading
+//	 * a document.
+//	 */
+//	protected void enableParentListening() {
+//	 parentLink().addListener(new AssociationListener<Element>() {
+//		@Override
+//		public void notifyElementAdded(Element element) {
+//			ElementImpl.this.notifyParentSet(element);
+//		}
+//
+//		@Override
+//		public void notifyElementRemoved(Element element) {
+//			ElementImpl.this.notifyParentRemoved(element);
+//		}
+//
+//		@Override
+//		public void notifyElementReplaced(Element oldElement, Element newElement) {
+//			ElementImpl.this.notifyParentReplaced(oldElement, newElement);
+//		}
+//	  });
+//	}
 
 	/********
 	 * TAGS *
@@ -664,9 +682,10 @@ public List<? extends Element> children() {
 		return reflchildren;
   }
 
+  @SuppressWarnings("rawtypes")
 	@Override
    public final <T extends Element> List<T> children(Class<T> c) {
-		List result = children();
+    List result = children();
 		filter(result, child -> c.isInstance(child));
     return result;
 	}
@@ -1214,18 +1233,66 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
 	 /**
 	  * {@inheritDoc}
 	  */
-	 @Override
-   public void notifyDescendantChanged(Element descendant) {
-		 reactOnDescendantChange(descendant);
-		 notifyParent(descendant);
-	 }
+//	 @Override
+//   public void notifyDescendantChanged(Element descendant) {
+//		 reactOnDescendantChange(descendant);
+//		 notifyParent(descendant);
+//	 }
 
-	 private void notifyParent(Element descendant) {
-		 Element parent = parent();
-		 if(parent != null) {
-			 parent.notifyDescendantChanged(descendant);
-		 }
-	 }
+//	 private void notifyParent(Element descendant) {
+//		 Element parent = parent();
+//		 if(parent != null) {
+//			 parent.notifyDescendantChanged(descendant);
+//		 }
+//	 }
+
+	public void notifyChanged() {
+	}
+	
+	public void notifyDescendantChanged(Element descendant) {
+	  if(changePropagationEnabled()) {
+      Element parent = parent();
+      if(parent != null) {
+        parent.notifyDescendantChanged(descendant);
+      }
+	  }
+	}
+	  public void notifyChildAdded(Element descendant) {
+	    if(changePropagationEnabled()) {
+	      Element parent = parent();
+	      if(parent != null) {
+	        parent.notifyDescendantAdded(descendant);
+	      }
+	    }
+	  }
+	  
+    public void notifyDescendantAdded(Element descendant) {
+    }
+    
+    public void notifyChildRemoved(Element oldChild) {
+      if(changePropagationEnabled()) {
+        Element parent = parent();
+        if(parent != null) {
+          parent.notifyDescendantRemoved(oldChild);
+        }
+      }
+    }
+
+   public void notifyDescendantRemoved(Element oldDescendant) {
+   }
+   
+   public void notifyChildReplaced(Element oldChild, Element newChild) {
+     if(changePropagationEnabled()) {
+       Element parent = parent();
+       if(parent != null) {
+         parent.notifyDescendantReplaced(oldChild, newChild);
+       }
+     }
+   }
+   
+   public void notifyDescendantReplaced(Element oldChild, Element newChild) {
+   }
+   
 
 	 /**
 	  * {@inheritDoc}
