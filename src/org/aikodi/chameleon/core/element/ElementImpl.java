@@ -1633,4 +1633,13 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
 	 //			};
 	 //    }
 
+   
+   public EventManager when() {
+     if(_eventManager == null) {
+       _eventManager = new EventManager(this);
+     }
+     return _eventManager;
+   }
+
+   private EventManager _eventManager;
 }

@@ -1295,4 +1295,6 @@ public interface Element {
      * recurses into the children.
      */
     public abstract void flushCache();
+    
+    public EventManager when();
 }
