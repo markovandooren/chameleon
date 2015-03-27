@@ -43,6 +43,12 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 
 	public List<InheritanceRelation> implicitNonMemberInheritanceRelations();
 	
+  public default void reactOnDescendantAdded(Element element) {}
+
+  public default void reactOnDescendantRemoved(Element element) {}
+
+  public default void reactOnDescendantReplaced(Element oldElement, Element newElement) {}
+	
 	/**
 	 * Return the fully qualified name.
 	 * @throws LookupException 

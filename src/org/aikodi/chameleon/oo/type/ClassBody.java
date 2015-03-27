@@ -66,7 +66,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 
 		@Override
 		public void notifyElementAdded(TypeElement element) {
-			Element parent = parent();
+			Type parent = nearestAncestor(Type.class);
 			if(parent != null) {
 			  parent.reactOnDescendantAdded(element);
 			}
@@ -74,7 +74,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 
 		@Override
 		public void notifyElementRemoved(TypeElement element) {
-			Element parent = parent();
+      Type parent = nearestAncestor(Type.class);
 			if(parent != null) {
 			  parent.reactOnDescendantRemoved(element);
 			}
@@ -82,7 +82,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 
 		@Override
 		public void notifyElementReplaced(TypeElement oldElement, TypeElement newElement) {
-			Element parent = parent();
+      Type parent = nearestAncestor(Type.class);
 			if(parent != null) {
 			  parent.reactOnDescendantReplaced(oldElement, newElement);
 			}
