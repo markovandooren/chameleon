@@ -16,11 +16,23 @@ public abstract class EventStreamCollection {
 
   protected void deactivate() {
     _baseStream = null;
-    _descendantStream = null;
     _anyStream = null;
     stopNotification();
+    cleanup();
   }
 
+  protected void deactivateDescendantStream() {
+    _descendantStream = null;
+    cleanup();
+  }
+  
+  private void cleanup() {
+    if(_baseStream == null && _descendantStream == null) {
+      clearEventStreamCollection();
+    }
+  }
+
+  protected abstract void clearEventStreamCollection();
   protected abstract void stopNotification();
   
   protected abstract Element element();

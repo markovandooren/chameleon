@@ -97,7 +97,6 @@ public abstract class ElementImpl implements Element {
 	    parentLink().removeListener(_parentChangePropagationListener);
 	    _parentChangePropagationListener = null;
 	  }
-	  _eventManager = null;
 	}
 	
 	protected void enableChangeNotification() {
@@ -1664,9 +1663,14 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
          }
          
          @Override
-         protected Element element() {
+         public Element element() {
            return ElementImpl.this;
          }
+
+        @Override
+        protected void clearEventStreamCollection() {
+          _eventManager = null;
+        }
 
        };
      }
