@@ -22,6 +22,7 @@ public class EventManager {
 //  }
 
   protected void activate() {
+    _element.enableChangeNotification();
   }
 
 //  void deactivate(EventStream<Change,Element> stream) {
@@ -34,9 +35,12 @@ public class EventManager {
 
   protected void deactivate() {
     _baseStream = null;
+    _descendantStream = null;
+    _anyStream = null;
+    _element.disableChangeNotification();
   }
   
-  void notify(Event<Change,Element> event) {
+  void notify(Event<? extends Change,? extends Element> event) {
     if(_baseStream != null) {
       _baseStream.send(event);
     }
@@ -51,11 +55,20 @@ public class EventManager {
     return _baseStream;
   }
 
+  private EventStream<Change,Element> _descendantStream;
   public EventStream<Change,Element> descendant() {
-    return new DescendantStream(_element);
+    if(_descendantStream == null) {
+      _descendantStream = new DescendantStream(_element);
+    }
+    return _descendantStream;
   }
   
+  private EventStream<Change,Element> _anyStream;
+
   public EventStream<Change,Element> any() {
-    return self().union(descendant());
+    if(_anyStream == null) {
+      _anyStream = self().union(descendant());
+    }
+    return _anyStream;
   }
 }
