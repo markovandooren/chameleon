@@ -10,26 +10,20 @@ import org.aikodi.chameleon.core.event.Event;
  * 
  * @author Marko van Dooren
  */
-public class EventManager {
-  private final Element _element;
+public abstract class EventStreamCollection {
 
-  public EventManager(Element element) {
-    if(element == null) {
-      throw new IllegalArgumentException("The given element cannot be null.");
-    }
-    this._element = element;
-  }
-
-  protected void activate() {
-    _element.enableChangeNotification();
-  }
+  protected abstract void startNotification();
 
   protected void deactivate() {
     _baseStream = null;
     _descendantStream = null;
     _anyStream = null;
-    _element.disableChangeNotification();
+    stopNotification();
   }
+
+  protected abstract void stopNotification();
+  
+  protected abstract Element element();
   
   public void notify(Event<? extends Change,? extends Element> event) {
     if(_baseStream != null) {
@@ -49,7 +43,7 @@ public class EventManager {
   private EventStream<Change,Element> _descendantStream;
   public EventStream<Change,Element> descendant() {
     if(_descendantStream == null) {
-      _descendantStream = new DescendantStream(_element);
+      _descendantStream = new DescendantStream(element());
     }
     return _descendantStream;
   }

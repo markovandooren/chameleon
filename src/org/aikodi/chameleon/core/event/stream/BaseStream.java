@@ -6,14 +6,14 @@ import org.aikodi.chameleon.core.event.Change;
 
 public class BaseStream extends AbstractEventStream<Change,Element> {
 
-  private EventManager _manager;
-  public BaseStream(EventManager manager) {
+  private EventStreamCollection _manager;
+  public BaseStream(EventStreamCollection manager) {
     _manager = manager;
   }
 
   @Override
   protected void activate() {
-    _manager.activate();
+    _manager.startNotification();
   }
 
   @Override

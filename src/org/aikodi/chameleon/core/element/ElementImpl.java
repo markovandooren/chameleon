@@ -25,7 +25,7 @@ import org.aikodi.chameleon.core.event.association.ChildReplaced;
 import org.aikodi.chameleon.core.event.association.ParentAdded;
 import org.aikodi.chameleon.core.event.association.ParentRemoved;
 import org.aikodi.chameleon.core.event.association.ParentReplaced;
-import org.aikodi.chameleon.core.event.stream.EventManager;
+import org.aikodi.chameleon.core.event.stream.EventStreamCollection;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.language.WrongLanguageException;
 import org.aikodi.chameleon.core.lookup.LookupContext;
@@ -86,11 +86,11 @@ public abstract class ElementImpl implements Element {
 	private AssociationListener<Element> _childChangePropagationListener;
   private AssociationListener<Element> _parentChangePropagationListener;
 	
-	public boolean changeNotificationEnabled() {
+	protected boolean changeNotificationEnabled() {
 	  return _childChangePropagationListener != null;
 	}
 	
-	public void disableChangeNotification() {
+	protected void disableChangeNotification() {
 	  if(_childChangePropagationListener != null) {
       associations().forEach(a -> a.removeListener(_childChangePropagationListener));
 	    _childChangePropagationListener = null;
@@ -100,7 +100,7 @@ public abstract class ElementImpl implements Element {
 	  _eventManager = null;
 	}
 	
-	public void enableChangeNotification() {
+	protected void enableChangeNotification() {
 	  if(! changeNotificationEnabled()) {
 	    _childChangePropagationListener = new AssociationListener<Element>() {
 
@@ -1706,12 +1706,28 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
    
 
    
-   public EventManager when() {
+   public EventStreamCollection when() {
      if(_eventManager == null) {
-       _eventManager = new EventManager(this);
+       _eventManager = new EventStreamCollection() {
+         @Override
+         protected void startNotification() {
+           ElementImpl.this.enableChangeNotification();
+         }
+         
+         @Override
+         protected void stopNotification() {
+           ElementImpl.this.disableChangeNotification();
+         }
+         
+         @Override
+         protected Element element() {
+           return ElementImpl.this;
+         }
+
+       };
      }
      return _eventManager;
    }
 
-   private EventManager _eventManager;
+   private EventStreamCollection _eventManager;
 }

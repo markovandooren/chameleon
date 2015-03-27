@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.ElementImpl.Navigator;
-import org.aikodi.chameleon.core.event.stream.EventManager;
+import org.aikodi.chameleon.core.event.stream.EventStreamCollection;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.language.WrongLanguageException;
 import org.aikodi.chameleon.core.lookup.LookupContext;
@@ -1187,24 +1187,24 @@ public interface Element {
      @*/
     public boolean hasProperty(PropertyMutex<ChameleonProperty> mutex) throws ModelException;
     
-    /**
-     * Notify this element that the given descendant was modified. This
-     * method first calls reactOnDescendantChange with the given element. After that,
-     * the event is propagated to the lexical parent, if the parent is not null.
-     */
-   /*@
-     @ public behavior
-     @
-     @ pre descendant != null;
-     @ pre descendants().contains(descendant);
-     @*/
-//    public void notifyDescendantChanged(Element descendant);
+//    /**
+//     * Notify this element that the given descendant was modified. This method
+//     * first calls reactOnDescendantChange with the given element. After that, 
+//     * the event is propagated to the lexical parent, if the parent is not null.
+//     */
+//   /*@
+//     @ public behavior
+//     @
+//     @ pre descendant != null;
+//     @ pre descendants().contains(descendant);
+//     @*/
+////    public void notifyDescendantChanged(Element descendant);
     
     
     /**
-     * Verify whether or not this is valid, and if not, what the problems are. The verification looks recursively
-     * for all problems.
-     * @return
+     * @return A verification object that indicates whether or not this is valid,
+     *         and if not, what the problems are. The verification looks
+     *         recursively for all problems.
      */
    /*@
      @ public behavior
@@ -1218,15 +1218,18 @@ public interface Element {
      *************************/
     
     /**
-     * Because equals cannot throw checked exceptions, we have some framework code for equality.
-     * 
-     * First of all: DO NOT USE EQUALS!!! Use sameAs(Element) instead.
-     * 
-     * To ensure that equals work correctly when it is invoked by third-party code (e.g. java.util.HashSet),
-     * equals is implemented in terms of sameAs, which in turn is implemented as uniSameAs. The latter method checks
-     * if an object states that it is equal to another (similar to equals). The sameAs method invokes this method on both
-     * objects to check if one of both objects claims to be the same as the other.
-     */
+   * Because equals cannot throw checked exceptions, we have some framework code
+   * for equality.
+   * 
+   * First of all: DO NOT USE EQUALS!!! Use sameAs(Element) instead.
+   * 
+   * To ensure that equals work correctly when it is invoked by third-party code
+   * (e.g. java.util.HashSet), equals is implemented in terms of sameAs, which
+   * in turn is implemented as uniSameAs. The latter method checks if an object
+   * states that it is equal to another (similar to equals). The sameAs method
+   * invokes this method on both objects to check if one of both objects claims
+   * to be the same as the other.
+   */
    /*@
      @ public behavior
      @
@@ -1274,10 +1277,15 @@ public interface Element {
      */
     public abstract void flushCache();
     
-    public EventManager when();
-    
-    public void disableChangeNotification();
-    
-    public void enableChangeNotification();
-    
+    /**
+     * <p>
+     * Return the event stream collection of this element. See
+     * {@link EventStreamCollection} for documentation about the possible sources
+     * of events.
+     * </p>
+     * 
+     * @return the event coordinator of this element.
+     */
+    public EventStreamCollection when();
+
 }
