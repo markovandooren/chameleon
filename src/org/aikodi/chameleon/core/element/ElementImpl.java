@@ -75,40 +75,43 @@ public abstract class ElementImpl implements Element {
 	
 	private AssociationListener<Element> _changePropagationListener;
 	
-	public boolean changePropagationEnabled() {
+	public boolean changeNotificationEnabled() {
 	  return _changePropagationListener != null;
 	}
 	
-	public void disableChangePropagation() {
+	public void disableChangeNotification() {
 	  if(_changePropagationListener != null) {
       associations().forEach(a -> a.removeListener(_changePropagationListener));
 	    _changePropagationListener = null;
 	  }
+	  _eventManager = null;
 	}
 	
-	public void enableChangePropagation() {
-	  if(! changePropagationEnabled()) {
+	public void enableChangeNotification() {
+	  if(! changeNotificationEnabled()) {
 	    _changePropagationListener = new AssociationListener<Element>() {
 
 	      public void notifyElementAdded(Element element) {
-	        notifyChildAdded(element);
-	        element.enableChangePropagation();
+	        ElementImpl.this.notify(new Event<Added,Element>(new Added(element),ElementImpl.this));
 	      }
 
 	      public void notifyElementRemoved(Element element) {
-	        notifyChildRemoved(element);
+          ElementImpl.this.notify(new Event<Removed,Element>(new Removed(element),ElementImpl.this));
 	      }
 
 	      public void notifyElementReplaced(Element oldElement, Element newElement) {
 	        notifyChildReplaced(oldElement, newElement);
-	        newElement.enableChangePropagation();
 	      }
 	    };
 	    associations().forEach(a -> a.addListener(_changePropagationListener));
-	    children().forEach(e -> e.enableChangePropagation());
 	  }
 	}
 	
+	private void notify(Event<? extends Change,? extends Element> event) {
+	  if(_eventManager != null) {
+	    _eventManager.notify(event);
+	  }
+	}
 //	private final static TreeStructure<Element> _lexical = new LexicalNavigator();
 	
 	/**
@@ -1246,89 +1249,14 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
 //		 }
 //	 }
 
-	public void notifyChanged() {
+	public void notifyChildAdded(Element descendant) {
 	}
-	
-	public void notifyDescendantChanged(Element descendant) {
-	  if(changePropagationEnabled()) {
-      Element parent = parent();
-      if(parent != null) {
-        parent.notifyDescendantChanged(descendant);
-      }
-	  }
+
+	public void notifyChildRemoved(Element oldChild) {
 	}
-	  public void notifyChildAdded(Element descendant) {
-	    if(changePropagationEnabled()) {
-	      Element parent = parent();
-	      if(parent != null) {
-	        parent.notifyDescendantAdded(descendant);
-	      }
-	    }
-	  }
-	  
-    public void notifyDescendantAdded(Element descendant) {
-    }
-    
-    public void notifyChildRemoved(Element oldChild) {
-      if(changePropagationEnabled()) {
-        Element parent = parent();
-        if(parent != null) {
-          parent.notifyDescendantRemoved(oldChild);
-        }
-      }
-    }
 
-   public void notifyDescendantRemoved(Element oldDescendant) {
-   }
-   
-   public void notifyChildReplaced(Element oldChild, Element newChild) {
-     if(changePropagationEnabled()) {
-       Element parent = parent();
-       if(parent != null) {
-         parent.notifyDescendantReplaced(oldChild, newChild);
-       }
-     }
-   }
-   
-   public void notifyDescendantReplaced(Element oldChild, Element newChild) {
-   }
-   
-
-	 /**
-	  * {@inheritDoc}
-	  * 
-	  * By default, there is no reaction.
-	  */
-	 @Override
-   public void reactOnDescendantChange(Element descendant) {
-	 }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * By default, there is no reaction.
-     */
-	 @Override
-   public void reactOnDescendantAdded(Element descendant) {
-	 }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * By default, there is no reaction.
-     */
-	 @Override
-   public void reactOnDescendantRemoved(Element descendant) {
-	 }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * By default, there is no reaction.
-     */
-	 @Override
-   public void reactOnDescendantReplaced(Element oldElement, Element newElement) {
-	 }
+	public void notifyChildReplaced(Element oldChild, Element newChild) {
+	}
 
 	 /**
 	 * {@inheritDoc}

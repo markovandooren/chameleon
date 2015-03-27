@@ -156,17 +156,6 @@ public interface Element {
      */
     public SingleAssociation<? extends Element,? extends Element> parentLink();
 
-    public void enableChangePropagation();
-    
-    public void notifyChanged();
-    
-    public void notifyDescendantChanged(Element descendant);
-    
-    public void notifyDescendantAdded(Element descendant);
-
-    public void notifyDescendantRemoved(Element descendant);
-    
-    public void notifyDescendantReplaced(Element oldChild, Element newChild);
     /**
      * <p>Freeze this element. This locks the parent links of all descendants.
      * As a result, no descendant can be removed 
@@ -1211,30 +1200,6 @@ public interface Element {
     
     
     /**
-     * Notify this element that the given descendant was modified. This method
-     * only performs the local reaction to the event.
-     */
-    public void reactOnDescendantChange(Element descendant);
-    
-    /**
-     * Notify this element that the given descendant was added. This method
-     * only performs the local reaction to the event.
-     */
-    public void reactOnDescendantAdded(Element descendant);
-    
-    /**
-     * Notify this element that the given descendant was removed. This method
-     * only performs the local reaction to the event.
-     */
-    public void reactOnDescendantRemoved(Element descendant);
-    
-    /**
-     * Notify this element that the given descendant was replaced. This method
-     * only performs the local reaction to the event.
-     */
-    public void reactOnDescendantReplaced(Element oldElement, Element newElement);
-
-    /**
      * Verify whether or not this is valid, and if not, what the problems are. The verification looks recursively
      * for all problems.
      * @return
@@ -1308,4 +1273,9 @@ public interface Element {
     public abstract void flushCache();
     
     public EventManager when();
+    
+    public void disableChangeNotification();
+    
+    public void enableChangeNotification();
+    
 }
