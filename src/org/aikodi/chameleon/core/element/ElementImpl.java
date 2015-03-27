@@ -170,75 +170,14 @@ public abstract class ElementImpl implements Element {
 		return new LogicalNavigator();
 	}
 	
-//  private Tree<Element> _lexical;
-//  
-//  public Tree<Element> lexical() {
-//  	if(_lexical == null) {
-//  		_lexical = new Tree<Element>() {
-//
-//				@Override
-//				public Element parent(Element element) {
-//					return ElementImpl.this.actualParent();
-//				}
-//			};
-//  	}
-//  	return _lexical;
-//  }
-//	private Tree<Element> _logical;
-
-	
-//	/**
-//	 * A method that is mostly used for debugging purposes. 
-//	 * Invoke {@link #enableParentListening()} to enable this functionality and
-//	 * override the method for the appropriate element.
-//	 */
-//	protected void notifyParentSet(Element element) {}
-//	
-//   /**
-//    * A method that is mostly used for debugging purposes. 
-//    * Invoke {@link #enableParentListening()} to enable this functionality and
-//    * override the method for the appropriate element.
-//    */
-//	protected void notifyParentRemoved(Element element) {}
-//	
-//   /**
-//    * A method that is mostly used for debugging purposes. 
-//    * Invoke {@link #enableParentListening()} to enable this functionality and
-//    * override the method for the appropriate element.
-//    */
-//	protected void notifyParentReplaced(Element oldParent, Element newParent) {}
-	
-//	/**
-//	 * Enable notification when the parent is changed. By default, this
-//	 * is turned off to prevent a massive amount of events when loading
-//	 * a document.
-//	 */
-//	protected void enableParentListening() {
-//	 parentLink().addListener(new AssociationListener<Element>() {
-//		@Override
-//		public void notifyElementAdded(Element element) {
-//			ElementImpl.this.notifyParentSet(element);
-//		}
-//
-//		@Override
-//		public void notifyElementRemoved(Element element) {
-//			ElementImpl.this.notifyParentRemoved(element);
-//		}
-//
-//		@Override
-//		public void notifyElementReplaced(Element oldElement, Element newElement) {
-//			ElementImpl.this.notifyParentReplaced(oldElement, newElement);
-//		}
-//	  });
-//	}
-
 	/********
 	 * TAGS *
 	 ********/
 
-	// Initialization of this Map is done lazily to reduce memory usage
+	/**
+	 *  Initialization of this Map is done lazily to reduce memory usage
+	 */
 	private Map<String, Metadata> _tags;
-
 	
 	/**
 	 * {@inheritDoc}
