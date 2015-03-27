@@ -1,6 +1,15 @@
-package org.aikodi.chameleon.core.element;
+package org.aikodi.chameleon.core.event.stream;
 
+import org.aikodi.chameleon.core.element.Element;
+import org.aikodi.chameleon.core.event.Change;
+import org.aikodi.chameleon.core.event.Event;
 
+/**
+ * A class to manage the event streams of an element. It enables and disables
+ * itself based on whether actual listeners are attached.
+ * 
+ * @author Marko van Dooren
+ */
 public class EventManager {
   private final Element _element;
 
@@ -11,27 +20,9 @@ public class EventManager {
     this._element = element;
   }
 
-//  private Set<EventStream<Change,Element>> _streams;
-
-//  void activate(EventStream<Change,Element> stream) {
-//    if(_streams == null) {
-//      _streams = new HashSet<>(5);
-//      activate();
-//    }
-//    _streams.add(stream);
-//  }
-
   protected void activate() {
     _element.enableChangeNotification();
   }
-
-//  void deactivate(EventStream<Change,Element> stream) {
-//    _streams.remove(stream);
-//    if(_streams.isEmpty()) {
-//      _streams = null;
-//      deactivate();
-//    }
-//  }
 
   protected void deactivate() {
     _baseStream = null;
@@ -40,7 +31,7 @@ public class EventManager {
     _element.disableChangeNotification();
   }
   
-  void notify(Event<? extends Change,? extends Element> event) {
+  public void notify(Event<? extends Change,? extends Element> event) {
     if(_baseStream != null) {
       _baseStream.send(event);
     }

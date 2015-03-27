@@ -1,5 +1,6 @@
 package org.aikodi.chameleon.support.expression;
 
+import org.aikodi.chameleon.core.event.Change;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
@@ -39,7 +40,28 @@ public class EmptyArrayIndex extends ArrayIndex {
 		if(_dimensions == Integer.MAX_VALUE) {
 			throw new ChameleonProgrammerException("The dimension of an empty array index cannot be larger than "+Integer.MAX_VALUE+".");
 		}
+		int old = _dimensions;
 		_dimensions++;
+		if(changeNotificationEnabled()) {
+		  notify(new DimensionChanged(old, _dimensions));
+		}
+	}
+	
+	private static class DimensionChanged implements Change {
+	  private int _oldDimensions;
+	  private int _newDimensions;
+    public DimensionChanged(int oldDimensions, int newDimensions) {
+      this._oldDimensions = oldDimensions;
+      this._newDimensions = newDimensions;
+    }
+	  
+    public int oldDimension() {
+      return _oldDimensions;
+    }
+	  
+    public int newDimension() {
+      return _newDimensions;
+    }
 	}
 	
 	/**

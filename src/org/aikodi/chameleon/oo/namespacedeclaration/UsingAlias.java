@@ -30,11 +30,14 @@ public class UsingAlias extends Import {
 	//TODO use ElementReference<?, ?, ? extends Namespace>
 	
 	public UsingAlias(String identifier, CrossReference ref) {
+	  if(identifier == null) {
+	    throw new IllegalArgumentException("The given identifier cannot be null.");
+	  }
 		setNamespaceOrTypeReference(ref);
-		setIdentifier(identifier);
+    this._identifier = identifier;
 	}
 
-	private String _identifier;
+	private final String _identifier;
 	 
 	/*@
 	  @ public behavior
@@ -45,13 +48,6 @@ public class UsingAlias extends Import {
 		return _identifier;
 	}
 	
-	/**
-	 * @param identifier The Identifier to set.
-	 */
-	public void setIdentifier(String identifier) {
-		this._identifier = identifier;
-	}
-
 	private Single<CrossReference> _packageOrType = new Single<CrossReference>(this);
 
   
@@ -62,19 +58,6 @@ public class UsingAlias extends Import {
   public void setNamespaceOrTypeReference(CrossReference ref) {
   	set(_packageOrType,ref);
   }
-
-//	public Type getType(String name) throws MetamodelException {
-//		NamespaceOrType self = getElement();
-//
-//		if (self instanceof Type) {
-//			if (((Type) self).getName().equals(name))
-//				//the using alias points to a type
-//				return (Type) self;
-//		}
-//		//otherwise self the using-alias points to a namspace
-//		return self.getType(name);
-//
-//	}
 
 	public Declaration getElement() throws LookupException {
 		return getCrossReference().getElement();

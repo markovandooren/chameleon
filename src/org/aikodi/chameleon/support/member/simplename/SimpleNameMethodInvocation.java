@@ -2,6 +2,7 @@ package org.aikodi.chameleon.support.member.simplename;
 
 import java.util.List;
 
+import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.reference.CrossReferenceTarget;
 import org.aikodi.chameleon.core.reference.CrossReferenceWithName;
@@ -53,8 +54,12 @@ public String name() {
   }
 
   @Override
-public void setName(String method) {
-    _methodName = method;
+public void setName(String name) {
+    String old = _methodName;
+    _methodName = name;
+    if(changeNotificationEnabled()) {
+      notify(new NameChanged(old, name));
+    }
   }
 
 //  public D getMethod() throws LookupException {

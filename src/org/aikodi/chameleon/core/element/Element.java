@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import org.aikodi.chameleon.core.document.Document;
+import org.aikodi.chameleon.core.element.ElementImpl.Navigator;
+import org.aikodi.chameleon.core.event.stream.EventManager;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.language.WrongLanguageException;
 import org.aikodi.chameleon.core.lookup.LookupContext;

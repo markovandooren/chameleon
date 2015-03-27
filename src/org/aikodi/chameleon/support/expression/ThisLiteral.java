@@ -5,6 +5,8 @@ import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 
 /**
+ * FIXME This shouln't be a literal.
+ * 
  * @author Marko van Dooren
  * @author Tim Laeremans
  */

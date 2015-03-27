@@ -1,5 +1,6 @@
 package org.aikodi.chameleon.core.declaration;
 
+import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 
 /**
@@ -24,9 +25,16 @@ public abstract class BasicDeclaration extends DeclarationImpl {
 
    @Override
    public void setName(String name) {
-      _name = name;
       if (_signature != null) {
+        _name = name;
          _signature.setName(name);
+         // In this case, the signature will send the event.
+      } else {
+        String old = _name;
+        _name = name;
+        if(changeNotificationEnabled()) {
+          notify(new NameChanged(old, name));
+        }
       }
    }
 

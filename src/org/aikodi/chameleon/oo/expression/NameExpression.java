@@ -7,6 +7,7 @@ import java.util.Set;
 import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
+import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.lookup.DeclarationCollector;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.DeclaratorSelector;
@@ -51,7 +52,11 @@ public String name() {
   
   @Override
 public void setName(String name) {
+    String old =_name;
   	_name = name;
+    if(changeNotificationEnabled()) {
+      notify(new NameChanged(old, name));
+    }
   }
   
   private String _name;
@@ -120,9 +125,9 @@ protected Type actualType() throws LookupException {
   
   protected DeclarationWithType getCache() {
   	DeclarationWithType result = null;
-  	if(Config.cacheElementReferences() == true) {
+//  	if(Config.cacheElementReferences() == true) {
   	  result = (_cache == null ? null : _cache.get());
-  	}
+//  	}
   	return result;
   }
   

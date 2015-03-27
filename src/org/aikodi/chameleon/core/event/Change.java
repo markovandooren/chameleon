@@ -1,17 +1,13 @@
-package org.aikodi.chameleon.core.element;
+package org.aikodi.chameleon.core.event;
 
-public abstract class Change {
+/**
+ * The top class of changes.
+ * 
+ * An event is similar to an exception. By definition, you can't do
+ * a dynamic dispatch on it. Therefore, a marker interfaces does carry semantics.
+ * 
+ * @author Marko van Dooren
+ */
+public interface Change {
 
-//  private S _source;
-//
-//  public Event(S source) {
-//    if(source == null) {
-//      throw new IllegalArgumentException("The given source cannot be null.");
-//    }
-//    this._source = source;
-//  }
-//
-//  public S source() {
-//    return _source;
-//  }
 }

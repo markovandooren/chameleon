@@ -14,11 +14,11 @@ public class RegularLiteral extends LiteralWithTypeReference {
 
   @Override
 protected RegularLiteral cloneSelf() {
-    return new RegularLiteral(null, getValue());
+    return new RegularLiteral(null, text());
   }
 
   @Override
   public String toString() {
-  	return getValue();
+  	return text();
   }
 }

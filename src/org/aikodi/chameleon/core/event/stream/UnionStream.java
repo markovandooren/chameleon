@@ -1,4 +1,7 @@
-package org.aikodi.chameleon.core.element;
+package org.aikodi.chameleon.core.event.stream;
+
+import org.aikodi.chameleon.core.event.Event;
+import org.aikodi.chameleon.core.event.EventListener;
 
 public class UnionStream<C,S> extends AbstractEventStream<C, S> implements EventListener<C, S> {
 

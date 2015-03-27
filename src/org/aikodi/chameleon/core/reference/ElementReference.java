@@ -1,6 +1,7 @@
 package org.aikodi.chameleon.core.reference;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
+import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.lookup.DeclarationCollector;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -41,7 +42,11 @@ public abstract class ElementReference<D extends Declaration> extends CommonCros
 			throw new ChameleonProgrammerException("The name of an element reference cannot be the empty string");
 		}
 		flushLocalCache();
+		String old = _name;
 		_name = name;
+    if(changeNotificationEnabled()) {
+      notify(new NameChanged(old, name));
+    }
 	}
   
   

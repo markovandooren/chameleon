@@ -1,4 +1,4 @@
-package org.aikodi.chameleon.core.element;
+package org.aikodi.chameleon.core.event;
 
 public interface EventListener<C,S> {
   

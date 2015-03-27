@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
+import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.lookup.DeclarationCollector;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.DeclaratorSelector;
@@ -49,7 +50,11 @@ public class VariableReference extends Expression implements Assignable, CrossRe
   }
   
   public void setName(String name) {
+    String old = _name;
     _name = name;
+    if(changeNotificationEnabled()) {
+      notify(new NameChanged(old, name));
+    }
   }
 
 	private String _name;

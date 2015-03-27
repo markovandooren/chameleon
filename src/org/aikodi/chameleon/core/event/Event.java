@@ -1,4 +1,4 @@
-package org.aikodi.chameleon.core.element;
+package org.aikodi.chameleon.core.event;
 
 public class Event<C,S> {
   private C _change;

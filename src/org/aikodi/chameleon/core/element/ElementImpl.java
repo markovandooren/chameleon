@@ -17,6 +17,15 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.aikodi.chameleon.core.Config;
+import org.aikodi.chameleon.core.event.Change;
+import org.aikodi.chameleon.core.event.Event;
+import org.aikodi.chameleon.core.event.association.ChildAdded;
+import org.aikodi.chameleon.core.event.association.ChildRemoved;
+import org.aikodi.chameleon.core.event.association.ChildReplaced;
+import org.aikodi.chameleon.core.event.association.ParentAdded;
+import org.aikodi.chameleon.core.event.association.ParentRemoved;
+import org.aikodi.chameleon.core.event.association.ParentReplaced;
+import org.aikodi.chameleon.core.event.stream.EventManager;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.language.WrongLanguageException;
 import org.aikodi.chameleon.core.lookup.LookupContext;
@@ -52,6 +61,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 import be.kuleuven.cs.distrinet.rejuse.property.Conflict;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
+import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
 
 /**
  * A class that implement most methods of {@link Element}.
@@ -73,45 +83,72 @@ public abstract class ElementImpl implements Element {
 	public ElementImpl() {
 	}
 	
-	private AssociationListener<Element> _changePropagationListener;
+	private AssociationListener<Element> _childChangePropagationListener;
+  private AssociationListener<Element> _parentChangePropagationListener;
 	
 	public boolean changeNotificationEnabled() {
-	  return _changePropagationListener != null;
+	  return _childChangePropagationListener != null;
 	}
 	
 	public void disableChangeNotification() {
-	  if(_changePropagationListener != null) {
-      associations().forEach(a -> a.removeListener(_changePropagationListener));
-	    _changePropagationListener = null;
+	  if(_childChangePropagationListener != null) {
+      associations().forEach(a -> a.removeListener(_childChangePropagationListener));
+	    _childChangePropagationListener = null;
+	    parentLink().removeListener(_parentChangePropagationListener);
+	    _parentChangePropagationListener = null;
 	  }
 	  _eventManager = null;
 	}
 	
 	public void enableChangeNotification() {
 	  if(! changeNotificationEnabled()) {
-	    _changePropagationListener = new AssociationListener<Element>() {
+	    _childChangePropagationListener = new AssociationListener<Element>() {
 
 	      public void notifyElementAdded(Element element) {
-	        ElementImpl.this.notify(new Event<Added,Element>(new Added(element),ElementImpl.this));
+	        ElementImpl.this.notify(new Event<ChildAdded,Element>(new ChildAdded(element),ElementImpl.this));
 	      }
 
 	      public void notifyElementRemoved(Element element) {
-          ElementImpl.this.notify(new Event<Removed,Element>(new Removed(element),ElementImpl.this));
+          ElementImpl.this.notify(new Event<ChildRemoved,Element>(new ChildRemoved(element),ElementImpl.this));
 	      }
 
 	      public void notifyElementReplaced(Element oldElement, Element newElement) {
-	        notifyChildReplaced(oldElement, newElement);
+	        ElementImpl.this.notify(new Event<ChildReplaced,Element>(new ChildReplaced(oldElement, newElement),ElementImpl.this));
 	      }
 	    };
-	    associations().forEach(a -> a.addListener(_changePropagationListener));
+	    associations().forEach(a -> a.addListener(_childChangePropagationListener));
+	    _parentChangePropagationListener = new AssociationListener<Element>() {
+
+        @Override
+        public void notifyElementAdded(Element element) {
+          ElementImpl.this.notify(new Event<ParentAdded,Element>(new ParentAdded(element),ElementImpl.this));
+        }
+
+        @Override
+        public void notifyElementRemoved(Element element) {
+          ElementImpl.this.notify(new Event<ParentRemoved,Element>(new ParentRemoved(element),ElementImpl.this));
+        }
+        
+        public void notifyElementReplaced(Element oldElement, Element newElement) {
+          ElementImpl.this.notify(new Event<ParentReplaced,Element>(new ParentReplaced(oldElement, newElement),ElementImpl.this));
+        }
+      };
+      parentLink().addListener(_parentChangePropagationListener);
 	  }
 	}
 	
-	private void notify(Event<? extends Change,? extends Element> event) {
+	protected void notify(Event<? extends Change,? extends Element> event) {
 	  if(_eventManager != null) {
 	    _eventManager.notify(event);
 	  }
 	}
+	
+  protected void notify(Change change) {
+    notify(createEvent(change));
+  }
+  
+	
+	
 //	private final static TreeStructure<Element> _lexical = new LexicalNavigator();
 	
 	/**
@@ -1325,6 +1362,29 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
 		 return result;
 	 }
 
+	 public static abstract class Navigator extends TreeStructure<Element> {
+
+	   /**
+	    * {@inheritDoc}
+	    * 
+	    * @return the parent of the given element.
+	    */
+	   @Override
+	   public Element parent() {
+	     return ((ElementImpl) node()).actualParent();
+	   }
+
+	   /**
+	    * {@inheritDoc}
+	    * 
+	    * @return The {@link Element#children()} of the element.
+	    */
+	   @Override
+	   public List<? extends Element> children() {
+	     return node().children();
+	   }
+	 }	
+	 
 	 protected abstract class CommonNavigator extends Navigator {
      @Override
      public Element node() {
@@ -1627,6 +1687,23 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
 	 //				}
 	 //			};
 	 //    }
+
+   
+   /**
+    * Create a new event for the given change in the given source element.
+    * 
+    * @param change An object representing the change
+    * @param source The object that was changed.
+    * @return a new event for the given change in the given source element.
+    */
+   protected <C,S> Event<C,S> createEvent(C change, S source) {
+     return new Event<C,S>(change, source);
+   }
+   
+   protected <C> Event<C,Element> createEvent(C change) {
+     return createEvent(change,this);
+   }
+   
 
    
    public EventManager when() {

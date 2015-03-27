@@ -3,6 +3,7 @@ package org.aikodi.chameleon.oo.member;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Signature;
 import org.aikodi.chameleon.core.declaration.SimpleNameSignature;
+import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 
@@ -19,9 +20,15 @@ public abstract class SimpleNameMember extends MemberImpl {
 
   @Override
   public void setName(String name) {
-    _name = name;
     if (_signature != null) {
+      _name = name;
       _signature.setName(name);
+    } else {
+      String old = _name;
+      _name = name;
+      if(changeNotificationEnabled()) {
+        notify(new NameChanged(old, name));
+      }
     }
   }
 

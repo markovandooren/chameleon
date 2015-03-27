@@ -1,6 +1,7 @@
 package org.aikodi.chameleon.support.statement;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
+import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.lookup.DeclarationCollector;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.DeclaratorSelector;
@@ -29,7 +30,11 @@ public class EnumLabel extends SwitchLabel implements CrossReference<Variable>{
 	}
 	
 	public void setName(String name) {
+	  String old = _name;
 		_name = name;
+    if(changeNotificationEnabled()) {
+      notify(new NameChanged(old, name));
+    }
 	}
 	
 	private String _name;

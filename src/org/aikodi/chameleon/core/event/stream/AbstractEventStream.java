@@ -1,7 +1,10 @@
-package org.aikodi.chameleon.core.element;
+package org.aikodi.chameleon.core.event.stream;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.aikodi.chameleon.core.event.Event;
+import org.aikodi.chameleon.core.event.EventListener;
 
 public abstract class AbstractEventStream<C,S> implements EventStream<C,S> {
   private List<EventListener<? super C,? super S>> _consumers;

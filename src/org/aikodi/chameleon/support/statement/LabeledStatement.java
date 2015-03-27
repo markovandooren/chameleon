@@ -1,5 +1,6 @@
 package org.aikodi.chameleon.support.statement;
 
+import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
@@ -22,7 +23,11 @@ public class LabeledStatement extends StatementContainingStatement {
   }
 
   public void setLabel(String label) {
+    String old = _label;
     _label = label;
+    if(changeNotificationEnabled()) {
+      notify(new NameChanged(old, label));
+    }
   }
 
   @Override

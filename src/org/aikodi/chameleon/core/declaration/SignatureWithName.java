@@ -1,5 +1,6 @@
 package org.aikodi.chameleon.core.declaration;
 
+import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 
@@ -41,7 +42,11 @@ public abstract class SignatureWithName extends Signature {
       if(name == null) {
          throw new IllegalArgumentException("The name of a signature with a name cannot be null.");
       }
+      String old = name;
       _name = name;
+      if(changeNotificationEnabled()) {
+        notify(new NameChanged(old, name));
+      }
    }
 
    /**

@@ -4,9 +4,10 @@ import java.util.List;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
-import org.aikodi.chameleon.core.declaration.SimpleNameSignature;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.element.ElementImpl;
+import org.aikodi.chameleon.core.event.Event;
+import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupContextFactory;
@@ -45,13 +46,12 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
   	return _name;
   }
 
-	private SimpleNameSignature _signature;
-	
 	public void setName(String name) {
+	  String old = _name;
 		_name = name;
-		if(_signature != null) {
-			_signature.setName(name);
-		}
+    if(changeNotificationEnabled()) {
+      notify(new NameChanged(old, name));
+    }
 	}
 	
 	/**

@@ -1,4 +1,6 @@
-package org.aikodi.chameleon.core.element;
+package org.aikodi.chameleon.core.event.stream;
+
+import org.aikodi.chameleon.core.event.EventListener;
 
 public interface EventStream<C, S> {
 

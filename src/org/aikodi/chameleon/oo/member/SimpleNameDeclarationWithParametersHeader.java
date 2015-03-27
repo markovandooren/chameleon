@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.Signature;
+import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
@@ -22,7 +23,15 @@ public class SimpleNameDeclarationWithParametersHeader extends DeclarationWithPa
   }
   
   @Override
-public void setName(String name) {
+  public void setName(String name) {
+    String old = _name;
+    doSetName(name);
+    if(changeNotificationEnabled()) {
+      notify(new NameChanged(old, name));
+    }
+  }
+
+  protected void doSetName(String name) {
     _name = name;
   }
   
@@ -50,7 +59,7 @@ public void setName(String name) {
 				@Override
 				public void setName(String name) {
 					super.setName(name);
-					SimpleNameDeclarationWithParametersHeader.this.setName(name);
+					SimpleNameDeclarationWithParametersHeader.this.doSetName(name);
 				}
 				
 			};
