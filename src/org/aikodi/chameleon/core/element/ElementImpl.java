@@ -1639,11 +1639,16 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
      return new Event<C,S>(change, source);
    }
    
+   /**
+    * Create an event for the given change.
+    * 
+    * @param change The change for which an event must be created.
+    * @return an event with the given change as its change, and this
+    *         element as its source.
+    */
    protected <C> Event<C,Element> createEvent(C change) {
      return createEvent(change,this);
    }
-   
-
    
    public EventStreamCollection when() {
      if(_eventManager == null) {
