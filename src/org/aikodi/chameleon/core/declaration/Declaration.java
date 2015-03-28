@@ -17,19 +17,25 @@ import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 
 /**
- * A declaration introduces an element that can be referenced from other parts of the code.
- * Examples include types, methods, and variables.
+ * <p>
+ * A declaration is an element that can be referenced from other parts of the
+ * code. Examples include types, methods, and variables.
+ * </p>
  * 
- * Each declaration has a signature, which is used to identify that declaration. Information
- * that is not used for identification, such as the return type of a method, does not belong in
- * the signature. Therefore, it can be that a specific declaration has a signature that is derived.
- * A Method, for example, has a MethodHeader which contains all the information that is required to
- * compute the signature.
+ * <p>
+ * Each declaration has a {@link Signature}, which is used to identify that
+ * declaration. Information that is not used for identification, such as the
+ * return type of a method, does not belong in the signature. Therefore, it can
+ * be that a specific declaration has a signature that is derived. A Method, for
+ * example, has a MethodHeader which contains all the information that is
+ * required to compute the signature.
+ * </p>
  * 
- * Each declaration results in the lookup of an actual declaration of type D. This type ensures that 
- * if a declaration is just a stub, such as a generic parameter, the transformation performed by the resolveForResult 
- * method returns a declaration of the same family. In case of a type parameter, this ensures that the stub type will be transformed
- * into a type.
+ * Each declaration results in the lookup of an actual declaration of type D.
+ * This type ensures that if a declaration is just a stub, such as a generic
+ * parameter, the transformation performed by the resolveForResult method
+ * returns a declaration of the same family. In case of a type parameter, this
+ * ensures that the stub type will be transformed into a type.
  * 
  * <embed src="declaration-object.svg"/>
  * 
@@ -49,8 +55,7 @@ Declaration -- Signature
 public interface Declaration extends Element, SelectionResult {//
 
   /**
-   * Return the signature of this declaration. The signature represents the identity of this declaration.
-   * @return
+   * @return the signature of this declaration. The signature represents the identity of this declaration.
    */
  /*@
    @ public behavior
@@ -73,8 +78,14 @@ public interface Declaration extends Element, SelectionResult {//
   
   /**
    * Change the signature of this declaration to the given declaration.
-   * @param signature
+   * 
+   * @param signature The new signature of this declaration
    */
+ /*@
+   @ public behavior
+   @
+   @ post signature() == signature;
+   @*/
   public void setSignature(Signature signature);
 
   /**
@@ -90,21 +101,23 @@ public interface Declaration extends Element, SelectionResult {//
     signature().setName(name);
   }
   
-//  public Declaration clone();
-  
   /**
-   * Because some declarations, such as formal generic parameters, are stubs for other declarations,
-   * the lookup process invokes selectionDeclaration() on a declaration before giving it to the selection
-   * method of a DeclarationSelector. A formal generic parameter, for example, will return a stub type with
-   * the same name as itself, but which behaves like the upperbound of its type constraints with respect to
-   * lookup, yet has its own unique identity. By creating a type with the same name as itself, the DeclarationSelector 
-   * for types does not have to know about the existence of formal generic parameters. 
-   * In most cases this method simply returns the current object.
+   * <p>
+   * Return the declaration that is used for selection
+   * </p>
+   * <p>
+   * Because some declarations, such as type parameters, are variables for other
+   * declarations, the lookup process invokes selectionDeclaration() on a
+   * declaration before giving it to the selection method of a
+   * {@link DeclarationSelector}. A type parameter, for example, will return a
+   * type with the same name as itself, which behaves like the upper bound of
+   * its type constraints with respect to lookup, yet has its own unique
+   * identity. By creating a type with the same name as the type parameter, the
+   * DeclarationSelector for types does not have to know about the existence of
+   * type parameters.</p>
    * 
-   * Resolve this declaration. In case of a direct declaration, the
-   * method returns the current object. In case of an indirection, the
-   * indirection will be resolved, and the resulting element will be
-   * returned.
+   * <p>In most cases this method simply returns the current object. This
+   * is also the default behavior.</p>
    */
  /*@
    @ public behavior
@@ -117,12 +130,13 @@ public interface Declaration extends Element, SelectionResult {//
   
 
   /**
-   * As explained in the selectionDeclaration method, formal generic parameters create stub types for
-   * matching. In case of an instantiated generic parameter, though, the end result of a lookup
-   * should be the actual type argument, and not a stub. Therefore, the resolveForResult method
-   * performs a final transformation. In case of a stub of an instantiated generic parameter, the
-   * actual type that is used as an argument is returned.
-   *  
+   * As explained in the selectionDeclaration method, formal generic parameters
+   * create stub types for matching. In case of an instantiated generic
+   * parameter, though, the end result of a lookup should be the actual type
+   * argument, and not a stub. Therefore, the resolveForResult method performs a
+   * final transformation. In case of a stub of an instantiated generic
+   * parameter, the actual type that is used as an argument is returned.
+   * 
    * @throws LookupException
    */
  /*@
@@ -135,11 +149,13 @@ public interface Declaration extends Element, SelectionResult {//
   }
   
   /**
-   * Return the declaration that declared this declaration. In most cases the declaration is the same
-   * as the declarator. But for example, for variables in Java, a single variable declarator can declare
-   * multiple variables. Becase the model must represent the lexical program, Java variables and variable declarators
-   * are separate objects.
-   * @return
+   * Return the declaration that declared this declaration. In most cases the
+   * declaration is the same as the declarator. But for example, for variables
+   * in Java, a single variable declarator can declare multiple variables.
+   * Becase the model must represent the lexical program, Java variables and
+   * variable declarators are separate objects.
+   * 
+   * @return The declaration that declared this declaration.
    */
  /*@
    @ public behavior
@@ -151,8 +167,8 @@ public interface Declaration extends Element, SelectionResult {//
   }
   
   /**
-   * Return the scope of this declaration. The scope of a declaration denotes the regions of the program
-   * in which the declaration is visible.
+   * Return the scope of this declaration. The scope of a declaration denotes
+   * the regions of the program in which the declaration is visible.
    * 
    * @throws ModelException
    */
@@ -164,30 +180,43 @@ public interface Declaration extends Element, SelectionResult {//
   public Scope scope() throws ModelException;
  
   /**
-   * Check whether this declaration is complete (whether all necessary elements are present). A complete declaration <b>can</b> be non-abstract or abstract. An incomplete
-   * declaration, however, must always be abstract. Defined (and thus its inverse: abstract) is a dynamic property that uses
+   * Check whether this declaration is complete (whether all necessary elements
+   * are present). A complete declaration <b>can</b> be non-abstract or
+   * abstract. An incomplete declaration, however, must always be abstract.
+   * Defined (and thus its inverse: abstract) is a dynamic property that uses
    * this method to determine whether or not it applies to this declaration.
-   * @throws LookupException 
+   * 
+   * @throws LookupException
    */
   public boolean complete() throws LookupException;
 
   /**
+   * <p>
    * Return the target context of this target.
+   * </p>
    *
+   * <p>
    * A target context is the context used to look up elements that are expressed
-   * relative to a target. For example, when looking up <code>a.b</code>, 
-   * first <code>a</code> is looked up in the current context. After that, 
-   * <code>b</code> must be looked up in the context of the element returned by the 
-   * lookup of <code>a</code>. But <code>b</code> must <b>not</b> be lookup up as 
-   * if it were used in the lexical context of the class representing the type of 
-   * <code>a</code>. Therefore, two contexts are provided: a lexical context and 
-   * a target context.
+   * relative to a target. For example, when looking up <code>a.b</code>, first
+   * <code>a</code> is looked up in the current context. After that,
+   * <code>b</code> must be looked up in the context of the element returned by
+   * the lookup of <code>a</code>. But <code>b</code> must <b>not</b> be lookup
+   * up as if it were used in the lexical context of the class representing the
+   * type of <code>a</code>. Therefore, two contexts are provided: a lexical
+   * context and a target context.
+   * </p>
    *
+   * <p>
    * A few examples in the language Java:
-   *   1) in "expr.f", "f" must be looked up in the static type of "expr",
-   *      and not in its lexical context, which is the current lexical context.
-   *   2) in "typename.f", "f" must be looked up in the type represented by "typename"
-   *   3) in "packagename.f", "f" must be looked up in the package represented by "package"
+   * </p>
+   * <ol>
+   * <li>in "expr.f", "f" must be looked up in the static type of "expr", and
+   * not in its lexical context, which is the current lexical context.</li>
+   * <li>in "typename.f", "f" must be looked up in the type represented by
+   * "typename"</li>
+   * <li>in "packagename.f", "f" must be looked up in the package represented by
+   * "package"</li>
+   * </ol>
    */
   public LookupContext targetContext() throws LookupException;
   
@@ -205,18 +234,19 @@ public interface Declaration extends Element, SelectionResult {//
   }
   
   /**
-   * Return all cross references in the model that reference this declaration.
+   * <p>Return all cross references in the model that reference this declaration.
    * This can be an expensive operation on a model whose references are not 
-   * yet cached.
+   * yet cached.</p>
    * 
-   * The handler determines what will happend when a cross-reference throws a
+   * <p>The handler determines what will happend when a cross-reference throws a
    * LookupException. Handler.fail(LookupException.class) will cause the
    * search to stop immediately. {@link Handler#resume()} will
    * ignore the exception and cause the search to continue. If you provide
    * a handler for an exception that is no lookup exception, the effect
-   * is the same as using {@link Handler#resume()}.
+   * is the same as using {@link Handler#resume()}.</p>
    * 
-   * @param handler
+   * @param handler The strategy that must be used when an exception is thrown
+   *  while search the cross-references.
    * @return all cross references in the model that reference this declaration.
    * @throws LookupException A cross-reference could not be resolved.
    */
