@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import org.aikodi.chameleon.core.document.Document;
+import org.aikodi.chameleon.core.element.ElementImpl.ConflictingProperties;
 import org.aikodi.chameleon.core.element.ElementImpl.Navigator;
 import org.aikodi.chameleon.core.event.stream.EventStreamCollection;
 import org.aikodi.chameleon.core.language.Language;
@@ -18,6 +19,8 @@ import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.core.reference.CrossReferenceImpl;
 import org.aikodi.chameleon.core.tag.Metadata;
+import org.aikodi.chameleon.core.validation.BasicProblem;
+import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.association.ChameleonAssociation;
@@ -30,6 +33,8 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
+import be.kuleuven.cs.distrinet.rejuse.property.Conflict;
+import be.kuleuven.cs.distrinet.rejuse.property.Property;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 
@@ -45,14 +50,16 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
  * 
  * <h3>Design</h3>
  *
- * <p>This is a large interface, but it focuses on a few key responsibilities
+ * <p>This is a large interface, but it focuses on a the key responsibilities
  * that any language construct has. Removing responsibilities will only
  * make the framework less powerful. Many methods for the lexical structure,
  * though, could be moved to the {@link #lexical()} structure object, but
- * that will either make it harder to use the functionality, or slower, or
- * both. Writing element.lexical().parent() is not as convenient as element.parent().</p>
+ * that makes it harder to use the functionality. Writing element.lexical().parent() 
+ * is not as convenient as element.parent().</p>
  * 
  * <h3>The Lexical Structure</h3> 
+ * 
+ * <embed src="lexicalStructure.svg"/>
  * 
  * <p>Every Element provides many methods to
  * navigate the lexical structure of the model through methods to access the
@@ -65,6 +72,8 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
  * lexical children, you can exclude it by writing the following code. Suppose
  * that <code>C</code> is the name of the class that contains the field.</p>
  * 
+ * 
+ * 
  * <code>
  * class C ... {
  *   Association _fieldName;
@@ -75,16 +84,30 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
  * }
  * </code>
  * 
+ * <h3>Namespaces</h3> 
+ * 
+ * <embed src="namespaceStructure.svg"/>
+ * 
+ * <p>Every top-level {@link Declaration}, for example a top-level class in Java, is logically part of a {@link Namespace}.
+ * Because namespaces are not explicitly defined, they are not part of the lexical structure.
+ * A declaration is added to a namespace by putting it in a {@link NamespaceDeclaration} that is linked to the namespace.
+ * A namespace declaration, which is similar to a package in Java, is part of the lexical structure.
+ * If a language does not support explicit namespaces, it can simply put everything in the root name space.
+ * </p>
+ * <p>The root namespace is connected to a {@link View}, which contains all model elements of a particular language.
+ * Each project can have multiple views. For now, lookups across views are not supported yet. They should be supported
+ * in the future.
+ * </p>
+ * 
  * <h3>The logical structure</h3> 
  * 
- * <p>The logical structures within a model are
- * typically modeled indirectly, instead of through direct object references.
- * See the interface {@link chameleon.core.reference.CrossReference} for the
+ * <p>The logical structures within a model are modeled indirectly, instead of through 
+ * direct object references. See the interface {@link chameleon.core.reference.CrossReference} for the
  * explanation.</p>
  * 
  * <h3>Properties</h3>
  * 
- * <p>Each element can have properties. The properties typically come from
+ * <p>Each element can have {@link Property}s. The properties typically come from
  * three sources:</p>
  * <ol>
  *   <li>Properties that are inherent to the language construct: {@link #inherentProperties()}</li>
@@ -101,10 +124,11 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
  * 
  * <h3>Verification</h3>
  * 
- * <p>Each language construct is responsible for verifying itself. It must
- * implement the {@link #verify()} method to verify itself and its descendants.</p>
+ * <p>Each language construct is responsible for verifying itself via the {@link #verify()}
+ * method. In practice, a language construct only has to implement 
+ * implement the {@link #verifySelf()} method to verify itself.
  * 
- * <p>The default implementation in {@link ElementImpl} takes care of the
+ * <p>The default implementation of {@link #verify()} takes care of the
  * recursive descent such that language constructs have to verify only
  * themselves. In addition, it also checks whether the set of properties of
  * an element is consistent. For example, this makes it very easy to add modifiers 
@@ -125,6 +149,49 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
  * 
  * @author Marko van Dooren
  * 
+ */
+/*
+ @startuml lexicalStructure.svg
+ left to right direction
+ object project
+ object view
+ object documentScanner
+ object documentLoader
+ object document
+ object namespaceDeclaration
+ object declaration
+ object namespace
+ 
+ project -- view
+ view -- documentScanner
+ documentScanner -- documentLoader
+ documentLoader -- document
+ document -- namespaceDeclaration
+ namespaceDeclaration -- declaration
+ namespaceDeclaration - namespace
+ @enduml
+
+ @startuml namespaceStructure.svg
+ left to right direction
+ object "root namespace" as rootNamespace
+ object "a" as a
+ object "b" as b
+ object "c" as c
+ object "c.a" as ca
+ object "c.b" as cb
+ object namespaceDeclaration
+ object document
+ 
+ project -- view
+ view -- rootNamespace
+ rootNamespace -- a 
+ rootNamespace -- b 
+ rootNamespace -- c 
+ c -- ca
+ c -- cb
+ cb - namespaceDeclaration
+ document -- namespaceDeclaration
+ @enduml
  */
 public interface Element {
 
@@ -1203,8 +1270,8 @@ public interface Element {
     
     /**
      * @return A verification object that indicates whether or not this is valid,
-     *         and if not, what the problems are. The verification looks
-     *         recursively for all problems.
+     *         and if not, what the problems are. The result includes the problems
+     *         found in all descendants.
      */
    /*@
      @ public behavior
@@ -1212,6 +1279,80 @@ public interface Element {
      @ post \result != null;
      @*/
     public Verification verify();
+
+    
+    /**
+     * <p>Perform a local verification.</p>
+     * 
+     * <p>The check for a loop in the lexical structure is already implemented in
+     * {@link #verifySelf()}, which is called in {@link #verify()}. 
+     * The checks to verify that all properties of this element actually apply to it 
+     * and that there are no conflicting properties are both implemented in 
+     * verifyProperties(), which is also called in verify().
+     * 
+     * @return A verification object that indicates whether or not this is valid,
+     *         and if not, what the problems are. The result does <b>not</b>
+     *         include the problems found in the descendants. It only performs a
+     *         local check.
+     */
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @*/
+    public default Verification verifySelf() {
+    	return Valid.create();
+    }
+   
+    /**
+     * <p>Verify that there are no loops in the lexical structure.</p>
+     * 
+     * <p>FIXME: Now that the associations are computed automatically and
+     * are all bidirectional, this verification seems unnecessary.</p>
+     * 
+     * @return If there is a loop in the lexical structure, a problem is reported.
+     *         Otherwise a valid result is returned.
+     */
+ 	 public default Verification verifyLoops() {
+		 Verification result = Valid.create();
+		 Element e = parent();
+		 while(e != null) {
+			 if(e == this) {
+				 result = result.and(new BasicProblem(this, "There is a loop in the lexical structure. This element is an ancestor of itself."));
+			 }
+			 e = e.parent();
+		 }
+		 return result;
+	 }
+ 	 
+ 	public PropertySet<Element,ChameleonProperty> internalProperties();
+ 	 
+ 	 /**
+ 	  * 
+ 	  * @return
+ 	  */
+	 public default Verification verifyProperties() {
+		 Verification result = Valid.create();
+		 PropertySet<Element,ChameleonProperty> properties = internalProperties();
+		 Collection<Conflict<ChameleonProperty>> conflicts = properties.conflicts();
+		 for(Conflict<ChameleonProperty> conflict: conflicts) {
+			 result = result.and(new ConflictingProperties(this,conflict));
+		 }
+		 for(ChameleonProperty property: properties.properties()) {
+			 result = result.and(property.verify(this));
+		 }
+		 return result;
+	 }
+
+	 public default Verification verifyAssociations() {
+		 Verification result = Valid.create();
+		 for(ChameleonAssociation<?> association: associations()) {
+			 result = result.and(association.verify());
+		 }
+		 return result;
+	 }
+
+
 
     /*************************
      * IDENTITY and EQUALITY *

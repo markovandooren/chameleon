@@ -986,7 +986,7 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
 		 return new PropertySet<>(internalProperties());
 	 }
 
-	 protected PropertySet<Element,ChameleonProperty> internalProperties() {
+	 public PropertySet<Element,ChameleonProperty> internalProperties() {
 		 if(_properties == null) {
 			 _properties = explicitProperties();
 			 _properties.addAll(defaultProperties(_properties));
@@ -1257,49 +1257,6 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
 		 }
 	 }
 	 
-	 protected Verification verifyAssociations() {
-		 Verification result = Valid.create();
-		 for(ChameleonAssociation<?> association: associations()) {
-			 result = result.and(association.verify());
-		 }
-		 return result;
-	 }
-
-	 protected Verification verifyLoops() {
-		 Verification result = Valid.create();
-		 Element e = parent();
-		 while(e != null) {
-			 if(e == this) {
-				 result = result.and(new BasicProblem(this, "There is a loop in the lexical structure. This element is an ancestor of itself."));
-			 }
-			 e = e.parent();
-		 }
-		 return result;
-	 }
-
-	 /**
-	  * Perform a local verification. The check for a loop in the lexical structure is already implemented
-	  * in verifyLoops(), which is used in verify(). The checks to verify that all properties of this element actually
-	  * apply to it and that there are no conflicting properties are both implemented in verifyProperties(), which is also used in verify().
-	  * @return
-	  */
-	 protected Verification verifySelf() {
-		 return Valid.create();
-	 }
-
-	 protected Verification verifyProperties() {
-		 Verification result = Valid.create();
-		 PropertySet<Element,ChameleonProperty> properties = internalProperties();
-		 Collection<Conflict<ChameleonProperty>> conflicts = properties.conflicts();
-		 for(Conflict<ChameleonProperty> conflict: conflicts) {
-			 result = result.and(new ConflictingProperties(this,conflict));
-		 }
-		 for(ChameleonProperty property: properties.properties()) {
-			 result = result.and(property.verify(this));
-		 }
-		 return result;
-	 }
-
 	 public static abstract class Navigator extends TreeStructure<Element> {
 
 	   /**
