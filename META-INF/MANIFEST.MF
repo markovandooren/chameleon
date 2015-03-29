@@ -1,3 +1,4 @@
+Manifest-Version: 1.0
 Bundle-ManifestVersion: 1
 Bundle-Name: Chameleon Eclipse Plugin
 Bundle-SymbolicName: be.chameleon.eclipse;singleton:=true
@@ -47,6 +48,10 @@ Export-Package: org.aikodi.chameleon.analysis,
  org.aikodi.chameleon.core.declaration,
  org.aikodi.chameleon.core.document,
  org.aikodi.chameleon.core.element,
+ org.aikodi.chameleon.core.event,
+ org.aikodi.chameleon.core.event.association,
+ org.aikodi.chameleon.core.event.name,
+ org.aikodi.chameleon.core.event.stream,
  org.aikodi.chameleon.core.factory,
  org.aikodi.chameleon.core.language,
  org.aikodi.chameleon.core.lookup,
@@ -60,6 +65,8 @@ Export-Package: org.aikodi.chameleon.analysis,
  org.aikodi.chameleon.core.scope,
  org.aikodi.chameleon.core.tag,
  org.aikodi.chameleon.core.validation,
+ org.aikodi.chameleon.core.validation.namespace,
+ org.aikodi.chameleon.core.variable,
  org.aikodi.chameleon.core.visitor,
  org.aikodi.chameleon.eclipse,
  org.aikodi.chameleon.eclipse.builder,
@@ -137,24 +144,9 @@ Export-Package: org.aikodi.chameleon.analysis,
  org.aikodi.chameleon.util.action,
  org.aikodi.chameleon.util.association,
  org.aikodi.chameleon.util.concurrent,
+ org.aikodi.chameleon.util.exception,
  org.aikodi.chameleon.util.profile,
  org.aikodi.chameleon.workspace
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.jface.text,
- org.eclipse.ui.editors,
- org.eclipse.ui.workbench.texteditor,
- org.eclipse.ui.views,
- org.eclipse.core.resources,
- org.eclipse.ui.ide,
- org.junit;bundle-version="4.10.0",
- org.eclipse.core.expressions;bundle-version="3.4.500",
- org.eclipse.e4.ui.di,
- rejuse.distrinet.cs.kuleuven.be;bundle-version="1.0.12"
-Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Import-Package: com.google.common.base,
- com.google.common.collect
 Provide-Package: org.aikodi.chameleon.analysis,
  org.aikodi.chameleon.analysis.dependency,
  org.aikodi.chameleon.analysis.predicate,
@@ -288,3 +280,19 @@ Provide-Package: org.aikodi.chameleon.analysis,
  org.aikodi.chameleon.util.profile,
  org.aikodi.chameleon.vm,
  org.aikodi.chameleon.workspace
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.jface.text,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.workbench.texteditor,
+ org.eclipse.ui.views,
+ org.eclipse.core.resources,
+ org.eclipse.ui.ide,
+ org.junit;bundle-version="4.10.0",
+ org.eclipse.core.expressions;bundle-version="3.4.500",
+ org.eclipse.e4.ui.di,
+ rejuse.distrinet.cs.kuleuven.be;bundle-version="1.0.12"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy
+Import-Package: com.google.common.base,
+ com.google.common.collect
