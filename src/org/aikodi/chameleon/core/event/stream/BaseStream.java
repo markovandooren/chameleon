@@ -1,10 +1,12 @@
 package org.aikodi.chameleon.core.event.stream;
 
-import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.chameleon.core.event.Change;
 
-
-public class BaseStream extends AbstractEventStream<Change,Element> {
+/**
+ * <p>A stream of events that originate from a source.</p>
+ * 
+ * @author Marko van Dooren
+ */
+public class BaseStream<C,S> extends AbstractEventStream<C,S> {
 
   private EventStreamCollection _collection;
   public BaseStream(EventStreamCollection collection) {

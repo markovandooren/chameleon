@@ -1,5 +1,8 @@
 package org.aikodi.chameleon.core.event.stream;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.event.Change;
 import org.aikodi.chameleon.core.event.Event;
@@ -24,11 +27,12 @@ import org.aikodi.chameleon.core.event.Event;
  * 
  * @author Marko van Dooren
  */
-public abstract class EventStreamCollection {
+public abstract class EventStreamCollection<C,S> {
 
-  private BaseStream _baseStream;
+  private BaseStream<Change,Element> _baseStream;
   private EventStream<Change,Element> _descendantStream;
   private EventStream<Change,Element> _anyStream;
+  private Set<EventStream<C,S>> _streams = new HashSet<>();
 
   /**
    * Deactivate this event stream collection. This method is invoked
@@ -94,7 +98,7 @@ public abstract class EventStreamCollection {
    */
   public EventStream<Change,Element> self() {
     if(_baseStream == null) {
-      _baseStream = new BaseStream(this);
+      _baseStream = new BaseStream<Change,Element>(this);
     }
     return _baseStream;
   }

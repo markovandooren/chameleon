@@ -1606,9 +1606,9 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
      return createEvent(change,this);
    }
    
-   public EventStreamCollection when() {
+   public EventStreamCollection<Change,Element> when() {
      if(_eventManager == null) {
-       _eventManager = new EventStreamCollection() {
+       _eventManager = new EventStreamCollection<Change,Element>() {
          @Override
          protected void startNotification() {
            ElementImpl.this.enableChangeNotification();
@@ -1634,5 +1634,5 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
      return _eventManager;
    }
 
-   private EventStreamCollection _eventManager;
+   private EventStreamCollection<Change,Element> _eventManager;
 }

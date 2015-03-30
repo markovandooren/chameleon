@@ -6,30 +6,47 @@ import java.util.List;
 import org.aikodi.chameleon.core.event.Event;
 import org.aikodi.chameleon.core.event.EventListener;
 
+/**
+ * A default implementation for event streams.
+ * 
+ * @author Marko van Dooren
+ *
+ * @param <C> The type of the change object.
+ * @param <S> The type of the sender of the event.
+ */
 public abstract class AbstractEventStream<C,S> implements EventStream<C,S> {
-  private List<EventListener<? super C,? super S>> _consumers;
+	
+  private List<EventListener<? super C,? super S>> _listeners;
 
-  public void call(EventListener<? super C,? super S> callBack) {
-    if(callBack == null) {
-      throw new IllegalArgumentException("The event callback handler cannot be null.");
+  public void call(EventListener<? super C,? super S> listener) {
+    if(listener == null) {
+      throw new IllegalArgumentException("The event listener cannot be null.");
     }
-    if(_consumers == null) {
-      _consumers = new ArrayList<>();
+    if(_listeners == null) {
+      _listeners = new ArrayList<>();
       activate();
     }
-    _consumers.add(callBack);
+    _listeners.add(listener);
   }
 
   public void stopCalling(EventListener<? super C,? super S> callBack) {
-    _consumers.remove(callBack);
-    if(_consumers.isEmpty()) {
-      _consumers = null;
+    _listeners.remove(callBack);
+    if(_listeners.isEmpty()) {
+      _listeners = null;
       deactivate();
     }
   }
 
+  /**
+   * Send the given event.
+   * 
+   * @param event The event to be sent. The event is not null.
+   */
   public void send(Event<? extends C, ? extends S> event) {
-    for(EventListener<? super C,? super S> consumer: _consumers) {
+  	if(event == null) {
+  		throw new IllegalArgumentException("The event cannot be null.");
+  	}
+    for(EventListener<? super C,? super S> consumer: _listeners) {
       consumer.accept(event);
     }
   }
