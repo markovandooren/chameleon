@@ -25,7 +25,6 @@ import org.aikodi.chameleon.core.event.association.ChildReplaced;
 import org.aikodi.chameleon.core.event.association.ParentAdded;
 import org.aikodi.chameleon.core.event.association.ParentRemoved;
 import org.aikodi.chameleon.core.event.association.ParentReplaced;
-import org.aikodi.chameleon.core.event.stream.EventStreamCollection;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.language.WrongLanguageException;
 import org.aikodi.chameleon.core.lookup.LookupContext;
@@ -496,6 +495,9 @@ public abstract class ElementImpl implements Element {
    public void disconnect() {
 		nonRecursiveDisconnect();
 		disconnectChildren();
+		if(_eventManager != null) {
+		  _eventManager.disconnect();
+		}
 	}
 
 	@Override
@@ -1256,6 +1258,11 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
 			 return new BasicProblem(this, "Internal error during verification.");
 		 }
 	 }
+	
+  protected Verification verifySelf() {
+    return Valid.create();
+  }
+
 	 
 	 public static abstract class Navigator extends TreeStructure<Element> {
 
@@ -1606,33 +1613,35 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
      return createEvent(change,this);
    }
    
-   public EventStreamCollection<Change,Element> when() {
+   public ElementEventStreamCollection when() {
      if(_eventManager == null) {
-       _eventManager = new EventStreamCollection<Change,Element>() {
-         @Override
-         protected void startNotification() {
-           ElementImpl.this.enableChangeNotification();
-         }
-         
-         @Override
-         protected void stopNotification() {
-           ElementImpl.this.disableChangeNotification();
-         }
-         
-         @Override
-         public Element element() {
+       _eventManager = new ElementEventStreamCollection() {
+         /**
+          * @return the element from which the events are gathered.
+          */
+         public ElementImpl element() {
            return ElementImpl.this;
          }
 
-        @Override
-        protected void clearEventStreamCollection() {
-          _eventManager = null;
-        }
+         @Override
+         protected void startNotification() {
+           element().enableChangeNotification();
+         }
 
-       };
+         @Override
+         protected void stopNotification() {
+           element().disableChangeNotification();
+         }
+
+         @Override
+         protected void tearDown() {
+           element()._eventManager = null;
+         }
+       }
+       ;
      }
      return _eventManager;
    }
 
-   private EventStreamCollection<Change,Element> _eventManager;
+   ElementEventStreamCollection _eventManager;
 }

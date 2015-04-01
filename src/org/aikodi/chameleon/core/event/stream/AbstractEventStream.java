@@ -18,6 +18,9 @@ public abstract class AbstractEventStream<C,S> implements EventStream<C,S> {
 	
   private List<EventListener<? super C,? super S>> _listeners;
 
+  /**
+   * {@inheritDoc}
+   */
   public void call(EventListener<? super C,? super S> listener) {
     if(listener == null) {
       throw new IllegalArgumentException("The event listener cannot be null.");
@@ -29,6 +32,9 @@ public abstract class AbstractEventStream<C,S> implements EventStream<C,S> {
     _listeners.add(listener);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public void stopCalling(EventListener<? super C,? super S> callBack) {
     _listeners.remove(callBack);
     if(_listeners.isEmpty()) {
@@ -38,7 +44,7 @@ public abstract class AbstractEventStream<C,S> implements EventStream<C,S> {
   }
 
   /**
-   * Send the given event.
+   * Send the given event to all listeners.
    * 
    * @param event The event to be sent. The event is not null.
    */
@@ -50,8 +56,25 @@ public abstract class AbstractEventStream<C,S> implements EventStream<C,S> {
       consumer.accept(event);
     }
   }
+  
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void disconnect() {
+    _listeners = null;
+    deactivate();
+  }
 
+  /**
+   * Activate this event stream. This method is called when a listener
+   * is added, and there were no listeners.
+   */
   protected abstract void activate();
 
+  /**
+   * Deactivate this event stream. This method is called when a listener
+   * is removed, and no listeners remain.
+   */
   protected abstract void deactivate();
 }

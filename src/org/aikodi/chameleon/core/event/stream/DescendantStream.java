@@ -1,6 +1,7 @@
 package org.aikodi.chameleon.core.event.stream;
 
 import org.aikodi.chameleon.core.element.Element;
+import org.aikodi.chameleon.core.element.ElementEventStreamCollection;
 import org.aikodi.chameleon.core.event.Change;
 import org.aikodi.chameleon.core.event.Event;
 import org.aikodi.chameleon.core.event.EventListener;
@@ -27,7 +28,7 @@ public class DescendantStream extends AbstractEventStream<Change,Element> implem
 
   private EventStream<ChildAdded, Element> _addStream;
   private EventStream<ChildRemoved, Element> _removeStream;
-  private EventStreamCollection _collection;
+  private ElementEventStreamCollection _collection;
 
   /**
    * Create a new stream that gathers the events of the descendants of the
@@ -37,7 +38,7 @@ public class DescendantStream extends AbstractEventStream<Change,Element> implem
    *                   ancestor of the elements from which the events must be 
    *                   propagated.
    */
-  public DescendantStream(EventStreamCollection collection) {
+  public DescendantStream(ElementEventStreamCollection collection) {
     this._collection = collection;
   }
   
@@ -88,7 +89,7 @@ public class DescendantStream extends AbstractEventStream<Change,Element> implem
     });
     _addStream.stopCalling(_adder);
     _removeStream.stopCalling(_remover);
-    _collection.deactivateDescendantStream();
+    _collection.deactivateBaseStream(this);
   }
 
   /**

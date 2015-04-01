@@ -111,4 +111,9 @@ public interface EventStream<C, S> {
   public default EventStream<C,S> union(EventStream<? extends C, ? extends S> other) {
     return new UnionStream<C, S>(this,other);
   }
+  
+  /**
+   * Disconnect all listeners and deactivate this stream.
+   */
+  public void disconnect();
 }

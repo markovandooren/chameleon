@@ -5,9 +5,17 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
+import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.ElementImpl.ConflictingProperties;
 import org.aikodi.chameleon.core.element.ElementImpl.Navigator;
+import org.aikodi.chameleon.core.event.association.ChildAdded;
+import org.aikodi.chameleon.core.event.association.ChildRemoved;
+import org.aikodi.chameleon.core.event.association.ChildReplaced;
+import org.aikodi.chameleon.core.event.association.ParentAdded;
+import org.aikodi.chameleon.core.event.association.ParentRemoved;
+import org.aikodi.chameleon.core.event.association.ParentReplaced;
+import org.aikodi.chameleon.core.event.stream.EventStream;
 import org.aikodi.chameleon.core.event.stream.EventStreamCollection;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.language.WrongLanguageException;
@@ -15,6 +23,7 @@ import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.modifier.Modifier;
 import org.aikodi.chameleon.core.namespace.Namespace;
+import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.core.reference.CrossReferenceImpl;
@@ -141,6 +150,43 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
  * rules. For example, every {@link CrossReference} will automatically check
  * if it can be resolved, if the class inherits from {@link CrossReferenceImpl}.</p>
  *
+ * <h3>Events</h3>
+ * 
+ * <p>When the parent of an element is changed, it sends the following events
+ * to the {@link ElementEventStreamCollection#self()} stream of its even stream
+ * collection {@link #when()}.</p>
+ * <ol>
+ *   <li>{@link ParentAdded}</li>
+ *   <li>{@link ParentRemoved}</li>
+ *   <li>{@link ParentReplaced}</li>
+ * </ol>
+ * 
+ * <p>When a child of an element is changed, it sends the following events
+ * to the {@link ElementEventStreamCollection#self()} stream of its even stream
+ * collection {@link #when()}.</p>
+ * <ol>
+ *   <li>{@link ChildAdded}</li>
+ *   <li>{@link ChildRemoved}</li>
+ *   <li>{@link ChildReplaced}</li>
+ * </ol>
+ * 
+ * <p>To listen to events originating from this element, execute the following code:</p>
+ * <code>
+ *  element.when().self().call(e -> event handling code);
+ * </code>
+ * <p>To listen to events from descendants of this element, execute the following code:</p>
+ * <code>
+ *  element.when().descendant().call(e -> event handling code);
+ * </code>
+ * <p>To listen to events from either this element or its descendants, execute the following code:</p>
+ * <code>
+ *  element.when().any().call(e -> event handling code);
+ * </code>
+ * 
+ * <p>See class {@link EventStream} for options to filter the event stream, and receive only
+ * certain events.</p>
+ * <p>When {@link #disconnect()} is invoked, all listeners are detached.
+ * 
  * <h3>Metadata</h3>
  * 
  * <p>Every element can have metadata associated with it. This can be used to
@@ -1300,9 +1346,9 @@ public interface Element {
      @
      @ post \result != null;
      @*/
-    public default Verification verifySelf() {
-    	return Valid.create();
-    }
+//    public default Verification verifySelf() {
+//    	return Valid.create();
+//    }
    
     /**
      * <p>Verify that there are no loops in the lexical structure.</p>
@@ -1427,6 +1473,6 @@ public interface Element {
      * 
      * @return the event coordinator of this element.
      */
-    public EventStreamCollection when();
+    public ElementEventStreamCollection when();
 
 }
