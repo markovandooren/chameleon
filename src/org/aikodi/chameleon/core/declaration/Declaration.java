@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.aikodi.chameleon.core.element.Element;
+import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
@@ -31,13 +32,19 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
  * required to compute the signature.
  * </p>
  * 
- * Each declaration results in the lookup of an actual declaration of type D.
+ * <p>Each declaration results in the lookup of an actual declaration of type D.
  * This type ensures that if a declaration is just a stub, such as a generic
  * parameter, the transformation performed by the resolveForResult method
  * returns a declaration of the same family. In case of a type parameter, this
- * ensures that the stub type will be transformed into a type.
+ * ensures that the stub type will be transformed into a type.</p>
  * 
  * <embed src="declaration-object.svg"/>
+ * 
+ * <h3>Events</h3>
+ * 
+ * <p>When the {@link #name()} of a declaration changes, it sends a {@link NameChanged}
+ * event. Note, however, that the event can be sent by either the declaration
+ * itself, or its {@link #signature()}. This allows lazy instantiation of signatures.</p>
  * 
  * @author Marko van Dooren
  */

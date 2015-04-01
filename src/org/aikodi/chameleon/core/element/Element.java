@@ -9,6 +9,7 @@ import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.ElementImpl.ConflictingProperties;
 import org.aikodi.chameleon.core.element.ElementImpl.Navigator;
+import org.aikodi.chameleon.core.event.Event;
 import org.aikodi.chameleon.core.event.association.ChildAdded;
 import org.aikodi.chameleon.core.event.association.ChildRemoved;
 import org.aikodi.chameleon.core.event.association.ChildReplaced;
@@ -48,38 +49,48 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 
 /**
- * <p>An interface for language constructs.</p>
+ * <p>
+ * An interface for language constructs.
+ * </p>
  * 
- * <p>Element is the top interface for an element of a source model. Every source
- * element (every language construct that can be part of the "source code")
- * must implement this interface. On top of that, every class for a language
+ * <p>
+ * Element is the top interface for an element of a source model. Every source
+ * element (every language construct that can be part of the "source code") must
+ * implement this interface. On top of that, every class for a language
  * construct must encapsulate the semantics of that element. As a result, tools
  * no longer have to contain the base semantics of a language, making it much
- * easier to reuse the tool for models of a different language.</p>
+ * easier to reuse the tool for models of a different language.
+ * </p>
  * 
  * <h3>Design</h3>
  *
- * <p>This is a large interface, but it focuses on a the key responsibilities
- * that any language construct has. Removing responsibilities will only
- * make the framework less powerful. Many methods for the lexical structure,
- * though, could be moved to the {@link #lexical()} structure object, but
- * that makes it harder to use the functionality. Writing element.lexical().parent() 
- * is not as convenient as element.parent().</p>
+ * <p>
+ * This is a large interface, but it focuses on a the key responsibilities that
+ * any language construct has. Removing responsibilities will only make the
+ * framework less powerful. Many methods for the lexical structure, though,
+ * could be moved to the {@link #lexical()} structure object, but that makes it
+ * harder to use the functionality. Writing element.lexical().parent() is not as
+ * convenient as element.parent().
+ * </p>
  * 
- * <h3>The Lexical Structure</h3> 
+ * <h3>The Lexical Structure</h3>
  * 
  * <embed src="lexicalStructure.svg"/>
  * 
- * <p>Every Element provides many methods to
- * navigate the lexical structure of the model through methods to access the
- * children, descendants, and ancestors. The lexical structure can be navigated
- * in any direction: from outer elements to inner elements or vice versa. By
- * default, the {@link ElementImpl#children()} method collects all objects
- * referenced by {@link ChameleonAssociation} fields.</p>
+ * <p>
+ * Every Element provides many methods to navigate the lexical structure of the
+ * model through methods to access the children, descendants, and ancestors. The
+ * lexical structure can be navigated in any direction: from outer elements to
+ * inner elements or vice versa. By default, the {@link ElementImpl#children()}
+ * method collects all objects referenced by {@link ChameleonAssociation}
+ * fields.
+ * </p>
  * 
- * <p>If one of these {@link ChameleonAssociation} fields does not reference
+ * <p>
+ * If one of these {@link ChameleonAssociation} fields does not reference
  * lexical children, you can exclude it by writing the following code. Suppose
- * that <code>C</code> is the name of the class that contains the field.</p>
+ * that <code>C</code> is the name of the class that contains the field.
+ * </p>
  * 
  * 
  * 
@@ -93,105 +104,153 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
  * }
  * </code>
  * 
- * <h3>Namespaces</h3> 
+ * <h3>Namespaces</h3>
  * 
  * <embed src="namespaceStructure.svg"/>
  * 
- * <p>Every top-level {@link Declaration}, for example a top-level class in Java, is logically part of a {@link Namespace}.
- * Because namespaces are not explicitly defined, they are not part of the lexical structure.
- * A declaration is added to a namespace by putting it in a {@link NamespaceDeclaration} that is linked to the namespace.
- * A namespace declaration, which is similar to a package in Java, is part of the lexical structure.
- * If a language does not support explicit namespaces, it can simply put everything in the root name space.
+ * <p>
+ * Every top-level {@link Declaration}, for example a top-level class in Java,
+ * is logically part of a {@link Namespace}. Because namespaces are not
+ * explicitly defined, they are not part of the lexical structure. A declaration
+ * is added to a namespace by putting it in a {@link NamespaceDeclaration} that
+ * is linked to the namespace. A namespace declaration, which is similar to a
+ * package in Java, is part of the lexical structure. If a language does not
+ * support explicit namespaces, it can simply put everything in the root name
+ * space.
  * </p>
- * <p>The root namespace is connected to a {@link View}, which contains all model elements of a particular language.
- * Each project can have multiple views. For now, lookups across views are not supported yet. They should be supported
- * in the future.
+ * <p>
+ * The root namespace is connected to a {@link View}, which contains all model
+ * elements of a particular language. Each project can have multiple views. For
+ * now, lookups across views are not supported yet. They should be supported in
+ * the future.
  * </p>
  * 
- * <h3>The logical structure</h3> 
+ * <h3>The logical structure</h3>
  * 
- * <p>The logical structures within a model are modeled indirectly, instead of through 
- * direct object references. See the interface {@link chameleon.core.reference.CrossReference} for the
- * explanation.</p>
+ * <p>
+ * The logical structures within a model are modeled indirectly, instead of
+ * through direct object references. See the interface
+ * {@link chameleon.core.reference.CrossReference} for the explanation.
+ * </p>
  * 
  * <h3>Properties</h3>
  * 
- * <p>Each element can have {@link Property}s. The properties typically come from
- * three sources:</p>
+ * <p>
+ * Each element can have {@link Property}s. The properties typically come from
+ * three sources:
+ * </p>
  * <ol>
- *   <li>Properties that are inherent to the language construct: {@link #inherentProperties()}</li>
- *   <li>Properties that are explicitly added to an element: {@link #declaredProperties()}.
- *   Typically these properties are added to an element by {@link Modifier}s.</li>
- *   <li>Properties that are added to a language construct by the {@link Language}.
- *   Typically, these are default rules, which are used when a kind of property
- *   is not inherent to a language construct or set explicitly.</li>
- * </ol> 
+ * <li>Properties that are inherent to the language construct:
+ * {@link #inherentProperties()}</li>
+ * <li>Properties that are explicitly added to an element:
+ * {@link #declaredProperties()}. Typically these properties are added to an
+ * element by {@link Modifier}s.</li>
+ * <li>Properties that are added to a language construct by the {@link Language}
+ * . Typically, these are default rules, which are used when a kind of property
+ * is not inherent to a language construct or set explicitly.</li>
+ * </ol>
  * 
- * <p>The default implementation of {@link #properties()} in {@link ElementImpl} 
+ * <p>
+ * The default implementation of {@link #properties()} in {@link ElementImpl}
  * combines these three source correctly, so you have to worry only about the
- * individual sources of properties.</p>
+ * individual sources of properties.
+ * </p>
  * 
  * <h3>Verification</h3>
  * 
- * <p>Each language construct is responsible for verifying itself via the {@link #verify()}
- * method. In practice, a language construct only has to implement 
- * implement the {@link #verifySelf()} method to verify itself.
+ * <p>
+ * Each language construct is responsible for verifying itself via the
+ * {@link #verify()} method. In practice, a language construct only has to
+ * implement implement the {@link #verifySelf()} method to verify itself.
  * 
- * <p>The default implementation of {@link #verify()} takes care of the
- * recursive descent such that language constructs have to verify only
- * themselves. In addition, it also checks whether the set of properties of
- * an element is consistent. For example, this makes it very easy to add modifiers 
- * without having to worry whether an element has a valid combination of modifiers.
- * A declaration that is both final and abstract will report a verification 
+ * <p>
+ * The default implementation of {@link #verify()} takes care of the recursive
+ * descent such that language constructs have to verify only themselves. In
+ * addition, it also checks whether the set of properties of an element is
+ * consistent. For example, this makes it very easy to add modifiers without
+ * having to worry whether an element has a valid combination of modifiers. A
+ * declaration that is both final and abstract will report a verification
  * problem because they modifiers assign conflicting properties to the same
- * element.</p> 
+ * element.
+ * </p>
  * 
- * <p>In addition, many abstractions in the framework provide powerful verification
- * rules. For example, every {@link CrossReference} will automatically check
- * if it can be resolved, if the class inherits from {@link CrossReferenceImpl}.</p>
+ * <p>
+ * In addition, many abstractions in the framework provide powerful verification
+ * rules. For example, every {@link CrossReference} will automatically check if
+ * it can be resolved, if the class inherits from {@link CrossReferenceImpl}.
+ * </p>
  *
  * <h3>Events</h3>
- * 
- * <p>When the parent of an element is changed, it sends the following events
- * to the {@link ElementEventStreamCollection#self()} stream of its even stream
- * collection {@link #when()}.</p>
+ * <p>
+ * Elements in the model can send {@link Event}s when they are modified. For all
+ * changes involving the {@link #associations()} (and thus the tree structure),
+ * events are sent automatically. For other changes, the subclasses must send
+ * the events themselves, typically by calling
+ * {@link ElementImpl#notify(org.aikodi.chameleon.core.event.Change)}
+ * </p>
+ * <p>
+ * When the parent of an element is changed, it sends the following events to
+ * the {@link ElementEventStreamCollection#self()} stream of its even stream
+ * collection {@link #when()}.
+ * </p>
  * <ol>
- *   <li>{@link ParentAdded}</li>
- *   <li>{@link ParentRemoved}</li>
- *   <li>{@link ParentReplaced}</li>
+ * <li>{@link ParentAdded}</li>
+ * <li>{@link ParentRemoved}</li>
+ * <li>{@link ParentReplaced}</li>
  * </ol>
  * 
- * <p>When a child of an element is changed, it sends the following events
- * to the {@link ElementEventStreamCollection#self()} stream of its even stream
- * collection {@link #when()}.</p>
+ * <p>
+ * When a child of an element is changed, it sends the following events to the
+ * {@link ElementEventStreamCollection#self()} stream of its even stream
+ * collection {@link #when()}.
+ * </p>
  * <ol>
- *   <li>{@link ChildAdded}</li>
- *   <li>{@link ChildRemoved}</li>
- *   <li>{@link ChildReplaced}</li>
+ * <li>{@link ChildAdded}</li>
+ * <li>{@link ChildRemoved}</li>
+ * <li>{@link ChildReplaced}</li>
  * </ol>
  * 
- * <p>To listen to events originating from this element, execute the following code:</p>
+ * <p>
+ * To listen to events originating from this element, execute the following
+ * code:
+ * </p>
  * <code>
  *  element.when().self().call(e -> event handling code);
  * </code>
- * <p>To listen to events from descendants of this element, execute the following code:</p>
+ * <p>
+ * To listen to events from descendants of this element, execute the following
+ * code:
+ * </p>
  * <code>
  *  element.when().descendant().call(e -> event handling code);
  * </code>
- * <p>To listen to events from either this element or its descendants, execute the following code:</p>
+ * <p>
+ * To listen to events from either this element or its descendants, execute the
+ * following code:
+ * </p>
  * <code>
  *  element.when().any().call(e -> event handling code);
  * </code>
+ * <p>
+ * Do not forget to detach the listener via
+ * {@link EventStream#stopCalling(org.aikodi.chameleon.core.event.EventListener)}
+ * if you want it to be garbage collected. You need to store a reference to the
+ * lambda if you want to do this. Alternatively, when {@link #disconnect()} is
+ * invoked, all listeners are detached automatically.
+ * </p>
  * 
- * <p>See class {@link EventStream} for options to filter the event stream, and receive only
- * certain events.</p>
- * <p>When {@link #disconnect()} is invoked, all listeners are detached.
+ * <p>
+ * See class {@link EventStream} for options to filter the event stream, and
+ * receive only certain events.
+ * </p>
  * 
  * <h3>Metadata</h3>
  * 
- * <p>Every element can have metadata associated with it. This can be used to
+ * <p>
+ * Every element can have metadata associated with it. This can be used to
  * attach additional information to an element without adding dependencies to
- * Chameleon.</p>
+ * Chameleon.
+ * </p>
  * 
  * @author Marko van Dooren
  * 
@@ -293,8 +352,9 @@ public interface Element {
     public void unfreeze();
     
     /**
-     * Completely disconnect this element and all descendants from the parent.
-     * This method also removes associations with any logical parents.
+     * <p>Completely disconnect this element and all descendants from the parent.
+     * This method also removes associations with any logical parents. All
+     * event streams of this element are disconnected.</p>
      */
    /*@
      @ public behavior
