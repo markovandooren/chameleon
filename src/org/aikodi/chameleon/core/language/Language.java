@@ -6,6 +6,8 @@ import java.util.Set;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupContextFactory;
+import org.aikodi.chameleon.core.namespace.LazyRootNamespace;
+import org.aikodi.chameleon.core.namespace.RootNamespace;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.property.PropertyRule;
 import org.aikodi.chameleon.core.validation.Verification;
@@ -15,6 +17,7 @@ import org.aikodi.chameleon.plugin.LanguagePlugin;
 import org.aikodi.chameleon.plugin.LanguageProcessor;
 import org.aikodi.chameleon.plugin.PluginContainer;
 import org.aikodi.chameleon.plugin.ProcessorContainer;
+import org.aikodi.chameleon.workspace.View;
 
 import be.kuleuven.cs.distrinet.rejuse.association.MultiAssociation;
 import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
@@ -364,4 +367,12 @@ public MultiAssociation<Language,ChameleonProperty> propertyLink();
 	@Override
    public void flushCache();
 
+	
+	public default View createView() {
+	  return new View(createRootNamespace(),this);
+	}
+	
+	public default RootNamespace createRootNamespace() {
+	  return new LazyRootNamespace();
+	}
 }
