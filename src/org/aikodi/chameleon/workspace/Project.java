@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
+import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.util.Handler;
 
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
@@ -163,6 +164,24 @@ public class Project {
    @*/
    public List<View> views() {
       return _views.getOtherEnds();
+   }
+   
+   /**
+    * Return a view with the given language.
+    * 
+    * @param language The language of the returned view.
+    * @return a view in this project that has the given language. 
+    */
+   public View view(Language language) {
+     if(language == null) {
+       throw new IllegalArgumentException("The language cannot be null.");
+     }
+     for(View view: views()) {
+       if(view.language().equals(language)) {
+         return view;
+       }
+     }
+     throw new IllegalArgumentException("There is no view for "+language.name()+" "+language.version());
    }
 
    /**
