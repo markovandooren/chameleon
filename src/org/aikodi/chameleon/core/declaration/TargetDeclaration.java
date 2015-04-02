@@ -4,6 +4,13 @@ import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.Target;
 
+/**
+ * FIXME remove this at the end of the semester. The use case project is the
+ * only one that uses this interface anymore.
+ * 
+ * @author Marko van Dooren
+ *
+ */
 public interface TargetDeclaration extends Declaration, Target {
 
   /**
