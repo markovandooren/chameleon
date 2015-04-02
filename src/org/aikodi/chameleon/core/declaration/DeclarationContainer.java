@@ -3,9 +3,11 @@ package org.aikodi.chameleon.core.declaration;
 import java.util.List;
 
 import org.aikodi.chameleon.core.element.Element;
+import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupContext;
+import org.aikodi.chameleon.core.lookup.LookupContextFactory;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 
@@ -87,6 +89,8 @@ public interface DeclarationContainer extends Element {
 }
 
   /**
+   * {@inheritDoc}
+   * 
    * @return a lookup context that searches for declarations in this container.
    * @throws LookupException
    */
@@ -99,6 +103,14 @@ public interface DeclarationContainer extends Element {
     return language().lookupFactory().createLocalLookupStrategy(this);
  }
   
+  /**
+   * {@inheritDoc}
+   * 
+   * @return the lexical lookup context created by the
+   *         {@link LookupContextFactory#createLexicalLookupStrategy(LookupContext, Element)
+   *         method of the {@link Language#lookupFactory()} of the
+   *         {@link Element#language()} of this declaration container.
+   */
   @Override
   public default LookupContext lookupContext(Element child) throws LookupException {
      return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
