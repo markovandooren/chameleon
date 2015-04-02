@@ -3,10 +3,10 @@ package org.aikodi.chameleon.builder;
 import java.util.function.Consumer;
 
 /**
- * An abstract class for nested builders. By keeping track of the
+ * <p>An abstract class for nested builders. By keeping track of the
  * parent builder and keeping its type in type parameter {@link P}, a method
  * that finished the work of the current builder can return a reference to
- * the parent builder such that the chaining of method calls can continue.
+ * the parent builder such that the chaining of method calls can continue.</p>
  * 
  * <code>
  * parent
