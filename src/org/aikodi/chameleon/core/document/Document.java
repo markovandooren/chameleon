@@ -39,7 +39,7 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
  * Each document is linked to the {@link DocumentLoader} that is responsible for
  * populating the document. The document only connects itself to a project after
  * invoking ({@link #activate()})! This should be done automatically by the
- * {@link DocumentLoader} when a document is loaded by the lookup mechanism and 
+ * {@link DocumentLoader} when a document is loaded by the lookup mechanism and
  * when it is reparsed.
  * </p>
  * 
@@ -47,177 +47,176 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
  */
 public class Document extends ElementImpl {
 
-    //	private CreationStackTrace _trace = new CreationStackTrace();
+  // private CreationStackTrace _trace = new CreationStackTrace();
 
-    /**
-     * Create a new empty document. The document is not activated.
-     */
-    /*@
-     @ public behavior
-     @
-     @ post children().isEmpty();
-     @*/
-    public Document() {
+  /**
+   * Create a new empty document. The document is not activated.
+   */
+  /*@
+    @ public behavior
+    @
+    @ post children().isEmpty();
+    @*/
+  public Document() {
+  }
+
+  /**
+   * Create a new compilation unit with the given namespace declaration. The
+   * document is not activated.
+   * 
+   * @param namespaceDeclaration
+   *          The namespace declaration that is added.
+   */
+  /*@
+    @ public behavior
+    @
+    @ post children().size() == 1;
+    @ post children().contains(namespaceDeclaration);
+    @*/
+  public Document(NamespaceDeclaration namespaceDeclaration) {
+    add(namespaceDeclaration);
+  }
+
+  /**
+   * Activate this document by letting all child namespace declarations activate
+   * themselves. This adds the contents of this document to the logical
+   * namespace structure of the project.
+   */
+  public void activate() {
+    for (NamespaceDeclaration part : namespaceDeclarations()) {
+      part.activate();
     }
+  }
 
-    /**
-     * Create a new compilation unit with the given namespace declaration.
-     * The document is not activated.
-     * 
-     * @param namespaceDeclaration The namespace declaration that is added.
-     */
-   /*@
-     @ public behavior
-     @
-     @ post children().size() == 1;
-     @ post children().contains(namespaceDeclaration);
-     @*/
-    public Document(NamespaceDeclaration namespaceDeclaration) {
-        add(namespaceDeclaration);
-    }
+  /************
+   * Children *
+   ************/
 
-    /**
-     * Activate this document by letting all child namespace declarations
-     * activate themselves. This adds the contents
-     * of this document to the logical namespace structure of the project. 
-     */
-    public void activate() {
-        for(NamespaceDeclaration part: namespaceDeclarations()) {
-            part.activate();
-        }
-    }
+  /**
+   * Return the namespace declarations in this document.
+   */
+  public List<NamespaceDeclaration> namespaceDeclarations() {
+    return _subNamespaceParts.getOtherEnds();
+  }
 
-    /************
-     * Children *
-     ************/
+  /**
+   * @param index
+   * @return
+   */
+  public NamespaceDeclaration namespaceDeclaration(int index) {
+    return _subNamespaceParts.elementAt(index);
+  }
 
-    /**
-     * Return the namespace declarations in this document.
-     */
-    public List<NamespaceDeclaration> namespaceDeclarations() {
-        return _subNamespaceParts.getOtherEnds();
-    }
+  /**
+   * Add the given namespace declaration to this document.
+   * 
+   * @param namespaceDeclaration
+   *          The namespace declaration to be added.
+   */
+  /*@
+    @ public behavior
+    @
+    @ ! \old(namespaceDeclarations().contains(namespaceDeclaration)) ==> 
+    @        namespaceDeclaration(namespaceDeclarations().size()) == namespaceDeclaration;
+    @ ! \old(namespaceDeclarations().contains(namespaceDeclaration) ==>
+    @        namespaceDeclarations().size() == \old(namespaceDeclarations().size()) + 1;
+    @*/
+  public void add(NamespaceDeclaration namespaceDeclaration) {
+    add(_subNamespaceParts, namespaceDeclaration);
+  }
 
-    /**
-     * @param index
-     * @return
-     */
-    public NamespaceDeclaration namespaceDeclaration(int index) {
-        return _subNamespaceParts.elementAt(index);
-    }
-
-    /**
-     * Add the given namespace declaration to this document.
-     * @param namespaceDeclaration The namespace declaration to be added.
-     */
-    /*@
-   @ public behavior
-   @
-   @ ! \old(namespaceDeclarations().contains(namespaceDeclaration)) ==> 
-   @        namespaceDeclaration(namespaceDeclarations().size()) == namespaceDeclaration;
-   @ ! \old(namespaceDeclarations().contains(namespaceDeclaration) ==>
-   @        namespaceDeclarations().size() == \old(namespaceDeclarations().size()) + 1;
-   @*/
-    public void add(NamespaceDeclaration namespaceDeclaration) {
-        add(_subNamespaceParts,namespaceDeclaration);
-    }
-
-    /**
-     * Remove the given namespace declaration to this document.
-     * @param namespaceDeclaration The namespace declaration to be added.
-     */
-    /*@
+  /**
+   * Remove the given namespace declaration to this document.
+   * 
+   * @param namespaceDeclaration
+   *          The namespace declaration to be added.
+   */
+  /*
    @ public behavior
    @
    @ ! namespaceDeclarations().contains(namespaceDeclaration);
    @ ! \old(namespaceDeclarations().contains(namespaceDeclaration) ==>
    @        namespaceDeclarations().size() == \old(namespaceDeclarations().size()) - 1;
-   @*/
-    public void remove(NamespaceDeclaration namespaceDeclaration) {
-        remove(_subNamespaceParts,namespaceDeclaration);
+   */
+  public void remove(NamespaceDeclaration namespaceDeclaration) {
+    remove(_subNamespaceParts, namespaceDeclaration);
+  }
+
+  private Multi<NamespaceDeclaration> _subNamespaceParts = new Multi<NamespaceDeclaration>(this);
+
+  /**
+   * <p>
+   * Always throws a {@link LookupException}. A document should not be involved
+   * in the lookup process. The child namespace declarations should redirect the
+   * lookup towards the general namespace.
+   * </p>
+   */
+  @Override
+  public LookupContext lookupContext(Element child) throws LookupException {
+    throw new ChameleonProgrammerException("A document should not be involved in the lookup");
+  }
+
+  /**
+   * {@inheritDoc}
+   * 
+   * @return The language of the view of the loader.
+   */
+  @Override
+  public Language language() {
+    return loader().scanner().view().language();
+  }
+
+  @Override
+  protected Document cloneSelf() {
+    return new Document();
+  }
+
+  @Deprecated
+  public Document cloneTo(View view) {
+    Document clone = clone(this);
+    // Document clone = (Document) clone();
+    FakeDocumentScanner pl = new FakeDocumentScanner();
+    DocumentLoader is = new FakeDocumentLoader(clone, pl);
+    for (NamespaceDeclaration decl : descendants(NamespaceDeclaration.class)) {
+      view.namespace().getOrCreateNamespace(decl.namespace().fullyQualifiedName());
     }
-
-    private Multi<NamespaceDeclaration> _subNamespaceParts = new Multi<NamespaceDeclaration>(this);
-
-
-    /**
-     * Normally a document should not be involved in the lookup process. The child namespace declarations
-     * should redirect the lookup towards the general namespace.
-     */
-    @Override
-   public LookupContext lookupContext(Element child) throws LookupException {
-        throw new ChameleonProgrammerException("A document should not be involved in the lookup");
+    try {
+      view.addSource(pl);
+    } catch (ProjectException e) {
+      throw new ChameleonProgrammerException(e);
     }
+    clone.activate();
+    return clone;
+  }
 
-    //TODO Document why this implementation differs from the default and does not go via
-    //     the document loader.
-    @Override
-   public Language language() {
-      return loader().scanner().view().language();
-//        List<NamespaceDeclaration> parts = namespaceDeclarations();
-//        Language result = null;
-//        if(parts.size() > 0) {
-//            NamespaceDeclaration firstNamespace = parts.get(0);
-//            if(firstNamespace != null) {
-//                result = firstNamespace.language();
-//            }
-//        }
-//        return result;
-    }
+  /**
+   * @return The association object that links this document to its loader.
+   */
+  public SingleAssociation<Document, DocumentLoader> loaderLink() {
+    return _loader;
+  }
 
+  /**
+   * @return the document loader that is responsible for loading the contents of
+   *         this document.
+   */
+  public DocumentLoader loader() {
+    return _loader.getOtherEnd();
+  }
 
-    @Override
-    protected Document cloneSelf() {
-        return new Document();
-    }
+  protected SingleAssociation<Document, DocumentLoader> _loader = new SingleAssociation<Document, DocumentLoader>(this);
 
-    @Override
-    public Verification verifySelf() {
-        return Valid.create();
-    }
-
-    @Deprecated
-    public Document cloneTo(View view) {
-        Document clone = clone(this);
-        //		Document clone = (Document) clone();
-        FakeDocumentScanner pl = new FakeDocumentScanner();
-        DocumentLoader is = new FakeDocumentLoader(clone,pl);
-        for(NamespaceDeclaration decl: descendants(NamespaceDeclaration.class)) {
-            view.namespace().getOrCreateNamespace(decl.namespace().fullyQualifiedName());
-        }
-        try {
-            view.addSource(pl);
-        } catch (ProjectException e) {
-            throw new ChameleonProgrammerException(e);
-        }
-        clone.activate();
-        return clone;
-    }
-
-    public SingleAssociation<Document, DocumentLoader> loaderLink() {
-        return _loader;
-    }
-
-    /**
-     * Return the document loader that is responsible for loading the contents of this document.
-     * @return
-     */
-    public DocumentLoader loader() {
-        return _loader.getOtherEnd();
-    }
-
-    protected SingleAssociation<Document, DocumentLoader> _loader = new SingleAssociation<Document, DocumentLoader>(this);
-
-    /**
-     * The view of a document is the view to which its document loader is connected.
-     */
-    /*@
-   @ public behavior
-   @
-   @ post \result == documentLoader().view();
-   @*/
-    @Override 
-    public View view() {
-        return loader().view();
-    }
+  /**
+   * @return The view of a document is the view to which its document loader is
+   *         connected.
+   */
+  /*@
+    @ public behavior
+    @
+    @ post \result == documentLoader().view();
+    @*/
+  @Override
+  public View view() {
+    return loader().view();
+  }
 }
