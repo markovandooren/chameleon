@@ -7,19 +7,25 @@ import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import com.google.common.collect.ImmutableList;
 
 /**
- * A signature is a means of identifying a declaration that can be cross-referenced. It contains
- * only the information required for identification. The return type of a method, for example,
- * is not part of its signature.
+ * A signature is a means of identifying a declaration that can be
+ * cross-referenced. It contains only the information required for
+ * identification. The return type of a method, for example, is not part of its
+ * signature.
  * 
  * @author Marko van Dooren
  */
 public abstract class Signature extends QualifiedName {
 
   /**
-   * Return a string representation of the name of this signature. For methods, 
+   * <p>
+   * Return a string representation of the name of this signature. For methods,
    * e.g., the arguments are not included.
+   * </p>
    * 
-   * SPEED: This name is used to speed up selection of declarations in declaration containers. 
+   * <p>
+   * SPEED: This name is used to speed up selection of declarations in
+   * declaration containers.
+   * </p>
    */
  /*@
    @ public behavior
@@ -30,6 +36,8 @@ public abstract class Signature extends QualifiedName {
   
   /**
    * Change the name of this signature to the given name.
+   * 
+   * @param name The new name of this signature. The name cannot be null.
    */
  /*@
    @ public behavior
@@ -48,7 +56,7 @@ public abstract class Signature extends QualifiedName {
    }
 
    /**
-    * The default string representation of a signature is its name.
+    * @return the name of this signature.
     */
    @Override
    public String toString() {
