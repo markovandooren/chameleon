@@ -3,7 +3,6 @@ package org.aikodi.chameleon.test.stub.builder;
 import java.util.function.Consumer;
 
 import org.aikodi.chameleon.builder.Builder;
-import org.aikodi.chameleon.core.declaration.CommonDeclarationContainingDeclaration;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.test.stub.declaration.StubDeclaration;
 import org.aikodi.chameleon.test.stub.declaration.StubDeclarationContainingDeclarationContainer;
@@ -29,7 +28,7 @@ public class StubContainerBuilder<P> extends Builder<P,Declaration> {
   }
   
   public StubContainerBuilder<StubContainerBuilder<P>> container(String name, Consumer<Declaration> peeker) {
-    CommonDeclarationContainingDeclaration container = new StubDeclarationContainingDeclarationContainer(name);
+    StubDeclarationContainingDeclarationContainer container = new StubDeclarationContainingDeclarationContainer(name);
     peeker.accept(container);
     consumer().accept(container);
     return new StubContainerBuilder<StubContainerBuilder<P>>(this, d -> {
