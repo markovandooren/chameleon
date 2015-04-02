@@ -3,19 +3,17 @@ package org.aikodi.chameleon.core.modifier;
 import java.util.List;
 
 import org.aikodi.chameleon.core.element.Element;
+import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.exception.ModelException;
 
 import be.kuleuven.cs.distrinet.rejuse.property.Property;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 
 /**
- * This is a convenience class for element that can have modifiers. Elements of this class automatically use the modifiers
- * to determine their declared properties.
+ * TAn element that can have modifiers. Elements of this class automatically use 
+ * the modifiers to determine their declared properties.
  * 
  * @author Marko van Dooren
- *
- * @param <E>
- * @param <P>
  */
 public interface ElementWithModifiers extends Element {
 
@@ -78,7 +76,7 @@ public interface ElementWithModifiers extends Element {
    @                                        : propery.mutex() == mutex)
    @             : \result.contains(modifier));
    @*/
-	public List<Modifier> modifiers(PropertyMutex mutex) throws ModelException;
+	public List<Modifier> modifiers(PropertyMutex<ChameleonProperty> mutex) throws ModelException;
 	
 	/**
 	 * Return all modifiers that imply the given property.

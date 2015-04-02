@@ -69,7 +69,7 @@ public abstract class CommonDeclaration extends DeclarationImpl implements Eleme
   private Multi<Modifier> _modifiers = new Multi<Modifier>(this);
 
   /**
-   * Return the list of modifiers of this member.
+   * @return the list of modifiers of this member.
    */
  /*@
    @ behavior
@@ -183,7 +183,7 @@ public PropertySet<Element,ChameleonProperty> declaredProperties() {
 	}
 
 	@Override
-	public List<Modifier> modifiers(PropertyMutex mutex) throws ModelException {
+	public List<Modifier> modifiers(PropertyMutex<ChameleonProperty> mutex) throws ModelException {
 		Property property = property(mutex);
 		List<Modifier> result = Lists.create();
 		for (Modifier mod : modifiers()) {
