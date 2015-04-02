@@ -14,6 +14,7 @@ public class NameChanged implements Change {
   
   /**
    * Create an object representing a name change.
+   * 
    * @param oldName The old name.
    * @param newName The new name.
    */
