@@ -10,7 +10,7 @@ import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.input.ParseException;
 import org.aikodi.chameleon.test.provider.BasicNamespaceProvider;
 import org.aikodi.chameleon.test.provider.ElementProvider;
-import org.aikodi.chameleon.workspace.BootstrapProjectConfig;
+import org.aikodi.chameleon.workspace.XMLProjectLoader;
 import org.aikodi.chameleon.workspace.ConfigException;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.ProjectException;
@@ -41,7 +41,7 @@ public class ModelBuilder {
    @*/
 	public ModelBuilder(String[] arguments, Workspace workspace) throws ConfigException {
 		File projectXML = new File(arguments[0]);
-		BootstrapProjectConfig config = new BootstrapProjectConfig(workspace);
+		XMLProjectLoader config = new XMLProjectLoader(workspace);
 		_project = config.project(projectXML,null);
 		processArguments(arguments);
 	}
