@@ -31,6 +31,8 @@ public abstract class Implementation extends ElementImpl {
 
   /**
    * Return the body of this implementation.
+   * 
+   * FIXME: Get rid of this dependency.
    */
 	public abstract Block getBody();
 
