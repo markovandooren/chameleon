@@ -1535,4 +1535,17 @@ public interface Element {
      */
     public ElementEventStreamCollection when();
 
+    /**
+     * Replace this element with the given other element. WARNING: this operation
+     * is not type safe. You may end up inserting an element of the wrong type
+     * into the model.
+     * 
+     * @param replacement
+     */
+    public default void replaceWith(Element replacement) {
+      if(isDerived()) {
+        throw new ChameleonProgrammerException("A derived element cannot be replaced.");
+      }
+      parentLink().getOtherRelation().replace((Association)parentLink(), (Association)replacement.parentLink());
+    }
 }
