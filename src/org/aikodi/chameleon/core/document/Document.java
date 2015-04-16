@@ -17,6 +17,7 @@ import org.aikodi.chameleon.workspace.FakeDocumentLoader;
 import org.aikodi.chameleon.workspace.FakeDocumentScanner;
 import org.aikodi.chameleon.workspace.ProjectException;
 import org.aikodi.chameleon.workspace.View;
+import org.aikodi.contract.Contracts;
 
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
@@ -171,6 +172,19 @@ public class Document extends ElementImpl {
     return new Document();
   }
 
+  /**
+   * <p>Copy this document to the given view and activate it.</p>
+   * 
+   * <p>The result is a clone of this document. All elements in the
+   * clone will have the corresponding element in the descendant tree
+   * of this document as their {@link Element#origin()}. All namespaces
+   * that are populated by namespace declarations in this document
+   * will be created if necessary. The document is activated.</p>
+   * 
+   * @param view The view to which this document must be copied.
+   * 
+   * @return A clone of the document in the given view.
+   */
   @Deprecated
   public Document cloneTo(View view) {
     Contracts.notNull(view);
