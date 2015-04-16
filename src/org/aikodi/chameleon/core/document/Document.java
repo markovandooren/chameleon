@@ -173,7 +173,8 @@ public class Document extends ElementImpl {
 
   @Deprecated
   public Document cloneTo(View view) {
-    Document clone = clone(this);
+    Contracts.notNull(view);
+    Document clone = (Document) clone((e1,e2) -> {e2.setOrigin(e1);}, Element.class);
     // Document clone = (Document) clone();
     FakeDocumentScanner pl = new FakeDocumentScanner();
     DocumentLoader is = new FakeDocumentLoader(clone, pl);
