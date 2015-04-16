@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.zip.ZipFile;
 
 import org.aikodi.chameleon.core.language.Language;
-import org.aikodi.chameleon.workspace.ProjectConfiguration.SourcePath;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -14,15 +13,20 @@ import be.kuleuven.cs.distrinet.rejuse.io.FileUtils;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 /**
- * A ProjectConfig mirrors the configuration of a Chameleon project. To load a project,
- * a {@link BootstrapProjectConfig} object is created. The bootstrapper is given the root
- * directory of the project (the directory in which project.xml is found), and a {@link LanguageRepository}.
- * The bootstrapper reads the language from the XML file by reading the XML nodes, and looks up the corresponding {@link Language} object
- * in the language repository. The bootstrapper gets the {@link ProjectConfigurator} plugin via {@link Language#plugin(Class)} and
- * invokes {@link ProjectConfigurator#createConfigElement(String, File, ProjectInitialisationListener)} to create an object of 
- * the appropriate subclass of ProjectConfig. In the last step, the bootstrapper tells the project config to process the
- * non-language nodes in the configuration file (only the language node is used by the bootstrapper itself).
- *  
+ * A ProjectConfig mirrors the configuration of a Chameleon project. To load a
+ * project, a {@link XMLProjectLoader} object is created. The bootstrapper
+ * is given the root directory of the project (the directory in which
+ * project.xml is found), and a {@link LanguageRepository}. The bootstrapper
+ * reads the language from the XML file by reading the XML nodes, and looks up
+ * the corresponding {@link Language} object in the language repository. The
+ * bootstrapper gets the {@link ProjectConfigurator} plugin via
+ * {@link Language#plugin(Class)} and invokes
+ * {@link ProjectConfigurator#createConfigElement(String, File, ProjectInitialisationListener)}
+ * to create an object of the appropriate subclass of ProjectConfig. In the last
+ * step, the bootstrapper tells the project config to process the non-language
+ * nodes in the configuration file (only the language node is used by the
+ * bootstrapper itself).
+ * 
  * @author Marko van Dooren
  */
 public abstract class ProjectConfiguration extends ConfigElement {

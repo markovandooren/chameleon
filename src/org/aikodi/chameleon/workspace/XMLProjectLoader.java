@@ -9,10 +9,19 @@ import org.w3c.dom.Element;
 import be.kuleuven.cs.distrinet.rejuse.junit.BasicRevision;
 import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
 
-public class BootstrapProjectConfig extends ConfigElement {
-	
-	public BootstrapProjectConfig(Workspace workspace) {
-//		_root = root;
+/**
+ * A class for loading a project from an XML configuration file.
+ * 
+ * @author Marko van Dooren
+ */
+public class XMLProjectLoader extends ConfigElement {
+
+  /**
+   * Create a new project loader that loads projects into the given workspace.
+   * 
+   * @param workspace The workspace into which the projects must be loaded.
+   */
+	public XMLProjectLoader(Workspace workspace) {
 		_workspace = workspace;
 		_configuration = new BaseLibraryConfiguration(workspace);
 	}
@@ -30,12 +39,6 @@ public class BootstrapProjectConfig extends ConfigElement {
 		_listeners.remove(listener);
 	}
 	
-//	private File _root;
-//	
-//	public File root() {
-//		return _root;
-//	}
-	
 	private String _projectName;
 	
 	public void setName(String text) {
@@ -45,20 +48,6 @@ public class BootstrapProjectConfig extends ConfigElement {
 	private Workspace _workspace;
 	
 	private org.aikodi.chameleon.core.language.Language _lang;
-	
-//	private boolean _loadBaseLibrary = false;
-//	
-//	public class DisableBaseLibrary extends ConfigElement {
-//
-//		@Override
-//		protected void $after() throws ConfigException {
-//			_loadBaseLibrary = false;
-//		}
-//		@Override
-//		protected void $update() {
-//		}
-//		
-//	}
 	
 	private final BaseLibraryConfiguration _configuration;
 	
