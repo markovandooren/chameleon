@@ -185,7 +185,6 @@ public class Document extends ElementImpl {
    * 
    * @return A clone of the document in the given view.
    */
-  @Deprecated
   public Document cloneTo(View view) {
     Contracts.notNull(view);
     Document clone = (Document) clone((e1,e2) -> {e2.setOrigin(e1);}, Element.class);
