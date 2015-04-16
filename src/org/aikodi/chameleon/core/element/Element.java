@@ -790,11 +790,11 @@ public interface Element {
      * Recursively pass this element and all of its descendants to
      * the given consumer if their type conforms to T.
      * 
-     * @param consumer The consumer to which the elements must be provided.
      * @param kind A class object representing the type of elements to be 
      *             passed to the consumer.
+     * @param consumer The consumer to which the elements must be provided.
      */
-    public <T extends Element, E extends Exception> void apply(Consumer<T> consumer, Class<T> kind) throws E;
+    public <T extends Element, E extends Exception> void apply(Class<T> kind, Consumer<T> consumer) throws E;
 
     /**
      * Return the metadata with the given key.
