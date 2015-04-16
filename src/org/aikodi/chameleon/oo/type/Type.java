@@ -41,6 +41,8 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	
 	public abstract List<InheritanceRelation> explicitNonMemberInheritanceRelations();
 
+	public <I extends InheritanceRelation> List<I> explicitNonMemberInheritanceRelations(Class<I> kind);
+	  
 	public List<InheritanceRelation> implicitNonMemberInheritanceRelations();
 	
   public default void reactOnDescendantAdded(Element element) {}
