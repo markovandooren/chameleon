@@ -177,28 +177,37 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * The default implementation loads simply returns
+	 * {@link #refreshTargetDeclarationNames(Namespace)}.
+	 */
 	@Override
 	public List<String> targetDeclarationNames(Namespace ns) throws InputException {
-		load();
-		List<NamespaceDeclaration> cs = rawDocument().children(NamespaceDeclaration.class);
-		if(! cs.isEmpty()) {
-			NamespaceDeclaration namespaceDeclaration = cs.get(0);
-			if(namespaceDeclaration != null) {
-				List<Declaration> children = namespaceDeclaration.children(Declaration.class);
-				List<String> result = new ArrayList<String>();
-				for(Declaration t: children) {
-					result.add(t.name());
-				}
-				return result;
-			}
-		} 
-		// Lets make it robust and return an empty collection if there is no content. This typically
-		// indicates the addition of a file of a language that doesn't support lazy loading to a namespace.
-		// Since we load the file anyway, we know that it doesn't contain namespace declarations. If that
-		// changes, the document must have changed, and any loaded namespace declarations will be activated.
-		
-		//throw new InputException("No target declarations are defined in document loader "+toString());
-		return Collections.EMPTY_LIST;
+		return refreshTargetDeclarationNames(ns);
+	}
+	
+	public List<String> refreshTargetDeclarationNames(Namespace ns) {
+    List<NamespaceDeclaration> cs = rawDocument().children(NamespaceDeclaration.class);
+    if(! cs.isEmpty()) {
+      NamespaceDeclaration namespaceDeclaration = cs.get(0);
+      if(namespaceDeclaration != null) {
+        List<Declaration> children = namespaceDeclaration.children(Declaration.class);
+        List<String> result = new ArrayList<String>();
+        for(Declaration t: children) {
+          result.add(t.name());
+        }
+        return result;
+      }
+    } 
+    // Lets make it robust and return an empty collection if there is no content. This typically
+    // indicates the addition of a file of a language that doesn't support lazy loading to a namespace.
+    // Since we load the file anyway, we know that it doesn't contain namespace declarations. If that
+    // changes, the document must have changed, and any loaded namespace declarations will be activated.
+    
+    //throw new InputException("No target declarations are defined in document loader "+toString());
+    return Collections.EMPTY_LIST;
 	}
 
 	@Override
@@ -264,4 +273,6 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 			return scanner().compareTo(other.scanner());
 		}
 	}
+	
+	
 }

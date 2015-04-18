@@ -2,8 +2,10 @@ package org.aikodi.chameleon.workspace;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.List;
 
 import org.aikodi.chameleon.core.namespace.DocumentLoaderNamespace;
+import org.aikodi.chameleon.core.namespace.Namespace;
 
 public class FileDocumentLoader extends StreamDocumentLoader implements IFileDocumentLoader {
 
@@ -32,5 +34,11 @@ public class FileDocumentLoader extends StreamDocumentLoader implements IFileDoc
   @Override
   public InputStream inputStream() throws InputException {
   	return convert(_file); 
+  }
+  
+  @Override
+  public List<String> targetDeclarationNames(Namespace ns) throws InputException {
+    load();
+    return refreshTargetDeclarationNames(ns);
   }
 }

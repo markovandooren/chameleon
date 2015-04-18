@@ -2,7 +2,12 @@ package org.aikodi.chameleon.workspace;
 
 import org.aikodi.chameleon.core.document.Document;
 
-public class FakeDocumentLoader extends DocumentLoaderImpl {
+/**
+ * A document loader that does not do anything.
+ * 
+ * @author Marko van Dooren
+ */
+public class FakeDocumentLoader extends EagerDocumentLoaderImpl {
 
     public FakeDocumentLoader(Document document, DocumentScanner scanner) {
         init(scanner);

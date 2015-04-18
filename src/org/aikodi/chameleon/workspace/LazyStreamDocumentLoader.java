@@ -71,10 +71,9 @@ public abstract class LazyStreamDocumentLoader extends StreamDocumentLoader {
 	 * Return the file name without the file extension. For lazy loading, that name should be
 	 * the same as the single non-private top-level declaration in the file.
 	 */
-	@Override
-	public List<String> targetDeclarationNames(Namespace ns) {
-		return Collections.singletonList(_declarationName);
-	}
-
+  @Override
+  public List<String> refreshTargetDeclarationNames(Namespace ns) {
+    return Collections.singletonList(_declarationName);
+  }
 
 }

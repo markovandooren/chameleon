@@ -128,16 +128,35 @@ deactivate documentLoader
 public interface DocumentLoader extends Comparable<DocumentLoader> {
 	
 	/**
-	 * Return the list of name of declaration that are added to the given namespace, 
+	 * <p>Return the list of name of declaration that are added to the given namespace, 
 	 * and are visible when the namespace is used as a <b>target</b>. Declarations 
-	 * that are only visible lexically from within the namespace are ignored.
+	 * that are only visible lexically from within the namespace are ignored.</p>
+	 * 
+	 * <p>The result of this method is the same as the of {@link #refreshTargetDeclarationNames(Namespace)}.
+	 * The difference is that this method is <em>allowed</em> to perform I/O (e.g.
+	 * by loading the document), while {@link #refreshTargetDeclarationNames(Namespace)}
+	 * cannot do so. This method is used when the names are requested initially.
+	 * {@link #refreshTargetDeclarationNames(Namespace)} is used to update
+	 * the information afterwards.</p>
+	 * 
 	 * @param namespace The namespace for which the requested target declarations
 	 *                  are requested.
-	 * @return 
+	 * @return The value of {@link #refreshTargetDeclarationNames(Namespace)}
 	 * @throws InputException 
 	 */
 	public List<String> targetDeclarationNames(Namespace namespace) throws InputException;
 	
+	/**
+   * <p>Return the list of name of declaration that are added to the given namespace, 
+   * and are visible when the namespace is used as a <b>target</b>. Declarations 
+   * that are only visible lexically from within the namespace are ignored.</p>
+   * 
+   * @param namespace The namespace for which the requested target declarations
+   *                  are requested.
+   * @return
+   */
+  public List<String> refreshTargetDeclarationNames(Namespace namespace);
+
 	/**
 	 * Load the declarations with the given name into the model (if any) and return them in a list.
 	 * 
@@ -276,4 +295,5 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
 	 */
 	@Override
 	public int compareTo(DocumentLoader o);
+	
 }
