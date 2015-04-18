@@ -333,7 +333,6 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	/**
 	 * Return the namespace to which this namespacepart adds declarations.
 	 * @return
-	 * @throws LookupException 
 	 */
 	@Override
    public Namespace namespace() {
@@ -342,13 +341,14 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 			//FIXME When multi-language support is added, this must change
 //			stored = view().namespace().getOrCreateNamespace(namespaceReference().toString());
 			try {
-//				System.out.println("resolving "+namespaceReference().toString());
 				stored = namespaceReference().getElement();
 				//FIXME I think this exception no longer has to be transformed.
 			} catch (LookupException e) {
 				throw new ChameleonProgrammerException(e);
 			}
-			stored.addNamespacePart(this);
+			if(stored != null) {
+			  stored.addNamespacePart(this);
+			}
 		}
 		return stored;
 	}
@@ -500,7 +500,33 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	/****************
 	 * DECLARATIONS *
 	 ****************/
-	private Multi<Declaration> _declarations = new Multi<Declaration>(this, "declarations");
+	private Multi<Declaration> _declarations = new Multi<Declaration>(this, "declarations") 
+//	    {
+//	  protected void fireElementAdded(Declaration addedElement) {
+//	    Namespace namespace = namespace();
+//      if(namespace != null) {
+//	      namespace.flushCache();
+//	    }
+//	    super.fireElementAdded(addedElement);
+//	  }
+	  
+//	  protected void fireElementRemoved(Declaration removedElement) {
+//      Namespace namespace = namespace();
+//      if(namespace != null) {
+//        namespace.flushCache();
+//      }
+//	    super.fireElementRemoved(removedElement);
+//	  }
+	  
+//	  protected void fireElementReplaced(Declaration oldElement, Declaration newElement) {
+//      Namespace namespace = namespace();
+//      if(namespace != null) {
+//        namespace.flushCache();
+//      }
+//	    super.fireElementReplaced(oldElement, newElement);
+//	  }
+//	}
+	  ;
 	{
 		_declarations.enableCache();
 	}
