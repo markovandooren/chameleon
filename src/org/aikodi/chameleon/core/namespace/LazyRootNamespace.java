@@ -73,7 +73,11 @@ public class LazyRootNamespace extends RootNamespace implements DocumentLoaderNa
    public void addDocumentLoader(DocumentLoader source) throws InputException {
 		_documentLoaders.add(source.namespaceLink());
 		List<String> targetDeclarationNames = source.targetDeclarationNames(this);
-		for(String name: targetDeclarationNames) {
+		addDocumentLoaderToCache(source, targetDeclarationNames);
+	}
+
+  protected void addDocumentLoaderToCache(DocumentLoader source, List<String> targetDeclarationNames) {
+    for(String name: targetDeclarationNames) {
 			if(name == null) {
 				throw new ChameleonProgrammerException("A document loader uses null as a declaration name.");
 			}
@@ -84,7 +88,7 @@ public class LazyRootNamespace extends RootNamespace implements DocumentLoaderNa
 			}
 			queue.add(source);
 		}
-	}
+  }
 	
 	@Override
 	public List<Declaration> declarations() throws LookupException {
@@ -120,19 +124,37 @@ public class LazyRootNamespace extends RootNamespace implements DocumentLoaderNa
 	private OrderedMultiAssociation<LazyRootNamespace,DocumentLoader> _documentLoaders = new OrderedMultiAssociation<LazyRootNamespace, DocumentLoader>(this) {
 		@Override
 		protected void fireElementRemoved(DocumentLoader removedElement) {
-			List<String> obsoleteKeys = Lists.create();
-			for(Map.Entry<String, Queue<DocumentLoader>> entry: _sourceMap.entrySet()) {
-				Queue<DocumentLoader> value = entry.getValue();
-				value.remove(removedElement);
-				if(value.isEmpty()) {
-					obsoleteKeys.add(entry.getKey());
-				}
-			}
-			for(String obsoleteKey: obsoleteKeys) {
-				_sourceMap.remove(obsoleteKey);
-        LazyRootNamespace.this.removeCache(obsoleteKey);
-			}
+			removeDocumentLoaderFromCache(removedElement);
 		}
+
 	};
+
+  protected void removeDocumentLoaderFromCache(DocumentLoader removedElement) {
+    List<String> obsoleteKeys = Lists.create();
+    for(Map.Entry<String, Queue<DocumentLoader>> entry: _sourceMap.entrySet()) {
+      Queue<DocumentLoader> value = entry.getValue();
+      value.remove(removedElement);
+      if(value.isEmpty()) {
+        obsoleteKeys.add(entry.getKey());
+      }
+    }
+    for(String obsoleteKey: obsoleteKeys) {
+      _sourceMap.remove(obsoleteKey);
+      LazyRootNamespace.this.removeCache(obsoleteKey);
+    }
+  }
+
+  @Override
+  public synchronized void flushLocalCache() {
+    super.flushLocalCache();
+    for(DocumentLoader loader: documentLoaders()) {
+      updateDocumentLoader(loader);
+    }
+  }
+  
+  protected void updateDocumentLoader(DocumentLoader updatedLoader) {
+    removeDocumentLoaderFromCache(updatedLoader);
+    addDocumentLoaderToCache(updatedLoader, updatedLoader.refreshTargetDeclarationNames(this));
+  }
 
 }

@@ -82,8 +82,11 @@ public class LazyNamespace extends RegularNamespace implements DocumentLoaderNam
 	    throw new IllegalArgumentException("The given document loader is null.");
 	  }
 		_documentLoaders.add(loader.namespaceLink());
-		List<String> targetDeclarationNames = loader.targetDeclarationNames(this);
-		for(String name: targetDeclarationNames) {
+		addDocumentLoaderToCache(loader, loader.targetDeclarationNames(this));
+	}
+
+  protected void addDocumentLoaderToCache(DocumentLoader loader, List<String> targetDeclarationNames) {
+    for(String name: targetDeclarationNames) {
 			if(name == null) {
 				throw new ChameleonProgrammerException("A document loader uses null as a declaration name.");
 			}
@@ -94,7 +97,15 @@ public class LazyNamespace extends RegularNamespace implements DocumentLoaderNam
 			}
 			queue.add(loader);
 		}
-	}
+  }
+	
+  @Override
+  public synchronized void flushLocalCache() {
+    super.flushLocalCache();
+    for(DocumentLoader loader: documentLoaders()) {
+      updateDocumentLoader(loader);
+    }
+  }
 	
 	/**
 	 * First, all document loaders are loaded. This attaches all namespace declarations
@@ -135,18 +146,29 @@ public class LazyNamespace extends RegularNamespace implements DocumentLoaderNam
 	private OrderedMultiAssociation<LazyNamespace,DocumentLoader> _documentLoaders = new OrderedMultiAssociation<LazyNamespace, DocumentLoader>(this) {
 		@Override
 		protected void fireElementRemoved(DocumentLoader removedElement) {
-			List<String> obsoleteKeys = Lists.create();
-			for(Map.Entry<String, Queue<DocumentLoader>> entry: _sourceMap.entrySet()) {
-				Queue<DocumentLoader> value = entry.getValue();
-				value.remove(removedElement);
-				if(value.isEmpty()) {
-					obsoleteKeys.add(entry.getKey());
-				}
-			}
-			for(String obsoleteKey: obsoleteKeys) {
-				_sourceMap.remove(obsoleteKey);
-	      LazyNamespace.this.removeCache(obsoleteKey);
-			}
+			removeDocumentLoaderFromCache(removedElement);
 		}
+
 	};
+	
+  protected void removeDocumentLoaderFromCache(DocumentLoader removedElement) {
+    List<String> obsoleteKeys = Lists.create();
+    for(Map.Entry<String, Queue<DocumentLoader>> entry: _sourceMap.entrySet()) {
+      Queue<DocumentLoader> value = entry.getValue();
+      value.remove(removedElement);
+      if(value.isEmpty()) {
+        obsoleteKeys.add(entry.getKey());
+      }
+    }
+    for(String obsoleteKey: obsoleteKeys) {
+      _sourceMap.remove(obsoleteKey);
+      LazyNamespace.this.removeCache(obsoleteKey);
+    }
+  }
+  
+  protected void updateDocumentLoader(DocumentLoader updatedLoader) {
+    removeDocumentLoaderFromCache(updatedLoader);
+    addDocumentLoaderToCache(updatedLoader, updatedLoader.refreshTargetDeclarationNames(this));
+  }
+
 }

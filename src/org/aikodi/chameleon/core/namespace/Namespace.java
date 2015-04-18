@@ -269,5 +269,7 @@ public interface Namespace extends Declaration, DeclarationContainer {
       cref.setUniParent(this);
       return cref.getElement();
    }
+   
+   public void notifyDeclarationAdded(Declaration declaration);
 
 }
