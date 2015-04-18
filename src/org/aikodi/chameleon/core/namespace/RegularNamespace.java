@@ -52,13 +52,8 @@ public class RegularNamespace extends NamespaceImpl {
 
 	protected synchronized void addNamespace(Namespace namespace) {
 		add(_namespaces,namespace);
-		updateCacheNamespaceAdded(namespace);
 	}
 	
-	protected void updateCacheNamespaceAdded(Namespace namespace) {
-		flushLocalCache();
-	}
-
 	/**
 	 * Return all subpackages of this package.
 	 */
@@ -81,7 +76,7 @@ public class RegularNamespace extends NamespaceImpl {
 	@Override
    public synchronized void addNamespacePart(NamespaceDeclaration namespacePart){
 		_namespaceDeclarations.add((Association)namespacePart.namespaceLink());
-		flushLocalCache();
+		addCacheForNamespaceDeclaration(namespacePart);
 	}
 
 	@Override

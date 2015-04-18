@@ -1,5 +1,6 @@
 package org.aikodi.chameleon.core.namespace;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -8,17 +9,12 @@ import java.util.Map;
 import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.BasicDeclaration;
 import org.aikodi.chameleon.core.declaration.Declaration;
-import org.aikodi.chameleon.core.declaration.DeclarationContainer;
-import org.aikodi.chameleon.core.declaration.TargetDeclaration;
-import org.aikodi.chameleon.core.factory.Factory;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
-import org.aikodi.chameleon.core.reference.CrossReference;
-import org.aikodi.chameleon.core.reference.NameReference;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.Util;
 
@@ -160,11 +156,25 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
 	}
 
 	protected void registerNamespace(Namespace namespace) {
-		_nameMap.put(namespace.name(),namespace);
+	  _nameMap.put(namespace.name(),namespace);
+	  if(_declarationCache !=null) {
+	    List<Declaration> decls = _declarationCache.get(namespace.name());
+	    if(decls == null) {
+	      decls = new ArrayList<>();
+	      _declarationCache.put(namespace.name(), decls);
+	    }
+	    decls.add(namespace);
+	  }
 	}
 
 	protected void unregisterNamespace(Namespace namespace) {
 		_nameMap.remove(namespace.name());
+    if(_declarationCache !=null) {
+      List<Declaration> decls = _declarationCache.get(namespace.name());
+      if(decls != null) {
+        decls.remove(namespace);
+      }
+    }
 	}
 
 	private Map<String,Namespace> _nameMap = new HashMap<>();
@@ -224,10 +234,10 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
 	@Override
 	public synchronized void flushLocalCache() {
 	  super.flushLocalCache();
-		_declarationCache = null;
-		if(_local != null) {
-			_local.flushCache();
-		}
+	  _declarationCache = null;
+    if(_local != null) {
+      _local.flushCache();
+    }
 	}
 	
 	protected void initDirectCache() throws LookupException {
@@ -242,42 +252,25 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
 				_declarationCache.put(declaration.name(), Lists.create(declaration,1));
 			}
 			for(NamespaceDeclaration part: loadedNamespaceDeclarations()) {
-				for(Declaration declaration: part.declarations()) {
-					_declarationCache.put(declaration.name(), Lists.create(declaration,1));
-				}
+				addCacheForNamespaceDeclaration(part);
 			}
 			
 		}
 	}
+
+  protected void addCacheForNamespaceDeclaration(NamespaceDeclaration part) {
+    if(_declarationCache != null) {
+      for(Declaration declaration: part.declarations()) {
+        List<Declaration> matches = _declarationCache.get(declaration.name());
+        if(matches == null) {
+          matches = new ArrayList<>(1);
+          _declarationCache.put(declaration.name(), matches);
+        }
+        matches.add(declaration);
+      }
+    }
+  }
 	
-//	public static Map<String,List<String>> LOG = new HashMap<>();
-//	
-//	private List<String> getLog() {
-//		String fullyQualifiedName = this.getFullyQualifiedName();
-//		List<String> result = LOG.get(fullyQualifiedName);
-//		if(result == null) {
-//			result = new ArrayList<String>();
-//			LOG.put(fullyQualifiedName,result);
-//		}
-//		return result;
-//	}
-	
-//	protected void log(String string) {
-//		synchronized (LOG) {
-//			Util.debug(string.equals("found no declaration with name ResolvedPackage") && getFullyQualifiedName().equals("org.jnome.mm.java.packages"));
-//			List<String> log = getLog();
-//			log.add(string);
-//		}
-//	}
-	
-	protected synchronized void updateLocalCacheNamespaceAdd(Namespace namespace) {
-		if(_declarationCache !=null) {
-				List<Declaration> decls = _declarationCache.get(namespace.name());
-				if(decls != null) {
-					decls.add(namespace);
-				}
-		}
-	}
 	protected synchronized List<Declaration> searchDeclarations(String name) throws LookupException {
 		return directDeclarations(name);
 	}
@@ -303,7 +296,6 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
     }
   }
 	
-
 	protected Map<String,List<Declaration>> _declarationCache;
 	
 	@Override
@@ -343,4 +335,8 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
 		return new NamespaceAlias(name,this);
 	}
 
+	@Override
+	public void notifyDeclarationAdded(Declaration declaration) {
+	  
+	}
 }
