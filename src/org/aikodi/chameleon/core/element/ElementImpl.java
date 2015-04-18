@@ -319,24 +319,24 @@ public abstract class ElementImpl implements Element {
 		return clone(null, Element.class);
 	}
 	
-   public final <E extends Element> Element clone(final BiConsumer<E, E> consumer, Class<E> type) {
-		Element result = cloneSelf();
-		if(canHaveChildren()) {
-			List<ChameleonAssociation<?>> mine = myAssociations();
-			int size = mine.size();
-			List<ChameleonAssociation<?>> others = result.associations();
-			for(int i = 0; i<size;i++) {
-				ChameleonAssociation<? extends Element> m = mine.get(i);
-				final ChameleonAssociation<? extends Element> o = others.get(i);
-            m.mapTo(o, e -> e.clone());
-			}
-		}
-		if(consumer != null && type.isInstance(this)) {
-		   consumer.accept((E)this, (E)result);
-		}
-		return result;
-	}
-	
+  public final <E extends Element> Element clone(final BiConsumer<E, E> consumer, Class<E> type) {
+    Element result = cloneSelf();
+    if (canHaveChildren()) {
+      List<ChameleonAssociation<?>> mine = myAssociations();
+      int size = mine.size();
+      List<ChameleonAssociation<?>> others = result.associations();
+      for (int i = 0; i < size; i++) {
+        ChameleonAssociation<? extends Element> m = mine.get(i);
+        final ChameleonAssociation<? extends Element> o = others.get(i);
+        m.mapTo(o, e -> e.clone(consumer,type));
+      }
+    }
+    if (consumer != null && type.isInstance(this)) {
+      consumer.accept((E) this, (E) result);
+    }
+    return result;
+  }
+
 	/**
 	 * Create a shallow clone of the current element.
 	 * @return
@@ -797,12 +797,13 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
 		}
 	}
 	
-	public final <T extends Element, E extends Exception>  void apply(Consumer<T> action, Class<T> kind) throws E {
+	@Override
+	public final <T extends Element, E extends Exception>  void apply(Class<T> kind, Consumer<T> action) throws E {
 	  if(kind.isInstance(this)) {
 	     action.accept((T)this);
 	  }
      for (Element e : children()) {
-        e.apply(action,kind);
+        e.apply(kind,action);
      }
 	}
 

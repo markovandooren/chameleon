@@ -3,6 +3,7 @@ package org.aikodi.chameleon.core.element;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
@@ -32,6 +33,7 @@ import org.aikodi.chameleon.core.tag.Metadata;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
+import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.association.ChameleonAssociation;
 import org.aikodi.chameleon.workspace.Project;
@@ -39,6 +41,7 @@ import org.aikodi.chameleon.workspace.View;
 import org.aikodi.chameleon.workspace.WrongViewException;
 
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
+import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
@@ -1097,13 +1100,31 @@ public interface Element {
      * @param element The element to be cloned.
      * @return A clone of the given element.
      */
+   /*@
+     @ public behavior
+     @
+     @ post \result == clone();
+     @*/
     public default <T extends Element> T clone(T element) {
-      // Without the cast, the clone call is bound to the
-      // clone of Object, which throws a CloneNotSupportedException.
-      // Is this because of a potential Raw method call? If you write
-      // the same code in ElementImpl, the cast is not required.
+    // Without the cast, the clone call is bound to the
+    // clone of Object, which throws a CloneNotSupportedException.
+    // If you write the same code in ElementImpl, the cast is not required. 
+    // This seems like a bug in the JDT.
         return (T) ((Element)element).clone();
     }
+    
+    /**
+     * Clone this element and apply the given biconsumer to corresponding
+     * elements in the lexical structure of both this element and the resulting
+     * clone if they are of the given type.
+     *  
+     * @param consumer The consumer that will process the corresponding elements 
+     * in both element trees.
+     * @param type The type of element to which the consumer must be applied.
+     * @return A clone of this element that has been processed by the given
+     * consumer.
+     */
+    public <E extends Element> Element clone(final BiConsumer<E, E> consumer, Class<E> type);
     
     /**
      * Return the lexical lookup context for the given child element. The
