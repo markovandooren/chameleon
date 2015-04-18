@@ -31,14 +31,14 @@ public class IncrementalAspectTranslator extends IncrementalTranslator<AspectOri
 	@Override
    public List<Document> build(Document dummy, BuildProgressHelper buildProgressHelper) throws BuildException {
 		try {
-		initTargetLanguage(true);
+		initTarget(true);
 		
 		System.out.println("-- Complete rebuild");
 		List<Document> result = Lists.create();
 
 		// First clone the compilation units to the target language.
 		for (Document cu : source().sourceDocuments()) {
-			Document clone = implementationCompilationUnit(cu);
+			Document clone = targetDocument(cu);
 			result.add(clone);
 		}
 		List<List<JoinPointWeaver>> heads = Lists.create(); 	

@@ -14,7 +14,7 @@ import org.aikodi.chameleon.plugin.ViewPluginImpl;
 import org.aikodi.chameleon.plugin.build.BuildException;
 import org.aikodi.chameleon.plugin.build.BuildProgressHelper;
 import org.aikodi.chameleon.plugin.build.Builder;
-import org.aikodi.chameleon.plugin.build.CompilationUnitWriter;
+import org.aikodi.chameleon.plugin.build.DocumentWriter;
 import org.aikodi.chameleon.workspace.View;
 
 public class AspectBuilder extends ViewPluginImpl implements Builder {
@@ -65,7 +65,7 @@ public class AspectBuilder extends ViewPluginImpl implements Builder {
 	@Override
 	public void build(List<Document> compilationUnits, File outputDir, BuildProgressHelper buildProgressHelper) throws BuildException {
 			Collection<Document> cus = _translator.build(null, buildProgressHelper);
-			CompilationUnitWriter writer = target().language().plugin(CompilationUnitWriter.class);
+			DocumentWriter writer = target().language().plugin(DocumentWriter.class);
 			for (Document translated : cus) {
 				try {
 					writer.write(translated,outputDir);
