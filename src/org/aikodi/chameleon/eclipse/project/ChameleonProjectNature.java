@@ -23,7 +23,7 @@ import org.aikodi.chameleon.input.InputProcessor;
 import org.aikodi.chameleon.input.ModelFactory;
 import org.aikodi.chameleon.input.ParseException;
 import org.aikodi.chameleon.input.SourceManager;
-import org.aikodi.chameleon.workspace.BootstrapProjectConfig;
+import org.aikodi.chameleon.workspace.XMLProjectLoader;
 import org.aikodi.chameleon.workspace.ConfigException;
 import org.aikodi.chameleon.workspace.DocumentLoader;
 import org.aikodi.chameleon.workspace.DocumentLoaderListener;
@@ -280,7 +280,7 @@ public class ChameleonProjectNature implements IProjectNature {
 			IPath location = project.getLocation();
 			Project result = null;
 			final EclipseDocumentLoaderListener listener = new EclipseDocumentLoaderListener();
-			BootstrapProjectConfig bootstrapProjectConfig = new BootstrapProjectConfig(workspace());
+			XMLProjectLoader bootstrapProjectConfig = new XMLProjectLoader(workspace());
 			result = bootstrapProjectConfig.project(new File(location+"/"+CHAMELEON_PROJECT_FILE), new ProjectInitialisationListener(){
 				@Override
 				public void viewAdded(View view) {
