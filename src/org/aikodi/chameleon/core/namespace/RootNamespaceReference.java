@@ -5,6 +5,7 @@ import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.reference.CrossReference;
+import org.aikodi.chameleon.workspace.View;
 
 public class RootNamespaceReference extends ElementImpl implements CrossReference<Namespace> {
 
@@ -15,7 +16,11 @@ public class RootNamespaceReference extends ElementImpl implements CrossReferenc
 
 	@Override
 	public Namespace getElement() throws LookupException {
-		return view().namespace();
+		View view = view();
+		if(view == null) {
+		  throw new LookupException("This root namespace reference is not part of a view.");
+		}
+		return view.namespace();
 	}
 
 	@Override
