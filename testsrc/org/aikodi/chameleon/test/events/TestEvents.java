@@ -182,6 +182,15 @@ public class TestEvents {
     declarationChecker.check();
     
   }
+  
+//  @Test
+//  public void testNamespace() {
+//    Declaration declaration = _declarations.get(0);
+//    declaration.namespace().when().descendant().call(e -> {
+//      System.out.println(e.change().getClass());
+//    });
+//    declaration.setName("Bla");
+//  }
 
   protected NamespaceDeclaration namespaceDeclaration() {
     return _document.namespaceDeclaration(0);
