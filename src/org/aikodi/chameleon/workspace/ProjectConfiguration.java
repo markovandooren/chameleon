@@ -73,7 +73,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
     //      I'd rather not do it before I know what I'm doing.
     project().addProjectListener(new ProjectListener() {
     	@Override
-    	public void nameChanged(String name) {
+    	public void nameChanged(String oldName, String name) {
     		_name = name;
     	}
     });

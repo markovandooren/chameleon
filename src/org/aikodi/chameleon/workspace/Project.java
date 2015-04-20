@@ -260,11 +260,16 @@ public class Project {
     * @param name The new name of this project.
     */
    public void setName(String name) {
+     String oldName = _name;
       if(name == null) {
          _name="Unnamed Project";
       } else {
          _name = name;
       }
+      for(ProjectListener listener: _listeners) {
+        listener.nameChanged(oldName, _name);
+     }
+
    }
 
    private String _name;
