@@ -8,8 +8,8 @@
        name="Chameleon Editor"
        point="org.eclipse.ui.editors">
       <editor
-            class="be.kuleuven.cs.distrinet.chameleon.eclipse.editors.ChameleonEditor"
-            contributorClass="be.kuleuven.cs.distrinet.chameleon.eclipse.editors.actions.ChameleonEditorActionContributor"
+            class="org.aikodi.chameleon.eclipse.editors.ChameleonEditor"
+            contributorClass="org.aikodi.chameleon.eclipse.editors.actions.ChameleonEditorActionContributor"
             default="true"
             icon="icons/chameleon.png"
             id="chameleon.eclipse.editors.ChameleonEditor"
@@ -24,7 +24,7 @@
          name="Chameleon Project"
          point="org.eclipse.core.resources.natures">
          <runtime>
-         	<run class="be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature">
+         	<run class="org.aikodi.chameleon.eclipse.project.ChameleonProjectNature">
          </run>
       </runtime>
       <builder id="be.chameleon.eclipse.ChameleonBuilder"/>
@@ -37,7 +37,7 @@
          name="Chameleon Background Project"
          point="org.eclipse.core.resources.natures">
          <runtime>
-         	<run class="be.kuleuven.cs.distrinet.chameleon.eclipse.project.ChameleonProjectNature">
+         	<run class="org.aikodi.chameleon.eclipse.project.ChameleonProjectNature">
          </run>
       </runtime>
       <!--<builder id="be.chameleon.eclipse.ChameleonBuilder"/> -->
@@ -54,7 +54,7 @@
          id="chameleon.category1">
    </category>
       <wizard
-            class="be.kuleuven.cs.distrinet.chameleon.eclipse.project.ProjectWizard"
+            class="org.aikodi.chameleon.eclipse.project.ProjectWizard"
             id="chameleon.eclipse.ProjectWizard"
             name="New Chameleon Project"
             icon="icons/chameleon.png"
@@ -68,21 +68,21 @@
          point="org.eclipse.ui.preferencePages">
       <page
             category="ChameleonEditorPreferencePage"
-            class="be.kuleuven.cs.distrinet.chameleon.eclipse.editors.preferences.ColoringPreferencePage"
+            class="org.aikodi.chameleon.eclipse.editors.preferences.ColoringPreferencePage"
             id="ColoringPreferencePage"
             name="Syntax Coloring"/>
       <page
             category="ChameleonEditorPreferencePage"
-            class="be.kuleuven.cs.distrinet.chameleon.eclipse.editors.preferences.OutlinePreferencePage"
+            class="org.aikodi.chameleon.eclipse.editors.preferences.OutlinePreferencePage"
             id="OutlinePreferencePage"
             name="Outline Elements"/>
       <page
             category="ChameleonEditorPreferencePage"
-            class="be.kuleuven.cs.distrinet.chameleon.eclipse.editors.preferences.FormatterPreferencePage"
+            class="org.aikodi.chameleon.eclipse.editors.preferences.FormatterPreferencePage"
             id="FormatterPreferencePage"
             name="Formatting"/>
       <page
-            class="be.kuleuven.cs.distrinet.chameleon.eclipse.editors.preferences.ChameleonEditorPreferencePage"
+            class="org.aikodi.chameleon.eclipse.editors.preferences.ChameleonEditorPreferencePage"
             id="ChameleonEditorPreferencePage"
             name="ChameleonEditor"/>
    </extension>
@@ -186,7 +186,7 @@
   <extension
         point="org.eclipse.core.expressions.propertyTesters">
      <propertyTester
-           class="be.kuleuven.cs.distrinet.chameleon.eclipse.property.IsDeclaration"
+           class="org.aikodi.chameleon.eclipse.property.IsDeclaration"
            id="chameleon.IsDeclaration"
            namespace="chameleon.properties"
            properties="isDeclaration"
@@ -198,7 +198,7 @@
       
   <extension point="org.eclipse.ui.handlers">
     <handler
-            class="be.kuleuven.cs.distrinet.chameleon.eclipse.refactoring.RefactoringHandler"
+            class="org.aikodi.chameleon.eclipse.refactoring.RefactoringHandler"
             commandId="chameleon.eclipse.actions.refactoring.rename">
     </handler>
   </extension>
@@ -225,42 +225,42 @@
 		  name="Type Hierarchy"
 		  icon="icons/type_hierarchy.gif"
 		  category="chameleon.eclipse.ChameleonEditorPlugin"
-		  class="be.kuleuven.cs.distrinet.chameleon.eclipse.presentation.hierarchy.HierarchyView"/>
+		  class="org.aikodi.chameleon.eclipse.presentation.hierarchy.HierarchyView"/>
 	
 		  <view 
 		  id="chameleon.eclipse.ChameleonEditorPlugin.dependency" 
 		  name="Dependencies"
 		  icon="icons/type_hierarchy.gif"
 		  category="chameleon.eclipse.ChameleonEditorPlugin"
-		  class="be.kuleuven.cs.distrinet.chameleon.eclipse.view.dependency.DependencyView"/>
+		  class="org.aikodi.chameleon.eclipse.view.dependency.DependencyView"/>
 	
 	  <view 
 		  id="chameleon.eclipse.ChameleonEditorPlugin.callhierarchyview" 
 		  name="Call Hierarchy"
 		  icon="icons/call_hierarchy.gif"
 		  category="chameleon.eclipse.ChameleonEditorPlugin"
-		  class="be.kuleuven.cs.distrinet.chameleon.eclipse.view.callhierarchy.CallHierarchyView"/>
+		  class="org.aikodi.chameleon.eclipse.view.callhierarchy.CallHierarchyView"/>
 	
     <view 
 		  id="chameleon.eclipse.ChameleonEditorPlugin.modelview" 
 		  name="Chameleon Model"
 		  icon="icons/model.gif"
 		  category="chameleon.eclipse.ChameleonEditorPlugin"
-		  class="be.kuleuven.cs.distrinet.chameleon.eclipse.developertools.modelview.ModelView"/>
+		  class="org.aikodi.chameleon.eclipse.developertools.modelview.ModelView"/>
 
 	  <view 
 		  id="chameleon.eclipse.ChameleonEditorPlugin.editortagtextview" 
 		  name="EditorTag Text View"
 		  icon="icons/model.gif"
 		  category="chameleon.eclipse.ChameleonEditorPlugin"
-		  class="be.kuleuven.cs.distrinet.chameleon.eclipse.developertools.tagview.EditorTagTextView"/>
+		  class="org.aikodi.chameleon.eclipse.developertools.tagview.EditorTagTextView"/>
 	
 	  <view 
 		  id="chameleon.eclipse.ChameleonEditorPlugin.editortaglistview" 
 		  name="EditorTag List View"
 		  icon="icons/model.gif"
 		  category="chameleon.eclipse.ChameleonEditorPlugin"
-		  class="be.kuleuven.cs.distrinet.chameleon.eclipse.developertools.tagview.EditorTagListView"/>
+		  class="org.aikodi.chameleon.eclipse.developertools.tagview.EditorTagListView"/>
   </extension>
   
   <extension
@@ -268,7 +268,7 @@
        name="Chameleon Builder" 
        point="org.eclipse.core.resources.builders">
        <builder hasNature="true"> 
-       <run class="be.kuleuven.cs.distrinet.chameleon.eclipse.builder.ChameleonBuilder"/> 
+       <run class="org.aikodi.chameleon.eclipse.builder.ChameleonBuilder"/> 
       </builder>
   </extension>
    
