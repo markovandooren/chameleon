@@ -22,7 +22,7 @@ public class NameReference<D extends Declaration> extends ElementReference<D> {
    private Class<D> _specificClass;
 
    /**
-    * Initialize a new simple reference given a fully qualified name. The name
+    * Initialize a new simple reference given a qualified name. The name
     * is split at every dot, and multiple objects are created to form a chain of
     * references.
     * 
@@ -31,17 +31,22 @@ public class NameReference<D extends Declaration> extends ElementReference<D> {
     * {@link #NameReference(String, Class, boolean)} with true as the last
     * argument.
     * 
-    * @param fqn
-    *           The fully qualified name of the referenced declaration.
+    * @param qualifiedName
+    *           The qualified name of the referenced declaration. The exact
+    *           meaning of the name is determined by the lookup rules of the
+    *           language. If the name contains dots, the last part will be the
+    *           name of this name reference, and the prefix will be used
+    *           to create another NameReference that will be the {@link #getTarget()}
+    *           of this NameReference.
     * @param type
     *           The type of declaration that is referenced.
     */
-   public NameReference(String fqn, Class<D> type) {
-      this(fqn, type, false);
+   public NameReference(String qualifiedName, Class<D> type) {
+      this(qualifiedName, type, false);
    }
 
    /**
-    * Initialize a new simple reference given a fully qualified name. The name
+    * Initialize a new simple reference given a qualified name. The name
     * is split at every dot, and multiple objects are created to form a chain of
     * references.
     * 
@@ -49,34 +54,34 @@ public class NameReference<D extends Declaration> extends ElementReference<D> {
     * the given type. If recursiveLimit is false, the prefixes are all
     * references to {@link Declaration}s.
     * 
-    * @param fqn
-    *           The fully qualified name of the referenced declaration.
+    * @param qualifiedName
+    *           The qualified name of the referenced declaration.
     * @param type
     *           The type of declaration that is referenced.
     * @param recursiveLimit
     *           Indicate whether the type restriction must be applied to the
     *           prefixes.
     */
-   public NameReference(String fqn, Class<D> type, boolean recursiveLimit) {
-      this(null, Util.getLastPart(fqn), type);
-      setTarget(createTarget(fqn, type, recursiveLimit));
+   public NameReference(String qualifiedName, Class<D> type, boolean recursiveLimit) {
+      this(null, Util.getLastPart(qualifiedName), type);
+      setTarget(createTarget(qualifiedName, type, recursiveLimit));
    }
 
    /**
-    * Initialize a new simple reference given a fully qualified name. The name
+    * Initialize a new simple reference given a qualified name. The name
     * is split at every dot, and multiple objects are created to form a chain of
     * references.
     *
     * @param target
     *           A cross-reference to the target declaration in which this
     *           name reference must be resolved.
-    * @param name
-    *           The name of the element referenced by this name reference.
+    * @param qualifiedName
+    *           The qualified name of the element referenced by this name reference.
     * @param type
     *           The type of declaration that is referenced.
     */
-   public NameReference(CrossReferenceTarget target, String name, Class<D> type) {
-      super(name);
+   public NameReference(CrossReferenceTarget target, String qualifiedName, Class<D> type) {
+      super(qualifiedName);
       setTarget(target);
       _specificClass = type;
    }
@@ -128,8 +133,8 @@ public class NameReference<D extends Declaration> extends ElementReference<D> {
     * Subclasses must override this method and return an object of the type of
     * the subclass.
     * 
-    * @param fqn
-    *           The fully qualified name of the referenced declaration.
+    * @param qualifiedName
+    *           The qualified name of the referenced declaration.
     * @param type
     *           The type of declaration that is referenced.
     * @param recursiveLimit
@@ -137,9 +142,9 @@ public class NameReference<D extends Declaration> extends ElementReference<D> {
     *           prefixes.
     * @return
     */
-   protected <D extends Declaration> NameReference<D> createSimpleReference(String fqn, Class<D> kind,
+   protected <D extends Declaration> NameReference<D> createSimpleReference(String qualifiedName, Class<D> kind,
          boolean recursiveLimit) {
-      return new NameReference(fqn, recursiveLimit ? kind : Declaration.class, recursiveLimit);
+      return new NameReference(qualifiedName, recursiveLimit ? kind : Declaration.class, recursiveLimit);
    }
 
 }
