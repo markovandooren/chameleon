@@ -5,7 +5,6 @@ import java.util.List;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -14,9 +13,6 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.type.ParameterBlock;
 import org.aikodi.chameleon.util.Lists;
-import org.aikodi.chameleon.util.association.Multi;
-
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
 
 /**
  * WARNING! If you use a parameter block as an subelement of a class X, then you must add
@@ -43,17 +39,12 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 
 
 	@Override
-   public List<? extends Declaration> declarations() throws LookupException {
-//	return parameters();
+   public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		List<Declaration> result = Lists.create();
-		Stub stub = new Stub();
-//		stub.setUniParent(parent());
+		BlockFixer stub = new BlockFixer();
 		stub.setUniParent(this);
 		for(TypeParameter parameter:parameters()) {
-			//FIXME must create subclass of formalparameter that keeps a reference to the original formal
-			// parameter OR use origin() for that.
-//			TypeParameter clone = new StubTypeParameter(parameter);
-			TypeParameter clone = parameter.cloneForStub();
+			TypeParameter clone = clone(parameter);
 			clone.setOrigin(parameter);
 			result.add(clone);
 			stub.add(clone);
@@ -62,13 +53,8 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 	}
 
 	@Override
-   public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
-		return selector.selection(declarations());
-	}
-	
-	@Override
    public LookupContext lookupContext(Element element) throws LookupException {
-		if(element instanceof Stub) {
+		if(element instanceof TypeParameterFixer) {
 			return parent().lookupContext(this);
 		} else {
 			if(_lexical == null) {
@@ -79,140 +65,4 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 	}
 	
 	private LookupContext _lexical;
-
-	@Override
-   public LookupContext localContext() {
-		return language().lookupFactory().createLocalLookupStrategy(this);
-	}
-	
-	public static class Stub extends ElementImpl implements DeclarationContainer{
-
-		@Override
-		public Stub cloneSelf() {
-			return new Stub();
-		}
-		
-		@Override
-      public LookupContext lookupContext(Element element) {
-			return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
-		}
-
-		@Override
-      public LookupContext localContext() {
-			return language().lookupFactory().createLocalLookupStrategy(this);
-		}
-		
-
-		@Override
-      public List<? extends Declaration> declarations() throws LookupException {
-				List<Declaration> result = Lists.create();
-				for(TypeParameter parameter: parameters()) {
-					result.add(parameter.resolveForRoundTrip());
-				}
-		    return result;
-		}
-
-		@Override
-      public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
-			return selector.selection(declarations());
-		}
-
-		private Multi<TypeParameter> _parameters = new Multi<TypeParameter>(this);
-		
-		private List<TypeParameter> parameters() {
-			return _parameters.getOtherEnds();
-		}
-		
-		public void add(TypeParameter parameter) {
-			add(_parameters,parameter);
-		}
-
-		public void remove(TypeParameter parameter) {
-			remove(_parameters,parameter);
-		}
-		
-		public void replace(TypeParameter oldParameter, TypeParameter newParameter) {
-			if((oldParameter != null) && (newParameter != null)){
-				_parameters.replace((Association)oldParameter.parentLink(), (Association)newParameter.parentLink());
-			}
-		}
-
-		@Override
-		public Verification verifySelf() {
-			return Valid.create();
-		}
-
-		@Override
-      public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
-			return declarations();
-		}
-
-	}
-
-	@Override
-	public Verification verifySelf() {
-		return Valid.create();
-	}
-
-	@Override
-   public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
-		return declarations();
-	}
-	
-//	public static class StubTypeParameter extends TypeParameter<StubTypeParameter> {
-//
-//		public StubTypeParameter(TypeParameter original) {
-//			super(original.signature().clone());
-//			setOriginalTypeParameter(original);
-//		}
-//		
-//		public void setOriginalTypeParameter(TypeParameter original) {
-//			_original = original;
-//		}
-//		
-//		private TypeParameter _original;
-//
-//		public TypeParameter originalTypeParameter() {
-//			return _original;
-//		}
-//		
-//		@Override
-//		public StubTypeParameter clone() {
-//			return new StubTypeParameter(originalTypeParameter());
-//		}
-//
-//		@Override
-//		public Type lowerBound() throws LookupException {
-//			return originalTypeParameter().lowerBound();
-//		}
-//
-//		@Override
-//		public Declaration resolveForRoundTrip() throws LookupException {
-//			return originalTypeParameter().resolveForRoundTrip();
-//		}
-//
-//		@Override
-//		public boolean uniSameAs(Element other) throws LookupException {
-//			return originalTypeParameter().uniSameAs(other);
-//		}
-//
-//		@Override
-//		public Type upperBound() throws LookupException {
-//			return originalTypeParameter().upperBound();
-//		}
-//
-//		public Declaration<?, ?, ?, Type> selectionDeclaration() throws LookupException {
-//			return originalTypeParameter().selectionDeclaration();
-//		}
-//
-//		public List<? extends Element> children() {
-//			return Util.createSingletonList(signature());
-//		}
-//
-//		@Override
-//		public TypeReference upperBoundReference() throws LookupException {
-//			return originalTypeParameter().upperBoundReference();
-//		}
-//		
-//	}
 }

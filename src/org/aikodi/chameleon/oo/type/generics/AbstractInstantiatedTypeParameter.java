@@ -79,7 +79,6 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 	
 	@Override
 	public Type resolveForRoundTrip() throws LookupException {
-//		return this;
   	Type result = new LazyInstantiatedAlias(name(), this);
   	result.setUniParent(parent());
   	return result;

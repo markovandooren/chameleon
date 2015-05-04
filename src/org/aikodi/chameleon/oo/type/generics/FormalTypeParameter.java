@@ -14,12 +14,17 @@ import org.aikodi.chameleon.util.Pair;
 import org.aikodi.chameleon.util.association.Multi;
 
 /**
- * This class represents generic parameters as used in Java and C#.
+ * This class represents generic parameters as used in e.g. Java, C#, and Eiffel.
  * 
  * @author Marko van Dooren
  */
 public class FormalTypeParameter extends TypeParameter {
 
+	/**
+	 * Create a formal type parameter with the same name.
+	 * 
+	 * @param name The name of the type parameter.
+	 */
 	public FormalTypeParameter(String name) {
 		super(name);
 	}
@@ -36,10 +41,6 @@ public class FormalTypeParameter extends TypeParameter {
 	 */
 	@Override
    public Type selectionDeclaration() throws LookupException {
-//		String x = nearestAncestor(Type.class).getFullyQualifiedName()+"."+signature();
-//		if(x.equals("org.rejuse.property.Property.E")) {
-//			System.out.println("Selection declaration of " + x);
-//		}
 		Type constructedType = createSelectionType();
 		constructedType.setUniParent(parent());
 		return constructedType;
@@ -56,7 +57,6 @@ public class FormalTypeParameter extends TypeParameter {
   	result.setUniParent(parent());
   	return result;
 	}
-
 
 	protected Type createLazyAlias() {
 		return new LazyFormalAlias(name(), this);
@@ -150,16 +150,6 @@ public class FormalTypeParameter extends TypeParameter {
 		} else {
 			return origin().sameAs(other);
 		}
-//		boolean result = false;
-//		if(other instanceof FormalTypeParameter) {
-//			result = signature().sameAs(((FormalTypeParameter) other).signature());
-//			if(result) {
-//				Element parent = nearestAncestor(TypeParameterBlock.class).parent();
-//				Element otherParent = other.nearestAncestor(TypeParameterBlock.class).parent();
-//				result = parent.sameAs(otherParent);
-//			}
-//		}
-//		return result;
 	}
 
   @Override
@@ -171,13 +161,6 @@ public class FormalTypeParameter extends TypeParameter {
 		}
 
   }
-
-
-//	@Override
-//	public boolean sameValueAs(TypeParameter otherParam) throws LookupException {
-//		return sameAs(otherParam);
-//	}
-
 
 	@Override
 	public boolean sameValueAs(TypeParameter otherParam, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {

@@ -4,7 +4,7 @@ import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 
 /**
- * A class provides default implementations for declarations.
+ * A class that provides default implementations for declarations.
  * 
  * @author Marko van Dooren
  */
@@ -25,6 +25,9 @@ public abstract class BasicDeclaration extends DeclarationImpl {
 
    @Override
    public void setName(String name) {
+  	 if(name == null) {
+  		 throw new IllegalArgumentException("The name of a declaration cannot be null. Only the signature can be null.");
+  	 }
       if (_signature != null) {
         _name = name;
          _signature.setName(name);

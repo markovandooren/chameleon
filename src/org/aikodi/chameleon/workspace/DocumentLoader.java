@@ -40,9 +40,9 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
  * possible if the initialization of the loader has not finished.</p> 
  * <h3>Lazy Loading</h3>
  * 
- *  <p>The default implementation of {@link #targetDeclarationNames(Namespace)}
+ *  <p>The default implementation of {@link #refreshTargetDeclarationNames(Namespace)}
  *  will simply load the document and inspect it. To implement lazy loading, 
- *  you must overwrite {@link #targetDeclarationNames(Namespace)} to compute the
+ *  you must overwrite {@link #refreshTargetDeclarationNames(Namespace)} to compute the
  *  list of names without actually loading the document.</p>
  * 
  * <h3>Multiple loaders per document</h3>

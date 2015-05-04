@@ -7,8 +7,18 @@ import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 
+/**
+ * A class of parameters.
+ * 
+ * @author Marko van Dooren
+ */
 public abstract class Parameter extends BasicDeclaration {
-	
+
+	/**
+	 * Create a new parameter with the given name.
+	 * 
+	 * @param name The name of the parameter. The name cannot be null.
+	 */
 	public Parameter(String name) {
 		super(name);
 	}

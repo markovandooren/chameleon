@@ -67,20 +67,8 @@ public LookupContext lookupContext(Element child) throws LookupException {
 	}
 
 	@Override
-   public TypeReference intersection(TypeReference other) {
-		return other.intersectionDoubleDispatch(this);
-	}
-
-	@Override
    public TypeReference intersectionDoubleDispatch(TypeReference other) {
 		return language(ObjectOrientedLanguage.class).createIntersectionReference(clone(this), clone(other));
-	}
-
-	@Override
-   public TypeReference intersectionDoubleDispatch(IntersectionTypeReference other) {
-		IntersectionTypeReference result = clone(other);
-		result.add(clone(this));
-		return result;
 	}
 
 	@Override

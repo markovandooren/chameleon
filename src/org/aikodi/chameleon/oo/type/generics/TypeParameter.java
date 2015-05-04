@@ -48,10 +48,10 @@ public Type actualDeclaration() throws LookupException {
 
 	public abstract Declaration resolveForRoundTrip() throws LookupException;
 
-	public TypeParameter cloneForStub() throws LookupException {
-		return (TypeParameter) clone();
-	}
-	
+//	public final TypeParameter cloneForStub() throws LookupException {
+//		return (TypeParameter) clone();
+//	}
+//	
 	public boolean compatibleWith(TypeParameter other,List<Pair<Type, TypeParameter>> trace) throws LookupException {
 		List<Pair<Type, TypeParameter>> slowTrace = new ArrayList<Pair<Type, TypeParameter>>(trace);
 		boolean result = sameAs(other);

@@ -40,27 +40,10 @@ public class UnionTypeReference extends CombinationTypeReference {
 	}
 
 	@Override
-	public Verification verifySelf() {
-		return Valid.create();
-	}
-
-	@Override
-   public TypeReference intersection(TypeReference other) {
-		return other.intersectionDoubleDispatch(this);
-	}
-
-	@Override
    public TypeReference intersectionDoubleDispatch(TypeReference other) {
 		UnionTypeReference result = clone(this);
 		result.add(clone(other));
 		return result;	
-	}
-
-	@Override
-   public TypeReference intersectionDoubleDispatch(IntersectionTypeReference other) {
-		IntersectionTypeReference result = clone(other);
-		result.add(clone(this));
-		return result;
 	}
 
 	@Override

@@ -43,11 +43,6 @@ public class IntersectionTypeReference extends CombinationTypeReference implemen
 	}
 
 	@Override
-   public TypeReference intersection(TypeReference other) {
-		return other.intersectionDoubleDispatch(this);
-	}
-
-	@Override
    public TypeReference intersectionDoubleDispatch(TypeReference other) {
 		IntersectionTypeReference result = clone(this);
 		result.add(clone(other));

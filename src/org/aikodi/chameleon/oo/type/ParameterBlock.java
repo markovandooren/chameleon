@@ -3,17 +3,14 @@ package org.aikodi.chameleon.oo.type;
 import java.util.List;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
+import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.element.ElementImpl;
-import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.lookup.SelectionResult;
-import org.aikodi.chameleon.core.validation.Valid;
-import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.util.association.Multi;
 
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 
-public class ParameterBlock<T extends Parameter> extends ElementImpl {
+public class ParameterBlock<T extends Parameter> extends ElementImpl implements DeclarationContainer {
 
 	public ParameterBlock(Class<T> parameterType) {
 		_parameterType = parameterType;
@@ -65,16 +62,8 @@ public class ParameterBlock<T extends Parameter> extends ElementImpl {
 	}
 
 	@Override
-	public Verification verifySelf() {
-		return Valid.create();
-	}
-
-	public List<? extends Declaration> declarations() throws LookupException {
+	public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return parameters();
 	}
 
-	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
-		return selector.selection(declarations());
-	}
-	
 }
