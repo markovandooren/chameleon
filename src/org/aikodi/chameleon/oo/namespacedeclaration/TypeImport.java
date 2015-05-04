@@ -35,7 +35,7 @@ public class TypeImport extends Import {
   }
   
   public Type type() throws LookupException {
-  	Type result = getTypeReference().getType().baseType();
+  	Type result = getTypeReference().getElement().baseType();
   	if(result != null) {
       return result;
   	} else {

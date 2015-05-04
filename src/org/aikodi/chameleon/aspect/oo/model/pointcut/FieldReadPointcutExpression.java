@@ -74,7 +74,7 @@ public class FieldReadPointcutExpression extends AbstractPointcutExpression<Name
 		
 		
 		// Typecheck: no inheritance (as AspectJ does it)
-		if (!joinpoint.getType().sameAs(typeReference().getType()))
+		if (!joinpoint.getType().sameAs(typeReference().getElement()))
 			return MatchResult.noMatch();
 		
 		// Get the fully qualified name of this field

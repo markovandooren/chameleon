@@ -45,9 +45,9 @@ public class WithinTypePointcutExpression<E extends WithinTypePointcutExpression
 			public boolean uncheckedEval(Type object) {
 				try {
 					if (hasSubtypeMarker())
-						return object.assignableTo(typeReference().getType());
+						return object.assignableTo(typeReference().getElement());
 					else
-						return object.sameAs(typeReference().getType());
+						return object.sameAs(typeReference().getElement());
 				} catch (LookupException e) {
 					// Shouldn't occur with normale usage, only due to a bug
 					e.printStackTrace();

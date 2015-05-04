@@ -36,7 +36,7 @@ public abstract class LiteralWithTypeReference extends Literal {
   
   @Override
 protected Type actualType() throws LookupException {
-  	return getTypeReference().getType();
+  	return getTypeReference().getElement();
   }
   
 }

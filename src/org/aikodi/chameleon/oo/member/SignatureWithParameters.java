@@ -89,7 +89,7 @@ public class SignatureWithParameters extends SignatureWithName {
    public List<Type> parameterTypes() throws LookupException {
       List<Type> result = Lists.create(_parameterTypes.size());
       for (TypeReference ref : typeReferences()) {
-         result.add(ref.getType());
+         result.add(ref.getElement());
       }
       return result;
    }

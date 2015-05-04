@@ -27,7 +27,7 @@ protected Type actualType() throws LookupException {
       return nearestAncestor(Type.class);
     }
     else {
-      return tref.getType();
+      return tref.getElement();
     }
   }
 

@@ -140,7 +140,7 @@ public abstract class Method extends DeclarationWithParameters {
    */
   public Type returnType() throws LookupException {
     if (returnTypeReference() != null) {
-      return returnTypeReference().getType();
+      return returnTypeReference().getElement();
     } else {
       throw new LookupException("Return type reference of method is null");
     }

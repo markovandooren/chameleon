@@ -11,15 +11,9 @@ import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
  */
 public interface TypeReference extends CrossReference<Type> {
 
-	public default Type getType() throws LookupException {
-	  return getElement();
-	}
-	
 	@Override
    public Type getElement() throws LookupException;
 	
-//	public TypeReference clone();
-
   public default TypeReference intersection(TypeReference other) {
 		return other.intersectionDoubleDispatch(this);
 	}

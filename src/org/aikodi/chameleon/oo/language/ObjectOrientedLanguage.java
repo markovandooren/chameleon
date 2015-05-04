@@ -120,7 +120,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 //		Type result = _defaultSuperClass;
 //		if(result == null) {
 			TypeReference typeRef = createTypeReferenceInNamespace(getDefaultSuperClassFQN(),root);
-			Type result = typeRef.getType();
+			Type result = typeRef.getElement();
 //			_defaultSuperClass = result;
 //			if (result==null) {
 //				throw new LookupException("Default super class "+getDefaultSuperClassFQN()+" not found.");
@@ -214,7 +214,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	 */
 	public Type findType(String fqn, Namespace ns) throws LookupException {
 		TypeReference ref = createTypeReferenceInNamespace(fqn,ns);
-		return ref.getType();
+		return ref.getElement();
 	}
 
 	  /**

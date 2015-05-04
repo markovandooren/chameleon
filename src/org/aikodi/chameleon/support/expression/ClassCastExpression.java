@@ -28,9 +28,9 @@ public class ClassCastExpression extends ExprTypeRefContainingExpression {
 
   @Override
 protected Type actualType() throws LookupException {
-    Type result = getTypeReference().getType();
+    Type result = getTypeReference().getElement();
     if(result == null) {
-      getTypeReference().getType();
+      getTypeReference().getElement();
       throw new LookupException("Type reference of class cast expression returns null", getTypeReference());
     }
     return result;

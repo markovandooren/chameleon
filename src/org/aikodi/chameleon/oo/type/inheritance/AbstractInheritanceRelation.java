@@ -45,7 +45,7 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 //			System.out.println("Inheritance relation of class "+fqn+" is going to look up super class ");
 			Type result = null;
 			try {
-		    result = superClassReference().getType();
+		    result = superClassReference().getElement();
 			} 
 			catch(NullPointerException exc) {
 				String fullyQualifiedName = "CLASS WITHOUT PARENT!!!";

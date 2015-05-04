@@ -50,7 +50,7 @@ public class SuperWildcard extends ActualTypeArgumentWithTypeReference {
 	public Type baseType() throws LookupException {
 		TypeReference tref = typeReference();
 		if(tref != null) {
-			Type type = tref.getType();
+			Type type = tref.getElement();
 			if(type != null) {
 			  return type;
 			} else {

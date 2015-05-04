@@ -67,7 +67,7 @@ public Set<Type> getWorstCaseExceptionTypes() throws LookupException {
    @ post \result == getTypeReference().getType();
    @*/
   public Type getType() throws LookupException {
-    return getTypeReference().getType();
+    return getTypeReference().getElement();
   }
 
 

@@ -38,7 +38,7 @@ public class MethodReference extends ElementImpl {
 		
 		boolean matches = false;
 		if (hasExplicitType())
-			 matches = e.returnType().assignableTo(type().getType());
+			 matches = e.returnType().assignableTo(type().getElement());
 		else {
 			matches = sameAsWithWildcard(e.returnType().getFullyQualifiedName(), typeNameWithWC());
 			
@@ -79,7 +79,7 @@ public class MethodReference extends ElementImpl {
 			TypeReference argType = argumentTypes.next();
 			FormalParameter methodArg = methodArguments.next();
 			
-			if (!methodArg.getType().assignableTo(argType.getType()))	
+			if (!methodArg.getType().assignableTo(argType.getElement()))	
 				return false;
 		}
 		

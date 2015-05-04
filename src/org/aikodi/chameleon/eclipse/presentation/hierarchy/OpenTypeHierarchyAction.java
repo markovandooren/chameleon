@@ -154,7 +154,7 @@ public class OpenTypeHierarchyAction extends Action implements IDoubleClickListe
 								if(tag!=null && tag.getElement() instanceof Type){
 									return (Type)tag.getElement();
 								} else if(tag!=null && tag.getElement() instanceof TypeReference){
-									return ((TypeReference)tag.getElement()).getType();
+									return ((TypeReference)tag.getElement()).getElement();
 								}
 							}
 						}

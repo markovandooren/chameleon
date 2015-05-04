@@ -63,7 +63,7 @@ public class LocalVariableDeclarator extends StatementImpl implements VariableDe
 	private Single<TypeReference> _typeReference = new Single<TypeReference>(this, "type");
 
   public Type type() throws LookupException {
-  	return typeReference().getType();
+  	return typeReference().getElement();
   }
 	
   @Override

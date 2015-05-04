@@ -30,7 +30,7 @@ public class HierarchyTypeNode implements HierarchyTreeNode {
 		try {
 			TypeReference tref= projectNature.getModel().language(ObjectOrientedLanguage.class).createTypeReference(fullyQualifiedName);
 			tref.setUniParent(projectNature.getModel());
-			result = tref.getType();
+			result = tref.getElement();
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		} catch (ClassCastException e) {
