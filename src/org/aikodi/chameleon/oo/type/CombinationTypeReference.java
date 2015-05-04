@@ -25,11 +25,6 @@ public abstract class CombinationTypeReference extends ElementImpl implements Ty
 		return _types.elementAt(index);
 	}
 	
-	@Override
-   public Type getType() throws LookupException {
-		return getElement();
-	}
-
 	public void add(TypeReference tref) {
 		add(_types,tref);
 	}

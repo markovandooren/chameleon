@@ -19,18 +19,8 @@ public class BasicTypeReference extends NameReference<Type> implements TypeRefer
 	}
 
 	@Override
-	public Type getType() throws LookupException {
-		return getElement();
-	}
-
-	@Override
 	public BasicTypeReference cloneSelf() {
 		return new BasicTypeReference(null,name());
-	}
-
-	@Override
-	public TypeReference intersectionDoubleDispatch(TypeReference other) {
-		return language(ObjectOrientedLanguage.class).createIntersectionReference(clone(this), clone(other));
 	}
 
 }

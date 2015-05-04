@@ -2,6 +2,7 @@ package org.aikodi.chameleon.oo.type;
 
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.reference.CrossReference;
+import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 
 /**
  * A class of cross-reference to types. 
@@ -10,7 +11,9 @@ import org.aikodi.chameleon.core.reference.CrossReference;
  */
 public interface TypeReference extends CrossReference<Type> {
 
-	public Type getType() throws LookupException;
+	public default Type getType() throws LookupException {
+	  return getElement();
+	}
 	
 	@Override
    public Type getElement() throws LookupException;
@@ -22,7 +25,10 @@ public interface TypeReference extends CrossReference<Type> {
 	}
 
 	
-	public TypeReference intersectionDoubleDispatch(TypeReference other);
+  public default TypeReference intersectionDoubleDispatch(TypeReference other) {
+    return language(ObjectOrientedLanguage.class).createIntersectionReference(clone(this), clone(other));
+  }
+
 	
 	public default TypeReference intersectionDoubleDispatch(IntersectionTypeReference other) {
 		return other.intersectionDoubleDispatch(this);
