@@ -27,11 +27,6 @@ public class DeclaratorSelector implements DeclarationSelector<Declaration>{
 public List selection(List selectionCandidates) throws LookupException {
   	return _selector.declarators(selectionCandidates);
   }
-  
-//	@Override
-//	public WeakPartialOrder order() {
-//		return _selector.order();
-//	}
 
 	@Override
 	public boolean canSelect(Class<? extends Declaration> type) {
