@@ -23,18 +23,18 @@ import org.aikodi.chameleon.core.lookup.SelectionResult;
 public interface DeclarationContainer extends Element {
   
   /**
-   * Return the declarations the are defined in this declaration container.
+   * <p>Return the declarations the are defined in this declaration container.
    * The resulting collection contains the locally declared declarations and
    * those that this declaration container receives from other declaration
-   * containers (e.g. through an inheritance relation).
+   * containers (e.g. through an inheritance relation).</p>
    *
-   * This method can be <b>very slow</b>. For example, when used on types/classes
+   * <p>This method can be <b>very slow</b>. For example, when used on types/classes
    * for a language with syntactic overloading, this method is a disaster. 
    * Fortunately, all lookups are done using {@link #declarations(DeclarationSelector)}, 
    * which uses the selector to severely prune the collection of candidates. 
-   * It is of course fine to use this metod in the implementation of 
+   * It is of course fine to use this method in the implementation of 
    * {@link #declarations(DeclarationSelector)} for declaration containers that 
-   * have an efficient {@link #declarations()} method (most of them).
+   * have an efficient {@link #declarations()} method (most of them).</p>
    * 
    * @default The default implementation returns the {{@link #locallyDeclaredDeclarations()}.
    */
@@ -61,10 +61,10 @@ public interface DeclarationContainer extends Element {
   public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException;
   
   /**
-   * Return the declarations the are defined in this declaration container and
+   * @return the declarations the are defined in this declaration container and
    * selected by the given declaration selector.
    * 
-   * Most implementations will directly invoke
+   * <p>Most implementations will directly invoke
    * selector.selection(declarations()), but in some cases, calculating the
    * collection of declarations is very expensive. In such cases, the selector
    * is typically pass along the chain of objects that contain the declarations
@@ -72,7 +72,7 @@ public interface DeclarationContainer extends Element {
    * classes instead of asking them for all declarations and then using the
    * selector. Applying the inheritance rules (such as overriding) to all class
    * members is very expensive, and useless for declarations that cannot be
-   * selected anyway.
+   * selected anyway.</p>
    * 
    * @param selector
    *          The selector that determines which declarations must be returned.

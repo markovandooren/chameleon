@@ -8,17 +8,20 @@ import org.aikodi.chameleon.core.event.stream.EventStream;
 import org.aikodi.chameleon.core.event.stream.EventStreamCollection;
 
 /**
- * <p>An event stream collection for Chameleon elements. This event stream collection
- * offers streams for listening to events from various sources.</p>
+ * <p> An event stream collection for Chameleon elements. This event stream
+ * collection offers streams for listening to events from various sources.
+ * </p>
  * 
- * <p> Available streams are:</p>
+ * <p>
+ * Available streams are:
+ * </p>
  * <ol>
- *   <li>{@link #self()} sends events that originate from the {@link #element()}
- *   of this event stream collection.</li>
- *   <li>{@link #descendant()} sends events that originate from a descendant
- *   of the {@link #element()} of this event stream collection.</li>
- *   <li>{@link #any()} sends events that originate from either {@link #self()}
- *   or {@link #descendant()}</li>
+ * <li>{@link #self()} sends events that originate from the {@link #element()}
+ * of this event stream collection.</li>
+ * <li>{@link #descendant()} sends events that originate from a descendant of
+ * the {@link #element()} of this event stream collection.</li>
+ * <li>{@link #any()} sends events that originate from either {@link #self()} or
+ * {@link #descendant()}</li>
  * </ol>
  * 
  * @author Marko van Dooren
