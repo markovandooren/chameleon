@@ -1046,14 +1046,6 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
 	 * {@inheritDoc}
 	 */
 	@Override
-   public PropertySet<Element,ChameleonProperty> declaredProperties() {
-		 return new PropertySet<Element,ChameleonProperty>();
-	 }
-
-	 /**
-	 * {@inheritDoc}
-	 */
-	@Override
    public boolean isTrue(ChameleonProperty property) {
 		 return is(property) == Ternary.TRUE;
 	 }

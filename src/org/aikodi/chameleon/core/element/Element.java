@@ -1233,7 +1233,10 @@ public interface Element {
      @
      @ post \result != null;
      @*/
-    public PropertySet<Element,ChameleonProperty> declaredProperties();
+    public default PropertySet<Element,ChameleonProperty> declaredProperties() {
+      return new PropertySet<Element,ChameleonProperty>();
+    }
+
 
 
     /**
