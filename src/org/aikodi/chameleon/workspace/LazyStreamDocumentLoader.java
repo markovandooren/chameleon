@@ -13,7 +13,7 @@ import org.aikodi.chameleon.core.namespace.Namespace;
  * 
  * @author Marko van Dooren
  */
-public abstract class LazyStreamDocumentLoader extends StreamDocumentLoader {
+public abstract class LazyStreamDocumentLoader extends StreamDocumentLoader implements LazyDocumentLoader {
 
 	/**
 	 * Create a new lazy document loader for the given file and namespace. The
