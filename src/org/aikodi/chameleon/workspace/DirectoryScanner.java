@@ -220,50 +220,6 @@ public class DirectoryScanner extends DocumentScannerImpl implements FileScanner
   
   private boolean _recursive = true;
 
-//	private void addToModel(Collection<File> files) throws IOException, ParseException {
-//		final int size = files.size();
-//		class Counter {
-//			private int count;
-//			
-//			synchronized void increase() {
-//				this.count++;
-//			}
-//			synchronized int get() {
-//				return count;
-//			}
-//		}
-//		final Counter counter = new Counter();
-//		final BlockingQueue<File> fileQueue = new ArrayBlockingQueue<File>(files.size(), true, files);
-//
-//		Action<File,Exception> unsafeAction = new Action<File,Exception>(File.class) {
-//			private boolean _debug = false;
-//			@Override
-//         public void doPerform(File file) throws InputException {
-//				counter.increase();
-//				if(_debug) {System.out.println(counter.get()+" of "+size+" :"+file.getAbsolutePath());};
-//				addToModel(file);
-//			} 
-//		};
-//	  CallableFactory factory = new QueuePollingCallableFactory<File,Exception>(unsafeAction,fileQueue);
-//	  try {
-//	  	new FixedThreadCallableExecutor<Exception>(factory).run();
-//	  } catch (IOException e) {
-//	  	throw e;
-//	  } catch (ParseException e) {
-//	  	throw e;
-//	  } catch (ExecutionException e) {
-//	  	Throwable cause = e.getCause();
-//			cause.printStackTrace();
-//	  	if(cause instanceof IOException) {
-//	  		throw (IOException)cause;
-//	  	} else if(cause instanceof ParseException) {
-//	  		throw (ParseException)cause;
-//	  	} 
-//	  } catch (Exception e) {
-//	  	e.printStackTrace();
-//	  }
-//	}
-	
 	/**
 	 * Return the top of the metamodel when parsing the given file.
 	 *
@@ -275,15 +231,7 @@ public class DirectoryScanner extends DocumentScannerImpl implements FileScanner
 	 * @return The result will not be null | result != null
 	 * @return All given files will be parsed and inserted into the metamodel
 	 *
-	 * @throws TokenStreamException
-	 *             Something went wrong
-	 * @throws RecognitionException
-	 *             Something went wrong
-	 * @throws MalformedURLException
-	 *             Something went wrong
-	 * @throws FileNotFoundException
-	 *             Something went wrong
-	 * @throws RecognitionException 
+	 * @throws InputException An I/O error occurred while adding the file.
 	 */
 	private void addToModel(File file) throws InputException {
     add(documentLoaderFactory().create(file,this));
