@@ -98,30 +98,6 @@ public void addModifier(Modifier modifier) {
   }
   
   /**
-   * Add all modifiers in the given collection to this element.
-   * 
-   * @param modifiers The collection that contains the modifiers that must be added.
-   */
- /*@
-   @ public behavior
-   @
-   @ pre modifiers != null;
-   @ pre ! modifiers.contains(null);
-   @
-   @ post modifiers().containsAll(modifiers);
-   @*/
-  @Override
-public void addModifiers(List<Modifier> modifiers) {
-  	if(modifiers == null) {
-  		throw new ChameleonProgrammerException("List passed to addModifiers is null");
-  	} else {
-  		for(Modifier modifier: modifiers) {
-  			addModifier(modifier);
-  		}
-  	}
-  }
-
-  /**
    * Remove the given modifier from this element.
    * 
    * @param modifier The modifier that must be removed.
@@ -154,15 +130,6 @@ public void removeModifier(Modifier modifier) {
     return _modifiers.getOtherEnds().contains(modifier);
   }
 
-  @Override
-public PropertySet<Element,ChameleonProperty> declaredProperties() {
-		PropertySet<Element,ChameleonProperty> result = new PropertySet<Element,ChameleonProperty>();
-    for(Modifier modifier:modifiers()) {
-      result.addAll(modifier.impliedProperties().properties());
-    }
-    return result;
-  }
-
 	/**
 	 * Return the default properties for this element.
 	 * @return
@@ -171,26 +138,4 @@ public PropertySet<Element,ChameleonProperty> declaredProperties() {
 		return language().defaultProperties(this, explicitProperties());
 	}
 	
-	@Override
-   public List<Modifier> modifiers(Property property) throws ModelException {
-		List<Modifier> result = Lists.create();
-		for(Modifier modifier: modifiers()) {
-			if(modifier.impliesTrue(property)) {
-				result.add(modifier);
-			}
-		}
-		return result;
-	}
-
-	@Override
-	public List<Modifier> modifiers(PropertyMutex<ChameleonProperty> mutex) throws ModelException {
-		Property property = property(mutex);
-		List<Modifier> result = Lists.create();
-		for (Modifier mod : modifiers()) {
-			if (mod.impliesTrue(property)) {
-				result.add(mod);
-			}
-		}
-		return result;
-	}
 }

@@ -23,26 +23,17 @@ public abstract class Parameter extends BasicDeclaration {
 		super(name);
 	}
 	
-	@Override
-   protected abstract Element cloneSelf();
+	protected Parameter() {
+	  
+	}
 	
 	@Override
-   public abstract Declaration selectionDeclaration() throws LookupException;
+  public abstract Declaration selectionDeclaration() throws LookupException;
 	
 	public Class<SimpleNameSignature> signatureType() {
 		return SimpleNameSignature.class;
 	}
 	
-	@Override
-	public Declaration finalDeclaration() {
-		return this;
-	}
-	
-	@Override
-	public Declaration template() {
-		return finalDeclaration();
-	}
-
 	@Override
 	public SelectionResult updatedTo(Declaration declaration) {
 		return declaration;

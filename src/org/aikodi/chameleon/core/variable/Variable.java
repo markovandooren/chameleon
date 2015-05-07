@@ -1,8 +1,5 @@
 package org.aikodi.chameleon.core.variable;
 
-import org.aikodi.chameleon.core.declaration.Declaration;
-import org.aikodi.chameleon.core.declaration.SimpleNameSignature;
-import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiers;
 import org.aikodi.chameleon.oo.expression.Expression;
@@ -11,32 +8,35 @@ import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 
 /**
+ * An interface for variables.
+ * 
  * @author Marko van Dooren
  */
 public interface Variable extends ElementWithModifiers, DeclarationWithType {
 
+  /**
+   * @return The initialization expression of this variable.
+   */
 	public Expression getInitialization();
 
-	public void setInitialization(Expression expr);
+	/**
+	 * Set the initialization expression of this variable.
+	 * 
+	 * @param expression The new initialization expression of this variable.
+	 */
+	public void setInitialization(Expression expression);
   
-  /**
-   * Return the signature of this member.
-   */
-  @Override
-public SimpleNameSignature signature();
+  public TypeReference getTypeReference();
   
-  public abstract TypeReference getTypeReference();
-  
-  public abstract void setTypeReference(TypeReference ref);
+  public void setTypeReference(TypeReference ref);
 
+  /**
+   * @return the type of this variable.
+   *
+   * @throws LookupException An error occur while looking up the type of 
+   *         this variable.
+   */
   public Type getType() throws LookupException;
 
 
-
-  @Override
-public LocalLookupContext<?> targetContext() throws LookupException;
-
-
-  @Override
-public Declaration selectionDeclaration() throws LookupException;
 }

@@ -4,14 +4,8 @@ import java.util.List;
 
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiersImpl;
-import org.aikodi.chameleon.core.modifier.Modifier;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
-import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.oo.member.Member;
-import org.aikodi.chameleon.util.Lists;
-
-import be.kuleuven.cs.distrinet.rejuse.property.Property;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 
 /**
  * Support class for member-like elements that can be the direct children of a
@@ -34,15 +28,4 @@ public abstract class TypeElementImpl extends ElementWithModifiersImpl implement
       }
    }
 
-   @Override
-   public List<Modifier> modifiers(PropertyMutex mutex) throws ModelException {
-      Property property = property(mutex);
-      List<Modifier> result = Lists.create();
-      for (Modifier mod : modifiers()) {
-         if (mod.impliesTrue(property)) {
-            result.add(mod);
-         }
-      }
-      return result;
-   }
 }

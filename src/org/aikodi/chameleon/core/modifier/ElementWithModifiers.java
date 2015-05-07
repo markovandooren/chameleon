@@ -5,9 +5,12 @@ import java.util.List;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.exception.ModelException;
+import org.aikodi.chameleon.util.Lists;
+import org.aikodi.contract.Contracts;
 
 import be.kuleuven.cs.distrinet.rejuse.property.Property;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
+import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 
 /**
  * TAn element that can have modifiers. Elements of this class automatically use 
@@ -17,10 +20,9 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
  */
 public interface ElementWithModifiers extends Element {
 
-//	public ElementWithModifiers clone();
-
 	/**
-	 * Return the modifiers of this type element.
+	 * @return the modifiers of this type element. The result is not null
+	 * and does not contain a null reference.
 	 */
  /*@
 	 @ public behavior
@@ -31,6 +33,8 @@ public interface ElementWithModifiers extends Element {
 
 	/**
 	 * Add the given modifier to this type element.
+	 * 
+	 * @param modifier The modifier to be added. The modifier cannot be null.
 	 */
  /*@
 	 @ public behavior
@@ -43,6 +47,8 @@ public interface ElementWithModifiers extends Element {
 
 	/**
 	 * Remove the given modifier from this type element.
+	 * 
+	 * @param modifier The modifier to be removed.
 	 */
  /*@
 	 @ public behavior
@@ -53,6 +59,11 @@ public interface ElementWithModifiers extends Element {
 	 @*/
 	public void removeModifier(Modifier modifier);
 
+  /**
+   * Add all modifiers in the given collection to this element.
+   * 
+   * @param modifiers The collection that contains the modifiers that must be added.
+   */
  /*@
 	 @ public behavior
 	 @
@@ -60,7 +71,10 @@ public interface ElementWithModifiers extends Element {
 	 @
 	 @ post modifiers().containsAll(modifiers);
 	 @*/
-	public void addModifiers(List<Modifier> modifiers);
+	public default void addModifiers(List<Modifier> modifiers) {
+	  Contracts.notNull(modifiers, "The given list cannot be null");
+	  modifiers.forEach(m -> addModifier(m));
+	}
 	
 	/**
 	 * Return all modifiers that implies properties that are in the given mutex.
@@ -76,7 +90,16 @@ public interface ElementWithModifiers extends Element {
    @                                        : propery.mutex() == mutex)
    @             : \result.contains(modifier));
    @*/
-	public List<Modifier> modifiers(PropertyMutex<ChameleonProperty> mutex) throws ModelException;
+	public default List<Modifier> modifiers(PropertyMutex<ChameleonProperty> mutex) throws ModelException {
+    ChameleonProperty property = property(mutex);
+    List<Modifier> result = Lists.create();
+    for (Modifier mod : modifiers()) {
+      if (mod.impliesTrue(property)) {
+        result.add(mod);
+      }
+    }
+    return result;
+	}
 	
 	/**
 	 * Return all modifiers that imply the given property.
@@ -89,6 +112,28 @@ public interface ElementWithModifiers extends Element {
    @             : modifiers().contains(modifier) && modifier.impliedProperties().contains(property)
    @             : \result.contains(modifier));
    @*/
-	public List<Modifier> modifiers(Property property) throws ModelException;
+	public default List<Modifier> modifiers(ChameleonProperty property) throws ModelException {
+	  List<Modifier> result = Lists.create();
+	  for(Modifier modifier: modifiers()) {
+	    if(modifier.impliesTrue(property)) {
+	      result.add(modifier);
+	    }
+	  }
+	  return result;
+	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @return For every modifier, its {@link Modifier#impliedProperties()} are
+	 * added to the result.
+	 */
+	@Override
+	public default PropertySet<Element,ChameleonProperty> declaredProperties() {
+	  PropertySet<Element,ChameleonProperty> result = new PropertySet<Element,ChameleonProperty>();
+	  for(Modifier modifier:modifiers()) {
+	    result.addAll(modifier.impliedProperties().properties());
+	  }
+	  return result;
+	}
 }

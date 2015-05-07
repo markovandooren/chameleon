@@ -99,8 +99,4 @@ public class PointcutReference extends CrossReferenceWithArguments implements Cr
 		return new PointcutReference(name());
 	}
 
-	@Override
-	public LookupContext targetContext() throws LookupException {
-		return getElement().targetContext();
-	}
 }

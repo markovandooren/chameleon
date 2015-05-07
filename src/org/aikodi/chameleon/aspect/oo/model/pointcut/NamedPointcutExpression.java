@@ -129,9 +129,4 @@ public class NamedPointcutExpression extends AbstractPointcutExpression<Element>
 		return getElement().expression().joinPointType();
 	}
 
-	@Override
-	public LookupContext targetContext() throws LookupException {
-		return getElement().targetContext();
-	}
-	
 }

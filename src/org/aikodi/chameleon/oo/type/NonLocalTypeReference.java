@@ -61,15 +61,4 @@ public LookupContext lookupContext(Element child) throws LookupException {
 		return actualReference().getElement();
 	}
 
-	@Override
-   public Declaration getDeclarator() throws LookupException {
-		return actualReference().getDeclarator();
-	}
-
-	@Override
-	public LookupContext targetContext() throws LookupException {
-		return getElement().targetContext();
-	}
-
-
 }

@@ -55,8 +55,4 @@ public abstract class CombinationTypeReference extends ElementImpl implements Ty
 
 	public abstract String operatorName();
 	
-  @Override
-public LocalLookupContext<?> targetContext() throws LookupException {
-  	return getElement().targetContext();
-  }
 }
