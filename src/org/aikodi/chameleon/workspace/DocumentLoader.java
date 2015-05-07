@@ -139,12 +139,18 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
 	 * {@link #refreshTargetDeclarationNames(Namespace)} is used to update
 	 * the information afterwards.</p>
 	 * 
+   * <p>The default implementation loads simply returns
+   * {@link #refreshTargetDeclarationNames(Namespace)}.</p>
+   * 
 	 * @param namespace The namespace for which the requested target declarations
 	 *                  are requested.
 	 * @return The value of {@link #refreshTargetDeclarationNames(Namespace)}
 	 * @throws InputException 
-	 */
-	public List<String> targetDeclarationNames(Namespace namespace) throws InputException;
+   */
+  public default List<String> targetDeclarationNames(Namespace ns) throws InputException {
+    return refreshTargetDeclarationNames(ns);
+  }
+  
 	
 	/**
    * <p>Return the list of name of declaration that are added to the given namespace, 

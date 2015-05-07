@@ -177,17 +177,6 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * The default implementation loads simply returns
-	 * {@link #refreshTargetDeclarationNames(Namespace)}.
-	 */
-	@Override
-	public List<String> targetDeclarationNames(Namespace ns) throws InputException {
-		return refreshTargetDeclarationNames(ns);
-	}
-	
 	public List<String> refreshTargetDeclarationNames(Namespace ns) {
     List<NamespaceDeclaration> cs = rawDocument().children(NamespaceDeclaration.class);
     if(! cs.isEmpty()) {
