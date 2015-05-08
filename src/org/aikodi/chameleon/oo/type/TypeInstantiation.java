@@ -27,19 +27,19 @@ import com.google.common.collect.ImmutableList.Builder;
  * 
  * @author Marko van Dooren
  */
-public class DerivedType extends ClassWithBody {
+public class TypeInstantiation extends ClassWithBody {
 	
-	public DerivedType(List<ParameterSubstitution> parameters, Type baseType) {
+	public TypeInstantiation(List<ParameterSubstitution<?>> parameters, Type baseType) {
 		this(baseType);
 		substituteParameters(parameters);
 	}
 
-	public <P extends Parameter> DerivedType(Class<P> kind, List<P> parameters, Type baseType) {
+	public <P extends Parameter> TypeInstantiation(Class<P> kind, List<P> parameters, Type baseType) {
 		this(baseType);
 		substituteParameters(kind, parameters);
 	}
 	
-	public DerivedType(ParameterSubstitution substitution, Type baseType) {
+	public TypeInstantiation(ParameterSubstitution substitution, Type baseType) {
 		this(baseType);
 		substituteParameters(substitution);
 	}
@@ -49,23 +49,15 @@ public class DerivedType extends ClassWithBody {
 	 * The contents of the type is copied into this type.
 	 * @param baseType
 	 */
-	private DerivedType(Type baseType) {
+	private TypeInstantiation(Type baseType) {
 		super(baseType.name());
 		_baseType = baseType;
 		setOrigin(baseType);
 		copyInheritanceRelations(baseType, true);
-//		copyImplicitInheritanceRelations(baseType);
 		copyParameterBlocks(baseType, true);
 		setBody(new LazyClassBody(((ClassWithBody)baseType).body()));
 		copyImplicitMembers(baseType);
 	}
-//	
-//	private void copyImplicitInheritanceRelations(Type original) {
-//		for(InheritanceRelation i: original.implicitNonMemberInheritanceRelations()) {
-//			InheritanceRelation clone = i.clone();
-//			addInheritanceRelation(clone);
-//		}
-//	}
 
   @Override
   public boolean hasInheritanceRelation(InheritanceRelation relation) throws LookupException {
@@ -85,7 +77,7 @@ public class DerivedType extends ClassWithBody {
 	 * @param typeArguments
 	 * @throws LookupException 
 	 */
-	public DerivedType(Type baseType, List<ActualTypeArgument> typeArguments) throws LookupException {
+	public TypeInstantiation(Type baseType, List<ActualTypeArgument> typeArguments) throws LookupException {
 		this(baseType);
 		// substitute parameters
 		List<TypeParameter> myParameters = parameters(TypeParameter.class);
@@ -132,19 +124,17 @@ public class DerivedType extends ClassWithBody {
 	 */
 	@Override
 	public List<Modifier> modifiers() {
-		List<Modifier> result = super.modifiers();
-		if(result.isEmpty()) {
+		if(!hasModifiers()) {
 			copyModifiers(baseType(), true);
-			result = super.modifiers();
 		}
-		return result;
+		return super.modifiers();
 	}
 
 	@Override
 	public boolean uniSameAs(Element otherType) throws LookupException {
 		boolean result = false;
-		if(otherType instanceof DerivedType) {
-			DerivedType type = (DerivedType) otherType;
+		if(otherType instanceof TypeInstantiation) {
+			TypeInstantiation type = (TypeInstantiation) otherType;
 			result = type.baseType().sameAs(baseType());
 			Iterator<TypeParameter> myParams = parameters(TypeParameter.class).iterator();
 			Iterator<TypeParameter> otherParams = type.parameters(TypeParameter.class).iterator();
@@ -160,8 +150,8 @@ public class DerivedType extends ClassWithBody {
 	@Override
    public boolean uniSameAs(Type otherType, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
 		boolean result = false;
-		if(otherType instanceof DerivedType) {
-			DerivedType type = (DerivedType) otherType;
+		if(otherType instanceof TypeInstantiation) {
+			TypeInstantiation type = (TypeInstantiation) otherType;
 			result = type.baseType().sameAs(baseType());
 			Iterator<TypeParameter> myParams = parameters(TypeParameter.class).iterator();
 			Iterator<TypeParameter> otherParams = type.parameters(TypeParameter.class).iterator();
@@ -177,8 +167,7 @@ public class DerivedType extends ClassWithBody {
 	
 	@Override
 	public int hashCode() {
-		int result = baseType().hashCode();
-		return result;
+		return baseType().hashCode();
 	}
 	
 	private Type _baseType;
@@ -192,10 +181,10 @@ public class DerivedType extends ClassWithBody {
 	 * Here we override clone because we need to perform parameter substitution.
 	 */
 	@Override
-	public DerivedType clone() {
+	public TypeInstantiation clone() {
 		// I might use the standard mechanism here later, but I first want to make
 		// the switch for the regular elements before I touch generics code. 
-		return new DerivedType(clonedParameters(),baseType());
+		return new TypeInstantiation(clonedParameters(),baseType());
 	}
 
 	@Override
@@ -203,8 +192,8 @@ public class DerivedType extends ClassWithBody {
 		throw new ChameleonProgrammerException();
 	}
 	
-	protected List<ParameterSubstitution> clonedParameters() {
-		List<ParameterSubstitution> args = Lists.create();
+	protected List<ParameterSubstitution<?>> clonedParameters() {
+		List<ParameterSubstitution<?>> args = Lists.create();
 		for(ParameterBlock<?> block: parameterBlocks()) {
 			List<Parameter> list = Lists.create();
 			for(Parameter par: block.parameters()) {

@@ -19,7 +19,7 @@ import org.aikodi.chameleon.core.relation.StrictPartialOrder;
 import org.aikodi.chameleon.core.variable.Variable;
 import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.method.Method;
-import org.aikodi.chameleon.oo.type.DerivedType;
+import org.aikodi.chameleon.oo.type.TypeInstantiation;
 import org.aikodi.chameleon.oo.type.IntersectionTypeReference;
 import org.aikodi.chameleon.oo.type.Parameter;
 import org.aikodi.chameleon.oo.type.Type;
@@ -112,9 +112,9 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	  return typeRef;
   }
   
-  public abstract <P extends Parameter> DerivedType createDerivedType(Class<P> kind, List<P> parameters, Type baseType);
+  public abstract <P extends Parameter> TypeInstantiation createDerivedType(Class<P> kind, List<P> parameters, Type baseType);
   
-  public abstract DerivedType createDerivedType(Type baseType, List<ActualTypeArgument> typeArguments) throws LookupException;
+  public abstract TypeInstantiation createDerivedType(Type baseType, List<ActualTypeArgument> typeArguments) throws LookupException;
   
 	public Type getDefaultSuperClass(Namespace root) throws LookupException {
 //		Type result = _defaultSuperClass;

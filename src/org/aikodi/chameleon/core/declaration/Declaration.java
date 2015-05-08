@@ -9,8 +9,11 @@ import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
+import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.core.scope.Scope;
+import org.aikodi.chameleon.core.scope.ScopeProperty;
+import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.exception.Handler;
 
@@ -184,18 +187,31 @@ public interface Declaration extends Element, SelectionResult {//
    @
    @ post \result != null;
    @*/
-  public Scope scope() throws ModelException;
+  public default Scope scope() throws ModelException {
+    Scope result = null;
+    ChameleonProperty scopeProperty = property(language().SCOPE_MUTEX());
+    if(scopeProperty instanceof ScopeProperty) {
+      result = ((ScopeProperty)scopeProperty).scope(this);
+    } else if(scopeProperty != null){
+      throw new ChameleonProgrammerException("Scope property is not a ScopeProperty");
+    }
+    return result;
+  }
  
   /**
-   * Check whether this declaration is complete (whether all necessary elements
+   * <p>Check whether this declaration is complete (whether all necessary elements
    * are present). A complete declaration <b>can</b> be non-abstract or
    * abstract. An incomplete declaration, however, must always be abstract.
    * Defined (and thus its inverse: abstract) is a dynamic property that uses
-   * this method to determine whether or not it applies to this declaration.
+   * this method to determine whether or not it applies to this declaration.</p>
+   * 
+   * <p>The default implementation returns true.</p>
    * 
    * @throws LookupException
    */
-  public boolean complete() throws LookupException;
+  public default boolean complete() throws LookupException {
+    return true;
+  }
 
   /**
    * <p>

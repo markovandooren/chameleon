@@ -10,21 +10,4 @@ import org.aikodi.chameleon.exception.ModelException;
 
 public abstract class DeclarationImpl extends ElementImpl implements Declaration {
 
-  @Override
-public Scope scope() throws ModelException {
-  	Scope result = null;
-  	ChameleonProperty scopeProperty = property(language().SCOPE_MUTEX());
-  	if(scopeProperty instanceof ScopeProperty) {
-  		result = ((ScopeProperty)scopeProperty).scope(this);
-  	} else if(scopeProperty != null){
-  		throw new ChameleonProgrammerException("Scope property is not a ScopeProperty");
-  	}
-  	return result;
-  }
-
-	@Override
-	public boolean complete() throws LookupException {
-		return true;
-	}
-
 }

@@ -932,8 +932,6 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
 		return (T) el;
 	}
 
-//	public abstract Element clone();
-
 	@Override
    public Language language() {
 //		Language result = _languageCache;

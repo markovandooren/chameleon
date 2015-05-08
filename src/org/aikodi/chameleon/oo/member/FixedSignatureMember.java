@@ -1,10 +1,11 @@
 package org.aikodi.chameleon.oo.member;
 
 import org.aikodi.chameleon.core.declaration.Signature;
+import org.aikodi.chameleon.core.modifier.ElementWithModifiersImpl;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.util.association.Single;
 
-public abstract class FixedSignatureMember extends MemberImpl {
+public abstract class FixedSignatureMember extends ElementWithModifiersImpl implements Member {
 	
 	/**
 	 * Constructor for types without fixed signatures.

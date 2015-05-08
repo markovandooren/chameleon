@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiers;
+import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.member.Member;
 
 /**
@@ -24,6 +25,16 @@ public interface TypeElement extends ElementWithModifiers {
    @*/
   public List<? extends Member> getIntroducedMembers() throws LookupException;
   
-  public List<? extends Member> declaredMembers();
+  public default List<? extends Member> declaredMembers() {
+    try {
+       return getIntroducedMembers();
+    } catch (LookupException e) {
+       throw new ChameleonProgrammerException(
+             "This should not happen. Element of class "
+                   + this.getClass().getName()
+                   + " threw a lookup exception in getIntroducedMembers. This exception ended up in declaredMembers. But if that is the case, then declaredMembers must be overridden to provide a proper definition.",
+             e);
+    }
+ }
 
 }

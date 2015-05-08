@@ -11,10 +11,10 @@ import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.lookup.Target;
+import org.aikodi.chameleon.core.modifier.ElementWithModifiersImpl;
 import org.aikodi.chameleon.oo.member.DeclarationWithParametersHeader;
-import org.aikodi.chameleon.oo.member.SignatureWithParameters;
 import org.aikodi.chameleon.oo.member.Member;
-import org.aikodi.chameleon.oo.member.MemberImpl;
+import org.aikodi.chameleon.oo.member.SignatureWithParameters;
 import org.aikodi.chameleon.oo.type.DeclarationWithType;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.generics.TypeParameter;
@@ -24,7 +24,7 @@ import org.aikodi.chameleon.util.association.Single;
 
 import com.google.common.collect.ImmutableList;
 
-public abstract class DeclarationWithParameters extends MemberImpl implements DeclarationContainer, Target,
+public abstract class DeclarationWithParameters extends ElementWithModifiersImpl implements Member, DeclarationContainer, Target,
     DeclarationWithType {
 
   /**

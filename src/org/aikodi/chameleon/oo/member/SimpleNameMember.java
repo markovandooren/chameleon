@@ -5,9 +5,10 @@ import org.aikodi.chameleon.core.declaration.Signature;
 import org.aikodi.chameleon.core.declaration.SimpleNameSignature;
 import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.lookup.LookupException;
+import org.aikodi.chameleon.core.modifier.ElementWithModifiersImpl;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 
-public abstract class SimpleNameMember extends MemberImpl {
+public abstract class SimpleNameMember extends ElementWithModifiersImpl implements Member {
 
   private String _name;
 

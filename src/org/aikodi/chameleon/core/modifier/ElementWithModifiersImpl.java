@@ -19,6 +19,10 @@ public abstract class ElementWithModifiersImpl extends ElementImpl implements El
   public List<Modifier> modifiers() {
     return _modifiers.getOtherEnds();
   }
+  
+  public boolean hasModifiers() {
+    return _modifiers.size() > 0;
+  }
 
   @Override
   public void addModifier(Modifier modifier) {

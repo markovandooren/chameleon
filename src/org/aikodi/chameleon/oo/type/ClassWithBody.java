@@ -244,12 +244,12 @@ public abstract class ClassWithBody extends ClassImpl {
 		}
 	}
 	
-	public void substituteParameters(List<ParameterSubstitution> substitutions) {
-		for(ParameterSubstitution substitution: substitutions) {
+	public void substituteParameters(List<ParameterSubstitution<?>> substitutions) {
+		for(ParameterSubstitution<?> substitution: substitutions) {
 			substituteParameters(substitution);
 		}
 	}
-	public void substituteParameters(ParameterSubstitution substitution) {
+	public <T extends Parameter> void substituteParameters(ParameterSubstitution<T> substitution) {
 		substituteParameters(substitution.parameterKind(),substitution.parameters());
 	}
 
