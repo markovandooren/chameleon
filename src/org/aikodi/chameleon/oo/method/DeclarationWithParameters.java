@@ -24,7 +24,7 @@ import org.aikodi.chameleon.util.association.Single;
 
 import com.google.common.collect.ImmutableList;
 
-public abstract class DeclarationWithParameters extends ElementWithModifiersImpl implements Member, DeclarationContainer, Target,
+public abstract class DeclarationWithParameters extends ElementWithModifiersImpl implements Member, Target,
     DeclarationWithType {
 
   /**
@@ -43,6 +43,11 @@ public abstract class DeclarationWithParameters extends ElementWithModifiersImpl
 
   protected DeclarationWithParameters() {
 
+  }
+  
+  @Override
+  public LookupContext targetContext() throws LookupException {
+  	return Member.super.targetContext();
   }
 
   /**
