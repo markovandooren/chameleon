@@ -1,14 +1,15 @@
 package org.aikodi.chameleon.core.declaration;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.event.name.NameChanged;
+import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
+import org.aikodi.chameleon.core.modifier.ElementWithModifiers;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.core.scope.Scope;
@@ -18,7 +19,6 @@ import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.exception.Handler;
 
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
-import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 
 /**
  * <p>
@@ -62,7 +62,7 @@ SelectionResult <|-- Declaration
 Declaration -- Signature
 @enduml
  */
-public interface Declaration extends Element, SelectionResult {//
+public interface Declaration extends Element, SelectionResult, DeclarationContainer, ElementWithModifiers {//
 
   /**
    * @return the signature of this declaration. The signature represents the identity of this declaration.
@@ -241,7 +241,9 @@ public interface Declaration extends Element, SelectionResult {//
    * "package"</li>
    * </ol>
    */
-  public LookupContext targetContext() throws LookupException;
+  public default LookupContext targetContext() throws LookupException {
+  	return language().lookupFactory().createTargetLookupStrategy(this);
+  }
   
   /**
    * Check whether the given declaration has the same signature as this declaration.
