@@ -1,5 +1,7 @@
 package org.aikodi.chameleon.oo.type;
 
+import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,6 +18,8 @@ import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.Pair;
+
+import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
@@ -135,14 +139,9 @@ public class TypeInstantiation extends ClassWithBody {
 		boolean result = false;
 		if(otherType instanceof TypeInstantiation) {
 			TypeInstantiation type = (TypeInstantiation) otherType;
-			result = type.baseType().sameAs(baseType());
-			Iterator<TypeParameter> myParams = parameters(TypeParameter.class).iterator();
-			Iterator<TypeParameter> otherParams = type.parameters(TypeParameter.class).iterator();
-			while(myParams.hasNext() && result) {
-				TypeParameter mine = myParams.next();
-				TypeParameter otherParam = otherParams.next();
-				result = mine.sameValueAs(otherParam, ImmutableList.<Pair<TypeParameter, TypeParameter>>of());
-			}
+			result = type.baseType().sameAs(baseType()) && 
+					     forAll(parameters(TypeParameter.class), type.parameters(TypeParameter.class),
+					       (mine,otherParam) -> mine.sameValueAs(otherParam, ImmutableList.<Pair<TypeParameter, TypeParameter>>of()));
 		}
 		return result;
 	}
@@ -152,14 +151,9 @@ public class TypeInstantiation extends ClassWithBody {
 		boolean result = false;
 		if(otherType instanceof TypeInstantiation) {
 			TypeInstantiation type = (TypeInstantiation) otherType;
-			result = type.baseType().sameAs(baseType());
-			Iterator<TypeParameter> myParams = parameters(TypeParameter.class).iterator();
-			Iterator<TypeParameter> otherParams = type.parameters(TypeParameter.class).iterator();
-			while(myParams.hasNext() && result) {
-				TypeParameter mine = myParams.next();
-				TypeParameter otherParam = otherParams.next();
-				result = mine.sameValueAs(otherParam,trace);
-			}
+			result = type.baseType().sameAs(baseType()) &&
+					forAll(parameters(TypeParameter.class),type.parameters(TypeParameter.class), 
+							(mine,otherParam) -> mine.sameValueAs(otherParam,trace));
 		}
 		return result;
 	}
