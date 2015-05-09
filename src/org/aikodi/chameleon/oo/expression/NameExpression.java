@@ -1,8 +1,9 @@
 package org.aikodi.chameleon.oo.expression;
 
-import java.lang.ref.SoftReference;
 import java.util.HashSet;
 import java.util.Set;
+
+import java.lang.ref.SoftReference;
 
 import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.Declaration;
@@ -10,7 +11,6 @@ import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.lookup.DeclarationCollector;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
-import org.aikodi.chameleon.core.lookup.DeclaratorSelector;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.NameSelector;
 import org.aikodi.chameleon.core.reference.CrossReferenceTarget;
@@ -105,10 +105,10 @@ protected Type actualType() throws LookupException {
     return result;
 	}
 
-	@Override
-   public Declaration getDeclarator() throws LookupException {
-		return getElement(new DeclaratorSelector(selector()));
-	}
+//	@Override
+//   public Declaration getDeclarator() throws LookupException {
+//		return getElement(new DeclaratorSelector(selector()));
+//	}
 
 	@Override
    public DeclarationWithType getElement() throws LookupException {

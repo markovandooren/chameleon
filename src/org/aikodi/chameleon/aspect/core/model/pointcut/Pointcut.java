@@ -3,9 +3,9 @@ package org.aikodi.chameleon.aspect.core.model.pointcut;
 import org.aikodi.chameleon.aspect.core.model.aspect.Aspect;
 import org.aikodi.chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
 import org.aikodi.chameleon.core.declaration.Declaration;
-import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
+import org.aikodi.chameleon.core.modifier.ElementWithModifiersImpl;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.scope.Scope;
 import org.aikodi.chameleon.core.scope.ScopeProperty;
@@ -25,7 +25,7 @@ import org.aikodi.chameleon.util.association.Single;
  * 	@author Jens De Temmerman
  *  @author Marko van Dooren
  */
-public abstract class Pointcut extends ElementImpl implements Declaration {
+public abstract class Pointcut extends ElementWithModifiersImpl implements Declaration {
 	
 	public Pointcut() {
 		
@@ -65,22 +65,6 @@ public abstract class Pointcut extends ElementImpl implements Declaration {
 		return result;
 	}
 	
-	@Override
-	public Declaration selectionDeclaration() throws LookupException {
-		return this;
-	}
-	
-	@Override
-	public Declaration actualDeclaration() throws LookupException {
-		return this;
-	}
-	
-
-	@Override
-	public Declaration declarator() {
-		return this;
-	}
-
 //	@Override
 //	public abstract Signature signature();
 //
@@ -100,26 +84,6 @@ public abstract class Pointcut extends ElementImpl implements Declaration {
   		throw new ChameleonProgrammerException("Scope property is not a ScopeProperty");
   	}
   	return result;
-	}
-
-	@Override
-	public boolean complete() throws LookupException {
-		return true;
-	}
-	
-	@Override
-	public Declaration finalDeclaration() {
-		return this;
-	}
-	
-	@Override
-	public Declaration template() {
-		return finalDeclaration();
-	}
-
-	@Override
-	public SelectionResult updatedTo(Declaration declaration) {
-		return declaration;
 	}
 
 }

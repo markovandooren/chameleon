@@ -10,6 +10,7 @@ import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupContextFactory;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
+import org.aikodi.chameleon.util.Lists;
 
 /**
  * An element that contains declarations. This interface allows the
@@ -58,7 +59,9 @@ public interface DeclarationContainer extends Element {
    @
    @ post \result != null;
    @*/
-  public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException;
+  public default List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+  	return Lists.create();
+  }
   
   /**
    * @return the declarations the are defined in this declaration container and

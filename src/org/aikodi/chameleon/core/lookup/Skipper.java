@@ -40,11 +40,11 @@ public class Skipper<D extends Declaration> implements DeclarationSelector<D> {
 		return _original.selectionName(container);
 	}
 
-	@Override
-	public List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
-		return _original.declarators(selectionCandidates);
-	}
-
+//	@Override
+//	public List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
+//		return _original.declarators(selectionCandidates);
+//	}
+//
 	@Override
 	public List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException {
 		return _original.selection(declarators);

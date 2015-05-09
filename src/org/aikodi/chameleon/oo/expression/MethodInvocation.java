@@ -1,13 +1,13 @@
 package org.aikodi.chameleon.oo.expression;
 
-import java.lang.ref.SoftReference;
 import java.util.List;
+
+import java.lang.ref.SoftReference;
 
 import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.lookup.DeclarationCollector;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
-import org.aikodi.chameleon.core.lookup.DeclaratorSelector;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.reference.CrossReferenceTarget;
 import org.aikodi.chameleon.core.reference.CrossReferenceWithTarget;
@@ -16,7 +16,6 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.method.DeclarationWithParameters;
-import org.aikodi.chameleon.oo.statement.CheckedExceptionList;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.generics.ActualTypeArgument;
 import org.aikodi.chameleon.util.Lists;
@@ -224,11 +223,11 @@ public abstract class MethodInvocation<D extends DeclarationWithParameters>
 		return el;
 	}
 
-	@Override
-   public Declaration getDeclarator() throws LookupException {
-		return getElement(new DeclaratorSelector(selector()));
-	}
-
+//	@Override
+//   public Declaration getDeclarator() throws LookupException {
+//		return getElement(new DeclaratorSelector(selector()));
+//	}
+//
 	private SoftReference<Declaration> _cache;
 
 	@Override

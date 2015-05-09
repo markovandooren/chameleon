@@ -97,37 +97,37 @@ public List<? extends SelectionResult> selection(List<? extends Declaration> dec
     return tmp;
   }
 
-  /**
-   * Return the list of declarations in the given set that are selected.
-   * 
-   * @param selectionCandidates
-   *        The list containing the declarations that are checked for a match with {@link #selects(Signature)}}.
-   * @return
-   * @throws LookupException
-   */
-  @Override
-public List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
-  	Map<D,Declaration> tmp = new HashMap<D,Declaration>();
-  	List<D> Ds = Lists.create();
-  	Class<D> selectedClass = selectedClass();
-  	for(Declaration selectionCandidate: selectionCandidates) {
-  		if(selectedBasedOnName(selectionCandidate.signature())) {
-  			Declaration selectionDeclaration = selectionCandidate.selectionDeclaration();
-  			if(selectedClass.isInstance(selectionDeclaration)) {
-  				if(selectedRegardlessOfName((D)selectionDeclaration)) {
-  					tmp.put((D) selectionDeclaration,selectionCandidate.declarator());
-  					Ds.add((D) selectionDeclaration);
-  				}
-  			}
-  		} 
-  	}
-  	applyOrder((List)Ds);
-  	List<SelectionResult> result = Lists.create(Ds.size());
-  	for(D d: Ds) {
-  		result.add(tmp.get(d));
-  	}
-  	return result;
-  }
+//  /**
+//   * Return the list of declarations in the given set that are selected.
+//   * 
+//   * @param selectionCandidates
+//   *        The list containing the declarations that are checked for a match with {@link #selects(Signature)}}.
+//   * @return
+//   * @throws LookupException
+//   */
+//  @Override
+//public List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates) throws LookupException {
+//  	Map<D,Declaration> tmp = new HashMap<D,Declaration>();
+//  	List<D> Ds = Lists.create();
+//  	Class<D> selectedClass = selectedClass();
+//  	for(Declaration selectionCandidate: selectionCandidates) {
+//  		if(selectedBasedOnName(selectionCandidate.signature())) {
+//  			Declaration selectionDeclaration = selectionCandidate.selectionDeclaration();
+//  			if(selectedClass.isInstance(selectionDeclaration)) {
+//  				if(selectedRegardlessOfName((D)selectionDeclaration)) {
+//  					tmp.put((D) selectionDeclaration,selectionCandidate.declarator());
+//  					Ds.add((D) selectionDeclaration);
+//  				}
+//  			}
+//  		} 
+//  	}
+//  	applyOrder((List)Ds);
+//  	List<SelectionResult> result = Lists.create(Ds.size());
+//  	for(D d: Ds) {
+//  		result.add(tmp.get(d));
+//  	}
+//  	return result;
+//  }
 
 	protected abstract void applyOrder(List<SelectionResult> tmp) throws LookupException;
 

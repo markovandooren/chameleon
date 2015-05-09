@@ -7,7 +7,6 @@ import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.lookup.DeclarationCollector;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
-import org.aikodi.chameleon.core.lookup.DeclaratorSelector;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.NameSelector;
 import org.aikodi.chameleon.core.reference.CrossReference;
@@ -107,10 +106,10 @@ public Variable getElement() throws LookupException {
   	return getElement(selector());
   }
   
-	@Override
-   public Declaration getDeclarator() throws LookupException {
-		return getElement(new DeclaratorSelector(selector()));
-	}
+//	@Override
+//   public Declaration getDeclarator() throws LookupException {
+//		return getElement(new DeclaratorSelector(selector()));
+//	}
   
   @SuppressWarnings("unchecked")
   public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {

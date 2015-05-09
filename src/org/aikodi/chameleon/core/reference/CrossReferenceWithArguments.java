@@ -1,14 +1,14 @@
 package org.aikodi.chameleon.core.reference;
 
-import java.lang.ref.SoftReference;
 import java.util.List;
+
+import java.lang.ref.SoftReference;
 
 import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.DeclarationCollector;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
-import org.aikodi.chameleon.core.lookup.DeclaratorSelector;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
@@ -185,10 +185,10 @@ public class CrossReferenceWithArguments extends ElementImpl {
 		return el;
 	}
 
-	public Declaration getDeclarator() throws LookupException {
-		return getElement(new DeclaratorSelector(selector()));
-	}
-
+//	public Declaration getDeclarator() throws LookupException {
+//		return getElement(new DeclaratorSelector(selector()));
+//	}
+//
 	private SoftReference<Declaration> _cache;
 
 	@Override

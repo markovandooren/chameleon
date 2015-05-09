@@ -95,24 +95,24 @@ public interface DeclarationSelector<D extends Declaration> {
    */
   public abstract List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException;
   
-	/**
-	 * Return the list of declarations in the given set that are selected.
-	 * 
-	 * @param selectionCandidates
-	 *          The list containing the declarations that are checked for a match
-	 *          with {@link #selects(Signature)} .
-	 * @return
-	 * @throws LookupException
-	 */
-	public default List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates)
-			throws LookupException {
-		List<SelectionResult> result = new ArrayList<>();
-		for (SelectionResult r : selection(selectionCandidates)) {
-			result.add(r.template().declarator());
-		}
-		return result;
-	}
-
+//	/**
+//	 * Return the list of declarations in the given set that are selected.
+//	 * 
+//	 * @param selectionCandidates
+//	 *          The list containing the declarations that are checked for a match
+//	 *          with {@link #selects(Signature)} .
+//	 * @return
+//	 * @throws LookupException
+//	 */
+//	public default List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates)
+//			throws LookupException {
+//		List<SelectionResult> result = new ArrayList<>();
+//		for (SelectionResult r : selection(selectionCandidates)) {
+//			result.add(r.template().declarator());
+//		}
+//		return result;
+//	}
+//
 	/**
 	 * If the selectionName() of this selector must match declaration.signature().name() when that declaration is selected,
 	 * then this method returns true. Otherwise, the method returns false. This method can be used for a String based preselection
