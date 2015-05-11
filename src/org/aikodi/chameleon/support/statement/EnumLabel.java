@@ -4,7 +4,6 @@ import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.lookup.DeclarationCollector;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
-import org.aikodi.chameleon.core.lookup.DeclaratorSelector;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.NameSelector;
@@ -50,11 +49,6 @@ public class EnumLabel extends SwitchLabel implements CrossReference<Variable>{
 		DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
 	  switchExpr.getType().targetContext().lookUp(collector);
 	  return collector.result();
-	}
-
-	@Override
-   public Declaration getDeclarator() throws LookupException {
-		return getElement(new DeclaratorSelector(selector()));
 	}
 
 	public DeclarationSelector<Variable> selector() {
