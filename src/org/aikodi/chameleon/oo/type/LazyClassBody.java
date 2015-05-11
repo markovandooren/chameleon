@@ -205,26 +205,6 @@ public class LazyClassBody extends ClassBody {
 		return result;
 	}
 
-	//	public synchronized List<TypeElement> elements() {
-//		if(! _initializedElements) {
-//			flushLocalCache();
-//			clear();
-//			_statics = new ArrayList<TypeElement>();
-//			for(TypeElement element: original().elements()) {
-//				ChameleonProperty clazz = language(ObjectOrientedLanguage.class).CLASS;
-//				if(! element.isTrue(clazz)) {
-//				  super.add(element.clone());
-//				} else {
-//					_statics.add(element);
-//				}
-//			}
-//			_initializedElements = true;
-//		}
-//		List<TypeElement> result = super.elements();
-//		result.addAll(_statics);
-//		return result;
-//	}
-	
 	private List<TypeElement> _statics;
 	
 	@Override
