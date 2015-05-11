@@ -69,7 +69,17 @@ public abstract class CrossReferenceImpl<D extends Declaration> extends ElementI
 
   @Override
   public D getElement() throws LookupException {
-    return getElement(selector());
+    D result = (D) getCache();
+    if (result != null) {
+      return result;
+    }
+    synchronized (this) {
+      DeclarationCollector<D> collector = new DeclarationCollector<D>(selector());
+      lookupContext().lookUp(collector);
+      result = collector.result();
+        setCache((D) result);
+      return result;
+    }
   }
 
   @Override
@@ -80,27 +90,27 @@ public abstract class CrossReferenceImpl<D extends Declaration> extends ElementI
     return getElement().declarator();
   }
 
-  protected <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
-    X result = null;
-
-    // OPTIMISATION
-    boolean cache = selector.equals(selector());
-    if (cache) {
-      result = (X) getCache();
-    }
-    if (result != null) {
-      return result;
-    }
-    synchronized (this) {
-      DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
-      lookupContext().lookUp(collector);
-      result = collector.result();
-      if (cache) {
-        setCache((D) result);
-      }
-      return result;
-    }
-  }
+//  protected <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
+//    X result = null;
+//
+//    // OPTIMISATION
+//    boolean cache = selector.equals(selector());
+//    if (cache) {
+//      result = (X) getCache();
+//    }
+//    if (result != null) {
+//      return result;
+//    }
+//    synchronized (this) {
+//      DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
+//      lookupContext().lookUp(collector);
+//      result = collector.result();
+//      if (cache) {
+//        setCache((D) result);
+//      }
+//      return result;
+//    }
+//  }
 
   protected LookupContext lookupContext() throws LookupException {
     return lexicalContext();
