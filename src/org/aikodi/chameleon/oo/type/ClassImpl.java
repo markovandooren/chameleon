@@ -929,9 +929,9 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 		}
 
 		@Override
-      public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
-			ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-			return language.upperBoundNotHigherThan(this, other, trace);
+		public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+		  ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+		  return language.upperBoundNotHigherThan(this, other, trace);
 		}
 
 		@Override

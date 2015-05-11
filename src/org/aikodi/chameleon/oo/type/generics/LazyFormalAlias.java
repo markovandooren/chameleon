@@ -21,5 +21,9 @@ public class LazyFormalAlias extends FormalParameterType {
 		}
 	}
 	
+	@Override
+	public FormalParameterType cloneSelf() {
+	  return new LazyFormalAlias(name(), parameter());
+	}
 
 }

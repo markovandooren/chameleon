@@ -7,6 +7,7 @@ import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
+import org.aikodi.chameleon.oo.plugin.ObjectOrientedFactory;
 import org.aikodi.chameleon.oo.type.IntersectionTypeReference;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
@@ -48,17 +49,17 @@ public class FormalTypeParameter extends TypeParameter {
 
 
 	protected Type createSelectionType() throws LookupException {
-		return new FormalParameterType(name(),upperBound(),this);
+	  return language().plugin(ObjectOrientedFactory.class).createTypeVariable(name(),upperBound(),this);
 	}
 	
 	@Override
-   public Type resolveForRoundTrip() throws LookupException {
-  	Type result = createLazyAlias();
+	public Type resolveForRoundTrip() throws LookupException {
+    Type result = language().plugin(ObjectOrientedFactory.class).createLazyTypeVariable(name(), this);
   	result.setUniParent(parent());
   	return result;
 	}
 
-	protected Type createLazyAlias() {
+	protected final Type createLazyTypeVariable() {
 		return new LazyFormalAlias(name(), this);
 	}
 	

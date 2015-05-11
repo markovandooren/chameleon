@@ -178,7 +178,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	public Set<Type> getAllSuperTypes() throws LookupException;
 
 	public default boolean subTypeOf(Type other) throws LookupException {
-    return sameAs(other) || properSubTypeOf(other) || other.auxSuperTypeOf(this);
+    return sameAs(other) || properSubTypeOf(other) || other.properSuperTypeOf(this);
 	}
 
   public default boolean properSubTypeOf(Type other) throws LookupException {
@@ -187,7 +187,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
     return subtypeRelation.contains(this, other);
   }
 
-  public default boolean auxSuperTypeOf(Type type) throws LookupException {
+  public default boolean properSuperTypeOf(Type type) throws LookupException {
     return false;
   }
 

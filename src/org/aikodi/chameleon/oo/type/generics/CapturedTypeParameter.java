@@ -1,79 +1,43 @@
 package org.aikodi.chameleon.oo.type.generics;
 
 import org.aikodi.chameleon.core.lookup.LookupException;
+import org.aikodi.chameleon.oo.plugin.ObjectOrientedFactory;
 import org.aikodi.chameleon.oo.type.Type;
 
 public class CapturedTypeParameter extends FormalTypeParameter {
-//FIXME a captured type parameter should NOT be a formal type parameter but an instantiated type parameter!!!!
-//      I must modify the instantiated type parameter hierarchy.
-	public CapturedTypeParameter(String name) {
-		super(name);
-	}
+  //FIXME a captured type parameter should NOT be a formal type parameter but an instantiated type parameter!!!!
+  //      I must modify the instantiated type parameter hierarchy.
+  public CapturedTypeParameter(String name) {
+    super(name);
+  }
 
-	@Override
-	protected CapturedTypeParameter cloneSelf() {
-		return new CapturedTypeParameter(name());
-	}
-	
-	@Override
-	protected Type createLazyAlias() {
-		return new LazyInstantiatedAlias(name(), this);
-	}
+  @Override
+  protected CapturedTypeParameter cloneSelf() {
+    return new CapturedTypeParameter(name());
+  }
 
-	@Override
-	protected synchronized Type createSelectionType() throws LookupException {
-//		String x = nearestAncestor(Type.class).getFullyQualifiedName() +"."+ signature();
-//		if(x.equals("chameleon.core.member.Member.E")) {
-//			System.out.println("Creating selection type of " + x);
-//		}
-		if(_selectionTypeCache == null) {
-		  _selectionTypeCache = new InstantiatedParameterType(name(), upperBound(),this);
-		}
-		return _selectionTypeCache;
-	}
-	
-	@Override
-	public synchronized void flushLocalCache() {
-		super.flushLocalCache();
-		_selectionTypeCache = null;
-	}
+  public Type resolveForRoundTrip() throws LookupException {
+    Type result = language().plugin(ObjectOrientedFactory.class).createLazyCapturedTypeVariable(name(),this);
+    result.setUniParent(parent());
+    return result;
+  }
 
-	private Type _selectionTypeCache;
+  @Override
+  protected synchronized Type createSelectionType() throws LookupException {
+    if(_selectionTypeCache == null) {
+      _selectionTypeCache = language().plugin(ObjectOrientedFactory.class).createEagerCapturedTypeVariable(name(),upperBound(),this);
+    }
+    return _selectionTypeCache;
+  }
 
-//	@Override
-//	public CapturedTypeParameter cloneForStub() throws LookupException {
-//		CapturedTypeParameter result = clone();
-//		for(NonLocalTypeReference nl: result.descendants(NonLocalTypeReference.class)) {
-//			Element p = nl.lookupParent();
-//			if(p.sameAs(this) || p.ancestors().contains(this)) {
-//				nl.setLookupParent(result);
-//			}
-//		}
-//		return result;
-//	}
+  @Override
+  public synchronized void flushLocalCache() {
+    super.flushLocalCache();
+    _selectionTypeCache = null;
+  }
 
-//	@Override
-//	public boolean uniSameAs(Element other) throws LookupException {
-//		if(origin() == this) {
-//			if(other == other.origin()) {
-//			  // The real test is here.
-//				if(other instanceof CapturedTypeParameter) {
-//					boolean result = signature().sameAs(((CapturedTypeParameter) other).signature());
-//					if(result) {
-//					  result = nearestAncestor(DerivedType.class).baseType().sameAs(((DerivedType)other.nearestAncestor(DerivedType.class)).baseType());
-//					}
-//					return result;
-//				} else {
-//					return false;
-//				}
-//			} else {
-//				return uniSameAs(other.origin());
-//			}
-//		} else {
-//			return origin().sameAs(other);
-//		}
-//	}
+  private Type _selectionTypeCache;
 
-	
-	
+
+
 }

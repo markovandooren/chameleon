@@ -219,7 +219,7 @@ public class UnionType extends MultiType {
 	}
 
 	@Override
-	public boolean auxSuperTypeOf(Type type) throws LookupException {
+	public boolean properSuperTypeOf(Type type) throws LookupException {
 		List<Type> types = types();
 		int size = types.size();
 		boolean result = false;

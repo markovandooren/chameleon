@@ -213,7 +213,7 @@ public abstract class WildCardType extends ClassImpl {
 	}
 	
 	@Override
-	public boolean auxSuperTypeOf(Type type) throws LookupException {
+	public boolean properSuperTypeOf(Type type) throws LookupException {
 		return type.subTypeOf(lowerBound());
 	}
 }
