@@ -199,7 +199,7 @@ public class IntersectionType extends MultiType {
 	}
 
 	@Override
-	public boolean auxSubTypeOf(Type other) throws LookupException {
+	public boolean properSubTypeOf(Type other) throws LookupException {
 		List<Type> types = types();
 		int size = types.size();
 		boolean result = false;

@@ -69,12 +69,6 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
   }
   
 	@Override
-   public Class<SimpleNameSignature> signatureType() {
-		return SimpleNameSignature.class;
-	}
-	
-
-	@Override
    public Type declarationType() {
 		return this;
 	}
@@ -513,25 +507,6 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
     
     //TODO: rename to properSubTypeOf
 
-    @Override
-   public boolean subTypeOf(Type other) throws LookupException {
-    	return sameAs(other) || auxSubTypeOf(other) || other.auxSuperTypeOf(this);
-    }
-    
-    @Override
-    public boolean auxSuperTypeOf(Type type) throws LookupException {
-    	return false;
-    }
-    
-    public boolean auxSubTypeOf(Type other) throws LookupException {
-    	ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-			WeakPartialOrder<Type> subtypeRelation = language.subtypeRelation();
-			return subtypeRelation.contains(this, other);
-    }
-    
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#assignableTo(chameleon.oo.type.Type)
-		 */
    /*@
      @ public behavior
      @

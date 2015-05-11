@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
-import org.aikodi.chameleon.core.declaration.SimpleNameSignature;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
@@ -14,8 +13,10 @@ import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
+import org.aikodi.chameleon.core.relation.WeakPartialOrder;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
+import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.member.MemberRelationSelector;
 import org.aikodi.chameleon.oo.type.generics.TypeParameter;
@@ -29,8 +30,10 @@ import org.aikodi.chameleon.util.Pair;
  */
 public interface Type extends DeclarationContainer, DeclarationWithType, Member {
 
-	public Class<SimpleNameSignature> signatureType();
-
+  public default boolean newSubtypeOf(Type other) throws LookupException {
+    return sameAs(other);
+  }
+  
 	public void accumulateAllSuperTypes(Set<Type> acc) throws LookupException;
 
 	public void newAccumulateAllSuperTypes(Set<Type> acc) throws LookupException;
@@ -174,7 +177,19 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 
 	public Set<Type> getAllSuperTypes() throws LookupException;
 
-	public boolean subTypeOf(Type other) throws LookupException;
+	public default boolean subTypeOf(Type other) throws LookupException {
+    return sameAs(other) || properSubTypeOf(other) || other.auxSuperTypeOf(this);
+	}
+
+  public default boolean properSubTypeOf(Type other) throws LookupException {
+    ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+    WeakPartialOrder<Type> subtypeRelation = language.subtypeRelation();
+    return subtypeRelation.contains(this, other);
+  }
+
+  public default boolean auxSuperTypeOf(Type type) throws LookupException {
+    return false;
+  }
 
 	/**
 	 * Check if this type equals the given other type. This is
@@ -336,8 +351,6 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 
 	public Type baseType();
 
-	public Verification verifySelf();
-
 	public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException;
 
 	public Type union(Type lowerBound) throws LookupException;
@@ -374,5 +387,4 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	 */
 	public Verification verifySubtypeOf(Type otherType, String meaningThisType, String meaningOtherType, Element cause);
 
-	public boolean auxSuperTypeOf(Type type) throws LookupException;
 }
