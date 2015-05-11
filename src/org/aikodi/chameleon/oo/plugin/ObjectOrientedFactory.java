@@ -62,7 +62,7 @@ public abstract class ObjectOrientedFactory extends Factory {
     return new LazyFormalAlias(name, formalTypeParameter);
   }
 
-  public Type createEagerCapturedTypeVariable(String name, Type upperBound, CapturedTypeParameter capturedTypeParameter) {
+  public Type createCapturedTypeVariable(String name, Type upperBound, CapturedTypeParameter capturedTypeParameter) {
     return new InstantiatedParameterType(name, upperBound,capturedTypeParameter);
   }
 

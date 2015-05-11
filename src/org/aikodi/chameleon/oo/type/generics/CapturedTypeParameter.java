@@ -25,7 +25,7 @@ public class CapturedTypeParameter extends FormalTypeParameter {
   @Override
   protected synchronized Type createSelectionType() throws LookupException {
     if(_selectionTypeCache == null) {
-      _selectionTypeCache = language().plugin(ObjectOrientedFactory.class).createEagerCapturedTypeVariable(name(),upperBound(),this);
+      _selectionTypeCache = language().plugin(ObjectOrientedFactory.class).createCapturedTypeVariable(name(),upperBound(),this);
     }
     return _selectionTypeCache;
   }
