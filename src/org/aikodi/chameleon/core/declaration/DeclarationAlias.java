@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.core.declaration;
 
-import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
+import org.aikodi.chameleon.core.modifier.ElementWithModifiersImpl;
 import org.aikodi.chameleon.core.scope.Scope;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
@@ -11,7 +11,7 @@ import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.association.Single;
 
-public class DeclarationAlias extends ElementImpl implements Declaration {
+public class DeclarationAlias extends ElementWithModifiersImpl implements Declaration {
 
 	public DeclarationAlias(Signature signature, Declaration declaration) {
 		setSignature(signature);
