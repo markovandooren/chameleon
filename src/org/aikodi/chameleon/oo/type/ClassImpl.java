@@ -483,7 +483,7 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 
   	protected SuperTypeJudge _judge;
   	
-    public SuperTypeJudge superTypeJudge() throws LookupException {
+    public synchronized SuperTypeJudge superTypeJudge() throws LookupException {
       if(_judge == null) {
         _judge = new SuperTypeJudge();
         
