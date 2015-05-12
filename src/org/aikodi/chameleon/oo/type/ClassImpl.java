@@ -140,6 +140,8 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
   	_declarationCache = null;
   	_membersCache = null;
   	_superTypeCache = null;
+  	_judge = null;
+  	_superTypeAndSelfCache = null;
   }
 
 	private synchronized void setDeclarationCache(List<? extends Declaration> cache) {
