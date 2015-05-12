@@ -1,5 +1,7 @@
 package org.aikodi.chameleon.oo.type;
 
+import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.findFirst;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -38,12 +40,14 @@ import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.Pair;
+import org.aikodi.chameleon.util.Util;
 
 import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
 import be.kuleuven.cs.distrinet.rejuse.java.collections.TypeFilter;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
 
 /**
  * <p>A class representing types in object-oriented programs.</p>
@@ -477,6 +481,33 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
   		}
   	}
 
+  	protected SuperTypeJudge _judge;
+  	
+    public SuperTypeJudge superTypeJudge() throws LookupException {
+      if(_judge == null) {
+        _judge = new SuperTypeJudge();
+        
+        accumulateSuperTypeJudge(_judge);
+
+//        SuperTypeJudge faster = new SuperTypeJudge();
+//        accumulateSuperTypeJudge(faster);
+//        
+//        _judge.add(this);
+//        List<Type> temp = getDirectSuperTypes();
+//        for(Type type:temp) {
+//          SuperTypeJudge superJudge = type.superTypeJudge();
+//          _judge.merge(superJudge);
+//        }
+//        Set<Type> fasterTypes = faster.types();
+//        Set<Type> judgeTypes = _judge.types();
+//        Set<Type> view = getSelfAndAllSuperTypesView();
+//        if(fasterTypes.size() != (judgeTypes.size())) {
+//          //_judge = null;
+//          System.out.println("debug");
+//        }
+      }
+      return _judge;
+    }
     
     @Override
    public void newAccumulateAllSuperTypes(Set<Type> acc) throws LookupException {

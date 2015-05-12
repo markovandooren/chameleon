@@ -7,6 +7,7 @@ import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.core.validation.Verification;
+import org.aikodi.chameleon.oo.plugin.ObjectOrientedFactory;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.util.Pair;
@@ -63,7 +64,7 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 	@Override
    public synchronized Type selectionDeclaration() throws LookupException {
 		if(_selectionTypeCache == null) {
-		  _selectionTypeCache = new InstantiatedParameterType(name(), argument().type(),this);
+      _selectionTypeCache = language().plugin(ObjectOrientedFactory.class).createInstantiatedTypeVariable(name(),upperBound(),this);
 		}
 		return _selectionTypeCache;
 	}
@@ -79,7 +80,7 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 	
 	@Override
 	public Type resolveForRoundTrip() throws LookupException {
-  	Type result = new LazyInstantiatedAlias(name(), this);
+    Type result = language().plugin(ObjectOrientedFactory.class).createLazyInstantiatedTypeVariable(name(),this);
   	result.setUniParent(parent());
   	return result;
 	}

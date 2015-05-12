@@ -7,12 +7,12 @@ import org.aikodi.chameleon.oo.method.SimpleNameMethodHeader;
 import org.aikodi.chameleon.oo.type.RegularType;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
-import org.aikodi.chameleon.oo.type.generics.CapturedTypeParameter;
 import org.aikodi.chameleon.oo.type.generics.FormalParameterType;
 import org.aikodi.chameleon.oo.type.generics.FormalTypeParameter;
 import org.aikodi.chameleon.oo.type.generics.InstantiatedParameterType;
 import org.aikodi.chameleon.oo.type.generics.LazyFormalAlias;
 import org.aikodi.chameleon.oo.type.generics.LazyInstantiatedAlias;
+import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.support.member.simplename.method.NormalMethod;
 import org.aikodi.chameleon.support.modifier.Constructor;
@@ -62,11 +62,11 @@ public abstract class ObjectOrientedFactory extends Factory {
     return new LazyFormalAlias(name, formalTypeParameter);
   }
 
-  public Type createCapturedTypeVariable(String name, Type upperBound, CapturedTypeParameter capturedTypeParameter) {
+  public Type createInstantiatedTypeVariable(String name, Type upperBound, TypeParameter capturedTypeParameter) {
     return new InstantiatedParameterType(name, upperBound,capturedTypeParameter);
   }
 
-  public Type createLazyCapturedTypeVariable(String name, CapturedTypeParameter capturedTypeParameter) {
+  public Type createLazyInstantiatedTypeVariable(String name, TypeParameter capturedTypeParameter) {
     return new LazyInstantiatedAlias(name, capturedTypeParameter);
   }
 

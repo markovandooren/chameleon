@@ -1,7 +1,12 @@
 package org.aikodi.chameleon.oo.type;
 
+import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.findFirst;
+
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
@@ -23,6 +28,8 @@ import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.Pair;
 
+import com.google.common.collect.ImmutableList;
+
 /**
  * An interface for classes and interfaces in object-oriented languages.
  * 
@@ -34,12 +41,93 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
     return sameAs(other);
   }
   
+  public static class SuperTypeJudge {
+    // Nasty internal structure to prevent the creation
+    // of a lot of lists with just a single element.
+    private Map<String,Object> _map = new HashMap<>();
+    
+    void add(Type type) throws LookupException {
+      Object o = _map.get(type.name());
+      if(o == null) {
+        _map.put(type.name(), type);
+      } else if(o instanceof List) {
+        _map.put(type.name(),ImmutableList.builder().add(type).addAll((List)o).build());
+      } else {
+        //Check for duplicates
+        if(! ((Type)o).baseType().sameAs(type.baseType())) {
+          _map.put(type.name(), ImmutableList.builder().add(type).add(o).build());
+        }
+      }
+    }
+    
+    Set<Type> types() {
+      Set<Type> result = new HashSet<>();
+      for(Object o: _map.values()) {
+        if(o instanceof List) {
+          result.addAll((List)o);
+        } else {
+          result.add((Type) o);
+        }
+      }
+      return result;
+    }
+    
+    public Type get(Type baseType) throws LookupException {
+      Object o = _map.get(baseType.name());
+      if(o instanceof List) {
+        return findFirst((List<Type>) o, t -> t.baseType().sameAs(baseType.baseType()));
+      } else {
+        Type stored = (Type)o;
+        return stored == null ? null : (stored.baseType().sameAs(baseType.baseType()) ? stored : null);
+      }
+    }
+
+    void merge(SuperTypeJudge superJudge) throws LookupException {
+      for(Object v :superJudge._map.values()) {
+        if(v instanceof List) {
+          for(Type t: (List<Type>)v) {
+            add(t);
+          }
+        } else {
+          add((Type)v);
+        }
+      }
+    }
+  }
+  
+  public default void accumulateSuperTypeJudge(SuperTypeJudge judge) throws LookupException {
+    judge.add(this);
+    List<Type> temp = getDirectSuperTypes();
+    for(Type type:temp) {
+      Type existing = judge.get(type);
+      if(existing == null) {
+        type.accumulateSuperTypeJudge(judge);
+      }
+    }
+  }
+
+
+  /**
+   * Find the super type with the same base type as the given type.
+   * 
+   * @param type The type with the same base type as the requested super type.
+   * @return A super type of this type that has the same base type as the given
+   *         type. If there is no such super type, null is returned.
+   * @throws LookupException
+   */
+  public default Type getSuperType(Type type) throws LookupException {
+    return superTypeJudge().get(type);
+  }
+
+  public SuperTypeJudge superTypeJudge() throws LookupException;
+  
 	public void accumulateAllSuperTypes(Set<Type> acc) throws LookupException;
 
 	public void newAccumulateAllSuperTypes(Set<Type> acc) throws LookupException;
 
 	public void newAccumulateSelfAndAllSuperTypes(Set<Type> acc) throws LookupException;
 
+	
 	public Set<Type> getSelfAndAllSuperTypesView() throws LookupException;
 	
 	public abstract List<InheritanceRelation> explicitNonMemberInheritanceRelations();
