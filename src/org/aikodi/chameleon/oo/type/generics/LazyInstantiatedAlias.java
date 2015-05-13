@@ -51,6 +51,19 @@ public class LazyInstantiatedAlias extends TypeIndirection {
 	  trace.add(new Pair<Type, TypeParameter>(this, secondParam));
 	  return false;
 	}
+	
+	@Override
+	public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+      TypeParameter firstParam = parameter();
+      for(Pair<Type, TypeParameter> pair: trace) {
+        if(other.sameAs(pair.first()) && firstParam.sameAs(pair.second())) {
+          return true;
+        }
+      }
+      trace.add(new Pair<Type, TypeParameter>(other, firstParam));
+      // FIXME or return super?
+      return false;
+	}
 
 	@Override
    public Declaration declarator() {
