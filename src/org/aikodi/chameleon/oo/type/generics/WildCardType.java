@@ -216,4 +216,14 @@ public abstract class WildCardType extends ClassImpl {
 	public boolean properSuperTypeOf(Type type) throws LookupException {
 		return type.subTypeOf(lowerBound());
 	}
+	
+	@Override
+	public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+    return upperBound().upperBoundNotHigherThan(other,trace);
+	}
+	
+	@Override
+	public boolean lowerBoundAtLeatAsHighAs(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+    return other.upperBoundNotHigherThan(upperBound(),trace);
+	}
 }
