@@ -440,6 +440,8 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	public Type baseType();
 
 	public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException;
+	
+	public boolean lowerBoundAtLeatAsHighAs(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException;
 
 	public Type union(Type lowerBound) throws LookupException;
 	
