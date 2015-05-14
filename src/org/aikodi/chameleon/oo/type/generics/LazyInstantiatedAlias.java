@@ -39,6 +39,31 @@ public class LazyInstantiatedAlias extends TypeIndirection {
    public boolean uniSameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
 		return other == this;
 	}
+	
+	@Override
+	public boolean lowerBoundAtLeatAsHighAs(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+	  TypeParameter secondParam = ((LazyInstantiatedAlias)other).parameter();
+	  for(Pair<Type, TypeParameter> pair: trace) {
+	    if(this.sameAs(pair.first()) && secondParam.sameAs(pair.second())) {
+	      return true;
+	    }
+	  }
+	  trace.add(new Pair<Type, TypeParameter>(this, secondParam));
+	  return false;
+	}
+	
+	@Override
+	public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+      TypeParameter firstParam = parameter();
+      for(Pair<Type, TypeParameter> pair: trace) {
+        if(other.sameAs(pair.first()) && firstParam.sameAs(pair.second())) {
+          return true;
+        }
+      }
+      trace.add(new Pair<Type, TypeParameter>(other, firstParam));
+      // FIXME or return super?
+      return false;
+	}
 
 	@Override
    public Declaration declarator() {

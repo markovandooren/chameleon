@@ -36,6 +36,7 @@ import org.aikodi.chameleon.oo.member.HidesRelation;
 import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.member.MemberRelationSelector;
 import org.aikodi.chameleon.oo.member.SimpleNameMember;
+import org.aikodi.chameleon.oo.type.generics.LazyInstantiatedAlias;
 import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.Lists;
@@ -966,9 +967,8 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 		}
 
 		@Override
-		public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
-		  ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-		  return language.upperBoundNotHigherThan(this, other, trace);
+		public boolean lowerBoundAtLeatAsHighAs(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+		  return false;
 		}
 
 		@Override

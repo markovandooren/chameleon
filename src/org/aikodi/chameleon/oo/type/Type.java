@@ -1,7 +1,9 @@
 package org.aikodi.chameleon.oo.type;
 
 import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.findFirst;
+import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -270,9 +272,12 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	}
 
   public default boolean properSubTypeOf(Type other) throws LookupException {
-    ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-    WeakPartialOrder<Type> subtypeRelation = language.subtypeRelation();
-    return subtypeRelation.contains(this, other);
+    boolean result = false;
+    Type baseType = superTypeJudge().get(other);
+    if(baseType != null) {
+      result = baseType.compatibleParameters(other, new ArrayList<Pair<Type, TypeParameter>>());
+    }
+    return result;
   }
 
   public default boolean properSuperTypeOf(Type type) throws LookupException {
@@ -439,7 +444,22 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 
 	public Type baseType();
 
-	public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException;
+	public default boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+    if(this.sameAs(other)) {
+      return true;
+    }
+		Type sameBase = getSuperType(other);
+		return sameBase != null && sameBase.compatibleParameters(other, trace);
+//    ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+//    return language.upperBoundNotHigherThan(this, other, trace) || other.lowerBoundAtLeatAsHighAs(this, trace);
+	}
+	
+	public default boolean compatibleParameters(Type second, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+		return forAll(parameters(TypeParameter.class), second.parameters(TypeParameter.class), (f,s) -> f.compatibleWith(s, trace));
+	}
+
+
+	public boolean lowerBoundAtLeatAsHighAs(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException;
 
 	public Type union(Type lowerBound) throws LookupException;
 	

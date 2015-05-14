@@ -133,4 +133,36 @@ public class InstantiatedParameterType extends TypeIndirection {
 		public boolean properSuperTypeOf(Type type) throws LookupException {
 		  return type.subTypeOf(aliasedType());
 		}
+		
+		@Override
+		public boolean lowerBoundAtLeatAsHighAs(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+	      TypeParameter secondParam = parameter();
+	      for(Pair<Type, TypeParameter> pair: trace) {
+	        if(other.sameAs(pair.first()) && secondParam.sameAs(pair.second())) {
+	          return true;
+	        }
+	      }
+	      if(other.sameAs(this)) {
+	        return true;
+	      }
+	      trace.add(new Pair<Type, TypeParameter>(other, secondParam));
+	      boolean result = other.upperBoundNotHigherThan(((InstantiatedParameterType) this).aliasedType(), trace);
+	      return result;
+		}
+		
+		@Override
+		public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+      TypeParameter firstParam = parameter();
+      for(Pair<Type, TypeParameter> pair: trace) {
+        if(firstParam.sameAs(pair.second()) && other.sameAs(pair.first())) {
+          return true;
+        }
+      }
+      if(this.sameAs(other)) {
+        return true;
+      }
+      trace.add(new Pair<Type, TypeParameter>(other, firstParam));
+      boolean result = aliasedType().upperBoundNotHigherThan(other, trace);
+      return result;
+		}
 	}
