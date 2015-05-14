@@ -263,7 +263,7 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
    * This can be an expensive operation on a model whose references are not 
    * yet cached.</p>
    * 
-   * <p>The handler determines what will happend when a cross-reference throws a
+   * <p>The handler determines what will happen when a cross-reference throws a
    * LookupException. Handler.fail(LookupException.class) will cause the
    * search to stop immediately. {@link Handler#resume()} will
    * ignore the exception and cause the search to continue. If you provide
