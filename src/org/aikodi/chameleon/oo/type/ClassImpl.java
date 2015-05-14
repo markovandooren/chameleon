@@ -485,32 +485,36 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 
   	protected SuperTypeJudge _judge;
   	
-    public synchronized SuperTypeJudge superTypeJudge() throws LookupException {
-      if(_judge == null) {
-        _judge = new SuperTypeJudge();
-        
-        accumulateSuperTypeJudge(_judge);
+  	public SuperTypeJudge superTypeJudge() throws LookupException {
+  		if(_judge == null) {
+  			synchronized(this) {
+  				if(_judge == null) {
+  					_judge = new SuperTypeJudge();
 
-//        SuperTypeJudge faster = new SuperTypeJudge();
-//        accumulateSuperTypeJudge(faster);
-//        
-//        _judge.add(this);
-//        List<Type> temp = getDirectSuperTypes();
-//        for(Type type:temp) {
-//          SuperTypeJudge superJudge = type.superTypeJudge();
-//          _judge.merge(superJudge);
-//        }
-//        Set<Type> fasterTypes = faster.types();
-//        Set<Type> judgeTypes = _judge.types();
-//        Set<Type> view = getSelfAndAllSuperTypesView();
-//        if(fasterTypes.size() != (judgeTypes.size())) {
-//          //_judge = null;
-//          System.out.println("debug");
-//        }
-      }
-      return _judge;
-    }
-    
+  					accumulateSuperTypeJudge(_judge);
+
+  					//        SuperTypeJudge faster = new SuperTypeJudge();
+  					//        accumulateSuperTypeJudge(faster);
+  					//        
+  					//        _judge.add(this);
+  					//        List<Type> temp = getDirectSuperTypes();
+  					//        for(Type type:temp) {
+  					//          SuperTypeJudge superJudge = type.superTypeJudge();
+  					//          _judge.merge(superJudge);
+  					//        }
+  					//        Set<Type> fasterTypes = faster.types();
+  					//        Set<Type> judgeTypes = _judge.types();
+  					//        Set<Type> view = getSelfAndAllSuperTypesView();
+  					//        if(fasterTypes.size() != (judgeTypes.size())) {
+  					//          //_judge = null;
+  					//          System.out.println("debug");
+  					//        }
+  				}
+  			}
+  		}
+  		return _judge;
+  	}
+
     @Override
    public void newAccumulateAllSuperTypes(Set<Type> acc) throws LookupException {
     	List<Type> temp = getDirectSuperTypes();
