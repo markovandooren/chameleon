@@ -60,18 +60,11 @@ public class CallTracer {
 	private String number() {
 		StringBuilder builder = new StringBuilder();
 		Iterator<Integer> iter = _trace.iterator();
-//		int size = _trace.size();
-//		int index = 0;
 		while(iter.hasNext()) {
 			builder.append(iter.next());
 			if(iter.hasNext()) {
-//				if(index == size-2) {
-//					builder.append(" @ ");
-//				} else {
 					builder.append('.');
-//				}
 			}
-//			index++;
 		}
 		return builder.toString();
 	}
