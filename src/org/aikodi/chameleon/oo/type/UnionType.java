@@ -228,4 +228,25 @@ public class UnionType extends MultiType {
 		}
 		return result;
 	}
+	
+	@Override
+	public boolean lowerBoundAtLeatAsHighAs(Type other,	List<Pair<Type, TypeParameter>> trace) throws LookupException {
+		int size = _types.size();
+		boolean result = false;
+		for(int i=0; (!result) && i<size;i++) {
+			result = other.upperBoundNotHigherThan(_types.get(i),trace);
+		}
+		return result;
+	}
+	
+	@Override
+	public boolean upperBoundNotHigherThan(Type other,
+			List<Pair<Type, TypeParameter>> trace) throws LookupException {
+		int size = _types.size();
+		boolean result = size > 0;
+		for(int i=0; result && i<size;i++) {
+			result = _types.get(i).upperBoundNotHigherThan(other, trace);
+		}
+		return result;
+	}
 }

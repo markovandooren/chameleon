@@ -162,7 +162,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	 */
 	public abstract boolean isCheckedException(Type type) throws LookupException;
 
-	public abstract boolean upperBoundNotHigherThan(Type first, Type second, List<Pair<Type, TypeParameter>> trace) throws LookupException;
+//	public abstract boolean upperBoundNotHigherThan(Type first, Type second, List<Pair<Type, TypeParameter>> trace) throws LookupException;
 
 	public abstract Type getNullType(Namespace root);
 
