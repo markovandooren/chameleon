@@ -4,7 +4,9 @@ import org.aikodi.chameleon.core.declaration.Declaration;
 
 /**
  * An object that can be the result of a lookup. This does not have to
- * be a model element.
+ * be a model element, but can also be a container that keeps additional
+ * information regarding the selection of a declaration, such as 
+ * inferred type parameters.
  * 
  * @author Marko van Dooren
  */
@@ -16,8 +18,10 @@ public interface SelectionResult {
    * For language constructs such as methods with type parameters, which are
    * actually method templates, the template will be instantiated, and thus
    * a new method is created.</p>
+   * 
    * @return The declaration that is ultimately selected if this selection
    * result is selected.
+   * 
    * @throws LookupException
    */
 	public Declaration finalDeclaration() throws LookupException;
@@ -30,9 +34,20 @@ public interface SelectionResult {
 	 * must be cloned and incorporated into the subobject.</p>
 	 * 
 	 * @param container The declaration that should contain the selection result.
+	 * 
 	 * @return A selection result that is "part of" the given container.
 	 */
 	public SelectionResult updatedTo(Declaration container);
 	
+	/**
+	 * Return the template from which the {@link #finalDeclaration()} is
+	 * generated. Usually, this will be the final declaration itself. An
+	 * example where this will not be the case is for methods that have
+	 * type parameters. The overrides check does not take the actual
+	 * type parameters into account, thus the templates are used for
+	 * that check. 
+	 * 
+	 * @return The template from which the final declaration is generated.
+	 */
 	public Declaration template();
 }
