@@ -115,19 +115,4 @@ public class DeclarationAlias extends ElementWithModifiersImpl implements Declar
 		return signature().name();
 	}
 	
-	@Override
-	public Declaration finalDeclaration() {
-		return this;
-	}
-
-	@Override
-	public Declaration template() {
-		return finalDeclaration();
-	}
-
-	@Override
-	public SelectionResult updatedTo(Declaration declaration) {
-		return declaration;
-	}
-
 }

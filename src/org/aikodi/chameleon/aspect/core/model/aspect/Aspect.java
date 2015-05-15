@@ -122,22 +122,6 @@ public class Aspect extends BasicDeclaration implements DeclarationContainer, De
 
 
 	@Override
-	public Declaration selectionDeclaration()
-			throws LookupException {
-		return this;
-	}
-
-	@Override
-	public Declaration actualDeclaration() throws LookupException {
-		return this;
-	}
-
-	@Override
-	public Declaration declarator() {
-		return this;
-	}
-
-	@Override
 	public Scope scope() throws ModelException {
 		//FIXME Duplicated from MemberImpl
   	Scope result = null;
@@ -155,23 +139,4 @@ public class Aspect extends BasicDeclaration implements DeclarationContainer, De
 		setSignature(new SimpleNameSignature(name));
 	}
 
-	@Override
-	public boolean complete() throws LookupException {
-		return true;
-	}
-
-	@Override
-	public LookupContext targetContext() throws LookupException {
-		return localLookupStrategy();
-	}
-	
-	@Override
-	public Declaration finalDeclaration() {
-		return this;
-	}
-
-	@Override
-	public SelectionResult updatedTo(Declaration declaration) {
-		return declaration;
-	}
 }
