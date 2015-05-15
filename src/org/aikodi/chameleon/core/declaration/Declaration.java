@@ -16,6 +16,7 @@ import org.aikodi.chameleon.core.scope.Scope;
 import org.aikodi.chameleon.core.scope.ScopeProperty;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
+import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.exception.Handler;
 
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
@@ -62,7 +63,7 @@ SelectionResult <|-- Declaration
 Declaration -- Signature
 @enduml
  */
-public interface Declaration extends Element, SelectionResult, DeclarationContainer, ElementWithModifiers {//
+public interface Declaration extends Element, SelectionResult, DeclarationContainer, ElementWithModifiers, Declarator {//
 
   /**
    * @return the signature of this declaration. The signature represents the identity of this declaration.
@@ -314,4 +315,8 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
     return declaration;
   }
 
+  @Override
+  public default List<Declaration> declaredDeclarations() {
+  	return Lists.create(this);
+  }
 }
