@@ -967,7 +967,7 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 		}
 
 		@Override
-		public boolean lowerBoundAtLeatAsHighAs(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+		public boolean lowerBoundAtLeatAsHighAs(Type other, TypeFixer trace) throws LookupException {
 		  return false;
 		}
 

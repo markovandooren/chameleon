@@ -15,6 +15,7 @@ import org.aikodi.chameleon.oo.type.Parameter;
 import org.aikodi.chameleon.oo.type.ParameterBlock;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeElement;
+import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.Pair;
 import org.aikodi.chameleon.util.Util;
@@ -218,12 +219,12 @@ public abstract class WildCardType extends ClassImpl {
 	}
 	
 	@Override
-	public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+	public boolean upperBoundNotHigherThan(Type other, TypeFixer trace) throws LookupException {
     return upperBound().upperBoundNotHigherThan(other,trace);
 	}
 	
 	@Override
-	public boolean lowerBoundAtLeatAsHighAs(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+	public boolean lowerBoundAtLeatAsHighAs(Type other, TypeFixer trace) throws LookupException {
     return other.upperBoundNotHigherThan(upperBound(),trace);
 	}
 }
