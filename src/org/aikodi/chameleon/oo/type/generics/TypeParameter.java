@@ -16,6 +16,7 @@ import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.oo.type.Parameter;
 import org.aikodi.chameleon.oo.type.Type;
+import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.util.Pair;
 
@@ -52,8 +53,8 @@ public Type actualDeclaration() throws LookupException {
 //		return (TypeParameter) clone();
 //	}
 //	
-	public boolean compatibleWith(TypeParameter other,List<Pair<Type, TypeParameter>> trace) throws LookupException {
-		List<Pair<Type, TypeParameter>> slowTrace = new ArrayList<Pair<Type, TypeParameter>>(trace);
+	public boolean compatibleWith(TypeParameter other,TypeFixer trace) throws LookupException {
+		TypeFixer slowTrace = trace.clone();
 		boolean result = sameAs(other);
 		if(! result) {
 			result = upperBound().upperBoundNotHigherThan(other.upperBound(),slowTrace);

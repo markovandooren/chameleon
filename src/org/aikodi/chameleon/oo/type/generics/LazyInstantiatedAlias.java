@@ -5,6 +5,7 @@ import java.util.List;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.type.Type;
+import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.TypeIndirection;
 import org.aikodi.chameleon.util.Pair;
 
@@ -41,26 +42,32 @@ public class LazyInstantiatedAlias extends TypeIndirection {
 	}
 	
 	@Override
-	public boolean lowerBoundAtLeatAsHighAs(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+	public boolean lowerBoundAtLeatAsHighAs(Type other, TypeFixer trace) throws LookupException {
 	  TypeParameter secondParam = ((LazyInstantiatedAlias)other).parameter();
-	  for(Pair<Type, TypeParameter> pair: trace) {
-	    if(this.sameAs(pair.first()) && secondParam.sameAs(pair.second())) {
-	      return true;
-	    }
+	  if(trace.contains(this, secondParam)) {
+	  	return true;
 	  }
-	  trace.add(new Pair<Type, TypeParameter>(this, secondParam));
+//	  for(Pair<Type, TypeParameter> pair: trace) {
+//	    if(this.sameAs(pair.first()) && secondParam.sameAs(pair.second())) {
+//	      return true;
+//	    }
+//	  }
+	  trace.add(this, secondParam);
 	  return false;
 	}
 	
 	@Override
-	public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+	public boolean upperBoundNotHigherThan(Type other, TypeFixer trace) throws LookupException {
       TypeParameter firstParam = parameter();
-      for(Pair<Type, TypeParameter> pair: trace) {
-        if(other.sameAs(pair.first()) && firstParam.sameAs(pair.second())) {
-          return true;
-        }
+      if(trace.contains(other, firstParam)) {
+      	return true;
       }
-      trace.add(new Pair<Type, TypeParameter>(other, firstParam));
+//      for(Pair<Type, TypeParameter> pair: trace) {
+//        if(other.sameAs(pair.first()) && firstParam.sameAs(pair.second())) {
+//          return true;
+//        }
+//      }
+      trace.add(other, firstParam);
       // FIXME or return super?
       return false;
 	}

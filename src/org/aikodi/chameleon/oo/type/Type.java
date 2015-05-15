@@ -275,7 +275,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
     boolean result = false;
     Type baseType = superTypeJudge().get(other);
     if(baseType != null) {
-      result = baseType.compatibleParameters(other, new ArrayList<Pair<Type, TypeParameter>>());
+      result = baseType.compatibleParameters(other, new TypeFixer());
     }
     return result;
   }
@@ -444,7 +444,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 
 	public Type baseType();
 
-	public default boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+	public default boolean upperBoundNotHigherThan(Type other, TypeFixer trace) throws LookupException {
     if(this.sameAs(other)) {
       return true;
     }
@@ -454,12 +454,12 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 //    return language.upperBoundNotHigherThan(this, other, trace) || other.lowerBoundAtLeatAsHighAs(this, trace);
 	}
 	
-	public default boolean compatibleParameters(Type second, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+	public default boolean compatibleParameters(Type second, TypeFixer trace) throws LookupException {
 		return forAll(parameters(TypeParameter.class), second.parameters(TypeParameter.class), (f,s) -> f.compatibleWith(s, trace));
 	}
 
 
-	public boolean lowerBoundAtLeatAsHighAs(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException;
+	public boolean lowerBoundAtLeatAsHighAs(Type other, TypeFixer trace) throws LookupException;
 
 	public Type union(Type lowerBound) throws LookupException;
 	

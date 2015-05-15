@@ -10,6 +10,7 @@ import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.type.Type;
+import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.TypeIndirection;
 import org.aikodi.chameleon.util.Pair;
 import org.aikodi.chameleon.util.Util;
@@ -135,33 +136,39 @@ public class InstantiatedParameterType extends TypeIndirection {
 		}
 		
 		@Override
-		public boolean lowerBoundAtLeatAsHighAs(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+		public boolean lowerBoundAtLeatAsHighAs(Type other, TypeFixer trace) throws LookupException {
 	      TypeParameter secondParam = parameter();
-	      for(Pair<Type, TypeParameter> pair: trace) {
-	        if(other.sameAs(pair.first()) && secondParam.sameAs(pair.second())) {
-	          return true;
-	        }
+	      if(trace.contains(other,secondParam)) {
+	      	return true;
 	      }
+//	      for(Pair<Type, TypeParameter> pair: trace) {
+//	        if(other.sameAs(pair.first()) && secondParam.sameAs(pair.second())) {
+//	          return true;
+//	        }
+//	      }
 	      if(other.sameAs(this)) {
 	        return true;
 	      }
-	      trace.add(new Pair<Type, TypeParameter>(other, secondParam));
+	      trace.add(other, secondParam);
 	      boolean result = other.upperBoundNotHigherThan(((InstantiatedParameterType) this).aliasedType(), trace);
 	      return result;
 		}
 		
 		@Override
-		public boolean upperBoundNotHigherThan(Type other, List<Pair<Type, TypeParameter>> trace) throws LookupException {
+		public boolean upperBoundNotHigherThan(Type other, TypeFixer trace) throws LookupException {
       TypeParameter firstParam = parameter();
-      for(Pair<Type, TypeParameter> pair: trace) {
-        if(firstParam.sameAs(pair.second()) && other.sameAs(pair.first())) {
-          return true;
-        }
+      if(trace.contains(other, firstParam)) {
+      	return true;
       }
+//      for(Pair<Type, TypeParameter> pair: trace) {
+//        if(firstParam.sameAs(pair.second()) && other.sameAs(pair.first())) {
+//          return true;
+//        }
+//      }
       if(this.sameAs(other)) {
         return true;
       }
-      trace.add(new Pair<Type, TypeParameter>(other, firstParam));
+      trace.add(other, firstParam);
       boolean result = aliasedType().upperBoundNotHigherThan(other, trace);
       return result;
 		}
