@@ -112,42 +112,8 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 	}
 
 	protected 
-	List<SelectionResult> removeNonMostSpecificMembersq(List<SelectionResult> current, final List<? extends SelectionResult> potential) throws LookupException {
-		if(current == Collections.EMPTY_LIST) {
-			return (List)potential; 
-		}
-		final List<SelectionResult> toAdd = Lists.create(potential.size());
-		for(SelectionResult mm: potential) {
-			Member m = (Member)mm.finalDeclaration();
-			boolean add = true;
-			Iterator<? extends SelectionResult> iterCurrent = current.iterator();
-			while(add && iterCurrent.hasNext()) {
-				Member alreadyInherited = (Member)iterCurrent.next().finalDeclaration();
-				// Remove the already inherited member if potentially inherited member m overrides or hides it.
-				if((alreadyInherited.sameAs(m) || alreadyInherited.overrides(m) || alreadyInherited.canImplement(m) || alreadyInherited.hides(m))) {
-					add = false;
-				} else if((!alreadyInherited.sameAs(m)) && (m.overrides(alreadyInherited) || m.canImplement(alreadyInherited) || m.hides(alreadyInherited))) {
-					iterCurrent.remove();
-				}
-			}
-			if(add == true) {
-				toAdd.add(mm);
-			}
-		}
-		if(current.size() > toAdd.size()) {
-			current.addAll(toAdd);
-			return current;
-		} else {
-			toAdd.addAll(current);
-			return toAdd;
-		}
-	}
-
-	protected 
 	List<SelectionResult> removeNonMostSpecificMembers(List<SelectionResult> current, final List<? extends SelectionResult> potential) throws LookupException {
-//		List<SelectionResult> current = new ArrayList(crt);
-//		List backup = new ArrayList(crt);
-		if(current == Collections.EMPTY_LIST) {
+		if(current == Collections.EMPTY_LIST || current.isEmpty()) {
 			return (List)potential; 
 		}
 		final List<SelectionResult> toAdd = Lists.create(potential.size());
@@ -202,9 +168,6 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 		return result;
 	}
 
-	
-//	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
-//	        List<M> potentiallyInheritedMembers(final Class<M> kind) throws LookupException {
 	public <M extends Member> List<M> potentiallyInheritedMembers(final Class<M> kind) throws LookupException {
 		List<M> superMembers = superClass().members(kind);
 		removeNonInheritableMembers((List)superMembers);
