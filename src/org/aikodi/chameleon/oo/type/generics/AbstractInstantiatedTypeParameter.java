@@ -31,23 +31,8 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 	 */
 	public TypeParameterSubstitution substitution(Element element) throws LookupException {
 		List<CrossReference> crossReferences = 
-			 element.descendants(CrossReference.class, 
-					              new Predicate<CrossReference,LookupException>() {
-	
-													@Override
-													public boolean eval(CrossReference object) throws LookupException {
-//														return object.getElement().sameAs(selectionDeclaration());
-														return object.getDeclarator().sameAs(AbstractInstantiatedTypeParameter.this);
-													}
-				 
-			                  });
+			 element.descendants(CrossReference.class, object -> object.getDeclarator().sameAs(AbstractInstantiatedTypeParameter.this));
 		
-//		for(CrossReference cref: crossReferences) {
-//			SingleAssociation parentLink = cref.parentLink();
-//			Association childLink = parentLink.getOtherRelation();
-//			TypeReference namedTargetExpression = argument().substitutionReference().clone();
-//			childLink.replace(parentLink, namedTargetExpression.parentLink());
-//		}
 		return new TypeParameterSubstitution(this, crossReferences);
 	}
 
@@ -62,9 +47,13 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 	private ActualTypeArgument _argument;
 
 	@Override
-   public synchronized Type selectionDeclaration() throws LookupException {
+   public Type selectionDeclaration() throws LookupException {
 		if(_selectionTypeCache == null) {
-      _selectionTypeCache = language().plugin(ObjectOrientedFactory.class).createInstantiatedTypeVariable(name(),upperBound(),this);
+			synchronized(this) {
+				if(_selectionTypeCache == null) {
+					_selectionTypeCache = language().plugin(ObjectOrientedFactory.class).createInstantiatedTypeVariable(name(),upperBound(),this);
+				}
+			}
 		}
 		return _selectionTypeCache;
 	}
