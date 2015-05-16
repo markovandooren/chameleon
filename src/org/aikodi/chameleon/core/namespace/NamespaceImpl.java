@@ -290,9 +290,13 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
 	  _declarationCache.put(name, declarations);
 	}
 	
-  protected synchronized void removeCache(String name) {
+  protected void removeCache(String name) {
     if(_declarationCache != null) {
-      _declarationCache.remove(name);
+      synchronized(this) {
+        if(_declarationCache != null) {
+          _declarationCache.remove(name);
+        }
+      }
     }
   }
 	
