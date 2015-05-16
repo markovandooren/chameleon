@@ -161,7 +161,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
 	    List<Declaration> decls = _declarationCache.get(namespace.name());
 	    if(decls == null) {
 	      decls = new ArrayList<>();
-	      _declarationCache.put(namespace.name(), decls);
+	      storeCache(namespace.name(), decls);
 	    }
 	    decls.add(namespace);
 	  }
@@ -249,7 +249,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
 //		  	_declarationCache.put(declaration.name(), Lists.create(declaration,1));
 //		  }
 			for(Declaration declaration: subNamespaces()) {
-				_declarationCache.put(declaration.name(), Lists.create(declaration,1));
+			  storeCache(declaration.name(), Lists.create(declaration,1));
 			}
 			for(NamespaceDeclaration part: loadedNamespaceDeclarations()) {
 				addCacheForNamespaceDeclaration(part);
@@ -264,7 +264,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
         List<Declaration> matches = _declarationCache.get(declaration.name());
         if(matches == null) {
           matches = new ArrayList<>(1);
-          _declarationCache.put(declaration.name(), matches);
+          storeCache(declaration.name(), matches);
         }
         matches.add(declaration);
       }
@@ -284,10 +284,10 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
 	}
 	
 	protected synchronized void storeCache(String name, List<Declaration> declarations) {
-		if(_declarationCache == null) {
-			_declarationCache = new HashMap<String, List<Declaration>>();
-		}
-		_declarationCache.put(name, declarations);
+	  if(_declarationCache == null) {
+	    _declarationCache = new HashMap<String, List<Declaration>>();
+	  }
+	  _declarationCache.put(name, declarations);
 	}
 	
   protected synchronized void removeCache(String name) {
@@ -296,7 +296,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
     }
   }
 	
-	protected Map<String,List<Declaration>> _declarationCache;
+	private Map<String,List<Declaration>> _declarationCache;
 	
 	@Override
    public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
