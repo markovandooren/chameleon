@@ -487,20 +487,27 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
   		}
   	}
 
-  	protected SuperTypeJudge _judge;
-  	protected AtomicBoolean _judgeLock = new AtomicBoolean();
+  	protected volatile SuperTypeJudge _judge;
+  	protected final AtomicBoolean _judgeLock = new AtomicBoolean();
   	
   	public SuperTypeJudge superTypeJudge() throws LookupException {
   		SuperTypeJudge result = _judge;
   		if(result == null) {
   			if(_judgeLock.compareAndSet(false, true)) {
-  				result = new SuperTypeJudge();
-  				accumulateSuperTypeJudge(result);
-  				_judge = result;
-  				_judgeLock.compareAndSet(true, false);
+  				try {
+  					result = new SuperTypeJudge();
+  					accumulateSuperTypeJudge(result);
+  					_judge = result;
+  				} catch(LookupException e) {
+  					throw e;
+  				} finally {
+  					_judgeLock.compareAndSet(true, false);
+  				}
   			} else {
   				//spin lock
-  				while((result = _judge) == null) {}
+  				while(result == null) {
+  					result = _judge;
+  				}
   			}
   		}
   		return result;
