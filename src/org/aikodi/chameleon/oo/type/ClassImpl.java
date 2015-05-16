@@ -497,6 +497,7 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
   				result = new SuperTypeJudge();
   				accumulateSuperTypeJudge(result);
   				_judge = result;
+  				_judgeLock.compareAndSet(true, false);
   			} else {
   				//spin lock
   				while((result = _judge) == null) {}
