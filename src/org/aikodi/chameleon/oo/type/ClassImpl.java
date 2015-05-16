@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.oo.type;
 
-import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.findFirst;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -11,10 +9,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.Declaration;
-import org.aikodi.chameleon.core.declaration.SimpleNameSignature;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
@@ -26,7 +24,6 @@ import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.modifier.Modifier;
 import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
-import org.aikodi.chameleon.core.relation.WeakPartialOrder;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
@@ -36,19 +33,17 @@ import org.aikodi.chameleon.oo.member.HidesRelation;
 import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.member.MemberRelationSelector;
 import org.aikodi.chameleon.oo.member.SimpleNameMember;
-import org.aikodi.chameleon.oo.type.generics.LazyInstantiatedAlias;
 import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.Pair;
-import org.aikodi.chameleon.util.Util;
 
 import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
 import be.kuleuven.cs.distrinet.rejuse.java.collections.TypeFilter;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableList.Builder;
+import com.google.common.collect.ImmutableSet;
 
 /**
  * <p>A class representing types in object-oriented programs.</p>
@@ -455,25 +450,33 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
     }
     
     @Override
-   public synchronized Set<Type> getAllSuperTypes() throws LookupException {
+   public Set<Type> getAllSuperTypes() throws LookupException {
     	if(_superTypeCache == null) {
-    		_superTypeCache = new HashSet<Type>();
-    		accumulateAllSuperTypes(_superTypeCache);
+    		synchronized(this) {
+        	if(_superTypeCache == null) {
+        		Set<Type> elements = new HashSet<Type>();
+        		accumulateAllSuperTypes(elements);
+        		_superTypeCache = ImmutableSet.<Type>builder().addAll(elements).build();
+        	}
+    		}
     	}
-    	Set<Type>  result = new HashSet<Type>(_superTypeCache);
-    	return result;
+    	return _superTypeCache;
     }
 
     
   	@Override
-   public synchronized Set<Type> getSelfAndAllSuperTypesView() throws LookupException {
+   public Set<Type> getSelfAndAllSuperTypesView() throws LookupException {
   		try {
-  			
   			if(_superTypeAndSelfCache == null) {
-  				_superTypeAndSelfCache = new HashSet<Type>();
-  				newAccumulateSelfAndAllSuperTypes(_superTypeAndSelfCache);
+  				synchronized(this) {
+  					if(_superTypeAndSelfCache == null) {
+          		Set<Type> elements = new HashSet<Type>();
+  						newAccumulateSelfAndAllSuperTypes(elements);
+  						_superTypeAndSelfCache = ImmutableSet.<Type>builder().addAll(elements).build();
+  	  			}
+  				}
   			}
-  			return Collections.unmodifiableSet(_superTypeAndSelfCache);
+  			return _superTypeAndSelfCache;
   			
   		} catch(ChameleonProgrammerException exc) {
   			if(exc.getCause() instanceof LookupException) {
@@ -485,35 +488,48 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
   	}
 
   	protected SuperTypeJudge _judge;
+  	protected AtomicBoolean _judgeLock = new AtomicBoolean();
   	
   	public SuperTypeJudge superTypeJudge() throws LookupException {
-  		if(_judge == null) {
-  			synchronized(this) {
-  				if(_judge == null) {
-  					_judge = new SuperTypeJudge();
-
-  					accumulateSuperTypeJudge(_judge);
-
-  					//        SuperTypeJudge faster = new SuperTypeJudge();
-  					//        accumulateSuperTypeJudge(faster);
-  					//        
-  					//        _judge.add(this);
-  					//        List<Type> temp = getDirectSuperTypes();
-  					//        for(Type type:temp) {
-  					//          SuperTypeJudge superJudge = type.superTypeJudge();
-  					//          _judge.merge(superJudge);
-  					//        }
-  					//        Set<Type> fasterTypes = faster.types();
-  					//        Set<Type> judgeTypes = _judge.types();
-  					//        Set<Type> view = getSelfAndAllSuperTypesView();
-  					//        if(fasterTypes.size() != (judgeTypes.size())) {
-  					//          //_judge = null;
-  					//          System.out.println("debug");
-  					//        }
-  				}
+  		SuperTypeJudge result = _judge;
+  		if(result == null) {
+  			if(_judgeLock.compareAndSet(false, true)) {
+  				result = new SuperTypeJudge();
+  				accumulateSuperTypeJudge(result);
+  				_judge = result;
+  			} else {
+  				//spin lock
+  				while((result = _judge) == null) {}
   			}
   		}
-  		return _judge;
+  		return result;
+//  		if(_judge == null) {
+//  			synchronized(this) {
+//  				if(_judge == null) {
+//  					_judge = new SuperTypeJudge();
+//
+//  					accumulateSuperTypeJudge(_judge);
+//
+//  					//        SuperTypeJudge faster = new SuperTypeJudge();
+//  					//        accumulateSuperTypeJudge(faster);
+//  					//        
+//  					//        _judge.add(this);
+//  					//        List<Type> temp = getDirectSuperTypes();
+//  					//        for(Type type:temp) {
+//  					//          SuperTypeJudge superJudge = type.superTypeJudge();
+//  					//          _judge.merge(superJudge);
+//  					//        }
+//  					//        Set<Type> fasterTypes = faster.types();
+//  					//        Set<Type> judgeTypes = _judge.types();
+//  					//        Set<Type> view = getSelfAndAllSuperTypesView();
+//  					//        if(fasterTypes.size() != (judgeTypes.size())) {
+//  					//          //_judge = null;
+//  					//          System.out.println("debug");
+//  					//        }
+//  				}
+//  			}
+//  		}
+//  		return _judge;
   	}
 
     @Override
