@@ -580,25 +580,6 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
     }
 
     
-  	/* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#inheritanceRelations()
-		 */
-   /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @*/
-  	@Override
-   public abstract List<InheritanceRelation> inheritanceRelations() throws LookupException;
-  	
-  	/**
-  	 * The default behavior is to return inheritanceRelations(). If there are
-  	 * member inheritance relations, the method must be overridden to exclude them.
-  	 * @return
-  	 */
-  	@Override
-   public abstract List<InheritanceRelation> nonMemberInheritanceRelations();
-  	
   	@Override
    public abstract List<InheritanceRelation> explicitNonMemberInheritanceRelations();
   	
