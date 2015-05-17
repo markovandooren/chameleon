@@ -690,12 +690,12 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
       return result;
     }
     @Override
-   public <D extends Member> List<? extends SelectionResult> members(DeclarationSelector<D> selector) throws LookupException {
+   public <D extends Member> List<SelectionResult<D>> members(DeclarationSelector<D> selector) throws LookupException {
     	// 1) perform local search
     	boolean nonGreedy = ! selector.isGreedy();
-    	List<SelectionResult> result = (List)localMembers(selector);
+    	List<SelectionResult<D>> result = (List)localMembers(selector);
     	if(nonGreedy || result.isEmpty()) {
-    	  List<SelectionResult> implicitMembers = (List)implicitMembers(selector);
+    	  List<SelectionResult<D>> implicitMembers = (List)implicitMembers(selector);
     	  if(result == Collections.EMPTY_LIST) {
     	  	result = implicitMembers;
     	  } else {
@@ -726,13 +726,6 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
     	}
     }
     
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#localMembers(chameleon.core.lookup.DeclarationSelector)
-		 */
-    @Override
-   @SuppressWarnings("unchecked")
-    public abstract <D extends Member> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException;
-
     @Override
    public List<Member> members() throws LookupException {
       return members(Member.class);

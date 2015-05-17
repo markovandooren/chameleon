@@ -32,9 +32,8 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 	}
 	
 	/**
-	 * Return the inherited class.
-	 * @return
-	 * @throws LookupException
+	 * @return the super class.
+	 * @throws LookupException The super class could not be resolved.
 	 */
  /*@
    @ public behavior
@@ -102,21 +101,19 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 		return (List<M>) removeNonMostSpecificMembers((List)current, (List)potential);
 	}
 
-//	public <M extends Member<M,? super Type,S,F>, S extends Signature<S,M>, F extends Member<? extends Member,? super Type,S,F>> 
-//  void accumulateInheritedMembers(DeclarationSelector<M> selector, List<M> current) throws LookupException {
 	@Override
    public <X extends Member> 
-	List<SelectionResult> accumulateInheritedMembers(DeclarationSelector<X> selector, List<SelectionResult> current) throws LookupException {
-		final List<? extends SelectionResult> potential = potentiallyInheritedMembers(selector);
+	List<SelectionResult<X>> accumulateInheritedMembers(DeclarationSelector<X> selector, List<SelectionResult<X>> current) throws LookupException {
+		final List<SelectionResult<X>> potential = potentiallyInheritedMembers(selector);
 		return removeNonMostSpecificMembers(current, potential);
 	}
 
 	protected 
-	List<SelectionResult> removeNonMostSpecificMembers(List<SelectionResult> current, final List<? extends SelectionResult> potential) throws LookupException {
+	<X extends Member> List<SelectionResult<X>> removeNonMostSpecificMembers(List<SelectionResult<X>> current, final List<SelectionResult<X>> potential) throws LookupException {
 		if(current == Collections.EMPTY_LIST || current.isEmpty()) {
 			return (List)potential; 
 		}
-		final List<SelectionResult> toAdd = Lists.create(potential.size());
+		final List<SelectionResult<X>> toAdd = Lists.create(potential.size());
 		int potentialSize = potential.size();
 		int currentSize = current.size();
 		int[] removedIndices = new int[currentSize];
@@ -180,125 +177,12 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
     return superMembers;
 	}
 	
-	public <M extends Member> List<? extends SelectionResult> potentiallyInheritedMembers(
-			final DeclarationSelector<M> selector) throws LookupException {
-		List<? extends SelectionResult> superMembers = superClass().members(selector);
-		removeNonInheritableMembers((List)superMembers);
-		return superMembers;
+	public <X extends Member> List<SelectionResult<X>> potentiallyInheritedMembers(
+			final DeclarationSelector<X> selector) throws LookupException {
+		List<SelectionResult<X>> superMembers = superClass().members(selector);
+		return removeNonInheritableMembers((List)superMembers);
 	}
 	
-//	public static DeclarationContainerAlias membersInContext(Type type) throws LookupException {
-//		DeclarationContainerAlias result = _cache.get(type);
-//		if(result == null) {
-//		  List<Member> elements = type.localMembers();
-//		  result = new DeclarationContainerAlias(type);
-//		  for(Member member: elements) {
-//			  Member clone = member.clone();
-//			  clone.setOrigin(member.origin());
-//			  result.add(clone);
-//		  }
-//		  for(InheritanceRelation inheritanceRelation: type.inheritanceRelations()) {
-//			  inheritanceRelation.mergeMembersInContext(result);
-//		  }
-//		  _cache.put(type, result);
-//		}
-//		return result;
-//	}
-	
-//	private static Map<Type, DeclarationContainerAlias> _cache = new HashMap<Type, DeclarationContainerAlias>();
-	
-//	public void mergeMembersInContext(DeclarationContainerAlias accumulator) throws LookupException {
-//		DeclarationContainerAlias clonedSuperMemberContainer = membersInContext(superClass()).clone();
-//		mergeMembersInContext(accumulator, clonedSuperMemberContainer);
-//		accumulator.addSuperContainer(clonedSuperMemberContainer);
-//	}
-//	
-//	protected void mergeMembersInContext(DeclarationContainerAlias accumulator, DeclarationContainerAlias newTree) throws LookupException {
-//		List<DeclarationContainerAlias> supers = accumulator.superContainers();
-//		for(DeclarationContainerAlias superContainer: supers) {
-//			mergeMembersInContext(superContainer, newTree);
-//		}
-//		mergeAux(accumulator, newTree);
-//	}
-//	
-//	public void mergeAux(DeclarationContainerAlias accumulator, DeclarationContainerAlias newTree) throws LookupException {
-//		List<DeclarationContainerAlias> supers = newTree.superContainers();
-//		for(DeclarationContainerAlias superContainer: supers) {
-//			mergeAux(accumulator, superContainer);
-//		}
-//		mergeLocal(accumulator, newTree);
-//	}
-//	public void mergeLocal(DeclarationContainerAlias accumulator, DeclarationContainerAlias newTree) throws LookupException {
-//		for(Declaration superDeclaration: newTree.declarations()) {
-//			Member superMember;
-//			if(superDeclaration instanceof Member) {
-//			  superMember = (Member) superDeclaration;
-//			} else {
-//				superMember = (Member) ((DeclarationAlias) superDeclaration).aliasedDeclaration();
-//			}	
-//			for(Declaration processedDeclaration: accumulator.declarations()) {
-//				Member processedMember;
-//				if(processedDeclaration instanceof Member) {
-//				  processedMember = (Member) processedDeclaration;
-//				} else {
-//					processedMember = (Member) ((DeclarationAlias) processedDeclaration).aliasedDeclaration();
-//				}	
-//				if((processedMember.origin().equals(superMember.origin())) || processedMember.equals(superMember) || processedMember.overrides(superMember) || processedMember.sameAs(superMember) || processedMember.canImplement(superMember) || processedMember.hides(superMember)) {
-//					// Make superDeclaration an alias, or update the alias.
-//				  DeclarationAlias alias = new DeclarationAlias(superDeclaration.signature().clone(), processedMember);
-//				  DeclarationContainerAlias superContainer = (DeclarationContainerAlias) superDeclaration.parent();
-//				  superContainer.remove(superDeclaration);
-//				  superContainer.add(alias);
-//				  break;
-//				}
-//				else if((!processedMember.equals(superMember)) && (superMember.overrides(processedMember) || superMember.canImplement(processedMember) || superMember.hides(processedMember))) {
-//					// Make processedDeclaration an alias, or update the alias.
-//				  DeclarationAlias alias = new DeclarationAlias(processedDeclaration.signature().clone(), superMember);
-//				  DeclarationContainerAlias processedContainer = (DeclarationContainerAlias) processedDeclaration.parent();
-//				  processedContainer.remove(processedDeclaration);
-//				  processedContainer.add(alias);
-//				}
-//			}
-//		}
-//	}
-//	
-//	public void XXmergeMembersInContext(DeclarationContainerAlias accumulator) throws LookupException {
-//		DeclarationContainerAlias superMemberContainer = membersInContext(superClass());
-//		for(Declaration superDeclaration: superMemberContainer.allDeclarations()) {
-//			Member superMember;
-//			if(superDeclaration instanceof Member) {
-//			  superMember = (Member) superDeclaration;
-//			} else {
-//				superMember = (Member) ((DeclarationAlias) superDeclaration).aliasedDeclaration();
-//			}	
-//			for(Declaration processedDeclaration: accumulator.allDeclarations()) {
-//				Member processedMember;
-//				if(processedDeclaration instanceof Member) {
-//				  processedMember = (Member) processedDeclaration;
-//				} else {
-//					processedMember = (Member) ((DeclarationAlias) processedDeclaration).aliasedDeclaration();
-//				}	
-//				if(processedMember.equals(superMember) || processedMember.overrides(superMember) || processedMember.sameAs(superMember) || processedMember.canImplement(superMember) || processedMember.hides(superMember)) {
-//					// Make superDeclaration an alias, or update the alias.
-//				  DeclarationAlias alias = new DeclarationAlias(superDeclaration.signature().clone(), processedMember);
-//				  DeclarationContainerAlias superContainer = (DeclarationContainerAlias) superDeclaration.parent();
-//				  superContainer.remove(superDeclaration);
-//				  superContainer.add(alias);
-//				  break;
-//				}
-//				else if((!processedMember.equals(superMember)) && (superMember.overrides(processedMember) || superMember.canImplement(processedMember) || superMember.hides(processedMember))) {
-//					// Make processedDeclaration an alias, or update the alias.
-//				  DeclarationAlias alias = new DeclarationAlias(processedDeclaration.signature().clone(), superMember);
-//				  DeclarationContainerAlias processedContainer = (DeclarationContainerAlias) processedDeclaration.parent();
-//				  processedContainer.remove(processedDeclaration);
-//				  processedContainer.add(alias);
-//				}
-//				
-//			}
-//		}
-//		accumulator.addSuperContainer(superMemberContainer);
-//	}
-
   /**
    * Remove members that are not inheritable.
    */
@@ -307,8 +191,7 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
    @
    @ (\forall M m; members.contains(m); \old(members()).contains(m) && m.is(language(ObjectOrientedLanguage.class).INHERITABLE == Ternary.TRUE);
    @*/
-	private <M extends Declaration> void removeNonInheritableMembers(List<SelectionResult> members) throws LookupException {
-//		Iterator<? extends SelectionResult> superIter = members.iterator();
+	protected <X extends Member> List<SelectionResult<X>> removeNonInheritableMembers(List<SelectionResult<X>> members) throws LookupException {
 		StaticChameleonProperty inheritable = language(ObjectOrientedLanguage.class).INHERITABLE;
 		int size = members.size();
 		for(int i =0; i< size;) {
@@ -331,6 +214,7 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 				}
 			}
 		}
+		return members;
 	}
 	
 	private Single<TypeReference> _superClass = new Single<TypeReference>(this);

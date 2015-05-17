@@ -10,7 +10,7 @@ import org.aikodi.chameleon.core.declaration.Declaration;
  * 
  * @author Marko van Dooren
  */
-public interface SelectionResult {
+public interface SelectionResult<D extends Declaration> {
 
   /**
    * <p>Return the declaration that is ultimately selected.</p>
@@ -24,7 +24,7 @@ public interface SelectionResult {
    * 
    * @throws LookupException
    */
-	public Declaration finalDeclaration() throws LookupException;
+	public D finalDeclaration() throws LookupException;
 	
 	/**
 	 * <p>Update the selection result such that the result is part of the
@@ -37,7 +37,7 @@ public interface SelectionResult {
 	 * 
 	 * @return A selection result that is "part of" the given container.
 	 */
-	public SelectionResult updatedTo(Declaration container);
+	public SelectionResult<D> updatedTo(Declaration container);
 	
 	/**
 	 * Return the template from which the {@link #finalDeclaration()} is

@@ -390,7 +390,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 
 	public List<Member> directlyDeclaredMembers();
 
-	public <D extends Member> List<? extends SelectionResult> members(DeclarationSelector<D> selector) throws LookupException;
+	public <D extends Member> List<SelectionResult<D>> members(DeclarationSelector<D> selector) throws LookupException;
 
 	@SuppressWarnings("unchecked")
 	public <D extends Member> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException;
