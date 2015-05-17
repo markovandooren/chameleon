@@ -311,6 +311,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 
 	/**
 	 * Return the inheritance relations of this type.
+	 * 
 	 * @throws LookupException 
 	 */
 	/*@
@@ -318,7 +319,9 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	  @
 	  @ post \result != null;
 	  @*/
-	public List<InheritanceRelation> inheritanceRelations() throws LookupException;
+  public default List<InheritanceRelation> inheritanceRelations() throws LookupException {
+    return nonMemberInheritanceRelations();
+  }
 	
 	public List<InheritanceRelation> nonMemberInheritanceRelations();
 

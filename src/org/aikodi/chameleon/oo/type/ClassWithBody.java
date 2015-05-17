@@ -113,13 +113,6 @@ public abstract class ClassWithBody extends ClassImpl {
 		remove(_inheritanceRelations,relation);
 	}
 
-	/**
-	 * Return a list containing both the explicit and implicit inheritance relations.
-	 */
-	@Override
-	public List<InheritanceRelation> inheritanceRelations() throws LookupException {
-		return nonMemberInheritanceRelations();
-	}
 	
 //	/**
 //	 * Add any implicit inheritance relations of this class to the given list. By default,
