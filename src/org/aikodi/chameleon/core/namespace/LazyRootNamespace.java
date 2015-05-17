@@ -62,7 +62,7 @@ public class LazyRootNamespace extends RootNamespace implements DocumentLoaderNa
 				candidates.addAll(documentLoaders.peek().targetDeclarations(name));
 			} 
 			if(candidates == null){
-				candidates = ImmutableList.of();
+				candidates = Lists.create();
 			}
 			storeCache(name, candidates);
 		}
