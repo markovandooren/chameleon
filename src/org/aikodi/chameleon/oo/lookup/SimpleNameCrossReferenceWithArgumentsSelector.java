@@ -58,14 +58,14 @@ public abstract class SimpleNameCrossReferenceWithArgumentsSelector<D extends De
 	}
 
 	@Override
-	protected void applyOrder(List<SelectionResult> tmp) throws LookupException {
+	protected void applyOrder(List<SelectionResult<D>> tmp) throws LookupException {
 		order().removeBiggerElements(tmp);
 	}
 	
-	public WeakPartialOrder<SelectionResult> order() {
-		return new WeakPartialOrder<SelectionResult>() {
+	public WeakPartialOrder<SelectionResult<D>> order() {
+		return new WeakPartialOrder<SelectionResult<D>>() {
 			@Override
-			public boolean contains(SelectionResult first, SelectionResult second) throws LookupException {
+			public boolean contains(SelectionResult<D> first, SelectionResult<D> second) throws LookupException {
 				return MoreSpecificTypesOrder
 						.create()
 						.contains(
