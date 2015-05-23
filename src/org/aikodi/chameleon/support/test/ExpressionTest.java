@@ -58,10 +58,6 @@ public class ExpressionTest extends ModelTest {
   	return _typeProvider;
   }
   
-  public int nbThreads() {
-	return Runtime.getRuntime().availableProcessors();
-  }
-
   @Test
   public void testExpressionTypes() throws Exception {
 //	  Collection<Type> types = typeProvider().elements(view());
