@@ -1,6 +1,5 @@
 package org.aikodi.chameleon.core.declaration;
 
-import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 
 /**
@@ -10,8 +9,14 @@ import org.aikodi.chameleon.core.validation.BasicProblem;
  */
 public class SignatureWithoutName extends BasicProblem {
 
-	public SignatureWithoutName(Element element) {
-		super(element, "the signature has no name");
+  /**
+   * Create a new problem that indicates that the given signature has no
+   * name.
+   *  
+   * @param signature
+   */
+	public SignatureWithoutName(Signature signature) {
+		super(signature, "the signature has no name");
 	}
 
 }
