@@ -32,8 +32,6 @@ public abstract class Collector<D extends Declaration> {
 		setSelector(selector);
 	}
 	
-	protected Collector() {}
-	
 	private DeclarationSelector<D> _selector;
 	
 	/**

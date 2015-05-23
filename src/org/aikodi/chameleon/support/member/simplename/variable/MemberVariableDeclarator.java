@@ -25,7 +25,7 @@ import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
 
 public class MemberVariableDeclarator extends ElementWithModifiersImpl implements TypeElement, VariableDeclarator {
-  //FIXME Why isn't this a member?
+
 	public MemberVariableDeclarator() {
 		
 	}
@@ -82,7 +82,7 @@ public class MemberVariableDeclarator extends ElementWithModifiersImpl implement
   }
 	
   @Override
-public TypeReference typeReference() {
+  public TypeReference typeReference() {
     return _typeReference.getOtherEnd();
   }
 

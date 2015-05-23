@@ -65,10 +65,6 @@ public Type actualDeclaration() throws LookupException {
 		return result;
 	}
 
-//	public boolean canBeAssigned(ActualTypeArgument typeArgument) throws LookupException {
-//		return lowerBound().subTypeOf(typeArgument.lowerBound()) && typeArgument.upperBound().subTypeOf(upperBound());
-//	}
-	
 	public abstract Type upperBound() throws LookupException;
 	
 	public abstract TypeReference upperBoundReference() throws LookupException;
@@ -91,16 +87,6 @@ public Type actualDeclaration() throws LookupException {
 
 	public abstract boolean sameValueAs(TypeParameter otherParam, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException;
 
-  @Override
-public Declaration declarator() {
-  	return this;
-  }
-
-	@Override
-	public boolean complete() {
-		return true;
-	}
-	
 	@Override
    public String toString() {
 		return name();

@@ -93,7 +93,7 @@ public interface DeclarationSelector<D extends Declaration> {
    * @return
    * @throws LookupException
    */
-  public abstract List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException;
+  public abstract List<? extends SelectionResult<D>> selection(List<? extends Declaration> declarators) throws LookupException;
   
 //	/**
 //	 * Return the list of declarations in the given set that are selected.

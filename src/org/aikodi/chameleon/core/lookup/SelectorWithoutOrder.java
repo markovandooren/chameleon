@@ -18,11 +18,11 @@ import org.aikodi.chameleon.util.Lists;
 public interface SelectorWithoutOrder<D extends Declaration> extends DeclarationSelector<D>{
 
   @Override
-  public default List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException {
+  public default List<? extends SelectionResult<D>> selection(List<? extends Declaration> declarators) throws LookupException {
      if (declarators.size() > 0) {
-        List<SelectionResult> tmp = Lists.create();
+        List<SelectionResult<D>> tmp = Lists.create();
         for (Declaration decl : declarators) {
-           SelectionResult e = selection(decl);
+           SelectionResult<D> e = selection(decl);
            if (e != null) {
               tmp.add(e);
            }
@@ -40,6 +40,6 @@ public interface SelectorWithoutOrder<D extends Declaration> extends Declaration
    * @throws LookupException The given declarator could not be evaluated because
    * of a problem in the model.
    */
-  public SelectionResult selection(Declaration declarator) throws LookupException;
+  public SelectionResult<D> selection(Declaration declarator) throws LookupException;
 
 }

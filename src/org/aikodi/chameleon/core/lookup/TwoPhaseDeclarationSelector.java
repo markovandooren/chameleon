@@ -85,10 +85,10 @@ public abstract class TwoPhaseDeclarationSelector<D extends Declaration> impleme
    @            ! (\exists D other; set.contains(other); order().strictOrder().contains(other,d))));
    @*/
   @Override
-public List<? extends SelectionResult> selection(List<? extends Declaration> declarators) throws LookupException {
-  	List<SelectionResult> tmp = Lists.create();
+public List<? extends SelectionResult<D>> selection(List<? extends Declaration> declarators) throws LookupException {
+  	List<SelectionResult<D>> tmp = Lists.create();
   	for(Declaration decl: declarators) {
-  		SelectionResult e = selection(decl);
+  		SelectionResult<D> e = selection(decl);
   		if(e != null) {
   			tmp.add(e);
   		}
@@ -129,7 +129,7 @@ public List<? extends SelectionResult> selection(List<? extends Declaration> dec
 //  	return result;
 //  }
 
-	protected abstract void applyOrder(List<SelectionResult> tmp) throws LookupException;
+	protected abstract void applyOrder(List<SelectionResult<D>> tmp) throws LookupException;
 
   /**
    * Check if this selector selects the given declaration 
