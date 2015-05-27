@@ -31,6 +31,12 @@ import be.kuleuven.cs.distrinet.rejuse.action.SafeAction;
 import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
+/**
+ * A class for elements in XML files that can process themselves.
+ * 
+ * @author Marko van Dooren
+ *
+ */
 public abstract class ConfigElement {
 
 	protected ConfigElement() {
