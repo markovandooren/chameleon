@@ -72,12 +72,13 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
     }
     
     public Type get(Type baseType) throws LookupException {
-      Object o = _map.get(baseType.name());
+      final Type realBase = baseType.baseType();
+      Object o = _map.get(realBase.name());
       if(o instanceof List) {
-        return findFirst((List<Type>) o, t -> t.baseType().sameAs(baseType.baseType()));
+        return findFirst((List<Type>) o, t -> t.baseType().sameAs(realBase));
       } else {
         Type stored = (Type)o;
-        return stored == null ? null : (stored.baseType().sameAs(baseType.baseType()) ? stored : null);
+        return stored == null ? null : (stored.baseType().sameAs(realBase) ? stored : null);
       }
     }
 
