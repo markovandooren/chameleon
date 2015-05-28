@@ -230,7 +230,7 @@ public class UnionType extends MultiType {
 	}
 	
 	@Override
-	public boolean lowerBoundAtLeatAsHighAs(Type other,	TypeFixer trace) throws LookupException {
+	public boolean lowerBoundAtLeastAsHighAs(Type other,	TypeFixer trace) throws LookupException {
 		int size = _types.size();
 		boolean result = false;
 		for(int i=0; (!result) && i<size;i++) {

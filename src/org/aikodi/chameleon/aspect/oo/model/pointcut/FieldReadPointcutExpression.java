@@ -69,7 +69,7 @@ public class FieldReadPointcutExpression extends AbstractPointcutExpression<Name
 		if (!(joinpoint.getElement() instanceof RegularMemberVariable))
 			return MatchResult.noMatch();
 		
-		if (joinpoint.parent() instanceof AssignmentExpression && ((AssignmentExpression) joinpoint.parent()).getVariableExpression().sameAs(joinpoint))
+		if (joinpoint.parent() instanceof AssignmentExpression && ((AssignmentExpression) joinpoint.parent()).variableExpression().sameAs(joinpoint))
 				return MatchResult.noMatch();
 		
 		

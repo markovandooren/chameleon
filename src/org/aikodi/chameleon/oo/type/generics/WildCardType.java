@@ -224,7 +224,7 @@ public abstract class WildCardType extends ClassImpl {
 	}
 	
 	@Override
-	public boolean lowerBoundAtLeatAsHighAs(Type other, TypeFixer trace) throws LookupException {
+	public boolean lowerBoundAtLeastAsHighAs(Type other, TypeFixer trace) throws LookupException {
     return other.upperBoundNotHigherThan(upperBound(),trace);
 	}
 }

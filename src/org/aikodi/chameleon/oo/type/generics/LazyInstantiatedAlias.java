@@ -42,7 +42,7 @@ public class LazyInstantiatedAlias extends TypeIndirection {
 	}
 	
 	@Override
-	public boolean lowerBoundAtLeatAsHighAs(Type other, TypeFixer trace) throws LookupException {
+	public boolean lowerBoundAtLeastAsHighAs(Type other, TypeFixer trace) throws LookupException {
 	  TypeParameter secondParam = ((LazyInstantiatedAlias)other).parameter();
 	  if(trace.contains(this, secondParam)) {
 	  	return true;

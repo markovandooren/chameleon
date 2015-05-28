@@ -462,7 +462,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	}
 
 
-	public boolean lowerBoundAtLeatAsHighAs(Type other, TypeFixer trace) throws LookupException;
+	public boolean lowerBoundAtLeastAsHighAs(Type other, TypeFixer trace) throws LookupException;
 
 	public Type union(Type lowerBound) throws LookupException;
 	
