@@ -36,7 +36,7 @@ public class AssignmentExpression extends Expression {
 
 	//FIXME This is wrong. It does not deal with arrays.
 	public Variable variable() throws LookupException {
-		Expression variableExpression = getVariableExpression();
+		Expression variableExpression = variableExpression();
 		if(variableExpression instanceof CrossReference) {
 			Declaration decl = ((CrossReference) variableExpression).getElement();
 			if(decl instanceof Variable) {
@@ -47,7 +47,7 @@ public class AssignmentExpression extends Expression {
 		throw new LookupException("The left-hand side of the assignment is not a cross-reference.");
 	}
 
-  public Expression getVariableExpression() {
+  public Expression variableExpression() {
     return _variable.getOtherEnd();
   }
 
@@ -70,7 +70,7 @@ public class AssignmentExpression extends Expression {
 
   @Override
 protected Type actualType() throws LookupException {
-    return getVariableExpression().getType();
+    return variableExpression().getType();
   }
 
   @Override
@@ -86,7 +86,7 @@ protected AssignmentExpression cloneSelf() {
 	public Verification verifySelf() {
 		Verification result = Valid.create();
 		try {
-			Expression var = getVariableExpression();
+			Expression var = variableExpression();
 			if(var == null) {
 				result = result.and(new BasicProblem(this, "The assignment has no variable at the left-hand side"));
 			}
