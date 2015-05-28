@@ -1,9 +1,14 @@
 package org.aikodi.chameleon.analysis.dependency;
 
+import java.util.List;
+
 import org.aikodi.chameleon.analysis.Analyzer;
+import org.aikodi.chameleon.analysis.dependency.DependencyAnalysis.HistoryFilter;
+import org.aikodi.chameleon.analysis.dependency.DependencyAnalysis.NOOP;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.reference.CrossReference;
+import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.chameleon.workspace.Project;
 
@@ -20,16 +25,11 @@ public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer
 	protected abstract UniversalPredicate<D,Nothing> elementPredicate();
 
 	protected UniversalPredicate<? super CrossReference<?>,Nothing> crossReferencePredicate() {
-		return new True();
+		return dependencyPredicate();
 	}
 
-	protected Function<D, D,Nothing> createMapper() {
-		return new Function<D, D,Nothing>() {
-			@Override
-			public D apply(D declaration) {
-				return declaration;
-			}
-		};
+	protected Function<Declaration,List<Declaration>,Nothing> createMapper() {
+		return d -> Lists.create(d);
 	}
 	
 	protected abstract UniversalPredicate<D,Nothing> declarationPredicate();
@@ -38,23 +38,34 @@ public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer
 		super(project);
 	}
 	
+	/**
+	 * <p>An interface for constructing a graph.</p>
+	 * 
+	 * @author Marko van Dooren
+	 *
+	 * @param <V> The type of the vertices in the graph.
+	 */
 	public static interface GraphBuilder<V> {
 		
-		public void addVertex(V v);
+	  /**
+	   * Add the given vertex to the graph.
+	   * 
+	   * @param vertex The vertex to be added. The vertex cannot be null.
+	   */
+		public void addVertex(V vertex);
 		
 		public void addEdge(V first, V second);
 	}
 	
 	public void buildGraph(final GraphBuilder<Element> builder) throws InputException {
-		Function<D,D,Nothing> function = createMapper();
 		UniversalPredicate<D, Nothing> elementPredicate = elementPredicate();
 		DependencyAnalysis<D, D> analysis = new DependencyAnalysis<D,D>(
 				elementPredicate, 
 				crossReferencePredicate(),
-				function,
+				createMapper(),
 				declarationPredicate(), 
-				new True(),
-				new DependencyAnalysis.NOOP());
+				dependencyPredicate(),
+				historyFilter());
 		
 		DependencyResult result = analysisResult(analysis);
 		Action<Element, Nothing> nodeAction = new Action<Element, Nothing>(Element.class) {
@@ -73,5 +84,13 @@ public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer
 		result.traverse(nodeAction, edgeAction);
 		
 	}
+
+  protected True dependencyPredicate() {
+    return new True();
+  }
+
+  protected HistoryFilter<D, D> historyFilter() {
+    return new DependencyAnalysis.NOOP();
+  }
 
 }

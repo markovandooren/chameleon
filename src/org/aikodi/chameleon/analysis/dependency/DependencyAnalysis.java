@@ -1,16 +1,21 @@
 package org.aikodi.chameleon.analysis.dependency;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.aikodi.chameleon.analysis.Analysis;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.reference.CrossReference;
+import org.aikodi.chameleon.util.Lists;
 
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.contract.Contracts;
 import be.kuleuven.cs.distrinet.rejuse.function.Function;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
 
@@ -51,7 +56,7 @@ import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
  * @param <D> The type of the declarations that are analyzed as possible
  *          dependencies.
  */
-public class DependencyAnalysis<S extends Declaration, D extends Declaration> extends Analysis<Element, DependencyResult> {
+public class DependencyAnalysis<S extends Element, D extends Element> extends Analysis<Element, DependencyResult> {
 
   /**
    * Create a new dependency analysis.
@@ -60,7 +65,9 @@ public class DependencyAnalysis<S extends Declaration, D extends Declaration> ex
    *          dependencies must be computed.
    * @param crossReferencePredicate A predicate that determines which
    *          cross-references must be analyzed.
-   * @param declarationMapper
+   * @param decomposer A function that is used to decompose an algebraic
+   *        declaration (such as a union type) into its components. If the
+   *        given value is null, and identity function is used instead.
    * @param declarationPredicate A predicate that determines whether a declaration
    *          is the target of a dependency. After a cross-reference has been
    *          resolved, the logical structure of the resolved element (including
@@ -73,41 +80,40 @@ public class DependencyAnalysis<S extends Declaration, D extends Declaration> ex
    */
   public DependencyAnalysis(UniversalPredicate<S, Nothing> sourcePredicate,
       UniversalPredicate<? super CrossReference<?>, Nothing> crossReferencePredicate,
-      Function<D, D, Nothing> declarationMapper, UniversalPredicate<D, Nothing> declarationPredicate,
+      Function<Declaration, List<Declaration>, Nothing> decomposer, 
+      UniversalPredicate<D, Nothing> declarationPredicate,
       UniversalPredicate<? super Dependency<? super S, ? super CrossReference, ? super D>, Nothing> dependencyPredicate,
       HistoryFilter<S, D> historyFilter) {
     this(sourcePredicate.type(), sourcePredicate, crossReferencePredicate, declarationPredicate.type(),
-        declarationMapper, declarationPredicate, dependencyPredicate, historyFilter);
+        decomposer, declarationPredicate, dependencyPredicate, historyFilter);
   }
 
   public DependencyAnalysis(Class<S> sourceType, 
-      UniversalPredicate<? super S, Nothing> elementPredicate,
+      Predicate<? super S, Nothing> sourcePredicate,
       UniversalPredicate<? super CrossReference<?>, Nothing> crossReferencePredicate, 
-      Class<D> declarationType,
-      Function<D, D, Nothing> declarationMapper, 
-      UniversalPredicate<? super D, Nothing> declarationPredicate,
+      Class<D> targetType,
+      Function<Declaration, List<Declaration>, Nothing> decomposer, 
+      UniversalPredicate<? super D, Nothing> targetPredicate,
       UniversalPredicate<? super Dependency<? super S, ? super CrossReference, ? super D>, Nothing> dependencyPredicate,
       HistoryFilter<S, D> historyFilter) {
     super(Element.class, new DependencyResult());
-    Contracts.notNull(sourceType, "The element type should not be null");
-    Contracts.notNull(elementPredicate, "The element predicate should not be null");
+    Contracts.notNull(sourceType, "The source type should not be null");
+    Contracts.notNull(sourcePredicate, "The source predicate should not be null");
     Contracts.notNull(crossReferencePredicate, "The cross-reference predicate should not be null");
-    Contracts.notNull(declarationType, "The declaration type should not be null");
-    Contracts.notNull(declarationMapper, "The declaration mapper should not be null");
-    Contracts.notNull(declarationPredicate, "The declaration predicate should not be null");
+    Contracts.notNull(targetType, "The target type should not be null");
+//    Contracts.notNull(decomposer, "The decomposer should not be null");
+    Contracts.notNull(targetPredicate, "The target predicate should not be null");
     Contracts.notNull(dependencyPredicate, "The dependency predicate should not be null");
-    _elementPredicate = elementPredicate;
+    _sourcePredicate = UniversalPredicate.of(sourceType, sourcePredicate);
     _crossReferencePredicate = crossReferencePredicate.makeUniversal(CrossReference.class);
     _dependencyPredicate = _noSelfReference.and(dependencyPredicate);
-    _declarationMapper = declarationMapper;
-    _declarationType = declarationType;
+    if(decomposer == null) {
+      _decomposer = d -> Lists.create(d);
+    } else {
+      _decomposer = decomposer;
+    }
     _historyFilter = historyFilter;
-    _dependencyFinder = new UniversalPredicate<D, Nothing>(_declarationType) {
-      @Override
-      public boolean uncheckedEval(D t) throws Nothing {
-        return declarationPredicate.eval(_declarationMapper.apply(t));
-      }
-    };
+    _dependencyFinder = UniversalPredicate.of(targetType, d -> targetPredicate.eval(d));
 
   }
 
@@ -119,7 +125,7 @@ public class DependencyAnalysis<S extends Declaration, D extends Declaration> ex
     }
   };
 
-  public static class HistoryFilter<E extends Element, D extends Declaration> {
+  public static class HistoryFilter<E extends Element, D extends Element> {
 
     public boolean process(Dependency<E, CrossReference, D> dependency, DependencyResult result) {
       return true;
@@ -138,7 +144,7 @@ public class DependencyAnalysis<S extends Declaration, D extends Declaration> ex
     }
   }
 
-  public static class AndHistoryFilter<E extends Element, D extends Declaration> extends HistoryFilter<E, D> {
+  public static class AndHistoryFilter<E extends Element, D extends Element> extends HistoryFilter<E, D> {
     private HistoryFilter<E, D> _first;
     private HistoryFilter<E, D> _second;
 
@@ -165,13 +171,9 @@ public class DependencyAnalysis<S extends Declaration, D extends Declaration> ex
     }
   }
 
-  private Class<D> _declarationType;
-
   private final UniversalPredicate<D, Nothing> _dependencyFinder;
 
-  private final UniversalPredicate<?, Nothing> _elementPredicate;
-
-//  private final UniversalPredicate<? super D, Nothing> _declarationPredicate;
+  private final UniversalPredicate<? super S, Nothing> _sourcePredicate;
 
   private final UniversalPredicate<? super CrossReference<?>, Nothing> _crossReferencePredicate;
 
@@ -181,13 +183,13 @@ public class DependencyAnalysis<S extends Declaration, D extends Declaration> ex
 
   private final UniversalPredicate<? super Dependency<? super S, ? super CrossReference, ? super D>, Nothing> _dependencyPredicate;
 
-  private final Function<D, D, Nothing> _declarationMapper;
+  private final Function<Declaration, List<Declaration>, Nothing> _decomposer;
 
   private HistoryFilter<S, D> _historyFilter;
 
   @Override
   public void doEnter(Element object) {
-    if (_elementPredicate.eval(object)) {
+    if (_sourcePredicate.eval(object)) {
       _elements.addLast((Element) object);
     }
   }
@@ -211,19 +213,33 @@ public class DependencyAnalysis<S extends Declaration, D extends Declaration> ex
       if (!_elements.isEmpty()) {
         if (_crossReferencePredicate.eval(element)) {
           CrossReference<?> cref = (CrossReference<?>) element;
-          // This is the expensive one. File loading is relatively large part
+          // This is the expensive part. File loading is relatively large part
           // if the documents have not yet been loaded.
-          Declaration decl = cref.getElement();
-
-          D unmappedDependee = decl.logical().nearestAncestorOrSelf(decl, _dependencyFinder);
-          if (unmappedDependee != null) {
+          Declaration declaration = cref.getElement();
+          List<Declaration> initial = _decomposer.apply(declaration);
+          List<D> targets = initial.stream().map(i -> i.logical().nearestAncestorOrSelf(i, _dependencyFinder)).collect(Collectors.toList());
+          
+          boolean fixed = false;
+          while(! fixed) {
+            List<D> tmp = new ArrayList<>();
+            for(D target: targets) {
+              if(target instanceof Declaration) {
+                List<Declaration> decomp = _decomposer.apply((Declaration) target);
+                List<D> newTargets = decomp.stream().map(i -> i.logical().nearestAncestorOrSelf(i, _dependencyFinder)).collect(Collectors.toList());
+                tmp.addAll(newTargets);
+              } else {
+                tmp.add(target);
+              }
+            }
+            if(tmp.containsAll(targets) && targets.containsAll(tmp)) {
+              fixed = true;
+            }
+            targets = tmp;
+          }
+              
+          for(D target: targets) {
             for (Element e : _elements) {
-              // SLOW mapping is applied twice, but that should be peanuts
-              // compared to the rest of the analysis.
-              // The search looks for an ancestor for which the mapping matches.
-              // Therefore it must be mapped again afterwards.
-              D dependee = _declarationMapper.apply(unmappedDependee);
-              Dependency dependency = new Dependency(e, cref, dependee);
+              Dependency dependency = new Dependency(e, cref, target);
               if (_dependencyPredicate.eval(dependency)) {
                 DependencyResult result = result();
                 if (_historyFilter.process(dependency, result)) {
