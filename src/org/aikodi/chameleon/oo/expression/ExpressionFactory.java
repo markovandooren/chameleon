@@ -2,6 +2,7 @@ package org.aikodi.chameleon.oo.expression;
 
 import org.aikodi.chameleon.core.reference.CrossReferenceTarget;
 import org.aikodi.chameleon.plugin.LanguagePluginImpl;
+import org.aikodi.chameleon.support.expression.AssignmentExpression;
 import org.aikodi.chameleon.support.expression.ConditionalExpression;
 import org.aikodi.chameleon.support.member.simplename.method.RegularMethodInvocation;
 import org.aikodi.chameleon.support.member.simplename.operator.infix.InfixOperatorInvocation;
@@ -50,12 +51,41 @@ public class ExpressionFactory extends LanguagePluginImpl {
 		return new NamedTarget(fqn,target);
 	}
 
+	/**
+	 * Create a new name expression without a target.
+	 * 
+	 * @param name The name of the name expression to be created. The name cannot
+	 *             be null.
+	 * @return A name expression whose name is set to the given name. The result
+	 *         has no target.
+	 */
   public NameExpression createNameExpression(String name) {
   	return new NameExpression(name);
   }
 
-  public NameExpression createNameExpression(String name, CrossReferenceTarget target) {
-  	return new NameExpression(name,target);
+  /**
+   * Create a new name expression with the given name and prefix.
+   * 
+   * @param name The name of the name expression to be created. The name cannot
+   *             be null.
+   * @param prefix The prefix of the name expression.             
+   * @return A name expression whose name is set to the given name. The prefix
+   *         of the result is set to the given prefix.
+   */
+  public NameExpression createNameExpression(String name, CrossReferenceTarget prefix) {
+  	return new NameExpression(name,prefix);
   }
 
+  /**
+   * Create a new assignment expression.
+   * 
+   * @param variableReference An expression that points to a variable.
+   * @param value An expression that represents the value that is assigned to
+   *              the variable.
+   * @return An assignment expression whose variable expression is set to the
+   * given variable reference, and whose value is set to the given value. 
+   */
+  public AssignmentExpression createAssignmentExpression(Expression variableReference, Expression value) {
+    return new AssignmentExpression(variableReference, value);
+  }
 }
