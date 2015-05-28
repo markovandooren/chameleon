@@ -3,7 +3,6 @@ package org.aikodi.chameleon.oo.type;
 import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.findFirst;
 import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,10 +19,8 @@ import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
-import org.aikodi.chameleon.core.relation.WeakPartialOrder;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
-import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.member.MemberRelationSelector;
 import org.aikodi.chameleon.oo.type.generics.TypeParameter;
@@ -446,15 +443,13 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	public void replace(TypeElement oldElement, TypeElement newElement);
 
 	public Type baseType();
-
+	
 	public default boolean upperBoundNotHigherThan(Type other, TypeFixer trace) throws LookupException {
     if(this.sameAs(other)) {
       return true;
     }
 		Type sameBase = getSuperType(other);
 		return sameBase != null && sameBase.compatibleParameters(other, trace);
-//    ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-//    return language.upperBoundNotHigherThan(this, other, trace) || other.lowerBoundAtLeatAsHighAs(this, trace);
 	}
 	
 	public default boolean compatibleParameters(Type second, TypeFixer trace) throws LookupException {
