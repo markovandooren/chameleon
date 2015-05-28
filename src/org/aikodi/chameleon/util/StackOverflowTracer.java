@@ -10,12 +10,12 @@ public class StackOverflowTracer {
 		_threshold = threshold;
 	}
 	
-	public void push() {
+	public synchronized void push() {
 		_count++;
 		Util.debug(_count >= _threshold);
 	}
 	
-	public void pop() {
+	public synchronized void pop() {
 		_count--;
 		if(_count < 0) {
 			throw new IllegalStateException("The tracer was popped more often than it was pushed.");
