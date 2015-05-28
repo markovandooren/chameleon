@@ -13,6 +13,7 @@ import org.aikodi.chameleon.core.lookup.LookupException;
  */
 
 public interface CrossReferenceTarget extends Element {
+  //FIXME TODO: rename this to prefix.
 // FIXME TODO: I think that this should become a cross-reference. Investigate!</
 
 	/**
