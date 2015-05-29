@@ -47,24 +47,24 @@ public abstract class ActualTypeArgumentWithTypeReference extends ActualTypeArgu
 	}
 	
 	protected String toStringTypeReference() {
-		try {
-			TypeReference clone = clone(typeReference());
-			clone.setUniParent(this);
-			List<BasicTypeReference> descendants = clone.descendants(BasicTypeReference.class);
-			if(clone instanceof BasicTypeReference) {
-				descendants.add((BasicTypeReference) clone);
-			}
-			for(BasicTypeReference tref: descendants) {
-				Type element = tref.getElement();
-				if(element instanceof InstantiatedParameterType) {
-					String replacement = ((InstantiatedParameterType)element).parameter().toString();
-					tref.setName(replacement);
-				}
-			}
-			return clone.toString();
-		} catch (LookupException e) {
+//		try {
+//			TypeReference clone = clone(typeReference());
+//			clone.setUniParent(this);
+//			List<BasicTypeReference> descendants = clone.descendants(BasicTypeReference.class);
+//			if(clone instanceof BasicTypeReference) {
+//				descendants.add((BasicTypeReference) clone);
+//			}
+//			for(BasicTypeReference tref: descendants) {
+//				Type element = tref.getElement();
+//				if(element instanceof InstantiatedParameterType) {
+//					String replacement = ((InstantiatedParameterType)element).parameter().toString();
+//					tref.setName(replacement);
+//				}
+//			}
+//			return clone.toString();
+//		} catch (Exception e) {
 			return typeReference().toString();
-		}
+//		}
 	}
 
 }
