@@ -14,6 +14,8 @@ import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.type.ParameterBlock;
 import org.aikodi.chameleon.util.Lists;
 
+import com.google.common.collect.ImmutableList;
+
 /**
  * WARNING! If you use a parameter block as an subelement of a class X, then you must add
  * a lookupstrategy to X that directly returns parameters(). Declarations() returns stubs
@@ -40,17 +42,26 @@ public class TypeParameterBlock extends ParameterBlock<TypeParameter> implements
 
 	@Override
    public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
-		List<Declaration> result = Lists.create();
-		BlockFixer stub = new BlockFixer();
-		stub.setUniParent(this);
-		for(TypeParameter parameter:parameters()) {
-			TypeParameter clone = clone(parameter);
-			clone.setOrigin(parameter);
-			result.add(clone);
-			stub.add(clone);
-		}
-    return result;
+	  if(_localDeclarationCache == null) {
+	    synchronized (this) {
+	      if(_localDeclarationCache == null) {
+	        List<Declaration> result = Lists.create();
+	        BlockFixer stub = new BlockFixer();
+	        stub.setUniParent(this);
+	        for(TypeParameter parameter:parameters()) {
+	          TypeParameter clone = clone(parameter);
+	          clone.setOrigin(parameter);
+	          result.add(clone);
+	          stub.add(clone);
+	        }
+	        _localDeclarationCache = ImmutableList.copyOf(result);
+	      }        
+      }
+	  }
+    return _localDeclarationCache;
 	}
+	
+	private List<Declaration> _localDeclarationCache;
 
 	@Override
    public LookupContext lookupContext(Element element) throws LookupException {
