@@ -10,6 +10,10 @@ public class StackOverflowTracer {
 		_threshold = threshold;
 	}
 	
+	protected int count() {
+	  return _count;
+	}
+	
 	public synchronized void push() {
 		_count++;
 		Util.debug(_count >= _threshold);
