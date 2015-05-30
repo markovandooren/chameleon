@@ -57,9 +57,13 @@ public Type actualDeclaration() throws LookupException {
 		TypeFixer slowTrace = trace.clone();
 		boolean result = sameAs(other);
 		if(! result) {
-			result = upperBound().upperBoundNotHigherThan(other.upperBound(),slowTrace);
+			final Type upperBound = upperBound();
+      final Type otherUpperBound = other.upperBound();
+      result = upperBound.upperBoundNotHigherThan(otherUpperBound,slowTrace);
 			if(result) {
-				result = other.lowerBound().upperBoundNotHigherThan(lowerBound(),slowTrace);
+				final Type otherLowerBound = other.lowerBound();
+        final Type lowerBound = lowerBound();
+        result = otherLowerBound.upperBoundNotHigherThan(lowerBound,slowTrace);
 			}
 		}
 		return result;
