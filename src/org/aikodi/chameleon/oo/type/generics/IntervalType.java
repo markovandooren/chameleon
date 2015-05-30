@@ -22,12 +22,12 @@ import org.aikodi.chameleon.util.Util;
 
 import com.google.common.collect.ImmutableList;
 
-public abstract class WildCardType extends ClassImpl {
+public abstract class IntervalType extends ClassImpl {
 
-	public WildCardType(String name, Type upperBound, Type lowerBound) {
+	public IntervalType(String name, Type lowerBound, Type upperBound) {
 		super(name);
-		_upperBound = upperBound;
 		_lowerBound = lowerBound;
+		_upperBound = upperBound;
 	}
 	
 	@Override
@@ -72,10 +72,10 @@ public abstract class WildCardType extends ClassImpl {
 		return this;
 	}
 
-	@Override
-	public ExtendsWildcardType cloneSelf() {
-		return new ExtendsWildcardType(_upperBound);
-	}
+//	@Override
+//	public ExtendsWildcardType cloneSelf() {
+//		return new ExtendsWildcardType(_upperBound);
+//	}
 
 	@Override
 	public List<? extends TypeElement> directlyDeclaredElements() {
@@ -155,8 +155,8 @@ public abstract class WildCardType extends ClassImpl {
 	@Override
 	public boolean uniSameAs(Element other) throws LookupException {
 		Type lowerBound = ((Type)other).lowerBound();
-		if(other instanceof WildCardType) {
-			WildCardType wild = (WildCardType) other;
+		if(other instanceof IntervalType) {
+			IntervalType wild = (IntervalType) other;
 			return upperBound().sameAs(wild.upperBound()) && lowerBound().sameAs(wild.lowerBound());
 		} else {
 			return false;
@@ -165,8 +165,8 @@ public abstract class WildCardType extends ClassImpl {
 	
 	@Override
    public boolean uniSameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
-		if(other instanceof WildCardType) {
-			WildCardType wild = (WildCardType) other;
+		if(other instanceof IntervalType) {
+			IntervalType wild = (IntervalType) other;
 			return upperBound().sameAs(wild.upperBound(),trace) && lowerBound().sameAs(wild.lowerBound(),trace);
 		} else {
 			return false;
