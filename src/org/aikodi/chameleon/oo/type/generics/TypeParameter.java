@@ -27,7 +27,7 @@ import org.aikodi.chameleon.util.Pair;
  *
  * @param <E>
  */
-public abstract class TypeParameter extends Parameter {
+public abstract class TypeParameter extends Parameter implements ElementWithTypeBounds {
 	
 	public TypeParameter(String name) {
 		super(name);
@@ -65,12 +65,8 @@ public Type actualDeclaration() throws LookupException {
 		return result;
 	}
 
-	public abstract Type upperBound() throws LookupException;
-	
 	public abstract TypeReference upperBoundReference() throws LookupException;
 	
-	public abstract Type lowerBound() throws LookupException;
-
 	@Override
    public Scope scope() throws ModelException {
 		return new LexicalScope(nearestAncestor(Type.class));

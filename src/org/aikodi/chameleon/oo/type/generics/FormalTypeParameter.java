@@ -1,6 +1,7 @@
 package org.aikodi.chameleon.oo.type.generics;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.aikodi.chameleon.core.declaration.SimpleNameSignature;
 import org.aikodi.chameleon.core.element.Element;
@@ -11,15 +12,19 @@ import org.aikodi.chameleon.oo.plugin.ObjectOrientedFactory;
 import org.aikodi.chameleon.oo.type.IntersectionTypeReference;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
+import org.aikodi.chameleon.oo.view.ObjectOrientedView;
 import org.aikodi.chameleon.util.Pair;
 import org.aikodi.chameleon.util.association.Multi;
+
+import be.kuleuven.cs.distrinet.rejuse.function.BiFunction;
+import be.kuleuven.cs.distrinet.rejuse.function.Function;
 
 /**
  * This class represents generic parameters as used in e.g. Java, C#, and Eiffel.
  * 
  * @author Marko van Dooren
  */
-public class FormalTypeParameter extends TypeParameter {
+public class FormalTypeParameter extends TypeParameter implements ElementWithTypeConstraints {
 
 	/**
 	 * Create a formal type parameter with the same name.
@@ -77,6 +82,12 @@ public class FormalTypeParameter extends TypeParameter {
 	}
 	
 	@Override
+	protected synchronized void flushLocalCache() {
+	  super.flushLocalCache();
+	  _typeConstraints.flushCache();
+	}
+	
+	@Override
    public TypeReference upperBoundReference() {
 		List<TypeConstraint> constraints = constraints();
 		int size = constraints.size();
@@ -96,47 +107,10 @@ public class FormalTypeParameter extends TypeParameter {
 		return result;
 	}
 
-	@Override
-   public Type upperBound() throws LookupException {
-		List<TypeConstraint> constraints = constraints();
-		Type result;
-		int size = constraints.size();
-		if(size == 0) {
-			result = language(ObjectOrientedLanguage.class).getDefaultSuperClass(view().namespace());
-		} else {
-			result = constraints.get(0).upperBound();
-			for(int i = 1; i < size; i++) {
-				result = result.intersection(constraints.get(i).upperBound());
-			}
-		}
-		return result;
-	}
+	
 
 	public FormalTypeParameter alias(SimpleNameSignature signature) {
 		throw new ChameleonProgrammerException();
-	}
-
-
-//	@Override
-//	public boolean compatibleWith(TypeParameter other) throws LookupException {
-//		return equals(other);
-//	}
-
-
-	@Override
-	public Type lowerBound() throws LookupException {
-		List<TypeConstraint> constraints = constraints();
-		Type result;
-		int size = constraints.size();
-		if(size == 0) {
-			result = language(ObjectOrientedLanguage.class).getNullType(view().namespace());
-		} else {
-			result = constraints.get(0).lowerBound();
-			for(int i = 1; i < size; i++) {
-				result = result.union(constraints.get(i).lowerBound());
-			}
-		}
-		return result;
 	}
 
 
