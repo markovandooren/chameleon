@@ -21,4 +21,5 @@ public abstract class ObjectOrientedView extends View {
 		return ((ObjectOrientedLanguage)language()).findType(fqn, namespace());
 	}
 
+	public abstract Type topLevelType();
 }
