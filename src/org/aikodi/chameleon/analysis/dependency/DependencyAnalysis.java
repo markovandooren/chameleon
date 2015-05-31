@@ -206,6 +206,11 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
 
   private LinkedList<Element> _elements = new LinkedList<>();
 
+  private List<D> map(List<Declaration> initial) {
+    java.util.function.Function<? super Declaration, ? extends D> mapper = i -> i.logical().nearestAncestorOrSelf(i, _dependencyFinder);
+    return initial.stream().map(mapper).collect(Collectors.toList());
+  }
+  
   @SuppressWarnings("unchecked")
   @Override
   public void analyze(Element element) throws Nothing {
@@ -217,7 +222,7 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
           // if the documents have not yet been loaded.
           Declaration declaration = cref.getElement();
           List<Declaration> initial = _decomposer.apply(declaration);
-          List<D> targets = initial.stream().map(i -> i.logical().nearestAncestorOrSelf(i, _dependencyFinder)).collect(Collectors.toList());
+					List<D> targets = map(initial);
           
           boolean fixed = false;
           while(! fixed) {
@@ -225,7 +230,7 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
             for(D target: targets) {
               if(target instanceof Declaration) {
                 List<Declaration> decomp = _decomposer.apply((Declaration) target);
-                List<D> newTargets = decomp.stream().map(i -> i.logical().nearestAncestorOrSelf(i, _dependencyFinder)).collect(Collectors.toList());
+								List<D> newTargets = map(decomp);
                 tmp.addAll(newTargets);
               } else {
                 tmp.add(target);
@@ -254,5 +259,4 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
       e.printStackTrace();
     }
   }
-
 }
