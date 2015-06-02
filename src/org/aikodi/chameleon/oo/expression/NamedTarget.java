@@ -40,11 +40,6 @@ public class NamedTarget extends CommonCrossReferenceWithTarget<Declaration> imp
       setName(Util.getLastPart(fullyQualifiedName));
    }
 
-   protected NamedTarget() {
-      super(null);
-   }
-
-
    /**
     * Initialize a new named target with the given identifier as name, and the
     * given target as its target. The name should be an identifier and thus not
