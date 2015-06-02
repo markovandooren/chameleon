@@ -90,23 +90,23 @@ public class InstantiatedParameterType extends TypeIndirection {
   }
 
   @Override
-  public boolean uniSameAs(Type element, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+  public boolean uniSameAs(Type other, TypeFixer trace) throws LookupException {
+
     boolean result = false;
-    if(element instanceof InstantiatedParameterType) {
+    if(other instanceof InstantiatedParameterType) {
       TypeParameter mine = parameter();
-      TypeParameter others = ((InstantiatedParameterType)element).parameter();
+      TypeParameter others = ((InstantiatedParameterType)other).parameter();
       result = mine.sameAs(others);
       if(! result) {
-        for(Pair<TypeParameter, TypeParameter> pair: trace) {
-          if(mine.sameAs(pair.first()) && others.sameAs(pair.second())) {
-            return true;
-          }
+        TypeParameter firstParam = parameter();
+        if(trace.contains(other, firstParam)) {
+          return true;
         }
-        trace.add(new Pair<TypeParameter, TypeParameter>(mine, others));
+        trace.add(other, firstParam);
       }
     } 
     if(! result) {
-      result = element.sameAs(aliasedType(),trace);
+      result = other.sameAs(aliasedType(),trace);
     }
     return result;
   }
@@ -137,7 +137,7 @@ public class InstantiatedParameterType extends TypeIndirection {
   }
 
   @Override
-  public boolean lowerBoundAtLeastAsHighAs(Type other, TypeFixer trace) throws LookupException {
+  public boolean upperBoundAtLeastAsHighAs(Type other, TypeFixer trace) throws LookupException {
     TypeParameter secondParam = parameter();
     if(trace.contains(other,secondParam)) {
       return true;

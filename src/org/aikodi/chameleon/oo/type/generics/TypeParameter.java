@@ -1,7 +1,6 @@
 package org.aikodi.chameleon.oo.type.generics;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.MissingSignature;
@@ -18,7 +17,6 @@ import org.aikodi.chameleon.oo.type.Parameter;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.TypeReference;
-import org.aikodi.chameleon.util.Pair;
 
 /**
  * A class representing type parameters. These can be formal type parameters or instantiated type parameters.
@@ -53,21 +51,26 @@ public Type actualDeclaration() throws LookupException {
 //		return (TypeParameter) clone();
 //	}
 //	
-	public boolean compatibleWith(TypeParameter other,TypeFixer trace) throws LookupException {
-		TypeFixer slowTrace = trace.clone();
-		boolean result = sameAs(other);
-		if(! result) {
-			final Type upperBound = upperBound();
-      final Type otherUpperBound = other.upperBound();
-      result = upperBound.upperBoundNotHigherThan(otherUpperBound,slowTrace);
-			if(result) {
-				final Type otherLowerBound = other.lowerBound();
-        final Type lowerBound = lowerBound();
-        result = otherLowerBound.upperBoundNotHigherThan(lowerBound,slowTrace);
-			}
-		}
-		return result;
-	}
+	
+	public abstract boolean contains(TypeParameter other,TypeFixer trace) throws LookupException;
+	
+//	public boolean compatibleWith(TypeParameter other,TypeFixer trace) throws LookupException {
+//		TypeFixer slowTrace = trace.clone();
+//		boolean result = sameAs(other);
+//		if(! result) {
+//			final Type upperBound = upperBound();
+//      final Type otherUpperBound = other.upperBound();
+//      final Type ultimateUpperBound = otherUpperBound.upperBound();
+//      result = upperBound.upperBoundNotHigherThan(ultimateUpperBound,slowTrace);
+//			if(result) {
+//				final Type otherLowerBound = other.lowerBound();
+//        final Type lowerBound = lowerBound();
+//        final Type ultimateLowerBound = otherLowerBound.ultimateLowerBound();
+//        result = ultimateLowerBound.upperBoundNotHigherThan(lowerBound,slowTrace);
+//			}
+//		}
+//		return result;
+//	}
 
 	public abstract TypeReference upperBoundReference() throws LookupException;
 	
@@ -85,7 +88,7 @@ public Type actualDeclaration() throws LookupException {
 		}
 	}
 
-	public abstract boolean sameValueAs(TypeParameter otherParam, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException;
+//	public abstract boolean sameValueAs(TypeParameter otherParam, TypeFixer trace) throws LookupException;
 
 	@Override
    public String toString() {
@@ -100,4 +103,13 @@ public LocalLookupContext<?> targetContext() throws LookupException {
   @Override
   public abstract Type selectionDeclaration() throws LookupException;
   
+//  public Type type() throws LookupException {
+//  	return selectionDeclaration();
+//  }
+  
+  public abstract TypeArgument argument();
+  
+  public abstract String toString(Set<Element> visited);
+  	
 }
+

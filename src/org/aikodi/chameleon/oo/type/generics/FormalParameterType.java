@@ -9,6 +9,7 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.type.Type;
+import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.TypeIndirection;
 import org.aikodi.chameleon.util.Pair;
 
@@ -76,7 +77,7 @@ public class FormalParameterType extends TypeIndirection {
 
 
 	@Override
-   public boolean uniSameAs(Type type, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+   public boolean uniSameAs(Type type, TypeFixer trace) throws LookupException {
 		return uniSameAs(type);
 	}
 

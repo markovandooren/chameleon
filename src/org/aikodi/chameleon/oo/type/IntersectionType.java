@@ -27,7 +27,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 
 public class IntersectionType extends MultiType {
 	
-	public static Type create(List<Type> types) throws LookupException {
+	public static Type create(List<Type> types) {
 		if(types.size() == 1) {
 			return types.get(0);
 		} else {
@@ -38,11 +38,7 @@ public class IntersectionType extends MultiType {
 		}
 	}
 
-	public IntersectionType(Type first, Type second) throws LookupException {
-		super(createSignature(Arrays.asList(new Type[]{first,second})), Arrays.asList(new Type[]{first,second}));
-	}
-	
-	public IntersectionType(List<Type> types) throws LookupException {
+	public IntersectionType(List<Type> types) {
 		super(createSignature(types),types);
 	}
 	
@@ -91,13 +87,14 @@ public class IntersectionType extends MultiType {
 		return name.toString();
 	}
 	
-	private IntersectionType(List<Type> types, boolean useless) {
-		super(createSignature(types),types);
+	protected IntersectionType(String name, List<Type> types) {
+		super(name,types);
 	}
 	
 	@Override
 	protected IntersectionType cloneSelf() {
-		return new IntersectionType(types(), false);
+		List<Type> types = types();
+		return new IntersectionType(createSignature(types),types);
 	}
 
 	@Override
@@ -189,7 +186,7 @@ public class IntersectionType extends MultiType {
 	}
 	
 	@Override
-   public boolean uniSameAs(final Type other, final List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+   public boolean uniSameAs(final Type other, TypeFixer trace) throws LookupException {
 		List<Type> types = types();
 		if (other instanceof IntersectionType) {
 		  return forAll(types, first -> exists(((IntersectionType)other).types(), second -> first.sameAs(second,trace)));
@@ -235,7 +232,7 @@ public class IntersectionType extends MultiType {
 	}
 	
 	@Override
-	public boolean lowerBoundAtLeastAsHighAs(Type other, TypeFixer trace) throws LookupException {
+	public boolean upperBoundAtLeastAsHighAs(Type other, TypeFixer trace) throws LookupException {
 		int size = _types.size();
 		boolean result = size > 0;
 		for(int i=0; result && i<size;i++) {

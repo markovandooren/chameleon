@@ -28,7 +28,7 @@ public class RegularType extends ClassWithBody {
 	}
 
 	@Override
-   public boolean uniSameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+   public boolean uniSameAs(Type other, TypeFixer trace) throws LookupException {
 		return other == this;
 	}
 

@@ -34,22 +34,7 @@ import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
  */
 public class UnionType extends MultiType {
 	
-	public static Type create(List<Type> types) throws LookupException {
-		if(types.size() == 1) {
-			return types.get(0);
-		} else {
-			Namespace def = types.get(0).view().namespace();
-			UnionType result = new UnionType(types);
-			result.setUniParent(def);
-			return result;
-		}
-	}
-
-	public UnionType(Type first, Type second) throws LookupException {
-		super(createSignature(Arrays.asList(new Type[]{first,second})), Arrays.asList(new Type[]{first,second}));
-	}
-	
-	private UnionType(List<Type> types) throws LookupException {
+	public UnionType(List<Type> types) {
 		super(createSignature(types),types);
 	}
 	
@@ -75,13 +60,14 @@ public class UnionType extends MultiType {
 		return name.toString();
 	}
 	
-	private UnionType(List<Type> types, boolean useless) {
-		super(createSignature(types),types);
+	protected UnionType(String name, List<Type> types) {
+		super(name,types);
 	}
 	
 	@Override
-	public UnionType cloneSelf() {
-		return new UnionType(types(), false);
+	protected UnionType cloneSelf() {
+		List<Type> types = types();
+	return new UnionType(createSignature(types), types);
 	}
 
 	@Override
@@ -198,7 +184,7 @@ public class UnionType extends MultiType {
 	}
 
 	@Override
-   public boolean uniSameAs(final Type other, final List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+   public boolean uniSameAs(final Type other, TypeFixer trace) throws LookupException {
 		List<Type> types = types();
 		if (other instanceof UnionType) {
 		  return forAll(types,  first -> exists(((UnionType)other).types(), second -> first.sameAs(second,trace)));
@@ -230,7 +216,7 @@ public class UnionType extends MultiType {
 	}
 	
 	@Override
-	public boolean lowerBoundAtLeastAsHighAs(Type other,	TypeFixer trace) throws LookupException {
+	public boolean upperBoundAtLeastAsHighAs(Type other,	TypeFixer trace) throws LookupException {
 		int size = _types.size();
 		boolean result = false;
 		for(int i=0; (!result) && i<size;i++) {

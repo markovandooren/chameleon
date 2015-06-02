@@ -1,5 +1,8 @@
 package org.aikodi.chameleon.oo.type.generics;
 
+import java.util.Set;
+
+import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
@@ -15,10 +18,10 @@ public class SuperConstraint extends TypeConstraint {
 		setTypeReference(ref);
 	}
 	
-	@Override
-	public boolean matches(Type type) throws LookupException {
-		return upperBound().subTypeOf(type);
-	}
+//	@Override
+//	public boolean matches(Type type) throws LookupException {
+//		return upperBound().subTypeOf(type);
+//	}
 
 	@Override
 	protected SuperConstraint cloneSelf() {
@@ -42,8 +45,14 @@ public class SuperConstraint extends TypeConstraint {
 	}
 
 	@Override
-	public String toString() {
-		return "super "+toStringTypeReference();
+	public String toString(Set<Element> visited) {
+		return "super "+toStringTypeReference(visited);
+	}
+
+	public TypeArgument argument() {
+		SuperWildcard result = language(ObjectOrientedLanguage.class).createSuperWildcard(clone(typeReference()));
+		result.setUniParent(this);
+		return result;
 	}
 
 }

@@ -37,7 +37,7 @@ public class TypeAlias extends TypeIndirection {
 	}
 
 	@Override
-   public boolean uniSameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+   public boolean uniSameAs(Type other, TypeFixer trace) throws LookupException {
 		return super.uniSameAs(other) || 
     other.sameAs(aliasedType(),trace) || 
     ((other instanceof TypeIndirection) && (((TypeIndirection)other).aliasedType().sameAs(aliasedType(),trace)));

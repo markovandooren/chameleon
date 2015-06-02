@@ -1,13 +1,16 @@
 package org.aikodi.chameleon.oo.type.generics;
 
 import java.util.List;
+import java.util.Set;
 
+import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
+import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.TypeReference;
 
-public class ExtendsWildcard extends ActualTypeArgumentWithTypeReference {
+public class ExtendsWildcard extends TypeArgumentWithTypeReference {
 
 	public ExtendsWildcard(TypeReference ref) {
 		super(ref);
@@ -81,15 +84,27 @@ public class ExtendsWildcard extends ActualTypeArgumentWithTypeReference {
 	}
 
 	@Override
-	public String toString() {
+	public String toString(Set<Element> visited) {
 		TypeReference tref = typeReference();
 		StringBuffer result = new StringBuffer();
 		result.append('?');
 		if(tref != null) {
 			result.append(" extends ");
-			result.append(toStringTypeReference());
+			result.append(toStringTypeReference(visited));
 		}
 		return result.toString();
 	}
 	
+	public boolean contains(TypeArgument other, TypeFixer trace) throws LookupException	{
+		Type otherUpperBound = other.upperBound();
+		Type upperBound = upperBound();
+		boolean upperBoundNotHigherThan = otherUpperBound.upperBoundNotHigherThan(upperBound, trace);
+		return upperBoundNotHigherThan;
+	}
+
+	@Override
+	public boolean isWildCardBound() {
+		return true;
+	}
+
 }

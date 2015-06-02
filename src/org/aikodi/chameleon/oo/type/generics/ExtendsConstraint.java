@@ -1,5 +1,8 @@
 package org.aikodi.chameleon.oo.type.generics;
 
+import java.util.Set;
+
+import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
@@ -14,10 +17,10 @@ public class ExtendsConstraint extends TypeConstraint {
 		setTypeReference(ref);
 	}
 
-	@Override
-	public boolean matches(Type type) throws LookupException {
-		return type.subTypeOf(upperBound());
-	}
+//	@Override
+//	public boolean matches(Type type) throws LookupException {
+//		return type.subTypeOf(upperBound());
+//	}
 
 
 	@Override
@@ -43,7 +46,14 @@ public class ExtendsConstraint extends TypeConstraint {
 	}
 
 	@Override
-	public String toString() {
-		return "extends "+toStringTypeReference();
+	public String toString(Set<Element> visited) {
+		return "extends "+toStringTypeReference(visited);
 	}
+	
+	public TypeArgument argument() {
+		ExtendsWildcard result = language(ObjectOrientedLanguage.class).createExtendsWildcard(clone(typeReference()));
+		result.setUniParent(this);
+		return result;
+	}
+
 }

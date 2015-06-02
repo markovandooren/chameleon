@@ -2,12 +2,14 @@ package org.aikodi.chameleon.oo.type.generics;
 
 import java.util.List;
 
+import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
+import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.TypeReference;
 
-public class SuperWildcard extends ActualTypeArgumentWithTypeReference {
+public class SuperWildcard extends TypeArgumentWithTypeReference {
 
 	public SuperWildcard(TypeReference ref) {
 		super(ref);
@@ -75,14 +77,27 @@ public class SuperWildcard extends ActualTypeArgumentWithTypeReference {
 	}
 
 	@Override
-	public String toString() {
+	public String toString(java.util.Set<Element> visited) {
 		TypeReference tref = typeReference();
 		StringBuffer result = new StringBuffer();
 		result.append("? super ");
 		if(tref != null) {
-			result.append(toStringTypeReference());
+			result.append(toStringTypeReference(visited));
 		}
 		return result.toString();
+	}
+
+	
+	public boolean contains(TypeArgument other, TypeFixer trace) throws LookupException	{
+		Type lowerBound = lowerBound();
+		Type otherLowerBound = other.lowerBound();
+		boolean lower = lowerBound.upperBoundNotHigherThan(otherLowerBound, trace);
+		return lower;
+	}
+
+	@Override
+	public boolean isWildCardBound() {
+		return true;
 	}
 
 }

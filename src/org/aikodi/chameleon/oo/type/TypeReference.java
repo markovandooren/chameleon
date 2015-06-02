@@ -1,5 +1,6 @@
 package org.aikodi.chameleon.oo.type;
 
+import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
@@ -27,4 +28,7 @@ public interface TypeReference extends CrossReference<Type> {
 	public default TypeReference intersectionDoubleDispatch(IntersectionTypeReference other) {
 		return other.intersectionDoubleDispatch(this);
 	}
+	
+	public String toString(java.util.Set<Element> visited);
+	
 }

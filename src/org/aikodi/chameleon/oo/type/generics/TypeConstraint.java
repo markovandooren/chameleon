@@ -1,22 +1,24 @@
 package org.aikodi.chameleon.oo.type.generics;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.validation.BasicProblem;
-import org.aikodi.chameleon.core.validation.Valid;
-import org.aikodi.chameleon.core.validation.Verification;
+import org.aikodi.chameleon.oo.type.BasicTypeReference;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.util.association.Single;
 
+/**
+ * A class of constraints that determine which types are valid
+ * arguments for {@link TypeParameter}s.
+ * 
+ * @author Marko van Dooren
+ */
 public abstract class TypeConstraint extends ElementImpl {
 
-	public TypeConstraint() {
-	}
-	
-	public abstract boolean matches(Type type) throws LookupException;
-	
 	/**
 	 * Return the upper bound on the type that this type constraint imposes.
 	 * 
@@ -36,62 +38,58 @@ public abstract class TypeConstraint extends ElementImpl {
 	public abstract Type lowerBound() throws LookupException;
 	
 	public void setTypeReference(TypeReference ref) {
-		set(_types,ref);
+		set(_typeReference,ref);
 	}
 	
 	public TypeReference typeReference() {
-		return _types.getOtherEnd();
+		return _typeReference.getOtherEnd();
 	}
 	
-	private Single<TypeReference> _types = new Single<TypeReference>(this);
+	private Single<TypeReference> _typeReference = new Single<TypeReference>(this, true);
 
-//	public abstract TypeConstraint cloneThis();
-
-	public Type bound() throws LookupException {
+	protected Type bound() throws LookupException {
 		return typeReference().getElement();
 	}
 
-	@Override
-	public Verification verifySelf() {
-		if(typeReference() != null) {
-			return Valid.create();
-		} else {
-			return new MissingConstraintTypes(this);
-		}
-	}
-	
-	public static class MissingConstraintTypes extends BasicProblem {
-
-		public MissingConstraintTypes(Element element) {
-			super(element, "The type constraint contains no type names");
-		}
-		
-	}
-
-	protected String toStringTypeReference() {
-//		try {
-//			TypeReference clone = clone(typeReference());
-//			clone.setUniParent(this);
-//			List<BasicTypeReference> descendants = clone.descendants(BasicTypeReference.class);
-//			if(clone instanceof BasicTypeReference) {
-//				descendants.add((BasicTypeReference) clone);
-//			}
-//			for(BasicTypeReference tref: descendants) {
-//				Type element = tref.getElement();
-//				if(element instanceof InstantiatedParameterType) {
-//					TypeParameter parameter = ((InstantiatedParameterType)element).parameter();
-//					String replacement = parameter.toString();
+	protected String toStringTypeReference(Set<Element> visited) {
+		try {
+			TypeReference clone = clone(typeReference());
+			clone.setUniParent(this);
+			java.util.List<BasicTypeReference> descendants = clone.descendants(BasicTypeReference.class);
+			if(clone instanceof BasicTypeReference) {
+				descendants.add((BasicTypeReference) clone);
+			}
+			for(BasicTypeReference tref: descendants) {
+				Type element = tref.getElement();
+				if(element instanceof InstantiatedParameterType) {
+					TypeParameter parameter = ((InstantiatedParameterType)element).parameter();
+					String replacement = parameter.toString(visited);
 //					if(parameter instanceof CapturedTypeParameter) {
 //						replacement = "";
 //						for(TypeConstraint constraint: ((CapturedTypeParameter) parameter).constraints()) {
-//							replacement += (constraint.toStringTypeReference()+" ");
+//							visited.add(parameter);
+//							replacement += (constraint.toStringTypeReference(visited)+" ");
 //						}
 //					}
-//					tref.setName(replacement);
-//				}
-//			}
-//			return clone.toString();
-//		} catch (Exception e) {
-			return typeReference().toString();		
+					tref.setName(replacement);
+				}
+			}
+			return clone.toString(visited);
+		} catch (Exception e) {
+			return typeReference().toString();
+		}
 	}
+	
+	public abstract TypeArgument argument();
+
+	@Override
+	public final String toString() {
+	  return toString(new HashSet<>());
+	}
+	
+	/**
+	 * @param visited
+	 * @return
+	 */
+	public abstract String toString(Set<Element> visited);
 }

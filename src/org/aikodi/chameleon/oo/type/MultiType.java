@@ -130,5 +130,11 @@ public abstract class MultiType extends ClassImpl {
 		return Collections.EMPTY_LIST;
 	}
 
-
+	/* (non-Javadoc)
+	 * @see org.aikodi.chameleon.oo.type.Type#isWildCard()
+	 */
+	@Override
+	public boolean isWildCard() {
+		return types().stream().anyMatch(t -> t.isWildCard());
+	}
 }

@@ -25,7 +25,13 @@ public class CapturedTypeParameter extends FormalTypeParameter {
   @Override
   protected synchronized Type createSelectionType() throws LookupException {
     if(_selectionTypeCache == null) {
-      _selectionTypeCache = language().plugin(ObjectOrientedFactory.class).createInstantiatedTypeVariable(name(),upperBound(),this);
+//      final Type type = upperBound();
+    	//TODO Leave it to the constraints to create this type?
+    	//   OR make it an intersection type of the individual types created
+    	//   by the constraints. Is that correct?
+    	ObjectOrientedFactory plugin = language().plugin(ObjectOrientedFactory.class);
+      final Type type = plugin.createConstrainedType(lowerBound(), upperBound(),this);
+		_selectionTypeCache = plugin.createInstantiatedTypeVariable(name(),type,this);
     }
     return _selectionTypeCache;
   }

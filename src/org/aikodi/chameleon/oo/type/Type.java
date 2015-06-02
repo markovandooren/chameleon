@@ -23,9 +23,10 @@ import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.member.MemberRelationSelector;
+import org.aikodi.chameleon.oo.type.generics.ConstrainedType;
 import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
-import org.aikodi.chameleon.util.Pair;
+import org.aikodi.chameleon.util.Util;
 
 import com.google.common.collect.ImmutableList;
 
@@ -36,112 +37,112 @@ import com.google.common.collect.ImmutableList;
  */
 public interface Type extends DeclarationContainer, DeclarationWithType, Member {
 
-  public default boolean newSubtypeOf(Type other) throws LookupException {
-    return sameAs(other);
-  }
-  
-  public static class SuperTypeJudge {
-    // Nasty internal structure to prevent the creation
-    // of a lot of lists with just a single element.
-    private Map<String,Object> _map = new HashMap<>();
-    
-    void add(Type type) throws LookupException {
-      Object o = _map.get(type.name());
-      if(o == null) {
-        _map.put(type.name(), type);
-      } else if(o instanceof List) {
-        _map.put(type.name(),ImmutableList.builder().add(type).addAll((List)o).build());
-      } else {
-        //Check for duplicates
-        if(! ((Type)o).baseType().sameAs(type.baseType())) {
-          _map.put(type.name(), ImmutableList.builder().add(type).add(o).build());
-        }
-      }
-    }
-    
-    Set<Type> types() {
-      Set<Type> result = new HashSet<>();
-      for(Object o: _map.values()) {
-        if(o instanceof List) {
-          result.addAll((List)o);
-        } else {
-          result.add((Type) o);
-        }
-      }
-      return result;
-    }
-    
-    public Type get(Type baseType) throws LookupException {
-      final Type realBase = baseType.baseType();
-      Object o = _map.get(realBase.name());
-      if(o instanceof List) {
-        return findFirst((List<Type>) o, t -> t.baseType().sameAs(realBase));
-      } else {
-        Type stored = (Type)o;
-        return stored == null ? null : (stored.baseType().sameAs(realBase) ? stored : null);
-      }
-    }
+	public default boolean newSubtypeOf(Type other) throws LookupException {
+		return sameAs(other);
+	}
 
-    void merge(SuperTypeJudge superJudge) throws LookupException {
-      for(Object v :superJudge._map.values()) {
-        if(v instanceof List) {
-          for(Type t: (List<Type>)v) {
-            add(t);
-          }
-        } else {
-          add((Type)v);
-        }
-      }
-    }
-  }
-  
-  public default void accumulateSuperTypeJudge(SuperTypeJudge judge) throws LookupException {
-    judge.add(this);
-    List<Type> temp = getDirectSuperTypes();
-    for(Type type:temp) {
-      Type existing = judge.get(type);
-      if(existing == null) {
-        type.accumulateSuperTypeJudge(judge);
-      }
-    }
-  }
+	public static class SuperTypeJudge {
+		// Nasty internal structure to prevent the creation
+		// of a lot of lists with just a single element.
+		private Map<String,Object> _map = new HashMap<>();
+
+		void add(Type type) throws LookupException {
+			Object o = _map.get(type.name());
+			if(o == null) {
+				_map.put(type.name(), type);
+			} else if(o instanceof List) {
+				_map.put(type.name(),ImmutableList.builder().add(type).addAll((List)o).build());
+			} else {
+				//Check for duplicates
+				if(! ((Type)o).baseType().sameAs(type.baseType())) {
+					_map.put(type.name(), ImmutableList.builder().add(type).add(o).build());
+				}
+			}
+		}
+
+		Set<Type> types() {
+			Set<Type> result = new HashSet<>();
+			for(Object o: _map.values()) {
+				if(o instanceof List) {
+					result.addAll((List)o);
+				} else {
+					result.add((Type) o);
+				}
+			}
+			return result;
+		}
+
+		public Type get(Type baseType) throws LookupException {
+			final Type realBase = baseType.baseType();
+			Object o = _map.get(realBase.name());
+			if(o instanceof List) {
+				return findFirst((List<Type>) o, t -> t.baseType().sameAs(realBase));
+			} else {
+				Type stored = (Type)o;
+				return stored == null ? null : (stored.baseType().sameAs(realBase) ? stored : null);
+			}
+		}
+
+		void merge(SuperTypeJudge superJudge) throws LookupException {
+			for(Object v :superJudge._map.values()) {
+				if(v instanceof List) {
+					for(Type t: (List<Type>)v) {
+						add(t);
+					}
+				} else {
+					add((Type)v);
+				}
+			}
+		}
+	}
+
+	public default void accumulateSuperTypeJudge(SuperTypeJudge judge) throws LookupException {
+		judge.add(this);
+		List<Type> temp = getDirectSuperTypes();
+		for(Type type:temp) {
+			Type existing = judge.get(type);
+			if(existing == null) {
+				type.accumulateSuperTypeJudge(judge);
+			}
+		}
+	}
 
 
-  /**
-   * Find the super type with the same base type as the given type.
-   * 
-   * @param type The type with the same base type as the requested super type.
-   * @return A super type of this type that has the same base type as the given
-   *         type. If there is no such super type, null is returned.
-   * @throws LookupException
-   */
-  public default Type getSuperType(Type type) throws LookupException {
-    return superTypeJudge().get(type);
-  }
+	/**
+	 * Find the super type with the same base type as the given type.
+	 * 
+	 * @param type The type with the same base type as the requested super type.
+	 * @return A super type of this type that has the same base type as the given
+	 *         type. If there is no such super type, null is returned.
+	 * @throws LookupException
+	 */
+	public default Type getSuperType(Type type) throws LookupException {
+		return superTypeJudge().get(type);
+	}
 
-  public SuperTypeJudge superTypeJudge() throws LookupException;
-  
+	public SuperTypeJudge superTypeJudge() throws LookupException;
+
 	public void accumulateAllSuperTypes(Set<Type> acc) throws LookupException;
 
 	public void newAccumulateAllSuperTypes(Set<Type> acc) throws LookupException;
 
 	public void newAccumulateSelfAndAllSuperTypes(Set<Type> acc) throws LookupException;
 
-	
+
 	public Set<Type> getSelfAndAllSuperTypesView() throws LookupException;
-	
+
 	public abstract List<InheritanceRelation> explicitNonMemberInheritanceRelations();
 
 	public <I extends InheritanceRelation> List<I> explicitNonMemberInheritanceRelations(Class<I> kind);
-	  
+
 	public List<InheritanceRelation> implicitNonMemberInheritanceRelations();
-	
-  public default void reactOnDescendantAdded(Element element) {}
 
-  public default void reactOnDescendantRemoved(Element element) {}
+	public default void reactOnDescendantAdded(Element element) {}
 
-  public default void reactOnDescendantReplaced(Element oldElement, Element newElement) {}
-	
+	public default void reactOnDescendantRemoved(Element element) {}
+
+	public default void reactOnDescendantReplaced(Element oldElement, Element newElement) {}
+
 	/**
 	 * Return the fully qualified name.
 	 * @throws LookupException 
@@ -159,10 +160,10 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	 *******************/
 
 	@Override
-   public LocalLookupContext<?> targetContext() throws LookupException;
+	public LocalLookupContext<?> targetContext() throws LookupException;
 
 	@Override
-   public LookupContext localContext() throws LookupException;
+	public LookupContext localContext() throws LookupException;
 
 	/**
 	 * If the given element is an inheritance relation, the lookup must proceed to the parent. For other elements,
@@ -170,16 +171,16 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	 * @throws LookupException 
 	 */
 	@Override
-   public LookupContext lookupContext(Element element) throws LookupException;
+	public LookupContext lookupContext(Element element) throws LookupException;
 
 	public List<ParameterBlock> parameterBlocks();
-	
+
 	public <P extends Parameter> ParameterBlock<P> parameterBlock(Class<P> kind);
-	
+
 	public void addParameterBlock(ParameterBlock block);
-	
+
 	public void removeParameterBlock(ParameterBlock block);
-	
+
 	public <P extends Parameter> List<P> parameters(Class<P> kind);
 
 	/**
@@ -190,7 +191,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	public <P extends Parameter> int nbTypeParameters(Class<P> kind);
 
 	public <P extends Parameter> void addParameter(Class<P> kind,P parameter);
-	
+
 	public <P extends Parameter> void addAllParameters(Class<P> kind,Collection<P> parameter);
 
 	public <P extends Parameter> void replaceParameter(Class<P> kind, P oldParameter, P newParameter);
@@ -202,7 +203,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	 ************************/
 
 	@Override
-   public List<Member> getIntroducedMembers();
+	public List<Member> getIntroducedMembers();
 
 	/**********
 	 * ACCESS *
@@ -266,21 +267,21 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	public Set<Type> getAllSuperTypes() throws LookupException;
 
 	public default boolean subTypeOf(Type other) throws LookupException {
-    return sameAs(other) || properSubTypeOf(other) || other.properSuperTypeOf(this);
+		return sameAs(other) || properSubTypeOf(other) || other.properSuperTypeOf(this);
 	}
 
-  public default boolean properSubTypeOf(Type other) throws LookupException {
-    boolean result = false;
-    Type baseType = superTypeJudge().get(other);
-    if(baseType != null) {
-      result = baseType.compatibleParameters(other, new TypeFixer());
-    }
-    return result;
-  }
+	public default boolean properSubTypeOf(Type other) throws LookupException {
+		boolean result = false;
+		Type baseType = superTypeJudge().get(other);
+		if(baseType != null) {
+			result = baseType.compatibleParameters(other, new TypeFixer());
+		}
+		return result;
+	}
 
-  public default boolean properSuperTypeOf(Type type) throws LookupException {
-    return false;
-  }
+	public default boolean properSuperTypeOf(Type type) throws LookupException {
+		return false;
+	}
 
 	/**
 	 * Check if this type equals the given other type. This is
@@ -291,7 +292,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	 * @return
 	 */
 	@Override
-   public boolean uniSameAs(Element other) throws LookupException;
+	public boolean uniSameAs(Element other) throws LookupException;
 
 	/**
 	 * Check if this type is assignable to another type.
@@ -317,10 +318,10 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	  @
 	  @ post \result != null;
 	  @*/
-  public default List<InheritanceRelation> inheritanceRelations() throws LookupException {
-    return nonMemberInheritanceRelations();
-  }
-	
+	public default List<InheritanceRelation> inheritanceRelations() throws LookupException {
+		return nonMemberInheritanceRelations();
+	}
+
 	public List<InheritanceRelation> nonMemberInheritanceRelations();
 
 	public <I extends InheritanceRelation> List<I> nonMemberInheritanceRelations(Class<I> kind);
@@ -371,9 +372,9 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	 * @return
 	 */
 	public List<Member> implicitMembers();
-	
+
 	public <M extends Member> List<M> implicitMembers(Class<M> kind);
-	
+
 	/**
 	 * Return the members directly declared by this type. The order of the elements in the list is the order in which they
 	 * are written in the type.
@@ -383,7 +384,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	public List<Member> localMembers() throws LookupException;
 
 	public <T extends Member> List<T> directlyDeclaredMembers(Class<T> kind);
-	
+
 	public <T extends Member> List<T> directlyDeclaredMembers(Class<T> kind, ChameleonProperty property);
 
 	public List<Member> directlyDeclaredMembers();
@@ -421,67 +422,128 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	public List<? extends TypeElement> directlyDeclaredElements();
 
 	public <T extends TypeElement> List<T> directlyDeclaredElements(Class<T> kind);
-	
+
 	/********************
 	 * EXCEPTION SOURCE *
 	 ********************/
 
-//	public CheckedExceptionList getCEL() throws LookupException;
-//
-//	public CheckedExceptionList getAbsCEL() throws LookupException;
+	//	public CheckedExceptionList getCEL() throws LookupException;
+	//
+	//	public CheckedExceptionList getAbsCEL() throws LookupException;
 
 	@Override
-   public List<? extends Declaration> declarations() throws LookupException;
+	public List<? extends Declaration> declarations() throws LookupException;
 
 	public Type alias(String name);
 
 	public Type intersection(Type type) throws LookupException;
-	
+
 	public Type intersectionDoubleDispatch(Type type) throws LookupException;
-	
+
 	public Type intersectionDoubleDispatch(IntersectionType type) throws LookupException;
 
 	public void replace(TypeElement oldElement, TypeElement newElement);
 
 	public Type baseType();
-	
+
 	public default boolean upperBoundNotHigherThan(Type other, TypeFixer trace) throws LookupException {
-    if(this.sameAs(other)) {
-      return true;
-    }
+		if(this.sameAs(other)) {
+			return true;
+		}
+		System.out.println("ERROR: upperBoundNotHigherThan executed in Type instead of JavaType!!!");
 		Type sameBase = getSuperType(other);
 		return sameBase != null && sameBase.compatibleParameters(other, trace);
 	}
-	
+
+	//	static ThreadLocal<StackOverflowTracer> tracer = new ThreadLocal<StackOverflowTracer>() {
+	//	  protected StackOverflowTracer initialValue() {
+	//	    return new StackOverflowTracer(5);
+	//	   }
+	//	  };
+
 	public default boolean compatibleParameters(Type second, TypeFixer trace) throws LookupException {
-		return forAll(parameters(TypeParameter.class), second.parameters(TypeParameter.class), (f,s) -> f.compatibleWith(s, trace));
+		//	  tracer.get().push();
+//		second.toString();
+		final boolean forAll = forAll(parameters(TypeParameter.class), second.parameters(TypeParameter.class), (f,s) -> s.contains(f, trace));
+		//    tracer.get().pop();
+		return forAll;
 	}
 
 
-	public boolean lowerBoundAtLeastAsHighAs(Type other, TypeFixer trace) throws LookupException;
+	public boolean upperBoundAtLeastAsHighAs(Type other, TypeFixer trace) throws LookupException;
 
 	public Type union(Type lowerBound) throws LookupException;
-	
+
 	public Type unionDoubleDispatch(Type type) throws LookupException;
-	
+
 	public Type unionDoubleDispatch(UnionType type) throws LookupException;
 
-	public boolean sameAs(Type aliasedType, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException;
+//	public default boolean sameInstanceAs(Type aliasedType, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+//		return sameAs(aliasedType, trace);
+//	}
 
-	public boolean uniSameAs(Type aliasedType, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException;
-	
+
+	public default boolean sameAs(Type other, TypeFixer trace) throws LookupException {
+		if(trace.contains(other, this)) {
+			return true;
+		}
+		TypeFixer newTrace = trace.clone();
+		newTrace.add(other, this);
+		return uniSameAs(other,newTrace) || other.uniSameAs(this,newTrace);
+	}
+
+	public boolean uniSameAs(Type aliasedType, TypeFixer trace) throws LookupException;
+
 	public Type lowerBound() throws LookupException;
-	
+
+//	public default Type ultimateLowerBound() throws LookupException {
+//		Type result = lowerBound();
+//		//		boolean same = false;
+//		//		while(! same) {
+//		//			Type tmp = result.lowerBound();
+//		//			if(tmp != result) {
+//		//				result = tmp;
+//		//				same = false;
+//		//			} else {
+//		//				same = true;
+//		//			}
+//		//		}
+//		if(result != this) {
+//			result = result.ultimateLowerBound();
+//		}
+//		return result;
+//	}
+
+//	public default Type ultimateUpperBound() throws LookupException {
+//		//		Type result = upperBound();
+//		//		boolean same = false;
+//		//		while(! same) {
+//		//			Type tmp = result.upperBound();
+//		//			if(tmp != result) {
+//		//				result = tmp;
+//		//				same = false;
+//		//			} else {
+//		//				same = true;
+//		//			}
+//		//		}
+//		//		return result;
+//		Type result = upperBound();
+//		if(result != this) {
+//			result = result.ultimateUpperBound();
+//		}
+//		return result;
+//	}
+
 	public Type upperBound() throws LookupException;
 
 	public <D extends Member> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException;
-	
+
 	public <D extends Member> List<D> membersDirectlyAliasedBy(MemberRelationSelector<D> selector) throws LookupException;
-	
+
 	public <D extends Member> List<D> membersDirectlyAliasing(MemberRelationSelector<D> selector) throws LookupException;
-	
+
 	public String infoName();
-	
+
 	/**
 	 * Verify whether the this type is a subtype of the given other type. If that is the case, then a valid verification result is returned.
 	 * Otherwise, a problem is reported. The message of the problem is constructed using the descriptions of the meaning of
@@ -493,5 +555,13 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	 * @return
 	 */
 	public Verification verifySubtypeOf(Type otherType, String meaningThisType, String meaningOtherType, Element cause);
+
+
+	/**
+	 * @return
+	 */
+	public default boolean isWildCard() {
+		return false;
+	}
 
 }

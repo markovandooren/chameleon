@@ -1,6 +1,10 @@
 package org.aikodi.chameleon.oo.type.generics;
 
+import java.util.Set;
+
+import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
+import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 
@@ -24,11 +28,6 @@ public class EqualityConstraint extends TypeConstraint {
 	}
 
 	@Override
-	public boolean matches(Type type) throws LookupException {
-		return type.sameAs(bound());
-	}
-
-	@Override
 	public Type upperBound() throws LookupException {
 		return bound().upperBound();
 	}
@@ -39,8 +38,14 @@ public class EqualityConstraint extends TypeConstraint {
 	}
 
 	@Override
-	public String toString() {
-		return "equals "+toStringTypeReference();
+	public String toString(Set<Element> visited) {
+		return "equals "+toStringTypeReference(visited);
+	}
+
+	public TypeArgument argument() {
+		EqualityTypeArgument result = language(ObjectOrientedLanguage.class).createEqualityTypeArgument(clone(typeReference()));
+		result.setUniParent(this);
+		return result;
 	}
 
 }

@@ -7,6 +7,7 @@ import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
+import org.aikodi.chameleon.oo.plugin.ObjectOrientedFactory;
 
 public class UnionTypeReference extends CombinationTypeReference {
 //FIXME make abstract superclass for this and IntersectionTypeReference
@@ -29,7 +30,7 @@ public class UnionTypeReference extends CombinationTypeReference {
 		for(TypeReference ref: typeReferences()) {
 			types.add(ref.getElement());
 		}
-		Type result = UnionType.create(types);
+		Type result = language().plugin(ObjectOrientedFactory.class).createUnionType(types);
 		result.setUniParent(this);
 		return result;
 	}

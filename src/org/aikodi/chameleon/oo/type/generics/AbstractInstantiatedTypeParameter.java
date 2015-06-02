@@ -1,6 +1,7 @@
 package org.aikodi.chameleon.oo.type.generics;
 
 import java.util.List;
+import java.util.Set;
 
 import org.aikodi.chameleon.core.declaration.MissingSignature;
 import org.aikodi.chameleon.core.element.Element;
@@ -9,15 +10,13 @@ import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.plugin.ObjectOrientedFactory;
 import org.aikodi.chameleon.oo.type.Type;
+import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.TypeReference;
-import org.aikodi.chameleon.util.Pair;
-
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 
 public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 
-	public AbstractInstantiatedTypeParameter(String name, ActualTypeArgument argument) {
+	public AbstractInstantiatedTypeParameter(String name, TypeArgument argument) {
 		super(name);
 		setArgument(argument);
 	}
@@ -31,27 +30,30 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 	 */
 	public TypeParameterSubstitution substitution(Element element) throws LookupException {
 		List<CrossReference> crossReferences = 
-			 element.descendants(CrossReference.class, object -> object.getDeclarator().sameAs(AbstractInstantiatedTypeParameter.this));
-		
+				element.descendants(CrossReference.class, object -> object.getDeclarator().sameAs(AbstractInstantiatedTypeParameter.this));
+
 		return new TypeParameterSubstitution(this, crossReferences);
 	}
 
-	private void setArgument(ActualTypeArgument type) {
+	private void setArgument(TypeArgument type) {
 		_argument = type;
 	}
-	
-	public ActualTypeArgument argument() {
+
+	public TypeArgument argument() {
 		return _argument;
 	}
-	
-	private ActualTypeArgument _argument;
+
+	private TypeArgument _argument;
 
 	@Override
-   public Type selectionDeclaration() throws LookupException {
+	public Type selectionDeclaration() throws LookupException {
 		if(_selectionTypeCache == null) {
 			synchronized(this) {
 				if(_selectionTypeCache == null) {
-					_selectionTypeCache = language().plugin(ObjectOrientedFactory.class).createInstantiatedTypeVariable(name(),upperBound(),this);
+//										final Type type = upperBound();
+					ObjectOrientedFactory plugin = language().plugin(ObjectOrientedFactory.class);
+					final Type type = plugin.createConstrainedType(lowerBound(), upperBound(),this);
+			_selectionTypeCache = plugin.createInstantiatedTypeVariable(name(),type,this);
 				}
 			}
 		}
@@ -66,18 +68,18 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 
 	private Type _selectionTypeCache;
 
-	
+
 	@Override
 	public Type resolveForRoundTrip() throws LookupException {
-    Type result = language().plugin(ObjectOrientedFactory.class).createLazyInstantiatedTypeVariable(name(),this);
-  	result.setUniParent(parent());
-  	return result;
+		Type result = language().plugin(ObjectOrientedFactory.class).createLazyInstantiatedTypeVariable(name(),this);
+		result.setUniParent(parent());
+		return result;
 	}
 
 	public TypeParameter capture(FormalTypeParameter formal, List<TypeConstraint> accumulator) {
 		return argument().capture(formal,accumulator);
 	}
-	
+
 	@Override
 	public Type lowerBound() throws LookupException {
 		return argument().type();
@@ -87,12 +89,12 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 	public Type upperBound() throws LookupException {
 		return argument().type();
 	}
-	
+
 	@Override
 	public Verification verifySelf() {
 		Verification tmp = super.verifySelf();
 		if(argument() != null) {
-		  return tmp;
+			return tmp;
 		} else {
 			return tmp.and(new MissingSignature(this)); 
 		}
@@ -101,33 +103,33 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 	@Override
 	public boolean uniSameAs(Element other) throws LookupException {
 		return other == this;
-//		boolean result = false;
-//		if(other instanceof InstantiatedTypeParameter) {
-//		 result = argument().sameAs(((InstantiatedTypeParameter)other).argument());
-//		}
-//		return result;
+		//		boolean result = false;
+		//		if(other instanceof InstantiatedTypeParameter) {
+		//		 result = argument().sameAs(((InstantiatedTypeParameter)other).argument());
+		//		}
+		//		return result;
 	}
-	
+
+	//	@Override
+	//	public boolean sameValueAs(TypeParameter other) throws LookupException {
+	//		boolean result = false;
+	//		if(other instanceof AbstractInstantiatedTypeParameter) {
+	//			result = argument().sameAs(((InstantiatedTypeParameter)other).argument());
+	//		}
+	//		return result;
+	//	}
+
 //	@Override
-//	public boolean sameValueAs(TypeParameter other) throws LookupException {
+//	public boolean sameValueAs(TypeParameter other, TypeFixer trace) throws LookupException {
 //		boolean result = false;
 //		if(other instanceof AbstractInstantiatedTypeParameter) {
-//			result = argument().sameAs(((InstantiatedTypeParameter)other).argument());
+//			result = argument().sameAs(((InstantiatedTypeParameter)other).argument(), trace);
 //		}
 //		return result;
 //	}
 
 	@Override
-	public boolean sameValueAs(TypeParameter other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
-		boolean result = false;
-		if(other instanceof AbstractInstantiatedTypeParameter) {
-			result = argument().sameAs(((InstantiatedTypeParameter)other).argument(), trace);
-		}
-		return result;
-	}
-
-		@Override
-      public int hashCode() {
+	public int hashCode() {
 		return argument().hashCode();
 	}
 
@@ -139,5 +141,24 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 	@Override
 	public String toString() {
 		return argument().toString();
+	}
+	
+	@Override
+	public boolean contains(TypeParameter other, TypeFixer trace) throws LookupException {
+//		return argument().contains(other.argument(), trace);
+		return argument().contains(other, trace); // try to avoid early unroll
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.aikodi.chameleon.oo.type.generics.TypeParameter#toString(java.util.Set)
+	 */
+	@Override
+	public String toString(Set<Element> visited) {
+		if(visited.contains(this)) {
+			return name();
+		} else {
+			visited.add(this);
+			return argument().toString(visited);
+		}
 	}
 }

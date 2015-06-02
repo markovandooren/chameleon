@@ -164,7 +164,7 @@ public abstract class IntervalType extends ClassImpl {
 	}
 	
 	@Override
-   public boolean uniSameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+   public boolean uniSameAs(Type other, TypeFixer trace) throws LookupException {
 		if(other instanceof IntervalType) {
 			IntervalType wild = (IntervalType) other;
 			return upperBound().sameAs(wild.upperBound(),trace) && lowerBound().sameAs(wild.lowerBound(),trace);
@@ -172,6 +172,12 @@ public abstract class IntervalType extends ClassImpl {
 			return false;
 		}
 	}
+	
+//	@Override
+//	public boolean sameInstanceAs(Type aliasedType, List<Pair<TypeParameter, TypeParameter>> trace)
+//		throws LookupException {
+//		return false;
+//	}
 
 	@Override
 	public int hashCode() {
@@ -224,7 +230,15 @@ public abstract class IntervalType extends ClassImpl {
 	}
 	
 	@Override
-	public boolean lowerBoundAtLeastAsHighAs(Type other, TypeFixer trace) throws LookupException {
+	public boolean upperBoundAtLeastAsHighAs(Type other, TypeFixer trace) throws LookupException {
     return other.upperBoundNotHigherThan(upperBound(),trace);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.aikodi.chameleon.oo.type.Type#isWildCard()
+	 */
+	@Override
+	public boolean isWildCard() {
+	  return true;
 	}
 }

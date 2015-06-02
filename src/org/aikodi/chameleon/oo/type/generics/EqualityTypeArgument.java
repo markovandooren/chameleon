@@ -2,9 +2,11 @@ package org.aikodi.chameleon.oo.type.generics;
 
 import java.util.List;
 
+import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
+import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.TypeReference;
 
 /**
@@ -12,18 +14,18 @@ import org.aikodi.chameleon.oo.type.TypeReference;
  * 
  * @author Marko van Dooren
  */
-public class BasicTypeArgument extends ActualTypeArgumentWithTypeReference {
+public class EqualityTypeArgument extends TypeArgumentWithTypeReference {
 
-	public BasicTypeArgument(TypeReference ref) {
+	public EqualityTypeArgument(TypeReference ref) {
 		super(ref);
 	}
 
 	@Override
-	protected BasicTypeArgument cloneSelf() {
-		return new BasicTypeArgument(null);
+	protected EqualityTypeArgument cloneSelf() {
+		return new EqualityTypeArgument(null);
 	}
 
- /*@
+	/*@
    @ public behavior
    @
    @ post \result == baseType();
@@ -33,7 +35,7 @@ public class BasicTypeArgument extends ActualTypeArgumentWithTypeReference {
 		return baseType();
 	}
 
- /*@
+	/*@
    @ public behavior
    @
    @ post \result == baseType();
@@ -43,7 +45,7 @@ public class BasicTypeArgument extends ActualTypeArgumentWithTypeReference {
 		return baseType();
 	}
 
- /*@
+	/*@
    @ public behavior
    @
    @ post \result == baseType();
@@ -58,7 +60,7 @@ public class BasicTypeArgument extends ActualTypeArgumentWithTypeReference {
 		if(tref != null) {
 			Type type = tref.getElement();
 			if(type != null) {
-			  return type;
+				return type;
 			} else {
 				throw new LookupException("Lookup of type of generic argument return null."); 
 			}
@@ -84,8 +86,38 @@ public class BasicTypeArgument extends ActualTypeArgumentWithTypeReference {
 	}
 
 	@Override
-	public String toString() {
-		return toStringTypeReference();
+	public String toString(java.util.Set<Element> visited) {
+		return toStringTypeReference(visited);
+	}
+
+//	@Override
+//	public boolean contains(TypeArgument other, TypeFixer trace) throws LookupException {
+//		tracer.push();
+//		boolean result = other instanceof EqualityTypeArgument;
+//		if(result) {
+//			Type otherType = ((EqualityTypeArgument)other).baseType();
+//			Type myType = baseType();
+//			result = myType.upperBoundNotHigherThan(otherType,trace);
+//			if(result) {
+//				result = otherType.upperBoundNotHigherThan(myType,trace);
+//			}
+//		}
+//		tracer.pop();
+//		return result;
+//	}
+
+	
+	/* (non-Javadoc)
+	 * @see org.aikodi.chameleon.oo.type.generics.TypeArgument#contains(org.aikodi.chameleon.oo.type.generics.TypeParameter, org.aikodi.chameleon.oo.type.TypeFixer)
+	 */
+	@Override
+	public boolean contains(TypeParameter other, TypeFixer trace) throws LookupException {
+	  return baseType().sameAs(other.selectionDeclaration(), trace);
+	}
+	
+	@Override
+	public boolean isWildCardBound() throws LookupException {
+		return baseType().isWildCard();
 	}
 
 }

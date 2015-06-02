@@ -12,7 +12,7 @@ import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.modifier.Modifier;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.member.Member;
-import org.aikodi.chameleon.oo.type.generics.ActualTypeArgument;
+import org.aikodi.chameleon.oo.type.generics.TypeArgument;
 import org.aikodi.chameleon.oo.type.generics.InstantiatedTypeParameter;
 import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
@@ -81,7 +81,7 @@ public class TypeInstantiation extends ClassWithBody {
 	 * @param typeArguments
 	 * @throws LookupException 
 	 */
-	public TypeInstantiation(Type baseType, List<ActualTypeArgument> typeArguments) throws LookupException {
+	public TypeInstantiation(Type baseType, List<TypeArgument> typeArguments) throws LookupException {
 		this(baseType);
 		// substitute parameters
 		List<TypeParameter> myParameters = parameters(TypeParameter.class);
@@ -89,10 +89,10 @@ public class TypeInstantiation extends ClassWithBody {
 			throw new LookupException("The number of actual type arguments ("+typeArguments.size()+") does not match the number of formal type parameters ("+myParameters.size()+").");
 		}
 		Iterator<TypeParameter> parametersIterator = myParameters.iterator();
-		Iterator<ActualTypeArgument> argumentsIterator = typeArguments.iterator();
+		Iterator<TypeArgument> argumentsIterator = typeArguments.iterator();
 		while (parametersIterator.hasNext()) {
 			TypeParameter parameter = parametersIterator.next();
-			ActualTypeArgument argument = argumentsIterator.next();
+			TypeArgument argument = argumentsIterator.next();
 			// The next call does not change the parent of 'argument'. It is stored in InstantiatedTypeParameter
 			// using a regular reference.
 			InstantiatedTypeParameter instantiated = new InstantiatedTypeParameter(parameter.name(), argument);
@@ -141,19 +141,19 @@ public class TypeInstantiation extends ClassWithBody {
 			TypeInstantiation type = (TypeInstantiation) otherType;
 			result = type.baseType().sameAs(baseType()) && 
 					     forAll(parameters(TypeParameter.class), type.parameters(TypeParameter.class),
-					       (mine,otherParam) -> mine.sameValueAs(otherParam, ImmutableList.<Pair<TypeParameter, TypeParameter>>of()));
+					       (mine,otherParam) -> mine.contains(otherParam, new TypeFixer()) && otherParam.contains(mine, new TypeFixer()));
 		}
 		return result;
 	}
 	
 	@Override
-   public boolean uniSameAs(Type otherType, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
+   public boolean uniSameAs(Type otherType, TypeFixer trace) throws LookupException {
 		boolean result = false;
 		if(otherType instanceof TypeInstantiation) {
 			TypeInstantiation type = (TypeInstantiation) otherType;
 			result = type.baseType().sameAs(baseType()) &&
 					forAll(parameters(TypeParameter.class),type.parameters(TypeParameter.class), 
-							(mine,otherParam) -> mine.sameValueAs(otherParam,trace));
+							(mine,otherParam) -> mine.contains(otherParam,trace) && otherParam.contains(mine, trace));
 		}
 		return result;
 	}
