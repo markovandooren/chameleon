@@ -15,7 +15,7 @@ import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.expression.Expression;
 import org.aikodi.chameleon.oo.expression.MethodInvocation;
 import org.aikodi.chameleon.oo.type.Type;
-import org.aikodi.chameleon.oo.type.generics.ActualTypeArgument;
+import org.aikodi.chameleon.oo.type.generics.TypeArgument;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
@@ -281,7 +281,7 @@ public class CrossReferenceWithArguments extends ElementImpl {
 	// }
 	// }
 
-	public List<ActualTypeArgument> typeArguments() {
+	public List<TypeArgument> typeArguments() {
 		return _genericArguments.getOtherEnds();
 	}
 
@@ -290,21 +290,21 @@ public class CrossReferenceWithArguments extends ElementImpl {
 	}
 
 	
-	public void addArgument(ActualTypeArgument arg) {
+	public void addArgument(TypeArgument arg) {
 		add(_genericArguments,arg);
 	}
 
-	public void addAllTypeArguments(List<ActualTypeArgument> args) {
-		for (ActualTypeArgument argument : args) {
+	public void addAllTypeArguments(List<TypeArgument> args) {
+		for (TypeArgument argument : args) {
 			addArgument(argument);
 		}
 	}
 
-	public void removeArgument(ActualTypeArgument arg) {
+	public void removeArgument(TypeArgument arg) {
 		remove(_genericArguments,arg);
 	}
 
-	private Multi<ActualTypeArgument> _genericArguments = new Multi<ActualTypeArgument>(this,"type arguments");
+	private Multi<TypeArgument> _genericArguments = new Multi<TypeArgument>(this,"type arguments");
 
 	@Override
 	public Verification verifySelf() {
