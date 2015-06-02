@@ -3,7 +3,6 @@ package org.aikodi.chameleon.oo.language;
 import java.util.List;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
-import org.aikodi.chameleon.core.declaration.TargetDeclaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.LanguageImpl;
 import org.aikodi.chameleon.core.lookup.LookupContextFactory;
@@ -19,15 +18,17 @@ import org.aikodi.chameleon.core.relation.StrictPartialOrder;
 import org.aikodi.chameleon.core.variable.Variable;
 import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.method.Method;
-import org.aikodi.chameleon.oo.type.TypeInstantiation;
+import org.aikodi.chameleon.oo.type.ConstrainedTypeReference;
 import org.aikodi.chameleon.oo.type.IntersectionTypeReference;
 import org.aikodi.chameleon.oo.type.Parameter;
 import org.aikodi.chameleon.oo.type.Type;
+import org.aikodi.chameleon.oo.type.TypeInstantiation;
 import org.aikodi.chameleon.oo.type.TypeReference;
-import org.aikodi.chameleon.oo.type.generics.ActualTypeArgument;
-import org.aikodi.chameleon.oo.type.generics.TypeParameter;
+import org.aikodi.chameleon.oo.type.generics.EqualityTypeArgument;
+import org.aikodi.chameleon.oo.type.generics.ExtendsWildcard;
+import org.aikodi.chameleon.oo.type.generics.SuperWildcard;
+import org.aikodi.chameleon.oo.type.generics.TypeArgument;
 import org.aikodi.chameleon.oo.variable.VariableDeclarator;
-import org.aikodi.chameleon.util.Pair;
 import org.aikodi.chameleon.util.Util;
 
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
@@ -114,7 +115,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
   
   public abstract <P extends Parameter> TypeInstantiation createDerivedType(Class<P> kind, List<P> parameters, Type baseType);
   
-  public abstract TypeInstantiation createDerivedType(Type baseType, List<ActualTypeArgument> typeArguments) throws LookupException;
+  public abstract TypeInstantiation createDerivedType(Type baseType, List<TypeArgument> typeArguments) throws LookupException;
   
 	public Type getDefaultSuperClass(Namespace root) throws LookupException {
 //		Type result = _defaultSuperClass;
@@ -128,6 +129,12 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 //		}
 		return result;
 	}
+	
+	public abstract EqualityTypeArgument createEqualityTypeArgument(TypeReference tref);
+	
+	public abstract ExtendsWildcard createExtendsWildcard(TypeReference tref);
+	
+	public abstract SuperWildcard createSuperWildcard(TypeReference tref);
 	
 //	private Type _defaultSuperClass;
 
@@ -262,5 +269,9 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	 * @throws LookupException An exception was thrown during lookup.
 	 */
 	public abstract TypeReference reference(Type type) throws LookupException;
+
+	public ConstrainedTypeReference createConstrainedTypeReference() {
+		return new ConstrainedTypeReference();
+	}
 
 }
