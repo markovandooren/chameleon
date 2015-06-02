@@ -9,9 +9,25 @@ import org.aikodi.chameleon.support.member.simplename.operator.infix.InfixOperat
 import org.aikodi.chameleon.support.member.simplename.operator.postfix.PostfixOperatorInvocation;
 import org.aikodi.chameleon.support.member.simplename.operator.prefix.PrefixOperatorInvocation;
 
+/**
+ * A factory for expressions in object-oriented programming languages.
+ * 
+ * @author Marko van Dooren
+ */
 public class ExpressionFactory extends LanguagePluginImpl {
 
-	public Expression createConditionalExpression(Expression condition, Expression firstOperand, Expression secondOperand) {
+	/**
+	 * Create a new conditional expression with the given condition, and first and second operands.
+	 * 
+	 * @param condition The condition of the conditional expression.
+	 * @param firstOperand The first operand.
+	 * @param secondOperand The second operand.
+	 * 
+	 * @return A new conditional expression with the given condition as its {@link ConditionalExpression#getCondition()}, the
+	 * given first operand as its {@link ConditionalExpression#getFirst()} operand, and the
+	 * given second operand as its {@link ConditionalExpression#getSecond()}.
+	 */
+	public ConditionalExpression createConditionalExpression(Expression condition, Expression firstOperand, Expression secondOperand) {
 		return new ConditionalExpression(condition, firstOperand, secondOperand);
 	}
 
