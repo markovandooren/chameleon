@@ -970,12 +970,6 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 		}
 
 		@Override
-      public boolean sameAs(Type other, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
-//			List<Pair<TypeParameter, TypeParameter>> newTrace = new ArrayList<Pair<TypeParameter, TypeParameter>>(trace);
-			return uniSameAs(other,trace) || other.uniSameAs(this,trace);
-		}
-		
-		@Override
       public Type lowerBound() throws LookupException {
 			return this;
 		}
