@@ -1,10 +1,11 @@
 package org.aikodi.chameleon.oo.type;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.element.ElementImpl;
-import org.aikodi.chameleon.core.lookup.LocalLookupContext;
-import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.util.association.Multi;
 
 public abstract class CombinationTypeReference extends ElementImpl implements TypeReference {
@@ -39,13 +40,17 @@ public abstract class CombinationTypeReference extends ElementImpl implements Ty
 		remove(_types,tref);
 	}
 
-	@Override
 	public String toString() {
+		return toString(new HashSet<>());
+	}
+	
+	@Override
+	public String toString(Set<Element> visited) {
 		List<? extends TypeReference> trefs = typeReferences();
 		int size = trefs.size();
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 		for(int i=0; i< size; i++) {
-			result.append(trefs.get(i).toString());
+			result.append(trefs.get(i).toString(visited));
 			if(i<size - 1) {
 				result.append(operatorName());
 			}

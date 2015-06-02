@@ -1,9 +1,11 @@
 package org.aikodi.chameleon.oo.type;
 
-import org.aikodi.chameleon.core.lookup.LookupException;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.reference.CrossReferenceTarget;
 import org.aikodi.chameleon.core.reference.NameReference;
-import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 
 /**
  * @author Marko van Dooren
@@ -22,5 +24,20 @@ public class BasicTypeReference extends NameReference<Type> implements TypeRefer
 	public BasicTypeReference cloneSelf() {
 		return new BasicTypeReference(null,name());
 	}
-
+	
+	@Override
+	public String toString() {
+		return toString(new HashSet<>());
+	}
+	
+	@Override
+  public String toString(Set<Element> visited) {
+		CrossReferenceTarget target = getTarget();
+		if(target instanceof TypeReference) {
+			return (target == null ? "" : ((TypeReference)target).toString(visited)+".")+name();
+		} else {
+			return (target == null ? "" : target.toString()+".")+name();
+		}
+	}
+	
 }
