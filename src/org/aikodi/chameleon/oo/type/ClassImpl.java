@@ -871,7 +871,7 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
   	
   	@Override
    public Type intersectionDoubleDispatch(Type type) throws LookupException {
-  		Type result = new IntersectionType(this,type);
+  		Type result = language().plugin(ObjectOrientedFactory.class).createIntersectionType(this,type);
   		result.setUniParent(parent());
   		return result;
   	}
@@ -890,7 +890,7 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
   	
   	@Override
    public Type unionDoubleDispatch(Type type) throws LookupException {
-  		Type result = new UnionType(this,type);
+  		Type result = language().plugin(ObjectOrientedFactory.class).createUnionType(this,type);
   		result.setUniParent(parent());
   		return result;
   	}
