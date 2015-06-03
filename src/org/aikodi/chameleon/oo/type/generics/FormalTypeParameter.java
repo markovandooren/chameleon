@@ -1,5 +1,6 @@
 package org.aikodi.chameleon.oo.type.generics;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,8 +17,6 @@ import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.oo.view.ObjectOrientedView;
-import org.aikodi.chameleon.util.Pair;
-import org.aikodi.chameleon.util.Util;
 import org.aikodi.chameleon.util.association.Multi;
 
 /**
@@ -53,9 +52,35 @@ public class FormalTypeParameter extends TypeParameter implements ElementWithTyp
 		return constructedType;
 	}
 
+	private Type _selectionTypeCache;
 
-	protected Type createSelectionType() throws LookupException {
-		return language().plugin(ObjectOrientedFactory.class).createTypeVariable(toStringName(),upperBound(),this);
+	protected synchronized Type createSelectionType() throws LookupException {
+		if(_selectionTypeCache == null) {
+			//    final Type type = upperBound();
+			//TODO Leave it to the constraints to create this type?
+			//   OR make it an intersection type of the individual types created
+			//   by the constraints. Is that correct?
+			ObjectOrientedFactory plugin = language().plugin(ObjectOrientedFactory.class);
+			//    final Type type = plugin.createConstrainedType(lowerBound(), upperBound(),this);
+
+			List<Type> types = new ArrayList<>();
+			List<TypeConstraint> constraints = constraints();
+			for(TypeConstraint constraint: constraints) {
+				types.add(constraint.type());
+			}
+			if(constraints.size() == 0) {
+				ObjectOrientedView view= view(ObjectOrientedView.class);
+				ExtendsWildcardType extendsWildcardType = new ExtendsWildcardType(view.topLevelType());
+				extendsWildcardType.setUniParent(this);
+				types.add(extendsWildcardType);
+			}
+
+			Type type = plugin.createIntersectionType(types);
+			_selectionTypeCache = plugin.createTypeVariable(toStringName(),type,this);
+		}
+		return _selectionTypeCache;
+		//		Type type = upperBound();
+		//		return language().plugin(ObjectOrientedFactory.class).createTypeVariable(toStringName(),type,this);
 	}
 
 	@Override
