@@ -1479,6 +1479,10 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
    public int hashCode() {
       return super.hashCode();
    }
+   
+   protected final int nativeHashCode() {
+  	 return super.hashCode();
+   }
 
    /**
     * {@inheritDoc}
