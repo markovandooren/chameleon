@@ -98,7 +98,7 @@ public class ExtendsWildcard extends TypeArgumentWithTypeReference {
 	public boolean contains(TypeArgument other, TypeFixer trace) throws LookupException	{
 		Type otherUpperBound = other.upperBound();
 		Type upperBound = upperBound();
-		boolean upperBoundNotHigherThan = otherUpperBound.upperBoundNotHigherThan(upperBound, trace);
+		boolean upperBoundNotHigherThan = otherUpperBound.subtypeOf(upperBound, trace);
 		return upperBoundNotHigherThan;
 	}
 

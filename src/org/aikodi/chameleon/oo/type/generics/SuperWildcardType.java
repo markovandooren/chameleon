@@ -17,8 +17,6 @@ public class SuperWildcardType extends IntervalType {
     super(name, lowerBound, upperBound);
   }
 
-
-
   public Type bound() {
 		return lowerBound();
 	}

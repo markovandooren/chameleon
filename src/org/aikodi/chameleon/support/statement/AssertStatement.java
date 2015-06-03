@@ -40,7 +40,7 @@ protected AssertStatement cloneSelf() {
   	Verification result = super.verifySelf();
   	Expression expr = getExpression();
   	try {
-  	  if(expr != null && ! expr.getType().subTypeOf(language(ObjectOrientedLanguage.class).booleanType(view().namespace()))) {
+  	  if(expr != null && ! expr.getType().subtypeOf(language(ObjectOrientedLanguage.class).booleanType(view().namespace()))) {
   		  result = result.and(new BasicProblem(this, "The condition is not a boolean."));
   	  }
   	} catch(LookupException exc) {

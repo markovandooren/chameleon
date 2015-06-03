@@ -172,10 +172,10 @@ public class UnionType extends MultiType {
 
 	public void addType(Type type) throws LookupException {
 		for(Type alreadyPresent:types()) {
-			if(type.subTypeOf(alreadyPresent)) {
+			if(type.subtypeOf(alreadyPresent)) {
 				return;
 			}
-			if(alreadyPresent.subTypeOf(type)) {
+			if(alreadyPresent.subtypeOf(type)) {
 				removeType(alreadyPresent);
 			}
 		}
@@ -194,44 +194,21 @@ public class UnionType extends MultiType {
 	}
 	
 	@Override
-	public boolean properSubTypeOf(Type other) throws LookupException {
-		List<Type> types = types();
-		int size = types.size();
-		boolean result = size > 0;
-		for(int i=0; result && i<size;i++) {
-			result = types.get(i).subTypeOf(other);
-		}
-		return result;
-	}
-
-	@Override
-	public boolean properSuperTypeOf(Type type) throws LookupException {
-		List<Type> types = types();
-		int size = types.size();
+	public boolean uniSupertypeOf(Type other,	TypeFixer trace) throws LookupException {
+		int size = _types.size();
 		boolean result = false;
 		for(int i=0; (!result) && i<size;i++) {
-			result = type.subTypeOf(types.get(i));
+			result = other.subtypeOf(_types.get(i),trace);
 		}
 		return result;
 	}
 	
 	@Override
-	public boolean upperBoundAtLeastAsHighAs(Type other,	TypeFixer trace) throws LookupException {
-		int size = _types.size();
-		boolean result = false;
-		for(int i=0; (!result) && i<size;i++) {
-			result = other.upperBoundNotHigherThan(_types.get(i),trace);
-		}
-		return result;
-	}
-	
-	@Override
-	public boolean upperBoundNotHigherThan(Type other,
-			TypeFixer trace) throws LookupException {
+	public boolean uniSubtypeOf(Type other, TypeFixer trace) throws LookupException {
 		int size = _types.size();
 		boolean result = size > 0;
 		for(int i=0; result && i<size;i++) {
-			result = _types.get(i).upperBoundNotHigherThan(other, trace);
+			result = _types.get(i).subtypeOf(other, trace);
 		}
 		return result;
 	}

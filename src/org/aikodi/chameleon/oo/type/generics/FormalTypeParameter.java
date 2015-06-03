@@ -39,7 +39,7 @@ public class FormalTypeParameter extends TypeParameter implements ElementWithTyp
 
 	@Override
 	protected FormalTypeParameter cloneSelf() {
-		return new FormalTypeParameter(name());
+		return new FormalTypeParameter(toStringName());
 	}
 
 	/**
@@ -55,18 +55,18 @@ public class FormalTypeParameter extends TypeParameter implements ElementWithTyp
 
 
 	protected Type createSelectionType() throws LookupException {
-		return language().plugin(ObjectOrientedFactory.class).createTypeVariable(name(),upperBound(),this);
+		return language().plugin(ObjectOrientedFactory.class).createTypeVariable(toStringName(),upperBound(),this);
 	}
 
 	@Override
 	public Type resolveForRoundTrip() throws LookupException {
-		Type result = language().plugin(ObjectOrientedFactory.class).createLazyTypeVariable(name(), this);
+		Type result = language().plugin(ObjectOrientedFactory.class).createLazyTypeVariable(toStringName(), this);
 		result.setUniParent(parent());
 		return result;
 	}
 
 	protected final Type createLazyTypeVariable() {
-		return new LazyFormalAlias(name(), this);
+		return new LazyFormalAlias(toStringName(), this);
 	}
 
 	private Multi<TypeConstraint> _typeConstraints = new Multi<TypeConstraint>(this);
@@ -139,7 +139,6 @@ public class FormalTypeParameter extends TypeParameter implements ElementWithTyp
 		} else {
 			return origin().hashCode();
 		}
-
 	}
 
 	//	@Override
@@ -150,7 +149,7 @@ public class FormalTypeParameter extends TypeParameter implements ElementWithTyp
 	@Override
 	public String toString() {
 		try {
-		  return toString(new HashSet<>());
+			return toString(new HashSet<>());
 		} catch(Throwable t) {
 			return "Exception occurred while computing the toString(): "+t.getClass().getName();
 		}
@@ -187,15 +186,15 @@ public class FormalTypeParameter extends TypeParameter implements ElementWithTyp
 			return result;
 		}
 	}
-	
+
 	@Override
 	public String toString(Set<Element> visited) {
 		if(visited.contains(this)) {
-			return name();
+			return toStringName();
 		} else {
 			visited.add(this);
 			StringBuilder builder = new StringBuilder();
-			builder.append(name());
+			builder.append(toStringName());
 			for(TypeConstraint constraint: constraints()) {
 				builder.append(' ');
 				builder.append(constraint.toString(visited));
@@ -203,4 +202,14 @@ public class FormalTypeParameter extends TypeParameter implements ElementWithTyp
 			return builder.toString();
 		}
 	}
+
+
+	/**
+	 * @return
+	 */
+	protected String toStringName() {
+		return name();
+	}
+
+
 }

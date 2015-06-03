@@ -36,13 +36,16 @@ public abstract class TypeArgument extends ElementImpl implements ElementWithTyp
 	 * @throws LookupException
 	 */
 	public boolean contains(TypeArgument other, TypeFixer trace) throws LookupException	{
+		// Non-elegant implementation to simplify debugging.
 		Type otherUpperBound = other.upperBound();
 		Type upperBound = upperBound();
-		boolean upperBoundNotHigherThan = otherUpperBound.upperBoundNotHigherThan(upperBound, trace);
-		Type lowerBound = lowerBound();
-		Type otherLowerBound = other.lowerBound();
-		boolean lower = lowerBound.upperBoundNotHigherThan(otherLowerBound, trace);
-		return upperBoundNotHigherThan && lower;
+		boolean result = otherUpperBound.subtypeOf(upperBound, trace);
+		if(result) {
+			Type lowerBound = lowerBound();
+			Type otherLowerBound = other.lowerBound();
+			result = lowerBound.subtypeOf(otherLowerBound, trace);
+		}
+		return result;
 	}
 
 	/**

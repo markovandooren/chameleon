@@ -18,7 +18,7 @@ public class NoSubtypeOf extends UniversalPredicate<Type,Nothing> {
 	@Override
 	public boolean uncheckedEval(Type object) {
 		try {
-			boolean subTypeOf = object.subTypeOf(_superType);
+			boolean subTypeOf = object.subtypeOf(_superType);
 			return ! subTypeOf;
 		} catch (LookupException e) {
 			return false;

@@ -92,4 +92,8 @@ public abstract class TypeConstraint extends ElementImpl {
 	 * @return
 	 */
 	public abstract String toString(Set<Element> visited);
+	
+	public Type type() throws LookupException {
+		return argument().type();
+	}
 }

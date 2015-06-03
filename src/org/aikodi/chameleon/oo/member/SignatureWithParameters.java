@@ -181,8 +181,8 @@ public class SignatureWithParameters extends SignatureWithName {
   			for(int i=0; result && i < nbMyFormalParameters; i++) {
   				Type clonedParameterType = clonedFormalParameters.get(i).getType();
 					Type myParameterType = myFormalParameterTypes.get(i);
-					boolean clonedSubtypeOfMine = clonedParameterType.subTypeOf(myParameterType);
-					result = clonedSubtypeOfMine && myParameterType.subTypeOf(clonedParameterType);
+					boolean clonedSubtypeOfMine = clonedParameterType.subtypeOf(myParameterType);
+					result = clonedSubtypeOfMine && myParameterType.subtypeOf(clonedParameterType);
   			}
   			for(int i=0; result && i < nbMyTypeParameters; i++) {
   				// According to the language specification, the equality should be on the bounds, not just the upper bounds.

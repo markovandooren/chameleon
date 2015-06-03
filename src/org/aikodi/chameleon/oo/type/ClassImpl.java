@@ -118,7 +118,7 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
   	String messageOther = meaningOtherType+" ("+otherType.infoName()+").";
   	String messageThis = meaningThisType + " (" + infoName() + ")";
 		try {
-			boolean subtype = subTypeOf(otherType);
+			boolean subtype = subtypeOf(otherType);
 			if(! subtype) {
 					result = result.and(new BasicProblem(cause, messageThis+" is not a subtype of " + messageOther));
 			}
@@ -577,7 +577,7 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
      @*/
     @Override
    public boolean assignableTo(Type other) throws LookupException {
-    	return subTypeOf(other);
+    	return subtypeOf(other);
     }
 
     
@@ -963,11 +963,6 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 				}
 			}
 			return result;
-		}
-
-		@Override
-		public boolean upperBoundAtLeastAsHighAs(Type other, TypeFixer trace) throws LookupException {
-		  return false;
 		}
 
 		@Override

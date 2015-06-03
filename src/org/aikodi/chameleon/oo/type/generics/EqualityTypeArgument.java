@@ -90,34 +90,41 @@ public class EqualityTypeArgument extends TypeArgumentWithTypeReference {
 		return toStringTypeReference(visited);
 	}
 
-//	@Override
-//	public boolean contains(TypeArgument other, TypeFixer trace) throws LookupException {
-//		tracer.push();
-//		boolean result = other instanceof EqualityTypeArgument;
-//		if(result) {
-//			Type otherType = ((EqualityTypeArgument)other).baseType();
-//			Type myType = baseType();
-//			result = myType.upperBoundNotHigherThan(otherType,trace);
-//			if(result) {
-//				result = otherType.upperBoundNotHigherThan(myType,trace);
-//			}
-//		}
-//		tracer.pop();
-//		return result;
-//	}
+	//	@Override
+	//	public boolean contains(TypeArgument other, TypeFixer trace) throws LookupException {
+	//		tracer.push();
+	//		boolean result = other instanceof EqualityTypeArgument;
+	//		if(result) {
+	//			Type otherType = ((EqualityTypeArgument)other).baseType();
+	//			Type myType = baseType();
+	//			result = myType.upperBoundNotHigherThan(otherType,trace);
+	//			if(result) {
+	//				result = otherType.upperBoundNotHigherThan(myType,trace);
+	//			}
+	//		}
+	//		tracer.pop();
+	//		return result;
+	//	}
 
-	
+
 	/* (non-Javadoc)
 	 * @see org.aikodi.chameleon.oo.type.generics.TypeArgument#contains(org.aikodi.chameleon.oo.type.generics.TypeParameter, org.aikodi.chameleon.oo.type.TypeFixer)
 	 */
 	@Override
 	public boolean contains(TypeParameter other, TypeFixer trace) throws LookupException {
-	  return baseType().sameAs(other.selectionDeclaration(), trace);
+		Type otherType = other.selectionDeclaration();
+		boolean result = baseType().subtypeOf(otherType, trace);
+		if(result) {
+			result = otherType.subtypeOf(baseType(), trace);
+		}
+		return result;
+		//	return baseType().sameAs(otherType, trace);
 	}
-	
+
 	@Override
 	public boolean isWildCardBound() throws LookupException {
-		return baseType().isWildCard();
+		return false;
+		//		return baseType().isWildCard();
 	}
 
 }

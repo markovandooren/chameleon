@@ -91,7 +91,7 @@ public class SuperWildcard extends TypeArgumentWithTypeReference {
 	public boolean contains(TypeArgument other, TypeFixer trace) throws LookupException	{
 		Type lowerBound = lowerBound();
 		Type otherLowerBound = other.lowerBound();
-		boolean lower = lowerBound.upperBoundNotHigherThan(otherLowerBound, trace);
+		boolean lower = lowerBound.subtypeOf(otherLowerBound, trace);
 		return lower;
 	}
 

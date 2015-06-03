@@ -1,5 +1,8 @@
 package org.aikodi.chameleon.oo.type.generics;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.plugin.ObjectOrientedFactory;
 import org.aikodi.chameleon.oo.type.Type;
@@ -30,7 +33,13 @@ public class CapturedTypeParameter extends FormalTypeParameter {
     	//   OR make it an intersection type of the individual types created
     	//   by the constraints. Is that correct?
     	ObjectOrientedFactory plugin = language().plugin(ObjectOrientedFactory.class);
-      final Type type = plugin.createConstrainedType(lowerBound(), upperBound(),this);
+//      final Type type = plugin.createConstrainedType(lowerBound(), upperBound(),this);
+      
+      List<Type> types = new ArrayList<>();
+      for(TypeConstraint constraint: constraints()) {
+      	types.add(constraint.type());
+      }
+      Type type = plugin.createIntersectionType(types);
 		_selectionTypeCache = plugin.createInstantiatedTypeVariable(name(),type,this);
     }
     return _selectionTypeCache;
@@ -44,6 +53,12 @@ public class CapturedTypeParameter extends FormalTypeParameter {
 
   private Type _selectionTypeCache;
 
-
+  /**
+   * @{inheritDoc}
+   */
+  @Override
+  protected String toStringName() {
+  	return "capture "+nativeHashCode()+" of";
+  }
 
 }

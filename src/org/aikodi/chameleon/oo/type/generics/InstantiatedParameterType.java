@@ -127,41 +127,29 @@ public class InstantiatedParameterType extends TypeIndirection {
   }
 
   @Override
-  public boolean properSubTypeOf(Type other) throws LookupException {
-    return aliasedType().subTypeOf(other);
-  }
-
-  @Override
-  public boolean properSuperTypeOf(Type type) throws LookupException {
-    return type.subTypeOf(aliasedType());
-  }
-
-  @Override
-  public boolean upperBoundAtLeastAsHighAs(Type other, TypeFixer trace) throws LookupException {
+  public boolean uniSupertypeOf(Type other, TypeFixer trace) throws LookupException {
     TypeParameter secondParam = parameter();
     if(trace.contains(other,secondParam)) {
       return true;
     }
-    if(other.sameAs(this)) {
-      return true;
-    }
+//    if(other.sameAs(this)) {
+//      return true;
+//    }
     trace.add(other, secondParam);
-    boolean result = other.upperBoundNotHigherThan(aliasedType(), trace);
-    return result;
+    return other.subtypeOf(aliasedType(), trace);
   }
 
   @Override
-  public boolean upperBoundNotHigherThan(Type other, TypeFixer trace) throws LookupException {
+  public boolean uniSubtypeOf(Type other, TypeFixer trace) throws LookupException {
     TypeParameter firstParam = parameter();
     if(trace.contains(other, firstParam)) {
       return true;
     }
-    if(this.sameAs(other)) {
-      return true;
-    }
+//    if(this.sameAs(other)) {
+//      return true;
+//    }
     trace.add(other, firstParam);
-    boolean result = aliasedType().upperBoundNotHigherThan(other, trace);
-    return result;
+    return aliasedType().subtypeOf(other, trace);
   }
   
 }

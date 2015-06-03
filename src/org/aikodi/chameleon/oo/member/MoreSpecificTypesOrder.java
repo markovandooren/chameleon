@@ -31,7 +31,7 @@ public class MoreSpecificTypesOrder extends WeakPartialOrder<List<Type>> {
     while(result && firstIter.hasNext()) {
       Type firstType = firstIter.next();
       Type secondType = secondIter.next();
-      result = result && firstType.subTypeOf(secondType);
+      result = result && firstType.subtypeOf(secondType);
     }
     return result;
   }

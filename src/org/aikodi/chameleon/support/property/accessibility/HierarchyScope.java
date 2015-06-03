@@ -26,7 +26,7 @@ public class HierarchyScope extends Scope {
 public boolean contains(Element element) throws LookupException {
   	Type type = element.nearestAncestor(Type.class);
   	if(type != null) {
-		  return type.subTypeOf(getType());
+		  return type.subtypeOf(getType());
   	} else {
   		return false;
   	}

@@ -42,7 +42,7 @@ public HidesRelation<? extends Member> hidesRelation() {
 			boolean result = first.name().equals(second.name()) 
 					          && first.isTrue(first.language(ObjectOrientedLanguage.class).INSTANCE) 
 			              && first.signature().sameParameterBoundsAs(second.signature()) 
-			              && first.nearestAncestor(Type.class).subTypeOf(second.nearestAncestor(Type.class));
+			              && first.nearestAncestor(Type.class).subtypeOf(second.nearestAncestor(Type.class));
 			return result;
 		}
 	};

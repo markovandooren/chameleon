@@ -96,7 +96,7 @@ protected AssignmentExpression cloneSelf() {
 			}
 			Type varType = var.getType();
 			Type exprType = value.getType();
-			if(! exprType.subTypeOf(varType)) {
+			if(! exprType.subtypeOf(varType)) {
 				result = result.and(new InvalidType(this, varType, exprType));
 			}
 		}

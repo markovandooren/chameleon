@@ -59,7 +59,7 @@ protected IfThenElseStatement cloneSelf() {
   	Verification result = super.verifySelf();
   	try {
 			Type expressionType = getExpression().getType();
-			if(! expressionType.subTypeOf(language(ObjectOrientedLanguage.class).booleanType(view().namespace()))) {
+			if(! expressionType.subtypeOf(language(ObjectOrientedLanguage.class).booleanType(view().namespace()))) {
 				result = result.and(new BasicProblem(getExpression(),"The type of the condition of the if statement is not a boolean type."));
 			}
 		} catch (LookupException e) {

@@ -215,23 +215,8 @@ public abstract class IntervalType extends ClassImpl {
 	}
 	
 	@Override
-	public boolean properSubTypeOf(Type other) throws LookupException {
-		return upperBound().subTypeOf(other);
-	}
-	
-	@Override
-	public boolean properSuperTypeOf(Type type) throws LookupException {
-		return type.subTypeOf(lowerBound());
-	}
-	
-	@Override
-	public boolean upperBoundNotHigherThan(Type other, TypeFixer trace) throws LookupException {
-    return upperBound().upperBoundNotHigherThan(other,trace);
-	}
-	
-	@Override
-	public boolean upperBoundAtLeastAsHighAs(Type other, TypeFixer trace) throws LookupException {
-    return other.upperBoundNotHigherThan(upperBound(),trace);
+	public boolean uniSupertypeOf(Type other, TypeFixer trace) throws LookupException {
+    return other.subtypeOf(upperBound(),trace) && lowerBound().subtypeOf(other,trace);
 	}
 	
 	/* (non-Javadoc)

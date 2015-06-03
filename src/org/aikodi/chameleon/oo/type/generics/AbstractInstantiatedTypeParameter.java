@@ -50,10 +50,8 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 		if(_selectionTypeCache == null) {
 			synchronized(this) {
 				if(_selectionTypeCache == null) {
-//										final Type type = upperBound();
 					ObjectOrientedFactory plugin = language().plugin(ObjectOrientedFactory.class);
-					final Type type = plugin.createConstrainedType(lowerBound(), upperBound(),this);
-			_selectionTypeCache = plugin.createInstantiatedTypeVariable(name(),type,this);
+					_selectionTypeCache = plugin.createInstantiatedTypeVariable(name(),argument().type(),this);
 				}
 			}
 		}

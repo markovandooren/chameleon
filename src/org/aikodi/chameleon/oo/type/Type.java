@@ -26,6 +26,7 @@ import org.aikodi.chameleon.oo.member.MemberRelationSelector;
 import org.aikodi.chameleon.oo.type.generics.ConstrainedType;
 import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
+import org.aikodi.chameleon.util.StackOverflowTracer;
 import org.aikodi.chameleon.util.Util;
 
 import com.google.common.collect.ImmutableList;
@@ -266,27 +267,19 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 
 	public Set<Type> getAllSuperTypes() throws LookupException;
 
-	public default boolean subTypeOf(Type other) throws LookupException {
-		return sameAs(other) || properSubTypeOf(other) || other.properSuperTypeOf(this);
+	public default boolean subtypeOf(Type other) throws LookupException {
+		return subtypeOf(other, new TypeFixer());
 	}
 
-	public default boolean properSubTypeOf(Type other) throws LookupException {
-		boolean result = false;
-		Type baseType = superTypeJudge().get(other);
-		if(baseType != null) {
-			result = baseType.compatibleParameters(other, new TypeFixer());
-		}
-		return result;
+	public default boolean subtypeOf(Type other, TypeFixer trace) throws LookupException {
+		return sameAs(other,trace.clone()) || uniSubtypeOf(other,trace.clone()) || other.uniSupertypeOf(this, trace.clone());
 	}
 
-	public default boolean properSuperTypeOf(Type type) throws LookupException {
+	public default boolean uniSupertypeOf(Type type, TypeFixer trace) throws LookupException {
 		return false;
 	}
 
-	public default boolean upperBoundNotHigherThan(Type other, TypeFixer trace) throws LookupException {
-		if(this.sameAs(other)) {
-			return true;
-		}
+	public default boolean uniSubtypeOf(Type other, TypeFixer trace) throws LookupException {
 		Type sameBase = getSuperType(other);
 		return sameBase != null && sameBase.compatibleParameters(other, trace);
 	}
@@ -470,8 +463,6 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 		return forAll;
 	}
 
-
-	public boolean upperBoundAtLeastAsHighAs(Type other, TypeFixer trace) throws LookupException;
 
 	public Type union(Type lowerBound) throws LookupException;
 

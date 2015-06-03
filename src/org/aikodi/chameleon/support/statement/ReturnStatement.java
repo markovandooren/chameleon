@@ -41,7 +41,7 @@ protected ReturnStatement cloneSelf() {
 			    // problem with the type of the return value will be reported by the expression.
 			    Type type = expression.getType();
 			    try {
-			    	if(! type.subTypeOf(returnType)) {
+			    	if(! type.subtypeOf(returnType)) {
 			    		result = result.and(new BasicProblem(this, "The type of the return value is not a subtype of the return type of the method."));
 			    	}
 			    }catch (LookupException e) {
