@@ -7,6 +7,7 @@ import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.factory.Factory;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespace.Namespace;
+import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.method.Method;
 import org.aikodi.chameleon.oo.method.MethodHeader;
 import org.aikodi.chameleon.oo.method.SimpleNameMethodHeader;
@@ -111,11 +112,35 @@ public abstract class ObjectOrientedFactory extends Factory {
 		return new LazyInstantiatedAlias(name, capturedTypeParameter);
 	}
 
-	public Type createIntersectionType(Type first, Type second) {
-		return createIntersectionType(Arrays.asList(new Type[]{first,second}));
+	public Type createIntersectionType(Type first, Type second) throws LookupException {
+		if(first.subtypeOf(second)) {
+			return first;
+		} else if(second.subtypeOf(first)) {
+			return second;
+		}
+		Type[] list = new Type[]{first,second};
+		return createIntersectionType(Arrays.asList(list));
 	}  
 
-	public Type createIntersectionType(List<Type> types) {
+	public Type createIntersectionType(List<Type> types) throws LookupException {
+		int size = types.size();
+		if(size == 0) {
+			throw new ChameleonProgrammerException();
+		} 
+		for(int i=0; i< size; i++) {
+			int j = 0;
+			while(j < size) {
+				if((i != j) && (types.get(i).subtypeOf(types.get(j)))) {
+					types.remove(j);
+					size--;
+					if(j<i) {
+						i--;
+					}
+				} else {
+					j++;
+				}
+			}
+		}
 		if(types.size() == 1) {
 			return types.get(0);
 		} else {
