@@ -486,7 +486,21 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 
 	public boolean uniSameAs(Type aliasedType, TypeFixer trace) throws LookupException;
 
-	public Type lowerBound() throws LookupException;
+	public default Type lowerBound() throws LookupException {
+		return this;
+	}
+	
+	public default Type upperBound() throws LookupException {
+		return this;
+	}
+
+	public default Type actualLowerBound() throws LookupException {
+		return lowerBound();
+	}
+
+	public default Type actualUpperBound() throws LookupException {
+		return upperBound();
+	}
 
 //	public default Type ultimateLowerBound() throws LookupException {
 //		Type result = lowerBound();
@@ -525,8 +539,6 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 //		}
 //		return result;
 //	}
-
-	public Type upperBound() throws LookupException;
 
 	public <D extends Member> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException;
 

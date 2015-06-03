@@ -966,16 +966,6 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 		}
 
 		@Override
-      public Type lowerBound() throws LookupException {
-			return this;
-		}
-		
-		@Override
-      public Type upperBound() throws LookupException {
-			return this;
-		}
-
-		@Override
 		public <D extends Member> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException {
 			List<D> result = Lists.create();
 			if(!selector.declaration().ancestors().contains(this)) {
