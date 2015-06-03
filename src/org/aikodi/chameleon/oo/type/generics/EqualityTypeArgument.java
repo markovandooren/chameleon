@@ -8,6 +8,7 @@ import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.TypeReference;
+import org.aikodi.chameleon.util.Util;
 
 /**
  * A class of type arguments that consist of a type name.
@@ -71,12 +72,13 @@ public class EqualityTypeArgument extends TypeArgumentWithTypeReference {
 
 	@Override
 	public TypeParameter capture(FormalTypeParameter formal, List<TypeConstraint> accumulator) {
-		CapturedTypeParameter newParameter = new CapturedTypeParameter(formal.name());
-		TypeReference typeReference = typeReference();
-		TypeReference clone = clone(typeReference);
-		clone.setOrigin(typeReference);//DEBUG //FIXME remove debugging statement after clone has been refactored
-		TypeReference nl = language(ObjectOrientedLanguage.class).createNonLocalTypeReference(clone, this);
-		newParameter.addConstraint(new EqualityConstraint(nl));
+//		return clone(nearestAncestor(TypeParameter.class));
+		InstantiatedTypeParameter newParameter = new InstantiatedTypeParameter(formal.name(), this);
+//		TypeReference typeReference = typeReference();
+//		TypeReference clone = clone(typeReference);
+//		clone.setOrigin(typeReference);//DEBUG //FIXME remove debugging statement after clone has been refactored
+//		TypeReference nl = language(ObjectOrientedLanguage.class).createNonLocalTypeReference(clone, this);
+//		newParameter.addConstraint(new EqualityConstraint(nl));
 		return newParameter;
 	}
 
@@ -112,13 +114,16 @@ public class EqualityTypeArgument extends TypeArgumentWithTypeReference {
 	 */
 	@Override
 	public boolean contains(TypeParameter other, TypeFixer trace) throws LookupException {
+//		TypeFixer f = trace.clone();
+//		boolean zuppa = super.contains(other, f);
+//		
 		Type otherType = other.selectionDeclaration();
 		boolean result = baseType().subtypeOf(otherType, trace);
 		if(result) {
 			result = otherType.subtypeOf(baseType(), trace);
 		}
+//		Util.debug(zuppa != result);
 		return result;
-		//	return baseType().sameAs(otherType, trace);
 	}
 
 	@Override
