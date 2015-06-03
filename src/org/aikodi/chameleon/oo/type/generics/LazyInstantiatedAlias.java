@@ -47,11 +47,6 @@ public class LazyInstantiatedAlias extends TypeIndirection {
 	  if(trace.contains(this, secondParam)) {
 	  	return true;
 	  }
-//	  for(Pair<Type, TypeParameter> pair: trace) {
-//	    if(this.sameAs(pair.first()) && secondParam.sameAs(pair.second())) {
-//	      return true;
-//	    }
-//	  }
 	  trace.add(this, secondParam);
 	  return false;
 	}
@@ -62,11 +57,6 @@ public class LazyInstantiatedAlias extends TypeIndirection {
       if(trace.contains(other, firstParam)) {
       	return true;
       }
-//      for(Pair<Type, TypeParameter> pair: trace) {
-//        if(other.sameAs(pair.first()) && firstParam.sameAs(pair.second())) {
-//          return true;
-//        }
-//      }
       trace.add(other, firstParam);
       // FIXME or return super?
       return false;
