@@ -17,7 +17,7 @@ import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.oo.type.UnionType;
 import org.aikodi.chameleon.oo.type.generics.ConstrainedType;
-import org.aikodi.chameleon.oo.type.generics.FormalParameterType;
+import org.aikodi.chameleon.oo.type.generics.TypeVariable;
 import org.aikodi.chameleon.oo.type.generics.FormalTypeParameter;
 import org.aikodi.chameleon.oo.type.generics.InstantiatedParameterType;
 import org.aikodi.chameleon.oo.type.generics.LazyFormalAlias;
@@ -96,7 +96,7 @@ public abstract class ObjectOrientedFactory extends Factory {
 
 	//TODO Check if lower bound is needed
 	public Type createTypeVariable(String name, Type upperBound, FormalTypeParameter formalTypeParameter) {
-		return new FormalParameterType(name,upperBound,formalTypeParameter);
+		return new TypeVariable(name,upperBound,formalTypeParameter);
 	}
 
 	//TODO Check if lower bound is needed
