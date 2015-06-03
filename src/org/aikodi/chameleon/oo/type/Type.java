@@ -476,7 +476,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 
 
 	public default boolean sameAs(Type other, TypeFixer trace) throws LookupException {
-		if(trace.contains(other, this)) {
+		if(other == this || trace.contains(other, this)) {
 			return true;
 		}
 		TypeFixer newTrace = trace.clone();
