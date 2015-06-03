@@ -6,7 +6,7 @@ package org.aikodi.chameleon.oo.type.generics;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.type.Type;
 
-public class LazyFormalAlias extends FormalParameterType {
+public class LazyFormalAlias extends TypeVariable {
 
 	public LazyFormalAlias(String name, FormalTypeParameter param) {
 		super(name,null,param);
@@ -22,7 +22,7 @@ public class LazyFormalAlias extends FormalParameterType {
 	}
 	
 	@Override
-	public FormalParameterType cloneSelf() {
+	public TypeVariable cloneSelf() {
 	  return new LazyFormalAlias(name(), parameter());
 	}
 
