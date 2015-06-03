@@ -27,7 +27,7 @@ public class ConstrainedType extends IntervalType {
 	
 	@Override
 	public boolean properSuperTypeOf(Type type) throws LookupException {
-		return type.subTypeOf(lowerBound());
+		throw new Error("Wrong");
 	}
 	
 	/* (non-Javadoc)

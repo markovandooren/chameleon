@@ -283,6 +283,16 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 		return false;
 	}
 
+	public default boolean upperBoundNotHigherThan(Type other, TypeFixer trace) throws LookupException {
+		if(this.sameAs(other)) {
+			return true;
+		}
+		Type sameBase = getSuperType(other);
+		return sameBase != null && sameBase.compatibleParameters(other, trace);
+	}
+
+
+	
 	/**
 	 * Check if this type equals the given other type. This is
 	 * a unidirectional check to keep things extensible. It is fine
@@ -445,15 +455,6 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	public void replace(TypeElement oldElement, TypeElement newElement);
 
 	public Type baseType();
-
-	public default boolean upperBoundNotHigherThan(Type other, TypeFixer trace) throws LookupException {
-		if(this.sameAs(other)) {
-			return true;
-		}
-		System.out.println("ERROR: upperBoundNotHigherThan executed in Type instead of JavaType!!!");
-		Type sameBase = getSuperType(other);
-		return sameBase != null && sameBase.compatibleParameters(other, trace);
-	}
 
 	//	static ThreadLocal<StackOverflowTracer> tracer = new ThreadLocal<StackOverflowTracer>() {
 	//	  protected StackOverflowTracer initialValue() {
