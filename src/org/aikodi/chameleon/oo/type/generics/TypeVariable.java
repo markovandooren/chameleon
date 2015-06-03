@@ -21,10 +21,10 @@ import com.google.common.collect.ImmutableList;
  * 
  * @author Marko van Dooren
  */
-public class FormalParameterType extends TypeIndirection {
+public class TypeVariable extends TypeIndirection {
 
-	public FormalParameterType(String name, Type aliasedType, FormalTypeParameter param) {
-		super(name, aliasedType);
+	public TypeVariable(String name, Type interval, FormalTypeParameter param) {
+		super(name, interval);
 		if(param == null) {
 			throw new ChameleonProgrammerException("The formal type parameter corresponding to a constructed type cannot be null.");
 		}
@@ -34,7 +34,7 @@ public class FormalParameterType extends TypeIndirection {
 	@Override
 	public boolean uniSameAs(Element type) throws LookupException {
 		return type == this || 
-		       ((type instanceof FormalParameterType) && (((FormalParameterType)type).parameter().sameAs(parameter())));
+		       ((type instanceof TypeVariable) && (((TypeVariable)type).parameter().sameAs(parameter())));
 	}
 	
 	@Override
@@ -61,8 +61,8 @@ public class FormalParameterType extends TypeIndirection {
 	private final FormalTypeParameter _param;
 
 	@Override
-	public FormalParameterType cloneSelf() {
-		return new FormalParameterType(name(), aliasedType(), parameter());
+	public TypeVariable cloneSelf() {
+		return new TypeVariable(name(), aliasedType(), parameter());
 	}
 
 	@Override
@@ -87,5 +87,35 @@ public class FormalParameterType extends TypeIndirection {
 		return parameter();
 	}
 
+	/**
+	 * @{inheritDoc}
+	 */
+	@Override
+	public Type actualUpperBound() throws LookupException {
+		return this;
+	}
 
+	/**
+	 * @{inheritDoc}
+	 */
+	@Override
+	public Type actualLowerBound() throws LookupException {
+		return this;
+	}
+	
+//	/**
+//	 * @{inheritDoc}
+//	 */
+//	@Override
+//	public Type upperBound() throws LookupException {
+//		return parameter().upperBound();
+//	}
+//	
+//	/**
+//	 * @{inheritDoc}
+//	 */
+//	@Override
+//	public Type lowerBound() throws LookupException {
+//		return parameter().lowerBound();
+//	}
 }
