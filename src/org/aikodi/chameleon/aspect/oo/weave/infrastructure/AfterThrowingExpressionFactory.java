@@ -44,7 +44,7 @@ public class AfterThrowingExpressionFactory extends AdvisedExpressionFactory {
 					catchBlockBody.addStatement(rethrow);
 				}
 				// If the declared type is a subtype of the type caught, we need a runtime check
-				else if (declaredType.subTypeOf(caughtType)) {
+				else if (declaredType.subtypeOf(caughtType)) {
 					Block innerBody = new Block();
 					LocalVariableDeclarator paramExpose = new LocalVariableDeclarator(Util.clone(m.parameter().getTypeReference()));
 					paramExpose.add(new VariableDeclaration(m.parameter().name(), new ClassCastExpression(Util.clone(m.parameter().getTypeReference()), expressionFactory.createNameExpression(name))));
