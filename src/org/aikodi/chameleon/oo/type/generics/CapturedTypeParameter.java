@@ -20,7 +20,7 @@ public class CapturedTypeParameter extends FormalTypeParameter {
   }
 
   public Type resolveForRoundTrip() throws LookupException {
-    Type result = language().plugin(ObjectOrientedFactory.class).createLazyInstantiatedTypeVariable(name(),this);
+    Type result = language().plugin(ObjectOrientedFactory.class).createLazyTypeVariable(name(),this);
     result.setUniParent(parent());
     return result;
   }
@@ -40,7 +40,7 @@ public class CapturedTypeParameter extends FormalTypeParameter {
       	types.add(constraint.type());
       }
       Type type = plugin.createIntersectionType(types);
-		_selectionTypeCache = plugin.createInstantiatedTypeVariable(name(),type,this);
+		_selectionTypeCache = plugin.createTypeVariable(name(),type,this);
     }
     return _selectionTypeCache;
   }
