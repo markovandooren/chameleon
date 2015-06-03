@@ -187,7 +187,13 @@ public class FormalTypeParameter extends TypeParameter implements ElementWithTyp
 
 	@Override
 	public boolean contains(TypeParameter other, TypeFixer trace) throws LookupException {
-		return argument().contains(other.argument(), trace);
+		boolean result = other.upperBound().subtypeOf(actualUpperBound(), trace);
+		if(result) {
+			result = actualLowerBound().subtypeOf(other.lowerBound());
+		}
+//		boolean tempActual = upperBound().subtypeOf(other.actualUpperBound(), c2);
+		return result;
+//		return argument().contains(other.argument(), trace);
 		//		return other.upperBound().subTypeOf(upperBound()) && 
 		//				lowerBound().subTypeOf(other.lowerBound());
 	}
@@ -236,5 +242,11 @@ public class FormalTypeParameter extends TypeParameter implements ElementWithTyp
 		return name();
 	}
 
-
+	public Type actualLowerBound() throws LookupException {
+		return selectionDeclaration();
+	}
+	
+	public Type actualUpperBound() throws LookupException {
+		return selectionDeclaration();
+	}
 }

@@ -103,19 +103,39 @@ public class TypeVariable extends TypeIndirection {
 		return this;
 	}
 	
-//	/**
-//	 * @{inheritDoc}
-//	 */
-//	@Override
-//	public Type upperBound() throws LookupException {
-//		return parameter().upperBound();
-//	}
-//	
-//	/**
-//	 * @{inheritDoc}
-//	 */
-//	@Override
-//	public Type lowerBound() throws LookupException {
-//		return parameter().lowerBound();
-//	}
+	/**
+	 * @{inheritDoc}
+	 */
+	@Override
+	public boolean uniSupertypeOf(Type type, TypeFixer trace) throws LookupException {
+		if(trace.contains(type, this)) {
+			return true;
+		}
+		trace.add(type,this);
+		return type.upperBound().subtypeOf(lowerBound(),trace);
+	}
+	
+	/**
+	 * @{inheritDoc}
+	 */
+	@Override
+	public boolean uniSubtypeOf(Type other, TypeFixer trace) throws LookupException {
+		return upperBound().subtypeOf(other.lowerBound(),trace);
+	}
+	
+	/**
+	 * @{inheritDoc}
+	 */
+	@Override
+	public Type upperBound() throws LookupException {
+		return parameter().upperBound();
+	}
+	
+	/**
+	 * @{inheritDoc}
+	 */
+	@Override
+	public Type lowerBound() throws LookupException {
+		return parameter().lowerBound();
+	}
 }

@@ -110,6 +110,9 @@ public LocalLookupContext<?> targetContext() throws LookupException {
   public abstract TypeArgument argument();
   
   public abstract String toString(Set<Element> visited);
+  
+  public abstract Type actualLowerBound() throws LookupException;
   	
+  public abstract Type actualUpperBound() throws LookupException;
 }
 

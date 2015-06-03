@@ -80,12 +80,20 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 
 	@Override
 	public Type lowerBound() throws LookupException {
-		return argument().type();
+		return argument().type().lowerBound();
 	}
 
 	@Override
 	public Type upperBound() throws LookupException {
-		return argument().type();
+		return argument().type().upperBound();
+	}
+
+	public Type actualLowerBound() throws LookupException {
+		return lowerBound();
+	}
+	
+	public Type actualUpperBound() throws LookupException {
+		return upperBound();
 	}
 
 	@Override
