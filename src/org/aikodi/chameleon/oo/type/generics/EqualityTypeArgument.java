@@ -119,9 +119,9 @@ public class EqualityTypeArgument extends TypeArgumentWithTypeReference {
     //		
     Type otherType = other.selectionDeclaration();
     Type baseType = baseType();
-    boolean result = baseType.subtypeOf(otherType, trace);
+    boolean result = baseType.subtypeOf(otherType, trace.clone());
     if(result) {
-      result = otherType.subtypeOf(baseType, trace);
+      result = otherType.subtypeOf(baseType, trace.clone());
     }
     //		Util.debug(zuppa != result);
     return result;

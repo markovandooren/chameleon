@@ -153,7 +153,7 @@ public class TypeInstantiation extends ClassWithBody {
 			TypeInstantiation type = (TypeInstantiation) otherType;
 			result = type.baseType().sameAs(baseType()) &&
 					forAll(parameters(TypeParameter.class),type.parameters(TypeParameter.class), 
-							(mine,otherParam) -> mine.contains(otherParam,trace) && otherParam.contains(mine, trace));
+							(mine,otherParam) -> mine.contains(otherParam,trace.clone()) && otherParam.contains(mine, trace.clone()));
 		}
 		return result;
 	}
