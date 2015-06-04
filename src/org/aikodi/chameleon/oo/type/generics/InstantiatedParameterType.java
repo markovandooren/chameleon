@@ -152,6 +152,23 @@ public class InstantiatedParameterType extends TypeIndirection {
     return aliasedType().subtypeOf(other, trace);
   }
   
+  @Override
+  public boolean isWildCard() {
+      return aliasedType().isWildCard();
+  }
+  
+  /**
+   * @{inheritDoc}
+   */
+  @Override
+  public boolean contains(Type other, TypeFixer trace) throws LookupException {
+    if(trace.contains(other, this)) {
+      return true;
+    }
+    trace.add(other, this);
+    return aliasedType().contains(other, trace);
+  }
+
 }
 
 

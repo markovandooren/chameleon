@@ -109,28 +109,28 @@ public class EqualityTypeArgument extends TypeArgumentWithTypeReference {
   //	}
 
 
-  /* (non-Javadoc)
-   * @see org.aikodi.chameleon.oo.type.generics.TypeArgument#contains(org.aikodi.chameleon.oo.type.generics.TypeParameter, org.aikodi.chameleon.oo.type.TypeFixer)
-   */
-  @Override
-  public boolean contains(TypeParameter other, TypeFixer trace) throws LookupException {
-    TypeFixer f = trace.clone();
-    boolean zuppa = super.contains(other, f);
-    //		
-    Type otherType = other.selectionDeclaration();
-    Type baseType = baseType();
-    boolean result = baseType.subtypeOf(otherType, trace.clone());
-    if(result) {
-      result = otherType.subtypeOf(baseType, trace.clone());
-    }
-    //		Util.debug(zuppa != result);
-    return result;
-  }
+//  /* (non-Javadoc)
+//   * @see org.aikodi.chameleon.oo.type.generics.TypeArgument#contains(org.aikodi.chameleon.oo.type.generics.TypeParameter, org.aikodi.chameleon.oo.type.TypeFixer)
+//   */
+//  @Override
+//  public boolean contains(TypeParameter other, TypeFixer trace) throws LookupException {
+//    TypeFixer f = trace.clone();
+//    boolean zuppa = super.contains(other, f);
+//    //		
+//    Type otherType = other.selectionDeclaration();
+//    Type baseType = baseType();
+//    boolean result = baseType.subtypeOf(otherType, trace.clone());
+//    if(result) {
+//      result = otherType.subtypeOf(baseType, trace.clone());
+//    }
+//    //		Util.debug(zuppa != result);
+//    return result;
+//  }
 
   @Override
   public boolean isWildCardBound() throws LookupException {
-    return false;
-    //		return baseType().isWildCard();
+//    return false;
+    return baseType().isWildCard();
   }
 
 }

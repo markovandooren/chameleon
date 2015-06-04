@@ -151,8 +151,8 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 	
 	@Override
 	public boolean contains(TypeParameter other, TypeFixer trace) throws LookupException {
-//		return argument().contains(other.argument(), trace);
-		return argument().contains(other, trace); // try to avoid early unroll
+		return argument().contains(other.argument(), trace);
+//		return argument().contains(other, trace); // try to avoid early unroll
 	}
 	
 	/* (non-Javadoc)

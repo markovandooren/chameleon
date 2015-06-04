@@ -67,4 +67,9 @@ public class LazyInstantiatedAlias extends TypeIndirection {
 		return parameter();
 	}
 	
+	   @Override
+	    public boolean isWildCard() {
+	        return aliasedType().isWildCard();
+	    }
+
 }

@@ -36,16 +36,17 @@ public abstract class TypeArgument extends ElementImpl implements ElementWithTyp
 	 * @throws LookupException
 	 */
 	public boolean contains(TypeArgument other, TypeFixer trace) throws LookupException	{
-		// Non-elegant implementation to simplify debugging.
-		Type otherUpperBound = other.upperBound();
-		Type upperBound = upperBound();
-		boolean result = otherUpperBound.subtypeOf(upperBound, trace);
-		if(result) {
-			Type lowerBound = lowerBound();
-			Type otherLowerBound = other.lowerBound();
-			result = lowerBound.subtypeOf(otherLowerBound, trace);
-		}
-		return result;
+	  return type().contains(other.type(), trace);
+//		// Non-elegant implementation to simplify debugging.
+//		Type otherUpperBound = other.upperBound();
+//		Type upperBound = upperBound();
+//		boolean result = otherUpperBound.subtypeOf(upperBound, trace);
+//		if(result) {
+//			Type lowerBound = lowerBound();
+//			Type otherLowerBound = other.lowerBound();
+//			result = lowerBound.subtypeOf(otherLowerBound, trace);
+//		}
+//		return result;
 	}
 
 	/**
@@ -118,17 +119,17 @@ public abstract class TypeArgument extends ElementImpl implements ElementWithTyp
 		return (argument.getClass().equals(getClass())) && (type().sameAs(argument.type(),trace));
 	}
 
-	/**
-	 * @param other
-	 * @param trace
-	 * @return
-	 * @throws LookupException 
-	 */
-	public boolean contains(TypeParameter other, TypeFixer trace) throws LookupException {
-		boolean result;
-		result = contains(other.argument(),trace);
-		return result;
-	}
+//	/**
+//	 * @param other
+//	 * @param trace
+//	 * @return
+//	 * @throws LookupException 
+//	 */
+//	public final boolean contains(TypeParameter other, TypeFixer trace) throws LookupException {
+//		boolean result;
+//		result = contains(other.argument(),trace);
+//		return result;
+//	}
 
 	/**
 	 * @param visited

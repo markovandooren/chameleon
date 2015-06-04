@@ -1,13 +1,9 @@
 package org.aikodi.chameleon.oo.type;
 
-import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.findFirst;
 import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
@@ -23,13 +19,8 @@ import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.member.MemberRelationSelector;
-import org.aikodi.chameleon.oo.type.generics.ConstrainedType;
 import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
-import org.aikodi.chameleon.util.StackOverflowTracer;
-import org.aikodi.chameleon.util.Util;
-
-import com.google.common.collect.ImmutableList;
 
 /**
  * An interface for classes and interfaces in object-oriented languages.
@@ -40,61 +31,6 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 
   public default boolean newSubtypeOf(Type other) throws LookupException {
     return sameAs(other);
-  }
-
-  public static class SuperTypeJudge {
-    // Nasty internal structure to prevent the creation
-    // of a lot of lists with just a single element.
-    private Map<String,Object> _map = new HashMap<>();
-
-    void add(Type type) throws LookupException {
-      Object o = _map.get(type.name());
-      if(o == null) {
-        _map.put(type.name(), type);
-      } else if(o instanceof List) {
-        _map.put(type.name(),ImmutableList.builder().add(type).addAll((List)o).build());
-      } else {
-        //Check for duplicates
-        if(! ((Type)o).baseType().sameAs(type.baseType())) {
-          _map.put(type.name(), ImmutableList.builder().add(type).add(o).build());
-        }
-      }
-    }
-
-    Set<Type> types() {
-      Set<Type> result = new HashSet<>();
-      for(Object o: _map.values()) {
-        if(o instanceof List) {
-          result.addAll((List)o);
-        } else {
-          result.add((Type) o);
-        }
-      }
-      return result;
-    }
-
-    public Type get(Type baseType) throws LookupException {
-      final Type realBase = baseType.baseType();
-      Object o = _map.get(realBase.name());
-      if(o instanceof List) {
-        return findFirst((List<Type>) o, t -> t.baseType().sameAs(realBase));
-      } else {
-        Type stored = (Type)o;
-        return stored == null ? null : (stored.baseType().sameAs(realBase) ? stored : null);
-      }
-    }
-
-    void merge(SuperTypeJudge superJudge) throws LookupException {
-      for(Object v :superJudge._map.values()) {
-        if(v instanceof List) {
-          for(Type t: (List<Type>)v) {
-            add(t);
-          }
-        } else {
-          add((Type)v);
-        }
-      }
-    }
   }
 
   public default void accumulateSuperTypeJudge(SuperTypeJudge judge) throws LookupException {
@@ -267,6 +203,10 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 
   public Set<Type> getAllSuperTypes() throws LookupException;
 
+  public default boolean contains(Type other, TypeFixer trace) throws LookupException {
+    return sameAs(other, trace);
+  }
+  
   public default boolean subtypeOf(Type other) throws LookupException {
     return subtypeOf(other, new TypeFixer());
   }
@@ -465,12 +405,22 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
   //	   }
   //	  };
 
-  public default boolean compatibleParameters(Type second, TypeFixer trace) throws LookupException {
+  public default boolean compatibleParameters(Type other, TypeFixer trace) throws LookupException {
     //	  tracer.get().push();
     //		second.toString();
-    final boolean forAll = forAll(parameters(TypeParameter.class), second.parameters(TypeParameter.class), (f,s) -> s.contains(f, trace));
-    //    tracer.get().pop();
-    return forAll;
+    int size = nbTypeParameters(TypeParameter.class);
+    boolean result = true;
+    for(int i=0; i< size && result;i++) {
+      TypeParameter otherParameter = other.parameter(TypeParameter.class, i);
+      TypeParameter myParameter = parameter(TypeParameter.class,i);
+      result = otherParameter.contains(myParameter, trace.clone());
+    }
+    return result;
+//    List<TypeParameter> myParameters = parameters(TypeParameter.class);
+//    List<TypeParameter> otherParameters = second.parameters(TypeParameter.class);
+//    final boolean forAll = forAll(myParameters, otherParameters, (f,s) -> s.contains(f, trace));
+//    //    tracer.get().pop();
+//    return forAll;
   }
 
 
@@ -491,7 +441,13 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
     }
     TypeFixer newTrace = trace.clone();
     newTrace.add(other, this);
-    return uniSameAs(other,newTrace) || other.uniSameAs(this,newTrace);
+    boolean result = uniSameAs(other,newTrace);
+    if(! result) {
+      newTrace = trace.clone();
+      newTrace.add(other, this);
+      result = other.uniSameAs(this,newTrace);
+    }
+    return result;
   }
 
   public boolean uniSameAs(Type aliasedType, TypeFixer trace) throws LookupException;

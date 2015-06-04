@@ -189,11 +189,4 @@ public void replace(TypeElement oldElement, TypeElement newElement) {
 		return aliasedType().implicitNonMemberInheritanceRelations();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.aikodi.chameleon.oo.type.Type#isWildCard()
-	 */
-	@Override
-	public boolean isWildCard() {
-		return aliasedType().isWildCard();
-	}
 }
