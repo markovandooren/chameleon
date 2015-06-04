@@ -15,7 +15,7 @@ public class LazyFormalAlias extends TypeVariable {
 	@Override
    public Type aliasedType() {
 		try {
-			return parameter().upperBound();
+			return parameter().actualUpperBound();
 		} catch (LookupException e) {
 			throw new Error("LookupException while looking for aliasedType of a lazy alias",e);
 		}
