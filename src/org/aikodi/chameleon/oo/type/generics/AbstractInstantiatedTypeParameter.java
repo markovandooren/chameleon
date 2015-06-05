@@ -149,12 +149,12 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 		return argument().toString();
 	}
 	
-	@Override
-	public boolean contains(TypeParameter other, TypeFixer trace) throws LookupException {
-		return argument().contains(other.argument(), trace);
-//		return argument().contains(other, trace); // try to avoid early unroll
-	}
-	
+//	@Override
+//	public boolean contains(TypeParameter other, TypeFixer trace) throws LookupException {
+//		return argument().contains(other.argument(), trace);
+////		return argument().contains(other, trace); // try to avoid early unroll
+//	}
+//	
 	/* (non-Javadoc)
 	 * @see org.aikodi.chameleon.oo.type.generics.TypeParameter#toString(java.util.Set)
 	 */
