@@ -113,13 +113,13 @@ public class TypeVariable extends TypeIndirection {
       return true;
     }
     trace.add(other,this);
-    Type upperBound = other.upperBound();
+    Type otherUpperBound = other.upperBound();
     boolean result = false;
-    if(upperBound != other) {
-      result = upperBound.subtypeOf(this, trace.clone());
+    if(otherUpperBound != other) {
+      result = otherUpperBound.subtypeOf(this, trace.clone());
     }
     if(! result) {
-      result = upperBound.subtypeOf(lowerBound(),trace);
+      result = otherUpperBound.subtypeOf(lowerBound(),trace);
     }
     return result;
   }
