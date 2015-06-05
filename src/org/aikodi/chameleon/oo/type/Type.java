@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.oo.type;
 
-import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
