@@ -124,8 +124,6 @@ public class TypeVariable extends TypeIndirection {
     return result;
   }
 
-  private StackOverflowTracer tracer = new StackOverflowTracer(20);
-
   /**
    * @{inheritDoc}
    */
