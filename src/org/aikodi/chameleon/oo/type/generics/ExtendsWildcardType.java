@@ -33,4 +33,12 @@ public class ExtendsWildcardType extends IntervalType {
 	public boolean contains(Type other, TypeFixer trace) throws LookupException {
 	  return other.subtypeOf(upperBound(),trace);
 	}
+	
+	/**
+	 * @{inheritDoc}
+	 */
+	@Override
+	public boolean uniSupertypeOf(Type other, TypeFixer trace) throws LookupException {
+	  return other.upperBound().subtypeOf(upperBound(),trace);
+	}
 }
