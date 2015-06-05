@@ -169,6 +169,16 @@ public class InstantiatedParameterType extends TypeIndirection {
     return aliasedType().contains(other, trace);
   }
 
+  @Override
+  public Type lowerBound() throws LookupException {
+    return aliasedType().lowerBound();
+  }
+
+  @Override
+  public Type upperBound() throws LookupException {
+    return aliasedType().upperBound();
+  }
+
 }
 
 
