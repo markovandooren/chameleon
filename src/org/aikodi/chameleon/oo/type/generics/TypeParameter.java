@@ -52,7 +52,9 @@ public Type actualDeclaration() throws LookupException {
 //	}
 //	
 	
-	public abstract boolean contains(TypeParameter other,TypeFixer trace) throws LookupException;
+	public final boolean contains(TypeParameter other,TypeFixer trace) throws LookupException {
+	  return selectionDeclaration().contains(other.selectionDeclaration(), trace);
+	}
 	
 //	public boolean compatibleWith(TypeParameter other,TypeFixer trace) throws LookupException {
 //		TypeFixer slowTrace = trace.clone();
