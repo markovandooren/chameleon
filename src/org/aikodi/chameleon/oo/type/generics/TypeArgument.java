@@ -74,7 +74,7 @@ public abstract class TypeArgument extends ElementImpl implements ElementWithTyp
 	 * @param accumulator
 	 * @return
 	 */
-	public abstract TypeParameter capture(FormalTypeParameter formal, List<TypeConstraint> accumulator);
+	public abstract TypeParameter capture(FormalTypeParameter formal);
 
 	/**
 	 * Return the type reference that must be used for substitution of a formal parameter.

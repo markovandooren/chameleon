@@ -70,13 +70,11 @@ public class ExtendsWildcard extends TypeArgumentWithTypeReference {
 	 * an object model instead of a string match as is typically done in type system. 
 	 */
 	@Override
-	public TypeParameter capture(FormalTypeParameter formal, List<TypeConstraint> accumulator) {
+	public TypeParameter capture(FormalTypeParameter formal) {
 		CapturedTypeParameter newParameter = new CapturedTypeParameter(formal.name());
 		// Copy and redirect the bound of the formal parameter.
 		for(TypeConstraint constraint: formal.constraints()) {
-			TypeConstraint clone = cloneAndResetTypeReference(constraint,constraint);
-			newParameter.addConstraint(clone);
-			accumulator.add(clone);
+			newParameter.addConstraint(cloneAndResetTypeReference(constraint,constraint));
 		}
 		// Copy and redirect the type argument
 		newParameter.addConstraint(cloneAndResetTypeReference(new ExtendsConstraint(clone(typeReference())),this));

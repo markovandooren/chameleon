@@ -74,8 +74,8 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 		return result;
 	}
 
-	public TypeParameter capture(FormalTypeParameter formal, List<TypeConstraint> accumulator) {
-		return argument().capture(formal,accumulator);
+	public TypeParameter capture(FormalTypeParameter formal) {
+		return argument().capture(formal);
 	}
 
 	@Override

@@ -71,15 +71,8 @@ public class EqualityTypeArgument extends TypeArgumentWithTypeReference {
   }
 
   @Override
-  public TypeParameter capture(FormalTypeParameter formal, List<TypeConstraint> accumulator) {
-    //		return clone(nearestAncestor(TypeParameter.class));
-    InstantiatedTypeParameter newParameter = new InstantiatedTypeParameter(formal.name(), this);
-    //		TypeReference typeReference = typeReference();
-    //		TypeReference clone = clone(typeReference);
-    //		clone.setOrigin(typeReference);//DEBUG //FIXME remove debugging statement after clone has been refactored
-    //		TypeReference nl = language(ObjectOrientedLanguage.class).createNonLocalTypeReference(clone, this);
-    //		newParameter.addConstraint(new EqualityConstraint(nl));
-    return newParameter;
+  public TypeParameter capture(FormalTypeParameter formal) {
+    return new InstantiatedTypeParameter(formal.name(), this);
   }
 
   @Override
