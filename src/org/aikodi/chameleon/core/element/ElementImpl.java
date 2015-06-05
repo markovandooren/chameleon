@@ -4,6 +4,7 @@ import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.ex
 import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.filter;
 import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
 
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,8 +15,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-
-import java.lang.reflect.Field;
 
 import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.event.Change;
@@ -31,7 +30,6 @@ import org.aikodi.chameleon.core.language.WrongLanguageException;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespace.Namespace;
-import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.tag.Metadata;
 import org.aikodi.chameleon.core.validation.BasicProblem;
@@ -1536,12 +1534,12 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
     */
    @Override
    public Namespace namespace() {
-      NamespaceDeclaration ancestor = nearestAncestor(NamespaceDeclaration.class);
-      if (ancestor != null) {
-         return ancestor.namespace();
-      } else {
-         return null;
-      }
+     Element parent = parent();
+     if (parent != null) {
+        return parent.namespace();
+     } else {
+        return null;
+     }
    }
 
    //	 /**
