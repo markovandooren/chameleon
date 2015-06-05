@@ -8,7 +8,9 @@ import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
+import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
+import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.type.ClassImpl;
 import org.aikodi.chameleon.oo.type.Parameter;
@@ -229,8 +231,14 @@ public abstract class IntervalType extends ClassImpl {
   public boolean uniSubtypeOf(Type other, TypeFixer trace) throws LookupException {
     boolean result = upperBound().subtypeOf(other.upperBound(),trace);
     // FIXME: don't regular types have the null type as their lower bound?
-    if(result && other.isWildCard()) {
-      result = other.lowerBound().subtypeOf(lowerBound(),trace);
+    if(result) {
+      if(other.isWildCard()) {
+        result = other.lowerBound().subtypeOf(lowerBound(),trace);
+      } else {
+        ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+        Namespace namespace = namespace();
+        result = lowerBound().sameAs(language.getNullType(namespace.defaultNamespace()));
+      }
     }
     return result;
   }

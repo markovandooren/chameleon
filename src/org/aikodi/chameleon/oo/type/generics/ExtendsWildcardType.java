@@ -1,8 +1,10 @@
 package org.aikodi.chameleon.oo.type.generics;
 
 import org.aikodi.chameleon.core.element.Element;
+import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
+import org.aikodi.chameleon.oo.type.TypeFixer;
 
 public class ExtendsWildcardType extends IntervalType {
 
@@ -24,5 +26,11 @@ public class ExtendsWildcardType extends IntervalType {
 		return "? extends "+upperBound().getFullyQualifiedName();
 	}
 
-
+	/**
+	* @{inheritDoc}
+	*/
+	@Override
+	public boolean contains(Type other, TypeFixer trace) throws LookupException {
+	  return other.subtypeOf(upperBound(),trace);
+	}
 }
