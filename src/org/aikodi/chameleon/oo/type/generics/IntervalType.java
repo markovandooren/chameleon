@@ -228,7 +228,8 @@ public abstract class IntervalType extends ClassImpl {
   @Override
   public boolean uniSubtypeOf(Type other, TypeFixer trace) throws LookupException {
     boolean result = upperBound().subtypeOf(other.upperBound(),trace);
-    if(result) {
+    // FIXME: don't regular types have the null type as their lower bound?
+    if(result && other.isWildCard()) {
       result = other.lowerBound().subtypeOf(lowerBound(),trace);
     }
     return result;
