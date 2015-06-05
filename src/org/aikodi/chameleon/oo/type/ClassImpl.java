@@ -873,7 +873,7 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
   	@Override
    public Type intersectionDoubleDispatch(Type type) throws LookupException {
   		Type result = language().plugin(ObjectOrientedFactory.class).createIntersectionType(this,type);
-  		result.setUniParent(parent());
+//  		result.setUniParent(parent());
   		return result;
   	}
 
