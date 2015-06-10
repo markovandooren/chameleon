@@ -335,9 +335,10 @@ public class ChameleonProjectNature implements IProjectNature {
 		if(doc != null) {
 			doc.dumpPositions();
 			try {
-				Document document = doc.document();
-				document.disconnectChildren();
-        modelFactory().parse(doc.get(), document);
+			  Document document = doc.document();
+			  document.disconnectChildren();
+			  modelFactory().parse(doc.get(), document);
+			  document.activate();
 			} catch (ParseException e) {
 				// FIXME Can we ignore this exception? Normally, the parse error markers should have been set.
 				e.printStackTrace();
