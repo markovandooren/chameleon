@@ -22,7 +22,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 
 public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer {
 
-	protected abstract UniversalPredicate<D,Nothing> elementPredicate();
+	protected abstract UniversalPredicate<D,Nothing> sourcePredicate();
 
 	protected UniversalPredicate<? super CrossReference<?>,Nothing> crossReferencePredicate() {
 		return dependencyPredicate();
@@ -58,9 +58,9 @@ public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer
 	}
 	
 	public void buildGraph(final GraphBuilder<Element> builder) throws InputException {
-		UniversalPredicate<D, Nothing> elementPredicate = elementPredicate();
+		UniversalPredicate<D, Nothing> sourcePredicate = sourcePredicate();
 		DependencyAnalysis<D, D> analysis = new DependencyAnalysis<D,D>(
-				elementPredicate, 
+				sourcePredicate, 
 				crossReferencePredicate(),
 				createMapper(),
 				declarationPredicate(), 
