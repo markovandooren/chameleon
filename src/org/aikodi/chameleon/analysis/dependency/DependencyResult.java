@@ -1,12 +1,14 @@
 package org.aikodi.chameleon.analysis.dependency;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.aikodi.chameleon.analysis.Result;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
+import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
 import be.kuleuven.cs.distrinet.rejuse.graph.Edge;
 import be.kuleuven.cs.distrinet.rejuse.graph.Graph;
 import be.kuleuven.cs.distrinet.rejuse.graph.Node;
@@ -95,5 +97,13 @@ public class DependencyResult extends Result<DependencyResult> {
 	
 	public void prune() {
 		_dependencyGraph.remoteEdgesNotInvolvedInCycles();
+	}
+	
+	public Set<Node<Element>> nodes() {
+	  return _dependencyGraph.nodes();
+	}
+	
+	public Set<Element> elements() {
+	  return nodes().stream().map(n -> n.object()).collect(Collectors.toSet());
 	}
 }
