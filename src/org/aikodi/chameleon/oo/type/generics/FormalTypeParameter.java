@@ -190,24 +190,24 @@ public class FormalTypeParameter extends TypeParameter implements ElementWithTyp
 //	}
 
 
-	public TypeArgument argument() {
-		if(nbConstraints() == 0) {
-			ObjectOrientedLanguage oo = language(ObjectOrientedLanguage.class);
-			TypeReference top = oo.createTypeReference(oo.getDefaultSuperClassFQN());
-			ExtendsWildcard result = oo.createExtendsWildcard(top);
-			result.setUniParent(namespace().defaultNamespace());
-			return result;
-		} else if (nbConstraints() == 1) {
-			return constraints().get(0).argument();
-		} else {
-			ObjectOrientedLanguage oo = language(ObjectOrientedLanguage.class);
-			ConstrainedTypeReference tref = oo.createConstrainedTypeReference();
-			constraints().forEach(c -> tref.addConstraint(clone(c)));
-			TypeArgument result = oo.createExtendsWildcard(tref);
-			result.setUniParent(this);
-			return result;
-		}
-	}
+//	public TypeArgument argument() {
+//		if(nbConstraints() == 0) {
+//			ObjectOrientedLanguage oo = language(ObjectOrientedLanguage.class);
+//			TypeReference top = oo.createTypeReference(oo.getDefaultSuperClassFQN());
+//			ExtendsWildcard result = oo.createExtendsWildcard(top);
+//			result.setUniParent(namespace().defaultNamespace());
+//			return result;
+//		} else if (nbConstraints() == 1) {
+//			return constraints().get(0).argument();
+//		} else {
+//			ObjectOrientedLanguage oo = language(ObjectOrientedLanguage.class);
+//			ConstrainedTypeReference tref = oo.createConstrainedTypeReference();
+//			constraints().forEach(c -> tref.addConstraint(clone(c)));
+//			TypeArgument result = oo.createExtendsWildcard(tref);
+//			result.setUniParent(this);
+//			return result;
+//		}
+//	}
 
 	@Override
 	public String toString(Set<Element> visited) {
@@ -233,11 +233,4 @@ public class FormalTypeParameter extends TypeParameter implements ElementWithTyp
 		return name();
 	}
 
-	public Type actualLowerBound() throws LookupException {
-		return selectionDeclaration();
-	}
-	
-	public Type actualUpperBound() throws LookupException {
-		return selectionDeclaration();
-	}
 }

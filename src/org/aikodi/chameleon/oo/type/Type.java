@@ -458,52 +458,6 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
     return this;
   }
 
-  public default Type actualLowerBound() throws LookupException {
-    return lowerBound();
-  }
-
-  public default Type actualUpperBound() throws LookupException {
-    return upperBound();
-  }
-
-  //	public default Type ultimateLowerBound() throws LookupException {
-  //		Type result = lowerBound();
-  //		//		boolean same = false;
-  //		//		while(! same) {
-  //		//			Type tmp = result.lowerBound();
-  //		//			if(tmp != result) {
-  //		//				result = tmp;
-  //		//				same = false;
-  //		//			} else {
-  //		//				same = true;
-  //		//			}
-  //		//		}
-  //		if(result != this) {
-  //			result = result.ultimateLowerBound();
-  //		}
-  //		return result;
-  //	}
-
-  //	public default Type ultimateUpperBound() throws LookupException {
-  //		//		Type result = upperBound();
-  //		//		boolean same = false;
-  //		//		while(! same) {
-  //		//			Type tmp = result.upperBound();
-  //		//			if(tmp != result) {
-  //		//				result = tmp;
-  //		//				same = false;
-  //		//			} else {
-  //		//				same = true;
-  //		//			}
-  //		//		}
-  //		//		return result;
-  //		Type result = upperBound();
-  //		if(result != this) {
-  //			result = result.ultimateUpperBound();
-  //		}
-  //		return result;
-  //	}
-
   public <D extends Member> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException;
 
   public <D extends Member> List<D> membersDirectlyAliasedBy(MemberRelationSelector<D> selector) throws LookupException;

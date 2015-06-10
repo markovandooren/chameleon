@@ -22,99 +22,87 @@ import org.aikodi.chameleon.oo.type.TypeReference;
  * A class representing type parameters. These can be formal type parameters or instantiated type parameters.
  * 
  * @author Marko van Dooren
- *
- * @param <E>
  */
 public abstract class TypeParameter extends Parameter implements ElementWithTypeBounds {
-	
-	public TypeParameter(String name) {
-		super(name);
-	}
-	
-	/**
-	 * Check whether this type parameter is equal to the other type parameter. 
-	 * 
-	 * Equality for type parameters means that for each assignment of actual types, both parameters
-	 * must refer to the same type. 
-	 */
-  @Override
-	public abstract boolean uniSameAs(Element other) throws LookupException;
 
-  @Override
-public Type actualDeclaration() throws LookupException {
-  	throw new ChameleonProgrammerException();
+  public TypeParameter(String name) {
+    super(name);
   }
 
-	public abstract Declaration resolveForRoundTrip() throws LookupException;
-
-//	public final TypeParameter cloneForStub() throws LookupException {
-//		return (TypeParameter) clone();
-//	}
-//	
-	
-	public final boolean contains(TypeParameter other,TypeFixer trace) throws LookupException {
-	  return selectionDeclaration().contains(other.selectionDeclaration(), trace);
-	}
-	
-//	public boolean compatibleWith(TypeParameter other,TypeFixer trace) throws LookupException {
-//		TypeFixer slowTrace = trace.clone();
-//		boolean result = sameAs(other);
-//		if(! result) {
-//			final Type upperBound = upperBound();
-//      final Type otherUpperBound = other.upperBound();
-//      final Type ultimateUpperBound = otherUpperBound.upperBound();
-//      result = upperBound.upperBoundNotHigherThan(ultimateUpperBound,slowTrace);
-//			if(result) {
-//				final Type otherLowerBound = other.lowerBound();
-//        final Type lowerBound = lowerBound();
-//        final Type ultimateLowerBound = otherLowerBound.ultimateLowerBound();
-//        result = ultimateLowerBound.upperBoundNotHigherThan(lowerBound,slowTrace);
-//			}
-//		}
-//		return result;
-//	}
-
-	public abstract TypeReference upperBoundReference() throws LookupException;
-	
-	@Override
-   public Scope scope() throws ModelException {
-		return new LexicalScope(nearestAncestor(Type.class));
-	}
-
-	@Override
-	public Verification verifySelf() {
-		if(name() != null) {
-		  return Valid.create();
-		} else {
-			return new MissingSignature(this); 
-		}
-	}
-
-//	public abstract boolean sameValueAs(TypeParameter otherParam, TypeFixer trace) throws LookupException;
-
-	@Override
-   public String toString() {
-		return name();
-	}
+  /**
+   * Check whether this type parameter is equal to the other type parameter. 
+   * 
+   * Equality for type parameters means that for each assignment of actual types, both parameters
+   * must refer to the same type. 
+   */
+  @Override
+  public abstract boolean uniSameAs(Element other) throws LookupException;
 
   @Override
-public LocalLookupContext<?> targetContext() throws LookupException {
-  	return upperBound().targetContext();
+  public Type actualDeclaration() throws LookupException {
+    throw new ChameleonProgrammerException();
+  }
+
+  public abstract Declaration resolveForRoundTrip() throws LookupException;
+
+  /**
+   * Check whether the set of valid types for this type parameter contains
+   * the set of valid types for the given type parameter.
+   * 
+   * @param other The type parameter for which must be checked if its valid types
+   *              are a subset of the valid types of this type parameter. The given
+   *              type parameter cannot be null.
+   * @param trace A trace that tracks which types have already been processed. This trace
+   *              is used to compute the fixed point.
+   * @return True if the set of valid types for the given type parameter is a subset of
+   *              the set of valid types for this type parameter. False otherwise.
+   * @throws LookupException
+   */
+  public final boolean contains(TypeParameter other,TypeFixer trace) throws LookupException {
+    return selectionDeclaration().contains(other.selectionDeclaration(), trace);
+  }
+
+  /**
+   * @return a type reference that represents the upper bound for this type parameter.
+   * @throws LookupException
+   */
+  public abstract TypeReference upperBoundReference() throws LookupException;
+
+  @Override
+  public Scope scope() throws ModelException {
+    return new LexicalScope(nearestAncestor(Type.class));
+  }
+
+  @Override
+  public Verification verifySelf() {
+    if(name() != null) {
+      return Valid.create();
+    } else {
+      return new MissingSignature(this); 
+    }
+  }
+
+  /**
+   * @return For debugging purposes, the default implementation of this method returns 
+   *  the name of the type parameter. That is not a contract, however.
+   */
+  @Override
+  public String toString() {
+    return name();
+  }
+
+  /**
+   * @return The target context of the {@link #upperBound()}. 
+   */
+  @Override
+  public LocalLookupContext<?> targetContext() throws LookupException {
+    return upperBound().targetContext();
   }
 
   @Override
   public abstract Type selectionDeclaration() throws LookupException;
-  
-//  public Type type() throws LookupException {
-//  	return selectionDeclaration();
-//  }
-  
-  public abstract TypeArgument argument();
-  
+
   public abstract String toString(Set<Element> visited);
-  
-  public abstract Type actualLowerBound() throws LookupException;
-  	
-  public abstract Type actualUpperBound() throws LookupException;
+
 }
 
