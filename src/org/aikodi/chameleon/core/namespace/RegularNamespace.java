@@ -68,7 +68,13 @@ public class RegularNamespace extends NamespaceImpl {
 	 * NAMESPACE PARTS *
 	 *******************/
 
-	private Multi<NamespaceDeclaration> _namespaceDeclarations = new Multi<NamespaceDeclaration>(this,"namespace parts");
+	private Multi<NamespaceDeclaration> _namespaceDeclarations = new Multi<NamespaceDeclaration>(this,"namespace parts") {
+	  protected void fireElementRemoved(NamespaceDeclaration removedElement) {
+	    removedElement.declarations().forEach(d -> removeDeclaration(d));
+
+	    super.fireElementRemoved(removedElement);
+	  };
+	};
 	{
 		_namespaceDeclarations.enableCache();
 	}

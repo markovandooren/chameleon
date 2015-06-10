@@ -9,7 +9,6 @@ import java.util.Map;
 import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.BasicDeclaration;
 import org.aikodi.chameleon.core.declaration.Declaration;
-import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupContext;
@@ -18,6 +17,7 @@ import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.Util;
+import org.aikodi.contract.Contracts;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
@@ -165,8 +165,16 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
         decls = new ArrayList<>();
         storeCache(namespace.name(), decls);
       }
-      decls.add(namespace);
+      addToList(decls,namespace);
     }
+  }
+  
+  private void addToList(List<Declaration> list, Declaration declaration) {
+    list.add(declaration);
+  }
+
+  private void removeFromList(List<Declaration> list, Declaration declaration) {
+    list.remove(declaration);
   }
 
   protected void unregisterNamespace(Namespace namespace) {
@@ -174,21 +182,32 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
     if(_declarationCache !=null) {
       List<Declaration> decls = _declarationCache.get(namespace.name());
       if(decls != null) {
-        decls.remove(namespace);
+        removeFromList(decls,namespace);
+      }
+    }
+  }
+  
+  protected void removeDeclaration(Declaration declaration) {
+    Contracts.notNull(declaration, "The declaration cannot be null.");
+    if(_declarationCache != null) {
+      String name = declaration.name();
+      List<Declaration> list = _declarationCache.get(name);
+      if(list != null) {
+        int size=list.size();
+        int i=0;
+        while(i<size) {
+          if(list.get(i) == declaration) {
+            list.remove(i);
+            break;
+          } else {
+            i++;
+          }
+        }
       }
     }
   }
 
   private Map<String,Namespace> _nameMap = new HashMap<>();
-
-  //	@Override
-  //   public <T extends Declaration> List<T> allDescendantDeclarations(Class<T> kind) throws LookupException {
-  //  	final List<T> result = declarations(kind);
-  //  	for(Namespace ns:getSubNamespaces()) {
-  //		  result.addAll(ns.allDescendantDeclarations(kind));
-  //  	}
-  // 	  return result;
-  //	}
 
   /***********
    * CONTEXT *
@@ -256,7 +275,6 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
       for(NamespaceDeclaration part: loadedNamespaceDeclarations()) {
         addCacheForNamespaceDeclaration(part);
       }
-
     }
   }
 
@@ -268,7 +286,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
           matches = new ArrayList<>(1);
           storeCache(declaration.name(), matches);
         }
-        matches.add(declaration);
+        addToList(matches,declaration);
       }
     }
   }
@@ -301,7 +319,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
       }
     }
   }
-
+  
   private Map<String,List<Declaration>> _declarationCache;
 
   @Override
