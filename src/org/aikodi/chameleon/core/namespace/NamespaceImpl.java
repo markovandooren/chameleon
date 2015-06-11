@@ -9,6 +9,7 @@ import java.util.Map;
 import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.BasicDeclaration;
 import org.aikodi.chameleon.core.declaration.Declaration;
+import org.aikodi.chameleon.core.event.association.ParentRemoved;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupContext;
@@ -171,6 +172,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
   
   private void addToList(List<Declaration> list, Declaration declaration) {
     list.add(declaration);
+    declaration.when().self().about(ParentRemoved.class).call(e -> removeDeclaration(declaration));
   }
 
   private void removeFromList(List<Declaration> list, Declaration declaration) {
@@ -187,7 +189,8 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
     }
   }
   
-  protected void removeDeclaration(Declaration declaration) {
+  @Override
+  public void removeDeclaration(Declaration declaration) {
     Contracts.notNull(declaration, "The declaration cannot be null.");
     if(_declarationCache != null) {
       String name = declaration.name();
@@ -205,6 +208,19 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
         }
       }
     }
+  }
+  
+  @Override
+  public void addDeclaration(Declaration declaration) {
+    Contracts.notNull(declaration, "The declaration cannot be null.");
+    if(_declarationCache != null) {
+      String name = declaration.name();
+      List<Declaration> list = _declarationCache.get(name);
+      if(list != null) {
+        addToList(list, declaration);
+      }
+    }
+
   }
 
   private Map<String,Namespace> _nameMap = new HashMap<>();
@@ -359,8 +375,4 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
     return new NamespaceAlias(name,this);
   }
 
-  @Override
-  public void notifyDeclarationAdded(Declaration declaration) {
-
-  }
 }

@@ -28,6 +28,7 @@ import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
 
+import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
 import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
 
 import com.google.common.collect.ImmutableList;
@@ -358,6 +359,19 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		for(NamespaceDeclaration part: namespaceDeclarations()) {
 			part.activate();
 		}
+		_declarations.addListener(new AssociationListener<Declaration>() {
+
+		  @Override
+		  public void notifyElementAdded(Declaration element) {
+		    namespace().addDeclaration(element);
+
+		  }
+
+		  @Override
+		  public void notifyElementRemoved(Declaration element) {
+//		    namespace().removeDeclaration(element);
+		  }
+        });
 	}
 	
 	public CrossReference<Namespace> namespaceReference() {
