@@ -16,6 +16,9 @@ import org.aikodi.chameleon.workspace.Project;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef4.layout.ILayoutAlgorithm;
+import org.eclipse.gef4.layout.algorithms.CompositeLayoutAlgorithm;
+import org.eclipse.gef4.layout.algorithms.HorizontalShiftAlgorithm;
+import org.eclipse.gef4.layout.algorithms.SpringLayoutAlgorithm;
 import org.eclipse.gef4.layout.algorithms.SugiyamaLayoutAlgorithm;
 import org.eclipse.gef4.zest.fx.ui.jface.ZestContentViewer;
 import org.eclipse.jface.viewers.ISelection;
@@ -261,13 +264,13 @@ public class DependencyView extends ViewPart {//implements IZoomableWorkbenchPar
 //						new HorizontalShiftAlgorithm()
 //				});
 //		
-//		SpringLayoutAlgorithm spring = new SpringLayoutAlgorithm();
-//		CompositeLayoutAlgorithm springAlgorithm = new CompositeLayoutAlgorithm(
-//				new LayoutAlgorithm[]{
-//						spring,
-//						new HorizontalShiftAlgorithm()
-//				});
-//		registerLayout("Spring", springAlgorithm);
+		SpringLayoutAlgorithm spring = new SpringLayoutAlgorithm();
+		CompositeLayoutAlgorithm springAlgorithm = new CompositeLayoutAlgorithm(
+				new ILayoutAlgorithm[]{
+						spring,
+						new HorizontalShiftAlgorithm()
+				});
+		registerLayout("Spring", springAlgorithm);
 //		registerLayout("Radial", radialAlgorithm);
 //		registerLayout("Sugiyama", sugiyamaAlgorithm);
 //		registerLayout("Space Tree", spaceTreeAlgorithm);
@@ -288,67 +291,6 @@ public class DependencyView extends ViewPart {//implements IZoomableWorkbenchPar
 //		_viewer2.applyLayout();
 	}
 		
-//	protected void addGraphViewer(Composite parent) {
-//		_viewer = new GraphViewer(parent, SWT.NONE);
-//		_viewer.getGraphControl().setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
-//		_viewer.setContentProvider(new DependencyContentProvider());
-//		_viewer.setLabelProvider(new DependencyLabelProvider());
-//		// Start with an empty model.
-//		_viewer.setInput(new DependencyResult());
-//
-//////	int style = LayoutStyles.NONE;
-//		
-//		// SPRING
-//		int style = LayoutStyles.NO_LAYOUT_NODE_RESIZING;
-//		SpringLayoutAlgorithm spring = new SpringLayoutAlgorithm(
-//				style 
-//				);
-//		;
-//		spring.setSpringLength(SpringLayoutAlgorithm.DEFAULT_SPRING_LENGTH * 2);
-//		CompositeLayoutAlgorithm springAlgorithm = new CompositeLayoutAlgorithm(
-//				new LayoutAlgorithm[]{
-//						spring,
-//						new HorizontalShift(style)
-//				});
-//
-//		String springName = "Spring";
-//		_layouts.put(springName, springAlgorithm);
-//		_layoutList.add(springName);
-//		DirectedGraphLayoutAlgorithm directed = new DirectedGraphLayoutAlgorithm(style);
-//		CompositeLayoutAlgorithm directedAlgorithm = new CompositeLayoutAlgorithm(
-//				new LayoutAlgorithm[]{
-//						directed,
-//						new HorizontalShift(style)
-//				});
-//		String directedName = "Directed";
-//		_layouts.put(directedName, directedAlgorithm);
-//		_layoutList.add(directedName);
-//		
-//		RadialLayoutAlgorithm radial = new RadialLayoutAlgorithm(style);
-//		String radialName = "Radial";
-//		CompositeLayoutAlgorithm radialAlgorithm = new CompositeLayoutAlgorithm(
-//				new LayoutAlgorithm[]{
-//						radial,
-//						new HorizontalShift(style)
-//				});
-//		_layouts.put(radialName, radialAlgorithm);
-//		_layoutList.add(radialName);
-//		
-//		TreeLayoutAlgorithm tree = new RadialLayoutAlgorithm(style);
-//		String treeName = "Tree";
-//		CompositeLayoutAlgorithm treeAlgorithm = new CompositeLayoutAlgorithm(
-//				new LayoutAlgorithm[]{
-//						tree,
-//						new HorizontalShift(style)
-//				});
-//		_layouts.put(treeName, treeAlgorithm);
-//		_layoutList.add(treeName);
-//		
-//		
-//		_viewer.setLayoutAlgorithm(springAlgorithm,true);
-//		_viewer.applyLayout();
-//	}
-	
 	private List<String>_layoutList = new ArrayList<>(); 
 
 	protected void createLayoutSelector(Composite right) {
@@ -363,7 +305,7 @@ public class DependencyView extends ViewPart {//implements IZoomableWorkbenchPar
 					@Override
 					public void run() {
 						_viewer.setLayoutAlgorithm(_layouts.get(_layoutList.get(combo.getSelectionIndex())));
-//						_viewer.applyLayout();
+						_viewer.refresh();
 					}
 				});
 			}
