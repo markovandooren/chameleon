@@ -955,7 +955,7 @@ public interface Element {
     public <T extends Element> T nearestAncestor(Class<T> c);
     
     /**
-     * Return the nearest ancestor of type T that satifies the given predicate. Null if no such ancestor can be found.
+     * Return the nearest ancestor of type T that satisfies the given predicate. Null if no such ancestor can be found.
      * 
      * @param <T>
      *        The type of the ancestor to be found
@@ -967,12 +967,41 @@ public interface Element {
      @ public behavior
      @
      @ post parent() == null ==> \result == null;
-     @ post parent() != null && c.isInstance(parent()) && predicate.eval((T)parent()) ==> \result == parent();
-     @ post parent() != null && ((! c.isInstance(parent())) || (c.isInstance(parent()) && ! predicate.eval((T)parent())) 
-     @          ==> \result == parent().nearestAncestor(c, predicate);
+     @ post parent() != null && predicate.eval(parent()) ==> \result == parent();
+     @ post parent() != null && (! predicate.eval((T)parent())) 
+     @          ==> \result == parent().nearestAncestor(predicate);
      @*/
     public <T extends Element, E extends Exception> T nearestAncestor(UniversalPredicate<T,E> predicate) throws E;
 
+    
+    
+    /**
+     * Return the nearest ancestor of type T that satisfies the given predicate. 
+     * Null if no such ancestor can be found.
+     * 
+     * @param <T>
+     *        The type of the ancestor to be found
+     * @param c
+     *        The class object of type T (T.class)
+     * @return
+     */
+   /*@
+     @ public behavior
+     @
+     @ post parent() == null ==> \result == null;
+     @ post parent() != null && kind.isInstance(parent()) && predicate.eval((T)parent()) ==> \result == parent();
+     @ post parent() != null && ((! kind.isInstance(parent())) || (kindc.isInstance(parent()) && ! predicate.eval((T)parent())) 
+     @          ==> \result == parent().nearestAncestor(kind, predicate);
+     @*/
+    public default <T extends Element, E extends Exception> T nearestAncestor(Class<T> kind, Predicate<T,E> predicate) throws E {
+        Element el = parent();
+        while ((el != null) && ( (! kind.isInstance(el)) || (! predicate.eval((T) el)))) {
+            el = el.parent();
+        }
+        return (T) el;
+    }
+    
+    
     /**
      * Return the nearest element of type T. Null if no such ancestor can be found.
      * @param <T>
