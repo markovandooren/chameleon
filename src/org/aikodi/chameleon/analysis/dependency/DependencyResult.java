@@ -36,6 +36,10 @@ public class DependencyResult extends Result<DependencyResult> {
 		return _dependencyGraph.node(source).directSuccessors();
 	}
 	
+    public Set<Node<Element>> dependencyNodes(Element source) {
+      return _dependencyGraph.node(source).directSuccessorNodes();
+  }
+  
 	public Set<UniEdge<Element>> dependencies() {
 		// Can't type this properly. Maybe it can be done if we put all type parameters
 		// in the factories and not make them mutually recursive.
@@ -101,6 +105,10 @@ public class DependencyResult extends Result<DependencyResult> {
 	
 	public Set<Node<Element>> nodes() {
 	  return _dependencyGraph.nodes();
+	}
+	
+	public Node<Element> nodeOf(Element element) {
+	  return _dependencyGraph.node(element);
 	}
 	
 	public Set<Element> elements() {

@@ -208,7 +208,7 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
   private LinkedList<Element> _elements = new LinkedList<>();
 
   private List<D> map(List<Declaration> initial) {
-    java.util.function.Function<? super Declaration, ? extends D> mapper = i -> i.logical().nearestAncestorOrSelf(i, _dependencyFinder);
+    java.util.function.Function<? super Declaration, ? extends D> mapper = i -> i.logical().nearestAncestorOrSelf(_dependencyFinder);
     return initial.stream().map(mapper).filter(d -> d != null).collect(Collectors.toList());
   }
   
