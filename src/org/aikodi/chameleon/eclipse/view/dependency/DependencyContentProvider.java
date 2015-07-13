@@ -58,7 +58,6 @@ public class DependencyContentProvider implements INestedGraphContentProvider {
         all.forEach(e -> {
           Element farthest = e.logical().farthestAncestorOrSelf(Element.class, d -> all.contains(d));
           roots.add(farthest);
-          Util.debug(farthest==null);
         });
         result = roots.stream().map(e -> _result.nodeOf(e)).collect(Collectors.toList()).toArray();
       } else {
