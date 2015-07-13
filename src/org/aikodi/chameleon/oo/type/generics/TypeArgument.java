@@ -37,16 +37,6 @@ public abstract class TypeArgument extends ElementImpl implements ElementWithTyp
 	 */
 	public boolean contains(TypeArgument other, TypeFixer trace) throws LookupException	{
 	  return type().contains(other.type(), trace);
-//		// Non-elegant implementation to simplify debugging.
-//		Type otherUpperBound = other.upperBound();
-//		Type upperBound = upperBound();
-//		boolean result = otherUpperBound.subtypeOf(upperBound, trace);
-//		if(result) {
-//			Type lowerBound = lowerBound();
-//			Type otherLowerBound = other.lowerBound();
-//			result = lowerBound.subtypeOf(otherLowerBound, trace);
-//		}
-//		return result;
 	}
 
 	/**
@@ -75,6 +65,8 @@ public abstract class TypeArgument extends ElementImpl implements ElementWithTyp
 	 * @return
 	 */
 	public abstract TypeParameter capture(FormalTypeParameter formal);
+
+//	public abstract List<TypeConstraint> capture(List<TypeConstraint> constraints);
 
 	/**
 	 * Return the type reference that must be used for substitution of a formal parameter.
