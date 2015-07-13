@@ -15,6 +15,7 @@ import org.aikodi.chameleon.eclipse.connector.EclipseEditorExtension;
 import org.aikodi.chameleon.exception.ModelException;
 import org.eclipse.gef4.zest.fx.ZestProperties;
 import org.eclipse.gef4.zest.fx.ui.jface.IGraphNodeLabelProvider;
+import org.eclipse.gef4.zest.fx.ui.jface.INestedGraphLabelProvider;
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
@@ -26,7 +27,7 @@ import be.kuleuven.cs.distrinet.rejuse.graph.Edge;
 import be.kuleuven.cs.distrinet.rejuse.graph.Node;
 import be.kuleuven.cs.distrinet.rejuse.graph.UniEdge;
 
-class DependencyLabelProvider extends LabelProvider implements IGraphNodeLabelProvider, IColorProvider {//implements IConnectionStyleProvider, IEntityStyleProvider {
+class DependencyLabelProvider extends LabelProvider implements IGraphNodeLabelProvider, INestedGraphLabelProvider,  IColorProvider {//implements IConnectionStyleProvider, IEntityStyleProvider {
 
 
   @Override
@@ -163,6 +164,14 @@ class DependencyLabelProvider extends LabelProvider implements IGraphNodeLabelPr
     @Override
     public Color getForeground(Object entity) {
       return Display.getCurrent().getSystemColor(SWT.COLOR_LIST_SELECTION_TEXT);
+    }
+
+    /**
+     * @{inheritDoc}
+     */
+    @Override
+    public Map<String, Object> getNestedGraphAttributes(Object nestingNode) {
+      return new HashMap<>();
     }
   
   //  @Override
