@@ -46,6 +46,10 @@ public class DependencyResult extends Result<DependencyResult> {
 		return (Set) dependencyGraph().edges();
 	}
 	
+	public Graph<Element> graph() {
+	  return _dependencyGraph;
+	}
+	
 	public <X extends Exception> void traverse(Action<? super Element, ? extends X> nodeAction, Action<? super Edge<Element>,? extends X> edgeAction) throws X {
 		_dependencyGraph.traverseAll(nodeAction, edgeAction);
 	}
