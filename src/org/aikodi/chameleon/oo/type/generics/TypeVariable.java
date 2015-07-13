@@ -92,22 +92,6 @@ public class TypeVariable extends TypeIndirection {
    * @{inheritDoc}
    */
   @Override
-  public Type actualUpperBound() throws LookupException {
-    return this;
-  }
-
-  /**
-   * @{inheritDoc}
-   */
-  @Override
-  public Type actualLowerBound() throws LookupException {
-    return this;
-  }
-
-  /**
-   * @{inheritDoc}
-   */
-  @Override
   public boolean uniSupertypeOf(Type other, TypeFixer trace) throws LookupException {
     if(trace.contains(other, this)) {
       return true;

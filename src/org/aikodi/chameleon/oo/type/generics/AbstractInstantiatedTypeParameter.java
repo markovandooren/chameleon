@@ -88,14 +88,6 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 		return argument().type().upperBound();
 	}
 
-	public Type actualLowerBound() throws LookupException {
-		return lowerBound();
-	}
-	
-	public Type actualUpperBound() throws LookupException {
-		return upperBound();
-	}
-
 	@Override
 	public Verification verifySelf() {
 		Verification tmp = super.verifySelf();
@@ -115,24 +107,6 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 		//		}
 		//		return result;
 	}
-
-	//	@Override
-	//	public boolean sameValueAs(TypeParameter other) throws LookupException {
-	//		boolean result = false;
-	//		if(other instanceof AbstractInstantiatedTypeParameter) {
-	//			result = argument().sameAs(((InstantiatedTypeParameter)other).argument());
-	//		}
-	//		return result;
-	//	}
-
-//	@Override
-//	public boolean sameValueAs(TypeParameter other, TypeFixer trace) throws LookupException {
-//		boolean result = false;
-//		if(other instanceof AbstractInstantiatedTypeParameter) {
-//			result = argument().sameAs(((InstantiatedTypeParameter)other).argument(), trace);
-//		}
-//		return result;
-//	}
 
 	@Override
 	public int hashCode() {

@@ -270,6 +270,20 @@ public interface Namespace extends Declaration, DeclarationContainer {
       return cref.getElement();
    }
    
-   public void notifyDeclarationAdded(Declaration declaration);
+   /**
+    * <b>DO NOT CALL THIS METHOD!</b> It is for internal use only, but it must be public
+    * because it is in an interface. This method is needed to keep the cache consistent.
+    * 
+    * @param declaration The declaration that was removed.
+    */
+   public void removeDeclaration(Declaration declaration);
+   
+   /**
+    * <b>DO NOT CALL THIS METHOD!</b> It is for internal use only, but it must be public
+    * because it is in an interface. This method is needed to keep the cache consistent.
+    * 
+    * @param declaration The declaration that was added.
+    */
+   public void addDeclaration(Declaration declaration);
 
 }

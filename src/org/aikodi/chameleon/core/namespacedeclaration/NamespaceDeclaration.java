@@ -28,6 +28,7 @@ import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
 
+import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
 import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
 
 import com.google.common.collect.ImmutableList;
@@ -276,21 +277,21 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	 * from their namespaces. 
 	 */
 	@Override
-   public void nonRecursiveDisconnect() {
-		// 1) Set the lexical parent to null.
-		super.nonRecursiveDisconnect();
-//		if(Config.DEBUG) {
-//			if(namespace() != null) {
-//			  System.out.println("Disconnecting from "+namespace().getFullyQualifiedName());
-//			}
-////			showStackTrace("Disconnecting from "+namespace().getFullyQualifiedName());
-//		}
-		// 2) Disconnect from the namespace. 
-		setNamespace(null);
-//		// 3) IS NOW DONE BY DEFAULT RECURSION Disconnecting the children.
-//		for(NamespacePart nsp: namespaceParts()) {
-//			nsp.disconnect();
-//		}
+	public void nonRecursiveDisconnect() {
+	  // 1) Set the lexical parent to null.
+	  setNamespace(null);
+	  super.nonRecursiveDisconnect();
+	  //		if(Config.DEBUG) {
+	  //			if(namespace() != null) {
+	  //			  System.out.println("Disconnecting from "+namespace().getFullyQualifiedName());
+	  //			}
+	  ////			showStackTrace("Disconnecting from "+namespace().getFullyQualifiedName());
+	  //		}
+	  // 2) Disconnect from the namespace. 
+	  //		// 3) IS NOW DONE BY DEFAULT RECURSION Disconnecting the children.
+	  //		for(NamespacePart nsp: namespaceParts()) {
+	  //			nsp.disconnect();
+	  //		}
 	}
 
 	/**
@@ -358,6 +359,19 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		for(NamespaceDeclaration part: namespaceDeclarations()) {
 			part.activate();
 		}
+		_declarations.addListener(new AssociationListener<Declaration>() {
+
+		  @Override
+		  public void notifyElementAdded(Declaration element) {
+		    namespace().addDeclaration(element);
+
+		  }
+
+		  @Override
+		  public void notifyElementRemoved(Declaration element) {
+//		    namespace().removeDeclaration(element);
+		  }
+        });
 	}
 	
 	public CrossReference<Namespace> namespaceReference() {

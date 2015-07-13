@@ -11,6 +11,7 @@ import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.util.Lists;
+import org.aikodi.chameleon.util.Util;
 
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.contract.Contracts;
@@ -207,8 +208,8 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
   private LinkedList<Element> _elements = new LinkedList<>();
 
   private List<D> map(List<Declaration> initial) {
-    java.util.function.Function<? super Declaration, ? extends D> mapper = i -> i.logical().nearestAncestorOrSelf(i, _dependencyFinder);
-    return initial.stream().map(mapper).collect(Collectors.toList());
+    java.util.function.Function<? super Declaration, ? extends D> mapper = i -> i.logical().nearestAncestorOrSelf(_dependencyFinder);
+    return initial.stream().map(mapper).filter(d -> d != null).collect(Collectors.toList());
   }
   
   @SuppressWarnings("unchecked")

@@ -22,7 +22,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 
 public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer {
 
-	protected abstract UniversalPredicate<D,Nothing> elementPredicate();
+	protected abstract UniversalPredicate<D,Nothing> sourcePredicate();
 
 	protected UniversalPredicate<? super CrossReference<?>,Nothing> crossReferencePredicate() {
 		return dependencyPredicate();
@@ -58,16 +58,7 @@ public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer
 	}
 	
 	public void buildGraph(final GraphBuilder<Element> builder) throws InputException {
-		UniversalPredicate<D, Nothing> elementPredicate = elementPredicate();
-		DependencyAnalysis<D, D> analysis = new DependencyAnalysis<D,D>(
-				elementPredicate, 
-				crossReferencePredicate(),
-				createMapper(),
-				declarationPredicate(), 
-				dependencyPredicate(),
-				historyFilter());
-		
-		DependencyResult result = analysisResult(analysis);
+		DependencyResult result = dependencyResult();
 		Action<Element, Nothing> nodeAction = new Action<Element, Nothing>(Element.class) {
 			@Override
 			protected void doPerform(Element d) {
@@ -84,6 +75,24 @@ public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer
 		result.traverse(nodeAction, edgeAction);
 		
 	}
+
+  /**
+   * @return
+   * @throws InputException
+   */
+  public DependencyResult dependencyResult() throws InputException {
+    UniversalPredicate<D, Nothing> sourcePredicate = sourcePredicate();
+		DependencyAnalysis<D, D> analysis = new DependencyAnalysis<D,D>(
+				sourcePredicate, 
+				crossReferencePredicate(),
+				createMapper(),
+				declarationPredicate(), 
+				dependencyPredicate(),
+				historyFilter());
+		
+		DependencyResult result = analysisResult(analysis);
+    return result;
+  }
 
   protected True dependencyPredicate() {
     return new True();

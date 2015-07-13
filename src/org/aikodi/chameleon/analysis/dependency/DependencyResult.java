@@ -1,12 +1,14 @@
 package org.aikodi.chameleon.analysis.dependency;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.aikodi.chameleon.analysis.Result;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
+import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
 import be.kuleuven.cs.distrinet.rejuse.graph.Edge;
 import be.kuleuven.cs.distrinet.rejuse.graph.Graph;
 import be.kuleuven.cs.distrinet.rejuse.graph.Node;
@@ -34,10 +36,18 @@ public class DependencyResult extends Result<DependencyResult> {
 		return _dependencyGraph.node(source).directSuccessors();
 	}
 	
+    public Set<Node<Element>> dependencyNodes(Element source) {
+      return _dependencyGraph.node(source).directSuccessorNodes();
+  }
+  
 	public Set<UniEdge<Element>> dependencies() {
 		// Can't type this properly. Maybe it can be done if we put all type parameters
 		// in the factories and not make them mutually recursive.
 		return (Set) dependencyGraph().edges();
+	}
+	
+	public Graph<Element> graph() {
+	  return _dependencyGraph;
 	}
 	
 	public <X extends Exception> void traverse(Action<? super Element, ? extends X> nodeAction, Action<? super Edge<Element>,? extends X> edgeAction) throws X {
@@ -95,5 +105,17 @@ public class DependencyResult extends Result<DependencyResult> {
 	
 	public void prune() {
 		_dependencyGraph.remoteEdgesNotInvolvedInCycles();
+	}
+	
+	public Set<Node<Element>> nodes() {
+	  return _dependencyGraph.nodes();
+	}
+	
+	public Node<Element> nodeOf(Element element) {
+	  return _dependencyGraph.node(element);
+	}
+	
+	public Set<Element> elements() {
+	  return nodes().stream().map(n -> n.object()).collect(Collectors.toSet());
 	}
 }
