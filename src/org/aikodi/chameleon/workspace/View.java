@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Stream;
 
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
@@ -26,6 +27,7 @@ import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
 import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 
 import com.google.common.collect.ImmutableList;
@@ -656,6 +658,17 @@ public class View extends PluginContainerImpl<ViewPlugin>
 		}
 	}
 
+	public <T extends Element,E extends Exception> List<T> findInSource(Class<T> kind, Predicate<T, E> predicate) throws E, InputException {
+	  List<T> result = new ArrayList<>();
+	  for(DocumentScanner scanner:sourceScanners()) {
+	    List<Document> stream = scanner.documents();
+        for(Document document: stream) {
+          result.addAll(document.descendants(kind, predicate));
+        }
+	  }
+	  return result;
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 * 
