@@ -101,5 +101,8 @@ public interface CrossReference<D extends Declaration> extends Element, CrossRef
     return getElement().targetContext();
   }
 
+  /**
+   * @return The lowest upper bound of the type of the element referenced declaration.
+   */
   public Class<D> referencedType();
 }
