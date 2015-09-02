@@ -14,7 +14,19 @@ import org.aikodi.chameleon.exception.ChameleonProgrammerException;
  */
 public abstract class ElementReference<D extends Declaration> extends CommonCrossReferenceWithTarget<D> implements CrossReferenceWithName<D>, CrossReferenceWithTarget<D> {
 
-	
+  /**
+   * The class object for the type of declaration that is referenced.
+   */
+  private Class<D> _specificClass;
+  private String _name;
+
+  /**
+   * Create a new element reference that references an element with the given name, and
+   * of the given specific type.
+   * 
+   * @param name The name of the referenced element.
+   * @param specificType The type of the referenced element.
+   */
  /*@
    @ public behavior
    @
@@ -22,37 +34,46 @@ public abstract class ElementReference<D extends Declaration> extends CommonCros
    @
    @ post getName().equals(name);
    @*/
-	public ElementReference(String name) {
-	   super(null);
-		setName(name);
-	}
+  public ElementReference(String name, Class<D> specificType) {
+    super(null);
+    _specificClass = specificType;
+    setName(name);
+  }
 
-  private String _name;
+  /**
+   * Return the {@link Class} object of the kind of elements that this
+   * reference can point at.
+   * 
+   * @return
+   */
+  public Class<D> referencedType() {
+     return _specificClass;
+  }
 
-   @Override
-   public String name() {
-      return _name;
-   }
-  
-	@Override
-	public final void setName(String name) {
-		if(name == null) {
-			throw new ChameleonProgrammerException("The name of an element reference cannot be null");
-		} else if(name.equals("")) {
-			throw new ChameleonProgrammerException("The name of an element reference cannot be the empty string");
-		}
-		flushLocalCache();
-		String old = _name;
-		_name = name;
+  @Override
+  public String name() {
+    return _name;
+  }
+
+  @Override
+  public final void setName(String name) {
+    if(name == null) {
+      throw new ChameleonProgrammerException("The name of an element reference cannot be null");
+    } else if(name.equals("")) {
+      throw new ChameleonProgrammerException("The name of an element reference cannot be the empty string");
+    }
+    flushLocalCache();
+    String old = _name;
+    _name = name;
     if(changeNotificationEnabled()) {
       notify(new NameChanged(old, name));
     }
-	}
-  
-  
-	@Override
-   public String toString() {
-		return (getTarget() == null ? "" : getTarget().toString()+".")+name();
-	}
+  }
+
+
+  @Override
+  public String toString() {
+    return (getTarget() == null ? "" : getTarget().toString()+".")+name();
+  }
 
 }

@@ -13,50 +13,51 @@ import org.aikodi.chameleon.util.Util;
 import com.google.common.collect.ImmutableSet;
 
 public class MultiTypeReference<D extends Declaration> extends ElementReference<D> {
-	
-  public MultiTypeReference(String fqn, Set<Class<? extends D>> classes, boolean recursiveLimit) {
-    this(createTarget(fqn, classes, recursiveLimit), 
-                   Util.getLastPart(fqn), 
-                   classes);
+
+  protected MultiTypeReference(String fqn, Set<Class<? extends D>> classes, boolean recursiveLimit, Class type) {
+    this(createTarget(fqn, classes, recursiveLimit,type), 
+        Util.getLastPart(fqn), 
+        classes,type);
   }
 
-	protected static MultiTypeReference createTarget(String fqn, Set classes, boolean recursiveLimit) {
-		String allButLastPart = Util.getAllButLastPart(fqn);
-		if(allButLastPart == null) {
-			return null;
-		} else {
-			return new MultiTypeReference(allButLastPart, recursiveLimit ? classes : Collections.singleton(Declaration.class), recursiveLimit);
-		}
-	}
+  protected static <D extends Declaration> MultiTypeReference<D> createTarget(String fqn, Set classes, boolean recursiveLimit, Class type) {
+    String allButLastPart = Util.getAllButLastPart(fqn);
+    if(allButLastPart == null) {
+      return null;
+    } else {
+      Set cls = recursiveLimit ? classes : Collections.singleton(Declaration.class);
+      return new MultiTypeReference<D>(allButLastPart, cls, recursiveLimit, type);
+    }
+  }
 
-  
-	public MultiTypeReference(CrossReferenceTarget target, String name, Set<Class<? extends D>> classes) {
-		super(name);
-		setTarget(target); 
-		_classes = ImmutableSet.copyOf(classes);
-	}
 
-	public MultiTypeReference(String fqn, Set<Class<? extends D>> classes) {
-		this(createTarget(fqn, classes, false), 
-        Util.getLastPart(fqn),classes);
-	}
+  public MultiTypeReference(CrossReferenceTarget target, String name, Set<Class<? extends D>> classes, Class<D> type) {
+    super(name, type);
+    setTarget(target); 
+    _classes = ImmutableSet.copyOf(classes);
+  }
 
-	@Override
-	public DeclarationSelector<D> selector() {
-		return new MultiTypeSelector<D>(_classes) {
+  public MultiTypeReference(String fqn, Set classes, Class<D> type, Class recursiveType) {
+    this(createTarget(fqn, classes, false,recursiveType), 
+        Util.getLastPart(fqn),classes,type);
+  }
 
-			@Override
-			public String name() {
-				return MultiTypeReference.this.name();
-			}
-		};
-	}
+  @Override
+  public DeclarationSelector<D> selector() {
+    return new MultiTypeSelector<D>(_classes) {
 
-	@Override
-	protected Element cloneSelf() {
-		return new MultiTypeReference<D>(null,name(),_classes);
-	}
+      @Override
+      public String name() {
+        return MultiTypeReference.this.name();
+      }
+    };
+  }
 
-	private Set<Class<? extends D>> _classes;
+  @Override
+  protected Element cloneSelf() {
+    return new MultiTypeReference<D>(null,name(),_classes,referencedType());
+  }
+
+  private Set<Class<? extends D>> _classes;
 
 }

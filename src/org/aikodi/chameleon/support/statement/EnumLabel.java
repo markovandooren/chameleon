@@ -23,6 +23,14 @@ public class EnumLabel extends SwitchLabel implements CrossReference<Variable>{
 	protected EnumLabel cloneSelf() {
 		return new EnumLabel(name());
 	}
+	
+	/**
+	* @{inheritDoc}
+	*/
+	@Override
+	public Class<Variable> referencedType() {
+	  return Variable.class;
+	}
 
 	public String name() {
 		return _name;

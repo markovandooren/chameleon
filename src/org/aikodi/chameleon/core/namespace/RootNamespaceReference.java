@@ -16,6 +16,14 @@ public class RootNamespaceReference extends ElementImpl implements CrossReferenc
 		return view.namespace();
 	}
 
+	/**
+	* @{inheritDoc}
+	*/
+	@Override
+	public Class<Namespace> referencedType() {
+	  return Namespace.class;
+	}
+	
 	@Override
 	protected RootNamespaceReference cloneSelf() {
 		return new RootNamespaceReference();

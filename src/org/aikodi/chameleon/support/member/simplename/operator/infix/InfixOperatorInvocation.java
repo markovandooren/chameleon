@@ -40,6 +40,13 @@ protected InfixOperatorInvocation cloneSelf() {
     };
   }
   
+  /**
+   * @{inheritDoc}
+   */
+  @Override
+  public Class<InfixOperator> referencedType() {
+    return InfixOperator.class;
+  }
 //  @Override
 //  public InfixOperator getElement() throws LookupException {
 //  	Timer.INFIX_OPERATOR_INVOCATION.start();

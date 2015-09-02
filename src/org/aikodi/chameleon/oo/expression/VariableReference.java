@@ -56,6 +56,14 @@ public class VariableReference extends Expression implements Assignable, CrossRe
     }
   }
 
+  /**
+   * @{inheritDoc}
+   */
+  @Override
+  public Class<Variable> referencedType() {
+    return Variable.class;
+  }
+  
 	private String _name;
 
 	/**

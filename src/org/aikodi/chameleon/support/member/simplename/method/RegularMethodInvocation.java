@@ -36,5 +36,11 @@ protected RegularMethodInvocation cloneSelf() {
     return new RegularMethodInvocation(name(), null);
   }
 
-
+  /**
+   * @{inheritDoc}
+   */
+  @Override
+  public Class<NormalMethod> referencedType() {
+    return NormalMethod.class;
+  }
 }

@@ -17,11 +17,6 @@ import org.aikodi.chameleon.util.Util;
 public class NameReference<D extends Declaration> extends ElementReference<D> {
 
    /**
-    * The class object for the type of declaration that is referenced.
-    */
-   private Class<D> _specificClass;
-
-   /**
     * Initialize a new simple reference given a qualified name. The name
     * is split at every dot, and multiple objects are created to form a chain of
     * references.
@@ -50,7 +45,7 @@ public class NameReference<D extends Declaration> extends ElementReference<D> {
     * is split at every dot, and multiple objects are created to form a chain of
     * references.
     * 
-    * If recusriveLimit is true, the prefixes are all references to elements of
+    * If recursiveLimit is true, the prefixes are all references to elements of
     * the given type. If recursiveLimit is false, the prefixes are all
     * references to {@link Declaration}s.
     * 
@@ -81,9 +76,8 @@ public class NameReference<D extends Declaration> extends ElementReference<D> {
     *           The type of declaration that is referenced.
     */
    public NameReference(CrossReferenceTarget target, String qualifiedName, Class<D> type) {
-      super(qualifiedName);
+      super(qualifiedName, type);
       setTarget(target);
-      _specificClass = type;
    }
 
    /**
@@ -99,7 +93,7 @@ public class NameReference<D extends Declaration> extends ElementReference<D> {
    @Override
    public DeclarationSelector<D> selector() {
       if (_selector == null) {
-         _selector = new NameSelector<D>(_specificClass) {
+         _selector = new NameSelector<D>(referencedType()) {
             @Override
             public String name() {
                return NameReference.this.name();
@@ -107,16 +101,6 @@ public class NameReference<D extends Declaration> extends ElementReference<D> {
          };
       }
       return _selector;
-   }
-
-   /**
-    * Return the {@link Class} object of the kind of elements that this
-    * reference can point at.
-    * 
-    * @return
-    */
-   public Class<D> referencedType() {
-      return _specificClass;
    }
 
    protected NameReference createTarget(String fqn, Class specificClass, boolean recursiveLimit) {
