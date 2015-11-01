@@ -53,8 +53,8 @@ import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
  *         reference.
  */
 public interface CrossReference<D extends Declaration> extends Element, CrossReferenceTarget {
-	
-	/**
+
+  /**
    * Return the element referenced by this cross-reference. See
    * {@link chameleon.core.lookup.LookupContext} to learn how you can make sure
    * that you cross-reference can reuse as much functionality from the Chameleon
@@ -66,9 +66,9 @@ public interface CrossReference<D extends Declaration> extends Element, CrossRef
    *           lookup, a required element cannot be found, or if there are
    *           multiple equivalent candidates.
    */
-	public D getElement() throws LookupException;
+  public D getElement() throws LookupException;
 
-	/**
+  /**
    * <p>
    * Return the element that declared the element that is returned by
    * getElement(). In most cases, both methods return the same element, but for
@@ -84,15 +84,25 @@ public interface CrossReference<D extends Declaration> extends Element, CrossRef
    * @return
    * @throws LookupException
    */
-	public default Declaration getDeclarator() throws LookupException {
-	  //FIXME This is not guaranteed to have to same result as the implementation
-	  //      in CrossReferenceImpl, which uses a DeclaratorSelector
-	  return getElement().declarator();
-	}
+  public default Declaration getDeclarator() throws LookupException {
+    //FIXME This is not guaranteed to have to same result as the implementation
+    //      in CrossReferenceImpl, which uses a DeclaratorSelector
+    return getElement().declarator();
+  }
 
-	@Override
+
+  /**
+   * By default returns the target context of the referenced element.
+   * 
+   * @{inheritDoc}
+   */
+  @Override
   public default LookupContext targetContext() throws LookupException {
     return getElement().targetContext();
   }
 
+  /**
+   * @return The lowest upper bound of the type of the element referenced declaration.
+   */
+  public Class<D> referencedType();
 }

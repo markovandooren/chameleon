@@ -28,6 +28,14 @@ public class NamedPointcutExpression extends AbstractPointcutExpression<Element>
 		
 	}
 	
+	/**
+	* @{inheritDoc}
+	*/
+	@Override
+	public Class<Pointcut> referencedType() {
+	  return Pointcut.class;
+	}
+	
 	private Single<PointcutReference> _pointcutReference = new Single<PointcutReference>(this);
 	
 	public void setPointcutReference(PointcutReference ref) {

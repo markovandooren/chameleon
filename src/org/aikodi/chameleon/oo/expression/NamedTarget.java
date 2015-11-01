@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
-import org.aikodi.chameleon.core.declaration.TargetDeclaration;
 import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -40,6 +39,14 @@ public class NamedTarget extends CommonCrossReferenceWithTarget<Declaration> imp
       setName(Util.getLastPart(fullyQualifiedName));
    }
 
+   /**
+   * @{inheritDoc}
+   */
+  @Override
+  public Class<Declaration> referencedType() {
+    return Declaration.class;
+  }
+   
    /**
     * Initialize a new named target with the given identifier as name, and the
     * given target as its target. The name should be an identifier and thus not

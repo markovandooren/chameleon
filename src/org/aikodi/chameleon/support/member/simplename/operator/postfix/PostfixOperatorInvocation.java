@@ -6,6 +6,7 @@ package org.aikodi.chameleon.support.member.simplename.operator.postfix;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.reference.CrossReferenceTarget;
 import org.aikodi.chameleon.support.member.simplename.SimpleNameMethodInvocation;
+import org.aikodi.chameleon.support.member.simplename.operator.infix.InfixOperator;
 
 
 /**
@@ -42,12 +43,12 @@ protected PostfixOperatorInvocation cloneSelf() {
     };
   }
 
-//  @Override
-//  public PostfixOperator getElement() throws LookupException {
-//  	Timer.POSTFIX_OPERATOR_INVOCATION.start();
-//  	PostfixOperator result = super.getElement();
-//  	Timer.POSTFIX_OPERATOR_INVOCATION.stop();
-//  	return result;
-//  }
+  /**
+   * @{inheritDoc}
+   */
+  @Override
+  public Class<PostfixOperator> referencedType() {
+    return PostfixOperator.class;
+  }
 
 }

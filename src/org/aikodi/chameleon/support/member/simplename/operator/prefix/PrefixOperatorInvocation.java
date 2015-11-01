@@ -4,6 +4,7 @@ package org.aikodi.chameleon.support.member.simplename.operator.prefix;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.reference.CrossReferenceTarget;
 import org.aikodi.chameleon.support.member.simplename.SimpleNameMethodInvocation;
+import org.aikodi.chameleon.support.member.simplename.operator.infix.InfixOperator;
 
 /**
  * @author Marko van Dooren
@@ -34,12 +35,12 @@ protected PrefixOperatorInvocation cloneSelf() {
     };
   }
   
-//  @Override
-//  public PrefixOperator getElement() throws LookupException {
-//  	Timer.PREFIX_OPERATOR_INVOCATION.start();
-//  	PrefixOperator result = super.getElement();
-//  	Timer.PREFIX_OPERATOR_INVOCATION.stop();
-//  	return result;
-//  }
+  /**
+   * @{inheritDoc}
+   */
+  @Override
+  public Class<PrefixOperator> referencedType() {
+    return PrefixOperator.class;
+  }
 
 }

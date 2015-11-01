@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
-import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.core.reference.CrossReferenceWithArguments;
@@ -31,6 +30,14 @@ public class PointcutReference extends CrossReferenceWithArguments implements Cr
 		setName(name);
 	}
 
+	/**
+	* @{inheritDoc}
+	*/
+	@Override
+	public Class<Pointcut> referencedType() {
+	  return referencedType();
+	}
+	
 	@Override
 	public Pointcut getElement() throws LookupException {
 		return (Pointcut) super.getElement();

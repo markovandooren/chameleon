@@ -25,6 +25,14 @@ public class SuperTarget extends ElementImpl implements CrossReference<Declarati
   public SuperTarget(CrossReferenceTarget target) {
     setTarget(target);
   }
+  
+  /**
+   * @{inheritDoc}
+   */
+  @Override
+  public Class<Declaration> referencedType() {
+    return Declaration.class;
+  }
 
   /**
    * TARGET

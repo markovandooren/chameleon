@@ -36,6 +36,14 @@ public class NameExpression extends TargetedExpression implements CrossReference
 	  setTarget(target);
 	}
   
+  
+  /**
+   * @{inheritDoc}
+   */
+  @Override
+  public Class<DeclarationWithType> referencedType() {
+    return DeclarationWithType.class;
+  }
   /********
    * NAME *
    ********/
