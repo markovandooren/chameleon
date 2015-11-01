@@ -673,12 +673,26 @@ public interface Element {
    /*@
      @ public behavior
      @
+     @ pre type != null;
+     @
+     @ post \result == ! descendants(type).isEmpty();
+     @*/
+	  public <T extends Element> boolean hasDescendant(Class<T> type);
+
+	  
+    /**
+     * Check whether this element has a descendant that satisfies the given predicate.
+     * 
+     * @param type The class object representing the type the descendants.
+     * @param predicate The predicate of which we want to know whether it is satisfied by a descendant.
+     */
+   /*@
+     @ public behavior
+     @
      @ pre c != null;
      @
-     @ post \result == ! descendants(c).isEmpty();
+     @ post \result == ! descendants(type, predicate).isEmpty();
      @*/
-	  public <T extends Element> boolean hasDescendant(Class<T> c);
-
 	  public default <T extends Element, E extends Exception> boolean hasDescendant(Class<T> type, Predicate<T,E> predicate) throws E {
 	    List<T> result = children(type, predicate);
 	    if (!result.isEmpty())
@@ -691,6 +705,7 @@ public interface Element {
 
 	    return false;
 	  }
+	  
 	  /**
 	   * Check whether this element has a descendant that satisfies the given predicate.
 	   * 
