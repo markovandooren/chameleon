@@ -41,7 +41,7 @@ dependencies {
   compile group: 'junit', name: 'junit', version: '4.+'
   compile group: 'com.google.guava', name: 'guava', version: '18.+'
   //compile project(':rejuse')
-  compile group: 'markovandooren', name: 'rejuse', version: '1.3.6'
+  compile group: 'markovandooren', name: 'rejuse', version: '1.3.7'
   compile group: 'org.antlr', name: 'antlr', version: '3.2'
   //compile "${eclipseMavenGroup}:org.eclipse.core.commands:+"
   
@@ -98,7 +98,7 @@ uploadArchives {
         repository(url: "scp://webssh.ugent.be/users/m/mcvdoore/WWW/repository/") {
             authentication(userName: "mcvdoore")
         }
-        pom.version = '1.2.0'
+        pom.version = '1.2.1'
         pom.groupId = 'markovandooren'
         pom.artifactId = 'chameleon'
     }
