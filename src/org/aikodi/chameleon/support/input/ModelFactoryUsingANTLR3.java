@@ -53,7 +53,10 @@ public abstract ModelFactoryUsingANTLR3 clone();
 			parser.compilationUnit();
 		} catch (RecognitionException e) {
 			throw new ParseException(e,cu);
-		} catch (Throwable t) {
+		} catch(RuntimeException e) {
+		   throw e;
+		}
+		catch (Throwable t) {
 			t.printStackTrace();
 		}
 	}
