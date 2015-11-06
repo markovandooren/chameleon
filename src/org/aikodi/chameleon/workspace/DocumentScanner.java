@@ -164,7 +164,9 @@ public interface DocumentScanner extends Comparable<DocumentScanner> {
 	 * @throws E
 	 * @throws InputException 
 	 */
-	public <E extends Exception> void apply(Action<? extends Element, E> action) throws E, E, InputException;
+	public <E extends Exception> void apply(Action<? extends Element, E> action) throws E, InputException;
+	
+    public <E extends Exception> void applyToLoaders(Action<DocumentLoader, E> action) throws E;
 
 	/**
 	 * Return the namespaces that are populated by this document scanner.

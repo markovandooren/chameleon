@@ -658,6 +658,20 @@ public class View extends PluginContainerImpl<ViewPlugin>
 		}
 	}
 
+    /**
+     * Apply the given action to all source loaders.
+     * 
+     * @param action The action to apply
+     * @throws E The action has thrown an exception of type E.
+     * @throws InputException An exception was thrown while attempting to
+     *                        load a document.
+     */
+    public <E extends Exception> void applyToSourceLoaders(Action<DocumentLoader, E> action) throws E {
+        for(DocumentScanner scanner:sourceScanners()) {
+            scanner.applyToLoaders(action);
+        }
+    }
+
 	public <T extends Element,E extends Exception> List<T> findInSource(Class<T> kind, Predicate<T, E> predicate) throws E, InputException {
 	  List<T> result = new ArrayList<>();
 	  for(DocumentScanner scanner:sourceScanners()) {

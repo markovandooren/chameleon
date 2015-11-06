@@ -10,8 +10,9 @@ import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.reference.CrossReference;
+import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.Lists;
-import org.aikodi.chameleon.util.Util;
+import org.aikodi.rejuse.exception.Handler;
 
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.contract.Contracts;
@@ -57,7 +58,7 @@ import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
  * @param <D> The type of the declarations that are analyzed as possible
  *          dependencies.
  */
-public class DependencyAnalysis<S extends Element, D extends Element> extends Analysis<Element, DependencyResult> {
+public class DependencyAnalysis<S extends Element, D extends Element> extends Analysis<Element, DependencyResult, LookupException> {
 
   /**
    * Create a new dependency analysis.
@@ -89,6 +90,16 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
         decomposer, declarationPredicate, dependencyPredicate, historyFilter);
   }
 
+//  public static <S extends Element, D extends Element> DependencyAnalysis<S,D,ModelException> create(UniversalPredicate<S, Nothing> sourcePredicate,
+//      UniversalPredicate<? super CrossReference<?>, Nothing> crossReferencePredicate,
+//      Function<Declaration, List<Declaration>, Nothing> decomposer, 
+//      UniversalPredicate<D, Nothing> declarationPredicate,
+//      UniversalPredicate<? super Dependency<? super S, ? super CrossReference, ? super D>, Nothing> dependencyPredicate,
+//      HistoryFilter<S, D> historyFilter) {
+//    return new DependencyAnalysis<S,D,ModelException>(sourcePredicate, crossReferencePredicate, decomposer,declarationPredicate,dependencyPredicate,historyFilter, Guard.<ModelException>propagate());
+//  }
+
+
   public DependencyAnalysis(Class<S> sourceType, 
       Predicate<? super S, Nothing> sourcePredicate,
       UniversalPredicate<? super CrossReference<?>, Nothing> crossReferencePredicate, 
@@ -102,7 +113,7 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
     Contracts.notNull(sourcePredicate, "The source predicate should not be null");
     Contracts.notNull(crossReferencePredicate, "The cross-reference predicate should not be null");
     Contracts.notNull(targetType, "The target type should not be null");
-//    Contracts.notNull(decomposer, "The decomposer should not be null");
+    //    Contracts.notNull(decomposer, "The decomposer should not be null");
     Contracts.notNull(targetPredicate, "The target predicate should not be null");
     Contracts.notNull(dependencyPredicate, "The dependency predicate should not be null");
     _sourcePredicate = UniversalPredicate.of(sourceType, sourcePredicate);
@@ -211,11 +222,10 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
     java.util.function.Function<? super Declaration, ? extends D> mapper = i -> i.logical().nearestAncestorOrSelf(_dependencyFinder);
     return initial.stream().map(mapper).filter(d -> d != null).collect(Collectors.toList());
   }
-  
+
   @SuppressWarnings("unchecked")
   @Override
-  public void analyze(Element element) throws Nothing {
-    try {
+  protected void analyze(Element element) throws LookupException {
       if (!_elements.isEmpty()) {
         if (_crossReferencePredicate.eval(element)) {
           CrossReference<?> cref = (CrossReference<?>) element;
@@ -223,15 +233,15 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
           // if the documents have not yet been loaded.
           Declaration declaration = cref.getElement();
           List<Declaration> initial = _decomposer.apply(declaration);
-					List<D> targets = map(initial);
-          
+          List<D> targets = map(initial);
+
           boolean fixed = false;
           while(! fixed) {
             List<D> tmp = new ArrayList<>();
             for(D target: targets) {
               if(target instanceof Declaration) {
                 List<Declaration> decomp = _decomposer.apply((Declaration) target);
-								List<D> newTargets = map(decomp);
+                List<D> newTargets = map(decomp);
                 tmp.addAll(newTargets);
               } else {
                 tmp.add(target);
@@ -242,7 +252,7 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
             }
             targets = tmp;
           }
-              
+
           for(D target: targets) {
             for (Element e : _elements) {
               Dependency dependency = new Dependency(e, cref, target);
@@ -256,8 +266,6 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
           }
         }
       }
-    } catch (LookupException e) {
-      e.printStackTrace();
-    }
   }
+
 }

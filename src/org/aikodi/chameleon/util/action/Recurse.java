@@ -10,7 +10,7 @@ import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
  * @param <T> 
  * @param <E>
  */
-public class Recurse<T, E extends Exception> extends TreeWalker<T, E> {
+public class Recurse<T, E extends Exception> implements TreeWalker<T, E> {
 
   public Recurse(TreeWalker<T, ? extends E> walker) {
     _action = walker;

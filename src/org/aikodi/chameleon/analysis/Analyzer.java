@@ -1,56 +1,73 @@
 package org.aikodi.chameleon.analysis;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
+import org.aikodi.chameleon.util.action.GuardedTreeWalker;
 import org.aikodi.chameleon.util.action.TopDown;
+import org.aikodi.chameleon.workspace.DocumentLoader;
 import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.chameleon.workspace.Project;
+import org.aikodi.chameleon.workspace.View;
+import org.aikodi.rejuse.exception.Handler;
 
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
+import be.kuleuven.cs.distrinet.rejuse.action.Action;
 
 public abstract class Analyzer {
 
-	/**
-	 * Create a new analyser for the given project.
-	 * @param project
-	 */
- /*@
+  /**
+   * Create a new analyser for the given project.
+   * @param project
+   */
+  /*@
    @ public behavior
    @
    @ pre project != null;
    @ post project() == project;
    @*/
-	public Analyzer(Project project) {
-		_project = project;
-	}
-	
-	private Project _project;
-	
-	/**
-	 * Perform the given analysis on the project of this analyzer.
-	 * 
-	 * @param analysis The analysis to be executed.
-	 * @return The result of performing the given analysis top down on every
-   * source document in the project. 
-	 * @throws InputException
-	 */
-	protected <R extends Result<R>> R analysisResult(Analysis<? extends Element,R> analysis) throws InputException {
-		for(Document doc: sourceDocuments()) {
-			TreeStructure<Element> lexical = doc.lexical();
-      new TopDown<Element,Nothing>(analysis).traverse(lexical);
-		}
-		return analysis.result();
-	}
+  public Analyzer(Project project) {
+    _project = project;
+  }
 
-	public Project project() {
-		return _project;
-	}
-	
-	public Collection<Document> sourceDocuments() throws InputException {
-		return project().sourceDocuments();
-	}
+  private Project _project;
+
+  /**
+   * Perform the given analysis on the project of this analyzer.
+   * 
+   * @param analysis The analysis to be executed.
+   * @return The result of performing the given analysis top down on every
+   * source document in the project. 
+   * @throws InputException
+   */
+  protected <R extends Result<R>, E extends Exception, A extends Exception, I extends Exception> R analysisResult(
+      Analysis<? extends Element,R,E> analysis,
+      Handler<? super E,A> analysisHandler,
+      Handler<InputException,I> handler) throws A, I {
+    GuardedTreeWalker<Element, E, A> todo = new GuardedTreeWalker<>(analysis, analysisHandler) ;
+    TopDown<Element, A> topDown = new TopDown<>(todo);
+    Stream<View> stream = project().views().stream();
+    List<DocumentLoader> flatMap = stream.flatMap(v -> v.sourceScanners().stream()).flatMap(s -> s.documentLoaders().stream()).collect(Collectors.toList());
+    for(DocumentLoader loader: flatMap) {
+      try {
+        Document document = loader.load();
+        topDown.traverse(document.lexical());
+      } catch(InputException exc) {
+        handler.handle(exc);
+      }
+    }
+    return analysis.result();
+  }
+
+  public Project project() {
+    return _project;
+  }
+
+  public Collection<Document> sourceDocuments() throws InputException {
+    return project().sourceDocuments();
+  }
 
 }
