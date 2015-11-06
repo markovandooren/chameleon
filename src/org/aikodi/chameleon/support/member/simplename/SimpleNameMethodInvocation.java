@@ -23,20 +23,20 @@ public abstract class SimpleNameMethodInvocation<D extends Method> extends Metho
   
   @Override
 protected Type actualType() throws LookupException {
-    try {
+//    try {
 			Method method = getElement();
-			if (method != null) {
+//			if (method != null) {
 			  return method.returnType();
-			}
-			else {
-			  getElement();
-			  throw new LookupException("Could not find method of constructor invocation", this);
-			}
-		} catch (LookupException e) {
+//			}
+//			else {
+//			  getElement();
+//			  throw new LookupException("Could not find method of constructor invocation", this);
+//			}
+//		} catch (LookupException e) {
 //			e.printStackTrace();
 //			getMethod();
-			throw e;
-		}
+//			throw e;
+//		}
   }
 
 
