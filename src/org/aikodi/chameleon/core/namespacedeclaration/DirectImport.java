@@ -55,12 +55,12 @@ public class DirectImport<D extends Declaration> extends Import {
   }
   
   public D importedElement() throws LookupException {
-  	D result = crossReference().getElement();
-  	if(result != null) {
-      return result;
-  	} else {
-  		throw new LookupException("Lookup of type import reference returns null",crossReference());
-  	}
+  	return crossReference().getElement();
+//  	if(result != null) {
+//      return result;
+//  	} else {
+//  		throw new LookupException("Lookup of type import reference returns null",crossReference());
+//  	}
   }
 
   @Override
