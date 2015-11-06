@@ -1,16 +1,9 @@
 package org.aikodi.chameleon.core.reference;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.util.exception.Handler;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Action;
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 
 /**
  * <p>This interface represents the concept of a cross-reference in the model. A
@@ -49,8 +42,8 @@ import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
  * @author Marko van Dooren
  * @author Tim Vermeiren
  * 
- *         <D> The type of the declaration that is referenced by this cross
- *         reference.
+ *         <D> The type of the declaration that is referenced by this 
+ *         cross-reference.
  */
 public interface CrossReference<D extends Declaration> extends Element, CrossReferenceTarget {
 
@@ -85,11 +78,8 @@ public interface CrossReference<D extends Declaration> extends Element, CrossRef
    * @throws LookupException
    */
   public default Declaration getDeclarator() throws LookupException {
-    //FIXME This is not guaranteed to have to same result as the implementation
-    //      in CrossReferenceImpl, which uses a DeclaratorSelector
     return getElement().declarator();
   }
-
 
   /**
    * By default returns the target context of the referenced element.
@@ -102,7 +92,8 @@ public interface CrossReference<D extends Declaration> extends Element, CrossRef
   }
 
   /**
-   * @return The lowest upper bound of the type of the element referenced declaration.
+   * @return The lowest upper bound of the type of the element that this cross-reference
+   *         can point to. This is not necessarily the exact class of the referenced element.
    */
   public Class<D> referencedType();
 }
