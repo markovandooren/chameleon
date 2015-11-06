@@ -15,11 +15,11 @@ public class PrivateProperty extends ScopeProperty {
 	
 	public final static String ID = "accessibility.private";
 	
-	public PrivateProperty(PropertyUniverse<ChameleonProperty> universe, PropertyMutex<ChameleonProperty> family) {
-		this(ID, universe, family);
+	public PrivateProperty(PropertyMutex<ChameleonProperty> family) {
+		this(ID, family);
   }
-	public PrivateProperty(String name, PropertyUniverse<ChameleonProperty> universe, PropertyMutex<ChameleonProperty> family) {
-		super(name, universe, family);
+	public PrivateProperty(String name, PropertyMutex<ChameleonProperty> family) {
+		super(name, family);
 	}
 
 	@Override

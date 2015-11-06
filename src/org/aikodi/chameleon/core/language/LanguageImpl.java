@@ -1,5 +1,6 @@
 package org.aikodi.chameleon.core.language;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -450,7 +451,7 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
      */
     @Override
    public Set<ChameleonProperty> properties() {
-      return new HashSet<ChameleonProperty>(_properties.getOtherEnds());
+      return Collections.unmodifiableSet(_properties);
     }
 
     /**
@@ -462,11 +463,13 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
      */
     @Override
    public MultiAssociation<Language,ChameleonProperty> propertyLink() {
-      return _properties;
+      throw new RuntimeException();
+//      return _properties;
     }
     
-    private MultiAssociation<Language,ChameleonProperty> _properties = new MultiAssociation<Language, ChameleonProperty>(this);
+    //private MultiAssociation<Language,ChameleonProperty> _properties = new MultiAssociation<Language, ChameleonProperty>(this);
     
+    private Set<ChameleonProperty> _properties = new HashSet<>();
     /**
      * 
      * @param name
@@ -604,14 +607,16 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 		 */
 		@Override
       public void flushCache() {
-			_properties.apply(new SafeAction<Property>(Property.class) {
-
-				@Override
-				public void doPerform(Property object) throws Nothing {
-					object.flushLocalCache();
-				}
-			});
+		  for(Property property: _properties) {
+		    property.flushCache();
+		  }
 		}
 
+	    protected <T extends ChameleonProperty> T add(T t) {
+	      _properties.add(t);
+	      _properties.add(t.inverse());
+	      return t;
+	    }
+	    
 }
 

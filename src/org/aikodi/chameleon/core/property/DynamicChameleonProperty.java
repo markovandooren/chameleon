@@ -17,19 +17,19 @@ import com.google.common.collect.ImmutableList;
 
 public abstract class DynamicChameleonProperty extends DynamicProperty<Element,ChameleonProperty> implements ChameleonProperty {
 
-	public DynamicChameleonProperty(String name, PropertyUniverse<ChameleonProperty> universe, PropertyMutex<ChameleonProperty> mutex,
+	public DynamicChameleonProperty(String name, PropertyMutex<ChameleonProperty> mutex,
 			ChameleonProperty inverse, Class<? extends Element> validElementType) {
-		super(name, universe, mutex, inverse);
+		super(name, mutex, inverse);
 		addValidElementType(validElementType);
 	}
 
-	public DynamicChameleonProperty(String name, PropertyUniverse<ChameleonProperty> universe, PropertyMutex<ChameleonProperty> mutex, Class<? extends Element> validElementType) {
-		super(name, universe, mutex);
+	public DynamicChameleonProperty(String name, PropertyMutex<ChameleonProperty> mutex, Class<? extends Element> validElementType) {
+		super(name, mutex);
 		addValidElementType(validElementType);
 	}
 
-	public DynamicChameleonProperty(String name, PropertyUniverse<ChameleonProperty> universe, Class<? extends Element> validElementType) {
-		this(name, universe, new PropertyMutex<ChameleonProperty>(), validElementType);
+	public DynamicChameleonProperty(String name, Class<? extends Element> validElementType) {
+		this(name, new PropertyMutex<ChameleonProperty>(), validElementType);
 	}
 
 	
@@ -56,11 +56,11 @@ public abstract class DynamicChameleonProperty extends DynamicProperty<Element,C
 	private final class InverseDynamicChameleonProperty extends InverseProperty<Element, ChameleonProperty> implements ChameleonProperty {
 		private InverseDynamicChameleonProperty(String name, PropertyUniverse<ChameleonProperty> universe,
 				PropertyMutex<ChameleonProperty> mutex, ChameleonProperty inverse) {
-			super(name, universe, mutex, inverse);
+			super(name, mutex, inverse);
 		}
 
 		@Override
-		protected void createInverse(String name, PropertyUniverse<ChameleonProperty> universe) {
+		protected void createInverse(String name) {
 		}
 
 		@Override
@@ -75,8 +75,8 @@ public abstract class DynamicChameleonProperty extends DynamicProperty<Element,C
 	}
 
 	@Override
-	protected void createInverse(String name, PropertyUniverse<ChameleonProperty> universe) {
-		new InverseDynamicChameleonProperty("not "+name, universe, mutex(), this);
+	protected void createInverse(String name) {
+		new InverseDynamicChameleonProperty("not "+name, null, mutex(), this);
 	}
 
 	@Override

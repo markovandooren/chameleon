@@ -10,12 +10,12 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 
 public class Defined extends DynamicChameleonProperty {
 
-  public Defined(String name, Language lang) {
-    super(name, lang, new PropertyMutex<ChameleonProperty>(), Declaration.class);
+  public Defined(String name) {
+    super(name, new PropertyMutex<ChameleonProperty>(), Declaration.class);
   }
 
-  public Defined(String name, Language lang, PropertyMutex<ChameleonProperty> mutex) {
-    super(name, lang, mutex,Declaration.class);
+  public Defined(String name, PropertyMutex<ChameleonProperty> mutex) {
+    super(name, mutex,Declaration.class);
   }
   
   @Override

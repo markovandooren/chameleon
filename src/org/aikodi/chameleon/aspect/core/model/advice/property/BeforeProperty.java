@@ -11,7 +11,7 @@ public class BeforeProperty extends StaticChameleonProperty {
 	
 	public final static String ID = "advicetype.before";
 
-	public BeforeProperty(PropertyUniverse<ChameleonProperty> universe, PropertyMutex<ChameleonProperty> mutex) {
-		super(ID, universe, mutex, Advice.class);
+	public BeforeProperty(PropertyMutex<ChameleonProperty> mutex) {
+		super(ID, mutex, Advice.class);
 	}
 }
