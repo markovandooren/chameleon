@@ -1,14 +1,10 @@
 package org.aikodi.chameleon.oo.type.generics;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
+import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.type.Type;
-import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.TypeReference;
-import org.aikodi.chameleon.util.Util;
 
 /**
  * A class of type arguments that consist of a type name.
@@ -60,13 +56,9 @@ public class EqualityTypeArgument extends TypeArgumentWithTypeReference {
     TypeReference tref = typeReference();
     if(tref != null) {
       Type type = tref.getElement();
-      if(type != null) {
         return type;
-      } else {
-        throw new LookupException("Lookup of type of generic argument return null."); 
-      }
     } else {
-      throw new LookupException("Generic argument has no type reference.");
+      throw new ChameleonProgrammerException("Generic argument has no type reference.");
     }
   }
 
