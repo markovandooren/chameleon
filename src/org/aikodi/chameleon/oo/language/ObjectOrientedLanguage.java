@@ -68,25 +68,25 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	public ObjectOrientedLanguage(String name, LookupContextFactory factory, Revision version) {
 		super(name, factory,version);
 		// 1) Create the properties.
-  	INHERITABLE = new StaticChameleonProperty("inheritable",this,Declaration.class);
-  	OVERRIDABLE = new StaticChameleonProperty("overridable",this,Declaration.class);
-  	EXTENSIBLE = new StaticChameleonProperty("extensible", this,Declaration.class);
-  	REFINABLE = new StaticChameleonProperty("refinable", this,Declaration.class);
-  	DEFINED = new Defined("defined",this);
+  	INHERITABLE = add(new StaticChameleonProperty("inheritable",Declaration.class));
+  	OVERRIDABLE = add(new StaticChameleonProperty("overridable",Declaration.class));
+  	EXTENSIBLE = add(new StaticChameleonProperty("extensible", Declaration.class));
+  	REFINABLE = add(new StaticChameleonProperty("refinable", Declaration.class));
+  	DEFINED = add(new Defined("defined"));
   	DEFINED.addValidElementType(Variable.class);
 //  	ABSTRACT = DEFINED.inverse();
-  	ABSTRACT = new StaticChameleonProperty("abstract", this, Declaration.class);
-  	INSTANCE = new StaticChameleonProperty("instance",this,Declaration.class);
+  	ABSTRACT = add(new StaticChameleonProperty("abstract", Declaration.class));
+  	INSTANCE = add(new StaticChameleonProperty("instance",Declaration.class));
   	INSTANCE.addValidElementType(VariableDeclarator.class);
   	CLASS = INSTANCE.inverse();
     CLASS.setName("class");
-    CONSTRUCTOR = new StaticChameleonProperty("constructor", this,Method.class);
-    DESTRUCTOR = new StaticChameleonProperty("destructor", this,Method.class);
-  	REFERENCE_TYPE = new StaticChameleonProperty("reference type", this, Type.class);
+    CONSTRUCTOR = add(new StaticChameleonProperty("constructor",Method.class));
+    DESTRUCTOR = add(new StaticChameleonProperty("destructor",Method.class));
+  	REFERENCE_TYPE = add(new StaticChameleonProperty("reference type", Type.class));
   	VALUE_TYPE = REFERENCE_TYPE.inverse();
-  	NATIVE = new StaticChameleonProperty("native", this, Type.class);
-		INTERFACE = new StaticChameleonProperty("interface", this, Type.class);
-    FINAL = new StaticChameleonProperty("final", this, Declaration.class);
+  	NATIVE = add(new StaticChameleonProperty("native", Type.class));
+		INTERFACE = add(new StaticChameleonProperty("interface", Type.class));
+    FINAL = add(new StaticChameleonProperty("final", Declaration.class));
   	//2) Add relations between the properties.
     FINAL.addImplication(REFINABLE.inverse());
     FINAL.addImplication(DEFINED);

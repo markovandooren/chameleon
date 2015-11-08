@@ -241,6 +241,13 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
 		}
 	}
 
+    @Override
+    public <E extends Exception> void applyToLoaders(Action<DocumentLoader, E> action) throws E {
+        for(DocumentLoader loader: documentLoaders()) {
+            action.perform(loader);
+        }
+    }
+
 	/**
 	 * Remove the given document loader.
 	 * 

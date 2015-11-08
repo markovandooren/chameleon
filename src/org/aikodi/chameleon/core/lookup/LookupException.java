@@ -13,36 +13,26 @@ import org.aikodi.chameleon.exception.ModelException;
  */
 public class LookupException extends ModelException {
 
-	public LookupException(DeclarationSelector selector) {
-		this(null,null,selector);
-	}
-
 	public LookupException(String message, Exception exc, DeclarationSelector selector) {
 		super(message, exc);
 		setSelector(selector);
 	}
 
+	//49
 	public LookupException(String message) {
 		this(message,null,null);
 	}
 
+	//5
 	public LookupException(String message, Exception exc) {
 		this(message,exc,null);
 	}
 
-	public LookupException(String message, CrossReference ref) {
-		this(message,null,null);
-		setCrossReference(ref);
-	}
-
+	//2
 	public LookupException(String message, DeclarationSelector selector) {
 		this(message,null,selector);
 	}
 
-	public LookupException(Exception exc, DeclarationSelector selector) {
-		this(null,exc,selector);
-	}
-	
 	public void setSelector(DeclarationSelector selector) {
 		_selector = selector;
 	}

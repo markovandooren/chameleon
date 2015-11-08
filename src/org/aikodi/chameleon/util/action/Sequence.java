@@ -10,7 +10,7 @@ import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
  * @param <T> The type of the elements in the tree.
  * @param <E> The type of exceptions that can be thrown during the traversal.
  */
-public class Sequence<T,E extends Exception> extends TreeWalker<T,E> {
+public class Sequence<T,E extends Exception> implements TreeWalker<T,E> {
 	
 	public Sequence(TreeWalker<T, ? extends E> first, TreeWalker<T, ? extends E> second) {
 		_first = first;

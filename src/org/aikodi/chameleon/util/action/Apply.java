@@ -3,7 +3,8 @@ package org.aikodi.chameleon.util.action;
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
 
-public class Apply<T,E extends Exception> extends TreeWalker<T, E> {
+
+public class Apply<T,E extends Exception> implements TreeWalker<T, E> {
 
   public Apply(Action<T, E> action) {
     if(action == null) {

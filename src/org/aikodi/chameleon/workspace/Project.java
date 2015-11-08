@@ -394,6 +394,14 @@ public class Project {
       return sourceElements(Document.class, Handler.PROPAGATE);
    }
 
+   public <E extends Exception> void applyToSourceLoaders(Action<DocumentLoader, E> action) throws E {
+     for(View view: views()) {
+        view.applyToSourceLoaders(action);
+     }
+  }
+
+   
+   
    public <E extends Exception> void applyToSource(Action<? extends Element, E> action) throws E, InputException {
       for(View view: views()) {
          view.applyToSource(action);

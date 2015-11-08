@@ -16,12 +16,12 @@ public class ProtectedProperty extends ScopeProperty {
 	
 	public final static String ID = "accessibility.protected";
 	
-	public ProtectedProperty(PropertyUniverse<ChameleonProperty> universe, PropertyMutex<ChameleonProperty> family) {
-		super(ID, universe, family);
+	public ProtectedProperty(PropertyMutex<ChameleonProperty> family) {
+		super(ID, family);
 	}
 
-	public ProtectedProperty(String name, PropertyUniverse<ChameleonProperty> universe, PropertyMutex<ChameleonProperty> family) {
-		super(name, universe, family);
+	public ProtectedProperty(String name, PropertyMutex<ChameleonProperty> family) {
+		super(name, family);
 	}
 
 	@Override

@@ -11,7 +11,7 @@ public class ReturningProperty extends StaticChameleonProperty {
 	
 	public final static String ID = "advicetype.returning";
 
-	public ReturningProperty(PropertyUniverse<ChameleonProperty> universe, PropertyMutex<ChameleonProperty> mutex) {
-		super(ID, universe, mutex, Advice.class);
+	public ReturningProperty(PropertyMutex<ChameleonProperty> mutex) {
+		super(ID, mutex, Advice.class);
 	}
 }

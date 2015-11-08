@@ -36,11 +36,11 @@ public class TypeImport extends Import {
   
   public Type type() throws LookupException {
   	Type result = getTypeReference().getElement().baseType();
-  	if(result != null) {
+//  	if(result != null) {
       return result;
-  	} else {
-  		throw new LookupException("Lookup of type import reference returns null",getTypeReference());
-  	}
+//  	} else {
+//  		throw new LookupException("Lookup of type import reference returns null",getTypeReference());
+//  	}
   }
 
   @Override

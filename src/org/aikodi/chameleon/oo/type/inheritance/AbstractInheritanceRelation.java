@@ -57,11 +57,11 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 					throw exc;
 				}
 			}
-		  if(result != null) {
+//		  if(result != null) {
 		  	return result;
-		  } else {
-		  	throw new LookupException("Superclass is null",superClassReference());
-		  }
+//		  } else {
+//		  	throw new LookupException("Superclass is null",superClassReference());
+//		  }
 	}
 	
 	/**

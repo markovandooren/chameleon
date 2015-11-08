@@ -29,10 +29,10 @@ public class ClassCastExpression extends ExprTypeRefContainingExpression {
   @Override
 protected Type actualType() throws LookupException {
     Type result = getTypeReference().getElement();
-    if(result == null) {
-      getTypeReference().getElement();
-      throw new LookupException("Type reference of class cast expression returns null", getTypeReference());
-    }
+//    if(result == null) {
+//      getTypeReference().getElement();
+//      throw new LookupException("Type reference of class cast expression returns null", getTypeReference());
+//    }
     return result;
   }
 

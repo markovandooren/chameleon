@@ -11,7 +11,7 @@ public class AfterProperty extends StaticChameleonProperty {
 	
 	public final static String ID = "advicetype.after";
 
-	public AfterProperty(PropertyUniverse<ChameleonProperty> universe, PropertyMutex<ChameleonProperty> mutex) {
-		super(ID, universe, mutex, Advice.class);
+	public AfterProperty(PropertyMutex<ChameleonProperty> mutex) {
+		super(ID, mutex, Advice.class);
 	}
 }
