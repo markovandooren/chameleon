@@ -12,7 +12,6 @@ import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.chameleon.workspace.Project;
-import org.aikodi.rejuse.exception.Guard;
 import org.aikodi.rejuse.exception.Handler;
 
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
