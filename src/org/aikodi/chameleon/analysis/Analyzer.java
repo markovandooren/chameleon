@@ -7,6 +7,8 @@ import java.util.stream.Stream;
 
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
+import org.aikodi.chameleon.core.lookup.LookupException;
+import org.aikodi.chameleon.core.namespacedeclaration.Import;
 import org.aikodi.chameleon.util.action.GuardedTreeWalker;
 import org.aikodi.chameleon.util.action.TopDown;
 import org.aikodi.chameleon.workspace.DocumentLoader;
@@ -14,8 +16,6 @@ import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.View;
 import org.aikodi.rejuse.exception.Handler;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Action;
 
 public abstract class Analyzer {
 
@@ -54,12 +54,24 @@ public abstract class Analyzer {
     for(DocumentLoader loader: flatMap) {
       try {
         Document document = loader.load();
+      	cleanImports(document);
         topDown.traverse(document.lexical());
       } catch(InputException exc) {
         handler.handle(exc);
       }
     }
     return analysis.result();
+  }
+  
+  private void cleanImports(Document document) {
+  	document.descendants(Import.class).forEach(i -> {
+  		try {
+  			i.demandImports();
+  			i.directImports();
+  		}catch (LookupException exc) {
+  			i.disconnect();
+  		}
+  	});
   }
 
   public Project project() {
