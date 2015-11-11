@@ -102,6 +102,10 @@ public abstract class ChameleonANTLR3Parser<L extends Language> extends Parser {
 	     }
 	   }
 	   
+	   public int lineNumber(CommonToken token) {
+	  	 return token.getLine();
+	   }
+	   
 	   public int offset(CommonToken token) {
 	  	 return token.getStartIndex();
 	   }
