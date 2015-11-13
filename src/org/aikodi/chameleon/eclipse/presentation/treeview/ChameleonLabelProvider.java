@@ -62,17 +62,17 @@ public class ChameleonLabelProvider implements ILabelProvider {
 	/**
 	 * Whether to show the defining types (return types or field types) of the elements
 	 */
-	protected boolean _showDefingType;
+	private boolean _showDefingType;
 
 	/**
 	 * Whether to show the fully qualified names of the declaring elements
 	 */
-	protected boolean showDeclaringElementFqn;
+	private boolean showDeclaringElementFqn;
 
 	/**
 	 * Wheter to show the simple class name of this element
 	 */
-	protected boolean showElementClassName;
+	private boolean showElementClassName;
 
 	private Language _language;
 

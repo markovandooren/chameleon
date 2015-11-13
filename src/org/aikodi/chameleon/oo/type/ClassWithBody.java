@@ -31,7 +31,7 @@ import com.google.common.collect.ImmutableList;
  */
 public abstract class ClassWithBody extends ClassImpl {
 
-	protected Single<ClassBody> _body = new Single<ClassBody>(this,true,"body");
+	private Single<ClassBody> _body = new Single<ClassBody>(this,true,"body");
 
 	
 	@Override
@@ -103,7 +103,7 @@ public abstract class ClassWithBody extends ClassImpl {
 	   return body().members();
 	}
 
-	protected Multi<ParameterBlock> _parameters = new Multi<ParameterBlock>(this,"parameter blocks");
+	private Multi<ParameterBlock> _parameters = new Multi<ParameterBlock>(this,"parameter blocks");
 	{
 		_parameters.enableCache();
 	}

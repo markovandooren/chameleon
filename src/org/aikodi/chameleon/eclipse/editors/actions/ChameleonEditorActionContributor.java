@@ -25,9 +25,9 @@ import org.eclipse.ui.texteditor.RetargetTextEditorAction;
 public class ChameleonEditorActionContributor extends BasicTextEditorActionContributor {
 	
 	
-	protected RetargetTextEditorAction contentAssistProposal;
-	protected RetargetTextEditorAction contentAssistContextInformation;
-	protected RetargetTextEditorAction formatProposal;
+	private RetargetTextEditorAction contentAssistProposal;
+	private RetargetTextEditorAction contentAssistContextInformation;
+	private RetargetTextEditorAction formatProposal;
 
 	/**
 	 * Constructor for ChameleonEditorActionContributor. Creates a new contributor in the

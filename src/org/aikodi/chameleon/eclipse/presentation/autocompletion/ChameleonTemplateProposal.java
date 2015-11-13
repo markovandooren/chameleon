@@ -21,10 +21,10 @@ import org.eclipse.swt.graphics.Image;
  */
 public class ChameleonTemplateProposal extends TemplateProposal {
 	
-	protected IContextInformation contentInformation;
-	protected String additionalProposalInfo;
-	protected Element element;
-	protected ChameleonLabelProvider labelProvider;
+	private IContextInformation contentInformation;
+	private String additionalProposalInfo;
+	private Element element;
+	private ChameleonLabelProvider labelProvider;
 	
 	public ChameleonTemplateProposal(Template template,
 			TemplateContext context, IRegion region, Image image, IContextInformation contentInformation, Element element, ChameleonLabelProvider labelProvider) {

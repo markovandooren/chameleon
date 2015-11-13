@@ -6,6 +6,7 @@ package org.aikodi.chameleon.eclipse.presentation.formatting;
 
 import org.aikodi.chameleon.eclipse.ChameleonEditorPlugin;
 import org.aikodi.chameleon.eclipse.editors.preferences.ChameleonEditorPreferencePage;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DefaultIndentLineAutoEditStrategy;
 import org.eclipse.jface.text.DocumentCommand;
@@ -19,8 +20,6 @@ import org.eclipse.jface.text.IDocument;
  */
 public class ChameleonAutoEditStrategy implements IAutoEditStrategy {
 
-	public static boolean ENABLE_AUTO_FORMATTING = ChameleonEditorPlugin.getDefault().getPreferenceStore().getBoolean(ChameleonEditorPreferencePage.ENABLE_AUTO_FORMATTING);
-
 	/**
 	 * @see IAutoEditStrategy
 	 * 
@@ -29,7 +28,8 @@ public class ChameleonAutoEditStrategy implements IAutoEditStrategy {
 	 */
 	@Override
    public void customizeDocumentCommand(IDocument document, DocumentCommand command) {
-		if(ENABLE_AUTO_FORMATTING){
+		boolean autoFormatting = ChameleonEditorPlugin.getDefault().getPreferenceStore().getBoolean(ChameleonEditorPreferencePage.ENABLE_AUTO_FORMATTING);
+		if(autoFormatting){
 			try {
 				// braces
 				if(command.text.equals("{")){

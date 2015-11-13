@@ -42,10 +42,14 @@ public class EditorTagListView extends ViewPart {
   //FIXME: does not correctly highlight multiple positions with the same name (keyword) for a single element
 	//FIXME: does not show positions if their range is the same.
 	
-	TableViewer viewer;
-	Label label;
-	ChameleonEditor editor;
+	private TableViewer viewer;
+	private Label label;
+	private ChameleonEditor editor;
 
+	public Label label() {
+		return label;
+	}
+	
 	@Override
 	public void createPartControl(Composite parent) {
 		// lay out the grid of the view

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
 
+import org.aikodi.chameleon.eclipse.ChameleonEditorPlugin;
+import org.aikodi.chameleon.eclipse.editors.preferences.ChameleonEditorPreferencePage;
 import org.aikodi.chameleon.eclipse.editors.reconciler.ChameleonPresentationReconciler;
 import org.aikodi.chameleon.eclipse.editors.reconciler.ChameleonReconciler;
 import org.aikodi.chameleon.eclipse.editors.reconciler.ChameleonReconcilingStrategy;

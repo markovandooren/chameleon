@@ -80,23 +80,18 @@ public class ChameleonEditorPreferencePage extends FieldEditorPreferencePage imp
 		
 	}
 	
-	@Override
-   public boolean performOk(){
-		boolean prev = super.performOk();
-		performChoices();		
-		return prev;
-	}
-	
-	private void performChoices() {
-		AutoCompletionProposalsComparator.nbOfDefiningTypeChecks = getPreferenceStore().getInt(NB_AUTO_COMPLETION_TYPE_SEARCH_LEVELS);
-		ChameleonAutoEditStrategy.ENABLE_AUTO_FORMATTING = getPreferenceStore().getBoolean(ENABLE_AUTO_FORMATTING);
-	}
-
-	@Override
-   public void performApply(){
-		super.performApply();
-		performChoices();
-	}
+//	@Override
+//   public boolean performOk(){
+//		boolean prev = super.performOk();
+//		performChoices();		
+//		return prev;
+//	}
+//	
+//	@Override
+//   public void performApply(){
+//		super.performApply();
+//		performChoices();
+//	}
 
 	private static void initDefaults() {
 		IPreferenceStore store = ChameleonEditorPlugin.getDefault().getPreferenceStore();

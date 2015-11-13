@@ -2,6 +2,7 @@ package org.aikodi.chameleon.core.scope;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -66,8 +67,16 @@ public abstract class CompositeScope extends Scope {
   
   protected abstract void filter() throws LookupException;
 
-	protected List<Scope> _scopes = Lists.create();
+  private List<Scope> _scopes = Lists.create();
 
+  protected List<Scope> scopesView() {
+  	return Collections.unmodifiableList(_scopes);
+  }
+  
+  protected void setScopes(List<Scope> scopes) {
+  	_scopes = new ArrayList<>(scopes);
+  }
+  
 // /*@
 //   @ public behavior
 //   @

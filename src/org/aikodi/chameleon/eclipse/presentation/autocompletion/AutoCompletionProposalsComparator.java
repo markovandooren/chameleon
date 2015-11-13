@@ -20,13 +20,11 @@ import org.aikodi.chameleon.eclipse.presentation.treeview.ChameleonLabelProvider
  */
 public class AutoCompletionProposalsComparator implements Comparator<Element> {
 
-	protected String nameStart;
-//	protected SafePredicate<Type> typePredicate;
-	protected ChameleonLabelProvider labelProvider;
-	
-	
-	public static int nbOfDefiningTypeChecks = 
-		ChameleonEditorPlugin.getDefault().getPreferenceStore().getInt(ChameleonEditorPreferencePage.NB_AUTO_COMPLETION_TYPE_SEARCH_LEVELS);
+	private String nameStart;
+	private ChameleonLabelProvider labelProvider;
+	// TODO
+	// Use ChameleonEditorPlugin.getDefault().getPreferenceStore().getInt(ChameleonEditorPreferencePage.NB_AUTO_COMPLETION_TYPE_SEARCH_LEVELS)
+	// to 
 	
 	/**
 	 * 

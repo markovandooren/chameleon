@@ -27,7 +27,7 @@ public abstract class TypeArgumentWithTypeReference extends TypeArgument {
 		set(_type,ref);
 	}
 
-	protected Single<TypeReference> _type = new Single<TypeReference>(this);
+	private Single<TypeReference> _type = new Single<TypeReference>(this);
 
 	@Override
 	public Verification verifySelf() {

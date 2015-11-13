@@ -18,7 +18,7 @@ public class NamingRegistryFactory {
 		return instance;
 	}
 	
-	Map<String, NamingRegistry> registries = new HashMap<String, NamingRegistry>();
+	private Map<String, NamingRegistry> registries = new HashMap<String, NamingRegistry>();
 	
 	public <T extends Element> NamingRegistry<T> getNamingRegistryFor(String name) {
 		if (!registries.containsKey(name))

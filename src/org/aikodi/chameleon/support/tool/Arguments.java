@@ -1,9 +1,11 @@
 package org.aikodi.chameleon.support.tool;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import java.io.File;
 
 import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.oo.type.Type;
@@ -21,7 +23,7 @@ public class Arguments {
 	public Arguments(String outputDirName, Namespace defaultNamespace, Set<File> files, Set<Type> types, List arguments) {
   _outputDirName = outputDirName;
   _defaultNamespace = defaultNamespace;
-  _fileSet = files;
+  _fileSet = new HashSet<>(files);
   _types = new ArrayList<Type>(types);
   _arguments = new ArrayList(arguments);
 }
@@ -41,7 +43,7 @@ public String getOutputDirName() {
 private String _outputDirName;
 
 public Set<File> getFileSet() {
-  return _fileSet;
+  return new HashSet<>(_fileSet);
 }
 
 	private Set<File> _fileSet;

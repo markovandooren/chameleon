@@ -148,9 +148,9 @@ public class HierarchyView extends ViewPart {
 
 	}
 	
-	protected OpenTypeHierarchyAction subHierarchyAction;
+	private OpenTypeHierarchyAction subHierarchyAction;
 	
-	protected OpenTypeHierarchyAction superHierarchyAction;
+	private OpenTypeHierarchyAction superHierarchyAction;
 	
 	/**
 	 * Creates the actions for the type hierarchy and adds them to

@@ -22,7 +22,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
  */
 public class EditorTagContentProvider implements IStructuredContentProvider {
 	
-	EditorTagListView view;
+	private EditorTagListView view;
 	private Predicate<? super EclipseEditorTag,Nothing> _filterPredicate;
 	
 	void setFilter(Predicate<? super EclipseEditorTag,Nothing> filter) {
@@ -45,7 +45,7 @@ public class EditorTagContentProvider implements IStructuredContentProvider {
 			Collection<EclipseEditorTag> tags = new TreeSet<EclipseEditorTag>(EclipseEditorTag.beginoffsetComparator);
 			doc.getEditorTagsWithPredicate(_filterPredicate, tags);
 			// set label of view:
-			view.label.setText(tags.size() + " editor tags found for document "+doc.getFile());
+			view.label().setText(tags.size() + " editor tags found for document "+doc.getFile());
 			return tags.toArray();
 		}
 		return null;

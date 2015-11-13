@@ -31,11 +31,11 @@ public class ChameleonCompletionProposal implements ICompletionProposal {
 	/** The context information of this proposal. */
 	private IContextInformation fContextInformation;
 	/** The additional info of this proposal. */
-	protected String fAdditionalProposalInfo;
+	private String fAdditionalProposalInfo;
 	
-	protected Element fElement;
+	private Element fElement;
 	
-	protected ChameleonLabelProvider fLabelProvider;
+	private ChameleonLabelProvider fLabelProvider;
 	
 	/**
 	 * Creates a new completion proposal. All fields are initialized based on the provided information.

@@ -9,6 +9,7 @@ import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.declaration.Signature;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
+import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
@@ -150,7 +151,7 @@ public class ProgrammingPointcut extends Pointcut implements DeclarationContaine
 	}
 
 	@Override
-	public LookupContext targetContext() throws LookupException {
+	public LocalLookupContext<?> targetContext() throws LookupException {
 		throw new LookupException("Requesting the target context of a pointcut.");
 	}
 

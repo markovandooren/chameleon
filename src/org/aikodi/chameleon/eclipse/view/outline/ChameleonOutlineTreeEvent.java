@@ -16,7 +16,7 @@ public class ChameleonOutlineTreeEvent {
 	/*
 	 * the element that is involved in the event
 	 */
-	protected Element actedUpon;
+	private Element actedUpon;
 	
 	/**
 	 * Creates a new ChameleonOutlineTreeEvent with the chameleon tree element that is involved

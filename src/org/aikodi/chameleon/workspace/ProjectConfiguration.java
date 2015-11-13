@@ -379,7 +379,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
 	
 	
 	public abstract class Source extends ConfigElement {
-		protected String _path;
+		private String _path;
 		
 		public void setRoot(String path) {
 			_path = path;
@@ -404,7 +404,12 @@ public abstract class ProjectConfiguration extends ConfigElement {
 	
 	public abstract class Archive extends ConfigElement {
 		
-		protected File _path;
+		private File _path;
+		
+		public File path() {
+			return _path;
+		}
+		
 		public void setFile(String path) {
 			_path = new File(path);
 			pathChanged();
@@ -429,7 +434,7 @@ public abstract class ProjectConfiguration extends ConfigElement {
   	@Override
    protected void pathChanged() throws ConfigException {
   		try {
-  			view().addBinary(new ZipScanner(new ZipFile(project().absoluteFile(_path)),filter()));
+  			view().addBinary(new ZipScanner(new ZipFile(project().absoluteFile(path())),filter()));
   		} catch (ProjectException | IOException e) {
   			throw new ConfigException(e);
   		}

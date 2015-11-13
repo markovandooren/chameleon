@@ -1,5 +1,6 @@
 package org.aikodi.chameleon.core.declaration;
 
+import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.Target;
@@ -32,5 +33,5 @@ public interface TargetDeclaration extends Declaration, Target {
    *   3) in "packagename.f", "f" must be looked up in the package represented by "package"
    */
 @Override
-public LookupContext targetContext() throws LookupException;
+public LocalLookupContext<?> targetContext() throws LookupException;
 }

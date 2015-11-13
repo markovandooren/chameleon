@@ -2,8 +2,8 @@ package org.aikodi.chameleon.aspect.core.model.pointcut.pattern;
 
 public abstract class Dual extends DeclarationPattern {
 
-	protected DeclarationPattern _first;
-	protected DeclarationPattern _second;
+	private DeclarationPattern _first;
+	private DeclarationPattern _second;
 
 	public Dual(DeclarationPattern first, DeclarationPattern second) {
 		_first = first;

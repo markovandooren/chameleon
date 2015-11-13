@@ -157,26 +157,12 @@ public void setElement(Element element, String name) {
 		return getName().equals(kind);
 	}
 	
-//	public EclipseEditorTag getParentDecorator(){
-//		Element parentElem = getElement().parent();
-//		EclipseEditorTag parentDeco = (EclipseEditorTag)parentElem.tag(ALL_TAG);
-//		return parentDeco;
-//	}
-	
 	/** Decorator spanning an entire element **/
-//	public final static String ALL_TAG= "__ALL";
-//	public static final String NAME_TAG = "__NAME";
-//	public static final String KEYWORD_TAG = "__KEYWORD";
-//	public static final String MODIFIER_TAG = "__MODIFIER";
 	
 	@Override
    public String toString(){
 		return "Offset : "+getOffset()+"\tLength : "+getLength()+"\tElement : "+getElement();
 	}
-
-//	public EclipseEditorTag clonePosition() {
-//		return new EclipseEditorTag(getOffset(),getLength(),getElement(),_name);
-//	}
 
 
 	// FIXME Tim wrote a hashCode() method, but no equals. Do we need the hashCode method?
@@ -205,7 +191,7 @@ public void setElement(Element element, String name) {
 	 * 
 	 * @author Tim Vermeiren
 	 */
-	public static Comparator<EclipseEditorTag> lengthComparator = new Comparator<EclipseEditorTag>() {
+	public final static Comparator<EclipseEditorTag> lengthComparator = new Comparator<EclipseEditorTag>() {
 		@Override
       public int compare(EclipseEditorTag t1, EclipseEditorTag t2) {
 			// compare by length:
@@ -235,7 +221,7 @@ public void setElement(Element element, String name) {
 	 * 
 	 * @author Tim Vermeiren
 	 */
-	public static Comparator<EclipseEditorTag> beginoffsetComparator = new Comparator<EclipseEditorTag>() {
+	public final static Comparator<EclipseEditorTag> beginoffsetComparator = new Comparator<EclipseEditorTag>() {
 		@Override
       public int compare(EclipseEditorTag t1, EclipseEditorTag t2) {
 			// 1) compare by offset:

@@ -40,7 +40,7 @@ public class CrossReferenceTest extends ModelTest {
 	public ElementProvider<Namespace> crossReferenceProvider() {
 		return _crossReferenceProvider;
 	}
-  ExecutorService threadPool;
+	private ExecutorService threadPool;
 
 	@Test
 	public void testCrossReferences() throws LookupException, InterruptedException, ExecutionException, InputException {

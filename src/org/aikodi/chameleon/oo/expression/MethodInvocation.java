@@ -48,7 +48,7 @@ public abstract class MethodInvocation<D extends DeclarationWithParameters>
 	protected abstract DeclarationSelector<D> createSelector()
 			throws LookupException;
 
-	protected DeclarationSelector<D> _selector;
+	private DeclarationSelector<D> _selector;
 
 	@Override
 	public Verification verifySelf() {

@@ -21,7 +21,7 @@ import org.eclipse.jface.viewers.StructuredViewer;
  */
 public class TypeChangedListener implements ISelectionChangedListener {
 	
-	protected HierarchyView _hierarchyView;
+	private HierarchyView _hierarchyView;
 	
 	public TypeChangedListener(HierarchyView hierarchyView) {
 		this._hierarchyView = hierarchyView;

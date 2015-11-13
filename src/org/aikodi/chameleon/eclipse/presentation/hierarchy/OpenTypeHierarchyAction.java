@@ -44,14 +44,14 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
  */
 public class OpenTypeHierarchyAction extends Action implements IDoubleClickListener, ISelectionChangedListener {
 
-	protected HierarchyView view;
+	private HierarchyView view;
 	//protected IContentProvider contentProvider;
-	protected String actionName;
+	private String actionName;
 
 	/**
 	 * Wheter this is a SUBTYPEHIERARCHY or a SUPERTYPEHIERARCHY
 	 */
-	protected int hierarchy_type;
+	private int hierarchy_type;
 
 	public static final int SUBTYPE = 0;
 	public static final int SUPERTYPE = 1;
