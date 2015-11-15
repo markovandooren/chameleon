@@ -82,8 +82,4 @@ public class ExtensionPredicate extends SafePredicate<String> {
 		return "Extension predicate: "+Strings.create(extensions());
 	}
 	
-	@Override
-	public boolean equals(Object other) {
-		return false;
-	}
 }
