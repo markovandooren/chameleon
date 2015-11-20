@@ -586,14 +586,14 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
   	
     @Override
    public <I extends InheritanceRelation> List<I> explicitNonMemberInheritanceRelations(Class<I> kind) {
-      List result = explicitNonMemberInheritanceRelations();
+      List<I> result = (List)explicitNonMemberInheritanceRelations();
       CollectionOperations.filter(result, d -> kind.isInstance(d));
       return result;
     }
 
   	@Override
    public <I extends InheritanceRelation> List<I> nonMemberInheritanceRelations(Class<I> kind) {
-      List result = nonMemberInheritanceRelations();
+      List<I> result = (List)nonMemberInheritanceRelations();
       CollectionOperations.filter(result, d -> kind.isInstance(d));
       return result;
   	}

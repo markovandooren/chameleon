@@ -31,7 +31,7 @@ import org.aikodi.chameleon.util.association.Single;
  */
 
 public abstract class MethodInvocation<D extends DeclarationWithParameters>
-		extends TargetedExpression implements CrossReferenceWithTarget<D> {
+extends TargetedExpression implements CrossReferenceWithTarget<D> {
 
 	public MethodInvocation(CrossReferenceTarget target) {
 		setTarget(target);
@@ -64,11 +64,11 @@ public abstract class MethodInvocation<D extends DeclarationWithParameters>
 		}
 		return result;
 	}
-	
-	
-	
+
+
+
 	//*********************
-	
+
 
 	/**
 	 * TARGET
@@ -77,12 +77,12 @@ public abstract class MethodInvocation<D extends DeclarationWithParameters>
 			this);
 
 	@Override
-   public CrossReferenceTarget getTarget() {
+	public CrossReferenceTarget getTarget() {
 		return _target.getOtherEnd();
 	}
 
 	@Override
-   public void setTarget(CrossReferenceTarget target) {
+	public void setTarget(CrossReferenceTarget target) {
 		set(_target,target);
 	}
 
@@ -142,92 +142,43 @@ public abstract class MethodInvocation<D extends DeclarationWithParameters>
 		return result;
 	}
 
-	/*
-	 * @
-	 * 
-	 * @ also public behavior
-	 * 
-	 * @
-	 * 
-	 * @ post
-	 * \result.containsAll(getMethod().getExceptionClause().getExceptionTypes
-	 * (this));
-	 * 
-	 * @ post
-	 * (getLanguage().getUncheckedException(getPackage().getDefaultPackage()) !=
-	 * null) ==>
-	 * 
-	 * @ result.contains(getLanguage().getUncheckedException(getPackage().
-	 * getDefaultPackage());
-	 * 
-	 * @
-	 */
-	// public Set getMethodExceptions() throws LookupException {
-	// Set result = getMethod().getExceptionClause().getExceptionTypes(this);
-	// Type rte =
-	// language(ObjectOrientedLanguage.class).getUncheckedException();
-	// if (rte != null) {
-	// result.add(rte);
-	// }
-	// return result;
-	// }
-
-	/*
-	 * @
-	 * 
-	 * @ also public behavior
-	 * 
-	 * @
-	 * 
-	 * @ post \result.containsAll(getMethodExceptions());
-	 * 
-	 * @ post
-	 * (getLanguage().getNullInvocationException(getPackage().getDefaultPackage
-	 * ()) != null) ==>
-	 * 
-	 * @ result.contains(getLanguage().getNullInvocationException(getPackage().
-	 * getDefaultPackage());
-	 * 
-	 * @
-	 */
-	// public Set getDirectExceptions() throws LookupException {
-	// Set result = getMethodExceptions();
-	// if(getTarget() != null) {
-	// Util.addNonNull(language(ObjectOrientedLanguage.class).getNullInvocationException(),
-	// result);
-	// }
-	// return result;
-	// }
-
-	// public Set getDirectExceptions() throws NotResolvedException {
-	// Set result = getMethodExceptions();
-	// Type npe =
-	// getLanguage().getNullInvocationException(getPackage().getDefaultPackage());
-	// if(npe != null) {
-	// result.add(npe);
-	// }
-	// result.addAll(getTarget().getDirectExceptions());
-	// Iterator iter = getActualParameters().iterator();
-	// while(iter.hasNext()) {
-	// result.addAll(((Expression)iter.next()).getDirectExceptions());
-	// }
-	// return result;
-	// }
-
 	@Override
-   public D getElement() throws LookupException {
-		D el = getElement(selector());
-		if (el == null) // debug
-			getElement(selector());
+	public D getElement() throws LookupException {
+		D result = null;
 
-		return el;
+		// OPTIMISATION
+		result = (D) getCache();
+		if (result != null) {
+			return result;
+		}
+
+		synchronized(this) {
+			if(result != null) {
+				return result;
+			}
+
+			DeclarationCollector<D> collector = new DeclarationCollector<D>(selector());
+			CrossReferenceTarget target = getTarget();
+			if (target == null) {
+				lexicalContext().lookUp(collector);
+			} else {
+				target.targetContext().lookUp(collector);
+			}
+			result = collector.result();
+			setCache(result);
+			return result;
+			//		} else {
+			//			// repeat lookup for debugging purposes.
+			//			// Config.setCaching(false);
+			//			if (target == null) {
+			//				result = lookupContext().lookUp(selector);
+			//			} else {
+			//				result = target.targetContext().lookUp(selector);
+			//			}
+			//			throw new LookupException("Method returned by invocation is null");
+		}
 	}
 
-//	@Override
-//   public Declaration getDeclarator() throws LookupException {
-//		return getElement(new DeclaratorSelector(selector()));
-//	}
-//
 	private SoftReference<Declaration> _cache;
 
 	@Override
@@ -254,80 +205,6 @@ public abstract class MethodInvocation<D extends DeclarationWithParameters>
 		// }
 	}
 
-	/**
-	 * Return the method invoked by this invocation.
-	 */
-	/*
-	 * @
-	 * 
-	 * @ public behavior
-	 * 
-	 * @
-	 * 
-	 * @ post \result != null;
-	 * 
-	 * @
-	 * 
-	 * @ signals (NotResolvedException) (* The method could not be found *);
-	 * 
-	 * @
-	 */
-	// public abstract D getMethod() throws MetamodelException;
-	public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
-		X result = null;
-
-		// OPTIMISATION
-		boolean cache = selector.equals(selector());
-		if (cache) {
-			result = (X) getCache();
-		}
-		if (result != null) {
-			return result;
-		}
-
-		synchronized(this) {
-			if(result != null) {
-				return result;
-			}
-
-		DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
-		CrossReferenceTarget target = getTarget();
-		if (target == null) {
-			lexicalContext().lookUp(collector);
-		} else {
-			target.targetContext().lookUp(collector);
-		}
-		result = collector.result();
-//		if (result != null) {
-//			// OPTIMISATION
-			if (cache) {
-				setCache(result);
-			}
-			return result;
-//		} else {
-//			// repeat lookup for debugging purposes.
-//			// Config.setCaching(false);
-//			if (target == null) {
-//				result = lookupContext().lookUp(selector);
-//			} else {
-//				result = target.targetContext().lookUp(selector);
-//			}
-//			throw new LookupException("Method returned by invocation is null");
-//		}
-		}
-	}
-
-//	protected CrossReferenceWithArguments cloneSelf() {
-//		return new CrossReferenceWithArguments();
-//	}
-//
-	// public void substituteParameter(String name, Expression expr) throws
-	// MetamodelException {
-	// if(getTarget()!= null) {
-	// getTarget().substituteParameter(name, expr);
-	// }
-	// }
-
 	public List<TypeArgument> typeArguments() {
 		return _genericArguments.getOtherEnds();
 	}
@@ -336,7 +213,7 @@ public abstract class MethodInvocation<D extends DeclarationWithParameters>
 		return _genericArguments.size() > 0;
 	}
 
-	
+
 	public void addArgument(TypeArgument arg) {
 		add(_genericArguments,arg);
 	}

@@ -664,7 +664,7 @@ public List<? extends Element> children() {
   @SuppressWarnings("rawtypes")
 	@Override
    public final <T extends Element> List<T> children(Class<T> c) {
-    List result = children();
+    List<T> result = (List)children();
 		filter(result, child -> c.isInstance(child));
     return result;
 	}
