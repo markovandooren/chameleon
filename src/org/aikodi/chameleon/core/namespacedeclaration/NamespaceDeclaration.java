@@ -315,7 +315,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	}
 	
 	public <T extends Declaration> List<T> declarations(Class<T> kind) {
-    List result = new ArrayList(declarations());
+    List<T> result = (List)new ArrayList(declarations());
     CollectionOperations.filter(result, d -> kind.isInstance(d));
     return result;
   }
