@@ -65,11 +65,6 @@ public interface Member extends TypeElement, Declaration {
     return new OverridesRelation<Member>(Member.class);
   }
 
-
-//  public boolean canOverride(Member other) throws LookupException;
-//
-//  public OverridesRelation<? extends Member> overridesRelation();
-  
   /**
    * Return a selector that selects members that could override this
    * member based on the signature and other properties.
@@ -103,16 +98,6 @@ public interface Member extends TypeElement, Declaration {
     return new HidesRelation<Member>(Member.class);
   }
 
-//  /**
-//   * Check whether this is equivalent to given member.
-//   */
-// /*@
-//   @ public behavior
-//   @
-//   @ post other == null ==> \result == false;
-//   @*/
-//  public boolean equivalentTo(Member other) throws LookupException;
-  
   /**
    * Check whether this member can implement the given member.
    */

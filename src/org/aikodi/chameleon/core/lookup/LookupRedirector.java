@@ -7,13 +7,19 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.util.association.Single;
 
+/**
+ * A class of elements that is used to redirect the lookup
+ * for generated elements.
+ * 
+ * @author Marko van Dooren
+ */
 public class LookupRedirector extends ElementImpl implements Stub {
 
 	public LookupRedirector(Element contextElement) {
 		setContextElement(contextElement);
 	}
 	
-	public LookupRedirector(Element contextElement, Declaration child) {
+	public LookupRedirector(Element contextElement, Element child) {
 		setContextElement(contextElement);
 		setChild(child);
 	}
@@ -39,14 +45,14 @@ public class LookupRedirector extends ElementImpl implements Stub {
 	
 	private Element _context;
 
-	private Single<Declaration> _element = new Single<Declaration>(this);
+	private Single<Element> _element = new Single<>(this);
 
-	public void setChild(Declaration element) {
+	public void setChild(Element element) {
 		set(_element, element);
 	}
 	
 	@Override
-   public Declaration child() {
+   public Element child() {
 		return _element.getOtherEnd();
 	}
 
