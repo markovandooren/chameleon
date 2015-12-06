@@ -2,6 +2,7 @@ package org.aikodi.chameleon.oo.type;
 
 import java.util.List;
 
+import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiers;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
@@ -24,6 +25,10 @@ public interface TypeElement extends ElementWithModifiers {
    @ post \result != null; 
    @*/
   public List<? extends Member> getIntroducedMembers();
+  
+  public default List<? extends Declaration> introducedDeclarations() {
+  	return getIntroducedMembers();
+  }
   
   public default List<? extends Member> declaredMembers() {
   	return getIntroducedMembers();
