@@ -3,6 +3,7 @@ package org.aikodi.chameleon.core.declaration;
 import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
+import org.aikodi.chameleon.util.Util;
 
 /**
  * An abstract class for signatures that have a name.
@@ -39,6 +40,7 @@ public abstract class SignatureWithName extends Signature {
 
    @Override
    public void setName(String name) {
+  	 Util.debug(name.equals("<missing Identifier>"));
       if(name == null) {
          throw new IllegalArgumentException("The name of a signature with a name cannot be null.");
       }
