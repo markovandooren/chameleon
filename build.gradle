@@ -98,7 +98,7 @@ uploadArchives {
         repository(url: "scp://webssh.ugent.be/users/m/mcvdoore/WWW/repository/") {
             authentication(userName: "mcvdoore")
         }
-        pom.version = '1.2.8'
+        pom.version = '1.2.19'
         pom.groupId = 'markovandooren'
         pom.artifactId = 'chameleon'
     }

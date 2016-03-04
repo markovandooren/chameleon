@@ -2,6 +2,7 @@ package org.aikodi.chameleon.support.modifier;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.namespace.NamespaceScope;
+import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.scope.Scope;
 import org.aikodi.chameleon.core.scope.ScopeProperty;
@@ -27,7 +28,7 @@ public class ProtectedProperty extends ScopeProperty {
 	@Override
    public Scope scope(Element element) throws ModelException {
 		try {
-			return new HierarchyScope((Type) element).union(new NamespaceScope(element.namespace()));
+			return new HierarchyScope((Type) element).union(new NamespaceScope(element.nearestAncestor(NamespaceDeclaration.class).namespace()));
 		} catch (ClassCastException exc) {
 			throw new ModelException("The given element is of the wrong type.");
 		}

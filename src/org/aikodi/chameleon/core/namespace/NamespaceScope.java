@@ -2,6 +2,7 @@ package org.aikodi.chameleon.core.namespace;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
+import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.core.scope.LexicalScope;
 import org.aikodi.chameleon.core.scope.Scope;
 
@@ -23,7 +24,7 @@ public class NamespaceScope extends Scope {
   
 	@Override
    public boolean contains(Element element) throws LookupException {
-		return  element.namespace().equals(getNamespace());
+		return  element.nearestAncestor(NamespaceDeclaration.class).namespace().equals(namespace());
 	}
   
  /*@
@@ -36,12 +37,12 @@ public class NamespaceScope extends Scope {
 public boolean geRecursive(Scope other) throws LookupException {
     return (
              (other instanceof NamespaceScope) && 
-             ((NamespaceScope)other).getNamespace().equals(getNamespace())
+             ((NamespaceScope)other).namespace().equals(namespace())
            )
            ||
            (
              (other instanceof LexicalScope) &&
-             ((LexicalScope)other).element().namespace().equals(getNamespace())
+             ((LexicalScope)other).element().nearestAncestor(NamespaceDeclaration.class).namespace().equals(namespace())
            );
   }
   
@@ -50,7 +51,7 @@ public boolean geRecursive(Scope other) throws LookupException {
    @
    @ post \result != null;
    @*/
-  public Namespace getNamespace() {
+  public Namespace namespace() {
     return _namespace;
   }
 

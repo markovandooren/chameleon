@@ -23,6 +23,7 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.modifier.Modifier;
 import org.aikodi.chameleon.core.namespace.Namespace;
+import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
@@ -34,17 +35,15 @@ import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.member.MemberRelationSelector;
 import org.aikodi.chameleon.oo.member.SimpleNameMember;
 import org.aikodi.chameleon.oo.plugin.ObjectOrientedFactory;
-import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.Lists;
-import org.aikodi.chameleon.util.Pair;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 
 import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
 import be.kuleuven.cs.distrinet.rejuse.java.collections.TypeFilter;
 import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 
 /**
  * <p>A class representing types in object-oriented programs.</p>
@@ -168,7 +167,7 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
         if(nearest != null) {
         	prefix = nearest.getFullyQualifiedName();
         } else {
-          Namespace namespace = namespace();
+          Namespace namespace = nearestAncestor(NamespaceDeclaration.class).namespace();
           if(namespace != null) {
 					  prefix = namespace.fullyQualifiedName();
           } else {

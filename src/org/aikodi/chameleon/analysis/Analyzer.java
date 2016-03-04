@@ -46,7 +46,7 @@ public abstract class Analyzer {
   protected <R extends Result<R>, E extends Exception, A extends Exception, I extends Exception> R analysisResult(
       Analysis<? extends Element,R,E> analysis,
       Handler<? super E,A> analysisHandler,
-      Handler<InputException,I> handler) throws A, I {
+      Handler<Exception,I> handler) throws A, I {
     GuardedTreeWalker<Element, E, A> todo = new GuardedTreeWalker<>(analysis, analysisHandler) ;
     TopDown<Element, A> topDown = new TopDown<>(todo);
     Stream<View> stream = project().views().stream();
@@ -56,7 +56,7 @@ public abstract class Analyzer {
         Document document = loader.load();
       	cleanImports(document);
         topDown.traverse(document.lexical());
-      } catch(InputException exc) {
+      } catch(Exception exc) {
         handler.handle(exc);
       }
     }

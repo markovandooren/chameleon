@@ -1529,62 +1529,19 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
      _properties = null;
    }
 
-   /**
-    * {@inheritDoc}
-    */
-   @Override
-   public Namespace namespace() {
-     Element parent = parent();
-     if (parent != null) {
-        return parent.namespace();
-     } else {
-        return null;
-     }
-   }
+//   /**
+//    * {@inheritDoc}
+//    */
+//   @Override
+//   public Namespace namespace() {
+//     Element parent = parent();
+//     if (parent != null) {
+//        return parent.namespace();
+//     } else {
+//        return null;
+//     }
+//   }
 
-   //	 /**
-//	  * Clone the descendants of this element and make the clones the descendants of
-//	  * the given element (which will typically be a clone of this element). Type
-//	  * E must be the class of the current element; otherwise e does not have the
-//	  * same associations as the current object.
-//	  * @param e
-//	  * @return
-//	  */
-//	 protected <E extends Element> E cloneDescendantsTo(E e) {
-//		 List<ChameleonAssociation<?>> mine = associations();
-//		 List<ChameleonAssociation<?>> others = e.associations();
-//		 int size = mine.size();
-//		 for(int i = 0; i < size; i++) {
-//			 mine.get(i).cloneTo((ChameleonAssociation) others.get(i));
-//		 }
-//		 return e;
-//	 }
-	 
-	 //    public Iterator<Element> depthFirstIterator() {
-	 //    	return new Iterator<Element>() {
-	 //
-	 //    		
-	 //    		
-	 //    		private Element _current;
-	 //    		
-	 //    		private Iterator<Element> _currentIterator;
-	 //    		
-	 //    		private Element _last;
-	 //				public boolean hasNext() {
-	 //					return _current != _last;
-	 //				}
-	 //
-	 //				public Element next() {
-	 //					compile error
-	 //				}
-	 //
-	 //				public void remove() {
-	 //					_current.parentLink().connectTo(null);
-	 //				}
-	 //			};
-	 //    }
-
-   
    /**
     * Create a new event for the given change in the given source element.
     * 

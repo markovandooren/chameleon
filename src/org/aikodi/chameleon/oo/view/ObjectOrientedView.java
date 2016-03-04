@@ -18,7 +18,8 @@ public abstract class ObjectOrientedView extends View {
 //	public abstract Type getNullType();
 	
 	public Type findType(String fqn) throws LookupException {
-		return ((ObjectOrientedLanguage)language()).findType(fqn, namespace());
+	// return ((ObjectOrientedLanguage)language()).findType(fqn, namespace());
+		return namespace().find(fqn, Type.class);
 	}
 
 	public abstract Type topLevelType();

@@ -1,5 +1,6 @@
 package org.aikodi.chameleon.core.namespace;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -68,7 +69,7 @@ public class LazyNamespace extends RegularNamespace implements DocumentLoaderNam
 				if(loaders != null && ! loaders.isEmpty()) {
 					candidates = loaders.peek().targetDeclarations(name);
 				} else {
-					candidates = Collections.EMPTY_LIST;
+					candidates = new ArrayList<>();
 				}
 			}
 			storeCache(name, candidates);

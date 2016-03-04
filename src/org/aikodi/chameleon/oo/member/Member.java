@@ -134,6 +134,18 @@ public interface Member extends TypeElement, Declaration {
     return nearestAncestor(Type.class).membersDirectlyAliasing(aliasSelector());
   }
 
+  /**
+   * Return the members that are overridden bij this member.
+   * 
+   * @return A non-null set containing the members that are overriden by this member, 
+   * and that are either lexical members of the model, or generated members that are reachable 
+   * via this member. Generation of elements can caused a theoretically infinite number of members
+   * to be overridden by this member. Only a few of them will actuall exist as objects at any time,
+   * and it would be too expensive to track them given the fact that the result would be incomplete.
+   * As such, the result is limited to those members that are typically used by tools.
+   *  
+   * @throws LookupException
+   */
   public default Set<? extends Member> overriddenMembers() throws LookupException {
     Set<Member> result = null;
     //    boolean cacheDeclarations = Config.cacheDeclarations();

@@ -62,7 +62,7 @@ public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer
   public <E extends Exception> void buildGraph(
       final GraphBuilder<Element> builder, 
       Handler<LookupException, E> analysisGuard, 
-      Handler<InputException,E> inputGuard) throws E {
+      Handler<Exception,E> inputGuard) throws E {
     DependencyResult result = dependencyResult(analysisGuard, inputGuard);
     Action<Element, Nothing> nodeAction = new Action<Element, Nothing>(Element.class) {
       @Override
@@ -87,7 +87,7 @@ public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer
    */
   public <L extends Exception, I extends Exception> DependencyResult dependencyResult(
       Handler<LookupException, L> analysisGuard, 
-      Handler<InputException, I> inputGuard) throws L,I {
+      Handler<Exception, I> inputGuard) throws L,I {
     UniversalPredicate<D, Nothing> sourcePredicate = sourcePredicate();
     DependencyAnalysis<D, D> analysis = new DependencyAnalysis<D,D>(
         sourcePredicate, 

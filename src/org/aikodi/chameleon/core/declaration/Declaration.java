@@ -284,7 +284,7 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
    @*/
   public default <E extends Exception> List<CrossReference<?>> findAllReferences(Handler<E> handler) throws E {
      List<CrossReference<?>> result = new ArrayList<>();
-     namespace().defaultNamespace().apply(new Action<CrossReference, E>(CrossReference.class) {
+     root().apply(new Action<CrossReference, E>(CrossReference.class) {
 
         @Override
         protected void doPerform(CrossReference crossReference) throws E {
