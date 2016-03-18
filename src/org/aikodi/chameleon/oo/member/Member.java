@@ -31,33 +31,7 @@ public interface Member extends TypeElement, Declaration {
    @ post other == null ==> \result == false;
    @*/
   public default boolean overrides(Member other) throws LookupException {
-    //    // overriddenMembers().contains(other) does not work
-    //    // because a member can also override non-lexical members
-    //    // which are created on demand.
-    //    if(overridden != null && overridden.contains(other)) {
-    ////      System.out.println("Hit overridden: "+ ++HIT_OVERRIDDEN);
-    //      return true;
-    //    }
-    //    if(notOverridden != null && notOverridden.contains(other)) {
-    ////      System.out.println("Hit not overridden: "+ ++HIT_NOT_OVERRIDDEN);
-    //      return false;
-    //    }
     boolean overrides = overridesRelation().contains(this,other);
-    //    if(overrides) {
-    //      synchronized (this) {
-    //        if(overridden == null) {
-    //          overridden = new HashSet<>();
-    //        }
-    //        overridden.add(other);
-    //      }
-    //    } else {
-    //      synchronized (this) {
-    //        if(notOverridden == null) {
-    //          notOverridden = new HashSet<>();
-    //        }
-    //        notOverridden.add(other);
-    //      }
-    //    }
     return overrides;
   }
 
