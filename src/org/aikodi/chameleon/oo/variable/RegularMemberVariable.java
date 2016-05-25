@@ -74,11 +74,6 @@ public class RegularMemberVariable extends RegularVariable implements MemberVari
    }
 
    @Override
-   public List<? extends Member> directlyOverriddenMembers() throws LookupException {
-      return nearestAncestor(Type.class).membersDirectlyOverriddenBy(overridesSelector());
-   }
-
-   @Override
    public List<? extends Member> directlyAliasedMembers() throws LookupException {
       return nearestAncestor(Type.class).membersDirectlyAliasedBy(aliasSelector());
    }
@@ -89,11 +84,6 @@ public class RegularMemberVariable extends RegularVariable implements MemberVari
    }
 
    @Override
-   public boolean overrides(Member other) throws LookupException {
-      return overridesSelector().selects(other);
-   }
-
-   @Override
    public boolean canImplement(Member other) throws LookupException {
       StrictPartialOrder<Member> implementsRelation = language(ObjectOrientedLanguage.class).implementsRelation();
       return implementsRelation.contains(this, other);
@@ -101,23 +91,8 @@ public class RegularMemberVariable extends RegularVariable implements MemberVari
 
    @Override
    public boolean hides(Member other) throws LookupException {
-      // StrictPartialOrder<Member> hidesRelation =
-      // language(ObjectOrientedLanguage.class).hidesRelation();
-      // return hidesRelation.contains(this, other);
       return ((HidesRelation) hidesSelector()).contains(this, other);
    }
-
-   @Override
-   public MemberRelationSelector<MemberVariable> overridesSelector() {
-      return new MemberRelationSelector<MemberVariable>(MemberVariable.class, this, _overridesSelector);
-   }
-
-   public OverridesRelation<MemberVariable> overridesRelation() {
-      return _overridesSelector;
-   }
-
-   private static OverridesRelation<MemberVariable> _overridesSelector = new OverridesRelation<MemberVariable>(
-         MemberVariable.class);
 
    public HidesRelation<? extends Member> hidesSelector() {
       return _hidesSelector;
@@ -126,20 +101,6 @@ public class RegularMemberVariable extends RegularVariable implements MemberVari
    private static HidesRelation<RegularMemberVariable> _hidesSelector = new HidesRelation<RegularMemberVariable>(
          RegularMemberVariable.class);
 
-//   @Override
-//   public Set<? extends Member> overriddenMembers() throws LookupException {
-//      List<Member> todo = (List<Member>) directlyOverriddenMembers();
-//      Set<Member> result = new HashSet<Member>();
-//      while (!todo.isEmpty()) {
-//         Member m = todo.get(0);
-//         todo.remove(0);
-//         if (result.add(m)) {
-//            todo.addAll(m.overriddenMembers());
-//         }
-//      }
-//      return result;
-//   }
-//
    @Override
    public MemberRelationSelector<Member> aliasSelector() {
       return new MemberRelationSelector<Member>(Member.class, this, _aliasSelector);

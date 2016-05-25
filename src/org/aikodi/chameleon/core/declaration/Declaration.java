@@ -300,11 +300,17 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
      return result;
   }
 
+  /**
+   * By default returns the current object.
+   */
   @Override
   public default Declaration finalDeclaration() {
     return this;
   }
 
+  /**
+   * By default, this returns the {@link #finalDeclaration()}.
+   */
   @Override
   public default Declaration template() {
     return finalDeclaration();
@@ -318,5 +324,28 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
   @Override
   public default List<Declaration> declaredDeclarations() {
   	return Lists.create(this);
+  }
+  
+  /**
+   * Check whether this declaration can override the given other declaration.
+   * @param other
+   * @return
+   * @throws LookupException
+   */
+  public default boolean canOverride(Declaration other) throws LookupException {
+  	if(other == null) {
+  		throw new IllegalArgumentException();
+  	}
+  	return signature().sameAs(other.signature());
+  }
+  
+  public default boolean overrides(Declaration other) throws LookupException {
+  	if(sameAs(other)) {
+  		return false;
+  	} else {
+  		DeclarationContainer target = other.nearestAncestor(DeclarationContainer.class);
+  		Declaration followed = nearestAncestor(DeclarationContainer.class).follow(this, target);
+  		return followed.canOverride(other);
+  	}
   }
 }

@@ -993,10 +993,10 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 		
 	  @Override
    public HidesRelation<? extends Member> hidesRelation() {
-			return _hidesSelector;
+			return _hidesRelation;
 	  }
 	  
-	  private static HidesRelation<Type> _hidesSelector = new HidesRelation<Type>(Type.class);
+	  private static HidesRelation<Type> _hidesRelation = new HidesRelation<Type>(Type.class);
 }
 
 

@@ -1,7 +1,7 @@
 package org.aikodi.chameleon.oo.type.inheritance;
 
 import java.util.Collections;
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
@@ -114,6 +114,7 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 			return (List)potential; 
 		}
 		final List<SelectionResult<X>> toAdd = Lists.create(potential.size());
+//		final List<SelectionResult<X>> toAdd = new LinkedList<>();
 		int potentialSize = potential.size();
 		int currentSize = current.size();
 		int[] removedIndices = new int[currentSize];
@@ -122,14 +123,14 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 			SelectionResult mm = potential.get(potentialIndex);
 			Member m = (Member)mm.finalDeclaration();
 			boolean add = true;
-			for(int currentIndex = 0; currentIndex < currentSize; currentIndex++) {
+			for(int currentIndex = 0; add && currentIndex < currentSize; currentIndex++) {
 				SelectionResult selectionResult = current.get(currentIndex);
 				if(selectionResult != null) {
 				Member alreadyInherited = (Member)selectionResult.finalDeclaration();
 					// Remove the already inherited member if potentially inherited member m overrides or hides it.
-					if((alreadyInherited.sameAs(m) || alreadyInherited.overrides(m) || alreadyInherited.canImplement(m) || alreadyInherited.hides(m))) {
+					if((alreadyInherited.sameAs(m) || alreadyInherited.canOverride(m) || alreadyInherited.canImplement(m) || alreadyInherited.hides(m))) {
 						add = false;
-					} else if((!alreadyInherited.sameAs(m)) && (m.overrides(alreadyInherited) || m.canImplement(alreadyInherited) || m.hides(alreadyInherited))) {
+					} else if((!alreadyInherited.sameAs(m)) && (m.canOverride(alreadyInherited) || m.canImplement(alreadyInherited) || m.hides(alreadyInherited))) {
 						removedIndex++;
 						removedIndices[removedIndex] = currentIndex;
 						current.set(currentIndex,null);

@@ -16,11 +16,8 @@ import org.aikodi.chameleon.oo.type.TypeReference;
  * A general interface for inheritance relations. We use the dictionary definition of 'inheritance'. If
  * A inherits from B, then A may receive 'something' from B. That 'something' can be a type, a definition, or
  * any other property. Examples are extension, inclusion, specialization, ...
+ * 
  * @author Marko van Dooren
- *
- * @param <E>
- * @param <M>
- * @param <S> The type of the super element from which things are inherited. 
  */
 public interface InheritanceRelation extends Element {
 	
@@ -46,7 +43,4 @@ public interface InheritanceRelation extends Element {
    @*/
 	public Type superType() throws LookupException;
 
-//	public <X>
-	
-//	public <X extends Element> List<X> overriddenDeclarations() throws LookupException;
 }

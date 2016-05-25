@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
+import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
@@ -21,31 +22,6 @@ import org.aikodi.chameleon.util.Lists;
  */
 public interface Member extends TypeElement, Declaration {
   
-  
-  /**
-   * Check whether this member overrides the given member.
-   */
- /*@
-   @ public behavior
-   @
-   @ post other == null ==> \result == false;
-   @*/
-  public default boolean overrides(Member other) throws LookupException {
-    boolean overrides = overridesRelation().contains(this,other);
-    return overrides;
-  }
-
-  public default OverridesRelation<? extends Member> overridesRelation() {
-    return new OverridesRelation<Member>(Member.class);
-  }
-
-  /**
-   * Return a selector that selects members that could override this
-   * member based on the signature and other properties.
-   */
-  public default MemberRelationSelector<? extends Member> overridesSelector() {
-    return new MemberRelationSelector<Member>(Member.class,this,(DeclarationComparator<Member>) overridesRelation());
-  }
   
   /**
    * Return a selector that selects members that could override this
@@ -97,7 +73,10 @@ public interface Member extends TypeElement, Declaration {
    @ (\forall Member m; \result.contains(m); overrides(m));
    @*/
   public default List<? extends Member> directlyOverriddenMembers() throws LookupException {
-    return nearestAncestor(Type.class).membersDirectlyOverriddenBy(overridesSelector());
+  	OverridesRelation<Member> overridesRelation = new OverridesRelation<Member>(Member.class);
+  	MemberRelationSelector<Member> selector = new MemberRelationSelector<Member>(Member.class,this,(DeclarationComparator<Member>) overridesRelation);
+//  	nearestAncestor(DeclarationContainer.class).follow(this, to);
+    return nearestAncestor(Type.class).membersDirectlyOverriddenBy(selector);
   }
 
   public default List<? extends Member> directlyAliasedMembers() throws LookupException {
@@ -109,12 +88,12 @@ public interface Member extends TypeElement, Declaration {
   }
 
   /**
-   * Return the members that are overridden bij this member.
+   * Return the members that are overridden by this member.
    * 
-   * @return A non-null set containing the members that are overriden by this member, 
+   * @return A non-null set containing the members that are overridden by this member, 
    * and that are either lexical members of the model, or generated members that are reachable 
    * via this member. Generation of elements can caused a theoretically infinite number of members
-   * to be overridden by this member. Only a few of them will actuall exist as objects at any time,
+   * to be overridden by this member. Only a few of them will actually exist as objects at any time,
    * and it would be too expensive to track them given the fact that the result would be incomplete.
    * As such, the result is limited to those members that are typically used by tools.
    *  
@@ -122,10 +101,6 @@ public interface Member extends TypeElement, Declaration {
    */
   public default Set<? extends Member> overriddenMembers() throws LookupException {
     Set<Member> result = null;
-    //    boolean cacheDeclarations = Config.cacheDeclarations();
-    //    if(cacheDeclarations && _overriddenMembersCache != null) {
-    //      result = new HashSet<Member>(_overriddenMembersCache);
-    //    }
     if(result == null) {
       List<Member> todo = (List<Member>) directlyOverriddenMembers();
       Map<Type,List<Member>> visitedTypes = new HashMap<Type,List<Member>>();
@@ -171,18 +146,18 @@ public interface Member extends TypeElement, Declaration {
    @ post directlyOverriddenMembers().size() == 1 ==> directlyOverriddenMembers().contains(\result);
    @ post directlyOverriddenMembers().size() > 1 ==> false;
    @*/
-  public default Member overriddenMember() throws LookupException {
-    List<? extends Member> overridden = directlyOverriddenMembers();
-    int size = overridden.size();
-    if(size == 1) {
-      return overridden.get(0);
-    } else if (size > 1) {
-      throw new LookupException("There is than one overridden member. Use directlyOverriddenMembers() instead.");
-    } else {
-      //FIXME Why doesn't this throw an exception?
-      return null;
-    }
-  }
+//  public default Member overriddenMember() throws LookupException {
+//    List<? extends Member> overridden = directlyOverriddenMembers();
+//    int size = overridden.size();
+//    if(size == 1) {
+//      return overridden.get(0);
+//    } else if (size > 1) {
+//      throw new LookupException("There is than one overridden member. Use directlyOverriddenMembers() instead.");
+//    } else {
+//      //FIXME Why doesn't this throw an exception?
+//      return null;
+//    }
+//  }
 
   /**
    * @return The <em>reachable</em> members that are aliased by this member.

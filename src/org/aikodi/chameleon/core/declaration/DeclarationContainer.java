@@ -1,6 +1,8 @@
 package org.aikodi.chameleon.core.declaration;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
@@ -11,6 +13,8 @@ import org.aikodi.chameleon.core.lookup.LookupContextFactory;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.util.Lists;
+
+import be.kuleuven.cs.distrinet.rejuse.function.BiFunction;
 
 /**
  * An element that contains declarations. This interface allows the
@@ -119,5 +123,76 @@ public interface DeclarationContainer extends Element {
      return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
   }
 
+//  public default boolean canReach(Declaration overriding, Declaration overridden) throws LookupException {
+//  	DeclarationContainer overriddenAncestor = overridden.nearestAncestor(DeclarationContainer.class);
+//  	if(sameAs(overriddenAncestor)) {
+//    	DeclarationContainer overridingAncestor = overriding.nearestAncestor(DeclarationContainer.class);
+//    	return sameAs(overridingAncestor);
+//  	} else {
+//  		for(DeclarationRelation relation: relations()) {
+//  			if(relation.overrides(overriding, overridden)) {
+//  				return true;
+//  			}
+//  		}
+//  		return false;
+//  	}
+//  }
+  
+  /**
+   * Follow the overriding declaration and check whether it ends up at the
+   * overridden declaration. This is not a complete override check, hence the name
+   * of the method. It allows declaration containers and relations to determine
+   * the path that is followed, and allowed for renaming to occur with the
+   * declarations having to know anything about it.
+   * 
+   * We need both declarations because elements can be generated. Generated elements
+   * are not part of the model, so we cannot simply follow a path from the overriding
+   * declaration to the overridden declaration.
+   * 
+   * @param overriding
+   * @param overridden
+   * @return
+   * @throws LookupException
+   */
+  public default Declaration follow(Declaration declaration, DeclarationContainer to) throws LookupException {
+  	if(sameAs(to)) {
+    	return declaration;
+  	} else {
+  		for(DeclarationRelation relation: relations()) {
+  			Declaration result = relation.follow(declaration, to);
+  			if(result != null) {
+  				return result;
+  			}
+  		}
+  		return null;
+  	}
+  }
+  
+  public default Set<Declaration> next(Declaration declaration, BiFunction<Declaration, Declaration, Boolean, LookupException> stopCondition) {
+  	throw new Error();
+  }
+  
+//  public static abstract class DeclarationFinder<D extends Declaration> {
+//  	private D _declaration;
+//    public Set<D> visit(DeclarationContainer container) {
+//    	visit(container, _declaration);
+//    }
+//    void Set<D> visit(DeclarationContainer container, D renamedDeclaration) {
+//    	
+//    }
+//  }
+  
+  public default boolean aliasOf(Declaration first, Declaration second) throws LookupException {
+  	throw new Error("Not implemented yet.");
+  }
 
+  public default List<DeclarationRelation> relations() {
+  	return Collections.EMPTY_LIST;
+  }
+  
+  public interface DeclarationRelation extends Element {
+//  	public boolean overrides(Declaration overriding, Declaration overridden) throws LookupException;
+  	
+  	public Declaration follow(Declaration declaration, DeclarationContainer to) throws LookupException;
+  }
 }
