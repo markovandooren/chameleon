@@ -33,5 +33,15 @@ public class GuardedTreeWalker<T, I extends Exception, O extends Exception> impl
   public <X extends T> void traverse(TreeStructure<X> tree) throws O {
     _handler.execute(() -> {_wrapped.traverse(tree);});
   }
+  
+  @Override
+  public void exit(TreeStructure<?> tree) throws O {
+  	_handler.execute(() -> {_wrapped.exit(tree);});
+  }
+
+  @Override
+  public void enter(TreeStructure<?> tree) throws O {
+  	_handler.execute(() -> {_wrapped.enter(tree);});
+  }
 
 }

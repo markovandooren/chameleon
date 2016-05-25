@@ -18,6 +18,7 @@ import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.function.Function;
 import be.kuleuven.cs.distrinet.rejuse.graph.Edge;
+import be.kuleuven.cs.distrinet.rejuse.graph.Path;
 import be.kuleuven.cs.distrinet.rejuse.graph.UniEdge;
 import be.kuleuven.cs.distrinet.rejuse.predicate.True;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
@@ -78,7 +79,8 @@ public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer
       }
     };
     result.traverse(nodeAction, edgeAction);
-
+    List<Path<Element>> cycles = result.graph().simpleCycles();
+		System.out.println("#########" + cycles);
   }
 
   /**

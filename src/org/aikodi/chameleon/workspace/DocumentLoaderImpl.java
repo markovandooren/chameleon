@@ -160,6 +160,7 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		try {
 			load();
 		} catch (InputException e) {
+			e.printStackTrace();
 			throw new LookupException("Error opening file",e);
 		}
 		NamespaceDeclaration namespaceDeclaration = rawDocument().namespaceDeclaration(0);
