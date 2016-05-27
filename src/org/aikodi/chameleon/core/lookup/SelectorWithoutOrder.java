@@ -19,6 +19,7 @@ public interface SelectorWithoutOrder<D extends Declaration> extends Declaration
 
   @Override
   public default List<? extends SelectionResult<D>> selection(List<? extends Declaration> declarators) throws LookupException {
+  	List<? extends SelectionResult<D>> result;
      if (declarators.size() > 0) {
         List<SelectionResult<D>> tmp = Lists.create();
         for (Declaration decl : declarators) {
@@ -27,10 +28,11 @@ public interface SelectorWithoutOrder<D extends Declaration> extends Declaration
               tmp.add(e);
            }
         }
-        return tmp;
+        result = tmp;
      } else {
-        return Collections.EMPTY_LIST;
+        result = Collections.EMPTY_LIST;
      }
+     return result;
   }
 
   /**

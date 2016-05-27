@@ -394,11 +394,20 @@ abstract public class AbstractChameleonReconciler implements IReconciler {
 	private IProgressMonitor fProgressMonitor;
 
 	/** The text viewer's document. */
-	protected EclipseDocument _document;
+	private EclipseDocument _document;
+	
+	protected EclipseDocument document() {
+		return _document;
+	}
+	
 	/** The text viewer */
-	protected ITextViewer _textViewer;
+	private ITextViewer _textViewer;
 
 
+	protected ITextViewer textViewer() {
+		return _textViewer;
+	}
+	
 	/**
 	 * Processes a dirty region. If the dirty region is <code>null</code> the whole
 	 * document is consider being dirty. The dirty region is partitioned by the

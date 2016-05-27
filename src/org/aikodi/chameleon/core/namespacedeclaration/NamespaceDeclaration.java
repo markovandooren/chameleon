@@ -50,7 +50,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 
 		@Override
 		public Element parent() {
-				return node().namespace();
+				return NamespaceDeclaration.this.namespace();
 		}
 	};
 	
@@ -315,7 +315,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	}
 	
 	public <T extends Declaration> List<T> declarations(Class<T> kind) {
-    List result = new ArrayList(declarations());
+    List<T> result = (List)new ArrayList(declarations());
     CollectionOperations.filter(result, d -> kind.isInstance(d));
     return result;
   }
@@ -335,7 +335,6 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	 * Return the namespace to which this namespacepart adds declarations.
 	 * @return
 	 */
-	@Override
    public Namespace namespace() {
 		Namespace stored = _namespaceLink.getOtherEnd();
 		if(stored == null) {

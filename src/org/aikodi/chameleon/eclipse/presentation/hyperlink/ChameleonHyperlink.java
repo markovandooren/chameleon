@@ -25,11 +25,11 @@ public class ChameleonHyperlink implements IHyperlink {
 	/**
 	 * The cross reference in the model.
 	 */
-	CrossReference _element;
+	private CrossReference _element;
 	
-	IRegion _region;
+	private IRegion _region;
 	
-	EclipseDocument _document;
+	private EclipseDocument _document;
 	
 	public ChameleonHyperlink(CrossReference element, IRegion region,EclipseDocument document){
 		_element = element;

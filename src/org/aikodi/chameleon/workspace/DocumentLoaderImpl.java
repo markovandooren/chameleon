@@ -53,7 +53,7 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		return _namespace;
 	}
 	
-	protected SingleAssociation<DocumentLoader, DocumentLoaderNamespace> _namespace = new SingleAssociation<DocumentLoader, DocumentLoaderNamespace>(this);
+	private SingleAssociation<DocumentLoader, DocumentLoaderNamespace> _namespace = new SingleAssociation<DocumentLoader, DocumentLoaderNamespace>(this);
 
 	/**
 	 * Return a direct reference to the managed document. This may return null
@@ -141,7 +141,7 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		}
 	}
 	
-	protected SingleAssociation<DocumentLoaderImpl, Document> _document = new SingleAssociation<DocumentLoaderImpl, Document>(this);
+	private SingleAssociation<DocumentLoaderImpl, Document> _document = new SingleAssociation<DocumentLoaderImpl, Document>(this);
 	
 	@Override
    public DocumentScanner scanner() {
@@ -153,13 +153,14 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		return _scanner;
 	}
 	
-	protected SingleAssociation<DocumentLoader, DocumentScanner> _scanner = new SingleAssociation<DocumentLoader, DocumentScanner>(this);
+	private SingleAssociation<DocumentLoader, DocumentScanner> _scanner = new SingleAssociation<DocumentLoader, DocumentScanner>(this);
 	
 	@Override
 	public List<Declaration> targetDeclarations(String name) throws LookupException {
 		try {
 			load();
 		} catch (InputException e) {
+			e.printStackTrace();
 			throw new LookupException("Error opening file",e);
 		}
 		NamespaceDeclaration namespaceDeclaration = rawDocument().namespaceDeclaration(0);

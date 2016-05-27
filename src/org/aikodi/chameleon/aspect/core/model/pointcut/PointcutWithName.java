@@ -4,6 +4,7 @@ import org.aikodi.chameleon.aspect.core.model.pointcut.expression.PointcutExpres
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Signature;
 import org.aikodi.chameleon.core.declaration.SimpleNameSignature;
+import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
@@ -48,7 +49,7 @@ public class PointcutWithName extends Pointcut {
 	}
 
 	@Override
-	public LookupContext targetContext() throws LookupException {
+	public LocalLookupContext<?> targetContext() throws LookupException {
 		throw new LookupException("Requesting the target context of a pointcut.");
 	}
 

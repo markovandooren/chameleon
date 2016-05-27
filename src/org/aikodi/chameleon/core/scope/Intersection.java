@@ -1,6 +1,8 @@
 package org.aikodi.chameleon.core.scope;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -75,6 +77,7 @@ public class Intersection extends CompositeScope {
 
   @Override
   protected void filter() throws LookupException {
+  	List<Scope> scopes = new ArrayList<>(scopesView());
     new Predicate<Scope, LookupException>() {
       @Override
       public boolean eval(final Scope acc) throws LookupException {
@@ -83,9 +86,10 @@ public class Intersection extends CompositeScope {
           public boolean eval(Scope other) throws LookupException {
             return (acc != other) && (acc.greaterThanOrEqualTo(other));
           }
-        }.exists(_scopes);
+        }.exists(scopesView());
       }
-    }.filter(_scopes);
+    }.filter(scopes);
+    setScopes(scopes);
   }
 
 }

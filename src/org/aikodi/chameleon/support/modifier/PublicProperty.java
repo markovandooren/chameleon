@@ -13,12 +13,12 @@ public class PublicProperty extends ScopeProperty {
 	
 	public final static String ID = "accessibility.public";
 	
-	public PublicProperty(PropertyUniverse<ChameleonProperty> universe, PropertyMutex<ChameleonProperty> family) {
-		super(ID, universe, family);
+	public PublicProperty(PropertyMutex<ChameleonProperty> family) {
+		super(ID, family);
 	}
 
-	public PublicProperty(String name, PropertyUniverse<ChameleonProperty> universe, PropertyMutex<ChameleonProperty> family) {
-		super(name, universe, family);
+	public PublicProperty(String name, PropertyMutex<ChameleonProperty> family) {
+		super(name, family);
 	}
 
 	@Override

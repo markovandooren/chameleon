@@ -53,7 +53,7 @@ public class ChameleonOutlinePage extends ContentOutlinePage {
 	private ChameleonOutlineTree _chameleonTree;
 
 	// Wheter to show the root-element of the tree, or not
-	public boolean _showRoot = false;
+	private boolean _showRoot = false;
 
 	/**
 	 * The creation of a ChameleonContentOutlinePage with given language & editor

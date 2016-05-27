@@ -1,20 +1,17 @@
 package org.aikodi.chameleon.util.concurrent;
 
-import java.util.Queue;
-
 public abstract class QueuePollingRunnable<T> extends QueuePollingExecutable<T> implements Runnable {
 
-	public QueuePollingRunnable(Queue<T> queue) {
+	public QueuePollingRunnable(QueuePollingFactory<T,?> queue) {
 		super(queue);
 	}
 	
 	@Override
 	public final void run() {
-		Queue<T> queue = queue();
-		T t = queue.poll();
+		T t = poll();
 		while(t != null) {
 			process(t);
-			t = queue.poll();
+			t = poll();
 		}
 
 	}

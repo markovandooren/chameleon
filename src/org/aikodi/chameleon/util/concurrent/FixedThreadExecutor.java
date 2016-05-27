@@ -16,7 +16,7 @@ public class FixedThreadExecutor {
 		_executor = Executors.newFixedThreadPool(availableProcessors());
 	}
 
-	protected int _availableProcessors;
+	private int _availableProcessors;
 
 	public int availableProcessors() {
 		boolean singleThreaded = Config.singleThreaded();
@@ -27,7 +27,7 @@ public class FixedThreadExecutor {
 		}
 	}
 
-	protected ExecutorService _executor;
+	private ExecutorService _executor;
 
 	public ExecutorService executor() {
 		return _executor;

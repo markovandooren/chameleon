@@ -11,7 +11,7 @@ public class ThrowingProperty extends StaticChameleonProperty {
 	
 	public final static String ID = "advicetype.throwing";
 
-	public ThrowingProperty(PropertyUniverse<ChameleonProperty> universe, PropertyMutex<ChameleonProperty> mutex) {
-		super(ID, universe, mutex, Advice.class);
+	public ThrowingProperty(PropertyMutex<ChameleonProperty> mutex) {
+		super(ID, mutex, Advice.class);
 	}
 }

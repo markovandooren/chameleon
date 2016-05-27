@@ -11,7 +11,7 @@ public class AroundProperty extends StaticChameleonProperty {
 	
 	public final static String ID = "advicetype.around";
 
-	public AroundProperty(PropertyUniverse<ChameleonProperty> universe, PropertyMutex<ChameleonProperty> mutex) {
-		super(ID, universe, mutex, Advice.class);
+	public AroundProperty(PropertyMutex<ChameleonProperty> mutex) {
+		super(ID, mutex, Advice.class);
 	}
 }

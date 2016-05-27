@@ -193,7 +193,7 @@ public abstract class SWTWidgetFactory implements WidgetFactory<Control> {
 
 	private static class Container<T> {
 		//Only to replace a local variable that has to be final.
-		public List<T> _list;
+		private List<T> _list;
 	}
 	
 	@Override

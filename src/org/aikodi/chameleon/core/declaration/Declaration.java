@@ -6,7 +6,7 @@ import java.util.List;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
-import org.aikodi.chameleon.core.lookup.LookupContext;
+import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiers;
@@ -242,7 +242,7 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
    * "package"</li>
    * </ol>
    */
-  public default LookupContext targetContext() throws LookupException {
+  public default LocalLookupContext<?> targetContext() throws LookupException {
   	return language().lookupFactory().createTargetLookupStrategy(this);
   }
   
@@ -284,7 +284,7 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
    @*/
   public default <E extends Exception> List<CrossReference<?>> findAllReferences(Handler<E> handler) throws E {
      List<CrossReference<?>> result = new ArrayList<>();
-     namespace().defaultNamespace().apply(new Action<CrossReference, E>(CrossReference.class) {
+     root().apply(new Action<CrossReference, E>(CrossReference.class) {
 
         @Override
         protected void doPerform(CrossReference crossReference) throws E {

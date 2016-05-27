@@ -127,7 +127,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 	}
 	
 	public <D extends Member> List<D> members(Class<D> kind) throws LookupException {
-    List result = members();
+    List<D> result = (List)members();
     CollectionOperations.filter(result, d -> kind.isInstance(d));
     return result;
 	}

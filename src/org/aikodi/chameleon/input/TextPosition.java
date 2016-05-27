@@ -1,10 +1,14 @@
 package org.aikodi.chameleon.input;
 
-public class Position2D {
-
+/**
+ * A class for representing positions in a text file.
+ * 
+ * @author Marko van Dooren
+ */
+public class TextPosition {
 	
 	/**
-	 * Initialize a new 2D position with the given line number and offset within the line.
+	 * Initialize a new 2D position with the given line number and a column number.
 	 * Both numbers can range from 0 to ...
 	 * 
 	 * @param lineNumber
@@ -16,7 +20,7 @@ public class Position2D {
    @ post lineNumber() == lineNumber;
    @ post offset() == offset;
    @*/
-	public Position2D(int lineNumber, int offset) {
+	public TextPosition(int lineNumber, int offset) {
 		_line = lineNumber;
 		_offset = offset;
 	}

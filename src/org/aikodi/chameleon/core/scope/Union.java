@@ -3,7 +3,9 @@ package org.aikodi.chameleon.core.scope;
 import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.exists;
 import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -81,8 +83,12 @@ public class Union extends CompositeScope {
 
   @Override
   protected void filter() throws LookupException {
-    Predicate<Scope, LookupException> predicate = acc -> !exists(_scopes, o2 -> (acc != o2) && (o2.greaterThanOrEqualTo(acc)));
-    CollectionOperations.filter(_scopes, predicate);
+  	//TODO inefficient. Do the filtering in the super class and provides the filter
+  	// in the subclass.
+  	List<Scope> scopes = new ArrayList<>(scopesView());
+    Predicate<Scope, LookupException> predicate = acc -> !exists(scopesView(), o2 -> (acc != o2) && (o2.greaterThanOrEqualTo(acc)));
+    CollectionOperations.filter(scopes, predicate);
+    setScopes(scopes);
   }
 
 }

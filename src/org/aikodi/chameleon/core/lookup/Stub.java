@@ -16,7 +16,7 @@ import org.aikodi.chameleon.core.element.Element;
  */
 public interface Stub extends Element {
 
-	public Declaration child();
+	public Element child();
 	
 	public Element generator();
 }

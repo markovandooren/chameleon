@@ -20,7 +20,8 @@ import org.eclipse.gef4.layout.algorithms.CompositeLayoutAlgorithm;
 import org.eclipse.gef4.layout.algorithms.HorizontalShiftAlgorithm;
 import org.eclipse.gef4.layout.algorithms.SpringLayoutAlgorithm;
 import org.eclipse.gef4.layout.algorithms.SugiyamaLayoutAlgorithm;
-import org.eclipse.gef4.zest.fx.ui.jface.ZestContentViewer;
+import org.eclipse.gef4.zest.fx.jface.ZestContentViewer;
+import org.eclipse.gef4.zest.fx.jface.ZestFxJFaceModule;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -49,9 +50,6 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
-
-import be.kuleuven.cs.distrinet.rejuse.graph.LayoutAlgorithm;
-import javafx.embed.swt.FXCanvas;
 
 public class DependencyView extends ViewPart {//implements IZoomableWorkbenchPart {
 
@@ -212,7 +210,7 @@ public class DependencyView extends ViewPart {//implements IZoomableWorkbenchPar
 	}
 	
 	protected void addZest2GraphViewer(Composite parent) {
-	  ZestContentViewer viewer = new ZestContentViewer();
+	  ZestContentViewer viewer = new ZestContentViewer(new ZestFxJFaceModule());
 	  viewer.createControl(parent, SWT.NONE);
 	  SugiyamaLayoutAlgorithm layoutAlgorithm = new SugiyamaLayoutAlgorithm();
 	  registerLayout("Sugiyama", layoutAlgorithm);
@@ -220,7 +218,7 @@ public class DependencyView extends ViewPart {//implements IZoomableWorkbenchPar
 	  viewer.setLabelProvider(new DependencyLabelProvider());
 	  viewer.setLayoutAlgorithm(layoutAlgorithm);
 	  viewer.setInput(new DependencyResult());
-	  FXCanvas control = viewer.getControl();
+	  javafx.embed.swt.FXCanvas control = viewer.getControl();
 	  control.setLayoutData(new GridData( SWT.FILL, SWT.FILL, true, true));
 	  _viewer = viewer;
 //		_viewer2 = new org.eclipse.gef4.zest.core.viewers.GraphViewer(parent, SWT.NONE);

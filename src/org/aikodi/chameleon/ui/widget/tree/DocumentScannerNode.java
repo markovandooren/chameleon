@@ -18,19 +18,18 @@ public class DocumentScannerNode extends TreeNode<DocumentScanner,Object> {
 
 		@Override
 		public List<? extends TreeNode<?,Object>> createChildren() {
+			Builder<TreeNode<?,Object>> builder = ImmutableList.builder();
 			if(domainObject() instanceof CompositeDocumentScanner) {
-				Builder<DocumentScannerNode> builder = ImmutableList.builder();
 				for(DocumentScanner scanner: ((CompositeDocumentScanner)domainObject()).scanners()) {
 					builder.add(new DocumentScannerNode(this, scanner));
 				}
 				return builder.build();
 			} else {
 				List<Namespace> topLevelNamespaces = domainObject().topLevelNamespaces();
-				Builder<NamespaceNode> namespaceBuilder = ImmutableList.builder();
 				for(Namespace ns: topLevelNamespaces) {
-					namespaceBuilder.add(new NamespaceNode(this, ns));
+					builder.add(new NamespaceNode(this, ns));
 				}
-				return namespaceBuilder.build();
+				return builder.build();
 			}
 		}
 	}

@@ -1,8 +1,7 @@
 package org.aikodi.chameleon.core.declaration;
 
-import org.aikodi.chameleon.core.lookup.LookupContext;
+import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiersImpl;
 import org.aikodi.chameleon.core.scope.Scope;
 import org.aikodi.chameleon.core.validation.BasicProblem;
@@ -106,7 +105,7 @@ public class DeclarationAlias extends ElementWithModifiersImpl implements Declar
 	}
 
 	@Override
-	public LookupContext targetContext() throws LookupException {
+	public LocalLookupContext<?> targetContext() throws LookupException {
 		return aliasedDeclaration().targetContext();
 	}
 

@@ -42,4 +42,8 @@ public class ParseProblem extends BasicProblem {
 		return result;
 	}
 
+	@Override
+	public int hashCode() {
+		return element().hashCode() + message().hashCode();
+	}
 }

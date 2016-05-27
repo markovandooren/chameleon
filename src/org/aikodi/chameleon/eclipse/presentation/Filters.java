@@ -155,7 +155,7 @@ public class Filters {
 	}
 
 	private static class ModifierFilter extends ViewerFilter{
-		public Modifier modifier;
+		private Modifier modifier;
 		// Constructor
 		public ModifierFilter(Modifier modifier) {
 			this.modifier = modifier;

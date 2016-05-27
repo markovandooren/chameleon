@@ -1,21 +1,17 @@
 package org.aikodi.chameleon.eclipse.view.dependency;
 
-import static org.eclipse.gef4.zest.fx.ZestProperties.EDGE_STYLE;
-import static org.eclipse.gef4.zest.fx.ZestProperties.EDGE_STYLE_SOLID;
-import static org.eclipse.gef4.zest.fx.ZestProperties.GRAPH_TYPE;
-import static org.eclipse.gef4.zest.fx.ZestProperties.GRAPH_TYPE_DIRECTED;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import javafx.scene.shape.Polygon;
 
 import org.aikodi.chameleon.analysis.dependency.DependencyResult.DependencyCount;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.eclipse.connector.EclipseEditorExtension;
 import org.aikodi.chameleon.exception.ModelException;
 import org.eclipse.gef4.zest.fx.ZestProperties;
-import org.eclipse.gef4.zest.fx.ui.jface.IGraphNodeLabelProvider;
-import org.eclipse.gef4.zest.fx.ui.jface.INestedGraphLabelProvider;
+import org.eclipse.gef4.zest.fx.jface.IGraphAttributesProvider;
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.SWT;
@@ -27,7 +23,7 @@ import be.kuleuven.cs.distrinet.rejuse.graph.Edge;
 import be.kuleuven.cs.distrinet.rejuse.graph.Node;
 import be.kuleuven.cs.distrinet.rejuse.graph.UniEdge;
 
-class DependencyLabelProvider extends LabelProvider implements IGraphNodeLabelProvider, INestedGraphLabelProvider,  IColorProvider {//implements IConnectionStyleProvider, IEntityStyleProvider {
+class DependencyLabelProvider extends LabelProvider implements IGraphAttributesProvider,  IColorProvider {//implements IConnectionStyleProvider, IEntityStyleProvider {
 
 
   @Override
@@ -67,6 +63,12 @@ class DependencyLabelProvider extends LabelProvider implements IGraphNodeLabelPr
     return result;
   }
 
+	static class DiamondHead extends Polygon {
+		public DiamondHead() {
+			super(15.0, 0.0, 7.5, -7.5, 0.0, 0.0, 7.5, 7.5, 15.0, 0.0);
+		}
+	}
+
   @Override
   public Map<String, Object> getEdgeAttributes(Object sourceNode, Object targetNode) {
     Map<String, Object> result = new HashMap<>();
@@ -78,14 +80,14 @@ class DependencyLabelProvider extends LabelProvider implements IGraphNodeLabelPr
       String label = ""+count.value();
       result.put("label",label);
     }
-    result.put(EDGE_STYLE, EDGE_STYLE_SOLID);
+    result.put(ZestProperties.SOURCE_DECORATION__E, new DiamondHead());
     return result;
   }
 
   @Override
-  public Map<String, Object> getRootGraphAttributes() {
+  public Map<String, Object> getGraphAttributes() {
     Map<String, Object> result = new HashMap<>();
-    result.put(GRAPH_TYPE, GRAPH_TYPE_DIRECTED);
+//    result.put(GRAPH_TYPE, GRAPH_TYPE_DIRECTED);
     return result;
   }
 

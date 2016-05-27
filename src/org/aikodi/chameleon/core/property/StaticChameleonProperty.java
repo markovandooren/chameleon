@@ -20,20 +20,20 @@ import com.google.common.collect.ImmutableList;
 
 public class StaticChameleonProperty extends StaticProperty<Element,ChameleonProperty> implements ChameleonProperty {
 
-	public StaticChameleonProperty(String name, PropertyUniverse<ChameleonProperty> universe,
+	public StaticChameleonProperty(String name, 
 			PropertyMutex<ChameleonProperty> mutex, ChameleonProperty inverse, Class<? extends Element> validElementType) {
-		super(name, universe, mutex, inverse);
+		super(name, mutex, inverse);
 		addValidElementType(validElementType);
 	}
 
-	public StaticChameleonProperty(String name, PropertyUniverse<ChameleonProperty> universe,
+	public StaticChameleonProperty(String name,
 			PropertyMutex<ChameleonProperty> mutex, Class<? extends Element> validElementType) {
-		super(name,universe, mutex);
+		super(name, mutex);
 		addValidElementType(validElementType);
 	}
 
-	public StaticChameleonProperty(String name, PropertyUniverse<ChameleonProperty> universe, Class<? extends Element> validElementType) {
-		super(name, universe);
+	public StaticChameleonProperty(String name, Class<? extends Element> validElementType) {
+		super(name);
 		addValidElementType(validElementType);
 	}
 
@@ -42,8 +42,8 @@ public class StaticChameleonProperty extends StaticProperty<Element,ChameleonPro
 	 * not work properly.
 	 */
 	@Override
-	protected void createInverse(String name, PropertyUniverse<ChameleonProperty> universe) {
-		new InverseChameleonProperty("not "+name, universe, mutex(), this);
+	protected void createInverse(String name) {
+		new InverseChameleonProperty("not "+name, mutex(), this);
 	}
 
 	/**
@@ -107,13 +107,13 @@ public class StaticChameleonProperty extends StaticProperty<Element,ChameleonPro
 	private ImmutableList<Class<? extends Element>> _validTypes = _builder.build();
 
 	private final class InverseChameleonProperty extends InverseProperty<Element, ChameleonProperty> implements ChameleonProperty {
-		private InverseChameleonProperty(String name, PropertyUniverse<ChameleonProperty> universe, PropertyMutex<ChameleonProperty> family,
+		private InverseChameleonProperty(String name, PropertyMutex<ChameleonProperty> family,
 				ChameleonProperty inverse) {
-			super(name, universe, family, inverse);
+			super(name, family, inverse);
 		}
 
 		@Override
-		protected void createInverse(String name, PropertyUniverse<ChameleonProperty> universe) {
+		protected void createInverse(String name) {
 			throw new ChameleonProgrammerException("This method should not be invoked for an InverseProperty. Its inverse is passed as an argument to the constructor.");
 		}
 

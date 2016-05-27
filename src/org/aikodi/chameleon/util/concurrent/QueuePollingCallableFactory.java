@@ -13,7 +13,7 @@ public class QueuePollingCallableFactory<T,E extends Exception> extends QueuePol
 
 	@Override
 	public Callable<Object> createCallable() {
-		return new QueuePollingCallable<T>(queue()) {
+		return new QueuePollingCallable<T>(this) {
 			
 			@Override
 			public void process(T t) throws E{

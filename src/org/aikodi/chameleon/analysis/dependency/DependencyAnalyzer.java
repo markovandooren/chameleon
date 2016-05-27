@@ -12,13 +12,13 @@ import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.chameleon.workspace.Project;
-import org.aikodi.rejuse.exception.Guard;
 import org.aikodi.rejuse.exception.Handler;
 
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
 import be.kuleuven.cs.distrinet.rejuse.function.Function;
 import be.kuleuven.cs.distrinet.rejuse.graph.Edge;
+import be.kuleuven.cs.distrinet.rejuse.graph.Path;
 import be.kuleuven.cs.distrinet.rejuse.graph.UniEdge;
 import be.kuleuven.cs.distrinet.rejuse.predicate.True;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
@@ -63,7 +63,7 @@ public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer
   public <E extends Exception> void buildGraph(
       final GraphBuilder<Element> builder, 
       Handler<LookupException, E> analysisGuard, 
-      Handler<InputException,E> inputGuard) throws E {
+      Handler<Exception,E> inputGuard) throws E {
     DependencyResult result = dependencyResult(analysisGuard, inputGuard);
     Action<Element, Nothing> nodeAction = new Action<Element, Nothing>(Element.class) {
       @Override
@@ -79,7 +79,8 @@ public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer
       }
     };
     result.traverse(nodeAction, edgeAction);
-
+    List<Path<Element>> cycles = result.graph().simpleCycles();
+		System.out.println("#########" + cycles);
   }
 
   /**
@@ -88,7 +89,7 @@ public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer
    */
   public <L extends Exception, I extends Exception> DependencyResult dependencyResult(
       Handler<LookupException, L> analysisGuard, 
-      Handler<InputException, I> inputGuard) throws L,I {
+      Handler<Exception, I> inputGuard) throws L,I {
     UniversalPredicate<D, Nothing> sourcePredicate = sourcePredicate();
     DependencyAnalysis<D, D> analysis = new DependencyAnalysis<D,D>(
         sourcePredicate, 

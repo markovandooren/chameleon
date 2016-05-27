@@ -57,7 +57,7 @@ public interface TreeWalker<T, E extends Exception> {
    *
    * @param node The data structure node that has just been entered.
    */
-  public default void enter(TreeStructure<?> node) {
+  public default void enter(TreeStructure<?> node) throws E {
   }
 
   /**
@@ -69,6 +69,6 @@ public interface TreeWalker<T, E extends Exception> {
    *
    * @param node The data structure node that has just been exited.
    */
-  public default void exit(TreeStructure<?> node) {
+  public default void exit(TreeStructure<?> node) throws E {
   }
 }

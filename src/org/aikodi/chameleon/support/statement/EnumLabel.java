@@ -4,7 +4,7 @@ import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.lookup.DeclarationCollector;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
-import org.aikodi.chameleon.core.lookup.LookupContext;
+import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.NameSelector;
 import org.aikodi.chameleon.core.reference.CrossReference;
@@ -74,7 +74,7 @@ public class EnumLabel extends SwitchLabel implements CrossReference<Variable>{
 	}
 
 	@Override
-	public LookupContext targetContext() throws LookupException {
+	public LocalLookupContext targetContext() throws LookupException {
 		throw new LookupException("Requesting the target context of an enum label.");
 	}
 	

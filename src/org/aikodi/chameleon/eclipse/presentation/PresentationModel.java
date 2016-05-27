@@ -280,23 +280,23 @@ public class PresentationModel {
 	}
 
 	public List<String[]> getOutlineElements() {
-		return _outlineElements;
+		return new ArrayList<>(_outlineElements);
 	}
 
 	public void setOutlineElements(List<String[]> outlineElements) {
-		this._outlineElements = outlineElements;
+		this._outlineElements = new ArrayList<>(outlineElements);
 	}
 
 	public List<String> getDefaultOutlineElements() {
-		return _defaultOutlineElements;
+		return new ArrayList<>(_defaultOutlineElements);
 	}
 
 	public List<String[]> getIndentElements() {
-		return _indentElements;
+		return new ArrayList<>(_indentElements);
 	}
 
 	public List<String> getDefaultIndentElements() {
-		return _defaultIndentElements;
+		return new ArrayList<>(_defaultIndentElements);
 	}
 
 	public List<String> getOutlineElementsSimple(){

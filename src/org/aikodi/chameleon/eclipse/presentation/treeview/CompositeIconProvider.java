@@ -51,7 +51,7 @@ public class CompositeIconProvider implements IconProvider {
 	}
 	
 	public List<IconProvider> providers() {
-		return _providers;
+		return new ArrayList<>(_providers);
 	}
 	
 	private List<IconProvider> _providers = new ArrayList<IconProvider>();

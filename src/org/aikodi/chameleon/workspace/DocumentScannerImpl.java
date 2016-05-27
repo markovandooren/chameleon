@@ -362,7 +362,7 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
 		return _namespaceCache;
 	}
 	
-	private Set<Namespace> _namespaceCache;
+	private ImmutableSet<Namespace> _namespaceCache;
 
 	@Override
 	public int nbDocumentLoaders() {

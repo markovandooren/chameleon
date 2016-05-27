@@ -31,33 +31,7 @@ public interface Member extends TypeElement, Declaration {
    @ post other == null ==> \result == false;
    @*/
   public default boolean overrides(Member other) throws LookupException {
-    //    // overriddenMembers().contains(other) does not work
-    //    // because a member can also override non-lexical members
-    //    // which are created on demand.
-    //    if(overridden != null && overridden.contains(other)) {
-    ////      System.out.println("Hit overridden: "+ ++HIT_OVERRIDDEN);
-    //      return true;
-    //    }
-    //    if(notOverridden != null && notOverridden.contains(other)) {
-    ////      System.out.println("Hit not overridden: "+ ++HIT_NOT_OVERRIDDEN);
-    //      return false;
-    //    }
     boolean overrides = overridesRelation().contains(this,other);
-    //    if(overrides) {
-    //      synchronized (this) {
-    //        if(overridden == null) {
-    //          overridden = new HashSet<>();
-    //        }
-    //        overridden.add(other);
-    //      }
-    //    } else {
-    //      synchronized (this) {
-    //        if(notOverridden == null) {
-    //          notOverridden = new HashSet<>();
-    //        }
-    //        notOverridden.add(other);
-    //      }
-    //    }
     return overrides;
   }
 
@@ -65,11 +39,6 @@ public interface Member extends TypeElement, Declaration {
     return new OverridesRelation<Member>(Member.class);
   }
 
-
-//  public boolean canOverride(Member other) throws LookupException;
-//
-//  public OverridesRelation<? extends Member> overridesRelation();
-  
   /**
    * Return a selector that selects members that could override this
    * member based on the signature and other properties.
@@ -103,16 +72,6 @@ public interface Member extends TypeElement, Declaration {
     return new HidesRelation<Member>(Member.class);
   }
 
-//  /**
-//   * Check whether this is equivalent to given member.
-//   */
-// /*@
-//   @ public behavior
-//   @
-//   @ post other == null ==> \result == false;
-//   @*/
-//  public boolean equivalentTo(Member other) throws LookupException;
-  
   /**
    * Check whether this member can implement the given member.
    */
@@ -149,6 +108,18 @@ public interface Member extends TypeElement, Declaration {
     return nearestAncestor(Type.class).membersDirectlyAliasing(aliasSelector());
   }
 
+  /**
+   * Return the members that are overridden bij this member.
+   * 
+   * @return A non-null set containing the members that are overriden by this member, 
+   * and that are either lexical members of the model, or generated members that are reachable 
+   * via this member. Generation of elements can caused a theoretically infinite number of members
+   * to be overridden by this member. Only a few of them will actuall exist as objects at any time,
+   * and it would be too expensive to track them given the fact that the result would be incomplete.
+   * As such, the result is limited to those members that are typically used by tools.
+   *  
+   * @throws LookupException
+   */
   public default Set<? extends Member> overriddenMembers() throws LookupException {
     Set<Member> result = null;
     //    boolean cacheDeclarations = Config.cacheDeclarations();

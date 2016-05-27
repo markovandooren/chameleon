@@ -3,8 +3,10 @@ package org.aikodi.chameleon.core.namespace;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.BasicDeclaration;
@@ -67,7 +69,6 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
     super("");
   }
 
-  @Override
   public Namespace namespace() {
     Namespace parent = (Namespace) parent();
     return parent == null ? this : parent;
@@ -306,7 +307,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
       }
     }
   }
-
+  
   protected synchronized List<Declaration> searchDeclarations(String name) throws LookupException {
     return directDeclarations(name);
   }
@@ -323,6 +324,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
     if(_declarationCache == null) {
       _declarationCache = new HashMap<String, List<Declaration>>();
     }
+    Util.debug(declarations.getClass().getName().contains("EmptyList"));
     _declarationCache.put(name, declarations);
   }
 
@@ -338,6 +340,8 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
   
   private Map<String,List<Declaration>> _declarationCache;
 
+  public void nonsenseMethodToTestIfTheJarIsUpToDate() {}
+  
   @Override
   public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
     List<? extends SelectionResult> result;

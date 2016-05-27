@@ -77,5 +77,5 @@ public class AllocationTracker {
 	}
 
 	
-	public Map<Object, Integer> _nbAllocations = new HashMap<Object, Integer>();
+	private Map<Object, Integer> _nbAllocations = new HashMap<Object, Integer>();
 }

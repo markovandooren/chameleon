@@ -1,6 +1,7 @@
 package org.aikodi.chameleon.core.reference;
 
 import org.aikodi.chameleon.core.element.Element;
+import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 
@@ -36,6 +37,6 @@ public interface CrossReferenceTarget extends Element {
 	 *   <li>in "packagename.f", "f" must be looked up in the package represented by "package"</li>
 	 * </ol>
 	 */
-	public abstract LookupContext targetContext() throws LookupException;
+	public abstract LocalLookupContext<?> targetContext() throws LookupException;
 
 }

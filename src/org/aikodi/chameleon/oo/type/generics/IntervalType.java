@@ -236,8 +236,7 @@ public abstract class IntervalType extends ClassImpl {
         result = other.lowerBound().subtypeOf(lowerBound(),trace);
       } else {
         ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-        Namespace namespace = namespace();
-        result = lowerBound().sameAs(language.getNullType(namespace.defaultNamespace()));
+        result = lowerBound().sameAs(language.getNullType(root()));
       }
     }
     return result;

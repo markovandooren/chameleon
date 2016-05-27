@@ -162,8 +162,8 @@ public abstract class ConfigElement {
 	/**
 	 * A map from lower case elements names to the corresponding classes.
 	 */
-	protected Map<String, Class> _childClassMap;
-	protected Map<Class, String> _reverseChildClassMap;
+	private Map<String, Class> _childClassMap;
+	private Map<Class, String> _reverseChildClassMap;
 
 	protected void processChild(Element child) throws ConfigException {
 		String name = child.getNodeName();
@@ -269,9 +269,9 @@ public abstract class ConfigElement {
 	/**
 	 * A map from lower case attribute names to the corresponding setter methods.
 	 */
-	protected Map<String, Method> _attributeMethodMap;
+	private Map<String, Method> _attributeMethodMap;
 
-	protected List<Method> _attributeGetters;
+	private List<Method> _attributeGetters;
 
 	protected Method attributeSetter(String attributeName) {
 		return _attributeMethodMap.get(attributeName.toLowerCase());

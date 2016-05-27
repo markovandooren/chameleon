@@ -11,7 +11,7 @@ package org.aikodi.chameleon.eclipse.view.outline;
  */
 public class NullChameleonOutlineTreeListener implements IChameleonOutlineTreeListener {
 
-	protected static NullChameleonOutlineTreeListener soleInstance = new NullChameleonOutlineTreeListener();
+	private static NullChameleonOutlineTreeListener soleInstance = new NullChameleonOutlineTreeListener();
 	public static NullChameleonOutlineTreeListener getSoleInstance() {
 		return soleInstance;
 	}

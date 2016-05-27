@@ -1,17 +1,15 @@
 package org.aikodi.chameleon.util.concurrent;
 
-import java.util.Queue;
-
 public abstract class QueuePollingExecutable<T> {
 
-	public QueuePollingExecutable(Queue<T> queue) {
+	public QueuePollingExecutable(QueuePollingFactory<T,?> queue) {
 		this._queue = queue;
 	}
 
-	protected Queue<T> _queue;
+	private QueuePollingFactory<T,?> _queue;
 
-	public Queue<T> queue() {
-		return _queue;
+	public T poll() {
+		return _queue.poll();
 	}
 
 	public QueuePollingExecutable() {

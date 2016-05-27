@@ -20,9 +20,9 @@ public abstract class AbstractAspectOrientedLanguage extends LanguageImpl implem
 
 	public AbstractAspectOrientedLanguage(String name, LookupContextFactory factory, Revision version) {
 		super(name,factory,version);
-		BEFORE = new BeforeProperty(this, ADVICETYPE_MUTEX);
-		AFTER = new AfterProperty(this, ADVICETYPE_MUTEX);
-		AROUND = new AroundProperty(this, ADVICETYPE_MUTEX);
+		BEFORE = add(new BeforeProperty(ADVICETYPE_MUTEX));
+		AFTER = add(new AfterProperty(ADVICETYPE_MUTEX));
+		AROUND = add(new AroundProperty(ADVICETYPE_MUTEX));
 	}
 
 	public AbstractAspectOrientedLanguage(String name, Revision version) {

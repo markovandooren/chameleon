@@ -37,9 +37,9 @@ public class ProjectDetailsPage extends WizardPage implements IWizardPage {
 
 	private final ProjectWizard _chameleonProjectWizard;
 	
-	public Text projectTitle;
+	private Text projectTitle;
 	
-	public Text projectPath;
+	private Text projectPath;
 
 	private Composite controlContainer;
 

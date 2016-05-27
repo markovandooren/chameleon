@@ -11,10 +11,10 @@ import org.eclipse.swt.graphics.Color;
 
 public class ChameleonHyperlinkPresenter extends DefaultHyperlinkPresenter {
 
-	protected Color validColor;
-	protected Color semivalidColor;
-	protected Color invalidColor;
-	protected Color defaultColor;
+	private Color validColor;
+	private Color semivalidColor;
+	private Color invalidColor;
+	private Color defaultColor;
 
 	/**
 	 * 

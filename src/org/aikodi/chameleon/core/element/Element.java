@@ -1390,29 +1390,6 @@ public interface Element {
   public ChameleonProperty property(PropertyMutex<ChameleonProperty> mutex) throws ModelException;
 
   /**
-   * Return the single property that implies the given property. If more than one property of this
-   * element implies the given property, an exception is thrown.
-   * 
-   * @param implied
-   * @return
-   * @throws ModelException
-   */
-  /*@
-     @ public behavior
-     @
-     @ pre implied != null;
-     @
-     @ post properties().contains(\result);
-     @ post \result.implies(implied);
-     @ post (\num_of Property p; properties().contains(p);
-     @       p.implies(implied)) == 1;
-     @
-     @ signals ModelException (\num_of Property p; properties().contains(p);
-     @       p.implies(implied)) != 1; 
-     @*/
-  //    public ChameleonProperty implyingProperty(final ChameleonProperty implied) throws ModelException;
-
-  /**
    * Check whether this element has a property from the given property mutex.
    * 
    * @param mutex
@@ -1427,20 +1404,6 @@ public interface Element {
      @ post \result properties().hasPropertyFor(mutex);
      @*/
   public boolean hasProperty(PropertyMutex<ChameleonProperty> mutex) throws ModelException;
-
-  //    /**
-  //     * Notify this element that the given descendant was modified. This method
-  //     * first calls reactOnDescendantChange with the given element. After that, 
-  //     * the event is propagated to the lexical parent, if the parent is not null.
-  //     */
-  //   /*@
-  //     @ public behavior
-  //     @
-  //     @ pre descendant != null;
-  //     @ pre descendants().contains(descendant);
-  //     @*/
-  ////    public void notifyDescendantChanged(Element descendant);
-
 
   /**
    * @return A verification object that indicates whether or not this is valid,
@@ -1544,16 +1507,20 @@ public interface Element {
    * states that it is equal to another (similar to equals). The sameAs method
    * invokes this method on both objects to check if one of both objects claims
    * to be the same as the other.
+   * 
+   * <b>The default behavior is the same as that of {@link Object#equals(Object)}.</b>
+   * 
+   * <b>Do not forget to override {@link Object#hashCode()} if you override {@link #uniSameAs(Element)}.</b>
    */
   /*@
      @ public behavior
      @
      @ post (other instanceof Element) && sameAs((Element)other);
      @
-     @ signals (RuntimeMetamodelException) (* sameAs(other) has thrown an exception *);
+     @ signals (LookupExceptionInEquals) (* sameAs(other) has thrown an LookupException *);
      @*/
   @Override 
-  public abstract boolean equals(Object other);
+  public boolean equals(Object other);
 
   /**
    * Check if this element is the same as the other element.
@@ -1565,7 +1532,7 @@ public interface Element {
      @ post other == this ==> \result == true;
      @ post other != null ==> \result == uniSameAs(other) || other.uniSameAs(this);
      @*/
-  public abstract boolean sameAs(Element other) throws LookupException;
+  public boolean sameAs(Element other) throws LookupException;
 
   /**
    * Check whether this element is the same as the other element.
@@ -1575,7 +1542,7 @@ public interface Element {
      @
      @ post other == null ==> \result == false;
      @*/
-  public abstract boolean uniSameAs(Element other) throws LookupException;
+  public boolean uniSameAs(Element other) throws LookupException;
 
   /**
    * Return the namespace of this element.
@@ -1583,14 +1550,19 @@ public interface Element {
    * By default, it returns the namespace of the nearest namespace declaration.
    * @return
    */
-  public Namespace namespace();
+  //public Namespace namespace();
+  
+  public default Namespace root() {
+  	NamespaceDeclaration namespaceDeclaration = nearestAncestor(NamespaceDeclaration.class);
+		return namespaceDeclaration != null ? namespaceDeclaration.namespace().defaultNamespace() : null;
+  }
 
   /**
    * Flush any caching this element may have.
    * This method flushes the local cache using "flushLocalCache()" and then
    * recurses into the children.
    */
-  public abstract void flushCache();
+  public void flushCache();
 
   /**
    * <p>

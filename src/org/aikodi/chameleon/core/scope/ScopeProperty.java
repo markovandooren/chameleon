@@ -11,8 +11,8 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertyUniverse;
 
 public abstract class ScopeProperty extends StaticChameleonProperty {
 
-	public ScopeProperty(String name, PropertyUniverse<ChameleonProperty> universe, PropertyMutex<ChameleonProperty> family) {
-		super(name, universe, family, Declaration.class);
+	public ScopeProperty(String name, PropertyMutex<ChameleonProperty> family) {
+		super(name, family, Declaration.class);
 	}
 
 	public abstract Scope scope(Element element) throws ModelException;

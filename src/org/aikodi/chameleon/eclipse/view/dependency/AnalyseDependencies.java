@@ -25,7 +25,7 @@ public class AnalyseDependencies extends Action {
 	 */
 	private final DependencyView _dependencyView;
 	
-	AnalysisOptions<?, ?> _options;
+	private AnalysisOptions<?, ?> _options;
 
 	/**
 	 * @param dependencyView

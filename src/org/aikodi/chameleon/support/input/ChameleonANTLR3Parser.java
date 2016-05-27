@@ -102,6 +102,10 @@ public abstract class ChameleonANTLR3Parser<L extends Language> extends Parser {
 	     }
 	   }
 	   
+	   public int lineNumber(CommonToken token) {
+	  	 return token.getLine();
+	   }
+	   
 	   public int offset(CommonToken token) {
 	  	 return token.getStartIndex();
 	   }
@@ -160,7 +164,7 @@ public abstract class ChameleonANTLR3Parser<L extends Language> extends Parser {
 	     }
 	   }
 	   
-	   Language _lang;
+	   private Language _lang;
 	   
 	   public Language language() {
 	     return _lang;
@@ -172,19 +176,19 @@ public abstract class ChameleonANTLR3Parser<L extends Language> extends Parser {
 	     _root = view.namespace();
 	   }
 	   
-	   protected View _view;
+	   private View _view;
 	   
 	   public View view() {
 	  	 return _view;
 	   }
 	   
-	   RootNamespace _root;
+	   private RootNamespace _root;
 
 	   public Namespace getDefaultNamespace() {
 	     return _root;
 	   }
 
-	   Document _document = new Document();
+	   private Document _document = new Document();
 	   
 	   public Document getDocument() {
 	     return _document;
