@@ -4,10 +4,12 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.input.ModelFactory;
+import org.aikodi.chameleon.input.ParseException;
 
 public abstract class StreamDocumentLoader extends DocumentLoaderImpl {
 
@@ -29,12 +31,21 @@ public abstract class StreamDocumentLoader extends DocumentLoaderImpl {
 		}
 		try {
 			InputStream inputStream = inputStream();
-			namespace().language().plugin(ModelFactory.class).parse(inputStream, rawDocument());
+			parse(inputStream);
 			// Connect the namespace declarations in the document to the corresponding namespaces.
 		} catch (Exception e) {
 			throw new InputException(e);
 		}
 	}
+
+  /**
+   * @param inputStream
+   * @throws IOException
+   * @throws ParseException
+   */
+  protected void parse(InputStream inputStream) throws IOException, ParseException {
+    namespace().language().plugin(ModelFactory.class).parse(inputStream, rawDocument());
+  }
 
 	public abstract InputStream inputStream() throws InputException;
 
