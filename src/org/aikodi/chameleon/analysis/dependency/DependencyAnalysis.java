@@ -100,6 +100,26 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
 //  }
 
 
+  public <C extends CrossReference<?>> DependencyAnalysis(
+      Class<S> sourceType, 
+      Predicate<S, Nothing> sourcePredicate,
+      Class<C> crossReferenceType,
+      Predicate<C, Nothing> crossReferencePredicate, 
+      Class<D> targetType,
+      Predicate<? super D, Nothing> targetPredicate,
+      Function<Declaration, List<Declaration>, Nothing> decomposer, 
+      Predicate<? super Dependency<? super S, ? super CrossReference, ? super D>, Nothing> dependencyPredicate,
+      HistoryFilter<S, D> historyFilter) {
+    super(null,null);
+    _sourcePredicate = null;
+    _dependencyPredicate = null;
+    _dependencyFinder = null;
+    _decomposer = null;
+    _historyFilter = null;
+    _crossReferencePredicate = null;
+    
+  }
+  
   public DependencyAnalysis(Class<S> sourceType, 
       Predicate<? super S, Nothing> sourcePredicate,
       UniversalPredicate<? super CrossReference<?>, Nothing> crossReferencePredicate, 
@@ -137,17 +157,17 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
     }
   };
 
-  public static class HistoryFilter<E extends Element, D extends Element> {
+  public static interface HistoryFilter<E extends Element, D extends Element> {
 
-    public boolean process(Dependency<E, CrossReference, D> dependency, DependencyResult result) {
+    public default boolean process(Dependency<E, CrossReference, D> dependency, DependencyResult result) {
       return true;
     }
 
-    public boolean processSource(E source, DependencyResult result) {
+    public default boolean processSource(E source, DependencyResult result) {
       return true;
     }
 
-    public HistoryFilter<E, D> and(HistoryFilter<E, D> other) {
+    public default HistoryFilter<E, D> and(HistoryFilter<E, D> other) {
       if (other instanceof NOOP) {
         return this;
       } else {
@@ -156,7 +176,7 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
     }
   }
 
-  public static class AndHistoryFilter<E extends Element, D extends Element> extends HistoryFilter<E, D> {
+  public static class AndHistoryFilter<E extends Element, D extends Element> implements HistoryFilter<E, D> {
     private HistoryFilter<E, D> _first;
     private HistoryFilter<E, D> _second;
 
@@ -176,7 +196,7 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
     }
   }
 
-  public static class NOOP<E extends Element, D extends Declaration> extends HistoryFilter<E, D> {
+  public static class NOOP<E extends Element, D extends Declaration> implements HistoryFilter<E, D> {
     @Override
     public HistoryFilter<E, D> and(HistoryFilter<E, D> other) {
       return other;
