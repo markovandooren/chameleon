@@ -1,7 +1,17 @@
 package org.aikodi.chameleon.analysis;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
+import org.aikodi.chameleon.util.action.GuardedTreeWalker;
+import org.aikodi.chameleon.util.action.TopDown;
 import org.aikodi.chameleon.util.action.TreeWalker;
+import org.aikodi.chameleon.workspace.DocumentLoader;
+import org.aikodi.chameleon.workspace.Project;
+import org.aikodi.chameleon.workspace.View;
 import org.aikodi.contract.Contracts;
 import org.aikodi.rejuse.exception.Handler;
 
@@ -76,14 +86,6 @@ public abstract class Analysis<E extends Element, R extends Result<R>, EX extend
   }
 
 
-//  /**
-//   * {@inheritDoc}
-//   * 
-//   * Visit the given tree structure, and call {{@link #analyze(Element)} if
-//   * the element at the node is of the correct {{@link #type()}.
-//   */
-//  public abstract <X extends Element> void traverse(TreeStructure<X> tree) throws EX;
-  
   /**
    * Perform the actual analysing.
    * @param element
@@ -100,4 +102,24 @@ public abstract class Analysis<E extends Element, R extends Result<R>, EX extend
 
   protected void doEnter(E element) {
   }
+  
+  
+  public <X extends Exception> R analysisResult(Project project,
+      Handler<? super EX,X> analysisHandler,
+      Handler<Exception,X> finalHandler) throws X {
+    GuardedTreeWalker<Element, EX, X> guarded = new GuardedTreeWalker<Element, EX, X>(this, analysisHandler) ;
+    TopDown<Element, X> topDown = new TopDown<>(guarded);
+    Stream<View> stream = project.views().stream();
+    List<DocumentLoader> flatMap = stream.flatMap(v -> v.sourceScanners().stream()).flatMap(s -> s.documentLoaders().stream()).collect(Collectors.toList());
+    for(DocumentLoader loader: flatMap) {
+      try {
+        Document document = loader.load();
+        topDown.traverse(document.lexical());
+      } catch(Exception exc) {
+        finalHandler.handle(exc);
+      }
+    }
+    return result();
+  }
+
 }
