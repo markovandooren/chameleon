@@ -702,43 +702,6 @@ public List<? extends Element> children() {
 	}
 	
 	@Override
-   public final <T extends Element> List<T> nearestDescendants(Class<T> c) {
-		List<? extends Element> tmp = children();
-		List<T> result = Lists.create();
-		Iterator<? extends Element> iter = tmp.iterator();
-		while(iter.hasNext()) {
-			Element e = iter.next();
-			if(c.isInstance(e)) {
-				result.add((T)e);
-				iter.remove();
-			}
-		}
-		for (Element e : tmp) {
-			result.addAll(e.nearestDescendants(c));
-		}
-		return result;
-	}
-
-  @Override
-public <T extends Element, E extends Exception> List<T> nearestDescendants(UniversalPredicate<T,E> predicate) throws E {
-		List<? extends Element> tmp = children();
-		List<T> result = Lists.create();
-		Iterator<? extends Element> iter = tmp.iterator();
-		while(iter.hasNext()) {
-			Element e = iter.next();
-			if(predicate.eval(e)) {
-				result.add((T)e);
-				iter.remove();
-			}
-		}
-		for (Element e : tmp) {
-			result.addAll(e.nearestDescendants(predicate));
-		}
-		return result;
-  }
-
-	
-	@Override
    public final <E extends Exception> List<Element> descendants(Predicate<? super Element,E> predicate) throws E {
 		// Do not compute all descendants, and apply predicate afterwards.
 		// That is way too expensive.

@@ -32,9 +32,6 @@ public interface TreeWalker<T, E extends Exception> {
    * @throws E
    */
   public abstract <X extends T> void traverse(TreeStructure<X> tree) throws E;
-  //  {
-  //    traverse(tree, Guard.propagate());
-  //  }
 
   /**
    * Perform the action on the given object. First,

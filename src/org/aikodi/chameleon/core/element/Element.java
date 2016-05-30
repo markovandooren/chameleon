@@ -2,6 +2,7 @@ package org.aikodi.chameleon.core.element;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -35,6 +36,7 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
+import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.ChameleonAssociation;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.View;
@@ -733,7 +735,22 @@ public interface Element {
      @
      @ post \result != null;
      @*/
-  public <T extends Element> List<T> nearestDescendants(Class<T> c);
+  public default <T extends Element> List<T> nearestDescendants(Class<T> c) {
+		List<? extends Element> tmp = children();
+		List<T> result = Lists.create();
+		Iterator<? extends Element> iter = tmp.iterator();
+		while(iter.hasNext()) {
+			Element e = iter.next();
+			if(c.isInstance(e)) {
+				result.add((T)e);
+				iter.remove();
+			}
+		}
+		for (Element e : tmp) {
+			result.addAll(e.nearestDescendants(c));
+		}
+		return result;
+  }
 
   /**
    * Return the list of first descendants that satisfy the given predicate. First means that if
@@ -747,7 +764,22 @@ public interface Element {
      @
      @ post \result != null;
      @*/
-  public <T extends Element, E extends Exception> List<T> nearestDescendants(UniversalPredicate<T,E> predicate) throws E;
+  public default <T extends Element, E extends Exception> List<T> nearestDescendants(UniversalPredicate<T,E> predicate) throws E {
+		List<? extends Element> tmp = children();
+		List<T> result = Lists.create();
+		Iterator<? extends Element> iter = tmp.iterator();
+		while(iter.hasNext()) {
+			Element e = iter.next();
+			if(predicate.eval(e)) {
+				result.add((T)e);
+				iter.remove();
+			}
+		}
+		for (Element e : tmp) {
+			result.addAll(e.nearestDescendants(predicate));
+		}
+		return result;
+  }
 
   /**
    * Recursively return all descendants of this element that are of the given type, and have the given property.
