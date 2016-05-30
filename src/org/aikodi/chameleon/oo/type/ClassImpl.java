@@ -706,18 +706,24 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
     	//    only if the selector isn't greedy or
     	//    there are not results.
     	if(nonGreedy || result.isEmpty()) {
-    		for (InheritanceRelation rel : inheritanceRelations()) {
-    			result = rel.accumulateInheritedMembers(selector, result);
-    		}
-    		// We cannot take a shortcut and test for > 1 because if
-    		// the inheritance relation transforms the member (as is done with subobjects)
-    		// the transformed member may have to be removed, even if there is only 1.
-    		selector.filter(result);
+    		result = inheritedMembers(selector, result);
     		return result;
     	} else {
     	  return result;
     	}
     }
+
+		protected <D extends Member> List<SelectionResult<D>> inheritedMembers(DeclarationSelector<D> selector,
+				List<SelectionResult<D>> result) throws LookupException {
+			for (InheritanceRelation rel : inheritanceRelations()) {
+				result = rel.accumulateInheritedMembers(selector, result);
+			}
+			// We cannot take a shortcut and test for > 1 because if
+			// the inheritance relation transforms the member (as is done with subobjects)
+			// the transformed member may have to be removed, even if there is only 1.
+			selector.filter(result);
+			return result;
+		}
     
     @Override
     public void addAllInheritanceRelations(Collection<InheritanceRelation> relations) {
