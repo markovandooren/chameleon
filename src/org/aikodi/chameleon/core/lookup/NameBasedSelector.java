@@ -113,5 +113,10 @@ public abstract class NameBasedSelector<D extends Declaration> implements Declar
 			return null;
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return name();
+	}
 
 }

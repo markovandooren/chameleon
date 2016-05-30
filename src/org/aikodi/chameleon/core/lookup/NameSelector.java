@@ -55,7 +55,8 @@ public abstract class NameSelector<D extends Declaration> extends NameBasedSelec
 
 	@Override
    public String toString() {
-		return getClass().getName() +" class: "+selectedClass().getName()+" "+name();
+//		return getClass().getName() +" class: "+selectedClass().getName()+" "+name();
+		return name();
 	}
 	
 	@Override
