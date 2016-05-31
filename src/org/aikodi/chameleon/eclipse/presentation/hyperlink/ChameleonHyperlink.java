@@ -6,6 +6,7 @@ package org.aikodi.chameleon.eclipse.presentation.hyperlink;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.document.Document;
+import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.eclipse.editors.ChameleonEditor;
 import org.aikodi.chameleon.eclipse.editors.EclipseDocument;
@@ -56,7 +57,21 @@ public class ChameleonHyperlink implements IHyperlink {
 	
 	@Override
    public String getTypeLabel() {
-		// TODO Auto-generated method stub
+		// FIXME What is the purpose of this method? Return null seems a bit dull;
+		String status = getStatus();
+		if(status.equals(VALID_STATUS)) {
+			try {
+				return getDeclarator().name();
+			}catch(ModelException exc) {
+			}
+		} else if(status.equals(SEMIVALID_STATUS)) {
+			try {
+				return "No source document available for " + getDeclarator().name();
+			}catch(ModelException exc) {
+			}
+		} else {
+			return "No result found for "+getReference();
+		}
 		return null;
 	}
 	
