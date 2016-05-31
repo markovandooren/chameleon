@@ -1,9 +1,8 @@
 package org.aikodi.chameleon.core;
 
 /**
- * FIXME This static piece of .... should finally go.
+ * FIXME This static piece of .... should go.
  * @author Marko van Dooren
- *
  */
 public class Config {
 
