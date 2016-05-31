@@ -4,6 +4,7 @@
  */
 package org.aikodi.chameleon.eclipse.presentation.hierarchy;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.TreeSet;
@@ -44,8 +45,7 @@ public class SubTypeHierarchyContentProvider extends HierarchyContentProvider {
 				typeSet = rootNamespace.descendants(Type.class);
 				new hasAsSuperTypePredicate(type).filter(typeSet);
 				// wrap subtypes in HierarchyTypeNode[]
-				Type[] typeArray = typeSet.toArray(new Type[]{});
-				return HierarchyTypeNode.encapsulateInHierarchyTreeNodes(typeArray, projectNature, parentTypeNode);
+				return HierarchyTypeNode.encapsulateInHierarchyTreeNodes(new ArrayList<>(typeSet), projectNature, parentTypeNode);
 			} catch (Exception e){
 				System.err.println(e.getMessage());
 				e.printStackTrace();

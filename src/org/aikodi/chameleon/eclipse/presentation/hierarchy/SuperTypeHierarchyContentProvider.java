@@ -36,22 +36,12 @@ public class SuperTypeHierarchyContentProvider extends HierarchyContentProvider 
 				HierarchyTypeNode parentTypeNode = (HierarchyTypeNode)element;
 				ChameleonProjectNature projectNature = parentTypeNode.getProjectNature();
 				Type type = parentTypeNode.getType();
-				final Collection<Declaration> result = new ArrayList<Declaration>();
 				List<InheritanceRelation> inheritanceRelations = type.inheritanceRelations();
-				// van elke typereference het type opvragen en aan het resultaat toevoegen:
-				new Visitor<InheritanceRelation>(){
-					@Override
-               public void visit(InheritanceRelation element) {
-						try {
-							result.add(element.superElement());
-						} catch (ModelException e) {
-							e.printStackTrace();
-						}
-					}
-				}.applyTo(inheritanceRelations);
-				
-				Declaration[] typeArray = result.toArray(new Declaration[]{});
-				return HierarchyTypeNode.encapsulateInHierarchyTreeNodes(typeArray, projectNature, parentTypeNode);
+				List<Type> types = new ArrayList<>();
+				for(InheritanceRelation relation: inheritanceRelations) {
+					types.add(relation.superType());
+				}
+				return HierarchyTypeNode.encapsulateInHierarchyTreeNodes(types, projectNature, parentTypeNode);
 
 			} catch (ModelException e) {
 				e.printStackTrace();
