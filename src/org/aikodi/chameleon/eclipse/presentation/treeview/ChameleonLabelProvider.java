@@ -198,8 +198,10 @@ public class ChameleonLabelProvider implements ILabelProvider {
 	 */
 	@Override
    public String getText(Object modelObject) {
+		String label = "";
+		try {
 		Element element = getElement(modelObject);
-		String label = getLabel(element);
+		label = getLabel(element);
 		if( element != null ){
 			label += getExtraInfo(element, false);
 			// prepend the simple class name if wanted
@@ -215,6 +217,9 @@ public class ChameleonLabelProvider implements ILabelProvider {
 			int beginOffset = tag.getOffset();
 			int endOffset = beginOffset + tag.getLength();
 			label = label + " - " + tag.getName() + " (" + beginOffset + " - " + endOffset + ")";
+		}
+		} catch(Exception exc) {
+			exc.printStackTrace();
 		}
 		return label;
 	}
