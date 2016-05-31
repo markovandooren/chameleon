@@ -109,7 +109,7 @@ protected AssignmentExpression cloneSelf() {
 	public static class InvalidType extends BasicProblem {
 
 		public InvalidType(Element element, Type varType, Type exprType) {
-			super(element, "The type of the left-hand side ("+exprType.getFullyQualifiedName()+") is not assignable to a variable of type "+varType.getFullyQualifiedName());
+			super(element, "The type of the right-hand side ("+exprType.getFullyQualifiedName()+") is not assignable to a variable of type "+varType.getFullyQualifiedName());
 		}
 		
 	}
