@@ -4,17 +4,18 @@ import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.ex
 import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.filter;
 import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
 
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+
+import java.lang.reflect.Field;
 
 import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.event.Change;
@@ -29,7 +30,6 @@ import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.language.WrongLanguageException;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.tag.Metadata;
 import org.aikodi.chameleon.core.validation.BasicProblem;
@@ -37,6 +37,7 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
+import org.aikodi.chameleon.oo.type.SuperTypeJudge;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.ChameleonAssociation;
 import org.aikodi.chameleon.util.association.Single;
@@ -571,34 +572,65 @@ public abstract class ElementImpl implements Element {
 	}
 
 
-	private List<ChameleonAssociation<?>> _associations;
+	private volatile List<ChameleonAssociation<?>> _associations;
 
 	@Override
    public List<ChameleonAssociation<?>> associations() {
 		return myAssociations();
 	}
+	
+  private final AtomicBoolean _associationLock = new AtomicBoolean();
 
-	private List<ChameleonAssociation<?>> myAssociations() {
-		if(_associations == null) {
-			synchronized (this) {
-				if(_associations == null) {
-					List<Field> fields = getAllFieldsTillClass(getClass());
-					int size = fields.size();
-					if(size > 0) {
-						List<ChameleonAssociation<?>> tmp = Lists.create(size);
-						for (Field field : fields) {
-							Object content = getFieldValue(field);
-							tmp.add((ChameleonAssociation<?>) content);
-						}
-						_associations = Collections.unmodifiableList(tmp);
-					}
-					else {
-						_associations = Collections.EMPTY_LIST;
-					}
-				}
-			}
-		}
-		return _associations;
+  private List<ChameleonAssociation<?>> myAssociations() {
+  	List<ChameleonAssociation<?>> result = _associations;
+  	if(result == null) {
+  		if(_associationLock.compareAndSet(false, true)) {
+  			try {
+  				List<Field> fields = getAllFieldsTillClass(getClass());
+  				int size = fields.size();
+  				if(size > 0) {
+  					List<ChameleonAssociation<?>> tmp = Lists.create(size);
+  					for (Field field : fields) {
+  						Object content = getFieldValue(field);
+  						tmp.add((ChameleonAssociation<?>) content);
+  					}
+  					_associations = Collections.unmodifiableList(tmp);
+  				}
+  				else {
+  					_associations = Collections.EMPTY_LIST;
+  				}
+  				result = _associations;
+  			} finally {
+  				_associationLock.compareAndSet(true, false);
+  			}
+  		} else {
+  			//spin lock
+  			while(result == null) {
+  				result = _associations;
+  			}
+  		}
+  	}
+  	return result;
+//		if(_associations == null) {
+//			synchronized (this) {
+//				if(_associations == null) {
+//					List<Field> fields = getAllFieldsTillClass(getClass());
+//					int size = fields.size();
+//					if(size > 0) {
+//						List<ChameleonAssociation<?>> tmp = Lists.create(size);
+//						for (Field field : fields) {
+//							Object content = getFieldValue(field);
+//							tmp.add((ChameleonAssociation<?>) content);
+//						}
+//						_associations = Collections.unmodifiableList(tmp);
+//					}
+//					else {
+//						_associations = Collections.EMPTY_LIST;
+//					}
+//				}
+//			}
+//		}
+//		return _associations;
 	}
 	
 	private boolean canHaveChildren() {
