@@ -810,7 +810,28 @@ public interface Element {
      @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && predicate.eval(e));
      @*/
-  public <E extends Exception> List<Element> descendants(Predicate<? super Element,E> predicate) throws E;
+  public default <E extends Exception> List<Element> descendants(Predicate<? super Element,E> predicate) throws E {
+		// Do not compute all descendants, and apply predicate afterwards.
+		// That is way too expensive.
+		List<? extends Element> tmp = children();
+		predicate.filter(tmp);
+		List<Element> result = (List<Element>)tmp;
+		for (Element e : children()) {
+			result.addAll(e.descendants(predicate));
+		}
+		return result;
+	}
+
+	public default <T extends Element, E extends Exception> List<T> descendants(UniversalPredicate<T,E> predicate) throws E {
+		List<? extends Element> tmp = children();
+		predicate.filter(tmp);
+		List<T> result = (List<T>)tmp;
+		for (Element e : children()) {
+			result.addAll(e.descendants(predicate));
+		}
+		return result;
+	}
+
 
 
   /**

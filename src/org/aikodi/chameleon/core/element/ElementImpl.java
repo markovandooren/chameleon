@@ -702,19 +702,6 @@ public List<? extends Element> children() {
 	}
 	
 	@Override
-   public final <E extends Exception> List<Element> descendants(Predicate<? super Element,E> predicate) throws E {
-		// Do not compute all descendants, and apply predicate afterwards.
-		// That is way too expensive.
-		List<? extends Element> tmp = children();
-		predicate.filter(tmp);
-		List<Element> result = (List<Element>)tmp;
-		for (Element e : children()) {
-			result.addAll(e.descendants(predicate));
-		}
-		return result;
-	}
-
-	@Override
 	public final <T extends Element, E extends Exception> List<T> children(UniversalPredicate<T,E> predicate) throws E {
 		return predicate.downCastedList(children());
 	}
