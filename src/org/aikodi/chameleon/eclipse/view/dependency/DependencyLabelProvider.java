@@ -33,7 +33,7 @@ class DependencyLabelProvider extends LabelProvider implements IGraphAttributesP
     }
 
     if(element instanceof Element) {
-      return ((Element)element).language().plugin(EclipseEditorExtension.class).getLabel((Element) element);
+      return ((Element)element).language().plugin(EclipseEditorExtension.class).label((Element) element);
     } else if(element instanceof UniEdge) {
       DependencyCount count = ((UniEdge<Element>)element).get(DependencyCount.class);
       return ""+count.value();
@@ -49,7 +49,7 @@ class DependencyLabelProvider extends LabelProvider implements IGraphAttributesP
     }
     if(element instanceof Element) {
       try {
-        return ((Element)element).language().plugin(EclipseEditorExtension.class).getIcon((Element) element);
+        return ((Element)element).language().plugin(EclipseEditorExtension.class).icon((Element) element);
       } catch(ModelException exc) {
         exc.printStackTrace();
       }

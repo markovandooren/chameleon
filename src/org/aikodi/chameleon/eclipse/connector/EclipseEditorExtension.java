@@ -143,7 +143,7 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
 	/**
 	 * Return a text label for the given element. This is used for example in the outline.
 	 */
-  public String getLabel(Element element) {
+  public String label(Element element) {
   	String result = "";
   	if (element instanceof Declaration) {
 			result = ((Declaration)element).name();
@@ -166,7 +166,7 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
    * @throws IOException 
    * @throws ModelException 
    */
-	public Image getIcon(Element element) throws ModelException {
+	public Image icon(Element element) throws ModelException {
 		IconProvider iconProvider = iconProvider();
 		try {
 			return iconProvider != null ? image(iconProvider.iconName(element)) : null;

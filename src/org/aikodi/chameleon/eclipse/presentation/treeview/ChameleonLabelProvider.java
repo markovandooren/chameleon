@@ -108,7 +108,7 @@ public class ChameleonLabelProvider implements ILabelProvider {
 			if(language != null) {
 				EclipseEditorExtension extension = language.plugin(EclipseEditorExtension.class);
 				try {
-					image = extension.getIcon(element);
+					image = extension.icon(element);
 				} catch (ModelException e) {
 				}
 			}
@@ -275,7 +275,7 @@ public class ChameleonLabelProvider implements ILabelProvider {
 		Element element = getElement(modelObject);
 		if(element != null) {
 			EclipseEditorExtension ext = editorExtension();
-			return ext.getLabel(element);
+			return ext.label(element);
 		} else {
 			if(modelObject != null) {
 				throw new ChameleonProgrammerException("Requesting label of an object that is not an Element.");
