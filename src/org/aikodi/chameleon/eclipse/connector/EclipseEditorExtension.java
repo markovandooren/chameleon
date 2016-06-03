@@ -32,16 +32,21 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 
 /**
+ * This class defines the extensions that a language can do to the IDE functionality.
+ * Examples are customizing the labels of elements in the outline.
+ * 
  * @author Marko van Dooren
  */
 public class EclipseEditorExtension extends LanguagePluginImpl {
 
 	public EclipseEditorExtension() {
 		setImageRegistry(ChameleonEditorPlugin.getDefault().getImageRegistry());
-//		initializeRegistry();
 		_outlineSelector = createOutlineSelector();
 	}
-	
+
+	/**
+	 * On connection to a language, the image registry is initialized.
+	 */
 	@Override
 	protected <T extends LanguagePlugin> void containerConnected(Language oldContainer, Language newContainer, Class<T> keyInterface) {
 		if(newContainer != null) {
@@ -68,28 +73,65 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
 		return null;
 	}
 	
+	/**
+	 * Set the image registry of this extension.
+	 * 
+	 * @param imageRegistry The new image registry. The value cannot be null.
+	 */
 	protected void setImageRegistry(ImageRegistry imageRegistry) {
 		_imageRegistry = imageRegistry;
 	}
 	
-	public ImageRegistry imageRegistry() {
+	/**
+	 * Return the image registry for this language.
+	 * @return The image registry for this language.
+	 *         The result is not null.
+	 */
+	protected ImageRegistry imageRegistry() {
 		return _imageRegistry;
 	}
 	
+	/**
+	 * Return the prefix that is used for the names of the images in the
+	 * image registry.
+	 * 
+	 * @return The prefix for the names in the image registry. 
+	 *         The result is not null.
+	 */
 	protected String imageRegistryPrefix() {
 		return language().name()+"_";
 	}
 	
+	/**
+	 * Return the prefix for the given name.
+	 * 
+	 * @param name The name for which the prefix is requested.
+	 *             The name cannot be null.
+	 * @return The prefix of the image registry appended with the given name.
+	 */
 	protected String prefix(String name) {
+		if(name == null) {
+			throw new IllegalArgumentException("The name of the prefix cannot be null.");
+		}
 		return imageRegistryPrefix()+name;
 	}
 	
 	/**
 	 * Add the image descriptors to the registry.
-	 * @throws IOException 
+	 * 
+	 * By default, no images are added.
 	 */
-	protected void initializeRegistry() {}
-	
+	protected void initializeRegistry() {
+	}
+
+	/**
+	 * Return the label provider for the language.
+	 * The default implementation returns a label provider
+	 * that delegates the methods for determining the icon
+	 * and the label to {@link #getLabel(Element)} and {@link #getIcon(Element)}.
+	 * 
+	 * @return A label provider for the language. 
+	 */
 	public ILabelProvider labelProvider() {
 		return new ILabelProvider(){
 		
@@ -113,7 +155,7 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
 			@Override
 			public String getText(Object element) {
 				if(element instanceof Element) {
-					return EclipseEditorExtension.this.getLabel((Element) element);
+					return EclipseEditorExtension.this.label((Element) element);
 				} else {
 					throw new IllegalArgumentException();
 				}
@@ -123,7 +165,7 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
 			public Image getImage(Object element) {
 				if(element instanceof Element) {
 					try {
-						return EclipseEditorExtension.this.getIcon((Element) element);
+						return EclipseEditorExtension.this.icon((Element) element);
 					} catch (ModelException e) {
 						return null;
 					}
@@ -135,7 +177,13 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
 	}
 	
 	/**
-	 * Return a text label for the given element. This is used for example in the outline.
+	 * Return a text label for the given element. 
+	 * This is used for example in the outline.
+	 * 
+	 * The default implementation 
+	 * 
+	 * @param element The element for which the label is requested.
+	 * @return A label to visualize the given element.
 	 */
   public String label(Element element) {
   	String result = "";
