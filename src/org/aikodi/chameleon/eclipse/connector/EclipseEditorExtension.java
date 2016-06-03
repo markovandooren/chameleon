@@ -77,13 +77,7 @@ public class EclipseEditorExtension extends LanguagePluginImpl {
 	}
 	
 	protected String imageRegistryPrefix() {
-		return languageName()+"_";
-	}
-	
-//	private String _languageName;
-	
-	public String languageName() {
-		return language().name();
+		return language().name()+"_";
 	}
 	
 	protected String prefix(String name) {
