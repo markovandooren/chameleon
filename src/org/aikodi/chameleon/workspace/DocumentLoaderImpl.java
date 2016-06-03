@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import java.lang.ref.WeakReference;
+
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
@@ -104,22 +106,46 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 			return rawDocument();
 		}
 	}
-	
-//	public static Stopwatch LOADING_TIME = new Stopwatch();
 
+	private long _totalLoadTime;
+	
+	/**
+	 * @{inheritDoc}
+	 */
+	@Override
+	public long loadTime() {
+		return _totalLoadTime;
+	}
+	
+	private int _numberOfLoads;
+	
+	@Override
+	public int numberOfLoads() {
+		return _numberOfLoads;
+	}
+	
 	@Override
    public final Document refresh() throws InputException {
-//		LOADING_TIME.start();
+		long start = System.nanoTime();
 		doRefresh();
+		long stop = System.nanoTime();
+		_totalLoadTime += stop-start;
+		_numberOfLoads++;
+		Logger.trace("Loading (count {} in {} ms) {}",() -> numberOfLoads(), () -> ((double)stop-start)/1000000,() -> resourceName());
 		Document result = rawDocument();
 		result.activate();
 		notifyLoaded(result);
-//		LOADING_TIME.stop();
 		return result;
 	}
 	
 	/**
-	 * Actuall load the document. Invoke {@link #setDocument(Document)} to
+	 * Return a name to describe the resource loaded by this document loader
+	 * in log messages.
+	 */	
+	protected abstract String resourceName();
+	
+	/**
+	 * Actually load the document. Invoke {@link #setDocument(Document)} to
 	 * store the loaded document.
 	 * 
 	 * @throws InputException The document could not be loaded.

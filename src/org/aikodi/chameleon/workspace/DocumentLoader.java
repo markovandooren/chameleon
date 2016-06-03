@@ -7,6 +7,8 @@ import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespace.DocumentLoaderNamespace;
 import org.aikodi.chameleon.core.namespace.Namespace;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
@@ -126,6 +128,9 @@ deactivate documentLoader
 @enduml
  */
 public interface DocumentLoader extends Comparable<DocumentLoader> {
+	
+	public final static String LoggerName = "org.aikodi.chameleon.io.documentloader";
+	public final static Logger Logger = LogManager.getLogger(LoggerName);
 	
 	/**
 	 * <p>Return the list of name of declaration that are added to the given namespace, 
@@ -302,4 +307,24 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
 	@Override
 	public int compareTo(DocumentLoader o);
 	
+	/**
+	 * Return the total amount of time this document loader spent loading its document.
+	 * Note that the result is not necessarily the time it took to load the
+	 * document once. If the document was garbage collected, it may have to load the
+	 * document again in a later stage.
+	 * 
+	 * @return The number of nanoseconds this document loader spent loading documents.
+	 *         The result is not negative.
+	 */
+	public long loadTime();
+
+	/**
+	 * Return the number of times this document loader loaded its document.
+	 * If the document is garbage collected, the loader may have to load
+	 * it again at a later time.
+	 * 
+	 * @return The number of times this document loader loaded its document.
+	 *         The result is not negative.
+	 */
+	public int numberOfLoads();
 }

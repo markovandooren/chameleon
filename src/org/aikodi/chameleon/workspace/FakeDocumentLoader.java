@@ -20,4 +20,9 @@ public class FakeDocumentLoader extends EagerDocumentLoaderImpl {
     @Override
     public void doRefresh() throws InputException {
     }
+    
+    @Override
+    protected String resourceName() {
+      return "directly from memory";
+    }
 }

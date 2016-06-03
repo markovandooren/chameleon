@@ -79,4 +79,10 @@ public class DirectDocumentLoader extends EagerDocumentLoaderImpl {
 	@Override
 	public void doRefresh() throws InputException {
 	}
+	
+	@Override
+	protected String resourceName() {
+		String packageName = declaration().nearestAncestor(NamespaceDeclaration.class).namespace().fullyQualifiedName();
+		return "directly from memory : "+(packageName.isEmpty() ? "" : packageName+".")+  declaration().name();
+	}
 }
