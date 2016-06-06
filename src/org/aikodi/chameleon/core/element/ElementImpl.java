@@ -1371,27 +1371,7 @@ public List<? extends Element> children() {
      @
      @ post (element != null) ==> (element.parent() == association.getObject() && association.contains(element.parentLink());
      @*/
-	 protected <T extends Element> void add(AbstractMultiAssociation<? extends Element, ? super T> association, T element) {
-		 if(element != null) {
-			 association.add((Association)element.parentLink());
-		 }
-	 }
-
-	 /**
-	  * Set the given AbstractMultiAssociation object (which is typically connected to 'this') as the parent of the given element.
-	  * @param <T>
-	  * @param association
-	  * @param element
-	  */
-	 /*@
-     @ public behavior
-     @
-     @ pre association != null;
-     @ pre (element != null) ==> (! element.isDerived());
-     @
-     @ post (element != null) ==> (element.parent() == association.getObject() && association.contains(element.parentLink());
-     @*/
-	 protected <T extends Element> void add(AbstractMultiAssociation<? extends Element, ? super T> association, Collection<T> elements) {
+	 protected <T extends Element> void add(OrderedMultiAssociation<? extends Element, ? super T> association, Collection<T> elements) {
 		 for(T t: elements) {
 			 add(association,t);
 		 }
@@ -1411,7 +1391,7 @@ public List<? extends Element> children() {
      @
      @ post association.getOtherRelations().contains(element.parentLink());
      @*/
-	 protected <E extends Element> void add(OrderedMultiAssociation<? extends Element,E> association, E element) {
+	 protected <E extends Element> void add(OrderedMultiAssociation<? extends Element,? super E> association, E element) {
 		 if(element != null) {
 			 association.add((Association)element.parentLink());
 		 }

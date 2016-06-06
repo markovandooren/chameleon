@@ -327,4 +327,5 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
 	 *         The result is not negative.
 	 */
 	public int numberOfLoads();
+	
 }

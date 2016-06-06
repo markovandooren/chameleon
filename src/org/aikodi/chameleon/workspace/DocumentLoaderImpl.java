@@ -141,9 +141,12 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	/**
 	 * Return a name to describe the resource loaded by this document loader
 	 * in log messages.
+	 * 
+	 * @return A name to describe the loaded resource.
 	 */	
 	protected abstract String resourceName();
-	
+
+
 	/**
 	 * Actually load the document. Invoke {@link #setDocument(Document)} to
 	 * store the loaded document.

@@ -17,7 +17,7 @@ import be.kuleuven.cs.distrinet.rejuse.association.Association;
 
 import com.google.common.collect.ImmutableList;
 
-public class RegularNamespace extends NamespaceImpl {
+public abstract class RegularNamespace extends NamespaceImpl {
 	
 	public RegularNamespace(String name) {
 		super(name);
@@ -62,96 +62,29 @@ public class RegularNamespace extends NamespaceImpl {
 		return _namespaces.getOtherEnds();
 	}
 
-
-	
-	/*******************
-	 * NAMESPACE PARTS *
-	 *******************/
-
-	private Multi<NamespaceDeclaration> _namespaceDeclarations = new Multi<NamespaceDeclaration>(this,"namespace parts") {
-	  protected void fireElementRemoved(NamespaceDeclaration removedElement) {
-	    removedElement.declarations().forEach(d -> removeDeclaration(d));
-
-	    super.fireElementRemoved(removedElement);
-	  };
-	};
-	{
-		_namespaceDeclarations.enableCache();
-	}
-
-	@Override
-   public synchronized void addNamespacePart(NamespaceDeclaration namespacePart){
-		_namespaceDeclarations.add((Association)namespacePart.namespaceLink());
-		addCacheForNamespaceDeclaration(namespacePart);
-	}
-
-	@Override
-   public synchronized List<NamespaceDeclaration> namespaceDeclarations(){
-		return _namespaceDeclarations.getOtherEnds();
-	}
-	
-	@Override
-	public List<NamespaceDeclaration> loadedNamespaceDeclarations() {
-		return _namespaceDeclarations.getOtherEnds();
-	}
-
-	@Override
-   protected RegularNamespace cloneSelf() {
-		return new RegularNamespace(name());
-	}
-	
 	@Override
    public Scope scope() {
 		return new UniversalScope();
 	}
-	
-  @Override
-public LookupContext lookupContext(Element element) throws LookupException {
-  	if(_context == null) {
-  		_context = language().lookupFactory().createLexicalLookupStrategy(targetContext(), this);
-  	}
+
+	@Override
+	public LookupContext lookupContext(Element element) throws LookupException {
+		//FIXME Why is this even lazy? The chances of the lookup context of a namespace
+		// not being requested is close to zero.
+		if(_context == null) {
+			_context = language().lookupFactory().createLexicalLookupStrategy(targetContext(), this);
+		}
 		return _context;
-  }
-  
-  private LookupContext _context;
-  
-	/**
-	 * Create a new package with the given name
-	 * @param name
-	 *        The name of the new package.
-	 */
-	/*@
-	 @ protected behavior
-	 @
-	 @ post \result != null;
-	 @*/
-	@Override
-   public Namespace createSubNamespace(String name){
-	  Namespace result = new RegularNamespace(name);
-	  addNamespace(result);
-		return result;
 	}
 
-	@Override
-	public Verification verifySelf() {
-		return Valid.create();
-	}
+	private LookupContext _context;
 
-	@Override
-   public Declaration declarator() {
-		return this;
-	}
 
 	@Override
    public List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return declarations();
 	}
 
-	@Override
-	public boolean complete() {
-		return true;
-	}
-	
 	@Override
 	public boolean hasSubNamespaces() {
 		return _namespaces.size() > 0;

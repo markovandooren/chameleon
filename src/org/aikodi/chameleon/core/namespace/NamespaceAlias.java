@@ -36,6 +36,11 @@ public class NamespaceAlias extends NamespaceImpl {
 	}
 
 	@Override
+	public void disconnectNamespaceDeclaration(NamespaceDeclaration namespacePart) {
+		throw new ChameleonProgrammerException("Trying to remove a namespace part to an aliased namespace");
+	}
+
+	@Override
 	public List<NamespaceDeclaration> namespaceDeclarations() {
 		return aliasedNamespace().namespaceDeclarations();
 	}
