@@ -19,6 +19,7 @@ import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.member.MemberRelationSelector;
 import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
+import org.aikodi.chameleon.util.Lists;
 
 /**
  * An interface for classes and interfaces in object-oriented languages.
@@ -33,7 +34,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 
   public default void accumulateSuperTypeJudge(SuperTypeJudge judge) throws LookupException {
     judge.add(this);
-    List<Type> temp = getDirectSuperTypes();
+    List<Type> temp = getProperDirectSuperTypes();
     for(Type type:temp) {
       Type existing = judge.get(type);
       if(existing == null) {
@@ -195,9 +196,24 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
    * SUPERTYPES *
    **************/
 
-  public List<Type> getDirectSuperTypes() throws LookupException;
-
-  public List<Type> getDirectSuperClasses() throws LookupException;
+ /**
+  * Return the proper direct super types of this type. A proper super type is a super type
+  * that is not equal to this type. A direct super type is a super type that is specified
+  * by an inheritance relation of this type, or this type.
+  * 
+  * @return A list containing the direct super types of this type.
+  * @throws LookupException The type of an inheritance relation could not be resolved.
+  */
+ public default List<Type> getProperDirectSuperTypes() throws LookupException {
+		List<Type> result = Lists.create();
+		for(InheritanceRelation element:inheritanceRelations()) {
+			Type type = element.superType();
+			if (type!=null) {
+				result.add(type);
+			}
+		}
+		return result;
+	}
 
   public Set<Type> getAllSuperTypes() throws LookupException;
 

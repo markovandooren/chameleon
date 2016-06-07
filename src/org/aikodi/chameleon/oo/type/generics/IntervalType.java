@@ -149,7 +149,7 @@ public abstract class IntervalType extends ClassImpl {
 
 
   @Override
-  public List<Type> getDirectSuperTypes() throws LookupException {
+  public List<Type> getProperDirectSuperTypes() throws LookupException {
     //	return aliasedType().getDirectSuperTypes();
     return Util.createNonNullList(upperBound());
   }

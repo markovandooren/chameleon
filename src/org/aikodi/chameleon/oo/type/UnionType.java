@@ -39,7 +39,7 @@ public class UnionType extends MultiType {
 	}
 	
 	@Override
-	public List<Type> getDirectSuperTypes() throws LookupException {
+	public List<Type> getProperDirectSuperTypes() throws LookupException {
 		ArrayList<Type> result = new ArrayList<Type>();
 		result.add(language(ObjectOrientedLanguage.class).getDefaultSuperClass(view().namespace()));
 		return result;
