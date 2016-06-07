@@ -45,7 +45,7 @@ public class TypeVariable extends TypeIndirection {
 
 
   @Override
-  public List<Type> getDirectSuperTypes() throws LookupException {
+  public List<Type> getProperDirectSuperTypes() throws LookupException {
     return ImmutableList.of(aliasedType());
   }
 

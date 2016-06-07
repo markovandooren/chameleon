@@ -29,7 +29,7 @@ public class InstantiatedParameterType extends TypeIndirection {
   }
 
   @Override
-  public List<Type> getDirectSuperTypes() throws LookupException {
+  public List<Type> getProperDirectSuperTypes() throws LookupException {
     //			return aliasedType().getDirectSuperTypes();
     return Util.createNonNullList(aliasedType());
   }
@@ -56,6 +56,7 @@ public class InstantiatedParameterType extends TypeIndirection {
     Type aliased =aliasedType();
     boolean add=true;
     for(Type acced: acc) {
+    	//FIXME Why isn't this an equals call?
       if(acced == aliased) {
         add=false;
         break;

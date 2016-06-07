@@ -83,7 +83,7 @@ public class SubTypeHierarchyContentProvider extends HierarchyContentProvider {
 		@Override
 		public boolean eval(Type type) {
 			try {
-				List<Type> directSuperTypes = type.getDirectSuperTypes();
+				List<Type> directSuperTypes = type.getProperDirectSuperTypes();
 				return directSuperTypes.contains(this.superType);
 			} catch (ModelException e) {
 				e.printStackTrace();

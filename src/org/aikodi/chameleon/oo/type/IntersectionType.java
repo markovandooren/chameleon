@@ -43,7 +43,7 @@ public class IntersectionType extends MultiType {
 	}
 	
 	@Override
-	public List<Type> getDirectSuperTypes() throws LookupException {
+	public List<Type> getProperDirectSuperTypes() throws LookupException {
 		return types();
 	}
 
