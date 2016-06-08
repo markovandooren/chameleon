@@ -17,9 +17,9 @@ import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
  *  
  * @author Marko van Dooren
  */
-public class DirectDocumentLoader extends EagerDocumentLoaderImpl {
+public class DeclarationLoader extends EagerDocumentLoaderImpl {
 
-	public DirectDocumentLoader(Declaration decl, String namespaceFQN, View view, DocumentScanner scanner) throws InputException {
+	public DeclarationLoader(Declaration decl, String namespaceFQN, View view, DocumentScanner scanner) throws InputException {
 		init(scanner);
 
 		if(decl == null) {

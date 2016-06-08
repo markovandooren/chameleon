@@ -391,8 +391,10 @@ public abstract class ProjectConfiguration extends ConfigElement {
 		
 		@Override
 		protected void $update() {
-			DirectoryScanner directoryScanner = (DirectoryScanner)modelElement();
-			_path = directoryScanner.path();
+			if(modelElement() instanceof DirectoryScanner) {
+			  DirectoryScanner directoryScanner = (DirectoryScanner)modelElement();
+			  _path = directoryScanner.path();
+			}
 		}
 
 		protected DirectoryScanner createScanner(FileDocumentLoaderFactory factory) {
