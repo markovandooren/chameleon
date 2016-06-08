@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.aikodi.chameleon.core.document.Document;
+import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.input.ModelFactory;
 import org.aikodi.chameleon.input.ParseException;
 
@@ -44,6 +45,7 @@ public abstract class StreamDocumentLoader extends DocumentLoaderImpl {
    * @throws ParseException
    */
   protected void parse(InputStream inputStream) throws IOException, ParseException {
+  	//Util.debug(toString().endsWith("Reference.java"));
     namespace().language().plugin(ModelFactory.class).parse(inputStream, rawDocument());
   }
 

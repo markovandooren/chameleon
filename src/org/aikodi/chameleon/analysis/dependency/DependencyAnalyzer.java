@@ -79,8 +79,6 @@ public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer
       }
     };
     result.traverse(nodeAction, edgeAction);
-    List<Path<Element>> cycles = result.graph().simpleCycles();
-		System.out.println("#########" + cycles);
   }
 
   /**

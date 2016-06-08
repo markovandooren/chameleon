@@ -173,8 +173,17 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
   
   private void addToList(List<Declaration> list, Declaration declaration) {
     list.add(declaration);
-    declaration.when().self().about(ParentRemoved.class).call(e -> removeDeclaration(declaration));
+    registerListener(declaration);
   }
+
+  /**
+   * Register a listener with the given declaration to remote it from
+   * the caches when it is removed from the model.
+   * @param declaration
+   */
+	protected void registerListener(Declaration declaration) {
+		declaration.when().self().about(ParentRemoved.class).call(e -> removeDeclaration(declaration));
+	}
 
   private void removeFromList(List<Declaration> list, Declaration declaration) {
     list.remove(declaration);
@@ -221,7 +230,6 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
         addToList(list, declaration);
       }
     }
-
   }
 
   private Map<String,Namespace> _nameMap = new HashMap<>();
@@ -324,7 +332,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
     if(_declarationCache == null) {
       _declarationCache = new HashMap<String, List<Declaration>>();
     }
-    Util.debug(declarations.getClass().getName().contains("EmptyList"));
+//    Util.debug(declarations.getClass().getName().contains("EmptyList"));
     _declarationCache.put(name, declarations);
   }
 

@@ -212,6 +212,25 @@ public interface Namespace extends Declaration, DeclarationContainer {
 	@Deprecated
    public void addNamespacePart(NamespaceDeclaration namespacePart);
 	
+	 /**
+	  * <B>DO NOT INVOKE</B> it is an internal method that must be public because
+	  * it is in an interface.
+	  * 
+	  * Add a namespace part to this namespace. A namespace part adds elements to its namespace.
+	  * 
+	  * @deprecated This method should be called only from within {@link NamespaceDeclaration}.
+	  */
+  /*@
+    @ public behavior
+    @
+    @ pre namespacepart != null;
+    @
+    @ post getNamespaceParts().contains(namespacepart);
+    @*/
+	  @Deprecated
+   public void disconnectNamespaceDeclaration(NamespaceDeclaration namespacePart);
+	
+	 
 	/**
 	 * @return All direct subnamespaces of this namespace.
 	 */

@@ -1,88 +1,62 @@
 package org.aikodi.chameleon.workspace;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.document.Document;
-import org.aikodi.chameleon.core.factory.Factory;
-import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.namespace.DocumentLoaderNamespace;
-import org.aikodi.chameleon.core.namespace.Namespace;
-import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
+import org.aikodi.chameleon.workspace.DocumentLoaderImpl;
+import org.aikodi.chameleon.workspace.DocumentScanner;
+import org.aikodi.chameleon.workspace.InputException;
 
 /**
- * A class of document loaders that load a document directly.
- *  
+ * A document loader that "loads" an existing document into the model.
+ * No IO is performed.
+ * 
  * @author Marko van Dooren
  */
-public class DirectDocumentLoader extends EagerDocumentLoaderImpl {
+public class DirectDocumentLoader extends DocumentLoaderImpl {
 
-	public DirectDocumentLoader(Declaration decl, String namespaceFQN, View view, DocumentScanner scanner) throws InputException {
-		init(scanner);
+   /**
+    * Create a new direct loader that loads the given document into
+    * the project that is attached to the given scanner.
+    * The new direct loader will also attach itself to the scanner.
+    * 
+    * The document will be initialized properly. All namespace declarations
+    * in the document will be connected to the corresponding namespaces.
+    * 
+    * @param scanner The scanner to which the loader will be connected,
+    *                and whose project is used to add the document.
+    * @param document The document to be added.
+    */
+   public DirectDocumentLoader(DocumentScanner scanner, Document document) {
+      // 1. set the document
+      setDocument(document);
+      // 2. add ourselves to the scanner such that the refresh() call
+      //    can attach the loader and the declarations properly to
+      //    the namespace
+      scanner.add(this);
+      try {
+         refresh();
+      } catch (InputException e) {
+         // Because a fake document loader does not perform IO,
+         // no exception should be thrown.
+         // Should this happen anyway, something is very wrong so we at least
+         // throw an error instead of swallowing the exception.
+         throw new Error(e);
+      }
+   }
+   
+   /**
+    * {@inheritDoc}
+    * 
+    * A direct loader does nothing while refreshing because the document
+    * was not loaded from a resource by this loader.
+    */
+   @Override
+   protected void doRefresh() throws InputException {
+      // No need to refresh anything.
+   }
+   
+   @Override
+  protected String resourceName() {
+  	return "document from memory";
+  }
 
-		if(decl == null) {
-			throw new IllegalArgumentException("The given declaration is null.");
-		}
-		if(namespaceFQN == null) {
-			throw new IllegalArgumentException("The given fully qualified name of a namespace is null.");
-		}
-		if(view == null) {
-			throw new IllegalArgumentException("The given view is null.");
-		}
-		_declaration = decl;
-		DocumentLoaderNamespace ns = (DocumentLoaderNamespace) view.namespace().getOrCreateNamespace(namespaceFQN);
-		setNamespace(ns);
-		Factory plugin = view.language().plugin(Factory.class);
-		NamespaceDeclaration nsd;
-		if(! "".equals(namespaceFQN)) {
-			nsd = plugin.createNamespaceDeclaration(namespaceFQN);
-		} else {
-			nsd = plugin.createRootNamespaceDeclaration();
-		}
-		nsd.add(decl);
-		Document doc = new Document();
-		doc.add(nsd);
-		setDocument(doc);
-		doc.activate();
-	}
-	
-	private Declaration _declaration;
-	
-	public Declaration declaration() {
-		return _declaration;
-	}
-	
-	@Override
-	public List<String> targetDeclarationNames(Namespace ns) {
-		return Collections.singletonList(declaration().name());
-	}
-
-	@Override
-	public List<Declaration> targetDeclarations(String name) throws LookupException {
-		Declaration decl = declaration();
-		List<Declaration> result;
-		if(decl.name().equals(name)) {
-			result = new ArrayList<Declaration>(1);
-			result.add(decl);
-		} else {
-			result = Collections.EMPTY_LIST;
-		}
-		return result;
-	}
-
-	/**
-	 * We don't do an actual refresh since the contents of the document loader
-	 * was set directly.
-	 */
-	@Override
-	public void doRefresh() throws InputException {
-	}
-	
-	@Override
-	protected String resourceName() {
-		String packageName = declaration().nearestAncestor(NamespaceDeclaration.class).namespace().fullyQualifiedName();
-		return "directly from memory : "+(packageName.isEmpty() ? "" : packageName+".")+  declaration().name();
-	}
 }
