@@ -19,13 +19,13 @@ public class TypeAlias extends TypeIndirection {
 	@Override
 	public boolean uniSameAs(Element type) throws LookupException {
 		return super.uniSameAs(type) || 
-		       type.sameAs(aliasedType()) || 
-		       ((type instanceof TypeIndirection) && (((TypeIndirection)type).aliasedType().sameAs(aliasedType())));
+		       type.sameAs(indirectionTarget()) || 
+		       ((type instanceof TypeIndirection) && (((TypeIndirection)type).indirectionTarget().sameAs(indirectionTarget())));
 	}
 	
 	@Override
 	public int hashCode() {
-		return aliasedType().hashCode();
+		return indirectionTarget().hashCode();
 	}
 	
 	/**
@@ -33,19 +33,19 @@ public class TypeAlias extends TypeIndirection {
 	 */
 	@Override
    public TypeAlias cloneSelf() {
-		return new TypeAlias(name(), aliasedType());
+		return new TypeAlias(name(), indirectionTarget());
 	}
 
 	@Override
    public boolean uniSameAs(Type other, TypeFixer trace) throws LookupException {
 		return super.uniSameAs(other) || 
-    other.sameAs(aliasedType(),trace) || 
-    ((other instanceof TypeIndirection) && (((TypeIndirection)other).aliasedType().sameAs(aliasedType(),trace)));
+    other.sameAs(indirectionTarget(),trace) || 
+    ((other instanceof TypeIndirection) && (((TypeIndirection)other).indirectionTarget().sameAs(indirectionTarget(),trace)));
 	}
 
 	@Override
    public Declaration declarator() {
-		return aliasedType().declarator();
+		return indirectionTarget().declarator();
 	}
 
 

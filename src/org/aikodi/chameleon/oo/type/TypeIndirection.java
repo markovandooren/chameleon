@@ -25,7 +25,7 @@ public abstract class TypeIndirection extends ClassImpl {
 	
 	// @EXTENSIBILITY : change names of constructors?
 
-	public Type aliasedType() {
+	protected Type indirectionTarget() {
 		return _aliasedType;
 	}
 	
@@ -47,12 +47,12 @@ public abstract class TypeIndirection extends ClassImpl {
 
 	@Override
 	public List<Member> localMembers() throws LookupException {
-		return aliasedType().localMembers();
+		return indirectionTarget().localMembers();
 	}
 	
 	@Override
 	public <D extends Member> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException {
-		return aliasedType().localMembers(selector);
+		return indirectionTarget().localMembers(selector);
 	}
 
 
@@ -72,18 +72,18 @@ public abstract class TypeIndirection extends ClassImpl {
 
 	@Override
 	public List<InheritanceRelation> inheritanceRelations() throws LookupException {
-		return aliasedType().inheritanceRelations();
+		return indirectionTarget().inheritanceRelations();
 	}
 	
 	@Override
 	public List<InheritanceRelation> nonMemberInheritanceRelations() {
-		return aliasedType().nonMemberInheritanceRelations();
+		return indirectionTarget().nonMemberInheritanceRelations();
 	}
 	
 	//TODO I am not sure if these definitions are appropriate for a constructed type.
   @Override
 public PropertySet<Element,ChameleonProperty> defaultProperties() {
-    return filterProperties(myDefaultProperties(), aliasedType().defaultProperties());
+    return filterProperties(myDefaultProperties(), indirectionTarget().defaultProperties());
   }
 	
 	/**
@@ -100,12 +100,12 @@ public PropertySet<Element,ChameleonProperty> defaultProperties() {
 
   @Override
 public PropertySet<Element,ChameleonProperty> inherentProperties() {
-    return filterProperties(myInherentProperties(), aliasedType().inherentProperties());
+    return filterProperties(myInherentProperties(), indirectionTarget().inherentProperties());
   }
 
   @Override
 public PropertySet<Element,ChameleonProperty> declaredProperties() {
-    return filterProperties(myDeclaredProperties(), aliasedType().declaredProperties());
+    return filterProperties(myDeclaredProperties(), indirectionTarget().declaredProperties());
   }
   
   public PropertySet<Element,ChameleonProperty> myDeclaredProperties() {
@@ -119,22 +119,22 @@ public void replace(TypeElement oldElement, TypeElement newElement) {
   
 	@Override
 	public Type baseType() {
-		return aliasedType().baseType();
+		return indirectionTarget().baseType();
 	}
 
 	@Override
    public <P extends Parameter> List<P> parameters(Class<P> kind) {
-		return aliasedType().parameters(kind);
+		return indirectionTarget().parameters(kind);
 	}
 	
 	@Override
    public <P extends Parameter> P parameter(Class<P> kind, int index) {
-		return aliasedType().parameter(kind, index);
+		return indirectionTarget().parameter(kind, index);
 	}
 
 	@Override
    public <P extends Parameter> int nbTypeParameters(Class<P> kind) {
-		return aliasedType().nbTypeParameters(kind);
+		return indirectionTarget().nbTypeParameters(kind);
 	}
 
 	@Override
@@ -154,7 +154,7 @@ public void replace(TypeElement oldElement, TypeElement newElement) {
   
 	@Override
 	public List<? extends TypeElement> directlyDeclaredElements() {
-		return aliasedType().directlyDeclaredElements();
+		return indirectionTarget().directlyDeclaredElements();
 	}
 
 	@Override
@@ -165,7 +165,7 @@ public void replace(TypeElement oldElement, TypeElement newElement) {
 
 	@Override
    public List<ParameterBlock> parameterBlocks() {
-		return aliasedType().parameterBlocks();
+		return indirectionTarget().parameterBlocks();
 	}
 
 
@@ -176,17 +176,17 @@ public void replace(TypeElement oldElement, TypeElement newElement) {
 
 	@Override
    public <P extends Parameter> ParameterBlock<P> parameterBlock(Class<P> kind) {
-		return aliasedType().parameterBlock(kind);
+		return indirectionTarget().parameterBlock(kind);
 	}
 
 	@Override
 	public List<InheritanceRelation> explicitNonMemberInheritanceRelations() {
-		return aliasedType().explicitNonMemberInheritanceRelations();
+		return indirectionTarget().explicitNonMemberInheritanceRelations();
 	}
 
 	@Override
 	public List<InheritanceRelation> implicitNonMemberInheritanceRelations() {
-		return aliasedType().implicitNonMemberInheritanceRelations();
+		return indirectionTarget().implicitNonMemberInheritanceRelations();
 	}
 
 }

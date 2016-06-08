@@ -41,6 +41,7 @@ public class CapturedTypeParameter extends FormalTypeParameter {
       }
       Type type = plugin.createIntersectionType(types);
 		_selectionTypeCache = plugin.createTypeVariable(name(),type,this);
+//		_selectionTypeCache = plugin.createInstantiatedTypeVariable(name(),type,this);
     }
     return _selectionTypeCache;
   }

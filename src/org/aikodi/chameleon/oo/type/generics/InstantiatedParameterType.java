@@ -31,12 +31,19 @@ public class InstantiatedParameterType extends TypeIndirection {
   @Override
   public List<Type> getProperDirectSuperTypes() throws LookupException {
     //			return aliasedType().getDirectSuperTypes();
-    return Util.createNonNullList(aliasedType());
+    return Util.createNonNullList(indirectionTarget());
+  }
+  
+  /**
+   * Return the type aliased by this type.
+   */
+  public Type aliasedType() {
+  	return indirectionTarget();
   }
 
   @Override
   public void accumulateAllSuperTypes(Set<Type> acc) throws LookupException {
-    Type aliased =aliasedType();
+    Type aliased =indirectionTarget();
     boolean add=true;
     for(Type acced: acc) {
       if(acced == aliased) {
@@ -53,7 +60,7 @@ public class InstantiatedParameterType extends TypeIndirection {
 
   @Override
   public void newAccumulateAllSuperTypes(Set<Type> acc) throws LookupException {
-    Type aliased =aliasedType();
+    Type aliased =indirectionTarget();
     boolean add=true;
     for(Type acced: acc) {
     	//FIXME Why isn't this an equals call?
@@ -70,7 +77,7 @@ public class InstantiatedParameterType extends TypeIndirection {
 
   @Override
   public InstantiatedParameterType cloneSelf() {
-    return new InstantiatedParameterType(name(), aliasedType(),parameter());
+    return new InstantiatedParameterType(name(), indirectionTarget(),parameter());
   }
 
   @Override
@@ -85,7 +92,7 @@ public class InstantiatedParameterType extends TypeIndirection {
       result = parameter().sameAs(((InstantiatedParameterType)element).parameter());
     } 
     if(! result) {
-      result = element.sameAs(aliasedType());
+      result = element.sameAs(indirectionTarget());
     }
     return result;
   }
@@ -107,7 +114,7 @@ public class InstantiatedParameterType extends TypeIndirection {
       }
     } 
     if(! result) {
-      result = other.sameAs(aliasedType(),trace);
+      result = other.sameAs(indirectionTarget(),trace);
     }
     return result;
   }
@@ -137,7 +144,7 @@ public class InstantiatedParameterType extends TypeIndirection {
 //      return true;
 //    }
     trace.add(other, secondParam);
-    return other.subtypeOf(aliasedType(), trace);
+    return other.subtypeOf(indirectionTarget(), trace);
   }
 
   @Override
@@ -150,12 +157,12 @@ public class InstantiatedParameterType extends TypeIndirection {
 //      return true;
 //    }
     trace.add(other, firstParam);
-    return aliasedType().subtypeOf(other, trace);
+    return indirectionTarget().subtypeOf(other, trace);
   }
   
   @Override
   public boolean isWildCard() {
-      return aliasedType().isWildCard();
+      return indirectionTarget().isWildCard();
   }
   
   /**
@@ -167,17 +174,17 @@ public class InstantiatedParameterType extends TypeIndirection {
       return true;
     }
     trace.add(other, this);
-    return aliasedType().contains(other, trace);
+    return indirectionTarget().contains(other, trace);
   }
 
   @Override
   public Type lowerBound() throws LookupException {
-    return aliasedType().lowerBound();
+    return indirectionTarget().lowerBound();
   }
 
   @Override
   public Type upperBound() throws LookupException {
-    return aliasedType().upperBound();
+    return indirectionTarget().upperBound();
   }
 
 }
