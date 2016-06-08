@@ -332,7 +332,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
     if(_declarationCache == null) {
       _declarationCache = new HashMap<String, List<Declaration>>();
     }
-    Util.debug(declarations.getClass().getName().contains("EmptyList"));
+//    Util.debug(declarations.getClass().getName().contains("EmptyList"));
     _declarationCache.put(name, declarations);
   }
 
