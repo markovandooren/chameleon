@@ -1,6 +1,6 @@
 /**
- * Created on 8-apr-07
  * @author Tim Vermeiren
+ * @author Marko van Dooren
  */
 package org.aikodi.chameleon.eclipse.presentation.hyperlink;
 
@@ -41,20 +41,18 @@ public class ChameleonHyperlinkPresenter extends DefaultHyperlinkPresenter {
 
 	@Override
 	public void showHyperlinks(IHyperlink[] hyperlinks) {
-		// because this hyperlink cannot show multiple hyperlinks
-		Assert.isLegal(hyperlinks != null && hyperlinks.length == 1);
 		IHyperlink hyperlink = hyperlinks[0];
 		if(hyperlink instanceof ChameleonHyperlink){
 			String status = ((ChameleonHyperlink)hyperlink).getStatus();
 			if(status == ChameleonHyperlink.VALID_STATUS){
-				super.setColor(validColor);
+				setColor(validColor);
 			} else if (status == ChameleonHyperlink.SEMIVALID_STATUS){
-				super.setColor(semivalidColor);
+				setColor(semivalidColor);
 			} else {
-				super.setColor(invalidColor);
+				setColor(invalidColor);
 			}
 		} else {
-			super.setColor(defaultColor);	
+			setColor(defaultColor);	
 		}
 		super.showHyperlinks(hyperlinks);
 	}

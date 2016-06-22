@@ -4,15 +4,15 @@
  */
 package org.aikodi.chameleon.eclipse.presentation.hierarchy;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.TreeSet;
 
+import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.eclipse.project.ChameleonProjectNature;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.oo.type.Type;
 
+import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 /**
@@ -39,15 +39,20 @@ public class SubTypeHierarchyContentProvider extends HierarchyContentProvider {
 				HierarchyTypeNode parentTypeNode = ((HierarchyTypeNode)parentElement);
 				ChameleonProjectNature projectNature = parentTypeNode.getProjectNature();
 				Type type = parentTypeNode.getType();
-				// get subtypes:
-				Collection<? extends Type> typeSet = new TreeSet<Type>();
-				typeSet = rootNamespace.descendants(Type.class);
-				new hasAsSuperTypePredicate(type).filter(typeSet);
+				Predicate<Type,LookupException> predicate = t -> {
+					// We want to provide as much information as possible,
+					// so we continue when we encounter an exception.
+					try {
+						return t.subtypeOf(type);
+					}catch(LookupException exc) {
+						exc.printStackTrace();
+						return false;
+					}
+				};
+				List<Type> types = rootNamespace.descendants(predicate.makeUniversal(Type.class));
 				// wrap subtypes in HierarchyTypeNode[]
-				Type[] typeArray = typeSet.toArray(new Type[]{});
-				return HierarchyTypeNode.encapsulateInHierarchyTreeNodes(typeArray, projectNature, parentTypeNode);
+				return HierarchyTypeNode.encapsulateInHierarchyTreeNodes(types, projectNature, parentTypeNode);
 			} catch (Exception e){
-				System.err.println(e.getMessage());
 				e.printStackTrace();
 				return new Object[]{};
 			}
@@ -78,7 +83,7 @@ public class SubTypeHierarchyContentProvider extends HierarchyContentProvider {
 		@Override
 		public boolean eval(Type type) {
 			try {
-				List<Type> directSuperTypes = type.getDirectSuperTypes();
+				List<Type> directSuperTypes = type.getProperDirectSuperTypes();
 				return directSuperTypes.contains(this.superType);
 			} catch (ModelException e) {
 				e.printStackTrace();

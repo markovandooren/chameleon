@@ -278,21 +278,15 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	 */
 	@Override
 	public void nonRecursiveDisconnect() {
-	  // 1) Set the lexical parent to null.
-	  setNamespace(null);
+		Namespace ns = namespace();
+		if(ns != null) {
+			_namespace = null;
+			ns.disconnectNamespaceDeclaration(this);
+		}
 	  super.nonRecursiveDisconnect();
-	  //		if(Config.DEBUG) {
-	  //			if(namespace() != null) {
-	  //			  System.out.println("Disconnecting from "+namespace().getFullyQualifiedName());
-	  //			}
-	  ////			showStackTrace("Disconnecting from "+namespace().getFullyQualifiedName());
-	  //		}
-	  // 2) Disconnect from the namespace. 
-	  //		// 3) IS NOW DONE BY DEFAULT RECURSION Disconnecting the children.
-	  //		for(NamespacePart nsp: namespaceParts()) {
-	  //			nsp.disconnect();
-	  //		}
 	}
+	
+
 
 	/**
 	 * A namespace part is disconnected if both its parent and its namespace are null.
@@ -304,7 +298,8 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
    @*/
 	@Override
 	public boolean disconnected() {
-		return super.disconnected() && namespaceLink().getOtherEnd() != null;
+		//return super.disconnected() && namespaceLink().getOtherEnd() == null;
+		return super.disconnected() && _namespace == null;
 	}
 	
 	private Multi<NamespaceDeclaration> _subNamespaceParts = new Multi<NamespaceDeclaration>(this,"subnamespace parts");
@@ -329,32 +324,44 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	/*************
 	 * NAMESPACE *
 	 *************/
-	private Single<Namespace> _namespaceLink = new Single<Namespace>(this,true);
+//	private Single<Namespace> _namespaceLink = new Single<Namespace>(this,true);
+	private Namespace _namespace;
 
 	/**
 	 * Return the namespace to which this namespacepart adds declarations.
 	 * @return
 	 */
-   public Namespace namespace() {
-		Namespace stored = _namespaceLink.getOtherEnd();
-		if(stored == null) {
-			//FIXME When multi-language support is added, this must change
-//			stored = view().namespace().getOrCreateNamespace(namespaceReference().toString());
-			try {
-				stored = namespaceReference().getElement();
-				//FIXME I think this exception no longer has to be transformed.
-			} catch (LookupException e) {
-				throw new ChameleonProgrammerException(e);
-			}
-			if(stored != null) {
-			  stored.addNamespacePart(this);
-			}
-		}
-		return stored;
+  public Namespace namespace() {
+		//return _namespaceLink.getOtherEnd();
+  	return _namespace;
 	}
-	
+  
+  /**
+   * DO NOT INVOKE THIS METHOD other than in namespaces. 
+   * It is public only because of Java limitations. 
+   * 
+   * @param namespace The new namespace of this namespace declaration.
+   */
+  @Deprecated
+  public void connectNamespace(Namespace namespace) {
+  	if(_namespace != null) {
+  		_namespace.disconnectNamespaceDeclaration(this);
+  	}
+  	_namespace = namespace;
+  }
+  
+	protected void disconnectNamespace() {
+		_namespace = null;
+  }
+
 	public void activate() {
-		namespace();
+		try {
+			Namespace ns = null;
+			ns = namespaceReference().getElement();
+			ns.addNamespacePart(this);
+		} catch (LookupException e) {
+			throw new ChameleonProgrammerException(e);
+		}
 		for(NamespaceDeclaration part: namespaceDeclarations()) {
 			part.activate();
 		}
@@ -377,17 +384,9 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 		return _ref.getOtherEnd();
 	}
 	
-	public Single<Namespace> namespaceLink() {
-		return _namespaceLink;
-	}
-
-	public void setNamespace(Namespace namespace) {
-		if (namespace != null) {
-			namespace.addNamespacePart(this);
-		} else {
-			_namespaceLink.connectTo(null);
-		}
-	}
+//	public Single<Namespace> namespaceLink() {
+//		return _namespaceLink;
+//	}
 
 
 	/******************

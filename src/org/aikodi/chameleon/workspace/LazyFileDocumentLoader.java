@@ -28,4 +28,10 @@ public class LazyFileDocumentLoader extends LazyStreamDocumentLoader implements 
 	public InputStream inputStream() throws InputException {
 		return convert(file());
 	}
+	
+  @Override
+  protected String resourceName() {
+  	return file().getAbsolutePath();
+  }
+
 }

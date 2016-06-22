@@ -40,7 +40,7 @@ public abstract class SignatureWithName extends Signature {
 
    @Override
    public void setName(String name) {
-  	 Util.debug(name.equals("<missing Identifier>"));
+//  	 Util.debug(name.equals("<missing Identifier>"));
       if(name == null) {
          throw new IllegalArgumentException("The name of a signature with a name cannot be null.");
       }

@@ -55,7 +55,7 @@ public abstract class Expression extends ElementImpl implements CrossReferenceTa
 		}
 		return result;
 	}
-	
+
 	@Override
 	public void flushLocalCache() {
 		super.flushLocalCache();

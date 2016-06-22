@@ -108,7 +108,7 @@ public class ChameleonLabelProvider implements ILabelProvider {
 			if(language != null) {
 				EclipseEditorExtension extension = language.plugin(EclipseEditorExtension.class);
 				try {
-					image = extension.getIcon(element);
+					image = extension.icon(element);
 				} catch (ModelException e) {
 				}
 			}
@@ -198,8 +198,10 @@ public class ChameleonLabelProvider implements ILabelProvider {
 	 */
 	@Override
    public String getText(Object modelObject) {
+		String label = "";
+		try {
 		Element element = getElement(modelObject);
-		String label = getLabel(element);
+		label = getLabel(element);
 		if( element != null ){
 			label += getExtraInfo(element, false);
 			// prepend the simple class name if wanted
@@ -215,6 +217,9 @@ public class ChameleonLabelProvider implements ILabelProvider {
 			int beginOffset = tag.getOffset();
 			int endOffset = beginOffset + tag.getLength();
 			label = label + " - " + tag.getName() + " (" + beginOffset + " - " + endOffset + ")";
+		}
+		} catch(Exception exc) {
+			exc.printStackTrace();
 		}
 		return label;
 	}
@@ -270,7 +275,7 @@ public class ChameleonLabelProvider implements ILabelProvider {
 		Element element = getElement(modelObject);
 		if(element != null) {
 			EclipseEditorExtension ext = editorExtension();
-			return ext.getLabel(element);
+			return ext.label(element);
 		} else {
 			if(modelObject != null) {
 				throw new ChameleonProgrammerException("Requesting label of an object that is not an Element.");

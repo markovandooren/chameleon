@@ -4,7 +4,8 @@
  */
 package org.aikodi.chameleon.eclipse.presentation.hierarchy;
 
-import org.aikodi.chameleon.core.declaration.Declaration;
+import java.util.List;
+
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.eclipse.project.ChameleonProjectNature;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
@@ -19,8 +20,8 @@ public class HierarchyTypeNode implements HierarchyTreeNode {
 	
 	private HierarchyTreeNode parent;
 	
-	public HierarchyTypeNode(Declaration type, ChameleonProjectNature projectNature, HierarchyTreeNode parent){
-		fullyQualifiedName = type.name();
+	public HierarchyTypeNode(Type type, ChameleonProjectNature projectNature, HierarchyTreeNode parent){
+		fullyQualifiedName = type.getFullyQualifiedName();
 		this.projectNature = projectNature;
 		this.parent = parent;
 	}
@@ -52,11 +53,10 @@ public class HierarchyTypeNode implements HierarchyTreeNode {
 	 * STATIC MEMBERS
 	 */
 	
-	public static HierarchyTypeNode[] encapsulateInHierarchyTreeNodes(Declaration[] types, ChameleonProjectNature projectNature, HierarchyTreeNode parent){
-		HierarchyTypeNode[] nodes = new HierarchyTypeNode[types.length];
-		for(int i=0; i<types.length; i++){
-			Declaration type = types[i];
-			HierarchyTypeNode node = new HierarchyTypeNode(type, projectNature, parent);
+	public static HierarchyTypeNode[] encapsulateInHierarchyTreeNodes(List<Type> types, ChameleonProjectNature projectNature, HierarchyTreeNode parent){
+		HierarchyTypeNode[] nodes = new HierarchyTypeNode[types.size()];
+		for(int i=0; i<types.size(); i++){
+			HierarchyTypeNode node = new HierarchyTypeNode(types.get(i), projectNature, parent);
 			nodes[i] = node;
 		}
 		return nodes;

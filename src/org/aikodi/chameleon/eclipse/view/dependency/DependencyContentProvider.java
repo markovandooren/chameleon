@@ -8,14 +8,13 @@ import java.util.stream.Collectors;
 
 import org.aikodi.chameleon.analysis.dependency.DependencyResult;
 import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.chameleon.util.Util;
-import org.eclipse.gef4.zest.fx.ui.jface.INestedGraphContentProvider;
+import org.eclipse.gef4.zest.fx.jface.IGraphContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 import be.kuleuven.cs.distrinet.rejuse.graph.Node;
 import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 
-public class DependencyContentProvider implements INestedGraphContentProvider {
+public class DependencyContentProvider implements IGraphContentProvider {
 
   private static boolean NESTED = false;
 
@@ -32,7 +31,7 @@ public class DependencyContentProvider implements INestedGraphContentProvider {
   private DependencyResult _result;
 
   @Override
-  public Object[] getConnectedTo(Object input) {
+  public Object[] getAdjacentNodes(Object input) {
     Object[] result;
     if(_result != null) {
       Set<Node<Element>> dependencies = ((Node<Element>) input).directSuccessorNodes();
@@ -69,7 +68,7 @@ public class DependencyContentProvider implements INestedGraphContentProvider {
   }
 
   @Override
-  public Object[] getChildren(Object object) {
+  public Object[] getNestedGraphNodes(Object object) {
     if(NESTED) {
       Node<Element> node = (Node<Element>) object;
       List<Element> list = new ArrayList<>();
@@ -82,8 +81,8 @@ public class DependencyContentProvider implements INestedGraphContentProvider {
   }
 
   @Override
-  public boolean hasChildren(Object node) {
-    return NESTED && getChildren(node).length > 0;
+  public boolean hasNestedGraph(Object node) {
+    return NESTED && getNestedGraphNodes(node).length > 0;
   }
 
 }

@@ -4,17 +4,18 @@ import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.ex
 import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.filter;
 import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
 
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+
+import java.lang.reflect.Field;
 
 import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.event.Change;
@@ -29,7 +30,6 @@ import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.language.WrongLanguageException;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.tag.Metadata;
 import org.aikodi.chameleon.core.validation.BasicProblem;
@@ -37,6 +37,7 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
+import org.aikodi.chameleon.oo.type.SuperTypeJudge;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.ChameleonAssociation;
 import org.aikodi.chameleon.util.association.Single;
@@ -571,34 +572,65 @@ public abstract class ElementImpl implements Element {
 	}
 
 
-	private List<ChameleonAssociation<?>> _associations;
+	private volatile List<ChameleonAssociation<?>> _associations;
 
 	@Override
    public List<ChameleonAssociation<?>> associations() {
 		return myAssociations();
 	}
+	
+  private final AtomicBoolean _associationLock = new AtomicBoolean();
 
-	private List<ChameleonAssociation<?>> myAssociations() {
-		if(_associations == null) {
-			synchronized (this) {
-				if(_associations == null) {
-					List<Field> fields = getAllFieldsTillClass(getClass());
-					int size = fields.size();
-					if(size > 0) {
-						List<ChameleonAssociation<?>> tmp = Lists.create(size);
-						for (Field field : fields) {
-							Object content = getFieldValue(field);
-							tmp.add((ChameleonAssociation<?>) content);
-						}
-						_associations = Collections.unmodifiableList(tmp);
-					}
-					else {
-						_associations = Collections.EMPTY_LIST;
-					}
-				}
-			}
-		}
-		return _associations;
+  private List<ChameleonAssociation<?>> myAssociations() {
+  	List<ChameleonAssociation<?>> result = _associations;
+  	if(result == null) {
+  		if(_associationLock.compareAndSet(false, true)) {
+  			try {
+  				List<Field> fields = getAllFieldsTillClass(getClass());
+  				int size = fields.size();
+  				if(size > 0) {
+  					List<ChameleonAssociation<?>> tmp = Lists.create(size);
+  					for (Field field : fields) {
+  						Object content = getFieldValue(field);
+  						tmp.add((ChameleonAssociation<?>) content);
+  					}
+  					_associations = Collections.unmodifiableList(tmp);
+  				}
+  				else {
+  					_associations = Collections.EMPTY_LIST;
+  				}
+  				result = _associations;
+  			} finally {
+  				_associationLock.compareAndSet(true, false);
+  			}
+  		} else {
+  			//spin lock
+  			while(result == null) {
+  				result = _associations;
+  			}
+  		}
+  	}
+  	return result;
+//		if(_associations == null) {
+//			synchronized (this) {
+//				if(_associations == null) {
+//					List<Field> fields = getAllFieldsTillClass(getClass());
+//					int size = fields.size();
+//					if(size > 0) {
+//						List<ChameleonAssociation<?>> tmp = Lists.create(size);
+//						for (Field field : fields) {
+//							Object content = getFieldValue(field);
+//							tmp.add((ChameleonAssociation<?>) content);
+//						}
+//						_associations = Collections.unmodifiableList(tmp);
+//					}
+//					else {
+//						_associations = Collections.EMPTY_LIST;
+//					}
+//				}
+//			}
+//		}
+//		return _associations;
 	}
 	
 	private boolean canHaveChildren() {
@@ -701,56 +733,6 @@ public List<? extends Element> children() {
            exists(children(), child -> child.hasDescendant(predicate));
 	}
 	
-	@Override
-   public final <T extends Element> List<T> nearestDescendants(Class<T> c) {
-		List<? extends Element> tmp = children();
-		List<T> result = Lists.create();
-		Iterator<? extends Element> iter = tmp.iterator();
-		while(iter.hasNext()) {
-			Element e = iter.next();
-			if(c.isInstance(e)) {
-				result.add((T)e);
-				iter.remove();
-			}
-		}
-		for (Element e : tmp) {
-			result.addAll(e.nearestDescendants(c));
-		}
-		return result;
-	}
-
-  @Override
-public <T extends Element, E extends Exception> List<T> nearestDescendants(UniversalPredicate<T,E> predicate) throws E {
-		List<? extends Element> tmp = children();
-		List<T> result = Lists.create();
-		Iterator<? extends Element> iter = tmp.iterator();
-		while(iter.hasNext()) {
-			Element e = iter.next();
-			if(predicate.eval(e)) {
-				result.add((T)e);
-				iter.remove();
-			}
-		}
-		for (Element e : tmp) {
-			result.addAll(e.nearestDescendants(predicate));
-		}
-		return result;
-  }
-
-	
-	@Override
-   public final <E extends Exception> List<Element> descendants(Predicate<? super Element,E> predicate) throws E {
-		// Do not compute all descendants, and apply predicate afterwards.
-		// That is way too expensive.
-		List<? extends Element> tmp = children();
-		predicate.filter(tmp);
-		List<Element> result = (List<Element>)tmp;
-		for (Element e : children()) {
-			result.addAll(e.descendants(predicate));
-		}
-		return result;
-	}
-
 	@Override
 	public final <T extends Element, E extends Exception> List<T> children(UniversalPredicate<T,E> predicate) throws E {
 		return predicate.downCastedList(children());
@@ -1389,27 +1371,7 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
      @
      @ post (element != null) ==> (element.parent() == association.getObject() && association.contains(element.parentLink());
      @*/
-	 protected <T extends Element> void add(AbstractMultiAssociation<? extends Element, ? super T> association, T element) {
-		 if(element != null) {
-			 association.add((Association)element.parentLink());
-		 }
-	 }
-
-	 /**
-	  * Set the given AbstractMultiAssociation object (which is typically connected to 'this') as the parent of the given element.
-	  * @param <T>
-	  * @param association
-	  * @param element
-	  */
-	 /*@
-     @ public behavior
-     @
-     @ pre association != null;
-     @ pre (element != null) ==> (! element.isDerived());
-     @
-     @ post (element != null) ==> (element.parent() == association.getObject() && association.contains(element.parentLink());
-     @*/
-	 protected <T extends Element> void add(AbstractMultiAssociation<? extends Element, ? super T> association, Collection<T> elements) {
+	 protected <T extends Element> void add(OrderedMultiAssociation<? extends Element, ? super T> association, Collection<T> elements) {
 		 for(T t: elements) {
 			 add(association,t);
 		 }
@@ -1429,7 +1391,7 @@ public <T extends Element, E extends Exception> List<T> nearestDescendants(Unive
      @
      @ post association.getOtherRelations().contains(element.parentLink());
      @*/
-	 protected <E extends Element> void add(OrderedMultiAssociation<? extends Element,E> association, E element) {
+	 protected <E extends Element> void add(OrderedMultiAssociation<? extends Element,? super E> association, E element) {
 		 if(element != null) {
 			 association.add((Association)element.parentLink());
 		 }

@@ -31,7 +31,7 @@ public class TypeVariable extends TypeIndirection {
     }
     _param = param;
   }
-
+  
   @Override
   public boolean uniSameAs(Element type) throws LookupException {
     return type == this || 
@@ -45,8 +45,8 @@ public class TypeVariable extends TypeIndirection {
 
 
   @Override
-  public List<Type> getDirectSuperTypes() throws LookupException {
-    return ImmutableList.of(aliasedType());
+  public List<Type> getProperDirectSuperTypes() throws LookupException {
+    return ImmutableList.of(indirectionTarget());
   }
 
 
@@ -63,7 +63,7 @@ public class TypeVariable extends TypeIndirection {
 
   @Override
   public TypeVariable cloneSelf() {
-    return new TypeVariable(name(), aliasedType(), parameter());
+    return new TypeVariable(name(), indirectionTarget(), parameter());
   }
 
   @Override
@@ -137,7 +137,7 @@ public class TypeVariable extends TypeIndirection {
    */
   @Override
   public Type upperBound() throws LookupException {
-    return aliasedType().upperBound();
+    return indirectionTarget().upperBound();
   }
 
   /**
@@ -145,6 +145,6 @@ public class TypeVariable extends TypeIndirection {
    */
   @Override
   public Type lowerBound() throws LookupException {
-    return aliasedType().lowerBound();
+    return indirectionTarget().lowerBound();
   }
 }

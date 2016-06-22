@@ -142,7 +142,7 @@ public abstract class AbstractZipScanner extends DocumentScannerImpl {
   	while(entries.hasMoreElements()) {
   		ZipEntry entry = entries.nextElement();
   		String name = entry.getName();
-  		if(_filter.eval(name)) {
+  		if(filter().eval(name)) {
   			String tmp = Util.getAllButLastPart(name).replace('/', '.').replace('$', '.');
   			if(! tmp.matches(".*\\.[0-9].*")) {
   				names.add(new Pair<Pair<String,String>, ZipEntry>(new Pair<String,String>(tmp,Util.getLastPart(Util.getAllButLastPart(name).replace('/', '.')).replace('$', '.')), entry));

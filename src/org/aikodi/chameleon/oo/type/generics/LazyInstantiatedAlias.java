@@ -17,7 +17,7 @@ public class LazyInstantiatedAlias extends TypeIndirection {
 	}
 	
 	@Override
-   public Type aliasedType() {
+   protected Type indirectionTarget() {
 		try {
 			return parameter().upperBound();
 		} catch (LookupException e) {
@@ -69,7 +69,7 @@ public class LazyInstantiatedAlias extends TypeIndirection {
 	
 	   @Override
 	    public boolean isWildCard() {
-	        return aliasedType().isWildCard();
+	        return indirectionTarget().isWildCard();
 	    }
 
 }

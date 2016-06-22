@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
+import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.eclipse.project.ChameleonProjectNature;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.oo.type.Type;
@@ -36,22 +37,19 @@ public class SuperTypeHierarchyContentProvider extends HierarchyContentProvider 
 				HierarchyTypeNode parentTypeNode = (HierarchyTypeNode)element;
 				ChameleonProjectNature projectNature = parentTypeNode.getProjectNature();
 				Type type = parentTypeNode.getType();
-				final Collection<Declaration> result = new ArrayList<Declaration>();
 				List<InheritanceRelation> inheritanceRelations = type.inheritanceRelations();
-				// van elke typereference het type opvragen en aan het resultaat toevoegen:
-				new Visitor<InheritanceRelation>(){
-					@Override
-               public void visit(InheritanceRelation element) {
-						try {
-							result.add(element.superElement());
-						} catch (ModelException e) {
-							e.printStackTrace();
-						}
+				List<Type> types = new ArrayList<>();
+				for(InheritanceRelation relation: inheritanceRelations) {
+					// We want to provide as much information as possible.
+					// Therefore we do a separate lookup for each inheritance relation
+					// and continue on exceptions.
+					try {
+						types.add(relation.superType());
+					} catch(LookupException exc) {
+						exc.printStackTrace();
 					}
-				}.applyTo(inheritanceRelations);
-				
-				Declaration[] typeArray = result.toArray(new Declaration[]{});
-				return HierarchyTypeNode.encapsulateInHierarchyTreeNodes(typeArray, projectNature, parentTypeNode);
+				}
+				return HierarchyTypeNode.encapsulateInHierarchyTreeNodes(types, projectNature, parentTypeNode);
 
 			} catch (ModelException e) {
 				e.printStackTrace();

@@ -41,4 +41,9 @@ public class FileDocumentLoader extends StreamDocumentLoader implements IFileDoc
     load();
     return refreshTargetDeclarationNames(ns);
   }
+  
+  @Override
+  protected String resourceName() {
+  	return file().getAbsolutePath();
+  }
 }

@@ -6,6 +6,7 @@ package org.aikodi.chameleon.eclipse.presentation.hyperlink;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.document.Document;
+import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.eclipse.editors.ChameleonEditor;
 import org.aikodi.chameleon.eclipse.editors.EclipseDocument;
@@ -25,13 +26,13 @@ public class ChameleonHyperlink implements IHyperlink {
 	/**
 	 * The cross reference in the model.
 	 */
-	private CrossReference _element;
+	private CrossReference<?> _element;
 	
 	private IRegion _region;
 	
 	private EclipseDocument _document;
 	
-	public ChameleonHyperlink(CrossReference element, IRegion region,EclipseDocument document){
+	public ChameleonHyperlink(CrossReference<?> element, IRegion region,EclipseDocument document){
 		_element = element;
 		_region = region;
 		_document = document;
@@ -46,7 +47,7 @@ public class ChameleonHyperlink implements IHyperlink {
 		return _document;
 	}
 	
-	public CrossReference getReference(){
+	public CrossReference<?> getReference(){
 		return this._element;
 	}
 	
@@ -56,7 +57,21 @@ public class ChameleonHyperlink implements IHyperlink {
 	
 	@Override
    public String getTypeLabel() {
-		// TODO Auto-generated method stub
+		// FIXME What is the purpose of this method? Return null seems a bit dull;
+		String status = getStatus();
+		if(status.equals(VALID_STATUS)) {
+			try {
+				return getDeclarator().name();
+			}catch(ModelException exc) {
+			}
+		} else if(status.equals(SEMIVALID_STATUS)) {
+			try {
+				return "No source document available for " + getDeclarator().name();
+			}catch(ModelException exc) {
+			}
+		} else {
+			return "No result found for "+getReference();
+		}
 		return null;
 	}
 	

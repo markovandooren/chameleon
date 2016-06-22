@@ -11,9 +11,9 @@ public class LazyFormalAlias extends TypeVariable {
 	public LazyFormalAlias(String name, FormalTypeParameter param) {
 		super(name,null,param);
 	}
-	
+
 	@Override
-   public Type aliasedType() {
+   protected Type indirectionTarget() {
 		try {
 			return parameter().upperBound();
 		} catch (LookupException e) {

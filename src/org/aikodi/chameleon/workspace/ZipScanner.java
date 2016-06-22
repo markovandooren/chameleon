@@ -68,7 +68,7 @@ public class ZipScanner extends AbstractZipScanner {
 					String packageFQN = namespaceFQN(entry.getName());
 					InputStream inputStream = new BufferedInputStream(zipFile.getInputStream(entry));
 					DocumentLoaderNamespace ns = (DocumentLoaderNamespace) view().namespace().getOrCreateNamespace(packageFQN);
-					createDocumentLoader(inputStream,qn,ns); //DO NOT REMOVE, HAS SIDE-EFFECT
+					createDocumentLoader(inputStream,qn,ns,zipFile,entry);
 				} catch (IOException e) {
 					throw new InputException(e);
 				}
@@ -76,8 +76,9 @@ public class ZipScanner extends AbstractZipScanner {
 		}
 	}
 
-	private DocumentLoader createDocumentLoader(InputStream stream, String declarationName, DocumentLoaderNamespace ns) throws InputException {
-		return new LazyReadOnceStreamDocumentLoader(stream,declarationName,ns,this);
+	protected void createDocumentLoader(InputStream stream, String declarationName, DocumentLoaderNamespace ns, ZipFile file, ZipEntry entry) throws InputException {
+		String resourceName = file.getName()+" : "+entry.getName();
+		new LazyReadOnceStreamDocumentLoader(stream,declarationName,ns,this, resourceName);
 	}
 	
 }

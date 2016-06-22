@@ -7,15 +7,18 @@ import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 
 public class LazyReadOnceStreamDocumentLoader extends LazyStreamDocumentLoader {
 
+	private InputStream _stream;
+  private String _resourceName;
 	public LazyReadOnceStreamDocumentLoader(InputStream stream,
-			String declarationName, DocumentLoaderNamespace ns, DocumentScanner scanner)
-			throws InputException {
+			String declarationName, 
+			DocumentLoaderNamespace ns, 
+			DocumentScanner scanner, 
+			String resourceName) throws InputException {
 		super(declarationName, ns, scanner);
 		_stream = stream;
+		_resourceName = resourceName;
 	}
 	
-	private InputStream _stream;
-
 	@Override
 	public InputStream inputStream() throws InputException {
 		return _stream;
@@ -24,11 +27,16 @@ public class LazyReadOnceStreamDocumentLoader extends LazyStreamDocumentLoader {
 	@Override
 	public LazyReadOnceStreamDocumentLoader clone() {
 		try {
-			return new LazyReadOnceStreamDocumentLoader(inputStream(),declarationName(),null,null);
+			return new LazyReadOnceStreamDocumentLoader(inputStream(),declarationName(),null,null,_resourceName);
 		} catch (InputException e) {
 			throw new ChameleonProgrammerException(e);
 		}
 	}
 	
+  @Override
+  protected String resourceName() {
+  	return _resourceName;
+  }
+
 
 }

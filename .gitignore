@@ -1,10 +1,11 @@
 bin
 /bin/
 .DS_Store
-build
+/build
 .classpath
 .project
 .gradle
 .settings
 properties
 *~
+*.iml

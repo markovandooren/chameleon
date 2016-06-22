@@ -119,7 +119,7 @@ public class XMLProjectLoader extends ConfigElement {
 	public Project project(File xmlFile, ProjectInitialisationListener listener) throws ConfigException {
 		_listener = listener;
 		readFromXML(xmlFile);
-		myafter(xmlFile.getParentFile());
+		myafter(xmlFile.getAbsoluteFile().getParentFile());
 		return _project;
 	}
 	

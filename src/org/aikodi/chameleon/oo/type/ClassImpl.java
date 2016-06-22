@@ -406,34 +406,10 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
   		}
   	}
 
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#getDirectSuperTypes()
-		 */
-
-  	@Override
-   public List<Type> getDirectSuperTypes() throws LookupException {
-  		List<Type> result = Lists.create();
-  		for(InheritanceRelation element:inheritanceRelations()) {
-  			Type type = element.superType();
-  			if (type!=null) {
-  				result.add(type);
-  			}
-  		}
-  		return result;
-  	}
-
-    @Override
-   public List<Type> getDirectSuperClasses() throws LookupException {
-      List<Type> result = Lists.create();
-      for(InheritanceRelation element:inheritanceRelations()) {
-        result.add((Type)element.superElement());
-      }
-      return result;
-}
 
     @Override
    public void accumulateAllSuperTypes(Set<Type> acc) throws LookupException {
-    	List<Type> temp =getDirectSuperTypes();
+    	List<Type> temp =getProperDirectSuperTypes();
     	for(Type type:temp) {
     		boolean add=true;
     		for(Type acced: acc) {
@@ -511,38 +487,11 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
   			}
   		}
   		return result;
-//  		if(_judge == null) {
-//  			synchronized(this) {
-//  				if(_judge == null) {
-//  					_judge = new SuperTypeJudge();
-//
-//  					accumulateSuperTypeJudge(_judge);
-//
-//  					//        SuperTypeJudge faster = new SuperTypeJudge();
-//  					//        accumulateSuperTypeJudge(faster);
-//  					//        
-//  					//        _judge.add(this);
-//  					//        List<Type> temp = getDirectSuperTypes();
-//  					//        for(Type type:temp) {
-//  					//          SuperTypeJudge superJudge = type.superTypeJudge();
-//  					//          _judge.merge(superJudge);
-//  					//        }
-//  					//        Set<Type> fasterTypes = faster.types();
-//  					//        Set<Type> judgeTypes = _judge.types();
-//  					//        Set<Type> view = getSelfAndAllSuperTypesView();
-//  					//        if(fasterTypes.size() != (judgeTypes.size())) {
-//  					//          //_judge = null;
-//  					//          System.out.println("debug");
-//  					//        }
-//  				}
-//  			}
-//  		}
-//  		return _judge;
   	}
 
     @Override
    public void newAccumulateAllSuperTypes(Set<Type> acc) throws LookupException {
-    	List<Type> temp = getDirectSuperTypes();
+    	List<Type> temp = getProperDirectSuperTypes();
     	for(Type type:temp) {
     		boolean add=true;
     		for(Type acced: acc) {
@@ -706,18 +655,24 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
     	//    only if the selector isn't greedy or
     	//    there are not results.
     	if(nonGreedy || result.isEmpty()) {
-    		for (InheritanceRelation rel : inheritanceRelations()) {
-    			result = rel.accumulateInheritedMembers(selector, result);
-    		}
-    		// We cannot take a shortcut and test for > 1 because if
-    		// the inheritance relation transforms the member (as is done with subobjects)
-    		// the transformed member may have to be removed, even if there is only 1.
-    		selector.filter(result);
+    		result = inheritedMembers(selector, result);
     		return result;
     	} else {
     	  return result;
     	}
     }
+
+		protected <D extends Member> List<SelectionResult<D>> inheritedMembers(DeclarationSelector<D> selector,
+				List<SelectionResult<D>> result) throws LookupException {
+			for (InheritanceRelation rel : inheritanceRelations()) {
+				result = rel.accumulateInheritedMembers(selector, result);
+			}
+			// We cannot take a shortcut and test for > 1 because if
+			// the inheritance relation transforms the member (as is done with subobjects)
+			// the transformed member may have to be removed, even if there is only 1.
+			selector.filter(result);
+			return result;
+		}
     
     @Override
     public void addAllInheritanceRelations(Collection<InheritanceRelation> relations) {

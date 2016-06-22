@@ -101,10 +101,10 @@ public class ChameleonContentAssistProcessor implements IContentAssistProcessor 
 				Element element = dec.getElement();
 				Language language = ((EclipseDocument)viewer.getDocument()).getProjectNature().getModel().language();
 				EclipseEditorExtension ext = language.plugin(EclipseEditorExtension.class);
-				String elementLabel = ext.getLabel(element);
+				String elementLabel = ext.label(element);
 				if(element instanceof MethodInvocation){
 					MethodInvocation method = (MethodInvocation) element;
-					elementLabel = ext.getLabel(method.getElement());
+					elementLabel = ext.label(method.getElement());
 					return new IContextInformation[]{new ContextInformation(elementLabel, elementLabel)};
 				} else {
 					return null;

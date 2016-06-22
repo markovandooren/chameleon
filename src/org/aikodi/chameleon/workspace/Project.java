@@ -426,8 +426,8 @@ public class Project {
    @ project().root().getAbsolutePath()+File.separator+path);
    @*/
    public String absolutePath(String path) {
-      File root = new File(path);
-      if(!root.isAbsolute()) {
+      File file = new File(path);
+      if(!file.isAbsolute()) {
          return root().getAbsolutePath()+File.separator+path;
       } else {
          return path;
