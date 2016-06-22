@@ -351,8 +351,8 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
   public void nonsenseMethodToTestIfTheJarIsUpToDate() {}
   
   @Override
-  public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
-    List<? extends SelectionResult> result;
+  public <D extends Declaration> List<? extends SelectionResult<D>> declarations(DeclarationSelector<D> selector) throws LookupException {
+    List<? extends SelectionResult<D>> result;
     if(selector.usesSelectionName()) {
       List<Declaration> list = null;
       String selectionName = selector.selectionName(this);

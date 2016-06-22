@@ -21,13 +21,16 @@ public interface DeclarationSelector<D extends Declaration> {
   /**
    * Return the of the declaration that will be selected by this declaration selector.
    * 
-   * This method is provided here such that declaration containers can keep a hashmap as
+   * This method is provided here such that declaration containers can store a map as
    * a cache, and quickly select the potential candidate(s). This way, we avoid having to
    * check all members. The most discriminating property of a declaration is usually its name.
    * 
    * @assumption We assume that a declaration selector can only select a declaration with a single
    *             name. If that is no longer the case, this method should return a collection of names.
    *             That makes the caching code more complex, and is slower, so we don't do that for now.
+   *             
+   *             Alternatively, we can use the design used by the lookup cache, where the 
+   *             selector determines the data structure of the cache.
    * 
    * @return
    * @throws LookupException 
@@ -40,7 +43,7 @@ public interface DeclarationSelector<D extends Declaration> {
    * 
    * The default result is container.declarations(this), but clients cannot rely on that.
    */
-  public default List<? extends SelectionResult> declarations(DeclarationContainer container) throws LookupException {
+  public default List<? extends SelectionResult<D>> declarations(DeclarationContainer container) throws LookupException {
   	return container.declarations(this);
   }
   
@@ -95,24 +98,6 @@ public interface DeclarationSelector<D extends Declaration> {
    */
   public abstract List<? extends SelectionResult<D>> selection(List<? extends Declaration> declarators) throws LookupException;
   
-//	/**
-//	 * Return the list of declarations in the given set that are selected.
-//	 * 
-//	 * @param selectionCandidates
-//	 *          The list containing the declarations that are checked for a match
-//	 *          with {@link #selects(Signature)} .
-//	 * @return
-//	 * @throws LookupException
-//	 */
-//	public default List<? extends SelectionResult> declarators(List<? extends Declaration> selectionCandidates)
-//			throws LookupException {
-//		List<SelectionResult> result = new ArrayList<>();
-//		for (SelectionResult r : selection(selectionCandidates)) {
-//			result.add(r.template().declarator());
-//		}
-//		return result;
-//	}
-//
 	/**
 	 * If the selectionName() of this selector must match declaration.signature().name() when that declaration is selected,
 	 * then this method returns true. Otherwise, the method returns false. This method can be used for a String based preselection
@@ -153,7 +138,7 @@ public interface DeclarationSelector<D extends Declaration> {
 	 * @param selected
 	 * @throws LookupException 
 	 */
-	public default void filter(List<? extends SelectionResult> selected) throws LookupException {
+	public default void filter(List<? extends SelectionResult<D>> selected) throws LookupException {
 	}
 
 }

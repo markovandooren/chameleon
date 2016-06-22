@@ -332,7 +332,7 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
    * @return
    * @throws LookupException
    */
-  public default boolean canOverride(Declaration other) throws LookupException {
+  public default boolean hasOverrideCompatibleSignature(Declaration other) throws LookupException {
   	if(other == null) {
   		throw new IllegalArgumentException();
   	}
@@ -345,7 +345,7 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
   	} else {
   		DeclarationContainer target = other.nearestAncestor(DeclarationContainer.class);
   		Declaration followed = nearestAncestor(DeclarationContainer.class).follow(this, target);
-  		return followed.canOverride(other);
+  		return followed != null && followed.hasOverrideCompatibleSignature(other);
   	}
   }
 }

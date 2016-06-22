@@ -98,7 +98,7 @@ public class MemberRelationSelector<D extends Declaration> implements Declaratio
 	 */
 	@SuppressWarnings("rawtypes")
 	@Override
-	public void filter(List<? extends SelectionResult> selected) throws LookupException {
+	public void filter(List<? extends SelectionResult<D>> selected) throws LookupException {
 		Iterator<? extends SelectionResult> iterator = selected.iterator();
 		while(iterator.hasNext()) {
 			SelectionResult result = iterator.next();

@@ -206,7 +206,7 @@ public abstract class DeclarationWithParameters extends ElementWithModifiersImpl
   }
 
   @Override
-  public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector)
+  public <D extends Declaration> List<? extends SelectionResult<D>> declarations(DeclarationSelector<D> selector)
       throws LookupException {
     return header().declarations(selector);
   }

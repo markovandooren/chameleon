@@ -745,8 +745,9 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 		 * @see chameleon.oo.type.Tajp#declarations(chameleon.core.lookup.DeclarationSelector)
 		 */
     @Override
-    public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
-    	return members((DeclarationSelector<? extends Member>)selector);
+    public <D extends Declaration> List<? extends SelectionResult<D>> declarations(DeclarationSelector<D> selector) throws LookupException {
+    	//FIXME Get rid of this cast (and the members method).
+    	return members((DeclarationSelector)selector);
     }
     
     protected void copyContents(Type from) {
