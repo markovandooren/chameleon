@@ -1641,4 +1641,17 @@ public interface Element {
     }
     parentLink().getOtherRelation().replace((Association)parentLink(), (Association)replacement.parentLink());
   }
+  
+  /**
+   * A helper method that unfortunately has to be public.
+   * 
+   * @param object The object to be checked.
+   * @throws IllegalArgumentException the object is null.
+   */
+  public default void notNull(Object object) {
+ 	 if(object == null) {
+ 		 throw new IllegalArgumentException("The object cannot be null.");
+ 	 }
+  }
+
 }
