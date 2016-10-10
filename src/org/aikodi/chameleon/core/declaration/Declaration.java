@@ -1,10 +1,13 @@
 package org.aikodi.chameleon.core.declaration;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.event.name.NameChanged;
+import org.aikodi.chameleon.core.language.LanguageImpl;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -328,24 +331,37 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
   
   /**
    * Check whether this declaration can override the given other declaration.
+   * 
    * @param other
    * @return
    * @throws LookupException
    */
-  public default boolean hasOverrideCompatibleSignature(Declaration other) throws LookupException {
-  	if(other == null) {
-  		throw new IllegalArgumentException();
-  	}
+  public default boolean compatibleSignature(Declaration other) throws LookupException {
+  	notNull(other);
   	return signature().sameAs(other.signature());
   }
   
-  public default boolean overrides(Declaration other) throws LookupException {
-  	if(sameAs(other)) {
-  		return false;
-  	} else {
-  		DeclarationContainer target = other.nearestAncestor(DeclarationContainer.class);
-  		Declaration followed = nearestAncestor(DeclarationContainer.class).follow(this, target);
-  		return followed != null && followed.hasOverrideCompatibleSignature(other);
-  	}
+  public default Set<Declaration> directlyOverridden() throws LookupException {
+  	Set<Declaration> result = new HashSet<>();
+  	DeclarationRelation relation = new DeclarationRelation(true){
+			@Override
+			public boolean matches(Declaration overriding, Declaration overridden) throws LookupException {
+	       return overridden.isTrue(overridden.language(LanguageImpl.class).OVERRIDABLE)
+			&& overridden.compatibleSignature(overriding);
+			}
+		}; 
+		nearestAncestor(DeclarationContainer.class).next(this, relation, result);
+  	return result;
   }
+
+//  public default boolean directlyOverrides(Declaration other) throws LookupException {
+//  	notNull(other);
+//  	if(sameAs(other) || ! other.isTrue(language(ObjectOrientedLanguage.class).OVERRIDABLE)) {
+//  		return false;
+//  	} else {
+//  		DeclarationContainer target = other.nearestAncestor(DeclarationContainer.class);
+//  		Declaration followed = nearestAncestor(DeclarationContainer.class).follow(this, target);
+//  		return other.equals(followed);
+//  	}
+//  }
 }

@@ -15,8 +15,6 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.util.Lists;
 
-import be.kuleuven.cs.distrinet.rejuse.function.BiFunction;
-
 /**
  * An element that contains declarations. This interface allows the
  * class {@link LocalLookupContext} to perform a local search. The 
@@ -139,76 +137,99 @@ public interface DeclarationContainer extends Element {
 	//  	}
 	//  }
 
+//	/**
+//	 * Follow the overriding declaration and check whether it ends up at the
+//	 * overridden declaration. This is not a complete override check, hence the name
+//	 * of the method. It allows declaration containers and relations to determine
+//	 * the path that is followed, and allowed for renaming to occur with the
+//	 * declarations having to know anything about it.
+//	 * 
+//	 * We need both declarations because elements can be generated. Generated elements
+//	 * are not part of the model, so we cannot simply follow a path from the overriding
+//	 * declaration to the overridden declaration.
+//	 * 
+//	 * @param overriding
+//	 * @param overridden
+//	 * @return
+//	 * @throws LookupException
+//	 */
+//	public default Declaration follow(Declaration declaration, DeclarationContainer to) throws LookupException {
+//		if(sameAs(to)) {
+//			return declaration;
+//		} else {
+//			for(DeclarationContainerRelation relation: relations()) {
+//				Declaration result = relation.follow(declaration, to);
+//				if(result != null) {
+//					return result;
+//				}
+//			}
+//			return null;
+//		}
+//	}
+
+//	/**
+//	 * Add the next declarations in the lookup hierarchy (both specialization and composition)
+//	 * to the given accumulator set.
+//	 *  
+//	 * @param declaration The declaration for which the next elements are requested.
+//	 * @param matchCondition A function that determines when a match was found. This
+//	 *                       can be an overrides or hides check. 
+//	 * @param accumulator
+//	 * @throws LookupException
+//	 */
+//	public default void next(Declaration declaration, BiFunction<Declaration, Declaration, Boolean, LookupException> matchCondition, Set<Declaration> accumulator) throws LookupException {
+//		boolean done = false;
+//		for(Declaration local: locallyDeclaredDeclarations()) {
+//			if(matchCondition.apply(local, declaration)) {
+//				accumulator.add(local);
+//				done = true;
+//			}
+//		}
+//		if(! done) {
+//			for(DeclarationContainerRelation relation: relations()) {
+//				relation.next(declaration, matchCondition, accumulator);
+//			}
+//		}
+//	}
+
 	/**
-	 * Follow the overriding declaration and check whether it ends up at the
-	 * overridden declaration. This is not a complete override check, hence the name
-	 * of the method. It allows declaration containers and relations to determine
-	 * the path that is followed, and allowed for renaming to occur with the
-	 * declarations having to know anything about it.
+	 * HELPER method that must be public because of Java limitations.
 	 * 
-	 * We need both declarations because elements can be generated. Generated elements
-	 * are not part of the model, so we cannot simply follow a path from the overriding
-	 * declaration to the overridden declaration.
-	 * 
-	 * @param overriding
-	 * @param overridden
-	 * @return
+	 * Add the next declarations in the lookup hierarchy (both specialization and composition)
+	 * to the given accumulator set.
+	 *  
+	 * @param declaration The declaration for which the next elements are requested.
+	 * @param matchCondition A function that determines when a match was found. This
+	 *                       can be an overrides or hides check. 
+	 * @param accumulator
 	 * @throws LookupException
 	 */
-	public default Declaration follow(Declaration declaration, DeclarationContainer to) throws LookupException {
-		if(sameAs(to)) {
-			return declaration;
-		} else {
-			for(DeclarationRelation relation: relations()) {
-				Declaration result = relation.follow(declaration, to);
-				if(result != null) {
-					return result;
-				}
-			}
-			return null;
-		}
-	}
-
-	public default void next(Declaration declaration, BiFunction<Declaration, Declaration, Boolean, LookupException> stopCondition, Set<Declaration> accumulator) throws LookupException {
+	public default void next(Declaration declaration, DeclarationRelation declarationRelation, Set<Declaration> accumulator) throws LookupException {
 		boolean done = false;
 		for(Declaration local: locallyDeclaredDeclarations()) {
-			if(stopCondition.apply(local, declaration)) {
+			if(declarationRelation.matches(local, declaration)) {
 				accumulator.add(local);
 				done = true;
 			}
 		}
 		if(! done) {
-			for(DeclarationRelation relation: relations()) {
-				relation.next(declaration, stopCondition, accumulator);
+			for(DeclarationContainerRelation relation: relations()) {
+				relation.next(declaration, declarationRelation, accumulator);
 			}
 		}
 	}
 
-	//  public static abstract class DeclarationFinder<D extends Declaration> {
-	//  	private D _declaration;
-	//    public Set<D> visit(DeclarationContainer container) {
-	//    	visit(container, _declaration);
-	//    }
-	//    void Set<D> visit(DeclarationContainer container, D renamedDeclaration) {
-	//    	
-	//    }
-	//  }
+//	public default Set<Declaration> next(Declaration declaration, DeclarationRelation declarationRelation) throws LookupException {
+//		Set<Declaration> result = new HashSet<>();
+//		next(declaration, declarationRelation, result);
+//		return result;
+//	}
 
-	public default boolean aliasOf(Declaration first, Declaration second) throws LookupException {
-		throw new Error("Not implemented yet.");
-	}
+//	public default boolean aliasOf(Declaration first, Declaration second) throws LookupException {
+//		throw new Error("Not implemented yet.");
+//	}
 
-	public default List<DeclarationRelation> relations() {
-		return Collections.EMPTY_LIST;
-	}
-
-	public interface DeclarationRelation extends Element {
-		//  	public boolean overrides(Declaration overriding, Declaration overridden) throws LookupException;
-
-		public Declaration follow(Declaration declaration, DeclarationContainer to) throws LookupException;
-
-		public default void next(Declaration declaration,
-				BiFunction<Declaration, Declaration, Boolean, LookupException> stopCondition, Set<Declaration> accumulator) {
-		}
+	public default List<DeclarationContainerRelation> relations() {
+		return Collections.emptyList();
 	}
 }
