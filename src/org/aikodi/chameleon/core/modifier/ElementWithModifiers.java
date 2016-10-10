@@ -8,12 +8,11 @@ import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.contract.Contracts;
 
-import be.kuleuven.cs.distrinet.rejuse.property.Property;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 
 /**
- * TAn element that can have modifiers. Elements of this class automatically use 
+ * An element that can have modifiers. Elements of this class automatically use 
  * the modifiers to determine their declared properties.
  * 
  * @author Marko van Dooren

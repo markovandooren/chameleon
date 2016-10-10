@@ -13,7 +13,7 @@ import org.aikodi.chameleon.util.association.Single;
  * 
  * @author Marko van Dooren
  */
-public abstract class BasicDeclaration extends ElementImpl implements Declaration, ElementWithModifiers {
+public abstract class BasicDeclaration extends ElementImpl implements Declaration {
 
 	/**
 	 * Create a new declaration with the given name.
