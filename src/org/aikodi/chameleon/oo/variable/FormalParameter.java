@@ -30,7 +30,7 @@ public class FormalParameter extends RegularVariable {
     	//BUG: the following should be parameter.parent(). Fix after removing the parameters.
     	DeclarationWithParametersHeader otherHeader = (DeclarationWithParametersHeader) parent();
     	Method otherMethod = otherHeader.nearestAncestor(Method.class); //REFACTORING
-    	result = method.hasOverrideCompatibleSignature(otherMethod) &&
+    	result = method.compatibleSignature(otherMethod) &&
       method.formalParameters().indexOf(this) == otherMethod.formalParameters().indexOf(parameter); 
   	}
     return result; 

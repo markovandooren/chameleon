@@ -139,7 +139,7 @@ public abstract class ClassWithBody extends ClassImpl {
 		Set<Type> types = new HashSet<Type>();
 		Set<InheritanceRelation> toRemove = new HashSet<InheritanceRelation>();
 		for(InheritanceRelation relation: nonMemberInheritanceRelations()) {
-			Type superElement = (Type) relation.superElement();
+			Type superElement = (Type) relation.target();
 			if(types.contains(superElement)) {
 				toRemove.add(relation);
 			} else {

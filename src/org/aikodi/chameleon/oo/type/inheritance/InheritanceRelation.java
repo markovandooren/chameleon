@@ -21,7 +21,7 @@ import org.aikodi.chameleon.oo.type.TypeReference;
  */
 public interface InheritanceRelation extends Element {
 	
-	public Declaration superElement() throws LookupException;
+	public Declaration target() throws LookupException;
 	
 	public TypeReference superClassReference();
 	

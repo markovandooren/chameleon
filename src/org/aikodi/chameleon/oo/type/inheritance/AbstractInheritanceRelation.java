@@ -27,7 +27,7 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 	}
 	
 	@Override
-   public Type superElement() throws LookupException {
+   public Type target() throws LookupException {
 		return superClass();
 	}
 	
@@ -128,9 +128,9 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 				if(selectionResult != null) {
 				Member alreadyInherited = (Member)selectionResult.finalDeclaration();
 					// Remove the already inherited member if potentially inherited member m overrides or hides it.
-					if((alreadyInherited.sameAs(m) || alreadyInherited.hasOverrideCompatibleSignature(m) || alreadyInherited.canImplement(m) || alreadyInherited.hides(m))) {
+					if((alreadyInherited.sameAs(m) || alreadyInherited.compatibleSignature(m) || alreadyInherited.canImplement(m) || alreadyInherited.hides(m))) {
 						add = false;
-					} else if((!alreadyInherited.sameAs(m)) && (m.hasOverrideCompatibleSignature(alreadyInherited) || m.canImplement(alreadyInherited) || m.hides(alreadyInherited))) {
+					} else if((!alreadyInherited.sameAs(m)) && (m.compatibleSignature(alreadyInherited) || m.canImplement(alreadyInherited) || m.hides(alreadyInherited))) {
 						removedIndex++;
 						removedIndices[removedIndex] = currentIndex;
 						current.set(currentIndex,null);
