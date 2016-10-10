@@ -290,8 +290,14 @@ public interface DocumentLoader extends Comparable<DocumentLoader> {
 	
 	/**
 	 * Return the document scanner that created this document loader.
-	 * @return
+	 * 
+	 * @return The result is not null.
 	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
 	public DocumentScanner scanner();
 	
 	/**
