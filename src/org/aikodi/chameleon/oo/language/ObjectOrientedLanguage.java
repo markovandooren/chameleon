@@ -45,10 +45,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	
 	//TODO document the properties. This is becoming complicated without an explanation.
-	public final StaticChameleonProperty INHERITABLE;
-	public final StaticChameleonProperty OVERRIDABLE;
 	public final ChameleonProperty EXTENSIBLE;
-	public final ChameleonProperty REFINABLE;
 	public final DynamicChameleonProperty DEFINED;
 	public final ChameleonProperty ABSTRACT;
 	public final StaticChameleonProperty INSTANCE;
@@ -68,10 +65,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	public ObjectOrientedLanguage(String name, LookupContextFactory factory, Revision version) {
 		super(name, factory,version);
 		// 1) Create the properties.
-  	INHERITABLE = add(new StaticChameleonProperty("inheritable",Declaration.class));
-  	OVERRIDABLE = add(new StaticChameleonProperty("overridable",Declaration.class));
   	EXTENSIBLE = add(new StaticChameleonProperty("extensible", Declaration.class));
-  	REFINABLE = add(new StaticChameleonProperty("refinable", Declaration.class));
   	DEFINED = add(new Defined("defined"));
   	DEFINED.addValidElementType(Variable.class);
 //  	ABSTRACT = DEFINED.inverse();
@@ -90,8 +84,6 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
   	//2) Add relations between the properties.
     FINAL.addImplication(REFINABLE.inverse());
     FINAL.addImplication(DEFINED);
-    OVERRIDABLE.addImplication(INHERITABLE);
-    OVERRIDABLE.addImplication(REFINABLE);
     EXTENSIBLE.addImplication(REFINABLE);
     NATIVE.addImplication(DEFINED);
     INTERFACE.addImplication(ABSTRACT);
