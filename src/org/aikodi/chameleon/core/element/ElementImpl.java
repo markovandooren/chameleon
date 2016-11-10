@@ -824,15 +824,6 @@ public List<? extends Element> children() {
 	}
 
 	@Override
-	public <T extends Element, E extends Exception> T nearestAncestorOrSelf(UniversalPredicate<T, E> predicate) throws E {
-		Element el = this;
-		while ((el != null) && (! predicate.eval(el))) {
-			el = el.parent();
-		}
-		return (T) el;
-	}
-
-	@Override
 	public Element farthestAncestor() {
 		Element parent = parent();
 		if(parent == null) {

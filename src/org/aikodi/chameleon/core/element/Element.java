@@ -1088,24 +1088,6 @@ public interface Element {
   public <T extends Element> T nearestAncestorOrSelf(Class<T> c);
 
   /**
-   * Return the nearest element of type T that satifies the given predicate. Null if no such ancestor can be found.
-   * 
-   * @param <T>
-   *        The type of the ancestor to be found
-   * @param c
-   *        The class object of type T (T.class)
-   * @return
-   */
-  /*@
-     @ public behavior
-     @
-     @ post c.isInstance(this) && predicate.eval(this) ==> \result == this;
-     @ post (! predicate.eval(this)) && parent() != null ==> \result == parent().nearestAncestor(predicate);
-     @ post (! predicate.eval(this)) && parent() == null ==> \result == null;
-     @*/
-  public <T extends Element, E extends Exception> T nearestAncestorOrSelf(UniversalPredicate<T, E> predicate) throws E;
-
-  /**
    * Return the language of this element. Return null if this element is not
    * connected to a complete model.
    */
