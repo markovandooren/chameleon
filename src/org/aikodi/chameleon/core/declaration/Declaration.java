@@ -329,6 +329,11 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
     return declaration;
   }
 
+  /**
+   * <p><b>default implementation</b>Every declarations declares itself.</p>
+   * <p>A default implementation does not form a contract, it merely
+   * documents the default behavior.</p>
+   */
   @Override
   public default List<Declaration> declaredDeclarations() {
   	return Lists.create(this);
