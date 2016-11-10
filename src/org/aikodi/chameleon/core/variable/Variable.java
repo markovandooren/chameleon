@@ -1,7 +1,6 @@
 package org.aikodi.chameleon.core.variable;
 
 import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.modifier.ElementWithModifiers;
 import org.aikodi.chameleon.oo.expression.Expression;
 import org.aikodi.chameleon.oo.type.DeclarationWithType;
 import org.aikodi.chameleon.oo.type.Type;
@@ -12,7 +11,7 @@ import org.aikodi.chameleon.oo.type.TypeReference;
  * 
  * @author Marko van Dooren
  */
-public interface Variable extends ElementWithModifiers, DeclarationWithType {
+public interface Variable extends DeclarationWithType {
 
   /**
    * @return The initialization expression of this variable.

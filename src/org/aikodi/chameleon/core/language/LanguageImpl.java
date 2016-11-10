@@ -7,10 +7,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupContextFactory;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.property.PropertyRule;
+import org.aikodi.chameleon.core.property.StaticChameleonProperty;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.core.validation.VerificationRule;
@@ -63,10 +65,23 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 		this(name, new LookupContextFactory(),version);
 	}
 	
-//	public abstract Language clone();
+	/**
+	 * A property that specifies that a declaration can be overridden.
+	 * 
+	 * OVERRIDABLE implies REFINABLE.
+	 */
+	public final StaticChameleonProperty OVERRIDABLE;
+	
+	/**
+	 * A property that specifies that a declaration can be refined.
+	 * Refinement can be seen as overriding buy purely augmenting
+	 * the refined declaration.
+	 */
+	public final ChameleonProperty REFINABLE;
 	
 	
-	
+	public final StaticChameleonProperty INHERITABLE;
+
 	/**
 	 * Initialize a new language with the given name and lookup strategy factory.
 	 * 
@@ -83,6 +98,11 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
    @ post lookupFactory() == factory;
    @*/
 	public LanguageImpl(String name, LookupContextFactory factory, Revision version) {
+  	OVERRIDABLE = add(new StaticChameleonProperty("overridable",Declaration.class));
+  	REFINABLE = add(new StaticChameleonProperty("refinable", Declaration.class));
+  	INHERITABLE = add(new StaticChameleonProperty("inheritable",Declaration.class));
+    OVERRIDABLE.addImplication(REFINABLE);
+    REFINABLE.addImplication(INHERITABLE);
 		setName(name);
 		setLookupStrategyFactory(factory);
 		initializePropertyRules();
@@ -491,20 +511,6 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
      *                           DEFAULT NAMESPACE                            *
      **************************************************************************/
     
-//    public void setView(View view) {
-//        _view.connectTo(view.languageLink());
-//    }
-//
-//    private SingleAssociation<Language,View> _view = new SingleAssociation<Language,View>(this); //todo wegens setDefaultNamespace kan dit niet generisch worden gemaakt?
-//
-//    /**
-//     * @return
-//     */
-//    @Override
-//    public SingleAssociation<Language,View> viewLink() {
-//        return _view;
-//    }
-
     @Override
    public LookupContextFactory lookupFactory() {
     	return _contextFactory;
@@ -606,7 +612,7 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 		 * Flush the caches kept by this language. Caches of model elements are flushed separately. The default behavior is to do nothing.
 		 */
 		@Override
-      public void flushCache() {
+    public void flushCache() {
 		  for(Property property: _properties) {
 		    property.flushCache();
 		  }

@@ -5,21 +5,18 @@ import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.fo
 import java.util.Iterator;
 import java.util.List;
 
+import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.modifier.Modifier;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
-import org.aikodi.chameleon.oo.member.Member;
-import org.aikodi.chameleon.oo.type.generics.TypeArgument;
 import org.aikodi.chameleon.oo.type.generics.InstantiatedTypeParameter;
+import org.aikodi.chameleon.oo.type.generics.TypeArgument;
 import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.Lists;
-import org.aikodi.chameleon.util.Pair;
-
-import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
@@ -101,25 +98,25 @@ public class TypeInstantiation extends ClassWithBody {
 	}
 	
 	private void copyImplicitMembers(Type original) {
-		Builder<Member> builder = ImmutableList.<Member>builder();
-		List<Member> implicits = original.implicitMembers();
-		for(Member m: implicits) {
-			Member clone = clone(m);
+		Builder<Declaration> builder = ImmutableList.<Declaration>builder();
+		List<Declaration> implicits = original.implicitMembers();
+		for(Declaration m: implicits) {
+			Declaration clone = clone(m);
 			clone.setUniParent(body());
 			builder.add(clone);
 		}
 		_implicitMembers = builder.build();
 	}
 
-	private ImmutableList<Member> _implicitMembers;
+	private ImmutableList<Declaration> _implicitMembers;
 	
 	@Override
-	public List<Member> implicitMembers() {
+	public List<Declaration> implicitMembers() {
 		return _implicitMembers;
 	}
 	
 	@Override
-	public <D extends Member> List<? extends SelectionResult> implicitMembers(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult> implicitMembers(DeclarationSelector<D> selector) throws LookupException {
 		return selector.selection(_implicitMembers);
 	}
 

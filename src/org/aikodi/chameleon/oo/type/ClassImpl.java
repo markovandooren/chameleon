@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.Declaration;
+import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
@@ -31,8 +32,6 @@ import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.member.HidesRelation;
-import org.aikodi.chameleon.oo.member.Member;
-import org.aikodi.chameleon.oo.member.MemberRelationSelector;
 import org.aikodi.chameleon.oo.member.SimpleNameMember;
 import org.aikodi.chameleon.oo.plugin.ObjectOrientedFactory;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
@@ -336,8 +335,8 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
   	}
 
     @Override
-   public List<Member> getIntroducedMembers() {
-      return ImmutableList.<Member>of(this);
+   public List<Declaration> getIntroducedMembers() {
+      return ImmutableList.<Declaration>of(this);
     }
     
     /* (non-Javadoc)
@@ -345,13 +344,13 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 		 */
     @Override
    public boolean complete() throws LookupException {
-	    	List<Member> members = localMembers(Member.class);
+	    	List<Declaration> members = localMembers(Declaration.class);
 	    	// Only check for actual definitions
 	    	new TypePredicate<Declaration>(Declaration.class).filter(members);
-	    	Iterator<Member> iter = members.iterator();
+	    	Iterator<Declaration> iter = members.iterator();
 	    	boolean result = true;
 	    	while(iter.hasNext()) {
-	    		Member member = iter.next();
+	    		Declaration member = iter.next();
 	    		result = result && (mustBeOverridden(member));
 	    	}
 	      return result;
@@ -361,51 +360,6 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
   	/***********
   	 * MEMBERS *
   	 ***********/
-
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#add(chameleon.oo.type.TypeElement)
-		 */
-   /*@
-     @ public behavior
-     @
-     @ pre element != null;
-     @
-     @ post directlyDeclaredElements().contains(element);
-     @*/
-  	@Override
-   public abstract void add(TypeElement element) throws ChameleonProgrammerException;
-  	
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#remove(chameleon.oo.type.TypeElement)
-		 */
-   /*@
-     @ public behavior
-     @
-     @ pre element != null;
-     @
-     @ post ! directlyDeclaredElements().contains(element);
-     @*/
-  	@Override
-   public abstract void remove(TypeElement element) throws ChameleonProgrammerException;
-  	
-    /* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#addAll(java.util.Collection)
-		 */
-   /*@
-     @ public behavior
-     @
-     @ pre elements != null;
-     @ pre !elements.contains(null);
-     @
-     @ post directlyDeclaredElements().containsAll(elements);
-     @*/
-  	@Override
-   public void addAll(Collection<? extends TypeElement> elements) throws ChameleonProgrammerException {
-  		for(TypeElement element: elements) {
-  			add(element);
-  		}
-  	}
-
 
     @Override
    public void accumulateAllSuperTypes(Set<Type> acc) throws LookupException {
@@ -579,7 +533,7 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 		 * @see chameleon.oo.type.Tajp#localMembers(java.lang.Class)
 		 */
     @Override
-   public <T extends Member> List<T> localMembers(final Class<T> kind) throws LookupException {
+   public <T extends Declaration> List<T> localMembers(final Class<T> kind) throws LookupException {
       return (List<T>) new TypeFilter(kind).retain(localMembers());
     }
     
@@ -587,15 +541,15 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 		 * @see chameleon.oo.type.Tajp#localMembers()
 		 */
     @Override
-   public abstract List<Member> localMembers() throws LookupException;
+   public abstract List<Declaration> localMembers() throws LookupException;
     
     @Override
-   public List<Member> implicitMembers() {
+   public List<Declaration> implicitMembers() {
     	return Collections.EMPTY_LIST;
     }
     
     @Override
-   public <M extends Member> List<M> implicitMembers(Class<M> kind) {
+   public <M extends Declaration> List<M> implicitMembers(Class<M> kind) {
     	// implicitMembers returns an immutable list.
     	List result = new ArrayList(implicitMembers());
     	Iterator iter = result.iterator();
@@ -608,17 +562,17 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
     	return result;
     }
 
-    public <D extends Member> List<? extends SelectionResult> implicitMembers(DeclarationSelector<D> selector) throws LookupException {
+    public <D extends Declaration> List<? extends SelectionResult> implicitMembers(DeclarationSelector<D> selector) throws LookupException {
     	return selector.selection(implicitMembers());
     }
 
     @Override
-   public <T extends Member> List<T> directlyDeclaredMembers(Class<T> kind) {
+   public <T extends Declaration> List<T> directlyDeclaredMembers(Class<T> kind) {
       return (List<T>) new TypeFilter(kind).retain(directlyDeclaredMembers());
     }
     
     @Override
-   public <T extends Member> List<T> directlyDeclaredMembers(Class<T> kind, ChameleonProperty property) {
+   public <T extends Declaration> List<T> directlyDeclaredMembers(Class<T> kind, ChameleonProperty property) {
       List<T> result = directlyDeclaredMembers(kind);
       Iterator<T> iter = result.iterator();
       while(iter.hasNext()) {
@@ -631,15 +585,15 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
     }
     
     @Override
-   public  List<Member> directlyDeclaredMembers() {
-  		List<Member> result = Lists.create();
-      for(TypeElement m: directlyDeclaredElements()) {
-        result.addAll(m.declaredMembers());
+   public  List<Declaration> directlyDeclaredMembers() {
+  		List<Declaration> result = Lists.create();
+      for(Declarator m: directlyDeclaredElements()) {
+        result.addAll(m.declaredDeclarations());
       }
       return result;
     }
     @Override
-   public <D extends Member> List<SelectionResult<D>> members(DeclarationSelector<D> selector) throws LookupException {
+   public <D extends Declaration> List<SelectionResult<D>> members(DeclarationSelector<D> selector) throws LookupException {
     	// 1) perform local search
     	boolean nonGreedy = ! selector.isGreedy();
     	List<SelectionResult<D>> result = (List)localMembers(selector);
@@ -662,7 +616,7 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
     	}
     }
 
-		protected <D extends Member> List<SelectionResult<D>> inheritedMembers(DeclarationSelector<D> selector,
+		protected <D extends Declaration> List<SelectionResult<D>> inheritedMembers(DeclarationSelector<D> selector,
 				List<SelectionResult<D>> result) throws LookupException {
 			for (InheritanceRelation rel : inheritanceRelations()) {
 				result = rel.accumulateInheritedMembers(selector, result);
@@ -682,13 +636,13 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
     }
     
     @Override
-   public List<Member> members() throws LookupException {
-      return members(Member.class);
+   public List<Declaration> members() throws LookupException {
+      return members(Declaration.class);
     }
     
     @Override
    @SuppressWarnings("unchecked")
-		public <M extends Member> List<M> members(final Class<M> kind) throws LookupException {
+		public <M extends Declaration> List<M> members(final Class<M> kind) throws LookupException {
 
 		// 1) All defined members of the requested kind are added.
     boolean foundInCache = false;
@@ -719,12 +673,9 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 
     private Map<Class,List> _membersCache;
     
-    @Override
-   public abstract List<? extends TypeElement> directlyDeclaredElements();
-
   	@Override
-   public <T extends TypeElement> List<T> directlyDeclaredElements(Class<T> kind) {
-    	List<TypeElement> tmp = (List<TypeElement>) directlyDeclaredElements();
+   public <T extends Declarator> List<T> directlyDeclaredElements(Class<T> kind) {
+    	List<? extends Declarator> tmp = directlyDeclaredElements();
     	new TypePredicate<>(kind).filter(tmp);
       return (List<T>)tmp;
   	}
@@ -745,8 +696,9 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 		 * @see chameleon.oo.type.Tajp#declarations(chameleon.core.lookup.DeclarationSelector)
 		 */
     @Override
-    public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
-    	return members((DeclarationSelector<? extends Member>)selector);
+    public <D extends Declaration> List<? extends SelectionResult<D>> declarations(DeclarationSelector<D> selector) throws LookupException {
+    	//FIXME Get rid of this cast (and the members method).
+    	return members((DeclarationSelector)selector);
     }
     
     protected void copyContents(Type from) {
@@ -776,8 +728,8 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 		}
 
 		private void copyTypeElements(Type from, boolean link) {
-			for(TypeElement el : from.directlyDeclaredElements()) {
-        TypeElement clone = clone(el);
+			for(Declarator el : from.directlyDeclaredElements()) {
+				Declarator clone = clone(el);
         if(link) {
         	clone.setOrigin(el);
         }
@@ -857,11 +809,8 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
   		return result;
   	}
 
-		/* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#replace(chameleon.oo.type.TypeElement, chameleon.oo.type.TypeElement)
-		 */
 		@Override
-      public abstract void replace(TypeElement oldElement, TypeElement newElement);
+      public abstract void replace(Declarator oldElement, Declarator newElement);
 
 		/* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#baseType()
@@ -869,7 +818,7 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 		@Override
       public abstract Type baseType();
 
-		protected boolean mustBeOverridden(Member member) {
+		protected boolean mustBeOverridden(Declaration member) {
 			ObjectOrientedLanguage lang = language(ObjectOrientedLanguage.class);
 			// ! CLASS ==> ! ABSTRACT
 			return member.isTrue(lang.OVERRIDABLE) && member.isTrue(lang.INSTANCE) && member.isFalse(lang.DEFINED);
@@ -883,16 +832,16 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 			Verification result = Valid.create(); 
 			ObjectOrientedLanguage lang = language(ObjectOrientedLanguage.class);
 			if(! isTrue(lang.ABSTRACT)) {
-				List<Member> members = null;
+				List<Declaration> members = null;
 				try {
 					members = members();
 				} catch (LookupException e) {
 					result = result.and(new BasicProblem(this, "Cannot compute the members of this class"));
 				}
 				if(members != null) {
-					Iterator<Member> iter = members.iterator();
+					Iterator<Declaration> iter = members.iterator();
 					while(iter.hasNext()) {
-						Member m = iter.next();
+						Declaration m = iter.next();
 						if(!mustBeOverridden(m)) {
 							iter.remove();
 						} else {
@@ -919,39 +868,39 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 			return result;
 		}
 
-		@Override
-		public <D extends Member> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException {
-			List<D> result = Lists.create();
-			if(!selector.declaration().ancestors().contains(this)) {
-				result.addAll((List)members(selector));
-			} else {
-				for(InheritanceRelation relation:inheritanceRelations()) {
-					result.addAll(relation.membersDirectlyOverriddenBy(selector));
-				}
-			}
-			return result;
-		}
+//		@Override
+//		public <D extends Declaration> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException {
+//			List<D> result = Lists.create();
+//			if(!selector.declaration().ancestors().contains(this)) {
+//				result.addAll((List)members(selector));
+//			} else {
+//				for(InheritanceRelation relation:inheritanceRelations()) {
+//					result.addAll(relation.membersDirectlyOverriddenBy(selector));
+//				}
+//			}
+//			return result;
+//		}
+//		
+//		@Override
+//      public <D extends Declaration> List<D> membersDirectlyAliasedBy(MemberRelationSelector<D> selector) throws LookupException {
+//			List<D> result = Lists.create();
+//			for(InheritanceRelation relation:inheritanceRelations()) {
+//				result.addAll(relation.membersDirectlyAliasedBy(selector));
+//			}
+//			return result;
+//		}
+//		
+//		@Override
+//      public <D extends Member> List<D> membersDirectlyAliasing(MemberRelationSelector<D> selector) throws LookupException {
+//			return ImmutableList.of();
+//		}
 		
-		@Override
-      public <D extends Member> List<D> membersDirectlyAliasedBy(MemberRelationSelector<D> selector) throws LookupException {
-			List<D> result = Lists.create();
-			for(InheritanceRelation relation:inheritanceRelations()) {
-				result.addAll(relation.membersDirectlyAliasedBy(selector));
-			}
-			return result;
-		}
-		
-		@Override
-      public <D extends Member> List<D> membersDirectlyAliasing(MemberRelationSelector<D> selector) throws LookupException {
-			return ImmutableList.of();
-		}
-		
-	  @Override
-   public HidesRelation<? extends Member> hidesRelation() {
-			return _hidesSelector;
-	  }
-	  
-	  private static HidesRelation<Type> _hidesSelector = new HidesRelation<Type>(Type.class);
+//	  @Override
+//   public HidesRelation<? extends Member> hidesRelation() {
+//			return _hidesRelation;
+//	  }
+//	  
+	  private static HidesRelation<Type> _hidesRelation = new HidesRelation<Type>(Type.class);
 }
 
 

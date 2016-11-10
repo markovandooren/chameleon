@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
+import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
@@ -15,8 +16,6 @@ import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
-import org.aikodi.chameleon.oo.member.Member;
-import org.aikodi.chameleon.oo.member.MemberRelationSelector;
 import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.Lists;
@@ -26,7 +25,7 @@ import org.aikodi.chameleon.util.Lists;
  * 
  * @author Marko van Dooren
  */
-public interface Type extends DeclarationContainer, DeclarationWithType, Member {
+public interface Type extends DeclarationContainer, DeclarationWithType {
 
   public default boolean newSubtypeOf(Type other) throws LookupException {
     return sameAs(other);
@@ -138,8 +137,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
    * BEING A TYPE ELEMENT *
    ************************/
 
-  @Override
-  public List<Member> getIntroducedMembers();
+  public List<Declaration> getIntroducedMembers();
 
   /**********
    * ACCESS *
@@ -159,7 +157,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	  @
 	  @ post directlyDeclaredElements().contains(element);
 	  @*/
-  public void add(TypeElement element) throws ChameleonProgrammerException;
+  public void add(Declarator element) throws ChameleonProgrammerException;
 
   /**
    * Remove the given element to this type.
@@ -175,7 +173,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	  @
 	  @ post ! directlyDeclaredElements().contains(element);
 	  @*/
-  public void remove(TypeElement element) throws ChameleonProgrammerException;
+  public void remove(Declarator element) throws ChameleonProgrammerException;
 
   /**
    * Add all type elements in the given collection to this type.
@@ -190,7 +188,9 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 	  @
 	  @ post directlyDeclaredElements().containsAll(elements);
 	  @*/
-  public void addAll(Collection<? extends TypeElement> elements) throws ChameleonProgrammerException;
+  public default void addAll(Collection<? extends Declarator> elements) {
+  	elements.forEach(e -> add(e));
+  }
 
   /**************
    * SUPERTYPES *
@@ -332,15 +332,15 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
    * @throws LookupException 
    * @throws  
    */
-  public <T extends Member> List<T> localMembers(final Class<T> kind) throws LookupException;
+  public <T extends Declaration> List<T> localMembers(final Class<T> kind) throws LookupException;
 
   /**
    * Return the members that are implicitly part of this type, such as default constructors and destructors.
    * @return
    */
-  public List<Member> implicitMembers();
+  public List<Declaration> implicitMembers();
 
-  public <M extends Member> List<M> implicitMembers(Class<M> kind);
+  public <M extends Declaration> List<M> implicitMembers(Class<M> kind);
 
   /**
    * Return the members directly declared by this type. The order of the elements in the list is the order in which they
@@ -348,20 +348,20 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
    * @return
    * @throws LookupException 
    */
-  public List<Member> localMembers() throws LookupException;
+  public List<Declaration> localMembers() throws LookupException;
 
-  public <T extends Member> List<T> directlyDeclaredMembers(Class<T> kind);
+  public <T extends Declaration> List<T> directlyDeclaredMembers(Class<T> kind);
 
-  public <T extends Member> List<T> directlyDeclaredMembers(Class<T> kind, ChameleonProperty property);
+  public <T extends Declaration> List<T> directlyDeclaredMembers(Class<T> kind, ChameleonProperty property);
 
-  public List<Member> directlyDeclaredMembers();
+  public List<Declaration> directlyDeclaredMembers();
 
-  public <D extends Member> List<SelectionResult<D>> members(DeclarationSelector<D> selector) throws LookupException;
+  public <D extends Declaration> List<SelectionResult<D>> members(DeclarationSelector<D> selector) throws LookupException;
 
   @SuppressWarnings("unchecked")
-  public <D extends Member> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException;
+  public <D extends Declaration> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException;
 
-  public List<Member> members() throws LookupException;
+  public List<Declaration> members() throws LookupException;
 
   //    public <M extends Member> Set<M> potentiallyInheritedMembers(final Class<M> kind) throws MetamodelException {
   //  		final Set<M> result = new HashSet<M>();
@@ -378,17 +378,19 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
    * @return
    * @throws LookupException
    */
-  public <M extends Member> List<M> members(final Class<M> kind) throws LookupException;
+  public <M extends Declaration> List<M> members(final Class<M> kind) throws LookupException;
 
   /**
    * DO NOT CONFUSE THIS METHOD WITH localMembers. This method does not
    * transform type elements into members.
    * 
+   * FIXME: rename to localDeclarators()
+   * 
    * @return
    */
-  public List<? extends TypeElement> directlyDeclaredElements();
+  public List<? extends Declarator> directlyDeclaredElements();
 
-  public <T extends TypeElement> List<T> directlyDeclaredElements(Class<T> kind);
+  public <T extends Declarator> List<T> directlyDeclaredElements(Class<T> kind);
 
   /********************
    * EXCEPTION SOURCE *
@@ -409,7 +411,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
 
   public Type intersectionDoubleDispatch(IntersectionType type) throws LookupException;
 
-  public void replace(TypeElement oldElement, TypeElement newElement);
+  public void replace(Declarator oldElement, Declarator newElement);
 
   public Type baseType();
 
@@ -474,11 +476,11 @@ public interface Type extends DeclarationContainer, DeclarationWithType, Member 
     return this;
   }
 
-  public <D extends Member> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException;
-
-  public <D extends Member> List<D> membersDirectlyAliasedBy(MemberRelationSelector<D> selector) throws LookupException;
-
-  public <D extends Member> List<D> membersDirectlyAliasing(MemberRelationSelector<D> selector) throws LookupException;
+//  public <D extends Declaration> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException;
+//
+//  public <D extends Declaration> List<D> membersDirectlyAliasedBy(MemberRelationSelector<D> selector) throws LookupException;
+//
+//  public <D extends Declaration> List<D> membersDirectlyAliasing(MemberRelationSelector<D> selector) throws LookupException;
 
   public String infoName();
 

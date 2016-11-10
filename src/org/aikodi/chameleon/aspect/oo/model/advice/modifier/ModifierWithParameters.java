@@ -77,7 +77,7 @@ public abstract class ModifierWithParameters extends ModifierImpl implements Dec
 	 * 	{@inheritDoc}
 	 */
 	@Override
-	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult<D>> declarations(DeclarationSelector<D> selector) throws LookupException {
 		return selector.selection(declarations());
 	}
 

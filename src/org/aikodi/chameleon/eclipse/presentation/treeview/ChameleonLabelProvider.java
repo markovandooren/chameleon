@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiers;
@@ -18,7 +19,6 @@ import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.method.Method;
 import org.aikodi.chameleon.oo.type.Type;
-import org.aikodi.chameleon.oo.type.TypeElement;
 import org.aikodi.chameleon.plugin.output.Syntax;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -252,8 +252,8 @@ public class ChameleonLabelProvider implements ILabelProvider {
 //					// e.printStackTrace(); //TODO: zorgen dat deze exc niet meer geworpen wordt
 //				}
 //			}
-			if(showDeclaringElementFqn && element instanceof TypeElement){
-				Type type = ((TypeElement)element).nearestAncestorOrSelf(Type.class);
+			if(showDeclaringElementFqn && element instanceof Declarator){
+				Type type = ((Declarator)element).nearestAncestorOrSelf(Type.class);
 				if(type != null){
 					if(!noFirstSeparator)
 						label += " - ";
@@ -303,7 +303,7 @@ public class ChameleonLabelProvider implements ILabelProvider {
 	public String getCode(Element element){
 		String result;
 		try {
-			if(element instanceof TypeElement){
+			if(element instanceof Declarator){
 //				EclipseBootstrapper languageModel = LanguageMgt.getInstance().getLanguageModelID(getLanguage().name());
 				Syntax syntax = element.language().plugin(Syntax.class);
 				String code = syntax.toCode(element);

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -70,9 +71,7 @@ import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
 public abstract class ElementImpl implements Element {
 
    /**
-    * Filthy static hack to improve performance of reflective code.
-    * 
-    * FIXME: replace this with better code.
+    * Static hack to improve performance of reflective code.
     */
 	private static Map<Class<? extends Element>,Set<String>> _excludedFieldNames = new HashMap<Class<? extends Element>,Set<String>>();
 
@@ -1557,4 +1556,5 @@ public List<? extends Element> children() {
    }
 
    ElementEventStreamCollection _eventManager;
+   
 }

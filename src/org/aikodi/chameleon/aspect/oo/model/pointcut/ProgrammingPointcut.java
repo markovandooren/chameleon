@@ -146,7 +146,7 @@ public class ProgrammingPointcut extends Pointcut implements DeclarationContaine
 	}
 
 	@Override
-	public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult<D>> declarations(DeclarationSelector<D> selector) throws LookupException {
 		return header().declarations(selector);
 	}
 

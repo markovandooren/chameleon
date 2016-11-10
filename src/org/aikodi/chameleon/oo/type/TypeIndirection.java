@@ -2,13 +2,14 @@ package org.aikodi.chameleon.oo.type;
 
 import java.util.List;
 
+import org.aikodi.chameleon.core.declaration.Declaration;
+import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
-import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
@@ -36,22 +37,22 @@ public abstract class TypeIndirection extends ClassImpl {
 	private Type _aliasedType;
 
 	@Override
-	public void add(TypeElement element) {
+	public void add(Declarator element) {
 		throw new ChameleonProgrammerException("Trying to add an element to a type alias.");
 	}
 
 	@Override
-	public void remove(TypeElement element) throws ChameleonProgrammerException {
+	public void remove(Declarator element) throws ChameleonProgrammerException {
 		throw new ChameleonProgrammerException("Trying to remove an element from a type alias.");
 	}
 
 	@Override
-	public List<Member> localMembers() throws LookupException {
+	public List<Declaration> localMembers() throws LookupException {
 		return indirectionTarget().localMembers();
 	}
 	
 	@Override
-	public <D extends Member> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException {
 		return indirectionTarget().localMembers(selector);
 	}
 
@@ -113,7 +114,7 @@ public PropertySet<Element,ChameleonProperty> declaredProperties() {
   }
 
   @Override
-public void replace(TypeElement oldElement, TypeElement newElement) {
+public void replace(Declarator oldElement, Declarator newElement) {
 		throw new ChameleonProgrammerException("Trying to replace an element in a type alias.");
   }
   
@@ -153,7 +154,7 @@ public void replace(TypeElement oldElement, TypeElement newElement) {
 	}
   
 	@Override
-	public List<? extends TypeElement> directlyDeclaredElements() {
+	public List<? extends Declarator> directlyDeclaredElements() {
 		return indirectionTarget().directlyDeclaredElements();
 	}
 

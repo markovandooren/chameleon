@@ -16,7 +16,6 @@ import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.core.relation.EquivalenceRelation;
 import org.aikodi.chameleon.core.relation.StrictPartialOrder;
 import org.aikodi.chameleon.core.variable.Variable;
-import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.method.Method;
 import org.aikodi.chameleon.oo.type.ConstrainedTypeReference;
 import org.aikodi.chameleon.oo.type.IntersectionTypeReference;
@@ -45,10 +44,7 @@ import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	
 	//TODO document the properties. This is becoming complicated without an explanation.
-	public final StaticChameleonProperty INHERITABLE;
-	public final StaticChameleonProperty OVERRIDABLE;
 	public final ChameleonProperty EXTENSIBLE;
-	public final ChameleonProperty REFINABLE;
 	public final DynamicChameleonProperty DEFINED;
 	public final ChameleonProperty ABSTRACT;
 	public final StaticChameleonProperty INSTANCE;
@@ -68,10 +64,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	public ObjectOrientedLanguage(String name, LookupContextFactory factory, Revision version) {
 		super(name, factory,version);
 		// 1) Create the properties.
-  	INHERITABLE = add(new StaticChameleonProperty("inheritable",Declaration.class));
-  	OVERRIDABLE = add(new StaticChameleonProperty("overridable",Declaration.class));
   	EXTENSIBLE = add(new StaticChameleonProperty("extensible", Declaration.class));
-  	REFINABLE = add(new StaticChameleonProperty("refinable", Declaration.class));
   	DEFINED = add(new Defined("defined"));
   	DEFINED.addValidElementType(Variable.class);
 //  	ABSTRACT = DEFINED.inverse();
@@ -90,8 +83,6 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
   	//2) Add relations between the properties.
     FINAL.addImplication(REFINABLE.inverse());
     FINAL.addImplication(DEFINED);
-    OVERRIDABLE.addImplication(INHERITABLE);
-    OVERRIDABLE.addImplication(REFINABLE);
     EXTENSIBLE.addImplication(REFINABLE);
     NATIVE.addImplication(DEFINED);
     INTERFACE.addImplication(ABSTRACT);
@@ -191,7 +182,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	/**
 	 * Return the relation that determines when a member implements another.
 	 */
-	public abstract StrictPartialOrder<Member> implementsRelation();
+	public abstract StrictPartialOrder<Declaration> implementsRelation();
 
 	public abstract Type voidType(Namespace ns) throws LookupException;
 
@@ -208,7 +199,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	/**
 	 * Return the relation that determines when a member is equivalent to another.
 	 */
-	public abstract EquivalenceRelation<Member> equivalenceRelation();
+	public abstract EquivalenceRelation<Declaration> equivalenceRelation();
 
 	/**
 	 * Find the type with the given fully qualified name in the given namespace.

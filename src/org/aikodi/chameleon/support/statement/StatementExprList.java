@@ -75,9 +75,9 @@ public class StatementExprList extends ElementImpl implements ForInit, Exception
   }
 
   @Override
-  public <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector)
+  public <D extends Declaration> List<? extends SelectionResult<D>> declarations(DeclarationSelector<D> selector)
       throws LookupException {
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 
   @Override

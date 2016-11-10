@@ -25,19 +25,29 @@ import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
 import be.kuleuven.cs.distrinet.rejuse.property.PropertyUniverse;
 
+/**
+ * <p>An object that represents a language. The main responsibility of
+ * a language object is determine <i>some</i> of the properties of its language
+ * constructs.</p> 
+ * 
+ * <p>By extracting certain parts of the language semantics from the
+ * language constructs themselves, we try to avoid an explosion of classes.
+ * For example, elements such as methods can have many different properties that are determined
+ * by modifiers. A language that has methods can specify the default properties of
+ * methods. These are the properties that a method has if it has no relevant
+ * modifier with respect to that property. In Java, methods are overridable by default,
+ * whereas they are not in C#. Implementing new classes for each language just to fix the
+ * default properties would make it too hard to create a new language. Therefore, we use delegation
+ * instead.</p>
+ * 
+ * @author Marko van Dooren
+ */
 public interface Language extends PropertyUniverse<ChameleonProperty>, PluginContainer<LanguagePlugin>, ProcessorContainer<LanguageProcessor> {
 	
 	/**
-	 * Clone this language.
+	 * Return the version of this language. 
 	 * @return
 	 */
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @*/
-//	public Language clone();
-	
 	public Revision version();
 	
 	/**

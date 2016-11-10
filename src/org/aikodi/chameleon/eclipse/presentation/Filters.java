@@ -14,6 +14,7 @@ import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiers;
 import org.aikodi.chameleon.core.modifier.Modifier;
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
+import org.aikodi.chameleon.core.variable.Variable;
 import org.aikodi.chameleon.eclipse.ChameleonEditorPlugin;
 import org.aikodi.chameleon.eclipse.connector.EclipseEditorExtension;
 import org.aikodi.chameleon.eclipse.presentation.treeview.ChameleonLabelProvider;
@@ -21,7 +22,6 @@ import org.aikodi.chameleon.eclipse.presentation.treeview.TreeViewerActions;
 import org.aikodi.chameleon.eclipse.project.ChameleonProjectNature;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.oo.type.Type;
-import org.aikodi.chameleon.oo.variable.MemberVariable;
 import org.aikodi.chameleon.util.Util;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IContributionManager;
@@ -35,6 +35,7 @@ import org.eclipse.jface.viewers.ViewerFilter;
  * Contains the filters for the structuredViewers (outline and hierarchy)
  * 
  * @author Tim Vermeiren
+ * @author Marko van Dooren
  */
 public class Filters {
 
@@ -69,7 +70,7 @@ public class Filters {
 		@Override
       public boolean select(Viewer viewer, Object parentObject, Object object) {
 			Element element = ChameleonLabelProvider.getElement(object);
-			return ! (element instanceof MemberVariable);
+			return ! (element instanceof Variable);
 		}
 	};
 

@@ -2,13 +2,13 @@ package org.aikodi.chameleon.oo.type.inheritance;
 
 import java.util.List;
 
+import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
-import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.member.MemberRelationSelector;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
@@ -52,15 +52,15 @@ public class SubtypeRelation extends AbstractInheritanceRelation {
 		
 	}
 
-	@Override
-	public <D extends Member> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException {
-		return superClass().membersDirectlyOverriddenBy(selector);
-	}
-
-	@Override
-	public <D extends Member> List<D> membersDirectlyAliasedBy(MemberRelationSelector<D> selector) throws LookupException {
-		return superClass().membersDirectlyAliasedBy(selector);
-	}
+//	@Override
+//	public <D extends Declaration> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException {
+//		return superClass().membersDirectlyOverriddenBy(selector);
+//	}
+//
+//	@Override
+//	public <D extends Declaration> List<D> membersDirectlyAliasedBy(MemberRelationSelector<D> selector) throws LookupException {
+//		return superClass().membersDirectlyAliasedBy(selector);
+//	}
 
 
 }

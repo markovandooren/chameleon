@@ -1,6 +1,9 @@
 package org.aikodi.chameleon.core.declaration;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
@@ -22,102 +25,141 @@ import org.aikodi.chameleon.util.Lists;
  * @author Marko van Dooren
  */
 public interface DeclarationContainer extends Element {
-  
-  /**
-   * <p>Return the declarations the are defined in this declaration container.
-   * The resulting collection contains the locally declared declarations and
-   * those that this declaration container receives from other declaration
-   * containers (e.g. through an inheritance relation).</p>
-   *
-   * <p>This method can be <b>very slow</b>. For example, when used on types/classes
-   * for a language with syntactic overloading, this method is a disaster. 
-   * Fortunately, all lookups are done using {@link #declarations(DeclarationSelector)}, 
-   * which uses the selector to severely prune the collection of candidates. 
-   * It is of course fine to use this method in the implementation of 
-   * {@link #declarations(DeclarationSelector)} for declaration containers that 
-   * have an efficient {@link #declarations()} method (most of them).</p>
-   * 
-   * @default The default implementation returns the {{@link #locallyDeclaredDeclarations()}.
-   */
- /*@
+
+	/**
+	 * <p>Return the declarations the are defined in this declaration container.
+	 * The resulting collection contains the locally declared declarations and
+	 * those that this declaration container receives from other declaration
+	 * containers (e.g. through an inheritance relation).</p>
+	 *
+	 * <p>This method can be <b>very slow</b>. For example, when used on types/classes
+	 * for a language with syntactic overloading, this method is a disaster. 
+	 * Fortunately, all lookups are done using {@link #declarations(DeclarationSelector)}, 
+	 * which uses the selector to severely prune the collection of candidates. 
+	 * It is of course fine to use this method in the implementation of 
+	 * {@link #declarations(DeclarationSelector)} for declaration containers that 
+	 * have an efficient {@link #declarations()} method (most of them).</p>
+	 * 
+	 * @default The default implementation returns the {{@link #locallyDeclaredDeclarations()}.
+	 */
+	/*@
    @ public behavior
    @
    @ post \result != null;
    @ post \result.containsAll(locallyDeclaredDeclarations());
    @*/
-  public default List<? extends Declaration> declarations() throws LookupException {
-    return locallyDeclaredDeclarations();
- }
-  
-  /**
-   * @return the declarations that are defined locally in this declaration container.
-   * @throws LookupException The list of declarations could not be computed
-   * because of an error during lookup.
-   */
- /*@
+	public default List<? extends Declaration> declarations() throws LookupException {
+		return locallyDeclaredDeclarations();
+	}
+
+	/**
+	 * @return the declarations that are defined locally in this declaration container.
+	 * @throws LookupException The list of declarations could not be computed
+	 * because of an error during lookup.
+	 */
+	/*@
    @ public behavior
    @
    @ post \result != null;
    @*/
-  public default List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
-  	return Lists.create();
-  }
-  
-  /**
-   * @return the declarations the are defined in this declaration container and
-   * selected by the given declaration selector.
-   * 
-   * <p>Most implementations will directly invoke
-   * selector.selection(declarations()), but in some cases, calculating the
-   * collection of declarations is very expensive. In such cases, the selector
-   * is typically pass along the chain of objects that contain the declarations
-   * of this container. For example, a class will pass the selector to its super
-   * classes instead of asking them for all declarations and then using the
-   * selector. Applying the inheritance rules (such as overriding) to all class
-   * members is very expensive, and useless for declarations that cannot be
-   * selected anyway.</p>
-   * 
-   * @param selector
-   *          The selector that determines which declarations must be returned.
-   */
- /*@
+	public default List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
+		return Lists.create();
+	}
+
+	/**
+	 * @return the declarations the are defined in this declaration container and
+	 * selected by the given declaration selector.
+	 * 
+	 * <p>Most implementations will directly invoke
+	 * selector.selection(declarations()), but in some cases, calculating the
+	 * collection of declarations is very expensive. In such cases, the selector
+	 * is typically pass along the chain of objects that contain the declarations
+	 * of this container. For example, a class will pass the selector to its super
+	 * classes instead of asking them for all declarations and then using the
+	 * selector. Applying the inheritance rules (such as overriding) to all class
+	 * members is very expensive, and useless for declarations that cannot be
+	 * selected anyway.</p>
+	 * 
+	 * @param selector
+	 *          The selector that determines which declarations must be returned.
+	 */
+	/*@
    @ public behavior
    @
    @ post \result != null;
    @ post \result.equals(selector.selection(declarations()));
    @*/
-  public default <D extends Declaration> List<? extends SelectionResult> declarations(DeclarationSelector<D> selector)
-      throws LookupException {
-   return selector.selection(declarations());
-}
+	public default <D extends Declaration> List<? extends SelectionResult<D>> declarations(DeclarationSelector<D> selector)
+			throws LookupException {
+		return selector.selection(declarations());
+	}
 
-  /**
-   * {@inheritDoc}
-   * 
-   * @return a lookup context that searches for declarations in this container.
-   * @throws LookupException
-   */
- /*@
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @return a lookup context that searches for declarations in this container.
+	 * @throws LookupException
+	 */
+	/*@
    @ public behavior
    @
    @ post \result != null;
    @*/
-  public default LookupContext localContext() throws LookupException {
-    return language().lookupFactory().createLocalLookupStrategy(this);
- }
-  
-  /**
-   * {@inheritDoc}
-   * 
-   * @return the lexical lookup context created by the
-   *         {@link LookupContextFactory#createLexicalLookupStrategy(LookupContext, Element)
-   *         method of the {@link Language#lookupFactory()} of the
-   *         {@link Element#language()} of this declaration container.
-   */
-  @Override
-  public default LookupContext lookupContext(Element child) throws LookupException {
-     return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
-  }
+	public default LookupContext localContext() throws LookupException {
+		return language().lookupFactory().createLocalLookupStrategy(this);
+	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @return the lexical lookup context created by the
+	 *         {@link LookupContextFactory#createLexicalLookupStrategy(LookupContext, Element)
+	 *         method of the {@link Language#lookupFactory()} of the
+	 *         {@link Element#language()} of this declaration container.
+	 */
+	@Override
+	public default LookupContext lookupContext(Element child) throws LookupException {
+		return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
+	}
+
+	/**
+	 * Add all declarations satisfying that have the given relation with the given declaration.
+	 *  
+	 * @param declaration The declaration for which the next elements are requested.
+	 * @param matchCondition A function that determines when a match was found. This
+	 *                       can be an overrides or hides check. 
+	 * @param accumulator
+	 * @throws LookupException
+	 */
+	public default void directlyOverriddenDeclarations(Declaration declaration, DeclarationRelation declarationRelation, Set<Declaration> accumulator) throws LookupException {
+//		boolean done = false;
+//		for(Declaration local: locallyDeclaredDeclarations()) {
+//			if(declarationRelation.matches(local, declaration)) {
+//				accumulator.add(local);
+//				done = true;
+//			}
+//		}
+//		if(! done) {
+			for(DeclarationContainerRelation relation: relations()) {
+				relation.directlyOverridden(declaration, declarationRelation, accumulator);
+			}
+//		}
+	}
+
+	public default List<DeclarationContainerRelation> relations() {
+		return Collections.emptyList();
+	}
+
+	public default void directlyAliasedDeclarations(Declaration declaration, Set<Declaration> accumulator) throws LookupException {
+   	for(DeclarationContainerRelation relation: relations()) {
+			relation.directlyAliasedDeclarations(declaration, accumulator);
+		}
+	}
+	
+	public default void directlyAliasingDeclarations(Declaration declaration, Set<Declaration> accumulator) throws LookupException {
+   	for(DeclarationContainerRelation relation: relations()) {
+			relation.directlyAliasingDeclarations(declaration, accumulator);
+		}
+	}
 
 }

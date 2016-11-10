@@ -2,14 +2,14 @@ package org.aikodi.chameleon.support.type;
 
 import java.util.List;
 
+import org.aikodi.chameleon.core.declaration.Declaration;
+import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiersImpl;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
-import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.statement.Block;
 import org.aikodi.chameleon.oo.statement.ExceptionSource;
 import org.aikodi.chameleon.oo.type.Type;
-import org.aikodi.chameleon.oo.type.TypeElement;
 import org.aikodi.chameleon.util.association.Single;
 
 import com.google.common.collect.ImmutableList;
@@ -19,7 +19,7 @@ import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 /**
  * @author Marko van Dooren
  */
-public class StaticInitializer extends ElementWithModifiersImpl implements TypeElement, ExceptionSource {
+public class StaticInitializer extends ElementWithModifiersImpl implements Declarator, ExceptionSource {
 
   public StaticInitializer(Block block) {
     setBlock(block);
@@ -63,7 +63,7 @@ public class StaticInitializer extends ElementWithModifiersImpl implements TypeE
    * A static initializer does not add members to a type.
    */
   @Override
-  public List<Member> getIntroducedMembers() {
+  public List<Declaration> declaredDeclarations() {
     return ImmutableList.of();
   }
 

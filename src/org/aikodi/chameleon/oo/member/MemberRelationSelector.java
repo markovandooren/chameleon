@@ -1,6 +1,5 @@
 package org.aikodi.chameleon.oo.member;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class MemberRelationSelector<D extends Declaration> implements Declaratio
 		_comparator = comparator;
 	}
 	
-	public DeclarationComparator<D> comparator() {
+	protected DeclarationComparator<D> comparator() {
 		return _comparator;
 	}
 	
@@ -57,8 +56,6 @@ public class MemberRelationSelector<D extends Declaration> implements Declaratio
   			tmp.add(e);
   		}
   	}
-  	//This is no order, so the following line can be removed.
-  	//order().removeBiggerElements(tmp);
     return tmp;
 	}
 	
@@ -82,11 +79,11 @@ public class MemberRelationSelector<D extends Declaration> implements Declaratio
 	}
 	
 
-	public boolean selectedBasedOnName(Signature signature) throws LookupException {
+	private boolean selectedBasedOnName(Signature signature) throws LookupException {
 		return declaration().name().equals(signature.name());
 	}
 
-	public boolean selectedRegardlessOfName(D declaration) throws LookupException {
+	private boolean selectedRegardlessOfName(D declaration) throws LookupException {
 		return comparator().containsBasedOnRest(declaration(), declaration);
 	}
 
@@ -99,8 +96,9 @@ public class MemberRelationSelector<D extends Declaration> implements Declaratio
 	 * type of the declaration must be a subtype of the containing type of the member. If the 
    * member is incorporated in a subobject, that relation no longer holds. 
 	 */
+	@SuppressWarnings("rawtypes")
 	@Override
-	public void filter(List<? extends SelectionResult> selected) throws LookupException {
+	public void filter(List<? extends SelectionResult<D>> selected) throws LookupException {
 		Iterator<? extends SelectionResult> iterator = selected.iterator();
 		while(iterator.hasNext()) {
 			SelectionResult result = iterator.next();

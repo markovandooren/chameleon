@@ -13,11 +13,11 @@ public class OverridesRelation<D extends Declaration> extends DeclarationCompara
 	}
 	
 	@Override
-	public boolean contains(Member first, Member second) throws LookupException {
+	public boolean contains(Declaration first, Declaration second) throws LookupException {
 		return isOverridable(second) && super.contains(first, second);
 	}
 
-	public boolean isOverridable(Member d) throws LookupException {
+	public boolean isOverridable(Declaration d) throws LookupException {
 		boolean result;
 		Ternary temp = d.is(d.language(ObjectOrientedLanguage.class).OVERRIDABLE);
 		if(temp == Ternary.TRUE) {
