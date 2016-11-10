@@ -4,14 +4,13 @@ import java.util.Collections;
 import java.util.List;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
+import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
-import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
-import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.type.ClassImpl;
 import org.aikodi.chameleon.oo.type.Parameter;
 import org.aikodi.chameleon.oo.type.ParameterBlock;
@@ -19,7 +18,6 @@ import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeElement;
 import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
-import org.aikodi.chameleon.util.Pair;
 import org.aikodi.chameleon.util.Util;
 
 import com.google.common.collect.ImmutableList;
@@ -40,12 +38,12 @@ public abstract class IntervalType extends ClassImpl {
   private Type _lowerBound;
 
   @Override
-  public void add(TypeElement element) throws ChameleonProgrammerException {
+  public void add(Declarator element) throws ChameleonProgrammerException {
     throw new ChameleonProgrammerException("Trying to add an element to a wildcard type.");
   }
 
   @Override
-  public void remove(TypeElement element) throws ChameleonProgrammerException {
+  public void remove(Declarator element) throws ChameleonProgrammerException {
     throw new ChameleonProgrammerException("Trying to remove an element from a wildcard type.");
   }
 
@@ -80,17 +78,17 @@ public abstract class IntervalType extends ClassImpl {
   //	}
 
   @Override
-  public List<? extends TypeElement> directlyDeclaredElements() {
+  public List<? extends Declarator> directlyDeclaredElements() {
     return upperBound().directlyDeclaredElements();
   }
 
   @Override
-  public List<Member> localMembers() throws LookupException {
+  public List<Declaration> localMembers() throws LookupException {
     return upperBound().localMembers();
   }
 
   @Override
-  public <D extends Member> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException {
+  public <D extends Declaration> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException {
     return upperBound().localMembers(selector);
   }
 

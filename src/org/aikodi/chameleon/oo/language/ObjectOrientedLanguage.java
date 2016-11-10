@@ -16,7 +16,6 @@ import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.core.relation.EquivalenceRelation;
 import org.aikodi.chameleon.core.relation.StrictPartialOrder;
 import org.aikodi.chameleon.core.variable.Variable;
-import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.method.Method;
 import org.aikodi.chameleon.oo.type.ConstrainedTypeReference;
 import org.aikodi.chameleon.oo.type.IntersectionTypeReference;
@@ -183,7 +182,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	/**
 	 * Return the relation that determines when a member implements another.
 	 */
-	public abstract StrictPartialOrder<Member> implementsRelation();
+	public abstract StrictPartialOrder<Declaration> implementsRelation();
 
 	public abstract Type voidType(Namespace ns) throws LookupException;
 
@@ -200,7 +199,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	/**
 	 * Return the relation that determines when a member is equivalent to another.
 	 */
-	public abstract EquivalenceRelation<Member> equivalenceRelation();
+	public abstract EquivalenceRelation<Declaration> equivalenceRelation();
 
 	/**
 	 * Find the type with the given fully qualified name in the given namespace.

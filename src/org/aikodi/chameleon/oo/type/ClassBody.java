@@ -8,6 +8,7 @@ import java.util.List;
 import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
+import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
@@ -16,16 +17,14 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
-import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.Multi;
+
+import com.google.common.collect.ImmutableList;
 
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
 import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
-import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
-
-import com.google.common.collect.ImmutableList;
 
 public class ClassBody extends ElementImpl implements DeclarationContainer {
 
@@ -53,19 +52,17 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 		return new ClassBody();
 	}
 
-	public void addAll(Collection<? extends TypeElement> elements) {
-		for(TypeElement element:elements) {
-			add(element);
-		}
+	public void addAll(Collection<? extends Declarator> elements) {
+		elements.forEach(e -> add(e));
 	}
 	
-	private Multi<TypeElement> _elements = new Multi<TypeElement>(this);
+	private Multi<Declarator> _elements = new Multi<Declarator>(this);
 	
 		
-	private AssociationListener<TypeElement> _listener = new AssociationListener<TypeElement>() {
+	private AssociationListener<Declarator> _listener = new AssociationListener<Declarator>() {
 
 		@Override
-		public void notifyElementAdded(TypeElement element) {
+		public void notifyElementAdded(Declarator element) {
 			Type parent = nearestAncestor(Type.class);
 			if(parent != null) {
 			  parent.reactOnDescendantAdded(element);
@@ -73,7 +70,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 		}
 
 		@Override
-		public void notifyElementRemoved(TypeElement element) {
+		public void notifyElementRemoved(Declarator element) {
       Type parent = nearestAncestor(Type.class);
 			if(parent != null) {
 			  parent.reactOnDescendantRemoved(element);
@@ -81,7 +78,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 		}
 
 		@Override
-		public void notifyElementReplaced(TypeElement oldElement, TypeElement newElement) {
+		public void notifyElementReplaced(Declarator oldElement, Declarator newElement) {
       Type parent = nearestAncestor(Type.class);
 			if(parent != null) {
 			  parent.reactOnDescendantReplaced(oldElement, newElement);
@@ -90,7 +87,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 		
 	};
 
-	public void add(TypeElement element) {
+	public void add(Declarator element) {
 	  add(_elements,element);
 	}
 	
@@ -98,15 +95,15 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 		_elements.clear();
 	}
 	
-	public void remove(TypeElement element) {
+	public void remove(Declarator element) {
 	  remove(_elements,element);
 	}
 	
-	public List<TypeElement> elements() {
+	public List<Declarator> elements() {
 		return _elements.getOtherEnds();
 	}
 	
-	public <D extends Member> List<? extends SelectionResult> members(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult> members(DeclarationSelector<D> selector) throws LookupException {
 		if(selector.usesSelectionName()) {
 			List<? extends Declaration> list = null;
 			if(Config.cacheDeclarations()) {
@@ -126,7 +123,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 		}
 	}
 	
-	public <D extends Member> List<D> members(Class<D> kind) throws LookupException {
+	public <D extends Declaration> List<D> members(Class<D> kind) throws LookupException {
     List<D> result = (List)members();
     CollectionOperations.filter(result, d -> kind.isInstance(d));
     return result;
@@ -145,9 +142,9 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 	private synchronized void ensureLocalCache() throws LookupException {
 		if(! _completelyCached) {
 			_completelyCached = true;
-			List<Member> members = members();
+			List<Declaration> members = members();
 		  _declarationCache = new HashMap<String, List<Declaration>>();
-		  for(Member member: members) {
+		  for(Declaration member: members) {
 		  	String name = member.name();
 				List<Declaration> list = cachedDeclarations(name);
 		  	boolean newList = false;
@@ -189,10 +186,10 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 	
 	private HashMap<String, List<Declaration>> _declarationCache;
 	
-	public List<Member> members() throws LookupException {
-		List<Member> result = Lists.create();
-    for(TypeElement m: elements()) {
-      result.addAll(m.getIntroducedMembers());
+	public List<Declaration> members() throws LookupException {
+		List<Declaration> result = Lists.create();
+    for(Declarator m: elements()) {
+      result.addAll(m.declaredDeclarations());
     }
     return result;
 	}
@@ -206,7 +203,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 //	}
 
 	@Override
-   public List<Member> declarations() throws LookupException {
+   public List<Declaration> declarations() throws LookupException {
 		return members();
 	}
 

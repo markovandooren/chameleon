@@ -8,7 +8,7 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiersImpl;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 
-public abstract class SimpleNameMember extends ElementWithModifiersImpl implements Member {
+public abstract class SimpleNameMember extends ElementWithModifiersImpl implements Declaration {
 
   private String _name;
 

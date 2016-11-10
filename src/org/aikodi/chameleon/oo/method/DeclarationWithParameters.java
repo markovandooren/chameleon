@@ -2,8 +2,9 @@ package org.aikodi.chameleon.oo.method;
 
 import java.util.List;
 
+import java.lang.reflect.Member;
+
 import org.aikodi.chameleon.core.declaration.Declaration;
-import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.declaration.Signature;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
@@ -14,7 +15,6 @@ import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.lookup.Target;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiersImpl;
 import org.aikodi.chameleon.oo.member.DeclarationWithParametersHeader;
-import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.member.SignatureWithParameters;
 import org.aikodi.chameleon.oo.type.DeclarationWithType;
 import org.aikodi.chameleon.oo.type.Type;
@@ -25,7 +25,7 @@ import org.aikodi.chameleon.util.association.Single;
 
 import com.google.common.collect.ImmutableList;
 
-public abstract class DeclarationWithParameters extends ElementWithModifiersImpl implements Member, Target,
+public abstract class DeclarationWithParameters extends ElementWithModifiersImpl implements Target,
     DeclarationWithType {
 
   /**
@@ -48,7 +48,7 @@ public abstract class DeclarationWithParameters extends ElementWithModifiersImpl
   
   @Override
   public LocalLookupContext<?> targetContext() throws LookupException {
-  	return Member.super.targetContext();
+  	return DeclarationWithType.super.targetContext();
   }
 
   /**
@@ -153,19 +153,19 @@ public abstract class DeclarationWithParameters extends ElementWithModifiersImpl
     }
   }
 
-  /*
-   * @
-   * @ also public behavior
-   * @
-   * @ // A method introduces itself as a method.
-   * @ post \result.contains(this);
-   * @ post \result.size() == 1;
-   * @
-   */
-  @Override
-  public List<Member> getIntroducedMembers() {
-    return (List) Util.createSingletonList(this);
-  }
+//  /*
+//   * @
+//   * @ also public behavior
+//   * @
+//   * @ // A method introduces itself as a method.
+//   * @ post \result.contains(this);
+//   * @ post \result.size() == 1;
+//   * @
+//   */
+//  @Override
+//  public List<Declaration> getIntroducedMembers() {
+//    return (List) Util.createSingletonList(this);
+//  }
 
   @Override
   public LookupContext lookupContext(Element element) throws LookupException {

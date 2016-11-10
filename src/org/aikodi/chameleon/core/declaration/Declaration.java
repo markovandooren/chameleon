@@ -21,10 +21,10 @@ import org.aikodi.chameleon.core.scope.Scope;
 import org.aikodi.chameleon.core.scope.ScopeProperty;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
-import org.aikodi.chameleon.oo.member.HidesRelation;
-import org.aikodi.chameleon.oo.member.Member;
-import org.aikodi.chameleon.oo.type.Type;
+import org.aikodi.chameleon.oo.member.DeclarationComparator;
+//import org.aikodi.chameleon.oo.member.HidesRelation;
 import org.aikodi.chameleon.util.Lists;
+import org.aikodi.chameleon.util.Util;
 import org.aikodi.chameleon.util.exception.Handler;
 
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
@@ -480,7 +480,7 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
    @ post other == null ==> \result == false;
    @*/
   public default boolean hides(Declaration other) throws LookupException {
-    return new HidesRelation<Declaration>(Declaration.class).contains(this,other);
+    return new DeclarationComparator<Declaration>(Declaration.class).contains(this,other);
   }
 
 }

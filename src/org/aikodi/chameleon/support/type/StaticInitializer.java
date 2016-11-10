@@ -2,10 +2,10 @@ package org.aikodi.chameleon.support.type;
 
 import java.util.List;
 
+import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiersImpl;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
-import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.statement.Block;
 import org.aikodi.chameleon.oo.statement.ExceptionSource;
 import org.aikodi.chameleon.oo.type.Type;
@@ -63,7 +63,7 @@ public class StaticInitializer extends ElementWithModifiersImpl implements TypeE
    * A static initializer does not add members to a type.
    */
   @Override
-  public List<Member> getIntroducedMembers() {
+  public List<Declaration> declaredDeclarations() {
     return ImmutableList.of();
   }
 

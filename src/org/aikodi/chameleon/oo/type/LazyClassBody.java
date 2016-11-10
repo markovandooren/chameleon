@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.Declaration;
+import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -13,7 +14,6 @@ import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
-import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.util.Lists;
 
@@ -83,7 +83,7 @@ public class LazyClassBody extends ClassBody {
 				} else {
 					if(! declarationFromBaseType.isTrue(language.CLASS)) {
 					  clone = clone(declarationFromBaseType);
-					  super.add((TypeElement) clone); //FIX ME there should be a separate stub for type elements.
+					  super.add((Declarator) clone); //FIX ME there should be a separate stub for type elements.
 					  clone.setOrigin(declarationFromBaseType);
 					} else {
 						clone = declarationFromBaseType;
@@ -116,10 +116,10 @@ public class LazyClassBody extends ClassBody {
 			language.replace(tref, par, declClone, Declaration.class);
 		}
 		// 3. Find out who generated the stub
-		TypeElement generator = stub.generator();
+		Declarator generator = stub.generator();
 		// 4. Search for the clone of the generator and store it in newGenerator.
-		TypeElement newGenerator = null;
-		for(TypeElement element:super.elements()) {
+		Declarator newGenerator = null;
+		for(Declarator element:super.elements()) {
 			if(element.origin().sameAs(generator)) {
 				newGenerator = element;
 				break;
@@ -132,9 +132,9 @@ public class LazyClassBody extends ClassBody {
 			super.add(newGenerator);
 		}
 		// 6. Ask which members are introduced by the new (cloned) generator.
-		List<? extends Member> introducedByNewGenerator = newGenerator.getIntroducedMembers();
+		List<? extends Declaration> introducedByNewGenerator = newGenerator.declaredDeclarations();
 		// 7. Search for the one with the same signature as the clone of the declaration (which is in the same context). 
-		for(Member m: introducedByNewGenerator) {
+		for(Declaration m: introducedByNewGenerator) {
 			if(m.name().equals(selectionName) && m.sameSignatureAs(declClone)) {
 				clone = m;
 				break;
@@ -142,7 +142,7 @@ public class LazyClassBody extends ClassBody {
 		}
 		if(clone == null) {
 			//DEBUG CODE
-			for(Member m: introducedByNewGenerator) {
+			for(Declaration m: introducedByNewGenerator) {
 				if(m.sameSignatureAs(declClone)) {
 					clone = m;
 					break;
@@ -154,12 +154,12 @@ public class LazyClassBody extends ClassBody {
 	}
 
 	@Override
-   public void add(TypeElement element) {
+   public void add(Declarator element) {
 		throw new ChameleonProgrammerException("Trying to add an element to a lazy class body.");
 	}
 
 	@Override
-   public void remove(TypeElement element) {
+   public void remove(Declarator element) {
 		throw new ChameleonProgrammerException("Trying to remove an element from a lazy class body.");
 	}
 
@@ -174,14 +174,14 @@ public class LazyClassBody extends ClassBody {
 	}
 
 	@Override
-   public synchronized List<TypeElement> elements() {
+   public synchronized List<Declarator> elements() {
 		if(! _initializedElements) {
 			_statics = Lists.create();
-			List<TypeElement> alreadyCloned = super.elements();
-			for(TypeElement element: original().elements()) {
+			List<Declarator> alreadyCloned = super.elements();
+			for(Declarator element: original().elements()) {
 				ChameleonProperty clazz = language(ObjectOrientedLanguage.class).CLASS;
-				TypeElement clonedElement=null;
-				for(TypeElement already: alreadyCloned) {
+				Declarator clonedElement=null;
+				for(Declarator already: alreadyCloned) {
 					if(already.origin().equals(element)) { //EQUALS
 						clonedElement = already;
 						break;
@@ -200,15 +200,15 @@ public class LazyClassBody extends ClassBody {
 			}
 			_initializedElements = true;
 		}
-		List<TypeElement> result = super.elements();
+		List<Declarator> result = super.elements();
 		result.addAll(_statics);
 		return result;
 	}
 
-	private List<TypeElement> _statics;
+	private List<Declarator> _statics;
 	
 	@Override
-   public <D extends Member> List<? extends SelectionResult> members(DeclarationSelector<D> selector) throws LookupException {
+   public <D extends Declaration> List<? extends SelectionResult> members(DeclarationSelector<D> selector) throws LookupException {
 		if(selector.usesSelectionName()) {
 			List<? extends Declaration> list = null;
 			if(Config.cacheDeclarations()) {
@@ -226,7 +226,7 @@ public class LazyClassBody extends ClassBody {
 	}
 	
 	@Override
-   public <D extends Member> List<D> members(Class<D> kind) throws LookupException {
+   public <D extends Declaration> List<D> members(Class<D> kind) throws LookupException {
 		List<D> originals = original().members(kind);
 		List<D> result = Lists.create();
 		for(D original:originals) {

@@ -2,12 +2,15 @@ package org.aikodi.chameleon.core.declaration;
 
 import java.util.List;
 
+import org.aikodi.chameleon.core.element.Element;
+import org.aikodi.chameleon.core.modifier.ElementWithModifiers;
+
 /**
  * A declarator is an element that declares declarations.
  * 
  * @author Marko van Dooren
  */
-public interface Declarator {
+public interface Declarator extends ElementWithModifiers {
 
 	/**
 	 * Return the declarations declared by this declarator.
@@ -22,4 +25,5 @@ public interface Declarator {
    @ post ! \result.contains(null); 
   */
 	public List<Declaration> declaredDeclarations();
+	
 }

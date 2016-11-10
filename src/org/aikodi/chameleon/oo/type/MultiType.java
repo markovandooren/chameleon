@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
+import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 
@@ -29,12 +30,12 @@ public abstract class MultiType extends ClassImpl {
 	}
 
 	@Override
-	public void add(TypeElement element) throws ChameleonProgrammerException {
+	public void add(Declarator element) throws ChameleonProgrammerException {
 		throw new ChameleonProgrammerException("Trying to add an element to a union type.");
 	}
 
 	@Override
-	public void remove(TypeElement element) throws ChameleonProgrammerException {
+	public void remove(Declarator element) throws ChameleonProgrammerException {
 		throw new ChameleonProgrammerException("Trying to remove an element from a union type.");
 	}
 

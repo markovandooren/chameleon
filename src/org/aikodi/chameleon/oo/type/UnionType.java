@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
@@ -19,7 +20,6 @@ import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
-import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.Pair;
@@ -71,10 +71,10 @@ public class UnionType extends MultiType {
 	}
 
 	@Override
-	public List<Member> localMembers() throws LookupException {
+	public List<Declaration> localMembers() throws LookupException {
 		//FIXME: renaming and so on. Extend both types and perform automatic renaming?
 		//       what about conflicting member definitions?
-		return new ArrayList<Member>();
+		return new ArrayList<Declaration>();
 //		List<Member> result = new ArrayList<Member>();
 //		for(Type type: types()) {
 //		  result.addAll(type.localMembers(Member.class));
@@ -84,7 +84,7 @@ public class UnionType extends MultiType {
 	}
 	
 	@Override
-	public <D extends Member> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException {
 		//FIXME: renaming and so on. Extend both types and perform automatic renaming?
 		//       what about conflicting member definitions?
 		return Collections.EMPTY_LIST;

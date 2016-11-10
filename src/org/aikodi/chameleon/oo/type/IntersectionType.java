@@ -3,11 +3,12 @@ package org.aikodi.chameleon.oo.type;
 import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.exists;
 import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.aikodi.chameleon.core.declaration.Declaration;
+import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -15,15 +16,10 @@ import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
-import org.aikodi.chameleon.oo.member.Member;
-import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.Lists;
-import org.aikodi.chameleon.util.Pair;
 
-import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
-import be.kuleuven.cs.distrinet.rejuse.predicate.AbstractPredicate;
 
 public class IntersectionType extends MultiType {
 	
@@ -98,19 +94,19 @@ public class IntersectionType extends MultiType {
 	}
 
 	@Override
-	public List<Member> localMembers() throws LookupException {
+	public List<Declaration> localMembers() throws LookupException {
 		//FIXME: renaming and so on. Extend both types and perform automatic renaming?
 		//       what about conflicting member definitions?
-		List<Member> result = Lists.create();
+		List<Declaration> result = Lists.create();
 		for(Type type: types()) {
-		  result.addAll(type.localMembers(Member.class));
+		  result.addAll(type.localMembers(Declaration.class));
 		}
 		removeConstructors(result);
 		return result;
 	}
 	
 	@Override
-	public <D extends Member> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException {
 		//FIXME: renaming and so on. Extend both types and perform automatic renaming?
 		//       what about conflicting member definitions?
 		List<SelectionResult> result = Lists.create();
@@ -161,8 +157,8 @@ public class IntersectionType extends MultiType {
 	}
 
 	@Override
-	public List<? extends TypeElement> directlyDeclaredElements() {
-		List<TypeElement> result = Lists.create();
+	public List<? extends Declarator> directlyDeclaredElements() {
+		List<Declarator> result = Lists.create();
 		for(Type type: types()) {
 		  result.addAll(type.directlyDeclaredElements());
 		}

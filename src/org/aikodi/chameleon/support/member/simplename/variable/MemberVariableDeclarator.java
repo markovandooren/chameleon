@@ -13,11 +13,11 @@ import org.aikodi.chameleon.core.modifier.Modifier;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
+import org.aikodi.chameleon.core.variable.Variable;
 import org.aikodi.chameleon.oo.expression.Expression;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeElement;
 import org.aikodi.chameleon.oo.type.TypeReference;
-import org.aikodi.chameleon.oo.variable.MemberVariable;
 import org.aikodi.chameleon.oo.variable.RegularMemberVariable;
 import org.aikodi.chameleon.oo.variable.VariableDeclaration;
 import org.aikodi.chameleon.oo.variable.VariableDeclarator;
@@ -50,8 +50,8 @@ public class MemberVariableDeclarator extends ElementWithModifiersImpl implement
 	private Multi<VariableDeclaration> _declarations = new Multi<VariableDeclaration>(this);
 
 	@Override
-   public MemberVariable createVariable(String name, Expression expression) {
-		MemberVariable result = new RegularMemberVariable(name, clone(typeReference()),expression);
+   public Variable createVariable(String name, Expression expression) {
+		Variable result = new RegularMemberVariable(name, clone(typeReference()),expression);
 		for(Modifier mod: modifiers()) {
 			result.addModifier(clone(mod));
 		}
@@ -64,10 +64,10 @@ public class MemberVariableDeclarator extends ElementWithModifiersImpl implement
 	}
 
 	@Override
-   public List<MemberVariable> getIntroducedMembers() {
-		List<MemberVariable> result = new ArrayList<MemberVariable>();
+   public List<Declaration> declaredDeclarations() {
+		List<Declaration> result = new ArrayList<Declaration>();
 		for(VariableDeclaration declaration: variableDeclarations()) {
-			result.add((MemberVariable) declaration.variable());
+			result.add(declaration.variable());
 		}
 		return result;
 	}
@@ -92,7 +92,7 @@ public class MemberVariableDeclarator extends ElementWithModifiersImpl implement
 
 	@Override
    public List<? extends Declaration> declarations() throws LookupException {
-		return getIntroducedMembers();
+		return declaredDeclarations();
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
+import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupContext;
@@ -14,15 +15,14 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
-import org.aikodi.chameleon.oo.member.Member;
 import org.aikodi.chameleon.oo.type.generics.TypeParameterBlock;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
 
-import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
-
 import com.google.common.collect.ImmutableList;
+
+import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 
 /**
  * A class representing object-oriented classes that have a body with declarations.
@@ -84,12 +84,12 @@ public abstract class ClassWithBody extends ClassImpl {
 	}
 
 	@Override
-   public void add(TypeElement element) {
+   public void add(Declarator element) {
 		  body().add(element);
 		}
 
 	@Override
-	public void remove(TypeElement element) throws ChameleonProgrammerException {
+	public void remove(Declarator element) throws ChameleonProgrammerException {
 		body().remove(element);
 	}
 
@@ -99,7 +99,7 @@ public abstract class ClassWithBody extends ClassImpl {
 	 * @throws LookupException 
 	 */
 	@Override
-   public List<Member> localMembers() throws LookupException {
+   public List<Declaration> localMembers() throws LookupException {
 	   return body().members();
 	}
 
@@ -152,7 +152,7 @@ public abstract class ClassWithBody extends ClassImpl {
 	}
 
 	@Override
-	public <D extends Member> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException {
 	//		return selector.selection(localMembers());
 			return body().members(selector);
 		}
@@ -190,12 +190,12 @@ public abstract class ClassWithBody extends ClassImpl {
 	}
 
 	@Override
-	public List<? extends TypeElement> directlyDeclaredElements() {
+	public List<? extends Declarator> directlyDeclaredElements() {
 		return body().elements();
 	}
 
 	@Override
-   public <T extends TypeElement> List<T> directlyDeclaredElements(Class<T> kind) {
+   public <T extends Declarator> List<T> directlyDeclaredElements(Class<T> kind) {
   	List<TypeElement> tmp = (List<TypeElement>) directlyDeclaredElements();
   	new TypePredicate<>(kind).filter(tmp);
     return (List<T>)tmp;
