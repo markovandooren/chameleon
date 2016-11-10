@@ -675,7 +675,7 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
     
   	@Override
    public <T extends Declarator> List<T> directlyDeclaredElements(Class<T> kind) {
-    	List<TypeElement> tmp = (List<TypeElement>) directlyDeclaredElements();
+    	List<? extends Declarator> tmp = directlyDeclaredElements();
     	new TypePredicate<>(kind).filter(tmp);
       return (List<T>)tmp;
   	}
@@ -809,11 +809,8 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
   		return result;
   	}
 
-		/* (non-Javadoc)
-		 * @see chameleon.oo.type.Tajp#replace(chameleon.oo.type.TypeElement, chameleon.oo.type.TypeElement)
-		 */
 		@Override
-      public abstract void replace(TypeElement oldElement, TypeElement newElement);
+      public abstract void replace(Declarator oldElement, Declarator newElement);
 
 		/* (non-Javadoc)
 		 * @see chameleon.oo.type.Tajp#baseType()

@@ -212,7 +212,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 		return selector.selection(declarations());
 	}
 
-	public void replace(TypeElement oldElement, TypeElement newElement) {
+	public void replace(Declarator oldElement, Declarator newElement) {
 		_elements.replace((Association)oldElement.parentLink(), (Association)newElement.parentLink());
 	}
 

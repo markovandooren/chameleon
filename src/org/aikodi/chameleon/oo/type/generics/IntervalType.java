@@ -15,7 +15,6 @@ import org.aikodi.chameleon.oo.type.ClassImpl;
 import org.aikodi.chameleon.oo.type.Parameter;
 import org.aikodi.chameleon.oo.type.ParameterBlock;
 import org.aikodi.chameleon.oo.type.Type;
-import org.aikodi.chameleon.oo.type.TypeElement;
 import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.Util;
@@ -114,7 +113,7 @@ public abstract class IntervalType extends ClassImpl {
   }
 
   @Override
-  public void replace(TypeElement oldElement, TypeElement newElement) {
+  public void replace(Declarator oldElement, Declarator newElement) {
     throw new ChameleonProgrammerException("Trying to replace an element in a type alias.");
   }
 

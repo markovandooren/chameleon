@@ -158,7 +158,7 @@ public abstract class ClassWithBody extends ClassImpl {
 		}
 
 	@Override
-   public void replace(TypeElement oldElement, TypeElement newElement) {
+   public void replace(Declarator oldElement, Declarator newElement) {
 		body().replace(oldElement, newElement);
 	}
 
@@ -196,7 +196,7 @@ public abstract class ClassWithBody extends ClassImpl {
 
 	@Override
    public <T extends Declarator> List<T> directlyDeclaredElements(Class<T> kind) {
-  	List<TypeElement> tmp = (List<TypeElement>) directlyDeclaredElements();
+  	List<Declarator> tmp = (List<Declarator>) directlyDeclaredElements();
   	new TypePredicate<>(kind).filter(tmp);
     return (List<T>)tmp;
 	}

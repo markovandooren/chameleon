@@ -45,7 +45,7 @@ public abstract class MultiType extends ClassImpl {
 	}
 
 	@Override
-   public void replace(TypeElement oldElement, TypeElement newElement) {
+   public void replace(Declarator oldElement, Declarator newElement) {
 		throw new ChameleonProgrammerException("Trying to replace an element in a union type.");
 	}
 

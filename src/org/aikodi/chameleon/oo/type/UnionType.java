@@ -4,25 +4,22 @@ import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.ex
 import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
+import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
-import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
-import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
-import org.aikodi.chameleon.util.Pair;
 
 import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 
@@ -106,11 +103,11 @@ public class UnionType extends MultiType {
 		return language.subtypeRelation().leastUpperBound(trefs).targetContext();
 	}
 	
-	public void removeConstructors(List<? extends TypeElement> members) {
-		Iterator<? extends TypeElement> iter = members.iterator();
+	public void removeConstructors(List<? extends Declarator> members) {
+		Iterator<? extends Declarator> iter = members.iterator();
 		// Remove constructors. We really do need metaclasses so it seems.
 		while(iter.hasNext()) {
-			TypeElement member = iter.next();
+			Declarator member = iter.next();
 			if(member.is(language(ObjectOrientedLanguage.class).CONSTRUCTOR) == Ternary.TRUE) {
 				iter.remove();
 			}
@@ -131,8 +128,8 @@ public class UnionType extends MultiType {
 
 
  @Override
-	public List<? extends TypeElement> directlyDeclaredElements() {
-		List<TypeElement> result = new ArrayList<TypeElement>();
+	public List<? extends Declarator> directlyDeclaredElements() {
+		List<Declarator> result = new ArrayList<Declarator>();
 		return result;
 	}
 	

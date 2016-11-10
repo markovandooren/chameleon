@@ -411,7 +411,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType {
 
   public Type intersectionDoubleDispatch(IntersectionType type) throws LookupException;
 
-  public void replace(TypeElement oldElement, TypeElement newElement);
+  public void replace(Declarator oldElement, Declarator newElement);
 
   public Type baseType();
 

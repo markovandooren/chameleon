@@ -114,7 +114,7 @@ public PropertySet<Element,ChameleonProperty> declaredProperties() {
   }
 
   @Override
-public void replace(TypeElement oldElement, TypeElement newElement) {
+public void replace(Declarator oldElement, Declarator newElement) {
 		throw new ChameleonProgrammerException("Trying to replace an element in a type alias.");
   }
   

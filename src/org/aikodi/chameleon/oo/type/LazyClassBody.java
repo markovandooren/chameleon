@@ -78,8 +78,8 @@ public class LazyClassBody extends ClassBody {
 				// references to the actual type arguments of the derived type that is the parent of
 				// this lazy class body.
 				Declaration clone = null;
-				if(parent instanceof TypeElementStub) {
-					clone = caseElementFromStub(selectionName, declarationFromBaseType, (TypeElementStub) parent);
+				if(parent instanceof DeclaratorStub) {
+					clone = caseElementFromStub(selectionName, declarationFromBaseType, (DeclaratorStub) parent);
 				} else {
 					if(! declarationFromBaseType.isTrue(language.CLASS)) {
 					  clone = clone(declarationFromBaseType);
@@ -97,7 +97,7 @@ public class LazyClassBody extends ClassBody {
 		return result;
 	}
 
-	private Declaration caseElementFromStub(String selectionName, Declaration declarationFromBaseType, TypeElementStub stub) throws LookupException {
+	private Declaration caseElementFromStub(String selectionName, Declaration declarationFromBaseType, DeclaratorStub stub) throws LookupException {
 		Declaration clone = null;
 		// 1. Clone the declaration 
 		Declaration declClone = clone(declarationFromBaseType);
