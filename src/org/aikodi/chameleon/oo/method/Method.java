@@ -1,16 +1,12 @@
 package org.aikodi.chameleon.oo.method;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
+import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.method.exception.ExceptionClause;
-import org.aikodi.chameleon.oo.method.exception.TypeExceptionDeclaration;
 import org.aikodi.chameleon.oo.statement.Block;
-import org.aikodi.chameleon.oo.statement.ExceptionTuple;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 
@@ -232,11 +228,11 @@ public abstract class Method extends DeclarationWithParameters {
    * @throws LookupException
    */
   public boolean hasValidOverridingExceptionClause() throws LookupException {
-    List methods = directlyOverriddenMembers();
-    return new Predicate<Method, LookupException>() {
+    Set<Declaration> methods = directlyOverriddenDeclarations();
+    return new Predicate<Declaration, LookupException>() {
       @Override
-      public boolean eval(Method method) throws LookupException {
-        return getExceptionClause().compatibleWith(method.getExceptionClause());
+      public boolean eval(Declaration method) throws LookupException {
+        return method instanceof Method && getExceptionClause().compatibleWith(((Method)method).getExceptionClause());
       }
     }.forAll(methods);
   }

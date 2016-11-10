@@ -32,7 +32,7 @@ public interface DeclarationContainerRelation extends Element {
 //	public Declaration follow(Declaration declaration, DeclarationContainer to) throws LookupException;
 
 	/**
-	 * Add the next occurrences of the given declaration in the lookup hierarchy to the given set.
+	 * Add the directly overridden of the given declaration in the lookup hierarchy to the given set.
 	 * This can for example be used to find overridden or hidden declarations.
 	 * 
 	 * By default, the call is redirected to the {@link #target()} of this relation.
@@ -52,11 +52,19 @@ public interface DeclarationContainerRelation extends Element {
    @ pre matchCondition != null;
    @ pre accumulator != null;
    @*/
-	public default void next(Declaration declaration,	DeclarationRelation relation, Set<Declaration> accumulator) throws LookupException {
+	public default void directlyOverridden(Declaration declaration,	DeclarationRelation relation, Set<Declaration> accumulator) throws LookupException {
 		List<? extends Declaration> locals = target().locallyDeclaredDeclarations();
     boolean cont = relation.accumulate(locals, declaration, accumulator);
     if(cont) {
-		  target().next(declaration, relation, accumulator);
+		  target().directlyOverriddenDeclarations(declaration, relation, accumulator);
     }
+	}
+
+	public default void directlyAliasedDeclarations(Declaration declaration, Set<Declaration> accumulator) throws LookupException {
+		target().directlyAliasedDeclarations(declaration, accumulator);
+	}
+
+	public default void directlyAliasingDeclarations(Declaration declaration, Set<Declaration> accumulator) throws LookupException {
+		target().directlyAliasingDeclarations(declaration, accumulator);
 	}
 }

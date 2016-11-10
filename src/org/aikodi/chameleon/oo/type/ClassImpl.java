@@ -947,11 +947,11 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
 			return ImmutableList.of();
 		}
 		
-	  @Override
-   public HidesRelation<? extends Member> hidesRelation() {
-			return _hidesRelation;
-	  }
-	  
+//	  @Override
+//   public HidesRelation<? extends Member> hidesRelation() {
+//			return _hidesRelation;
+//	  }
+//	  
 	  private static HidesRelation<Type> _hidesRelation = new HidesRelation<Type>(Type.class);
 }
 

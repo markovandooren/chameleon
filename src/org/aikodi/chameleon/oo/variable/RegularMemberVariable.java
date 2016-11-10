@@ -73,26 +73,21 @@ public class RegularMemberVariable extends RegularVariable implements MemberVari
       return Util.<Member> createSingletonList(this);
    }
 
-   @Override
-   public List<? extends Member> directlyAliasedMembers() throws LookupException {
-      return nearestAncestor(Type.class).membersDirectlyAliasedBy(aliasSelector());
-   }
+//   @Override
+//   public List<? extends Member> directlyAliasedMembers() throws LookupException {
+//      return nearestAncestor(Type.class).membersDirectlyAliasedBy(aliasSelector());
+//   }
+//
+//   @Override
+//   public List<? extends Member> directlyAliasingMembers() throws LookupException {
+//      return nearestAncestor(Type.class).membersDirectlyAliasing(aliasSelector());
+//   }
 
-   @Override
-   public List<? extends Member> directlyAliasingMembers() throws LookupException {
-      return nearestAncestor(Type.class).membersDirectlyAliasing(aliasSelector());
-   }
-
-   @Override
-   public boolean canImplement(Member other) throws LookupException {
-      StrictPartialOrder<Member> implementsRelation = language(ObjectOrientedLanguage.class).implementsRelation();
-      return implementsRelation.contains(this, other);
-   }
-
-   @Override
-   public boolean hides(Member other) throws LookupException {
-      return ((HidesRelation) hidesSelector()).contains(this, other);
-   }
+//   @Override
+//   public boolean canImplement(Member other) throws LookupException {
+//      StrictPartialOrder<Member> implementsRelation = language(ObjectOrientedLanguage.class).implementsRelation();
+//      return implementsRelation.contains(this, other);
+//   }
 
    public HidesRelation<? extends Member> hidesSelector() {
       return _hidesSelector;
@@ -101,10 +96,10 @@ public class RegularMemberVariable extends RegularVariable implements MemberVari
    private static HidesRelation<RegularMemberVariable> _hidesSelector = new HidesRelation<RegularMemberVariable>(
          RegularMemberVariable.class);
 
-   @Override
-   public MemberRelationSelector<Member> aliasSelector() {
-      return new MemberRelationSelector<Member>(Member.class, this, _aliasSelector);
-   }
+//   @Override
+//   public MemberRelationSelector<Member> aliasSelector() {
+//      return new MemberRelationSelector<Member>(Member.class, this, _aliasSelector);
+//   }
 
    private static DeclarationComparator<Member> _aliasSelector = new DeclarationComparator<Member>(Member.class);
 

@@ -7,10 +7,6 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 
 public abstract class DeclarationRelation {
 
-//	public default void next(Declaration declaration, DeclarationContainerRelation containerRelation, Set<Declaration> accumulator) throws LookupException {
-//		containerRelation.next(declaration, this, accumulator);
-//	}
-
 	private boolean multiple = true;
 	
 	/**
@@ -38,7 +34,7 @@ public abstract class DeclarationRelation {
 	 * 
 	 * @throws LookupException
 	 */
-	public abstract boolean matches(Declaration subDeclaration, Declaration superDeclaration) throws LookupException;
+	public abstract boolean contains(Declaration subDeclaration, Declaration superDeclaration) throws LookupException;
 	
 	/**
 	 * 
@@ -51,7 +47,7 @@ public abstract class DeclarationRelation {
 	public boolean accumulate(Collection<? extends Declaration> newValues, Declaration local, Set<Declaration> accumulator)  throws LookupException {
 		boolean cont = true;
 		for(Declaration declaration: newValues) {
-			if(cont && matches(local, declaration)) {
+			if(cont && contains(local, declaration)) {
 				accumulator.add(declaration);
 				cont = cont && multiple;
 			}

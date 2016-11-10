@@ -128,9 +128,13 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
 				if(selectionResult != null) {
 				Member alreadyInherited = (Member)selectionResult.finalDeclaration();
 					// Remove the already inherited member if potentially inherited member m overrides or hides it.
-					if((alreadyInherited.sameAs(m) || alreadyInherited.compatibleSignature(m) || alreadyInherited.canImplement(m) || alreadyInherited.hides(m))) {
+					if(alreadyInherited.sameAs(m) || alreadyInherited.compatibleSignature(m)) {
 						add = false;
-					} else if((!alreadyInherited.sameAs(m)) && (m.compatibleSignature(alreadyInherited) || m.canImplement(alreadyInherited) || m.hides(alreadyInherited))) {
+					} else if (alreadyInherited.hides(m)) {
+						add = false;
+						alreadyInherited.hides(m);
+					}
+					else if((!alreadyInherited.sameAs(m)) && (m.compatibleSignature(alreadyInherited) || m.hides(alreadyInherited))) {
 						removedIndex++;
 						removedIndices[removedIndex] = currentIndex;
 						current.set(currentIndex,null);

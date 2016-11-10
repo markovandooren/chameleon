@@ -122,81 +122,8 @@ public interface DeclarationContainer extends Element {
 		return language().lookupFactory().createLexicalLookupStrategy(localContext(), this);
 	}
 
-	//  public default boolean canReach(Declaration overriding, Declaration overridden) throws LookupException {
-	//  	DeclarationContainer overriddenAncestor = overridden.nearestAncestor(DeclarationContainer.class);
-	//  	if(sameAs(overriddenAncestor)) {
-	//    	DeclarationContainer overridingAncestor = overriding.nearestAncestor(DeclarationContainer.class);
-	//    	return sameAs(overridingAncestor);
-	//  	} else {
-	//  		for(DeclarationRelation relation: relations()) {
-	//  			if(relation.overrides(overriding, overridden)) {
-	//  				return true;
-	//  			}
-	//  		}
-	//  		return false;
-	//  	}
-	//  }
-
-//	/**
-//	 * Follow the overriding declaration and check whether it ends up at the
-//	 * overridden declaration. This is not a complete override check, hence the name
-//	 * of the method. It allows declaration containers and relations to determine
-//	 * the path that is followed, and allowed for renaming to occur with the
-//	 * declarations having to know anything about it.
-//	 * 
-//	 * We need both declarations because elements can be generated. Generated elements
-//	 * are not part of the model, so we cannot simply follow a path from the overriding
-//	 * declaration to the overridden declaration.
-//	 * 
-//	 * @param overriding
-//	 * @param overridden
-//	 * @return
-//	 * @throws LookupException
-//	 */
-//	public default Declaration follow(Declaration declaration, DeclarationContainer to) throws LookupException {
-//		if(sameAs(to)) {
-//			return declaration;
-//		} else {
-//			for(DeclarationContainerRelation relation: relations()) {
-//				Declaration result = relation.follow(declaration, to);
-//				if(result != null) {
-//					return result;
-//				}
-//			}
-//			return null;
-//		}
-//	}
-
-//	/**
-//	 * Add the next declarations in the lookup hierarchy (both specialization and composition)
-//	 * to the given accumulator set.
-//	 *  
-//	 * @param declaration The declaration for which the next elements are requested.
-//	 * @param matchCondition A function that determines when a match was found. This
-//	 *                       can be an overrides or hides check. 
-//	 * @param accumulator
-//	 * @throws LookupException
-//	 */
-//	public default void next(Declaration declaration, BiFunction<Declaration, Declaration, Boolean, LookupException> matchCondition, Set<Declaration> accumulator) throws LookupException {
-//		boolean done = false;
-//		for(Declaration local: locallyDeclaredDeclarations()) {
-//			if(matchCondition.apply(local, declaration)) {
-//				accumulator.add(local);
-//				done = true;
-//			}
-//		}
-//		if(! done) {
-//			for(DeclarationContainerRelation relation: relations()) {
-//				relation.next(declaration, matchCondition, accumulator);
-//			}
-//		}
-//	}
-
 	/**
-	 * HELPER method that must be public because of Java limitations.
-	 * 
-	 * Add the next declarations in the lookup hierarchy (both specialization and composition)
-	 * to the given accumulator set.
+	 * Add all declarations satisfying that have the given relation with the given declaration.
 	 *  
 	 * @param declaration The declaration for which the next elements are requested.
 	 * @param matchCondition A function that determines when a match was found. This
@@ -204,32 +131,35 @@ public interface DeclarationContainer extends Element {
 	 * @param accumulator
 	 * @throws LookupException
 	 */
-	public default void next(Declaration declaration, DeclarationRelation declarationRelation, Set<Declaration> accumulator) throws LookupException {
-		boolean done = false;
-		for(Declaration local: locallyDeclaredDeclarations()) {
-			if(declarationRelation.matches(local, declaration)) {
-				accumulator.add(local);
-				done = true;
-			}
-		}
-		if(! done) {
+	public default void directlyOverriddenDeclarations(Declaration declaration, DeclarationRelation declarationRelation, Set<Declaration> accumulator) throws LookupException {
+//		boolean done = false;
+//		for(Declaration local: locallyDeclaredDeclarations()) {
+//			if(declarationRelation.matches(local, declaration)) {
+//				accumulator.add(local);
+//				done = true;
+//			}
+//		}
+//		if(! done) {
 			for(DeclarationContainerRelation relation: relations()) {
-				relation.next(declaration, declarationRelation, accumulator);
+				relation.directlyOverridden(declaration, declarationRelation, accumulator);
 			}
-		}
+//		}
 	}
-
-//	public default Set<Declaration> next(Declaration declaration, DeclarationRelation declarationRelation) throws LookupException {
-//		Set<Declaration> result = new HashSet<>();
-//		next(declaration, declarationRelation, result);
-//		return result;
-//	}
-
-//	public default boolean aliasOf(Declaration first, Declaration second) throws LookupException {
-//		throw new Error("Not implemented yet.");
-//	}
 
 	public default List<DeclarationContainerRelation> relations() {
 		return Collections.emptyList();
 	}
+
+	public default void directlyAliasedDeclarations(Declaration declaration, Set<Declaration> accumulator) throws LookupException {
+   	for(DeclarationContainerRelation relation: relations()) {
+			relation.directlyAliasedDeclarations(declaration, accumulator);
+		}
+	}
+	
+	public default void directlyAliasingDeclarations(Declaration declaration, Set<Declaration> accumulator) throws LookupException {
+   	for(DeclarationContainerRelation relation: relations()) {
+			relation.directlyAliasingDeclarations(declaration, accumulator);
+		}
+	}
+
 }

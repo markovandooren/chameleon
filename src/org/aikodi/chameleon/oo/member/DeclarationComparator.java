@@ -32,7 +32,7 @@ public class DeclarationComparator<D extends Declaration> {
 		return _declarationClass;
 	}
 
-	public boolean contains(Member first, Member second) throws LookupException {
+	public boolean contains(Declaration first, Declaration second) throws LookupException {
 		return selectedClass().isInstance(first) && 
 				   selectedClass().isInstance(second) && 
 		       containsBasedOnRest((D) first, (D) second);
@@ -42,8 +42,4 @@ public class DeclarationComparator<D extends Declaration> {
 		return first.name().equals(second.name());
 	}
 
-//	public final boolean containsBasedOnName(String first, String second) throws LookupException {
-//		return first.equals(second);
-//	}
-	
 }

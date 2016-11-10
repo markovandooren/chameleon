@@ -1,8 +1,10 @@
 package org.aikodi.chameleon.core.declaration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.aikodi.chameleon.core.element.Element;
@@ -19,6 +21,9 @@ import org.aikodi.chameleon.core.scope.Scope;
 import org.aikodi.chameleon.core.scope.ScopeProperty;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
+import org.aikodi.chameleon.oo.member.HidesRelation;
+import org.aikodi.chameleon.oo.member.Member;
+import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.exception.Handler;
 
@@ -341,27 +346,141 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
   	return signature().sameAs(other.signature());
   }
   
-  public default Set<Declaration> directlyOverridden() throws LookupException {
+  /**
+   * Return the members that are overridden by this member.
+   * 
+   * @return A non-null set containing the members that are overridden by this member, 
+   * and that are either lexical members of the model, or generated members that are reachable 
+   * via this member. Generation of elements can caused a theoretically infinite number of members
+   * to be overridden by this member. Only a few of them will actually exist as objects at any time,
+   * and it would be too expensive to track them given the fact that the result would be incomplete.
+   * As such, the result is limited to those members that are typically used by tools.
+   *  
+   * @throws LookupException
+   */
+  public default Set<? extends Declaration> overriddenDeclarations() throws LookupException {
+    Set<Declaration> result = null;
+    if(result == null) {
+      List<Declaration> todo = new ArrayList<Declaration>(directlyOverriddenDeclarations());
+      Map<DeclarationContainer,List<Declaration>> visitedContainers = new HashMap<>();
+      while(! todo.isEmpty()) {
+      	Declaration current = todo.get(0);
+        todo.remove(0);
+        DeclarationContainer container = current.nearestAncestor(DeclarationContainer.class);
+        if(! visitedContainers.containsKey(container)) {
+          visitedContainers.put(container, Lists.<Declaration>create());
+        }
+        List<Declaration> done = visitedContainers.get(container);
+        boolean contains = false;
+        for(Declaration declaration:done) {
+          if(declaration.sameSignatureAs(current)) {
+            contains = true;
+            break;
+          }
+        }
+        if(! contains) {
+          done.add(current);
+          todo.addAll(current.directlyOverriddenDeclarations());
+          todo.addAll(current.aliasedDeclarations());
+          todo.addAll(current.aliasingDeclarations());
+        }
+      }
+      result = new HashSet<Declaration>();
+      for(List<Declaration> members: visitedContainers.values()) {
+        result.addAll(members);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * @return The <em>reachable</em> declaration that are aliased by this declaration.
+   *         Note that for e.g. type constructor instantiations (List&lt;A&gt;) there
+   *         can be multiple equal instances. Declarations of the other instances are
+   *         considered unreachable. This method cannot find every theoretical
+   *         match because the object does not know all of its 'twins'.
+   * @throws LookupException
+   */
+  public default Set<? extends Declaration> aliasedDeclarations() throws LookupException {
+    List<Declaration> todo = new ArrayList<>(directlyAliasedDeclarations());
+    Set<Declaration> result = new HashSet<Declaration>();
+    while(! todo.isEmpty()) {
+    	Declaration m = todo.get(0);
+      todo.remove(0);
+      if(result.add(m)) {
+        todo.addAll(m.directlyAliasedDeclarations());
+      }
+    }
+    return result;
+  }
+
+  /**
+   * @return The <em>reachable</em> declarations that are an alias of this declaration.
+   *         Note that for type constructor instantiations (List&lt;A&gt;) there
+   *         can be multiple equal instances. Declarations of the other instances are
+   *         considered unreachable. This method cannot find every theoretical
+   *         match because the object does not know all of its 'twins'.
+   * @throws LookupException
+   */
+  public default Set<? extends Declaration> aliasingDeclarations() throws LookupException {
+    List<Declaration> todo = new ArrayList<>(directlyAliasingDeclarations());
+    Set<Declaration> result = new HashSet<Declaration>();
+    while(! todo.isEmpty()) {
+    	Declaration m = todo.get(0);
+      todo.remove(0);
+      if(result.add(m)) {
+        todo.addAll(m.directlyAliasingDeclarations());
+      }
+    }
+    return result;
+  }
+
+  public default Set<Declaration> directlyOverriddenDeclarations() throws LookupException {
   	Set<Declaration> result = new HashSet<>();
-  	DeclarationRelation relation = new DeclarationRelation(true){
-			@Override
-			public boolean matches(Declaration overriding, Declaration overridden) throws LookupException {
-	       return overridden.isTrue(overridden.language(LanguageImpl.class).OVERRIDABLE)
-			&& overridden.compatibleSignature(overriding);
-			}
-		}; 
-		nearestAncestor(DeclarationContainer.class).next(this, relation, result);
+  	//FIXME This may have to be determined by the language.
+  	DeclarationRelation relation = overridesRelation(); 
+		nearestAncestor(DeclarationContainer.class).directlyOverriddenDeclarations(this, relation, result);
   	return result;
   }
 
-//  public default boolean directlyOverrides(Declaration other) throws LookupException {
-//  	notNull(other);
-//  	if(sameAs(other) || ! other.isTrue(language(ObjectOrientedLanguage.class).OVERRIDABLE)) {
-//  		return false;
-//  	} else {
-//  		DeclarationContainer target = other.nearestAncestor(DeclarationContainer.class);
-//  		Declaration followed = nearestAncestor(DeclarationContainer.class).follow(this, target);
-//  		return other.equals(followed);
-//  	}
-//  }
+  /**
+   * Return a relation that determines when a given declaration overrides another one.
+   * 
+   * FIXME: this may have to be be redirected to the language.
+   * @return
+   */
+	public default DeclarationRelation overridesRelation() {
+		return new DeclarationRelation(true){
+			@Override
+			public boolean contains(Declaration overriding, Declaration overridden) throws LookupException {
+	       return overridden.isTrue(overridden.language(LanguageImpl.class).OVERRIDABLE)
+			&& overridden.compatibleSignature(overriding);
+			}
+		};
+	}
+
+  public default Set<Declaration> directlyAliasedDeclarations() throws LookupException {
+  	Set<Declaration> result = new HashSet<>();
+		nearestAncestor(DeclarationContainer.class).directlyAliasedDeclarations(this, result);
+  	return result;
+  }
+
+  public default Set<Declaration> directlyAliasingDeclarations() throws LookupException {
+  	Set<Declaration> result = new HashSet<>();
+		nearestAncestor(DeclarationContainer.class).directlyAliasedDeclarations(this, result);
+  	return result;
+  }
+
+	/**
+   * Check whether this member overrides the given member.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post other == null ==> \result == false;
+   @*/
+  public default boolean hides(Declaration other) throws LookupException {
+    return new HidesRelation<Declaration>(Declaration.class).contains(this,other);
+  }
+
 }
