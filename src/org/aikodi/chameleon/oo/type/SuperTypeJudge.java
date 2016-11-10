@@ -46,6 +46,14 @@ public class SuperTypeJudge {
     return result;
   }
 
+  /**
+   * Return the registered supertype whose base type is equal to the given type.
+   * 
+   * @param baseType The base type of the requested super type.
+   *                 The base type cannot be null.
+   * @return
+   * @throws LookupException
+   */
   public Type get(Type baseType) throws LookupException {
     final Type realBase = baseType.baseType();
     Object o = _map.get(realBase.name());
