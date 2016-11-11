@@ -28,6 +28,11 @@ import org.junit.Test;
 
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 
+/**
+ * A class to test the event mechanism.
+ * 
+ * @author Marko van Dooren
+ */
 public class TestEvents {
 
   @Before
