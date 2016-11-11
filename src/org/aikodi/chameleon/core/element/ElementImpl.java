@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -38,7 +37,6 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
-import org.aikodi.chameleon.oo.type.SuperTypeJudge;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.ChameleonAssociation;
 import org.aikodi.chameleon.util.association.Single;
@@ -48,7 +46,6 @@ import org.aikodi.chameleon.workspace.WrongViewException;
 
 import be.kuleuven.cs.distrinet.rejuse.action.Action;
 import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.association.AbstractMultiAssociation;
 import be.kuleuven.cs.distrinet.rejuse.association.Association;
 import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
 import be.kuleuven.cs.distrinet.rejuse.association.IAssociation;
@@ -473,17 +470,6 @@ public abstract class ElementImpl implements Element {
 	}
 
 	@Override
-   public Element farthestOrigin() {
-		Element current = this;
-		Element origin = origin();
-		while(current != origin) {
-			current = origin;
-			origin = current.origin();
-		}
-		return origin;
-	}
-
-	@Override
    public void setOrigin(Element origin) {
 		_origin = origin;
 	}
@@ -701,13 +687,6 @@ public List<? extends Element> children() {
 	}
 
 	@Override
-   public final <E extends Exception> List<Element> children(Predicate<? super Element,E> predicate) throws E {
-		List<? extends Element> tmp = children();
-		filter(tmp,predicate);
-		return (List<Element>)tmp;
-	}
-
-	@Override
    public final <T extends Element> List<T> descendants(Class<T> c) {
 		List<T> result = children(c);
 		for (Element e : children()) {
@@ -727,34 +706,8 @@ public List<? extends Element> children() {
 	}
 
 	@Override
-	public final <T extends Element, E extends Exception> boolean hasDescendant(UniversalPredicate<T,E> predicate) throws E {
-    return (!children(predicate).isEmpty()) || 
-           exists(children(), child -> child.hasDescendant(predicate));
-	}
-	
-	@Override
 	public final <T extends Element, E extends Exception> List<T> children(UniversalPredicate<T,E> predicate) throws E {
 		return predicate.downCastedList(children());
-	}
-
-	@Override
-   public final <T extends Element> List<T> children(Class<T> c, final ChameleonProperty property) {
-		List<T> result = children(new UniversalPredicate<T,Nothing>(c) {
-			@Override
-         public boolean uncheckedEval(T element) {
-				return element.isTrue(property);
-			}
-		});
-		return result;
-	}
-
-	@Override
-   public final <T extends Element> List<T> descendants(Class<T> c, ChameleonProperty property) {
-		List<T> result = children(c, property);
-		for (Element e : children()) {
-			result.addAll(e.descendants(c, property));
-		}
-		return result;
 	}
 
 	@Override
@@ -815,68 +768,6 @@ public List<? extends Element> children() {
 	}
 
 	@Override
-   public <T extends Element> T nearestAncestorOrSelf(Class<T> c) {
-		Element el = this;
-		while ((el != null) && (! c.isInstance(el))){
-			el = el.parent();
-		}
-		return (T) el;
-	}
-
-	@Override
-	public Element farthestAncestor() {
-		Element parent = parent();
-		if(parent == null) {
-			return this;
-		} else {
-			return parent.farthestAncestor();
-		}
-	}
-
-	@Override
-   public <T extends Element> T farthestAncestor(Class<T> c) {
-		Element el = parent();
-		T anc = null;
-		while(el != null) {
-			while ((el != null) && (! c.isInstance(el))){
-				el = el.parent();
-			}
-			if(el != null) {
-				anc = (T) el;
-				el = el.parent();
-			}
-		}
-		return anc;
-	}
-	
-	@Override
-   public <T extends Element, E extends Exception> T farthestAncestor(UniversalPredicate<T,E> p) throws E {
-		Element el = parent();
-		T anc = null;
-		while(el != null) {
-			while ((el != null) && (!p.eval(el))) {
-				el = el.parent();
-			}
-			if(el != null) {
-				anc = (T) el;
-				el = el.parent();
-			}
-		}
-		return anc;
-	}
-
-	@Override
-   public <T extends Element> T farthestAncestorOrSelf(Class<T> c) {
-		T result = farthestAncestor(c);
-		if((result == null) && (c.isInstance(this))) {
-			result = (T) this;
-		}
-		return result;
-	}
-
-
-
-	@Override
    public boolean hasAncestor(Element ancestor) {
 		Element el = parent();
 		while ((el != null) && (el != ancestor)){
@@ -893,33 +784,6 @@ public List<? extends Element> children() {
 		}
 		return (T) el;
 	}
-
-	@Override
-	public <T extends Element, E extends Exception> T nearestAncestor(UniversalPredicate<T,E> predicate) throws E {
-		Element el = parent();
-		while ((el != null) && (! predicate.eval(el))) {
-			el = el.parent();
-		}
-		return (T) el;
-	}
-
-	@Override
-   public Language language() {
-//		Language result = _languageCache;
-//		if(result == null) {
-//			Element parent = parent();
-//			if(parent != null) {
-//				result = parent.language();
-//				if(Config.cacheLanguage() == true) {
-//					_languageCache = result;
-//				}
-//			} 
-//		}
-//		return result;
-	  return view().language();
-	}
-
-//	private Language _languageCache;
 
 	@Override
    public <T extends Language> T language(Class<T> kind) {

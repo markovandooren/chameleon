@@ -1,5 +1,8 @@
 package org.aikodi.chameleon.core.element;
 
+import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.exists;
+import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.filter;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -458,7 +461,15 @@ public interface Element {
      @ post origin() == this ==> \result == this;
      @ post origin() != this ==> \result == origin().farthestOrigin();
      @*/
-  public Element farthestOrigin();
+  public default Element farthestOrigin() {
+		Element current = this;
+		Element origin = origin();
+		while(current != origin) {
+			current = origin;
+			origin = current.origin();
+		}
+		return origin;
+  }
 
   /**
    * Set the origin of this element.
@@ -559,39 +570,18 @@ public interface Element {
    * 
    * @param predicate A predicate that determines which children should be returned.
    */
-  /*@
-     @ public behavior
-     @
-     @ pre predicate != null;
-     @
-     @ post \result != null;
-     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && predicate.eval(e) == true);
-     @*/
-  public <E extends Exception> List<Element> children(Predicate<? super Element,E> predicate) throws E;
-
-  /**
-   * Return all children of this element that satisfy the given predicate.
-   * 
-   * @param type The type of the children to which the predicate must be applied.
-   * @param predicate A predicate that determines which children should be returned.
-   */
-  /*@
-     @ public behavior
-     @
-     @ pre predicate != null;
-     @
-     @ post \result != null;
-     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && predicate.eval(e) == true);
-     @*/
-  public default <T, E extends Exception> List<T> children(Class<T> type, Predicate<T,E> predicate) throws E {
-    List<? extends Element> children = children();
-    List<T> result = new ArrayList<T>(children.size());
-    for(Element child: children) {
-      if(type.isInstance(child) && predicate.eval((T) child)) {
-        result.add((T) child);
-      }
-    }
-    return result;
+ /*@
+   @ public behavior
+   @
+   @ pre predicate != null;
+   @
+   @ post \result != null;
+   @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && predicate.eval(e) == true);
+   @*/
+  public default <E extends Exception> List<Element> children(Predicate<? super Element,E> predicate) throws E {
+		List<? extends Element> tmp = children();
+		filter(tmp, predicate);
+		return (List<Element>)tmp;
   }
 
   /**
@@ -608,22 +598,6 @@ public interface Element {
      @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && predicate.eval(e));
      @*/
   public <T extends Element, E extends Exception> List<T> children(UniversalPredicate<T,E> predicate) throws E;
-
-  /**
-   * Return all children of this element that are of the given type, and that have the given property.
-   * 
-   * @param c The kind of the children that are returned.
-   * @param property A property that must be satisfied by the children that are returned.
-   */
-  /*@
-     @ public behavior
-     @
-     @ pre predicate != null;
-     @
-     @ post \result != null;
-     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && c.isInstance(e) && e.isTrue(property));
-     @*/
-  public <T extends Element> List<T> children(Class<T> c, final ChameleonProperty property);
 
   /**
    * Recursively return all children of this element.
@@ -680,122 +654,6 @@ public interface Element {
      @ post \result == ! descendants(type).isEmpty();
      @*/
 	  public <T extends Element> boolean hasDescendant(Class<T> type);
-
-	  
-    /**
-     * Check whether this element has a descendant that satisfies the given predicate.
-     * 
-     * @param type The class object representing the type the descendants.
-     * @param predicate The predicate of which we want to know whether it is satisfied by a descendant.
-     */
-   /*@
-     @ public behavior
-     @
-     @ pre c != null;
-     @
-     @ post \result == ! descendants(type, predicate).isEmpty();
-     @*/
-	  public default <T extends Element, E extends Exception> boolean hasDescendant(Class<T> type, Predicate<T,E> predicate) throws E {
-	    List<T> result = children(type, predicate);
-	    if (!result.isEmpty())
-	      return true;
-
-	    for (Element e : children()) {
-	      if (e.hasDescendant(type, predicate))
-	        return true;
-	    }
-
-	    return false;
-	  }
-	  
-	  /**
-	   * Check whether this element has a descendant that satisfies the given predicate.
-	   * 
-	   * @param predicate The predicate of which must be determined whether any descendants satisfy it.
-	   */
-	 /*@
-	   @ public behavior
-	   @
-	   @ pre predicate != null;
-	   @
-	   @ post \result == (\exists T t; descendants().contains(t); predicate.eval(t));
-   */
-  public <T extends Element, E extends Exception> boolean hasDescendant(UniversalPredicate<T,E> predicate) throws E;
-
-
-  /**
-   * Return the descendants of the given type that are themselves no descendants of an element of the given type. In other words,
-   * do a deep search for elements of the given type, but if you have found one, don't search its descendants.
-   *
-   * @param <T> The type of the elements for which the predicate can match.
-   * @param c The type of the descendants that should be returned.
-   */
-  /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @*/
-  public default <T extends Element> List<T> nearestDescendants(Class<T> c) {
-		List<? extends Element> tmp = children();
-		List<T> result = Lists.create();
-		Iterator<? extends Element> iter = tmp.iterator();
-		while(iter.hasNext()) {
-			Element e = iter.next();
-			if(c.isInstance(e)) {
-				result.add((T)e);
-				iter.remove();
-			}
-		}
-		for (Element e : tmp) {
-			result.addAll(e.nearestDescendants(c));
-		}
-		return result;
-  }
-
-  /**
-   * Return the list of first descendants that satisfy the given predicate. First means that if
-   * an element satisfies the predicate, the element itself is in the result but its descendants are ignored.
-   * 
-   * @param <T> The type of the elements for which the predicate can match.
-   * @param predicate The predicate that must be satisfied.
-   */
-  /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @*/
-  public default <T extends Element, E extends Exception> List<T> nearestDescendants(UniversalPredicate<T,E> predicate) throws E {
-		List<? extends Element> tmp = children();
-		List<T> result = Lists.create();
-		Iterator<? extends Element> iter = tmp.iterator();
-		while(iter.hasNext()) {
-			Element e = iter.next();
-			if(predicate.eval(e)) {
-				result.add((T)e);
-				iter.remove();
-			}
-		}
-		for (Element e : tmp) {
-			result.addAll(e.nearestDescendants(predicate));
-		}
-		return result;
-  }
-
-  /**
-   * Recursively return all descendants of this element that are of the given type, and have the given property.
-   * 
-   * @param c The kind of the children that are returned.
-   * @param property A property that must be satisfied by the children that are returned.
-   */
-  /*@
-     @ public behavior
-     @
-     @ pre predicate != null;
-     @
-     @ post \result != null;
-     @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && c.isInstance(e) && e.isTrue(property));
-     @*/
-  public <T extends Element> List<T> descendants(Class<T> c, ChameleonProperty property);
 
   /**
    * Recursively return all descendants of this element that satisfy the given predicate.
@@ -959,53 +817,6 @@ public interface Element {
   public boolean hasMetadata();
 
   /**
-   * Return the farthest ancestor.
-   */
-  /*@
-     @ public behavior
-     @
-     @ post parent() == null ==> \result == this;
-     @ post parent() != null ==> \result == parent().furthestAncestor();
-     @*/
-  public Element farthestAncestor();
-
-  /**
-   * Return the farthest ancestor of the given type.
-   */
-  /*@
-     @ public behavior
-     @
-     @ post parent() == null ==> \result == null;
-     @ post parent() != null && c.isInstance(parent()) && parent().farthestAncestor(c) == null ==> \result == parent();
-     @ post parent() != null && (parent().farthestAncestor(c) != null) ==> \result == parent().farthestAncestor(c);
-     @*/
-  public <T extends Element> T farthestAncestor(Class<T> c);
-
-  /**
-   * Return the farthest ancestor of the given type.
-   */
-  /*@
-     @ public behavior
-     @
-     @ post parent() == null ==> \result == null;
-     @ post parent() != null && c.isInstance(this) && parent().farthestAncestor(c) == null ==> \result == this;
-     @ post parent() != null && (parent().farthestAncestor(c) != null) ==> \result == parent().farthestAncestor(c);
-     @*/
-  public <T extends Element> T farthestAncestorOrSelf(Class<T> c);
-
-  /**
-   * Return the farthest ancestor of the given type that satisfies the given predicate.
-   */
-  /*@
-     @ public behavior
-     @
-     @ post parent() == null ==> \result == null;
-     @ post parent() != null && c.isInstance(this) && parent().farthestAncestor(c) == null ==> \result == this;
-     @ post parent() != null && (parent().farthestAncestor(c) != null) ==> \result == parent().farthestAncestor(c);
-     @*/
-  public <T extends Element, E extends Exception> T farthestAncestor(UniversalPredicate<T,E> p) throws E;
-
-  /**
    * Return the nearest ancestor of type T. Null if no such ancestor can be found.
    * @param <T>
    *        The type of the ancestor to be found
@@ -1023,80 +834,19 @@ public interface Element {
   public <T extends Element> T nearestAncestor(Class<T> c);
 
   /**
-   * Return the nearest ancestor of type T that satisfies the given predicate. Null if no such ancestor can be found.
-   * 
-   * @param <T>
-   *        The type of the ancestor to be found
-   * @param c
-   *        The class object of type T (T.class)
-   * @return
-   */
-  /*@
-     @ public behavior
-     @
-     @ post parent() == null ==> \result == null;
-     @ post parent() != null && predicate.eval(parent()) ==> \result == parent();
-     @ post parent() != null && (! predicate.eval((T)parent())) 
-     @          ==> \result == parent().nearestAncestor(predicate);
-     @*/
-  public <T extends Element, E extends Exception> T nearestAncestor(UniversalPredicate<T,E> predicate) throws E;
-
-
-
-  /**
-   * Return the nearest ancestor of type T that satisfies the given predicate. 
-   * Null if no such ancestor can be found.
-   * 
-   * @param <T>
-   *        The type of the ancestor to be found
-   * @param c
-   *        The class object of type T (T.class)
-   * @return
-   */
-  /*@
-     @ public behavior
-     @
-     @ post parent() == null ==> \result == null;
-     @ post parent() != null && kind.isInstance(parent()) && predicate.eval((T)parent()) ==> \result == parent();
-     @ post parent() != null && ((! kind.isInstance(parent())) || (kindc.isInstance(parent()) && ! predicate.eval((T)parent())) 
-     @          ==> \result == parent().nearestAncestor(kind, predicate);
-     @*/
-  public default <T extends Element, E extends Exception> T nearestAncestor(Class<T> kind, Predicate<T,E> predicate) throws E {
-    Element el = parent();
-    while ((el != null) && ( (! kind.isInstance(el)) || (! predicate.eval((T) el)))) {
-      el = el.parent();
-    }
-    return (T) el;
-  }
-
-
-  /**
-   * Return the nearest element of type T. Null if no such ancestor can be found.
-   * @param <T>
-   *        The type of the ancestor to be found
-   * @param c
-   *        The class object of type T (T.class)
-   * @return
-   */
-  /*@
-     @ public behavior
-     @
-     @ post c.isInstance(this) ==> \result == this;
-     @ post ! c.isInstance(this) && parent() != null ==> \result == parent().nearestAncestor(c);
-     @ post ! c.isInstance(this) && parent() == null ==> \result == null;
-     @*/
-  public <T extends Element> T nearestAncestorOrSelf(Class<T> c);
-
-  /**
    * Return the language of this element. Return null if this element is not
    * connected to a complete model.
    */
   /*@
      @ public behavior
      @
-     @ post (parent() == null) ==> (\result == null);
+     @ post (view() == null) ==> (\result == null);
+     @ post (view() != null) ==> (\result.equals(view().language()))
      @*/
-  public Language language();
+  public default Language language() {
+	  View view = view();
+		return view == null ? null : view.language();
+  }
 
   /**
    * Return the language of this element if it is of the wrong kind. Return null if this element is not
