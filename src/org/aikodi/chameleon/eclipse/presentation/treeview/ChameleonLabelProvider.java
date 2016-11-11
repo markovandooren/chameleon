@@ -253,7 +253,7 @@ public class ChameleonLabelProvider implements ILabelProvider {
 //				}
 //			}
 			if(showDeclaringElementFqn && element instanceof Declarator){
-				Type type = ((Declarator)element).nearestAncestorOrSelf(Type.class);
+				Type type = ((Declarator)element).lexical().nearestAncestorOrSelf(Type.class);
 				if(type != null){
 					if(!noFirstSeparator)
 						label += " - ";

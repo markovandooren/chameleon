@@ -536,7 +536,7 @@ public class View extends PluginContainerImpl<ViewPlugin>
 	 *         document.
 	 */
 	public boolean isSource(Element element) {
-		Document doc = element.nearestAncestorOrSelf(Document.class);
+		Document doc = element.lexical().nearestAncestorOrSelf(Document.class);
 		// Namespace are not in documents and thus cannot be source elements.
 		if(doc != null) {
 			DocumentScanner scanner = doc.loader().scanner().rootScanner();
@@ -554,7 +554,7 @@ public class View extends PluginContainerImpl<ViewPlugin>
     *         document.
     */
 	public boolean isBinary(Element element) {
-		Document doc = element.nearestAncestorOrSelf(Document.class);
+		Document doc = element.lexical().nearestAncestorOrSelf(Document.class);
 		// Namespace are not in documents and thus cannot be source elements.
 		if(doc != null) {
 			DocumentScanner scanner = doc.loader().scanner().rootScanner();

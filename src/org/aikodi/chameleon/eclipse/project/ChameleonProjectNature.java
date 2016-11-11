@@ -406,7 +406,7 @@ public class ChameleonProjectNature implements IProjectNature {
 	 */
 	public EclipseDocument document(Element element) {
 		if(element != null) {
-			Document cu = element.nearestAncestorOrSelf(Document.class);
+			Document cu = element.lexical().nearestAncestorOrSelf(Document.class);
 			for(EclipseDocument doc : _eclipseDocuments) {
 				//				if(doc.chameleonDocument().equals(cu)) {
 				if(doc.loader().equals(cu.loader())) {

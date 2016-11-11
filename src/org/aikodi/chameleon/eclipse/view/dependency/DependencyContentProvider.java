@@ -73,7 +73,7 @@ public class DependencyContentProvider implements IGraphContentProvider {
       Node<Element> node = (Node<Element>) object;
       List<Element> list = new ArrayList<>();
       Set<Element> all = _result.elements();
-      List<Node<Element>> result = node.object().nearestDescendants(UniversalPredicate.of(Element.class, e -> all.contains(e))).stream().map(e -> _result.nodeOf(e)).collect(Collectors.toList());
+      List<Node<Element>> result = node.object().lexical().nearestDescendants(UniversalPredicate.of(Element.class, e -> all.contains(e))).stream().map(e -> _result.nodeOf(e)).collect(Collectors.toList());
       return result.toArray();
     } else {
       return null;
