@@ -45,8 +45,12 @@ public class TestElement {
 	
 	@Test
 	public void testBlankClone() {
-		StubElement e = new StubElement();
-		StubElement clone = e.clone(e);
+		Element e = new StubElement();
+		testCloneClass(e);
+	}
+
+	private void testCloneClass(Element e) {
+		Element clone = e.clone(e);
 		assertTrue(clone != null);
 		assertTrue(clone.getClass() == e.getClass());
 	}
@@ -74,8 +78,16 @@ public class TestElement {
 		assertTrue(e.parent().equals(c));
 	}
 	
+	@Test
 	public void testUniParent() {
-		
+		Element e = new StubElement();
+		Container c1 = new Container();
+		Container c2 = new Container();
+		c1.add(e);
+		e.setUniParent(c2);
+		assertTrue(e.parent().equals(c2));
+		assertEmpty(c1.children());
+		assertEmpty(c2.children());
 	}
 	
 	@Test
