@@ -1,11 +1,8 @@
 package org.aikodi.chameleon.core.element;
 
-import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.exists;
 import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.filter;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -39,7 +36,6 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
-import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.ChameleonAssociation;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.View;
