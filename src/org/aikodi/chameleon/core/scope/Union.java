@@ -1,7 +1,7 @@
 package org.aikodi.chameleon.core.scope;
 
-import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.exists;
-import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
+import static org.aikodi.rejuse.collection.CollectionOperations.exists;
+import static org.aikodi.rejuse.collection.CollectionOperations.forAll;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,9 +9,8 @@ import java.util.List;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
-
-import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.collection.CollectionOperations;
+import org.aikodi.rejuse.predicate.Predicate;
 
 /**
  * A scope that is the union of a number of other scopes.

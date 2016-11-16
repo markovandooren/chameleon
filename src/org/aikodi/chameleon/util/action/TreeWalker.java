@@ -1,6 +1,6 @@
 package org.aikodi.chameleon.util.action;
 
-import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
+import org.aikodi.rejuse.tree.TreeStructure;
 /**
  * A class of objects for traversing a tree structure. In addition
  * to performing an action on a node, a tree action can also perform

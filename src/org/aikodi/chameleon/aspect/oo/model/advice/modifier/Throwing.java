@@ -8,8 +8,7 @@ import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.variable.FormalParameter;
-
-import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
+import org.aikodi.rejuse.property.PropertySet;
 
 /**
  * @author Jens De Temmerman

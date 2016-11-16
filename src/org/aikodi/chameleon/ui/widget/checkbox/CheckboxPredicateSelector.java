@@ -2,10 +2,9 @@ package org.aikodi.chameleon.ui.widget.checkbox;
 
 import org.aikodi.chameleon.ui.widget.CheckboxSelector;
 import org.aikodi.chameleon.ui.widget.PredicateSelector;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.predicate.True;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.predicate.True;
+import org.aikodi.rejuse.predicate.UniversalPredicate;
 
 public class CheckboxPredicateSelector<T> extends CheckboxSelector implements PredicateSelector<T> {
 

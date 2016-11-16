@@ -7,8 +7,7 @@ import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.util.association.Multi;
-
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import org.aikodi.rejuse.association.Association;
 
 public class ParameterBlock<T extends Parameter> extends ElementImpl implements DeclarationContainer {
 

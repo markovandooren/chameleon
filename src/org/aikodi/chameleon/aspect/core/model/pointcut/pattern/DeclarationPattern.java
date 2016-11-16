@@ -2,8 +2,7 @@ package org.aikodi.chameleon.aspect.core.model.pointcut.pattern;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.lookup.LookupException;
-
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.predicate.Predicate;
 
 /**
  * An interface for patterns that are used to match declarations.

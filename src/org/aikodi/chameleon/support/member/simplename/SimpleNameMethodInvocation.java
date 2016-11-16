@@ -11,8 +11,7 @@ import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.lookup.SimpleNameCrossReferenceWithArgumentsSelector;
 import org.aikodi.chameleon.oo.method.Method;
 import org.aikodi.chameleon.oo.type.Type;
-
-import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
+import org.aikodi.rejuse.logic.ternary.Ternary;
 
 public abstract class SimpleNameMethodInvocation<D extends Method> extends MethodInvocation<D> implements CrossReferenceWithName<D> {
 

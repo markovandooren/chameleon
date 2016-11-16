@@ -7,11 +7,10 @@ import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespace.DocumentLoaderNamespace;
 import org.aikodi.chameleon.core.namespace.Namespace;
+import org.aikodi.rejuse.association.Association;
+import org.aikodi.rejuse.association.SingleAssociation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 /**
  * <p>

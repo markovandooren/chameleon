@@ -21,6 +21,8 @@ import org.aikodi.chameleon.eclipse.presentation.annotation.ChameleonAnnotation;
 import org.aikodi.chameleon.eclipse.view.outline.ChameleonOutlinePage;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.input.PositionMetadata;
+import org.aikodi.rejuse.predicate.SafePredicate;
+import org.aikodi.rejuse.predicate.TypePredicate;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.IAction;
@@ -58,9 +60,6 @@ import org.eclipse.ui.texteditor.ContentAssistAction;
 import org.eclipse.ui.texteditor.ITextEditorActionConstants;
 import org.eclipse.ui.texteditor.TextOperationAction;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
-
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
-import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 
 /**
  * @author Jef Geerinckx

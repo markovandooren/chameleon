@@ -5,8 +5,7 @@ import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.property.PropertyRule;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
-
-import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
+import org.aikodi.rejuse.property.PropertySet;
 
 public class MemberInstanceByDefault extends PropertyRule<Declaration> {
 

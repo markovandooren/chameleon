@@ -11,11 +11,11 @@ import java.util.List;
 
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.input.ParseException;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.predicate.Predicate;
 import org.antlr.runtime.RecognitionException;
 
 import antlr.TokenStreamException;
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 /**
  * A class for recursively scanning files from a directory.

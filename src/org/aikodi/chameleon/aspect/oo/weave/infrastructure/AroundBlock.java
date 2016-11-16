@@ -7,8 +7,7 @@ import org.aikodi.chameleon.aspect.oo.model.advice.ProceedCall;
 import org.aikodi.chameleon.oo.statement.Block;
 import org.aikodi.chameleon.oo.statement.Statement;
 import org.aikodi.chameleon.util.Util;
-
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import org.aikodi.rejuse.association.Association;
 
 public class AroundBlock extends AdvisedBlockFactory {
 	

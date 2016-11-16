@@ -13,8 +13,7 @@ import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.util.association.Single;
-
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.predicate.Predicate;
 
 /**
  * A class for absolute exception declarations. An absolute exception declaration declares that a certain type of exception

@@ -3,8 +3,7 @@ package org.aikodi.chameleon.workspace;
 import java.util.Collection;
 
 import org.aikodi.chameleon.core.lookup.LookupException;
-
-import be.kuleuven.cs.distrinet.rejuse.association.MultiAssociation;
+import org.aikodi.rejuse.association.MultiAssociation;
 
 /**
  * A workspace holds a number of projects, and a reference to a repository

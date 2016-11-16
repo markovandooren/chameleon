@@ -5,12 +5,11 @@ import java.io.IOException;
 import java.util.zip.ZipFile;
 
 import org.aikodi.chameleon.core.language.Language;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.io.FileUtils;
+import org.aikodi.rejuse.predicate.Predicate;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.io.FileUtils;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 /**
  * A ProjectConfig mirrors the configuration of a Chameleon project. To load a

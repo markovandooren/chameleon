@@ -8,11 +8,10 @@ import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.util.Handler;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Action;
-import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
-import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.association.AssociationListener;
+import org.aikodi.rejuse.association.OrderedMultiAssociation;
+import org.aikodi.rejuse.association.SingleAssociation;
 
 /**
  * A class that represents the concept of a project. A project

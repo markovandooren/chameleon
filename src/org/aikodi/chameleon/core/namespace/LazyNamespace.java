@@ -20,10 +20,9 @@ import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.workspace.DocumentLoader;
 import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.contract.Contracts;
+import org.aikodi.rejuse.association.OrderedMultiAssociation;
 
 import com.google.common.collect.ImmutableList;
-
-import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
 
 public class LazyNamespace extends RegularNamespace implements DocumentLoaderNamespace {
 

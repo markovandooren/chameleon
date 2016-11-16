@@ -18,9 +18,8 @@ import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
-
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
+import org.aikodi.rejuse.association.Association;
+import org.aikodi.rejuse.property.PropertySet;
 
 public abstract class RegularVariable extends VariableImpl implements ExceptionSource {
 

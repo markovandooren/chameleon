@@ -1,7 +1,7 @@
 package org.aikodi.chameleon.util.action;
 
-import be.kuleuven.cs.distrinet.rejuse.action.Action;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.predicate.Predicate;
 
 public class ConditionalAction<T, E extends Exception> extends Action<T, E> {
 

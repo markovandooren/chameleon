@@ -26,6 +26,8 @@ import org.aikodi.chameleon.input.ParseProblem;
 import org.aikodi.chameleon.input.PositionMetadata;
 import org.aikodi.chameleon.workspace.DocumentLoader;
 import org.aikodi.chameleon.workspace.InputException;
+import org.aikodi.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.predicate.SafePredicate;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -46,9 +48,6 @@ import org.eclipse.jface.text.TextPresentation;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.texteditor.MarkerUtilities;
-
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 /**
  * A document for the chameleon framework. The ChameleonDocument contains positions 

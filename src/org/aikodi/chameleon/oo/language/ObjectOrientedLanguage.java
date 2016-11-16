@@ -29,10 +29,9 @@ import org.aikodi.chameleon.oo.type.generics.SuperWildcard;
 import org.aikodi.chameleon.oo.type.generics.TypeArgument;
 import org.aikodi.chameleon.oo.variable.VariableDeclarator;
 import org.aikodi.chameleon.util.Util;
-
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
-import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.association.SingleAssociation;
+import org.aikodi.rejuse.junit.Revision;
+import org.aikodi.rejuse.predicate.Predicate;
 
 /**
  * A convenience class for object-oriented programming languages.

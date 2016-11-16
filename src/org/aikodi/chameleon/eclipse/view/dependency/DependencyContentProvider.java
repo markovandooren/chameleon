@@ -8,11 +8,10 @@ import java.util.stream.Collectors;
 
 import org.aikodi.chameleon.analysis.dependency.DependencyResult;
 import org.aikodi.chameleon.core.element.Element;
+import org.aikodi.rejuse.graph.Node;
+import org.aikodi.rejuse.predicate.UniversalPredicate;
 import org.eclipse.gef4.zest.fx.jface.IGraphContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-
-import be.kuleuven.cs.distrinet.rejuse.graph.Node;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
 
 public class DependencyContentProvider implements IGraphContentProvider {
 

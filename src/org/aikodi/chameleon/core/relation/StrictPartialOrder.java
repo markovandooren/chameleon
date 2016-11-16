@@ -12,7 +12,7 @@ import org.aikodi.chameleon.core.lookup.LookupException;
  *
  * @param <E> The type of the elements in the order.
  */
-public abstract class StrictPartialOrder<E> extends be.kuleuven.cs.distrinet.rejuse.logic.relation.StrictPartialOrder<E> {
+public abstract class StrictPartialOrder<E> extends org.aikodi.rejuse.logic.relation.StrictPartialOrder<E> {
   
   @Override
 public abstract boolean contains(E first, E second) throws LookupException;

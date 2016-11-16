@@ -11,10 +11,9 @@ import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.input.InputProcessor;
 import org.aikodi.chameleon.input.ParseProblem;
 import org.aikodi.chameleon.plugin.ViewProcessorImpl;
+import org.aikodi.rejuse.association.Association;
+import org.aikodi.rejuse.association.SingleAssociation;
 import org.eclipse.jface.text.BadLocationException;
-
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 public class EclipseEditorInputProcessor extends ViewProcessorImpl implements InputProcessor {
 

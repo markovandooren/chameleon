@@ -2,10 +2,9 @@ package org.aikodi.chameleon.core.modifier;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
-
-import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
-import be.kuleuven.cs.distrinet.rejuse.property.Property;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
+import org.aikodi.rejuse.logic.ternary.Ternary;
+import org.aikodi.rejuse.property.Property;
+import org.aikodi.rejuse.property.PropertySet;
 
 
 /**

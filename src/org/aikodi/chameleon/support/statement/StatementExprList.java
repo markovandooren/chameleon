@@ -15,8 +15,7 @@ import org.aikodi.chameleon.oo.statement.CheckedExceptionList;
 import org.aikodi.chameleon.oo.statement.ExceptionSource;
 import org.aikodi.chameleon.oo.statement.Statement;
 import org.aikodi.chameleon.util.association.Multi;
-
-import be.kuleuven.cs.distrinet.rejuse.java.collections.RobustVisitor;
+import org.aikodi.rejuse.java.collections.RobustVisitor;
 
 /**
  * A list of statement expressions as used in the initialization clause of a for

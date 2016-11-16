@@ -1,6 +1,6 @@
 package org.aikodi.chameleon.support.statement;
 
-import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
+import static org.aikodi.rejuse.collection.CollectionOperations.forAll;
 
 import java.util.Iterator;
 import java.util.List;

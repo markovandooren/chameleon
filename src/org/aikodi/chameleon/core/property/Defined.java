@@ -4,9 +4,8 @@ import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.lookup.LookupException;
-
-import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
+import org.aikodi.rejuse.logic.ternary.Ternary;
+import org.aikodi.rejuse.property.PropertyMutex;
 
 public class Defined extends DynamicChameleonProperty {
 

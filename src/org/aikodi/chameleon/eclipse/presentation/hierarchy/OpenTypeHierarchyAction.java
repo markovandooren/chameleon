@@ -18,6 +18,7 @@ import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
+import org.aikodi.rejuse.predicate.SafePredicate;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -30,8 +31,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
-
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 /**
  * This class represents the action to open the super or subtype (==actionType in constructor) hierarchy.

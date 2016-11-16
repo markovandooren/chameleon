@@ -14,13 +14,12 @@ import org.aikodi.chameleon.eclipse.editors.ChameleonEditor;
 import org.aikodi.chameleon.eclipse.editors.EclipseDocument;
 import org.aikodi.chameleon.eclipse.presentation.treeview.ChameleonLabelProvider;
 import org.aikodi.chameleon.eclipse.project.ChameleonProjectNature;
+import org.aikodi.rejuse.predicate.SafePredicate;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
-
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 /**
  * Will show the callers of the current method in the CallHierarchyView

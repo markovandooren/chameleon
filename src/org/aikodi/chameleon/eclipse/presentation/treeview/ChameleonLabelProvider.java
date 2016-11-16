@@ -20,12 +20,11 @@ import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.method.Method;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.plugin.output.Syntax;
+import org.aikodi.rejuse.logic.ternary.Ternary;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
-
-import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
 
 /**
  * @author Manuel Van Wesemael 

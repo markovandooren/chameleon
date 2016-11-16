@@ -5,10 +5,9 @@ import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
-
-import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
-import be.kuleuven.cs.distrinet.rejuse.property.Property;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
+import org.aikodi.rejuse.logic.ternary.Ternary;
+import org.aikodi.rejuse.property.Property;
+import org.aikodi.rejuse.property.PropertySet;
 
 
 /**

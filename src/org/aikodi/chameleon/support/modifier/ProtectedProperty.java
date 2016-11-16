@@ -9,9 +9,8 @@ import org.aikodi.chameleon.core.scope.ScopeProperty;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.support.property.accessibility.HierarchyScope;
-
-import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertyUniverse;
+import org.aikodi.rejuse.property.PropertyMutex;
+import org.aikodi.rejuse.property.PropertyUniverse;
 
 public class ProtectedProperty extends ScopeProperty {
 	

@@ -6,9 +6,8 @@ import org.aikodi.chameleon.aspect.core.model.advice.property.BeforeProperty;
 import org.aikodi.chameleon.core.language.LanguageImpl;
 import org.aikodi.chameleon.core.lookup.LookupContextFactory;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
-
-import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
+import org.aikodi.rejuse.junit.Revision;
+import org.aikodi.rejuse.property.PropertyMutex;
 
 public abstract class AbstractAspectOrientedLanguage extends LanguageImpl implements AspectOrientedLanguage {
 

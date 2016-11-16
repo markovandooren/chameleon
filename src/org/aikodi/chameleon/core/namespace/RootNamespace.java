@@ -12,8 +12,7 @@ import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.workspace.View;
-
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import org.aikodi.rejuse.association.SingleAssociation;
 
 public class RootNamespace extends EagerNamespace {
 	static {

@@ -10,6 +10,9 @@ import org.aikodi.chameleon.analysis.dependency.DependencyResult.DependencyCount
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.eclipse.connector.EclipseEditorExtension;
 import org.aikodi.chameleon.exception.ModelException;
+import org.aikodi.rejuse.graph.Edge;
+import org.aikodi.rejuse.graph.Node;
+import org.aikodi.rejuse.graph.UniEdge;
 import org.eclipse.gef4.zest.fx.ZestProperties;
 import org.eclipse.gef4.zest.fx.jface.IGraphAttributesProvider;
 import org.eclipse.jface.viewers.IColorProvider;
@@ -18,10 +21,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-
-import be.kuleuven.cs.distrinet.rejuse.graph.Edge;
-import be.kuleuven.cs.distrinet.rejuse.graph.Node;
-import be.kuleuven.cs.distrinet.rejuse.graph.UniEdge;
 
 class DependencyLabelProvider extends LabelProvider implements IGraphAttributesProvider,  IColorProvider {//implements IConnectionStyleProvider, IEntityStyleProvider {
 

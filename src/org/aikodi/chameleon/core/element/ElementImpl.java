@@ -1,8 +1,8 @@
 package org.aikodi.chameleon.core.element;
 
-import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.exists;
-import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.filter;
-import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
+import static org.aikodi.rejuse.collection.CollectionOperations.exists;
+import static org.aikodi.rejuse.collection.CollectionOperations.filter;
+import static org.aikodi.rejuse.collection.CollectionOperations.forAll;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -43,22 +43,21 @@ import org.aikodi.chameleon.util.association.Single;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.View;
 import org.aikodi.chameleon.workspace.WrongViewException;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Action;
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
-import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
-import be.kuleuven.cs.distrinet.rejuse.association.IAssociation;
-import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
-import be.kuleuven.cs.distrinet.rejuse.debug.StackTrace;
-import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
-import be.kuleuven.cs.distrinet.rejuse.property.Conflict;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
-import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
+import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.association.Association;
+import org.aikodi.rejuse.association.AssociationListener;
+import org.aikodi.rejuse.association.IAssociation;
+import org.aikodi.rejuse.association.OrderedMultiAssociation;
+import org.aikodi.rejuse.association.SingleAssociation;
+import org.aikodi.rejuse.debug.StackTrace;
+import org.aikodi.rejuse.logic.ternary.Ternary;
+import org.aikodi.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.predicate.UniversalPredicate;
+import org.aikodi.rejuse.property.Conflict;
+import org.aikodi.rejuse.property.PropertyMutex;
+import org.aikodi.rejuse.property.PropertySet;
+import org.aikodi.rejuse.tree.TreeStructure;
 
 /**
  * A class that implement most methods of {@link Element}.

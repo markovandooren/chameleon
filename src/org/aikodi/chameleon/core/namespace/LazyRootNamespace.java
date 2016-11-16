@@ -15,8 +15,7 @@ import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.workspace.DocumentLoader;
 import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.chameleon.workspace.View;
-
-import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
+import org.aikodi.rejuse.association.OrderedMultiAssociation;
 
 import com.google.common.collect.ImmutableList;
 

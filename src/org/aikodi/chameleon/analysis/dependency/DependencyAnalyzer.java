@@ -12,16 +12,15 @@ import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.chameleon.workspace.Project;
+import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.exception.Handler;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Action;
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.function.Function;
-import be.kuleuven.cs.distrinet.rejuse.graph.Edge;
-import be.kuleuven.cs.distrinet.rejuse.graph.Path;
-import be.kuleuven.cs.distrinet.rejuse.graph.UniEdge;
-import be.kuleuven.cs.distrinet.rejuse.predicate.True;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
+import org.aikodi.rejuse.function.Function;
+import org.aikodi.rejuse.graph.Edge;
+import org.aikodi.rejuse.graph.Path;
+import org.aikodi.rejuse.graph.UniEdge;
+import org.aikodi.rejuse.predicate.True;
+import org.aikodi.rejuse.predicate.UniversalPredicate;
 
 public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer {
 

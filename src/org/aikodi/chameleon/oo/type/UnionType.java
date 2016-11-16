@@ -1,7 +1,7 @@
 package org.aikodi.chameleon.oo.type;
 
-import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.exists;
-import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.forAll;
+import static org.aikodi.rejuse.collection.CollectionOperations.exists;
+import static org.aikodi.rejuse.collection.CollectionOperations.forAll;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,8 +20,7 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
-
-import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
+import org.aikodi.rejuse.logic.ternary.Ternary;
 
 /**
  * A type that is the union of a number of other types. A union type contains

@@ -1,6 +1,6 @@
 package org.aikodi.chameleon.core.comment;
 
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import org.aikodi.rejuse.association.SingleAssociation;
 
 /**
  * @author Marko van Dooren

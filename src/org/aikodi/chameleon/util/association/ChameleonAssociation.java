@@ -5,8 +5,7 @@ import java.util.function.Function;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.validation.Verification;
-
-import be.kuleuven.cs.distrinet.rejuse.association.IAssociation;
+import org.aikodi.rejuse.association.IAssociation;
 
 /**
  * A interface for lexical associations used for Chameleon models.

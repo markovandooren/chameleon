@@ -19,17 +19,16 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.aikodi.chameleon.util.Util;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.action.SafeAction;
+import org.aikodi.rejuse.association.OrderedMultiAssociation;
+import org.aikodi.rejuse.association.SingleAssociation;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.action.SafeAction;
-import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 /**
  * A class for elements in XML files that can process themselves.

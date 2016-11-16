@@ -3,8 +3,7 @@ package org.aikodi.chameleon.support.modifier;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.modifier.ModifierImpl;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
-
-import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
+import org.aikodi.rejuse.property.PropertySet;
 
 /**
  * @author Marko van Dooren

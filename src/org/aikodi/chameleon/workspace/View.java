@@ -21,14 +21,13 @@ import org.aikodi.chameleon.plugin.ViewPlugin;
 import org.aikodi.chameleon.plugin.ViewProcessor;
 import org.aikodi.chameleon.util.Handler;
 import org.aikodi.chameleon.workspace.DocumentScannerImpl.TunnelException;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Action;
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
-import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
-import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
-import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
+import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.association.Association;
+import org.aikodi.rejuse.association.AssociationListener;
+import org.aikodi.rejuse.association.OrderedMultiAssociation;
+import org.aikodi.rejuse.association.SingleAssociation;
+import org.aikodi.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.predicate.TypePredicate;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;

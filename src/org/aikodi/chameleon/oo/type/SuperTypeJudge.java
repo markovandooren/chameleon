@@ -3,7 +3,7 @@
  */
 package org.aikodi.chameleon.oo.type;
 
-import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.findFirst;
+import static org.aikodi.rejuse.collection.CollectionOperations.findFirst;
 
 import java.util.HashMap;
 import java.util.HashSet;

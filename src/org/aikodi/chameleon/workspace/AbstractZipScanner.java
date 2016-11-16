@@ -12,9 +12,8 @@ import java.util.zip.ZipFile;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.util.Pair;
 import org.aikodi.chameleon.util.Util;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.predicate.Predicate;
 
 /**
  * An abstract class for document scanners that scan zip files.

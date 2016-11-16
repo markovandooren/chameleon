@@ -6,9 +6,8 @@ import java.util.List;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.util.Util;
-
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import org.aikodi.rejuse.association.Association;
+import org.aikodi.rejuse.association.SingleAssociation;
 
 public class TypeParameterSubstitution {
 

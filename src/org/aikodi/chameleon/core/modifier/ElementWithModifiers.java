@@ -7,9 +7,8 @@ import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.contract.Contracts;
-
-import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
+import org.aikodi.rejuse.property.PropertyMutex;
+import org.aikodi.rejuse.property.PropertySet;
 
 /**
  * An element that can have modifiers. Elements of this class automatically use 

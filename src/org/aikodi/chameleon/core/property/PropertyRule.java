@@ -2,8 +2,7 @@ package org.aikodi.chameleon.core.property;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.rule.Rule;
-
-import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
+import org.aikodi.rejuse.property.PropertySet;
 
 /**
  * A class for assigning default properties to model elements. Default properties are

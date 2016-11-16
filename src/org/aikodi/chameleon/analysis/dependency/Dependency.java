@@ -8,10 +8,9 @@ import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.oo.method.Method;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.contract.Contracts;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.function.Function;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.function.Function;
+import org.aikodi.rejuse.predicate.Predicate;
 
 /**
  * A dependency between a source element and a target element.

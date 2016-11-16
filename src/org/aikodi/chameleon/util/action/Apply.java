@@ -1,7 +1,7 @@
 package org.aikodi.chameleon.util.action;
 
-import be.kuleuven.cs.distrinet.rejuse.action.Action;
-import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
+import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.tree.TreeStructure;
 
 
 public class Apply<T,E extends Exception> implements TreeWalker<T, E> {

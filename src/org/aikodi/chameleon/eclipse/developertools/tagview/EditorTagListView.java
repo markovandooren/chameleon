@@ -10,6 +10,9 @@ import org.aikodi.chameleon.eclipse.editors.ChameleonEditor;
 import org.aikodi.chameleon.eclipse.editors.EclipseDocument;
 import org.aikodi.chameleon.eclipse.presentation.treeview.ChameleonLabelProvider;
 import org.aikodi.chameleon.input.PositionMetadata;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.predicate.True;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IContributionManager;
 import org.eclipse.jface.text.TextSelection;
@@ -28,10 +31,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.part.ViewPart;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
-import be.kuleuven.cs.distrinet.rejuse.predicate.True;
 
 /**
  * Shows the Editor Tags of the current Chameleon Document.

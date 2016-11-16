@@ -7,8 +7,7 @@ import java.util.Set;
 
 import org.aikodi.chameleon.util.Strings;
 import org.aikodi.chameleon.util.Util;
-
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
+import org.aikodi.rejuse.predicate.SafePredicate;
 
 /**
  * A class of predicate that match a file based on its extension.

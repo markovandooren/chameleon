@@ -9,8 +9,7 @@ import org.aikodi.chameleon.oo.method.exception.ExceptionClause;
 import org.aikodi.chameleon.oo.statement.Block;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
-
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.predicate.Predicate;
 
 /**
  * A class of methods.

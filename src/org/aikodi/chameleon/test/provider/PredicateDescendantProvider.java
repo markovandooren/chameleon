@@ -5,8 +5,7 @@ import java.util.Collection;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.workspace.View;
-
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
+import org.aikodi.rejuse.predicate.SafePredicate;
 
 /**
  * A class for provider descendants of type E that satisfy a given predicate,

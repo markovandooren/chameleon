@@ -4,8 +4,7 @@ import java.util.Set;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
-
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import org.aikodi.rejuse.association.SingleAssociation;
 
 /**
  * @author Marko van Dooren

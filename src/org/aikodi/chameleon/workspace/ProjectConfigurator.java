@@ -4,9 +4,8 @@ import java.io.File;
 
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.plugin.LanguagePlugin;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.predicate.Predicate;
 
 /**
  * A class of plugins to create language specific project configurations.

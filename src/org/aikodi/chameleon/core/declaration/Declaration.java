@@ -26,8 +26,7 @@ import org.aikodi.chameleon.oo.member.DeclarationComparator;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.Util;
 import org.aikodi.chameleon.util.exception.Handler;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Action;
+import org.aikodi.rejuse.action.Action;
 
 /**
  * <p>

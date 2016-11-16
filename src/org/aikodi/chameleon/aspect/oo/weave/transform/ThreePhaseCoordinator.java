@@ -13,8 +13,7 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.statement.Block;
 import org.aikodi.chameleon.oo.statement.Statement;
 import org.aikodi.chameleon.oo.variable.FormalParameter;
-
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
+import org.aikodi.rejuse.predicate.SafePredicate;
 
 public abstract class ThreePhaseCoordinator<T extends Element> extends AbstractCoordinator<T> {
 

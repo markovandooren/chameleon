@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.aikodi.chameleon.oo.type.Type;
-
-import be.kuleuven.cs.distrinet.rejuse.java.collections.IntegerAccumulator;
-import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
+import org.aikodi.rejuse.java.collections.IntegerAccumulator;
+import org.aikodi.rejuse.java.collections.Visitor;
+import org.aikodi.rejuse.predicate.SafePredicate;
 
 /**
  * @author Marko van Dooren

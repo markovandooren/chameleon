@@ -4,10 +4,9 @@ import org.aikodi.chameleon.ui.widget.LabelProvider;
 import org.aikodi.chameleon.ui.widget.PredicateSelector;
 import org.aikodi.chameleon.ui.widget.SelectionController;
 import org.aikodi.chameleon.ui.widget.WidgetFactory;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.function.Function;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.function.Function;
+import org.aikodi.rejuse.predicate.UniversalPredicate;
 
 public class ComboBoxSelector<T,E> implements PredicateSelector<E> {
 

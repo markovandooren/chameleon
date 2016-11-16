@@ -8,13 +8,12 @@ import org.aikodi.chameleon.eclipse.connector.EclipseEditorTag;
 import org.aikodi.chameleon.eclipse.editors.EclipseDocument;
 import org.aikodi.chameleon.input.PositionMetadata;
 import org.aikodi.chameleon.util.Util;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.predicate.SafePredicate;
+import org.aikodi.rejuse.predicate.True;
 import org.eclipse.jface.text.BadPositionCategoryException;
 import org.eclipse.jface.text.Position;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
-import be.kuleuven.cs.distrinet.rejuse.predicate.True;
 
 /**
  * Contains static methods to create the text representation of the editor tags of a ChameleonDocument

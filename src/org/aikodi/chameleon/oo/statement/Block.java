@@ -9,8 +9,7 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.util.association.Multi;
-
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import org.aikodi.rejuse.association.Association;
 
 /**
  * @author Marko van Dooren

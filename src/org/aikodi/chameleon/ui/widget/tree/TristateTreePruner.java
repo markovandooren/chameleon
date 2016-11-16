@@ -2,8 +2,8 @@ package org.aikodi.chameleon.ui.widget.tree;
 
 import java.util.Set;
 
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.tree.TreePredicate;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.tree.TreePredicate;
 
 public abstract class TristateTreePruner<X,Y> {
 	

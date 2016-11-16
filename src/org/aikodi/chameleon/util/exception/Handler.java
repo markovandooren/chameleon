@@ -1,6 +1,6 @@
 package org.aikodi.chameleon.util.exception;
 
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
+import org.aikodi.rejuse.action.Nothing;
 
 /**
  * An abstract class for exception handling strategies.

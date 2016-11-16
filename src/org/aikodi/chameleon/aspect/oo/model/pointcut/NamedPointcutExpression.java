@@ -19,8 +19,7 @@ import org.aikodi.chameleon.oo.expression.Expression;
 import org.aikodi.chameleon.oo.expression.NameExpression;
 import org.aikodi.chameleon.oo.variable.FormalParameter;
 import org.aikodi.chameleon.util.association.Single;
-
-import be.kuleuven.cs.distrinet.rejuse.action.SafeAction;
+import org.aikodi.rejuse.action.SafeAction;
 
 public class NamedPointcutExpression extends AbstractPointcutExpression<Element> implements CrossReference<Pointcut> {
 	

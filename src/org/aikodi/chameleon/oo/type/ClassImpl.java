@@ -36,13 +36,12 @@ import org.aikodi.chameleon.oo.member.SimpleNameMember;
 import org.aikodi.chameleon.oo.plugin.ObjectOrientedFactory;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.Lists;
+import org.aikodi.rejuse.collection.CollectionOperations;
+import org.aikodi.rejuse.java.collections.TypeFilter;
+import org.aikodi.rejuse.predicate.TypePredicate;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-
-import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
-import be.kuleuven.cs.distrinet.rejuse.java.collections.TypeFilter;
-import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 
 /**
  * <p>A class representing types in object-oriented programs.</p>

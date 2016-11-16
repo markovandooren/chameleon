@@ -5,8 +5,7 @@ import java.util.Set;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
-
-import be.kuleuven.cs.distrinet.rejuse.function.BiFunction;
+import org.aikodi.rejuse.function.BiFunction;
 
 /**
  * A relation between declaration containers.

@@ -6,8 +6,7 @@ package org.aikodi.chameleon.stub;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.oo.expression.Expression;
 import org.aikodi.chameleon.oo.type.Type;
-
-import be.kuleuven.cs.distrinet.rejuse.contract.Contracts;
+import org.aikodi.rejuse.contract.Contracts;
 
 /**
  * A class of expression of which the type can be set directly.

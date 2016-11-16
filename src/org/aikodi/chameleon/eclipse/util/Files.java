@@ -2,12 +2,11 @@ package org.aikodi.chameleon.eclipse.util;
 
 import java.io.File;
 
+import org.aikodi.rejuse.contract.Contracts;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
-
-import be.kuleuven.cs.distrinet.rejuse.contract.Contracts;
 
 public class Files {
 

@@ -1,6 +1,6 @@
 package org.aikodi.chameleon.core.element;
 
-import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.filter;
+import static org.aikodi.rejuse.collection.CollectionOperations.filter;
 
 import java.util.Collection;
 import java.util.List;
@@ -40,17 +40,16 @@ import org.aikodi.chameleon.util.association.ChameleonAssociation;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.View;
 import org.aikodi.chameleon.workspace.WrongViewException;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Action;
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
-import be.kuleuven.cs.distrinet.rejuse.logic.ternary.Ternary;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
-import be.kuleuven.cs.distrinet.rejuse.property.Conflict;
-import be.kuleuven.cs.distrinet.rejuse.property.Property;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
+import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.association.Association;
+import org.aikodi.rejuse.association.SingleAssociation;
+import org.aikodi.rejuse.logic.ternary.Ternary;
+import org.aikodi.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.predicate.UniversalPredicate;
+import org.aikodi.rejuse.property.Conflict;
+import org.aikodi.rejuse.property.Property;
+import org.aikodi.rejuse.property.PropertyMutex;
+import org.aikodi.rejuse.property.PropertySet;
 
 /**
  * <p>
@@ -337,7 +336,7 @@ public interface Element {
   /**
    * <p>Freeze this element. This locks the parent links of all descendants.
    * As a result, no descendant can be removed 
-   * and no additional descendant can be added anywhere in the subtree. A {@link be.kuleuven.cs.distrinet.rejuse.association.LockException}
+   * and no additional descendant can be added anywhere in the subtree. A {@link org.aikodi.rejuse.association.LockException}
    * is thrown if such a modification is attempted.
    * The parent link of this element, however, is not modified. If it was locked, it will be still be locked
    * afterwards. If it was unlocked, it will be still be unlocked afterwards. </p> 

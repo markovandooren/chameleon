@@ -10,9 +10,8 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.util.Lists;
-
-import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.java.collections.Visitor;
+import org.aikodi.rejuse.predicate.Predicate;
 
 /**
  * A checked exception list is a list that contains tuples of the form (checked exception type, exception declaration, cause).

@@ -17,10 +17,9 @@ import org.aikodi.chameleon.input.ParseException;
 import org.aikodi.chameleon.input.SourceManager;
 import org.aikodi.chameleon.plugin.LanguagePluginImpl;
 import org.aikodi.chameleon.workspace.View;
+import org.aikodi.rejuse.association.Association;
+import org.aikodi.rejuse.io.DirectoryScanner;
 import org.antlr.runtime.RecognitionException;
-
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
-import be.kuleuven.cs.distrinet.rejuse.io.DirectoryScanner;
 
 public abstract class ModelFactoryUsingANTLR3 extends LanguagePluginImpl implements ModelFactory {
 

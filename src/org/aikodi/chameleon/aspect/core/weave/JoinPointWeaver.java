@@ -8,8 +8,7 @@ import org.aikodi.chameleon.aspect.core.weave.infrastructure.AdviceInfrastructur
 import org.aikodi.chameleon.aspect.core.weave.transform.JoinPointTransformer;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
-
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import org.aikodi.rejuse.association.SingleAssociation;
 
 /**
  * 	This class encapsulates everything needed to perform weaving:

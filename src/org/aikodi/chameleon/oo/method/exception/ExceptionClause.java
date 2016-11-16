@@ -10,9 +10,8 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.expression.MethodInvocation;
 import org.aikodi.chameleon.util.association.Multi;
-
-import be.kuleuven.cs.distrinet.rejuse.java.collections.RobustVisitor;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.java.collections.RobustVisitor;
+import org.aikodi.rejuse.predicate.Predicate;
 
 /**
  * @author Marko van Dooren

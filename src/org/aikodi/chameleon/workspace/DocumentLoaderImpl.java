@@ -14,8 +14,7 @@ import org.aikodi.chameleon.core.namespace.DocumentLoaderNamespace;
 import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
-
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import org.aikodi.rejuse.association.SingleAssociation;
 
 /**
  * A default implementation for document loaders.

@@ -21,15 +21,14 @@ import org.aikodi.chameleon.plugin.LanguagePlugin;
 import org.aikodi.chameleon.plugin.LanguageProcessor;
 import org.aikodi.chameleon.plugin.PluginContainerImpl;
 import org.aikodi.chameleon.plugin.ProcessorContainer;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.action.SafeAction;
-import be.kuleuven.cs.distrinet.rejuse.association.MultiAssociation;
-import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
-import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
-import be.kuleuven.cs.distrinet.rejuse.property.Property;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.action.SafeAction;
+import org.aikodi.rejuse.association.MultiAssociation;
+import org.aikodi.rejuse.association.OrderedMultiAssociation;
+import org.aikodi.rejuse.junit.Revision;
+import org.aikodi.rejuse.property.Property;
+import org.aikodi.rejuse.property.PropertyMutex;
+import org.aikodi.rejuse.property.PropertySet;
 
 /**
  * A class representing a Chameleon language.

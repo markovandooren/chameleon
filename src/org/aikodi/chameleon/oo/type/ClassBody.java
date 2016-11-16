@@ -19,12 +19,11 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.Multi;
+import org.aikodi.rejuse.association.Association;
+import org.aikodi.rejuse.association.AssociationListener;
+import org.aikodi.rejuse.collection.CollectionOperations;
 
 import com.google.common.collect.ImmutableList;
-
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
-import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
-import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
 
 public class ClassBody extends ElementImpl implements DeclarationContainer {
 

@@ -5,9 +5,8 @@ import org.aikodi.chameleon.aspect.core.model.pointcut.expression.PointcutExpres
 import org.aikodi.chameleon.aspect.oo.model.pointcut.RuntimePointcutExpression;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.predicate.Predicate;
 
 public class PointcutExpressionNot extends PointcutExpressionSingle<Element> implements RuntimePointcutExpression<Element> {
 

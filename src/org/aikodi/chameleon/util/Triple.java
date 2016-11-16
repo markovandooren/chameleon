@@ -1,6 +1,6 @@
 package org.aikodi.chameleon.util;
 
-import be.kuleuven.cs.distrinet.rejuse.contract.Contracts;
+import org.aikodi.rejuse.contract.Contracts;
 
 /**
  * A class of triples. A triple does not allow null values.

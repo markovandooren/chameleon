@@ -5,9 +5,8 @@ import java.util.List;
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.namespace.Namespace;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Action;
-import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
+import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.association.OrderedMultiAssociation;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;

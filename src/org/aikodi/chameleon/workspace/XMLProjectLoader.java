@@ -4,10 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.aikodi.rejuse.junit.BasicRevision;
+import org.aikodi.rejuse.junit.Revision;
 import org.w3c.dom.Element;
-
-import be.kuleuven.cs.distrinet.rejuse.junit.BasicRevision;
-import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
 
 /**
  * A class for loading a project from an XML configuration file.

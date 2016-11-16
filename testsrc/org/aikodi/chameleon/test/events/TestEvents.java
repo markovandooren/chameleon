@@ -23,10 +23,9 @@ import org.aikodi.chameleon.test.stub.builder.StubDocumentBuilder;
 import org.aikodi.chameleon.test.stub.declaration.StubDeclaration;
 import org.aikodi.chameleon.workspace.ProjectException;
 import org.aikodi.chameleon.workspace.View;
+import org.aikodi.rejuse.association.Association;
 import org.junit.Before;
 import org.junit.Test;
-
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
 
 /**
  * A class to test the event mechanism.

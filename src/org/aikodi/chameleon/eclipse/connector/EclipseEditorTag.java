@@ -6,11 +6,10 @@ import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.tag.Metadata;
 import org.aikodi.chameleon.eclipse.editors.EclipseDocument;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
+import org.aikodi.rejuse.predicate.SafePredicate;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.BadPositionCategoryException;
 import org.eclipse.jface.text.Position;
-
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 /**
  * A tag intended for linking a position to a model element.

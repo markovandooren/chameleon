@@ -12,8 +12,7 @@ import org.aikodi.chameleon.core.scope.UniversalScope;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.util.association.Multi;
-
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import org.aikodi.rejuse.association.Association;
 
 import com.google.common.collect.ImmutableList;
 

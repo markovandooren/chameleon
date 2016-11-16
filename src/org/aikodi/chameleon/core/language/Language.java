@@ -18,12 +18,11 @@ import org.aikodi.chameleon.plugin.LanguageProcessor;
 import org.aikodi.chameleon.plugin.PluginContainer;
 import org.aikodi.chameleon.plugin.ProcessorContainer;
 import org.aikodi.chameleon.workspace.View;
-
-import be.kuleuven.cs.distrinet.rejuse.association.MultiAssociation;
-import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertyUniverse;
+import org.aikodi.rejuse.association.MultiAssociation;
+import org.aikodi.rejuse.junit.Revision;
+import org.aikodi.rejuse.property.PropertyMutex;
+import org.aikodi.rejuse.property.PropertySet;
+import org.aikodi.rejuse.property.PropertyUniverse;
 
 /**
  * <p>An object that represents a language. The main responsibility of

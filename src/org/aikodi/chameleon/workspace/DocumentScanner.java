@@ -8,9 +8,8 @@ import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.input.ParseException;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Action;
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.association.SingleAssociation;
 
 /**
  * An document scanner loads documents from a particular resource into the project.

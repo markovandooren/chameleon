@@ -14,8 +14,7 @@ import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.View;
 import org.aikodi.contract.Contracts;
 import org.aikodi.rejuse.exception.Handler;
-
-import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
+import org.aikodi.rejuse.tree.TreeStructure;
 
 /**
  * A class of objects that analyze a model.

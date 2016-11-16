@@ -9,9 +9,8 @@ import java.util.zip.ZipFile;
 
 import org.aikodi.chameleon.core.namespace.DocumentLoaderNamespace;
 import org.aikodi.chameleon.util.Pair;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.predicate.Predicate;
 
 public class ZipScanner extends AbstractZipScanner {
 

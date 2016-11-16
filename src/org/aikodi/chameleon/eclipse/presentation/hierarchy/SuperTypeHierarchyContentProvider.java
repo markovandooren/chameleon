@@ -14,8 +14,7 @@ import org.aikodi.chameleon.eclipse.project.ChameleonProjectNature;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
-
-import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
+import org.aikodi.rejuse.java.collections.Visitor;
 
 /**
  * This class will calculate the children of an element in the super type hierarchy

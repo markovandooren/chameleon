@@ -3,7 +3,7 @@ package org.aikodi.chameleon.util.concurrent;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
-import be.kuleuven.cs.distrinet.rejuse.action.Action;
+import org.aikodi.rejuse.action.Action;
 
 public abstract class QueuePollingFactory<T,E extends Exception> {
 

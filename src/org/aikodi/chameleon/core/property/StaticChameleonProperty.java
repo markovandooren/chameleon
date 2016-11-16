@@ -1,6 +1,6 @@
 package org.aikodi.chameleon.core.property;
 
-import static be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations.exists;
+import static org.aikodi.rejuse.collection.CollectionOperations.exists;
 
 import java.util.List;
 
@@ -9,12 +9,11 @@ import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
-
-import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertyMutex;
-import be.kuleuven.cs.distrinet.rejuse.property.PropertyUniverse;
-import be.kuleuven.cs.distrinet.rejuse.property.StaticProperty;
+import org.aikodi.rejuse.collection.CollectionOperations;
+import org.aikodi.rejuse.predicate.SafePredicate;
+import org.aikodi.rejuse.property.PropertyMutex;
+import org.aikodi.rejuse.property.PropertyUniverse;
+import org.aikodi.rejuse.property.StaticProperty;
 
 import com.google.common.collect.ImmutableList;
 

@@ -18,13 +18,12 @@ import org.aikodi.chameleon.util.action.GuardedTreeWalker;
 import org.aikodi.chameleon.workspace.DocumentScanner;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.View;
+import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.exception.Handler;
+import org.aikodi.rejuse.function.Function;
+import org.aikodi.rejuse.predicate.True;
 
 import com.google.common.collect.ImmutableList;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.function.Function;
-import be.kuleuven.cs.distrinet.rejuse.predicate.True;
 
 public class DefaultDependencyOptionsFactory extends LanguagePluginImpl implements DependencyOptionsFactory {
 

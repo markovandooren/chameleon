@@ -27,9 +27,8 @@ import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
-
-import be.kuleuven.cs.distrinet.rejuse.association.AssociationListener;
-import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
+import org.aikodi.rejuse.association.AssociationListener;
+import org.aikodi.rejuse.collection.CollectionOperations;
 
 import com.google.common.collect.ImmutableList;
 /**

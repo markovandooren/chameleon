@@ -7,9 +7,8 @@ import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
-
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import org.aikodi.rejuse.association.Association;
+import org.aikodi.rejuse.association.SingleAssociation;
 
 public class Single<T extends Element> extends SingleAssociation<Element, T> implements ChameleonAssociation<T> {
 

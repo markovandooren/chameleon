@@ -10,8 +10,7 @@ import org.aikodi.chameleon.oo.statement.Statement;
 import org.aikodi.chameleon.oo.statement.StatementListContainer;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
-
-import be.kuleuven.cs.distrinet.rejuse.association.OrderedMultiAssociation;
+import org.aikodi.rejuse.association.OrderedMultiAssociation;
 
 /**
  * @author Marko van Dooren

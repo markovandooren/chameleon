@@ -6,10 +6,9 @@ import java.util.stream.Stream;
 
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.util.association.Multi;
+import org.aikodi.rejuse.association.Association;
 
 import com.google.common.collect.ImmutableList;
-
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
 
 public class EagerNamespace extends RegularNamespace {
 

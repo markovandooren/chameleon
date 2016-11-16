@@ -15,10 +15,9 @@ import org.aikodi.chameleon.eclipse.project.ChameleonProjectNature;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.Handler;
 import org.aikodi.chameleon.workspace.InputException;
+import org.aikodi.rejuse.predicate.SafePredicate;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 /**
  * A context provider that calculates all the declarations that contain

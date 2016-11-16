@@ -7,8 +7,7 @@ import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.util.association.Single;
-
-import be.kuleuven.cs.distrinet.rejuse.property.PropertySet;
+import org.aikodi.rejuse.property.PropertySet;
 
 public class AnnotationModifier extends ModifierImpl {
 

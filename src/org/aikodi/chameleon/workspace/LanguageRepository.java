@@ -8,8 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.aikodi.chameleon.core.language.Language;
-
-import be.kuleuven.cs.distrinet.rejuse.junit.Revision;
+import org.aikodi.rejuse.junit.Revision;
 
 public class LanguageRepository {
 

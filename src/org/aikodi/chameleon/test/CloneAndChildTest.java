@@ -25,9 +25,8 @@ import org.aikodi.chameleon.util.concurrent.QueuePollingCallableFactory;
 import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.ProjectException;
+import org.aikodi.rejuse.action.Action;
 import org.junit.Test;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Action;
 
 /**
  * A test class for the clone and children methods of elements. It test all elements

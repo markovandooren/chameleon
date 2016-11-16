@@ -8,6 +8,7 @@ import java.util.List;
 import org.aikodi.chameleon.eclipse.ChameleonEditorPlugin;
 import org.aikodi.chameleon.eclipse.connector.EclipseEditorExtension;
 import org.aikodi.chameleon.workspace.ProjectConfiguration;
+import org.aikodi.rejuse.io.FileUtils;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.wizard.IWizardPage;
@@ -26,8 +27,6 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
-
-import be.kuleuven.cs.distrinet.rejuse.io.FileUtils;
 
 public class PathPage extends WizardPage implements IWizardPage {
 

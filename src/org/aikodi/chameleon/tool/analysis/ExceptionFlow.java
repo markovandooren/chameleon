@@ -2,8 +2,7 @@ package org.aikodi.chameleon.tool.analysis;
 
 import org.aikodi.chameleon.oo.method.Method;
 import org.aikodi.chameleon.oo.type.Type;
-
-import be.kuleuven.cs.distrinet.rejuse.graph.Graph;
+import org.aikodi.rejuse.graph.Graph;
 
 /**
  * A class of objects representating the static flow of exceptions through a program.

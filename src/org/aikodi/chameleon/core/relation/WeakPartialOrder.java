@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import org.aikodi.chameleon.core.lookup.LookupException;
 
-public abstract class WeakPartialOrder<E> extends be.kuleuven.cs.distrinet.rejuse.logic.relation.WeakPartialOrder<E> {
+public abstract class WeakPartialOrder<E> extends org.aikodi.rejuse.logic.relation.WeakPartialOrder<E> {
   
   @Override
 public abstract boolean contains(E first, E second) throws LookupException;

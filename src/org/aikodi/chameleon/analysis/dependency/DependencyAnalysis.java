@@ -12,14 +12,13 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.Lists;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.contract.Contracts;
 import org.aikodi.rejuse.exception.Handler;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.contract.Contracts;
-import be.kuleuven.cs.distrinet.rejuse.function.Function;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
-import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
+import org.aikodi.rejuse.function.Function;
+import org.aikodi.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.predicate.UniversalPredicate;
+import org.aikodi.rejuse.tree.TreeStructure;
 
 /**
  * An analysis the reports dependencies between elements and declarations.

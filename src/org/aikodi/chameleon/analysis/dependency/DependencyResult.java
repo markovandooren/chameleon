@@ -6,15 +6,14 @@ import java.util.stream.Collectors;
 import org.aikodi.chameleon.analysis.Result;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Action;
-import be.kuleuven.cs.distrinet.rejuse.collection.CollectionOperations;
-import be.kuleuven.cs.distrinet.rejuse.graph.Edge;
-import be.kuleuven.cs.distrinet.rejuse.graph.Graph;
-import be.kuleuven.cs.distrinet.rejuse.graph.Node;
-import be.kuleuven.cs.distrinet.rejuse.graph.UniEdge;
-import be.kuleuven.cs.distrinet.rejuse.graph.UniEdgeFactory;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
+import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.collection.CollectionOperations;
+import org.aikodi.rejuse.graph.Edge;
+import org.aikodi.rejuse.graph.Graph;
+import org.aikodi.rejuse.graph.Node;
+import org.aikodi.rejuse.graph.UniEdge;
+import org.aikodi.rejuse.graph.UniEdgeFactory;
+import org.aikodi.rejuse.predicate.Predicate;
 
 public class DependencyResult extends Result<DependencyResult> {
 

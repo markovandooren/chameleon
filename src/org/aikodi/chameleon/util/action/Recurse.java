@@ -1,6 +1,6 @@
 package org.aikodi.chameleon.util.action;
 
-import be.kuleuven.cs.distrinet.rejuse.tree.TreeStructure;
+import org.aikodi.rejuse.tree.TreeStructure;
 
 /**
  * A walker that applies the given walker to the children of a tree node.

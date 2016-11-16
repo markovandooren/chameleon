@@ -10,8 +10,7 @@ import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.plugin.LanguagePlugin;
 import org.aikodi.chameleon.workspace.View;
-
-import be.kuleuven.cs.distrinet.rejuse.association.Association;
+import org.aikodi.rejuse.association.Association;
 
 /**
  * An object that parses source text. A parser must be able to create

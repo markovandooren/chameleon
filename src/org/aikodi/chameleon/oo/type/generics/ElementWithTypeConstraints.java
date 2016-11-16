@@ -8,9 +8,8 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.view.ObjectOrientedView;
-
-import be.kuleuven.cs.distrinet.rejuse.function.BiFunction;
-import be.kuleuven.cs.distrinet.rejuse.function.Function;
+import org.aikodi.rejuse.function.BiFunction;
+import org.aikodi.rejuse.function.Function;
 
 public interface ElementWithTypeConstraints extends ElementWithTypeBounds {
   

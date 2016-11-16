@@ -4,8 +4,7 @@ import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.language.WrongLanguageException;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
-
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import org.aikodi.rejuse.association.SingleAssociation;
 /**
  * A class of rules that apply to a language. The semantics of the rules is not 
  * determined in this class.

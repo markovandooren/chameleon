@@ -17,8 +17,7 @@ import org.aikodi.chameleon.workspace.FakeDocumentScanner;
 import org.aikodi.chameleon.workspace.ProjectException;
 import org.aikodi.chameleon.workspace.View;
 import org.aikodi.contract.Contracts;
-
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
+import org.aikodi.rejuse.association.SingleAssociation;
 
 /**
  * <p>

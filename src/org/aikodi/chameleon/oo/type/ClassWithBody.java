@@ -19,10 +19,9 @@ import org.aikodi.chameleon.oo.type.generics.TypeParameterBlock;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
+import org.aikodi.rejuse.predicate.TypePredicate;
 
 import com.google.common.collect.ImmutableList;
-
-import be.kuleuven.cs.distrinet.rejuse.predicate.TypePredicate;
 
 /**
  * A class representing object-oriented classes that have a body with declarations.

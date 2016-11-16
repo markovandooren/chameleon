@@ -1,7 +1,7 @@
 package org.aikodi.chameleon.ui.widget;
 
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.predicate.UniversalPredicate;
 
 /**
  * A predicate selector creates a user interface element

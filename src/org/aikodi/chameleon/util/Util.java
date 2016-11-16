@@ -16,8 +16,7 @@ import java.util.Set;
 
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.oo.expression.Expression;
-
-import be.kuleuven.cs.distrinet.rejuse.java.collections.Visitor;
+import org.aikodi.rejuse.java.collections.Visitor;
 
 /**
  * @author Marko van Dooren

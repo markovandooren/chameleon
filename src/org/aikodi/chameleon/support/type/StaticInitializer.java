@@ -11,10 +11,9 @@ import org.aikodi.chameleon.oo.statement.Block;
 import org.aikodi.chameleon.oo.statement.ExceptionSource;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.util.association.Single;
+import org.aikodi.rejuse.association.SingleAssociation;
 
 import com.google.common.collect.ImmutableList;
-
-import be.kuleuven.cs.distrinet.rejuse.association.SingleAssociation;
 
 /**
  * @author Marko van Dooren

@@ -3,9 +3,8 @@ package org.aikodi.chameleon.analysis.dependency;
 import org.aikodi.chameleon.analysis.AbstractAnalysisOptions;
 import org.aikodi.chameleon.analysis.Result;
 import org.aikodi.chameleon.core.element.Element;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.predicate.UniversalPredicate;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.predicate.UniversalPredicate;
 
 public abstract class DependencyOptions<E extends Element, R extends Result<R>> extends AbstractAnalysisOptions<E, R>{
 

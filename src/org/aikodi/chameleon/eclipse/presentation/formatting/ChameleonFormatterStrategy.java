@@ -18,12 +18,11 @@ import org.aikodi.chameleon.eclipse.presentation.PresentationManager;
 import org.aikodi.chameleon.eclipse.presentation.PresentationModel;
 import org.aikodi.chameleon.input.PositionMetadata;
 import org.aikodi.chameleon.util.Util;
+import org.aikodi.rejuse.predicate.SafePredicate;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.formatter.IFormattingStrategy;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
-
-import be.kuleuven.cs.distrinet.rejuse.predicate.SafePredicate;
 
 /**
  * Is used to format the document. This option can be chosen in the context

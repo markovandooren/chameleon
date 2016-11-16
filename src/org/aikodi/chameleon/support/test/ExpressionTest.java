@@ -23,9 +23,8 @@ import org.aikodi.chameleon.util.concurrent.FixedThreadCallableExecutor;
 import org.aikodi.chameleon.util.concurrent.QueuePollingCallableFactory;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.ProjectException;
+import org.aikodi.rejuse.action.Action;
 import org.junit.Test;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Action;
 
 /**
  * @author Marko van Dooren

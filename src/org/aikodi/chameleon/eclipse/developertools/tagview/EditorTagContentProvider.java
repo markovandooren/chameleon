@@ -9,11 +9,10 @@ import java.util.TreeSet;
 
 import org.aikodi.chameleon.eclipse.connector.EclipseEditorTag;
 import org.aikodi.chameleon.eclipse.editors.EclipseDocument;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.predicate.Predicate;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-
-import be.kuleuven.cs.distrinet.rejuse.action.Nothing;
-import be.kuleuven.cs.distrinet.rejuse.predicate.Predicate;
 
 /**
  * Calculates the elements for the Editor Tag List View.
