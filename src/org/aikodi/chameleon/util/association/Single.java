@@ -117,11 +117,6 @@ public class Single<T extends Element> extends SingleAssociation<Element, T> imp
 	}
 
 	@Override
-	public int size() {
-		return getOtherEnd() == null ? 0 : 1;
-	}
-	
-	@Override
 	public void pairWise(ChameleonAssociation<?> other, BiConsumer<Element, Element> consumer) {
 	   if(other instanceof Single) {
 	      consumer.accept(this.getOtherEnd(), ((Single)other).getOtherEnd());
