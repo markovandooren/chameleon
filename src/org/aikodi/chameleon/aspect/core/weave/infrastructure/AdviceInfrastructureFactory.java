@@ -17,9 +17,9 @@ import org.aikodi.chameleon.core.lookup.LookupException;
  */
 public interface AdviceInfrastructureFactory {
 
-	public JoinPointWeaver joinPointWeaver();
+	public JoinPointWeaver<?, ?> joinPointWeaver();
 	
-	public void setJoinPointWeaver(JoinPointWeaver joinPointWeaver);
+	public void setJoinPointWeaver(JoinPointWeaver<?, ?> joinPointWeaver);
 	
 	/**
 	 * 	Start the advice transformation

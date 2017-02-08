@@ -108,7 +108,7 @@ public abstract class AbstractInfrastructureFactory<T extends Element, A extends
 	 * 	@param 	joinpoint
 	 * 			The joinpoint the advice is applied to
 	 */
-	protected void setJoinpoint(MatchResult joinpoint) {
+	protected void setJoinpoint(MatchResult<?> joinpoint) {
 		this._joinpoint = joinpoint;
 	}
 }
