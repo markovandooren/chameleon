@@ -651,13 +651,13 @@ public abstract class ElementImpl implements Element {
 	}
 
 	/**
-	 * Do no override unless you know what you are doing!
+	 * <p>DO NOT OVERRIDE UNLESS YOU REALLY KNOW WHAT YOU ARE DOING!</p>
 	 * 
-	 * This method uses the reflection mechanism, which saves a lot of
-	 * children() methods that would only compute the union of all the 
-	 * Association objects referenced by this element. If an association element
-	 * should not be included in the list of children, use the following code in the 
-	 * class (class name is "X", field name is "_f").
+	 * <p>This method uses the reflection mechanism, which saves a lot of
+	 * children() implementations that would only compute the union of all the 
+	 * {@link Association} objects referenced by this element. If an association element
+	 * should <b>not</b> be included in the list of children, use the following code in the 
+	 * class (class name is "X", field name is "_f").</p>
 	 * 
 	 * <pre>
 	 *   static {
