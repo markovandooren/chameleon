@@ -25,8 +25,8 @@ public class Single<T extends Element> extends SingleAssociation<Element, T> imp
 
 	@Override
 	protected boolean isValidElement(Association<? extends T, ? super Element> relation) {
-		boolean result = super.isValidElement(relation) && ((_type == null || relation == null || _type.isInstance(relation.getObject())));
-//		Util.debug(! result);
+		boolean result = super.isValidElement(relation) && 
+				((_type == null || relation == null || _type.isInstance(relation.getObject())));
 		return result;
 	}
 	
