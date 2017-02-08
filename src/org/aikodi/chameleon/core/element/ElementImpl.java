@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 import java.lang.reflect.Field;
 
@@ -51,6 +50,7 @@ import org.aikodi.rejuse.association.IAssociation;
 import org.aikodi.rejuse.association.OrderedMultiAssociation;
 import org.aikodi.rejuse.association.SingleAssociation;
 import org.aikodi.rejuse.debug.StackTrace;
+import org.aikodi.rejuse.function.Consumer;
 import org.aikodi.rejuse.logic.ternary.Ternary;
 import org.aikodi.rejuse.predicate.Predicate;
 import org.aikodi.rejuse.predicate.UniversalPredicate;
@@ -669,20 +669,20 @@ public abstract class ElementImpl implements Element {
 	 * LazyNamespace.
 	 */
   @Override
-public List<? extends Element> children() {
+  public List<? extends Element> children() {
   	List<Element> reflchildren = Lists.create();
-		for (ChameleonAssociation association : associations()) {
+		for (ChameleonAssociation<?> association : associations()) {
 			association.addOtherEndsTo(reflchildren);
 		}
 		return reflchildren;
   }
 
-  @SuppressWarnings("rawtypes")
+  @SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
    public final <T extends Element> List<T> children(Class<T> c) {
-    List<T> result = (List)children();
+    List<? extends Element> result = children();
 		filter(result, child -> c.isInstance(child));
-    return result;
+    return (List)result;
 	}
 
 	@Override
