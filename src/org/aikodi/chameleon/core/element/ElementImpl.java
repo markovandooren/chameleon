@@ -730,16 +730,6 @@ public List<? extends Element> children() {
 	}
 	
 	@Override
-	public final <T extends Element, E extends Exception>  void apply(Class<T> kind, Consumer<T> action) throws E {
-	  if(kind.isInstance(this)) {
-	     action.accept((T)this);
-	  }
-     for (Element e : children()) {
-        e.apply(kind,action);
-     }
-	}
-
-	@Override
    public final <T extends Element> List<T> ancestors(Class<T> c) {
 		List<T> result = Lists.create();
 		T el = nearestAncestor(c);

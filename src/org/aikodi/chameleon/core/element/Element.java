@@ -5,7 +5,6 @@ import static org.aikodi.rejuse.collection.CollectionOperations.filter;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.document.Document;
@@ -43,6 +42,7 @@ import org.aikodi.chameleon.workspace.WrongViewException;
 import org.aikodi.rejuse.action.Action;
 import org.aikodi.rejuse.association.Association;
 import org.aikodi.rejuse.association.SingleAssociation;
+import org.aikodi.rejuse.function.Consumer;
 import org.aikodi.rejuse.logic.ternary.Ternary;
 import org.aikodi.rejuse.predicate.Predicate;
 import org.aikodi.rejuse.predicate.UniversalPredicate;
@@ -718,7 +718,14 @@ public interface Element {
    *             passed to the consumer.
    * @param consumer The consumer to which the elements must be provided.
    */
-  public <T extends Element, E extends Exception> void apply(Class<T> kind, Consumer<T> consumer) throws E;
+  public default <T extends Element, E extends Exception> void apply(Class<T> kind, Consumer<T,E> consumer) throws E {
+	  if(kind.isInstance(this)) {
+	     consumer.accept((T)this);
+	  }
+    for (Element e : children()) {
+       e.apply(kind, consumer);
+    }
+  }
 
   /**
    * Return the metadata with the given key.
