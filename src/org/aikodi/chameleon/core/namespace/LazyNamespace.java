@@ -128,6 +128,7 @@ public class LazyNamespace extends RegularNamespace implements DocumentLoaderNam
 	
 	@Override
 	public void removeDeclaration(Declaration declaration) {
+		super.removeDeclaration(declaration);
     if(_lazyDeclarationCache != null) {
       String name = declaration.name();
       List<SoftReference<Declaration>> list = _lazyDeclarationCache.get(name);
