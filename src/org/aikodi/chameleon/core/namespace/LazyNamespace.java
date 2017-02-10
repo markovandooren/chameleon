@@ -131,11 +131,13 @@ public class LazyNamespace extends RegularNamespace implements DocumentLoaderNam
     if(_lazyDeclarationCache != null) {
       String name = declaration.name();
       List<SoftReference<Declaration>> list = _lazyDeclarationCache.get(name);
-      boolean working = true;
-      for(int i=0; i < list.size() && working; i++) {
-      	if(list.get(i).get().equals(declaration)) {
-      		list.remove(i);
-      		working = true;
+      if(list != null) {
+      	boolean working = true;
+      	for(int i=0; i < list.size() && working; i++) {
+      		if(list.get(i).get().equals(declaration)) {
+      			list.remove(i);
+      			working = true;
+      		}
       	}
       }
     }
