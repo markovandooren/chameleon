@@ -14,7 +14,7 @@ import com.google.common.collect.ImmutableSet;
 
 public class MultiTypeReference<D extends Declaration> extends ElementReference<D> {
 
-  protected MultiTypeReference(String fqn, Set<Class<? extends D>> classes, boolean recursiveLimit, Class type) {
+  protected MultiTypeReference(String fqn, Set<? extends Class<? extends D>> classes, boolean recursiveLimit, Class type) {
     this(createTarget(fqn, classes, recursiveLimit,type), 
         Util.getLastPart(fqn), 
         classes,type);
@@ -31,7 +31,7 @@ public class MultiTypeReference<D extends Declaration> extends ElementReference<
   }
 
 
-  public MultiTypeReference(CrossReferenceTarget target, String name, Set<Class<? extends D>> classes, Class<D> type) {
+  public MultiTypeReference(CrossReferenceTarget target, String name, Set<? extends Class<? extends D>> classes, Class<D> type) {
     super(name, type);
     setTarget(target); 
     _classes = ImmutableSet.copyOf(classes);
