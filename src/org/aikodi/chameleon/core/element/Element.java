@@ -675,18 +675,6 @@ public interface Element {
 		return result;
 	}
 
-	public default <T extends Element, E extends Exception> List<T> descendants(UniversalPredicate<T,E> predicate) throws E {
-		List<? extends Element> tmp = children();
-		predicate.filter(tmp);
-		List<T> result = (List<T>)tmp;
-		for (Element e : children()) {
-			result.addAll(e.descendants(predicate));
-		}
-		return result;
-	}
-
-
-
   /**
    * Recursively return all descendants of this element that are of the given type, and satisfy the given predicate.
    */

@@ -48,7 +48,7 @@ public class SubTypeHierarchyContentProvider extends HierarchyContentProvider {
 						return false;
 					}
 				};
-				List<Type> types = rootNamespace.descendants(predicate.makeUniversal(Type.class));
+				List<Type> types = rootNamespace.logical().descendants(predicate.makeUniversal(Type.class));
 				// wrap subtypes in HierarchyTypeNode[]
 				return HierarchyTypeNode.encapsulateInHierarchyTreeNodes(types, projectNature, parentTypeNode);
 			} catch (Exception e){
