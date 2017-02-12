@@ -23,8 +23,8 @@ public class Recurse<T, E extends Exception> implements TreeWalker<T, E> {
   private TreeWalker<T, ? extends E> _action;
 
   @Override
-  public <X extends T> void traverse(TreeStructure<X> tree) throws E {
-    for (TreeStructure<? extends X> child : tree.branches()) {
+  public <X extends T, N extends Exception> void traverse(TreeStructure<X, N> tree) throws E, N {
+    for (TreeStructure<? extends X, N> child : tree.branches()) {
       walker().enter(child);
       walker().traverse(child);
       walker().exit(child);

@@ -55,9 +55,10 @@ public class Sequence<T,E extends Exception> implements TreeWalker<T,E> {
 	
 	/**
 	 * {@inheritDoc}
+	 * @throws N 
 	 */
 	@Override
-	public <X extends T> void traverse(TreeStructure<X> element) throws E {
+	public <X extends T, N extends Exception> void traverse(TreeStructure<X, N> element) throws E, N {
 		first().enter(element);
 		first().traverse(element);
 		second().enter(element);

@@ -148,7 +148,7 @@ public abstract class ElementImpl implements Element {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Navigator lexical() {
+	public Navigator<Nothing> lexical() {
 //		return _lexical;
 		return new LexicalNavigator();
 	}
@@ -159,7 +159,7 @@ public abstract class ElementImpl implements Element {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Navigator logical() {
+	public Navigator<LookupException> logical() {
 		return new LogicalNavigator();
 	}
 	
@@ -1079,7 +1079,7 @@ public abstract class ElementImpl implements Element {
   }
 
 	 
-	 public static abstract class Navigator extends TreeStructure<Element> {
+	 public static abstract class Navigator<N extends Exception> extends TreeStructure<Element, N> {
 
 	   /**
 	    * {@inheritDoc}
@@ -1097,12 +1097,12 @@ public abstract class ElementImpl implements Element {
 	    * @return The {@link Element#children()} of the element.
 	    */
 	   @Override
-	   public List<? extends Element> children() {
+	   public List<? extends Element> children() throws N {
 	     return node().children();
 	   }
 	 }	
 	 
-	 protected abstract class CommonNavigator extends Navigator {
+	 protected abstract class CommonNavigator<N extends Exception> extends Navigator<N> {
      @Override
      public Element node() {
        return ElementImpl.this;
@@ -1114,7 +1114,7 @@ public abstract class ElementImpl implements Element {
    * 
    * @author Marko van Dooren
    */
-  public class LogicalNavigator extends CommonNavigator {
+  public class LogicalNavigator extends CommonNavigator<LookupException> {
 
     /**
      * {@inheritDoc}
@@ -1133,7 +1133,7 @@ public abstract class ElementImpl implements Element {
    * 
    * @author Marko van Dooren
    */
-  public class LexicalNavigator extends CommonNavigator {
+  public class LexicalNavigator extends CommonNavigator<Nothing> {
 
     /**
      * {@inheritDoc}

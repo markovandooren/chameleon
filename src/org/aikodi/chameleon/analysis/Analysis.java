@@ -77,7 +77,7 @@ public abstract class Analysis<E extends Element, R extends Result<R>, EX extend
    * the element at the node is of the correct {{@link #type()}.
    */
   @Override
-  public <X extends Element> void traverse(TreeStructure<X> tree) throws EX {
+  public <X extends Element, N extends Exception> void traverse(TreeStructure<X, N> tree) throws EX {
     X node = tree.node();
     if(type().isInstance(node)) {
       analyze((E)node);
@@ -92,7 +92,7 @@ public abstract class Analysis<E extends Element, R extends Result<R>, EX extend
   protected abstract void analyze(E element) throws EX;
 
   @Override
-  public final void enter(TreeStructure<?> tree) {
+  public final <N extends Exception> void enter(TreeStructure<?, N> tree) {
     Object node = tree.node();
     if(type().isInstance(node)) {
       doEnter((E)node);

@@ -31,7 +31,7 @@ public interface TreeWalker<T, E extends Exception> {
    *               be applied.
    * @throws E
    */
-  public abstract <X extends T> void traverse(TreeStructure<X> tree) throws E;
+  public abstract <X extends T, N extends Exception> void traverse(TreeStructure<X, N> tree) throws E, N;
 
   /**
    * Perform the action on the given object. First,
@@ -54,7 +54,7 @@ public interface TreeWalker<T, E extends Exception> {
    *
    * @param node The data structure node that has just been entered.
    */
-  public default void enter(TreeStructure<?> node) throws E {
+  public default <N extends Exception> void enter(TreeStructure<?, N> node) throws E {
   }
 
   /**
@@ -66,6 +66,6 @@ public interface TreeWalker<T, E extends Exception> {
    *
    * @param node The data structure node that has just been exited.
    */
-  public default void exit(TreeStructure<?> node) throws E {
+  public default <N extends Exception> void exit(TreeStructure<?, N> node) throws E {
   }
 }

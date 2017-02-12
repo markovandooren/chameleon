@@ -40,6 +40,7 @@ import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.View;
 import org.aikodi.chameleon.workspace.WrongViewException;
 import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.association.Association;
 import org.aikodi.rejuse.association.SingleAssociation;
 import org.aikodi.rejuse.function.Consumer;
@@ -317,13 +318,13 @@ public interface Element {
      @
      @ post \result != null;
      @*/
-  public Navigator lexical();
+  public Navigator<Nothing> lexical();
 
   /**
    * @return a tree structure for the logical structure of this element. This
    * includes the {@link Namespace} structure.
    */
-  public Navigator logical();
+  public Navigator<LookupException> logical();
 
   /**
    * Return the object representing the <b>bidirectional</b>link to the parent of this element.
