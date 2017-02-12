@@ -94,21 +94,17 @@ public class SubTypeHierarchyContentProvider extends HierarchyContentProvider {
 					return false;
 				}
 			};
-			//List<Type> types = rootNamespace.logical().descendants(predicate.makeUniversal(Type.class));
 			final List<Type> types = new ArrayList<>();
 			try {
 				List<Document> sourceDocuments = rootNamespace.view().sourceDocuments();
 				for(Document d: sourceDocuments) {
 					try {
-						System.out.println("Looking for subtypes of "+type.name()+" in: "+d.loader().toString());
 						List<Type> descendants = d.descendants(Type.class, predicate);
 						types.addAll(descendants);
 					} catch (LookupException e) {
-						// Swallow for now since we want to find as many types as possible.
 					}
 				}
 			} catch (InputException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return types;
