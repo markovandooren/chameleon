@@ -23,19 +23,19 @@ public abstract class HierarchyContentProvider implements ITreeContentProvider {
 
 	@Override
    public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		// NOP
-	}
+		  flushCache();
+	 }
+	
+	public abstract void flushCache();
 
 	@Override
    public boolean hasChildren(Object element) {
-		boolean result = getChildren(element).length > 0;
-		return result;
+		return getChildren(element).length > 0;
 	}
 
 	@Override
    public Object[] getElements(Object inputElement) {
-		Object[] result = getChildren(inputElement);
-		return result;
+		return getChildren(inputElement);
 	}
 	
 }
