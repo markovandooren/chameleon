@@ -33,7 +33,6 @@ public class CalleesContentProvider implements ITreeContentProvider {
 				try {
 					referencedDeclarations.add(cref.getElement());
 				} catch (ModelException e) {
-					e.printStackTrace();
 				}
 			}
 			// return result:

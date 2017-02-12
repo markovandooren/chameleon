@@ -51,7 +51,6 @@ public class CallersContentProvider implements ITreeContentProvider {
 					try {
 						return declaration.equals(invocation.getElement().declarator());
 					} catch (ModelException e) {
-						e.printStackTrace();
 						return false;
 					}
 				}
