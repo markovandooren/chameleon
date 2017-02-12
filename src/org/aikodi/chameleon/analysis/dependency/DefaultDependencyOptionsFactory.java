@@ -22,6 +22,7 @@ import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.exception.Handler;
 import org.aikodi.rejuse.function.Function;
 import org.aikodi.rejuse.predicate.True;
+import org.aikodi.rejuse.tree.GuardedTreeStructure;
 
 import com.google.common.collect.ImmutableList;
 
@@ -82,7 +83,8 @@ public class DefaultDependencyOptionsFactory extends LanguagePluginImpl implemen
       for(Namespace namespace: namespaces) {
         Handler<LookupException, Nothing> resume = Handler.<LookupException>resume();
         GuardedTreeWalker<Element, LookupException, Nothing> guardedTreeWalker = new GuardedTreeWalker<>(dependencyAnalysis, resume);
-        guardedTreeWalker.traverse(namespace.logical());
+        GuardedTreeStructure<Element, LookupException, Nothing> guardedTree = new GuardedTreeStructure<>(namespace.logical(), resume);
+        guardedTreeWalker.traverse(guardedTree);
       }
 
       return dependencyAnalysis.result();

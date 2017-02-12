@@ -129,9 +129,6 @@ public class HierarchyView extends ViewPart {
 		layoutData.verticalAlignment = GridData.FILL;
 		hierarchyViewer.getControl().setLayoutData(layoutData);
 		
-//		ChameleonEditor editor = ChameleonEditor.getCurrentActiveEditor();
-//		Language language = editor.getDocument().language();
-//		DeclarationCategorizer categorizer = language.connector(EclipseEditorExtension.class).declarationCategorizer();
 		// create the member table viewer
 		memberViewer = new TableViewer(sashForm);
 		memberViewer.setContentProvider(new MemberContentProvider());
@@ -145,7 +142,6 @@ public class HierarchyView extends ViewPart {
 		memberViewer.getControl().setLayoutData(layoutData);
 		// create actions, menu and toolbar:
 		createActions();
-
 	}
 	
 	private OpenTypeHierarchyAction subHierarchyAction;
@@ -167,12 +163,12 @@ public class HierarchyView extends ViewPart {
 
 		// add listeners to memberviewer (avoid dubble use of same listener instance)
 		memberViewer.addSelectionChangedListener(subHierarchyAction);
-		subHierarchyAction = new OpenTypeHierarchyAction(SUBTYPE, this);
+		//subHierarchyAction = new OpenTypeHierarchyAction(SUBTYPE, this);
 		memberViewer.addDoubleClickListener(subHierarchyAction);
 		// add listeners to hierarchyViewer
-		subHierarchyAction = new OpenTypeHierarchyAction(SUBTYPE, this);
+		//subHierarchyAction = new OpenTypeHierarchyAction(SUBTYPE, this);
 		hierarchyViewer.addSelectionChangedListener(subHierarchyAction);
-		subHierarchyAction = new OpenTypeHierarchyAction(SUBTYPE, this);
+		//subHierarchyAction = new OpenTypeHierarchyAction(SUBTYPE, this);
 		hierarchyViewer.addDoubleClickListener(subHierarchyAction);
 		
 		// listener to show the members when clicked on a type:

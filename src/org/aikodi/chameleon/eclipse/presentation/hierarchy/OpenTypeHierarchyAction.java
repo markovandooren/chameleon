@@ -54,7 +54,7 @@ public class OpenTypeHierarchyAction extends Action implements IDoubleClickListe
 
 	public static final int SUBTYPE = 0;
 	public static final int SUPERTYPE = 1;
-	
+
 	/**
 	 * 
 	 * @param 	actionType
@@ -85,36 +85,41 @@ public class OpenTypeHierarchyAction extends Action implements IDoubleClickListe
 		setImageDescriptor(ChameleonEditorPlugin.getImageDescriptor(iconName));
 	}
 
+	private boolean run = false;
+
 	@Override
 	public void run() {
-		Type rootType = getRootType();
-		ChameleonEditor editor = ChameleonEditor.getActiveEditor();
-		setEditor(editor);
-		if(rootType != null && editor != null){
-			Language lang = editor.getDocument().language();
-			IContentProvider contentProvider;
-			if(hierarchy_type == SUBTYPE){
-				contentProvider = new SubTypeHierarchyContentProvider(editor.getDocument().getProjectNature().getModel()); // local search
-			} else if(hierarchy_type == SUPERTYPE){
-				contentProvider = new SuperTypeHierarchyContentProvider();
-			} else {
-				throw new ChameleonProgrammerException("Action type not supported. Must be SUBTYPEHIERARCHY or SUPERTYPEHIERARCHY");
+		run = !run;
+		if(run) {
+			Type rootType = getRootType();
+			ChameleonEditor editor = ChameleonEditor.getActiveEditor();
+			setEditor(editor);
+			if(rootType != null && editor != null){
+				Language lang = editor.getDocument().language();
+				IContentProvider contentProvider;
+				if(hierarchy_type == SUBTYPE){
+					contentProvider = new SubTypeHierarchyContentProvider(editor.getDocument().getProjectNature().getModel()); // local search
+				} else if(hierarchy_type == SUPERTYPE){
+					contentProvider = new SuperTypeHierarchyContentProvider();
+				} else {
+					throw new ChameleonProgrammerException("Action type not supported. Must be SUBTYPEHIERARCHY or SUPERTYPEHIERARCHY");
+				}
+				view.getHierarchyViewer().setContentProvider(contentProvider);
+				view.getHierarchyViewer().setLabelProvider(new ChameleonLabelProvider(lang, false, false, false));
+				view.getMemberViewer().setLabelProvider(new ChameleonLabelProvider(lang, true, false, false));
+				view.getHierarchyViewer().setInput(new RootType(rootType, getEditor()));
+				view.getHierarchyViewer().setSelection(new StructuredSelection(rootType));
+				view.getLabel().setText(actionName + " of type " + rootType.getFullyQualifiedName());
+			} else{
+				if(editor == null){
+					ChameleonEditorPlugin.showMessageBox("No Chameleon editor found", "The currently active editor must be a Chameleon editor.\nThe Chameleon Type Hierarchy cannot be shown.", SWT.ICON_ERROR);
+				} else if(rootType==null){
+					ChameleonEditorPlugin.showMessageBox("No type found", "There is no type found whose type hierarchy must be shown.\nFirst select an appropriate type in the Chameleon editor.", SWT.ICON_ERROR);
+				} 
 			}
-			view.getHierarchyViewer().setContentProvider(contentProvider);
-			view.getHierarchyViewer().setLabelProvider(new ChameleonLabelProvider(lang, false, false, false));
-			view.getMemberViewer().setLabelProvider(new ChameleonLabelProvider(lang, true, false, false));
-			view.getHierarchyViewer().setInput(new RootType(rootType, getEditor()));
-			view.getHierarchyViewer().setSelection(new StructuredSelection(rootType));
-			view.getLabel().setText(actionName + " of type " + rootType.getFullyQualifiedName());
-		} else{
-			if(editor == null){
-				ChameleonEditorPlugin.showMessageBox("No Chameleon editor found", "The currently active editor must be a Chameleon editor.\nThe Chameleon Type Hierarchy cannot be shown.", SWT.ICON_ERROR);
-			} else if(rootType==null){
-				ChameleonEditorPlugin.showMessageBox("No type found", "There is no type found whose type hierarchy must be shown.\nFirst select an appropriate type in the Chameleon editor.", SWT.ICON_ERROR);
-			} 
 		}
 	}
-	
+
 	/**
 	 * Returns the type to open the hierarchy of.
 	 * 
@@ -141,9 +146,9 @@ public class OpenTypeHierarchyAction extends Action implements IDoubleClickListe
 							@Override
 							public boolean eval(EclipseEditorTag editorTag) {
 								return editorTag.includes(offset) && 
-								(	(editorTag.getElement() instanceof Type) 
-										|| (editorTag.getElement() instanceof TypeReference)
-								);
+										(	(editorTag.getElement() instanceof Type) 
+												|| (editorTag.getElement() instanceof TypeReference)
+												);
 							}
 						};
 						Collection<EclipseEditorTag> tags = new TreeSet<EclipseEditorTag>(EclipseEditorTag.lengthComparator);
@@ -163,7 +168,7 @@ public class OpenTypeHierarchyAction extends Action implements IDoubleClickListe
 				return chamEditor.getDocument().document().descendants(Type.class).iterator().next();
 			}
 		} catch (ModelException e) {
-//			e.printStackTrace();
+			//			e.printStackTrace();
 		}
 		return null;
 	}
@@ -174,7 +179,7 @@ public class OpenTypeHierarchyAction extends Action implements IDoubleClickListe
 	 * This method is used in both, the typeviewer and the memberviewer.
 	 */
 	@Override
-   public void doubleClick(DoubleClickEvent event) {
+	public void doubleClick(DoubleClickEvent event) {
 		if(event.getSelection() instanceof IStructuredSelection) {
 			IStructuredSelection selection = (IStructuredSelection)event.getSelection();
 			Object firstObject = selection.getFirstElement();
@@ -190,7 +195,7 @@ public class OpenTypeHierarchyAction extends Action implements IDoubleClickListe
 				ChameleonEditor.showInEditor((Element)firstObject, true, true, getEditor());
 			}
 			new TypeChangedListener(view).selectionChanged(view.getHierarchyViewer().getSelection());//TOTEST
-			
+
 		} else if(event.getSelection().isEmpty()){
 			getEditor().resetHighlightRange();
 		}
@@ -202,7 +207,7 @@ public class OpenTypeHierarchyAction extends Action implements IDoubleClickListe
 	 * This method is used in both, the typeviewer and the memberviewer.
 	 */
 	@Override
-   public void selectionChanged(SelectionChangedEvent event) {
+	public void selectionChanged(SelectionChangedEvent event) {
 		if(event.getSelection() instanceof IStructuredSelection) {
 			IStructuredSelection selection = (IStructuredSelection)event.getSelection();
 			Object firstObject = selection.getFirstElement();

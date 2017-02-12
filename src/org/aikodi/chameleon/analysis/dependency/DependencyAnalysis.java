@@ -226,7 +226,7 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
   }
 
   @Override
-  public void exit(TreeStructure<?> tree) {
+  public <N extends Exception> void exit(TreeStructure<?, N> tree) {
     Object object = tree.node();
     if (!_elements.isEmpty()) {
       if (_elements.getLast() == object) {

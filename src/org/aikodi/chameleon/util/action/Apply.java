@@ -20,7 +20,7 @@ public class Apply<T,E extends Exception> implements TreeWalker<T, E> {
   }
   
   @Override
-  public <X extends T> void traverse(TreeStructure<X> tree) throws E {
+  public <X extends T, N extends Exception> void traverse(TreeStructure<X, N> tree) throws E {
     action().perform(tree.node());
   }
 

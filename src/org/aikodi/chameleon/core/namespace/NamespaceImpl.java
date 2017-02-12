@@ -11,6 +11,9 @@ import java.util.Set;
 import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.BasicDeclaration;
 import org.aikodi.chameleon.core.declaration.Declaration;
+import org.aikodi.chameleon.core.element.Element;
+import org.aikodi.chameleon.core.element.ElementImpl.LogicalNavigator;
+import org.aikodi.chameleon.core.element.ElementImpl.Navigator;
 import org.aikodi.chameleon.core.event.association.ParentRemoved;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
@@ -86,9 +89,30 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
     return fullyQualifiedName();
   }
 
-  /**************
-   * PACKAGEPART
-   **************/
+  /**********************
+   * LOGICAL NAVIGATION *
+   **********************/
+  
+  private Navigator<LookupException> _logical = new LogicalNavigator() {
+		@Override
+		public List<? extends Element> children() throws LookupException {
+			// The declarations are cached, so we return a mutable copy instead.
+			// Not optimal because an immutable list might be fine for the
+			// client, but there is no convenient way for the client to
+			// detect this.
+				return new ArrayList<>(NamespaceImpl.this.declarations());
+		}
+	};
+	
+	@Override
+	public Navigator<LookupException> logical() {
+		return _logical;
+	}
+
+  
+  /******************
+   * NAMESPACE PART *
+   ******************/
 
   @Override
   public Namespace defaultNamespace() {

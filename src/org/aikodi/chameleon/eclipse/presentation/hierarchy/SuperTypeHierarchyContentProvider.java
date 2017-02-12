@@ -5,16 +5,13 @@
 package org.aikodi.chameleon.eclipse.presentation.hierarchy;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.eclipse.project.ChameleonProjectNature;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
-import org.aikodi.rejuse.java.collections.Visitor;
 
 /**
  * This class will calculate the children of an element in the super type hierarchy
@@ -26,6 +23,11 @@ public class SuperTypeHierarchyContentProvider extends HierarchyContentProvider 
 	public SuperTypeHierarchyContentProvider() {
 	}
 
+	@Override
+	public void flushCache() {
+		
+	}
+	
 	/**
 	 * Returns all supertypes of the element if it's a type
 	 */
