@@ -146,7 +146,7 @@ public interface DeclarationContainer extends Element {
 //		}
 	}
 
-	public default List<DeclarationContainerRelation> relations() {
+	public default List<? extends DeclarationContainerRelation> relations() throws LookupException {
 		return Collections.emptyList();
 	}
 
