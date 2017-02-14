@@ -3,11 +3,11 @@ package org.aikodi.chameleon.oo.type.inheritance;
 import java.util.List;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
+import org.aikodi.chameleon.core.declaration.DeclarationContainerRelation;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
-import org.aikodi.chameleon.oo.member.MemberRelationSelector;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 
@@ -18,7 +18,7 @@ import org.aikodi.chameleon.oo.type.TypeReference;
  * 
  * @author Marko van Dooren
  */
-public interface InheritanceRelation extends Element {
+public interface InheritanceRelation extends Element, DeclarationContainerRelation {
 	
 	public Declaration target() throws LookupException;
 	
