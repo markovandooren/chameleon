@@ -21,9 +21,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 
 /**
+ * <p>A class body that lazily copies its member from another class
+ * body.</p>
  *
- * All non-static declarations of a lazy class body have their origin set to the corresponding
- * declaration in the base type.
+ * <p>Members are not synchronized with their origin.
+ * All non-static declarations of a lazy class body have their origin 
+ * set to the corresponding declaration in the base type.</p>
  * 
  * @author Marko van Dooren
  */
@@ -190,6 +193,7 @@ public class LazyClassBody extends ClassBody {
 				if(clonedElement == null) {
 					if(! element.isTrue(clazz)) {
 						clonedElement = clone(element);
+						clonedElement.setOrigin(element);
 						super.add(clonedElement);
 					} else {
 						_statics.add(element);
