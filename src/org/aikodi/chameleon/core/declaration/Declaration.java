@@ -443,7 +443,10 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
   	Set<Declaration> result = new HashSet<>();
   	//FIXME This may have to be determined by the language.
   	DeclarationRelation relation = overridesRelation(); 
-		nearestAncestor(DeclarationContainer.class).directlyOverriddenDeclarations(this, relation, result);
+		Declaration nearestAncestor = nearestAncestor(Declaration.class);
+		if(nearestAncestor != null) {
+		  nearestAncestor.directlyOverriddenDeclarations(this, relation, result);
+		}
   	return result;
   }
 
