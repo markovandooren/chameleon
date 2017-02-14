@@ -58,7 +58,6 @@ public class CallersContentProvider implements ITreeContentProvider {
 							found = true;
 						} else {
 							Set<? extends Declaration> overriddenDeclarations = declarator.overriddenDeclarations();
-							Util.debug(declarator.name().equals(declaration.name()));
 							for(Declaration overridden: overriddenDeclarations) {
 								found = found || overridden.farthestOrigin().sameAs(declaration.farthestOrigin());
 							}
