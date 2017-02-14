@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
+import org.aikodi.chameleon.core.declaration.DeclarationContainerRelation;
 import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
@@ -29,6 +30,11 @@ public interface Type extends DeclarationContainer, DeclarationWithType {
 
   public default boolean newSubtypeOf(Type other) throws LookupException {
     return sameAs(other);
+  }
+  
+  @Override
+  default List<? extends DeclarationContainerRelation> relations() throws LookupException {
+  	return inheritanceRelations();
   }
 
   public default void accumulateSuperTypeJudge(SuperTypeJudge judge) throws LookupException {
