@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.eclipse.project.ChameleonProjectNature;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.Handler;
+import org.aikodi.chameleon.util.Util;
 import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.rejuse.predicate.SafePredicate;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -49,7 +51,19 @@ public class CallersContentProvider implements ITreeContentProvider {
 				@Override
 				public boolean eval(CrossReference invocation) {
 					try {
-						return declaration.equals(invocation.getElement().declarator());
+						Declaration referenced = invocation.getElement();
+						Declaration declarator = referenced.declarator();
+						boolean found = false;
+						if(declarator.farthestOrigin().sameAs(declaration.farthestOrigin())) {
+							found = true;
+						} else {
+							Set<? extends Declaration> overriddenDeclarations = declarator.overriddenDeclarations();
+							Util.debug(declarator.name().equals(declaration.name()));
+							for(Declaration overridden: overriddenDeclarations) {
+								found = found || overridden.farthestOrigin().sameAs(declaration.farthestOrigin());
+							}
+						}
+						return found;
 					} catch (ModelException e) {
 						return false;
 					}
