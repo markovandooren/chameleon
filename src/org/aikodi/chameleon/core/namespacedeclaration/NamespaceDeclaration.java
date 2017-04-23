@@ -45,7 +45,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
     excludeFieldName(NamespaceDeclaration.class,"_namespaceLink");
   }
   
-  private Navigator _logical = new LogicalNavigator() {
+  private Navigator<LookupException> _logical = new LogicalNavigator() {
 
 		@Override
 		public Element parent() {
@@ -54,7 +54,7 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	};
 	
 	@Override
-   public Navigator logical() {
+   public Navigator<LookupException> logical() {
 		return _logical;
 	}
   
