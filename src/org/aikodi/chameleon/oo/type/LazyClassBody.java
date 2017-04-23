@@ -31,18 +31,18 @@ import com.google.common.collect.ImmutableList.Builder;
  * @author Marko van Dooren
  */
 public class LazyClassBody extends ClassBody {
-	
+
 	public LazyClassBody(ClassBody original) {
 		setClassBody(original);
 		setOrigin(original);
 	}
-	
+
 	private ClassBody _original;
-	
+
 	public ClassBody original() {
 		return _original;
 	}
-	
+
 	protected void setClassBody(ClassBody original) {
 		_original = original;
 	}
@@ -51,7 +51,7 @@ public class LazyClassBody extends ClassBody {
 	 * Return the declarations with the given name. The declarations are loaded lazily from the base type.
 	 */
 	@Override
-   protected List<Declaration> declarations(String selectionName) throws LookupException {
+	protected List<Declaration> declarations(String selectionName) throws LookupException {
 		if(_initializedElements) {
 			return super.declarations(selectionName);
 		} else {
@@ -64,7 +64,7 @@ public class LazyClassBody extends ClassBody {
 		}
 	}
 
-	public List<Declaration> fetchMembers(String selectionName, List<Declaration> declarationsFromBaseType)
+	protected List<Declaration> fetchMembers(String selectionName, List<Declaration> declarationsFromBaseType)
 			throws LookupException {
 		Builder<Declaration> builder = ImmutableList.builder();
 		List<Declaration> result = ImmutableList.of();
@@ -74,20 +74,19 @@ public class LazyClassBody extends ClassBody {
 			// Use lazy initialization for the type parameters. We want to reuse the collection
 			// for different elements in declarationsFromBaseType, but we don't want to compute
 			// it unnecessarily when we don't need it, or compute it more than once if we do need it.
-			ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
 			for(Declaration declarationFromBaseType: declarationsFromBaseType) {
 				Element parent = declarationFromBaseType.parent();
 				// Replace the references to the formal type parameters of base class with
-				// references to the actual type arguments of the derived type that is the parent of
+				// references to the actual type arguments of the derived type that contains
 				// this lazy class body.
 				Declaration clone = null;
 				if(parent instanceof DeclaratorStub) {
 					clone = caseElementFromStub(selectionName, declarationFromBaseType, (DeclaratorStub) parent);
 				} else {
-					if(! declarationFromBaseType.isTrue(language.CLASS)) {
-					  clone = clone(declarationFromBaseType);
-					  super.add((Declarator) clone); //FIX ME there should be a separate stub for type elements.
-					  clone.setOrigin(declarationFromBaseType);
+					if(mustCopy(declarationFromBaseType)) {
+						clone = clone(declarationFromBaseType);
+						super.add((Declarator) clone); //FIX ME there should be a separate stub for type elements.
+						clone.setOrigin(declarationFromBaseType);
 					} else {
 						clone = declarationFromBaseType;
 					}
@@ -100,6 +99,20 @@ public class LazyClassBody extends ClassBody {
 		return result;
 	}
 
+	private boolean mustCopy(Declaration declarationFromBaseType) {
+		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+		return ! declarationFromBaseType.isTrue(language.CLASS);
+	}
+
+	/**
+	 * Clone with given declaration.
+	 * 
+	 * @param selectionName
+	 * @param declarationFromBaseType
+	 * @param stub
+	 * @return
+	 * @throws LookupException
+	 */
 	private Declaration caseElementFromStub(String selectionName, Declaration declarationFromBaseType, DeclaratorStub stub) throws LookupException {
 		Declaration clone = null;
 		// 1. Clone the declaration 
@@ -156,20 +169,30 @@ public class LazyClassBody extends ClassBody {
 		return clone;
 	}
 
+	/**
+	 * Trying to add something to a lazy class body will result in an exception.
+	 * 
+	 * @throws ChameleonProgrammerException Always
+	 */
 	@Override
-   public void add(Declarator element) {
+	public void add(Declarator element) {
 		throw new ChameleonProgrammerException("Trying to add an element to a lazy class body.");
 	}
 
+	/**
+	 * Trying to remove something from a lazy class body will result in an exception.
+	 * 
+	 * @throws ChameleonProgrammerException Always
+	 */
 	@Override
-   public void remove(Declarator element) {
+	public void remove(Declarator element) {
 		throw new ChameleonProgrammerException("Trying to remove an element from a lazy class body.");
 	}
 
 	private boolean _initializedElements = false;
-	
-	
-	
+
+
+
 	@Override
 	public void flushLocalCache() {
 		super.flushLocalCache();
@@ -177,7 +200,7 @@ public class LazyClassBody extends ClassBody {
 	}
 
 	@Override
-   public synchronized List<Declarator> elements() {
+	public synchronized List<Declarator> elements() {
 		if(! _initializedElements) {
 			_statics = Lists.create();
 			List<Declarator> alreadyCloned = super.elements();
@@ -210,9 +233,9 @@ public class LazyClassBody extends ClassBody {
 	}
 
 	private List<Declarator> _statics;
-	
+
 	@Override
-   public <D extends Declaration> List<? extends SelectionResult> members(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult<?>> members(DeclarationSelector<D> selector) throws LookupException {
 		if(selector.usesSelectionName()) {
 			List<? extends Declaration> list = null;
 			if(Config.cacheDeclarations()) {
@@ -228,9 +251,9 @@ public class LazyClassBody extends ClassBody {
 			return selector.selection(declarations());
 		}
 	}
-	
+
 	@Override
-   public <D extends Declaration> List<D> members(Class<D> kind) throws LookupException {
+	public <D extends Declaration> List<D> members(Class<D> kind) throws LookupException {
 		List<D> originals = original().members(kind);
 		List<D> result = Lists.create();
 		for(D original:originals) {

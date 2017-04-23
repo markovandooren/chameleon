@@ -103,7 +103,7 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
 	  return typeRef;
   }
   
-  public abstract <P extends Parameter> TypeInstantiation createDerivedType(Class<P> kind, List<P> parameters, Type baseType);
+  public abstract <P extends Parameter> TypeInstantiation instantiatedType(Class<P> kind, List<P> parameters, Type baseType);
   
   public abstract TypeInstantiation createDerivedType(Type baseType, List<TypeArgument> typeArguments) throws LookupException;
   
