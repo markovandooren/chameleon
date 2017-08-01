@@ -49,7 +49,7 @@ public abstract class RegularVariable extends VariableImpl implements ExceptionS
    * INITIALIZATION EXPRESSION 
    */
 
-  private Single<Expression> _init = new Single<Expression>(this,false);
+  private Single<Expression> _init = new Single<Expression>(this, false, "initialization");
 
   @Override
   public Expression getInitialization() {

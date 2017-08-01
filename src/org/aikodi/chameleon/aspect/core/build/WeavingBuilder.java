@@ -44,7 +44,7 @@ public class WeavingBuilder<S extends Language, T extends Language> {
 	
 	private void initTargetLanguage() throws LookupException {
 		Set<Document> compilationUnits = new HashSet<Document>();
-		for(NamespaceDeclaration nsp: source().namespace().descendants(NamespaceDeclaration.class)) {
+		for(NamespaceDeclaration nsp: source().namespace().lexical().descendants(NamespaceDeclaration.class)) {
 			Document cu = nsp.nearestAncestor(Document.class);
 			if(cu != null) {
 				compilationUnits.add(cu);

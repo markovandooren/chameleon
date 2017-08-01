@@ -53,7 +53,7 @@ public abstract class IncrementalTranslator<S extends Language, T extends Langua
 		if ((! _initialized) || force) {
 			_documentMap = new HashMap<>();
 			Set<Document> documents = new HashSet<>();
-			for(NamespaceDeclaration nsp: source().namespace().descendants(NamespaceDeclaration.class)) {
+			for(NamespaceDeclaration nsp: source().namespace().lexical().descendants(NamespaceDeclaration.class)) {
 				Document cu = nsp.nearestAncestor(Document.class);
 				if(cu != null) {
 					documents.add(cu);

@@ -19,7 +19,7 @@ public abstract class Clause extends ElementImpl implements ExceptionSource {
   /**
    * Statement
    */
-  private Single<Statement> _statement = new Single<Statement>(this, true);
+  private Single<Statement> _statement = new Single<Statement>(this, true, "statement");
 
   public void setStatement(Statement statement) {
     set(_statement, statement);

@@ -89,7 +89,7 @@ public class CrossReferenceTest extends ModelTest {
 			@Override
          public void doPerform(Namespace ns) throws LookupException {
 				for(NamespaceDeclaration nsp: ns.namespaceDeclarations()) {
-					for(CrossReference cref: nsp.descendants(CrossReference.class)) {
+					for(CrossReference cref: nsp.lexical().descendants(CrossReference.class)) {
 						Declaration declaration = cref.getElement();
 						assertTrue(declaration != null);
 					}

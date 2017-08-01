@@ -153,45 +153,6 @@ public class Util {
     return result;
   }
 
-  public static Set createExpressionSet(Expression element) {
-    Set result = new HashSet();
-    addExpression(element, result);
-    return result;
-  }
-
-  public static Set createTopExpressionSet(Expression element) {
-    Set result = new HashSet();
-    addTopExpression(element, result);
-    return result;
-  }
-
-  public static void addTopExpression(Expression expression, Set set) {
-    if(expression != null) {
-      set.add(expression);
-    }
-  }
-
-	public static void addExpression(Expression expression, Set set) {
-    if(expression != null) {
-      set.add(expression);
-        set.addAll(expression.descendants(Expression.class));
-      //set.addAll(expression.getAllExpressions());
-    }
-	}
-
-	/**
-	 * @param list
-	 * @param result
-	 */
-	public static void addExpressions(List list, final Set result) {
-    new Visitor() {
-		    @Override
-         public void visit(Object element) {
-          addExpression((Expression)element, result);
-		    }
-		}.applyTo(list);
-	}
-
 	/**
 	 * @param string
 	 * @return

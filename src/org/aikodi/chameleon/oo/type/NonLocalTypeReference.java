@@ -32,7 +32,7 @@ public abstract class NonLocalTypeReference extends ElementImpl implements TypeR
 		set(_actual, actual);
 	}
 
-	private Single<TypeReference> _actual = new Single<TypeReference>(this);
+	private Single<TypeReference> _actual = new Single<TypeReference>(this, "actual");
 
 	@Override
 	public LookupContext lexicalContext() throws LookupException {

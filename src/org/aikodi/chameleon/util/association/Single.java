@@ -16,8 +16,9 @@ public class Single<T extends Element> extends SingleAssociation<Element, T> imp
 		super(element);
 	}
 
-	public Single(Element element, Class<T> type) {
+	public Single(Element element, Class<T> type, String role) {
 		super(element);
+		setRole(role);
 		_type = type;
 	}
 	
@@ -30,18 +31,18 @@ public class Single<T extends Element> extends SingleAssociation<Element, T> imp
 		return result;
 	}
 	
+	/**
+	 * Create a new single association object for the given element.
+	 * The object that this association can be connected to has a role
+	 * with the given name.
+	 *  
+	 * @param element The element that contains this association.
+	 *                The element cannot be null.
+	 * @param role The role of the object that can be connected via this association.
+	 */
 	public Single(Element element, String role) {
 		super(element);
 		setRole(role);
-	}
-
-	public Single(Element element, Association<? extends T, ? super Element> other) {
-		super(element, other);
-	}
-	
-	public Single(Element element, boolean mandatory) {
-		this(element);
-		_mandatory = mandatory;
 	}
 
 	public Single(Element element, boolean mandatory, String role) {
@@ -49,11 +50,6 @@ public class Single<T extends Element> extends SingleAssociation<Element, T> imp
 		_mandatory = mandatory;
 	}
 
-	public Single(Element element, Association<? extends T, ? super Element> other, boolean mandatory) {
-		this(element, other);
-		_mandatory = mandatory;
-	}
-	
 	private boolean _mandatory = false;
 	
 	public boolean mandatory() {
@@ -76,7 +72,10 @@ public class Single<T extends Element> extends SingleAssociation<Element, T> imp
 		return _role;
 	}
 	
-	public void setRole(String role) {
+	private void setRole(String role) {
+		if(role == null) {
+			throw new IllegalArgumentException();
+		}
 		_role = role;
 	}
 	

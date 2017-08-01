@@ -629,7 +629,7 @@ public class View extends PluginContainerImpl<ViewPlugin>
 		for(DocumentScanner scanner: sourceScanners()) {
 			try {
 			for(Document doc: scanner.documents()) {
-				result.addAll(doc.descendants(type));
+				result.addAll(doc.lexical().descendants(type));
 				if(type.isInstance(doc)) {
 					result.add((T)doc);
 				}

@@ -30,11 +30,11 @@ public class AroundStep<P extends Element,T extends Element> extends AdvisedList
 	private T rewrite(T beh, int count) throws LookupException {
 		T clone = (T)beh.clone();
 		clone.setUniParent(beh.parent());
-		for(Declaration decl: clone.descendants(Declaration.class)) {
+		for(Declaration decl: clone.lexical().descendants(Declaration.class)) {
 			Signature signature = decl.signature();
 			if(signature != null) {
 				String newName = prefix(signature.name(),count);
-				for(CrossReference cref: clone.descendants(CrossReference.class)) {
+				for(CrossReference cref: clone.lexical().descendants(CrossReference.class)) {
 					if(cref.getElement().sameAs(decl)) {
 						transformer().changeName(cref, newName);
 					}

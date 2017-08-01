@@ -50,7 +50,7 @@ public class RootType implements HierarchyTreeNode {
 		}
 		// if not succeeded, try to get the element of the docFile
 		if(docFile!=null){
-			Type type = projectNature.chameleonDocumentOfFile(docFile).descendants(Type.class).iterator().next();
+			Type type = projectNature.chameleonDocumentOfFile(docFile).lexical().descendants(Type.class).iterator().next();
 			if(type != null){
 				_typeCache = type;
 				return new Object[]{new HierarchyTypeNode(type, projectNature, this)};

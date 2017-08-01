@@ -35,6 +35,7 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
+import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.ChameleonAssociation;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.View;
@@ -42,6 +43,7 @@ import org.aikodi.chameleon.workspace.WrongViewException;
 import org.aikodi.rejuse.action.Action;
 import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.association.Association;
+import org.aikodi.rejuse.association.IAssociation;
 import org.aikodi.rejuse.association.SingleAssociation;
 import org.aikodi.rejuse.function.Consumer;
 import org.aikodi.rejuse.logic.ternary.Ternary;
@@ -345,7 +347,15 @@ public interface Element {
    * <p>This method is useful for debugging and for ensuring that e.g. predefined elements
    * and elements that correspond to "binary" document cannot be modified by accident.</p> 
    */
-  public void freeze();
+  public default void freeze() {
+		for(Element element: children()) {
+			element.parentLink().lock();
+			element.freeze();
+		}
+		for(IAssociation association: associations()) {
+			association.lock();
+		}
+  }
 
   /**
    * <p>Unfreeze this element. This means that descendants can again be removed 
@@ -353,7 +363,15 @@ public interface Element {
    * The parent link of this element, however, is not modified. If it was locked, it will be still be locked
    * afterwards. If it was unlocked, it will be still be unlocked afterwards. </p> 
    */
-  public void unfreeze();
+  public default void unfreeze() {
+		for(Element element: children()) {
+			element.parentLink().unlock();
+			element.unfreeze();
+		}
+		for(IAssociation association: associations()) {
+			association.unlock();
+		}
+  }
 
   /**
    * <p>Completely disconnect this element and all descendants from the parent.
@@ -374,11 +392,11 @@ public interface Element {
    * If a language construct uses additional association objects that are not part of the lexical structure,
    * they should be excluded using the static excludeFieldName method in ElementImpl. 
    */
-  /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @*/
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
   public List<ChameleonAssociation<?>> associations();
 
   /**
@@ -529,24 +547,47 @@ public interface Element {
   public <T extends Element, E extends Exception> List<T> ancestors(UniversalPredicate<T, E> predicate) throws E;
 
   /**
-   * Return the direct children of this element.
+   * <p>Return the direct children of this element.</p>
    * 
-   * The result will never be null. All elements in the collection will have this element as
-   * their parent.
+   * <p>The result will never be null. All elements in the collection will have this element as
+   * their parent.</p>
    * 
-   * Note that there can exist non-child elements that have this element as their parent. 
+   * <p>Note that there can exist non-child elements that have this element as their parent. 
    * The reason is that e.g. not all generic instances of a class can be constructed, so the collection
    * can never be complete anyway. Context elements are also not counted as children, there are merely a
    * help for the lookup algorithms. We only keep references to the lexical children, those that are 'physically'
-   * part of the program.
-   */
-  /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @ post (\forall Element e; \result.contains(e); e.parent() == this);
-     @*/
-  public List<? extends Element> children();
+   * part of the program.</p>
+   *
+	 * <p>DO NOT OVERRIDE UNLESS YOU REALLY KNOW WHAT YOU ARE DOING!</p>
+	 * 
+	 * <p>This method uses the reflection mechanism, which avoids the need for a
+	 * children() implementation in each class that would only compute the union of all the 
+	 * {@link Association} objects referenced by this element. If an association element
+	 * should <b>not</b> be included in the list of children, use the following code in the 
+	 * class (class name is "X", field name is "_f").</p>
+	 * 
+	 * <pre>
+	 *   static {
+   *     excludeFieldName(X.class,"_f");
+   *   }
+	 * </pre>
+	 * 
+	 * <p>This method currently is overridden only to provide support for lazy loading in
+	 * LazyNamespace.</p>
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @ post (\forall Element e; \result.contains(e); e.parent() == this);
+   @*/
+  public default List<? extends Element> children() {
+  	List<Element> reflchildren = Lists.create();
+		for (ChameleonAssociation<?> association : associations()) {
+			association.addOtherEndsTo(reflchildren);
+		}
+		return reflchildren;
+  }
 
   /**
    * Return all children of this element that are of the given type.
@@ -619,7 +660,14 @@ public interface Element {
      @ post \result != null;
      @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && c.isInstance(e));
      @*/
-  public <T extends Element> List<T> descendants(Class<T> c);
+  public default <T extends Element> List<T> descendants(Class<T> c) {
+		List<T> result = children(c);
+		for (Element e : children()) {
+			result.addAll(e.descendants(c));
+		}
+		return result;
+	}
+
 
 
   /**
@@ -865,7 +913,9 @@ public interface Element {
      @ post (view() == null) ==> (\result == null);
      @ post (view() != null) ==> (\result == view().project());
      @*/
-  public Project project();
+  public default Project project() {
+		return view().project();
+	}
 
   /**
    * Return the view of this element. Return null if this element is not connected
@@ -896,7 +946,17 @@ public interface Element {
      @
      @ signals(WrongViewException) view() != null && ! kind.isInstance(view());
      @*/
-  public <T extends View> T view(Class<T> kind) throws WrongViewException;
+  public default <T extends View> T view(Class<T> kind) throws WrongViewException {
+		if(kind == null) {
+			throw new ChameleonProgrammerException("The given language class is null.");
+		}
+		View view = view();
+		if(kind.isInstance(view) || view == null) {
+			return (T) view;
+		} else {
+			throw new WrongViewException("The view of this element is of the wrong kind. Expected: "+kind.getName()+" but got: " +view.getClass().getName());
+		}
+  }
 
   /**
    * Return a deep clone of this element. The returned element has no parent. 
@@ -991,7 +1051,7 @@ public interface Element {
   /**
    * DO NOT USE THIS METHOD UNLESS YOU REALLY KNOW WHAT YOU ARE DOING!!!
    * 
-   * Create a undirectional parent association to the given element. If the given parent is not null,
+   * Create a unidirectional parent association to the given element. If the given parent is not null,
    * the parentLink() association object will be set to null and a unidirectional reference to the
    * given parent is used. If the given parent is null, then the parentLink() association will be restored
    * but it will of course not yet reference any element. 
@@ -1186,11 +1246,11 @@ public interface Element {
    *         and if not, what the problems are. The result includes the problems
    *         found in all descendants.
    */
-  /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @*/
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
   public Verification verify();
 
 

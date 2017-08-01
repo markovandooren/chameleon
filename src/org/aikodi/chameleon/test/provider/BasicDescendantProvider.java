@@ -49,7 +49,7 @@ public class BasicDescendantProvider<E extends Element> extends AbstractDescenda
 		Class<E> cls = elementType();
 		Collection<? extends Element> elements = ancestorProvider().elements(project);
 		for(Element element: elements) {
-			result.addAll(element.descendants(cls));
+			result.addAll(element.lexical().descendants(cls));
 		}
 		return result;
 	}

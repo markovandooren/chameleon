@@ -67,7 +67,7 @@ public abstract class DeclarationWithParameters extends ElementWithModifiersImpl
     return _header.getOtherEnd();
   }
 
-  private Single<MethodHeader> _header = new Single<MethodHeader>(this, true);
+  private Single<MethodHeader> _header = new Single<MethodHeader>(this, true, "header");
 
   public SignatureWithParameters signature() {
     MethodHeader header = header();

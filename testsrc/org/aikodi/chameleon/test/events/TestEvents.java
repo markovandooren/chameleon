@@ -197,7 +197,7 @@ public class TestEvents {
 //  }
 
   protected NamespaceDeclaration namespaceDeclaration() {
-    return _document.namespaceDeclaration(0);
+    return _document.children(NamespaceDeclaration.class).get(0);
   }
   
   private View _view;

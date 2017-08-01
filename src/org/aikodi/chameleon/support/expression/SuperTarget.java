@@ -37,7 +37,7 @@ public class SuperTarget extends ElementImpl implements CrossReference<Declarati
   /**
    * TARGET
    */
-  private Single<CrossReferenceTarget> _target = new Single<CrossReferenceTarget>(this, false);
+  private Single<CrossReferenceTarget> _target = new Single<CrossReferenceTarget>(this, false, "target");
 
   public CrossReferenceTarget getTarget() {
     return _target.getOtherEnd();

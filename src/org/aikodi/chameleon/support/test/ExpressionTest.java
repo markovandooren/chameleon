@@ -90,7 +90,7 @@ public class ExpressionTest extends ModelTest {
 	  	@Override
       public void doPerform(Namespace ns) throws LookupException {
 	  		for(NamespaceDeclaration nsp: ns.namespaceDeclarations()) {
-	  			for(Type type: nsp.descendants(Type.class)) {
+	  			for(Type type: nsp.lexical().descendants(Type.class)) {
 	  				processType(type);
 	  			}
 				}
@@ -101,7 +101,7 @@ public class ExpressionTest extends ModelTest {
 //	private int _count;
    public void processType(Type type) throws LookupException {
 //  	 System.out.println(++_count + " checking expression types of: "+type);
-  	 List<Expression> exprs = type.descendants(Expression.class);
+  	 List<Expression> exprs = type.lexical().descendants(Expression.class);
   	 for(Expression expression : exprs) {
   		 Type expressionType = expression.getType();
   		 assertTrue(expressionType != null);

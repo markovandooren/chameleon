@@ -46,7 +46,10 @@ import org.aikodi.rejuse.association.SingleAssociation;
  */
 public class Document extends ElementImpl {
 
-  // private CreationStackTrace _trace = new CreationStackTrace();
+	/**
+	 * The elements in this document.
+	 */
+  private Multi<Element> _elements = new Multi<>(this);
 
   /**
    * Create a new empty document. The document is not activated.
@@ -72,8 +75,8 @@ public class Document extends ElementImpl {
     @ post children().size() == 1;
     @ post children().contains(namespaceDeclaration);
     @*/
-  public Document(NamespaceDeclaration namespaceDeclaration) {
-    add(namespaceDeclaration);
+  public Document(Element element) {
+    add(element);
   }
 
   /**
@@ -82,7 +85,7 @@ public class Document extends ElementImpl {
    * namespace structure of the project.
    */
   public void activate() {
-    for (NamespaceDeclaration part : namespaceDeclarations()) {
+    for (NamespaceDeclaration part : children(NamespaceDeclaration.class)) {
       part.activate();
     }
   }
@@ -90,21 +93,6 @@ public class Document extends ElementImpl {
   /************
    * Children *
    ************/
-
-  /**
-   * Return the namespace declarations in this document.
-   */
-  public List<NamespaceDeclaration> namespaceDeclarations() {
-    return _subNamespaceParts.getOtherEnds();
-  }
-
-  /**
-   * @param index
-   * @return
-   */
-  public NamespaceDeclaration namespaceDeclaration(int index) {
-    return _subNamespaceParts.elementAt(index);
-  }
 
   /**
    * Add the given namespace declaration to this document.
@@ -120,8 +108,8 @@ public class Document extends ElementImpl {
     @ ! \old(namespaceDeclarations().contains(namespaceDeclaration) ==>
     @        namespaceDeclarations().size() == \old(namespaceDeclarations().size()) + 1;
     @*/
-  public void add(NamespaceDeclaration namespaceDeclaration) {
-    add(_subNamespaceParts, namespaceDeclaration);
+  public void add(Element element) {
+    add(_elements, element);
   }
 
   /**
@@ -137,11 +125,9 @@ public class Document extends ElementImpl {
    @ ! \old(namespaceDeclarations().contains(namespaceDeclaration) ==>
    @        namespaceDeclarations().size() == \old(namespaceDeclarations().size()) - 1;
    */
-  public void remove(NamespaceDeclaration namespaceDeclaration) {
-    remove(_subNamespaceParts, namespaceDeclaration);
+  public void remove(Element namespaceDeclaration) {
+    remove(_elements, namespaceDeclaration);
   }
-
-  private Multi<NamespaceDeclaration> _subNamespaceParts = new Multi<NamespaceDeclaration>(this);
 
   /**
    * <p>
@@ -189,7 +175,8 @@ public class Document extends ElementImpl {
     // Document clone = (Document) clone();
     FakeDocumentScanner pl = new FakeDocumentScanner();
     DocumentLoader is = new FakeDocumentLoader(clone, pl);
-    for (NamespaceDeclaration decl : descendants(NamespaceDeclaration.class)) {
+    // FIXME TODO Get rid of this dependency.
+    for (NamespaceDeclaration decl : lexical().descendants(NamespaceDeclaration.class)) {
       view.namespace().getOrCreateNamespace(decl.namespace().fullyQualifiedName());
     }
     try {

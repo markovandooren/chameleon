@@ -218,34 +218,6 @@ public abstract class ElementImpl implements Element {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void freeze() {
-		for(Element element: children()) {
-			element.parentLink().lock();
-			element.freeze();
-		}
-		for(IAssociation association: associations()) {
-			association.lock();
-		}
-	}
-
-   /**
-    * {@inheritDoc}
-    */
-	@Override
-   public void unfreeze() {
-		for(Element element: children()) {
-			element.parentLink().unlock();
-			element.unfreeze();
-		}
-		for(IAssociation association: associations()) {
-			association.unlock();
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
    public void setMetadata(Metadata decorator, String name) {
 		//Lazy init of hashmap
 		if (_tags==null) {
@@ -309,11 +281,6 @@ public abstract class ElementImpl implements Element {
 	 * 
 	 * @return A deep clone of this element.
 	 */
-	@Override
-   public Element clone() {
-		return clone(null, Element.class);
-	}
-	
   public final <E extends Element> Element clone(final BiConsumer<E, E> consumer, Class<E> type) {
     Element result = cloneSelf();
     if (canHaveChildren()) {
@@ -332,17 +299,22 @@ public abstract class ElementImpl implements Element {
     return result;
   }
 
+	@Override
+  public Element clone() {
+		return clone(null, Element.class);
+	}
+	
 	/**
 	 * Create a shallow clone of the current element.
 	 * @return
 	 */
-  /*@
-    @ public behavior
-    @
-    @ post \result != null;
-    @ post \result.parent() == null;
-    @ post \result.children().isEmpty();
-    @*/
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @ post \result.parent() == null;
+   @ post \result.children().isEmpty();
+   @*/
 	protected abstract Element cloneSelf();
 	
 	@Override
@@ -362,24 +334,6 @@ public abstract class ElementImpl implements Element {
 	
 	private View _viewCache;
 	
-	@Override
-	public <T extends View> T view(Class<T> kind) {
-		if(kind == null) {
-			throw new ChameleonProgrammerException("The given language class is null.");
-		}
-		View view = view();
-		if(kind.isInstance(view) || view == null) {
-			return (T) view;
-		} else {
-			throw new WrongViewException("The view of this element is of the wrong kind. Expected: "+kind.getName()+" but got: " +view.getClass().getName());
-		}
-	}
-
-	@Override
-	public final Project project() {
-		return view().project();
-	}
-
 	/**********
 	 * PARENT *
 	 **********/
@@ -518,7 +472,7 @@ public abstract class ElementImpl implements Element {
 
 	@Override
    public final List<Element> descendants() {
-		return descendants(Element.class);
+		return lexical().descendants(Element.class);
 	}
 
 	/**
@@ -595,34 +549,12 @@ public abstract class ElementImpl implements Element {
   		}
   	}
   	return result;
-//		if(_associations == null) {
-//			synchronized (this) {
-//				if(_associations == null) {
-//					List<Field> fields = getAllFieldsTillClass(getClass());
-//					int size = fields.size();
-//					if(size > 0) {
-//						List<ChameleonAssociation<?>> tmp = Lists.create(size);
-//						for (Field field : fields) {
-//							Object content = getFieldValue(field);
-//							tmp.add((ChameleonAssociation<?>) content);
-//						}
-//						_associations = Collections.unmodifiableList(tmp);
-//					}
-//					else {
-//						_associations = Collections.EMPTY_LIST;
-//					}
-//				}
-//			}
-//		}
-//		return _associations;
 	}
 	
 	private boolean canHaveChildren() {
 		return ! getAllFieldsTillClass(getClass()).isEmpty();
 	}
 	
-
-
 	private static void addAllFieldsTillClass(final Class<? extends Element> currentClass, Collection<Field> accumulator){
 		Field[] fields = currentClass.getDeclaredFields();
 		for(Field field: fields) {
@@ -650,48 +582,12 @@ public abstract class ElementImpl implements Element {
 		return null;
 	}
 
-	/**
-	 * <p>DO NOT OVERRIDE UNLESS YOU REALLY KNOW WHAT YOU ARE DOING!</p>
-	 * 
-	 * <p>This method uses the reflection mechanism, which saves a lot of
-	 * children() implementations that would only compute the union of all the 
-	 * {@link Association} objects referenced by this element. If an association element
-	 * should <b>not</b> be included in the list of children, use the following code in the 
-	 * class (class name is "X", field name is "_f").</p>
-	 * 
-	 * <pre>
-	 *   static {
-   *     excludeFieldName(X.class,"_f");
-   *   }
-	 * </pre>
-	 * 
-	 * This method currently is overridden only to provide support for lazy loading in
-	 * LazyNamespace.
-	 */
-  @Override
-  public List<? extends Element> children() {
-  	List<Element> reflchildren = Lists.create();
-		for (ChameleonAssociation<?> association : associations()) {
-			association.addOtherEndsTo(reflchildren);
-		}
-		return reflchildren;
-  }
-
   @SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
    public final <T extends Element> List<T> children(Class<T> c) {
     List<? extends Element> result = children();
 		filter(result, child -> c.isInstance(child));
     return (List)result;
-	}
-
-	@Override
-   public final <T extends Element> List<T> descendants(Class<T> c) {
-		List<T> result = children(c);
-		for (Element e : children()) {
-			result.addAll(e.descendants(c));
-		}
-		return result;
 	}
 
 	@Override
@@ -1003,44 +899,6 @@ public abstract class ElementImpl implements Element {
 		 }
 	 }
 
-	 //    private static int stackTraceCount = 0;
-	 //    
-	 //    /**
-	 //     * This debugging method throws an exception, catches it, and prints
-	 //     * the stacktrace.
-	 //     */
-	 //    protected void showStackTrace(String message) {
-	 //    	try {
-	 //    		throw new Exception(++stackTraceCount + ":: "+message);
-	 //    	} catch(Exception e) {
-	 //    		e.printStackTrace();
-	 //    	}
-	 //    }
-	 //
-	 //    /**
-	 //     * This debugging method throws an exception, catches it, and prints
-	 //     * the stacktrace.
-	 //     */
-	 //    protected void showStackTrace() {
-	 //    	showStackTrace(null);
-	 //    }
-
-	 /**
-	  * {@inheritDoc}
-	  */
-//	 @Override
-//   public void notifyDescendantChanged(Element descendant) {
-//		 reactOnDescendantChange(descendant);
-//		 notifyParent(descendant);
-//	 }
-
-//	 private void notifyParent(Element descendant) {
-//		 Element parent = parent();
-//		 if(parent != null) {
-//			 parent.notifyDescendantChanged(descendant);
-//		 }
-//	 }
-
 	public void notifyChildAdded(Element descendant) {
 	}
 
@@ -1078,7 +936,13 @@ public abstract class ElementImpl implements Element {
     return Valid.create();
   }
 
-	 
+	 /**
+	  * A TreeStructure for Element.
+	  * 
+	  * @author Marko van Dooren
+	  *
+	  * @param <N> The exception that can be thrown while navigating the tree.
+	  */
 	 public static abstract class Navigator<N extends Exception> extends TreeStructure<Element, N> {
 
 	   /**

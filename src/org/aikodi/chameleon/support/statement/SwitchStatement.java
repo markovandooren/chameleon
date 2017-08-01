@@ -47,7 +47,7 @@ public SwitchStatement cloneSelf() {
   @Override
   public Verification verifySelf() {
   	Verification result = super.verifySelf();
-  	List<DefaultLabel> cases = descendants(DefaultLabel.class);
+  	List<DefaultLabel> cases = lexical().descendants(DefaultLabel.class);
   	if(cases.size() > 1) {
   		result = result.and(new BasicProblem(this,"A switch statement can contain only one default label."));
   	}

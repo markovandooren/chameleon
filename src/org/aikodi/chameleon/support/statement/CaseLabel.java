@@ -17,7 +17,7 @@ public class CaseLabel extends SwitchLabel {
 	/**
 	 * EXPRESSION
 	 */
-	private Single<Expression> _expression = new Single<Expression>(this,true);
+	private Single<Expression> _expression = new Single<Expression>(this, true, "expression");
 
   
   public Expression getExpression() {

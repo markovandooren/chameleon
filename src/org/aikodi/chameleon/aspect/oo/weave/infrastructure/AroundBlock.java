@@ -18,7 +18,7 @@ public class AroundBlock extends AdvisedBlockFactory {
 		Block adviceResultBlock = Util.clone(adviceBlock);
 		Block originalCode = Util.clone(joinpoint.getJoinpoint());
 		
-		List<ProceedCall> descendants = adviceResultBlock.descendants(ProceedCall.class);
+		List<ProceedCall> descendants = adviceResultBlock.lexical().descendants(ProceedCall.class);
 
 		for (ProceedCall pc : descendants) {
 			Statement statement = pc.nearestAncestor(Statement.class);

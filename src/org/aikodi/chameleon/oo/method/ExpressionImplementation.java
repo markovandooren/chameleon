@@ -13,7 +13,7 @@ import org.aikodi.chameleon.util.association.Single;
  */
 public class ExpressionImplementation extends Implementation {
 
-  private Single<Expression> _expression = new Single<>(this,true);
+  private Single<Expression> _expression = new Single<>(this, true, "expression");
 
   /**
    * Create a new expression implementation with the given expression.

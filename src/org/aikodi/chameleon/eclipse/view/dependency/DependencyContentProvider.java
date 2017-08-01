@@ -10,7 +10,7 @@ import org.aikodi.chameleon.analysis.dependency.DependencyResult;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.rejuse.graph.Node;
 import org.aikodi.rejuse.predicate.UniversalPredicate;
-import org.eclipse.gef4.zest.fx.jface.IGraphContentProvider;
+import org.eclipse.gef.zest.fx.jface.IGraphContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 public class DependencyContentProvider implements IGraphContentProvider {

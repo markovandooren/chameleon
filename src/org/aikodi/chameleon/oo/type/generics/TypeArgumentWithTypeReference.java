@@ -50,7 +50,7 @@ public abstract class TypeArgumentWithTypeReference extends TypeArgument {
 		try {
 			TypeReference clone = clone(typeReference());
 			clone.setUniParent(this);
-			List<BasicTypeReference> descendants = clone.descendants(BasicTypeReference.class);
+			List<BasicTypeReference> descendants = clone.lexical().descendants(BasicTypeReference.class);
 			if(clone instanceof BasicTypeReference) {
 				descendants.add((BasicTypeReference) clone);
 			}

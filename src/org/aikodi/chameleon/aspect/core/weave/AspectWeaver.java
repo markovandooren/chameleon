@@ -84,7 +84,7 @@ public abstract class AspectWeaver {
 		// Get a list of all advices
 		List<Advice> advices = Lists.create();
 		for (Document cu : aspectCompilationUnits) {
-			advices.addAll(cu.descendants(Advice.class));
+			advices.addAll(cu.lexical().descendants(Advice.class));
 		}
 		
 		// Keep a map, per joinpoint: the weaving encapsulators that weave it

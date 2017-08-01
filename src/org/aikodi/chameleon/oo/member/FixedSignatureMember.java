@@ -60,7 +60,7 @@ public Signature signature() {
     return _signature.getOtherEnd();
   }
   
-  private Single<Signature> _signature = new Single<Signature>(this,true);
+  private Single<Signature> _signature = new Single<Signature>(this, true, "signature");
 
 	@Override
 	public void setName(String name) {

@@ -65,7 +65,7 @@ public interface PointcutExpression<J extends Element> extends Element {
 	 */
   public default List<MatchResult> joinpoints(Document compilationUnit) throws LookupException {
     List<MatchResult> result = Lists.create();
-    List<? extends Element> joinPoints = compilationUnit.descendants(joinPointType());
+    List<? extends Element> joinPoints = compilationUnit.lexical().descendants(joinPointType());
     for (Element joinPoint : joinPoints) {
       MatchResult match = matches(joinPoint);
       if (match.isMatch()) {

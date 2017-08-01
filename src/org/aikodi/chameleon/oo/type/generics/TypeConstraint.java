@@ -45,7 +45,7 @@ public abstract class TypeConstraint extends ElementImpl {
 		return _typeReference.getOtherEnd();
 	}
 	
-	private Single<TypeReference> _typeReference = new Single<TypeReference>(this, true);
+	private Single<TypeReference> _typeReference = new Single<TypeReference>(this, true, "type reference");
 
 	protected Type bound() throws LookupException {
 		return typeReference().getElement();
@@ -55,7 +55,7 @@ public abstract class TypeConstraint extends ElementImpl {
 		try {
 			TypeReference clone = clone(typeReference());
 			clone.setUniParent(this);
-			java.util.List<BasicTypeReference> descendants = clone.descendants(BasicTypeReference.class);
+			java.util.List<BasicTypeReference> descendants = clone.lexical().descendants(BasicTypeReference.class);
 			if(clone instanceof BasicTypeReference) {
 				descendants.add((BasicTypeReference) clone);
 			}

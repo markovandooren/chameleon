@@ -165,7 +165,7 @@ public class OpenTypeHierarchyAction extends Action implements IDoubleClickListe
 					}
 				}
 				// if no type(reference) surrounding selection found, get top type of compilation unit
-				return chamEditor.getDocument().document().descendants(Type.class).iterator().next();
+				return chamEditor.getDocument().document().lexical().descendants(Type.class).iterator().next();
 			}
 		} catch (ModelException e) {
 			//			e.printStackTrace();

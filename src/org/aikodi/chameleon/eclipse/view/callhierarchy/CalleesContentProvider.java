@@ -26,7 +26,7 @@ public class CalleesContentProvider implements ITreeContentProvider {
 		if (inputObject instanceof Declaration) {
 			Declaration method = (Declaration) inputObject;
 			// get all the invocations of the given method:
-			List<CrossReference> invocations = method.descendants(CrossReference.class);
+			List<CrossReference> invocations = method.lexical().descendants(CrossReference.class);
 			// get all the methods of these invocations:
 			final Set<Declaration> referencedDeclarations = new HashSet<Declaration>();
 			for(CrossReference<?> cref: invocations) {

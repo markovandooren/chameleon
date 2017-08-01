@@ -64,7 +64,7 @@ public abstract class Analyzer {
   }
   
   private void cleanImports(Document document) {
-  	document.descendants(Import.class).forEach(i -> {
+  	document.lexical().descendants(Import.class).forEach(i -> {
   		try {
   			i.demandImports();
   			i.directImports();
