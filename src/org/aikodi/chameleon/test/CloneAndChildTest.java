@@ -92,7 +92,7 @@ public class CloneAndChildTest extends ModelTest {
       public void doPerform(Namespace type) throws LookupException {
 	  		List<NamespaceDeclaration> namespaceParts = type.namespaceDeclarations();
 				for(NamespaceDeclaration nsp: namespaceParts) {
-	  			for(Element element: nsp.descendants()) {
+	  			for(Element element: nsp.lexical().descendants()) {
 	  				test(type);
 	  			}
 	  		}

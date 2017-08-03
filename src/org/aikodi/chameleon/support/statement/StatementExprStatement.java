@@ -18,7 +18,7 @@ public abstract class StatementExprStatement extends StatementContainingStatemen
 	/**
 	 * EXPRESSION
 	 */
-	private Single<Expression> _expression = new Single<Expression>(this);
+	private Single<Expression> _expression = new Single<Expression>(this, "expression");
 
   
   public Expression expression() {

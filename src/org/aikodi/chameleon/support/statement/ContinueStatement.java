@@ -23,7 +23,7 @@ protected ContinueStatement cloneSelf() {
 
 	@Override
 	public Verification verifySelf() {
-		IterationStatement ancestor = nearestAncestor(IterationStatement.class);
+		IterationStatement ancestor = lexical().nearestAncestor(IterationStatement.class);
 		return checkNull(ancestor, "The continue statement is not nested in a iteration statement", Valid.create());
 	}
 }

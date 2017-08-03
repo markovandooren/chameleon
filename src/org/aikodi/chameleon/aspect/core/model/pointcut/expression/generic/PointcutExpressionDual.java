@@ -14,10 +14,10 @@ import org.aikodi.chameleon.util.association.Single;
 
 public abstract class PointcutExpressionDual<J extends Element> extends AbstractPointcutExpression<J> implements RuntimePointcutExpression<J> {
 	
-	private Single<PointcutExpression<J>> _expression1 = new Single<PointcutExpression<J>>(this);
-	private Single<PointcutExpression<J>> _expression2 = new Single<PointcutExpression<J>>(this);
+	private Single<PointcutExpression<J>> _expression1 = new Single<PointcutExpression<J>>(this, "first expression");
+	private Single<PointcutExpression<J>> _expression2 = new Single<PointcutExpression<J>>(this, "second expression");
 
-	public PointcutExpressionDual(PointcutExpression expression1, PointcutExpression expression2) {
+	public PointcutExpressionDual(PointcutExpression<J> expression1, PointcutExpression<J> expression2) {
 		super();
 		setExpression1(expression1);
 		setExpression2(expression2);

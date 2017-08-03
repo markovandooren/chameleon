@@ -48,7 +48,7 @@ public class UsingAlias extends Import {
 		return _identifier;
 	}
 	
-	private Single<CrossReference> _packageOrType = new Single<CrossReference>(this);
+	private Single<CrossReference> _packageOrType = new Single<CrossReference>(this, "package or type");
 
   
   public CrossReference getCrossReference() {

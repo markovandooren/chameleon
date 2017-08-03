@@ -43,7 +43,7 @@ public abstract class Pointcut extends ElementWithModifiersImpl implements Decla
 		
 	}
 	
-	private Single<PointcutExpression<?>> _expression = new Single<PointcutExpression<?>>(this);
+	private Single<PointcutExpression<?>> _expression = new Single<PointcutExpression<?>>(this, "expression");
 	
 	public PointcutExpression<?> expression() {
 		return _expression.getOtherEnd();

@@ -10,7 +10,7 @@ import org.aikodi.chameleon.util.association.Single;
 
 public class IfPointcutExpression extends AbstractDynamicPointcutExpression implements RuntimePointcutExpression<Element> {
 	
-	private Single<Expression> _expression = new Single<Expression>(this);
+	private Single<Expression> _expression = new Single<Expression>(this, "expression");
 
 	public IfPointcutExpression(Expression expression) {
 		setExpression(expression);

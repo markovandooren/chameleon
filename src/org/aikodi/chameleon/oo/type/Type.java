@@ -254,19 +254,6 @@ public interface Type extends DeclarationContainer, DeclarationWithType {
     return sameBase != null && sameBase.compatibleParameters(other, trace);
   }
 
-
-
-  /**
-   * Check if this type equals the given other type. This is
-   * a unidirectional check to keep things extensible. It is fine
-   * if equals(other) is false, but other.equals(this) is true.
-   *  
-   * @param other
-   * @return
-   */
-  @Override
-  public boolean uniSameAs(Element other) throws LookupException;
-
   /**
    * Check if this type is assignable to another type.
    * 
@@ -364,19 +351,10 @@ public interface Type extends DeclarationContainer, DeclarationWithType {
 
   public <D extends Declaration> List<SelectionResult<D>> members(DeclarationSelector<D> selector) throws LookupException;
 
-  @SuppressWarnings("unchecked")
   public <D extends Declaration> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException;
 
   public List<Declaration> members() throws LookupException;
 
-  //    public <M extends Member> Set<M> potentiallyInheritedMembers(final Class<M> kind) throws MetamodelException {
-  //  		final Set<M> result = new HashSet<M>();
-  //			for (InheritanceRelation rel : inheritanceRelations()) {
-  //				result.addAll(rel.potentiallyInheritedMembers(kind));
-  //			}
-  //  		return result;
-  //    }
-  //
   /**
    * Return the members of this class.
    * @param <M>
@@ -387,7 +365,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType {
   public <M extends Declaration> List<M> members(final Class<M> kind) throws LookupException;
 
   /**
-   * DO NOT CONFUSE THIS METHOD WITH localMembers. This method does not
+   * DO NOT CONFUSE THIS METHOD WITH localMembers(). This method does not
    * transform type elements into members.
    * 
    * FIXME: rename to localDeclarators()
@@ -397,14 +375,6 @@ public interface Type extends DeclarationContainer, DeclarationWithType {
   public List<? extends Declarator> directlyDeclaredElements();
 
   public <T extends Declarator> List<T> directlyDeclaredElements(Class<T> kind);
-
-  /********************
-   * EXCEPTION SOURCE *
-   ********************/
-
-  //	public CheckedExceptionList getCEL() throws LookupException;
-  //
-  //	public CheckedExceptionList getAbsCEL() throws LookupException;
 
   @Override
   public List<? extends Declaration> declarations() throws LookupException;
@@ -421,15 +391,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType {
 
   public Type baseType();
 
-  //	static ThreadLocal<StackOverflowTracer> tracer = new ThreadLocal<StackOverflowTracer>() {
-  //	  protected StackOverflowTracer initialValue() {
-  //	    return new StackOverflowTracer(5);
-  //	   }
-  //	  };
-
   public default boolean compatibleParameters(Type other, TypeFixer trace) throws LookupException {
-    //	  tracer.get().push();
-    //		second.toString();
     int size = nbTypeParameters(TypeParameter.class);
     boolean result = true;
     for(int i=0; i< size && result;i++) {
@@ -438,11 +400,6 @@ public interface Type extends DeclarationContainer, DeclarationWithType {
       result = otherParameter.contains(myParameter, trace.clone());
     }
     return result;
-//    List<TypeParameter> myParameters = parameters(TypeParameter.class);
-//    List<TypeParameter> otherParameters = second.parameters(TypeParameter.class);
-//    final boolean forAll = forAll(myParameters, otherParameters, (f,s) -> s.contains(f, trace));
-//    //    tracer.get().pop();
-//    return forAll;
   }
 
 
@@ -451,11 +408,6 @@ public interface Type extends DeclarationContainer, DeclarationWithType {
   public Type unionDoubleDispatch(Type type) throws LookupException;
 
   public Type unionDoubleDispatch(UnionType type) throws LookupException;
-
-  //	public default boolean sameInstanceAs(Type aliasedType, List<Pair<TypeParameter, TypeParameter>> trace) throws LookupException {
-  //		return sameAs(aliasedType, trace);
-  //	}
-
 
   public default boolean sameAs(Type other, TypeFixer trace) throws LookupException {
     if(other == this || trace.contains(other, this)) {
@@ -472,35 +424,72 @@ public interface Type extends DeclarationContainer, DeclarationWithType {
     return result;
   }
 
-  public boolean uniSameAs(Type aliasedType, TypeFixer trace) throws LookupException;
+  /**
+   * Check if this type is equal to the given type, taking
+   * recursive types into account. If a loop is encountered,
+   * that branch of the check will return true: it did not
+   * encounter a problem.
+   * 
+   * @param other The type of which we want to check if it is the same as this type.
+   * @param fixer The object that will ensure that we can do a fixed point computation.
+   * @return
+   * @throws LookupException
+   */
+  public boolean uniSameAs(Type other, TypeFixer fixer) throws LookupException;
 
+  /**
+   * <p>Return the lower bound of this type.</p>
+   * 
+   * <p> By <b>default</b>, the current object is returned.
+   * 
+   * @return A type representing the lower bound of this type, when consider as an interval.
+   * @throws LookupException
+   */
+ /*@
+   @ post \result != null;
+   @ post \result.subtypeOf(this);
+   @*/
   public default Type lowerBound() throws LookupException {
     return this;
   }
 
+  /**
+   * <p>Return the upper bound of this type.</p>
+   * 
+   * <p> By <b>default</b>, the current object is returned.
+   * 
+   * @return A type representing the upper bound of this type, when consider as an interval.
+   * @throws LookupException
+   */
+ /*@
+   @ post \result != null;
+   @ post subtypeOf(\result);
+   @*/
   public default Type upperBound() throws LookupException {
     return this;
   }
 
-//  public <D extends Declaration> List<D> membersDirectlyOverriddenBy(MemberRelationSelector<D> selector) throws LookupException;
-//
-//  public <D extends Declaration> List<D> membersDirectlyAliasedBy(MemberRelationSelector<D> selector) throws LookupException;
-//
-//  public <D extends Declaration> List<D> membersDirectlyAliasing(MemberRelationSelector<D> selector) throws LookupException;
-
+  /**
+   * A name that is strictly for debugging purposes.
+   * 
+   * @return The result is not null.
+   */
   public String infoName();
 
   /**
-   * Verify whether the this type is a subtype of the given other type. If that is the case, then a valid verification result is returned.
-   * Otherwise, a problem is reported. The message of the problem is constructed using the descriptions of the meaning of
+   * Verify whether the this type is a subtype of the given other type. 
+   * If that is the case, then a valid verification result is returned.
+   * Otherwise, a problem is reported. The message of the problem is 
+   * constructed using the descriptions of the meaning of
    * each type as determined by the arguments.
    * 
-   * @param otherType
-   * @param meaningThisType
-   * @param meaningOtherType
+   * @param type The type for which the subtype relation is verified.
+   * @param meaningThisType A textual description of the meaning of this type.
+   * @param meaningOtherType A textual description of the meaning of the other type.
+   * @param cause The element in which the verification is done.
    * @return
    */
-  public Verification verifySubtypeOf(Type otherType, String meaningThisType, String meaningOtherType, Element cause);
+  public Verification verifySubtypeOf(Type type, String meaningThisType, String meaningOtherType, Element cause);
 
 
   /**

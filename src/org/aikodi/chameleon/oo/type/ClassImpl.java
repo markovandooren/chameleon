@@ -161,11 +161,11 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
     @Override
    public String getFullyQualifiedName() {
         String prefix;
-        Type nearest = nearestAncestor(Type.class);
+        Type nearest = lexical().nearestAncestor(Type.class);
         if(nearest != null) {
         	prefix = nearest.getFullyQualifiedName();
         } else {
-          Namespace namespace = nearestAncestor(NamespaceDeclaration.class).namespace();
+          Namespace namespace = lexical().nearestAncestor(NamespaceDeclaration.class).namespace();
           if(namespace != null) {
 					  prefix = namespace.fullyQualifiedName();
           } else {

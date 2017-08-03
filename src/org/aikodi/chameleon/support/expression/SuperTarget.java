@@ -57,7 +57,7 @@ public class SuperTarget extends ElementImpl implements CrossReference<Declarati
     if (getTarget() != null) {
       return ((NamedTarget) getTarget()).getElement();
     } else {
-      Type outer = nearestAncestor(Type.class);
+      Type outer = lexical().nearestAncestor(Type.class);
       List<InheritanceRelation> inh = outer.inheritanceRelations();
       Type result = (Type) inh.get(0).target();
       return result;

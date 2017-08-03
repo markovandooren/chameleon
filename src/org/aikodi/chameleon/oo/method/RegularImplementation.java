@@ -18,7 +18,7 @@ public class RegularImplementation extends Implementation  {
 	/**
 	 * BODY
 	 */
-	private Single<Block> _body = new Single<Block>(this);
+	private Single<Block> _body = new Single<Block>(this, "body");
 
   public void setBody(Block block) {
     set(_body,block);

@@ -36,9 +36,9 @@ public class TestElement {
 	public void testBlankElement() {
 		Element e = new StubElement();
 		assertNull(e.parent());
-		assertEmpty(e.ancestors());
+		assertEmpty(e.lexical().ancestors());
 		assertEmpty(e.children());
-		assertEmpty(e.descendants());
+		assertEmpty(e.lexical().descendants());
 		assertNull(e.view());
 		assertNull(e.language());
 	}

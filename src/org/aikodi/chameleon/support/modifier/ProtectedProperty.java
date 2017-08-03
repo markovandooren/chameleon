@@ -27,7 +27,7 @@ public class ProtectedProperty extends ScopeProperty {
 	@Override
    public Scope scope(Element element) throws ModelException {
 		try {
-			return new HierarchyScope((Type) element).union(new NamespaceScope(element.nearestAncestor(NamespaceDeclaration.class).namespace()));
+			return new HierarchyScope((Type) element).union(new NamespaceScope(element.lexical().nearestAncestor(NamespaceDeclaration.class).namespace()));
 		} catch (ClassCastException exc) {
 			throw new ModelException("The given element is of the wrong type.");
 		}

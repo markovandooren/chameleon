@@ -346,8 +346,7 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
    * @throws LookupException
    */
   public default boolean compatibleSignature(Declaration other) throws LookupException {
-  	notNull(other);
-  	return signature().sameAs(other.signature());
+  	return other != null && signature().sameAs(other.signature());
   }
   
   /**
@@ -370,7 +369,7 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
       while(! todo.isEmpty()) {
       	Declaration current = todo.get(0);
         todo.remove(0);
-        DeclarationContainer container = current.nearestAncestor(DeclarationContainer.class);
+        DeclarationContainer container = current.lexical().nearestAncestor(DeclarationContainer.class);
         if(! visitedContainers.containsKey(container)) {
           visitedContainers.put(container, Lists.<Declaration>create());
         }
@@ -443,7 +442,7 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
   	Set<Declaration> result = new HashSet<>();
   	//FIXME This may have to be determined by the language.
   	DeclarationRelation relation = overridesRelation(); 
-		Declaration nearestAncestor = nearestAncestor(Declaration.class);
+		Declaration nearestAncestor = lexical().nearestAncestor(Declaration.class);
 		if(nearestAncestor != null) {
 		  nearestAncestor.directlyOverriddenDeclarations(this, relation, result);
 		}
@@ -468,13 +467,13 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
 
   public default Set<Declaration> directlyAliasedDeclarations() throws LookupException {
   	Set<Declaration> result = new HashSet<>();
-		nearestAncestor(DeclarationContainer.class).directlyAliasedDeclarations(this, result);
+  	lexical().nearestAncestor(DeclarationContainer.class).directlyAliasedDeclarations(this, result);
   	return result;
   }
 
   public default Set<Declaration> directlyAliasingDeclarations() throws LookupException {
   	Set<Declaration> result = new HashSet<>();
-		nearestAncestor(DeclarationContainer.class).directlyAliasedDeclarations(this, result);
+  	lexical().nearestAncestor(DeclarationContainer.class).directlyAliasedDeclarations(this, result);
   	return result;
   }
 

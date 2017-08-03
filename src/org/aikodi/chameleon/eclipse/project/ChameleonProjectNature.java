@@ -336,7 +336,8 @@ public class ChameleonProjectNature implements IProjectNature {
 			doc.dumpPositions();
 			try {
 			  Document document = doc.document();
-			  document.disconnectChildren();
+			  //document.disconnectChildren();
+			  document.lexical().children().forEach(c -> c.disconnect());
 			  modelFactory().parse(doc.get(), document);
 			  document.activate();
 			} catch (ParseException e) {
@@ -450,7 +451,8 @@ public class ChameleonProjectNature implements IProjectNature {
 			Document chameleonDocument = document.document();
 			Language language = chameleonDocument.view().language();
 			ModelFactory plugin = language.plugin(ModelFactory.class);
-			chameleonDocument.disconnectChildren();
+			//chameleonDocument.disconnectChildren();
+			chameleonDocument.lexical().children().forEach(c -> c.disconnect());
 			plugin.parse(document.get(), chameleonDocument);
 			chameleonDocument.activate();
 			//modelFactory().parse(document.get(), chameleonDocument);

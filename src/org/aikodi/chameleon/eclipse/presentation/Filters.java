@@ -109,7 +109,7 @@ public class Filters {
 			if(element instanceof Declaration){
 				try {
 					Declaration decl = (Declaration)element;
-					return decl.scope().contains(decl.nearestAncestor(NamespaceDeclaration.class).namespace());
+					return decl.scope().contains(decl.lexical().nearestAncestor(NamespaceDeclaration.class).namespace());
 				} catch (ModelException e) {
 					e.printStackTrace();
 					return false;

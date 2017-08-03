@@ -33,7 +33,7 @@ protected ReturnStatement cloneSelf() {
   public Verification verifySelf() {
   	Verification result = Valid.create();
   	try {
-			Method nearestAncestor = nearestAncestor(Method.class);
+			Method nearestAncestor = lexical().nearestAncestor(Method.class);
 			if(nearestAncestor != null) {
 				Expression expression = getExpression();
 				if(expression != null) {

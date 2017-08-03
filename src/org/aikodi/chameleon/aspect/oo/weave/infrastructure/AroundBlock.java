@@ -21,7 +21,7 @@ public class AroundBlock extends AdvisedBlockFactory {
 		List<ProceedCall> descendants = adviceResultBlock.lexical().descendants(ProceedCall.class);
 
 		for (ProceedCall pc : descendants) {
-			Statement statement = pc.nearestAncestor(Statement.class);
+			Statement statement = pc.lexical().nearestAncestor(Statement.class);
 			statement.parentLink().getOtherRelation().replace((Association)statement.parentLink(), (Association)originalCode.clone().parentLink());	
 		}
 		

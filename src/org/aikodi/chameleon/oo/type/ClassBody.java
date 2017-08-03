@@ -62,7 +62,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 
 		@Override
 		public void notifyElementAdded(Declarator element) {
-			Type parent = nearestAncestor(Type.class);
+			Type parent = lexical().nearestAncestor(Type.class);
 			if(parent != null) {
 			  parent.reactOnDescendantAdded(element);
 			}
@@ -70,7 +70,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 
 		@Override
 		public void notifyElementRemoved(Declarator element) {
-      Type parent = nearestAncestor(Type.class);
+      Type parent = lexical().nearestAncestor(Type.class);
 			if(parent != null) {
 			  parent.reactOnDescendantRemoved(element);
 			}
@@ -78,7 +78,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 
 		@Override
 		public void notifyElementReplaced(Declarator oldElement, Declarator newElement) {
-      Type parent = nearestAncestor(Type.class);
+      Type parent = lexical().nearestAncestor(Type.class);
 			if(parent != null) {
 			  parent.reactOnDescendantReplaced(oldElement, newElement);
 			}
@@ -237,7 +237,7 @@ public LookupContext lookupContext(Element element) throws LookupException {
 
 	@Override
 	public LookupContext localContext() throws LookupException {
-		return nearestAncestor(Type.class).localContext();
+		return lexical().nearestAncestor(Type.class).localContext();
 	}
 
 }

@@ -24,7 +24,7 @@ public class ProceedCall extends Expression {
 
 	@Override
 	protected Type actualType() throws LookupException {
-		ProgrammingAdvice parentAdvice = nearestAncestor(ProgrammingAdvice.class);
+		ProgrammingAdvice parentAdvice = lexical().nearestAncestor(ProgrammingAdvice.class);
 			
 		if (parentAdvice != null)
 			return parentAdvice.actualReturnType();
@@ -36,7 +36,7 @@ public class ProceedCall extends Expression {
 	public Verification verifySelf() {
 		Verification result = Valid.create();
 		
-		Advice advice = nearestAncestor(Advice.class);
+		Advice advice = lexical().nearestAncestor(Advice.class);
 		
 		if (advice == null) {
 			result = result.and(new BasicProblem(this, "Proceed calls are only allowed in advice bodies."));

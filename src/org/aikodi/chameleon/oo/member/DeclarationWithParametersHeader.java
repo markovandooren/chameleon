@@ -236,12 +236,8 @@ public List<Declaration> declarations() {
 
   @Override
 public Element variableScopeElement() {
-  	return nearestAncestor(Element.class);
+  	return lexical().nearestAncestor(Element.class);
   }
-  
-//  public LookupStrategy lookupContext(Element element) {
-//  	return language().lookupFactory().createLexicalLookupStrategy(language().lookupFactory().createLocalLookupStrategy(this),this);
-//  }
   
 	private Single<TypeParameterBlock> _typeParameters = new Single<TypeParameterBlock>(this,"type parameters");
 	

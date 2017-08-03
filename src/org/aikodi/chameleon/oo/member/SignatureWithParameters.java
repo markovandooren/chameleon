@@ -134,7 +134,7 @@ public class SignatureWithParameters extends SignatureWithName {
 	@SuppressWarnings("unused")
 	private boolean sameParameterBoundsAsAfter(SignatureWithParameters other) throws LookupException {
   	// substitute paramaters.
-		DeclarationWithParameters otherMethod = other.nearestAncestor(DeclarationWithParameters.class);
+		DeclarationWithParameters otherMethod = other.lexical().nearestAncestor(DeclarationWithParameters.class);
   	DeclarationWithParametersHeader otherHeader = otherMethod.header();
   	
   	int nbOtherFormalParameters = otherHeader.nbFormalParameters();
@@ -142,9 +142,9 @@ public class SignatureWithParameters extends SignatureWithName {
   	boolean result = nbOtherFormalParameters == nbMyFormalParameters;
   	
   	if(result) {
-  		DeclarationWithParameters nearestAncestor = nearestAncestor(DeclarationWithParameters.class);
+  		DeclarationWithParameters nearestAncestor = lexical().nearestAncestor(DeclarationWithParameters.class);
   		int nbMyTypeParameters = nearestAncestor.nbTypeParameters();
-  		int nbOtherTypeParameters = other.nearestAncestor(DeclarationWithParameters.class).nbTypeParameters();
+  		int nbOtherTypeParameters = other.lexical().nearestAncestor(DeclarationWithParameters.class).nbTypeParameters();
   		result = (nbMyTypeParameters == nbOtherTypeParameters);
   		if(result) {
 				List<TypeParameter> myTypeParameters = nearestAncestor.typeParameters();

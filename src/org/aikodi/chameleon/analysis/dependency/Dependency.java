@@ -188,7 +188,7 @@ public class Dependency<S extends Element,C extends CrossReference,T extends Ele
 		}
 
 		public <C extends Element> B inside(Class<C> kind) {
-			return function.apply(e -> e.nearestAncestor(kind) != null);
+			return function.apply(e -> e.lexical().nearestAncestor(kind) != null);
 		}
 		
 //		public <C extends E> B type(Class<C> kind) {

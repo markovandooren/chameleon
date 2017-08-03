@@ -24,7 +24,7 @@ public class ThisLiteral extends LiteralWithTypeReference {
 protected Type actualType() throws LookupException {
     TypeReference tref = getTypeReference();
 		if (tref == null) {
-      return nearestAncestor(Type.class);
+      return lexical().nearestAncestor(Type.class);
     }
     else {
       return tref.getElement();

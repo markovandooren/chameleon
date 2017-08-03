@@ -3,6 +3,11 @@ package org.aikodi.chameleon.support.expression;
 import org.aikodi.chameleon.oo.expression.Expression;
 import org.aikodi.chameleon.util.association.Single;
 
+/**
+ * An abstract class for expressions that contain other expressions.
+ * @author Marko van Dooren
+ *
+ */
 public abstract class ExpressionContainingExpression extends Expression {
 
 	public ExpressionContainingExpression(Expression expr) {
@@ -10,16 +15,15 @@ public abstract class ExpressionContainingExpression extends Expression {
 	}
 	
 	/**
-	 * FIRST
+	 * The expression contained in this expression.
 	 */
-  
-	private Single<Expression> _first = new Single<Expression>(this);
+	private Single<Expression> _expression = new Single<Expression>(this, "expression");
 
   /**
    * Return the first expression
    */
-  public Expression getExpression() {
-    return _first.getOtherEnd();
+  public Expression expression() {
+    return _expression.getOtherEnd();
   }
 
   /**
@@ -31,7 +35,7 @@ public abstract class ExpressionContainingExpression extends Expression {
    @ post getFirst().equals(first); 
    @*/
   public void setExpression(Expression expression) {
-    set(_first,expression);
+    set(_expression,expression);
   }
 
 

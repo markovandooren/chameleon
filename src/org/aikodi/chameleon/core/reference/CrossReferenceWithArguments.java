@@ -46,7 +46,7 @@ public class CrossReferenceWithArguments extends ElementImpl {
 	}
 
 	public DeclarationSelector<Declaration> selector() throws LookupException {
-		return nearestAncestor(MethodInvocation.class).selector();
+		return lexical().nearestAncestor(MethodInvocation.class).selector();
 	}
 
 	/*********************

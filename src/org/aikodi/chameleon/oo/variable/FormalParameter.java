@@ -26,10 +26,10 @@ public class FormalParameter extends RegularVariable {
   	boolean result = false;
   	if((parent() instanceof DeclarationWithParametersHeader) && (parameter != null) && (parameter.parent() instanceof DeclarationWithParametersHeader)) {
     	DeclarationWithParametersHeader header = (DeclarationWithParametersHeader) parent();
-    	Method method = header.nearestAncestor(Method.class);
+    	Method method = header.lexical().nearestAncestor(Method.class);
     	//BUG: the following should be parameter.parent(). Fix after removing the parameters.
     	DeclarationWithParametersHeader otherHeader = (DeclarationWithParametersHeader) parent();
-    	Method otherMethod = otherHeader.nearestAncestor(Method.class); //REFACTORING
+    	Method otherMethod = otherHeader.lexical().nearestAncestor(Method.class); //REFACTORING
     	result = method.compatibleSignature(otherMethod) &&
       method.formalParameters().indexOf(this) == otherMethod.formalParameters().indexOf(parameter); 
   	}
@@ -43,7 +43,7 @@ protected FormalParameter cloneSelf() {
   
 	@Override
    public Scope scope() throws ModelException {
-		return new LexicalScope(nearestAncestor(VariableContainer.class).variableScopeElement());
+		return new LexicalScope(lexical().nearestAncestor(VariableContainer.class).variableScopeElement());
 	}
 
 	@Override

@@ -26,7 +26,7 @@ public class SignatureMethodInvocationPointcutExpression extends MethodInvocatio
 	@Override
 	public MatchResult match(MethodInvocation joinpoint) throws LookupException {		
 		// This might not be foolproof in all cases (inner classes etc), need further testing - TODO
-		Type definedType = joinpoint.getElement().nearestAncestor(Type.class);
+		Type definedType = joinpoint.getElement().lexical().nearestAncestor(Type.class);
 		
 		if (methodReference().matches((Method)joinpoint.getElement(), definedType)) {
 			return new MatchResult<MethodInvocation>(this, joinpoint);

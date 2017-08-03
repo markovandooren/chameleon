@@ -33,7 +33,7 @@ public class LexicalScope extends Scope {
 
 	@Override
 	public boolean contains(Element element) throws LookupException {
-		return element.equals(element()) || element.ancestors().contains(element());
+		return element.equals(element()) || element.lexical().ancestors().contains(element());
 	}
 
 	@Override

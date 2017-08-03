@@ -82,7 +82,7 @@ public class DeclarationLoader extends EagerDocumentLoaderImpl {
 	
 	@Override
 	protected String resourceName() {
-		String packageName = declaration().nearestAncestor(NamespaceDeclaration.class).namespace().fullyQualifiedName();
+		String packageName = declaration().lexical().nearestAncestor(NamespaceDeclaration.class).namespace().fullyQualifiedName();
 		return "directly from memory : "+(packageName.isEmpty() ? "" : packageName+".")+  declaration().name();
 	}
 }

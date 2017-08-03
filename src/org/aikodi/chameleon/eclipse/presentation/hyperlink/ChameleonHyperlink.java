@@ -104,7 +104,7 @@ public class ChameleonHyperlink implements IHyperlink {
 			if(refElement==null)
 				return INVALID_STATUS;
 			// check whether the compilationUnit and the document are found:
-			Document refCU = refElement.nearestAncestor(Document.class);
+			Document refCU = refElement.lexical().nearestAncestor(Document.class);
 			EclipseDocument refDoc = _document.getProjectNature().document(refCU);
 			if(refDoc != null){
 				return VALID_STATUS;

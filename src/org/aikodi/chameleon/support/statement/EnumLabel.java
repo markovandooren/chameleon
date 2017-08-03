@@ -53,7 +53,7 @@ public class EnumLabel extends SwitchLabel implements CrossReference<Variable>{
 	
 	public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
 		// class must move to Jnome because of enum dependency?
-		Expression switchExpr = nearestAncestor(SwitchStatement.class).getExpression();
+		Expression switchExpr = lexical().nearestAncestor(SwitchStatement.class).getExpression();
 		DeclarationCollector<X> collector = new DeclarationCollector<X>(selector);
 	  switchExpr.getType().targetContext().lookUp(collector);
 	  return collector.result();

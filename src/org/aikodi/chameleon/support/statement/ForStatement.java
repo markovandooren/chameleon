@@ -50,7 +50,7 @@ public class ForStatement extends IterationStatement implements DeclarationConta
   	set(_control,control);
   }
   
-  private Single<ForControl> _control = new Single<ForControl>(this); 
+  private Single<ForControl> _control = new Single<ForControl>(this, "control"); 
 
 	@Override
 	protected ForStatement cloneSelf() {

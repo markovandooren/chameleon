@@ -38,7 +38,7 @@ public class IsSource extends TreePredicate<Element,Nothing> {
 			List<DocumentScanner> sourceScanners = view.sourceScanners();
 			for(DocumentScanner scanner : sourceScanners) {
 				for(Namespace ns: scanner.namespaces()) {
-					if(ns == element || ns.hasAncestor(element)) {
+					if(ns == element || ns.lexical().hasAncestor(element)) {
 						return true;
 					}
 				}

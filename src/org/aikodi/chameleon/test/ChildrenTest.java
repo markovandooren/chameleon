@@ -84,7 +84,7 @@ public class ChildrenTest extends ModelTest {
 	public void testChildren() throws LookupException {
 		for(Namespace namespace: namespaceProvider().elements(view())) {
 			assertTrue(namespace != null);
-		  for(Element element : namespace.descendants()) {
+		  for(Element element : namespace.lexical().descendants()) {
 		  	test(element);
 		  }
 		}

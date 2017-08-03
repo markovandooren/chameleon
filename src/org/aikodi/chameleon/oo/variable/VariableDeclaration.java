@@ -56,7 +56,7 @@ public class VariableDeclaration extends ElementImpl implements DeclarationConta
 	/**
 	 * EXPRESSION
 	 */
-	private Single<Expression> _expression = new Single<Expression>(this);
+	private Single<Expression> _expression = new Single<Expression>(this, "expression");
 
   
   public Expression initialization() {

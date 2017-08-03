@@ -12,9 +12,9 @@ import org.aikodi.chameleon.util.association.Single;
 
 
 public abstract class PointcutExpressionSingle<J extends Element> extends AbstractPointcutExpression<J> {
-	private Single<PointcutExpression> _expression = new Single<PointcutExpression>(this);;
+	private Single<PointcutExpression<J>> _expression = new Single<PointcutExpression<J>>(this, "expression");
 
-	public PointcutExpressionSingle(PointcutExpression expression) {
+	public PointcutExpressionSingle(PointcutExpression<J> expression) {
 		super();
 		setExpression(expression);
 	}
@@ -23,7 +23,7 @@ public abstract class PointcutExpressionSingle<J extends Element> extends Abstra
 		return _expression.getOtherEnd();
 	}
 
-	private void setExpression(PointcutExpression expression) {
+	private void setExpression(PointcutExpression<J> expression) {
 		set(_expression, expression);
 	}
 	

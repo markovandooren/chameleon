@@ -59,7 +59,7 @@ protected SimpleForControl cloneSelf() {
 	/**
 	 * EXPRESSION
 	 */
-	private Single<Expression> _expression = new Single<Expression>(this);
+	private Single<Expression> _expression = new Single<Expression>(this, "expression");
 
   
   public Expression condition() {

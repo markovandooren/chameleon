@@ -70,7 +70,7 @@ public abstract class TypeParameter extends Parameter implements ElementWithType
 
   @Override
   public Scope scope() throws ModelException {
-    return new LexicalScope(nearestAncestor(Type.class));
+    return new LexicalScope(lexical().nearestAncestor(Type.class));
   }
 
   @Override

@@ -119,7 +119,7 @@ public class LazyClassBody extends ClassBody {
 		Declaration declClone = clone(declarationFromBaseType);
 		// 2. Substitute the type parameters with those of the surrounding DerivedType.
 		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-		List<TypeParameter> typeParameters = original().nearestAncestor(Type.class).parameters(TypeParameter.class);
+		List<TypeParameter> typeParameters = original().lexical().nearestAncestor(Type.class).parameters(TypeParameter.class);
 		declClone.setUniParent(stub);
 		Iterator<TypeParameter> parameterIter = typeParameters.iterator();
 		while(parameterIter.hasNext()) {

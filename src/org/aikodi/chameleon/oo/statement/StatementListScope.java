@@ -25,7 +25,7 @@ public class StatementListScope extends Scope {
 public boolean geRecursive(Scope other)  {
   	return (
 		    (other instanceof StatementListScope) && 
-        ((StatementListScope)other).getStatement().ancestors().contains(getContainer()) &&
+        ((StatementListScope)other).getStatement().lexical().ancestors().contains(getContainer()) &&
         (getStatement().before(((StatementListScope)other).getStatement()))
        ) || 
        ((other instanceof LexicalScope) && contains(((LexicalScope)other).element()));
@@ -47,10 +47,10 @@ public boolean geRecursive(Scope other)  {
 	@SuppressWarnings("unchecked")
 	public boolean contains(Element element) {
 		Statement statement = getStatement();
-		boolean result = element.ancestors().contains(statement);
+		boolean result = element.lexical().ancestors().contains(statement);
 		Iterator<Statement> iter = getContainer().statementsAfter(getStatement()).iterator();
 		while(! result && iter.hasNext()) {
-			result = iter.next().ancestors().contains(statement);
+			result = iter.next().lexical().ancestors().contains(statement);
 		}
 		return result;
 	}

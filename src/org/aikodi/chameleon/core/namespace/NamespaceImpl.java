@@ -80,7 +80,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
 
   @Override
   public String fullyQualifiedName() {
-    Namespace nearestAncestor = nearestAncestor(Namespace.class);
+    Namespace nearestAncestor = lexical().nearestAncestor(Namespace.class);
     return ((nearestAncestor == null || nearestAncestor.name().equals("")) ? "" : nearestAncestor.fullyQualifiedName() + ".") + name();
   }
 
@@ -95,7 +95,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
   
   private Navigator<LookupException> _logical = new LogicalNavigator() {
 		@Override
-		public List<? extends Element> children() throws LookupException {
+		public List<Element> children() throws LookupException {
 			// The declarations are cached, so we return a mutable copy instead.
 			// Not optimal because an immutable list might be fine for the
 			// client, but there is no convenient way for the client to
@@ -120,7 +120,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
       return this;
     }
     else {
-      return nearestAncestor(Namespace.class).defaultNamespace();
+      return lexical().nearestAncestor(Namespace.class).defaultNamespace();
     }
   }
 

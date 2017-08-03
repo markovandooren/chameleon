@@ -24,30 +24,22 @@ public class StaticInitializer extends ElementWithModifiersImpl implements Decla
     setBlock(block);
   }
 
-  public Type getNearestType() {
-    return getType();
-  }
-
-  public Type getType() {
-    return nearestAncestor(Type.class);
-  }
-
   /*********
    * BLOCK *
    *********/
 
   public SingleAssociation getBlockLink() {
-    return _blockLink;
+    return _block;
   }
 
   public Block getBlock() {
-    return _blockLink.getOtherEnd();
+    return _block.getOtherEnd();
   }
 
-  private Single<Block> _blockLink = new Single<Block>(this);
+  private Single<Block> _block = new Single<Block>(this, "block");
 
   public void setBlock(Block block) {
-    set(_blockLink, block);
+    set(_block, block);
   }
 
   /**

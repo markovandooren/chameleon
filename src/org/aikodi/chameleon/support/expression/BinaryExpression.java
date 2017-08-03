@@ -18,7 +18,7 @@ public abstract class BinaryExpression extends ExpressionContainingExpression {
   }
   
   public Expression getFirst() {
-  	return getExpression();
+  	return expression();
   }
   
   public void setFirst(Expression expr) {

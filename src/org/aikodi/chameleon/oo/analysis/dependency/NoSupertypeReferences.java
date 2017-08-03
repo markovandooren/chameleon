@@ -13,7 +13,7 @@ public class NoSupertypeReferences extends UniversalPredicate<Element,Nothing> {
 
 	@Override
 	public boolean uncheckedEval(Element t) throws Nothing {
-		return t.nearestAncestor(SubtypeRelation.class) == null;
+		return t.lexical().nearestAncestor(SubtypeRelation.class) == null;
 	}
 
 }

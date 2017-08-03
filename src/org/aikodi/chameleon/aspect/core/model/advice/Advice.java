@@ -22,8 +22,8 @@ public class Advice<B extends Element> extends ElementWithModifiersImpl {
 		setBody(body);
 	}
 
-	private Single<B> _body = new Single<B>(this);
-	private Single<PointcutExpression<?>> _pointcutExpression = new Single<PointcutExpression<?>>(this);
+	private Single<B> _body = new Single<B>(this, "body");
+	private Single<PointcutExpression<?>> _pointcutExpression = new Single<PointcutExpression<?>>(this, "pointcut expression");
 
 	public B body() {
 		return _body.getOtherEnd();

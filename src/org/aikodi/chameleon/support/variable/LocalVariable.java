@@ -27,7 +27,7 @@ protected LocalVariable cloneSelf() {
 
   @Override
 public Scope scope() throws LookupException {
-    List ancestors = ancestors(StatementListContainer.class);
+    List<StatementListContainer> ancestors = lexical().ancestors(StatementListContainer.class);
     return new StatementListScope((StatementListContainer)ancestors.get(ancestors.size() - 1), (Statement)parent());
   }
 

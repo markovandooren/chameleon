@@ -25,7 +25,7 @@ public class DemandImport extends Import {
   	setContainerReference(ref);
   }
   
-	private Single<NameReference<? extends DeclarationContainer>> _packageOrType = new Single<NameReference<? extends DeclarationContainer>>(this);
+	private Single<NameReference<? extends DeclarationContainer>> _packageOrType = new Single<NameReference<? extends DeclarationContainer>>(this, "package or type");
 
   
   public NameReference<? extends DeclarationContainer> containerReference() {

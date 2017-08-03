@@ -22,7 +22,7 @@ public class AdviceReturnStatement extends ReturnStatement {
 	  	Verification result = Valid.create();
 	  	
 	  	try {
-	  		ProgrammingAdvice nearestAncestor = nearestAncestor(ProgrammingAdvice.class);
+	  		ProgrammingAdvice nearestAncestor = lexical().nearestAncestor(ProgrammingAdvice.class);
 				if(nearestAncestor != null) {
 					Expression expression = getExpression();
 					if(expression != null) {

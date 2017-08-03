@@ -36,7 +36,7 @@ public class EnhancedForControl extends ForControl {
 	/**
 	 * EXPRESSION
 	 */
-	private Single<Expression> _expression = new Single<Expression>(this);
+	private Single<Expression> _expression = new Single<Expression>(this, "expression");
 
   
   public Expression collection() {
@@ -48,7 +48,7 @@ public class EnhancedForControl extends ForControl {
   }
 
 	public Element variableScopeElement() {
-		return nearestAncestor(Element.class);
+		return lexical().nearestAncestor(Element.class);
 	}
 
 	@Override

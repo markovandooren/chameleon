@@ -27,7 +27,7 @@ public class DocumentBuilder<P> extends Builder<P, Document>{
 
   protected void init(NamespaceDeclaration namespaceDeclaration) {
     _namespaceDeclaration = namespaceDeclaration;
-    consumer().accept(_namespaceDeclaration.nearestAncestor(Document.class));
+    consumer().accept(_namespaceDeclaration.lexical().nearestAncestor(Document.class));
   }
    
 //   public <D extends Builder<DocumentBuilder<P>,E>,E extends Declaration> D nested(String name, Function<DocumentBuilder<P>, D>  factory) {
@@ -53,7 +53,7 @@ public class DocumentBuilder<P> extends Builder<P, Document>{
    }
    
    public Document document() {
-     return _namespaceDeclaration.nearestAncestor(Document.class);
+     return _namespaceDeclaration.lexical().nearestAncestor(Document.class);
    }
    
    public P endDocument() {

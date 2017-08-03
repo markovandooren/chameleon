@@ -650,7 +650,7 @@ public class ChameleonEditor extends TextEditor {
 		if(chamEditor != null){
 			try {
 				// check wheter the compilationunit of the element is opened in the active editor
-				final Document elementCU = element.nearestAncestor(Document.class);
+				final Document elementCU = element.lexical().nearestAncestor(Document.class);
 				if(elementCU==null){
 					chamEditor.resetHighlight(selectElement);
 					return false;

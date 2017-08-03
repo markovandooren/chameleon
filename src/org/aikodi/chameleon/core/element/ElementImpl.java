@@ -13,10 +13,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
+import java.util.stream.Stream;
 
 import java.lang.reflect.Field;
 
 import org.aikodi.chameleon.core.Config;
+import org.aikodi.chameleon.core.element.ElementImpl.ConflictingProperties;
 import org.aikodi.chameleon.core.event.Change;
 import org.aikodi.chameleon.core.event.Event;
 import org.aikodi.chameleon.core.event.association.ChildAdded;
@@ -140,20 +142,14 @@ public abstract class ElementImpl implements Element {
     notify(createEvent(change));
   }
   
-	
-	
-//	private final static TreeStructure<Element> _lexical = new LexicalNavigator();
-	
+  
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public Navigator<Nothing> lexical() {
-//		return _lexical;
 		return new LexicalNavigator();
 	}
-	
-//	private final static Navigator _logical = new LogicalNavigator();
 	
 	/**
 	 * {@inheritDoc}
@@ -438,13 +434,20 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 
-	@Override
-   public boolean disconnected() {
-		return parent() == null;
-	}
-
-	@Override
-   public void nonRecursiveDisconnect() {
+  /**
+   * Completely disconnect this element and all children from the parent.
+   * This method also removes associations with any logical parents.
+   * 
+   * If an element has additional logical parents, this method must be overridden 
+   * to remove its references to its logical parents.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post disconnected();
+   @ post (\forall Element e; \old(this.contains(e)); e.disconnected());
+   @*/
+  public void nonRecursiveDisconnect() {
 		if(_parentLink != null) {
 			_parentLink.connectTo(null);
 		} else {
@@ -468,11 +471,6 @@ public abstract class ElementImpl implements Element {
 			_parentLink = createParentLink();
 		}
 		_parent = parent;
-	}
-
-	@Override
-   public final List<Element> descendants() {
-		return lexical().descendants(Element.class);
 	}
 
 	/**
@@ -626,48 +624,8 @@ public abstract class ElementImpl implements Element {
 	}
 	
 	@Override
-   public final <T extends Element> List<T> ancestors(Class<T> c) {
-		List<T> result = Lists.create();
-		T el = nearestAncestor(c);
-		while (el != null){
-			result.add(el);
-			el = el.nearestAncestor(c);
-		}
-		return result;
-	}
-
-	@Override
 	public <T extends Element, E extends Exception> List<T> ancestors(UniversalPredicate<T, E> predicate) throws E {
-		return predicate.downCastedList(ancestors());
-	}
-
-	@Override
-   public final List<Element> ancestors() {
-		if (parent()!=null) {
-			List<Element> result = parent().ancestors();
-			result.add(0, parent());
-			return result;
-		} else {
-			return Lists.create();
-		}
-	}
-
-	@Override
-   public boolean hasAncestor(Element ancestor) {
-		Element el = parent();
-		while ((el != null) && (el != ancestor)){
-			el = el.parent();
-		}
-		return el == ancestor;
-	}
-
-	@Override
-   public <T extends Element> T nearestAncestor(Class<T> c) {
-		Element el = parent();
-		while ((el != null) && (! c.isInstance(el))){
-			el = el.parent();
-		}
-		return (T) el;
+		return predicate.downCastedList(lexical().ancestors());
 	}
 
 	@Override
@@ -885,10 +843,14 @@ public abstract class ElementImpl implements Element {
 	 }
 
 	 /**
-	 * {@inheritDoc}
-	 */
-	@Override
-   public void disconnectChildren() {
+	  * Completely disconnect all children from this element.
+	  */
+	/*@
+	  @ public behavior
+	  @
+	  @ post (\forall Element e; \old(this.contains(e)); e.disconnected());
+	  @*/
+   protected void disconnectChildren() {
 		 for(Element child:children()) {
 			 if(child != null) {
 				 child.disconnect();
@@ -932,9 +894,53 @@ public abstract class ElementImpl implements Element {
 		 }
 	 }
 	
+	/**
+	 * Verify this element without verifying the descendants.
+	 * The verification of this element can use information of descendants
+	 * or the fact that they are missing.
+	 *  
+	 * @return The result is not null.
+	 */
+ /*@
+   @ post \result != null;
+   @*/
   protected Verification verifySelf() {
     return Valid.create();
   }
+
+  /**
+   * Verify the properties of this element.
+   * 
+   * @return The conjunction of the verification results
+   *         of all properties of this element.
+   */
+  protected Verification verifyProperties() {
+    Verification result = Valid.create();
+    PropertySet<Element,ChameleonProperty> properties = internalProperties();
+    Collection<Conflict<ChameleonProperty>> conflicts = properties.conflicts();
+    for(Conflict<ChameleonProperty> conflict: conflicts) {
+      result = result.and(new ConflictingProperties(this,conflict));
+    }
+    for(ChameleonProperty property: properties.properties()) {
+      result = result.and(property.verify(this));
+    }
+    return result;
+  }
+
+  /**
+   * Verify the associations of this element.
+   * 
+   * @return The conjunction of the verification results of
+   *         all associations of this object.
+   */
+  protected Verification verifyAssociations() {
+    Verification result = Valid.create();
+    for(ChameleonAssociation<?> association: associations()) {
+      result = result.and(association.verify());
+    }
+    return result;
+  }
+
 
 	 /**
 	  * A TreeStructure for Element.
@@ -961,7 +967,7 @@ public abstract class ElementImpl implements Element {
 	    * @return The {@link Element#children()} of the element.
 	    */
 	   @Override
-	   public List<? extends Element> children() throws N {
+	   public List<Element> children() throws N {
 	     return node().children();
 	   }
 	 }	
@@ -1264,5 +1270,18 @@ public abstract class ElementImpl implements Element {
    }
 
    ElementEventStreamCollection _eventManager;
-   
+
+   /**
+    * A helper method that unfortunately has to be public.
+    * 
+    * @param object The object to be checked.
+    * @throws IllegalArgumentException the object is null.
+    */
+   protected void notNull(Object object) {
+  	 if(object == null) {
+  		 throw new IllegalArgumentException("The object cannot be null.");
+  	 }
+   }
+
+
 }

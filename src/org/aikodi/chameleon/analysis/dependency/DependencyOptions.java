@@ -12,7 +12,7 @@ public abstract class DependencyOptions<E extends Element, R extends Result<R>> 
 	public abstract DependencyResult analyze();
 	
   public static final UniversalPredicate<Dependency, Nothing> IGNORE_LEXICAL_ANCESTORS = UniversalPredicate.of(Dependency.class, 
-      t ->! ((Element) t.source()).hasAncestor((Element)t.target()));
+      t ->! ((Element) t.source()).lexical().hasAncestor((Element)t.target()));
   
 
 }

@@ -23,7 +23,7 @@ public abstract class ModifierWithParameters extends ModifierImpl implements Dec
 	/**
 	 * 	The return parameter
 	 */
-	private Single<FormalParameter> _parameter = new Single<FormalParameter>(this);
+	private Single<FormalParameter> _parameter = new Single<FormalParameter>(this, "parameter");
 
 	public ModifierWithParameters() {
 		super();

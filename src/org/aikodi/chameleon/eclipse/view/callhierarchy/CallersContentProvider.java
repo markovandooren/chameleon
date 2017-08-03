@@ -73,7 +73,7 @@ public class CallersContentProvider implements ITreeContentProvider {
 			// get the methods containing the invocations:
 			Collection<Declaration> result = new HashSet<Declaration>();
 			for(CrossReference invocation : invocations){
-				Declaration callingDeclaration = invocation.nearestAncestor(Declaration.class);
+				Declaration callingDeclaration = invocation.lexical().nearestAncestor(Declaration.class);
 				if(callingDeclaration != null) {
 					result.add(callingDeclaration);
 				}

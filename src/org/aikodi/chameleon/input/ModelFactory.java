@@ -92,7 +92,7 @@ public interface ModelFactory extends LanguagePlugin {
         if(! done) {
           element = element.parent();
           if(element == null) {
-            throw new ParseException(old.nearestAncestor(Document.class));
+            throw new ParseException(old.lexical().nearestAncestor(Document.class));
           }
         }
         old.disconnect();
@@ -110,7 +110,7 @@ public interface ModelFactory extends LanguagePlugin {
 	 * text that can serve as a replacement for the given element.
 	 */
   public default <P extends Element> Element parse(Element element, String text) throws ParseException {
-    throw new ParseException("Partial parsing not supported by this model factory.", element.nearestAncestor(Document.class));
+    throw new ParseException("Partial parsing not supported by this model factory.", element.lexical().nearestAncestor(Document.class));
   }
 	
 	/**

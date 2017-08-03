@@ -375,15 +375,15 @@ public interface Element {
 
   /**
    * <p>Completely disconnect this element and all descendants from the parent.
-   * This method also removes associations with any logical parents. All
+   * This method also removes associations with any <b>logical</b> parents. All
    * event streams of this element are disconnected.</p>
    */
-  /*@
-     @ public behavior
-     @
-     @ post disconnected();
-     @ post (\forall Element e; \old(this.contains(e)); e.disconnected());
-     @*/
+ /*@
+   @ public behavior
+   @
+   @ post disconnected();
+   @ post (\forall Element e; \old(this.contains(e)); e.parent() == null);
+   @*/
   public void disconnect();
 
   /**
@@ -400,57 +400,16 @@ public interface Element {
   public List<ChameleonAssociation<?>> associations();
 
   /**
-   * Check if this element is disconnected. Usually this is true if the
-   * lexical parent is null. If an element has additional logical parents,
-   * this method must be overridden to verify if the element is also attached
-   * from its logical parents. An example of such an element is a namespace part,
-   * which is connected to a namespace.
-   * 
-   * @return
-   */
-  /*@
-     @ public behavior
-     @
-     @ post \result == true ==> parent() == null;
-     @*/
-  public boolean disconnected();
-
-  /**
-   * Completely disconnect all children from this element.
-   */
-  /*@
-     @ public behavior
-     @
-     @ post (\forall Element e; \old(this.contains(e)); e.disconnected());
-     @*/
-  public void disconnectChildren();
-
-  /**
-   * Completely disconnect this element and all children from the parent.
-   * This method also removes associations with any logical parents.
-   * 
-   * If an element has additional logical parents, this method must be overridden 
-   * to remove its references to its logical parents.
-   */
-  /*@
-     @ public behavior
-     @
-     @ post disconnected();
-     @ post (\forall Element e; \old(this.contains(e)); e.disconnected());
-     @*/
-  public void nonRecursiveDisconnect();
-
-  /**
    * Check if this element is derived (or generated) or not. A derived element has a unidirectional 
    * connection with its parent.
    * 
    * @return True if this element is derived, false otherwise.
    */
-  /*@
-     @ public behavior
-     @
-     @ post \result == (! (origin() == this));
-     @*/
+ /*@
+   @ public behavior
+   @
+   @ post \result == (! (origin() == this));
+   @*/
   public boolean isDerived();
 
   /**
@@ -497,36 +456,6 @@ public interface Element {
      @*/
   public void setOrigin(Element element);
 
-  /**
-   * Return a list of all ancestors. The direct parent is in front of the list, the
-   * furthest ancestor is last.
-   */
-  /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @ post parent() == null ==> \result.isEmpty();
-     @ post parent() != null ==> \result.get(0) == parent();
-     @ post parent() != null ==> \result.subList(1,\result.size()).equals(parent().ancestors());
-     @*/
-  public List<Element> ancestors();
-
-  /**
-   * Return a list of all ancestors of the given type. A closer ancestors will have a lower index than a 
-   * farther ancestor.
-   * 
-   * @param c The kind of the ancestors that should be returned.
-   */
-  /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @ post parent() == null ==> \result.isEmpty();
-     @ post parent() != null && c.isInstance(parent()) ==> \result.get(0) == parent()
-     @                       && \result.subList(1,\result.size()).equals(parent().ancestors(c));
-     @ post post parent() != null && ! c.isInstance(parent()) ==> \result.equals(parent().ancestors(c));
-     @*/
-  public <T extends Element> List<T> ancestors(Class<T> c);
 
   /**
    * Return a list of all ancestors of the given type. A closer ancestors will have a lower index than a 
@@ -581,7 +510,7 @@ public interface Element {
    @ post \result != null;
    @ post (\forall Element e; \result.contains(e); e.parent() == this);
    @*/
-  public default List<? extends Element> children() {
+  public default List<Element> children() {
   	List<Element> reflchildren = Lists.create();
 		for (ChameleonAssociation<?> association : associations()) {
 			association.addOtherEndsTo(reflchildren);
@@ -635,55 +564,6 @@ public interface Element {
      @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && predicate.eval(e));
      @*/
   public <T extends Element, E extends Exception> List<T> children(UniversalPredicate<T,E> predicate) throws E;
-
-  /**
-   * Recursively return all children of this element.
-   * (The children, and the children of the children,...).
-   */
-  /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @ post (\forall Element e; \result.contains(e) <==> children().contains(e) ||
-     @                                                   (\exists Element c; children().contains(c); c.descendants().contains(e)));
-     @*/ 
-  public List<Element> descendants();
-
-  /**
-   * Recursively return all descendants of this element that are of the given type.
-   * 
-   * @param c The type of descendants that should be returned.
-   */
-  /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && c.isInstance(e));
-     @*/
-  public default <T extends Element> List<T> descendants(Class<T> c) {
-		List<T> result = children(c);
-		for (Element e : children()) {
-			result.addAll(e.descendants(c));
-		}
-		return result;
-	}
-
-
-
-  /**
-   * Check whether the given element is an ancestor of this element.
-   * 
-   * @param ancestor The potential ancestor.
-   */
-  /*@
-     @ public behavior
-     @
-     @ pre c != null;
-     @
-     @ post \result == ancestors().contains(ancestor);
-     @*/
-  public boolean hasAncestor(Element ancestor);
-
 
   /**
    * Check whether this element has a descendant of the given type.
@@ -854,23 +734,6 @@ public interface Element {
      @ post \result == ! metadata().isEmpty();
      @*/
   public boolean hasMetadata();
-
-  /**
-   * Return the nearest ancestor of type T. Null if no such ancestor can be found.
-   * @param <T>
-   *        The type of the ancestor to be found
-   * @param c
-   *        The class object of type T (T.class)
-   * @return
-   */
-  /*@
-     @ public behavior
-     @
-     @ post parent() == null ==> \result == null;
-     @ post parent() != null && c.isInstance(parent()) ==> \result == parent();
-     @ post parent() != null && (! c.isInstance(parent())) ==> \result == parent().nearestAncestor(c);
-     @*/
-  public <T extends Element> T nearestAncestor(Class<T> c);
 
   /**
    * Return the language of this element. Return null if this element is not
@@ -1300,33 +1163,6 @@ public interface Element {
 
   public PropertySet<Element,ChameleonProperty> internalProperties();
 
-  /**
-   * 
-   * @return
-   */
-  public default Verification verifyProperties() {
-    Verification result = Valid.create();
-    PropertySet<Element,ChameleonProperty> properties = internalProperties();
-    Collection<Conflict<ChameleonProperty>> conflicts = properties.conflicts();
-    for(Conflict<ChameleonProperty> conflict: conflicts) {
-      result = result.and(new ConflictingProperties(this,conflict));
-    }
-    for(ChameleonProperty property: properties.properties()) {
-      result = result.and(property.verify(this));
-    }
-    return result;
-  }
-
-  public default Verification verifyAssociations() {
-    Verification result = Valid.create();
-    for(ChameleonAssociation<?> association: associations()) {
-      result = result.and(association.verify());
-    }
-    return result;
-  }
-
-
-
   /*************************
    * IDENTITY and EQUALITY *
    *************************/
@@ -1335,7 +1171,8 @@ public interface Element {
    * Because equals cannot throw checked exceptions, we have some framework code
    * for equality.
    * 
-   * First of all: DO NOT USE EQUALS!!! Use sameAs(Element) instead.
+   * First of all: DO NOT USE EQUALS for elements!!! Use sameAs(Element) instead.
+   * The latter method can throw a ModelException whereas equals does not allow it.
    * 
    * To ensure that equals work correctly when it is invoked by third-party code
    * (e.g. java.util.HashSet), equals is implemented in terms of sameAs, which
@@ -1348,13 +1185,13 @@ public interface Element {
    * 
    * <b>Do not forget to override {@link Object#hashCode()} if you override {@link #uniSameAs(Element)}.</b>
    */
-  /*@
-     @ public behavior
-     @
-     @ post (other instanceof Element) && sameAs((Element)other);
-     @
-     @ signals (LookupExceptionInEquals) (* sameAs(other) has thrown an LookupException *);
-     @*/
+ /*@
+   @ public behavior
+   @
+   @ post (other instanceof Element) && sameAs((Element)other);
+   @
+   @ signals (LookupExceptionInEquals) (* sameAs(other) has thrown an LookupException *);
+   @*/
   @Override 
   public boolean equals(Object other);
 
@@ -1372,6 +1209,9 @@ public interface Element {
 
   /**
    * Check whether this element is the same as the other element.
+   * This is the method that needs to be implemented in subclasses.
+   * The {@link #sameAs(Element)} method ensures that equality is idempotent
+   * and symmetric.
    */
   /*@
      @ public behavior
@@ -1389,7 +1229,7 @@ public interface Element {
   //public Namespace namespace();
   
   public default Namespace root() {
-  	NamespaceDeclaration namespaceDeclaration = nearestAncestor(NamespaceDeclaration.class);
+  	NamespaceDeclaration namespaceDeclaration = lexical().nearestAncestor(NamespaceDeclaration.class);
 		return namespaceDeclaration != null ? namespaceDeclaration.namespace().defaultNamespace() : null;
   }
 
@@ -1425,16 +1265,4 @@ public interface Element {
     parentLink().getOtherRelation().replace((Association)parentLink(), (Association)replacement.parentLink());
   }
   
-  /**
-   * A helper method that unfortunately has to be public.
-   * 
-   * @param object The object to be checked.
-   * @throws IllegalArgumentException the object is null.
-   */
-  public default void notNull(Object object) {
- 	 if(object == null) {
- 		 throw new IllegalArgumentException("The object cannot be null.");
- 	 }
-  }
-
 }

@@ -286,21 +286,6 @@ public class NamespaceDeclaration extends ElementImpl implements DeclarationCont
 	}
 	
 
-
-	/**
-	 * A namespace part is disconnected if both its parent and its namespace are null.
-	 */
- /*@
-   @ public behavior
-   @
-   @ post \result == (parent() == null) && (namespace() == null);
-   @*/
-	@Override
-	public boolean disconnected() {
-		//return super.disconnected() && namespaceLink().getOtherEnd() == null;
-		return super.disconnected() && _namespace == null;
-	}
-	
 	private Multi<NamespaceDeclaration> _subNamespaceParts = new Multi<NamespaceDeclaration>(this,"subnamespace parts");
 
 	@Override

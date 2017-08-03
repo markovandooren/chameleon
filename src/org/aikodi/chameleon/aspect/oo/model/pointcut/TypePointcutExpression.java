@@ -15,7 +15,7 @@ public abstract class TypePointcutExpression extends AbstractParameterExposurePo
 		setParameter(parameter);
 	}
 	
-	private Single<NameExpression> _parameter = new Single<NameExpression>(this);
+	private Single<NameExpression> _parameter = new Single<NameExpression>(this, "parameter");
 	
 	public NameExpression parameter() {
 		return _parameter.getOtherEnd();

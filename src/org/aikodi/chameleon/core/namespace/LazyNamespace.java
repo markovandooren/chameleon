@@ -242,7 +242,7 @@ public class LazyNamespace extends RegularNamespace implements DocumentLoaderNam
 	}
 
 	@Override
-	public List<? extends Element> children() {
+	public List<Element> children() {
 		for(Queue<DocumentLoader> q: _sourceMap.values()) {
 			try {
 				q.peek().load();

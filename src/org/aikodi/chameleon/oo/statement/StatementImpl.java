@@ -22,8 +22,8 @@ public abstract class StatementImpl extends ElementImpl implements Statement {
   @Override
   public boolean before(Statement other) {
     StatementListContainer container = getNearestCommonStatementListContainer(other);
-    List myParents = ancestors();
-    List otherParents = other.ancestors();
+    List myParents = lexical().ancestors();
+    List otherParents = other.lexical().ancestors();
     myParents.add(0, this);
     otherParents.add(0, other);
     Statement myAncestor = (Statement) myParents.get(myParents.indexOf(container) - 1);
@@ -32,8 +32,8 @@ public abstract class StatementImpl extends ElementImpl implements Statement {
   }
 
   public StatementListContainer getNearestCommonStatementListContainer(Statement other) {
-    List myParents = ancestors();
-    List otherParents = other.ancestors();
+    List myParents = lexical().ancestors();
+    List otherParents = other.lexical().ancestors();
     ListIterator myIter = myParents.listIterator(myParents.size());
     ListIterator otherIter = otherParents.listIterator(myParents.size());
     Object common = null;

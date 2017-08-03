@@ -38,7 +38,7 @@ public class IsBinary extends TreePredicate<Element,Nothing> {
 			List<DocumentScanner> binaryScanners = view.binaryScanners();
 			for(DocumentScanner scanner : binaryScanners) {
 				for(Namespace ns: scanner.namespaces()) {
-					if(ns == element || ns.hasAncestor(element)) {
+					if(ns == element || ns.lexical().hasAncestor(element)) {
 						return true;
 					}
 				}

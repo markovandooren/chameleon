@@ -24,7 +24,7 @@ public class NamespaceScope extends Scope {
   
 	@Override
    public boolean contains(Element element) throws LookupException {
-		return  element.nearestAncestor(NamespaceDeclaration.class).namespace().equals(namespace());
+		return  element.lexical().nearestAncestor(NamespaceDeclaration.class).namespace().equals(namespace());
 	}
   
  /*@
@@ -42,7 +42,7 @@ public boolean geRecursive(Scope other) throws LookupException {
            ||
            (
              (other instanceof LexicalScope) &&
-             ((LexicalScope)other).element().nearestAncestor(NamespaceDeclaration.class).namespace().equals(namespace())
+             ((LexicalScope)other).element().lexical().nearestAncestor(NamespaceDeclaration.class).namespace().equals(namespace())
            );
   }
   

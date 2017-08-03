@@ -26,7 +26,7 @@ public abstract class MethodHeader extends DeclarationWithParametersHeader {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		Type container = nearestAncestor(Type.class);
+		Type container = lexical().nearestAncestor(Type.class);
 		int size = nbTypeParameters();
 		if(size > 0) {
 			builder.append('<');

@@ -12,7 +12,7 @@ import org.aikodi.chameleon.util.association.Single;
  */
 public class ParExpression extends Expression {
 
-  private Single<Expression> _expression = new Single<>(this);
+  private Single<Expression> _expression = new Single<>(this, "expression");
 
   
   /**

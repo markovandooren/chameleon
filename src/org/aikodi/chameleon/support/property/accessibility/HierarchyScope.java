@@ -24,7 +24,7 @@ public class HierarchyScope extends Scope {
   
   @Override
 public boolean contains(Element element) throws LookupException {
-  	Type type = element.nearestAncestor(Type.class);
+  	Type type = element.lexical().nearestAncestor(Type.class);
   	if(type != null) {
 		  return type.subtypeOf(getType());
   	} else {
@@ -48,7 +48,7 @@ public boolean geRecursive(Scope other) throws LookupException {
            ) ||
            (
             (other instanceof LexicalScope) && 
-    		 	  ((LexicalScope)other).element().nearestAncestor(Type.class).assignableTo(getType())
+    		 	  ((LexicalScope)other).element().lexical().nearestAncestor(Type.class).assignableTo(getType())
            )
              ;
   }

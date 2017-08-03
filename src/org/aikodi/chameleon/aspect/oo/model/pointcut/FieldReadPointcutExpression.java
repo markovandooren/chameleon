@@ -78,7 +78,7 @@ public class FieldReadPointcutExpression extends AbstractPointcutExpression<Name
 			return MatchResult.noMatch();
 		
 		// Get the fully qualified name of this field
-		String fqn = joinpoint.getElement().nearestAncestor(RegularType.class).getFullyQualifiedName() + "." + joinpoint.name();
+		String fqn = joinpoint.getElement().lexical().nearestAncestor(RegularType.class).getFullyQualifiedName() + "." + joinpoint.name();
 		
 		if (fqn.equals(fieldReference().reference()))
 			return new MatchResult(this, joinpoint);
