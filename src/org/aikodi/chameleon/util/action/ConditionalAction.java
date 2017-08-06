@@ -1,11 +1,11 @@
 package org.aikodi.chameleon.util.action;
 
-import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.action.UniversalConsumer;
 import org.aikodi.rejuse.predicate.Predicate;
 
-public class ConditionalAction<T, E extends Exception> extends Action<T, E> {
+public class ConditionalAction<T, E extends Exception> extends UniversalConsumer<T, E> {
 
-	public ConditionalAction(Class<T> type, Predicate<T,? extends E> predicate, Action<T, ? extends E> action) {
+	public ConditionalAction(Class<T> type, Predicate<T,? extends E> predicate, UniversalConsumer<T, ? extends E> action) {
 		super(type);
 		this._predicate = predicate;
 		this._action = action;
@@ -13,10 +13,10 @@ public class ConditionalAction<T, E extends Exception> extends Action<T, E> {
 
 	private Predicate<T, ? extends E> _predicate;
 	
-	private Action<T,? extends E> _action;
+	private UniversalConsumer<T,? extends E> _action;
 	
 	@Override
-	protected void doPerform(T object) throws E {
+	public void accept(T object) throws E {
 		if(predicate().eval(object)) {
 			action().perform(object);
 		}
@@ -30,11 +30,11 @@ public class ConditionalAction<T, E extends Exception> extends Action<T, E> {
 		_predicate = predicate;
 	}
 
-	public Action<T, ? extends E> action() {
+	public UniversalConsumer<T, ? extends E> action() {
 		return _action;
 	}
 
-	public void setAction(Action<T,E> action) {
+	public void setAction(UniversalConsumer<T,E> action) {
 		_action = action;
 	}
 

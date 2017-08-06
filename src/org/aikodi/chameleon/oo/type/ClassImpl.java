@@ -11,9 +11,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.aikodi.chameleon.core.Config;
+import org.aikodi.chameleon.core.declaration.BasicDeclaration;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Declarator;
+import org.aikodi.chameleon.core.declaration.Name;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
@@ -32,7 +33,6 @@ import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.member.HidesRelation;
-import org.aikodi.chameleon.oo.member.SimpleNameMember;
 import org.aikodi.chameleon.oo.plugin.ObjectOrientedFactory;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.Lists;
@@ -50,7 +50,7 @@ import com.google.common.collect.ImmutableSet;
  *
  * @author Marko van Dooren
  */
-public abstract class ClassImpl extends SimpleNameMember implements Type {
+public abstract class ClassImpl extends BasicDeclaration implements Type {
  
 
   /**
@@ -63,7 +63,7 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
    @ post parent() == null;
    @*/
   public ClassImpl(String name) {
-      setName(name);
+      setSignature(new Name(name));
   }
   
 	@Override
@@ -84,7 +84,7 @@ public abstract class ClassImpl extends SimpleNameMember implements Type {
 	private List<? extends Declaration> _declarationCache = null;
 	
 	private synchronized List<? extends Declaration> declarationCache() {
-		if(_declarationCache != null && Config.cacheDeclarations()) {
+		if(_declarationCache != null) {
 		  return new ArrayList<Declaration>(_declarationCache);
 		} else {
 			return null;
@@ -139,9 +139,7 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
   }
 
 	private synchronized void setDeclarationCache(List<? extends Declaration> cache) {
-		if(Config.cacheDeclarations()) {
-		  _declarationCache = new ArrayList<Declaration>(cache);
-		}
+    _declarationCache = new ArrayList<Declaration>(cache);
 	}
 	
 	
@@ -660,12 +658,10 @@ public Verification verifySubtypeOf(Type otherType, String meaningThisType, Stri
     	for (InheritanceRelation rel : inheritanceRelations()) {
     		result = rel.accumulateInheritedMembers(kind, result);
     	}
-    	if(Config.cacheDeclarations()) {
-    		if(_membersCache == null) {
-    			_membersCache = new HashMap<Class,List>();
-    		}
-    		_membersCache.put(kind, new ArrayList(result));
+  		if(_membersCache == null) {
+    		_membersCache = new HashMap<Class,List>();
     	}
+    	_membersCache.put(kind, new ArrayList(result));
     }
 		return result;
 	}

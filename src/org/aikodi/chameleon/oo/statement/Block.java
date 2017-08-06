@@ -57,7 +57,7 @@ public Block cloneSelf() {
   }
   
   public void clear() {
-  	for(Element child: children()) {
+  	for(Element child: lexical().children()) {
   		child.disconnect();
   	}
   }

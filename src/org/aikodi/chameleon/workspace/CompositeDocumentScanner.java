@@ -5,7 +5,7 @@ import java.util.List;
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.namespace.Namespace;
-import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.action.UniversalConsumer;
 import org.aikodi.rejuse.association.OrderedMultiAssociation;
 
 import com.google.common.collect.ImmutableList;
@@ -64,7 +64,7 @@ public class CompositeDocumentScanner extends DocumentScannerImpl implements Doc
 	
 	
 	@Override
-	public <E extends Exception> void apply(Action<? extends Element, E> action)
+	public <E extends Exception> void apply(UniversalConsumer<? extends Element, E> action)
 			throws E, InputException {
 		for(DocumentScanner scanner: scanners()) {
 			scanner.apply(action);

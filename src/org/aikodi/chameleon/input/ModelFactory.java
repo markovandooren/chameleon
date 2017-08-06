@@ -90,7 +90,7 @@ public interface ModelFactory extends LanguagePlugin {
         }
         Element old = element;
         if(! done) {
-          element = element.parent();
+          element = element.lexical().parent();
           if(element == null) {
             throw new ParseException(old.lexical().nearestAncestor(Document.class));
           }

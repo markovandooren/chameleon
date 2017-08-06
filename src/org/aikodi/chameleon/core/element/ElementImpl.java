@@ -1,6 +1,5 @@
 package org.aikodi.chameleon.core.element;
 
-import static org.aikodi.rejuse.collection.CollectionOperations.exists;
 import static org.aikodi.rejuse.collection.CollectionOperations.filter;
 import static org.aikodi.rejuse.collection.CollectionOperations.forAll;
 
@@ -13,12 +12,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
-import java.util.stream.Stream;
 
 import java.lang.reflect.Field;
 
-import org.aikodi.chameleon.core.Config;
-import org.aikodi.chameleon.core.element.ElementImpl.ConflictingProperties;
 import org.aikodi.chameleon.core.event.Change;
 import org.aikodi.chameleon.core.event.Event;
 import org.aikodi.chameleon.core.event.association.ChildAdded;
@@ -41,21 +37,15 @@ import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.ChameleonAssociation;
 import org.aikodi.chameleon.util.association.Single;
-import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.View;
-import org.aikodi.chameleon.workspace.WrongViewException;
-import org.aikodi.rejuse.action.Action;
 import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.association.Association;
 import org.aikodi.rejuse.association.AssociationListener;
-import org.aikodi.rejuse.association.IAssociation;
 import org.aikodi.rejuse.association.OrderedMultiAssociation;
 import org.aikodi.rejuse.association.SingleAssociation;
 import org.aikodi.rejuse.debug.StackTrace;
-import org.aikodi.rejuse.function.Consumer;
 import org.aikodi.rejuse.logic.ternary.Ternary;
 import org.aikodi.rejuse.predicate.Predicate;
-import org.aikodi.rejuse.predicate.UniversalPredicate;
 import org.aikodi.rejuse.property.Conflict;
 import org.aikodi.rejuse.property.PropertyMutex;
 import org.aikodi.rejuse.property.PropertySet;
@@ -73,14 +63,15 @@ public abstract class ElementImpl implements Element {
     */
 	private static Map<Class<? extends Element>,Set<String>> _excludedFieldNames = new HashMap<Class<? extends Element>,Set<String>>();
 
+  private PropertySet<Element,ChameleonProperty> _properties;
+	private AssociationListener<Element> _childChangePropagationListener;
+  private AssociationListener<Element> _parentChangePropagationListener;
+	
 	/**
 	 * Construct a new object without children and without a parent.
 	 */
 	public ElementImpl() {
 	}
-	
-	private AssociationListener<Element> _childChangePropagationListener;
-  private AssociationListener<Element> _parentChangePropagationListener;
 	
 	protected boolean changeNotificationEnabled() {
 	  return _childChangePropagationListener != null;
@@ -142,6 +133,51 @@ public abstract class ElementImpl implements Element {
     notify(createEvent(change));
   }
   
+  
+  /**
+   * <p>Return the direct children of this element.</p>
+   * 
+   * <p>The result will never be null. All elements in the collection will have this element as
+   * their parent.</p>
+   * 
+   * <p>Note that there can exist non-child elements that have this element as their parent. 
+   * The reason is that e.g. not all generic instances of a class can be constructed, so the collection
+   * can never be complete anyway. Context elements are also not counted as children, there are merely a
+   * help for the lookup algorithms. We only keep references to the lexical children, those that are 'physically'
+   * part of the program.</p>
+   *
+	 * <p>DO NOT OVERRIDE UNLESS YOU REALLY KNOW WHAT YOU ARE DOING!</p>
+	 * 
+	 * <p>This method uses the reflection mechanism, which avoids the need for a
+	 * children() implementation in each class that would only compute the union of all the 
+	 * {@link Association} objects referenced by this element. If an association element
+	 * should <b>not</b> be included in the list of children, use the following code in the 
+	 * class (class name is "X", field name is "_f").</p>
+	 * 
+	 * <pre>
+	 *   static {
+   *     excludeFieldName(X.class,"_f");
+   *   }
+	 * </pre>
+	 * 
+	 * <p>This method currently is overridden only to provide support for lazy loading in
+	 * LazyNamespace.</p>
+	 */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @ post (\forall Element e; \result.contains(e); e.parent() == this);
+   @*/
+  protected List<Element> children() {
+  	List<Element> reflchildren = Lists.create();
+		for (ChameleonAssociation<?> association : associations()) {
+			association.addOtherEndsTo(reflchildren);
+		}
+		return reflchildren;
+  }
+
+
   
 	/**
 	 * {@inheritDoc}
@@ -255,11 +291,15 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-   public boolean hasMetadata() {
+  /**
+   * Check whether or not this element has metadata.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post \result == ! metadata().isEmpty();
+   @*/
+  public boolean hasMetadata() {
 		if(_tags == null) {
 			return false;
 		} else {
@@ -320,9 +360,7 @@ public abstract class ElementImpl implements Element {
 	    Element parent = parent();
 	    if(parent != null) {
 	      result = parent.view();
-	      if(Config.cacheLanguage()) {
-	        _viewCache = result;
-	      }
+        _viewCache = result;
 	    }
 	  }
 	  return result;
@@ -394,8 +432,7 @@ public abstract class ElementImpl implements Element {
 		}
 	}
 	
-	@Override
-   public Element parent() {
+  public Element parent() {
 		return lexical().parent();
 	}
 
@@ -580,54 +617,6 @@ public abstract class ElementImpl implements Element {
 		return null;
 	}
 
-  @SuppressWarnings({ "unchecked", "rawtypes" })
-	@Override
-   public final <T extends Element> List<T> children(Class<T> c) {
-    List<? extends Element> result = children();
-		filter(result, child -> c.isInstance(child));
-    return (List)result;
-	}
-
-	@Override
-   public final <T extends Element> boolean hasDescendant(Class<T> c) {
-		List<Element> tmp = (List<Element>) children();
-		filter(tmp, child -> c.isInstance(child));
-		if (!tmp.isEmpty()) {
-			return true;
-		}
-		return exists(children(), child -> child.hasDescendant(c));
-	}
-
-	@Override
-	public final <T extends Element, E extends Exception> List<T> children(UniversalPredicate<T,E> predicate) throws E {
-		return predicate.downCastedList(children());
-	}
-
-	@Override
-   public final <T extends Element,E extends Exception> List<T> descendants(Class<T> c, Predicate<T,E> predicate) throws E {
-		List<T> result = children(c);
-		predicate.filter(result);
-		for (Element e : children()) {
-			result.addAll(e.descendants(c, predicate));
-		}
-		return result;
-	}
-
-	@Override
-   public final <T extends Element, E extends Exception>  void apply(Action<T,E> action) throws E {
-		if(action.type().isInstance(this)) {
-			action.perform(this);
-		}
-		for (Element e : children()) {
-			e.apply(action);
-		}
-	}
-	
-	@Override
-	public <T extends Element, E extends Exception> List<T> ancestors(UniversalPredicate<T, E> predicate) throws E {
-		return predicate.downCastedList(lexical().ancestors());
-	}
-
 	@Override
    public <T extends Language> T language(Class<T> kind) {
 		if(kind == null) {
@@ -656,7 +645,7 @@ public abstract class ElementImpl implements Element {
 			}
 		}
 	 }
-	 
+
 	 /**
 	 * {@inheritDoc}
 	 */
@@ -665,16 +654,19 @@ public abstract class ElementImpl implements Element {
 		 return new PropertySet<>(internalProperties());
 	 }
 
-	 public PropertySet<Element,ChameleonProperty> internalProperties() {
-		 if(_properties == null) {
+	/**
+	 * Return the internal properties of this element. 
+	 * 
+	 * @return The union of the explicit and default properties of this element.
+	 */
+	protected PropertySet<Element,ChameleonProperty> internalProperties() {
+	  if(_properties == null) {
 			 _properties = explicitProperties();
 			 _properties.addAll(defaultProperties(_properties));
 		 }
 		 return _properties;
 	 }
 
-	 private PropertySet<Element,ChameleonProperty> _properties;
-	 
 	/**
 	 * Return the set of explicit properties of this element. 
 	 * @return A property set for the explicitly declared properties
@@ -689,17 +681,23 @@ public abstract class ElementImpl implements Element {
    @*/
 	protected PropertySet<Element, ChameleonProperty> explicitProperties() {
 		PropertySet<Element,ChameleonProperty> result = declaredProperties();
-		 result.addAll(inherentProperties());
+		result.addAll(inherentProperties());
 		return result;
 	}
 
-	 /**
-	 * {@inheritDoc}
-	 */
-	@Override
-   public PropertySet<Element,ChameleonProperty> defaultProperties() {
-		 return defaultProperties(explicitProperties());
-	 }
+  /**
+   * Return the default properties of this element. A default property
+   * is a property that an element has when no inherent or explicitly
+   * defined property contradicts that property.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
+  public PropertySet<Element,ChameleonProperty> defaultProperties() {
+	  return defaultProperties(explicitProperties());
+  }
 
 	 /**
 	 * @param explicit The set of explicitly declared properties
@@ -707,24 +705,28 @@ public abstract class ElementImpl implements Element {
 	 *         the explicitly declared properties.
 	 */
 	protected PropertySet<Element,ChameleonProperty> defaultProperties(PropertySet<Element,ChameleonProperty> explicit) {
-		 return language().defaultProperties(this,explicit);
-	 }
+	  return language().defaultProperties(this,explicit);
+	}
 
-	 /**
+  /**
+   * Return a the properties that are inherent to this element.
+   */
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
+  public PropertySet<Element,ChameleonProperty> inherentProperties() {
+	  return new PropertySet<Element,ChameleonProperty>();
+  }
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-   public PropertySet<Element,ChameleonProperty> inherentProperties() {
-		 return new PropertySet<Element,ChameleonProperty>();
-	 }
-
-	 /**
-	 * {@inheritDoc}
-	 */
-	@Override
-   public boolean isTrue(ChameleonProperty property) {
-		 return is(property) == Ternary.TRUE;
-	 }
+  public boolean isTrue(ChameleonProperty property) {
+	  return is(property) == Ternary.TRUE;
+	}
 
 	 /**
 	 * {@inheritDoc}
@@ -742,49 +744,55 @@ public abstract class ElementImpl implements Element {
 		 return is(property) == Ternary.UNKNOWN;
 	 }
 
-	 /**
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-   public synchronized Ternary is(ChameleonProperty property) {
-		 Ternary result = null;
-		 if(Config.cacheElementProperties()) {
-			 if(_propertyCache != null) {
-				 result = _propertyCache.get(property);
-			 }
-		 }
-		 if(result == null){
-			 result = property.appliesTo(this);
-			 if(result == Ternary.UNKNOWN) {
-				 // Check if the properties() set implies the given property.
-				 result = internalProperties().implies(property);
-				 if(Config.cacheElementProperties()) {
-					 if(_propertyCache == null) {
-						 _propertyCache = new HashMap<ChameleonProperty,Ternary>();
-					 }
-					 _propertyCache.put(property, result);
-				 }
-			 } else {
-				 if(Config.cacheElementProperties()) {
-					 if(_propertyCache == null) {
-						 _propertyCache = new HashMap<ChameleonProperty,Ternary>();
-					 }
-					 _propertyCache.put(property, result);
-				 }
-			 }
-		 }
-		 return result;
-	 }
+	public synchronized Ternary is(ChameleonProperty property) {
+		Ternary result = null;
+		if (_propertyCache != null) {
+			result = _propertyCache.get(property);
+		}
+		if (result == null) {
+			result = property.appliesTo(this);
+			if (result == Ternary.UNKNOWN) {
+				// Check if the properties() set implies the given property.
+				result = internalProperties().implies(property);
+			} 
+			if (_propertyCache == null) {
+				_propertyCache = new HashMap<ChameleonProperty, Ternary>();
+			}
+			_propertyCache.put(property, result);
+		}
+		return result;
+	}
 
 	 private HashMap<ChameleonProperty,Ternary> _propertyCache;
 
-	 /**
-	 * {@inheritDoc}
-	 */
-	@Override
-   public ChameleonProperty property(final PropertyMutex<ChameleonProperty> mutex) throws ModelException {
-		 return property(property -> mutex != null && mutex.equals(property.mutex()));
-	 }
+	/**
+	 * Return the property of this element for the given property mutex. The property mutex
+	 * can be seen as the family of properties that a property belongs to. An example of a
+	 * property mutex is accessibility.
+	 * 
+	 * @param mutex
+	 * @throws LookupException 
+   */
+ /*@
+	 @ public behavior
+	 @
+   @ pre mutex != null;
+   @
+   @ post properties().contains(\result);
+   @ post \result.mutex() == mutex;
+   @ post (\num_of Property p; properties().contains(p);
+   @       p.mutex() == mutex) == 1;
+   @
+   @ signals ModelException (\num_of Property p; properties().contains(p);
+   @       p.mutex() == mutex) != 1; 
+   @*/
+  public ChameleonProperty property(final PropertyMutex<ChameleonProperty> mutex) throws ModelException {
+	  return property(property -> mutex != null && mutex.equals(property.mutex()));
+	}
 	 
    /**
     * Return the property that satisfies the given predicate.
@@ -818,14 +826,6 @@ public abstract class ElementImpl implements Element {
       }
    }
 
-	 /**
-	 * {@inheritDoc}
-	 */
-	@Override
-   public boolean hasProperty(PropertyMutex<ChameleonProperty> mutex) throws ModelException {
-		 return internalProperties().hasPropertyFor(mutex);
-	 }
-
 	 /*@
       @ public behavior
       @
@@ -851,7 +851,7 @@ public abstract class ElementImpl implements Element {
 	  @ post (\forall Element e; \old(this.contains(e)); e.disconnected());
 	  @*/
    protected void disconnectChildren() {
-		 for(Element child:children()) {
+		 for(Element child: lexical().children()) {
 			 if(child != null) {
 				 child.disconnect();
 			 } else {
@@ -882,7 +882,7 @@ public abstract class ElementImpl implements Element {
 			 }
 			 result = result.and(verifyProperties());
 			 result = result.and(verifyLoops());
-			 for(Element element:children()) {
+			 for(Element element: lexical().children()) {
 				 result = result.and(element.verify());
 			 }
 			 result = result.and(verifyAssociations());
@@ -894,18 +894,48 @@ public abstract class ElementImpl implements Element {
 		 }
 	 }
 	
-	/**
-	 * Verify this element without verifying the descendants.
-	 * The verification of this element can use information of descendants
-	 * or the fact that they are missing.
-	 *  
-	 * @return The result is not null.
-	 */
+  /**
+   * <p>Perform a local verification.</p>
+   * 
+   * <p>The check for a loop in the lexical structure is already implemented in
+   * {@link #verifySelf()}, which is called in {@link #verify()}. 
+   * The checks to verify that all properties of this element actually apply to it 
+   * and that there are no conflicting properties are both implemented in 
+   * verifyProperties(), which is also called in verify().
+   * 
+   * @return A verification object that indicates whether or not this is valid,
+   *         and if not, what the problems are. The result does <b>not</b>
+   *         include the problems found in the descendants. It only performs a
+   *         local check.
+   */
  /*@
+   @ public behavior
+   @
    @ post \result != null;
    @*/
   protected Verification verifySelf() {
     return Valid.create();
+  }
+
+  /**
+   * <p>Verify that there are no loops in the lexical structure.</p>
+   * 
+   * <p>FIXME: Now that the associations are computed automatically and
+   * are all bidirectional, this verification seems unnecessary.</p>
+   * 
+   * @return If there is a loop in the lexical structure, a problem is reported.
+   *         Otherwise a valid result is returned.
+   */
+  protected Verification verifyLoops() {
+    Verification result = Valid.create();
+    Element e = parent();
+    while(e != null) {
+      if(e == this) {
+        result = result.and(new BasicProblem(this, "There is a loop in the lexical structure. This element is an ancestor of itself."));
+      }
+      e = e.lexical().parent();
+    }
+    return result;
   }
 
   /**
@@ -949,16 +979,19 @@ public abstract class ElementImpl implements Element {
 	  *
 	  * @param <N> The exception that can be thrown while navigating the tree.
 	  */
-	 public static abstract class Navigator<N extends Exception> extends TreeStructure<Element, N> {
+	 public abstract class Navigator<N extends Exception> extends TreeStructure<Element, N> {
 
-	   /**
+     public ElementImpl node() {
+       return ElementImpl.this;
+     }
+   /**
 	    * {@inheritDoc}
 	    * 
 	    * @return the parent of the given element.
 	    */
 	   @Override
 	   public Element parent() {
-	     return ((ElementImpl) node()).actualParent();
+	     return node().actualParent();
 	   }
 
 	   /**
@@ -972,19 +1005,12 @@ public abstract class ElementImpl implements Element {
 	   }
 	 }	
 	 
-	 protected abstract class CommonNavigator<N extends Exception> extends Navigator<N> {
-     @Override
-     public Element node() {
-       return ElementImpl.this;
-     }
-	 }
-	 
   /**
    * A tree structure for the main logical structure of the model.
    * 
    * @author Marko van Dooren
    */
-  public class LogicalNavigator extends CommonNavigator<LookupException> {
+  public class LogicalNavigator extends Navigator<LookupException> {
 
     /**
      * {@inheritDoc}
@@ -992,7 +1018,7 @@ public abstract class ElementImpl implements Element {
      * @return The {@link Element#logical()} tree structure of the element.
      */
     @Override
-    public Navigator tree(Element element) {
+    public Navigator<LookupException> tree(Element element) {
       return element.logical();
     }
 
@@ -1003,7 +1029,7 @@ public abstract class ElementImpl implements Element {
    * 
    * @author Marko van Dooren
    */
-  public class LexicalNavigator extends CommonNavigator<Nothing> {
+  public class LexicalNavigator extends Navigator<Nothing> {
 
     /**
      * {@inheritDoc}
@@ -1011,7 +1037,7 @@ public abstract class ElementImpl implements Element {
      * @return The {@link Element#logical()} tree structure of the element.
      */
     @Override
-    public Navigator tree(Element element) {
+    public Navigator<Nothing> tree(Element element) {
       return element.lexical();
     }
   }
@@ -1096,19 +1122,19 @@ public abstract class ElementImpl implements Element {
 	  * @param association The association end to which the element must be added.
 	  * @param element The element that must be added to the association end.
 	  */
-	 /*@
-     @ public behavior
-     @
-     @ pre association != null;
-     @ pre element != null;
-     @
-     @ post association.getOtherRelations().contains(element.parentLink());
-     @*/
-	 protected <E extends Element> void add(OrderedMultiAssociation<? extends Element,? super E> association, E element) {
-		 if(element != null) {
-			 association.add((Association)element.parentLink());
-		 }
-	 }
+	/*@
+    @ public behavior
+    @
+    @ pre association != null;
+    @ pre element != null;
+    @
+    @ post association.getOtherRelations().contains(element.parentLink());
+    @*/
+	protected <E extends Element> void add(OrderedMultiAssociation<? extends Element, ? super E> association, E element) {
+		if (element != null) {
+			association.add((Association) element.parentLink());
+		}
+	}
 
 	 /**
 	  * Remove the given element from the given association end.
@@ -1116,20 +1142,19 @@ public abstract class ElementImpl implements Element {
 	  * @param association The association end to which the element must be removed.
 	  * @param element The element that must be removed to the association end.
 	  */
-	 /*@
-     @ public behavior
-     @
-     @ pre association != null;
-     @ pre element != null;
-     @
-     @ post !association.getOtherRelations().contains(element.parentLink());
-     @*/
-	 protected <E extends Element> void remove(OrderedMultiAssociation<? extends Element,E> association, E element) {
-		 if(element != null) {
-			 association.remove((Association)element.parentLink());
-		 }
-	 }
-
+  /*@
+    @ public behavior
+    @
+    @ pre association != null;
+    @ pre element != null;
+    @
+    @ post !association.getOtherRelations().contains(element.parentLink());
+    @*/
+	protected <E extends Element> void remove(OrderedMultiAssociation<? extends Element,E> association, E element) {
+	  if(element != null) {
+		  association.remove((Association)element.parentLink());
+		}
+	}
 
    /**
     * {@inheritDoc}
@@ -1153,10 +1178,6 @@ public abstract class ElementImpl implements Element {
       return super.hashCode();
    }
    
-   protected final int nativeHashCode() {
-  	 return super.hashCode();
-   }
-
    /**
     * {@inheritDoc}
     */
@@ -1184,7 +1205,7 @@ public abstract class ElementImpl implements Element {
    @Override
    public void flushCache() {
       flushLocalCache();
-      for (Element child : children()) {
+      for (Element child : lexical().children()) {
          if (child != null) {
             child.flushCache();
          } else {
@@ -1198,24 +1219,10 @@ public abstract class ElementImpl implements Element {
     * Flush language cache and property cache.
     */
    protected synchronized void flushLocalCache() {
-//     _languageCache = null;
      _viewCache = null;
      _propertyCache = null;
      _properties = null;
    }
-
-//   /**
-//    * {@inheritDoc}
-//    */
-//   @Override
-//   public Namespace namespace() {
-//     Element parent = parent();
-//     if (parent != null) {
-//        return parent.namespace();
-//     } else {
-//        return null;
-//     }
-//   }
 
    /**
     * Create a new event for the given change in the given source element.
@@ -1239,6 +1246,9 @@ public abstract class ElementImpl implements Element {
      return createEvent(change,this);
    }
    
+   /**
+    * {@inheritDoc}
+    */
    public ElementEventStreamCollection when() {
      if(_eventManager == null) {
        _eventManager = new ElementEventStreamCollection() {

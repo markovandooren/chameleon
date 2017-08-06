@@ -1,10 +1,10 @@
 package org.aikodi.chameleon.test;
 
-import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.aikodi.chameleon.core.Config;
+import java.io.File;
+
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.test.provider.BasicDescendantProvider;
 import org.aikodi.chameleon.test.provider.BasicNamespaceProvider;
@@ -13,7 +13,6 @@ import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.ProjectException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Before;
 import org.junit.Test;
 
 public abstract class CompositeTest {
@@ -21,11 +20,6 @@ public abstract class CompositeTest {
 	public final static String LoggerName = "org.aikodi.chameleon.test";
 	public final static Logger Logger = LogManager.getLogger(LoggerName);
 	
-	@Before
-	public void setCaching() {
-	  Config.setCaching(true);
-	}
-
 	protected abstract ExecutorService threadPool();
 	
 //	/**

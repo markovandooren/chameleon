@@ -67,7 +67,7 @@ public abstract class ThreePhaseCoordinator<T extends Element> extends AbstractC
 		if(parameterTree instanceof ParameterExposurePointcutExpression  &&  predicate.eval((ParameterExposurePointcutExpression) parameterTree)) {
 			return (ParameterExposurePointcutExpression<?>) parameterTree;
 		}
-		List<ParameterExposurePointcutExpression> descendants = parameterTree.origin().descendants(ParameterExposurePointcutExpression.class, predicate);
+		List<ParameterExposurePointcutExpression> descendants = parameterTree.origin().lexical().descendants(ParameterExposurePointcutExpression.class, predicate);
 		if(descendants.isEmpty()) {
 			return null;
 		} else {

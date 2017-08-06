@@ -8,7 +8,7 @@ import org.aikodi.chameleon.core.lookup.LookupException;
  * 
  * @author Marko van Dooren
  */
-public class SimpleNameSignature extends SignatureWithName {
+public class Name extends SignatureWithName {
 
    /**
     * Create a new name signature with the given name.
@@ -20,7 +20,7 @@ public class SimpleNameSignature extends SignatureWithName {
     @
     @ post name().equals(name);
     @*/
-   public SimpleNameSignature(String name) {
+   public Name(String name) {
       super(name);
    }
 
@@ -33,8 +33,8 @@ public class SimpleNameSignature extends SignatureWithName {
    @Override
    public boolean uniSameAs(Element other) throws LookupException {
       boolean result = false;
-      if (other instanceof SimpleNameSignature) {
-         SimpleNameSignature sig = (SimpleNameSignature) other;
+      if (other instanceof Name) {
+         Name sig = (Name) other;
          String name = name();
          result = name != null && name.equals(sig.name());
       }
@@ -42,8 +42,8 @@ public class SimpleNameSignature extends SignatureWithName {
    }
 
    @Override
-   public SimpleNameSignature cloneSelf() {
-      return new SimpleNameSignature(name());
+   public Name cloneSelf() {
+      return new Name(name());
    }
 
    /**

@@ -6,8 +6,9 @@ import java.util.stream.Collectors;
 import org.aikodi.chameleon.analysis.Result;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.action.UniversalConsumer;
 import org.aikodi.rejuse.collection.CollectionOperations;
+import org.aikodi.rejuse.function.Consumer;
 import org.aikodi.rejuse.graph.Edge;
 import org.aikodi.rejuse.graph.Graph;
 import org.aikodi.rejuse.graph.Node;
@@ -49,7 +50,7 @@ public class DependencyResult extends Result<DependencyResult> {
 	  return _dependencyGraph;
 	}
 	
-	public <X extends Exception> void traverse(Action<? super Element, ? extends X> nodeAction, Action<? super Edge<Element>,? extends X> edgeAction) throws X {
+	public <X extends Exception> void traverse(Consumer<? super Element, ? extends X> nodeAction, Consumer<? super Edge<Element>,? extends X> edgeAction) throws X {
 		_dependencyGraph.traverseAll(nodeAction, edgeAction);
 	}
 	

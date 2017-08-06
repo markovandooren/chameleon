@@ -3,17 +3,12 @@ package org.aikodi.chameleon.core.namespace;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.BasicDeclaration;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.chameleon.core.element.ElementImpl.LogicalNavigator;
-import org.aikodi.chameleon.core.element.ElementImpl.Navigator;
 import org.aikodi.chameleon.core.event.association.ParentRemoved;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
@@ -379,16 +374,12 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
     List<? extends SelectionResult<D>> result;
     if(selector.usesSelectionName()) {
       List<Declaration> list = null;
-      String selectionName = selector.selectionName(this);
-      if(Config.cacheDeclarations()) {
-        synchronized(this) {
-          initDirectCache();
-          list = searchDeclarations(selectionName);
-        }
-      } else {
-        list = declarations();
-      }
-      if(list == null) {
+			String selectionName = selector.selectionName(this);
+			synchronized (this) {
+				initDirectCache();
+				list = searchDeclarations(selectionName);
+			}
+			if (list == null) {
         list = Collections.EMPTY_LIST;
       }
       result = selector.selection(Collections.unmodifiableList(list));

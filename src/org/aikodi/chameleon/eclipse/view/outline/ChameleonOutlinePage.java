@@ -306,8 +306,8 @@ public class ChameleonOutlinePage extends ContentOutlinePage {
 	private Element getTreeRootElement() {
 		Element result = getEditor().getDocument().document();
 		// if we don't want to show the root, and the root has one valid child, get this as root element
-		if(!_showRoot && result!=null && result.children()!=null && result.children().size()==1) {
-			result = result.children().iterator().next();
+		if(!_showRoot && result!=null && result.lexical().children()!=null && result.lexical().children().size()==1) {
+			result = result.lexical().children().iterator().next();
 		}
 		return result;
 	}

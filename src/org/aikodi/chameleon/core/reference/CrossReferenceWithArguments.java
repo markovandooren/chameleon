@@ -4,7 +4,6 @@ import java.util.List;
 
 import java.lang.ref.SoftReference;
 
-import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.DeclarationCollector;
@@ -198,21 +197,11 @@ public class CrossReferenceWithArguments extends ElementImpl {
 	}
 
 	public Declaration getCache() {
-		Declaration result = null;
-		if (Config.cacheElementReferences() == true) {
-			result = (_cache == null ? null : _cache.get());
-		}
-		return result;
+		return (_cache == null ? null : _cache.get());
 	}
 
 	public void setCache(Declaration value) {
-		// if(! value.isDerived()) {
-		if (Config.cacheElementReferences() == true) {
-			_cache = new SoftReference<Declaration>(value);
-		}
-		// } else {
-		// _cache = null;
-		// }
+		_cache = new SoftReference<Declaration>(value);
 	}
 
 	/**

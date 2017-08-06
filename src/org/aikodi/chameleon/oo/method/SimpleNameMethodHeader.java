@@ -2,7 +2,6 @@ package org.aikodi.chameleon.oo.method;
 
 import java.util.List;
 
-import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.Signature;
 import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.validation.BasicProblem;
@@ -57,13 +56,7 @@ public class SimpleNameMethodHeader extends MethodHeader {
 
   @Override
   public SignatureWithParameters signature() {
-    SignatureWithParameters result;
-    boolean cacheSignatures = Config.cacheSignatures();
-    if(cacheSignatures) {
-      result = _signatureCache;
-    } else {
-      result = null;
-    }
+    SignatureWithParameters result = _signatureCache;
     if(result == null) {
       result = new SignatureWithParameters(getName()) {
         @Override
@@ -76,9 +69,7 @@ public class SimpleNameMethodHeader extends MethodHeader {
       for(FormalParameter param: formalParameters()) {
         result.add(clone(param.getTypeReference()));
       }
-      if(cacheSignatures) {
-        _signatureCache = result;
-      }
+			_signatureCache = result;
     }
     return result;
   }

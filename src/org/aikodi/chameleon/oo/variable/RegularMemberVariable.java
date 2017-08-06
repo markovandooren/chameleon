@@ -48,7 +48,7 @@ public class RegularMemberVariable extends RegularVariable {
       if (other instanceof RegularMemberVariable) {
          RegularMemberVariable var = (RegularMemberVariable) other;
          Element parent = parent();
-         Element otherParent = other.parent();
+         Element otherParent = other.lexical().parent();
          return (parent != null && otherParent != null && otherParent.equals(parent) && sameSignatureAs(var));
       } else {
          return false;

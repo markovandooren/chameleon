@@ -12,6 +12,7 @@ import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.language.LanguageImpl;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
+import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiers;
@@ -26,7 +27,7 @@ import org.aikodi.chameleon.oo.member.DeclarationComparator;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.Util;
 import org.aikodi.chameleon.util.exception.Handler;
-import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.action.UniversalConsumer;
 
 /**
  * <p>
@@ -70,7 +71,7 @@ SelectionResult <|-- Declaration
 Declaration -- Signature
 @enduml
  */
-public interface Declaration extends Element, SelectionResult, DeclarationContainer, ElementWithModifiers, Declarator {//
+public interface Declaration extends Element, SelectionResult<Declaration>, DeclarationContainer, ElementWithModifiers, Declarator {//
 
   /**
    * @return the signature of this declaration. The signature represents the identity of this declaration.
@@ -195,17 +196,8 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
    @
    @ post \result != null;
    @*/
-  public default Scope scope() throws ModelException {
-    Scope result = null;
-    ChameleonProperty scopeProperty = property(language().SCOPE_MUTEX());
-    if(scopeProperty instanceof ScopeProperty) {
-      result = ((ScopeProperty)scopeProperty).scope(this);
-    } else if(scopeProperty != null){
-      throw new ChameleonProgrammerException("Scope property is not a ScopeProperty");
-    }
-    return result;
-  }
- 
+  public Scope scope() throws ModelException;
+  
   /**
    * <p>Check whether this declaration is complete (whether all necessary elements
    * are present). A complete declaration <b>can</b> be non-abstract or
@@ -291,18 +283,14 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
    @*/
   public default <E extends Exception> List<CrossReference<?>> findAllReferences(Handler<E> handler) throws E {
      List<CrossReference<?>> result = new ArrayList<>();
-     root().apply(new Action<CrossReference, E>(CrossReference.class) {
-
-        @Override
-        protected void doPerform(CrossReference crossReference) throws E {
-           try {
+     namespace().defaultNamespace().lexical().apply(CrossReference.class, crossReference ->  {
+    	     try {
               if(crossReference.getElement().sameAs(Declaration.this)) {
                 result.add(crossReference); 
               }
            } catch (LookupException e) {
               handler.handle(e);
            };
-        }
      });
      return result;
   }
@@ -323,8 +311,16 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
     return finalDeclaration();
   }
 
+  /**
+   * {@inheritDoc}
+   * 
+   * By default, this returns the given declaration.
+   */
   @Override
-  public default SelectionResult updatedTo(Declaration declaration) {
+  public default SelectionResult<Declaration> updatedTo(Declaration declaration) {
+  	if (declaration == null) {
+  		throw new IllegalArgumentException("The declaration cannot be null.");
+  	}
     return declaration;
   }
 
@@ -452,7 +448,7 @@ public interface Declaration extends Element, SelectionResult, DeclarationContai
   /**
    * Return a relation that determines when a given declaration overrides another one.
    * 
-   * FIXME: this may have to be be redirected to the language.
+   * FIXME: this may have to be redirected to the language.
    * @return
    */
 	public default DeclarationRelation overridesRelation() {

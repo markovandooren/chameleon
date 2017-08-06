@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.declaration.Declarator;
@@ -105,13 +104,9 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 	public <D extends Declaration> List<? extends SelectionResult> members(DeclarationSelector<D> selector) throws LookupException {
 		if(selector.usesSelectionName()) {
 			List<? extends Declaration> list = null;
-			if(Config.cacheDeclarations()) {
-				ensureLocalCache();
-				synchronized(this) {
-				  list = _declarationCache.get(selector.selectionName(this));
-				}
-			} else {
-				list = members();
+			ensureLocalCache();
+			synchronized(this) {
+			  list = _declarationCache.get(selector.selectionName(this));
 			}
 			if(list == null) {
 				list = Collections.EMPTY_LIST;

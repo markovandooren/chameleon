@@ -7,7 +7,7 @@ import java.util.Set;
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.namespace.Namespace;
-import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.action.UniversalConsumer;
 import org.aikodi.rejuse.association.AssociationListener;
 import org.aikodi.rejuse.association.OrderedMultiAssociation;
 import org.aikodi.rejuse.association.SingleAssociation;
@@ -234,14 +234,14 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
 	private List<Document> _documentsCache;
 
 	@Override
-	public <E extends Exception> void apply(Action<? extends Element, E> action) throws E, InputException {
+	public <E extends Exception> void apply(UniversalConsumer<? extends Element, E> action) throws E, InputException {
 		for(Document document: documents()) {
-			document.apply(action);
+			document.lexical().apply(action);
 		}
 	}
 
     @Override
-    public <E extends Exception> void applyToLoaders(Action<DocumentLoader, E> action) throws E {
+    public <E extends Exception> void applyToLoaders(UniversalConsumer<DocumentLoader, E> action) throws E {
         for(DocumentLoader loader: documentLoaders()) {
             action.perform(loader);
         }
@@ -337,8 +337,8 @@ public abstract class DocumentScannerImpl implements DocumentScanner {
 			Namespace namespace = source.namespace();
 			boolean added = false;
 			while(! added) { 
-				if(namespace.parent() != null && (namespace.parent().parent() != null)) { 
-					namespace = (Namespace) namespace.parent();
+				if(namespace.lexical().parent() != null && (namespace.lexical().parent().lexical().parent() != null)) { 
+					namespace = (Namespace) namespace.lexical().parent();
 				} else {
 					added = true;
 					builder.add(namespace);

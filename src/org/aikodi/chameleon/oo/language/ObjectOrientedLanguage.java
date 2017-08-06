@@ -231,20 +231,20 @@ public abstract class ObjectOrientedLanguage extends LanguageImpl {
    */
 	public void replace(TypeReference replacement, final Declaration declarator, TypeReference in) throws LookupException {
 		Predicate<TypeReference, LookupException> predicate = type -> type.getDeclarator().sameAs(declarator);
-    List<TypeReference> crefs = in.descendants(TypeReference.class,predicate);
+    List<TypeReference> crefs = in.lexical().descendants(TypeReference.class,predicate);
 		if(predicate.eval(in)) {
 			crefs.add(in);
 		}
 		for(TypeReference cref: crefs) {
 			TypeReference clonedReplacement = Util.clone(replacement);
-			TypeReference substitute = createNonLocalTypeReference(clonedReplacement, replacement.parent());
+			TypeReference substitute = createNonLocalTypeReference(clonedReplacement, replacement.lexical().parent());
 			SingleAssociation crefParentLink = cref.parentLink();
 			crefParentLink.getOtherRelation().replace(crefParentLink, substitute.parentLink());
 		}
 	}
 	
 	public TypeReference createNonLocalTypeReference(TypeReference tref) {
-		return createNonLocalTypeReference(tref, tref.parent());
+		return createNonLocalTypeReference(tref, tref.lexical().parent());
 	}
 
 	public abstract TypeReference createNonLocalTypeReference(TypeReference tref, Element lookupParent);

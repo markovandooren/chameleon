@@ -19,7 +19,7 @@ public abstract class TypeIndirection extends ClassImpl {
 		super(name);
 		_aliasedType = aliasedType;
 		if(aliasedType != null) {
-		  setUniParent(aliasedType.parent());
+		  setUniParent(aliasedType.lexical().parent());
 		}
 	}
 	
@@ -80,40 +80,13 @@ public abstract class TypeIndirection extends ClassImpl {
 		return indirectionTarget().nonMemberInheritanceRelations();
 	}
 	
-	//TODO I am not sure if these definitions are appropriate for a constructed type.
-  @Override
-public PropertySet<Element,ChameleonProperty> defaultProperties() {
-    return filterProperties(myDefaultProperties(), indirectionTarget().defaultProperties());
-  }
-	
-	/**
-	 * Return the default properties for this element.
-	 * @return
-	 */
-	protected PropertySet<Element,ChameleonProperty> myDefaultProperties() {
-		return language().defaultProperties(this,explicitProperties());
-	}
-
-	protected PropertySet<Element,ChameleonProperty> myInherentProperties() {
-		return new PropertySet<Element,ChameleonProperty>();
+	@Override
+	public PropertySet<Element, ChameleonProperty> properties() {
+		return indirectionTarget().properties();
 	}
 
   @Override
-public PropertySet<Element,ChameleonProperty> inherentProperties() {
-    return filterProperties(myInherentProperties(), indirectionTarget().inherentProperties());
-  }
-
-  @Override
-public PropertySet<Element,ChameleonProperty> declaredProperties() {
-    return filterProperties(myDeclaredProperties(), indirectionTarget().declaredProperties());
-  }
-  
-  public PropertySet<Element,ChameleonProperty> myDeclaredProperties() {
-  	return super.declaredProperties();
-  }
-
-  @Override
-public void replace(Declarator oldElement, Declarator newElement) {
+  public void replace(Declarator oldElement, Declarator newElement) {
 		throw new ChameleonProgrammerException("Trying to replace an element in a type alias.");
   }
   

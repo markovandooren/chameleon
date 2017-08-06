@@ -1,11 +1,11 @@
 package org.aikodi.chameleon.eclipse;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.aikodi.chameleon.core.Config;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.aikodi.chameleon.core.language.Language;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.MessageBox;
@@ -54,7 +54,6 @@ public class ChameleonEditorPlugin extends AbstractUIPlugin {
 	public ChameleonEditorPlugin() {
 		super();
 		plugin = this;
-    Config.setCaching(true);
 	}
 
 	/**

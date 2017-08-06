@@ -33,7 +33,7 @@ public class ModelContentProvider implements ITreeContentProvider {
    public Object[] getChildren(Object parentElement) {
 		if(parentElement instanceof Element){
 			Element elem = (Element)parentElement;
-			return elem.children().toArray();
+			return elem.lexical().children().toArray();
 		}
 		return null;
 	}
@@ -42,7 +42,7 @@ public class ModelContentProvider implements ITreeContentProvider {
    public Object getParent(Object element) {
 		if(element instanceof Element){
 			Element elem = (Element)element;
-			return elem.parent();
+			return elem.lexical().parent();
 		}
 		return null;
 	}
@@ -51,7 +51,7 @@ public class ModelContentProvider implements ITreeContentProvider {
    public boolean hasChildren(Object element) {
 		if(element instanceof Element){
 			Element elem = (Element)element;
-			return ! elem.children().isEmpty();
+			return ! elem.lexical().children().isEmpty();
 		}
 		return false;
 	}

@@ -47,7 +47,7 @@ public class PredicateDescendantProvider<E extends Element> extends AbstractDesc
 		Class<E> cls = elementType();
 		SafePredicate<E> predicate = predicate();
 		for(Element element: ancestorProvider().elements(project)) {
-			result.addAll(element.descendants(cls, predicate));
+			result.addAll(element.lexical().descendants(cls, predicate));
 		}
 		return result;
 	}

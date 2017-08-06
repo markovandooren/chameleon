@@ -21,7 +21,7 @@ import org.aikodi.chameleon.plugin.ViewPlugin;
 import org.aikodi.chameleon.plugin.ViewProcessor;
 import org.aikodi.chameleon.util.Handler;
 import org.aikodi.chameleon.workspace.DocumentScannerImpl.TunnelException;
-import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.action.UniversalConsumer;
 import org.aikodi.rejuse.association.Association;
 import org.aikodi.rejuse.association.AssociationListener;
 import org.aikodi.rejuse.association.OrderedMultiAssociation;
@@ -651,7 +651,7 @@ public class View extends PluginContainerImpl<ViewPlugin>
 	 * @throws InputException An exception was thrown while attempting to
 	 *                        load a document.
 	 */
-	public <E extends Exception> void applyToSource(Action<? extends Element, E> action) throws E, InputException {
+	public <E extends Exception> void applyToSource(UniversalConsumer<? extends Element, E> action) throws E, InputException {
 		for(DocumentScanner scanner:sourceScanners()) {
 			scanner.apply(action);
 		}
@@ -665,7 +665,7 @@ public class View extends PluginContainerImpl<ViewPlugin>
      * @throws InputException An exception was thrown while attempting to
      *                        load a document.
      */
-    public <E extends Exception> void applyToSourceLoaders(Action<DocumentLoader, E> action) throws E {
+    public <E extends Exception> void applyToSourceLoaders(UniversalConsumer<DocumentLoader, E> action) throws E {
         for(DocumentScanner scanner:sourceScanners()) {
             scanner.applyToLoaders(action);
         }
@@ -676,7 +676,7 @@ public class View extends PluginContainerImpl<ViewPlugin>
 	  for(DocumentScanner scanner:sourceScanners()) {
 	    List<Document> stream = scanner.documents();
         for(Document document: stream) {
-          result.addAll(document.descendants(kind, predicate));
+          result.addAll(document.lexical().descendants(kind, predicate));
         }
 	  }
 	  return result;

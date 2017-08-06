@@ -8,7 +8,7 @@ import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.input.ParseException;
-import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.action.UniversalConsumer;
 import org.aikodi.rejuse.association.SingleAssociation;
 
 /**
@@ -163,9 +163,9 @@ public interface DocumentScanner extends Comparable<DocumentScanner> {
 	 * @throws E
 	 * @throws InputException 
 	 */
-	public <E extends Exception> void apply(Action<? extends Element, E> action) throws E, InputException;
+	public <E extends Exception> void apply(UniversalConsumer<? extends Element, E> action) throws E, InputException;
 	
-    public <E extends Exception> void applyToLoaders(Action<DocumentLoader, E> action) throws E;
+    public <E extends Exception> void applyToLoaders(UniversalConsumer<DocumentLoader, E> action) throws E;
 
 	/**
 	 * Return the namespaces that are populated by this document scanner.

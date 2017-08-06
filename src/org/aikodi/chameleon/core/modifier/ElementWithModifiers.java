@@ -88,16 +88,7 @@ public interface ElementWithModifiers extends Element {
    @                                        : propery.mutex() == mutex)
    @             : \result.contains(modifier));
    @*/
-	public default List<Modifier> modifiers(PropertyMutex<ChameleonProperty> mutex) throws ModelException {
-    ChameleonProperty property = property(mutex);
-    List<Modifier> result = Lists.create();
-    for (Modifier mod : modifiers()) {
-      if (mod.impliesTrue(property)) {
-        result.add(mod);
-      }
-    }
-    return result;
-	}
+	public List<Modifier> modifiers(PropertyMutex<ChameleonProperty> mutex) throws ModelException;
 	
 	/**
 	 * Return all modifiers that imply the given property.

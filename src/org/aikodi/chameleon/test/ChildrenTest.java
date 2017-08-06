@@ -106,7 +106,7 @@ public class ChildrenTest extends ModelTest {
 		String msg = "element type:"+element.getClass().getName();
 		
 		Set<Element> children = new HashSet<Element>();
-		children.addAll(element.children());
+		children.addAll(element.lexical().children());
 		
 		assertNotNull(msg,children);
 		assertFalse(msg,children.contains(null));

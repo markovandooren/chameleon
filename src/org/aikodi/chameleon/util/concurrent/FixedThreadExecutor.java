@@ -3,8 +3,6 @@ package org.aikodi.chameleon.util.concurrent;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.aikodi.chameleon.core.Config;
-
 public class FixedThreadExecutor {
 
 	public FixedThreadExecutor(ExecutorService executor) {
@@ -19,12 +17,7 @@ public class FixedThreadExecutor {
 	private int _availableProcessors;
 
 	public int availableProcessors() {
-		boolean singleThreaded = Config.singleThreaded();
-		if(singleThreaded) {
-			return 1;
-		} else {
-			return _availableProcessors;
-		}
+		return _availableProcessors;
 	}
 
 	private ExecutorService _executor;

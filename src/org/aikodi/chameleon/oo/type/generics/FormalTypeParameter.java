@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.aikodi.chameleon.core.declaration.SimpleNameSignature;
+import org.aikodi.chameleon.core.declaration.Name;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
@@ -139,7 +139,7 @@ public class FormalTypeParameter extends TypeParameter implements ElementWithTyp
 
 
 
-	public FormalTypeParameter alias(SimpleNameSignature signature) {
+	public FormalTypeParameter alias(Name signature) {
 		throw new ChameleonProgrammerException();
 	}
 

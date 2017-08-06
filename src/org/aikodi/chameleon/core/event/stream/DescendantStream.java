@@ -7,6 +7,7 @@ import org.aikodi.chameleon.core.event.Event;
 import org.aikodi.chameleon.core.event.EventListener;
 import org.aikodi.chameleon.core.event.association.ChildAdded;
 import org.aikodi.chameleon.core.event.association.ChildRemoved;
+import org.aikodi.rejuse.contract.Contracts;
 
 /**
  * <p>A stream that collects events from all descendants of its {@link #element()}</p>
@@ -19,9 +20,18 @@ import org.aikodi.chameleon.core.event.association.ChildRemoved;
  */
 public class DescendantStream extends AbstractEventStream<Change,Element> implements EventListener<Change,Element> {
 
+	/**
+	 * A call-back listener to register this stream as an event listener to
+	 * children that are added to the element of the event stream collection.
+	 */
   private EventListener<? super ChildAdded, ? super Element> _adder = c -> {
     c.change().element().when().any().call(this);
   };
+
+	/**
+	 * A call-back listener to unregister this stream as an event listener from
+	 * children that are removed from the element of the event stream collection.
+	 */
   private EventListener<? super ChildRemoved, ? super Element> _remover = c -> {
     c.change().element().when().any().stopCalling(this);
   };
@@ -36,15 +46,16 @@ public class DescendantStream extends AbstractEventStream<Change,Element> implem
    * 
    * @param collection The event stream collection of the nearest common 
    *                   ancestor of the elements from which the events must be 
-   *                   propagated.
+   *                   propagated. The collection cannot be null.
    */
   public DescendantStream(ElementEventStreamCollection collection) {
+  	Contracts.notNull(collection, "The event stream collection cannot be null.");
     this._collection = collection;
   }
   
   /**
    * @return The nearest common ancestor of the elements from which the events
-   *         must be propagated.
+   *         must be propagated. The result is not null.
    */
   public Element element() {
     return _collection.element();
@@ -64,7 +75,7 @@ public class DescendantStream extends AbstractEventStream<Change,Element> implem
    */
   @Override
   protected void activate() {
-    element().children().stream().forEach(c -> {
+    element().lexical().children().stream().forEach(c -> {
       c.when().any().call(this);
     });
     _addStream = element().when().self().about(ChildAdded.class);
@@ -84,12 +95,12 @@ public class DescendantStream extends AbstractEventStream<Change,Element> implem
    */
   @Override
   protected void deactivate() {
-    element().children().stream().forEach(c -> {
+    element().lexical().children().stream().forEach(c -> {
       c.when().any().stopCalling(this);
     });
     _addStream.stopCalling(_adder);
     _removeStream.stopCalling(_remover);
-    _collection.deactivateBaseStream(this);
+    _collection.deactivate(this);
   }
 
   /**

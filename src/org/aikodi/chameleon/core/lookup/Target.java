@@ -10,8 +10,6 @@ import org.aikodi.chameleon.core.element.Element;
 
 public interface Target extends Element {
 
-	//FIXME I think this should be a DeclarationContainer
-	
     /**
      * Return the target context of this target.
      *

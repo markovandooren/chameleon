@@ -48,28 +48,10 @@ public class NamespaceAlias extends NamespaceImpl {
 	protected Namespace cloneSelf() {
 		return new NamespaceAlias(null,aliasedNamespace());
 	}
-
-	private PropertySet<Element,ChameleonProperty> myDefaultProperties() {
-		return language().defaultProperties(this,this.explicitProperties());
-	}
-
-  @Override
-public PropertySet<Element,ChameleonProperty> defaultProperties() {
-    return filterProperties(myDefaultProperties(), aliasedNamespace().defaultProperties());
-  }
-
-  @Override
-public PropertySet<Element,ChameleonProperty> declaredProperties() {
-  	return aliasedNamespace().declaredProperties();
-  }
 	
-  @Override
-public PropertySet<Element,ChameleonProperty> inherentProperties() {
-    return filterProperties(myInherentProperties(), aliasedNamespace().inherentProperties());
-  }
-
-	protected PropertySet<Element,ChameleonProperty> myInherentProperties() {
-		return new PropertySet<Element,ChameleonProperty>();
+	@Override
+	public PropertySet<Element, ChameleonProperty> properties() {
+		return aliasedNamespace().properties();
 	}
 
 	@Override

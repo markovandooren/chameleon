@@ -16,7 +16,7 @@ import org.aikodi.chameleon.util.association.Single;
 public abstract class NonLocalTypeReference extends ElementImpl implements TypeReference {
 
 	public NonLocalTypeReference(TypeReference tref) {
-	   this(tref,tref.parent());
+	   this(tref,tref.lexical().parent());
 		}
 		
 		public NonLocalTypeReference(TypeReference tref, Element lookupParent) {

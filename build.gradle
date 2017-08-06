@@ -29,6 +29,11 @@ sourceSets {
             exclude eclipsePlugin
        }
   }
+  test {
+        java {
+            srcDir 'testsrc'
+        }
+  }
   dok {
         java {
             srcDir docSrc

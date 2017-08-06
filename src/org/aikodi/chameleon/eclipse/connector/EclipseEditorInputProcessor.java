@@ -54,7 +54,7 @@ public class EclipseEditorInputProcessor extends ViewProcessorImpl implements In
 	private void setSingleLocation(Element element, int offset, int length, Document document, String tagType) {
 		EclipseDocument doc = document(document);
 		if(doc != null) {
-			Element parent = element.parent();
+			Element parent = element.lexical().parent();
 			// 1. Replace element with stub in the parent
 			// 2. Force the document to be an ancestors of the element
 			// 3. Add metadata
@@ -90,7 +90,7 @@ public class EclipseEditorInputProcessor extends ViewProcessorImpl implements In
 					}
 				}
 			}
-			if(element.parent() != parent) {
+			if(element.lexical().parent() != parent) {
 				throw new ChameleonProgrammerException();
 			}
 		}

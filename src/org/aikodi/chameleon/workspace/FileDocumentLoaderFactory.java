@@ -32,7 +32,7 @@ public class FileDocumentLoaderFactory {
 //		_currentNamespace = (Namespace) _currentNamespace.parent();
 		_namespaceNameStack.removeLast();
 		if(_current != null) {
-			_current = (Namespace) _current.parent();
+			_current = (Namespace) _current.lexical().parent();
 		}
 	}
 

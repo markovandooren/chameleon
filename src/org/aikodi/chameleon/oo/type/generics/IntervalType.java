@@ -172,12 +172,6 @@ public abstract class IntervalType extends ClassImpl {
     }
   }
 
-  //	@Override
-  //	public boolean sameInstanceAs(Type aliasedType, List<Pair<TypeParameter, TypeParameter>> trace)
-  //		throws LookupException {
-  //		return false;
-  //	}
-
   @Override
   public int hashCode() {
     return lowerBound().hashCode()+upperBound().hashCode();
@@ -233,7 +227,7 @@ public abstract class IntervalType extends ClassImpl {
         result = other.lowerBound().subtypeOf(lowerBound(),trace);
       } else {
         ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-        result = lowerBound().sameAs(language.getNullType(root()));
+        result = lowerBound().sameAs(language.getNullType(namespace() == null ? null : namespace().defaultNamespace()));
       }
     }
     return result;

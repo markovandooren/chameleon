@@ -37,7 +37,7 @@ public class Advice<B extends Element> extends ElementWithModifiersImpl {
 	 * Get the Aspect this Advice belongs to
 	 */
 	public Aspect aspect() {
-		return (Aspect) parent();
+		return (Aspect) lexical().parent();
 	}
 
 	//	public PointcutExpression getExpandedPointcutExpression() {

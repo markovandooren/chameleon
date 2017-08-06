@@ -99,7 +99,7 @@ public class SubTypeHierarchyContentProvider extends HierarchyContentProvider {
 				List<Document> sourceDocuments = rootNamespace.view().sourceDocuments();
 				for(Document d: sourceDocuments) {
 					try {
-						List<Type> descendants = d.descendants(Type.class, predicate);
+						List<Type> descendants = d.lexical().descendants(Type.class, predicate);
 						types.addAll(descendants);
 					} catch (LookupException e) {
 					}

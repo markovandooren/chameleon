@@ -8,7 +8,7 @@ import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.util.Handler;
-import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.action.UniversalConsumer;
 import org.aikodi.rejuse.association.AssociationListener;
 import org.aikodi.rejuse.association.OrderedMultiAssociation;
 import org.aikodi.rejuse.association.SingleAssociation;
@@ -393,7 +393,7 @@ public class Project {
       return sourceElements(Document.class, Handler.PROPAGATE);
    }
 
-   public <E extends Exception> void applyToSourceLoaders(Action<DocumentLoader, E> action) throws E {
+   public <E extends Exception> void applyToSourceLoaders(UniversalConsumer<DocumentLoader, E> action) throws E {
      for(View view: views()) {
         view.applyToSourceLoaders(action);
      }
@@ -401,7 +401,7 @@ public class Project {
 
    
    
-   public <E extends Exception> void applyToSource(Action<? extends Element, E> action) throws E, InputException {
+   public <E extends Exception> void applyToSource(UniversalConsumer<? extends Element, E> action) throws E, InputException {
       for(View view: views()) {
          view.applyToSource(action);
       }

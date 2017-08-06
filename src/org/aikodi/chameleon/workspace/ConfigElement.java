@@ -379,7 +379,7 @@ public abstract class ConfigElement {
 		_parent.clear();
 		_children.apply(new SafeAction<ConfigElement>(ConfigElement.class) {
 			@Override
-			public void doPerform(ConfigElement object) throws Nothing {
+			public void accept(ConfigElement object) throws Nothing {
 				object.disconnect();
 			}
 		});

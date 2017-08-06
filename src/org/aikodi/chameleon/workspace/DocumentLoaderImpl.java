@@ -191,9 +191,9 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 			e.printStackTrace();
 			throw new LookupException("Error opening file",e);
 		}
-		NamespaceDeclaration namespaceDeclaration = rawDocument().children(NamespaceDeclaration.class).get(0);
+		NamespaceDeclaration namespaceDeclaration = rawDocument().lexical().children(NamespaceDeclaration.class).get(0);
 		if(namespaceDeclaration != null) {
-			List<Element> children = (List)namespaceDeclaration.children();
+			List<Element> children = namespaceDeclaration.lexical().children();
 			List<Declaration> result = new ArrayList<Declaration>(1);
 			for(Element t: children) {
 				if(t instanceof Declaration && ((Declaration)t).name().equals(name)) {
@@ -207,11 +207,11 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 	}
 
 	public List<String> refreshTargetDeclarationNames(Namespace ns) {
-    List<NamespaceDeclaration> cs = rawDocument().children(NamespaceDeclaration.class);
+    List<NamespaceDeclaration> cs = rawDocument().lexical().children(NamespaceDeclaration.class);
     if(! cs.isEmpty()) {
       NamespaceDeclaration namespaceDeclaration = cs.get(0);
       if(namespaceDeclaration != null) {
-        List<Declaration> children = namespaceDeclaration.children(Declaration.class);
+        List<Declaration> children = namespaceDeclaration.lexical().children(Declaration.class);
         List<String> result = new ArrayList<String>();
         for(Declaration t: children) {
           result.add(t.name());

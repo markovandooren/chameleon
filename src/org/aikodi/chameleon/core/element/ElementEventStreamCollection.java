@@ -34,7 +34,7 @@ public abstract class ElementEventStreamCollection extends EventStreamCollection
 
   /**
    * @return A stream the send event that originate from the {@link #element()}
-   * of this event stream collection.
+   * of this event stream collection. The result is not null.
    */
   public EventStream<Change,Element> self() {
     if(_baseStream == null) {
@@ -45,7 +45,7 @@ public abstract class ElementEventStreamCollection extends EventStreamCollection
 
   /**
    * @return A stream the send event that originate from the descendants of
-   * the {@link #element()} of this event stream collection.
+   * the {@link #element()} of this event stream collection. The result is not null.
    */
   public EventStream<Change,Element> descendant() {
     if(_descendantStream == null) {
@@ -56,7 +56,7 @@ public abstract class ElementEventStreamCollection extends EventStreamCollection
 
   /**
    * @return An event stream that combines the events of {@link #self()} and
-   * {@link #descendant()}.
+   * {@link #descendant()}. The result is not null.
    */
   public EventStream<Change,Element> any() {
     if(_anyStream == null) {

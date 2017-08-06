@@ -35,9 +35,9 @@ public class TestElement {
 	@Test
 	public void testBlankElement() {
 		Element e = new StubElement();
-		assertNull(e.parent());
+		assertNull(e.lexical().parent());
 		assertEmpty(e.lexical().ancestors());
-		assertEmpty(e.children());
+		assertEmpty(e.lexical().children());
 		assertEmpty(e.lexical().descendants());
 		assertNull(e.view());
 		assertNull(e.language());
@@ -61,11 +61,11 @@ public class TestElement {
 		Container c = new Container();
 		c.add(e);
 		Container clone = c.clone(c);
-		assertTrue(c.children().size() == 1);
-		assertTrue(c.children().contains(e));
-		assertTrue(clone.children().size() == 1);
-		assertTrue(! clone.children().contains(e));
-		assertTrue(clone.children().get(0).getClass().equals(e.getClass()));
+		assertTrue(c.lexical().children().size() == 1);
+		assertTrue(c.lexical().children().contains(e));
+		assertTrue(clone.lexical().children().size() == 1);
+		assertTrue(! clone.lexical().children().contains(e));
+		assertTrue(clone.lexical().children().get(0).getClass().equals(e.getClass()));
 	}
 	
 	@Test
@@ -73,8 +73,8 @@ public class TestElement {
 		StubElement e = new StubElement();
 		Container c = new Container();
 		c.add(e);
-		assertTrue(c.children().size() == 1);
-		assertTrue(c.children().contains(e));
+		assertTrue(c.lexical().children().size() == 1);
+		assertTrue(c.lexical().children().contains(e));
 		assertTrue(e.parent().equals(c));
 	}
 	
@@ -85,9 +85,9 @@ public class TestElement {
 		Container c2 = new Container();
 		c1.add(e);
 		e.setUniParent(c2);
-		assertTrue(e.parent().equals(c2));
-		assertEmpty(c1.children());
-		assertEmpty(c2.children());
+		assertTrue(e.lexical().parent().equals(c2));
+		assertEmpty(c1.lexical().children());
+		assertEmpty(c2.lexical().children());
 	}
 	
 	@Test
@@ -96,7 +96,7 @@ public class TestElement {
 		Container c = new Container();
 		c.add(e);
 		e.disconnect();
-		assertEmpty(c.children());
+		assertEmpty(c.lexical().children());
 		assertNull(e.parent());
 	}
 	

@@ -8,19 +8,14 @@ import org.aikodi.chameleon.core.element.Element;
 public class ParentLookupContextSelector implements LookupContextSelector {
 	
 	public ParentLookupContextSelector(Element element) {
-		setElement(element);
+  	_element=element;
 	}
 	
-  public void setElement(Element element) {
-  	_element=element;
-  }
-  
   public Element element() {
   	return _element;
   }
   
   private Element _element;
-  
 
 	/**
 	 * Return the parent context of this context.
@@ -29,7 +24,7 @@ public class ParentLookupContextSelector implements LookupContextSelector {
 	@Override
    public LookupContext strategy() throws LookupException {
 		Element element = element();
-		Element parent = element.parent();
+		Element parent = element.lexical().parent();
 		if(parent != null) {
 	    return parent.lookupContext(element);
 		} else {

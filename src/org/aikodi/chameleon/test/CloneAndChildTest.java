@@ -25,7 +25,7 @@ import org.aikodi.chameleon.util.concurrent.QueuePollingCallableFactory;
 import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.ProjectException;
-import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.action.UniversalConsumer;
 import org.junit.Test;
 
 /**
@@ -80,16 +80,16 @@ public class CloneAndChildTest extends ModelTest {
 	  	namespaces.addAll(ns.descendantNamespaces());
 	  }
 	  final BlockingQueue<Namespace> typeQueue = new ArrayBlockingQueue<Namespace>(namespaces.size(), true, namespaces);
-	  Action<Namespace,LookupException> action = createAction();
+	  UniversalConsumer<Namespace,LookupException> action = createAction();
 		CallableFactory factory = new QueuePollingCallableFactory(action,typeQueue);
 	  new FixedThreadCallableExecutor<LookupException>(factory,threadPool).run();
 
 	}
 	
-	protected Action<Namespace, LookupException> createAction() {
-		return new Action<Namespace,LookupException>(Namespace.class) {
+	protected UniversalConsumer<Namespace, LookupException> createAction() {
+		return new UniversalConsumer<Namespace,LookupException>(Namespace.class) {
 	  	@Override
-      public void doPerform(Namespace type) throws LookupException {
+      public void accept(Namespace type) throws LookupException {
 	  		List<NamespaceDeclaration> namespaceParts = type.namespaceDeclarations();
 				for(NamespaceDeclaration nsp: namespaceParts) {
 	  			for(Element element: nsp.lexical().descendants()) {
@@ -116,15 +116,15 @@ public class CloneAndChildTest extends ModelTest {
 	private void test(Element element) {
 		String msg = "element type:"+element.getClass().getName();
 		assertFalse(element.isDerived());
-		List<Element> children = (List<Element>) element.children();
+		List<Element> children = (List<Element>) element.lexical().children();
 		assertNotNull(msg,children);
 		// Testing for null in the children is already done by the children test.
 		//assertFalse(msg,children.contains(null));
 		Element clone = element.clone();
 		clone.setUniParent(element);
 		assertNotNull(msg,clone);
-		List<Element> clonedChildren = (List<Element>) clone.children();
-		List<Element> newChildren = (List<Element>) element.children();
+		List<Element> clonedChildren = (List<Element>) clone.lexical().children();
+		List<Element> newChildren = (List<Element>) element.lexical().children();
 		assertNotNull(msg,clonedChildren);
 		assertFalse(msg,clonedChildren.contains(null));
 		assertEquals(msg,children.size(), newChildren.size());

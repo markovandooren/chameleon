@@ -30,7 +30,7 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 	 */
 	public TypeParameterSubstitution substitution(Element element) throws LookupException {
 		List<CrossReference> crossReferences = 
-				element.descendants(CrossReference.class, object -> object.getDeclarator().sameAs(AbstractInstantiatedTypeParameter.this));
+				element.lexical().descendants(CrossReference.class, object -> object.getDeclarator().sameAs(AbstractInstantiatedTypeParameter.this));
 
 		return new TypeParameterSubstitution(this, crossReferences);
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 import java.lang.reflect.Member;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
+import org.aikodi.chameleon.core.declaration.DeclarationImpl;
 import org.aikodi.chameleon.core.declaration.Signature;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
@@ -25,7 +26,7 @@ import org.aikodi.chameleon.util.association.Single;
 
 import com.google.common.collect.ImmutableList;
 
-public abstract class DeclarationWithParameters extends ElementWithModifiersImpl implements Target,
+public abstract class DeclarationWithParameters extends DeclarationImpl implements Target,
     DeclarationWithType {
 
   /**

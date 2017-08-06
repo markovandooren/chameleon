@@ -18,7 +18,7 @@ public abstract class CatchClausePointcutExpression extends AbstractPointcutExpr
 	}
 	
 	protected boolean doesMatch(Statement joinpoint) throws LookupException {
-		return (joinpoint.parent() instanceof CatchClause) && (((CatchClause) joinpoint.parent()).statement() == joinpoint); 
+		return (joinpoint.lexical().parent() instanceof CatchClause) && (((CatchClause) joinpoint.lexical().parent()).statement() == joinpoint); 
 	}
 
 	@Override

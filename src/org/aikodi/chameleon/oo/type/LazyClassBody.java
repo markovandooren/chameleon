@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.element.Element;
@@ -75,7 +74,7 @@ public class LazyClassBody extends ClassBody {
 			// for different elements in declarationsFromBaseType, but we don't want to compute
 			// it unnecessarily when we don't need it, or compute it more than once if we do need it.
 			for(Declaration declarationFromBaseType: declarationsFromBaseType) {
-				Element parent = declarationFromBaseType.parent();
+				Element parent = declarationFromBaseType.lexical().parent();
 				// Replace the references to the formal type parameters of base class with
 				// references to the actual type arguments of the derived type that contains
 				// this lazy class body.
@@ -238,11 +237,7 @@ public class LazyClassBody extends ClassBody {
 	public <D extends Declaration> List<? extends SelectionResult<?>> members(DeclarationSelector<D> selector) throws LookupException {
 		if(selector.usesSelectionName()) {
 			List<? extends Declaration> list = null;
-			if(Config.cacheDeclarations()) {
-				list = declarations(selector.selectionName(this));
-			} else {
-				list = members();
-			}
+			list = declarations(selector.selectionName(this));
 			if(list == null) {
 				list = Collections.EMPTY_LIST;
 			}

@@ -627,8 +627,8 @@ public class EclipseDocument extends org.eclipse.jface.text.Document {
 		if(positionTag == null) {
 			positionTag = (EclipseEditorTag) element.metadata(PositionMetadata.ALL);
 		}
-		if(positionTag == null && element.parent() != null) {
-			element = element.parent();
+		if(positionTag == null && element.lexical().parent() != null) {
+			element = element.lexical().parent();
 			positionTag = (EclipseEditorTag) element.metadata(PositionMetadata.ALL);
 		}
 		if(positionTag != null) {

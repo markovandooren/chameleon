@@ -116,9 +116,9 @@ public class NamedPointcutExpression extends AbstractPointcutExpression<Element>
 
 	private void renameParameters(PointcutExpression<?> pointcutExpression, final Map<String, String> parameterNamesMap) {
 		 //((ParameterExposurePointcutExpression<?,?>) pointcutExpression).renameParameters(parameterNamesMap);
-		pointcutExpression.apply(new SafeAction<ParameterExposurePointcutExpression>(ParameterExposurePointcutExpression.class) {
+		pointcutExpression.lexical().apply(new SafeAction<ParameterExposurePointcutExpression>(ParameterExposurePointcutExpression.class) {
 			@Override
-			public void doPerform(ParameterExposurePointcutExpression t) {
+			public void accept(ParameterExposurePointcutExpression t) {
 				t.renameParameters(parameterNamesMap);
 			}
 		});

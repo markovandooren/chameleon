@@ -3,7 +3,7 @@ package org.aikodi.chameleon.aspect.core.model.pointcut;
 import org.aikodi.chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Signature;
-import org.aikodi.chameleon.core.declaration.SimpleNameSignature;
+import org.aikodi.chameleon.core.declaration.Name;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -12,9 +12,9 @@ import org.aikodi.chameleon.util.association.Single;
 
 public class PointcutWithName extends Pointcut {
 
-	private Single<SimpleNameSignature> _signature = new Single<SimpleNameSignature>(this);
+	private Single<Name> _signature = new Single<Name>(this);
 	
-	public PointcutWithName(SimpleNameSignature signature, PointcutExpression expression) {
+	public PointcutWithName(Name signature, PointcutExpression expression) {
 		super(expression);
 		setSignature(signature);
 	}
@@ -26,16 +26,16 @@ public class PointcutWithName extends Pointcut {
 	}
 
 	@Override
-	public SimpleNameSignature signature() {
+	public Name signature() {
 		return _signature.getOtherEnd();
 	}
 
 	@Override
 	public void setSignature(Signature signature) {
-		if(!(signature instanceof SimpleNameSignature)) {
+		if(!(signature instanceof Name)) {
 			throw new ChameleonProgrammerException();
 		}
-		set(_signature, (SimpleNameSignature)signature);
+		set(_signature, (Name)signature);
 	}
 
 	@Override

@@ -3,11 +3,11 @@ package org.aikodi.chameleon.util.concurrent;
 import java.util.Queue;
 import java.util.concurrent.Callable;
 
-import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.action.UniversalConsumer;
 
 public class QueuePollingCallableFactory<T,E extends Exception> extends QueuePollingFactory<T,E> implements CallableFactory {
 
-	public QueuePollingCallableFactory(Action<T,E> action, Queue<T> queue) {
+	public QueuePollingCallableFactory(UniversalConsumer<T,E> action, Queue<T> queue) {
 		super(action,queue);
 	}
 

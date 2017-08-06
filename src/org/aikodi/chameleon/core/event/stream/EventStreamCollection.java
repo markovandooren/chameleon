@@ -15,6 +15,9 @@ import java.util.LinkedList;
  */
 public abstract class EventStreamCollection<C,S> {
 
+	/**
+	 * A list of event stream that flow through this event stream collection.
+	 */
   private LinkedList<EventStream<?,?>> _baseStreams = new LinkedList<>();
 
   /**
@@ -25,7 +28,7 @@ public abstract class EventStreamCollection<C,S> {
    * 
    * @param baseStream The base event stream to be removed.
    */
-  protected void deactivateBaseStream(EventStream<? extends C,? extends S> baseStream) {
+  protected void deactivate(EventStream<? extends C,? extends S> baseStream) {
     _baseStreams.remove(baseStream);
     if(_baseStreams.isEmpty()) {
       stopNotification();
@@ -45,6 +48,9 @@ public abstract class EventStreamCollection<C,S> {
   }
 
 
+  /**
+   * Remove any state regarding this event stream collection.
+   */
   protected abstract void tearDown();
   
   /**

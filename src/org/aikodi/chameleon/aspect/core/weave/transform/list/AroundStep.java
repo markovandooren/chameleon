@@ -29,7 +29,7 @@ public class AroundStep<P extends Element,T extends Element> extends AdvisedList
 	// next list moet uni parents gezet hebben? Maar dan resolven de labels niet meer naar steps die ook in de list zitten.
 	private T rewrite(T beh, int count) throws LookupException {
 		T clone = (T)beh.clone();
-		clone.setUniParent(beh.parent());
+		clone.setUniParent(beh.lexical().parent());
 		for(Declaration decl: clone.lexical().descendants(Declaration.class)) {
 			Signature signature = decl.signature();
 			if(signature != null) {

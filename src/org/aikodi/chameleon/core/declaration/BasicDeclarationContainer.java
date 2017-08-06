@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.core.declaration;
 
-import org.aikodi.chameleon.core.lookup.LocalLookupContext;
-import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiersImpl;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
@@ -11,9 +9,14 @@ import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.association.Single;
 
-public abstract class DeclarationContainingDeclarationImpl extends ElementWithModifiersImpl implements Declaration, DeclarationContainer {
+/**
+ * A basic class for declaration containers.
+ * 
+ * @author Marko van Dooren
+ */
+public abstract class BasicDeclarationContainer extends ElementWithModifiersImpl implements Declaration, DeclarationContainer {
 
-   public DeclarationContainingDeclarationImpl(Signature signature) {
+   public BasicDeclarationContainer(Signature signature) {
       setSignature(signature);
    }
    
@@ -46,8 +49,4 @@ public abstract class DeclarationContainingDeclarationImpl extends ElementWithMo
       return true;
    }
 
-   @Override
-   public LocalLookupContext<?> targetContext() throws LookupException {
-      return language().lookupFactory().createTargetLookupStrategy(this);
-   }
 }

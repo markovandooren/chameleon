@@ -51,7 +51,7 @@ public class MemberRelationSelector<D extends Declaration> implements Declaratio
 	public List<? extends SelectionResult<D>> selection(List<? extends Declaration> declarators) throws LookupException {
   	List<SelectionResult<D>> tmp = Lists.create();
   	for(Declaration decl: declarators) {
-  		D e = selection(decl);
+  		SelectionResult<D> e = selection(decl);
   		if(e != null) {
   			tmp.add(e);
   		}
@@ -59,13 +59,13 @@ public class MemberRelationSelector<D extends Declaration> implements Declaratio
     return tmp;
 	}
 	
-  protected D selection(Declaration declarator) throws LookupException {
+  protected SelectionResult<D> selection(Declaration declarator) throws LookupException {
   	// We first perform the checks on the selectionDeclaration, since a signature check may be
   	// very expensive.
-  	D result = null;
+  	SelectionResult<D> result = null;
   	Declaration selectionDeclaration = declarator.selectionDeclaration();
   		if(selects(selectionDeclaration)) {
-  				result = (D) selectionDeclaration.actualDeclaration();
+  				result = (SelectionResult<D>)selectionDeclaration.actualDeclaration();
   		}
   	return result;
   }

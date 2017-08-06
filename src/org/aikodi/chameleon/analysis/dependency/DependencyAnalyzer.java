@@ -12,9 +12,10 @@ import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.chameleon.workspace.Project;
-import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.action.UniversalConsumer;
 import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.exception.Handler;
+import org.aikodi.rejuse.function.Consumer;
 import org.aikodi.rejuse.function.Function;
 import org.aikodi.rejuse.graph.Edge;
 import org.aikodi.rejuse.graph.Path;
@@ -64,18 +65,10 @@ public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer
       Handler<LookupException, E> analysisGuard, 
       Handler<Exception,E> inputGuard) throws E {
     DependencyResult result = dependencyResult(analysisGuard, inputGuard);
-    Action<Element, Nothing> nodeAction = new Action<Element, Nothing>(Element.class) {
-      @Override
-      protected void doPerform(Element d) {
-        builder.addVertex(d);
-      }
-    };
-    Action<Edge, Nothing> edgeAction = new Action<Edge, Nothing>(Edge.class) {
-      @Override
-      protected void doPerform(Edge d) {
-        UniEdge<D> edge = (UniEdge<D>) d;
-        builder.addEdge(edge.start(), edge.end());
-      }
+    Consumer<Element, Nothing> nodeAction = d -> builder.addVertex(d);
+    Consumer<Edge, Nothing> edgeAction = d -> {
+      UniEdge<D> edge = (UniEdge<D>) d;
+      builder.addEdge(edge.start(), edge.end());
     };
     result.traverse(nodeAction, edgeAction);
   }

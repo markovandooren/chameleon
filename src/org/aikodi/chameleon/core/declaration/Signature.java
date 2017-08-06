@@ -46,16 +46,21 @@ public abstract class Signature extends QualifiedName {
    @*/
   public abstract void setName(String name);
   
-   @Override
-   public Signature signatureAt(int index) {
-      if (index != 1) {
-         throw new ChameleonProgrammerException();
-      } else {
-         return this;
-      }
-   }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Signature signatureAt(int index) {
+    if (index != 1) {
+      throw new ChameleonProgrammerException();
+    } else {
+      return this;
+    }
+  }
 
    /**
+    * {@inheritDoc}
+    * 
     * @return the name of this signature.
     */
    @Override
@@ -71,16 +76,25 @@ public abstract class Signature extends QualifiedName {
     */
    public abstract boolean hasMorePropertiesThanName();
 
+   /**
+    * {@inheritDoc}
+    */
    @Override
    public int length() {
       return 1;
    }
 
+   /**
+    * {@inheritDoc}
+    */
    @Override
    public Signature lastSignature() {
       return this;
    }
 
+   /**
+    * {@inheritDoc}
+    */
    @Override
    public List<Signature> signatures() {
       return ImmutableList.of(this);

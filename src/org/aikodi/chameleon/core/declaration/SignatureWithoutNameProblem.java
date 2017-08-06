@@ -7,7 +7,7 @@ import org.aikodi.chameleon.core.validation.BasicProblem;
  * 
  * @author Marko van Dooren
  */
-public class SignatureWithoutName extends BasicProblem {
+public class SignatureWithoutNameProblem extends BasicProblem {
 
   /**
    * Create a new problem that indicates that the given signature has no
@@ -15,7 +15,7 @@ public class SignatureWithoutName extends BasicProblem {
    *  
    * @param signature
    */
-	public SignatureWithoutName(Signature signature) {
+	public SignatureWithoutNameProblem(Signature signature) {
 		super(signature, "the signature has no name");
 	}
 

@@ -40,7 +40,6 @@ public abstract class SignatureWithName extends Signature {
 
    @Override
    public void setName(String name) {
-//  	 Util.debug(name.equals("<missing Identifier>"));
       if(name == null) {
          throw new IllegalArgumentException("The name of a signature with a name cannot be null.");
       }
@@ -61,10 +60,13 @@ public abstract class SignatureWithName extends Signature {
       return _name.hashCode();
    }
 
+   /**
+    * {@inheritDoc}
+    */
    @Override
    public Verification verifySelf() {
       if (_name == null) {
-         return new SignatureWithoutName(this);
+         return new SignatureWithoutNameProblem(this);
       } else {
          return Valid.create();
       }

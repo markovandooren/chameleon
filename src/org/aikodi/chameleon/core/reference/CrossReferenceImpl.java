@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.core.reference;
 
-import java.lang.ref.SoftReference;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.aikodi.chameleon.core.Config;
+import java.lang.ref.SoftReference;
+
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.DeclarationCollector;
@@ -40,6 +40,11 @@ public abstract class CrossReferenceImpl<D extends Declaration> extends ElementI
     return result;
   }
 
+  /**
+   * {@inheritDoc}
+   * 
+   * This clears the cache of the referenced element.
+   */
   @Override
   public void flushLocalCache() {
     super.flushLocalCache();
@@ -51,11 +56,9 @@ public abstract class CrossReferenceImpl<D extends Declaration> extends ElementI
   }
 
   protected void setCache(D value) {
-    if (Config.cacheElementReferences() == true) {
-      // We only try to set once. Concurrent lookups of this name
-      // should result in the same element.
-      _cache.compareAndSet(null, new SoftReference<D>(value));
-    }
+    // We only try to set once. Concurrent lookups of this name
+    // should result in the same element.
+    _cache.compareAndSet(null, new SoftReference<D>(value));
   }
 
 

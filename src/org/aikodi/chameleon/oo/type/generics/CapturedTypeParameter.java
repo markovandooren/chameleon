@@ -59,7 +59,7 @@ public class CapturedTypeParameter extends FormalTypeParameter {
    */
   @Override
   protected String toStringName() {
-  	return "capture "+nativeHashCode()+" of";
+  	return "capture "+hashCode()+" of";
   }
 
 }

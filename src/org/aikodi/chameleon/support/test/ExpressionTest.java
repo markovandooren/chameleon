@@ -23,7 +23,7 @@ import org.aikodi.chameleon.util.concurrent.FixedThreadCallableExecutor;
 import org.aikodi.chameleon.util.concurrent.QueuePollingCallableFactory;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.ProjectException;
-import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.action.UniversalConsumer;
 import org.junit.Test;
 
 /**
@@ -70,7 +70,7 @@ public class ExpressionTest extends ModelTest {
 	  	namespaces.addAll(ns.descendantNamespaces());
 	  }
 	  final BlockingQueue<Namespace> typeQueue = new ArrayBlockingQueue<Namespace>(namespaces.size(), true, namespaces);
-	  Action<Namespace,LookupException> action = createAction();
+	  UniversalConsumer<Namespace,LookupException> action = createAction();
 		CallableFactory factory = new QueuePollingCallableFactory(action,typeQueue);
 	  new FixedThreadCallableExecutor<LookupException>(factory,threadPool).run();
   }
@@ -85,10 +85,10 @@ public class ExpressionTest extends ModelTest {
 ////  	}
 //  }
 
-	protected Action<Namespace, LookupException> createAction() {
-		return new Action<Namespace,LookupException>(Namespace.class) {
+	protected UniversalConsumer<Namespace, LookupException> createAction() {
+		return new UniversalConsumer<Namespace,LookupException>(Namespace.class) {
 	  	@Override
-      public void doPerform(Namespace ns) throws LookupException {
+      public void accept(Namespace ns) throws LookupException {
 	  		for(NamespaceDeclaration nsp: ns.namespaceDeclarations()) {
 	  			for(Type type: nsp.lexical().descendants(Type.class)) {
 	  				processType(type);

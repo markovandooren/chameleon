@@ -4,7 +4,6 @@ import java.util.List;
 
 import java.lang.ref.SoftReference;
 
-import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.lookup.DeclarationCollector;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
@@ -21,6 +20,8 @@ import org.aikodi.chameleon.oo.type.generics.TypeArgument;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
+
+import sun.security.krb5.Config;
 
 /**
  * @author Marko van Dooren
@@ -187,22 +188,12 @@ extends TargetedExpression implements CrossReferenceWithTarget<D> {
 		_cache = null;
 	}
 
-	public Declaration getCache() {
-		Declaration result = null;
-		if (Config.cacheElementReferences() == true) {
-			result = (_cache == null ? null : _cache.get());
-		}
-		return result;
+	protected Declaration getCache() {
+		return (_cache == null ? null : _cache.get());
 	}
 
-	public void setCache(Declaration value) {
-		// if(! value.isDerived()) {
-		if (Config.cacheElementReferences() == true) {
-			_cache = new SoftReference<Declaration>(value);
-		}
-		// } else {
-		// _cache = null;
-		// }
+	protected void setCache(Declaration value) {
+		_cache = new SoftReference<Declaration>(value);
 	}
 
 	public List<TypeArgument> typeArguments() {

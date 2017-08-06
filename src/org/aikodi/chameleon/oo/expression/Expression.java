@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.oo.expression;
 
-import java.lang.ref.SoftReference;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.aikodi.chameleon.core.Config;
+import java.lang.ref.SoftReference;
+
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -43,15 +43,11 @@ public abstract class Expression extends ElementImpl implements CrossReferenceTa
    @*/
 	public final Type getType() throws LookupException {
 		Type result = null;
-		if(Config.cacheExpressionTypes()) {
-			SoftReference<Type> tcache = _cache.get();
-			result = (tcache == null ? null : tcache.get());
-		}
-		if(result == null) {
-		  result = actualType();
-			if(Config.cacheExpressionTypes()) {
-				_cache.compareAndSet(null, new SoftReference<Type>(result));
-			}
+		SoftReference<Type> typeCache = _cache.get();
+		result = (typeCache == null ? null : typeCache.get());
+		if (result == null) {
+			result = actualType();
+			_cache.compareAndSet(null, new SoftReference<Type>(result));
 		}
 		return result;
 	}
@@ -82,5 +78,5 @@ public abstract class Expression extends ElementImpl implements CrossReferenceTa
 	public LocalLookupContext<?> targetContext() throws LookupException {
 	  return getType().targetContext();
 	}
-
+	
 }

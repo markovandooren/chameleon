@@ -1,14 +1,11 @@
 package org.aikodi.chameleon.core.element;
 
-import static org.aikodi.rejuse.collection.CollectionOperations.filter;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.function.BiConsumer;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.document.Document;
-import org.aikodi.chameleon.core.element.ElementImpl.ConflictingProperties;
 import org.aikodi.chameleon.core.element.ElementImpl.Navigator;
 import org.aikodi.chameleon.core.event.Event;
 import org.aikodi.chameleon.core.event.association.ChildAdded;
@@ -30,28 +27,18 @@ import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.core.reference.CrossReferenceImpl;
 import org.aikodi.chameleon.core.tag.Metadata;
-import org.aikodi.chameleon.core.validation.BasicProblem;
-import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
-import org.aikodi.chameleon.exception.ModelException;
-import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.ChameleonAssociation;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.View;
 import org.aikodi.chameleon.workspace.WrongViewException;
-import org.aikodi.rejuse.action.Action;
 import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.association.Association;
 import org.aikodi.rejuse.association.IAssociation;
 import org.aikodi.rejuse.association.SingleAssociation;
-import org.aikodi.rejuse.function.Consumer;
 import org.aikodi.rejuse.logic.ternary.Ternary;
-import org.aikodi.rejuse.predicate.Predicate;
-import org.aikodi.rejuse.predicate.UniversalPredicate;
-import org.aikodi.rejuse.property.Conflict;
 import org.aikodi.rejuse.property.Property;
-import org.aikodi.rejuse.property.PropertyMutex;
 import org.aikodi.rejuse.property.PropertySet;
 
 /**
@@ -304,22 +291,17 @@ import org.aikodi.rejuse.property.PropertySet;
  document -- namespaceDeclaration
  @enduml
  */
-public interface Element {
-
-  /**
-   * Return the parent element of this element. Null if there is no parent.
-   */
-  public Element parent();
+public interface Element extends Cloneable {
 
   /**
    * @return a tree structure for the lexical structure of this element. This
    * tree stops at the {@link Document} level.
    */
-  /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @*/
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
   public Navigator<Nothing> lexical();
 
   /**
@@ -348,7 +330,7 @@ public interface Element {
    * and elements that correspond to "binary" document cannot be modified by accident.</p> 
    */
   public default void freeze() {
-		for(Element element: children()) {
+		for(Element element: lexical().children()) {
 			element.parentLink().lock();
 			element.freeze();
 		}
@@ -364,11 +346,11 @@ public interface Element {
    * afterwards. If it was unlocked, it will be still be unlocked afterwards. </p> 
    */
   public default void unfreeze() {
-		for(Element element: children()) {
+		for(Element element: lexical().children()) {
 			element.parentLink().unlock();
 			element.unfreeze();
 		}
-		for(IAssociation association: associations()) {
+		for(ChameleonAssociation<?> association: associations()) {
 			association.unlock();
 		}
   }
@@ -458,200 +440,10 @@ public interface Element {
 
 
   /**
-   * Return a list of all ancestors of the given type. A closer ancestors will have a lower index than a 
-   * farther ancestor.
-   * 
-   * @param predicate A predicate that determines which ancestors should be returned.
-   */
-  /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @ post parent() == null ==> \result.isEmpty();
-     @ post parent() != null && predicate.eval(parent()) ==> \result.get(0) == parent()
-     @                       && \result.subList(1,\result.size()).equals(parent().ancestors(c));
-     @ post parent() != null && ! predicate.eval(parent()) ==> 
-     @                       \result.equals(parent().ancestors(c));
-     @*/
-  public <T extends Element, E extends Exception> List<T> ancestors(UniversalPredicate<T, E> predicate) throws E;
-
-  /**
-   * <p>Return the direct children of this element.</p>
-   * 
-   * <p>The result will never be null. All elements in the collection will have this element as
-   * their parent.</p>
-   * 
-   * <p>Note that there can exist non-child elements that have this element as their parent. 
-   * The reason is that e.g. not all generic instances of a class can be constructed, so the collection
-   * can never be complete anyway. Context elements are also not counted as children, there are merely a
-   * help for the lookup algorithms. We only keep references to the lexical children, those that are 'physically'
-   * part of the program.</p>
-   *
-	 * <p>DO NOT OVERRIDE UNLESS YOU REALLY KNOW WHAT YOU ARE DOING!</p>
-	 * 
-	 * <p>This method uses the reflection mechanism, which avoids the need for a
-	 * children() implementation in each class that would only compute the union of all the 
-	 * {@link Association} objects referenced by this element. If an association element
-	 * should <b>not</b> be included in the list of children, use the following code in the 
-	 * class (class name is "X", field name is "_f").</p>
-	 * 
-	 * <pre>
-	 *   static {
-   *     excludeFieldName(X.class,"_f");
-   *   }
-	 * </pre>
-	 * 
-	 * <p>This method currently is overridden only to provide support for lazy loading in
-	 * LazyNamespace.</p>
-	 */
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @ post (\forall Element e; \result.contains(e); e.parent() == this);
-   @*/
-  public default List<Element> children() {
-  	List<Element> reflchildren = Lists.create();
-		for (ChameleonAssociation<?> association : associations()) {
-			association.addOtherEndsTo(reflchildren);
-		}
-		return reflchildren;
-  }
-
-  /**
-   * Return all children of this element that are of the given type.
-   * 
-   * @param c The kind of the children that should be returned.
-   */
-  /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && c.isInstance(e));
-     @*/
-  public <T extends Element> List<T> children(Class<T> c);
-
-  /**
-   * Return all children of this element that satisfy the given predicate.
-   * 
-   * @param predicate A predicate that determines which children should be returned.
-   */
- /*@
-   @ public behavior
-   @
-   @ pre predicate != null;
-   @
-   @ post \result != null;
-   @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && predicate.eval(e) == true);
-   @*/
-  public default <E extends Exception> List<Element> children(Predicate<? super Element,E> predicate) throws E {
-		List<? extends Element> tmp = children();
-		filter(tmp, predicate);
-		return (List<Element>)tmp;
-  }
-
-  /**
-   * Return all children of this element that are of the given type, and satisfy the given predicate.
-   * 
-   * @param predicate A predicate that determines which ancestors should be returned.
-   */
-  /*@
-     @ public behavior
-     @
-     @ pre predicate != null;
-     @
-     @ post \result != null;
-     @ post (\forall Element e; ; \result.contains(e) <==> children().contains(e) && predicate.eval(e));
-     @*/
-  public <T extends Element, E extends Exception> List<T> children(UniversalPredicate<T,E> predicate) throws E;
-
-  /**
-   * Check whether this element has a descendant of the given type.
-   * 
-   * @param c The class object representing the type the descendants.
-   */
-  /*@
-     @ public behavior
-     @
-     @ pre type != null;
-     @
-     @ post \result == ! descendants(type).isEmpty();
-     @*/
-	  public <T extends Element> boolean hasDescendant(Class<T> type);
-
-  /**
-   * Recursively return all descendants of this element that satisfy the given predicate.
-   * 
-   * @param predicate A predicate that determines which descendants are returned.
-   */
-  /*@
-     @ public behavior
-     @
-     @ pre predicate != null;
-     @
-     @ post \result != null;
-     @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && predicate.eval(e));
-     @*/
-  public default <E extends Exception> List<Element> descendants(Predicate<? super Element,E> predicate) throws E {
-		// Do not compute all descendants, and apply predicate afterwards.
-		// That is way too expensive.
-		List<? extends Element> tmp = children();
-		predicate.filter(tmp);
-		List<Element> result = (List<Element>)tmp;
-		for (Element e : children()) {
-			result.addAll(e.descendants(predicate));
-		}
-		return result;
-	}
-
-  /**
-   * Recursively return all descendants of this element that are of the given type, and satisfy the given predicate.
-   */
-  /*@
-     @ public behavior
-     @
-     @ pre predicate != null;
-     @
-     @ post \result != null;
-     @ post (\forall Element e; ; \result.contains(e) <==> descendants().contains(e) && c.isInstance(e) && predicate.eval(e));
-     @*/
-  public <T extends Element, E extends Exception> List<T> descendants(Class<T> c, Predicate<T,E> predicate) throws E;
-
-
-  /**
-   * Recursively apply the given action to this element and all of its 
-   * descendants, but only if their type conforms to T.
-   * 
-   * @param action The action to apply.
-   */
-  public <T extends Element, E extends Exception> void apply(Action<T,E> action) throws E;
-
-
-  /**
-   * Recursively pass this element and all of its descendants to
-   * the given consumer if their type conforms to T.
-   * 
-   * @param kind A class object representing the type of elements to be 
-   *             passed to the consumer.
-   * @param consumer The consumer to which the elements must be provided.
-   */
-  public default <T extends Element, E extends Exception> void apply(Class<T> kind, Consumer<T,E> consumer) throws E {
-	  if(kind.isInstance(this)) {
-	     consumer.accept((T)this);
-	  }
-    for (Element e : children()) {
-       e.apply(kind, consumer);
-    }
-  }
-
-  /**
    * Return the metadata with the given key.
    * @param key
    *        The key under which the metadata is registered.
    */
-  /*@
-     @
-     @*/
   public Metadata metadata(String key);
 
   /**
@@ -693,14 +485,14 @@ public interface Element {
    * @param key
    *        The key under which the given metadata must be registered,
    */
-  /*@
-     @ public behavior
-     @
-     @ pre key != null;
-     @ pre data != null;
-     @
-     @ post metadata(key) == data;
-     @*/
+ /*@
+   @ public behavior
+   @
+   @ pre key != null;
+   @ pre data != null;
+   @
+   @ post metadata(key) == data;
+   @*/
   public void setMetadata(Metadata data, String key);
 
   /**
@@ -708,43 +500,33 @@ public interface Element {
    * @param key
    *        The key of the metadata to be removed.
    */
-  /*@
-     @ public behavior
-     @
-     @ post tag(key) == null;
-     @*/
+ /*@
+   @ public behavior
+   @
+   @ post tag(key) == null;
+   @*/
   public void removeMetadata(String key);
 
   /**
    * Remove all metadata from this element
    */
-  /*@
-     @ public behavior
-     @
-     @ post metadata().isEmpty();
-     @*/
+ /*@
+   @ public behavior
+   @
+   @ post metadata().isEmpty();
+   @*/
   public void removeAllMetadata();
-
-  /**
-   * Check whether or not this element has metadata.
-   */
-  /*@
-     @ public behavior
-     @
-     @ post \result == ! metadata().isEmpty();
-     @*/
-  public boolean hasMetadata();
 
   /**
    * Return the language of this element. Return null if this element is not
    * connected to a complete model.
    */
-  /*@
-     @ public behavior
-     @
-     @ post (view() == null) ==> (\result == null);
-     @ post (view() != null) ==> (\result.equals(view().language()))
-     @*/
+ /*@
+   @ public behavior
+   @
+   @ post (view() == null) ==> (\result == null);
+   @ post (view() != null) ==> (\result.equals(view().language()))
+   @*/
   public default Language language() {
 	  View view = view();
 		return view == null ? null : view.language();
@@ -956,41 +738,17 @@ public interface Element {
   public abstract PropertySet<Element,ChameleonProperty> properties();
 
   /**
-   * Return the default properties of this element. A default property
-   * is a property that an element has when no inherent or explicitly
-   * defined property contradicts that property.
-   */
-  /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @*/
-  public PropertySet<Element,ChameleonProperty> defaultProperties();
-
-  /**
    * Return a property set representing the properties of this element
    * that are explicitly declared.
    */
-  /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @*/
+ /*@
+   @ public behavior
+   @
+   @ post \result != null;
+   @*/
   public default PropertySet<Element,ChameleonProperty> declaredProperties() {
     return new PropertySet<Element,ChameleonProperty>();
   }
-
-
-
-  /**
-   * Return a the properties that are inherent to this element.
-   */
-  /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @*/
-  public PropertySet<Element,ChameleonProperty> inherentProperties();
 
   /**
    * Check if this type element has the given property. 
@@ -1002,14 +760,14 @@ public interface Element {
    * @param property
    *        The property to be verified.
    */
-  /*@
-     @ behavior
-     @
-     @ pre property != null;
-     @
-     @ post ! property.appliesTo(this) ==> \result == declaredProperties().implies(property);
-     @ post property.appliesTo(this) ==> \result == declaredProperties().with(property).implies(property);
-     @*/
+ /*@
+   @ behavior
+   @
+   @ pre property != null;
+   @
+   @ post ! property.appliesTo(this) ==> \result == declaredProperties().implies(property);
+   @ post property.appliesTo(this) ==> \result == declaredProperties().with(property).implies(property);
+   @*/
   public Ternary is(ChameleonProperty property);
 
 
@@ -1065,46 +823,6 @@ public interface Element {
   public boolean isUnknown(ChameleonProperty property);
 
   /**
-   * Return the property of this element for the given property mutex. The property mutex
-   * can be seen as the family of properties that a property belongs to. An example of a
-   * property mutex is accessibility.
-   * 
-   * @param mutex
-   * @return
-   * @throws LookupException 
-   */
-  /*@
-     @ public behavior
-     @
-     @ pre mutex != null;
-     @
-     @ post properties().contains(\result);
-     @ post \result.mutex() == mutex;
-     @ post (\num_of Property p; properties().contains(p);
-     @       p.mutex() == mutex) == 1;
-     @
-     @ signals ModelException (\num_of Property p; properties().contains(p);
-     @       p.mutex() == mutex) != 1; 
-     @*/
-  public ChameleonProperty property(PropertyMutex<ChameleonProperty> mutex) throws ModelException;
-
-  /**
-   * Check whether this element has a property from the given property mutex.
-   * 
-   * @param mutex
-   * @return
-   * @throws ModelException
-   */
-  /*@
-     @ public behavior
-     @
-     @ pre mutex != null;
-     @
-     @ post \result properties().hasPropertyFor(mutex);
-     @*/
-  public boolean hasProperty(PropertyMutex<ChameleonProperty> mutex) throws ModelException;
-
-  /**
    * @return A verification object that indicates whether or not this is valid,
    *         and if not, what the problems are. The result includes the problems
    *         found in all descendants.
@@ -1115,53 +833,6 @@ public interface Element {
    @ post \result != null;
    @*/
   public Verification verify();
-
-
-  /**
-   * <p>Perform a local verification.</p>
-   * 
-   * <p>The check for a loop in the lexical structure is already implemented in
-   * {@link #verifySelf()}, which is called in {@link #verify()}. 
-   * The checks to verify that all properties of this element actually apply to it 
-   * and that there are no conflicting properties are both implemented in 
-   * verifyProperties(), which is also called in verify().
-   * 
-   * @return A verification object that indicates whether or not this is valid,
-   *         and if not, what the problems are. The result does <b>not</b>
-   *         include the problems found in the descendants. It only performs a
-   *         local check.
-   */
-  /*@
-     @ public behavior
-     @
-     @ post \result != null;
-     @*/
-  //    public default Verification verifySelf() {
-  //    	return Valid.create();
-  //    }
-
-  /**
-   * <p>Verify that there are no loops in the lexical structure.</p>
-   * 
-   * <p>FIXME: Now that the associations are computed automatically and
-   * are all bidirectional, this verification seems unnecessary.</p>
-   * 
-   * @return If there is a loop in the lexical structure, a problem is reported.
-   *         Otherwise a valid result is returned.
-   */
-  public default Verification verifyLoops() {
-    Verification result = Valid.create();
-    Element e = parent();
-    while(e != null) {
-      if(e == this) {
-        result = result.and(new BasicProblem(this, "There is a loop in the lexical structure. This element is an ancestor of itself."));
-      }
-      e = e.parent();
-    }
-    return result;
-  }
-
-  public PropertySet<Element,ChameleonProperty> internalProperties();
 
   /*************************
    * IDENTITY and EQUALITY *
@@ -1226,11 +897,9 @@ public interface Element {
    * By default, it returns the namespace of the nearest namespace declaration.
    * @return
    */
-  //public Namespace namespace();
-  
-  public default Namespace root() {
+  public default Namespace namespace() {
   	NamespaceDeclaration namespaceDeclaration = lexical().nearestAncestor(NamespaceDeclaration.class);
-		return namespaceDeclaration != null ? namespaceDeclaration.namespace().defaultNamespace() : null;
+		return namespaceDeclaration != null ? namespaceDeclaration.namespace() : null;
   }
 
   /**
@@ -1246,8 +915,10 @@ public interface Element {
    * {@link EventStreamCollection} for documentation about the possible sources
    * of events.
    * </p>
-   * 
-   * @return the event coordinator of this element.
+   * <p>The event stream collection is created on-demand and removed
+   * when all listeners have disconnected.
+   * </p>
+   * @return the event stream collection of this element. The result is not null.
    */
   public ElementEventStreamCollection when();
 

@@ -102,7 +102,7 @@ public class LazyRootNamespace extends RootNamespace implements DocumentLoaderNa
 	}
 	
 	@Override
-	public List<Element> children() {
+	protected List<Element> children() {
 		for(Queue<DocumentLoader> q: _sourceMap.values()) {
 			try {
 				q.peek().load();

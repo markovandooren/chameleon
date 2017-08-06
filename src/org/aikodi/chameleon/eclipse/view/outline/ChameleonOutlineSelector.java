@@ -9,7 +9,7 @@ import org.aikodi.chameleon.exception.ModelException;
 public class ChameleonOutlineSelector {
 
 	public List<Element> outlineChildren(Element element) throws ModelException {
-		return (List<Element>) element.children();
+		return (List<Element>) element.lexical().children();
 	}
 	
 	/**

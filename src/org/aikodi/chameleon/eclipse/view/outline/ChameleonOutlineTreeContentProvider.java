@@ -86,7 +86,7 @@ public class ChameleonOutlineTreeContentProvider implements ITreeContentProvider
 			Element element = node.getElement();
 			// check if node is still valid (can be removed)
 			if(element!=null){
-				Element parentElement = element.parent();
+				Element parentElement = element.lexical().parent();
 				return new ChameleonOutlineTree(parentElement);
 			}
 		}

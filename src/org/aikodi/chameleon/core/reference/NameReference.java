@@ -1,7 +1,6 @@
 package org.aikodi.chameleon.core.reference;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
-import org.aikodi.chameleon.core.declaration.TargetDeclaration;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.NameSelector;
 import org.aikodi.chameleon.util.Util;

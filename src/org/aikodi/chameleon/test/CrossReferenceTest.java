@@ -23,7 +23,7 @@ import org.aikodi.chameleon.util.concurrent.QueuePollingCallableFactory;
 import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.ProjectException;
-import org.aikodi.rejuse.action.Action;
+import org.aikodi.rejuse.action.UniversalConsumer;
 import org.junit.Test;
 
 public class CrossReferenceTest extends ModelTest {
@@ -50,7 +50,7 @@ public class CrossReferenceTest extends ModelTest {
 	  	namespaces.addAll(ns.descendantNamespaces());
 	  }
 		BlockingQueue<Namespace> queue = new ArrayBlockingQueue<Namespace>(namespaces.size(), true, namespaces);
-		Action<Namespace,LookupException> action = createAction();
+		UniversalConsumer<Namespace,LookupException> action = createAction();
 		CallableFactory factory = new QueuePollingCallableFactory<Namespace,LookupException>(action,queue);
 		new FixedThreadCallableExecutor<LookupException>(factory,threadPool).run();
 		
@@ -84,10 +84,10 @@ public class CrossReferenceTest extends ModelTest {
 //  	Association.cleanGetOtherEndsCache();
 	}
 
-	protected Action<Namespace, LookupException> createAction() {
-		return new Action<Namespace,LookupException>(Namespace.class) {
+	protected UniversalConsumer<Namespace, LookupException> createAction() {
+		return new UniversalConsumer<Namespace,LookupException>(Namespace.class) {
 			@Override
-         public void doPerform(Namespace ns) throws LookupException {
+         public void accept(Namespace ns) throws LookupException {
 				for(NamespaceDeclaration nsp: ns.namespaceDeclarations()) {
 					for(CrossReference cref: nsp.lexical().descendants(CrossReference.class)) {
 						Declaration declaration = cref.getElement();

@@ -5,7 +5,6 @@ import java.util.Set;
 
 import java.lang.ref.SoftReference;
 
-import org.aikodi.chameleon.core.Config;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.event.name.NameChanged;
@@ -113,11 +112,6 @@ protected Type actualType() throws LookupException {
     return result;
 	}
 
-//	@Override
-//   public Declaration getDeclarator() throws LookupException {
-//		return getElement(new DeclaratorSelector(selector()));
-//	}
-
 	@Override
    public DeclarationWithType getElement() throws LookupException {
   	return getElement(selector());
@@ -132,21 +126,11 @@ protected Type actualType() throws LookupException {
   }
   
   protected DeclarationWithType getCache() {
-  	DeclarationWithType result = null;
-//  	if(Config.cacheElementReferences() == true) {
-  	  result = (_cache == null ? null : _cache.get());
-//  	}
-  	return result;
+  	return (_cache == null ? null : _cache.get());
   }
   
   protected void setCache(DeclarationWithType value) {
-//  	if(! value.isDerived()) {
-    	if(Config.cacheElementReferences() == true) {
-    		_cache = new SoftReference<DeclarationWithType>(value);
-    	}
-//  	} else {
-//  		_cache = null;
-//  	}
+		_cache = new SoftReference<DeclarationWithType>(value);
   }
 
   public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {

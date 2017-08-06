@@ -126,15 +126,13 @@ public abstract class ReflectiveVisitor {
    *           of element is defined.
    */
   protected void visitChildren(Element element) throws NoVisitorForTypeException {
-    List<? extends Element> children = element.children();
-    for (Element child : children) {
+    for (Element child : element.lexical().children()) {
       nonRecursiveVisit(child);
     }
   }
 
   private void resursiveVisitChildren(Element e) throws NoVisitorForTypeException {
-    List<? extends Element> children = e.children();
-    for (Element child : children) {
+    for (Element child : e.lexical().children()) {
       recursiveVisit(child);
     }
   }

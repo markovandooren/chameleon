@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
-import org.aikodi.chameleon.core.declaration.TargetDeclaration;
 import org.aikodi.chameleon.core.factory.Factory;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;

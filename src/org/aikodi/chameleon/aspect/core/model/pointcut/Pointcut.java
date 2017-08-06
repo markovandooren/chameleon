@@ -39,7 +39,7 @@ public abstract class Pointcut extends ElementWithModifiersImpl implements Decla
 	 * 	Get the Aspect that this Pointcut belongs to
 	 */
 	public Aspect aspect() {
-		return (Aspect) parent();
+		return (Aspect) lexical().parent();
 		
 	}
 	

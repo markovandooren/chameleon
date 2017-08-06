@@ -38,7 +38,7 @@ public class WithinTypePointcutExpression<E extends WithinTypePointcutExpression
 	@Override
 	public MatchResult match(Element joinpoint) throws LookupException {
 		@SuppressWarnings("unchecked")
-		boolean noMatch = joinpoint.ancestors(new UniversalPredicate<Type,Nothing>(Type.class) {
+		boolean noMatch = joinpoint.lexical().ancestors(new UniversalPredicate<Type,Nothing>(Type.class) {
 
 			@Override
 			public boolean uncheckedEval(Type object) {

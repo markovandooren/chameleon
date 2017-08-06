@@ -3,12 +3,12 @@ package org.aikodi.chameleon.test.stub.declaration;
 import java.util.List;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
-import org.aikodi.chameleon.core.declaration.DeclarationContainingDeclarationImpl;
-import org.aikodi.chameleon.core.declaration.SimpleNameSignature;
+import org.aikodi.chameleon.core.declaration.BasicDeclarationContainer;
+import org.aikodi.chameleon.core.declaration.Name;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.util.association.Multi;
 
-public class StubDeclarationContainingDeclarationContainer extends DeclarationContainingDeclarationImpl {
+public class StubDeclarationContainingDeclarationContainer extends BasicDeclarationContainer {
 
   private Multi<Declaration> _declarations = new Multi<Declaration>(this);
   
@@ -26,7 +26,7 @@ public class StubDeclarationContainingDeclarationContainer extends DeclarationCo
   }
 
   public StubDeclarationContainingDeclarationContainer(String name) {
-    super(new SimpleNameSignature(name));
+    super(new Name(name));
   }
 
   protected Element cloneSelf() {

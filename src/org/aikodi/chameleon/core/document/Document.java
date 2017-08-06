@@ -85,7 +85,7 @@ public class Document extends ElementImpl {
    * namespace structure of the project.
    */
   public void activate() {
-    for (NamespaceDeclaration part : children(NamespaceDeclaration.class)) {
+    for (NamespaceDeclaration part : lexical().children(NamespaceDeclaration.class)) {
       part.activate();
     }
   }
@@ -151,6 +151,11 @@ public class Document extends ElementImpl {
     return loader().scanner().view().language();
   }
 
+  /**
+   * {@inheritDoc}
+   * 
+   * @return A new document.
+   */
   @Override
   protected Document cloneSelf() {
     return new Document();

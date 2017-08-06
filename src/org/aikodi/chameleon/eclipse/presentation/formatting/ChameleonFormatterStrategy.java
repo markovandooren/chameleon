@@ -187,7 +187,7 @@ public class ChameleonFormatterStrategy implements IFormattingStrategy {
 	private int getElementDepth(Element element){
 		if(element instanceof Document || element == null)
 			return 0;
-		Element parent = element.parent();
+		Element parent = element.lexical().parent();
 		if(isIndentElement(element)){
 			return getElementDepth(parent) + 1;
 		} else {

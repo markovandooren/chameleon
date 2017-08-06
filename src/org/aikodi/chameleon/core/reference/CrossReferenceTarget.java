@@ -14,8 +14,6 @@ import org.aikodi.chameleon.core.lookup.LookupException;
  */
 
 public interface CrossReferenceTarget extends Element {
-  //FIXME TODO: rename this to prefix.
-// FIXME TODO: I think that this should become a cross-reference. Investigate!</
 
 	/**
 	 * @return <p>Return the target context of this target.</p>
@@ -37,6 +35,6 @@ public interface CrossReferenceTarget extends Element {
 	 *   <li>in "packagename.f", "f" must be looked up in the package represented by "package"</li>
 	 * </ol>
 	 */
-	public abstract LocalLookupContext<?> targetContext() throws LookupException;
+	public LocalLookupContext<?> targetContext() throws LookupException;
 
 }

@@ -74,7 +74,7 @@ public class WeavingBuilder<S extends Language, T extends Language> {
 		for (Document originalCompilationUnit : allProjectCompilationUnits) {
 			Document clonedCompilationUnit = implementationCompilationUnit(originalCompilationUnit);
 			
-			if (originalCompilationUnit.hasDescendant(Aspect.class)) {
+			if (originalCompilationUnit.lexical().hasDescendant(Aspect.class)) {
 				aspects.put(originalCompilationUnit, clonedCompilationUnit);
 			}
 			else {
