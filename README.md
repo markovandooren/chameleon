@@ -2,6 +2,7 @@ The Chameleon framework is a framework for creating software languages.
 
 Design priciples
 ================
+
 * Modularity is extremely important.
   - Language semantics are modularized as much as possible.
   - Tools contain no language semantics, language models contain no tool related functionality. This makes it very easy to create language-independent tools.
