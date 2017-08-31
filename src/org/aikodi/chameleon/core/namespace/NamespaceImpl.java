@@ -201,7 +201,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
    * @param declaration
    */
 	protected void registerListener(Declaration declaration) {
-		declaration.when().self().about(ParentRemoved.class).call(e -> removeDeclaration(declaration));
+		declaration.when().self().sends(ParentRemoved.class).call(e -> removeDeclaration(declaration));
 	}
 
   private void removeFromList(List<Declaration> list, Declaration declaration) {

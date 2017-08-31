@@ -62,9 +62,9 @@ public class TestEvents {
     
     
     EventChecker<ChildAdded,Element> documentChildAdded = new EventChecker<>();
-    _document.when().any().about(ChildAdded.class).call(documentChildAdded);
+    _document.when().any().sends(ChildAdded.class).call(documentChildAdded);
     EventChecker<ChildRemoved,Element> documentRemovedAdded = new EventChecker<>();
-    _document.when().any().about(ChildRemoved.class).call(documentRemovedAdded);
+    _document.when().any().sends(ChildRemoved.class).call(documentRemovedAdded);
     aChecker.expect(ParentAdded.class, a);
     documentAnyChecker.expect(ChildAdded.class,namespaceDeclaration());
     documentChildAdded.expect(ChildAdded.class,namespaceDeclaration());
@@ -86,9 +86,9 @@ public class TestEvents {
     
     
     EventChecker<ChildAdded,Element> documentChildAdded = new EventChecker<>();
-    _document.when().any().about(ChildAdded.class).call(documentChildAdded);
+    _document.when().any().sends(ChildAdded.class).call(documentChildAdded);
     EventChecker<ChildRemoved,Element> documentRemovedAdded = new EventChecker<>();
-    _document.when().any().about(ChildRemoved.class).call(documentRemovedAdded);
+    _document.when().any().sends(ChildRemoved.class).call(documentRemovedAdded);
     aChecker.expect(ParentAdded.class, a);
     documentAnyChecker.expect(ChildAdded.class,namespaceDeclaration());
     documentChildAdded.expect(ChildAdded.class,namespaceDeclaration());
@@ -103,7 +103,7 @@ public class TestEvents {
     documentAnyChecker.expect(NameChanged.class, a.signature());
     // The declaration itself hasn't changed, only its signature
     EventChecker<NameChanged,Element> signatureChecker = new EventChecker<>();
-    a.signature().when().self().about(NameChanged.class).call(signatureChecker);
+    a.signature().when().self().sends(NameChanged.class).call(signatureChecker);
     signatureChecker.expect(NameChanged.class, a.signature());
     a.setName("f");
     documentAnyChecker.check();
@@ -145,7 +145,7 @@ public class TestEvents {
     
     
     EventChecker<NameChanged,Element> signatureChecker = new EventChecker<>();
-    a.signature().when().self().about(NameChanged.class).call(signatureChecker);
+    a.signature().when().self().sends(NameChanged.class).call(signatureChecker);
     signatureChecker.expect(NameChanged.class, a.signature());
     a.setName("x");
     //No event should have been sent to the document.
@@ -175,9 +175,9 @@ public class TestEvents {
     Declaration a = new StubDeclaration("q");
     Declaration declaration = _declarations.get(0);
     EventChecker<Change, Element> declarationChecker = new EventChecker<Change, Element>();
-    declaration.when().self().about(ParentRemoved.class).call(declarationChecker);
+    declaration.when().self().sends(ParentRemoved.class).call(declarationChecker);
     EventChecker<Change, Element> aChecker = new EventChecker<Change, Element>();
-    a.when().self().about(ParentAdded.class).call(aChecker);
+    a.when().self().sends(ParentAdded.class).call(aChecker);
     
     declarationChecker.expect(ParentRemoved.class, declaration);
     aChecker.expect(ParentAdded.class, a);

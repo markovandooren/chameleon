@@ -84,4 +84,18 @@ public abstract class ElementEventStreamCollection extends EventStreamCollection
    */
   public abstract Element element();
 
+  public class ChangeSelector {
+  	
+  	public ChangeSelector(EventStream<Change, Element> stream) {
+			this._stream = stream;
+		}
+
+		private EventStream<Change,Element> _stream;
+  	
+  	EventStream<Change,Element> changes() {
+  		return _stream;
+  	}
+  	
+  }
+  
 }

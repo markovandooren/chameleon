@@ -24,16 +24,16 @@ public class DescendantStream extends AbstractEventStream<Change,Element> implem
 	 * A call-back listener to register this stream as an event listener to
 	 * children that are added to the element of the event stream collection.
 	 */
-  private EventListener<? super ChildAdded, ? super Element> _adder = c -> {
-    c.change().element().when().any().call(this);
+  private EventListener<? super ChildAdded, ? super Element> _childAddedListener = addedChild -> {
+    addedChild.change().element().when().any().sends().call(this);
   };
 
 	/**
 	 * A call-back listener to unregister this stream as an event listener from
 	 * children that are removed from the element of the event stream collection.
 	 */
-  private EventListener<? super ChildRemoved, ? super Element> _remover = c -> {
-    c.change().element().when().any().stopCalling(this);
+  private EventListener<? super ChildRemoved, ? super Element> _childRemovedListener = removedChild -> {
+    removedChild.change().element().when().any().sends().stopCalling(this);
   };
 
   private EventStream<ChildAdded, Element> _addStream;
@@ -76,12 +76,12 @@ public class DescendantStream extends AbstractEventStream<Change,Element> implem
   @Override
   protected void activate() {
     element().lexical().children().stream().forEach(c -> {
-      c.when().any().call(this);
+      c.when().any().sends().call(this);
     });
-    _addStream = element().when().self().about(ChildAdded.class);
-    _addStream.call(_adder);
-    _removeStream = element().when().self().about(ChildRemoved.class);
-    _removeStream.call(_remover);
+    _addStream = element().when().self().sends(ChildAdded.class);
+    _addStream.call(_childAddedListener);
+    _removeStream = element().when().self().sends(ChildRemoved.class);
+    _removeStream.call(_childRemovedListener);
   }
 
   /**
@@ -96,10 +96,10 @@ public class DescendantStream extends AbstractEventStream<Change,Element> implem
   @Override
   protected void deactivate() {
     element().lexical().children().stream().forEach(c -> {
-      c.when().any().stopCalling(this);
+      c.when().any().sends().stopCalling(this);
     });
-    _addStream.stopCalling(_adder);
-    _removeStream.stopCalling(_remover);
+    _addStream.stopCalling(_childAddedListener);
+    _removeStream.stopCalling(_childRemovedListener);
     _collection.deactivate(this);
   }
 

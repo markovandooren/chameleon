@@ -61,11 +61,15 @@ public interface EventStream<C, S> {
    *         
    * @throws IllegalArgumentException The given class object is null.
    */
-  public default <T extends C> EventStream<T,S> about(Class<T> changeType) {
+  public default <T extends C> EventStream<T,S> sends(Class<T> changeType) {
     if(changeType == null) {
       throw new IllegalArgumentException("The class object cannot be null.");
     }
     return new ChangeFilter<T, S>(this, changeType);
+  }
+  
+  public default EventStream<C,S> sends() {
+  	return this;
   }
 
   /**
