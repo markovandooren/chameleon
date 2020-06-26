@@ -2,24 +2,17 @@ package org.aikodi.chameleon.oo.variable;
 
 import java.util.List;
 
-import org.aikodi.chameleon.core.declaration.Declaration;
-import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.modifier.Modifier;
-import org.aikodi.chameleon.core.property.ChameleonProperty;
-import org.aikodi.chameleon.core.variable.Variable;
 import org.aikodi.chameleon.core.variable.VariableImpl;
-import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.expression.Expression;
-import org.aikodi.chameleon.oo.statement.CheckedExceptionList;
 import org.aikodi.chameleon.oo.statement.ExceptionSource;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
 import org.aikodi.rejuse.association.Association;
-import org.aikodi.rejuse.property.PropertySet;
 
 public abstract class RegularVariable extends VariableImpl implements ExceptionSource {
 

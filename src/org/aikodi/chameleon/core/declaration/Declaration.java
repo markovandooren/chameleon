@@ -12,22 +12,16 @@ import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.language.LanguageImpl;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
-import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiers;
-import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.core.scope.Scope;
-import org.aikodi.chameleon.core.scope.ScopeProperty;
-import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.oo.member.DeclarationComparator;
 //import org.aikodi.chameleon.oo.member.HidesRelation;
 import org.aikodi.chameleon.util.Lists;
-import org.aikodi.chameleon.util.Util;
-import org.aikodi.chameleon.util.exception.Handler;
-import org.aikodi.rejuse.action.UniversalConsumer;
+import org.aikodi.rejuse.exception.Handler;
 
 /**
  * <p>
@@ -281,7 +275,7 @@ public interface Declaration extends Element, SelectionResult<Declaration>, Decl
    @ post result != null
    @ post result.stream().allMatch(cref -> cref.getElement().sameAs(this))
    @*/
-  public default <E extends Exception> List<CrossReference<?>> findAllReferences(Handler<E> handler) throws E {
+  public default <E extends Exception> List<CrossReference<?>> findAllReferences(Handler<LookupException, E> handler) throws E {
      List<CrossReference<?>> result = new ArrayList<>();
      namespace().defaultNamespace().lexical().apply(CrossReference.class, crossReference ->  {
     	     try {
@@ -434,6 +428,18 @@ public interface Declaration extends Element, SelectionResult<Declaration>, Decl
     return result;
   }
 
+  /**
+   * Return the declarations that are directly overridden by this declaration.
+   * 
+   * @return A non-null set containing all declarations D that are overridden by
+   *         this declaration such that there is an inheritance path leading
+   *         to D for which there is no declaration M on that path that overrides
+   *         D and that is overridden by this declaration.
+   *         
+   *         If there is such an M, but there is also a path such that there is
+   *         no such M, declaration D will be included in the result.
+   * @throws LookupException
+   */
   public default Set<Declaration> directlyOverriddenDeclarations() throws LookupException {
   	Set<Declaration> result = new HashSet<>();
   	//FIXME This may have to be determined by the language.

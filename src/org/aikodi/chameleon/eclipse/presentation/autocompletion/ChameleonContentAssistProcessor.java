@@ -41,7 +41,7 @@ public class ChameleonContentAssistProcessor implements IContentAssistProcessor 
 			String nameStart = chamDoc.get(wordRegion.getOffset(), wordRegion.getLength());
 			EclipseEditorTag dec = chamDoc.getSmallestEditorTagAtOffset(wordRegion.getOffset());
 			if(dec != null){
-				Element el = dec.getElement();
+				Element el = dec.element();
 //					ContextElement element = (ContextElement)el;
 					LookupContext context;
 					// see if element has a target (e.g. car.getOwner())
@@ -98,7 +98,7 @@ public class ChameleonContentAssistProcessor implements IContentAssistProcessor 
 			EclipseDocument chamDoc = (EclipseDocument)viewer.getDocument();
 			EclipseEditorTag dec = chamDoc.getSmallestEditorTagAtOffset(offset);
 			if(dec!=null){
-				Element element = dec.getElement();
+				Element element = dec.element();
 				Language language = ((EclipseDocument)viewer.getDocument()).getProjectNature().getModel().language();
 				EclipseEditorExtension ext = language.plugin(EclipseEditorExtension.class);
 				String elementLabel = ext.label(element);

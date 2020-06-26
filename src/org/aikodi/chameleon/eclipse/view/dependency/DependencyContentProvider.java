@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import org.aikodi.chameleon.analysis.dependency.DependencyResult;
 import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.rejuse.graph.Node;
+import org.aikodi.rejuse.data.graph.Node;
 import org.aikodi.rejuse.predicate.UniversalPredicate;
 import org.eclipse.gef.zest.fx.jface.IGraphContentProvider;
 import org.eclipse.jface.viewers.Viewer;

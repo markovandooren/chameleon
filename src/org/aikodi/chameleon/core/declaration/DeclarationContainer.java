@@ -42,12 +42,12 @@ public interface DeclarationContainer extends Element {
 	 * 
 	 * @default The default implementation returns the {{@link #locallyDeclaredDeclarations()}.
 	 */
-	/*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @ post \result.containsAll(locallyDeclaredDeclarations());
-   @*/
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @ post \result.containsAll(locallyDeclaredDeclarations());
+     @*/
 	public default List<? extends Declaration> declarations() throws LookupException {
 		return locallyDeclaredDeclarations();
 	}
@@ -57,11 +57,11 @@ public interface DeclarationContainer extends Element {
 	 * @throws LookupException The list of declarations could not be computed
 	 * because of an error during lookup.
 	 */
-	/*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @*/
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @*/
 	public default List<? extends Declaration> locallyDeclaredDeclarations() throws LookupException {
 		return Lists.create();
 	}
@@ -83,12 +83,12 @@ public interface DeclarationContainer extends Element {
 	 * @param selector
 	 *          The selector that determines which declarations must be returned.
 	 */
-	/*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @ post \result.equals(selector.selection(declarations()));
-   @*/
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @ post \result.equals(selector.selection(declarations()));
+     @*/
 	public default <D extends Declaration> List<? extends SelectionResult<D>> declarations(DeclarationSelector<D> selector)
 			throws LookupException {
 		return selector.selection(declarations());
@@ -100,11 +100,11 @@ public interface DeclarationContainer extends Element {
 	 * @return a lookup context that searches for declarations in this container.
 	 * @throws LookupException
 	 */
-	/*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @*/
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @*/
 	public default LookupContext localContext() throws LookupException {
 		return language().lookupFactory().createLocalLookupStrategy(this);
 	}
@@ -132,18 +132,9 @@ public interface DeclarationContainer extends Element {
 	 * @throws LookupException
 	 */
 	public default void directlyOverriddenDeclarations(Declaration declaration, DeclarationRelation declarationRelation, Set<Declaration> accumulator) throws LookupException {
-//		boolean done = false;
-//		for(Declaration local: locallyDeclaredDeclarations()) {
-//			if(declarationRelation.matches(local, declaration)) {
-//				accumulator.add(local);
-//				done = true;
-//			}
-//		}
-//		if(! done) {
-			for(DeclarationContainerRelation relation: relations()) {
-				relation.directlyOverridden(declaration, declarationRelation, accumulator);
-			}
-//		}
+		for (DeclarationContainerRelation relation : relations()) {
+			relation.directlyOverridden(declaration, declarationRelation, accumulator);
+		}
 	}
 
 	public default List<? extends DeclarationContainerRelation> relations() throws LookupException {

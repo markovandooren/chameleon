@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import java.lang.ref.SoftReference;
 
@@ -19,7 +18,7 @@ import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.workspace.DocumentLoader;
 import org.aikodi.chameleon.workspace.InputException;
-import org.aikodi.contract.Contracts;
+import org.aikodi.contract.Contract;
 import org.aikodi.rejuse.association.OrderedMultiAssociation;
 
 import com.google.common.collect.ImmutableList;
@@ -115,7 +114,7 @@ public class LazyNamespace extends RegularNamespace implements DocumentLoaderNam
 	
 	@Override
 	public void addDeclaration(Declaration declaration) {
-    Contracts.notNull(declaration, "The declaration cannot be null.");
+    Contract.requireNotNull(declaration, "The declaration cannot be null.");
     if(_lazyDeclarationCache != null) {
       String name = declaration.name();
       List<SoftReference<Declaration>> list = _lazyDeclarationCache.get(name);

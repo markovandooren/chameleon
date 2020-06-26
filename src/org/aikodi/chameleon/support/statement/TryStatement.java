@@ -1,12 +1,7 @@
 package org.aikodi.chameleon.support.statement;
 
-import static org.aikodi.rejuse.collection.CollectionOperations.forAll;
-
-import java.util.Iterator;
 import java.util.List;
 
-import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.oo.statement.CheckedExceptionList;
 import org.aikodi.chameleon.oo.statement.Statement;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;

@@ -21,20 +21,6 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 		setArgument(argument);
 	}
 
-	/**
-	 * Return a substitution map that specifies which substitutions must be done in the given
-	 * element if this type parameter were to be substituted.
-	 * @param element The element in which the substitution is to be done.
-	 * @return
-	 * @throws LookupException
-	 */
-	public TypeParameterSubstitution substitution(Element element) throws LookupException {
-		List<CrossReference> crossReferences = 
-				element.lexical().descendants(CrossReference.class, object -> object.getDeclarator().sameAs(AbstractInstantiatedTypeParameter.this));
-
-		return new TypeParameterSubstitution(this, crossReferences);
-	}
-
 	private void setArgument(TypeArgument type) {
 		_argument = type;
 	}

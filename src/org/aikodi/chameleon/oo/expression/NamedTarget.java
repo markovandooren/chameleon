@@ -104,15 +104,6 @@ public class NamedTarget extends CommonCrossReferenceWithTarget<Declaration> imp
       return new NamedTarget(name(), (CrossReferenceTarget) null);
    }
 
-   @SuppressWarnings("unchecked")
-   public Set getDirectExceptions() throws LookupException {
-      Set result = new HashSet();
-      if (getTarget() != null) {
-         Util.addNonNull(language(ObjectOrientedLanguage.class).getNullInvocationException(view().namespace()), result);
-      }
-      return result;
-   }
-
    @Override
    public String toString() {
       return name();

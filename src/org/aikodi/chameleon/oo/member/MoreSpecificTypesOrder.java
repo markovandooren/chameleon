@@ -10,7 +10,7 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.relation.WeakPartialOrder;
 import org.aikodi.chameleon.oo.type.Type;
 
-public class MoreSpecificTypesOrder extends WeakPartialOrder<List<Type>> {
+public class MoreSpecificTypesOrder implements WeakPartialOrder<List<Type>> {
 	
 	public static MoreSpecificTypesOrder create() {
 		return _protoType; 

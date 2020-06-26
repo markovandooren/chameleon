@@ -51,7 +51,7 @@ public class ChameleonHyperlinkDetector implements IHyperlinkDetector {
 		} else {
 //			System.out.println("Found cross-reference taf at offset: "+editorTag.getOffset() +" length: "+editorTag.getLength());
 			// get the element:
-			Element element = editorTag.getElement();
+			Element element = editorTag.element();
 			if (element instanceof CrossReference) {
 				IRegion refRegion = new Region(editorTag.getOffset(), editorTag.getLength());
 				ChameleonHyperlink hyperlink = new ChameleonHyperlink((CrossReference) element, refRegion, document);

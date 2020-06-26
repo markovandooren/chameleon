@@ -1,6 +1,6 @@
 package org.aikodi.chameleon.core.event;
 
-import org.aikodi.contract.Contracts;
+import org.aikodi.contract.Contract;
 
 /**
  * A class of events that indicate that a change happened in a source element.
@@ -36,8 +36,8 @@ public class Event<C,S> {
    @ pre source != null;  
    @*/
   public Event(C change, S source) {
-    Contracts.notNull(change, "The change of an event cannot be null.");
-    Contracts.notNull(source, "The source of an event cannot be null.");
+    Contract.requireNotNull(change, "The change of an event cannot be null.");
+    Contract.requireNotNull(source, "The source of an event cannot be null.");
     this._change = change;
     this._source = source;
   }

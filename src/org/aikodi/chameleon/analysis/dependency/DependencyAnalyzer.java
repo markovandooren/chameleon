@@ -8,19 +8,15 @@ import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.reference.CrossReference;
-import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.chameleon.workspace.Project;
-import org.aikodi.rejuse.action.UniversalConsumer;
 import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.data.graph.Edge;
+import org.aikodi.rejuse.data.graph.UniEdge;
 import org.aikodi.rejuse.exception.Handler;
 import org.aikodi.rejuse.function.Consumer;
 import org.aikodi.rejuse.function.Function;
-import org.aikodi.rejuse.graph.Edge;
-import org.aikodi.rejuse.graph.Path;
-import org.aikodi.rejuse.graph.UniEdge;
-import org.aikodi.rejuse.predicate.True;
 import org.aikodi.rejuse.predicate.UniversalPredicate;
 
 public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer {
@@ -93,8 +89,8 @@ public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer
     return result;
   }
 
-  protected True dependencyPredicate() {
-    return new True();
+  protected UniversalPredicate<Object, Nothing> dependencyPredicate() {
+    return UniversalPredicate.isTrue();
   }
 
   protected HistoryFilter<D, D> historyFilter() {

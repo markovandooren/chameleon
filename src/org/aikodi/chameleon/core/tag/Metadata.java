@@ -13,7 +13,7 @@ public interface Metadata {
 	 * Return the element to which this tag is attached.
 	 * @return
 	 */
-	public Element getElement();
+	public Element element();
 	
 	public void setElement(Element element, String name);
 	

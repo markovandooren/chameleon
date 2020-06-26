@@ -6,7 +6,6 @@ import java.util.ListIterator;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.rejuse.java.collections.RobustVisitor;
 
 /**
  * @author Marko van Dooren

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.aikodi.chameleon.ui.widget.PredicateSelector;
 import org.aikodi.chameleon.util.Lists;
-import org.aikodi.rejuse.predicate.True;
 import org.aikodi.rejuse.predicate.UniversalPredicate;
 
 public class PredicateOptionGroup extends OptionGroup {
@@ -25,7 +24,7 @@ public class PredicateOptionGroup extends OptionGroup {
 	}
 
 	public UniversalPredicate predicate(List<PredicateSelector<?>> selectors) {
-		UniversalPredicate result = new True();
+		UniversalPredicate result = UniversalPredicate.isTrue();
 		for(PredicateSelector selector: selectors) {
 			result = result.and(selector.predicate());
 		}

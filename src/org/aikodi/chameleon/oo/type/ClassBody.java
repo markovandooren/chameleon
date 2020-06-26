@@ -101,7 +101,7 @@ public class ClassBody extends ElementImpl implements DeclarationContainer {
 		return _elements.getOtherEnds();
 	}
 	
-	public <D extends Declaration> List<? extends SelectionResult> members(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult<D>> members(DeclarationSelector<D> selector) throws LookupException {
 		if(selector.usesSelectionName()) {
 			List<? extends Declaration> list = null;
 			ensureLocalCache();

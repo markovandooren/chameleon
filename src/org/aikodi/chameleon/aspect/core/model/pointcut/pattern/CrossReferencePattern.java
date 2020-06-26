@@ -11,7 +11,7 @@ import org.aikodi.chameleon.core.reference.CrossReference;
  */
 public class CrossReferencePattern extends DeclarationPattern {
 
-	public CrossReferencePattern(CrossReference crossReference) {
+	public CrossReferencePattern(CrossReference<?> crossReference) {
 		_crossReference = crossReference;
 	}
 
@@ -25,9 +25,9 @@ public class CrossReferencePattern extends DeclarationPattern {
 		return object.sameAs(crossReference().getElement());
 	}
 
-	public CrossReference crossReference() {
+	public CrossReference<?> crossReference() {
 		return _crossReference;
 	}
 	
-	private CrossReference _crossReference;
+	private CrossReference<?> _crossReference;
 }

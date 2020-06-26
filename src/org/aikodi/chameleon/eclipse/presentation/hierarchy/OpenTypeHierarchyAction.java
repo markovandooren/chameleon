@@ -146,8 +146,8 @@ public class OpenTypeHierarchyAction extends Action implements IDoubleClickListe
 							@Override
 							public boolean eval(EclipseEditorTag editorTag) {
 								return editorTag.includes(offset) && 
-										(	(editorTag.getElement() instanceof Type) 
-												|| (editorTag.getElement() instanceof TypeReference)
+										(	(editorTag.element() instanceof Type) 
+												|| (editorTag.element() instanceof TypeReference)
 												);
 							}
 						};
@@ -155,10 +155,10 @@ public class OpenTypeHierarchyAction extends Action implements IDoubleClickListe
 						doc.getEditorTagsWithPredicate(predicate, tags);
 						if(tags != null && tags.size()>0){
 							for(EclipseEditorTag tag : tags ){
-								if(tag!=null && tag.getElement() instanceof Type){
-									return (Type)tag.getElement();
-								} else if(tag!=null && tag.getElement() instanceof TypeReference){
-									return ((TypeReference)tag.getElement()).getElement();
+								if(tag!=null && tag.element() instanceof Type){
+									return (Type)tag.element();
+								} else if(tag!=null && tag.element() instanceof TypeReference){
+									return ((TypeReference)tag.element()).getElement();
 								}
 							}
 						}

@@ -234,12 +234,12 @@ public class LazyClassBody extends ClassBody {
 	private List<Declarator> _statics;
 
 	@Override
-	public <D extends Declaration> List<? extends SelectionResult<?>> members(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult<D>> members(DeclarationSelector<D> selector) throws LookupException {
 		if(selector.usesSelectionName()) {
 			List<? extends Declaration> list = null;
 			list = declarations(selector.selectionName(this));
 			if(list == null) {
-				list = Collections.EMPTY_LIST;
+				list = Collections.emptyList();
 			}
 			return selector.selection(Collections.unmodifiableList(list));
 		} else {
@@ -247,6 +247,7 @@ public class LazyClassBody extends ClassBody {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <D extends Declaration> List<D> members(Class<D> kind) throws LookupException {
 		List<D> originals = original().members(kind);

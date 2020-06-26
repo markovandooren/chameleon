@@ -182,7 +182,7 @@ public class ChameleonLabelProvider implements ILabelProvider {
 			} else if (modelObject instanceof Element) {
 				return (Element) modelObject;
 			} else if(modelObject instanceof EclipseEditorTag){
-				return ((EclipseEditorTag)modelObject).getElement();
+				return ((EclipseEditorTag)modelObject).element();
 			}
 		} catch (ModelException e) {
 			e.printStackTrace();

@@ -43,13 +43,13 @@ import org.aikodi.rejuse.association.Association;
 import org.aikodi.rejuse.association.AssociationListener;
 import org.aikodi.rejuse.association.OrderedMultiAssociation;
 import org.aikodi.rejuse.association.SingleAssociation;
+import org.aikodi.rejuse.data.tree.TreeStructure;
 import org.aikodi.rejuse.debug.StackTrace;
 import org.aikodi.rejuse.logic.ternary.Ternary;
 import org.aikodi.rejuse.predicate.Predicate;
 import org.aikodi.rejuse.property.Conflict;
 import org.aikodi.rejuse.property.PropertyMutex;
 import org.aikodi.rejuse.property.PropertySet;
-import org.aikodi.rejuse.tree.TreeStructure;
 
 /**
  * A class that implement most methods of {@link Element}.
@@ -225,7 +225,7 @@ public abstract class ElementImpl implements Element {
 		if(_tags != null) {
 			Metadata old = _tags.get(name);
 			_tags.remove(name);
-			if((old != null) && (old.getElement() == this)){
+			if((old != null) && (old.element() == this)){
 				old.setElement(null,name);
 			}
 		}
@@ -257,7 +257,7 @@ public abstract class ElementImpl implements Element {
 		}
 		Metadata old = _tags.get(name); 
 		if(old != decorator) {
-			if((decorator != null) && (decorator.getElement() != this)) {
+			if((decorator != null) && (decorator.element() != this)) {
 				decorator.setElement(this,name);
 			}
 			if (old != null) {
@@ -273,7 +273,7 @@ public abstract class ElementImpl implements Element {
 	@Override
    public Collection<Metadata> metadata() {
 		if(_tags == null) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		} else {
 			return _tags.values();
 		}
@@ -330,7 +330,7 @@ public abstract class ElementImpl implements Element {
       }
     }
     if (consumer != null && type.isInstance(this)) {
-      consumer.accept((E) this, (E) result);
+      consumer.accept(type.cast(this), type.cast(result));
     }
     return result;
   }
@@ -528,13 +528,10 @@ public abstract class ElementImpl implements Element {
 	static {
 		excludeFieldName(ElementImpl.class,"_parentLink");
 	}
-	private static Set<String> excludedFieldNames(Class<? extends Element> type) {
-		return _excludedFieldNames.get(type);
-	}
 
-	private static Map<Class, List<Field>> _fieldMap = new HashMap<Class, List<Field>>();
+	private static Map<Class<?>, List<Field>> _fieldMap = new HashMap<Class<?>, List<Field>>();
 
-	private static List<Field> getAllFieldsTillClass(Class currentClass){
+	private static List<Field> getAllFieldsTillClass(Class<?> currentClass){
 		List<Field> result = _fieldMap.get(currentClass);
 		if(result == null) {
 			result = Lists.create();
@@ -570,7 +567,7 @@ public abstract class ElementImpl implements Element {
   					_associations = Collections.unmodifiableList(tmp);
   				}
   				else {
-  					_associations = Collections.EMPTY_LIST;
+  					_associations = Collections.emptyList();
   				}
   				result = _associations;
   			} finally {
@@ -590,7 +587,7 @@ public abstract class ElementImpl implements Element {
 		return ! getAllFieldsTillClass(getClass()).isEmpty();
 	}
 	
-	private static void addAllFieldsTillClass(final Class<? extends Element> currentClass, Collection<Field> accumulator){
+	private static void addAllFieldsTillClass(final Class<?> currentClass, Collection<Field> accumulator){
 		Field[] fields = currentClass.getDeclaredFields();
 		for(Field field: fields) {
 			Set<String> set = _excludedFieldNames.get(currentClass);
@@ -599,8 +596,8 @@ public abstract class ElementImpl implements Element {
 				accumulator.add(field);
 			}
 		}
-		if(currentClass != ElementImpl.class) {
-			Class superClass = currentClass.getSuperclass();
+		Class<?> superClass = currentClass.getSuperclass();
+		if (superClass != null) {
 			accumulator.addAll(getAllFieldsTillClass(superClass));
 		}
 	}
@@ -979,7 +976,7 @@ public abstract class ElementImpl implements Element {
 	  *
 	  * @param <N> The exception that can be thrown while navigating the tree.
 	  */
-	 public abstract class Navigator<N extends Exception> extends TreeStructure<Element, N> {
+	 public abstract class Navigator<N extends Exception> implements TreeStructure<Element, N> {
 
      public ElementImpl node() {
        return ElementImpl.this;
@@ -1249,9 +1246,9 @@ public abstract class ElementImpl implements Element {
    /**
     * {@inheritDoc}
     */
-   public ElementEventStreamCollection when() {
+   public ElementEventSourceSelector when() {
      if(_eventManager == null) {
-       _eventManager = new ElementEventStreamCollection() {
+       _eventManager = new ElementEventSourceSelector() {
          /**
           * @return the element from which the events are gathered.
           */
@@ -1279,7 +1276,7 @@ public abstract class ElementImpl implements Element {
      return _eventManager;
    }
 
-   ElementEventStreamCollection _eventManager;
+   ElementEventSourceSelector _eventManager;
 
    /**
     * A helper method that unfortunately has to be public.

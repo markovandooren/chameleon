@@ -8,12 +8,12 @@ import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.rejuse.action.UniversalConsumer;
 import org.aikodi.rejuse.collection.CollectionOperations;
+import org.aikodi.rejuse.data.graph.Edge;
+import org.aikodi.rejuse.data.graph.Graph;
+import org.aikodi.rejuse.data.graph.Node;
+import org.aikodi.rejuse.data.graph.UniEdge;
+import org.aikodi.rejuse.data.graph.UniEdgeFactory;
 import org.aikodi.rejuse.function.Consumer;
-import org.aikodi.rejuse.graph.Edge;
-import org.aikodi.rejuse.graph.Graph;
-import org.aikodi.rejuse.graph.Node;
-import org.aikodi.rejuse.graph.UniEdge;
-import org.aikodi.rejuse.graph.UniEdgeFactory;
 import org.aikodi.rejuse.predicate.Predicate;
 
 public class DependencyResult extends Result<DependencyResult> {
@@ -84,7 +84,7 @@ public class DependencyResult extends Result<DependencyResult> {
 	
 	public boolean involvedInCyle(Element element) {
 		Node<Element> node = _dependencyGraph.node(element);
-		return node == null ? false : node.canReach(node);
+		return node == null ? false : node.canReachNode(node);
 	}
 	
 	public static class DependencyCount {
@@ -104,7 +104,7 @@ public class DependencyResult extends Result<DependencyResult> {
 	}
 	
 	public void prune() {
-		_dependencyGraph.remoteEdgesNotInvolvedInCycles();
+		_dependencyGraph.removeEdgesNotInvolvedInCycles();
 	}
 	
 	public Set<Node<Element>> nodes() {

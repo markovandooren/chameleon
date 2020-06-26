@@ -88,7 +88,7 @@ public abstract class MultiType extends ClassImpl {
 	}
 
 	@Override
-   public void addParameterBlock(ParameterBlock block) {
+   public void addParameterBlock(ParameterBlock<?> block) {
 		throw new ChameleonProgrammerException("Trying to add a parameter block to a union type.");
 	}
 
@@ -98,12 +98,12 @@ public abstract class MultiType extends ClassImpl {
 	}
 
 	@Override
-   public List<ParameterBlock> parameterBlocks() {
-		return new ArrayList<ParameterBlock>();
+   public List<ParameterBlock<?>> parameterBlocks() {
+		return new ArrayList<>();
 	}
 
 	@Override
-   public void removeParameterBlock(ParameterBlock block) {
+   public void removeParameterBlock(ParameterBlock<?> block) {
 		throw new ChameleonProgrammerException("Trying to remove a parameter block from a union type.");
 	}
 
@@ -128,7 +128,7 @@ public abstract class MultiType extends ClassImpl {
 
 	@Override
 	public List<InheritanceRelation> implicitNonMemberInheritanceRelations() {
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 
 	/* (non-Javadoc)

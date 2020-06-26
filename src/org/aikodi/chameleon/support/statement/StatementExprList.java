@@ -11,11 +11,9 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
-import org.aikodi.chameleon.oo.statement.CheckedExceptionList;
 import org.aikodi.chameleon.oo.statement.ExceptionSource;
 import org.aikodi.chameleon.oo.statement.Statement;
 import org.aikodi.chameleon.util.association.Multi;
-import org.aikodi.rejuse.java.collections.RobustVisitor;
 
 /**
  * A list of statement expressions as used in the initialization clause of a for

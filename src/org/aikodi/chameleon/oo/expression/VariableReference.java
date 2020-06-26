@@ -93,31 +93,10 @@ public VariableReference cloneSelf() {
     return new VariableReference(name(), null);
   }
 
-//  public void prefix(InvocationTarget target) throws LookupException {
-//    getTarget().prefixRecursive(target);
-//  }
-  
-//  public void substituteParameter(String name, Expression expr) throws MetamodelException {
-//    getTarget().substituteParameter(name, expr);
-//  }
-
-  public Set<Type> getDirectExceptions() throws LookupException {
-    Set<Type> result = new HashSet<Type>();
-    if(getTarget() != null) {
-      Util.addNonNull(language(ObjectOrientedLanguage.class).getNullInvocationException(view().namespace()), result);
-    }
-    return result;
-  }
-  
   @Override
 public Variable getElement() throws LookupException {
   	return getElement(selector());
   }
-  
-//	@Override
-//   public Declaration getDeclarator() throws LookupException {
-//		return getElement(new DeclaratorSelector(selector()));
-//	}
   
   @SuppressWarnings("unchecked")
   public <X extends Declaration> X getElement(DeclarationSelector<X> selector) throws LookupException {
@@ -129,17 +108,7 @@ public Variable getElement() throws LookupException {
     } else {
       lexicalContext().lookUp(collector);//findElement(getName());
     }
-//    if(result != null) {
       return collector.result();
-//    } else {
-//    	// repeat for debugging purposes
-//      if(target != null) {
-//        result = target.targetContext().lookUp(selector);//findElement(getName());
-//      } else {
-//        result = lookupContext().lookUp(selector);//findElement(getName());
-//      }
-//    	throw new LookupException("Lookup of named target with name: "+name()+" returned null.");
-//    }
   }
 
 	public DeclarationSelector<Variable> selector() {

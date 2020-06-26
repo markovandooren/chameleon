@@ -9,12 +9,12 @@ import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespacedeclaration.Import;
-import org.aikodi.chameleon.util.action.GuardedTreeWalker;
-import org.aikodi.chameleon.util.action.TopDown;
 import org.aikodi.chameleon.workspace.DocumentLoader;
 import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.View;
+import org.aikodi.rejuse.data.tree.walker.GuardedTreeWalker;
+import org.aikodi.rejuse.data.tree.walker.TopDown;
 import org.aikodi.rejuse.exception.Handler;
 
 public abstract class Analyzer {

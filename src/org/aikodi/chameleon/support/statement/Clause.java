@@ -1,8 +1,6 @@
 package org.aikodi.chameleon.support.statement;
 
 import org.aikodi.chameleon.core.element.ElementImpl;
-import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.oo.statement.CheckedExceptionList;
 import org.aikodi.chameleon.oo.statement.ExceptionSource;
 import org.aikodi.chameleon.oo.statement.Statement;
 import org.aikodi.chameleon.util.association.Single;

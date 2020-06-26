@@ -1,7 +1,6 @@
 package org.aikodi.chameleon.core.event.association;
 
 import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.contract.Contracts;
 
 public abstract class AssociationChanged {
 

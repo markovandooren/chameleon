@@ -18,7 +18,7 @@ import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.Util;
-import org.aikodi.contract.Contracts;
+import org.aikodi.contract.Contract;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
@@ -220,7 +220,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
   
   @Override
   public void removeDeclaration(Declaration declaration) {
-    Contracts.notNull(declaration, "The declaration cannot be null.");
+    Contract.requireNotNull(declaration, "The declaration cannot be null.");
     if(_declarationCache != null) {
       String name = declaration.name();
       List<Declaration> list = _declarationCache.get(name);
@@ -241,7 +241,7 @@ public abstract class NamespaceImpl extends BasicDeclaration implements Namespac
   
   @Override
   public void addDeclaration(Declaration declaration) {
-    Contracts.notNull(declaration, "The declaration cannot be null.");
+    Contract.requireNotNull(declaration, "The declaration cannot be null.");
     if(_declarationCache != null) {
       String name = declaration.name();
       List<Declaration> list = _declarationCache.get(name);

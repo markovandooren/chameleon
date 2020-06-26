@@ -8,9 +8,7 @@ import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
-import org.aikodi.chameleon.oo.expression.MethodInvocation;
 import org.aikodi.chameleon.util.association.Multi;
-import org.aikodi.rejuse.java.collections.RobustVisitor;
 import org.aikodi.rejuse.predicate.Predicate;
 
 /**
@@ -43,57 +41,11 @@ public boolean compatibleWith(final ExceptionClause other) throws LookupExceptio
     }
   }
 
-  public Set getExceptionTypes(final MethodInvocation invocation) throws LookupException {
-    final Set result = new HashSet();
-    try {
-      new RobustVisitor() {
-        @Override
-      public Object visit(Object element) throws LookupException {
-          result.addAll(((ExceptionDeclaration)element).getExceptionTypes(invocation));
-          return null;
-        }
-
-        @Override
-      public void unvisit(Object element, Object undo) {
-          //NOP
-        }
-      }.applyTo(exceptionDeclarations());
-    }
-    catch (LookupException e) {
-      throw e;
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-      throw new Error();
-    }
-
-    return result;
-  }
-
   public Set getWorstCaseExceptions() throws LookupException {
     final Set result = new HashSet();
-    try {
-      new RobustVisitor() {
-        @Override
-      public Object visit(Object element) throws LookupException {
-          result.addAll(((ExceptionDeclaration)element).getWorstCaseExceptionTypes());
-          return null;
-        }
-
-        @Override
-      public void unvisit(Object element, Object undo) {
-          //NOP
-        }
-      }.applyTo(exceptionDeclarations());
+    for(ExceptionDeclaration element : exceptionDeclarations()) {
+      result.addAll(element.getWorstCaseExceptionTypes());
     }
-    catch (LookupException e) {
-      throw e;
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-      throw new Error();
-    }
-
     return result;
   }
 

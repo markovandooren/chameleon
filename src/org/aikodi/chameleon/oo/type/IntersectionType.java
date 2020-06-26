@@ -105,10 +105,10 @@ public class IntersectionType extends MultiType {
 	}
 	
 	@Override
-	public <D extends Declaration> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult<D>> localMembers(DeclarationSelector<D> selector) throws LookupException {
 		//FIXME: renaming and so on. Extend both types and perform automatic renaming?
 		//       what about conflicting member definitions?
-		List<SelectionResult> result = Lists.create();
+		List<SelectionResult<D>> result = Lists.create();
 		for(Type type: types()) {
 		  result.addAll(type.localMembers(selector));
 		}

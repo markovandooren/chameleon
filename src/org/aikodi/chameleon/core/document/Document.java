@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.core.document;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.language.Language;
@@ -9,14 +7,13 @@ import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
-import org.aikodi.chameleon.util.Util;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.workspace.DocumentLoader;
 import org.aikodi.chameleon.workspace.FakeDocumentLoader;
 import org.aikodi.chameleon.workspace.FakeDocumentScanner;
 import org.aikodi.chameleon.workspace.ProjectException;
 import org.aikodi.chameleon.workspace.View;
-import org.aikodi.contract.Contracts;
+import org.aikodi.contract.Contract;
 import org.aikodi.rejuse.association.SingleAssociation;
 
 /**
@@ -175,7 +172,7 @@ public class Document extends ElementImpl {
    * @return A clone of the document in the given view.
    */
   public Document cloneTo(View view) {
-    Contracts.notNull(view);
+    Contract.requireNotNull(view);
     Document clone = (Document) clone((e1,e2) -> {e2.setOrigin(e1);}, Element.class);
     // Document clone = (Document) clone();
     FakeDocumentScanner pl = new FakeDocumentScanner();

@@ -77,10 +77,6 @@ public class MemberVariableDeclarator extends ElementWithModifiersImpl implement
 	 */
 	private Single<TypeReference> _typeReference = new Single<TypeReference>(this);
 
-  public Type type() throws LookupException {
-  	return typeReference().getElement();
-  }
-	
   @Override
   public TypeReference typeReference() {
     return _typeReference.getOtherEnd();

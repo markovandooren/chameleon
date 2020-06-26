@@ -71,25 +71,13 @@ public class UnionType extends MultiType {
 		//FIXME: renaming and so on. Extend both types and perform automatic renaming?
 		//       what about conflicting member definitions?
 		return new ArrayList<Declaration>();
-//		List<Member> result = new ArrayList<Member>();
-//		for(Type type: types()) {
-//		  result.addAll(type.localMembers(Member.class));
-//		}
-//		removeConstructors(result);
-//		return result;
 	}
 	
 	@Override
-	public <D extends Declaration> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult<D>> localMembers(DeclarationSelector<D> selector) throws LookupException {
 		//FIXME: renaming and so on. Extend both types and perform automatic renaming?
 		//       what about conflicting member definitions?
-		return Collections.EMPTY_LIST;
-		// List result = new ArrayList();
-//		for(Type type: types()) {
-//		  result.addAll(type.localMembers(selector));
-//		}
-//		removeConstructors(result);
-//		return result;
+		return Collections.emptyList();
 	}
 	
 	@Override

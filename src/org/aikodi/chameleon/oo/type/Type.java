@@ -114,13 +114,13 @@ public interface Type extends DeclarationContainer, DeclarationWithType {
   @Override
   public LookupContext lookupContext(Element element) throws LookupException;
 
-  public List<ParameterBlock> parameterBlocks();
+  public List<ParameterBlock<?>> parameterBlocks();
 
   public <P extends Parameter> ParameterBlock<P> parameterBlock(Class<P> kind);
 
-  public void addParameterBlock(ParameterBlock block);
+  public void addParameterBlock(ParameterBlock<?> block);
 
-  public void removeParameterBlock(ParameterBlock block);
+  public void removeParameterBlock(ParameterBlock<?> block);
 
   public <P extends Parameter> List<P> parameters(Class<P> kind);
 
@@ -351,7 +351,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType {
 
   public <D extends Declaration> List<SelectionResult<D>> members(DeclarationSelector<D> selector) throws LookupException;
 
-  public <D extends Declaration> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException;
+  public <D extends Declaration> List<? extends SelectionResult<D>> localMembers(DeclarationSelector<D> selector) throws LookupException;
 
   public List<Declaration> members() throws LookupException;
 

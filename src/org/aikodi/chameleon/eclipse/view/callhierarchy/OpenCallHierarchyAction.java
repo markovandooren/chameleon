@@ -71,13 +71,13 @@ public abstract class OpenCallHierarchyAction extends Action {
 						SafePredicate<EclipseEditorTag> predicate = new SafePredicate<EclipseEditorTag>(){
 							@Override
 							public boolean eval(EclipseEditorTag editorTag) {
-								return editorTag.includes(offset) && (editorTag.getElement() instanceof Declaration);
+								return editorTag.includes(offset) && (editorTag.element() instanceof Declaration);
 							}
 						};
 						Collection<EclipseEditorTag> result = new TreeSet<EclipseEditorTag>(EclipseEditorTag.lengthComparator);
 						doc.getEditorTagsWithPredicate(predicate, result);
 						if(result.size()>0){
-							Declaration currentDeclaration = (Declaration)result.iterator().next().getElement();
+							Declaration currentDeclaration = (Declaration)result.iterator().next().element();
 							return currentDeclaration;
 						}
 					}

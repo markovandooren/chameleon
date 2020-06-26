@@ -7,11 +7,11 @@ import java.util.List;
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
-import org.aikodi.chameleon.util.Handler;
 import org.aikodi.rejuse.action.UniversalConsumer;
 import org.aikodi.rejuse.association.AssociationListener;
 import org.aikodi.rejuse.association.OrderedMultiAssociation;
 import org.aikodi.rejuse.association.SingleAssociation;
+import org.aikodi.rejuse.exception.Handler;
 
 /**
  * A class that represents the concept of a project. A project
@@ -372,7 +372,7 @@ public class Project {
    @ post \result != null;
    @ post (\forall T t;; \result.contains(t) <==> (\exists View v;; v.sourceElements(kind,handler).contains(t)));
    @*/
-   public <T extends Element> List<T> sourceElements(Class<T> kind, Handler handler) throws InputException {
+   public <T extends Element, E extends Exception> List<T> sourceElements(Class<T> kind, Handler<InputException, E> handler) throws E {
       List<T> result = new ArrayList<T>();
       for(View view: views()) {
          result.addAll(view.sourceElements(kind, handler));
@@ -390,7 +390,7 @@ public class Project {
    @ post \result.equals(sourceElements(Document.class,Handler.PROPAGATE));
    @*/
    public List<Document> sourceDocuments() throws InputException {
-      return sourceElements(Document.class, Handler.PROPAGATE);
+      return sourceElements(Document.class, Handler.propagate());
    }
 
    public <E extends Exception> void applyToSourceLoaders(UniversalConsumer<DocumentLoader, E> action) throws E {

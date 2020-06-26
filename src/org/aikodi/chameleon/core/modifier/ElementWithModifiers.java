@@ -6,7 +6,7 @@ import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.Lists;
-import org.aikodi.contract.Contracts;
+import org.aikodi.contract.Contract;
 import org.aikodi.rejuse.property.PropertyMutex;
 import org.aikodi.rejuse.property.PropertySet;
 
@@ -70,7 +70,7 @@ public interface ElementWithModifiers extends Element {
 	 @ post modifiers().containsAll(modifiers);
 	 @*/
 	public default void addModifiers(List<Modifier> modifiers) {
-	  Contracts.notNull(modifiers, "The given list cannot be null");
+	  Contract.requireNotNull(modifiers, "The given list cannot be null");
 	  modifiers.forEach(m -> addModifier(m));
 	}
 	

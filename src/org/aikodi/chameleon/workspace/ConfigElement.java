@@ -161,12 +161,12 @@ public abstract class ConfigElement {
 	/**
 	 * A map from lower case elements names to the corresponding classes.
 	 */
-	private Map<String, Class> _childClassMap;
-	private Map<Class, String> _reverseChildClassMap;
+	private Map<String, Class<? extends ConfigElement>> _childClassMap;
+	private Map<Class<?>, String> _reverseChildClassMap;
 
 	protected void processChild(Element child) throws ConfigException {
 		String name = child.getNodeName();
-		Class childClass = getChildClass(name);
+		Class<? extends ConfigElement> childClass = getChildClass(name);
 		if(childClass != null) {
 				ConfigElement childConfig = createChild(childClass);
 				addChild(childConfig); 
@@ -177,18 +177,16 @@ public abstract class ConfigElement {
 	}
 
 	private <T extends ConfigElement> T createChild(Class<T> c) {
-		Class childClass = bind(c);
+		Class<? extends T> childClass = bind(c);
 		try {
 			T childConfig;
 			@SuppressWarnings("unused")
 			boolean inner = childClass.isMemberClass();
 			if(inner) {
 				//				java.lang.reflect.Constructor[] cs = childClass.getConstructors();
-				@SuppressWarnings("unchecked")
-				java.lang.reflect.Constructor ctor = childClass.getConstructors()[0];
-				childConfig = (T) ctor.newInstance(this);
+				childConfig = (T) childClass.getConstructors()[0].newInstance(this);
 			} else {
-				childConfig = (T) childClass.getDeclaredConstructor().newInstance();
+				childConfig = childClass.getDeclaredConstructor().newInstance();
 			}
 			addChild(childConfig);
 			return childConfig;
@@ -204,12 +202,13 @@ public abstract class ConfigElement {
 	 * @param c
 	 * @return
 	 */
-	private Class bind(Class c) {
-		Class result = c;
-		Class[] classes = getClass().getClasses();
-		for(Class k: classes) {
+	@SuppressWarnings("unchecked")
+	private <T> Class<? extends T> bind(Class<T> c) {
+		Class<? extends T> result = c;
+		Class<?>[] classes = getClass().getClasses();
+		for(Class<?> k: classes) {
 			if(result.isAssignableFrom(k)) {
-				result = k;
+				result = (Class<? extends T>) k;
 			}
 		}
 		return result;
@@ -241,7 +240,7 @@ public abstract class ConfigElement {
 		return new ArrayList<Element>(_unprocessed);
 	}
 	
-	protected Class getChildClass(String childName) {
+	protected Class<? extends ConfigElement> getChildClass(String childName) {
 		return _childClassMap.get(childName.toLowerCase());
 	}
 	
@@ -251,15 +250,15 @@ public abstract class ConfigElement {
 	 * because config files are typically small.
 	 */
 	private void initChildCache() {
-		_childClassMap = new HashMap<String, Class>();
-		_reverseChildClassMap = new HashMap<Class, String>();
-		for(Class c : getClass().getClasses()) {
+		_childClassMap = new HashMap<String, Class<? extends ConfigElement>>();
+		_reverseChildClassMap = new HashMap<Class<?>, String>();
+		for(Class<?> c : getClass().getClasses()) {
 			String name = c.getName();
 			name = Util.getLastPart(name.replace('$', '.'));
 			String key = name.toLowerCase();
-			Class existing = _childClassMap.get(key);
+			Class<? extends ConfigElement> existing = _childClassMap.get(key);
 			if((existing == null) || existing.isAssignableFrom(c)) {
-				_childClassMap.put(key, c);
+				_childClassMap.put(key, (Class<? extends ConfigElement>) c);
 				_reverseChildClassMap.put(c,key);
 			}
 		}
@@ -285,7 +284,7 @@ public abstract class ConfigElement {
 			if(methodName.startsWith("set")) {
 				Type[] types = method.getGenericParameterTypes();
 				if(types.length == 1 && types[0] instanceof Class) {
-					Class c = (Class) types[0];
+					Class<?> c = (Class<?>) types[0];
 					if(isString(c)) {
 						// cut of "set" from the start of the name
 						String key = attributeKey(methodName);
@@ -310,7 +309,7 @@ public abstract class ConfigElement {
 		}
 	}
 
-	protected boolean isString(Class c) {
+	protected boolean isString(Class<?> c) {
 		return c.getCanonicalName().equals("java.lang.String");
 	}
 
@@ -335,6 +334,7 @@ public abstract class ConfigElement {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T extends ConfigElement> T createOrGetChild(Class<T> type)  {
 		for(ConfigElement element: _children.getOtherEnds()) {
 			if(type.isInstance(element)) {

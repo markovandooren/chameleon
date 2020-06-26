@@ -13,27 +13,20 @@ public class Cache {
 	 * @return
 	 * @throws LookupException
 	 */
-	public boolean search(Collector collector) throws LookupException {
+	public boolean search(Collector<?> collector) throws LookupException {
 		boolean result = false;
 		DeclarationSelector<?> selector = collector.selector();
 		Declaration cached = selector.readCache(this);
 		if(cached != null) {
-//			CrossReferenceTest.TRACKER.increase(this);
 			collector.storeCachedResult(cached);
 			result = true;
-		} else {
-//			CrossReferenceTest.TRACKER.increase(CacheMiss.MISS);
 		}
 		return result;
 	}
 	
-//	private static class CacheMiss {
-//		public final static CacheMiss MISS = new CacheMiss();
-//	}
-	
-	public void store(Collector collector) throws LookupException {
+	public <D extends Declaration> void store(Collector<D> collector) throws LookupException {
 		if(! collector.willProceed()) {
-			DeclarationSelector selector = collector.selector();
+			DeclarationSelector<D> selector = collector.selector();
 			selector.updateCache(this, collector.result());
 		}
 	}
@@ -41,30 +34,22 @@ public class Cache {
 	/**
 	 * Store the given object as a cache for the given selector. The
 	 * object is stored with key {@code selector.getClass()}.
-	 * @param selector
-	 * @param object
+	 * 
+	 * @param selector The selector for whose <b>type</b> the cache is stored.
+	 * @param object 
 	 */
-	@SuppressWarnings("rawtypes")
-	public synchronized void put(DeclarationSelector selector, Object object) {
-//		if(_cache == null) {
-//			_cache = new HashMap<Class,Object>();
-//		}
+	public synchronized void put(DeclarationSelector<?> selector, Object object) {
 		_cache.put(selector.getClass(), object);
 	}
 	
-	public synchronized Object get(DeclarationSelector selector) {
-//		if(_cache != null) {
-			return  _cache.get(selector.getClass());
-//		} else {
-//			return null;
-//		}
+	public synchronized Object get(DeclarationSelector<?> selector) {
+		return _cache.get(selector.getClass());
 	}
 
 	/**
 	 * The selectors themselves know the most efficient way to update and retrieve the cache,
 	 * so we use Object as the value type.
 	 */
-//	private Map<Class,Object> _cache;
-	private final Map<Class,Object> _cache = new HashMap<Class,Object>();
+	private final Map<Class<?>,Object> _cache = new HashMap<Class<?>,Object>();
 	
 }

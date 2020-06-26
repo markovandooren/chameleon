@@ -15,7 +15,7 @@ import org.aikodi.chameleon.core.event.association.ParentAdded;
 import org.aikodi.chameleon.core.event.association.ParentRemoved;
 import org.aikodi.chameleon.core.event.association.ParentReplaced;
 import org.aikodi.chameleon.core.event.stream.EventStream;
-import org.aikodi.chameleon.core.event.stream.EventStreamCollection;
+import org.aikodi.chameleon.core.event.stream.EventSourceSelector;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.language.WrongLanguageException;
 import org.aikodi.chameleon.core.lookup.LookupContext;
@@ -183,7 +183,7 @@ import org.aikodi.rejuse.property.PropertySet;
  * </p>
  * <p>
  * When the parent of an element is changed, it sends the following events to
- * the {@link ElementEventStreamCollection#self()} stream of its even stream
+ * the {@link ElementEventSourceSelector#self()} stream of its even stream
  * collection {@link #when()}.
  * </p>
  * <ol>
@@ -194,7 +194,7 @@ import org.aikodi.rejuse.property.PropertySet;
  * 
  * <p>
  * When a child of an element is changed, it sends the following events to the
- * {@link ElementEventStreamCollection#self()} stream of its even stream
+ * {@link ElementEventSourceSelector#self()} stream of its even stream
  * collection {@link #when()}.
  * </p>
  * <ol>
@@ -330,13 +330,11 @@ public interface Element extends Cloneable {
    * and elements that correspond to "binary" document cannot be modified by accident.</p> 
    */
   public default void freeze() {
-		for(Element element: lexical().children()) {
+		lexical().children().forEach(element -> {
 			element.parentLink().lock();
 			element.freeze();
-		}
-		for(IAssociation association: associations()) {
-			association.lock();
-		}
+		});
+		associations().forEach(association -> association.lock());
   }
 
   /**
@@ -346,13 +344,11 @@ public interface Element extends Cloneable {
    * afterwards. If it was unlocked, it will be still be unlocked afterwards. </p> 
    */
   public default void unfreeze() {
-		for(Element element: lexical().children()) {
+		lexical().children().forEach(element -> {
 			element.parentLink().unlock();
 			element.unfreeze();
-		}
-		for(ChameleonAssociation<?> association: associations()) {
-			association.unlock();
-		}
+		});
+		associations().forEach(association -> association.unlock());
   }
 
   /**
@@ -591,6 +587,7 @@ public interface Element extends Cloneable {
      @
      @ signals(WrongViewException) view() != null && ! kind.isInstance(view());
      @*/
+  @SuppressWarnings("unchecked")
   public default <T extends View> T view(Class<T> kind) throws WrongViewException {
 		if(kind == null) {
 			throw new ChameleonProgrammerException("The given language class is null.");
@@ -630,6 +627,7 @@ public interface Element extends Cloneable {
      @
      @ post \result == clone();
      @*/
+  @SuppressWarnings("unchecked")
   public default <T extends Element> T clone(T element) {
     // Without the cast, the clone call is bound to the
     // clone of Object, which throws a CloneNotSupportedException.
@@ -912,7 +910,7 @@ public interface Element extends Cloneable {
   /**
    * <p>
    * Return the event stream collection of this element. See
-   * {@link EventStreamCollection} for documentation about the possible sources
+   * {@link EventSourceSelector} for documentation about the possible sources
    * of events.
    * </p>
    * <p>The event stream collection is created on-demand and removed
@@ -920,7 +918,7 @@ public interface Element extends Cloneable {
    * </p>
    * @return the event stream collection of this element. The result is not null.
    */
-  public ElementEventStreamCollection when();
+  public ElementEventSourceSelector when();
 
   /**
    * Replace this element with the given other element. WARNING: this operation

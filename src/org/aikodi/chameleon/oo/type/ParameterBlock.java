@@ -34,9 +34,6 @@ public class ParameterBlock<T extends Parameter> extends ElementImpl implements 
 		return _parameters.size();
 	}
 	
-	/**
-	 * Indices start at 1.
-	 */
 	public T parameter(int index) {
 		return _parameters.elementAt(index);
 	}

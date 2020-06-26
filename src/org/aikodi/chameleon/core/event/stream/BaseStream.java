@@ -12,14 +12,14 @@ public class BaseStream<C,S> extends AbstractEventStream<C,S> {
 	/**
 	 * The collection of stream 
 	 */
-  private EventStreamCollection<? super C,? super S> _collection;
+  private EventSourceSelector<? super C,? super S> _collection;
   
   /**
    * Initialize a new base stream for the given stream collection.
    * 
    * @param collection
    */
-  public BaseStream(EventStreamCollection<? super C,? super S> collection) {
+  public BaseStream(EventSourceSelector<? super C,? super S> collection) {
   	Contracts.notNull(collection, "The event stream collection cannot be null.");
     _collection = collection;
   }

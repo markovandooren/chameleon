@@ -12,7 +12,7 @@ import org.aikodi.chameleon.eclipse.presentation.treeview.ChameleonLabelProvider
 import org.aikodi.chameleon.input.PositionMetadata;
 import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.predicate.Predicate;
-import org.aikodi.rejuse.predicate.True;
+import org.aikodi.rejuse.predicate.UniversalPredicate;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IContributionManager;
 import org.eclipse.jface.text.TextSelection;
@@ -70,7 +70,7 @@ public class EditorTagListView extends ViewPart {
 
 		// add TableViewer
 		viewer = new TableViewer(parent, SWT.VERTICAL | SWT.BORDER);
-		viewer.setContentProvider(new EditorTagContentProvider(this , new True()));
+		viewer.setContentProvider(new EditorTagContentProvider(this , UniversalPredicate.isTrue()));
 		viewer.addSelectionChangedListener(new EditorTagSelectionChangedListener());
 		viewer.addDoubleClickListener(new EditorTagDoubleClickListener());
 		// lay out the TableViewer
@@ -134,7 +134,7 @@ public class EditorTagListView extends ViewPart {
 
 	private class ShowEditorTagListAction extends PredicateShowEditorTagListAction {
 		public ShowEditorTagListAction() {
-			super("Show Editor Tags",new True());
+			super("Show Editor Tags",UniversalPredicate.isTrue());
 		}
 	}
 

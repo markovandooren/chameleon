@@ -1,24 +1,28 @@
 package org.aikodi.chameleon.core.event.stream;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * <p>A collection of event streams for an element.</p> 
+ * <p>An object for selecting a source of events.</p> 
  * 
- * <p>The collection enables and disables propagation of events based on whether 
- * actual listeners are attached to a stream in its collection.</p>
+ * <p>The selector enables and disables propagation of events based on whether 
+ * actual listeners are attached to one of its streams.</p>
  *
  * <p>See {@link EventStream} for documentation about attaching listeners
  * and filtering events.</p>
  * 
+ * @param <C> The type of the change objects.
+ * @param <S> The type of the event source.
+ * 
  * @author Marko van Dooren
  */
-public abstract class EventStreamCollection<C,S> {
+public abstract class EventSourceSelector<C,S> {
 
 	/**
 	 * A list of event stream that flow through this event stream collection.
 	 */
-  private LinkedList<EventStream<?,?>> _baseStreams = new LinkedList<>();
+  private List<EventStream<?,?>> _baseStreams = new ArrayList<>();
 
   /**
    * Deactivate the given base stream. This method is invoked
@@ -70,9 +74,9 @@ public abstract class EventStreamCollection<C,S> {
   /**
    * Disconnect all listeners.
    */
-  public void disconnect() {
+  protected void disconnect() {
     while(!_baseStreams.isEmpty()) {
-      _baseStreams.getFirst().disconnect();
+      _baseStreams.get(_baseStreams.size() - 1).disconnect();
     }
   }
 }

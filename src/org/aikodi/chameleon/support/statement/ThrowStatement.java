@@ -7,11 +7,6 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.expression.Expression;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
-import org.aikodi.chameleon.oo.method.exception.TypeExceptionDeclaration;
-import org.aikodi.chameleon.oo.statement.CheckedExceptionList;
-import org.aikodi.chameleon.oo.statement.ExceptionTuple;
-import org.aikodi.chameleon.oo.type.Type;
-import org.aikodi.chameleon.oo.type.TypeReference;
 
 /**
  * @author Marko van Dooren

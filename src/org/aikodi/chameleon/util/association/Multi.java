@@ -109,7 +109,6 @@ public class Multi<T extends Element> extends OrderedMultiAssociation<Element, T
 	@Override
    public void mapTo(ChameleonAssociation<?> other, Function<Element, Element> mapper) {
       if(other instanceof Multi) {
-         Multi<?> otherMulti = (Multi<?>) other;
          int size = size();
          for(int i=0; i<size;i++) {
             Element first = elementAt(i);
@@ -124,28 +123,4 @@ public class Multi<T extends Element> extends OrderedMultiAssociation<Element, T
       }
    }
 	
-	
-//	protected List<T> explicitElements() {
-//		return super.getOtherEnds();
-//	}
-//	
-//	protected List<T> implicitElements() {
-//		return Collections.EMPTY_LIST;
-//	}
-	
-//	@Override
-//	public List<T> getOtherEnds() {
-//		List<T> result = explicitElements();
-//		result.addAll(implicitElements());
-//		return result;
-//	}
-	
-//	@Override
-//	public void cloneTo(ChameleonAssociation<T> o) {
-//		Multi<T> other = (Multi<T>) o;
-//		for(T t: getOtherEnds()) {
-//			other.add((Association)t.clone().parentLink());
-//		}
-//	}
-
 }

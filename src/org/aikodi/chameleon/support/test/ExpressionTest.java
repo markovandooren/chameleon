@@ -30,82 +30,65 @@ import org.junit.Test;
  * @author Marko van Dooren
  */
 public class ExpressionTest extends ModelTest {
-  
+
 	/**
 	 * Create a new expression tester
-	 * @param project
-	 * @throws IOException 
-	 * @throws ParseException 
+	 * 
+	 * @param project The project containing the types to be tested.
+	 * 
+	 * @throws IOException
+	 * @throws ParseException
 	 */
- /*@
-   @ public behavior
-   @
-   @ post modelProvider() == modelProvider;
-   @ post typeProvider() == typeProvider;
-   @ post baseRecursive();
-   @ post customRecursive();
-   @*/
-	public ExpressionTest(Project project, ElementProvider<Namespace> typeProvider, ExecutorService executor) throws ProjectException {
+	public ExpressionTest(Project project, ElementProvider<Namespace> typeProvider, ExecutorService executor)
+			throws ProjectException {
 		super(project);
 		_typeProvider = typeProvider;
 		threadPool = executor;
 	}
-	
-  private ElementProvider<Namespace> _typeProvider;
-  
-  public ElementProvider<Namespace> typeProvider() {
-  	return _typeProvider;
-  }
-  
-  @Test
-  public void testExpressionTypes() throws Exception {
-//	  Collection<Type> types = typeProvider().elements(view());
-//	  final BlockingQueue<Type> typeQueue = new ArrayBlockingQueue<Type>(types.size(), true, types);
-//	  Action<Type,LookupException> action = createAction();
-//		CallableFactory factory = new QueuePollingCallableFactory(action,typeQueue);
-//	  new FixedThreadCallableExecutor<LookupException>(factory,threadPool).run();
-	  Collection<Namespace> typess = typeProvider().elements(view());
-	  Collection<Namespace> namespaces = new ArrayList<>();
-	  for(Namespace ns: typess) {
-	  	namespaces.addAll(ns.descendantNamespaces());
-	  }
-	  final BlockingQueue<Namespace> typeQueue = new ArrayBlockingQueue<Namespace>(namespaces.size(), true, namespaces);
-	  UniversalConsumer<Namespace,LookupException> action = createAction();
-		CallableFactory factory = new QueuePollingCallableFactory(action,typeQueue);
-	  new FixedThreadCallableExecutor<LookupException>(factory,threadPool).run();
-  }
-  
-  private ExecutorService threadPool;
-  
-//  @Test
-//  public void testExpressionTypes() throws Exception {
-//	  project().applyToSource(createAction());
-////  	for(Type type: typeProvider().elements(view())) {
-////  		type.apply(createAction());
-////  	}
-//  }
+
+	private ElementProvider<Namespace> _typeProvider;
+
+	public ElementProvider<Namespace> typeProvider() {
+		return _typeProvider;
+	}
+
+	@Test
+	public void testExpressionTypes() throws Exception {
+		Collection<Namespace> types = typeProvider().elements(view());
+		Collection<Namespace> namespaces = new ArrayList<>();
+		for (Namespace ns : types) {
+			namespaces.addAll(ns.descendantNamespaces());
+		}
+		final BlockingQueue<Namespace> typeQueue = new ArrayBlockingQueue<Namespace>(namespaces.size(), true,
+				namespaces);
+		UniversalConsumer<Namespace, LookupException> action = createAction();
+		CallableFactory factory = new QueuePollingCallableFactory(action, typeQueue);
+		new FixedThreadCallableExecutor<LookupException>(factory, threadPool).run();
+	}
+
+	private ExecutorService threadPool;
 
 	protected UniversalConsumer<Namespace, LookupException> createAction() {
-		return new UniversalConsumer<Namespace,LookupException>(Namespace.class) {
-	  	@Override
-      public void accept(Namespace ns) throws LookupException {
-	  		for(NamespaceDeclaration nsp: ns.namespaceDeclarations()) {
-	  			for(Type type: nsp.lexical().descendants(Type.class)) {
-	  				processType(type);
-	  			}
+		return new UniversalConsumer<Namespace, LookupException>(Namespace.class) {
+			@Override
+			public void accept(Namespace ns) throws LookupException {
+				for (NamespaceDeclaration nsp : ns.namespaceDeclarations()) {
+					for (Type type : nsp.lexical().descendants(Type.class)) {
+						processType(type);
+					}
 				}
-	  	} 
-	  };
+			}
+		};
 	}
-  
-//	private int _count;
-   public void processType(Type type) throws LookupException {
-//  	 System.out.println(++_count + " checking expression types of: "+type);
-  	 List<Expression> exprs = type.lexical().descendants(Expression.class);
-  	 for(Expression expression : exprs) {
-  		 Type expressionType = expression.getType();
-  		 assertTrue(expressionType != null);
-  	 }
-   }
+
+	// private int _count;
+	public void processType(Type type) throws LookupException {
+		// System.out.println(++_count + " checking expression types of: "+type);
+		List<Expression> exprs = type.lexical().descendants(Expression.class);
+		for (Expression expression : exprs) {
+			Type expressionType = expression.getType();
+			assertTrue(expressionType != null);
+		}
+	}
 
 }

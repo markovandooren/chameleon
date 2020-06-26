@@ -51,7 +51,7 @@ public abstract class TypeIndirection extends ClassImpl {
 	}
 	
 	@Override
-	public <D extends Declaration> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult<D>> localMembers(DeclarationSelector<D> selector) throws LookupException {
 		return indirectionTarget().localMembers(selector);
 	}
 
@@ -131,19 +131,19 @@ public abstract class TypeIndirection extends ClassImpl {
 	}
 
 	@Override
-   public void addParameterBlock(ParameterBlock block) {
+   public void addParameterBlock(ParameterBlock<?> block) {
 		throw new ChameleonProgrammerException("Trying to add a type parameter block to a type alias.");
 	}
 
 
 	@Override
-   public List<ParameterBlock> parameterBlocks() {
+   public List<ParameterBlock<?>> parameterBlocks() {
 		return indirectionTarget().parameterBlocks();
 	}
 
 
 	@Override
-   public void removeParameterBlock(ParameterBlock block) {
+   public void removeParameterBlock(ParameterBlock<?> block) {
 		throw new ChameleonProgrammerException("Trying to remove a type parameter block from a type alias.");
 	}
 

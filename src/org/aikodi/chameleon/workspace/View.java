@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Stream;
 
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
@@ -19,13 +18,13 @@ import org.aikodi.chameleon.plugin.PluginContainerImpl;
 import org.aikodi.chameleon.plugin.ProcessorContainer;
 import org.aikodi.chameleon.plugin.ViewPlugin;
 import org.aikodi.chameleon.plugin.ViewProcessor;
-import org.aikodi.chameleon.util.Handler;
 import org.aikodi.chameleon.workspace.DocumentScannerImpl.TunnelException;
 import org.aikodi.rejuse.action.UniversalConsumer;
 import org.aikodi.rejuse.association.Association;
 import org.aikodi.rejuse.association.AssociationListener;
 import org.aikodi.rejuse.association.OrderedMultiAssociation;
 import org.aikodi.rejuse.association.SingleAssociation;
+import org.aikodi.rejuse.exception.Handler;
 import org.aikodi.rejuse.predicate.Predicate;
 import org.aikodi.rejuse.predicate.TypePredicate;
 
@@ -624,7 +623,7 @@ public class View extends PluginContainerImpl<ViewPlugin>
 	 *                        and the exception was not handled by the given
 	 *                        handler.
 	 */
-	public <T extends Element> List<T> sourceElements(Class<T> type, Handler handler) throws InputException {
+	public <T extends Element, O extends Exception> List<T> sourceElements(Class<T> type, Handler <InputException, O> handler) throws O {
 		List<T> result = new ArrayList<T>();
 		for(DocumentScanner scanner: sourceScanners()) {
 			try {

@@ -21,8 +21,6 @@ import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
 
-import sun.security.krb5.Config;
-
 /**
  * @author Marko van Dooren
  * 
@@ -148,16 +146,12 @@ extends TargetedExpression implements CrossReferenceWithTarget<D> {
 		D result = null;
 
 		// OPTIMISATION
-		result = (D) getCache();
+		result = (D) cache();
 		if (result != null) {
 			return result;
 		}
 
 		synchronized(this) {
-			if(result != null) {
-				return result;
-			}
-
 			DeclarationCollector<D> collector = new DeclarationCollector<D>(selector());
 			CrossReferenceTarget target = getTarget();
 			if (target == null) {
@@ -168,19 +162,10 @@ extends TargetedExpression implements CrossReferenceWithTarget<D> {
 			result = collector.result();
 			setCache(result);
 			return result;
-			//		} else {
-			//			// repeat lookup for debugging purposes.
-			//			// Config.setCaching(false);
-			//			if (target == null) {
-			//				result = lookupContext().lookUp(selector);
-			//			} else {
-			//				result = target.targetContext().lookUp(selector);
-			//			}
-			//			throw new LookupException("Method returned by invocation is null");
 		}
 	}
 
-	private SoftReference<Declaration> _cache;
+	private SoftReference<D> _cache;
 
 	@Override
 	public void flushLocalCache() {
@@ -188,12 +173,12 @@ extends TargetedExpression implements CrossReferenceWithTarget<D> {
 		_cache = null;
 	}
 
-	protected Declaration getCache() {
+	protected D cache() {
 		return (_cache == null ? null : _cache.get());
 	}
 
-	protected void setCache(Declaration value) {
-		_cache = new SoftReference<Declaration>(value);
+	protected void setCache(D value) {
+		_cache = new SoftReference<D>(value);
 	}
 
 	public List<TypeArgument> typeArguments() {

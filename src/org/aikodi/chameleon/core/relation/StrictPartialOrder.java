@@ -12,13 +12,13 @@ import org.aikodi.chameleon.core.lookup.LookupException;
  *
  * @param <E> The type of the elements in the order.
  */
-public abstract class StrictPartialOrder<E> extends org.aikodi.rejuse.logic.relation.StrictPartialOrder<E> {
+public interface StrictPartialOrder<E> extends org.aikodi.rejuse.logic.relation.StrictPartialOrder<E> {
   
   @Override
 public abstract boolean contains(E first, E second) throws LookupException;
 
   @Override
-public WeakPartialOrder<E> weakOrder() {
+default WeakPartialOrder<E> weakOrder() {
     return new WeakPartialOrder<E>() {
 
       @Override
@@ -37,9 +37,9 @@ public WeakPartialOrder<E> weakOrder() {
   public abstract boolean equal(E first, E second) throws LookupException;
 
   @Override
-  public void removeBiggerElements(Collection<E> collection) throws LookupException {
+  default void removeBiggerElements(Collection<E> collection) throws LookupException {
     try{
-      super.removeBiggerElements(collection);
+    	org.aikodi.rejuse.logic.relation.StrictPartialOrder.super.removeBiggerElements(collection);
     } catch(RuntimeException exc)  {
       throw exc;
     } catch(Error error) {
@@ -53,9 +53,9 @@ public WeakPartialOrder<E> weakOrder() {
   }
 
   @Override
-  public void removeSmallerElements(Collection<E> collection) throws LookupException {
+  default void removeSmallerElements(Collection<E> collection) throws LookupException {
     try{
-      super.removeSmallerElements(collection);
+    	org.aikodi.rejuse.logic.relation.StrictPartialOrder.super.removeSmallerElements(collection);
     } catch(RuntimeException exc)  {
       throw exc;
     } catch(Error error) {

@@ -11,7 +11,7 @@ import org.aikodi.chameleon.util.Util;
 import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.predicate.Predicate;
 import org.aikodi.rejuse.predicate.SafePredicate;
-import org.aikodi.rejuse.predicate.True;
+import org.aikodi.rejuse.predicate.UniversalPredicate;
 import org.eclipse.jface.text.BadPositionCategoryException;
 import org.eclipse.jface.text.Position;
 
@@ -42,7 +42,7 @@ public class ShowEditorTags {
 		if(showOnlyAllChameleonEditorPositions){
 			otherConditions = new EclipseEditorTag.NamePredicate(PositionMetadata.ALL);
 		} else {
-			otherConditions = new True();
+			otherConditions = UniversalPredicate.isTrue();
 		}
 		return getChameleonEditorPositionsStringOfDocument(document, content, otherConditions);
 	}
@@ -71,7 +71,7 @@ public class ShowEditorTags {
 			// add starting editorTags 
 			for(EclipseEditorTag currDec : startingChameleonEditorPositions){
 				//String label = currDec.getElement().toString();
-				String label = Util.getLastPart(currDec.getElement().getClass().getName());
+				String label = Util.getLastPart(currDec.element().getClass().getName());
 				result += "\n" + Util.repeatString("\t", indentation) + "<EDITORTAG element=\""+label+ "\" name=\""+currDec.getName()+"\" beginoffset=\"" + currDec.getOffset() + "\">\n";
 				indentation++;
 			}
@@ -82,7 +82,7 @@ public class ShowEditorTags {
 			// add ending editorTags 
 			for(EclipseEditorTag currDec : endingChameleonEditorPositions){
 				// String label = currDec.getElement().toString();
-				String label = Util.getLastPart(currDec.getElement().getClass().getName());
+				String label = Util.getLastPart(currDec.element().getClass().getName());
 				indentation--;
 				result += "\n" + Util.repeatString("\t", indentation) + "</EDITORTAG element=\""+label+ "\" name=\""+currDec.getName()+"\" endoffset=\"" + (currDec.getOffset()+currDec.getLength()) + "\">\n";
 			}

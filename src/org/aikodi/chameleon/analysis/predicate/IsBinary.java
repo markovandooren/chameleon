@@ -7,7 +7,7 @@ import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.workspace.DocumentScanner;
 import org.aikodi.chameleon.workspace.View;
 import org.aikodi.rejuse.action.Nothing;
-import org.aikodi.rejuse.tree.TreePredicate;
+import org.aikodi.rejuse.data.tree.TreePredicate;
 
 public class IsBinary extends TreePredicate<Element,Nothing> {
 

@@ -71,7 +71,7 @@ public class PresentationManager {
 				for (Position pos: poss) {
 					EclipseEditorTag tag = (EclipseEditorTag) pos;
 						// FIXME this is crap code, just pas the tag alright.
-						StyleRange sr = getPresentationModel().map(tag.getOffset(), tag.getLength(), tag.getElement().getClass().getName().toLowerCase(), tag
+						StyleRange sr = getPresentationModel().map(tag.getOffset(), tag.getLength(), tag.element().getClass().getName().toLowerCase(), tag
 								.getName());
 
 						if (sr != null) {
@@ -102,7 +102,7 @@ public class PresentationManager {
 	 * 		
 	 */
 	private boolean isFoldable(EclipseEditorTag decorator) {
-		Element element = decorator.getElement();
+		Element element = decorator.element();
 		PresentationStyle presStyle = getPresentationModel().getRule(element.getClass().getName().toLowerCase(), decorator.getName());
 		if(presStyle != null && presStyle.isfoldable())
 			return true;
@@ -168,7 +168,7 @@ public class PresentationManager {
 	 */
 	private boolean isFolded(EclipseEditorTag decorator) {
 		//FIXME Student code
-		PresentationStyle presStyle = getPresentationModel().getRule(decorator.getElement().getClass().getName().toLowerCase(), decorator.getName());
+		PresentationStyle presStyle = getPresentationModel().getRule(decorator.element().getClass().getName().toLowerCase(), decorator.getName());
 		if(presStyle != null && presStyle.isFolded())
 			return true;
 		else
@@ -185,7 +185,7 @@ public class PresentationManager {
 			for (int i = 0; i < poss.length; i++) {
 				if (poss[i].getOffset()+poss[i].getLength() > offset && poss[i].getOffset() < offset+length){
 					EclipseEditorTag dec = (EclipseEditorTag) poss[i];
-					StyleRange sr = getPresentationModel().map(dec.getOffset(),dec.getLength(),dec.getElement().getClass().getName().toLowerCase(), dec.getName());
+					StyleRange sr = getPresentationModel().map(dec.getOffset(),dec.getLength(),dec.element().getClass().getName().toLowerCase(), dec.getName());
 					if (sr!=null) pres.mergeStyleRange(sr);
 				}
 			}

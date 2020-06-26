@@ -1,7 +1,6 @@
 package org.aikodi.chameleon.support.statement;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
@@ -15,12 +14,9 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.core.variable.Variable;
 import org.aikodi.chameleon.core.variable.VariableContainer;
-import org.aikodi.chameleon.oo.statement.CheckedExceptionList;
 import org.aikodi.chameleon.oo.statement.Statement;
-import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.variable.FormalParameter;
 import org.aikodi.chameleon.util.association.Single;
-import org.aikodi.rejuse.predicate.Predicate;
 
 /**
  * @author Marko van Dooren

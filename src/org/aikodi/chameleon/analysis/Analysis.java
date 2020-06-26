@@ -6,15 +6,15 @@ import java.util.stream.Stream;
 
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.chameleon.util.action.GuardedTreeWalker;
-import org.aikodi.chameleon.util.action.TopDown;
-import org.aikodi.chameleon.util.action.TreeWalker;
 import org.aikodi.chameleon.workspace.DocumentLoader;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.View;
-import org.aikodi.contract.Contracts;
+import org.aikodi.contract.Contract;
+import org.aikodi.rejuse.data.tree.TreeStructure;
+import org.aikodi.rejuse.data.tree.walker.GuardedTreeWalker;
+import org.aikodi.rejuse.data.tree.walker.TopDown;
+import org.aikodi.rejuse.data.tree.walker.TreeWalker;
 import org.aikodi.rejuse.exception.Handler;
-import org.aikodi.rejuse.tree.TreeStructure;
 
 /**
  * A class of objects that analyze a model.
@@ -38,7 +38,7 @@ public abstract class Analysis<E extends Element, R extends Result<R>, EX extend
    * when no elements of the given type are returned.
    */
   public Analysis(Class<E> type, R initial) {
-    Contracts.notNull(type, initial);
+    Contract.requireNotNull(type, initial);
     _type = type;
     setResult(initial);
   }

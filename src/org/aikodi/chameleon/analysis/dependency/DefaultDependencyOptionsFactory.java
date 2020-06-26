@@ -1,5 +1,7 @@
 package org.aikodi.chameleon.analysis.dependency;
 
+import static org.aikodi.rejuse.predicate.UniversalPredicate.isTrue;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,15 +16,14 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.plugin.LanguagePluginImpl;
 import org.aikodi.chameleon.ui.widget.checkbox.CheckboxPredicateSelector;
-import org.aikodi.chameleon.util.action.GuardedTreeWalker;
 import org.aikodi.chameleon.workspace.DocumentScanner;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.View;
 import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.data.tree.GuardedTreeStructure;
+import org.aikodi.rejuse.data.tree.walker.GuardedTreeWalker;
 import org.aikodi.rejuse.exception.Handler;
 import org.aikodi.rejuse.function.Function;
-import org.aikodi.rejuse.predicate.True;
-import org.aikodi.rejuse.tree.GuardedTreeStructure;
 
 import com.google.common.collect.ImmutableList;
 
@@ -69,10 +70,10 @@ public class DefaultDependencyOptionsFactory extends LanguagePluginImpl implemen
     public DependencyResult analyze() {
       DependencyAnalysis<Declaration, Declaration> dependencyAnalysis = new DependencyAnalysis<>(
           Declaration.class,
-          new True(), 
-          new True(), 
+          isTrue(), 
+          isTrue(), 
           Declaration.class, identity(), _target.predicate(), 
-          new True(),
+          isTrue(),
           new DependencyAnalysis.NOOP());
       Set<Namespace> namespaces = new HashSet<>();
       for(View view: _project.views()) {

@@ -78,7 +78,7 @@ public class EclipseEditorTag extends Position implements Metadata {
 	private Element _element;
 	
   @Override
-public final Element getElement() {
+public final Element element() {
   	return _element;
   }
   
@@ -160,7 +160,7 @@ public void setElement(Element element, String name) {
 	
 	@Override
    public String toString(){
-		return "Offset : "+getOffset()+"\tLength : "+getLength()+"\tElement : "+getElement();
+		return "Offset : "+getOffset()+"\tLength : "+getLength()+"\tElement : "+element();
 	}
 
 

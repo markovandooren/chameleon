@@ -1,7 +1,7 @@
 package org.aikodi.chameleon.core.event.association;
 
 import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.contract.Contracts;
+import org.aikodi.contract.Contract;
 
 /**
  * An event that indicates that a child was replaced by another child.
@@ -21,8 +21,8 @@ public class ChildReplaced extends AssociationChanged implements Replaced, Child
    */
   public ChildReplaced(Element oldChild, Element newChild) {
     super(oldChild,newChild);
-    Contracts.notNull(oldChild, "The replaced element cannot be null.");
-    Contracts.notNull(newChild, "The replacement element cannot be null.");
+    Contract.requireNotNull(oldChild, "The replaced element cannot be null.");
+    Contract.requireNotNull(newChild, "The replacement element cannot be null.");
   }
   
 }

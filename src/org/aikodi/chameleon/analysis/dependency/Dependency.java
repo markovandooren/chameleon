@@ -4,10 +4,9 @@ import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.reference.CrossReference;
-import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.oo.method.Method;
 import org.aikodi.chameleon.oo.type.Type;
-import org.aikodi.contract.Contracts;
+import org.aikodi.contract.Contract;
 import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.function.Function;
 import org.aikodi.rejuse.predicate.Predicate;
@@ -21,7 +20,7 @@ import org.aikodi.rejuse.predicate.Predicate;
  * @param <C> The type of the cross-reference.
  * @param <T> The type of the target element.
  */
-public class Dependency<S extends Element,C extends CrossReference,T extends Element> {
+public class Dependency<S extends Element,C extends CrossReference<?>,T extends Element> {
 
   /**
    * Create a new dependency with the given source, cross-reference, and target.
@@ -35,9 +34,9 @@ public class Dependency<S extends Element,C extends CrossReference,T extends Ele
    *               null.
    */
 	public Dependency(S source, C crossReference, T target) {
-		Contracts.notNull(source, "The source of a dependency cannot be null.");
-    Contracts.notNull(crossReference, "The cross-reference of a dependency cannot be null.");
-    Contracts.notNull(target, "The target of a dependency cannot be null.");
+		Contract.requireNotNull(source, "The source of a dependency cannot be null.");
+    Contract.requireNotNull(crossReference, "The cross-reference of a dependency cannot be null.");
+    Contract.requireNotNull(target, "The target of a dependency cannot be null.");
 		this._source = source;
 		this._crossReference = crossReference;
 		this._target = target;
@@ -162,12 +161,6 @@ public class Dependency<S extends Element,C extends CrossReference,T extends Ele
 		}
 	}
 	
-	private void m() {
-		Predicate<CrossReference<?>,LookupException> predicate = new DependencyFinder()
-		  .from().inside(Type.class)
-		  .to().predicate(Method.class, m -> m.name().length() > 3);
-	}
-	
 	/**
 	 * 
 	 * @author Marko van Dooren
@@ -200,6 +193,7 @@ public class Dependency<S extends Element,C extends CrossReference,T extends Ele
 			return function.apply(e -> predicate.eval(e));
 		}
 		
+		@SuppressWarnings("unchecked")
 		public <C extends E> B predicate(Class<C> kind, Predicate<? super C,? extends X> predicate) {
 			return function.apply(e -> kind.isInstance(e) && predicate.eval((C) e));
 		}

@@ -53,7 +53,7 @@ public abstract class ClassWithBody extends ClassImpl {
 
 	@Override
    public LookupContext lookupContext(Element element) throws LookupException {
-		List<ParameterBlock> parameterBlocks = parameterBlocks();
+		List<ParameterBlock<?>> parameterBlocks = parameterBlocks();
 		if(parameterBlocks.contains(element)) { // || element.isDerived()
 			int index = parameterBlocks.indexOf(element);
 			if(index <= 0) {
@@ -102,7 +102,7 @@ public abstract class ClassWithBody extends ClassImpl {
 	   return body().members();
 	}
 
-	private Multi<ParameterBlock> _parameters = new Multi<ParameterBlock>(this,"parameter blocks");
+	private Multi<ParameterBlock<?>> _parameters = new Multi<ParameterBlock<?>>(this,"parameter blocks");
 	{
 		_parameters.enableCache();
 	}
@@ -151,7 +151,7 @@ public abstract class ClassWithBody extends ClassImpl {
 	}
 
 	@Override
-	public <D extends Declaration> List<? extends SelectionResult> localMembers(DeclarationSelector<D> selector) throws LookupException {
+	public <D extends Declaration> List<? extends SelectionResult<D>> localMembers(DeclarationSelector<D> selector) throws LookupException {
 	//		return selector.selection(localMembers());
 			return body().members(selector);
 		}
@@ -170,7 +170,7 @@ public abstract class ClassWithBody extends ClassImpl {
 	}
 
 	@Override
-   public List<ParameterBlock> parameterBlocks() {
+   public List<ParameterBlock<?>> parameterBlocks() {
 		return _parameters.getOtherEnds();
 	}
 
@@ -263,25 +263,26 @@ public abstract class ClassWithBody extends ClassImpl {
 	}
 
 	@Override
-   public void addParameterBlock(ParameterBlock block) {
+   public void addParameterBlock(ParameterBlock<?> block) {
 		if(block != null && parameterBlock(block.parameterType()) != null) {
 			throw new ChameleonProgrammerException("There is already a parameter block containing the following kind of element "+block.parameterType().getName());
 		}
 		add(_parameters, block);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
    public <P extends Parameter> ParameterBlock<P> parameterBlock(Class<P> kind) {
-		for(ParameterBlock p: parameterBlocks()) {
+		for(ParameterBlock<?> p: parameterBlocks()) {
 			if(p.parameterType().equals(kind)) {
-				return p;
+				return (ParameterBlock<P>) p;
 			}
 		}
 		return null;
 	}
 
 	@Override
-   public void removeParameterBlock(ParameterBlock block) {
+   public void removeParameterBlock(ParameterBlock<?> block) {
 		remove(_parameters,block);
 	}
 

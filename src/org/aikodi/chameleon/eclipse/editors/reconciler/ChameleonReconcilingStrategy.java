@@ -116,7 +116,7 @@ public class ChameleonReconcilingStrategy implements IChameleonReconcilingStrate
 	}
 	
 	private ClonedChameleonPosition cloneDecorator(EclipseEditorTag dec) {
-		return new ClonedChameleonPosition(dec.getOffset(),dec.getLength(),dec.getElement(),dec.getName());
+		return new ClonedChameleonPosition(dec.getOffset(),dec.getLength(),dec.element(),dec.getName());
 	}
 	
 	// start reconciling

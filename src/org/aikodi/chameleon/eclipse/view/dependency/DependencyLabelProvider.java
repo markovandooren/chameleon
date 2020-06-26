@@ -9,9 +9,9 @@ import org.aikodi.chameleon.analysis.dependency.DependencyResult.DependencyCount
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.eclipse.connector.EclipseEditorExtension;
 import org.aikodi.chameleon.exception.ModelException;
-import org.aikodi.rejuse.graph.Edge;
-import org.aikodi.rejuse.graph.Node;
-import org.aikodi.rejuse.graph.UniEdge;
+import org.aikodi.rejuse.data.graph.Edge;
+import org.aikodi.rejuse.data.graph.Node;
+import org.aikodi.rejuse.data.graph.UniEdge;
 import org.eclipse.gef.zest.fx.ZestProperties;
 import org.eclipse.gef.zest.fx.jface.IGraphAttributesProvider;
 import org.eclipse.jface.viewers.IColorProvider;

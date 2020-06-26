@@ -124,7 +124,7 @@ public class ChameleonFormatterStrategy implements IFormattingStrategy {
 		if(editorTags.size()==0)
 			return 0;
 		// use every editorTag or should we better filter them first
-		Element firstElement = editorTags.iterator().next().getElement();
+		Element firstElement = editorTags.iterator().next().element();
 		return getElementDepth(firstElement);
 	}
 

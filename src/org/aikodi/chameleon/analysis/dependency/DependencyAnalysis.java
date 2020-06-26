@@ -14,11 +14,11 @@ import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.contract.Contracts;
+import org.aikodi.rejuse.data.tree.TreeStructure;
 import org.aikodi.rejuse.exception.Handler;
 import org.aikodi.rejuse.function.Function;
 import org.aikodi.rejuse.predicate.Predicate;
 import org.aikodi.rejuse.predicate.UniversalPredicate;
-import org.aikodi.rejuse.tree.TreeStructure;
 
 /**
  * An analysis the reports dependencies between elements and declarations.
@@ -83,21 +83,11 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
       UniversalPredicate<? super CrossReference<?>, Nothing> crossReferencePredicate,
       Function<Declaration, List<Declaration>, Nothing> decomposer, 
       UniversalPredicate<D, Nothing> declarationPredicate,
-      UniversalPredicate<? super Dependency<? super S, ? super CrossReference, ? super D>, Nothing> dependencyPredicate,
+      UniversalPredicate<? super Dependency<? super S, ? super CrossReference<?>, ? super D>, Nothing> dependencyPredicate,
       HistoryFilter<S, D> historyFilter) {
     this(sourcePredicate.type(), sourcePredicate, crossReferencePredicate, declarationPredicate.type(),
         decomposer, declarationPredicate, dependencyPredicate, historyFilter);
   }
-
-//  public static <S extends Element, D extends Element> DependencyAnalysis<S,D,ModelException> create(UniversalPredicate<S, Nothing> sourcePredicate,
-//      UniversalPredicate<? super CrossReference<?>, Nothing> crossReferencePredicate,
-//      Function<Declaration, List<Declaration>, Nothing> decomposer, 
-//      UniversalPredicate<D, Nothing> declarationPredicate,
-//      UniversalPredicate<? super Dependency<? super S, ? super CrossReference, ? super D>, Nothing> dependencyPredicate,
-//      HistoryFilter<S, D> historyFilter) {
-//    return new DependencyAnalysis<S,D,ModelException>(sourcePredicate, crossReferencePredicate, decomposer,declarationPredicate,dependencyPredicate,historyFilter, Guard.<ModelException>propagate());
-//  }
-
 
   public <C extends CrossReference<?>> DependencyAnalysis(
       Class<S> sourceType, 
@@ -107,7 +97,7 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
       Class<D> targetType,
       Predicate<? super D, Nothing> targetPredicate,
       Function<Declaration, List<Declaration>, Nothing> decomposer, 
-      Predicate<? super Dependency<? super S, ? super CrossReference, ? super D>, Nothing> dependencyPredicate,
+      Predicate<? super Dependency<? super S, ? super CrossReference<?>, ? super D>, Nothing> dependencyPredicate,
       HistoryFilter<S, D> historyFilter) {
     super(null,null);
     _sourcePredicate = null;
@@ -125,7 +115,7 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
       Class<D> targetType,
       Function<Declaration, List<Declaration>, Nothing> decomposer, 
       UniversalPredicate<? super D, Nothing> targetPredicate,
-      UniversalPredicate<? super Dependency<? super S, ? super CrossReference, ? super D>, Nothing> dependencyPredicate,
+      UniversalPredicate<? super Dependency<? super S, ? super CrossReference<?>, ? super D>, Nothing> dependencyPredicate,
       HistoryFilter<S, D> historyFilter) {
     super(Element.class, new DependencyResult());
     Contracts.notNull(sourceType, "The source type should not be null");
@@ -148,7 +138,7 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
 
   }
 
-  private UniversalPredicate<Dependency<? super S, ? super CrossReference, ? super D>, Nothing> _noSelfReference = (UniversalPredicate) new UniversalPredicate<Dependency, Nothing>(
+  private UniversalPredicate<Dependency<? super S, ? super CrossReference<?>, ? super D>, Nothing> _noSelfReference = (UniversalPredicate) new UniversalPredicate<Dependency, Nothing>(
       Dependency.class) {
     @Override
     public boolean uncheckedEval(Dependency t) throws Nothing {
@@ -158,7 +148,7 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
 
   public static interface HistoryFilter<E extends Element, D extends Element> {
 
-    public default boolean process(Dependency<E, CrossReference, D> dependency, DependencyResult result) {
+    public default boolean process(Dependency<E, CrossReference<?>, D> dependency, DependencyResult result) {
       return true;
     }
 
@@ -185,7 +175,7 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
     }
 
     @Override
-    public boolean process(Dependency<E, CrossReference, D> dependency, DependencyResult result) {
+    public boolean process(Dependency<E, CrossReference<?>, D> dependency, DependencyResult result) {
       return _first.process(dependency, result) && _second.process(dependency, result);
     }
 
@@ -208,11 +198,11 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
 
   private final UniversalPredicate<? super CrossReference<?>, Nothing> _crossReferencePredicate;
 
-  public UniversalPredicate<? super Dependency<? super S, ? super CrossReference, ? super D>, Nothing> dependencyPredicate() {
+  public UniversalPredicate<? super Dependency<? super S, ? super CrossReference<?>, ? super D>, Nothing> dependencyPredicate() {
     return _dependencyPredicate;
   }
 
-  private final UniversalPredicate<? super Dependency<? super S, ? super CrossReference, ? super D>, Nothing> _dependencyPredicate;
+  private final UniversalPredicate<? super Dependency<? super S, ? super CrossReference<?>, ? super D>, Nothing> _dependencyPredicate;
 
   private final Function<Declaration, List<Declaration>, Nothing> _decomposer;
 
@@ -274,7 +264,7 @@ public class DependencyAnalysis<S extends Element, D extends Element> extends An
 
           for(D target: targets) {
             for (Element e : _elements) {
-              Dependency dependency = new Dependency(e, cref, target);
+              Dependency dependency = new Dependency<>(e, cref, target);
               if (_dependencyPredicate.eval(dependency)) {
                 DependencyResult result = result();
                 if (_historyFilter.process(dependency, result)) {

@@ -1,7 +1,7 @@
 package org.aikodi.chameleon.core.event.stream;
 
 import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.chameleon.core.element.ElementEventStreamCollection;
+import org.aikodi.chameleon.core.element.ElementEventSourceSelector;
 import org.aikodi.chameleon.core.event.Change;
 import org.aikodi.chameleon.core.event.Event;
 import org.aikodi.chameleon.core.event.EventListener;
@@ -38,7 +38,7 @@ public class DescendantStream extends AbstractEventStream<Change,Element> implem
 
   private EventStream<ChildAdded, Element> _addStream;
   private EventStream<ChildRemoved, Element> _removeStream;
-  private ElementEventStreamCollection _collection;
+  private ElementEventSourceSelector _collection;
 
   /**
    * Create a new stream that gathers the events of the descendants of the
@@ -48,7 +48,7 @@ public class DescendantStream extends AbstractEventStream<Change,Element> implem
    *                   ancestor of the elements from which the events must be 
    *                   propagated. The collection cannot be null.
    */
-  public DescendantStream(ElementEventStreamCollection collection) {
+  public DescendantStream(ElementEventSourceSelector collection) {
   	Contracts.notNull(collection, "The event stream collection cannot be null.");
     this._collection = collection;
   }
@@ -65,11 +65,11 @@ public class DescendantStream extends AbstractEventStream<Change,Element> implem
    * {@inheritDoc}
    * 
    * <p>This stream is registered as an event listener to the 
-   * {@link EventStreamCollection#any()} stream of every child of the 
+   * {@link EventSourceSelector#any()} stream of every child of the 
    * {@link #element()} of this stream.</p>
    * 
    * <p>In addition, listeners are registered to the 
-   * {@link EventStreamCollection#self()} stream of the {@link #element()} of 
+   * {@link EventSourceSelector#self()} stream of the {@link #element()} of 
    * this stream in order to attach this stream to new children, and remove
    * this stream from removed children.
    */
@@ -87,7 +87,7 @@ public class DescendantStream extends AbstractEventStream<Change,Element> implem
   /**
    * {@inheritDoc}
    * <p>This stream is unregistered as an event listener to the 
-   * {@link EventStreamCollection#any()} stream of every child of the 
+   * {@link EventSourceSelector#any()} stream of every child of the 
    * {@link #element()} of this stream.</p>
    * 
    * <p>In addition, the listeners for adding this stream to added children
