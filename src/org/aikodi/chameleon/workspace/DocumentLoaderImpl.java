@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import java.lang.ref.WeakReference;
+import java.util.stream.Collectors;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.document.Document;
@@ -15,6 +16,8 @@ import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.rejuse.association.SingleAssociation;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * A default implementation for document loaders.
@@ -194,12 +197,7 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
 		NamespaceDeclaration namespaceDeclaration = rawDocument().lexical().children(NamespaceDeclaration.class).get(0);
 		if(namespaceDeclaration != null) {
 			List<Element> children = namespaceDeclaration.lexical().children();
-			List<Declaration> result = new ArrayList<Declaration>(1);
-			for(Element t: children) {
-				if(t instanceof Declaration && ((Declaration)t).name().equals(name)) {
-					result.add((Declaration) t);
-				}
-			}
+			List<Declaration> result = children.stream().filter(Declaration.class::isInstance).map(Declaration.class::cast).filter(child -> child.name().equals(name)).collect(toList());
 			return result;
 		} else {
 			throw new LookupException("No target declarations are defined in document loader "+toString());
@@ -212,14 +210,11 @@ public abstract class DocumentLoaderImpl implements DocumentLoader {
       NamespaceDeclaration namespaceDeclaration = cs.get(0);
       if(namespaceDeclaration != null) {
         List<Declaration> children = namespaceDeclaration.lexical().children(Declaration.class);
-        List<String> result = new ArrayList<String>();
-        for(Declaration t: children) {
-          result.add(t.name());
-        }
+        List<String> result = children.stream().map(child -> child.name()).collect(toList());
         return result;
       }
     } 
-    // Lets make it robust and return an empty collection if there is no content. This typically
+    // Let's make it robust and return an empty collection if there is no content. This typically
     // indicates the addition of a file of a language that doesn't support lazy loading to a namespace.
     // Since we load the file anyway, we know that it doesn't contain namespace declarations. If that
     // changes, the document must have changed, and any loaded namespace declarations will be activated.
