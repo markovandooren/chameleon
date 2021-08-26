@@ -6,6 +6,8 @@ bin
 .project
 .gradle
 .settings
+/lib
 properties
 *~
 *.iml
+hs_err
