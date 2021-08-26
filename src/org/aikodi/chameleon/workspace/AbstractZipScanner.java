@@ -25,7 +25,7 @@ public abstract class AbstractZipScanner extends DocumentScannerImpl {
 	/**
 	 * Create a new zip scanner for the zip with the given path, file filter, and base scanner setting.
 	 * 
-	 * @param path The path of the zip file from which elements must be scanned.
+	 * @param zipFile The path of the zip file from which elements must be scanned.
 	 * @param filter A filter that selects files in the zip file based on their paths.
 	 * @param isBaseScanner Indicates whether the scanner is responsible for scanning a base library.
 	 */
@@ -47,7 +47,7 @@ public abstract class AbstractZipScanner extends DocumentScannerImpl {
 	 * Create a new zip scanner for the zip with the given path and file filter. The scanner
 	 * will not be responsible for loading a base library.
 	 * 
-	 * @param path The path of the zip file from which elements must be loaded.
+	 * @param zipFile The path of the zip file from which elements must be loaded.
 	 * @param filter A filter that selects files in the zip file based on their paths.
 	 */
  /*@
@@ -124,17 +124,24 @@ public abstract class AbstractZipScanner extends DocumentScannerImpl {
 		}
 	}
 
+	/**
+	 * Sort the given name map in ascending length of the fully qualified name of the class.
+	 *
+	 * @param names A list containing ((fully qualified name, qualified name w.r.t. namespace), zip entry) elements.
+	 * The list cannot be null or contain null.
+	 */
 	protected void sortNameMap(List<Pair<Pair<String, String>, ZipEntry>> names) {
-		Collections.sort(names, new Comparator<Pair<Pair<String,String>,ZipEntry>>(){
-			@Override
-			public int compare(Pair<Pair<String,String>, ZipEntry> o1, Pair<Pair<String,String>, ZipEntry> o2) {
-				int first = o1.first().first().length();
-				int second = o2.first().first().length();
-				return first - second;
-			}
-  	});
+		Collections.sort(names, Comparator.comparingInt(pair -> pair.first().first().length()));
 	}
 
+	/**
+	 * Compute a list containing for each entry: ((fully qualified name, qualified name w.r.t. namespace), zip entry).
+	 *
+	 * @param zip The zip file to read.
+	 *
+	 * @return A non-null list that contains for each zip entry that matches the filter a pair that contains the following information:
+	 * ((fully qualified name, qualified name w.r.t. namespace), zip entry).
+	 */
 	protected List<Pair<Pair<String, String>, ZipEntry>> createNameMap(ZipFile zip) {
   	Enumeration<? extends ZipEntry> entries = zip.entries();
 		List<Pair<Pair<String,String>, ZipEntry>> names = new ArrayList<Pair<Pair<String,String>, ZipEntry>>();
