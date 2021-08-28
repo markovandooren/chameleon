@@ -63,8 +63,8 @@ public abstract class DocumentWriter extends LanguagePluginImpl {
 	    String relDirName = directoryName.replace('.', File.separatorChar);
 	    File out = new File(outputDir.getAbsolutePath()+File.separatorChar + relDirName + File.separatorChar + fileName);
 	    File parent = out.getParentFile();
-	    parent.mkdirs();
-	    out.createNewFile();
+	    boolean unused = parent.mkdirs();
+	    boolean ignored = out.createNewFile();
 	    FileWriter fw = new FileWriter(out);
 	    fw.write(toString(document));
 	    fw.close();
