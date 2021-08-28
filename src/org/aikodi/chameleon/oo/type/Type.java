@@ -31,8 +31,13 @@ public interface Type extends DeclarationContainer, DeclarationWithType {
   public default boolean newSubtypeOf(Type other) throws LookupException {
     return sameAs(other);
   }
-  
-  @Override
+
+    @Override
+    default SelectionResult<Declaration> updatedTo(Declaration declaration) {
+        return DeclarationWithType.super.updatedTo(declaration);
+    }
+
+    @Override
   default List<? extends DeclarationContainerRelation> relations() throws LookupException {
   	return inheritanceRelations();
   }
@@ -57,7 +62,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType {
    *         type. If there is no such super type, null is returned.
    * @throws LookupException
    */
-  public default Type getSuperType(Type type) throws LookupException {
+  public default Type getSuperTypeWithSameBaseTypeAs(Type type) throws LookupException {
     return superTypeJudge().get(type);
   }
 
@@ -242,7 +247,6 @@ public interface Type extends DeclarationContainer, DeclarationWithType {
       }
     }
     return result;
-    //		return sameAs(other,trace.clone()) || uniSubtypeOf(other,trace.clone()) || other.uniSupertypeOf(this, trace.clone());
   }
 
   public default boolean uniSupertypeOf(Type type, TypeFixer trace) throws LookupException {
@@ -250,7 +254,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType {
   }
 
   public default boolean uniSubtypeOf(Type other, TypeFixer trace) throws LookupException {
-    Type sameBase = getSuperType(other);
+    Type sameBase = getSuperTypeWithSameBaseTypeAs(other);
     return sameBase != null && sameBase.compatibleParameters(other, trace);
   }
 
@@ -288,7 +292,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType {
 
   /**
    * Add the give given inheritance relation to this type.
-   * @param type
+   * @param relation The relation to add. Cannot be null.
    * @throws ChameleonProgrammerException
    *         It is not possible to add the given type. E.g. you cannot
    *         add an inheritance relation to a computed type.
