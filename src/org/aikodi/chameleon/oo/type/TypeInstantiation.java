@@ -1,5 +1,6 @@
 package org.aikodi.chameleon.oo.type;
 
+import static org.aikodi.contract.Contract.requireNotNull;
 import static org.aikodi.rejuse.collection.CollectionOperations.forAll;
 
 import java.util.Iterator;
@@ -20,19 +21,28 @@ import org.aikodi.chameleon.util.Lists;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
+import org.aikodi.contract.Contract;
 
 
 /**
- * A derived type is created by filling in the type parameters of a parameterized
+ * A type instantiation is created by filling in the type parameters of a parameterized
  * type.
  * 
  * @author Marko van Dooren
  */
 public class TypeInstantiation extends ClassWithBody {
-	
-	public TypeInstantiation(List<ParameterSubstitution<?>> parameters, Type baseType) {
+
+	/**
+	 * Instantiate the given base type with the given parameter substitutions.
+	 *
+	 * @param parameterSubstitutions The parameter substitutions to apply. Cannot be null.
+	 * @param baseType The parameterized type to instantiate.
+	 */
+	public TypeInstantiation(List<ParameterSubstitution<?>> parameterSubstitutions, Type baseType) {
 		this(baseType);
-		substituteParameters(parameters);
+		requireNotNull(parameterSubstitutions);
+
+		substituteParameters(parameterSubstitutions);
 	}
 
 	public <P extends Parameter> TypeInstantiation(Class<P> kind, List<P> parameters, Type baseType) {
@@ -40,7 +50,7 @@ public class TypeInstantiation extends ClassWithBody {
 		substituteParameters(kind, parameters);
 	}
 	
-	public TypeInstantiation(ParameterSubstitution substitution, Type baseType) {
+	public TypeInstantiation(ParameterSubstitution<?> substitution, Type baseType) {
 		this(baseType);
 		substituteParameters(substitution);
 	}
@@ -48,10 +58,12 @@ public class TypeInstantiation extends ClassWithBody {
 	/**
 	 * Create a new derived type for the given base type.
 	 * The contents of the type is copied into this type.
-	 * @param baseType
+	 *
+	 * @param baseType The parameterized type to instantiate. Cannot be null.
 	 */
 	private TypeInstantiation(Type baseType) {
-		super(baseType.name());
+		super(requireNotNull(baseType).name());
+
 		_baseType = baseType;
 		setOrigin(baseType);
 		copyInheritanceRelations(baseType, true);
@@ -64,8 +76,11 @@ public class TypeInstantiation extends ClassWithBody {
   public boolean hasInheritanceRelation(InheritanceRelation relation) throws LookupException {
   	return super.hasInheritanceRelation(relation) || relation.hasMetadata(IMPLICIT_CHILD);
   }
-  
-  public final static String IMPLICIT_CHILD = "IMPLICIT CHILD";
+
+	/**
+	 * A metadata tag to indicate that the element is implicit.
+	 */
+	public final static String IMPLICIT_CHILD = "IMPLICIT CHILD";
 
 	/**
 	 * Create a derived type by filling in the type parameters with the given list of
