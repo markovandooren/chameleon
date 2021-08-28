@@ -73,16 +73,28 @@ public abstract class CrossReferenceImpl<D extends Declaration> extends ElementI
   @Override
   public D getElement() throws LookupException {
     D result = (D) getCache();
-    if (result != null) {
-      return result;
+    if (result == null) {
+      synchronized (this) {
+        // The body of the try statement alone is sufficient.
+        // The try-catch statement is there to assist with debugging.
+        try {
+          result = performLookup();
+        } catch (LookupException e) {
+          performLookup();
+          throw e;
+        }
+      }
     }
-    synchronized (this) {
-      DeclarationCollector<D> collector = new DeclarationCollector<D>(selector());
-      lookupContext().lookUp(collector);
-      result = collector.result();
-        setCache((D) result);
-      return result;
-    }
+
+    return result;
+  }
+
+  private D performLookup() throws LookupException {
+    DeclarationCollector<D> collector = new DeclarationCollector<D>(selector());
+    lookupContext().lookUp(collector);
+    D result = collector.result();
+    setCache((D) result);
+    return result;
   }
 
   @Override
