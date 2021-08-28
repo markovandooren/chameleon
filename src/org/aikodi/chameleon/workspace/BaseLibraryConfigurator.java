@@ -31,13 +31,19 @@ public abstract class BaseLibraryConfigurator {
 	 * @param configuration
 	 */
 	public void process(View view, BaseLibraryConfiguration configuration) {
-		if(next() != null) {
+		if (next() != null) {
 			next().process(view, configuration);
 		}
-		if(configuration.mustLoad(language())) {
+		if (configuration.mustLoad(languageName())) {
 			addBaseScanner(view);
 		}
 	}
+
+	/**
+	 * The name of the language for which the configurator will configure the base library.
+	 * @return
+	 */
+	protected abstract String languageName();
 	
 	/**
 	 * Return the next base library configurator in the chain. 
