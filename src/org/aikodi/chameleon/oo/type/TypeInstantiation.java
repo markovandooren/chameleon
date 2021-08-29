@@ -45,11 +45,6 @@ public class TypeInstantiation extends ClassWithBody {
 		substituteParameters(parameterSubstitutions);
 	}
 
-	public <P extends Parameter> TypeInstantiation(Class<P> kind, List<P> parameters, Type baseType) {
-		this(baseType);
-		substituteParameters(kind, parameters);
-	}
-	
 	public TypeInstantiation(ParameterSubstitution<?> substitution, Type baseType) {
 		this(baseType);
 		substituteParameters(substitution);
@@ -205,7 +200,7 @@ public class TypeInstantiation extends ClassWithBody {
 			for(Parameter par: block.parameters()) {
 				list.add(clone(par));
 			}
-			args.add(new ParameterSubstitution(block.parameterType(), list)); 
+			args.add(new FunctionalParameterSubstitution(block.parameterType(), list));
 		}
 		return args;
 	}

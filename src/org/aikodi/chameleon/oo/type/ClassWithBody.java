@@ -242,21 +242,9 @@ public abstract class ClassWithBody extends ClassImpl {
 		}
 	}
 	public <T extends Parameter> void substituteParameters(ParameterSubstitution<T> substitution) {
-		substituteParameters(substitution.parameterKind(),substitution.parameters());
+		substitution.apply(this);
 	}
 
-	public <P extends Parameter> void substituteParameters(Class<P> kind, List<P> parameters) {
-		Iterator<P> parametersIterator = parameters(kind).iterator();
-		Iterator<P> argumentsIterator = parameters.iterator();
-		while (parametersIterator.hasNext()) {
-			P parameter = parametersIterator.next();
-			P argument = argumentsIterator.next();
-			// The next call does not change the parent of 'argument'. It is stored in InstantiatedTypeParameter
-			// using a regular reference.
-			replaceParameter(kind, parameter, argument);
-		}
-	}
-	
 	@Override
    public Declaration declarator() {
 		return this;
