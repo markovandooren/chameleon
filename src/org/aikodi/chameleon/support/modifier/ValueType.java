@@ -23,7 +23,7 @@ public class ValueType extends ModifierImpl {
 
   @Override
 public PropertySet<Element,ChameleonProperty> impliedProperties() {
-    return createSet(language(ObjectOrientedLanguage.class).VALUE_TYPE);
+    return createSet(language(ObjectOrientedLanguage.class).VALUE_TYPE());
   }
 
 }

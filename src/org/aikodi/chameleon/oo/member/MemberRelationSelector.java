@@ -1,8 +1,5 @@
 package org.aikodi.chameleon.oo.member;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.declaration.Signature;
@@ -10,6 +7,9 @@ import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.util.Lists;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class MemberRelationSelector<D extends Declaration> implements DeclarationSelector<D> {
 

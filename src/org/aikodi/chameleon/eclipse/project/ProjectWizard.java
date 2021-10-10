@@ -1,8 +1,5 @@
 package org.aikodi.chameleon.eclipse.project;
 
-import java.io.File;
-import java.net.MalformedURLException;
-
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.eclipse.ChameleonEditorPlugin;
 import org.aikodi.chameleon.eclipse.LanguageMgt;
@@ -13,12 +10,7 @@ import org.aikodi.chameleon.workspace.BaseLibraryConfiguration;
 import org.aikodi.chameleon.workspace.ConfigException;
 import org.aikodi.chameleon.workspace.ProjectConfiguration;
 import org.aikodi.chameleon.workspace.ProjectConfigurator;
-import org.eclipse.core.resources.ICommand;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -29,6 +21,9 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
+
+import java.io.File;
+import java.net.MalformedURLException;
 
 /**
  * @author Marko van Dooren

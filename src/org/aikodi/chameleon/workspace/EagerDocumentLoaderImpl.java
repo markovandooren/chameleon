@@ -1,8 +1,8 @@
 package org.aikodi.chameleon.workspace;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.namespace.Namespace;
+
+import java.util.List;
 
 public abstract class EagerDocumentLoaderImpl extends DocumentLoaderImpl {
 

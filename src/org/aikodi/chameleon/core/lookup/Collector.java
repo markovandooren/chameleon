@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.core.lookup;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
+
+import java.util.List;
 
 /**
  * A collector is a strategy object that travels across the

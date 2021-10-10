@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.workspace;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -11,6 +9,8 @@ import org.aikodi.rejuse.association.Association;
 import org.aikodi.rejuse.association.SingleAssociation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.List;
 
 /**
  * <p>

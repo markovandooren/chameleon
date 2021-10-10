@@ -1,23 +1,12 @@
 package org.aikodi.chameleon.core.namespacedeclaration;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.ListIterator;
-
+import com.google.common.collect.ImmutableList;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.element.ElementImpl;
-import org.aikodi.chameleon.core.lookup.DeclarationSelector;
-import org.aikodi.chameleon.core.lookup.LocalLookupContext;
-import org.aikodi.chameleon.core.lookup.LookupContext;
-import org.aikodi.chameleon.core.lookup.LookupContextFactory;
-import org.aikodi.chameleon.core.lookup.LookupContextSelector;
-import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.lookup.SelectionResult;
+import org.aikodi.chameleon.core.lookup.*;
 import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.core.reference.NameReference;
@@ -30,7 +19,7 @@ import org.aikodi.chameleon.util.association.Single;
 import org.aikodi.rejuse.association.AssociationListener;
 import org.aikodi.rejuse.collection.CollectionOperations;
 
-import com.google.common.collect.ImmutableList;
+import java.util.*;
 /**
  * A namespace declaration add {@link Declaration}s to a {@link Namespace}. 
  * Different namespace declarations in different {@link Document}s

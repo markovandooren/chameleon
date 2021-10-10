@@ -1,12 +1,5 @@
 package org.aikodi.chameleon.core.language;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupContextFactory;
@@ -21,14 +14,15 @@ import org.aikodi.chameleon.plugin.LanguagePlugin;
 import org.aikodi.chameleon.plugin.LanguageProcessor;
 import org.aikodi.chameleon.plugin.PluginContainerImpl;
 import org.aikodi.chameleon.plugin.ProcessorContainer;
-import org.aikodi.rejuse.action.Nothing;
-import org.aikodi.rejuse.action.SafeAction;
 import org.aikodi.rejuse.association.MultiAssociation;
 import org.aikodi.rejuse.association.OrderedMultiAssociation;
 import org.aikodi.rejuse.junit.Revision;
 import org.aikodi.rejuse.property.Property;
 import org.aikodi.rejuse.property.PropertyMutex;
 import org.aikodi.rejuse.property.PropertySet;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * A class representing a Chameleon language.
@@ -64,22 +58,12 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 		this(name, new LookupContextFactory(),version);
 	}
 	
-	/**
-	 * A property that specifies that a declaration can be overridden.
-	 * 
-	 * OVERRIDABLE implies REFINABLE.
-	 */
-	public final StaticChameleonProperty OVERRIDABLE;
+	protected final StaticChameleonProperty OVERRIDABLE;
 	
-	/**
-	 * A property that specifies that a declaration can be refined.
-	 * Refinement can be seen as overriding buy purely augmenting
-	 * the refined declaration.
-	 */
-	public final ChameleonProperty REFINABLE;
+	protected final ChameleonProperty REFINABLE;
 	
 	
-	public final StaticChameleonProperty INHERITABLE;
+	protected final StaticChameleonProperty INHERITABLE;
 
 	/**
 	 * Initialize a new language with the given name and lookup strategy factory.
@@ -100,8 +84,8 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
   	OVERRIDABLE = add(new StaticChameleonProperty("overridable",Declaration.class));
   	REFINABLE = add(new StaticChameleonProperty("refinable", Declaration.class));
   	INHERITABLE = add(new StaticChameleonProperty("inheritable",Declaration.class));
-    OVERRIDABLE.addImplication(REFINABLE);
-    REFINABLE.addImplication(INHERITABLE);
+    OVERRIDABLE().addImplication(REFINABLE());
+    REFINABLE().addImplication(INHERITABLE());
 		setName(name);
 		setLookupStrategyFactory(factory);
 		initializePropertyRules();
@@ -251,23 +235,6 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 	 */
 	private String _name;
 
-//	/**
-//	 * Return the default namespace attached to this language. A language is always attached to a default namespace because a language
-//	 * may need access to predefined elements, which are somewhere in the model.
-//	 * @return
-//	 */
-//	public RootNamespace defaultNamespace() {
-//        return view().namespace();
-//    }
-//	
-//	public Project project() {
-//		return view().project();
-//	}
-//	
-//	public View view() {
-//		return _view.getOtherEnd();
-//	}
-
 	/**
 	 * A property mutex for the scope property.
 	 */
@@ -278,84 +245,6 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 		return SCOPE_MUTEX;
 	}
 	
-	 
-
-
-    //private Map<Class<? extends ToolExtension>,? extends ToolExtension> toolExtensions = new HashMap<Class<? extends ToolExtension>,ToolExtension>();
-    /*private <T extends ToolExtension> Map<Class<T>,T> getMap() {
-        return (Map<Class<T>,T>)toolExtensions;
-    }*/
-
- 
- //    public <T extends LanguagePlugin> void removePlugin(Class<T> pluginInterface) {
-//        T old = _plugins.get(pluginInterface);
-//        _plugins.remove(pluginInterface);
-//        if (old!=null && old.language() == this) {
-//            old.setLanguage(null, pluginInterface);
-//        }
-//    }
-
-//    public <T extends LanguagePlugin> void setPlugin(Class<T> pluginInterface, T plugin) {
-//        T old = _plugins.get(pluginInterface);
-//        if (old!=plugin) {
-//            if ((plugin!=null) && (plugin.language()!=this)) {
-//                plugin.setLanguage(this, pluginInterface);
-//            }
-//            // Clean up old backpointer
-//            if (old!=null) {
-//                old.setLanguage(null, pluginInterface);
-//            }
-//            // Either
-//            if(plugin != null) {
-//            	// Add connector to map
-//              _plugins.put(pluginInterface, plugin);
-//            } else {
-//            	// Remove entry in map
-//            	_plugins.remove(pluginInterface);
-//            }
-//        }
-//    }
-    
-//    public Set<Entry<Class<? extends LanguagePlugin>,LanguagePlugin>> pluginEntrySet() {
-//    	return _plugins.entrySet();
-//    }
-    
-//  	public <S extends LanguagePlugin> void clonePluginsFrom(Language from) {
-//  		for(Entry<Class<? extends LanguagePlugin>, LanguagePlugin> entry: from.pluginEntrySet()) {
-//  			Class<S> key = (Class<S>) entry.getKey();
-//				S value = (S) entry.getValue();
-//				_plugins.put(key, (S)value.clone());
-//  		}
-//  	}
-//
-
-//    /**
-//     * Check if this language has a plugin for the given plugin type. Typically
-//     * the type is an interface or abstract class for a specific tool.
-//     */
-//   /*@
-//     @ public behavior
-//     @
-//     @ pre connectorInterface != null;
-//     @
-//     @ post \result == connector(connectorInterface) != null;
-//     @*/
-//    public <T extends LanguagePlugin> boolean hasPlugin(Class<T> pluginInterface) {
-//        return _plugins.containsKey(pluginInterface);
-//    }
-
-//    /**
-//     * Check if this language object has any plugins.
-//     */
-//   /*@
-//     @ public behavior
-//     @
-//     @ post \result ==  
-//     @*/
-//    public boolean hasPlugins() {
-//        return ! _plugins.isEmpty();
-//    }
-//
     /**************
      * PROCESSORS *
      **************/
@@ -401,12 +290,13 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 
 
     /**
-     * Add the given processor to the list of processors correponding to the given connector interface. 
+     * Add the given processor to the list of processors corresponding to the given connector interface.
      * The bidirectional relation is kept in a consistent state.
      * 
-     * @param <T>
-     * @param connectorInterface
-     * @param connector
+     * @param <K> The type of the key.
+	 * @param <V> The type of the value.
+     * @param keyInterface The interface under which the processor should be looked up.
+     * @param processor The process to add.
      */
    /*@
      @ public behavior
@@ -622,6 +512,20 @@ public abstract class LanguageImpl extends PluginContainerImpl<LanguagePlugin> i
 	      _properties.add(t.inverse());
 	      return t;
 	    }
-	    
+
+	@Override
+	public StaticChameleonProperty OVERRIDABLE() {
+		return OVERRIDABLE;
+	}
+
+	@Override
+	public ChameleonProperty REFINABLE() {
+		return REFINABLE;
+	}
+
+	@Override
+	public StaticChameleonProperty INHERITABLE() {
+		return INHERITABLE;
+	}
 }
 

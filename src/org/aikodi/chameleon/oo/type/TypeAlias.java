@@ -1,12 +1,8 @@
 package org.aikodi.chameleon.oo.type;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.oo.type.generics.TypeParameter;
-import org.aikodi.chameleon.util.Pair;
 
 public class TypeAlias extends TypeIndirection {
 

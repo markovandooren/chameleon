@@ -19,6 +19,6 @@ public class Enum extends ModifierImpl {
 
     @Override
    public PropertySet<Element,ChameleonProperty> impliedProperties() {
-      return createSet(language(ObjectOrientedLanguage.class).EXTENSIBLE);
+      return createSet(language(ObjectOrientedLanguage.class).EXTENSIBLE());
     }
 }

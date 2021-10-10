@@ -1,20 +1,10 @@
 package org.aikodi.chameleon.aspect.core.model.aspect;
 
-import java.util.List;
-
 import org.aikodi.chameleon.aspect.core.model.advice.Advice;
 import org.aikodi.chameleon.aspect.core.model.pointcut.Pointcut;
-import org.aikodi.chameleon.core.declaration.BasicDeclaration;
-import org.aikodi.chameleon.core.declaration.Declaration;
-import org.aikodi.chameleon.core.declaration.DeclarationContainer;
-import org.aikodi.chameleon.core.declaration.Signature;
-import org.aikodi.chameleon.core.declaration.Name;
+import org.aikodi.chameleon.core.declaration.*;
 import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.chameleon.core.lookup.DeclarationSelector;
-import org.aikodi.chameleon.core.lookup.LookupContext;
-import org.aikodi.chameleon.core.lookup.LookupContextFactory;
-import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.lookup.SelectionResult;
+import org.aikodi.chameleon.core.lookup.*;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.scope.Scope;
 import org.aikodi.chameleon.core.scope.ScopeProperty;
@@ -24,6 +14,8 @@ import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
+
+import java.util.List;
 
 public class Aspect extends BasicDeclaration implements DeclarationContainer, Declaration {
 	

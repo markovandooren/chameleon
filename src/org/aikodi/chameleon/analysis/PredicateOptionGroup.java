@@ -1,10 +1,10 @@
 package org.aikodi.chameleon.analysis;
 
-import java.util.List;
-
 import org.aikodi.chameleon.ui.widget.PredicateSelector;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.rejuse.predicate.UniversalPredicate;
+
+import java.util.List;
 
 public class PredicateOptionGroup extends OptionGroup {
 

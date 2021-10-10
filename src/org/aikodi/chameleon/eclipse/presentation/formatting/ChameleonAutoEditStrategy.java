@@ -6,12 +6,7 @@ package org.aikodi.chameleon.eclipse.presentation.formatting;
 
 import org.aikodi.chameleon.eclipse.ChameleonEditorPlugin;
 import org.aikodi.chameleon.eclipse.editors.preferences.ChameleonEditorPreferencePage;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.DefaultIndentLineAutoEditStrategy;
-import org.eclipse.jface.text.DocumentCommand;
-import org.eclipse.jface.text.IAutoEditStrategy;
-import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.*;
 
 /**
  * This class makes it possible to edit a command before it is executed.

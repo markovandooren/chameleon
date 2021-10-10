@@ -1,9 +1,5 @@
 package org.aikodi.chameleon.core.reference;
 
-import java.util.List;
-
-import java.lang.ref.SoftReference;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.DeclarationCollector;
@@ -18,6 +14,9 @@ import org.aikodi.chameleon.oo.type.generics.TypeArgument;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
+
+import java.lang.ref.SoftReference;
+import java.util.List;
 
 /**
  * 

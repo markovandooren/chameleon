@@ -1,17 +1,14 @@
 package org.aikodi.chameleon.oo.type.generics;
 
-import java.util.List;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.declaration.MissingSignature;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.plugin.ObjectOrientedFactory;
 import org.aikodi.chameleon.oo.type.Type;
-import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.TypeReference;
+
+import java.util.Set;
 
 
 public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
@@ -87,11 +84,6 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 	@Override
 	public boolean uniSameAs(Element other) throws LookupException {
 		return other == this;
-		//		boolean result = false;
-		//		if(other instanceof InstantiatedTypeParameter) {
-		//		 result = argument().sameAs(((InstantiatedTypeParameter)other).argument());
-		//		}
-		//		return result;
 	}
 
 	@Override
@@ -109,12 +101,6 @@ public abstract class AbstractInstantiatedTypeParameter extends TypeParameter {
 		return argument().toString();
 	}
 	
-//	@Override
-//	public boolean contains(TypeParameter other, TypeFixer trace) throws LookupException {
-//		return argument().contains(other.argument(), trace);
-////		return argument().contains(other, trace); // try to avoid early unroll
-//	}
-//	
 	/* (non-Javadoc)
 	 * @see org.aikodi.chameleon.oo.type.generics.TypeParameter#toString(java.util.Set)
 	 */

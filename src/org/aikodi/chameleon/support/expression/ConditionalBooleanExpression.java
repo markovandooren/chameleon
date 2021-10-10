@@ -1,12 +1,12 @@
 package org.aikodi.chameleon.support.expression;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.expression.Expression;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
+
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -24,7 +24,7 @@ public abstract class ConditionalBooleanExpression extends BinaryExpression {
   
   @Override
 protected Type actualType() throws LookupException {
-    return language(ObjectOrientedLanguage.class).booleanType(view().namespace()); 
+    return language(ObjectOrientedLanguage.class).booleanType(view().namespace());
   }
   
   public Set<Type> getDirectExceptions() throws LookupException {

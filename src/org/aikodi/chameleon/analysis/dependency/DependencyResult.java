@@ -1,20 +1,14 @@
 package org.aikodi.chameleon.analysis.dependency;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import org.aikodi.chameleon.analysis.Result;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.rejuse.action.UniversalConsumer;
-import org.aikodi.rejuse.collection.CollectionOperations;
-import org.aikodi.rejuse.data.graph.Edge;
-import org.aikodi.rejuse.data.graph.Graph;
-import org.aikodi.rejuse.data.graph.Node;
-import org.aikodi.rejuse.data.graph.UniEdge;
-import org.aikodi.rejuse.data.graph.UniEdgeFactory;
+import org.aikodi.rejuse.data.graph.*;
 import org.aikodi.rejuse.function.Consumer;
 import org.aikodi.rejuse.predicate.Predicate;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class DependencyResult extends Result<DependencyResult> {
 

@@ -1,8 +1,5 @@
 package org.aikodi.chameleon.oo.type.inheritance;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -16,6 +13,9 @@ import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.Single;
 import org.aikodi.rejuse.logic.ternary.Ternary;
+
+import java.util.Collections;
+import java.util.List;
 
 public abstract class AbstractInheritanceRelation extends ElementWithModifiersImpl implements InheritanceRelation {
 	
@@ -194,14 +194,14 @@ public abstract class AbstractInheritanceRelation extends ElementWithModifiersIm
    @ (\forall M m; members.contains(m); \old(members()).contains(m) && m.is(language(ObjectOrientedLanguage.class).INHERITABLE == Ternary.TRUE);
    @*/
 	protected <X extends Declaration> List<SelectionResult<X>> removeNonInheritableMembers(List<SelectionResult<X>> members) throws LookupException {
-		StaticChameleonProperty inheritable = language(ObjectOrientedLanguage.class).INHERITABLE;
+		StaticChameleonProperty inheritable = language(ObjectOrientedLanguage.class).INHERITABLE();
 		int size = members.size();
 		for(int i =0; i< size;) {
 			SelectionResult r = members.get(i);
 			Declaration member = r.finalDeclaration();
 			Ternary temp = member.is(inheritable);
 			if (temp == Ternary.UNKNOWN) {
-				temp = member.is(language(ObjectOrientedLanguage.class).INHERITABLE);
+				temp = member.is(language(ObjectOrientedLanguage.class).INHERITABLE());
 				throw new LookupException("For one of the members of super type " + superClass().getFullyQualifiedName()
 						+ " it is unknown whether it is inheritable or not. Member type: " + member.getClass().getName());
 			} else {

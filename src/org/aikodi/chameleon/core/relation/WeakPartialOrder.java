@@ -1,8 +1,8 @@
 package org.aikodi.chameleon.core.relation;
 
-import java.util.Collection;
-
 import org.aikodi.chameleon.core.lookup.LookupException;
+
+import java.util.Collection;
 
 public interface WeakPartialOrder<E> extends org.aikodi.rejuse.logic.relation.WeakPartialOrder<E> {
   

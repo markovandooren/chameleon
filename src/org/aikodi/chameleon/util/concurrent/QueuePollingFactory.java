@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.util.concurrent;
 
+import org.aikodi.rejuse.action.UniversalConsumer;
+
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
-
-import org.aikodi.rejuse.action.UniversalConsumer;
 
 public abstract class QueuePollingFactory<T,E extends Exception> {
 

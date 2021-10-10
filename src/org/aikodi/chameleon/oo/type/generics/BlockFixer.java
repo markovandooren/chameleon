@@ -1,8 +1,8 @@
 package org.aikodi.chameleon.oo.type.generics;
 
-import java.util.List;
-
 import org.aikodi.chameleon.util.association.Multi;
+
+import java.util.List;
 
 public class BlockFixer extends TypeParameterFixer {
 	@Override

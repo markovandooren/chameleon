@@ -1,15 +1,5 @@
 package org.aikodi.chameleon.eclipse;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FilenameFilter;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.eclipse.connector.EclipseBootstrapper;
 import org.aikodi.chameleon.eclipse.presentation.PresentationModel;
@@ -19,6 +9,16 @@ import org.aikodi.chameleon.workspace.Workspace;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FilenameFilter;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Marko van Dooren

@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.workspace;
 
-import org.aikodi.chameleon.workspace.DocumentScannerImpl;
-
 /**
  * A scanner that does nothing by default. All document loades must be added
  * externally.

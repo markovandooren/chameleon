@@ -1,13 +1,13 @@
 package org.aikodi.chameleon.core.namespace;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.factory.Factory;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.core.reference.CrossReference;
+
+import java.util.List;
 
 /**
  * <p>An interface for namespaces that contain the declarations of a view/project.</p>

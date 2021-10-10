@@ -1,16 +1,16 @@
 package org.aikodi.chameleon.input;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.plugin.LanguagePlugin;
 import org.aikodi.chameleon.workspace.View;
 import org.aikodi.rejuse.association.Association;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 
 /**
  * An object that parses source text. A parser must be able to create

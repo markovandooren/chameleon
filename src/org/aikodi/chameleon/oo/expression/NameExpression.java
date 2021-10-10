@@ -1,10 +1,5 @@
 package org.aikodi.chameleon.oo.expression;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import java.lang.ref.SoftReference;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.event.name.NameChanged;
@@ -18,11 +13,11 @@ import org.aikodi.chameleon.core.reference.CrossReferenceWithTarget;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
-import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.DeclarationWithType;
 import org.aikodi.chameleon.oo.type.Type;
-import org.aikodi.chameleon.util.Util;
 import org.aikodi.chameleon.util.association.Single;
+
+import java.lang.ref.SoftReference;
 
 public class NameExpression extends TargetedExpression
 		implements CrossReferenceWithName<DeclarationWithType>, CrossReferenceWithTarget<DeclarationWithType> {

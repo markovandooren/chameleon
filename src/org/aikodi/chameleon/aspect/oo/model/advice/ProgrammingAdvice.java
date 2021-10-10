@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.aspect.oo.model.advice;
 
-import java.util.List;
-
 import org.aikodi.chameleon.aspect.core.model.advice.Advice;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
@@ -19,6 +17,8 @@ import org.aikodi.chameleon.oo.variable.FormalParameter;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
+
+import java.util.List;
 
 public abstract class ProgrammingAdvice extends Advice<Block> implements DeclarationContainer {
 

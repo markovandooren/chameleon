@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.aspect.oo.model.advice.modifier;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.element.Element;
@@ -13,6 +11,8 @@ import org.aikodi.chameleon.core.modifier.ModifierImpl;
 import org.aikodi.chameleon.oo.variable.FormalParameter;
 import org.aikodi.chameleon.util.Util;
 import org.aikodi.chameleon.util.association.Single;
+
+import java.util.List;
 
 /**
  * 

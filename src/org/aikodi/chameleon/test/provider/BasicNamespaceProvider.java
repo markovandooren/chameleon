@@ -1,13 +1,13 @@
 package org.aikodi.chameleon.test.provider;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.util.Util;
 import org.aikodi.chameleon.workspace.View;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 	/**
 	 * A class for providing namespaces based on their fully qualified names. Both null and the empty string

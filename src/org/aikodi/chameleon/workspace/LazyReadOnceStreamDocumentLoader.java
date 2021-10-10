@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.workspace;
 
-import java.io.InputStream;
-
 import org.aikodi.chameleon.core.namespace.DocumentLoaderNamespace;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
+
+import java.io.InputStream;
 
 public class LazyReadOnceStreamDocumentLoader extends LazyStreamDocumentLoader {
 

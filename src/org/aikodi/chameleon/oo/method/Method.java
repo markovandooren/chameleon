@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.oo.method;
 
-import java.util.Set;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -10,6 +8,8 @@ import org.aikodi.chameleon.oo.statement.Block;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.rejuse.predicate.Predicate;
+
+import java.util.Set;
 
 /**
  * A class of methods.

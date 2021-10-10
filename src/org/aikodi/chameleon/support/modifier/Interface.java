@@ -22,6 +22,6 @@ public class Interface extends ModifierImpl {
 		 */
     @Override
    public PropertySet<Element,ChameleonProperty> impliedProperties() {
-      return createSet(language(ObjectOrientedLanguage.class).INTERFACE);
+      return createSet(language(ObjectOrientedLanguage.class).INTERFACE());
     }
 }

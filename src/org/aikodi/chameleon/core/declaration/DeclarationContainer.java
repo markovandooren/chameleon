@@ -1,19 +1,13 @@
 package org.aikodi.chameleon.core.declaration;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
-import org.aikodi.chameleon.core.lookup.DeclarationSelector;
-import org.aikodi.chameleon.core.lookup.LocalLookupContext;
-import org.aikodi.chameleon.core.lookup.LookupContext;
-import org.aikodi.chameleon.core.lookup.LookupContextFactory;
-import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.lookup.SelectionResult;
+import org.aikodi.chameleon.core.lookup.*;
 import org.aikodi.chameleon.util.Lists;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 /**
  * An element that contains declarations. This interface allows the

@@ -1,16 +1,11 @@
 package org.aikodi.chameleon.builder;
 
-import java.util.function.Consumer;
-
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.namespace.LazyRootNamespace;
 import org.aikodi.chameleon.core.namespace.RootNamespace;
-import org.aikodi.chameleon.workspace.DocumentScanner;
-import org.aikodi.chameleon.workspace.LanguageRepository;
-import org.aikodi.chameleon.workspace.Project;
-import org.aikodi.chameleon.workspace.ProjectException;
-import org.aikodi.chameleon.workspace.View;
-import org.aikodi.chameleon.workspace.Workspace;
+import org.aikodi.chameleon.workspace.*;
+
+import java.util.function.Consumer;
 
 /**
  * A convenience builder for a project with a single view.

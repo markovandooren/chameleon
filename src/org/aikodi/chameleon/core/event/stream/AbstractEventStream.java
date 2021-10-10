@@ -1,10 +1,10 @@
 package org.aikodi.chameleon.core.event.stream;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.aikodi.chameleon.core.event.Event;
 import org.aikodi.chameleon.core.event.EventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A default implementation for event streams.

@@ -3,17 +3,12 @@
  */
 package org.aikodi.chameleon.oo.type;
 
-import static org.aikodi.rejuse.collection.CollectionOperations.findFirst;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.google.common.collect.ImmutableList;
 import org.aikodi.chameleon.core.lookup.LookupException;
 
-import com.google.common.collect.ImmutableList;
+import java.util.*;
+
+import static org.aikodi.rejuse.collection.CollectionOperations.findFirst;
 
 public class SuperTypeJudge {
   // Nasty internal structure to prevent the creation

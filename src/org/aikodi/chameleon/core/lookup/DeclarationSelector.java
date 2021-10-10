@@ -1,11 +1,10 @@
 package org.aikodi.chameleon.core.lookup;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.declaration.Signature;
+
+import java.util.List;
 
 /**
  * A class of objects that select declarations during lookup.

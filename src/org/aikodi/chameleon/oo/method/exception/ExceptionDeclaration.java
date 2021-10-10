@@ -1,10 +1,10 @@
 package org.aikodi.chameleon.oo.method.exception;
 
-import java.util.Set;
-
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.expression.MethodInvocation;
+
+import java.util.Set;
 
 /**
  * @author Marko van Dooren

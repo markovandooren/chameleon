@@ -1,9 +1,5 @@
 package org.aikodi.chameleon.oo.type.generics;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -12,6 +8,9 @@ import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.TypeReference;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A class of type arguments.
@@ -60,8 +59,6 @@ public abstract class TypeArgument extends ElementImpl implements ElementWithTyp
 	 * 
 	 * @param formal The parameter for which this type argument is used.
 	 *               The type parameter cannot be null.
-	 *               
-	 * @param accumulator
 	 * @return
 	 */
 	public abstract TypeParameter capture(FormalTypeParameter formal);
@@ -71,7 +68,6 @@ public abstract class TypeArgument extends ElementImpl implements ElementWithTyp
 	/**
 	 * Return the type reference that must be used for substitution of a formal parameter.
 	 * 
-	 * @param parameter
 	 * @return
 	 */
 	public TypeReference substitutionReference() {

@@ -1,28 +1,12 @@
 package org.aikodi.chameleon.oo.variable;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.property.ChameleonProperty;
-import org.aikodi.chameleon.core.relation.StrictPartialOrder;
-import org.aikodi.chameleon.core.scope.Scope;
-import org.aikodi.chameleon.core.scope.ScopeProperty;
-import org.aikodi.chameleon.core.variable.Variable;
-import org.aikodi.chameleon.exception.ChameleonProgrammerException;
-import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.oo.expression.Expression;
-import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.member.DeclarationComparator;
 import org.aikodi.chameleon.oo.member.HidesRelation;
-import org.aikodi.chameleon.oo.member.MemberRelationSelector;
-import org.aikodi.chameleon.oo.member.OverridesRelation;
-import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
-import org.aikodi.chameleon.util.Util;
 
 /**
  * @author Marko van Dooren

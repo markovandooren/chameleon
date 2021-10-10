@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.oo.variable;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.modifier.Modifier;
@@ -13,6 +11,8 @@ import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
 import org.aikodi.rejuse.association.Association;
+
+import java.util.List;
 
 public abstract class RegularVariable extends VariableImpl implements ExceptionSource {
 

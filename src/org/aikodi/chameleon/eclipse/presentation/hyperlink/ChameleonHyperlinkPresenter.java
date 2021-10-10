@@ -4,7 +4,6 @@
  */
 package org.aikodi.chameleon.eclipse.presentation.hyperlink;
 
-import org.eclipse.jface.text.Assert;
 import org.eclipse.jface.text.hyperlink.DefaultHyperlinkPresenter;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.swt.graphics.Color;

@@ -1,13 +1,6 @@
 package org.aikodi.chameleon.support.translate;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.document.Document;
-import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
@@ -15,6 +8,8 @@ import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.plugin.build.BuildException;
 import org.aikodi.chameleon.plugin.build.BuildProgressHelper;
 import org.aikodi.chameleon.workspace.View;
+
+import java.util.*;
 
 /**
  * A translator that keeps track of a source view and a target view,

@@ -2,10 +2,9 @@ package org.aikodi.chameleon.aspect.core.model.pointcut;
 
 import org.aikodi.chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
 import org.aikodi.chameleon.core.declaration.Declaration;
-import org.aikodi.chameleon.core.declaration.Signature;
 import org.aikodi.chameleon.core.declaration.Name;
+import org.aikodi.chameleon.core.declaration.Signature;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
-import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.util.association.Single;

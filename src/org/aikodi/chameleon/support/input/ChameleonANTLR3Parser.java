@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.support.input;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
@@ -11,15 +9,12 @@ import org.aikodi.chameleon.core.namespace.RootNamespace;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.input.InputProcessor;
-import static org.aikodi.chameleon.input.PositionMetadata.*;
 import org.aikodi.chameleon.workspace.View;
-import org.antlr.runtime.CommonToken;
-import org.antlr.runtime.Parser;
-import org.antlr.runtime.ParserRuleReturnScope;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.runtime.RecognizerSharedState;
-import org.antlr.runtime.Token;
-import org.antlr.runtime.TokenStream;
+import org.antlr.runtime.*;
+
+import java.util.List;
+
+import static org.aikodi.chameleon.input.PositionMetadata.*;
 
 public abstract class ChameleonANTLR3Parser<L extends Language> extends Parser {
 	

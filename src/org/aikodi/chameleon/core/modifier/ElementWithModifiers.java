@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.core.modifier;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.exception.ModelException;
@@ -9,6 +7,8 @@ import org.aikodi.chameleon.util.Lists;
 import org.aikodi.contract.Contract;
 import org.aikodi.rejuse.property.PropertyMutex;
 import org.aikodi.rejuse.property.PropertySet;
+
+import java.util.List;
 
 /**
  * An element that can have modifiers. Elements of this class automatically use 

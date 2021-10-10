@@ -30,7 +30,7 @@ public class Abstract extends ModifierImpl {
    @*/
   @Override
 public PropertySet<Element,ChameleonProperty> impliedProperties() {
-    return createSet(language(ObjectOrientedLanguage.class).ABSTRACT);
+    return createSet(language(ObjectOrientedLanguage.class).ABSTRACT());
   }
   
 }

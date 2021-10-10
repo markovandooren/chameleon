@@ -1,10 +1,10 @@
 package org.aikodi.chameleon.test.provider;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.workspace.View;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * A class for searching elements of type E in the elements provided by a provider to the ancestor

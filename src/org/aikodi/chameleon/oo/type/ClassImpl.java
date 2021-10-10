@@ -1,29 +1,13 @@
 package org.aikodi.chameleon.oo.type;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collectors;
-
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import org.aikodi.chameleon.core.declaration.BasicDeclaration;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Declarator;
-import org.aikodi.chameleon.core.declaration.Name;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
-import org.aikodi.chameleon.core.lookup.DeclarationSelector;
-import org.aikodi.chameleon.core.lookup.LocalLookupContext;
-import org.aikodi.chameleon.core.lookup.LookupContext;
-import org.aikodi.chameleon.core.lookup.LookupContextSelector;
-import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.lookup.SelectionResult;
+import org.aikodi.chameleon.core.lookup.*;
 import org.aikodi.chameleon.core.modifier.Modifier;
 import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
@@ -33,6 +17,7 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
+import org.aikodi.chameleon.oo.language.ObjectOrientedLanguageImpl;
 import org.aikodi.chameleon.oo.member.HidesRelation;
 import org.aikodi.chameleon.oo.plugin.ObjectOrientedFactory;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
@@ -40,8 +25,9 @@ import org.aikodi.chameleon.util.Lists;
 import org.aikodi.rejuse.collection.CollectionOperations;
 import org.aikodi.rejuse.predicate.TypePredicate;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -875,7 +861,7 @@ public abstract class ClassImpl extends BasicDeclaration implements Type {
 	protected boolean mustBeOverridden(Declaration member) {
 		ObjectOrientedLanguage lang = language(ObjectOrientedLanguage.class);
 		// ! CLASS ==> ! ABSTRACT
-		return member.isTrue(lang.OVERRIDABLE) && member.isTrue(lang.INSTANCE) && member.isFalse(lang.DEFINED);
+		return member.isTrue(lang.OVERRIDABLE()) && member.isTrue(lang.INSTANCE()) && member.isFalse(lang.DEFINED());
 	}
 
 	/*
@@ -887,7 +873,7 @@ public abstract class ClassImpl extends BasicDeclaration implements Type {
 	public Verification verifySelf() {
 		Verification result = Valid.create();
 		ObjectOrientedLanguage lang = language(ObjectOrientedLanguage.class);
-		if (!isTrue(lang.ABSTRACT)) {
+		if (!isTrue(lang.ABSTRACT())) {
 			List<Declaration> members = null;
 			try {
 				members = members();

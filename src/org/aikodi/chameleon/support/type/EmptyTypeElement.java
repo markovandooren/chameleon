@@ -1,12 +1,11 @@
 package org.aikodi.chameleon.support.type;
 
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiersImpl;
 
-import com.google.common.collect.ImmutableList;
+import java.util.List;
 
 public class EmptyTypeElement extends ElementWithModifiersImpl implements Declarator {
 

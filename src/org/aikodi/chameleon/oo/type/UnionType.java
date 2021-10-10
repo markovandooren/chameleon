@@ -1,14 +1,5 @@
 package org.aikodi.chameleon.oo.type;
 
-import static org.aikodi.rejuse.collection.CollectionOperations.exists;
-import static org.aikodi.rejuse.collection.CollectionOperations.forAll;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.element.Element;
@@ -21,6 +12,11 @@ import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.rejuse.logic.ternary.Ternary;
+
+import java.util.*;
+
+import static org.aikodi.rejuse.collection.CollectionOperations.exists;
+import static org.aikodi.rejuse.collection.CollectionOperations.forAll;
 
 /**
  * A type that is the union of a number of other types. A union type contains
@@ -95,7 +91,7 @@ public class UnionType extends MultiType {
 		// Remove constructors. We really do need metaclasses so it seems.
 		while(iter.hasNext()) {
 			Declarator member = iter.next();
-			if(member.is(language(ObjectOrientedLanguage.class).CONSTRUCTOR) == Ternary.TRUE) {
+			if(member.is(language(ObjectOrientedLanguage.class).CONSTRUCTOR()) == Ternary.TRUE) {
 				iter.remove();
 			}
 		}

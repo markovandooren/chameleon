@@ -15,7 +15,7 @@ public class MemberInstanceByDefault extends PropertyRule<Declaration> {
 
 	@Override
 	public PropertySet<Element, ChameleonProperty> suggestedProperties(Declaration element) {
-		return createSet(language(ObjectOrientedLanguage.class).INSTANCE);
+		return createSet(language(ObjectOrientedLanguage.class).INSTANCE());
 	}
 
 }

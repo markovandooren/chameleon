@@ -1,9 +1,5 @@
 package org.aikodi.chameleon.core.reference;
 
-import java.util.concurrent.atomic.AtomicReference;
-
-import java.lang.ref.SoftReference;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.DeclarationCollector;
@@ -13,6 +9,9 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
+
+import java.lang.ref.SoftReference;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * An class with default implementations for cross-references.

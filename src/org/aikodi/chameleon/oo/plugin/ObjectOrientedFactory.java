@@ -1,8 +1,5 @@
 package org.aikodi.chameleon.oo.plugin;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.factory.Factory;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -11,21 +8,14 @@ import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.method.Method;
 import org.aikodi.chameleon.oo.method.MethodHeader;
 import org.aikodi.chameleon.oo.method.SimpleNameMethodHeader;
-import org.aikodi.chameleon.oo.type.IntersectionType;
-import org.aikodi.chameleon.oo.type.RegularType;
-import org.aikodi.chameleon.oo.type.Type;
-import org.aikodi.chameleon.oo.type.TypeReference;
-import org.aikodi.chameleon.oo.type.UnionType;
-import org.aikodi.chameleon.oo.type.generics.ConstrainedType;
-import org.aikodi.chameleon.oo.type.generics.TypeVariable;
-import org.aikodi.chameleon.oo.type.generics.FormalTypeParameter;
-import org.aikodi.chameleon.oo.type.generics.InstantiatedParameterType;
-import org.aikodi.chameleon.oo.type.generics.LazyFormalAlias;
-import org.aikodi.chameleon.oo.type.generics.LazyInstantiatedAlias;
-import org.aikodi.chameleon.oo.type.generics.TypeParameter;
+import org.aikodi.chameleon.oo.type.*;
+import org.aikodi.chameleon.oo.type.generics.*;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.support.member.simplename.method.NormalMethod;
 import org.aikodi.chameleon.support.modifier.Constructor;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A factory class for object oriented languages.

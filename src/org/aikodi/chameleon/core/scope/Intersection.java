@@ -1,12 +1,12 @@
 package org.aikodi.chameleon.core.scope;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.rejuse.predicate.Predicate;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author marko

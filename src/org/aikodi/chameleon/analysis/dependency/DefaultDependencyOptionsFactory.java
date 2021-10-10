@@ -1,11 +1,6 @@
 package org.aikodi.chameleon.analysis.dependency;
 
-import static org.aikodi.rejuse.predicate.UniversalPredicate.isTrue;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.google.common.collect.ImmutableList;
 import org.aikodi.chameleon.analysis.AnalysisOptions;
 import org.aikodi.chameleon.analysis.OptionGroup;
 import org.aikodi.chameleon.analysis.PredicateOptionGroup;
@@ -25,7 +20,11 @@ import org.aikodi.rejuse.data.tree.walker.GuardedTreeWalker;
 import org.aikodi.rejuse.exception.Handler;
 import org.aikodi.rejuse.function.Function;
 
-import com.google.common.collect.ImmutableList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import static org.aikodi.rejuse.predicate.UniversalPredicate.isTrue;
 
 public class DefaultDependencyOptionsFactory extends LanguagePluginImpl implements DependencyOptionsFactory {
 

@@ -1,7 +1,6 @@
 package org.aikodi.chameleon.support.type;
 
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiersImpl;
@@ -9,11 +8,10 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.statement.Block;
 import org.aikodi.chameleon.oo.statement.ExceptionSource;
-import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.util.association.Single;
 import org.aikodi.rejuse.association.SingleAssociation;
 
-import com.google.common.collect.ImmutableList;
+import java.util.List;
 
 /**
  * @author Marko van Dooren

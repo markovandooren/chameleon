@@ -1,11 +1,7 @@
 package org.aikodi.chameleon.oo.type;
 
-import static org.aikodi.contract.Contract.requireNotNull;
-import static org.aikodi.rejuse.collection.CollectionOperations.forAll;
-
-import java.util.Iterator;
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
@@ -19,9 +15,11 @@ import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.Lists;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableList.Builder;
-import org.aikodi.contract.Contract;
+import java.util.Iterator;
+import java.util.List;
+
+import static org.aikodi.contract.Contract.requireNotNull;
+import static org.aikodi.rejuse.collection.CollectionOperations.forAll;
 
 
 /**

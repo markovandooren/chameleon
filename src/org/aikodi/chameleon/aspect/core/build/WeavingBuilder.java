@@ -1,13 +1,5 @@
 package org.aikodi.chameleon.aspect.core.build;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.aikodi.chameleon.aspect.core.model.aspect.Aspect;
 import org.aikodi.chameleon.aspect.core.weave.AspectWeaver;
 import org.aikodi.chameleon.core.document.Document;
@@ -16,6 +8,9 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.plugin.build.BuildProgressHelper;
 import org.aikodi.chameleon.workspace.View;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 //TODO extend van IncrementalJavaTranslator
 public class WeavingBuilder<S extends Language, T extends Language> {

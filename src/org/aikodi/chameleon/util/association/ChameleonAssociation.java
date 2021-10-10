@@ -1,11 +1,11 @@
 package org.aikodi.chameleon.util.association;
 
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.rejuse.association.IAssociation;
+
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 /**
  * A interface for lexical associations used for Chameleon models.

@@ -1,24 +1,22 @@
 package org.aikodi.chameleon.analysis.dependency;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.aikodi.chameleon.analysis.Analysis;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.reference.CrossReference;
-import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.contract.Contracts;
 import org.aikodi.rejuse.data.tree.TreeStructure;
-import org.aikodi.rejuse.exception.Handler;
 import org.aikodi.rejuse.function.Function;
 import org.aikodi.rejuse.predicate.Predicate;
 import org.aikodi.rejuse.predicate.UniversalPredicate;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * An analysis the reports dependencies between elements and declarations.

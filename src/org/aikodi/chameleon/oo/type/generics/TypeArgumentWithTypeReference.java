@@ -1,8 +1,5 @@
 package org.aikodi.chameleon.oo.type.generics;
 
-import java.util.List;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
@@ -11,6 +8,9 @@ import org.aikodi.chameleon.oo.type.BasicTypeReference;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.util.association.Single;
+
+import java.util.List;
+import java.util.Set;
 
 
 public abstract class TypeArgumentWithTypeReference extends TypeArgument {

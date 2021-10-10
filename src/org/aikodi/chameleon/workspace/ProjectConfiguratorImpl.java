@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.workspace;
 
-import java.io.File;
-
 import org.aikodi.chameleon.core.namespace.LazyRootNamespace;
 import org.aikodi.chameleon.plugin.LanguagePluginImpl;
+
+import java.io.File;
 
 /**
  * A convenience super class for project configurators.

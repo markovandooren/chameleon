@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.support.statement;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.element.ElementImpl;
@@ -9,6 +7,8 @@ import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
+
+import java.util.List;
 
 public abstract class ForControl extends ElementImpl implements DeclarationContainer {
 	

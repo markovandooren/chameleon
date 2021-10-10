@@ -1,7 +1,6 @@
 package org.aikodi.chameleon.support.modifier;
 
 
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.modifier.ModifierImpl;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
@@ -31,7 +30,7 @@ public class Native extends ModifierImpl {
    @*/
   @Override
 public PropertySet<Element,ChameleonProperty> impliedProperties() {
-    return createSet(language(ObjectOrientedLanguage.class).NATIVE);
+    return createSet(language(ObjectOrientedLanguage.class).NATIVE());
   }
 
 }

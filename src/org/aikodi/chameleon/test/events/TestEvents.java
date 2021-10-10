@@ -1,19 +1,11 @@
 package org.aikodi.chameleon.test.events;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-
 import org.aikodi.chameleon.builder.ProjectBuilder;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.event.Change;
-import org.aikodi.chameleon.core.event.association.ChildAdded;
-import org.aikodi.chameleon.core.event.association.ChildRemoved;
-import org.aikodi.chameleon.core.event.association.ParentAdded;
-import org.aikodi.chameleon.core.event.association.ParentRemoved;
-import org.aikodi.chameleon.core.event.association.Removed;
+import org.aikodi.chameleon.core.event.association.*;
 import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.factory.Factory;
 import org.aikodi.chameleon.core.language.Language;
@@ -26,6 +18,10 @@ import org.aikodi.chameleon.workspace.View;
 import org.aikodi.rejuse.association.Association;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * A class to test the event mechanism.

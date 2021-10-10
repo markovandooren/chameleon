@@ -1,13 +1,13 @@
 package org.aikodi.chameleon.workspace;
 
+import org.aikodi.chameleon.util.Strings;
+import org.aikodi.chameleon.util.Util;
+import org.aikodi.rejuse.predicate.SafePredicate;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.aikodi.chameleon.util.Strings;
-import org.aikodi.chameleon.util.Util;
-import org.aikodi.rejuse.predicate.SafePredicate;
 
 /**
  * A class of predicate that match a file based on its extension.

@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.oo.statement;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -10,6 +8,8 @@ import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.rejuse.association.Association;
+
+import java.util.List;
 
 /**
  * @author Marko van Dooren

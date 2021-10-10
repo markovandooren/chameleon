@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.ui.widget.tree;
 
-import java.util.Set;
-
 import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.data.tree.TreePredicate;
+
+import java.util.Set;
 
 public abstract class TristateTreePruner<X,Y> {
 	

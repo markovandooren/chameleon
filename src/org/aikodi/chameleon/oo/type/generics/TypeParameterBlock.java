@@ -1,20 +1,15 @@
 package org.aikodi.chameleon.oo.type.generics;
 
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.lookup.SelectionResult;
-import org.aikodi.chameleon.core.validation.Valid;
-import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.type.ParameterBlock;
 import org.aikodi.chameleon.util.Lists;
 
-import com.google.common.collect.ImmutableList;
+import java.util.List;
 
 /**
  * WARNING! If you use a parameter block as an subelement of a class X, then you must add

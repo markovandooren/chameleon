@@ -1,10 +1,7 @@
 package org.aikodi.chameleon.workspace;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
@@ -13,11 +10,7 @@ import org.aikodi.chameleon.core.language.WrongLanguageException;
 import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.core.namespace.RootNamespace;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
-import org.aikodi.chameleon.plugin.PluginContainer;
-import org.aikodi.chameleon.plugin.PluginContainerImpl;
-import org.aikodi.chameleon.plugin.ProcessorContainer;
-import org.aikodi.chameleon.plugin.ViewPlugin;
-import org.aikodi.chameleon.plugin.ViewProcessor;
+import org.aikodi.chameleon.plugin.*;
 import org.aikodi.chameleon.workspace.DocumentScannerImpl.TunnelException;
 import org.aikodi.rejuse.action.UniversalConsumer;
 import org.aikodi.rejuse.association.Association;
@@ -28,8 +21,10 @@ import org.aikodi.rejuse.exception.Handler;
 import org.aikodi.rejuse.predicate.Predicate;
 import org.aikodi.rejuse.predicate.TypePredicate;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableList.Builder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * A view is a part of a {@link Project} whose documents are written in a 

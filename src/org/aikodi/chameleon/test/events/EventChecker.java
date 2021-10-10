@@ -1,13 +1,14 @@
 package org.aikodi.chameleon.test.events;
 
-import static org.junit.Assert.*;
+import org.aikodi.chameleon.core.event.Event;
+import org.aikodi.chameleon.core.event.EventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-import org.aikodi.chameleon.core.event.Event;
-import org.aikodi.chameleon.core.event.EventListener;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * A helper class to check whether certain events have been sent.

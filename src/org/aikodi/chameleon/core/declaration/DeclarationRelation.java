@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.core.declaration;
 
+import org.aikodi.chameleon.core.lookup.LookupException;
+
 import java.util.Collection;
 import java.util.Set;
-
-import org.aikodi.chameleon.core.lookup.LookupException;
 
 /**
  * A class of relations between declarations.

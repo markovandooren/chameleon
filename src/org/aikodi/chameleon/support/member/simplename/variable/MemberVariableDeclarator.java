@@ -1,8 +1,5 @@
 package org.aikodi.chameleon.support.member.simplename.variable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
@@ -16,13 +13,15 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.core.variable.Variable;
 import org.aikodi.chameleon.oo.expression.Expression;
-import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.oo.variable.RegularMemberVariable;
 import org.aikodi.chameleon.oo.variable.VariableDeclaration;
 import org.aikodi.chameleon.oo.variable.VariableDeclarator;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MemberVariableDeclarator extends ElementWithModifiersImpl implements Declarator, VariableDeclarator {
 

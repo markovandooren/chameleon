@@ -1,10 +1,10 @@
 package org.aikodi.chameleon.analysis;
 
-import java.util.List;
-
 import org.aikodi.chameleon.ui.widget.Selector;
 import org.aikodi.chameleon.ui.widget.WidgetFactory;
 import org.aikodi.chameleon.util.Lists;
+
+import java.util.List;
 
 public abstract class OptionGroup {
 

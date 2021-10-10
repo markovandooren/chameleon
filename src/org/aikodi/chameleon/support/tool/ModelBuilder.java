@@ -3,18 +3,14 @@
  */
 package org.aikodi.chameleon.support.tool;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.input.ParseException;
 import org.aikodi.chameleon.test.provider.BasicNamespaceProvider;
 import org.aikodi.chameleon.test.provider.ElementProvider;
-import org.aikodi.chameleon.workspace.XMLProjectLoader;
-import org.aikodi.chameleon.workspace.ConfigException;
-import org.aikodi.chameleon.workspace.Project;
-import org.aikodi.chameleon.workspace.ProjectException;
-import org.aikodi.chameleon.workspace.Workspace;
+import org.aikodi.chameleon.workspace.*;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * A class for building models for a command line tool. The input arguments are used to create a model,

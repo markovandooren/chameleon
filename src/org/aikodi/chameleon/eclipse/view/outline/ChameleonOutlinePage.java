@@ -3,8 +3,6 @@
  */
 package org.aikodi.chameleon.eclipse.view.outline;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.eclipse.ChameleonEditorPlugin;
@@ -13,21 +11,13 @@ import org.aikodi.chameleon.eclipse.presentation.Filters;
 import org.aikodi.chameleon.eclipse.presentation.treeview.ChameleonLabelProvider;
 import org.aikodi.chameleon.eclipse.presentation.treeview.ChameleonViewComparator;
 import org.aikodi.chameleon.eclipse.presentation.treeview.TreeViewerActions;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.viewers.AbstractTreeViewer;
-import org.eclipse.jface.viewers.DecoratingLabelProvider;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.action.*;
+import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
+
+import java.util.List;
 
 /**
  * @author Manuel Van Wesemael 

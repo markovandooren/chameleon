@@ -1,10 +1,10 @@
 package org.aikodi.chameleon.aspect.core.weave.sorter;
 
-import java.util.Comparator;
-
 import org.aikodi.chameleon.aspect.core.model.advice.Advice;
 import org.aikodi.chameleon.aspect.core.weave.JoinPointWeaver;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
+
+import java.util.Comparator;
 
 /**
  * 	This comparator orders WeavingEncapsulators according to the advice type:

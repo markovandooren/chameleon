@@ -4,8 +4,6 @@ import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.reference.CrossReference;
-import org.aikodi.chameleon.oo.method.Method;
-import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.contract.Contract;
 import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.function.Function;

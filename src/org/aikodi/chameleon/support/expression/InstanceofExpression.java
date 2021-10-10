@@ -1,13 +1,13 @@
 package org.aikodi.chameleon.support.expression;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.expression.Expression;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Marko van Dooren

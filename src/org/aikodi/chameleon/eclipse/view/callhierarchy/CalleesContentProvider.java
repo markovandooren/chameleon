@@ -1,14 +1,14 @@
 package org.aikodi.chameleon.eclipse.view.callhierarchy;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.exception.ModelException;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Calculates all the methods that are called by a given method

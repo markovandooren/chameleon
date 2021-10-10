@@ -1,10 +1,10 @@
 package org.aikodi.chameleon.core.lookup;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.util.Lists;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A selector that does not impose an order on the selected elements. Each

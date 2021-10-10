@@ -1,23 +1,5 @@
 package org.aikodi.chameleon.test;
 
-import static org.aikodi.rejuse.collection.CollectionOperations.filter;
-import static org.aikodi.rejuse.collection.CollectionOperations.forAll;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -28,9 +10,15 @@ import org.aikodi.chameleon.test.provider.ElementProvider;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.ProjectException;
 import org.aikodi.rejuse.association.Association;
-import org.aikodi.rejuse.collection.CollectionOperations;
-import org.aikodi.rejuse.predicate.SafePredicate;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.*;
+
+import static org.aikodi.rejuse.collection.CollectionOperations.filter;
+import static org.aikodi.rejuse.collection.CollectionOperations.forAll;
+import static org.junit.Assert.*;
 
 /**
  * A test class for the the children methods of elements, based on reflection.

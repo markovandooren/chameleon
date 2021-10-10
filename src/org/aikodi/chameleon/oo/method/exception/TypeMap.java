@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.oo.method.exception;
 
+import org.aikodi.chameleon.oo.type.Type;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.aikodi.chameleon.oo.type.Type;
 
 /**
  * @author Marko van Dooren

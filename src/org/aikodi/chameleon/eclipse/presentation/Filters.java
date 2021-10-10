@@ -4,10 +4,6 @@
  */
 package org.aikodi.chameleon.eclipse.presentation;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
@@ -30,6 +26,10 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Contains the filters for the structuredViewers (outline and hierarchy)

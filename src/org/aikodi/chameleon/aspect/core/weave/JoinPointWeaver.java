@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.aspect.core.weave;
 
-import java.util.Iterator;
-
 import org.aikodi.chameleon.aspect.core.model.advice.Advice;
 import org.aikodi.chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import org.aikodi.chameleon.aspect.core.weave.infrastructure.AdviceInfrastructureFactory;
@@ -9,6 +7,8 @@ import org.aikodi.chameleon.aspect.core.weave.transform.JoinPointTransformer;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.rejuse.association.SingleAssociation;
+
+import java.util.Iterator;
 
 /**
  * 	This class encapsulates everything needed to perform weaving:

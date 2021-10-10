@@ -1,28 +1,8 @@
 package org.aikodi.chameleon.core.element;
 
-import static org.aikodi.rejuse.collection.CollectionOperations.filter;
-import static org.aikodi.rejuse.collection.CollectionOperations.forAll;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.BiConsumer;
-
-import java.lang.reflect.Field;
-
 import org.aikodi.chameleon.core.event.Change;
 import org.aikodi.chameleon.core.event.Event;
-import org.aikodi.chameleon.core.event.association.ChildAdded;
-import org.aikodi.chameleon.core.event.association.ChildRemoved;
-import org.aikodi.chameleon.core.event.association.ChildReplaced;
-import org.aikodi.chameleon.core.event.association.ParentAdded;
-import org.aikodi.chameleon.core.event.association.ParentRemoved;
-import org.aikodi.chameleon.core.event.association.ParentReplaced;
+import org.aikodi.chameleon.core.event.association.*;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.language.WrongLanguageException;
 import org.aikodi.chameleon.core.lookup.LookupContext;
@@ -50,6 +30,14 @@ import org.aikodi.rejuse.predicate.Predicate;
 import org.aikodi.rejuse.property.Conflict;
 import org.aikodi.rejuse.property.PropertyMutex;
 import org.aikodi.rejuse.property.PropertySet;
+
+import java.lang.reflect.Field;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BiConsumer;
+
+import static org.aikodi.rejuse.collection.CollectionOperations.filter;
+import static org.aikodi.rejuse.collection.CollectionOperations.forAll;
 
 /**
  * A class that implement most methods of {@link Element}.

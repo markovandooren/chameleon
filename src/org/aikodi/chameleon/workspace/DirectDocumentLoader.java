@@ -1,9 +1,6 @@
 package org.aikodi.chameleon.workspace;
 
 import org.aikodi.chameleon.core.document.Document;
-import org.aikodi.chameleon.workspace.DocumentLoaderImpl;
-import org.aikodi.chameleon.workspace.DocumentScanner;
-import org.aikodi.chameleon.workspace.InputException;
 
 /**
  * A document loader that "loads" an existing document into the model.

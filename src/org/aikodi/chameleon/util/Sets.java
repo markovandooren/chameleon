@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.util;
 
-import java.util.Set;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
+
+import java.util.Set;
 
 public class Sets {
 

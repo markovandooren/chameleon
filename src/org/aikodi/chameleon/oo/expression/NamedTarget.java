@@ -1,18 +1,13 @@
 package org.aikodi.chameleon.oo.expression;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
-import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.NameSelector;
 import org.aikodi.chameleon.core.reference.CommonCrossReferenceWithTarget;
 import org.aikodi.chameleon.core.reference.CrossReferenceTarget;
 import org.aikodi.chameleon.core.reference.CrossReferenceWithName;
 import org.aikodi.chameleon.core.reference.CrossReferenceWithTarget;
-import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.util.Util;
 
 /**

@@ -1,8 +1,8 @@
 package org.aikodi.chameleon.analysis;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.element.Element;
+
+import java.util.List;
 
 /**
  * An interface for setting the configuration options for an analysis.

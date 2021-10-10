@@ -5,11 +5,7 @@
 package org.aikodi.chameleon.eclipse.presentation.treeview;
 
 import org.aikodi.chameleon.eclipse.ChameleonEditorPlugin;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IContributionManager;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.action.*;
 import org.eclipse.jface.text.Assert;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TreeViewer;

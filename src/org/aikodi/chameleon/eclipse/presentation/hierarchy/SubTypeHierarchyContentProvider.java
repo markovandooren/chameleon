@@ -4,11 +4,6 @@
  */
 package org.aikodi.chameleon.eclipse.presentation.hierarchy;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -19,6 +14,11 @@ import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.rejuse.predicate.Predicate;
 import org.aikodi.rejuse.predicate.SafePredicate;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class will calculate the children of an element in the sub type hierarchy

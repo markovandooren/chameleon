@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.aspect.core.model.pointcut.expression.generic;
 
-import java.util.List;
-
 import org.aikodi.chameleon.aspect.core.model.pointcut.expression.AbstractPointcutExpression;
 import org.aikodi.chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
 import org.aikodi.chameleon.core.element.Element;
@@ -9,6 +7,8 @@ import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.Single;
+
+import java.util.List;
 
 
 public abstract class PointcutExpressionSingle<J extends Element> extends AbstractPointcutExpression<J> {

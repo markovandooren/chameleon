@@ -1,8 +1,5 @@
 package org.aikodi.chameleon.stub;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.element.Element;
@@ -14,6 +11,9 @@ import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.util.association.Multi;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * A stub declaration that can be used e.g. for testing.

@@ -1,8 +1,5 @@
 package org.aikodi.chameleon.oo.method.exception;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.validation.BasicProblem;
@@ -14,6 +11,9 @@ import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.util.association.Single;
 import org.aikodi.rejuse.predicate.Predicate;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A class for absolute exception declarations. An absolute exception declaration declares that a certain type of exception

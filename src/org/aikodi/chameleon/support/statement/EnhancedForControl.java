@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.support.statement;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.validation.Valid;
@@ -10,6 +8,8 @@ import org.aikodi.chameleon.oo.expression.Expression;
 import org.aikodi.chameleon.support.variable.LocalVariable;
 import org.aikodi.chameleon.support.variable.LocalVariableDeclarator;
 import org.aikodi.chameleon.util.association.Single;
+
+import java.util.List;
 
 public class EnhancedForControl extends ForControl {
 

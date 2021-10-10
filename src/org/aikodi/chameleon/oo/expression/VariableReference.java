@@ -1,8 +1,5 @@
 package org.aikodi.chameleon.oo.expression;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.lookup.DeclarationCollector;
@@ -15,9 +12,7 @@ import org.aikodi.chameleon.core.reference.UnresolvableCrossReference;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.core.variable.Variable;
-import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
-import org.aikodi.chameleon.util.Util;
 import org.aikodi.chameleon.util.association.Single;
 
 /**

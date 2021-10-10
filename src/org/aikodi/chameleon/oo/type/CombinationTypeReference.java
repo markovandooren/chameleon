@@ -1,12 +1,12 @@
 package org.aikodi.chameleon.oo.type;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.util.association.Multi;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public abstract class CombinationTypeReference extends ElementImpl implements TypeReference {
 

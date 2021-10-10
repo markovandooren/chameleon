@@ -1,30 +1,20 @@
 package org.aikodi.chameleon.oo.method;
 
-import java.util.List;
-
-import java.lang.reflect.Member;
-
+import com.google.common.collect.ImmutableList;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationImpl;
 import org.aikodi.chameleon.core.declaration.Signature;
 import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.chameleon.core.lookup.DeclarationSelector;
-import org.aikodi.chameleon.core.lookup.LocalLookupContext;
-import org.aikodi.chameleon.core.lookup.LookupContext;
-import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.lookup.SelectionResult;
-import org.aikodi.chameleon.core.lookup.Target;
-import org.aikodi.chameleon.core.modifier.ElementWithModifiersImpl;
+import org.aikodi.chameleon.core.lookup.*;
 import org.aikodi.chameleon.oo.member.DeclarationWithParametersHeader;
 import org.aikodi.chameleon.oo.member.SignatureWithParameters;
 import org.aikodi.chameleon.oo.type.DeclarationWithType;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.variable.FormalParameter;
-import org.aikodi.chameleon.util.Util;
 import org.aikodi.chameleon.util.association.Single;
 
-import com.google.common.collect.ImmutableList;
+import java.util.List;
 
 public abstract class DeclarationWithParameters extends DeclarationImpl implements Target,
     DeclarationWithType {

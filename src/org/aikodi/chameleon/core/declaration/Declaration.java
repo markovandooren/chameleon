@@ -1,12 +1,5 @@
 package org.aikodi.chameleon.core.declaration;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.language.LanguageImpl;
@@ -19,9 +12,10 @@ import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.core.scope.Scope;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.oo.member.DeclarationComparator;
-//import org.aikodi.chameleon.oo.member.HidesRelation;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.rejuse.exception.Handler;
+
+import java.util.*;
 
 /**
  * <p>
@@ -461,7 +455,7 @@ public interface Declaration extends Element, SelectionResult<Declaration>, Decl
 		return new DeclarationRelation(true){
 			@Override
 			public boolean contains(Declaration overriding, Declaration overridden) throws LookupException {
-	       return overridden.isTrue(overridden.language(LanguageImpl.class).OVERRIDABLE)
+	       return overridden.isTrue(overridden.language(LanguageImpl.class).OVERRIDABLE())
 			&& overridden.compatibleSignature(overriding);
 			}
 		};

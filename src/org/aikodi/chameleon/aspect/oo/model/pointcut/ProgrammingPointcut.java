@@ -1,23 +1,19 @@
 package org.aikodi.chameleon.aspect.oo.model.pointcut;
 
-import java.util.List;
-
 import org.aikodi.chameleon.aspect.core.model.pointcut.Pointcut;
 import org.aikodi.chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.declaration.Signature;
 import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.chameleon.core.lookup.DeclarationSelector;
-import org.aikodi.chameleon.core.lookup.LocalLookupContext;
-import org.aikodi.chameleon.core.lookup.LookupContext;
-import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.lookup.SelectionResult;
+import org.aikodi.chameleon.core.lookup.*;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.member.SignatureWithParameters;
 import org.aikodi.chameleon.oo.member.SimpleNameDeclarationWithParametersHeader;
 import org.aikodi.chameleon.oo.variable.FormalParameter;
 import org.aikodi.chameleon.util.association.Single;
+
+import java.util.List;
 
 public class ProgrammingPointcut extends Pointcut implements DeclarationContainer {
 

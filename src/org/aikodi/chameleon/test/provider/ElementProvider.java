@@ -1,8 +1,8 @@
 package org.aikodi.chameleon.test.provider;
 
-import java.util.Collection;
-
 import org.aikodi.chameleon.workspace.View;
+
+import java.util.Collection;
 
 /**
  * An element provider provides test data to a test class. It typically determines which elements

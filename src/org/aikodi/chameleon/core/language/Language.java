@@ -1,15 +1,12 @@
 package org.aikodi.chameleon.core.language;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupContextFactory;
 import org.aikodi.chameleon.core.namespace.LazyRootNamespace;
 import org.aikodi.chameleon.core.namespace.RootNamespace;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.property.PropertyRule;
+import org.aikodi.chameleon.core.property.StaticChameleonProperty;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.core.validation.VerificationRule;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
@@ -23,6 +20,10 @@ import org.aikodi.rejuse.junit.Revision;
 import org.aikodi.rejuse.property.PropertyMutex;
 import org.aikodi.rejuse.property.PropertySet;
 import org.aikodi.rejuse.property.PropertyUniverse;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>An object that represents a language. The main responsibility of
@@ -47,7 +48,7 @@ public interface Language extends PropertyUniverse<ChameleonProperty>, PluginCon
 	 * Return the version of this language. 
 	 * @return
 	 */
-	public Revision version();
+	Revision version();
 	
 	/**
 	 * Return the name of this language.
@@ -57,7 +58,7 @@ public interface Language extends PropertyUniverse<ChameleonProperty>, PluginCon
    @
    @ post \result != null;
    @*/
-	public String name();
+	String name();
 	
 	/**
 	 * Return the default properties of the given element.
@@ -76,7 +77,7 @@ public interface Language extends PropertyUniverse<ChameleonProperty>, PluginCon
    @        \exists(PropertyRule rule; propertyRules().contains(rule);
    @           rule.properties(element).contains(p)));
    @*/
-	public PropertySet<Element,ChameleonProperty> defaultProperties(Element element, PropertySet<Element,ChameleonProperty> explicit);
+	PropertySet<Element,ChameleonProperty> defaultProperties(Element element, PropertySet<Element,ChameleonProperty> explicit);
 	
 	/**
 	 * Return the list of rule that determine the default properties of an element.
@@ -384,4 +385,20 @@ public MultiAssociation<Language,ChameleonProperty> propertyLink();
 	public default RootNamespace createRootNamespace() {
 	  return new LazyRootNamespace();
 	}
+
+	/**
+	 * A property that specifies that a declaration can be overridden.
+	 *
+	 * OVERRIDABLE implies REFINABLE.
+	 */
+	StaticChameleonProperty OVERRIDABLE();
+
+	/**
+	 * A property that specifies that a declaration can be refined.
+	 * Refinement can be seen as overriding buy purely augmenting
+	 * the refined declaration.
+	 */
+	ChameleonProperty REFINABLE();
+
+	StaticChameleonProperty INHERITABLE();
 }

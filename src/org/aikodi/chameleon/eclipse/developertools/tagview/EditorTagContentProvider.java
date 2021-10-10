@@ -4,15 +4,15 @@
  */
 package org.aikodi.chameleon.eclipse.developertools.tagview;
 
-import java.util.Collection;
-import java.util.TreeSet;
-
 import org.aikodi.chameleon.eclipse.connector.EclipseEditorTag;
 import org.aikodi.chameleon.eclipse.editors.EclipseDocument;
 import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.predicate.Predicate;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+
+import java.util.Collection;
+import java.util.TreeSet;
 
 /**
  * Calculates the elements for the Editor Tag List View.

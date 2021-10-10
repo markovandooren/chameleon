@@ -1,11 +1,5 @@
 package org.aikodi.chameleon.eclipse;
 
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import org.aikodi.chameleon.core.language.Language;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.MessageBox;
@@ -14,6 +8,11 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 
 

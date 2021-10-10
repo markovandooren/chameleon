@@ -4,8 +4,6 @@
  */
 package org.aikodi.chameleon.eclipse.editors.actions;
 
-import java.util.ResourceBundle;
-
 import org.aikodi.chameleon.eclipse.ChameleonEditorPlugin;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
@@ -15,6 +13,8 @@ import org.eclipse.ui.part.EditorActionBarContributor;
 import org.eclipse.ui.texteditor.BasicTextEditorActionContributor;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.ui.texteditor.RetargetTextEditorAction;
+
+import java.util.ResourceBundle;
 
 /**
  * This class can add items to the menus

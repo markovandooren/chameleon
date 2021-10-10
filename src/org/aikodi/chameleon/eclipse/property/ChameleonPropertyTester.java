@@ -1,11 +1,11 @@
 package org.aikodi.chameleon.eclipse.property;
 
-import java.util.Collection;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.eclipse.view.outline.ChameleonOutlineTree;
 import org.eclipse.core.expressions.PropertyTester;
 import org.eclipse.core.resources.IProject;
+
+import java.util.Collection;
 
 /**
  * A default class for testing properties. It extracts the

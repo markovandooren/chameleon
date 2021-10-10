@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.aspect.core.weave.registry;
 
+import org.aikodi.chameleon.core.element.Element;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.aikodi.chameleon.core.element.Element;
 
 public class NamingRegistryFactory {
 	

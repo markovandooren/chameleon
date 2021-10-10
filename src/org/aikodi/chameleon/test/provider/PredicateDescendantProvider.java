@@ -1,11 +1,11 @@
 package org.aikodi.chameleon.test.provider;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.workspace.View;
 import org.aikodi.rejuse.predicate.SafePredicate;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * A class for provider descendants of type E that satisfy a given predicate,

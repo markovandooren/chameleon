@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.workspace;
 
+import org.aikodi.chameleon.core.language.Language;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.aikodi.chameleon.core.language.Language;
 
 /**
  * <p>

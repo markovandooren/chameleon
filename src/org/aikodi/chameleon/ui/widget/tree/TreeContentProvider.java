@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.ui.widget.tree;
 
+import com.google.common.collect.ImmutableList;
+
 import java.util.Collections;
 import java.util.List;
-
-import com.google.common.collect.ImmutableList;
 
 /**
  * A generic interface for providing tree structures 

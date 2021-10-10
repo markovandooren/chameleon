@@ -1,13 +1,5 @@
 package org.aikodi.chameleon.eclipse.editors;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Vector;
-
-import org.aikodi.chameleon.eclipse.ChameleonEditorPlugin;
-import org.aikodi.chameleon.eclipse.editors.preferences.ChameleonEditorPreferencePage;
 import org.aikodi.chameleon.eclipse.editors.reconciler.ChameleonPresentationReconciler;
 import org.aikodi.chameleon.eclipse.editors.reconciler.ChameleonReconciler;
 import org.aikodi.chameleon.eclipse.editors.reconciler.ChameleonReconcilingStrategy;
@@ -18,11 +10,7 @@ import org.aikodi.chameleon.eclipse.presentation.formatting.ChameleonFormatterSt
 import org.aikodi.chameleon.eclipse.presentation.hyperlink.ChameleonHyperlinkDetector;
 import org.aikodi.chameleon.eclipse.presentation.hyperlink.ChameleonHyperlinkPresenter;
 import org.aikodi.chameleon.eclipse.view.outline.ChameleonOutlinePage;
-import org.eclipse.jface.text.DefaultInformationControl;
-import org.eclipse.jface.text.IAutoEditStrategy;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IInformationControl;
-import org.eclipse.jface.text.IInformationControlCreator;
+import org.eclipse.jface.text.*;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.formatter.ContentFormatter;
@@ -37,6 +25,12 @@ import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Vector;
 
 
 /**

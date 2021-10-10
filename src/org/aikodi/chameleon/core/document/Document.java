@@ -8,11 +8,7 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.util.association.Multi;
-import org.aikodi.chameleon.workspace.DocumentLoader;
-import org.aikodi.chameleon.workspace.FakeDocumentLoader;
-import org.aikodi.chameleon.workspace.FakeDocumentScanner;
-import org.aikodi.chameleon.workspace.ProjectException;
-import org.aikodi.chameleon.workspace.View;
+import org.aikodi.chameleon.workspace.*;
 import org.aikodi.contract.Contract;
 import org.aikodi.rejuse.association.SingleAssociation;
 

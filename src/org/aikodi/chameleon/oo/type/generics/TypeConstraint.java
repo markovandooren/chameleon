@@ -1,8 +1,5 @@
 package org.aikodi.chameleon.oo.type.generics;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -10,6 +7,9 @@ import org.aikodi.chameleon.oo.type.BasicTypeReference;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.util.association.Single;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A class of constraints that determine which types are valid

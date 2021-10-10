@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.builder;
 
-import java.util.function.Consumer;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.namespace.Namespace;
@@ -10,6 +8,8 @@ import org.aikodi.chameleon.core.namespacedeclaration.DirectImport;
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.core.reference.NameReference;
 import org.aikodi.chameleon.workspace.View;
+
+import java.util.function.Consumer;
 
 public class DocumentBuilder<P> extends Builder<P, Document>{
 

@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.oo.type.inheritance;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainerRelation;
 import org.aikodi.chameleon.core.element.Element;
@@ -10,6 +8,8 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
+
+import java.util.List;
 
 /**
  * A general interface for inheritance relations. We use the dictionary definition of 'inheritance'. If

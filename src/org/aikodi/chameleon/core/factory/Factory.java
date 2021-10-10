@@ -6,7 +6,6 @@ import org.aikodi.chameleon.core.namespace.RootNamespaceReference;
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.core.reference.NameReference;
-import org.aikodi.chameleon.oo.expression.ExpressionFactory;
 import org.aikodi.chameleon.plugin.LanguagePluginImpl;
 
 /**

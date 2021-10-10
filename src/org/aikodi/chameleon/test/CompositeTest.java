@@ -1,10 +1,5 @@
 package org.aikodi.chameleon.test;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import java.io.File;
-
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.test.provider.BasicDescendantProvider;
 import org.aikodi.chameleon.test.provider.BasicNamespaceProvider;
@@ -14,6 +9,10 @@ import org.aikodi.chameleon.workspace.ProjectException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
+
+import java.io.File;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public abstract class CompositeTest {
 

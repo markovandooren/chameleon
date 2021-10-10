@@ -1,15 +1,14 @@
 package org.aikodi.chameleon.oo.expression;
 
-import java.util.concurrent.atomic.AtomicReference;
-
-import java.lang.ref.SoftReference;
-
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LocalLookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.Target;
 import org.aikodi.chameleon.core.reference.CrossReferenceTarget;
 import org.aikodi.chameleon.oo.type.Type;
+
+import java.lang.ref.SoftReference;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * A class of elements representing expressions in a language. 

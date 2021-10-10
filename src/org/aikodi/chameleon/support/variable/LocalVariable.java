@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.support.variable;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.scope.Scope;
 import org.aikodi.chameleon.oo.expression.Expression;
@@ -10,6 +8,8 @@ import org.aikodi.chameleon.oo.statement.StatementListContainer;
 import org.aikodi.chameleon.oo.statement.StatementListScope;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.oo.variable.RegularVariable;
+
+import java.util.List;
 
 /**
  * @author Marko van Dooren

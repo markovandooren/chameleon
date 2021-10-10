@@ -1,9 +1,7 @@
 package org.aikodi.chameleon.oo.type;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.element.Element;
@@ -16,8 +14,9 @@ import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.util.Lists;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableList.Builder;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * <p>A class body that lazily copies its member from another class
@@ -100,7 +99,7 @@ public class LazyClassBody extends ClassBody {
 
 	private boolean mustCopy(Declaration declarationFromBaseType) {
 		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-		return ! declarationFromBaseType.isTrue(language.CLASS);
+		return ! declarationFromBaseType.isTrue(language.CLASS());
 	}
 
 	/**
@@ -204,7 +203,7 @@ public class LazyClassBody extends ClassBody {
 			_statics = Lists.create();
 			List<Declarator> alreadyCloned = super.elements();
 			for(Declarator element: original().elements()) {
-				ChameleonProperty clazz = language(ObjectOrientedLanguage.class).CLASS;
+				ChameleonProperty clazz = language(ObjectOrientedLanguage.class).CLASS();
 				Declarator clonedElement=null;
 				for(Declarator already: alreadyCloned) {
 					if(already.origin().equals(element)) { //EQUALS

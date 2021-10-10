@@ -1,13 +1,11 @@
 package org.aikodi.chameleon.oo.type;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.validation.Valid;
-import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.plugin.ObjectOrientedFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UnionTypeReference extends CombinationTypeReference {
 //FIXME make abstract superclass for this and IntersectionTypeReference

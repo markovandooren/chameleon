@@ -29,11 +29,11 @@ public class Constructor extends ModifierImpl {
 	 /*@
 	   @ public behavior
 	   @
-	   @ post \result.contains(language().CONSTRUCTOR);
+	   @ post \result.contains(language(ObjectOrientedLanguage.class).CONSTRUCTOR());
 	   @*/
     @Override
    public PropertySet<Element,ChameleonProperty> impliedProperties() {
-      return createSet(language(ObjectOrientedLanguage.class).CONSTRUCTOR);
+      return createSet(language(ObjectOrientedLanguage.class).CONSTRUCTOR());
     }
 
 }

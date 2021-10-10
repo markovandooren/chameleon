@@ -1,7 +1,6 @@
 package org.aikodi.chameleon.core.property;
 
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
@@ -12,7 +11,7 @@ import org.aikodi.rejuse.property.PropertyMutex;
 import org.aikodi.rejuse.property.PropertySet;
 import org.aikodi.rejuse.property.PropertyUniverse;
 
-import com.google.common.collect.ImmutableList;
+import java.util.List;
 
 public abstract class DynamicChameleonProperty extends DynamicProperty<Element,ChameleonProperty> implements ChameleonProperty {
 

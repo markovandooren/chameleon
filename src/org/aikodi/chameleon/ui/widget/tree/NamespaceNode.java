@@ -1,11 +1,10 @@
 package org.aikodi.chameleon.ui.widget.tree;
 
-import java.util.List;
-
-import org.aikodi.chameleon.core.namespace.Namespace;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
+import org.aikodi.chameleon.core.namespace.Namespace;
+
+import java.util.List;
 
 public class NamespaceNode extends TreeNode<Namespace,Object> {
 

@@ -1,10 +1,6 @@
 package org.aikodi.chameleon.oo.type;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.declaration.Declarator;
@@ -22,7 +18,10 @@ import org.aikodi.rejuse.association.Association;
 import org.aikodi.rejuse.association.AssociationListener;
 import org.aikodi.rejuse.collection.CollectionOperations;
 
-import com.google.common.collect.ImmutableList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 public class ClassBody extends ElementImpl implements DeclarationContainer {
 

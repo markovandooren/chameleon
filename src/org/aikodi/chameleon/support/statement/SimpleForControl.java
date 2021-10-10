@@ -1,7 +1,6 @@
 package org.aikodi.chameleon.support.statement;
 
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.validation.Valid;
@@ -9,7 +8,7 @@ import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.expression.Expression;
 import org.aikodi.chameleon.util.association.Single;
 
-import com.google.common.collect.ImmutableList;
+import java.util.List;
 
 public class SimpleForControl extends ForControl {
 

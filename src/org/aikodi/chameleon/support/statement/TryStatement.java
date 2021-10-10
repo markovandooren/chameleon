@@ -1,10 +1,10 @@
 package org.aikodi.chameleon.support.statement;
 
-import java.util.List;
-
 import org.aikodi.chameleon.oo.statement.Statement;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
+
+import java.util.List;
 
 /**
  * @author Marko van Dooren

@@ -31,7 +31,7 @@ public class Final extends ModifierImpl {
 public PropertySet<Element,ChameleonProperty> impliedProperties() {
 //    return createSet(language(ObjectOrientedLanguage.class).REFINABLE.inverse(),language(ObjectOrientedLanguage.class).DEFINED);
     ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
-		return createSet(language.FINAL);
+		return createSet(language.FINAL());
   }
 
 }

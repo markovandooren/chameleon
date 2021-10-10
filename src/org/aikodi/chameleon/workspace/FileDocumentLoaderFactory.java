@@ -1,11 +1,11 @@
 package org.aikodi.chameleon.workspace;
 
+import org.aikodi.chameleon.core.namespace.DocumentLoaderNamespace;
+import org.aikodi.chameleon.core.namespace.Namespace;
+
 import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
-
-import org.aikodi.chameleon.core.namespace.DocumentLoaderNamespace;
-import org.aikodi.chameleon.core.namespace.Namespace;
 
 public class FileDocumentLoaderFactory {
 

@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.eclipse.connector;
 
-import java.util.Collection;
-
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.tag.Metadata;
@@ -14,6 +12,8 @@ import org.aikodi.chameleon.plugin.ViewProcessorImpl;
 import org.aikodi.rejuse.association.Association;
 import org.aikodi.rejuse.association.SingleAssociation;
 import org.eclipse.jface.text.BadLocationException;
+
+import java.util.Collection;
 
 public class EclipseEditorInputProcessor extends ViewProcessorImpl implements InputProcessor {
 

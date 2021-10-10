@@ -1,9 +1,5 @@
 package org.aikodi.chameleon.support.member.simplename;
 
-import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
 import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.reference.CrossReferenceTarget;
@@ -13,7 +9,10 @@ import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.lookup.SimpleNameCrossReferenceWithArgumentsSelector;
 import org.aikodi.chameleon.oo.method.Method;
 import org.aikodi.chameleon.oo.type.Type;
-import org.aikodi.rejuse.logic.ternary.Ternary;
+
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public abstract class SimpleNameMethodInvocation<D extends Method> extends MethodInvocation<D> implements CrossReferenceWithName<D> {
 
@@ -24,20 +23,8 @@ public abstract class SimpleNameMethodInvocation<D extends Method> extends Metho
 
 	@Override
 	protected Type actualType() throws LookupException {
-		//    try {
 		Method method = getElement();
-		//			if (method != null) {
 		return method.returnType();
-		//			}
-		//			else {
-		//			  getElement();
-		//			  throw new LookupException("Could not find method of constructor invocation", this);
-		//			}
-		//		} catch (LookupException e) {
-		//			e.printStackTrace();
-		//			getMethod();
-		//			throw e;
-		//		}
 	}
 
 
@@ -63,22 +50,13 @@ public abstract class SimpleNameMethodInvocation<D extends Method> extends Metho
 		}
 	}
 
-	//  public D getMethod() throws LookupException {
-	//	    D result = lexicalContext().lookUp(selector());
-	//	    if(result == null) {
-	//	      throw new LookupException();
-	//	    }
-	//	    return result;
-	//  }
-
-
 	public abstract class SimpleNameMethodSelector extends SimpleNameCrossReferenceWithArgumentsSelector<D> {
 
 		//  	private int _nameHash = SimpleNameMethodInvocation.this._methodName.hashCode();
 
 		@Override
 		public boolean selectedRegardlessOfName(D declaration) throws LookupException {
-			boolean result = declaration.is(language(ObjectOrientedLanguage.class).CONSTRUCTOR) != Ternary.TRUE;
+			boolean result = !declaration.isTrue(language(ObjectOrientedLanguage.class).CONSTRUCTOR());
 			if(result) {
 				result = super.selectedRegardlessOfName(declaration);
 			}

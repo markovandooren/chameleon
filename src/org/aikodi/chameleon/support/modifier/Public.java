@@ -1,7 +1,6 @@
 package org.aikodi.chameleon.support.modifier;
 
 
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.modifier.ModifierImpl;
 import org.aikodi.chameleon.core.property.ChameleonProperty;

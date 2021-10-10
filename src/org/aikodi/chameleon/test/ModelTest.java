@@ -1,15 +1,13 @@
 package org.aikodi.chameleon.test;
 
-import java.io.IOException;
-
-import junit.framework.TestSuite;
-
 import org.aikodi.chameleon.input.ParseException;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.ProjectException;
 import org.aikodi.chameleon.workspace.View;
 import org.junit.After;
 import org.junit.Before;
+
+import java.io.IOException;
 
 /**
  * The top level test class for Chameleon tests. This class provides the infrastructure

@@ -4,9 +4,6 @@
  */
 package org.aikodi.chameleon.eclipse.presentation.hierarchy;
 
-import java.util.Collection;
-import java.util.TreeSet;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.eclipse.ChameleonEditorPlugin;
@@ -21,16 +18,11 @@ import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.rejuse.predicate.SafePredicate;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.text.TextSelection;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IContentProvider;
-import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.ISelectionProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.SWT;
+
+import java.util.Collection;
+import java.util.TreeSet;
 
 /**
  * This class represents the action to open the super or subtype (==actionType in constructor) hierarchy.

@@ -1,10 +1,9 @@
 package org.aikodi.chameleon.core.lookup;
 
-import java.util.Set;
-
+import com.google.common.collect.ImmutableSet;
 import org.aikodi.chameleon.core.declaration.Declaration;
 
-import com.google.common.collect.ImmutableSet;
+import java.util.Set;
 
 public abstract class MultiTypeSelector<D extends Declaration> extends NameBasedSelector<D> {
 

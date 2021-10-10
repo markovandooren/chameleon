@@ -3,12 +3,11 @@
  */
 package org.aikodi.chameleon.core.lookup;
 
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 
-import com.google.common.collect.ImmutableList;
+import java.util.List;
 
 public class Skipper<D extends Declaration> implements DeclarationSelector<D> {
 

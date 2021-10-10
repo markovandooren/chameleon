@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.core.lookup;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
+
+import java.util.List;
 
 /**
  * A lookup context for search declarations locally in a declaration container.

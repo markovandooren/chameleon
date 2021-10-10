@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.aspect.core.model.pointcut;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -13,6 +11,8 @@ import org.aikodi.chameleon.oo.expression.NameExpression;
 import org.aikodi.chameleon.oo.lookup.SimpleNameCrossReferenceWithArgumentsSelector;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.variable.FormalParameter;
+
+import java.util.List;
 
 public class PointcutReference extends CrossReferenceWithArguments implements CrossReference<Pointcut> {
 

@@ -1,14 +1,13 @@
 package org.aikodi.chameleon.ui.widget.tree;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import com.google.common.collect.ImmutableSet;
 import org.aikodi.chameleon.ui.widget.LabelProvider;
 import org.aikodi.chameleon.ui.widget.SelectionController;
 import org.aikodi.chameleon.ui.widget.Selector;
 import org.aikodi.chameleon.ui.widget.WidgetFactory;
 
-import com.google.common.collect.ImmutableSet;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 

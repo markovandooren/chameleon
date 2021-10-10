@@ -1,10 +1,5 @@
 package org.aikodi.chameleon.aspect.core.build;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-
 import org.aikodi.chameleon.aspect.core.weave.AspectWeaver;
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -16,6 +11,11 @@ import org.aikodi.chameleon.plugin.build.BuildProgressHelper;
 import org.aikodi.chameleon.plugin.build.Builder;
 import org.aikodi.chameleon.plugin.build.DocumentWriter;
 import org.aikodi.chameleon.workspace.View;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 
 public class AspectBuilder extends ViewPluginImpl implements Builder {
 	public AspectBuilder(View source, View target, AspectWeaver weaver) {

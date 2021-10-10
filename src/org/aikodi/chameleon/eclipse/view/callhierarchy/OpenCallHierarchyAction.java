@@ -4,9 +4,6 @@
  */
 package org.aikodi.chameleon.eclipse.view.callhierarchy;
 
-import java.util.Collection;
-import java.util.TreeSet;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.eclipse.connector.EclipseEditorTag;
@@ -20,6 +17,9 @@ import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
+
+import java.util.Collection;
+import java.util.TreeSet;
 
 /**
  * Will show the callers of the current method in the CallHierarchyView

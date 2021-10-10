@@ -4,20 +4,12 @@
  */
 package org.aikodi.chameleon.eclipse.presentation.hierarchy;
 
-import static org.aikodi.chameleon.eclipse.presentation.hierarchy.OpenTypeHierarchyAction.SUBTYPE;
-import static org.aikodi.chameleon.eclipse.presentation.hierarchy.OpenTypeHierarchyAction.SUPERTYPE;
-
 import org.aikodi.chameleon.eclipse.editors.actions.IChameleonEditorActionDefinitionIds;
 import org.aikodi.chameleon.eclipse.presentation.Filters;
 import org.aikodi.chameleon.eclipse.presentation.treeview.ChameleonViewComparator;
 import org.aikodi.chameleon.eclipse.presentation.treeview.TreeViewerActions;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.action.IContributionManager;
-import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.action.*;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
@@ -33,6 +25,9 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.views.IViewDescriptor;
+
+import static org.aikodi.chameleon.eclipse.presentation.hierarchy.OpenTypeHierarchyAction.SUBTYPE;
+import static org.aikodi.chameleon.eclipse.presentation.hierarchy.OpenTypeHierarchyAction.SUPERTYPE;
 
 /**
  * The Chameleon hierarchy type view. 

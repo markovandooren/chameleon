@@ -1,12 +1,12 @@
 package org.aikodi.chameleon.aspect.oo.model.pointcut;
 
-import java.util.List;
-import java.util.Map;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.expression.NameExpression;
 import org.aikodi.chameleon.oo.variable.FormalParameter;
+
+import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractParameterExposurePointcutExpression extends AbstractDynamicPointcutExpression implements ParameterExposurePointcutExpression<Element> {
 	

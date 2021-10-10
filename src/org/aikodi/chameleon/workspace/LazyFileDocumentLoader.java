@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.workspace;
 
+import org.aikodi.chameleon.core.namespace.DocumentLoaderNamespace;
+
 import java.io.File;
 import java.io.InputStream;
-
-import org.aikodi.chameleon.core.namespace.DocumentLoaderNamespace;
 
 public class LazyFileDocumentLoader extends LazyStreamDocumentLoader implements IFileDocumentLoader {
 

@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.oo.type.generics;
 
-import java.util.Set;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.MissingSignature;
 import org.aikodi.chameleon.core.element.Element;
@@ -17,6 +15,8 @@ import org.aikodi.chameleon.oo.type.Parameter;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.TypeReference;
+
+import java.util.Set;
 
 /**
  * A class representing type parameters. These can be formal type parameters or instantiated type parameters.

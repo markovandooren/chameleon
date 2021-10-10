@@ -2,11 +2,7 @@ package org.aikodi.chameleon.support.statement;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.event.name.NameChanged;
-import org.aikodi.chameleon.core.lookup.DeclarationCollector;
-import org.aikodi.chameleon.core.lookup.DeclarationSelector;
-import org.aikodi.chameleon.core.lookup.LocalLookupContext;
-import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.lookup.NameSelector;
+import org.aikodi.chameleon.core.lookup.*;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;

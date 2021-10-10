@@ -1,20 +1,15 @@
 package org.aikodi.chameleon.core.namespace;
 
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.core.scope.Scope;
 import org.aikodi.chameleon.core.scope.UniversalScope;
-import org.aikodi.chameleon.core.validation.Valid;
-import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.util.association.Multi;
-import org.aikodi.rejuse.association.Association;
 
-import com.google.common.collect.ImmutableList;
+import java.util.List;
 
 public abstract class RegularNamespace extends NamespaceImpl {
 	

@@ -1,11 +1,11 @@
 package org.aikodi.chameleon.support.expression;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.expression.Expression;
 import org.aikodi.chameleon.util.association.Multi;
+
+import java.util.List;
 
 /**
  * @author Marko van Dooren

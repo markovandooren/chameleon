@@ -1,13 +1,13 @@
 package org.aikodi.chameleon.oo.variable;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.modifier.Modifier;
 import org.aikodi.chameleon.core.variable.Variable;
 import org.aikodi.chameleon.oo.expression.Expression;
 import org.aikodi.chameleon.oo.type.TypeReference;
+
+import java.util.List;
 
 public interface VariableDeclarator extends Element, DeclarationContainer {
 

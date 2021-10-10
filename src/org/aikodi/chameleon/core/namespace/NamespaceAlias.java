@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.core.namespace;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupContext;
@@ -15,6 +13,8 @@ import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.rejuse.property.PropertySet;
+
+import java.util.List;
 
 public class NamespaceAlias extends NamespaceImpl {
 

@@ -1,10 +1,10 @@
 package org.aikodi.chameleon.oo.statement;
 
-import java.util.Iterator;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.scope.LexicalScope;
 import org.aikodi.chameleon.core.scope.Scope;
+
+import java.util.Iterator;
 
 /**
  * @author Marko van Dooren

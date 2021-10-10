@@ -1,16 +1,16 @@
 package org.aikodi.chameleon.core.scope;
 
-import static org.aikodi.rejuse.collection.CollectionOperations.exists;
-import static org.aikodi.rejuse.collection.CollectionOperations.forAll;
+import org.aikodi.chameleon.core.element.Element;
+import org.aikodi.chameleon.core.lookup.LookupException;
+import org.aikodi.rejuse.collection.CollectionOperations;
+import org.aikodi.rejuse.predicate.Predicate;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.rejuse.collection.CollectionOperations;
-import org.aikodi.rejuse.predicate.Predicate;
+import static org.aikodi.rejuse.collection.CollectionOperations.exists;
+import static org.aikodi.rejuse.collection.CollectionOperations.forAll;
 
 /**
  * A scope that is the union of a number of other scopes.

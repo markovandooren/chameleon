@@ -1,8 +1,5 @@
 package org.aikodi.chameleon.support.variable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
@@ -23,6 +20,9 @@ import org.aikodi.chameleon.oo.variable.VariableDeclarator;
 import org.aikodi.chameleon.support.statement.ForInit;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LocalVariableDeclarator extends StatementImpl implements VariableDeclarator, ForInit {
 

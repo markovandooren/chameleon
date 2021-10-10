@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.support.expression;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -13,6 +11,8 @@ import org.aikodi.chameleon.oo.expression.NamedTarget;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.association.Single;
+
+import java.util.List;
 
 /**
  * @author Marko van Dooren

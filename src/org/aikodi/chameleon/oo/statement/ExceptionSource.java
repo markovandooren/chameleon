@@ -1,7 +1,6 @@
 package org.aikodi.chameleon.oo.statement;
 
 import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.chameleon.core.lookup.LookupException;
 
 /**
  * @author Marko van Dooren

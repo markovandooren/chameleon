@@ -1,11 +1,11 @@
 package org.aikodi.chameleon.oo.type;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.reference.CrossReferenceTarget;
 import org.aikodi.chameleon.core.reference.NameReference;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Marko van Dooren

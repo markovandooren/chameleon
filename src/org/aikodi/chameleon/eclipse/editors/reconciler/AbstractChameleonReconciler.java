@@ -1,18 +1,13 @@
 package org.aikodi.chameleon.eclipse.editors.reconciler;
 
-import java.util.concurrent.Semaphore;
-
 import org.aikodi.chameleon.eclipse.editors.EclipseDocument;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.text.Assert;
-import org.eclipse.jface.text.DocumentEvent;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IDocumentListener;
-import org.eclipse.jface.text.ITextInputListener;
-import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.*;
 import org.eclipse.jface.text.reconciler.DirtyRegion;
 import org.eclipse.jface.text.reconciler.IReconciler;
 import org.eclipse.jface.text.reconciler.IReconcilingStrategy;
+
+import java.util.concurrent.Semaphore;
 
 
 

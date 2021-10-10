@@ -1,8 +1,6 @@
 package org.aikodi.chameleon.eclipse.editors.preferences;
 
 import org.aikodi.chameleon.eclipse.ChameleonEditorPlugin;
-import org.aikodi.chameleon.eclipse.presentation.autocompletion.AutoCompletionProposalsComparator;
-import org.aikodi.chameleon.eclipse.presentation.formatting.ChameleonAutoEditStrategy;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;

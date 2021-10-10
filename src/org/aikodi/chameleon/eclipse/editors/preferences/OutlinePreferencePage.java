@@ -1,13 +1,6 @@
 package org.aikodi.chameleon.eclipse.editors.preferences;
 
 
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.eclipse.ChameleonEditorPlugin;
 import org.aikodi.chameleon.eclipse.LanguageMgt;
@@ -24,6 +17,8 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+
+import java.util.*;
 
 
 /**

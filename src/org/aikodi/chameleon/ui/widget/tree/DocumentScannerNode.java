@@ -1,13 +1,12 @@
 package org.aikodi.chameleon.ui.widget.tree;
 
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
 import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.workspace.CompositeDocumentScanner;
 import org.aikodi.chameleon.workspace.DocumentScanner;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableList.Builder;
+import java.util.List;
 
 public class DocumentScannerNode extends TreeNode<DocumentScanner,Object> {
 

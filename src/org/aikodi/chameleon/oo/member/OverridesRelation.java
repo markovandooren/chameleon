@@ -18,7 +18,7 @@ public class OverridesRelation<D extends Declaration> extends DeclarationCompara
 
 	public boolean isOverridable(Declaration d) throws LookupException {
 		boolean result;
-		Ternary temp = d.is(d.language(ObjectOrientedLanguage.class).OVERRIDABLE);
+		Ternary temp = d.is(d.language(ObjectOrientedLanguage.class).OVERRIDABLE());
 		if(temp == Ternary.TRUE) {
 			result = true;
 		} else if (temp == Ternary.FALSE) {

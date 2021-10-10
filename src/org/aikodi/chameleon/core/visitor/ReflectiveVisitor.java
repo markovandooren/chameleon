@@ -1,10 +1,9 @@
 package org.aikodi.chameleon.core.visitor;
 
+import org.aikodi.chameleon.core.element.Element;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
-
-import org.aikodi.chameleon.core.element.Element;
 
 /**
  * <p>

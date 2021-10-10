@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.oo.lookup;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.declaration.Signature;
@@ -12,6 +10,8 @@ import org.aikodi.chameleon.core.relation.WeakPartialOrder;
 import org.aikodi.chameleon.oo.member.MoreSpecificTypesOrder;
 import org.aikodi.chameleon.oo.member.SignatureWithParameters;
 import org.aikodi.chameleon.oo.type.Type;
+
+import java.util.List;
 
 public abstract class SimpleNameCrossReferenceWithArgumentsSelector<D extends Declaration>
 		extends TwoPhaseDeclarationSelector<D> {

@@ -3,8 +3,6 @@
  */
 package org.aikodi.chameleon.oo.type;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -12,6 +10,8 @@ import org.aikodi.chameleon.oo.plugin.ObjectOrientedFactory;
 import org.aikodi.chameleon.oo.type.generics.ElementWithTypeConstraints;
 import org.aikodi.chameleon.oo.type.generics.TypeConstraint;
 import org.aikodi.chameleon.util.association.Multi;
+
+import java.util.List;
 
 /**
  * @author Marko van Dooren

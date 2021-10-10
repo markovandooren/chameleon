@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.eclipse.project;
 
-import java.util.ArrayList;
-
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.eclipse.LanguageMgt;
 import org.eclipse.jface.wizard.WizardPage;
@@ -13,6 +11,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.List;
+
+import java.util.ArrayList;
 
 public class LanguageSelectionPage extends WizardPage {
 

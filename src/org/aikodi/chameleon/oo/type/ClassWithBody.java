@@ -1,11 +1,6 @@
 package org.aikodi.chameleon.oo.type;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
+import com.google.common.collect.ImmutableList;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.element.Element;
@@ -21,7 +16,10 @@ import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
 import org.aikodi.rejuse.predicate.TypePredicate;
 
-import com.google.common.collect.ImmutableList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * A class representing object-oriented classes that have a body with declarations.

@@ -1,21 +1,16 @@
 package org.aikodi.chameleon.workspace;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileNotFoundException;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.input.ParseException;
 import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.predicate.Predicate;
-import org.antlr.runtime.RecognitionException;
 
-import antlr.TokenStreamException;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A class for recursively scanning files from a directory.

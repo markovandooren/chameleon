@@ -4,13 +4,12 @@
  */
 package org.aikodi.chameleon.eclipse.presentation.hierarchy;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.eclipse.project.ChameleonProjectNature;
-import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
+
+import java.util.List;
 
 public class HierarchyTypeNode implements HierarchyTreeNode {
 	

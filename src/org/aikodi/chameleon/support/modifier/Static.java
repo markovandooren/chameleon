@@ -28,7 +28,7 @@ public class Static extends ModifierImpl {
   @*/
  @Override
 public PropertySet<Element,ChameleonProperty> impliedProperties() {
-   return createSet(language(ObjectOrientedLanguage.class).CLASS);
+   return createSet(language(ObjectOrientedLanguage.class).CLASS());
  }
 
 }

@@ -1,11 +1,11 @@
 package org.aikodi.chameleon.core.declaration;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.rejuse.association.Association;
+
+import java.util.List;
 
 /**
  * A class of composite qualified names.

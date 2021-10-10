@@ -2,7 +2,6 @@ package org.aikodi.chameleon.core.property;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.rejuse.logic.ternary.Ternary;
 import org.aikodi.rejuse.property.PropertyMutex;

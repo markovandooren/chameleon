@@ -1,16 +1,15 @@
 package org.aikodi.chameleon.workspace;
 
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
+import com.google.common.collect.ImmutableSet;
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.rejuse.action.UniversalConsumer;
 import org.aikodi.rejuse.association.OrderedMultiAssociation;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableList.Builder;
-import com.google.common.collect.ImmutableSet;
+import java.util.List;
 
 public class CompositeDocumentScanner extends DocumentScannerImpl implements DocumentScannerContainer {
 

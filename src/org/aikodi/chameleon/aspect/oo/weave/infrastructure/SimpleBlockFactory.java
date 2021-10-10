@@ -1,10 +1,10 @@
 package org.aikodi.chameleon.aspect.oo.weave.infrastructure;
 
-import java.util.List;
-
 import org.aikodi.chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import org.aikodi.chameleon.oo.statement.Block;
 import org.aikodi.chameleon.oo.statement.Statement;
+
+import java.util.List;
 
 public abstract class SimpleBlockFactory extends AdvisedBlockFactory {
 

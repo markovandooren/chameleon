@@ -1,9 +1,5 @@
 package org.aikodi.chameleon.analysis;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.workspace.DocumentLoader;
@@ -15,6 +11,10 @@ import org.aikodi.rejuse.data.tree.walker.GuardedTreeWalker;
 import org.aikodi.rejuse.data.tree.walker.TopDown;
 import org.aikodi.rejuse.data.tree.walker.TreeWalker;
 import org.aikodi.rejuse.exception.Handler;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A class of objects that analyze a model.

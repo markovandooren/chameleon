@@ -1,16 +1,16 @@
 package org.aikodi.chameleon.workspace;
 
+import org.aikodi.chameleon.core.namespace.DocumentLoaderNamespace;
+import org.aikodi.chameleon.util.Pair;
+import org.aikodi.rejuse.action.Nothing;
+import org.aikodi.rejuse.predicate.Predicate;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
-import org.aikodi.chameleon.core.namespace.DocumentLoaderNamespace;
-import org.aikodi.chameleon.util.Pair;
-import org.aikodi.rejuse.action.Nothing;
-import org.aikodi.rejuse.predicate.Predicate;
 
 public class ZipScanner extends AbstractZipScanner {
 

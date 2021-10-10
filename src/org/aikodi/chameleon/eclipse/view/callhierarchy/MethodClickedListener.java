@@ -6,11 +6,7 @@ package org.aikodi.chameleon.eclipse.view.callhierarchy;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.eclipse.editors.ChameleonEditor;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.*;
 
 /**
  * This listener will check if a declaration in the Call Hierarchy View is (double)clicked

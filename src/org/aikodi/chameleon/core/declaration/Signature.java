@@ -1,10 +1,9 @@
 package org.aikodi.chameleon.core.declaration;
 
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 
-import com.google.common.collect.ImmutableList;
+import java.util.List;
 
 /**
  * A signature is a means of identifying a declaration that can be

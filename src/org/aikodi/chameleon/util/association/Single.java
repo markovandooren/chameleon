@@ -1,14 +1,14 @@
 package org.aikodi.chameleon.util.association;
 
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.rejuse.association.Association;
 import org.aikodi.rejuse.association.SingleAssociation;
+
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 public class Single<T extends Element> extends SingleAssociation<Element, T> implements ChameleonAssociation<T> {
 

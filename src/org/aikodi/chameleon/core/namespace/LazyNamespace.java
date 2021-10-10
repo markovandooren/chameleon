@@ -1,15 +1,6 @@
 package org.aikodi.chameleon.core.namespace;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.stream.Collectors;
-
-import java.lang.ref.SoftReference;
-
+import com.google.common.collect.ImmutableList;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -21,7 +12,9 @@ import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.contract.Contract;
 import org.aikodi.rejuse.association.OrderedMultiAssociation;
 
-import com.google.common.collect.ImmutableList;
+import java.lang.ref.SoftReference;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class LazyNamespace extends RegularNamespace implements DocumentLoaderNamespace {
 

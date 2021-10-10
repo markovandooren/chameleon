@@ -1,21 +1,17 @@
 package org.aikodi.chameleon.core.property;
 
-import static org.aikodi.rejuse.collection.CollectionOperations.exists;
-
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
-import org.aikodi.rejuse.collection.CollectionOperations;
-import org.aikodi.rejuse.predicate.SafePredicate;
 import org.aikodi.rejuse.property.PropertyMutex;
-import org.aikodi.rejuse.property.PropertyUniverse;
 import org.aikodi.rejuse.property.StaticProperty;
 
-import com.google.common.collect.ImmutableList;
+import java.util.List;
+
+import static org.aikodi.rejuse.collection.CollectionOperations.exists;
 
 public class StaticChameleonProperty extends StaticProperty<Element,ChameleonProperty> implements ChameleonProperty {
 

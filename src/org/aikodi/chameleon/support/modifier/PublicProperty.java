@@ -6,7 +6,6 @@ import org.aikodi.chameleon.core.scope.Scope;
 import org.aikodi.chameleon.core.scope.ScopeProperty;
 import org.aikodi.chameleon.core.scope.UniversalScope;
 import org.aikodi.rejuse.property.PropertyMutex;
-import org.aikodi.rejuse.property.PropertyUniverse;
 
 public class PublicProperty extends ScopeProperty {
 	

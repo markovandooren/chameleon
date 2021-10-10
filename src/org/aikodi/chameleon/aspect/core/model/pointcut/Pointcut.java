@@ -3,8 +3,6 @@ package org.aikodi.chameleon.aspect.core.model.pointcut;
 import org.aikodi.chameleon.aspect.core.model.aspect.Aspect;
 import org.aikodi.chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
 import org.aikodi.chameleon.core.declaration.Declaration;
-import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiersImpl;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.scope.Scope;

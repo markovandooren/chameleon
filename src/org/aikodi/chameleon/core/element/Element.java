@@ -1,21 +1,12 @@
 package org.aikodi.chameleon.core.element;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.function.BiConsumer;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.ElementImpl.Navigator;
 import org.aikodi.chameleon.core.event.Event;
-import org.aikodi.chameleon.core.event.association.ChildAdded;
-import org.aikodi.chameleon.core.event.association.ChildRemoved;
-import org.aikodi.chameleon.core.event.association.ChildReplaced;
-import org.aikodi.chameleon.core.event.association.ParentAdded;
-import org.aikodi.chameleon.core.event.association.ParentRemoved;
-import org.aikodi.chameleon.core.event.association.ParentReplaced;
-import org.aikodi.chameleon.core.event.stream.EventStream;
+import org.aikodi.chameleon.core.event.association.*;
 import org.aikodi.chameleon.core.event.stream.EventSourceSelector;
+import org.aikodi.chameleon.core.event.stream.EventStream;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.language.WrongLanguageException;
 import org.aikodi.chameleon.core.lookup.LookupContext;
@@ -35,11 +26,14 @@ import org.aikodi.chameleon.workspace.View;
 import org.aikodi.chameleon.workspace.WrongViewException;
 import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.association.Association;
-import org.aikodi.rejuse.association.IAssociation;
 import org.aikodi.rejuse.association.SingleAssociation;
 import org.aikodi.rejuse.logic.ternary.Ternary;
 import org.aikodi.rejuse.property.Property;
 import org.aikodi.rejuse.property.PropertySet;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.function.BiConsumer;
 
 /**
  * <p>

@@ -8,7 +8,6 @@ import org.aikodi.chameleon.core.scope.Scope;
 import org.aikodi.chameleon.core.scope.ScopeProperty;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.rejuse.property.PropertyMutex;
-import org.aikodi.rejuse.property.PropertyUniverse;
 
 public class PrivateProperty extends ScopeProperty {
 	

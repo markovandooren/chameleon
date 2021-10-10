@@ -3,7 +3,6 @@ package org.aikodi.chameleon.oo.view;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespace.RootNamespace;
-import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.workspace.View;
 

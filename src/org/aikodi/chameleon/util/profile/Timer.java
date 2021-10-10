@@ -1,8 +1,8 @@
 package org.aikodi.chameleon.util.profile;
 
-import java.util.concurrent.TimeUnit;
-
 import com.google.common.base.Stopwatch;
+
+import java.util.concurrent.TimeUnit;
 
 public class Timer {
 

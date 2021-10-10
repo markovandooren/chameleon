@@ -4,14 +4,14 @@
  */
 package org.aikodi.chameleon.eclipse.presentation.hierarchy;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.eclipse.project.ChameleonProjectNature;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class will calculate the children of an element in the super type hierarchy

@@ -1,11 +1,11 @@
 package org.aikodi.chameleon.test.stub.builder;
 
-import java.util.function.Consumer;
-
 import org.aikodi.chameleon.builder.Builder;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.test.stub.declaration.StubDeclaration;
 import org.aikodi.chameleon.test.stub.declaration.StubDeclarationContainingDeclarationContainer;
+
+import java.util.function.Consumer;
 
 public class StubContainerBuilder<P> extends Builder<P,Declaration> {
 

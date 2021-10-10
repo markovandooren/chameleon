@@ -1,8 +1,5 @@
 package org.aikodi.chameleon.support.statement;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
@@ -14,6 +11,9 @@ import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.statement.ExceptionSource;
 import org.aikodi.chameleon.oo.statement.Statement;
 import org.aikodi.chameleon.util.association.Multi;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A list of statement expressions as used in the initialization clause of a for

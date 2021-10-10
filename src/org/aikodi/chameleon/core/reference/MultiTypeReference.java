@@ -1,15 +1,14 @@
 package org.aikodi.chameleon.core.reference;
 
-import java.util.Collections;
-import java.util.Set;
-
+import com.google.common.collect.ImmutableSet;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.lookup.MultiTypeSelector;
 import org.aikodi.chameleon.util.Util;
 
-import com.google.common.collect.ImmutableSet;
+import java.util.Collections;
+import java.util.Set;
 
 public class MultiTypeReference<D extends Declaration> extends ElementReference<D> {
 

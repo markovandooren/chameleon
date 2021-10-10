@@ -1,8 +1,8 @@
 package org.aikodi.chameleon.workspace;
 
-import java.io.File;
-
 import org.aikodi.chameleon.core.document.Document;
+
+import java.io.File;
 
 
 public interface FileScanner extends DocumentScanner {

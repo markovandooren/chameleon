@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.aspect.core.build;
 
-import java.util.List;
-
 import org.aikodi.chameleon.aspect.core.model.language.AspectOrientedLanguage;
 import org.aikodi.chameleon.aspect.core.weave.AspectWeaver;
 import org.aikodi.chameleon.aspect.core.weave.JoinPointWeaver;
@@ -14,6 +12,8 @@ import org.aikodi.chameleon.support.translate.IncrementalTranslator;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.chameleon.workspace.View;
+
+import java.util.List;
 
 public class IncrementalAspectTranslator extends IncrementalTranslator<AspectOrientedLanguage, Language> {
 

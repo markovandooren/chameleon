@@ -1,13 +1,13 @@
 package org.aikodi.chameleon.eclipse.view.outline;
 
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * 

@@ -4,12 +4,6 @@
  */
 package org.aikodi.chameleon.eclipse.view.callhierarchy;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.eclipse.project.ChameleonProjectNature;
@@ -18,6 +12,8 @@ import org.aikodi.rejuse.exception.Handler;
 import org.aikodi.rejuse.predicate.SafePredicate;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+
+import java.util.*;
 
 /**
  * A context provider that calculates all the declarations that contain a

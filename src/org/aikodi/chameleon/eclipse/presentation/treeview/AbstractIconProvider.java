@@ -1,11 +1,11 @@
 package org.aikodi.chameleon.eclipse.presentation.treeview;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractIconProvider implements IconProvider {
 	/**

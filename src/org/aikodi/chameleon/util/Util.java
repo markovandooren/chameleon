@@ -7,14 +7,9 @@
  */
 package org.aikodi.chameleon.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.element.Element;
+
+import java.util.*;
 
 /**
  * @author Marko van Dooren

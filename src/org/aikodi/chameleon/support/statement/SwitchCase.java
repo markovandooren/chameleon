@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.support.statement;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
@@ -11,6 +9,8 @@ import org.aikodi.chameleon.oo.statement.StatementListContainer;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
 import org.aikodi.rejuse.association.OrderedMultiAssociation;
+
+import java.util.List;
 
 /**
  * @author Marko van Dooren

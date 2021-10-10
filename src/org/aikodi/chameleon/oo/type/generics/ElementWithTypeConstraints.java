@@ -1,15 +1,14 @@
 package org.aikodi.chameleon.oo.type.generics;
 
-import java.util.List;
-import java.util.function.Supplier;
-
-import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.view.ObjectOrientedView;
 import org.aikodi.rejuse.function.BiFunction;
 import org.aikodi.rejuse.function.Function;
+
+import java.util.List;
+import java.util.function.Supplier;
 
 public interface ElementWithTypeConstraints extends ElementWithTypeBounds {
   

@@ -1,6 +1,5 @@
 package org.aikodi.chameleon.core.lookup;
 
-import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.validation.Valid;
@@ -18,7 +17,13 @@ public class LookupRedirector extends ElementImpl implements Stub {
 	public LookupRedirector(Element contextElement) {
 		setContextElement(contextElement);
 	}
-	
+
+	/**
+	 * Create a lookup redirector that redirects the lookup of the child to
+	 * the given context element.
+	 * @param contextElement The element in which the lookup will be done.
+	 * @param child The child element whose lookup will be redirected.
+	 */
 	public LookupRedirector(Element contextElement, Element child) {
 		setContextElement(contextElement);
 		setChild(child);

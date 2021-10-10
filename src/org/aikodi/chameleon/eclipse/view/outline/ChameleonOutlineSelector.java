@@ -1,10 +1,10 @@
 package org.aikodi.chameleon.eclipse.view.outline;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.exception.ModelException;
+
+import java.util.List;
 
 public class ChameleonOutlineSelector {
 

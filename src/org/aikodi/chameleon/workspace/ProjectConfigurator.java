@@ -1,11 +1,11 @@
 package org.aikodi.chameleon.workspace;
 
-import java.io.File;
-
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.plugin.LanguagePlugin;
 import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.predicate.Predicate;
+
+import java.io.File;
 
 /**
  * A class of plugins to create language specific project configurations.

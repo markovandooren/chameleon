@@ -15,7 +15,7 @@ public class MemberOverridableByDefault extends PropertyRule<Declaration> {
 
 	@Override
    public PropertySet<Element,ChameleonProperty> suggestedProperties(Declaration element) {
-		return createSet(language(ObjectOrientedLanguage.class).OVERRIDABLE);
+		return createSet(language(ObjectOrientedLanguage.class).OVERRIDABLE());
 	}
 	
 }

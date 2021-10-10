@@ -1,15 +1,14 @@
 package org.aikodi.chameleon.aspect.core.model.pointcut.expression;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.predicate.Predicate;
-import org.aikodi.rejuse.predicate.SafePredicate;
+
+import java.util.Collections;
+import java.util.List;
 
 public interface PointcutExpression<J extends Element> extends Element {
 	

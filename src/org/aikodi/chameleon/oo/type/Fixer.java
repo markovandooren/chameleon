@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.oo.type;
 
+import org.aikodi.chameleon.core.lookup.LookupException;
+
 import java.util.IdentityHashMap;
 import java.util.Map;
-
-import org.aikodi.chameleon.core.lookup.LookupException;
 
 /**
  * A class for computing the fixed point of the subtype relation when

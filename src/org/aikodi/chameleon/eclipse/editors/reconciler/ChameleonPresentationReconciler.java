@@ -1,8 +1,6 @@
 package org.aikodi.chameleon.eclipse.editors.reconciler;
 
 
-import java.util.HashMap;
-
 import org.aikodi.chameleon.eclipse.editors.ChameleonEditor;
 import org.aikodi.chameleon.eclipse.editors.EclipseDocument;
 import org.eclipse.core.resources.IMarker;
@@ -11,6 +9,8 @@ import org.eclipse.jface.text.presentation.IPresentationDamager;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.presentation.IPresentationRepairer;
 import org.eclipse.jface.text.reconciler.IReconcilingStrategy;
+
+import java.util.HashMap;
 
 /**
  * @author Manuel Van Wesemael 

@@ -15,7 +15,7 @@ public class TypeExtensibleByDefault extends PropertyRule<Declaration> {
 
 	@Override
 	public PropertySet<Element, ChameleonProperty> suggestedProperties(Declaration element) {
-		return createSet(language(ObjectOrientedLanguage.class).EXTENSIBLE);
+		return createSet(language(ObjectOrientedLanguage.class).EXTENSIBLE());
 	}
 
 }

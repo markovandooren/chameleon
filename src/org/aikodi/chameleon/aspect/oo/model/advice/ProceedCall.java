@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.aspect.oo.model.advice;
 
-import java.util.List;
-
 import org.aikodi.chameleon.aspect.core.model.advice.Advice;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.validation.BasicProblem;
@@ -10,6 +8,8 @@ import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.expression.Expression;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.util.association.Multi;
+
+import java.util.List;
 
 public class ProceedCall extends Expression {
 

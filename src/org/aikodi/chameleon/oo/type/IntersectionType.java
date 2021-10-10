@@ -1,12 +1,5 @@
 package org.aikodi.chameleon.oo.type;
 
-import static org.aikodi.rejuse.collection.CollectionOperations.exists;
-import static org.aikodi.rejuse.collection.CollectionOperations.forAll;
-
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.element.Element;
@@ -19,6 +12,13 @@ import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.rejuse.logic.ternary.Ternary;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
+import static org.aikodi.rejuse.collection.CollectionOperations.exists;
+import static org.aikodi.rejuse.collection.CollectionOperations.forAll;
 
 public class IntersectionType extends MultiType {
 	
@@ -125,7 +125,7 @@ public class IntersectionType extends MultiType {
 			Object m = iter.next();
 			if(m instanceof Element) {
 				Element member = (Element) m;
-				if(member.is(language(ObjectOrientedLanguage.class).CONSTRUCTOR) == Ternary.TRUE) {
+				if(member.is(language(ObjectOrientedLanguage.class).CONSTRUCTOR()) == Ternary.TRUE) {
 					iter.remove();
 				}
 			}

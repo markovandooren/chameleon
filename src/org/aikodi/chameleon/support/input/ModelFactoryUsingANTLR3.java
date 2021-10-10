@@ -1,25 +1,14 @@
 package org.aikodi.chameleon.support.input;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringBufferInputStream;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.document.Document;
-import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.input.ModelFactory;
-import org.aikodi.chameleon.input.NoLocationException;
 import org.aikodi.chameleon.input.ParseException;
-import org.aikodi.chameleon.input.SourceManager;
 import org.aikodi.chameleon.plugin.LanguagePluginImpl;
 import org.aikodi.chameleon.workspace.View;
-import org.aikodi.rejuse.association.Association;
-import org.aikodi.rejuse.io.DirectoryScanner;
 import org.antlr.runtime.RecognitionException;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public abstract class ModelFactoryUsingANTLR3 extends LanguagePluginImpl implements ModelFactory {
 

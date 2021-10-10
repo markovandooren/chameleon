@@ -1,8 +1,5 @@
 package org.aikodi.chameleon.oo.member;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.SignatureWithName;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -19,6 +16,9 @@ import org.aikodi.chameleon.oo.type.generics.TypeParameter;
 import org.aikodi.chameleon.oo.variable.FormalParameter;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.Multi;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * A class of signatures that include parameter types.

@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.core.namespacedeclaration;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
@@ -9,6 +7,8 @@ import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.rejuse.predicate.Predicate;
+
+import java.util.List;
 
 /**
  * A class for import statements.

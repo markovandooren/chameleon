@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.aspect.oo.weave.transform;
 
-import java.util.List;
-
 import org.aikodi.chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import org.aikodi.chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
 import org.aikodi.chameleon.aspect.oo.model.advice.weave.transform.runtime.AbstractCoordinator;
@@ -14,6 +12,8 @@ import org.aikodi.chameleon.oo.statement.Block;
 import org.aikodi.chameleon.oo.statement.Statement;
 import org.aikodi.chameleon.oo.variable.FormalParameter;
 import org.aikodi.rejuse.predicate.SafePredicate;
+
+import java.util.List;
 
 public abstract class ThreePhaseCoordinator<T extends Element> extends AbstractCoordinator<T> {
 

@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.core.namespace;
 
-import java.util.List;
-
 import org.aikodi.chameleon.workspace.DocumentLoader;
 import org.aikodi.chameleon.workspace.InputException;
+
+import java.util.List;
 
 /**
  * An interface for namespaces that cooperate with document loaders to enable

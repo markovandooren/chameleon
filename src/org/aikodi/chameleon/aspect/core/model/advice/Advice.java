@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.aspect.core.model.advice;
 
-import java.util.List;
-
 import org.aikodi.chameleon.aspect.core.model.aspect.Aspect;
 import org.aikodi.chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import org.aikodi.chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
@@ -12,6 +10,8 @@ import org.aikodi.chameleon.core.modifier.ElementWithModifiersImpl;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.util.association.Single;
+
+import java.util.List;
 
 public class Advice<B extends Element> extends ElementWithModifiersImpl {
 

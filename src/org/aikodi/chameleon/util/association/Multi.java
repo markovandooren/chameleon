@@ -1,13 +1,13 @@
 package org.aikodi.chameleon.util.association;
 
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.rejuse.association.OrderedMultiAssociation;
+
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 /**
  * An n-ary ordered association end. Use objects of this class for n-ary relations between model elements.

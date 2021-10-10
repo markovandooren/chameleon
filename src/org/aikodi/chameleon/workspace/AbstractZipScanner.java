@@ -1,19 +1,15 @@
 package org.aikodi.chameleon.workspace;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.util.Pair;
 import org.aikodi.chameleon.util.Util;
 import org.aikodi.rejuse.action.Nothing;
 import org.aikodi.rejuse.predicate.Predicate;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * An abstract class for document scanners that scan zip files.

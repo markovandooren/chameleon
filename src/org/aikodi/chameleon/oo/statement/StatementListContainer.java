@@ -1,8 +1,8 @@
 package org.aikodi.chameleon.oo.statement;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.element.Element;
+
+import java.util.List;
 
 /**
  * 

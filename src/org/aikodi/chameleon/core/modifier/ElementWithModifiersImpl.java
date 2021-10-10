@@ -1,13 +1,13 @@
 package org.aikodi.chameleon.core.modifier;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.rejuse.property.PropertyMutex;
+
+import java.util.List;
 
 /**
  * A default implementation for elements with modifiers. This class defines the

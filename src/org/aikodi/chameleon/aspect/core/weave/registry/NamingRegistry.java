@@ -1,11 +1,11 @@
 package org.aikodi.chameleon.aspect.core.weave.registry;
 
+import org.aikodi.chameleon.core.element.Element;
+import org.aikodi.chameleon.core.lookup.LookupException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-
-import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.chameleon.core.lookup.LookupException;
 
 public class NamingRegistry<T extends Element> {
 	public NamingRegistry() {

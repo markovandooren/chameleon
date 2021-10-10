@@ -2,9 +2,6 @@ package org.aikodi.chameleon.core.reference;
 
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.event.name.NameChanged;
-import org.aikodi.chameleon.core.lookup.DeclarationCollector;
-import org.aikodi.chameleon.core.lookup.DeclarationSelector;
-import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 
 /**

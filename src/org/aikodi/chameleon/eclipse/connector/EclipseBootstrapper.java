@@ -1,14 +1,14 @@
 package org.aikodi.chameleon.eclipse.connector;
 
-import java.io.IOException;
-import java.net.URL;
-
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.input.ParseException;
 import org.aikodi.chameleon.workspace.ProjectException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+
+import java.io.IOException;
+import java.net.URL;
 
 /**
  * A boot strapper class to load a language module into Eclipse.

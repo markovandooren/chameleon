@@ -1,10 +1,10 @@
 package org.aikodi.chameleon.plugin.build;
 
-import java.io.File;
-import java.util.List;
-
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.plugin.ViewPluginImpl;
+
+import java.io.File;
+import java.util.List;
 
 public class NullBuilder extends ViewPluginImpl implements Builder {
 	

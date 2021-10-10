@@ -1,9 +1,5 @@
 package org.aikodi.chameleon.eclipse.developertools.tagview;
 
-import java.util.Collections;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
 import org.aikodi.chameleon.eclipse.connector.EclipseEditorTag;
 import org.aikodi.chameleon.eclipse.editors.EclipseDocument;
 import org.aikodi.chameleon.input.PositionMetadata;
@@ -14,6 +10,10 @@ import org.aikodi.rejuse.predicate.SafePredicate;
 import org.aikodi.rejuse.predicate.UniversalPredicate;
 import org.eclipse.jface.text.BadPositionCategoryException;
 import org.eclipse.jface.text.Position;
+
+import java.util.Collections;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Contains static methods to create the text representation of the editor tags of a ChameleonDocument

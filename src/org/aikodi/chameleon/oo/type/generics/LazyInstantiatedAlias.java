@@ -1,13 +1,10 @@
 package org.aikodi.chameleon.oo.type.generics;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.TypeIndirection;
-import org.aikodi.chameleon.util.Pair;
 
 public class LazyInstantiatedAlias extends TypeIndirection {
 

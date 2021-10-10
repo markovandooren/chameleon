@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.core.lookup;
 
+import org.aikodi.chameleon.core.declaration.Declaration;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.aikodi.chameleon.core.declaration.Declaration;
 
 public class Cache {
 

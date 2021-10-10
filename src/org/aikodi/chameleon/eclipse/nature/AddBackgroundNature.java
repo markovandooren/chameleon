@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.eclipse.nature;
 
-import java.util.Iterator;
-
 import org.aikodi.chameleon.eclipse.project.ChameleonProjectNature;
 import org.aikodi.chameleon.eclipse.util.Files;
 import org.eclipse.core.commands.AbstractHandler;
@@ -16,6 +14,8 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
+
+import java.util.Iterator;
 
 public class AddBackgroundNature extends AbstractHandler {
 

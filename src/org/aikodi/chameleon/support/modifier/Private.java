@@ -25,7 +25,8 @@ public class Private extends ModifierImpl {
 	 */
   @Override
 public PropertySet<Element,ChameleonProperty> impliedProperties() {
-	  return createSet(language(ObjectOrientedLanguage.class).property(PrivateProperty.ID), language(ObjectOrientedLanguage.class).INHERITABLE.inverse());
+	  ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+	  return createSet(language.property(PrivateProperty.ID), language.INHERITABLE().inverse());
   }
 
 }

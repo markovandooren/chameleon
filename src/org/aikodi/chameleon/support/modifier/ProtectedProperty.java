@@ -10,7 +10,6 @@ import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.support.property.accessibility.HierarchyScope;
 import org.aikodi.rejuse.property.PropertyMutex;
-import org.aikodi.rejuse.property.PropertyUniverse;
 
 public class ProtectedProperty extends ScopeProperty {
 	

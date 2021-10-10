@@ -1,10 +1,10 @@
 package org.aikodi.chameleon.test.stub.builder;
 
-import java.util.function.Consumer;
-
 import org.aikodi.chameleon.builder.DocumentBuilder;
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.workspace.View;
+
+import java.util.function.Consumer;
 
 public class StubDocumentBuilder<P> extends DocumentBuilder<P> {
 

@@ -1,10 +1,7 @@
 package org.aikodi.chameleon.eclipse.view.dependency;
 
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
+import javafx.scene.shape.Polygon;
 import org.aikodi.chameleon.analysis.dependency.DependencyResult.DependencyCount;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.eclipse.connector.EclipseEditorExtension;
@@ -21,7 +18,9 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
-import javafx.scene.shape.Polygon;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 class DependencyLabelProvider extends LabelProvider implements IGraphAttributesProvider,  IColorProvider {//implements IConnectionStyleProvider, IEntityStyleProvider {
 

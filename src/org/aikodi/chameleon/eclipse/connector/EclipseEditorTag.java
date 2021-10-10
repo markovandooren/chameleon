@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.eclipse.connector;
 
-import java.util.Comparator;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.tag.Metadata;
 import org.aikodi.chameleon.eclipse.editors.EclipseDocument;
@@ -10,6 +8,8 @@ import org.aikodi.rejuse.predicate.SafePredicate;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.BadPositionCategoryException;
 import org.eclipse.jface.text.Position;
+
+import java.util.Comparator;
 
 /**
  * A tag intended for linking a position to a model element.

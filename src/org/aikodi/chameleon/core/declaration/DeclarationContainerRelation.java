@@ -1,11 +1,10 @@
 package org.aikodi.chameleon.core.declaration;
 
-import java.util.List;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.rejuse.function.BiFunction;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * A relation between declaration containers.

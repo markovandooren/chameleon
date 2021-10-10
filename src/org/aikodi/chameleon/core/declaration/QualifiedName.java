@@ -1,8 +1,8 @@
 package org.aikodi.chameleon.core.declaration;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.element.ElementImpl;
+
+import java.util.List;
 
 /**
  * A class for representing qualified names. A qualified name is a sequence of signatures where each signature 

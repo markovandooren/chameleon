@@ -1,13 +1,13 @@
 package org.aikodi.chameleon.oo.type;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.rejuse.association.Association;
+
+import java.util.List;
 
 public class ParameterBlock<T extends Parameter> extends ElementImpl implements DeclarationContainer {
 

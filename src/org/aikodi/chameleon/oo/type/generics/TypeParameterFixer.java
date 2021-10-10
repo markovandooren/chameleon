@@ -1,12 +1,12 @@
 package org.aikodi.chameleon.oo.type.generics;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.util.Lists;
+
+import java.util.List;
 
 /**
  * <p>A class for handling recursively defined type parameters.</p>

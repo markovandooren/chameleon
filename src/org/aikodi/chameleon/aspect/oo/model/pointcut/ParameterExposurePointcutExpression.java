@@ -1,10 +1,10 @@
 package org.aikodi.chameleon.aspect.oo.model.pointcut;
 
-import java.util.Map;
-
 import org.aikodi.chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.oo.variable.FormalParameter;
+
+import java.util.Map;
 
 public interface ParameterExposurePointcutExpression<J extends Element> extends PointcutExpression<J> {
 	

@@ -1,12 +1,10 @@
 package org.aikodi.chameleon.core.lookup;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Signature;
 import org.aikodi.chameleon.util.Lists;
+
+import java.util.List;
 
 public abstract class TwoPhaseDeclarationSelector<D extends Declaration> implements DeclarationSelector<D> {
 

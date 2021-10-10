@@ -1,15 +1,15 @@
 package org.aikodi.chameleon.oo.type.generics;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.TypeReference;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class ExtendsWildcard extends TypeArgumentWithTypeReference {
 

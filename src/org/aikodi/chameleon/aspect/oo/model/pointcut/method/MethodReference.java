@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.aspect.oo.model.pointcut.method;
 
-import java.util.Iterator;
-
 import org.aikodi.chameleon.core.declaration.QualifiedName;
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -14,6 +12,8 @@ import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.oo.variable.FormalParameter;
 import org.aikodi.chameleon.util.association.Single;
+
+import java.util.Iterator;
 
 /**
  * 	Represents a reference to a method, used in a pointcut description. References to methods are always fully qualified and

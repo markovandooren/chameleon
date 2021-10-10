@@ -1,12 +1,9 @@
 package org.aikodi.chameleon.support.member.simplename.operator.postfix;
 
 
-
-
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
 import org.aikodi.chameleon.core.reference.CrossReferenceTarget;
 import org.aikodi.chameleon.support.member.simplename.SimpleNameMethodInvocation;
-import org.aikodi.chameleon.support.member.simplename.operator.infix.InfixOperator;
 
 
 /**

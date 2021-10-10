@@ -1,14 +1,11 @@
 package org.aikodi.chameleon.core.namespace;
 
+import com.google.common.collect.ImmutableList;
+import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
-import org.aikodi.chameleon.util.association.Multi;
-import org.aikodi.rejuse.association.Association;
-
-import com.google.common.collect.ImmutableList;
 
 public class EagerNamespace extends RegularNamespace {
 

@@ -4,8 +4,8 @@ import org.aikodi.chameleon.core.event.Change;
 import org.aikodi.chameleon.core.event.Event;
 import org.aikodi.chameleon.core.event.stream.BaseStream;
 import org.aikodi.chameleon.core.event.stream.DescendantStream;
-import org.aikodi.chameleon.core.event.stream.EventStream;
 import org.aikodi.chameleon.core.event.stream.EventSourceSelector;
+import org.aikodi.chameleon.core.event.stream.EventStream;
 
 /**
  * <p>

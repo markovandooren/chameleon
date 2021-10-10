@@ -1,9 +1,8 @@
 package org.aikodi.chameleon.core.declaration;
 
-import java.util.List;
-
-import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.modifier.ElementWithModifiers;
+
+import java.util.List;
 
 /**
  * A declarator is an element that declares declarations.

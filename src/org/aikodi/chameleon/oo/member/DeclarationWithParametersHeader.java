@@ -1,9 +1,6 @@
 package org.aikodi.chameleon.oo.member;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Signature;
 import org.aikodi.chameleon.core.element.Element;
@@ -22,7 +19,9 @@ import org.aikodi.chameleon.util.Lists;
 import org.aikodi.chameleon.util.association.Multi;
 import org.aikodi.chameleon.util.association.Single;
 
-import com.google.common.collect.ImmutableList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 /**
  * A class of objects representing method headers. A method header contains for example the name and parameters of a method.
  * 

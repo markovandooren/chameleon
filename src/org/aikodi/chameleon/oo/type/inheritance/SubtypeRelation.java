@@ -1,15 +1,11 @@
 package org.aikodi.chameleon.oo.type.inheritance;
 
-import java.util.List;
-
-import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
-import org.aikodi.chameleon.oo.member.MemberRelationSelector;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.rejuse.logic.ternary.Ternary;
@@ -33,7 +29,7 @@ public class SubtypeRelation extends AbstractInheritanceRelation {
 	public Verification verifySelf() {
 		try {
 			Type superClass = superClass();
-			if(superClass.is(language(ObjectOrientedLanguage.class).EXTENSIBLE) == Ternary.TRUE) {
+			if(superClass.is(language(ObjectOrientedLanguage.class).EXTENSIBLE()) == Ternary.TRUE) {
 				return Valid.create();
 			} else {
 				return new SuperClassNotExtensible(this);

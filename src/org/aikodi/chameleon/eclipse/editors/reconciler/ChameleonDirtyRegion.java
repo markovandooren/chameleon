@@ -3,10 +3,10 @@
  */
 package org.aikodi.chameleon.eclipse.editors.reconciler;
 
-import java.util.List;
-
 import org.aikodi.chameleon.eclipse.editors.reconciler.ChameleonReconcilingStrategy.ClonedChameleonPosition;
 import org.eclipse.jface.text.reconciler.DirtyRegion;
+
+import java.util.List;
 
 /**
  * @author Jef Geerinckx

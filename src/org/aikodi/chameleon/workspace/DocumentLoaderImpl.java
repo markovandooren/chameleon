@@ -1,12 +1,5 @@
 package org.aikodi.chameleon.workspace;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import java.lang.ref.WeakReference;
-import java.util.stream.Collectors;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
@@ -16,6 +9,10 @@ import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.rejuse.association.SingleAssociation;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 

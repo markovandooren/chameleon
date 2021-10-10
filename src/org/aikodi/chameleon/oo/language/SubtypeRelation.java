@@ -1,10 +1,10 @@
 package org.aikodi.chameleon.oo.language;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeReference;
+
+import java.util.List;
 
 public abstract class SubtypeRelation {
 

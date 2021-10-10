@@ -1,19 +1,14 @@
 package org.aikodi.chameleon.core.validation.namespace;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.core.validation.BasicProblem;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.core.validation.VerificationRule;
+
+import java.util.*;
 
 public class MultipleDeclarationsWithSameName<C extends DeclarationContainer> extends VerificationRule<C> {
    

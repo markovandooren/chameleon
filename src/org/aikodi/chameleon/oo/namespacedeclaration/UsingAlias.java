@@ -1,8 +1,5 @@
 package org.aikodi.chameleon.oo.namespacedeclaration;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.DeclarationSelector;
@@ -16,6 +13,9 @@ import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.util.association.Single;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Tim Laeremans

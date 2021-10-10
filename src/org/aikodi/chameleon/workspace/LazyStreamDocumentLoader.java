@@ -1,10 +1,10 @@
 package org.aikodi.chameleon.workspace;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.aikodi.chameleon.core.namespace.DocumentLoaderNamespace;
 import org.aikodi.chameleon.core.namespace.Namespace;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A class of document loaders that read file that contain only a single non-private top-level declaration

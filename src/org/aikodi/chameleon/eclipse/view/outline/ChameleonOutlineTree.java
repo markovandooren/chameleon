@@ -1,14 +1,14 @@
 package org.aikodi.chameleon.eclipse.view.outline;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.eclipse.connector.EclipseEditorExtension;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Manuel Van Wesemael 

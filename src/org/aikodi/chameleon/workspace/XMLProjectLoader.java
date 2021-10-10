@@ -1,12 +1,12 @@
 package org.aikodi.chameleon.workspace;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.aikodi.rejuse.junit.BasicRevision;
 import org.aikodi.rejuse.junit.Revision;
 import org.w3c.dom.Element;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A class for loading a project from an XML configuration file.

@@ -1,9 +1,5 @@
 package org.aikodi.chameleon.eclipse.project;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.concurrent.Semaphore;
-
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
@@ -23,39 +19,14 @@ import org.aikodi.chameleon.input.InputProcessor;
 import org.aikodi.chameleon.input.ModelFactory;
 import org.aikodi.chameleon.input.ParseException;
 import org.aikodi.chameleon.input.SourceManager;
-import org.aikodi.chameleon.workspace.XMLProjectLoader;
-import org.aikodi.chameleon.workspace.ConfigException;
-import org.aikodi.chameleon.workspace.DocumentLoader;
-import org.aikodi.chameleon.workspace.DocumentLoaderListener;
-import org.aikodi.chameleon.workspace.DocumentScanner;
-import org.aikodi.chameleon.workspace.FileDocumentLoader;
-import org.aikodi.chameleon.workspace.FileScanner;
-import org.aikodi.chameleon.workspace.IFileDocumentLoader;
-import org.aikodi.chameleon.workspace.InputException;
-import org.aikodi.chameleon.workspace.LanguageRepository;
-import org.aikodi.chameleon.workspace.Project;
-import org.aikodi.chameleon.workspace.ProjectInitialisationListener;
-import org.aikodi.chameleon.workspace.View;
-import org.aikodi.chameleon.workspace.ViewListener;
-import org.aikodi.chameleon.workspace.Workspace;
-import org.eclipse.core.resources.ICommand;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
-import org.eclipse.core.resources.IProjectNature;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
+import org.aikodi.chameleon.workspace.*;
+import org.eclipse.core.resources.*;
+import org.eclipse.core.runtime.*;
 import org.eclipse.core.runtime.jobs.Job;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 
 /**
  * @author Manuel Van Wesemael 

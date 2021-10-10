@@ -1,9 +1,5 @@
 package org.aikodi.chameleon.eclipse.presentation.treeview;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
@@ -16,7 +12,6 @@ import org.aikodi.chameleon.eclipse.presentation.hierarchy.HierarchyTypeNode;
 import org.aikodi.chameleon.eclipse.view.outline.ChameleonOutlineTree;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.exception.ModelException;
-import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.method.Method;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.plugin.output.Syntax;
@@ -25,6 +20,10 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author Manuel Van Wesemael 

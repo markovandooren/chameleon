@@ -1,9 +1,5 @@
 package org.aikodi.chameleon.eclipse.presentation;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.eclipse.connector.EclipseEditorTag;
 import org.aikodi.chameleon.eclipse.editors.EclipseDocument;
@@ -11,6 +7,10 @@ import org.eclipse.jface.text.BadPositionCategoryException;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.TextPresentation;
 import org.eclipse.swt.custom.StyleRange;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 
 /**

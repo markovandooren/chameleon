@@ -1,10 +1,10 @@
 package org.aikodi.chameleon.core.validation;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.util.Util;
+
+import java.util.List;
 
 public abstract class AtomicProblem extends Invalid {
 	

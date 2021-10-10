@@ -1,11 +1,11 @@
 package org.aikodi.chameleon.oo.statement;
 
-import java.util.List;
-import java.util.ListIterator;
-
 import org.aikodi.chameleon.core.element.ElementImpl;
 import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
+
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * @author Marko van Dooren

@@ -1,8 +1,8 @@
 package org.aikodi.chameleon.ui.widget.tree;
 
-import java.util.List;
-
 import com.google.common.collect.ImmutableList;
+
+import java.util.List;
 
 public abstract class TreeNode<T extends G,G> {
 

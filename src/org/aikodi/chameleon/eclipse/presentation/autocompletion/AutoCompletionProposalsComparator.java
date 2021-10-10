@@ -1,12 +1,10 @@
 package org.aikodi.chameleon.eclipse.presentation.autocompletion;
 
-import java.util.Comparator;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
-import org.aikodi.chameleon.eclipse.ChameleonEditorPlugin;
-import org.aikodi.chameleon.eclipse.editors.preferences.ChameleonEditorPreferencePage;
 import org.aikodi.chameleon.eclipse.presentation.treeview.ChameleonLabelProvider;
+
+import java.util.Comparator;
 
 /**
  * Used to sort the results of the auto-completion.

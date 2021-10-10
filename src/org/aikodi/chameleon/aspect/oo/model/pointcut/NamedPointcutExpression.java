@@ -1,9 +1,5 @@
 package org.aikodi.chameleon.aspect.oo.model.pointcut;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import org.aikodi.chameleon.aspect.core.model.pointcut.Pointcut;
 import org.aikodi.chameleon.aspect.core.model.pointcut.PointcutReference;
 import org.aikodi.chameleon.aspect.core.model.pointcut.expression.AbstractPointcutExpression;
@@ -11,7 +7,6 @@ import org.aikodi.chameleon.aspect.core.model.pointcut.expression.MatchResult;
 import org.aikodi.chameleon.aspect.core.model.pointcut.expression.PointcutExpression;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.chameleon.core.lookup.LookupContext;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
@@ -20,6 +15,10 @@ import org.aikodi.chameleon.oo.expression.NameExpression;
 import org.aikodi.chameleon.oo.variable.FormalParameter;
 import org.aikodi.chameleon.util.association.Single;
 import org.aikodi.rejuse.action.SafeAction;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class NamedPointcutExpression extends AbstractPointcutExpression<Element> implements CrossReference<Pointcut> {
 	

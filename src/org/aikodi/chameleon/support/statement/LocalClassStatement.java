@@ -1,17 +1,9 @@
 package org.aikodi.chameleon.support.statement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.DeclarationContainer;
 import org.aikodi.chameleon.core.element.Element;
-import org.aikodi.chameleon.core.lookup.DeclarationSelector;
-import org.aikodi.chameleon.core.lookup.LocalLookupContext;
-import org.aikodi.chameleon.core.lookup.LookupContext;
-import org.aikodi.chameleon.core.lookup.LookupContextFactory;
-import org.aikodi.chameleon.core.lookup.LookupException;
-import org.aikodi.chameleon.core.lookup.SelectionResult;
+import org.aikodi.chameleon.core.lookup.*;
 import org.aikodi.chameleon.core.scope.Scope;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
@@ -21,6 +13,9 @@ import org.aikodi.chameleon.oo.statement.StatementListScope;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.support.property.accessibility.HierarchyScope;
 import org.aikodi.chameleon.util.association.Single;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Marko van Dooren

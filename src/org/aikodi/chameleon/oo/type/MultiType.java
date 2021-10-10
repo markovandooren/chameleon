@@ -1,13 +1,13 @@
 package org.aikodi.chameleon.oo.type;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Declarator;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class MultiType extends ClassImpl {
 

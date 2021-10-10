@@ -1,7 +1,6 @@
 package org.aikodi.chameleon.eclipse.widget;
 
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.aikodi.chameleon.ui.widget.LabelProvider;
 import org.aikodi.chameleon.ui.widget.SelectionController;
 import org.aikodi.chameleon.ui.widget.WidgetFactory;
@@ -24,7 +23,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-import com.google.common.collect.ImmutableList;
+import java.util.List;
 
 
 public abstract class SWTWidgetFactory implements WidgetFactory<Control> {

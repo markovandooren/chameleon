@@ -1,8 +1,8 @@
 package org.aikodi.chameleon.core.relation;
 
-import java.util.Collection;
-
 import org.aikodi.chameleon.core.lookup.LookupException;
+
+import java.util.Collection;
 
 /**
  * A class of strict partial orders for Chameleon. It duplicates quite a bit of

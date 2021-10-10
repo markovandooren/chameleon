@@ -1,10 +1,10 @@
 package org.aikodi.chameleon.core.validation;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.util.Lists;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A class that combines basic problems.

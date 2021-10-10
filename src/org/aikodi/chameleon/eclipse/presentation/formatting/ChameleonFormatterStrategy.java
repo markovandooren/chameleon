@@ -3,12 +3,6 @@
  */
 package org.aikodi.chameleon.eclipse.presentation.formatting;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.eclipse.connector.EclipseEditorTag;
@@ -23,6 +17,8 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.formatter.IFormattingStrategy;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
+
+import java.util.*;
 
 /**
  * Is used to format the document. This option can be chosen in the context

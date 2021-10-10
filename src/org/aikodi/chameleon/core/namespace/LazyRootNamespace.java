@@ -1,12 +1,6 @@
 package org.aikodi.chameleon.core.namespace;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
-
+import com.google.common.collect.ImmutableList;
 import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.lookup.LookupException;
@@ -17,7 +11,7 @@ import org.aikodi.chameleon.workspace.InputException;
 import org.aikodi.chameleon.workspace.View;
 import org.aikodi.rejuse.association.OrderedMultiAssociation;
 
-import com.google.common.collect.ImmutableList;
+import java.util.*;
 
 /**
  * FIXME: use default methods in {@link DocumentLoaderNamespace} to get rid

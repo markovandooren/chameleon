@@ -1,6 +1,5 @@
 package org.aikodi.chameleon.core.lookup;
 
-import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.element.Element;
 
 /**

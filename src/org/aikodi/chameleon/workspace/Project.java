@@ -1,9 +1,5 @@
 package org.aikodi.chameleon.workspace;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
@@ -12,6 +8,10 @@ import org.aikodi.rejuse.association.AssociationListener;
 import org.aikodi.rejuse.association.OrderedMultiAssociation;
 import org.aikodi.rejuse.association.SingleAssociation;
 import org.aikodi.rejuse.exception.Handler;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A class that represents the concept of a project. A project

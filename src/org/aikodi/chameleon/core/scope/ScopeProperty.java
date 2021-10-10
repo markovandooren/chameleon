@@ -6,7 +6,6 @@ import org.aikodi.chameleon.core.property.ChameleonProperty;
 import org.aikodi.chameleon.core.property.StaticChameleonProperty;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.rejuse.property.PropertyMutex;
-import org.aikodi.rejuse.property.PropertyUniverse;
 
 public abstract class ScopeProperty extends StaticChameleonProperty {
 

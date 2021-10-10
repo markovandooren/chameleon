@@ -1,8 +1,5 @@
 package org.aikodi.chameleon.eclipse.presentation.autocompletion;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.lookup.LookupContext;
@@ -14,12 +11,10 @@ import org.aikodi.chameleon.oo.expression.MethodInvocation;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
-import org.eclipse.jface.text.contentassist.ContextInformation;
-import org.eclipse.jface.text.contentassist.ContextInformationValidator;
-import org.eclipse.jface.text.contentassist.ICompletionProposal;
-import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
-import org.eclipse.jface.text.contentassist.IContextInformation;
-import org.eclipse.jface.text.contentassist.IContextInformationValidator;
+import org.eclipse.jface.text.contentassist.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Generates the auto completion proposals.

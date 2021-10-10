@@ -1,14 +1,14 @@
 package org.aikodi.chameleon.plugin.build;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.exception.ModelException;
 import org.aikodi.chameleon.plugin.LanguagePluginImpl;
 import org.aikodi.chameleon.plugin.output.Syntax;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * A class for writing the contents of a Document to a file.

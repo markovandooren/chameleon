@@ -1,9 +1,9 @@
 package org.aikodi.chameleon.workspace;
 
-import java.util.Collection;
-
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.rejuse.association.MultiAssociation;
+
+import java.util.Collection;
 
 /**
  * A workspace holds a number of projects, and a reference to a repository

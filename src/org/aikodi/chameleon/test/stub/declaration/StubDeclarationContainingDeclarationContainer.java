@@ -1,12 +1,12 @@
 package org.aikodi.chameleon.test.stub.declaration;
 
-import java.util.List;
-
-import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.BasicDeclarationContainer;
+import org.aikodi.chameleon.core.declaration.Declaration;
 import org.aikodi.chameleon.core.declaration.Name;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.util.association.Multi;
+
+import java.util.List;
 
 public class StubDeclarationContainingDeclarationContainer extends BasicDeclarationContainer {
 

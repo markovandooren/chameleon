@@ -1,8 +1,8 @@
 package org.aikodi.chameleon.core.lookup;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Declaration;
+
+import java.util.List;
 
 /**
  * A class of collectors that collect only a single declaration.

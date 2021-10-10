@@ -1,16 +1,10 @@
 package org.aikodi.chameleon.workspace;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-
 import org.aikodi.chameleon.core.document.Document;
-import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.input.ModelFactory;
 import org.aikodi.chameleon.input.ParseException;
+
+import java.io.*;
 
 public abstract class StreamDocumentLoader extends DocumentLoaderImpl {
 

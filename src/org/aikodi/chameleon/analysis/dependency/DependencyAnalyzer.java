@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.analysis.dependency;
 
-import java.util.List;
-
 import org.aikodi.chameleon.analysis.Analyzer;
 import org.aikodi.chameleon.analysis.dependency.DependencyAnalysis.HistoryFilter;
 import org.aikodi.chameleon.core.declaration.Declaration;
@@ -18,6 +16,8 @@ import org.aikodi.rejuse.exception.Handler;
 import org.aikodi.rejuse.function.Consumer;
 import org.aikodi.rejuse.function.Function;
 import org.aikodi.rejuse.predicate.UniversalPredicate;
+
+import java.util.List;
 
 public abstract class DependencyAnalyzer<D extends Declaration> extends Analyzer {
 

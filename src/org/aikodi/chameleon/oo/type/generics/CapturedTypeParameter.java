@@ -1,11 +1,11 @@
 package org.aikodi.chameleon.oo.type.generics;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.plugin.ObjectOrientedFactory;
 import org.aikodi.chameleon.oo.type.Type;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CapturedTypeParameter extends FormalTypeParameter {
   //FIXME a captured type parameter should NOT be a formal type parameter but an instantiated type parameter!!!!

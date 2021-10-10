@@ -1,15 +1,15 @@
 package org.aikodi.chameleon.workspace;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Set;
-
 import org.aikodi.chameleon.core.document.Document;
 import org.aikodi.chameleon.core.element.Element;
 import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.input.ParseException;
 import org.aikodi.rejuse.action.UniversalConsumer;
 import org.aikodi.rejuse.association.SingleAssociation;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Set;
 
 /**
  * An document scanner loads documents from a particular resource into the project.

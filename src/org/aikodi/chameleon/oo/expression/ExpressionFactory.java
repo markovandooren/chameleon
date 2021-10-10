@@ -43,7 +43,7 @@ public class ExpressionFactory extends LanguagePluginImpl {
 	 * @param target
 	 * @return
 	 */
-	public MethodInvocation createInvocation(String name, CrossReferenceTarget target) {
+	public MethodInvocation<?> createInvocation(String name, CrossReferenceTarget target) {
 		return new RegularMethodInvocation(name, target);
 	}
 	

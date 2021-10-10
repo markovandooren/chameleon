@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.oo.member;
 
-import java.util.List;
-
 import org.aikodi.chameleon.core.declaration.Signature;
 import org.aikodi.chameleon.core.event.name.NameChanged;
 import org.aikodi.chameleon.core.validation.BasicProblem;
@@ -10,6 +8,8 @@ import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
 import org.aikodi.chameleon.oo.type.TypeReference;
 import org.aikodi.chameleon.oo.variable.FormalParameter;
+
+import java.util.List;
 
 public class SimpleNameDeclarationWithParametersHeader extends DeclarationWithParametersHeader {
 

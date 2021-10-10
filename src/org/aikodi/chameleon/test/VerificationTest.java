@@ -1,7 +1,5 @@
 package org.aikodi.chameleon.test;
 
-import static org.junit.Assert.assertTrue;
-
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespacedeclaration.NamespaceDeclaration;
 import org.aikodi.chameleon.core.validation.Valid;
@@ -10,6 +8,8 @@ import org.aikodi.chameleon.test.provider.ElementProvider;
 import org.aikodi.chameleon.workspace.Project;
 import org.aikodi.chameleon.workspace.ProjectException;
 import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 public class VerificationTest extends ModelTest {
 
