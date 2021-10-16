@@ -12,10 +12,6 @@ public abstract class ObjectOrientedView extends View {
 		super(namespace,language);
 	}
 
-//	public abstract TypeReference createTypeReference(String fqn);
-	
-//	public abstract Type getNullType();
-	
 	public Type findType(String fqn) throws LookupException {
 	// return ((ObjectOrientedLanguage)language()).findType(fqn, namespace());
 		return namespace().find(fqn, Type.class);

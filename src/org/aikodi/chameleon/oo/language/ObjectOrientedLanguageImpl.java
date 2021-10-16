@@ -48,6 +48,7 @@ public abstract class ObjectOrientedLanguageImpl extends LanguageImpl implements
 
 	public ObjectOrientedLanguageImpl(String name, LookupContextFactory factory, Revision version) {
 		super(name, factory,version);
+		initNameMaps();
 		// 1) Create the properties.
   	EXTENSIBLE = add(new StaticChameleonProperty("extensible", Declaration.class));
   	DEFINED = add(new Defined("defined"));
@@ -75,6 +76,8 @@ public abstract class ObjectOrientedLanguageImpl extends LanguageImpl implements
 	PRIMITIVE_TYPE = add(createPrimitiveTypeProperty());
 
 	}
+
+	protected abstract void initNameMaps();
 
 	public ChameleonProperty PRIMITIVE_TYPE() {
 		return PRIMITIVE_TYPE;

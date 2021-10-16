@@ -2,13 +2,16 @@ package org.aikodi.chameleon.oo.language;
 
 import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.lookup.LookupException;
+import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
+import org.aikodi.chameleon.oo.type.BoxableTypeReference;
 import org.aikodi.chameleon.oo.type.Type;
 
 /**
  * A language that support boxing of primitive types.
  */
 public interface LanguageWithBoxing extends Language {
+
     //SLOW move to JavaView? Or will that be reverted anyway with multiview project
     //     which should allow the base library to be loaded only once?
     default Type box(Type type) throws LookupException {
@@ -18,6 +21,10 @@ public interface LanguageWithBoxing extends Language {
             return type;
         }
     }
+
+    BoxableTypeReference reference(Type type);
+
+    BoxableTypeReference box(BoxableTypeReference aRef, Namespace root) throws LookupException;
 
     /**
      * Return the boxed type of the given boxable type.

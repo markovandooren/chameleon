@@ -18,6 +18,7 @@ import org.aikodi.chameleon.util.Util;
 import org.aikodi.rejuse.association.SingleAssociation;
 import org.aikodi.rejuse.predicate.Predicate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.aikodi.contract.Contract.requireNotNull;
@@ -30,7 +31,20 @@ public interface ObjectOrientedLanguage extends Language {
 
     TypeReference createTypeReference(CrossReference<? extends Declaration> target, String name);
 
-    IntersectionTypeReference createIntersectionReference(TypeReference first, TypeReference second);
+    /**
+     * Create a type reference that references the intersection of the types references by two type references.
+     * @param first The first type reference of the intersection.
+     * @param second The second type reference of the intersection.
+     * @return A non-null type reference that references a type that is the intersection of the types references
+     * by the given type references.
+     */
+    default IntersectionTypeReference createIntersectionReference(TypeReference first, TypeReference second) {
+        List<TypeReference> list = new ArrayList<TypeReference>(2);
+        list.add(first);
+        list.add(second);
+        return new IntersectionTypeReference(list);
+    }
+
 
     <P extends Parameter> TypeInstantiation instantiatedType(Class<P> kind, List<P> parameters, Type baseType);
 
@@ -136,9 +150,33 @@ public interface ObjectOrientedLanguage extends Language {
         }
     }
 
-    TypeReference createNonLocalTypeReference(TypeReference tref, Element lookupParent);
+    /**
+     * Create a type reference that wraps the given type reference and redirects the
+     * lookup to an element other than the lexical parent.
+     * @param tref The type reference to wrap. Cannot be null.
+     * @param lookupTarget The element to which the lookup must be directed.
+     * @return A non-null type reference that has the given type reference as its direct child,
+     * and that redirects the lookup to the given target.
+     */
+    default TypeReference createNonLocalTypeReference(TypeReference tref, Element lookupTarget) {
+        return new NonLocalTypeReference(tref, lookupTarget);
+    }
 
-    <E extends Element> E replace(TypeReference replacement, Declaration declarator, E in, Class<E> kind) throws LookupException;
+    /**
+     * Replace references to the a declarator in an expression.
+     *
+     * @param replacement The replacement type reference.
+     * @param declarator The declarator to which the references must be replaced.
+     * @param in The element in which to replace the references.
+     * @param kind The type of the element.
+     * @param <E> The type of the element.
+     *
+     * @return The given element.
+     * @throws LookupException One of the references in the given element could not be resolved.
+     */
+    default <E extends Element> E replace(TypeReference replacement, Declaration declarator, E in, Class<E> kind) throws LookupException {
+        return NonLocalTypeReference.replace(replacement, declarator, in,kind);
+    }
 
     default ConstrainedTypeReference createConstrainedTypeReference() {
         return new ConstrainedTypeReference();
@@ -180,9 +218,8 @@ public interface ObjectOrientedLanguage extends Language {
      *
      * @param type The type for which a type reference is requested.
      * @return A type reference that will resolve to the given type.
-     * @throws LookupException An exception was thrown during lookup.
      */
-    TypeReference reference(Type type) throws LookupException;
+    TypeReference reference(Type type);
 
     /**
      * A property that marks a method as a constructor.
