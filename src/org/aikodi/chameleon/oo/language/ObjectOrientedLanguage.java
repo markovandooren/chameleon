@@ -10,10 +10,7 @@ import org.aikodi.chameleon.core.property.DynamicChameleonProperty;
 import org.aikodi.chameleon.core.property.StaticChameleonProperty;
 import org.aikodi.chameleon.core.reference.CrossReference;
 import org.aikodi.chameleon.oo.type.*;
-import org.aikodi.chameleon.oo.type.generics.EqualityTypeArgument;
-import org.aikodi.chameleon.oo.type.generics.ExtendsWildcard;
-import org.aikodi.chameleon.oo.type.generics.SuperWildcard;
-import org.aikodi.chameleon.oo.type.generics.TypeArgument;
+import org.aikodi.chameleon.oo.type.generics.*;
 import org.aikodi.chameleon.util.Util;
 import org.aikodi.rejuse.association.SingleAssociation;
 import org.aikodi.rejuse.predicate.Predicate;
@@ -27,6 +24,8 @@ import static org.aikodi.contract.Contract.requireNotNull;
 public interface ObjectOrientedLanguage extends Language {
 
     TypeReference createTypeReference(String fqn);
+
+    TypeReference createTypeReference(String fqn, List<TypeParameter> parameters, List<TypeArgument> arguments);
 
     TypeReference createTypeReference(Type type);
 
@@ -176,6 +175,10 @@ public interface ObjectOrientedLanguage extends Language {
      */
     TypeReference createDirectTypeReference(Type type);
 
+    TypeReference createExtendsReference(TypeReference reference);
+
+    TypeReference createSuperReference(TypeReference reference);
+
     /**
      * Replace references to the a declarator in an expression.
      *
@@ -262,4 +265,5 @@ public interface ObjectOrientedLanguage extends Language {
     ChameleonProperty FINAL();
 
     ChameleonProperty REFERENCE_TYPE();
+
 }

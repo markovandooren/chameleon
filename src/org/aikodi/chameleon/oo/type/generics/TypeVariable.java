@@ -7,9 +7,11 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.validation.Valid;
 import org.aikodi.chameleon.core.validation.Verification;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
+import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeFixer;
 import org.aikodi.chameleon.oo.type.TypeIndirection;
+import org.aikodi.chameleon.oo.type.TypeReference;
 
 import java.util.List;
 
@@ -144,4 +146,10 @@ public class TypeVariable extends TypeIndirection {
   public Type lowerBound() throws LookupException {
     return indirectionTarget().lowerBound();
   }
+
+    public TypeReference reference() {
+      TypeReference result = language(ObjectOrientedLanguage.class).createTypeReference(name());
+      result.setUniParent(parameter().parent());
+      return result;
+    }
 }

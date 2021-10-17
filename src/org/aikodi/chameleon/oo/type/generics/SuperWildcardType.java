@@ -5,6 +5,7 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
 import org.aikodi.chameleon.oo.type.Type;
 import org.aikodi.chameleon.oo.type.TypeFixer;
+import org.aikodi.chameleon.oo.type.TypeReference;
 
 public class SuperWildcardType extends IntervalType {
 
@@ -48,4 +49,13 @@ public class SuperWildcardType extends IntervalType {
     return lowerBound().subtypeOf(other.lowerBound(),trace);
   }
 
+    public TypeReference reference() {
+    ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+      TypeReference reference = language.reference(bound());
+      Element parent = reference.lexical().parent();
+      reference.setUniParent(null);
+      TypeReference result = language.createSuperReference(reference);
+      result.setUniParent(parent);
+      return result;
+    }
 }
