@@ -19,6 +19,7 @@ import org.aikodi.rejuse.association.SingleAssociation;
 import org.aikodi.rejuse.predicate.Predicate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.aikodi.contract.Contract.requireNotNull;
@@ -32,19 +33,24 @@ public interface ObjectOrientedLanguage extends Language {
     TypeReference createTypeReference(CrossReference<? extends Declaration> target, String name);
 
     /**
-     * Create a type reference that references the intersection of the types references by two type references.
-     * @param first The first type reference of the intersection.
-     * @param second The second type reference of the intersection.
-     * @return A non-null type reference that references a type that is the intersection of the types references
+     * Create a type reference that references the intersection of the types references by a list of type references.
+     * @param types The type references to intersect.
+     * @return A non-null type reference that references a type that is the intersection of the types referenced
      * by the given type references.
      */
-    default IntersectionTypeReference createIntersectionReference(TypeReference first, TypeReference second) {
-        List<TypeReference> list = new ArrayList<TypeReference>(2);
-        list.add(first);
-        list.add(second);
-        return new IntersectionTypeReference(list);
+    default IntersectionTypeReference createIntersectionReference(TypeReference... types) {
+        return new IntersectionTypeReference(Arrays.asList(types));
     }
 
+    /**
+     * Create a type reference that references the union of the types references by a list of type references.
+     * @param types The type references of which to return the union.
+     * @return A non-null type reference that references a type that is the union of the types referenced
+     * by the given type references.
+     */
+    default UnionTypeReference createUnionReference(TypeReference... types) {
+        return new UnionTypeReference(Arrays.asList(types));
+    }
 
     <P extends Parameter> TypeInstantiation instantiatedType(Class<P> kind, List<P> parameters, Type baseType);
 
@@ -158,9 +164,17 @@ public interface ObjectOrientedLanguage extends Language {
      * @return A non-null type reference that has the given type reference as its direct child,
      * and that redirects the lookup to the given target.
      */
-    default TypeReference createNonLocalTypeReference(TypeReference tref, Element lookupTarget) {
+    default NonLocalTypeReference createNonLocalTypeReference(TypeReference tref, Element lookupTarget) {
         return new NonLocalTypeReference(tref, lookupTarget);
     }
+
+    /**
+     * Create a type reference that directly resolves to a type.
+     *
+     * @param type The type to which the type reference should resolve. Cannot be null.
+     * @return A type reference that does not do any lookup but directly returns the given type.
+     */
+    TypeReference createDirectTypeReference(Type type);
 
     /**
      * Replace references to the a declarator in an expression.

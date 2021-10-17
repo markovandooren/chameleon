@@ -139,6 +139,13 @@ public abstract class GenericTypeReference extends BasicTypeReference implements
     public abstract List<TypeArgument> typeArguments() throws LookupException;
 
     /**
+     * Add the given type argument.
+     * @param argument
+     * @throws IllegalArgumentException The given argument is null, or not of a supported type.
+     */
+    public abstract void addArgument(TypeArgument argument);
+
+    /**
      * Check if this reference actually has type argument.
      * @return True if this type reference has type arguments. False otherwise.
      */

@@ -223,4 +223,19 @@ public class IntersectionType extends MultiType {
 		}
 		return result;
 	}
+
+    public IntersectionTypeReference reference() {
+		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+		IntersectionTypeReference result = language.createIntersectionReference();
+		result.setUniParent(view().namespace());
+		for(Type t: types()) {
+			TypeReference reference = language.reference(t);
+			Element oldParent = reference.lexical().parent();
+			reference.setUniParent(null);
+			// first clean up the uni link, we must add it to the non-local reference.
+			TypeReference nl = language(ObjectOrientedLanguage.class).createNonLocalTypeReference(reference, oldParent);
+			result.add(nl);
+		}
+		return result;
+	}
 }

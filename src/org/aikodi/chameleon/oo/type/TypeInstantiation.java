@@ -9,11 +9,11 @@ import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.lookup.SelectionResult;
 import org.aikodi.chameleon.core.modifier.Modifier;
 import org.aikodi.chameleon.exception.ChameleonProgrammerException;
-import org.aikodi.chameleon.oo.type.generics.InstantiatedTypeParameter;
-import org.aikodi.chameleon.oo.type.generics.TypeArgument;
-import org.aikodi.chameleon.oo.type.generics.TypeParameter;
+import org.aikodi.chameleon.oo.language.ObjectOrientedLanguage;
+import org.aikodi.chameleon.oo.type.generics.*;
 import org.aikodi.chameleon.oo.type.inheritance.InheritanceRelation;
 import org.aikodi.chameleon.util.Lists;
+import org.aikodi.chameleon.util.Util;
 
 import java.util.Iterator;
 import java.util.List;
@@ -202,5 +202,46 @@ public class TypeInstantiation extends ClassWithBody {
 		}
 		return args;
 	}
+
+    public TypeReference reference() {
+		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+		GenericTypeReference tref = (GenericTypeReference) language.createTypeReference(name());
+		TypeReference result = language.createNonLocalTypeReference(tref,lexical().parent());
+		result.setUniParent(lexical().parent());
+		// Next set up the generic parameters.
+		for(TypeParameter parameter: parameters(TypeParameter.class)) {
+			cloneActualTypeArguments(parameter,tref);
+		}
+		return result;
+	}
+
+	private void cloneActualTypeArguments(TypeParameter parameter, GenericTypeReference tref) {
+		TypeArgument result = null;
+		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+		if(parameter instanceof InstantiatedTypeParameter) {
+			TypeArgument argument = ((InstantiatedTypeParameter)parameter).argument();
+			result = Util.clone(argument);
+			if(result instanceof TypeArgumentWithTypeReference) {
+				TypeArgumentWithTypeReference argWithRef = (TypeArgumentWithTypeReference) result;
+				//it will be detached from the cloned argument automatically
+				NonLocalTypeReference ref = language.createNonLocalTypeReference(argWithRef.typeReference(),argument);
+				argWithRef.setTypeReference(ref);
+			}
+			tref.addArgument(result);
+		} else {
+			try {
+				if(! (parameter instanceof CapturedTypeParameter)) {
+					throw new Error();
+				}
+				TypeReference ref = language.createDirectTypeReference(parameter.selectionDeclaration());
+				result = parameter.language(ObjectOrientedLanguage.class).createEqualityTypeArgument(ref);
+				tref.addArgument(result);
+			} catch (LookupException e) {
+				//FIXME A type reference alias would get rid of this try-catch block.
+				throw new ChameleonProgrammerException(e);
+			}
+		}
+	}
+
 
 }

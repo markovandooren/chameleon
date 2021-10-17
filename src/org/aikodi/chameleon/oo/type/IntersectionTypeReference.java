@@ -9,7 +9,7 @@ import org.aikodi.chameleon.oo.plugin.ObjectOrientedFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IntersectionTypeReference extends CombinationTypeReference implements TypeReference {
+public class IntersectionTypeReference extends CombinationTypeReference {
 
 	public IntersectionTypeReference() {
 	}

@@ -4,8 +4,8 @@ import org.aikodi.chameleon.core.language.Language;
 import org.aikodi.chameleon.core.lookup.LookupException;
 import org.aikodi.chameleon.core.namespace.Namespace;
 import org.aikodi.chameleon.core.property.ChameleonProperty;
-import org.aikodi.chameleon.oo.type.BoxableTypeReference;
 import org.aikodi.chameleon.oo.type.Type;
+import org.aikodi.chameleon.oo.type.TypeReference;
 
 /**
  * A language that support boxing of primitive types.
@@ -22,9 +22,9 @@ public interface LanguageWithBoxing extends Language {
         }
     }
 
-    BoxableTypeReference reference(Type type);
+    TypeReference reference(Type type);
 
-    BoxableTypeReference box(BoxableTypeReference aRef, Namespace root) throws LookupException;
+    TypeReference box(TypeReference aRef, Namespace root) throws LookupException;
 
     /**
      * Return the boxed type of the given boxable type.

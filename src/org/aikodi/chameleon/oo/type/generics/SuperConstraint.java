@@ -18,11 +18,6 @@ public class SuperConstraint extends TypeConstraint {
 		setTypeReference(ref);
 	}
 	
-//	@Override
-//	public boolean matches(Type type) throws LookupException {
-//		return upperBound().subTypeOf(type);
-//	}
-
 	@Override
 	protected SuperConstraint cloneSelf() {
 		return new SuperConstraint();

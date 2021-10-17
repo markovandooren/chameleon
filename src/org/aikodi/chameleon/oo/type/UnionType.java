@@ -192,4 +192,19 @@ public class UnionType extends MultiType {
 		}
 		return result;
 	}
+
+	public UnionTypeReference reference() {
+		ObjectOrientedLanguage language = language(ObjectOrientedLanguage.class);
+		UnionTypeReference result = language.createUnionReference();
+		result.setUniParent(view().namespace());
+		for(Type t: types()) {
+			TypeReference reference = language.reference(t);
+			Element oldParent = reference.lexical().parent();
+			reference.setUniParent(null);
+			// first clean up the uni link, we must add it to the non-local reference.
+			TypeReference nl = language.createNonLocalTypeReference(reference, oldParent);
+			result.add(nl);
+		}
+		return result;
+	}
 }
