@@ -304,7 +304,7 @@ public interface Type extends DeclarationContainer, DeclarationWithType {
   public void addAllInheritanceRelations(Collection<InheritanceRelation> relations);
   /**
    * Remove the give given inheritance relation from this type.
-   * @param type
+   * @param relation
    * @throws ChameleonProgrammerException
    *         It is not possible to remove the given type. E.g. you cannot
    *         remove an inheritance relation to a computed type.

@@ -41,13 +41,13 @@ public abstract class ProjectConfiguratorImpl extends LanguagePluginImpl impleme
 	 * Create a new view.
 	 * @return
 	 */
- /*@
-   @ public behavior
-   @
-   @ post \result != null;
-   @ post \result.language() == language();
-   @ post \result.namespace() != null;
-   @*/
+   /*@
+     @ public behavior
+     @
+     @ post \result != null;
+     @ post \result.language() == language();
+     @ post \result.namespace() != null;
+     @*/
 	protected View createView() {
 		return new View(new LazyRootNamespace(), language());
 	}

@@ -22,6 +22,9 @@ public class TypeImport extends Import {
   public TypeImport(TypeReference ref) {
     setTypeReference(ref);
   }
+
+  private TypeImport() {
+  }
   
 	private Single<TypeReference> _typeReference = new Single<TypeReference>(this);
 
@@ -44,7 +47,7 @@ public class TypeImport extends Import {
 
   @Override
   protected TypeImport cloneSelf() {
-    return new TypeImport(null);
+    return new TypeImport();
   }
 
 	@Override
